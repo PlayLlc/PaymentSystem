@@ -6,7 +6,7 @@ using Play.Emv.Ber.ValueTypes.Card;
 
 namespace Play.Emv.Ber.ValueTypes;
 
-public partial record MessageTableEntry
+public record MessageTableEntry
 {
     #region Static Metadata
 

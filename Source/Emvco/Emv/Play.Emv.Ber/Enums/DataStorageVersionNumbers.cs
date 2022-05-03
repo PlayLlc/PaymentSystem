@@ -23,7 +23,7 @@ public sealed record DataStorageVersionNumbers : EnumObject<byte>
 
     #region Constructor
 
-    public DataStorageVersionNumbers() : base()
+    public DataStorageVersionNumbers()
     { }
 
     private DataStorageVersionNumbers(byte value) : base(new DataStorageVersionNumber(value))

@@ -1,5 +1,4 @@
-﻿using Play.Testing.Emv.AutoFixture.Builders.DataElements;
-using Play.Testing.Infrastructure.AutoFixture;
+﻿using Play.Testing.Infrastructure.AutoFixture;
 
 namespace Play.Testing.Emv;
 
@@ -9,6 +8,7 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
 
     static EmvSpecimenBuilderFactory()
     {
+        // Primitive Values
         AmountAuthorizedNumericBuilder = new AmountAuthorizedNumericBuilder();
         AmountOtherNumericBuilder = new AmountOtherNumericBuilder();
         ApplicationDedicatedFileNameBuilder = new ApplicationDedicatedFileNameBuilder();
@@ -28,6 +28,12 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
         ProcessingOptionsDataObjectListBuilder = new ProcessingOptionsDataObjectListBuilder();
         TransactionDateBuilder = new TransactionDateBuilder();
         TransactionTypeBuilder = new TransactionTypeBuilder();
+
+        // Constructed Values
+        DirectoryEntryBuilder = new DirectoryEntryBuilder();
+        FileControlInformationAdfBuilder = new FileControlInformationAdfBuilder();
+        FileControlInformationIssuerDiscretionaryDataAdfBuilder = new FileControlInformationIssuerDiscretionaryDataAdfBuilder();
+        FileControlInformationIssuerDiscretionaryPpseBuilder = new FileControlInformationIssuerDiscretionaryPpseBuilder();
     }
 
     public EmvSpecimenBuilderFactory() : base(CreateSpecimenBuilders())
@@ -37,15 +43,13 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
 
     #region Instance Members
 
-    #region Instance Members
-
     public static List<SpecimenBuilder> CreateSpecimenBuilders()
     {
         // Add upstream builders
         List<SpecimenBuilder> currentModuleBuilders = TestingSpecimenBuilderFactory.CreateSpecimenBuilders();
 
         // Add context specific SpecimenBuilders here
-        currentModuleBuilders.AddRange(new List<SpecimenBuilder>()
+        currentModuleBuilders.AddRange(new List<SpecimenBuilder>
         {
             new AlternateInterfacePreferenceOutcomeBuilder(),
             new CertificateSerialNumberBuilder(),
@@ -70,8 +74,6 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
         });
 
         return currentModuleBuilders;
-
-        #endregion
     }
 
     #endregion
@@ -97,6 +99,15 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
     public static readonly ProcessingOptionsDataObjectListBuilder ProcessingOptionsDataObjectListBuilder;
     public static readonly TransactionDateBuilder TransactionDateBuilder;
     public static readonly TransactionTypeBuilder TransactionTypeBuilder;
+
+    #endregion
+
+    #region Constructed Values
+
+    public static readonly DirectoryEntryBuilder DirectoryEntryBuilder;
+    public static readonly FileControlInformationAdfBuilder FileControlInformationAdfBuilder;
+    public static readonly FileControlInformationIssuerDiscretionaryDataAdfBuilder FileControlInformationIssuerDiscretionaryDataAdfBuilder;
+    public static readonly FileControlInformationIssuerDiscretionaryPpseBuilder FileControlInformationIssuerDiscretionaryPpseBuilder;
 
     #endregion
 }

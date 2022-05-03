@@ -78,7 +78,7 @@ public partial class WaitingForCccResponse1
     /// <remarks>Book C-2 Section S13.1 - S13.5</remarks>
     private bool TryHandlingL1Error(KernelSessionId sessionId, QueryPcdResponse rapdu)
     {
-        if (@rapdu.IsLevel1ErrorPresent())
+        if (rapdu.IsLevel1ErrorPresent())
             return false;
 
         Sleep();

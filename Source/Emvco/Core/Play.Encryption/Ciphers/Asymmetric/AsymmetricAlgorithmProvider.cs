@@ -24,14 +24,12 @@ internal class AsymmetricAlgorithmProvider
     #region Instance Members
 
     private ImmutableSortedDictionary<PublicKeyAlgorithmIndicator, IAsymmetricCodec> CreateAsymmetricAlgorithmMap() =>
-        new Dictionary<PublicKeyAlgorithmIndicator, IAsymmetricCodec> {{PublicKeyAlgorithmIndicator.Rsa, new RsaCodec()}}
-            .ToImmutableSortedDictionary();
+        new Dictionary<PublicKeyAlgorithmIndicator, IAsymmetricCodec> {{PublicKeyAlgorithmIndicator.Rsa, new RsaCodec()}}.ToImmutableSortedDictionary();
 
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     public byte[] Decrypt(ReadOnlySpan<byte> cipherText, PublicKeyCertificate publicKeyCertificate)
     {
-        if (!_AsymmetricAlgorithmMap.TryGetValue(publicKeyCertificate.GetPublicKeyAlgorithmIndicator(),
-            out IAsymmetricCodec? asymmetricCodec))
+        if (!_AsymmetricAlgorithmMap.TryGetValue(publicKeyCertificate.GetPublicKeyAlgorithmIndicator(), out IAsymmetricCodec? asymmetricCodec))
         {
             throw new ArgumentOutOfRangeException(nameof(publicKeyCertificate),
                 $"There was no {nameof(IAsymmetricCodec)} available for the argument {nameof(publicKeyCertificate)} with the {nameof(PublicKeyAlgorithmIndicator)} value of {publicKeyCertificate.GetPublicKeyAlgorithmIndicator()}");
@@ -43,8 +41,7 @@ internal class AsymmetricAlgorithmProvider
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     public byte[] Sign(ReadOnlySpan<byte> clearText, PublicKeyCertificate publicKeyCertificate)
     {
-        if (!_AsymmetricAlgorithmMap.TryGetValue(publicKeyCertificate.GetPublicKeyAlgorithmIndicator(),
-            out IAsymmetricCodec? asymmetricCodec))
+        if (!_AsymmetricAlgorithmMap.TryGetValue(publicKeyCertificate.GetPublicKeyAlgorithmIndicator(), out IAsymmetricCodec? asymmetricCodec))
         {
             throw new ArgumentOutOfRangeException(nameof(publicKeyCertificate),
                 $"There was no {nameof(IAsymmetricCodec)} available for the argument {nameof(publicKeyCertificate)} with the {nameof(PublicKeyAlgorithmIndicator)} value of {publicKeyCertificate.GetPublicKeyAlgorithmIndicator()}");

@@ -155,7 +155,7 @@ public record Track1Data : DataElement<Track1>
     /// <exception cref="CodecParsingException"></exception>
     private void UpdateDiscretionaryData(Span<char> discretionaryData, NumberOfNonZeroBits nun)
     {
-        discretionaryData[^1] = PlayCodec.AlphaNumericCodec.DecodeToChar((byte) nun);
+        discretionaryData[^1] = PlayCodec.AlphaNumericCodec.DecodeToChar(nun);
     }
 
     #endregion

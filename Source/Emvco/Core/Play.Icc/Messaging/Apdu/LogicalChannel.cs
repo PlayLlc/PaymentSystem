@@ -47,7 +47,7 @@ public record LogicalChannel : EnumObject<byte>
 
     #region Constructor
 
-    public LogicalChannel() : base()
+    public LogicalChannel()
     { }
 
     static LogicalChannel()

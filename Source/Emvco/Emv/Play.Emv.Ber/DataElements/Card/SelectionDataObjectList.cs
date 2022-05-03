@@ -36,7 +36,7 @@ public record SelectionDataObjectList : DataObjectList, IEqualityComparer<Select
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => checked((ushort) GetValueByteCount());
+    public override ushort GetValueByteCount(BerCodec codec) => GetValueByteCount();
 
     // TODO: AmountAuthorizedNumeric could also be requested by the PICC. Need to account for that if the current transaction
     // TODO: already went online or some shit

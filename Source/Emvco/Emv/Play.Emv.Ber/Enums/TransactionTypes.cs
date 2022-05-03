@@ -188,7 +188,7 @@ public record TransactionTypes : EnumObject<byte>
 
     #region Constructor
 
-    public TransactionTypes() : base()
+    public TransactionTypes()
     { }
 
     static TransactionTypes()

@@ -39,7 +39,7 @@ public record SecureMessaging : EnumObject<byte>
 
     #region Constructor
 
-    public SecureMessaging() : base()
+    public SecureMessaging()
     { }
 
     static SecureMessaging()

@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using AutoFixture.Kernel;
+﻿using AutoFixture.Kernel;
 
 using Play.Ber.Exceptions;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Randoms;
 
-namespace Play.Testing.Emv.AutoFixture.Builders.DataElements;
+namespace Play.Testing.Emv;
 
 public class KernelIdentifierBuilder : PrimitiveValueSpecimenBuilder<KernelIdentifier>
 {

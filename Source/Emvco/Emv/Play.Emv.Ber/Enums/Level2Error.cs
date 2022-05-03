@@ -31,7 +31,7 @@ public record Level2Error : EnumObject<byte>
 
     #region Constructor
 
-    public Level2Error() : base()
+    public Level2Error()
     { }
 
     static Level2Error()

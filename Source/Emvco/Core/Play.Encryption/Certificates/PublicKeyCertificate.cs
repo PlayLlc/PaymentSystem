@@ -38,8 +38,8 @@ public class PublicKeyCertificate
     #region Constructor
 
     public PublicKeyCertificate(
-        CertificateSerialNumber certificateSerialNumber, HashAlgorithmIndicator hashAlgorithmIndicator,
-        PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator, DateRange validityPeriod, PublicKeyInfo publicKeyInfo)
+        CertificateSerialNumber certificateSerialNumber, HashAlgorithmIndicator hashAlgorithmIndicator, PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator,
+        DateRange validityPeriod, PublicKeyInfo publicKeyInfo)
     {
         _CertificateSerialNumber = certificateSerialNumber;
         _HashAlgorithmIndicator = hashAlgorithmIndicator;

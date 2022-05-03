@@ -1,5 +1,4 @@
-﻿using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.ValueTypes;
+﻿using Play.Emv.Ber.ValueTypes;
 
 namespace Play.Emv.Terminal.Session;
 

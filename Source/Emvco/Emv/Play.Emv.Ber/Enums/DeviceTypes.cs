@@ -76,7 +76,7 @@ public record DeviceTypes : EnumObject<ushort>
 
     #region Constructor
 
-    public DeviceTypes() : base()
+    public DeviceTypes()
     { }
 
     static DeviceTypes()

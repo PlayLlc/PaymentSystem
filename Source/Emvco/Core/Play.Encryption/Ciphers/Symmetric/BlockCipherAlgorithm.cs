@@ -41,7 +41,7 @@ public sealed record BlockCipherAlgorithm : EnumObject<byte>, IEqualityComparer<
 
     #region Constructor
 
-    public BlockCipherAlgorithm() : base()
+    public BlockCipherAlgorithm()
     { }
 
     /// <exception cref="TypeInitializationException"></exception>

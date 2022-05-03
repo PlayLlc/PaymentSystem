@@ -35,7 +35,7 @@ public record Level3Error : EnumObject<byte>
     }
 
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
-    private Level3Error() : base()
+    private Level3Error()
     { }
 
     private Level3Error(byte value) : base(value)

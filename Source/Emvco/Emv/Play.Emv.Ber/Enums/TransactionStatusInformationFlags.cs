@@ -26,7 +26,7 @@ public sealed record TransactionStatusInformationFlags : EnumObject<ushort>
 
     #region Constructor
 
-    public TransactionStatusInformationFlags() : base()
+    public TransactionStatusInformationFlags()
     { }
 
     static TransactionStatusInformationFlags()

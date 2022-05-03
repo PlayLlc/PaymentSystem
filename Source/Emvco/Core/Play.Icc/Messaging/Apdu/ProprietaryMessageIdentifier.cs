@@ -22,7 +22,7 @@ public record ProprietaryMessageIdentifier : EnumObject<byte>
 
     #region Constructor
 
-    public ProprietaryMessageIdentifier() : base()
+    public ProprietaryMessageIdentifier()
     { }
 
     static ProprietaryMessageIdentifier()

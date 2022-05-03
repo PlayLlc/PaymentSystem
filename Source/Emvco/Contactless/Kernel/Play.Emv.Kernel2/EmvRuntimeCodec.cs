@@ -85,7 +85,7 @@ public class EmvRuntimeCodec : EmvCodec, IResolveKnownObjectsAtRuntime
             {DataStorageSummaryStatus.Tag, DataStorageSummaryStatus.Decode},
             {DataStorageUnpredictableNumber.Tag, DataStorageUnpredictableNumber.Decode},
             {DataStorageVersionNumberTerminal.Tag, DataStorageVersionNumberTerminal.Decode},
-            {DataToSend.Tag, (i) => DataToSend.Decode(_Default, i)},
+            {DataToSend.Tag, i => DataToSend.Decode(_Default, i)},
             {DedicatedFileName.Tag, i => DedicatedFileName.Decode(i, _Default)},
             {Track1DiscretionaryData.Tag, Track1DiscretionaryData.Decode},
             {Track2DiscretionaryData.Tag, Track2DiscretionaryData.Decode},

@@ -22,7 +22,7 @@ public sealed record KeySize : EnumObject<ushort>, IEqualityComparer<ushort>
 
     #region Constructor
 
-    public KeySize() : base()
+    public KeySize()
     { }
 
     /// <exception cref="TypeInitializationException"></exception>

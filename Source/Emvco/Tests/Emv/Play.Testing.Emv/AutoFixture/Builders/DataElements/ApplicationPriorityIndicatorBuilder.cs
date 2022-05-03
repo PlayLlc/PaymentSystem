@@ -10,7 +10,7 @@ public class ApplicationPriorityIndicatorBuilder : PrimitiveValueSpecimenBuilder
 {
     #region Static Metadata
 
-    public static readonly SpecimenBuilderId Id = new(nameof(ApplicationPriorityIndicator));
+    public static readonly SpecimenBuilderId Id = new(nameof(ApplicationPriorityIndicatorBuilder));
 
     #endregion
 
@@ -26,13 +26,7 @@ public class ApplicationPriorityIndicatorBuilder : PrimitiveValueSpecimenBuilder
 
     #region Instance Members
 
-    private static byte[] GetContentOctets() =>
-        new byte[]
-        {
-            0x56, 0x49, 0x53, 0x41, 0x20, 0x43, 0x52, 0x45, 0x44, 0x49,
-            0x54, 0x4F
-        };
-
+    private static byte[] GetContentOctets() => new byte[] {0x02};
     public override SpecimenBuilderId GetId() => Id;
 
     /// <exception cref="Play.Emv.Ber.Exceptions.DataElementParsingException"></exception>

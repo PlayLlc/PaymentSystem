@@ -209,7 +209,7 @@ public sealed record Kernel2KnownObjects : KnownObjects
         }.ToImmutableSortedDictionary();
     }
 
-    public Kernel2KnownObjects() : base()
+    public Kernel2KnownObjects()
     { }
 
     private Kernel2KnownObjects(Tag value) : base(value)

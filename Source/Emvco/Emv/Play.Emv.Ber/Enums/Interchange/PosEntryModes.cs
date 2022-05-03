@@ -100,7 +100,7 @@ public record PosEntryModes : EnumObject<byte>
 
     #region Constructor
 
-    public PosEntryModes() : base()
+    public PosEntryModes()
     { }
 
     public PosEntryModes(byte value) : base(value)

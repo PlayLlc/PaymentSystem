@@ -47,8 +47,7 @@ public record IccPinEnciphermentPublicKeyCertificate : DataElement<BigInteger>, 
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static IccPinEnciphermentPublicKeyCertificate Decode(ReadOnlySpan<byte> value) =>
-        new(PlayCodec.BinaryCodec.DecodeToBigInteger(value));
+    public static IccPinEnciphermentPublicKeyCertificate Decode(ReadOnlySpan<byte> value) => new(PlayCodec.BinaryCodec.DecodeToBigInteger(value));
 
     public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
     public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);

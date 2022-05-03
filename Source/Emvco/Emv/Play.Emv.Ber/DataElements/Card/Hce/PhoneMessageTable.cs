@@ -46,17 +46,12 @@ public record PhoneMessageTable : DataElement<MessageTableEntry[]>, IEqualityCom
     {
         return new PhoneMessageTable(new MessageTableEntry[]
         {
-            new(new PciiMask((uint) 0x000001), new PciiValue((uint) 000001), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions,
-                Statuses.NotReady),
-            new(new PciiMask((uint) 0x000800), new PciiValue((uint) 000800), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions,
-                Statuses.NotReady),
-            new(new PciiMask((uint) 0x000400), new PciiValue((uint) 000400), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions,
-                Statuses.NotReady),
-            new(new PciiMask((uint) 0x000100), new PciiValue((uint) 000100), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions,
-                Statuses.NotReady),
-            new(new PciiMask((uint) 0x000200), new PciiValue((uint) 000200), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions,
-                Statuses.NotReady),
-            new(new PciiMask((uint) 0x000000), new PciiValue((uint) 000000), (MessageIdentifier) MessageIdentifiers.Declined, Statuses.NotReady)
+            new(new PciiMask(0x000001), new PciiValue(000001), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions, Statuses.NotReady),
+            new(new PciiMask(0x000800), new PciiValue(000800), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions, Statuses.NotReady),
+            new(new PciiMask(0x000400), new PciiValue(000400), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions, Statuses.NotReady),
+            new(new PciiMask(0x000100), new PciiValue(000100), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions, Statuses.NotReady),
+            new(new PciiMask(0x000200), new PciiValue(000200), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions, Statuses.NotReady),
+            new(new PciiMask(0x000000), new PciiValue(000000), (MessageIdentifier) MessageIdentifiers.Declined, Statuses.NotReady)
         });
     }
 

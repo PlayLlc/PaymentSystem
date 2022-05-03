@@ -46,7 +46,7 @@ public record CardholderVerificationMethods : EnumObject<byte>
 
     #region Constructor
 
-    public CardholderVerificationMethods() : base()
+    public CardholderVerificationMethods()
     { }
 
     static CardholderVerificationMethods()

@@ -32,7 +32,7 @@ public record Track2DiscretionaryData : DataElement<TrackDiscretionaryData>
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
-    public new byte[] Encode() => _Value.Encode();
+    public byte[] Encode() => _Value.Encode();
 
     #endregion
 

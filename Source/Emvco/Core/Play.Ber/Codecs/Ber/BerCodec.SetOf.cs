@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-
-using Play.Ber.DataObjects;
-using Play.Ber.Exceptions;
+﻿using Play.Ber.DataObjects;
 
 namespace Play.Ber.Codecs;
 

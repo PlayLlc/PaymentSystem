@@ -47,7 +47,7 @@ public record TerminalVerificationResultCodes : EnumObject<TerminalVerificationR
 
     #region Constructor
 
-    public TerminalVerificationResultCodes() : base()
+    public TerminalVerificationResultCodes()
     { }
 
     static TerminalVerificationResultCodes()
@@ -83,7 +83,7 @@ public record TerminalVerificationResultCodes : EnumObject<TerminalVerificationR
         UnrecognizedCvm = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(23)));
         UpperConsecutiveOfflineLimitExceeded = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(14)));
 
-        _ValueObjectMap = new Dictionary<TerminalVerificationResult, TerminalVerificationResultCodes>()
+        _ValueObjectMap = new Dictionary<TerminalVerificationResult, TerminalVerificationResultCodes>
         {
             {ApplicationNotYetEffective, ApplicationNotYetEffective},
             {CardAppearsOnTerminalExceptionFile, CardAppearsOnTerminalExceptionFile},

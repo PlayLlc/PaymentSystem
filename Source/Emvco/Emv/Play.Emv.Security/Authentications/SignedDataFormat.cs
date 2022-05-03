@@ -27,7 +27,7 @@ internal sealed record SignedDataFormat : EnumObject<byte>, IEqualityComparer<by
 
     #region Constructor
 
-    public SignedDataFormat() : base()
+    public SignedDataFormat()
     { }
 
     /// <exception cref="TypeInitializationException"></exception>

@@ -68,8 +68,7 @@ internal static partial class LongLength
         {
             if (!IsLengthSupportedInThisCodeBase(value))
             {
-                throw new BerParsingException(
-                    $"This code base currently only supports a long Length with Subsequent Octets of {MaxByteCount} bytes or less");
+                throw new BerParsingException($"This code base currently only supports a long Length with Subsequent Octets of {MaxByteCount} bytes or less");
             }
         }
 

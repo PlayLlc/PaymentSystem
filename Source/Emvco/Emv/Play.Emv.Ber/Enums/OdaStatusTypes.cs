@@ -17,7 +17,7 @@ public sealed record OdaStatusTypes : EnumObject<byte>
 
     #region Constructor
 
-    public OdaStatusTypes() : base()
+    public OdaStatusTypes()
     { }
 
     private OdaStatusTypes(byte value) : base(value)

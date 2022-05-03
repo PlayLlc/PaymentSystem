@@ -36,12 +36,10 @@ public class SignatureService
         return new DecodedSignature(decipheredSignature);
     }
 
-    private bool IsHashValid(
-        HashAlgorithmIndicator hashAlgorithmIndicator, DecodedSignature decodedSignature, ReadOnlySpan<byte> message) =>
+    private bool IsHashValid(HashAlgorithmIndicator hashAlgorithmIndicator, DecodedSignature decodedSignature, ReadOnlySpan<byte> message) =>
         decodedSignature.GetHash() == _HashAlgorithmProvider.Generate(message, hashAlgorithmIndicator);
 
-    private bool IsLeadingByteValid(DecodedSignature decodedSignature) =>
-        decodedSignature.GetLeadingByte() == SignatureSpecifications.LeadingByte;
+    private bool IsLeadingByteValid(DecodedSignature decodedSignature) => decodedSignature.GetLeadingByte() == SignatureSpecifications.LeadingByte;
 
     private bool IsMessage1Valid(DecodedSignature decodedSignature, ReadOnlySpan<byte> message)
     {

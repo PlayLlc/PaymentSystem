@@ -8,21 +8,19 @@ public class ExternalAuthenticateApduCommand : ApduCommand
 {
     #region Constructor
 
-    private ExternalAuthenticateApduCommand(byte @class, byte instruction, byte parameter1, byte parameter2) : base(@class, instruction,
-        parameter1, parameter2)
+    private ExternalAuthenticateApduCommand(byte @class, byte instruction, byte parameter1, byte parameter2) : base(@class, instruction, parameter1, parameter2)
     { }
 
-    private ExternalAuthenticateApduCommand(byte @class, byte instruction, byte parameter1, byte parameter2, uint le) : base(@class,
-        instruction, parameter1, parameter2, le)
+    private ExternalAuthenticateApduCommand(byte @class, byte instruction, byte parameter1, byte parameter2, uint le) : base(@class, instruction, parameter1,
+        parameter2, le)
     { }
 
-    private ExternalAuthenticateApduCommand(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) :
-        base(@class, instruction, parameter1, parameter2, data)
+    private ExternalAuthenticateApduCommand(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) : base(@class,
+        instruction, parameter1, parameter2, data)
     { }
 
-    private ExternalAuthenticateApduCommand(
-        byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data, uint le) : base(@class, instruction,
-        parameter1, parameter2, data, le)
+    private ExternalAuthenticateApduCommand(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data, uint le) : base(@class,
+        instruction, parameter1, parameter2, data, le)
     { }
 
     #endregion
@@ -46,8 +44,8 @@ public class ExternalAuthenticateApduCommand : ApduCommand
                 $"The argument {nameof(issuerAuthenticationData)} had an unexpected byte count. The {nameof(issuerAuthenticationData)} must be between 8 and 16 bytes in length"));
         }
 
-        return new ExternalAuthenticateApduCommand(new Class(SecureMessaging.NotRecognized, LogicalChannel.BasicChannel),
-            Instruction.ExternalAuthenticate, 0, 0, issuerAuthenticationData.ToArray());
+        return new ExternalAuthenticateApduCommand(new Class(SecureMessaging.NotRecognized, LogicalChannel.BasicChannel), Instruction.ExternalAuthenticate, 0,
+            0, issuerAuthenticationData.ToArray());
     }
 
     #endregion

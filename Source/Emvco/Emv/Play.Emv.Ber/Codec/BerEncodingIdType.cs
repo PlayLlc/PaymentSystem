@@ -21,7 +21,7 @@ public record BerEncodingIdType : EnumObject<PlayEncodingId>
 
     #region Constructor
 
-    public BerEncodingIdType() : base()
+    public BerEncodingIdType()
     { }
 
     static BerEncodingIdType()

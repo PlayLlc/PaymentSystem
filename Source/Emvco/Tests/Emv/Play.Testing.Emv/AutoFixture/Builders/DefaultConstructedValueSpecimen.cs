@@ -2,7 +2,7 @@
 
 namespace Play.Testing.Emv;
 
-public abstract class DefaultConstructedValueSpecimen<_T> : DefaultSpecimen<_T> where _T : ConstructedValue
+public class DefaultConstructedValueSpecimen<_T> : DefaultSpecimen<_T> where _T : ConstructedValue
 {
     #region Instance Values
 
@@ -15,7 +15,7 @@ public abstract class DefaultConstructedValueSpecimen<_T> : DefaultSpecimen<_T> 
     #region Constructor
 
     /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
-    protected DefaultConstructedValueSpecimen(_T value, byte[] contentOctets)
+    public DefaultConstructedValueSpecimen(_T value, byte[] contentOctets)
     {
         _Default = value;
         _RawTagLengthValue = new TagLengthValue(value.GetTag(), contentOctets).EncodeTagLengthValue();

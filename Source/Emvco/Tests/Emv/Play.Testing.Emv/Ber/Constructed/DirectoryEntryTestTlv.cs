@@ -12,7 +12,6 @@ public class DirectoryEntryTestTlv : TestTlv
 
     private static readonly byte[] _RawTagLengthValue =
     {
-        //611A4F07A00000000310108701019F2A01034203408138 5F 55 02 55 53
         0x61, 0x10, 0x4F, 0x07, 0xA0, 0x00, 0x00, 0x00, 0x03, 0x10,
         0x10, 0x87, 0x01, 0x01, 0x9F, 0x2A, 0x01, 0x03
     };
@@ -23,7 +22,7 @@ public class DirectoryEntryTestTlv : TestTlv
         0x01, 0x01, 0x9F, 0x2A, 0x01, 0x03
     };
 
-    private static readonly TagLengthValue[] _DefaultChildren = new TagLengthValue[]
+    private static readonly TagLengthValue[] _DefaultChildren =
     {
         new(ApplicationIdentifier.Tag, new byte[] {0xA0, 0x00, 0x00, 0x00, 0x03, 0x10, 0x10}.AsSpan()),
         new(ApplicationPriorityIndicator.Tag, new byte[] {0x87, 0x01, 0x01}), new(KernelIdentifier.Tag, new byte[] {0x03}),

@@ -13,7 +13,7 @@ using Xunit;
 namespace Play.Emv.Security.Tests.Certificates;
 
 [Trait("Type", "Unit")]
-public partial class DecodedIssuerPublicKeyCertificateTests : TestBase
+public class DecodedIssuerPublicKeyCertificateTests : TestBase
 {
     #region Instance Values
 

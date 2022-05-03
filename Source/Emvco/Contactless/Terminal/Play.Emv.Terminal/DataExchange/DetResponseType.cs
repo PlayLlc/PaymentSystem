@@ -35,7 +35,7 @@ public record DetResponseType : EnumObject<Tag>
 
     #region Constructor
 
-    public DetResponseType() : base()
+    public DetResponseType()
     { }
 
     public DetResponseType(Tag original) : base(original)

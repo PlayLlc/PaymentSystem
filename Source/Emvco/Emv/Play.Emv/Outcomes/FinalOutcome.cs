@@ -23,8 +23,7 @@ public class FinalOutcome
 
     public FinalOutcome(
         TransactionSessionId transactionSessionId, KernelSessionId kernelSessionId, OutcomeParameterSet outcomeParameterSet,
-        DiscretionaryData? discretionaryData = null, UserInterfaceRequestData? userInterfaceRequestData = null,
-        DataRecord? dataRecord = null)
+        DiscretionaryData? discretionaryData = null, UserInterfaceRequestData? userInterfaceRequestData = null, DataRecord? dataRecord = null)
     {
         _TransactionSessionId = transactionSessionId;
         _KernelSessionId = kernelSessionId;

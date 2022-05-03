@@ -13,7 +13,26 @@ namespace Play.Codecs;
 
 public class CompressedNumericCodec : PlayCodec
 {
-    #region Instance Members
+    #region Metadata
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public static readonly PlayEncodingId EncodingId = new(typeof(CompressedNumericCodec));
+
+    private static readonly ImmutableSortedDictionary<char, byte> _ByteMap =
+        Enumerable.Range(0, 10).ToImmutableSortedDictionary(a => (char) (a + 48), b => (byte) b);
+
+    private static readonly ImmutableSortedDictionary<byte, char> _CharMap =
+        Enumerable.Range(0, 10).ToImmutableSortedDictionary(a => (byte) a, b => (char) (b + 48));
+
+    private static readonly Nibble _PaddedNibble = Nibble.MaxValue;
+    private const char _PaddingCharKey = 'F';
+    private const byte _PaddedLeftNibble = 0xF0;
+    private const byte _PaddedRightNibble = 0xF;
+    private const byte _PaddedByte = 0xFF;
+
+    #endregion
+
+    #region Count
 
     private static int GetPadCount(ReadOnlySpan<char> value)
     {
@@ -47,101 +66,6 @@ public class CompressedNumericCodec : PlayCodec
 
         return offset;
     }
-
-    private int Pad(Span<byte> buffer)
-    {
-        int padCount = GetPadCount(buffer);
-        buffer[^(padCount / 2)..].Fill(_PaddedByte);
-        if ((padCount % 2) != 0)
-            buffer[^((padCount / 2) + 1)] |= _PaddedRightNibble;
-
-        return padCount;
-    }
-
-    #region Decode To Nibbles
-
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="OverflowException"></exception>
-    public Nibble[] DecodeToNibbles(ReadOnlySpan<byte> value)
-    {
-        ReadOnlySpan<Nibble> nibbles = value.AsNibbleArray();
-        int charCount = GetCharCount(value);
-
-        return nibbles[..^(nibbles.Length - charCount)].ToArray();
-    }
-
-    #endregion
-
-    #endregion
-
-    #region Serialization
-
-    #region Decode To DecodedMetadata
-
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
-    {
-        // HACK: We're removing the dynamic decoding capability and using explicit decoding calls
-        BigInteger maximumIntegerResult = (BigInteger) Math.Pow(2, value.Length * 8);
-
-        if (maximumIntegerResult <= byte.MaxValue)
-        {
-            byte result = DecodeToByte(value[0]);
-
-            return new DecodedResult<byte>(result, result.GetNumberOfDigits());
-        }
-
-        if (maximumIntegerResult <= ushort.MaxValue)
-        {
-            ushort result = DecodeToUInt16(value);
-
-            return new DecodedResult<ushort>(result, result.GetNumberOfDigits());
-        }
-
-        if (maximumIntegerResult <= uint.MaxValue)
-        {
-            uint result = DecodeToUInt32(value);
-
-            return new DecodedResult<uint>(result, result.GetNumberOfDigits());
-        }
-
-        if (maximumIntegerResult <= ulong.MaxValue)
-        {
-            ulong result = DecodeToUInt64(value);
-
-            return new DecodedResult<ulong>(result, result.GetNumberOfDigits());
-        }
-        else
-        {
-            BigInteger result = DecodeToBigInteger(value);
-
-            return new DecodedResult<BigInteger>(result, result.GetNumberOfDigits());
-        }
-    }
-
-    #endregion
-
-    #endregion
-
-    #region Metadata
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public static readonly PlayEncodingId EncodingId = new(typeof(CompressedNumericCodec));
-
-    private static readonly ImmutableSortedDictionary<char, byte> _ByteMap =
-        Enumerable.Range(0, 10).ToImmutableSortedDictionary(a => (char) (a + 48), b => (byte) b);
-
-    private static readonly ImmutableSortedDictionary<byte, char> _CharMap =
-        Enumerable.Range(0, 10).ToImmutableSortedDictionary(a => (byte) a, b => (char) (b + 48));
-
-    private const char _PaddingCharKey = 'F';
-    private const byte _PaddedLeftNibble = 0xF0;
-    private const byte _PaddedRightNibble = 0xF;
-    private static readonly Nibble _PaddedNibble = Nibble.MaxValue;
-    private const byte _PaddedByte = 0xFF;
-
-    #endregion
-
-    #region Count
 
     // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     public override ushort GetByteCount<T>(T value) where T : struct => checked((ushort) Unsafe.SizeOf<T>());
@@ -391,8 +315,7 @@ public class CompressedNumericCodec : PlayCodec
                 catch (IndexOutOfRangeException exception)
                 {
                     throw new CodecParsingException(
-                        $"The value could not be encoded by {nameof(CompressedNumericCodec)} because there was an invalid character",
-                        exception);
+                        $"The value could not be encoded by {nameof(CompressedNumericCodec)} because there was an invalid character", exception);
                 }
             }
 
@@ -416,8 +339,7 @@ public class CompressedNumericCodec : PlayCodec
                 catch (IndexOutOfRangeException exception)
                 {
                     throw new CodecParsingException(
-                        $"The value could not be encoded by {nameof(CompressedNumericCodec)} because there was an invalid character",
-                        exception);
+                        $"The value could not be encoded by {nameof(CompressedNumericCodec)} because there was an invalid character", exception);
                 }
             }
 
@@ -684,8 +606,7 @@ public class CompressedNumericCodec : PlayCodec
             }
             catch (IndexOutOfRangeException exception)
             {
-                throw new CodecParsingException(
-                    $"The value could not be encoded by {nameof(CompressedNumericCodec)} because there was an invalid character",
+                throw new CodecParsingException($"The value could not be encoded by {nameof(CompressedNumericCodec)} because there was an invalid character",
                     exception);
             }
         }
@@ -836,6 +757,78 @@ public class CompressedNumericCodec : PlayCodec
             resultBuffer += DecodeToByte(value[i]) * Math.Pow(10, j);
 
         return resultBuffer;
+    }
+
+    #endregion
+
+    #region Decode To Nibbles
+
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    public Nibble[] DecodeToNibbles(ReadOnlySpan<byte> value)
+    {
+        ReadOnlySpan<Nibble> nibbles = value.AsNibbleArray();
+        int charCount = GetCharCount(value);
+
+        return nibbles[..^(nibbles.Length - charCount)].ToArray();
+    }
+
+    #endregion
+
+    #region Decode To DecodedMetadata
+
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    {
+        // HACK: We're removing the dynamic decoding capability and using explicit decoding calls
+        BigInteger maximumIntegerResult = (BigInteger) Math.Pow(2, value.Length * 8);
+
+        if (maximumIntegerResult <= byte.MaxValue)
+        {
+            byte result = DecodeToByte(value[0]);
+
+            return new DecodedResult<byte>(result, result.GetNumberOfDigits());
+        }
+
+        if (maximumIntegerResult <= ushort.MaxValue)
+        {
+            ushort result = DecodeToUInt16(value);
+
+            return new DecodedResult<ushort>(result, result.GetNumberOfDigits());
+        }
+
+        if (maximumIntegerResult <= uint.MaxValue)
+        {
+            uint result = DecodeToUInt32(value);
+
+            return new DecodedResult<uint>(result, result.GetNumberOfDigits());
+        }
+
+        if (maximumIntegerResult <= ulong.MaxValue)
+        {
+            ulong result = DecodeToUInt64(value);
+
+            return new DecodedResult<ulong>(result, result.GetNumberOfDigits());
+        }
+        else
+        {
+            BigInteger result = DecodeToBigInteger(value);
+
+            return new DecodedResult<BigInteger>(result, result.GetNumberOfDigits());
+        }
+    }
+
+    #endregion
+
+    #region Instance Members
+
+    private int Pad(Span<byte> buffer)
+    {
+        int padCount = GetPadCount(buffer);
+        buffer[^(padCount / 2)..].Fill(_PaddedByte);
+        if ((padCount % 2) != 0)
+            buffer[^((padCount / 2) + 1)] |= _PaddedRightNibble;
+
+        return padCount;
     }
 
     #endregion

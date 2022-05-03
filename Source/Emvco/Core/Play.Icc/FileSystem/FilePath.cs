@@ -48,8 +48,7 @@ internal class FilePath
 
     #region Instance Members
 
-    public bool DoesPathStartFromRootDirectory() =>
-        FileIdentifier.MasterFile == new FileIdentifier(PlayCodec.UnsignedIntegerCodec.DecodeToUInt16(_Value[..2]));
+    public bool DoesPathStartFromRootDirectory() => FileIdentifier.MasterFile == new FileIdentifier(PlayCodec.UnsignedIntegerCodec.DecodeToUInt16(_Value[..2]));
 
     #endregion
 

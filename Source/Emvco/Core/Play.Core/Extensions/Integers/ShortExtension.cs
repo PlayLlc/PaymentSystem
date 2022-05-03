@@ -47,9 +47,7 @@ public static class ShortExtension
     }
 
     public static byte GetMostSignificantByte(this in short value) =>
-        (byte) (value.GetMostSignificantBit().TryGetRemainder(8, out int resultWithoutRemainder) == 0
-            ? resultWithoutRemainder
-            : resultWithoutRemainder + 1);
+        (byte) (value.GetMostSignificantBit().TryGetRemainder(8, out int resultWithoutRemainder) == 0 ? resultWithoutRemainder : resultWithoutRemainder + 1);
 
     public static byte GetNumberOfDigits(this in short value)
     {

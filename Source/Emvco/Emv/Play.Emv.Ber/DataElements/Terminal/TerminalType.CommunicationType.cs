@@ -27,7 +27,7 @@ public partial record TerminalType
 
         #region Constructor
 
-        public CommunicationType() : base()
+        public CommunicationType()
         { }
 
         static CommunicationType()

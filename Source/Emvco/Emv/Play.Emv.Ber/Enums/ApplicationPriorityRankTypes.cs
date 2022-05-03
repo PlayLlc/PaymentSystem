@@ -33,7 +33,7 @@ public sealed record ApplicationPriorityRankTypes : EnumObject<byte>
 
     #region Constructor
 
-    public ApplicationPriorityRankTypes() : base()
+    public ApplicationPriorityRankTypes()
     { }
 
     static ApplicationPriorityRankTypes()

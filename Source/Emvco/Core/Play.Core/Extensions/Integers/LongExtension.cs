@@ -17,9 +17,7 @@ public static class LongExtension
     }
 
     public static byte GetMostSignificantByte(this long value) =>
-        (byte) (value.GetMostSignificantBit().TryGetRemainder(8, out int resultWithoutRemainder) == 0
-            ? resultWithoutRemainder
-            : resultWithoutRemainder + 1);
+        (byte) (value.GetMostSignificantBit().TryGetRemainder(8, out int resultWithoutRemainder) == 0 ? resultWithoutRemainder : resultWithoutRemainder + 1);
 
     public static byte GetNumberOfDigits(this long value)
     {

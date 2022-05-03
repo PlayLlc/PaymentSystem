@@ -24,7 +24,7 @@ public sealed record DataObjectTypes : EnumObject<byte>, IEqualityComparer<byte>
 
     #region Constructor
 
-    public DataObjectTypes() : base()
+    public DataObjectTypes()
     { }
 
     /// <exception cref="TypeInitializationException"></exception>

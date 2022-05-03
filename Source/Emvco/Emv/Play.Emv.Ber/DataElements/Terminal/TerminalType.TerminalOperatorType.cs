@@ -32,7 +32,7 @@ public partial record TerminalType
 
         #region Constructor
 
-        public TerminalOperatorType() : base()
+        public TerminalOperatorType()
         { }
 
         /// <exception cref="TypeInitializationException"></exception>
@@ -43,7 +43,7 @@ public partial record TerminalType
             Merchant = new TerminalOperatorType(_Merchant);
             Cardholder = new TerminalOperatorType(_Merchant);
 
-            _ValueObjectMap = new Dictionary<byte, TerminalOperatorType>()
+            _ValueObjectMap = new Dictionary<byte, TerminalOperatorType>
             {
                 {FinancialInstitution, FinancialInstitution}, {Merchant, Merchant}, {Cardholder, Cardholder}
             }.ToImmutableSortedDictionary();

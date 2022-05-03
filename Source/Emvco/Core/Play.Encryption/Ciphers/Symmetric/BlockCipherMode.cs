@@ -32,7 +32,7 @@ public sealed record BlockCipherMode : EnumObject<byte>, IEqualityComparer<byte>
 
     #region Constructor
 
-    public BlockCipherMode() : base()
+    public BlockCipherMode()
     { }
 
     /// <exception cref="TypeInitializationException"></exception>

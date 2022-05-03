@@ -29,7 +29,7 @@ public record PublicKeyExponent : EnumObject<uint>
 
     #region Constructor
 
-    public PublicKeyExponent() : base()
+    public PublicKeyExponent()
     { }
 
     static PublicKeyExponent()

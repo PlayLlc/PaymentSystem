@@ -2,7 +2,7 @@
 
 namespace Play.Emv.Ber.Extensions.Arrays;
 
-public static partial class PrimitiveValues
+public static class PrimitiveValues
 {
     #region Instance Members
 

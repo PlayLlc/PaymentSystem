@@ -3,8 +3,6 @@
 using AutoFixture;
 
 using Play.Ber.Exceptions;
-using Play.Codecs;
-using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
 using Play.Testing.BaseTestClasses;
 using Play.Testing.Emv;
@@ -37,7 +35,7 @@ public class FileControlInformationAdfTests : TestBase
     [Fact]
     public void PrimitiveValue_EncodingTagLengthValue_ReturnsExpectedResult()
     {
-        byte[] expected = FileControlInformationAdfBuilder.RawTagLengthValue;
+        byte[] expected = EmvFixture.FileControlInformationAdfBuilder.GetDefaultEncodedTagLengthValue();
         FileControlInformationAdf sut = _Fixture.Create<FileControlInformationAdf>();
         byte[] actual = sut.EncodeTagLengthValue();
 
@@ -47,7 +45,7 @@ public class FileControlInformationAdfTests : TestBase
     [Fact]
     public void PrimitiveValue_EncodingValue_ReturnsExpectedResult()
     {
-        byte[] expected = FileControlInformationAdfBuilder.RawValue;
+        byte[] expected = EmvFixture.FileControlInformationAdfBuilder.GetDefaultEncodedTagLengthValue();
         FileControlInformationAdf sut = _Fixture.Create<FileControlInformationAdf>();
         byte[] actual = sut.EncodeValue();
 

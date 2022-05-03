@@ -20,7 +20,7 @@ public sealed record BlockSize : EnumObject<byte>, IEqualityComparer<byte>
 
     #region Constructor
 
-    public BlockSize() : base()
+    public BlockSize()
     { }
 
     /// <exception cref="TypeInitializationException"></exception>

@@ -23,7 +23,7 @@ public partial record TerminalType
 
         #region Constructor
 
-        public EnvironmentType() : base()
+        public EnvironmentType()
         { }
 
         static EnvironmentType()

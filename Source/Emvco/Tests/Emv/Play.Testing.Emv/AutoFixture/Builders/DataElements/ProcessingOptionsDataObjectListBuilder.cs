@@ -2,10 +2,7 @@
 
 using Play.Ber.Exceptions;
 using Play.Codecs.Exceptions;
-using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
-using Play.Randoms;
 
 namespace Play.Testing.Emv;
 
@@ -13,7 +10,7 @@ public class ProcessingOptionsDataObjectListBuilder : PrimitiveValueSpecimenBuil
 {
     #region Static Metadata
 
-    public static readonly SpecimenBuilderId Id = new(nameof(ProcessingOptionsDataObjectList));
+    public static readonly SpecimenBuilderId Id = new(nameof(ProcessingOptionsDataObjectListBuilder));
 
     #endregion
 

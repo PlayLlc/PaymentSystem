@@ -7,7 +7,6 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
-using Play.Core.Exceptions;
 
 namespace Play.Ber.InternalFactories;
 

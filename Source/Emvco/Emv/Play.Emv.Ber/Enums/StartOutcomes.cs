@@ -30,7 +30,7 @@ public record StartOutcomes : EnumObject<byte>
 
     #region Constructor
 
-    public StartOutcomes() : base()
+    public StartOutcomes()
     { }
 
     static StartOutcomes()

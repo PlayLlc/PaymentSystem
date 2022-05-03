@@ -1,7 +1,6 @@
 ﻿using AutoFixture.Kernel;
 
 using Play.Emv.Ber.Enums;
-using Play.Emv.Ber.ValueTypes;
 using Play.Icc.Exceptions;
 
 namespace Play.Testing.Emv;

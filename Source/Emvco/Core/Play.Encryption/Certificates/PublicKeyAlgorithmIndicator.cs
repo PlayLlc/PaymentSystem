@@ -16,7 +16,7 @@ public record PublicKeyAlgorithmIndicator : EnumObject<byte>
 
     #region Constructor
 
-    public PublicKeyAlgorithmIndicator() : base()
+    public PublicKeyAlgorithmIndicator()
     { }
 
     static PublicKeyAlgorithmIndicator()

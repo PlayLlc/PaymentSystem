@@ -79,7 +79,7 @@ public partial class WaitingForCccResponse2
     /// <remarks>Book C-2 Section S14.1 - S14.5</remarks>
     private bool TryHandlingL1Error(KernelSessionId sessionId, ComputeCryptographicChecksumResponse rapdu)
     {
-        if (@rapdu.IsLevel1ErrorPresent())
+        if (rapdu.IsLevel1ErrorPresent())
             return false;
 
         Sleep();

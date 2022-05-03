@@ -13,37 +13,6 @@ namespace Play.Codecs;
 
 public class AlphaNumericCodec : PlayCodec
 {
-    #region Instance Members
-
-    #region Decode To Integers
-
-    /// <summary>
-    ///     GetByte
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="CodecParsingException"></exception>
-    public byte DecodeToByte(char value)
-    {
-        Validate(value);
-
-        return _ByteMapper[value];
-    }
-
-    #endregion
-
-    #endregion
-
-    #region Serialization
-
-    #region Decode To DecodedMetadata
-
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) => new DecodedResult<char[]>(DecodeToChars(value), value.Length);
-
-    #endregion
-
-    #endregion
-
     #region Metadata
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
@@ -129,44 +98,6 @@ public class AlphaNumericCodec : PlayCodec
         const char nine = '9';
 
         return value is >= bigA and <= bigZ or >= littleA and <= littleZ or >= zero and <= nine;
-    }
-
-    /// <exception cref="CodecParsingException"></exception>
-    private void Validate(byte value)
-    {
-        if (!IsValid(value))
-            throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
-    }
-
-    /// <exception cref="CodecParsingException"></exception>
-    private void Validate(char value)
-    {
-        if (!IsValid(value))
-            throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
-    }
-
-    /// <exception cref="CodecParsingException"></exception>
-    protected void Validate(ReadOnlySpan<byte> value)
-    {
-        CheckCore.ForEmptySequence(value, nameof(value));
-
-        for (int i = 0; i <= (value.Length - 1); i++)
-        {
-            if (!IsValid(value[i]))
-                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
-        }
-    }
-
-    /// <exception cref="CodecParsingException"></exception>
-    private void Validate(ReadOnlySpan<char> value)
-    {
-        CheckCore.ForEmptySequence(value, nameof(value));
-
-        for (int i = 0; i <= (value.Length - 1); i++)
-        {
-            if (!IsValid(value[i]))
-                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
-        }
     }
 
     #endregion
@@ -274,8 +205,6 @@ public class AlphaNumericCodec : PlayCodec
 
         return value.AsByteArray();
     }
-
-    public PlayEncodingId GetPlayEncodingId() => EncodingId;
 
     // DEPRECATING: This method will eventually be deprecated in favor of strongly typed arguments
     /// <exception cref="CodecParsingException"></exception>
@@ -396,6 +325,73 @@ public class AlphaNumericCodec : PlayCodec
 
         return false;
     }
+
+    #endregion
+
+    #region Decode To Integers
+
+    /// <summary>
+    ///     GetByte
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="CodecParsingException"></exception>
+    public byte DecodeToByte(char value)
+    {
+        Validate(value);
+
+        return _ByteMapper[value];
+    }
+
+    #endregion
+
+    #region Decode To DecodedMetadata
+
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) => new DecodedResult<char[]>(DecodeToChars(value), value.Length);
+
+    #endregion
+
+    #region Instance Members
+
+    /// <exception cref="CodecParsingException"></exception>
+    private void Validate(byte value)
+    {
+        if (!IsValid(value))
+            throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+    }
+
+    /// <exception cref="CodecParsingException"></exception>
+    private void Validate(char value)
+    {
+        if (!IsValid(value))
+            throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+    }
+
+    /// <exception cref="CodecParsingException"></exception>
+    protected void Validate(ReadOnlySpan<byte> value)
+    {
+        CheckCore.ForEmptySequence(value, nameof(value));
+
+        for (int i = 0; i <= (value.Length - 1); i++)
+        {
+            if (!IsValid(value[i]))
+                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+        }
+    }
+
+    /// <exception cref="CodecParsingException"></exception>
+    private void Validate(ReadOnlySpan<char> value)
+    {
+        CheckCore.ForEmptySequence(value, nameof(value));
+
+        for (int i = 0; i <= (value.Length - 1); i++)
+        {
+            if (!IsValid(value[i]))
+                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+        }
+    }
+
+    public PlayEncodingId GetPlayEncodingId() => EncodingId;
 
     #endregion
 }

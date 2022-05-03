@@ -38,7 +38,7 @@ public sealed record ClassTypes : EnumObject<byte>, IEqualityComparer<byte>
 
     #region Constructor
 
-    public ClassTypes() : base()
+    public ClassTypes()
     { }
 
     /// <exception cref="TypeInitializationException"></exception>

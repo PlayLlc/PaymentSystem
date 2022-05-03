@@ -96,8 +96,7 @@ internal static partial class LongIdentifier
             if (value.Length == 1)
             {
                 return (byte) (value[0].IsBitSet(Bits.Eight)
-                    ? throw new BerParsingException("The last subsequent octet must have bit eight cleared",
-                        new ArgumentOutOfRangeException(nameof(value)))
+                    ? throw new BerParsingException("The last subsequent octet must have bit eight cleared", new ArgumentOutOfRangeException(nameof(value)))
                     : 0);
             }
 
@@ -199,8 +198,7 @@ internal static partial class LongIdentifier
 
             if (!TagByteCountIsInSupportedRange(value))
             {
-                throw new BerParsingException(
-                    $"This code base only support a Subsequent Octet with a byte count of {_MaxBytesAllowedToInitialize}");
+                throw new BerParsingException($"This code base only support a Subsequent Octet with a byte count of {_MaxBytesAllowedToInitialize}");
             }
 
             if (!LastOctetIsClearedCorrectly(value))

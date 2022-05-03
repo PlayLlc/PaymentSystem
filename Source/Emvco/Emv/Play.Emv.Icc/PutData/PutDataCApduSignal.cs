@@ -78,12 +78,12 @@ public class PutDataCApduSignal : CApduSignal
 
         #region Constructor
 
-        public DataObject() : base()
+        public DataObject()
         { }
 
         static DataObject()
         {
-            _ValueObjectMap = new Dictionary<Tag, DataObject>()
+            _ValueObjectMap = new Dictionary<Tag, DataObject>
             {
                 {UnprotectedDataEnvelope1, UnprotectedDataEnvelope1},
                 {UnprotectedDataEnvelope2, UnprotectedDataEnvelope2},

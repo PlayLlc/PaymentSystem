@@ -44,7 +44,7 @@ public record DekResponseType : EnumObject<Tag>
 
     #region Constructor
 
-    public DekResponseType() : base()
+    public DekResponseType()
     { }
 
     public DekResponseType(Tag original) : base(original)

@@ -18,8 +18,6 @@ using Play.Emv.Kernel2.StateMachine;
 using Play.Emv.Pcd.Contracts;
 using Play.Messaging;
 
-using Exception = System.Exception;
-
 namespace Play.Emv.Kernel2.Services.PrepareGenerateAc;
 // TODO: This does not need to inherit from CommonProcessing. We need to abstract this service from the Kernel 2 implementation and move this into the common Play.Emv.Kernel module
 

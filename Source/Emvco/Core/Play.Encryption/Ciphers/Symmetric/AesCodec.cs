@@ -32,8 +32,7 @@ public class AesCodec : IBlockCipher
 
         if (configuration.GetBlockSize() != BlockSize._16)
         {
-            throw new ArgumentOutOfRangeException(nameof(configuration),
-                $"Valid {nameof(BlockSize)} values for {nameof(AesCodec)} are {BlockSize._8}");
+            throw new ArgumentOutOfRangeException(nameof(configuration), $"Valid {nameof(BlockSize)} values for {nameof(AesCodec)} are {BlockSize._8}");
         }
 
         _PlainTextPreprocessor = configuration.GetPreprocessor();
@@ -74,14 +73,7 @@ public class AesCodec : IBlockCipher
     }
 
     private AesCryptoServiceProvider GetAesProvider(ReadOnlySpan<byte> key) =>
-        new()
-        {
-            BlockSize = _BlockSize,
-            KeySize = _KeySize,
-            Key = key.ToArray(),
-            Mode = _CipherMode.AsCipherMode(),
-            Padding = _PaddingMode.AsPaddingMode()
-        };
+        new() {BlockSize = _BlockSize, KeySize = _KeySize, Key = key.ToArray(), Mode = _CipherMode.AsCipherMode(), Padding = _PaddingMode.AsPaddingMode()};
 
     public BlockCipherAlgorithm GetAlgorithm() => BlockCipherAlgorithm.Aes;
     public KeySize GetKeySize() => _KeySize;

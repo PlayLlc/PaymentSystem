@@ -25,7 +25,7 @@ public abstract record EnumObject<T> : IEquatable<T>, IEqualityComparer<T>, ICom
         _Value = default;
     }
 
-    protected EnumObject(T value) : base()
+    protected EnumObject(T value)
     {
         _Value = value;
     }

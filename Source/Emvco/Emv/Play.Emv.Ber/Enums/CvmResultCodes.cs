@@ -24,7 +24,7 @@ public record CvmResultCodes : EnumObject<byte>
 
     #region Constructor
 
-    public CvmResultCodes() : base()
+    public CvmResultCodes()
     { }
 
     static CvmResultCodes()

@@ -58,17 +58,11 @@ public class CultureProfile : IEquatable<CultureProfile>, IEqualityComparer<Cult
         return toBase.ToString($"C{minorUnitLength}", _CultureInfo);
     }
 
-    internal static string GetMicrosoftCultureCode(Alpha2LanguageCode languageCode, Alpha2CountryCode countryCode) =>
-        $"{languageCode}-{countryCode}";
-
+    internal static string GetMicrosoftCultureCode(Alpha2LanguageCode languageCode, Alpha2CountryCode countryCode) => $"{languageCode}-{countryCode}";
     public int GetMinorUnitLength() => _CultureInfo.NumberFormat.CurrencyDecimalDigits;
     public NumericCountryCode GetNumericCountryCode() => CountryCodeRepository.Get(_Alpha2CountryCode).GetNumericCode();
-
-    public NumericCurrencyCode GetNumericCurrencyCode() =>
-        CurrencyCodeRepository.Get(new Alpha3CurrencyCode(_RegionInfo.ISOCurrencySymbol)).GetNumericCode();
-
-    private decimal ToBaseFiat(ulong amount, int minorUnitLength) =>
-        ((decimal) amount / minorUnitLength) <= 0 ? 1 : (int) Math.Pow(minorUnitLength, 10);
+    public NumericCurrencyCode GetNumericCurrencyCode() => CurrencyCodeRepository.Get(new Alpha3CurrencyCode(_RegionInfo.ISOCurrencySymbol)).GetNumericCode();
+    private decimal ToBaseFiat(ulong amount, int minorUnitLength) => ((decimal) amount / minorUnitLength) <= 0 ? 1 : (int) Math.Pow(minorUnitLength, 10);
 
     #endregion
 

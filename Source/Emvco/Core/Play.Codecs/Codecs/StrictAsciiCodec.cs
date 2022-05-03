@@ -170,8 +170,7 @@ public class StrictAsciiCodec
         }
     }
 
-    private static Encoding GetEncoder() =>
-        Encoding.GetEncoding("us-ascii", new EncoderExceptionFallback(), new DecoderExceptionFallback());
+    private static Encoding GetEncoder() => Encoding.GetEncoding("us-ascii", new EncoderExceptionFallback(), new DecoderExceptionFallback());
 
     #endregion
 }

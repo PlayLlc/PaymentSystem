@@ -107,7 +107,7 @@ public record StatusOutcomes : EnumObject<byte>
 
     #region Constructor
 
-    public StatusOutcomes() : base()
+    public StatusOutcomes()
     { }
 
     static StatusOutcomes()

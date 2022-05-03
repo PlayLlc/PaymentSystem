@@ -27,7 +27,7 @@ public sealed record ShortKernelIdTypes : EnumObject<byte>, IEqualityComparer<by
 
     #region Constructor
 
-    public ShortKernelIdTypes() : base()
+    public ShortKernelIdTypes()
     { }
 
     static ShortKernelIdTypes()

@@ -12,8 +12,7 @@ namespace Play.Emv.Ber.DataElements;
 /// <summary>
 ///     Command data field of the GET PROCESSING OPTIONS command, coded according to PDOL.
 /// </summary>
-public record ProcessingOptionsDataObjectListRelatedData : DataElement<BigInteger>,
-    IEqualityComparer<ProcessingOptionsDataObjectListRelatedData>
+public record ProcessingOptionsDataObjectListRelatedData : DataElement<BigInteger>, IEqualityComparer<ProcessingOptionsDataObjectListRelatedData>
 {
     #region Static Metadata
 

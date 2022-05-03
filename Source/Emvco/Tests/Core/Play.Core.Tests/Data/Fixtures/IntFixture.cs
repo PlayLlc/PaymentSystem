@@ -6,7 +6,7 @@ using Play.Randoms;
 
 namespace Play.Core.Tests.Data.Fixtures;
 
-internal partial class IntFixture
+internal class IntFixture
 {
     public class MostSignificantBit
     {

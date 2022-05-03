@@ -3,7 +3,6 @@
 using Play.Ber.DataObjects;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Templates;
-using Play.Emv.Ber.ValueTypes;
 using Play.Icc.Exceptions;
 
 namespace Play.Testing.Emv;

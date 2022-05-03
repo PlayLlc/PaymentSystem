@@ -31,8 +31,8 @@ public class EmvBook3DefaultValues : DefaultValues
     {
         return new PrimitiveValue[]
         {
-            new TerminalActionCodeDenial(0), new TerminalActionCodeDefault(0), new TerminalActionCodeOnline(0),
-            new IssuerActionCodeDenial(0), new IssuerActionCodeOnline(ulong.MaxValue), new IssuerActionCodeDefault(ulong.MaxValue)
+            new TerminalActionCodeDenial(0), new TerminalActionCodeDefault(0), new TerminalActionCodeOnline(0), new IssuerActionCodeDenial(0),
+            new IssuerActionCodeOnline(ulong.MaxValue), new IssuerActionCodeDefault(ulong.MaxValue)
         };
     }
 

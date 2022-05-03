@@ -11,7 +11,6 @@ using Play.Ber.InternalFactories;
 using Play.Ber.Lengths;
 using Play.Codecs.Exceptions;
 using Play.Core.Exceptions;
-using Play.Core.Specifications;
 
 namespace Play.Ber.Codecs;
 

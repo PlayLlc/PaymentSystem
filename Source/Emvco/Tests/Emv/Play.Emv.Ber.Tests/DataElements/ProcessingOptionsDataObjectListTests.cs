@@ -44,7 +44,7 @@ public class ProcessingOptionsDataObjectListTests : TestBase
     {
         ProcessingOptionsDataObjectListTestTlv testData = new();
         ProcessingOptionsDataObjectList testValue = ProcessingOptionsDataObjectList.Decode(testData.EncodeValue().AsSpan());
-        Assert.NotNull(testValue);
+        Assertion(() => Assert.NotNull(testValue));
     }
 
     /// <summary>
@@ -57,10 +57,10 @@ public class ProcessingOptionsDataObjectListTests : TestBase
     {
         ProcessingOptionsDataObjectListTestTlv testData = new();
         ProcessingOptionsDataObjectList sut = ProcessingOptionsDataObjectList.Decode(testData.EncodeValue().AsSpan());
-        byte[] expectedResult = testData.EncodeValue();
-        byte[]? testValue = sut.EncodeValue();
-
-        Assert.Equal(testValue, expectedResult);
+        byte[] expected = testData.EncodeValue();
+        byte[]? actual = sut.EncodeValue();
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
+        ;
     }
 
     /// <summary>
@@ -73,10 +73,10 @@ public class ProcessingOptionsDataObjectListTests : TestBase
     {
         ProcessingOptionsDataObjectListTestTlv testData = new();
         ProcessingOptionsDataObjectList sut = ProcessingOptionsDataObjectList.Decode(testData.EncodeValue().AsSpan());
-        byte[] expectedResult = testData.EncodeTagLengthValue();
-        byte[]? testValue = sut.EncodeTagLengthValue();
+        byte[] expected = testData.EncodeTagLengthValue();
+        byte[]? actual = sut.EncodeTagLengthValue();
 
-        Assert.Equal(testValue, expectedResult);
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
     }
 
     /// <summary>
@@ -89,9 +89,9 @@ public class ProcessingOptionsDataObjectListTests : TestBase
     {
         ProcessingOptionsDataObjectListTestTlv testData = new();
         ProcessingOptionsDataObjectList sut = ProcessingOptionsDataObjectList.Decode(testData.EncodeValue().AsSpan());
-        TagLengthValue? testValue = sut.AsTagLengthValue();
-        TagLengthValue expectedResult = new(ProcessingOptionsDataObjectList.Tag, testData.EncodeValue());
-        Assert.Equal(testValue, expectedResult);
+        TagLengthValue? actual = sut.AsTagLengthValue();
+        TagLengthValue expected = new(ProcessingOptionsDataObjectList.Tag, testData.EncodeValue());
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
     }
 
     /// <summary>
@@ -105,10 +105,10 @@ public class ProcessingOptionsDataObjectListTests : TestBase
         ProcessingOptionsDataObjectListTestTlv testData = new();
 
         ProcessingOptionsDataObjectList sut = ProcessingOptionsDataObjectList.Decode(testData.EncodeValue().AsSpan());
-        byte[] testValue = sut.AsTagLengthValue().EncodeTagLengthValue();
-        byte[] expectedResult = testData.EncodeTagLengthValue();
+        byte[] actual = sut.AsTagLengthValue().EncodeTagLengthValue();
+        byte[] expected = testData.EncodeTagLengthValue();
 
-        Assert.Equal(testValue, expectedResult);
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
     }
 
     /// <summary>

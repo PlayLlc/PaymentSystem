@@ -4,8 +4,6 @@ using Play.Ber.Exceptions;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Globalization.Time;
-using Play.Randoms;
-using Play.Testing.Emv;
 
 namespace Play.Testing.Emv;
 

@@ -27,9 +27,8 @@ public class TerminalRiskConfiguration
     #region Constructor
 
     public TerminalRiskConfiguration(
-        CultureProfile cultureProfile, TerminalRiskManagementData terminalRiskManagementData,
-        Probability biasedRandomSelectionMaximumProbability, Money biasedRandomSelectionThreshold,
-        Probability randomSelectionTargetProbability, TerminalFloorLimit terminalFloorLimit)
+        CultureProfile cultureProfile, TerminalRiskManagementData terminalRiskManagementData, Probability biasedRandomSelectionMaximumProbability,
+        Money biasedRandomSelectionThreshold, Probability randomSelectionTargetProbability, TerminalFloorLimit terminalFloorLimit)
     {
         _CultureProfile = cultureProfile;
         _TerminalRiskManagementData = terminalRiskManagementData;

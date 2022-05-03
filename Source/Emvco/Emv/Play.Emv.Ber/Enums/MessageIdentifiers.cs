@@ -55,7 +55,7 @@ public record MessageIdentifiers : EnumObject<byte>
 
     #region Constructor
 
-    public MessageIdentifiers() : base()
+    public MessageIdentifiers()
     { }
 
     static MessageIdentifiers()

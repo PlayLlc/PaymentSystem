@@ -15,10 +15,10 @@ public class PlayUnitTestActException : PlayException
     public PlayUnitTestActException(
         string message, Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) : base(
-        $"[ACT EXCEPTION] An exception occurred during the 'act' section of this unit test"
+        "[ACT EXCEPTION] An exception occurred during the 'act' section of this unit test"
         + $"\n\tMessage:  {message}"
         + $"\n\tTrace: {TraceExceptionMessage(typeof(PlayInternalException), fileName, memberName, lineNumber)} "
-        + $"\n\n\tInnerException", innerException)
+        + "\n\n\tInnerException", innerException)
     { }
 
     #endregion

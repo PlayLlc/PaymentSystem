@@ -13,75 +13,16 @@ namespace Play.Codecs;
 // BUG: This is incorrect probably. This encoding is probably 2 digits per byte, and a leading 0xC or 0xD to indicate whether it is positive or negative
 public class SignedNumericCodec : PlayCodec
 {
-    #region Instance Members
-
-    /// <summary>
-    ///     Takes the Numeric encoded byte array provided to <see cref="value" /> and returns an integer value
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    public ushort DecodeToInt16(ReadOnlySpan<byte> value)
-    {
-        ushort result = 0;
-
-        return (ushort) BuildInteger(result, value);
-    }
-
-    /// <summary>
-    ///     Takes the Numeric encoded byte array provided to <see cref="value" /> and returns an integer value
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    public uint DecodeToInt32(ReadOnlySpan<byte> value)
-    {
-        if (!IsValid(value))
-            throw new ArgumentOutOfRangeException(nameof(value));
-
-        uint result = 0;
-
-        return (uint) BuildInteger(result, value);
-    }
-
-    /// <summary>
-    ///     Takes the Numeric encoded byte array provided to <see cref="value" /> and returns an integer value
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    public ulong DecodeToInt64(ReadOnlySpan<byte> value)
-    {
-        for (byte i = 0; i < value.Length; i++)
-        {
-            if (!IsValid(value))
-                throw new ArgumentOutOfRangeException(nameof(value));
-        }
-
-        ulong result = 0;
-
-        return (ulong) BuildInteger(result, value);
-    }
-
-    #endregion
-
-    #region Serialization
-
-    #region Decode To DecodedMetadata
-
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) => throw new NotImplementedException();
-
-    #endregion
-
-    #endregion
-
     #region Metadata
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public static readonly PlayEncodingId EncodingId = new(typeof(SignedNumericCodec));
 
-    private static readonly ImmutableSortedDictionary<char, byte> _ByteMap = Enumerable.Range(0, 10)
-        .Concat(new[] {67, 68}).ToImmutableSortedDictionary(a => (char) (a + 48), b => (byte) b);
+    private static readonly ImmutableSortedDictionary<char, byte> _ByteMap = Enumerable.Range(0, 10).Concat(new[] {67, 68})
+        .ToImmutableSortedDictionary(a => (char) (a + 48), b => (byte) b);
 
-    private static readonly ImmutableSortedDictionary<byte, char> _CharMap =
-        Enumerable.Range(0, 10).Concat(new[] {67, 68}).ToImmutableSortedDictionary(a => (byte) a, b => (char) (b + 48));
+    private static readonly ImmutableSortedDictionary<byte, char> _CharMap = Enumerable.Range(0, 10).Concat(new[] {67, 68})
+        .ToImmutableSortedDictionary(a => (byte) a, b => (char) (b + 48));
 
     private const char _Positive = 'C';
     private const char _Negative = 'D';
@@ -492,9 +433,7 @@ public class SignedNumericCodec : PlayCodec
 
         buffer[offset++] = (byte) (value < 0 ? _Negative : _Positive);
 
-        for (int i = offset + ((buffer.Length * 2) - numberOfDigits) + 1, j = numberOfDigits - 1;
-            i < (buffer.Length * 2);
-            i++, j--, offset++)
+        for (int i = offset + ((buffer.Length * 2) - numberOfDigits) + 1, j = numberOfDigits - 1; i < (buffer.Length * 2); i++, j--, offset++)
         {
             if ((i % 2) == 0)
                 buffer[i / 2] = (byte) ((byte) ((value / (BigInteger) Math.Pow(10, j)) % 10) << 4);
@@ -629,8 +568,7 @@ public class SignedNumericCodec : PlayCodec
 
     #region Decode To Chars
 
-    public int DecodeToChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) =>
-        throw new NotImplementedException();
+    public int DecodeToChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) => throw new NotImplementedException();
 
     public char[] DecodeToChars(ReadOnlySpan<byte> value)
     {
@@ -705,6 +643,61 @@ public class SignedNumericCodec : PlayCodec
         resultBuffer *= value[0] == _Negative ? -1 : 1;
 
         return resultBuffer;
+    }
+
+    #endregion
+
+    #region Decode To DecodedMetadata
+
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) => throw new NotImplementedException();
+
+    #endregion
+
+    #region Instance Members
+
+    /// <summary>
+    ///     Takes the Numeric encoded byte array provided to <see cref="value" /> and returns an integer value
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public ushort DecodeToInt16(ReadOnlySpan<byte> value)
+    {
+        ushort result = 0;
+
+        return (ushort) BuildInteger(result, value);
+    }
+
+    /// <summary>
+    ///     Takes the Numeric encoded byte array provided to <see cref="value" /> and returns an integer value
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public uint DecodeToInt32(ReadOnlySpan<byte> value)
+    {
+        if (!IsValid(value))
+            throw new ArgumentOutOfRangeException(nameof(value));
+
+        uint result = 0;
+
+        return (uint) BuildInteger(result, value);
+    }
+
+    /// <summary>
+    ///     Takes the Numeric encoded byte array provided to <see cref="value" /> and returns an integer value
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public ulong DecodeToInt64(ReadOnlySpan<byte> value)
+    {
+        for (byte i = 0; i < value.Length; i++)
+        {
+            if (!IsValid(value))
+                throw new ArgumentOutOfRangeException(nameof(value));
+        }
+
+        ulong result = 0;
+
+        return (ulong) BuildInteger(result, value);
     }
 
     #endregion

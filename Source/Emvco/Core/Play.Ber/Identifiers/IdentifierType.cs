@@ -19,7 +19,7 @@ public sealed record IdentifierType : EnumObject<byte>, IEqualityComparer<byte>
 
     #region Constructor
 
-    public IdentifierType() : base()
+    public IdentifierType()
     { }
 
     /// <exception cref="TypeInitializationException"></exception>

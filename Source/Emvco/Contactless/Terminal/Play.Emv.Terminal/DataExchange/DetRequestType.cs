@@ -16,13 +16,13 @@ public record DetRequestType : EnumObject<Tag>
     public static readonly DetRequestType TagsToRead = new(Ber.DataElements.TagsToRead.Tag);
 
     private static readonly ImmutableSortedDictionary<Tag, DetRequestType> _ValueObjectMap =
-        new Dictionary<Tag, DetRequestType>() {{DataNeeded, DataNeeded}, {TagsToRead, TagsToRead}}.ToImmutableSortedDictionary();
+        new Dictionary<Tag, DetRequestType> {{DataNeeded, DataNeeded}, {TagsToRead, TagsToRead}}.ToImmutableSortedDictionary();
 
     #endregion
 
     #region Constructor
 
-    public DetRequestType() : base()
+    public DetRequestType()
     { }
 
     public DetRequestType(Tag original) : base(original)

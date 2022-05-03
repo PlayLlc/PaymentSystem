@@ -72,8 +72,7 @@ internal static partial class LongLength
         ///     This is NOT a specification limitation. This is a limitation introduced purposefully by this code base.
         ///     This value may change in the future to support larger tags
         /// </summary>
-        private static bool SubsequentOctetCountIsSupportedByThisCodeBase(byte value) =>
-            value.GetMaskedValue(Bits.Eight) <= SubsequentOctets.MaxByteCount;
+        private static bool SubsequentOctetCountIsSupportedByThisCodeBase(byte value) => value.GetMaskedValue(Bits.Eight) <= SubsequentOctets.MaxByteCount;
 
         /// <summary>
         ///     Validate
@@ -102,8 +101,7 @@ internal static partial class LongLength
 
             if (!SubsequentOctetCountIsSupportedByThisCodeBase(value))
             {
-                throw new BerParsingException(
-                    "This is embarrassing. Our code base doesn't support the amount of bytes needed to support the "
+                throw new BerParsingException("This is embarrassing. Our code base doesn't support the amount of bytes needed to support the "
                     + $"{nameof(SubsequentOctets)} for the requested {nameof(LongLength)} object");
             }
         }

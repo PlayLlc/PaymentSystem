@@ -19,8 +19,7 @@ public class SequenceCounterRollover : SequenceCounter
     public SequenceCounterRollover(int minimumValue, int maximumValue, int increment) : base(minimumValue, maximumValue, increment)
     { }
 
-    public SequenceCounterRollover(int minimumValue, int maximumValue, int increment, Action thresholdCallback) : base(minimumValue,
-        maximumValue, increment)
+    public SequenceCounterRollover(int minimumValue, int maximumValue, int increment, Action thresholdCallback) : base(minimumValue, maximumValue, increment)
     {
         _ThresholdCallback = thresholdCallback;
     }

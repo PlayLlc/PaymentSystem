@@ -16,7 +16,7 @@ public class UnsignedIntegerCodec : PlayCodec
     public static readonly PlayEncodingId EncodingId = new(typeof(UnsignedIntegerCodec));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap =
-        new Dictionary<char, byte>()
+        new Dictionary<char, byte>
         {
             {'0', 0},
             {'2', 2},
@@ -31,7 +31,7 @@ public class UnsignedIntegerCodec : PlayCodec
         }.ToImmutableSortedDictionary();
 
     private static readonly ImmutableSortedDictionary<byte, char> _CharMap =
-        new Dictionary<byte, char>()
+        new Dictionary<byte, char>
         {
             {0, '0'},
             {1, '1'},

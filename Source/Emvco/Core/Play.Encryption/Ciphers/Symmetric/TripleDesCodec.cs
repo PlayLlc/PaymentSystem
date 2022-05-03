@@ -29,14 +29,12 @@ public class TripleDesCodec : IBlockCipher
     {
         if (configuration.GetKeySize() != KeySize._128)
         {
-            throw new ArgumentOutOfRangeException(nameof(configuration),
-                $"Valid {nameof(KeySize)} values for {nameof(TripleDesCodec)} are {KeySize._128}");
+            throw new ArgumentOutOfRangeException(nameof(configuration), $"Valid {nameof(KeySize)} values for {nameof(TripleDesCodec)} are {KeySize._128}");
         }
 
         if (configuration.GetBlockSize() != BlockSize._8)
         {
-            throw new ArgumentOutOfRangeException(nameof(configuration),
-                $"Valid {nameof(BlockSize)} values for {nameof(TripleDesCodec)} are {BlockSize._8}");
+            throw new ArgumentOutOfRangeException(nameof(configuration), $"Valid {nameof(BlockSize)} values for {nameof(TripleDesCodec)} are {BlockSize._8}");
         }
 
         _Preprocessor = configuration.GetPreprocessor();
@@ -78,14 +76,7 @@ public class TripleDesCodec : IBlockCipher
     public BlockCipherAlgorithm GetAlgorithm() => BlockCipherAlgorithm.Aes;
 
     private TripleDESCryptoServiceProvider GetDesProvider(ReadOnlySpan<byte> key) =>
-        new()
-        {
-            BlockSize = _BlockSize,
-            KeySize = _KeySize,
-            Key = key.ToArray(),
-            Mode = _CipherMode.AsCipherMode(),
-            Padding = _PaddingMode.AsPaddingMode()
-        };
+        new() {BlockSize = _BlockSize, KeySize = _KeySize, Key = key.ToArray(), Mode = _CipherMode.AsCipherMode(), Padding = _PaddingMode.AsPaddingMode()};
 
     public KeySize GetKeySize() => _KeySize;
 

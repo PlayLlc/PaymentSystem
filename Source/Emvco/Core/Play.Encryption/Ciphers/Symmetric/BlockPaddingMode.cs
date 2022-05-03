@@ -20,7 +20,7 @@ public sealed record BlockPaddingMode : EnumObject<byte>, IEqualityComparer<byte
 
     #region Constructor
 
-    public BlockPaddingMode() : base()
+    public BlockPaddingMode()
     { }
 
     /// <exception cref="TypeInitializationException"></exception>

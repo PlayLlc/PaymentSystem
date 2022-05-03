@@ -23,7 +23,7 @@ public sealed record StatusWordInfo : EnumObject<byte>, IEqualityComparer<byte>
 
     #region Constructor
 
-    public StatusWordInfo() : base()
+    public StatusWordInfo()
     { }
 
     /// <exception cref="TypeInitializationException"></exception>

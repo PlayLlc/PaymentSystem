@@ -18,7 +18,7 @@ public record HashAlgorithmIndicator : EnumObject<byte>
 
     #region Constructor
 
-    public HashAlgorithmIndicator() : base()
+    public HashAlgorithmIndicator()
     { }
 
     static HashAlgorithmIndicator()

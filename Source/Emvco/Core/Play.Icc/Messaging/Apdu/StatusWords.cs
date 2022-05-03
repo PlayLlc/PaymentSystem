@@ -83,7 +83,7 @@ public class StatusWords : IEquatable<StatusWords>, IEqualityComparer<StatusWord
 
     #region Instance Members
 
-    public byte[] Encode() => new byte[] {_StatusWord1, _StatusWord2};
+    public byte[] Encode() => new[] {_StatusWord1, _StatusWord2};
     public static int GetByteCount() => 2;
     public string GetDescription() => $"{nameof(StatusWord1)}: {GetStatusWord1Description()}; {nameof(StatusWord2)}: {GetStatusWord2Description()}";
     public StatusWord GetStatusWord1() => _StatusWord1;

@@ -32,7 +32,7 @@ public record DekRequestType : EnumObject<Tag>
 
     #region Constructor
 
-    public DekRequestType() : base()
+    public DekRequestType()
     { }
 
     public DekRequestType(Tag original) : base(original)

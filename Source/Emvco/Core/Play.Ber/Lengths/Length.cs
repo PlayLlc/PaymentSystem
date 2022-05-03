@@ -62,17 +62,6 @@ public readonly struct Length
 
     #region Instance Members
 
-    public int CompareTo(Length other)
-    {
-        if (_Value > other._Value)
-            return 1;
-
-        if (_Value < other._Value)
-            return -1;
-
-        return 0;
-    }
-
     /// <exception cref="InvalidOperationException">Ignore.</exception>
     public readonly byte GetByteCount()
     {
@@ -180,6 +169,17 @@ public readonly struct Length
         {
             return largePrime + (3 * (int) _Value);
         }
+    }
+
+    public int CompareTo(Length other)
+    {
+        if (_Value > other._Value)
+            return 1;
+
+        if (_Value < other._Value)
+            return -1;
+
+        return 0;
     }
 
     #endregion

@@ -28,8 +28,7 @@ internal class StopwatchSession
     {
         if (_StopwatchBuddy != null)
         {
-            throw new InvalidOperationException(
-                $"The {nameof(StopwatchSession)} could not be started because there is already a session running");
+            throw new InvalidOperationException($"The {nameof(StopwatchSession)} could not be started because there is already a session running");
         }
 
         _StopwatchBuddy = new StopwatchInstance();
@@ -40,8 +39,7 @@ internal class StopwatchSession
     {
         if (!IsRunning())
         {
-            throw new InvalidOperationException(
-                $"The {nameof(StopwatchSession)} could not be stopped because there currently is not a session available");
+            throw new InvalidOperationException($"The {nameof(StopwatchSession)} could not be stopped because there currently is not a session available");
         }
 
         return _StopwatchBuddy!.GetElapsedTime();
@@ -52,8 +50,7 @@ internal class StopwatchSession
     {
         if (!IsRunning())
         {
-            throw new InvalidOperationException(
-                $"The {nameof(StopwatchSession)} could not be stopped because there currently is not a session available");
+            throw new InvalidOperationException($"The {nameof(StopwatchSession)} could not be stopped because there currently is not a session available");
         }
 
         Microseconds elapsed = _StopwatchBuddy!.Stop();

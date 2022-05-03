@@ -39,7 +39,7 @@ public record TerminalCategoryCodes : EnumObject<ushort>
 
     #region Constructor
 
-    public TerminalCategoryCodes() : base()
+    public TerminalCategoryCodes()
     { }
 
     static TerminalCategoryCodes()

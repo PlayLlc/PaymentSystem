@@ -3,7 +3,6 @@
 using AutoFixture;
 
 using Play.Ber.Exceptions;
-using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
 using Play.Testing.BaseTestClasses;
 using Play.Testing.Emv;
@@ -36,7 +35,7 @@ public class FileControlInformationIssuerDiscretionaryDataAdfTests : TestBase
     [Fact]
     public void PrimitiveValue_EncodingTagLengthValue_ReturnsExpectedResult()
     {
-        byte[] expected = FileControlInformationIssuerDiscretionaryDataAdfBuilder.RawTagLengthValue;
+        byte[] expected = EmvFixture.FileControlInformationIssuerDiscretionaryDataAdfBuilder.GetDefaultEncodedTagLengthValue();
         FileControlInformationIssuerDiscretionaryDataAdf sut = _Fixture.Create<FileControlInformationIssuerDiscretionaryDataAdf>();
         byte[] actual = sut.EncodeTagLengthValue();
 
@@ -46,7 +45,7 @@ public class FileControlInformationIssuerDiscretionaryDataAdfTests : TestBase
     [Fact]
     public void PrimitiveValue_EncodingValue_ReturnsExpectedResult()
     {
-        byte[] expected = FileControlInformationIssuerDiscretionaryDataAdfBuilder.RawTagLengthValue;
+        byte[] expected = EmvFixture.FileControlInformationIssuerDiscretionaryDataAdfBuilder.GetDefaultEncodedTagLengthValue();
         FileControlInformationIssuerDiscretionaryDataAdf sut = _Fixture.Create<FileControlInformationIssuerDiscretionaryDataAdf>();
         byte[] actual = sut.EncodeValue();
 
@@ -58,7 +57,8 @@ public class FileControlInformationIssuerDiscretionaryDataAdfTests : TestBase
     {
         FileControlInformationIssuerDiscretionaryDataAdf expected = _Fixture.Create<FileControlInformationIssuerDiscretionaryDataAdf>();
         FileControlInformationIssuerDiscretionaryDataAdf actual =
-            FileControlInformationIssuerDiscretionaryDataAdf.Decode(FileControlInformationIssuerDiscretionaryDataAdfBuilder.RawTagLengthValue.AsMemory());
+            FileControlInformationIssuerDiscretionaryDataAdf.Decode(EmvFixture.FileControlInformationIssuerDiscretionaryDataAdfBuilder
+                .GetDefaultEncodedTagLengthValue().AsMemory());
 
         Assertion(() => Assert.Equal(expected, actual));
     }

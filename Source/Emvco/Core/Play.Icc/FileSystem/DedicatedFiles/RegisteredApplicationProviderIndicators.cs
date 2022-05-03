@@ -25,7 +25,7 @@ public sealed record RegisteredApplicationProviderIndicators : EnumObject<Regist
 
     #region Constructor
 
-    public RegisteredApplicationProviderIndicators() : base()
+    public RegisteredApplicationProviderIndicators()
     { }
 
     /// <exception cref="TypeInitializationException"></exception>

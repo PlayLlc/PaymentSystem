@@ -11,6 +11,7 @@ using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
+using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.Services.Selection;
@@ -25,8 +26,6 @@ using Play.Globalization.Time.Seconds;
 using Play.Icc.Exceptions;
 using Play.Icc.FileSystem.DedicatedFiles;
 using Play.Messaging;
-
-using KernelDatabase = Play.Emv.Kernel.Databases.KernelDatabase;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
@@ -497,8 +496,6 @@ public class S456 : CommonProcessing
         if (!IsCaPublicCertificatePresent())
         {
             HandleCaPublicKeyNotPresent();
-
-            return;
         }
     }
 

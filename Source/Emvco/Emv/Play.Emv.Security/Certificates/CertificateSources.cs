@@ -24,7 +24,7 @@ internal sealed record CertificateSources : EnumObject<byte>, IEqualityComparer<
 
     #region Constructor
 
-    public CertificateSources() : base()
+    public CertificateSources()
     { }
 
     /// <exception cref="TypeInitializationException"></exception>

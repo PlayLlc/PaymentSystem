@@ -12,50 +12,17 @@ namespace Play.Codecs;
 
 public class SpecialCodec : PlayCodec
 {
-    #region Instance Members
-
-    #region Decode To Integers
-
-    /// <summary>
-    ///     GetByte
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="CodecParsingException"></exception>
-    public byte DecodeToByte(char value)
-    {
-        Validate(value);
-
-        return _ByteMapper[value];
-    }
-
-    #endregion
-
-    #endregion
-
-    #region Serialization
-
-    #region Decode To DecodedMetadata
-
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) => throw new NotImplementedException();
-
-    #endregion
-
-    #endregion
-
     #region Metadata
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public static readonly PlayEncodingId EncodingId = new(typeof(SpecialCodec));
 
     // 32 - 126
-    private static readonly ImmutableSortedDictionary<char, byte> _ByteMapper = Enumerable.Range(32, 47 - 32)
-        .Concat(Enumerable.Range(58, (64 - 58) + 1)).Concat(Enumerable.Range(91, (96 - 91) + 1))
-        .Concat(Enumerable.Range(123, (126 - 123) + 1)).ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
+    private static readonly ImmutableSortedDictionary<char, byte> _ByteMapper = Enumerable.Range(32, 47 - 32).Concat(Enumerable.Range(58, (64 - 58) + 1))
+        .Concat(Enumerable.Range(91, (96 - 91) + 1)).Concat(Enumerable.Range(123, (126 - 123) + 1)).ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
 
-    private static readonly ImmutableSortedDictionary<byte, char> _CharMapper = Enumerable.Range(32, 47 - 32)
-        .Concat(Enumerable.Range(58, (64 - 58) + 1)).Concat(Enumerable.Range(91, (96 - 91) + 1))
-        .Concat(Enumerable.Range(123, (126 - 123) + 1)).ToImmutableSortedDictionary(a => (byte) a, b => (char) b);
+    private static readonly ImmutableSortedDictionary<byte, char> _CharMapper = Enumerable.Range(32, 47 - 32).Concat(Enumerable.Range(58, (64 - 58) + 1))
+        .Concat(Enumerable.Range(91, (96 - 91) + 1)).Concat(Enumerable.Range(123, (126 - 123) + 1)).ToImmutableSortedDictionary(a => (byte) a, b => (char) b);
 
     #endregion
 
@@ -114,45 +81,6 @@ public class SpecialCodec : PlayCodec
 
     public bool IsValid(byte value) => _CharMapper.ContainsKey(value);
     public bool IsValid(char value) => _ByteMapper.ContainsKey(value);
-
-    /// <exception cref="CodecParsingException"></exception>
-    private void Validate(byte value)
-    {
-        if (!IsValid(value))
-            throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
-    }
-
-    /// <exception cref="CodecParsingException"></exception>
-    private void Validate(char value)
-    {
-        if (!IsValid(value))
-            throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
-    }
-
-    /// <exception cref="CodecParsingException"></exception>
-    protected void Validate(ReadOnlySpan<byte> value)
-    {
-        CheckCore.ForEmptySequence(value, nameof(value));
-
-        for (int i = 0; i <= (value.Length - 1); i++)
-        {
-            if (!IsValid(value[i]))
-                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
-        }
-    }
-
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    private void Validate(ReadOnlySpan<char> value)
-    {
-        CheckCore.ForEmptySequence(value, nameof(value));
-
-        for (int i = 0; i <= (value.Length - 1); i++)
-        {
-            if (!IsValid(value[i]))
-                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
-        }
-    }
 
     #endregion
 
@@ -523,6 +451,72 @@ public class SpecialCodec : PlayCodec
         }
 
         return false;
+    }
+
+    #endregion
+
+    #region Decode To Integers
+
+    /// <summary>
+    ///     GetByte
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="CodecParsingException"></exception>
+    public byte DecodeToByte(char value)
+    {
+        Validate(value);
+
+        return _ByteMapper[value];
+    }
+
+    #endregion
+
+    #region Decode To DecodedMetadata
+
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) => throw new NotImplementedException();
+
+    #endregion
+
+    #region Instance Members
+
+    /// <exception cref="CodecParsingException"></exception>
+    private void Validate(byte value)
+    {
+        if (!IsValid(value))
+            throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+    }
+
+    /// <exception cref="CodecParsingException"></exception>
+    private void Validate(char value)
+    {
+        if (!IsValid(value))
+            throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+    }
+
+    /// <exception cref="CodecParsingException"></exception>
+    protected void Validate(ReadOnlySpan<byte> value)
+    {
+        CheckCore.ForEmptySequence(value, nameof(value));
+
+        for (int i = 0; i <= (value.Length - 1); i++)
+        {
+            if (!IsValid(value[i]))
+                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+        }
+    }
+
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    private void Validate(ReadOnlySpan<char> value)
+    {
+        CheckCore.ForEmptySequence(value, nameof(value));
+
+        for (int i = 0; i <= (value.Length - 1); i++)
+        {
+            if (!IsValid(value[i]))
+                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+        }
     }
 
     #endregion

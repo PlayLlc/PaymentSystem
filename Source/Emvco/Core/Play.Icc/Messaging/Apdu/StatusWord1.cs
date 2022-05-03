@@ -97,7 +97,7 @@ public sealed record StatusWord1 : EnumObject<StatusWord>, IEqualityComparer<Sta
 
     #region Constructor
 
-    public StatusWord1() : base()
+    public StatusWord1()
     { }
 
     /// <exception cref="TypeInitializationException"></exception>
@@ -131,7 +131,7 @@ public sealed record StatusWord1 : EnumObject<StatusWord>, IEqualityComparer<Sta
         _6C = new StatusWord1(wrongExpectedLength, StatusWordInfo.Error, "The expected length, Le, was incorrect");
         _6F = new StatusWord1(internalException, StatusWordInfo.Error, "An internal exception occurred");
 
-        _ValueObjectMap = new Dictionary<StatusWord, StatusWord1>()
+        _ValueObjectMap = new Dictionary<StatusWord, StatusWord1>
         {
             {Unknown, Unknown},
             {_61, _61},

@@ -50,7 +50,7 @@ public record Track2Data : DataElement<Track2>
     {
         Nibble[] discretionaryData = GetTrack2DiscretionaryData().AsNibbleArray();
         byte qNumberOfDigits = (byte) pcvc.GetSetBitCount();
-        byte nunNumberOfDigits = (byte) nun;
+        byte nunNumberOfDigits = nun;
         byte tNumberOfDigits = (byte) natc;
 
         ReadOnlySpan<Nibble> pcvcIndexArray = pcvc.GetBitFlagIndex();

@@ -103,7 +103,7 @@ public class NumericTests : TestBase
     public void AmountUshort_ConvertingToByteArray_ReturnsExpectedResult()
     {
         ushort testData = 12345;
-        byte[] expected = new byte[] {1, 23, 45};
+        byte[] expected = {1, 23, 45};
 
         byte[] actual = _SystemUnderTest.Encode(testData, 3);
 
@@ -114,7 +114,7 @@ public class NumericTests : TestBase
     public void AmountUint_ConvertingToByteArray_ReturnsExpectedResult()
     {
         uint testData = 12345;
-        byte[] expected = new byte[] {1, 23, 45};
+        byte[] expected = {1, 23, 45};
         byte[] actual = _SystemUnderTest.Encode(testData, 3);
 
         Assert.Equal(expected, actual);
@@ -125,7 +125,7 @@ public class NumericTests : TestBase
     {
         ulong testData = 12345;
 
-        byte[] expected = new byte[] {1, 23, 45};
+        byte[] expected = {1, 23, 45};
         byte[] actual = _SystemUnderTest.Encode(testData, 3);
 
         Assert.Equal(expected, actual);

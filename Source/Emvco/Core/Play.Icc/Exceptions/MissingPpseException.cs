@@ -16,21 +16,19 @@ public class MissingPpseException : PlayException
     { }
 
     public MissingPpseException(
-        string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
+        string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0) : base(
         $"{TraceExceptionMessage(typeof(MissingPpseException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public MissingPpseException(
-        Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(MissingPpseException), fileName, memberName, lineNumber)}", innerException)
+        Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0) :
+        base($"{TraceExceptionMessage(typeof(MissingPpseException), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public MissingPpseException(
         string message, Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(MissingPpseException), fileName, memberName, lineNumber)} {message}", innerException)
+        [CallerLineNumber] int lineNumber = 0) : base($"{TraceExceptionMessage(typeof(MissingPpseException), fileName, memberName, lineNumber)} {message}",
+        innerException)
     { }
 
     #endregion

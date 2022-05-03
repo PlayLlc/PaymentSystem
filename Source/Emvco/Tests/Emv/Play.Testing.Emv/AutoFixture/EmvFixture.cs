@@ -8,7 +8,6 @@ using Play.Emv.Ber.Templates;
 using Play.Emv.Security;
 using Play.Encryption.Certificates;
 using Play.Encryption.Ciphers.Hashing;
-using Play.Testing.Emv.AutoFixture.Builders.DataElements;
 using Play.Testing.Emv.Ber.Constructed;
 using Play.Testing.Extensions;
 using Play.Testing.Infrastructure.AutoFixture;
@@ -17,42 +16,6 @@ namespace Play.Testing.Emv;
 
 public class EmvFixture : TestingFixture
 {
-    #region Static Metadata
-
-    public static readonly AmountAuthorizedNumericBuilder AmountAuthorizedNumericBuilder = EmvSpecimenBuilderFactory.AmountAuthorizedNumericBuilder;
-    public static readonly AmountOtherNumericBuilder AmountOtherNumericBuilder = EmvSpecimenBuilderFactory.AmountOtherNumericBuilder;
-
-    public static readonly ApplicationDedicatedFileNameBuilder ApplicationDedicatedFileNameBuilder =
-        EmvSpecimenBuilderFactory.ApplicationDedicatedFileNameBuilder;
-
-    public static readonly ApplicationExpirationDateBuilder ApplicationExpirationDateBuilder = EmvSpecimenBuilderFactory.ApplicationExpirationDateBuilder;
-    public static readonly ApplicationFileLocatorBuilder ApplicationFileLocatorBuilder = EmvSpecimenBuilderFactory.ApplicationFileLocatorBuilder;
-
-    public static readonly ApplicationInterchangeProfileBuilder ApplicationInterchangeProfileBuilder =
-        EmvSpecimenBuilderFactory.ApplicationInterchangeProfileBuilder;
-
-    public static readonly ApplicationLabelBuilder ApplicationLabelBuilder = EmvSpecimenBuilderFactory.ApplicationLabelBuilder;
-    public static readonly ApplicationPreferredNameBuilder ApplicationPreferredNameBuilder = EmvSpecimenBuilderFactory.ApplicationPreferredNameBuilder;
-
-    public static readonly ApplicationPriorityIndicatorBuilder ApplicationPriorityIndicatorBuilder =
-        EmvSpecimenBuilderFactory.ApplicationPriorityIndicatorBuilder;
-
-    public static readonly CardholderNameBuilder CardholderNameBuilder = EmvSpecimenBuilderFactory.CardholderNameBuilder;
-    public static readonly CvmResultsBuilder CvmResultsBuilder = EmvSpecimenBuilderFactory.CvmResultsBuilder;
-    public static readonly DedicatedFileNameBuilder DedicatedFileNameBuilder = EmvSpecimenBuilderFactory.DedicatedFileNameBuilder;
-    public static readonly IssuerIdentificationNumberBuilder IssuerIdentificationNumberBuilder = EmvSpecimenBuilderFactory.IssuerIdentificationNumberBuilder;
-    public static readonly KernelIdentifierBuilder KernelIdentifierBuilder = EmvSpecimenBuilderFactory.KernelIdentifierBuilder;
-    public static readonly MerchantIdentifierBuilder MerchantIdentifierBuilder = EmvSpecimenBuilderFactory.MerchantIdentifierBuilder;
-    public static readonly MerchantNameAndLocationBuilder MerchantNameAndLocationBuilder = EmvSpecimenBuilderFactory.MerchantNameAndLocationBuilder;
-
-    public static readonly ProcessingOptionsDataObjectListBuilder ProcessingOptionsDataObjectListBuilder =
-        EmvSpecimenBuilderFactory.ProcessingOptionsDataObjectListBuilder;
-
-    public static readonly TransactionDateBuilder TransactionDateBuilder = EmvSpecimenBuilderFactory.TransactionDateBuilder;
-    public static readonly TransactionTypeBuilder TransactionTypeBuilder = EmvSpecimenBuilderFactory.TransactionTypeBuilder;
-
-    #endregion
-
     #region Instance Members
 
     public override IFixture Create()
@@ -195,6 +158,55 @@ public class EmvFixture : TestingFixture
     }
 
     #endregion
+
+    #endregion
+
+    #region Primitive Value Builders
+
+    public static readonly AmountAuthorizedNumericBuilder AmountAuthorizedNumericBuilder = EmvSpecimenBuilderFactory.AmountAuthorizedNumericBuilder;
+    public static readonly AmountOtherNumericBuilder AmountOtherNumericBuilder = EmvSpecimenBuilderFactory.AmountOtherNumericBuilder;
+
+    public static readonly ApplicationDedicatedFileNameBuilder ApplicationDedicatedFileNameBuilder =
+        EmvSpecimenBuilderFactory.ApplicationDedicatedFileNameBuilder;
+
+    public static readonly ApplicationExpirationDateBuilder ApplicationExpirationDateBuilder = EmvSpecimenBuilderFactory.ApplicationExpirationDateBuilder;
+    public static readonly ApplicationFileLocatorBuilder ApplicationFileLocatorBuilder = EmvSpecimenBuilderFactory.ApplicationFileLocatorBuilder;
+
+    public static readonly ApplicationInterchangeProfileBuilder ApplicationInterchangeProfileBuilder =
+        EmvSpecimenBuilderFactory.ApplicationInterchangeProfileBuilder;
+
+    public static readonly ApplicationLabelBuilder ApplicationLabelBuilder = EmvSpecimenBuilderFactory.ApplicationLabelBuilder;
+    public static readonly ApplicationPreferredNameBuilder ApplicationPreferredNameBuilder = EmvSpecimenBuilderFactory.ApplicationPreferredNameBuilder;
+
+    public static readonly ApplicationPriorityIndicatorBuilder ApplicationPriorityIndicatorBuilder =
+        EmvSpecimenBuilderFactory.ApplicationPriorityIndicatorBuilder;
+
+    public static readonly CardholderNameBuilder CardholderNameBuilder = EmvSpecimenBuilderFactory.CardholderNameBuilder;
+    public static readonly CvmResultsBuilder CvmResultsBuilder = EmvSpecimenBuilderFactory.CvmResultsBuilder;
+    public static readonly DedicatedFileNameBuilder DedicatedFileNameBuilder = EmvSpecimenBuilderFactory.DedicatedFileNameBuilder;
+    public static readonly IssuerIdentificationNumberBuilder IssuerIdentificationNumberBuilder = EmvSpecimenBuilderFactory.IssuerIdentificationNumberBuilder;
+    public static readonly KernelIdentifierBuilder KernelIdentifierBuilder = EmvSpecimenBuilderFactory.KernelIdentifierBuilder;
+    public static readonly MerchantIdentifierBuilder MerchantIdentifierBuilder = EmvSpecimenBuilderFactory.MerchantIdentifierBuilder;
+    public static readonly MerchantNameAndLocationBuilder MerchantNameAndLocationBuilder = EmvSpecimenBuilderFactory.MerchantNameAndLocationBuilder;
+
+    public static readonly ProcessingOptionsDataObjectListBuilder ProcessingOptionsDataObjectListBuilder =
+        EmvSpecimenBuilderFactory.ProcessingOptionsDataObjectListBuilder;
+
+    public static readonly TransactionDateBuilder TransactionDateBuilder = EmvSpecimenBuilderFactory.TransactionDateBuilder;
+    public static readonly TransactionTypeBuilder TransactionTypeBuilder = EmvSpecimenBuilderFactory.TransactionTypeBuilder;
+
+    #endregion
+
+    #region Constructed Value Builders
+
+    public static readonly DirectoryEntryBuilder DirectoryEntryBuilder = EmvSpecimenBuilderFactory.DirectoryEntryBuilder;
+    public static readonly FileControlInformationAdfBuilder FileControlInformationAdfBuilder = EmvSpecimenBuilderFactory.FileControlInformationAdfBuilder;
+
+    public static readonly FileControlInformationIssuerDiscretionaryDataAdfBuilder FileControlInformationIssuerDiscretionaryDataAdfBuilder =
+        EmvSpecimenBuilderFactory.FileControlInformationIssuerDiscretionaryDataAdfBuilder;
+
+    public static readonly FileControlInformationIssuerDiscretionaryPpseBuilder FileControlInformationIssuerDiscretionaryPpseBuilder =
+        EmvSpecimenBuilderFactory.FileControlInformationIssuerDiscretionaryPpseBuilder;
 
     #endregion
 }

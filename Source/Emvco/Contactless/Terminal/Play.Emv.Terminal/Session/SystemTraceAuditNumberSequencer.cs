@@ -2,7 +2,6 @@
 
 using Play.Emv.Acquirer.Contracts;
 using Play.Emv.Acquirer.Contracts.SignalOut;
-using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalIn;

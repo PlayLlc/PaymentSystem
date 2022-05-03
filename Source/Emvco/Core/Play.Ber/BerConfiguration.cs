@@ -154,8 +154,7 @@ public class BerConfiguration
 
         foreach (PlayEncodingId identifier in duplicateIdentifiers)
         {
-            codecsWithTheSameIdentifiers.Add(identifier,
-                playCodecs.Where(a => a.GetEncodingId() == identifier).Select(a => a.GetType().Name).ToArray());
+            codecsWithTheSameIdentifiers.Add(identifier, playCodecs.Where(a => a.GetEncodingId() == identifier).Select(a => a.GetType().Name).ToArray());
         }
 
         StringBuilder builder = new();

@@ -18,7 +18,7 @@ public sealed record KernelType : EnumObject<byte>
 
     #region Constructor
 
-    public KernelType() : base()
+    public KernelType()
     { }
 
     static KernelType()

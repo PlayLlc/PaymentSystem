@@ -35,9 +35,7 @@ public record ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice : ReaderCont
     #region Serialization
 
     public static ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    public override ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice Decode(TagLengthValue value) =>
-        Decode(value.EncodeValue().AsSpan());
+    public override ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
@@ -46,8 +44,7 @@ public record ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice : ReaderCont
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result()
-            ?? throw new DataElementParsingException(EncodingId);
+        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result() ?? throw new DataElementParsingException(EncodingId);
 
         return new ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice(result.Value);
     }

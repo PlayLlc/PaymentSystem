@@ -19,7 +19,7 @@ public sealed record AuthenticationTypes : EnumObject<byte>
 
     #region Constructor
 
-    public AuthenticationTypes() : base()
+    public AuthenticationTypes()
     { }
 
     static AuthenticationTypes()

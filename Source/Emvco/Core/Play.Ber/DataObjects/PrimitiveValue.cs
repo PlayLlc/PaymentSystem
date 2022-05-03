@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-using Play.Ber.Codecs;
+﻿using Play.Ber.Codecs;
 using Play.Ber.Identifiers;
 using Play.Ber.Lengths;
 using Play.Codecs;

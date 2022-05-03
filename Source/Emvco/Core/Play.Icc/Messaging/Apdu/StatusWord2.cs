@@ -30,7 +30,7 @@ public sealed record StatusWord2 : EnumObject<StatusWord>, IEqualityComparer<Sta
 
     #region Constructor
 
-    public StatusWord2() : base()
+    public StatusWord2()
     { }
 
     /// <exception cref="TypeInitializationException"></exception>
@@ -40,7 +40,7 @@ public sealed record StatusWord2 : EnumObject<StatusWord>, IEqualityComparer<Sta
 
         Unknown = new StatusWord2(unknown, StatusWordInfo.Info, $"The {nameof(StatusWord2)} value is unknown to this code base");
 
-        _ValueObjectMap = new Dictionary<StatusWord, StatusWord2>() {{Unknown, Unknown}}.ToImmutableSortedDictionary();
+        _ValueObjectMap = new Dictionary<StatusWord, StatusWord2> {{Unknown, Unknown}}.ToImmutableSortedDictionary();
     }
 
     private StatusWord2(StatusWord value, StatusWordInfo statusWordInfo, string description = "") : base(value)

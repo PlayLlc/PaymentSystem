@@ -10,7 +10,7 @@ public class PlayUnitTestAssertionException : PlayException
 
     public PlayUnitTestAssertionException(
         string message, Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base($"\n\tMessage:  {message}" + $"\n\n\tInnerException", innerException)
+        [CallerLineNumber] int lineNumber = 0) : base($"\n\tMessage:  {message}" + "\n\n\tInnerException", innerException)
     { }
 
     #endregion
