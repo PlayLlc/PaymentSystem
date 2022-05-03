@@ -9,15 +9,16 @@ using AutoFixture.Kernel;
 using Play.Ber.Exceptions;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
+using Play.Globalization.Time;
 using Play.Randoms;
 
 namespace Play.Testing.Emv.AutoFixture.Builders.DataElements;
 
-public class MerchantIdentifierBuilder : PrimitiveValueSpecimenBuilder<MerchantIdentifier>
+public class TransactionDateBuilder : PrimitiveValueSpecimenBuilder<TransactionDate>
 {
     #region Static Metadata
 
-    public static readonly SpecimenBuilderId Id = new(nameof(MerchantIdentifierBuilder));
+    public static readonly SpecimenBuilderId Id = new(nameof(TransactionDateBuilder));
 
     #endregion
 
@@ -25,15 +26,15 @@ public class MerchantIdentifierBuilder : PrimitiveValueSpecimenBuilder<MerchantI
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    public MerchantIdentifierBuilder() : base(
-        new DefaultPrimitiveValueSpecimen<MerchantIdentifier>(MerchantIdentifier.Decode(GetContentOctets().AsSpan()), GetContentOctets()))
+    public TransactionDateBuilder() : base(
+        new DefaultPrimitiveValueSpecimen<TransactionDate>(TransactionDate.Decode(GetContentOctets().AsSpan()), GetContentOctets()))
     { }
 
     #endregion
 
     #region Instance Members
 
-    private static byte[] GetContentOctets() => new byte[] {0x03};
+    private static byte[] GetContentOctets() => new byte[] {0x14, 0x06, 0x17};
     public override SpecimenBuilderId GetId() => Id;
 
     /// <exception cref="Play.Emv.Ber.Exceptions.DataElementParsingException"></exception>
@@ -44,10 +45,10 @@ public class MerchantIdentifierBuilder : PrimitiveValueSpecimenBuilder<MerchantI
         if (type == null)
             return new NoSpecimen();
 
-        if (type != typeof(MerchantIdentifier))
+        if (type != typeof(TransactionDate))
             return new NoSpecimen();
 
-        return new MerchantIdentifier(Randomize.AlphaNumericSpecial.Chars(15));
+        return new TransactionDate(DateTimeUtc.Now);
     }
 
     #endregion

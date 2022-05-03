@@ -2,8 +2,14 @@
 
 namespace Play.Testing.Emv;
 
-public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
+internal class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
 {
+    #region Static Metadata
+
+    public static readonly AmountAuthorizedNumericBuilder AmountAuthorizedNumericBuilder;
+
+    #endregion
+
     #region Constructor
 
     public EmvSpecimenBuilderFactory() : base(CreateSpecimenBuilders())

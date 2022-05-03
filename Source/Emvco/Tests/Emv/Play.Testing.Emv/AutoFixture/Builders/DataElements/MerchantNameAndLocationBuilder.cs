@@ -11,45 +11,50 @@ using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Randoms;
 
-namespace Play.Testing.Emv.AutoFixture.Builders.DataElements
+namespace Play.Testing.Emv.AutoFixture.Builders.DataElements;
+
+public class MerchantNameAndLocationBuilder : PrimitiveValueSpecimenBuilder<MerchantNameAndLocation>
 {
-    public class MerchantNameAndLocationBuilder : PrimitiveValueSpecimenBuilder<MerchantNameAndLocation>
-    {
-        #region Static Metadata
+    #region Static Metadata
 
-        public static readonly SpecimenBuilderId Id = new(nameof(MerchantNameAndLocationBuilder));
+    public static readonly SpecimenBuilderId Id = new(nameof(MerchantNameAndLocationBuilder));
 
-        #endregion
+    #endregion
 
-        #region Constructor
+    #region Constructor
 
-        /// <exception cref="BerParsingException"></exception>
-        /// <exception cref="CodecParsingException"></exception>
-        public MerchantNameAndLocationBuilder() : base(
-            new DefaultPrimitiveValueSpecimen<MerchantNameAndLocation>(MerchantNameAndLocation.Decode(GetContentOctets().AsSpan()), GetContentOctets()))
-        { }
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public MerchantNameAndLocationBuilder() : base(
+        new DefaultPrimitiveValueSpecimen<MerchantNameAndLocation>(MerchantNameAndLocation.Decode(GetContentOctets().AsSpan()), GetContentOctets()))
+    { }
 
-        #endregion
+    #endregion
 
-        #region Instance Members
+    #region Instance Members
 
-        private static byte[] GetContentOctets() => new byte[] {0x03};
-        public override SpecimenBuilderId GetId() => Id;
-
-        /// <exception cref="Play.Emv.Ber.Exceptions.DataElementParsingException"></exception>
-        public override object Create(object request, ISpecimenContext context)
+    private static byte[] GetContentOctets() =>
+        new byte[]
         {
-            Type? type = request as Type;
+            0x61, 0x62, 0x63, 0x64, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20
+        };
 
-            if (type == null)
-                return new NoSpecimen();
+    public override SpecimenBuilderId GetId() => Id;
 
-            if (type != typeof(MerchantNameAndLocation))
-                return new NoSpecimen();
+    /// <exception cref="Play.Emv.Ber.Exceptions.DataElementParsingException"></exception>
+    public override object Create(object request, ISpecimenContext context)
+    {
+        Type? type = request as Type;
 
-            return new MerchantNameAndLocation(Randomize.AlphaNumericSpecial.Chars(_Random.Next(10, 100)));
-        }
+        if (type == null)
+            return new NoSpecimen();
 
-        #endregion
+        if (type != typeof(MerchantNameAndLocation))
+            return new NoSpecimen();
+
+        return new MerchantNameAndLocation(Randomize.AlphaNumericSpecial.Chars(_Random.Next(10, 100)));
     }
+
+    #endregion
 }
