@@ -11,6 +11,8 @@ namespace Play.Testing.Emv
         #region Static Metadata
 
         public static readonly SpecimenBuilderId Id = new(nameof(FileControlInformationIssuerDiscretionaryPpseBuilder));
+        private static readonly byte[] _RawTagLengthValue = {0x00};
+        private static readonly byte[] _ContentOctets = {0xBF, 0x0C, 0x00};
 
         #endregion
 
@@ -20,14 +22,13 @@ namespace Play.Testing.Emv
         /// <exception cref="CodecParsingException"></exception>
         public FileControlInformationIssuerDiscretionaryPpseBuilder() : base(
             new DefaultConstructedValueSpecimen<FileControlInformationIssuerDiscretionaryDataAdf>(
-                FileControlInformationIssuerDiscretionaryDataAdf.Decode(GetContentOctets().AsMemory()), GetContentOctets()))
+                FileControlInformationIssuerDiscretionaryDataAdf.Decode(_RawTagLengthValue.AsMemory()), _ContentOctets))
         { }
 
         #endregion
 
         #region Instance Members
 
-        private static byte[] GetContentOctets() => new byte[] {0x00};
         public override SpecimenBuilderId GetId() => Id;
 
         /// <exception cref="Play.Emv.Ber.Exceptions.DataElementParsingException"></exception>

@@ -50,7 +50,17 @@ public record FileControlInformationProprietaryDdf : FileControlInformationPropr
 
     #region Serialization
 
-    public static FileControlInformationProprietaryDdf Decode(ReadOnlyMemory<byte> rawBer) => Decode(_Codec.DecodeChildren(rawBer));
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="CardDataMissingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    public static FileControlInformationProprietaryDdf Decode(ReadOnlyMemory<byte> value)
+    {
+        if (_Codec.DecodeFirstTag(value.Span) == Tag)
+            return Decode(_Codec.DecodeSiblings(value));
+
+        return Decode(_Codec.DecodeChildren(value));
+    }
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>

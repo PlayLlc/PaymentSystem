@@ -5,6 +5,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
@@ -150,7 +151,17 @@ public record FileControlInformationIssuerDiscretionaryDataPpse : FileControlInf
 
     #region Serialization
 
-    public static FileControlInformationIssuerDiscretionaryDataPpse Decode(ReadOnlyMemory<byte> value) => Decode(_Codec.DecodeChildren(value));
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="CardDataMissingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    public static FileControlInformationIssuerDiscretionaryDataPpse Decode(ReadOnlyMemory<byte> value)
+    {
+        if (_Codec.DecodeFirstTag(value.Span) == Tag)
+            return Decode(_Codec.DecodeSiblings(value));
+
+        return Decode(_Codec.DecodeChildren(value));
+    }
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>

@@ -73,7 +73,13 @@ public record FileControlInformationAdf : FileControlInformationTemplate
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CardDataMissingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    public static FileControlInformationAdf Decode(ReadOnlyMemory<byte> rawBer) => Decode(_Codec.DecodeChildren(rawBer));
+    public static FileControlInformationAdf Decode(ReadOnlyMemory<byte> rawBer)
+    {
+        if (_Codec.DecodeFirstTag(rawBer.Span) == Tag)
+            return Decode(_Codec.DecodeSiblings(rawBer));
+
+        return Decode(_Codec.DecodeChildren(rawBer));
+    }
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>

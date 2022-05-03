@@ -80,7 +80,8 @@ internal sealed class TagLengthFactory
     internal TagLength ParseFirst(ReadOnlySpan<byte> value)
     {
         Tag tag = new(value);
-        Length length = Length.Parse(value[tag.GetByteCount()..]);
+
+        Length length = value.Length == 0 ? new Length(0) : Length.Parse(value[tag.GetByteCount()..]);
 
         return new TagLength(tag, length);
     }

@@ -130,7 +130,13 @@ public record FileControlInformationProprietaryAdf : FileControlInformationPropr
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="CardDataMissingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    public static FileControlInformationProprietaryAdf Decode(ReadOnlyMemory<byte> rawBer) => Decode(_Codec.DecodeChildren(rawBer));
+    public static FileControlInformationProprietaryAdf Decode(ReadOnlyMemory<byte> value)
+    {
+        if (_Codec.DecodeFirstTag(value.Span) == Tag)
+            return Decode(_Codec.DecodeSiblings(value));
+
+        return Decode(_Codec.DecodeChildren(value));
+    }
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>

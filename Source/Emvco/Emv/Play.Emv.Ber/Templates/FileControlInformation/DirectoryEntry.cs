@@ -183,7 +183,17 @@ public record DirectoryEntry : Template
 
     #region Serialization
 
-    public static DirectoryEntry Decode(ReadOnlyMemory<byte> value) => Decode(_Codec.DecodeChildren(value));
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="CardDataMissingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    public static DirectoryEntry Decode(ReadOnlyMemory<byte> value)
+    {
+        if (_Codec.DecodeFirstTag(value.Span) == Tag)
+            return Decode(_Codec.DecodeSiblings(value));
+
+        return Decode(_Codec.DecodeChildren(value));
+    }
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>

@@ -2,7 +2,9 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.Templates;
 
@@ -63,8 +65,17 @@ public record FileControlInformationIssuerDiscretionaryDataAdf : FileControlInfo
 
     #region Serialization
 
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="CardDataMissingException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static FileControlInformationIssuerDiscretionaryDataAdf Decode(ReadOnlyMemory<byte> value) => Decode(_Codec.DecodeChildren(value));
+    public static FileControlInformationIssuerDiscretionaryDataAdf Decode(ReadOnlyMemory<byte> value)
+    {
+        if (_Codec.DecodeFirstTag(value.Span) == Tag)
+            return Decode(_Codec.DecodeSiblings(value));
+
+        return Decode(_Codec.DecodeChildren(value));
+    }
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
