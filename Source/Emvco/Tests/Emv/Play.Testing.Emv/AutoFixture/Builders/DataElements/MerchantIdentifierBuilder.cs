@@ -27,7 +27,13 @@ public class MerchantIdentifierBuilder : PrimitiveValueSpecimenBuilder<MerchantI
 
     #region Instance Members
 
-    private static byte[] GetContentOctets() => new byte[] {0x03};
+    private static byte[] GetContentOctets() =>
+        new byte[]
+        {
+            0x42, 0x43, 0x54, 0x45, 0x53, 0x54, 0x20, 0x31, 0x32, 0x33,
+            0x34, 0x35, 0x36, 0x37, 0x38
+        };
+
     public override SpecimenBuilderId GetId() => Id;
 
     /// <exception cref="Play.Emv.Ber.Exceptions.DataElementParsingException"></exception>

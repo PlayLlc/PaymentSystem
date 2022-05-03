@@ -1,5 +1,6 @@
 ﻿using AutoFixture.Kernel;
 
+using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
@@ -33,6 +34,8 @@ public class FileControlInformationAdfBuilder : ConstructedValueSpecimenBuilder<
     private static byte[] GetContentOctets() =>
         new byte[]
         {
+            0x6F, 0x3A,
+
             // DedicatedFileName
             0x84, 0x07, 0xA0, 0x00, 0x00, 0x00, 0x03, 0x10, 0x10,
 
