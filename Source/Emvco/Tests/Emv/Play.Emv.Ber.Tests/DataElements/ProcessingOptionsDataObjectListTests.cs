@@ -143,7 +143,7 @@ public class ProcessingOptionsDataObjectListTests : TestBase
     [Fact]
     public void PrimitiveValue_EncodingTagLengthValue_ReturnsExpectedResult()
     {
-        byte[] expected = ProcessingOptionsDataObjectListBuilder.RawTagLengthValue;
+        byte[] expected = EmvFixture.ProcessingOptionsDataObjectListBuilder.GetDefaultEncodedTagLengthValue();
         ProcessingOptionsDataObjectList sut = _Fixture.Create<ProcessingOptionsDataObjectList>();
         byte[] actual = sut.EncodeTagLengthValue();
 
@@ -153,7 +153,7 @@ public class ProcessingOptionsDataObjectListTests : TestBase
     [Fact]
     public void PrimitiveValue_EncodingValue_ReturnsExpectedResult()
     {
-        byte[] expected = ProcessingOptionsDataObjectListBuilder.RawValue;
+        byte[] expected = EmvFixture.ProcessingOptionsDataObjectListBuilder.GetDefaultEncodedValue();
         ProcessingOptionsDataObjectList sut = _Fixture.Create<ProcessingOptionsDataObjectList>();
         byte[] actual = sut.EncodeValue();
 
@@ -164,7 +164,8 @@ public class ProcessingOptionsDataObjectListTests : TestBase
     public void PrimitiveValue_DecodingValue_ReturnsExpectedResult()
     {
         ProcessingOptionsDataObjectList expected = _Fixture.Create<ProcessingOptionsDataObjectList>();
-        ProcessingOptionsDataObjectList actual = ProcessingOptionsDataObjectList.Decode(ProcessingOptionsDataObjectListBuilder.RawValue.AsSpan());
+        ProcessingOptionsDataObjectList actual =
+            ProcessingOptionsDataObjectList.Decode(EmvFixture.ProcessingOptionsDataObjectListBuilder.GetDefaultEncodedValue().AsSpan());
 
         Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
     }

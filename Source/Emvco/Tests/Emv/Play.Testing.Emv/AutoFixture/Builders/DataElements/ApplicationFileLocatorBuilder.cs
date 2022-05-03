@@ -7,11 +7,11 @@ using Play.Randoms;
 
 namespace Play.Testing.Emv;
 
-public class ApplicationExpirationDateBuilder : PrimitiveValueSpecimenBuilder<ApplicationFileLocator>
+public class ApplicationFileLocatorBuilder : PrimitiveValueSpecimenBuilder<ApplicationFileLocator>
 {
     #region Static Metadata
 
-    public static readonly SpecimenBuilderId Id = new(nameof(ApplicationExpirationDateBuilder));
+    public static readonly SpecimenBuilderId Id = new(nameof(ApplicationFileLocatorBuilder));
 
     #endregion
 
@@ -19,7 +19,7 @@ public class ApplicationExpirationDateBuilder : PrimitiveValueSpecimenBuilder<Ap
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    public ApplicationExpirationDateBuilder() : base(
+    public ApplicationFileLocatorBuilder() : base(
         new DefaultPrimitiveValueSpecimen<ApplicationFileLocator>(ApplicationFileLocator.Decode(GetContentOctets().AsSpan()), GetContentOctets()))
     { }
 
