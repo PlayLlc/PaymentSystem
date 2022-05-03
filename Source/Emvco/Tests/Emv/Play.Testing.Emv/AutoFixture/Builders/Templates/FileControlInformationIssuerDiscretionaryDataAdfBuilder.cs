@@ -2,9 +2,7 @@
 
 using Play.Ber.Exceptions;
 using Play.Codecs.Exceptions;
-using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
-using Play.Randoms;
 
 namespace Play.Testing.Emv;
 
@@ -13,8 +11,8 @@ public class FileControlInformationIssuerDiscretionaryDataAdfBuilder : Construct
     #region Static Metadata
 
     public static readonly SpecimenBuilderId Id = new(nameof(FileControlInformationIssuerDiscretionaryDataAdfBuilder));
-    private static readonly byte[] _RawTagLengthValue = {0x00};
-    private static readonly byte[] _ContentOctets = {0xBF, 0x0C, 0x00};
+    private static readonly byte[] _RawTagLengthValue = {0xBF, 0x0C, 0x00};
+    private static readonly byte[] _ContentOctets = Array.Empty<byte>();
 
     #endregion
 

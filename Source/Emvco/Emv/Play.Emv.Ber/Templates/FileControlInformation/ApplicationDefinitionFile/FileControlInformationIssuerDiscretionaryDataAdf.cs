@@ -71,16 +71,21 @@ public record FileControlInformationIssuerDiscretionaryDataAdf : FileControlInfo
     /// <exception cref="BerParsingException"></exception>
     public static FileControlInformationIssuerDiscretionaryDataAdf Decode(ReadOnlyMemory<byte> value)
     {
-        if (_Codec.DecodeFirstTag(value.Span) == Tag)
-            return Decode(_Codec.DecodeSiblings(value));
+        Tag tag = _Codec.DecodeFirstTag(value.Span);
 
-        return Decode(_Codec.DecodeChildren(value));
+        if (tag == Tag)
+            return Decode(_Codec.DecodeChildren(value));
+
+        return Decode(_Codec.DecodeSiblings(value));
     }
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public static FileControlInformationIssuerDiscretionaryDataAdf Decode(EncodedTlvSiblings encodedTlvSiblings)
     {
+        if (encodedTlvSiblings.SiblingCount() == 0)
+            return new FileControlInformationIssuerDiscretionaryDataAdf(null, null);
+
         LogEntry? logEntry = _Codec.AsPrimitive(LogEntry.Decode, LogEntry.Tag, encodedTlvSiblings);
         ApplicationCapabilitiesInformation? aci = _Codec.AsPrimitive(ApplicationCapabilitiesInformation.Decode, ApplicationCapabilitiesInformation.Tag,
             encodedTlvSiblings);

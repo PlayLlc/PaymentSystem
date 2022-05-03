@@ -65,12 +65,12 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
             new StatusOutcomesBuilder(),
             new TerminalCategoryCodeBuilder(),
             new TerminalVerificationResultCodesBuilder(),
-            new TransactionTypeBuilder(),
             new ValueQualifierBuilder(),
-            new DirectoryEntryBuilder(),
-            new FileControlInformationAdfBuilder(),
-            new ProcessingOptionsDataObjectListBuilder(),
-            new FileControlInformationIssuerDiscretionaryDataAdfBuilder()
+            TransactionTypeBuilder,
+            DirectoryEntryBuilder,
+            FileControlInformationAdfBuilder,
+            ProcessingOptionsDataObjectListBuilder,
+            FileControlInformationIssuerDiscretionaryDataAdfBuilder
         });
 
         return currentModuleBuilders;

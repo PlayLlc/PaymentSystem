@@ -158,9 +158,9 @@ public record FileControlInformationIssuerDiscretionaryDataPpse : FileControlInf
     public static FileControlInformationIssuerDiscretionaryDataPpse Decode(ReadOnlyMemory<byte> value)
     {
         if (_Codec.DecodeFirstTag(value.Span) == Tag)
-            return Decode(_Codec.DecodeSiblings(value));
+            return Decode(_Codec.DecodeChildren(value));
 
-        return Decode(_Codec.DecodeChildren(value));
+        return Decode(_Codec.DecodeSiblings(value));
     }
 
     /// <exception cref="BerParsingException"></exception>

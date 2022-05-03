@@ -33,11 +33,9 @@ internal sealed class TagLengthFactory
         using SpanOwner<TagLength> tagLengthOwner = SpanOwner<TagLength>.Allocate(value.Length / 2);
         Span<TagLength> buffer = tagLengthOwner.Span;
 
-        Console.WriteLine(PlayCodec.HexadecimalCodec.DecodeToString(value));
-
         for (int spanIndex = 0; spanIndex < value.Length; bufferIndex++)
         {
-            buffer[bufferIndex] = ParseFirst(value[spanIndex..]);
+            buffer[bufferIndex] = ParseFirstTagLength(value[spanIndex..]);
             spanIndex += buffer[bufferIndex].GetTagLengthValueByteCount();
         }
 
@@ -77,18 +75,17 @@ internal sealed class TagLengthFactory
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    internal TagLength ParseFirst(ReadOnlySpan<byte> value)
+    internal TagLength ParseFirstTagLength(ReadOnlySpan<byte> value)
     {
         Tag tag = new(value);
 
-        Length length = value.Length == 0 ? new Length(0) : Length.Parse(value[tag.GetByteCount()..]);
+        Length length = Length.Parse(value[tag.GetByteCount()..]);
 
         return new TagLength(tag, length);
     }
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     internal bool TryGetOffset(Tag tag, ReadOnlySpan<byte> value, out int startIndexResult)
     {
         if (value.IsEmpty)
@@ -106,7 +103,7 @@ internal sealed class TagLengthFactory
 
         for (int rawValueOffset = 0; rawValueOffset < value.Length;)
         {
-            TagLength currentTagLength = ParseFirst(value[rawValueOffset..]);
+            TagLength currentTagLength = ParseFirstTagLength(value[rawValueOffset..]);
 
             if (currentTagLength.GetTag() == tag)
             {
@@ -141,7 +138,7 @@ internal sealed class TagLengthFactory
             return false;
         }
 
-        result = ParseFirst(value);
+        result = ParseFirstTagLength(value);
 
         return true;
     }

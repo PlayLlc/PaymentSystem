@@ -50,7 +50,7 @@ internal static class ShortLength
     /// </remarks>
     /// <param name="value"></param>
     /// <returns></returns>
-    private static bool LongLengthBitIsNotSet(byte value) => !value.AreBitsSet(LongLength.LongLengthFlag);
+    private static bool LongLengthBitIsNotSet(byte value) => (value == 0) || !value.AreBitsSet(LongLength.LongLengthFlag);
 
     public static bool TryGetContentLength(uint value, out ushort result)
     {

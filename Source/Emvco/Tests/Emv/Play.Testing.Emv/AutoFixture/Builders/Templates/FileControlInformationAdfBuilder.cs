@@ -1,13 +1,9 @@
 ﻿using AutoFixture.Kernel;
 
-using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Codecs.Exceptions;
-using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.Templates;
-using Play.Randoms;
-using Play.Testing.Emv;
 
 namespace Play.Testing.Emv;
 
@@ -77,7 +73,7 @@ public class FileControlInformationAdfBuilder : ConstructedValueSpecimenBuilder<
 
     public override SpecimenBuilderId GetId() => Id;
 
-    /// <exception cref="Play.Emv.Ber.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public override object Create(object request, ISpecimenContext context)
     {
         Type? type = request as Type;

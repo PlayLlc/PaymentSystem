@@ -44,7 +44,7 @@ public partial class BerCodec
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    public byte[] GetContentOctets(ReadOnlySpan<byte> value) => value[_TagLengthFactory.ParseFirst(value).GetTagLengthByteCount()..].ToArray();
+    public byte[] GetContentOctets(ReadOnlySpan<byte> value) => value[_TagLengthFactory.ParseFirstTagLength(value).GetTagLengthByteCount()..].ToArray();
 
     #region Encode
 
@@ -67,7 +67,7 @@ public partial class BerCodec
     /// </summary>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    public Tag DecodeFirstTag(ReadOnlySpan<byte> value) => _TagLengthFactory.ParseFirst(value).GetTag();
+    public Tag DecodeFirstTag(ReadOnlySpan<byte> value) => new(value);
 
     /// <summary>
     ///     Decodes the first <see cref="TagLength" /> found in the argument provided
@@ -162,7 +162,10 @@ public partial class BerCodec
     /// <exception cref="InvalidOperationException"></exception>
     public EncodedTlvSiblings DecodeChildren(ReadOnlyMemory<byte> value)
     {
-        TagLength tagLength = _TagLengthFactory.ParseFirst(value.Span);
+        TagLength tagLength = _TagLengthFactory.ParseFirstTagLength(value.Span);
+
+        if (tagLength.GetValueByteCount() == 0)
+            return new EncodedTlvSiblings();
 
         return DecodeSiblings(value[tagLength.GetValueOffset()..]);
     }

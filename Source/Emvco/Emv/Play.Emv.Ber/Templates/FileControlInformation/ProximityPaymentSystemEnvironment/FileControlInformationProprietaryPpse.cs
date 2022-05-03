@@ -68,9 +68,9 @@ public record FileControlInformationProprietaryPpse : FileControlInformationProp
     public static FileControlInformationProprietaryPpse Decode(ReadOnlyMemory<byte> value)
     {
         if (_Codec.DecodeFirstTag(value.Span) == Tag)
-            return Decode(_Codec.DecodeSiblings(value));
+            return Decode(_Codec.DecodeChildren(value));
 
-        return Decode(_Codec.DecodeChildren(value));
+        return Decode(_Codec.DecodeSiblings(value));
     }
 
     /// <exception cref="InvalidOperationException"></exception>

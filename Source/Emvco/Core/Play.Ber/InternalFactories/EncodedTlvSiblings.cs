@@ -16,16 +16,10 @@ namespace Play.Ber.InternalFactories;
 /// </summary>
 public readonly struct EncodedTlvSiblings
 {
-    #region Static Metadata
-
-    private static readonly ArrayPool<ReadOnlyMemory<byte>> _ArrayPool = ArrayPool<ReadOnlyMemory<byte>>.Shared;
-
-    #endregion
-
     #region Instance Values
 
-    private readonly ReadOnlyMemory<byte> _SiblingEncodings;
-    private readonly Memory<TagLength> _SiblingMetadata;
+    private readonly ReadOnlyMemory<byte> _SiblingEncodings = new();
+    private readonly Memory<TagLength> _SiblingMetadata = new();
 
     #endregion
 
@@ -48,12 +42,7 @@ public readonly struct EncodedTlvSiblings
 
     #region Instance Members
 
-    /// <summary>
-    ///     AsTagLengthValues
-    /// </summary>
-    /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public TagLengthValue[] AsTagLengthValues()
     {
@@ -83,7 +72,6 @@ public readonly struct EncodedTlvSiblings
         return result;
     }
 
-    /// <exception cref="EncodingException"></exception>
     /// <exception cref="BerParsingException"></exception>
     internal Tag GetTag(uint value)
     {
@@ -114,7 +102,6 @@ public readonly struct EncodedTlvSiblings
     /// <param name="tag"></param>
     /// <param name="sequenceNumber"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     /// <exception cref="BerParsingException"></exception>
     private ReadOnlyMemory<byte> GetRawTlvForNextInstanceInSetOf(uint tag, int sequenceNumber)
     {
@@ -135,7 +122,6 @@ public readonly struct EncodedTlvSiblings
         throw new BerParsingException("There is an internal error when decoding Sequence Of values");
     }
 
-    /// <exception cref="BerFormatException">Ignore.</exception>
     /// <exception cref="BerParsingException"></exception>
     private ReadOnlyMemory<byte> GetValueOctetsForNextInstanceInSetOf(uint tag, int sequenceNumber)
     {

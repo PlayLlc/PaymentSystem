@@ -22,13 +22,6 @@ public class DirectoryEntryTestTlv : TestTlv
         0x01, 0x01, 0x9F, 0x2A, 0x01, 0x03
     };
 
-    private static readonly TagLengthValue[] _DefaultChildren =
-    {
-        new(ApplicationIdentifier.Tag, new byte[] {0xA0, 0x00, 0x00, 0x00, 0x03, 0x10, 0x10}.AsSpan()),
-        new(ApplicationPriorityIndicator.Tag, new byte[] {0x87, 0x01, 0x01}), new(KernelIdentifier.Tag, new byte[] {0x03}),
-        new(IssuerIdentificationNumber.Tag, new byte[] {0x40, 0x81, 0x38}), new(IssuerCountryCodeAlpha2.Tag, new byte[] {0x55, 0x53})
-    };
-
     private static readonly Tag[] _ChildIndex = DirectoryEntry.ChildTags;
     private static readonly Tag Tag = DirectoryEntry.Tag;
 
@@ -47,7 +40,6 @@ public class DirectoryEntryTestTlv : TestTlv
     #region Instance Members
 
     public static TagLengthValue AsTagLengthValue() => new(Tag, _DefaultContentOctets);
-    public static TagLengthValue[] GetChildren() => _DefaultChildren;
     public static byte[] GetRawTagLengthValue() => _RawTagLengthValue;
     public override Tag GetTag() => DirectoryEntry.Tag;
 

@@ -45,7 +45,7 @@ public class FileControlInformationAdfTests : TestBase
     [Fact]
     public void PrimitiveValue_EncodingValue_ReturnsExpectedResult()
     {
-        byte[] expected = EmvFixture.FileControlInformationAdfBuilder.GetDefaultEncodedTagLengthValue();
+        byte[] expected = EmvFixture.FileControlInformationAdfBuilder.GetDefaultEncodedValue();
         FileControlInformationAdf sut = _Fixture.Create<FileControlInformationAdf>();
         byte[] actual = sut.EncodeValue();
 

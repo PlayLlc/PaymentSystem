@@ -30,20 +30,16 @@ public class DecodedIssuerPublicKeyCertificateTests : TestBase
 
     #endregion
 
-    #region Instance Members
-
-    /// <summary>
-    ///     OfflineOnlyTerminal_WithDefaultTerminalVerificationResults_GeneratesTransactionCryptogram
-    /// </summary>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="TerminalDataException"></exception>
-    [Fact]
-    public void OfflineOnlyTerminal_WithDefaultTerminalVerificationResults_GeneratesTransactionCryptogram()
-    {
-        DecodedIssuerPublicKeyCertificate? a = _Fixture.Create<DecodedIssuerPublicKeyCertificate>();
-        Assertion(() => Assert.Equal(true, true));
-    }
-
-    #endregion
+    ///// <summary>
+    /////     OfflineOnlyTerminal_WithDefaultTerminalVerificationResults_GeneratesTransactionCryptogram
+    ///// </summary>
+    ///// <exception cref="InvalidOperationException"></exception>
+    ///// <exception cref="BerParsingException"></exception>
+    ///// <exception cref="TerminalDataException"></exception>
+    //[Fact]
+    //public void OfflineOnlyTerminal_WithDefaultTerminalVerificationResults_GeneratesTransactionCryptogram()
+    //{
+    //    DecodedIssuerPublicKeyCertificate? a = _Fixture.Create<DecodedIssuerPublicKeyCertificate>();
+    //    Assertion(() => Assert.Equal(true, true));
+    //}
 }

@@ -105,14 +105,10 @@ public readonly struct Length
     /// <returns></returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     internal static Length Parse(ReadOnlySpan<byte> berLength)
     {
-        if (berLength.Length == 0)
-        {
-            throw new BerParsingException(new ArgumentOutOfRangeException(nameof(berLength),
-                $"A {nameof(Length)} object cannot be initialized with an empty {nameof(berLength)} argument "));
-        }
+        if (berLength.IsEmpty)
+            return new Length(0);
 
         if (ShortLength.IsValid(berLength[0]))
             return new Length(berLength[0]);
