@@ -1,10 +1,10 @@
 ﻿using Play.Codecs.Exceptions;
-using Play.Codecs.Tests.Tests.Numeric;
+using Play.Codecs.Tests.Tests.Numerics;
 using Play.Testing.BaseTestClasses;
 
 using Xunit;
 
-namespace Play.Codecs.Tests.Tests.StrictAscii;
+namespace Play.Codecs.Tests.Tests.StrictAsciis;
 
 public class StrictAsciiTests : TestBase
 {

@@ -3,21 +3,21 @@ using Play.Testing.BaseTestClasses;
 
 using Xunit;
 
-namespace Play.Codecs.Tests.Tests.Alphabetic;
+namespace Play.Codecs.Tests.Tests.AlphaNumerics;
 
-public class AlphabeticTests : TestBase
+public class AlphaNumericTests : TestBase
 {
     #region Instance Values
 
-    private readonly AlphabeticCodec _SystemUnderTest;
+    private readonly AlphaNumericCodec _SystemUnderTest;
 
     #endregion
 
     #region Constructor
 
-    public AlphabeticTests()
+    public AlphaNumericTests()
     {
-        _SystemUnderTest = PlayCodec.AlphabeticCodec;
+        _SystemUnderTest = PlayCodec.AlphaNumericCodec;
     }
 
     #endregion
@@ -30,12 +30,11 @@ public class AlphabeticTests : TestBase
     /// <param name="testValue"></param>
     /// <exception cref="CodecParsingException"></exception>
     [Theory]
-    [MemberData(nameof(AlphabeticFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(AlphabeticFixture))]
+    [MemberData(nameof(AlphaNumericFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(AlphaNumericFixture))]
     public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] testValue)
     {
         string decoded = _SystemUnderTest.DecodeToString(testValue);
         byte[] actual = _SystemUnderTest.Encode(decoded);
-
         Assertion(() => Assert.Equal(testValue, actual), Build.Equals.Message(testValue, actual));
     }
 
@@ -45,7 +44,7 @@ public class AlphabeticTests : TestBase
     /// <param name="testValue"></param>
     /// <exception cref="CodecParsingException"></exception>
     [Theory]
-    [MemberData(nameof(AlphabeticFixture.GetRandomString), 100, 1, 300, MemberType = typeof(AlphabeticFixture))]
+    [MemberData(nameof(AlphaNumericFixture.GetRandomString), 100, 1, 300, MemberType = typeof(AlphaNumericFixture))]
     public void RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult(string testValue)
     {
         byte[] decoded = _SystemUnderTest.Encode(testValue);

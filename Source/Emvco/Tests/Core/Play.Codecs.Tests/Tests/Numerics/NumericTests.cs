@@ -3,7 +3,7 @@ using Play.Testing.BaseTestClasses;
 
 using Xunit;
 
-namespace Play.Codecs.Tests.Tests.Numeric;
+namespace Play.Codecs.Tests.Tests.Numerics;
 
 public class NumericTests : TestBase
 {

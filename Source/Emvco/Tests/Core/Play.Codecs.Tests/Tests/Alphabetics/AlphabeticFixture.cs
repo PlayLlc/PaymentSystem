@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 
 using Play.Randoms;
-using Play.Testing.BaseTestClasses;
 
-namespace Play.Codecs.Tests.Tests.Hexadecimal;
+namespace Play.Codecs.Tests.Tests.Alphabetics;
 
-internal class HexadecimalFixture : TestBase
+internal class AlphabeticFixture
 {
     #region Static Metadata
 
@@ -22,7 +21,7 @@ internal class HexadecimalFixture : TestBase
             throw new ArgumentOutOfRangeException(nameof(minLength));
 
         for (int i = 0; i < count; i++)
-            yield return new object[] {Randomize.Hex.Bytes(_Random.Next(minLength, maxLength))};
+            yield return new object[] {Randomize.Alpha.Bytes(_Random.Next(minLength, maxLength))};
     }
 
     public static IEnumerable<object[]> GetRandomString(int count, int minLength, int maxLength)
@@ -31,12 +30,7 @@ internal class HexadecimalFixture : TestBase
             throw new ArgumentOutOfRangeException(nameof(minLength));
 
         for (int i = 0; i < count; i++)
-        {
-            int hexLength = _Random.Next(minLength, maxLength);
-            hexLength += hexLength % 2;
-
-            yield return new object[] {Randomize.Hex.String(hexLength)};
-        }
+            yield return new object[] {Randomize.Alpha.String(_Random.Next(minLength, maxLength))};
     }
 
     #endregion

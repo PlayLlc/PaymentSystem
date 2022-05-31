@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Play.Core.Extensions;
+namespace Play.Core.Extensions.IEnumerable;
 
 public static class IEnumeratorExtensions
 {

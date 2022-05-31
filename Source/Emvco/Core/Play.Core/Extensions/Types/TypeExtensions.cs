@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Numerics;
 
-namespace Play.Core.Extensions;
+namespace Play.Core.Extensions.Types;
 
 public static class TypeExtensions
 {

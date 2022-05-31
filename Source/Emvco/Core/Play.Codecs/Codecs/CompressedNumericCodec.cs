@@ -7,6 +7,7 @@ using Microsoft.Toolkit.HighPerformance.Buffers;
 using Play.Codecs.Exceptions;
 using Play.Core;
 using Play.Core.Extensions;
+using Play.Core.Extensions.Types;
 using Play.Core.Specifications;
 
 namespace Play.Codecs;
@@ -17,13 +18,8 @@ public class CompressedNumericCodec : PlayCodec
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public static readonly PlayEncodingId EncodingId = new(typeof(CompressedNumericCodec));
-
-    private static readonly ImmutableSortedDictionary<char, byte> _ByteMap =
-        Enumerable.Range(0, 10).ToImmutableSortedDictionary(a => (char) (a + 48), b => (byte) b);
-
-    private static readonly ImmutableSortedDictionary<byte, char> _CharMap =
-        Enumerable.Range(0, 10).ToImmutableSortedDictionary(a => (byte) a, b => (char) (b + 48));
-
+    private static readonly ImmutableSortedDictionary<char, byte> _ByteMap = GetByteMap();
+    private static readonly ImmutableSortedDictionary<byte, char> _CharMap = GetCharMap();
     private static readonly Nibble _PaddedNibble = Nibble.MaxValue;
     private const char _PaddingCharKey = 'F';
     private const byte _PaddedLeftNibble = 0xF0;
@@ -645,8 +641,8 @@ public class CompressedNumericCodec : PlayCodec
 
     private void DecodeToChars(byte value, Span<char> buffer, int offset)
     {
-        buffer[offset++] = _CharMap[(byte) (value / 10)];
-        buffer[offset] = _CharMap[(byte) (value % 10)];
+        buffer[offset++] = _CharMap[(byte) (value >> 4)];
+        buffer[offset] = _CharMap[(byte) value.GetMaskedValue(0xF0)];
     }
 
     #endregion
@@ -739,10 +735,16 @@ public class CompressedNumericCodec : PlayCodec
         return (ushort) BuildInteger(result, value);
     }
 
+    /// <exception cref="CodecParsingException"></exception>
     private static byte DecodeToByte(char leftChar, char rightChar)
     {
+        if (!_ByteMap.ContainsKey(leftChar))
+            throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+        if (!_ByteMap.ContainsKey(rightChar))
+            throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+
         byte result = _ByteMap[leftChar];
-        result *= 10;
+        result <<= 4;
         result += _ByteMap[rightChar];
 
         return result;
@@ -820,6 +822,22 @@ public class CompressedNumericCodec : PlayCodec
     #endregion
 
     #region Instance Members
+
+    private static ImmutableSortedDictionary<byte, char> GetCharMap()
+    {
+        Dictionary<byte, char> map = Enumerable.Range(0, 10).ToDictionary(a => (byte) a, b => (char) (b + 48));
+        map.Add(0xF, 'F');
+
+        return map.ToImmutableSortedDictionary();
+    }
+
+    private static ImmutableSortedDictionary<char, byte> GetByteMap()
+    {
+        Dictionary<char, byte> map = Enumerable.Range(0, 10).ToDictionary(a => (char) (a + 48), b => (byte) b);
+        map.Add('F', 0xF);
+
+        return map.ToImmutableSortedDictionary();
+    }
 
     private int Pad(Span<byte> buffer)
     {

@@ -6,6 +6,7 @@ using Microsoft.Toolkit.HighPerformance.Buffers;
 using Play.Codecs.Exceptions;
 using Play.Core.Exceptions;
 using Play.Core.Extensions;
+using Play.Core.Extensions.Types;
 using Play.Core.Specifications;
 
 namespace Play.Codecs;

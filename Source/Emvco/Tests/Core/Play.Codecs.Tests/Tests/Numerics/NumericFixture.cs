@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Play.Randoms;
 
-namespace Play.Codecs.Tests.Tests.Numeric;
+namespace Play.Codecs.Tests.Tests.Numerics;
 
 internal class NumericFixture
 {

@@ -5,6 +5,7 @@ using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
+using Play.Core.Extensions.Types;
 using Play.Core.Specifications;
 
 namespace Play.Codecs;
@@ -240,9 +241,7 @@ public class NumericSpecialCodec : PlayCodec
         if (typeof(T) == typeof(char))
             Encode(Unsafe.As<T[], char[]>(ref value), buffer, ref offset);
         else
-        {
             throw new CodecParsingException($"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
-        }
     }
 
     /// <summary>
@@ -258,9 +257,7 @@ public class NumericSpecialCodec : PlayCodec
         if (typeof(T) == typeof(char))
             Encode(Unsafe.As<T[], char[]>(ref value), length, buffer, ref offset);
         else
-        {
             throw new CodecParsingException($"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
-        }
     }
 
     #endregion

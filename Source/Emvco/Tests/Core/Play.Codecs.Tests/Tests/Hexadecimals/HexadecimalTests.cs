@@ -6,7 +6,7 @@ using Play.Testing.Icc.Apdu;
 
 using Xunit;
 
-namespace Play.Codecs.Tests.Tests.Hexadecimal;
+namespace Play.Codecs.Tests.Tests.Hexadecimals;
 
 public class HexadecimalTests : TestBase
 {
