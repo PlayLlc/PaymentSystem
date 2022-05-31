@@ -755,7 +755,7 @@ public class S456 : CommonProcessing
     /// <remarks>EMV Book C-2 Section S456.42, S456.50 - S456.51</remarks>
     private bool TryToWriteDataBeforeGeneratingApplicationCryptogram(TransactionSessionId sessionId)
     {
-        if (!_Database.IsPresentAndNotEmpty(TagsToWriteBeforeGenAc.Tag))
+        if (!_Database.IsPresentAndNotEmpty(TagsToWriteBeforeGeneratingApplicationCryptogram.Tag))
             return false;
 
         if (!_DataExchangeKernelService.TryPeek(DekResponseType.TagsToWriteBeforeGenAc, out PrimitiveValue? tagToWrite))

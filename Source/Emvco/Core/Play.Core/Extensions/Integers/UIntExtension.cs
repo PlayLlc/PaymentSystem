@@ -10,13 +10,6 @@ public static class UIntExtension
 
     public static bool AreAnyBitsSet(this uint value, uint bitsToCompare) => (value & bitsToCompare) != 0;
     public static uint ClearBits(this in uint input, uint bitsToClear) => input & ~bitsToClear;
-
-    //public static byte GetMostSignificantByte(this uint value)
-    //{
-    //    return (byte)(value.GetMostSignificantBit().TryGetRemainder(8, out int resultWithoutRemainder) == 0
-    //        ? resultWithoutRemainder
-    //        : resultWithoutRemainder + 1);
-    //}
     public static string GetBinaryString(this uint value) => Convert.ToString(value, 2);
     public static uint GetMaskedValue(this uint value, in uint mask) => (byte) (value & ~mask);
 

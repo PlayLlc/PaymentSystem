@@ -44,7 +44,7 @@ public partial class WaitingForPutDataResponseAfterGenerateAc
         if (rapdu.GetStatusWords() != StatusWords._9000)
             return false;
 
-        if (!_Database.IsPresentAndNotEmpty(TagsToWriteBeforeGenAc.Tag))
+        if (!_Database.IsPresentAndNotEmpty(TagsToWriteBeforeGeneratingApplicationCryptogram.Tag))
             return false;
 
         if (!_DataExchangeKernelService.TryPeek(DekResponseType.TagsToWriteBeforeGenAc, out PrimitiveValue? tagToWrite))

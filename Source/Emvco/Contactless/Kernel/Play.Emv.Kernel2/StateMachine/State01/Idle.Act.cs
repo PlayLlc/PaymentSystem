@@ -315,15 +315,15 @@ public partial class Idle : KernelState
         _Database.Initialize(DekResponseType.TagsToWriteBeforeGenAc);
         _Database.Initialize(DekResponseType.TagsToWriteAfterGenAc);
 
-        if (_Database.TryGet(TagsToWriteBeforeGenAc.Tag, out PrimitiveValue? tagsToWriteBeforeGenAc))
+        if (_Database.TryGet(TagsToWriteBeforeGeneratingApplicationCryptogram.Tag, out PrimitiveValue? tagsToWriteBeforeGenAc))
             _DataExchangeKernelService.Enqueue(DekResponseType.TagsToWriteBeforeGenAc, tagsToWriteBeforeGenAc!);
         else
-            _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, TagsToWriteBeforeGenAc.Tag);
+            _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, TagsToWriteBeforeGeneratingApplicationCryptogram.Tag);
 
-        if (!_Database.TryGet(TagsToWriteAfterGenAc.Tag, out PrimitiveValue? tagsToWriteAfterGenAc))
+        if (!_Database.TryGet(TagsToWriteAfterGeneratingApplicationCryptogram.Tag, out PrimitiveValue? tagsToWriteAfterGenAc))
             _DataExchangeKernelService.Enqueue(DekResponseType.TagsToWriteAfterGenAc, tagsToWriteAfterGenAc!);
         else
-            _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, TagsToWriteAfterGenAc.Tag);
+            _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, TagsToWriteAfterGeneratingApplicationCryptogram.Tag);
 
         UpdateIntegratedDataStorage();
     }

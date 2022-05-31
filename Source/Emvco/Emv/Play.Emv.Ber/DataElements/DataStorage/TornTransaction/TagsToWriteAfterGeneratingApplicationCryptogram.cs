@@ -12,7 +12,7 @@ namespace Play.Emv.Ber.DataElements;
 ///     several times by the Terminal in a DET Signal.Therefore, these values must be accumulated in Tags To WriteYet After
 ///     Gen AC.
 /// </summary>
-public record TagsToWriteAfterGenAc : DataExchangeResponse, IEqualityComparer<TagsToWriteAfterGenAc>
+public record TagsToWriteAfterGeneratingApplicationCryptogram : DataExchangeResponse, IEqualityComparer<TagsToWriteAfterGeneratingApplicationCryptogram>
 {
     #region Static Metadata
 
@@ -23,7 +23,7 @@ public record TagsToWriteAfterGenAc : DataExchangeResponse, IEqualityComparer<Ta
 
     #region Constructor
 
-    public TagsToWriteAfterGenAc(params PrimitiveValue[] value) : base(value)
+    public TagsToWriteAfterGeneratingApplicationCryptogram(params PrimitiveValue[] value) : base(value)
     { }
 
     #endregion
@@ -68,19 +68,19 @@ public record TagsToWriteAfterGenAc : DataExchangeResponse, IEqualityComparer<Ta
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    public static TagsToWriteAfterGenAc Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public static TagsToWriteAfterGeneratingApplicationCryptogram Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    public override TagsToWriteAfterGenAc Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override TagsToWriteAfterGeneratingApplicationCryptogram Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    public static TagsToWriteAfterGenAc Decode(ReadOnlySpan<byte> value) => new(ResolveTagsToWrite(value).ToArray());
+    public static TagsToWriteAfterGeneratingApplicationCryptogram Decode(ReadOnlySpan<byte> value) => new(ResolveTagsToWrite(value).ToArray());
 
     #endregion
 
     #region Equality
 
-    public bool Equals(TagsToWriteAfterGenAc? x, TagsToWriteAfterGenAc? y)
+    public bool Equals(TagsToWriteAfterGeneratingApplicationCryptogram? x, TagsToWriteAfterGeneratingApplicationCryptogram? y)
     {
         if (x is null)
             return y is null;
@@ -91,7 +91,7 @@ public record TagsToWriteAfterGenAc : DataExchangeResponse, IEqualityComparer<Ta
         return x.Equals(y);
     }
 
-    public int GetHashCode(TagsToWriteAfterGenAc obj) => obj.GetHashCode();
+    public int GetHashCode(TagsToWriteAfterGeneratingApplicationCryptogram obj) => obj.GetHashCode();
 
     #endregion
 }
