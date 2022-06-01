@@ -47,7 +47,7 @@ public class CompressedNumericCodec : PlayCodec
 
     public static int GetPadCount(ReadOnlySpan<byte> value)
     {
-        int offset = value.Length;
+        int offset = value.Length - 1;
 
         for (; offset > 0;)
         {
@@ -63,6 +63,9 @@ public class CompressedNumericCodec : PlayCodec
         return offset;
     }
 
+    public int GetByteCount(byte[] value) => value.Length;
+    public int GetByteCount(char[] value) => (value.Length / 2) + (value.Length % 2);
+
     // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     public override ushort GetByteCount<T>(T value) where T : struct => checked((ushort) Unsafe.SizeOf<T>());
 
@@ -71,7 +74,7 @@ public class CompressedNumericCodec : PlayCodec
     {
         // HACK: We're removing the dynamic decoding capability and using explicit decoding calls
         if (typeof(T) == typeof(byte))
-            return (ushort) ((ushort) value.Length * 2);
+            return (ushort) (ushort) value.Length;
 
         if (typeof(T) == typeof(char))
             return (ushort) (((ushort) value.Length / 2) + (value.Length % 2));
@@ -285,6 +288,7 @@ public class CompressedNumericCodec : PlayCodec
         throw new NotImplementedException();
     }
 
+    /// <exception cref="CodecParsingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value) => Encode(value, value.Length);
 
     /// <exception cref="CodecParsingException"></exception>
@@ -348,24 +352,7 @@ public class CompressedNumericCodec : PlayCodec
         return new[] {value};
     }
 
-    public byte[] Encode(ushort value)
-    {
-        const byte byteSize = Specs.Integer.UInt16.ByteCount;
-        int padCount = value.GetNumberOfDigits() - (byteSize * 2);
 
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(byteSize);
-        Span<byte> buffer = spanOwner.Span;
-
-        for (int i = 0, j = (byteSize * 2) - padCount; j > 0; i += j % 2, j--)
-        {
-            if ((j % 2) == 0)
-                buffer[i] |= (byte) ((byte) ((value / Math.Pow(10, j)) % 10) << 4);
-            else
-                buffer[i] |= (byte) ((value / Math.Pow(10, j - 1)) % 10);
-        }
-
-        return buffer.ToArray();
-    }
 
     public byte[] Encode(uint value)
     {
@@ -735,6 +722,7 @@ public class CompressedNumericCodec : PlayCodec
         return (ushort) BuildInteger(result, value);
     }
 
+
     /// <exception cref="CodecParsingException"></exception>
     private static byte DecodeToByte(char leftChar, char rightChar)
     {
@@ -750,16 +738,59 @@ public class CompressedNumericCodec : PlayCodec
         return result;
     }
 
+
+
+
+
+
+
+
+
+
+
     private dynamic BuildInteger(dynamic resultBuffer, ReadOnlySpan<byte> value)
     {
         if (resultBuffer != byte.MinValue)
             resultBuffer = 0;
 
         for (int i = 0, j = (value.Length * 2) - 2; i < value.Length; i++, j -= 2)
-            resultBuffer += DecodeToByte(value[i]) * Math.Pow(10, j);
+            resultBuffer
+                += DecodeToByte(value[i]) * Math.Pow(10, j);
 
         return resultBuffer;
+    } 
+
+    public byte[] Encode(ushort value)
+    {
+        const byte byteSize = Specs.Integer.UInt16.ByteCount;
+        int padCount = value.GetNumberOfDigits() - (byteSize * 2);
+
+        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(byteSize);
+        Span<byte> buffer = spanOwner.Span;
+
+        for (int i = 0, j = (byteSize * 2) - padCount; j > 0; i += j % 2, j--)
+        {
+            if ((j % 2) == 0)
+                buffer[i] |= (byte)((byte)((value / Math.Pow(10, j)) % 10) << 4);
+            else
+                buffer[i] |= (byte)((value / Math.Pow(10, j - 1)) % 10);
+        }
+
+        return buffer.ToArray();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     #endregion
 

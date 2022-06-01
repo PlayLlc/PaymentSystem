@@ -43,6 +43,27 @@ namespace Play.Codecs.Tests.Tests.CompressedNumerics
             }
         }
 
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static IEnumerable<object[]> GetRandomUShort(int count)
+        {
+            for (int i = 0; i < count; i++)
+                yield return new object[] {Randomize.CompressedNumeric.UShort()};
+        }
+
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static IEnumerable<object[]> GetRandomUInt(int count)
+        {
+            for (int i = 0; i < count; i++)
+                yield return new object[] {Randomize.CompressedNumeric.UInt()};
+        }
+
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static IEnumerable<object[]> GetRandomULong(int count)
+        {
+            for (int i = 0; i < count; i++)
+                yield return new object[] {Randomize.CompressedNumeric.ULong()};
+        }
+
         #endregion
     }
 }
