@@ -17,11 +17,11 @@ namespace Play.Randoms
     public partial class Randomize
     {
         /// <summary>
-        ///     NumericCodec data elements consist of two numeric digits (having values in the range Hex '0' – '9') per byte.
-        ///     These digits are right justified and padded with leading hexadecimal zeroes. Other specifications sometimes
-        ///     refer to this data format as BinaryCodec Coded Decimal (“BCD”) or unsigned packed.
-        ///     Example: Amount, Authorized(NumericCodec) is defined as “n 12” with a length of six bytes.
-        ///     A value of 12345 is stored in Amount, Authorized (NumericCodec) as Hex '00 00 00 01 23 45'.
+        ///     CompressedNumeric data elements consist of two numeric digits (having values in the range Hex '0' – '9') per byte.
+        ///     These digits are left justified and padded with trailing hexadecimal 'F'. Other specifications sometimes refer to
+        ///     this data format as BinaryCodec Coded Decimal (“BCD”) or unsigned packed. Example: Amount, Authorized(NumericCodec)
+        ///     is defined as “n 12” with a length of six bytes. A value of 12345 is stored in Amount, Authorized (NumericCodec) as
+        ///     Hex '12 34 5F FF FF FF FF FF'.
         /// </summary>
         public class CompressedNumeric
         {
@@ -40,10 +40,28 @@ namespace Play.Randoms
 
             #region Instance Members
 
-            public static byte Byte() => Numeric.Byte();
-            public static ushort UShort() => Numeric.UShort();
-            public static uint UInt() => Numeric.UInt();
-            public static ulong ULong() => Numeric.ULong();
+            public static byte Byte() => Bytes(Specs.Integer.UInt8.ByteCount)[0];
+
+            public static ushort UShort()
+            {
+                Span<byte> buffer = Bytes(Specs.Integer.UInt16.ByteCount);
+
+                return PlayCodec.CompressedNumericCodec.DecodeToUInt16(buffer);
+            }
+
+            public static uint UInt()
+            {
+                Span<byte> buffer = Bytes(Specs.Integer.UInt32.ByteCount);
+
+                return PlayCodec.CompressedNumericCodec.DecodeToUInt16(buffer);
+            }
+
+            public static ulong ULong()
+            {
+                Span<byte> buffer = Bytes(Specs.Integer.UInt64.ByteCount);
+
+                return PlayCodec.CompressedNumericCodec.DecodeToUInt16(buffer);
+            }
 
             /// <summary>
             ///     Returns a CompressedNumeric encoded byte array
@@ -58,15 +76,16 @@ namespace Play.Randoms
                 if (length == 0)
                     return new byte[] { };
 
-                using SpanOwner<Nibble> spanOwner = SpanOwner<Nibble>.Allocate(length);
+                int nibbleCount = length * 2;
+                using SpanOwner<Nibble> spanOwner = SpanOwner<Nibble>.Allocate(nibbleCount);
                 Span<Nibble> buffer = spanOwner.Span;
 
-                int padCount = _Random.Next(1, length);
+                int padCount = _Random.Next(1, nibbleCount);
 
-                for (int i = 0; i < padCount; i++)
+                for (int i = 0; i < (nibbleCount - padCount); i++)
                     buffer[i] = GetRandomNibble();
 
-                for (int i = length - padCount; i < length; i++)
+                for (int i = nibbleCount - padCount; i < nibbleCount; i++)
                     buffer[i] = _PaddedNibble;
 
                 return buffer.AsByteArray().ToArray();

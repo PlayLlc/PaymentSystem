@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Play.Codecs.Exceptions;
 using Play.Codecs.Tests.Tests.AlphaNumerics;
+using Play.Randoms;
 using Play.Testing.BaseTestClasses;
 
 using Xunit;
@@ -66,6 +67,21 @@ namespace Play.Codecs.Tests.Tests.CompressedNumerics
             byte[] decoded = _SystemUnderTest.Encode(testValue);
             ushort actual = _SystemUnderTest.DecodeToUInt16(decoded);
             Assertion(() => Assert.Equal(testValue, actual), Build.Equals.Message(testValue, actual));
+        }
+
+        [Fact]
+        public void TestMeBro()
+        {
+            List<byte[]> buffer = new();
+
+            for (int i = 0; i < 100; i++)
+                buffer.Add(Randomize.CompressedNumeric.Bytes(2));
+
+            foreach (var bb in buffer)
+                Console.WriteLine(PlayCodec.HexadecimalCodec.DecodeToString(bb));
+
+            var a = Randomize.CompressedNumeric.UShort();
+            var b = _SystemUnderTest.Encode(a);
         }
 
         [Theory]
