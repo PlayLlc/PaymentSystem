@@ -72,16 +72,9 @@ namespace Play.Codecs.Tests.Tests.CompressedNumerics
         [Fact]
         public void TestMeBro()
         {
-            List<byte[]> buffer = new();
-
-            for (int i = 0; i < 100; i++)
-                buffer.Add(Randomize.CompressedNumeric.Bytes(2));
-
-            foreach (var bb in buffer)
-                Console.WriteLine(PlayCodec.HexadecimalCodec.DecodeToString(bb));
-
-            var a = Randomize.CompressedNumeric.UShort();
-            var b = _SystemUnderTest.Encode(a);
+            ushort testData = 1234;
+            var result = PlayCodec.CompressedNumericCodec.Encode(testData);
+            Console.WriteLine(result);
         }
 
         [Theory]
