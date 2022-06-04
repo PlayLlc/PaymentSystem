@@ -501,12 +501,12 @@ public class CompressedNumericCodec : PlayCodec
         for (int i = 0, j = (byteSize * 2) - padCount; j > 0; i += j % 2, j--)
         {
             var test = (byte) ((byte) ((value / Math.Pow(10, j)) % 10) * 10);
-            var test2 = (byte) ((value / Math.Pow(10, j - 1)) % 10);
+            var test2 = (byte) (byte) ((value / Math.Pow(10, j - 1)) % 10) * 10;
 
             if ((j % 2) != 0)
-                buffer[i] |= (byte) ((value / Math.Pow(10, j - 1)) % 10);
+                buffer[i] += (byte) ((value / Math.Pow(10, j - 1)) % 10);
             else
-                buffer[i] |= (byte) (((byte) ((value / Math.Pow(10, j - 1)) % 10) >> 4) * 10);
+                buffer[i] += (byte) ((byte) ((value / Math.Pow(10, j - 1)) % 10) * 10);
         }
 
         return buffer.ToArray();
