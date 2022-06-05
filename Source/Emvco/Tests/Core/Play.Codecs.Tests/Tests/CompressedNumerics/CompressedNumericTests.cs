@@ -72,8 +72,8 @@ namespace Play.Codecs.Tests.Tests.CompressedNumerics
         [Fact]
         public void Ushort_Encoding_ReturnsExpectedResult()
         {
-            ushort testValue = 123;
-            byte[] expected = new byte[] {0x12, 0x3F};
+            ushort testValue = 12345;
+            byte[] expected = new byte[] {0x12, 0x34, 0x5F};
             var actual = PlayCodec.CompressedNumericCodec.Encode(testValue);
             Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
         }

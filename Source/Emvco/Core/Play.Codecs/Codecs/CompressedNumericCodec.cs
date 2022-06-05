@@ -354,23 +354,70 @@ public partial class CompressedNumericCodec : PlayCodec
         return new[] {value};
     }
 
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public byte[] Encode(uint value)
     {
-        const byte byteSize = Specs.Integer.UInt32.ByteCount;
-        int padCount = value.GetNumberOfDigits() - (byteSize * 2);
+        byte[] buffer = new byte[Specs.Integer.UInt32.ByteCount];
+        int mostSignificantByte = (value.GetNumberOfDigits() / 2) + (value.GetNumberOfDigits() % 2);
 
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(byteSize);
-        Span<byte> buffer = spanOwner.Span;
-
-        for (int i = 0, j = (byteSize * 2) - padCount; j > 0; i += j % 2, j--)
+        if (mostSignificantByte > Specs.Integer.UInt32.ByteCount)
         {
-            if ((j % 2) == 0)
-                buffer[i] |= (byte) ((byte) ((value / Math.Pow(10, j)) % 10) << 4);
-            else
-                buffer[i] |= (byte) ((value / Math.Pow(10, j - 1)) % 10);
+            throw new CodecParsingException(
+                $"The {nameof(Encode)} method expected the {nameof(value)} argument to contain {Specs.Integer.UInt32.ByteCount * 2} digits or less but instead it contained {value.GetNumberOfDigits()} digits");
         }
 
-        return buffer.ToArray();
+        int padCount = (buffer.Length * 2) - value.GetNumberOfDigits();
+
+        for (int i = mostSignificantByte - 1, j = padCount; j < (Specs.Integer.UInt32.ByteCount * 2); i -= j % 2, j++)
+        {
+            if ((j % 2) == 0)
+            {
+                buffer[i] += (byte) (value % 10);
+                value /= 10;
+            }
+            else
+            {
+                buffer[i] += (byte) ((value % 10) << 4);
+                value /= 10;
+            }
+        }
+
+        EncodePadding(buffer, padCount, mostSignificantByte);
+
+        return buffer;
+    }
+
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public byte[] Encode(ushort value)
+    {
+        byte[] buffer = new byte[Specs.Integer.UInt16.ByteCount];
+        int mostSignificantByte = (value.GetNumberOfDigits() / 2) + (value.GetNumberOfDigits() % 2);
+
+        if (mostSignificantByte > Specs.Integer.UInt16.ByteCount)
+            throw new CodecParsingException(
+                $"The {nameof(Encode)} method expected the {nameof(value)} argument to contain {Specs.Integer.UInt16.ByteCount * 2} digits or less but instead it contained {value.GetNumberOfDigits()} digits");
+
+        int padCount = (buffer.Length * 2) - value.GetNumberOfDigits();
+
+        for (int i = mostSignificantByte - 1, j = padCount; j < (Specs.Integer.UInt16.ByteCount * 2); i -= j % 2, j++)
+        {
+            if ((j % 2) == 0)
+            {
+                buffer[i] += (byte) (value % 10);
+                value /= 10;
+            }
+            else
+            {
+                buffer[i] += (byte) ((value % 10) << 4);
+                value /= 10;
+            }
+        }
+
+        EncodePadding(buffer, padCount, mostSignificantByte);
+
+        return buffer;
     }
 
     /// <summary>
@@ -403,23 +450,36 @@ public partial class CompressedNumericCodec : PlayCodec
         return buffer.ToArray();
     }
 
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public byte[] Encode(ulong value)
     {
-        const byte byteSize = Specs.Integer.UInt64.ByteCount;
-        int padCount = value.GetNumberOfDigits() - (byteSize * 2);
+        byte[] buffer = new byte[Specs.Integer.UInt64.ByteCount];
+        int mostSignificantByte = (value.GetNumberOfDigits() / 2) + (value.GetNumberOfDigits() % 2);
 
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(byteSize);
-        Span<byte> buffer = spanOwner.Span;
+        if (mostSignificantByte > Specs.Integer.UInt64.ByteCount)
+            throw new CodecParsingException(
+                $"The {nameof(Encode)} method expected the {nameof(value)} argument to contain {Specs.Integer.UInt64.ByteCount * 2} digits or less but instead it contained {value.GetNumberOfDigits()} digits");
 
-        for (int i = 0, j = (byteSize * 2) - padCount; j > 0; i += j % 2, j--)
+        int padCount = (buffer.Length * 2) - value.GetNumberOfDigits();
+
+        for (int i = mostSignificantByte - 1, j = padCount; j < (Specs.Integer.UInt64.ByteCount * 2); i -= j % 2, j++)
         {
             if ((j % 2) == 0)
-                buffer[i] |= (byte) ((byte) ((value / Math.Pow(10, j)) % 10) << 4);
+            {
+                buffer[i] += (byte) (value % 10);
+                value /= 10;
+            }
             else
-                buffer[i] |= (byte) ((value / Math.Pow(10, j - 1)) % 10);
+            {
+                buffer[i] += (byte) ((value % 10) << 4);
+                value /= 10;
+            }
         }
 
-        return buffer.ToArray();
+        EncodePadding(buffer, padCount, mostSignificantByte);
+
+        return buffer;
     }
 
     /// <summary>
@@ -809,6 +869,20 @@ public partial class CompressedNumericCodec : PlayCodec
     #endregion
 
     #region Instance Members
+
+    private void EncodePadding(Span<byte> buffer, int padCount, int mostSignificantByte)
+    {
+        if (padCount == 0)
+            return;
+
+        if ((padCount % 2) != 0)
+            buffer[mostSignificantByte - 1] += 0x0F;
+
+        if (padCount == 1)
+            return;
+
+        buffer[mostSignificantByte..].Fill(0xFF);
+    }
 
     private static ImmutableSortedDictionary<byte, char> GetCharMap()
     {
