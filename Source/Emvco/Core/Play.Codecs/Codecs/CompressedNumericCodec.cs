@@ -396,8 +396,10 @@ public partial class CompressedNumericCodec : PlayCodec
         int mostSignificantByte = (value.GetNumberOfDigits() / 2) + (value.GetNumberOfDigits() % 2);
 
         if (mostSignificantByte > Specs.Integer.UInt16.ByteCount)
+        {
             throw new CodecParsingException(
                 $"The {nameof(Encode)} method expected the {nameof(value)} argument to contain {Specs.Integer.UInt16.ByteCount * 2} digits or less but instead it contained {value.GetNumberOfDigits()} digits");
+        }
 
         int padCount = (buffer.Length * 2) - value.GetNumberOfDigits();
 
@@ -458,8 +460,10 @@ public partial class CompressedNumericCodec : PlayCodec
         int mostSignificantByte = (value.GetNumberOfDigits() / 2) + (value.GetNumberOfDigits() % 2);
 
         if (mostSignificantByte > Specs.Integer.UInt64.ByteCount)
+        {
             throw new CodecParsingException(
                 $"The {nameof(Encode)} method expected the {nameof(value)} argument to contain {Specs.Integer.UInt64.ByteCount * 2} digits or less but instead it contained {value.GetNumberOfDigits()} digits");
+        }
 
         int padCount = (buffer.Length * 2) - value.GetNumberOfDigits();
 
