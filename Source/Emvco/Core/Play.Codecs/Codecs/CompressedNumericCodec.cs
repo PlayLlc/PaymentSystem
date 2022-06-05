@@ -4,6 +4,8 @@ using System.Runtime.CompilerServices;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
+using System;
+
 using Play.Codecs.Exceptions;
 using Play.Core;
 using Play.Core.Extensions;
@@ -12,7 +14,7 @@ using Play.Core.Specifications;
 
 namespace Play.Codecs;
 
-public class CompressedNumericCodec : PlayCodec
+public partial class CompressedNumericCodec : PlayCodec
 {
     #region Metadata
 
@@ -485,28 +487,6 @@ public class CompressedNumericCodec : PlayCodec
                 buffer[i] |= (byte) ((byte) ((value / (BigInteger) Math.Pow(10, j)) % 10) << 4);
             else
                 buffer[i] |= (byte) ((value / (BigInteger) Math.Pow(10, j - 1)) % 10);
-        }
-
-        return buffer.ToArray();
-    }
-
-    public byte[] Encode(ushort value)
-    {
-        const byte byteSize = Specs.Integer.UInt16.ByteCount;
-        int padCount = value.GetNumberOfDigits() - (byteSize * 2);
-
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(byteSize);
-        Span<byte> buffer = spanOwner.Span;
-
-        for (int i = 0, j = (byteSize * 2) - padCount; j > 0; i += j % 2, j--)
-        {
-            var test = (byte) ((byte) ((value / Math.Pow(10, j)) % 10) * 10);
-            var test2 = (byte) (byte) ((value / Math.Pow(10, j - 1)) % 10) * 10;
-
-            if ((j % 2) != 0)
-                buffer[i] += (byte) ((value / Math.Pow(10, j - 1)) % 10);
-            else
-                buffer[i] += (byte) ((byte) ((value / Math.Pow(10, j - 1)) % 10) * 10);
         }
 
         return buffer.ToArray();

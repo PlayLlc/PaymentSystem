@@ -70,11 +70,12 @@ namespace Play.Codecs.Tests.Tests.CompressedNumerics
         }
 
         [Fact]
-        public void TestMeBro()
+        public void Ushort_Encoding_ReturnsExpectedResult()
         {
-            ushort testData = 1234;
-            var result = PlayCodec.CompressedNumericCodec.Encode(testData);
-            Console.WriteLine(result);
+            ushort testValue = 123;
+            byte[] expected = new byte[] {0x12, 0x3F};
+            var actual = PlayCodec.CompressedNumericCodec.Encode(testValue);
+            Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
         }
 
         [Theory]
