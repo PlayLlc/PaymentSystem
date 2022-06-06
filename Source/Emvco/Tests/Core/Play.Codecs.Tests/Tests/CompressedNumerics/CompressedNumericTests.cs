@@ -34,25 +34,52 @@ namespace Play.Codecs.Tests.Tests.CompressedNumerics
 
         #region Instance Members
 
-        /// <summary>
-        ///     RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult
-        /// </summary>
-        /// <param name="testValue"></param>
-        /// <exception cref="CodecParsingException"></exception>
         [Theory]
         [MemberData(nameof(CompressedNumericFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(CompressedNumericFixture))]
-        public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] testValue)
+        public void RandomByteEncoding_DecodingToStringThenEncoding_ReturnsExpectedResult(byte[] testValue)
         {
             string decoded = _SystemUnderTest.DecodeToString(testValue);
             byte[] actual = _SystemUnderTest.Encode(decoded);
             Assertion(() => Assert.Equal(testValue, actual), Build.Equals.Message(testValue, actual));
         }
 
-        /// <summary>
-        ///     RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult
-        /// </summary>
-        /// <param name="testValue"></param>
-        /// <exception cref="CodecParsingException"></exception>
+        [Theory]
+        [MemberData(nameof(CompressedNumericFixture.GetRandomBytes), 100, 2, 2, MemberType = typeof(CompressedNumericFixture))]
+        public void RandomByteEncoding_DecodingToUShortThenEncoding_ReturnsExpectedResult(byte[] testValue)
+        {
+            ushort decoded = _SystemUnderTest.DecodeToUInt16(testValue);
+            byte[] actual = _SystemUnderTest.Encode(decoded);
+            Assertion(() => Assert.Equal(testValue, actual), Build.Equals.Message(testValue, actual));
+        }
+
+        [Theory]
+        [MemberData(nameof(CompressedNumericFixture.GetRandomBytes), 100, 4, 4, MemberType = typeof(CompressedNumericFixture))]
+        public void RandomByteEncoding_DecodingToUIntThenEncoding_ReturnsExpectedResult(byte[] testValue)
+        {
+            uint decoded = _SystemUnderTest.DecodeToUInt32(testValue);
+            byte[] actual = _SystemUnderTest.Encode(decoded);
+            Assertion(() => Assert.Equal(testValue, actual), Build.Equals.Message(testValue, actual));
+        }
+
+        [Theory]
+        [MemberData(nameof(CompressedNumericFixture.GetRandomBytes), 100, 8, 8, MemberType = typeof(CompressedNumericFixture))]
+        public void RandomByteEncoding_DecodingToULongThenEncoding_ReturnsExpectedResult(byte[] testValue)
+        {
+            ulong decoded = _SystemUnderTest.DecodeToUInt64(testValue);
+            byte[] actual = _SystemUnderTest.Encode(decoded);
+            Assertion(() => Assert.Equal(testValue, actual), Build.Equals.Message(testValue, actual));
+        }
+
+        [Fact]
+        public void test()
+        {
+            byte[] testValue = new byte[] {0x14, 143};
+
+            var decoded = _SystemUnderTest.DecodeToUInt16(testValue);
+            byte[] actual = _SystemUnderTest.Encode(decoded);
+            Assertion(() => Assert.Equal(testValue, actual), Build.Equals.Message(testValue, actual));
+        }
+
         [Theory]
         [MemberData(nameof(CompressedNumericFixture.GetRandomString), 100, 1, 300, MemberType = typeof(CompressedNumericFixture))]
         public void RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult(string testValue)
@@ -110,8 +137,8 @@ namespace Play.Codecs.Tests.Tests.CompressedNumerics
         [Fact]
         public void GivenValidString_GetByteCount_ReturnsExpectedResult()
         {
-            byte[] testData = {0x39, 0x39, 0x44, 0x11, 0x00};
-            const int expected = 5;
+            char[] testData = "12345F".ToCharArray();
+            const int expected = 3;
             int actual = _SystemUnderTest.GetByteCount(testData);
 
             Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
@@ -126,19 +153,19 @@ namespace Play.Codecs.Tests.Tests.CompressedNumerics
         }
 
         [Fact]
-        public void GivenInvalidString_IsValid_ReturnsFalse()
-        {
-            string testData = "(8373?8493+48FFFFFFFF";
-
-            Assertion(() => Assert.False(_SystemUnderTest.IsValid(testData)));
-        }
-
-        [Fact]
         public void GivenValidByteArray_IsValid_ReturnsTrue()
         {
             byte[] testData = {0x35, 0x98, 0x74, 0xFF};
 
             Assertion(() => Assert.True(_SystemUnderTest.IsValid(testData)));
+        }
+
+        [Fact]
+        public void GivenInvalidString_IsValid_ReturnsFalse()
+        {
+            string testData = "(8373?8493+48FFFFFFFF";
+
+            Assertion(() => Assert.False(_SystemUnderTest.IsValid(testData)));
         }
 
         [Fact]

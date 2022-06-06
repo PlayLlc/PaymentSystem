@@ -88,6 +88,9 @@ namespace Play.Randoms
                 for (int i = nibbleCount - padCount; i < nibbleCount; i++)
                     buffer[i] = _PaddedNibble;
 
+                if (buffer[0] == 0)
+                    buffer[0] = (byte) _Random.Next(1, 9);
+
                 return buffer.AsByteArray().ToArray();
             }
 
