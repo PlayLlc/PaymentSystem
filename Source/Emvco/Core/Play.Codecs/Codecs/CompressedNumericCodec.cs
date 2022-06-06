@@ -51,16 +51,20 @@ public partial class CompressedNumericCodec : PlayCodec
     {
         int offset = value.Length - 1;
 
-        for (; offset > 0;)
+        for (int i = value.Length - 1; i > 0; i--)
         {
-            if (value[offset] != _PaddedByte)
-                break;
+            if (value[i].GetMaskedValue(0xF0) != _PaddedNibble)
+                return offset;
 
-            offset -= 2;
-        }
-
-        if (value[offset].AreBitsSet(_PaddedRightNibble))
             offset++;
+
+            byte leftNibble = (byte) (value[i] >> 4);
+
+            if (leftNibble != _PaddedNibble)
+                return offset;
+
+            offset++;
+        }
 
         return offset;
     }
@@ -142,12 +146,12 @@ public partial class CompressedNumericCodec : PlayCodec
         {
             if ((padCount % 2) != 0)
             {
-                if (!_CharMap.ContainsKey(value[i].GetMaskedValue(_PaddedLeftNibble)))
+                if (!_CharMap.ContainsKey((byte) (value[i] >> 4)))
                     return false;
             }
             else
             {
-                if (!_CharMap.ContainsKey(value[i].GetMaskedValue(_PaddedRightNibble)))
+                if (!_CharMap.ContainsKey(value[i].GetMaskedValue(_PaddedLeftNibble)))
                     return false;
             }
         }
@@ -722,21 +726,40 @@ public partial class CompressedNumericCodec : PlayCodec
 
     public BigInteger DecodeToBigInteger(ReadOnlySpan<byte> value)
     {
-        for (byte i = 0; i < value.Length; i++)
-        {
-            if (!IsValid(value))
-                throw new ArgumentOutOfRangeException(nameof(value));
-        }
+        if (!IsValid(value))
+            throw new CodecParsingException(new ArgumentOutOfRangeException(nameof(value)));
 
         BigInteger result = 0;
 
-        return BuildInteger(result, value);
+        for (int i = 0; i < value.Length; i++)
+        {
+            if (value[i] == _PaddedByte)
+                return result;
+
+            result *= 10;
+            result += (byte) (value[i] >> 4);
+            byte rightNibble = value[i].GetMaskedValue(0xF0);
+
+            if (rightNibble == _PaddedRightNibble)
+                return result;
+
+            result *= 10;
+            result += rightNibble;
+        }
+
+        return result;
     }
 
     public byte DecodeToByte(byte value)
     {
-        int leftNibble = value >> 4;
+        if (value == _PaddedByte)
+            return 0;
+
+        byte leftNibble = (byte) (value >> 4);
         byte rightNibble = (byte) (value & ~0xF0);
+
+        if (rightNibble == _PaddedNibble)
+            return leftNibble;
 
         return (byte) ((leftNibble * 10) + rightNibble);
     }
@@ -749,11 +772,27 @@ public partial class CompressedNumericCodec : PlayCodec
     public uint DecodeToUInt32(ReadOnlySpan<byte> value)
     {
         if (!IsValid(value))
-            throw new ArgumentOutOfRangeException(nameof(value));
+            throw new CodecParsingException(new ArgumentOutOfRangeException(nameof(value)));
 
         uint result = 0;
 
-        return (uint) BuildInteger(result, value);
+        for (int i = 0; i < value.Length; i++)
+        {
+            if (value[i] == _PaddedByte)
+                return result;
+
+            result *= 10;
+            result += (byte) (value[i] >> 4);
+            byte rightNibble = value[i].GetMaskedValue(0xF0);
+
+            if (rightNibble == _PaddedRightNibble)
+                return result;
+
+            result *= 10;
+            result += rightNibble;
+        }
+
+        return result;
     }
 
     /// <summary>
@@ -763,15 +802,28 @@ public partial class CompressedNumericCodec : PlayCodec
     /// <returns></returns>
     public ulong DecodeToUInt64(ReadOnlySpan<byte> value)
     {
-        for (byte i = 0; i < value.Length; i++)
-        {
-            if (!IsValid(value))
-                throw new ArgumentOutOfRangeException(nameof(value));
-        }
+        if (!IsValid(value))
+            throw new CodecParsingException(new ArgumentOutOfRangeException(nameof(value)));
 
         ulong result = 0;
 
-        return (ulong) BuildInteger(result, value);
+        for (int i = 0; i < value.Length; i++)
+        {
+            if (value[i] == _PaddedByte)
+                return result;
+
+            result *= 10;
+            result += (byte) (value[i] >> 4);
+            byte rightNibble = value[i].GetMaskedValue(0xF0);
+
+            if (rightNibble == _PaddedRightNibble)
+                return result;
+
+            result *= 10;
+            result += rightNibble;
+        }
+
+        return result;
     }
 
     /// <summary>
@@ -781,9 +833,28 @@ public partial class CompressedNumericCodec : PlayCodec
     /// <returns></returns>
     public ushort DecodeToUInt16(ReadOnlySpan<byte> value)
     {
+        if (!IsValid(value))
+            throw new CodecParsingException(new ArgumentOutOfRangeException(nameof(value)));
+
         ushort result = 0;
 
-        return (ushort) BuildInteger(result, value);
+        for (int i = 0; i < value.Length; i++)
+        {
+            if (value[i] == _PaddedByte)
+                return result;
+
+            result *= 10;
+            result += (byte) (value[i] >> 4);
+            byte rightNibble = value[i].GetMaskedValue(0xF0);
+
+            if (rightNibble == _PaddedRightNibble)
+                return result;
+
+            result *= 10;
+            result += rightNibble;
+        }
+
+        return result;
     }
 
     /// <exception cref="CodecParsingException"></exception>
@@ -799,17 +870,6 @@ public partial class CompressedNumericCodec : PlayCodec
         result += _ByteMap[rightChar];
 
         return result;
-    }
-
-    private dynamic BuildInteger(dynamic resultBuffer, ReadOnlySpan<byte> value)
-    {
-        if (resultBuffer != byte.MinValue)
-            resultBuffer = 0;
-
-        for (int i = 0, j = (value.Length * 2) - 2; i < value.Length; i++, j -= 2)
-            resultBuffer += DecodeToByte(value[i]) * Math.Pow(10, j);
-
-        return resultBuffer;
     }
 
     #endregion

@@ -10,6 +10,8 @@ using Play.Randoms;
 using Play.Testing.BaseTestClasses;
 
 using Xunit;
+using Xunit.Abstractions;
+using Xunit.Sdk;
 
 namespace Play.Codecs.Tests.Tests.CompressedNumerics
 {
@@ -67,15 +69,6 @@ namespace Play.Codecs.Tests.Tests.CompressedNumerics
             byte[] decoded = _SystemUnderTest.Encode(testValue);
             ushort actual = _SystemUnderTest.DecodeToUInt16(decoded);
             Assertion(() => Assert.Equal(testValue, actual), Build.Equals.Message(testValue, actual));
-        }
-
-        [Fact]
-        public void Ushort_Encoding_ReturnsExpectedResult()
-        {
-            ushort testValue = 12345;
-            byte[] expected = new byte[] {0x12, 0x34, 0x5F};
-            var actual = PlayCodec.CompressedNumericCodec.Encode(testValue);
-            Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
         }
 
         [Theory]
