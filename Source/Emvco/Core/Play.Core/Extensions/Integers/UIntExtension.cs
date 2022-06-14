@@ -25,10 +25,10 @@ public static class UIntExtension
 
     public static uint ClearBit(this in uint input, Bits bitToClear, byte bytePosition)
     {
-        if (bytePosition > Specs.Integer.UInt64.ByteCount)
+        if (bytePosition > Specs.Integer.UInt32.ByteCount) 
             throw new ArgumentOutOfRangeException(nameof(bytePosition));
 
-        return input & (~ (uint) bitToClear << ((bytePosition * 8) - 8));
+        return input & ~((uint) bitToClear << ((bytePosition * 8) - 8));
     }
 
     public static byte GetMostSignificantByte(this uint value) =>
@@ -56,7 +56,7 @@ public static class UIntExtension
 
         for (byte i = 0; i < Specs.Integer.UInt32.BitCount; i++)
         {
-            if (value.IsBitSet((byte) (1 << i)))
+            if (value.IsBitSet((byte) i))
                 result++;
         }
 
