@@ -11,13 +11,10 @@ namespace Play.Core.Tests.Tests.Extensions.Integers;
 
 public class UlongTests : TestBase
 {
-    #region Instance Members
-    #endregion
-
     #region GetNumberOfDigits
 
     [Fact]
-    public void Ulong_GetNumberOfDigits5_ReturnsExpectedResult()
+    public void Ulong_GetNumberOfDigits20_ReturnsExpectedResult()
     {
         ulong testData = ulong.MaxValue;
         int expected = Specs.Integer.UInt64.MaxDigits;
@@ -76,7 +73,7 @@ public class UlongTests : TestBase
 
     [Theory]
     [MemberData(nameof(IntFixture.MostSignificantBit.ForULong), 50, MemberType = typeof(IntFixture.MostSignificantBit))]
-    public void RandomByteArray_InvokesConcatArrays_CreatesValueCopyWithCorrectLength(int actual, ulong testData)
+    public void RandomULong_InvokesGetMostSignificantBit_ReturnsExpectedResult(int actual, ulong testData)
     {
         int expected = testData.GetMostSignificantBit();
 
@@ -205,7 +202,7 @@ public class UlongTests : TestBase
     public void ULong_GetSetBitCountULongMax_ReturnsExpectedResult()
     {
         ulong testData = ulong.MaxValue;
-        int expected = Play.Core.Specifications.Specs.Integer.Int64.BitCount;
+        int expected = Specs.Integer.Int64.BitCount;
 
         Assertion(() => Assert.Equal(expected, testData.GetSetBitCount()));
     }
@@ -313,7 +310,7 @@ public class UlongTests : TestBase
     [MemberData(nameof(IntFixture.ForULong), 50, MemberType = typeof(IntFixture))]
     public void ULong_ClearBitsSameValue_AllBitsAreAlwaysCleared(ulong testData)
     {
-        Assertion(() => Assert.Equal((ulong)0, testData.ClearBits(testData)));
+        Assertion(() => Assert.Equal((ulong) 0, testData.ClearBits(testData)));
     }
 
     #endregion
@@ -466,7 +463,7 @@ public class UlongTests : TestBase
         ulong testData = 0;
         byte bitPosition = 65;
 
-        Assertion(() => Assert.Throws<ArgumentOutOfRangeException>(() => testData.SetBit(bitPosition)) );
+        Assertion(() => Assert.Throws<ArgumentOutOfRangeException>(() => testData.SetBit(bitPosition)));
     }
 
     #endregion
@@ -519,7 +516,7 @@ public class UlongTests : TestBase
     [Fact]
     public void ULong_GetMostSignificantByte_ReturnsByte2()
     {
-        ulong testData= 0b0001_0001_0001_0001;
+        ulong testData = 0b0001_0001_0001_0001;
         byte expected = 2;
 
         Assertion(() => Assert.Equal(expected, testData.GetMostSignificantByte()));
