@@ -72,7 +72,7 @@ public static class UlongExtensions
 
         for (byte i = 0; i < Specs.Integer.UInt64.BitCount; i++)
         {
-            if (value.IsBitSet((byte) (i)))
+            if (value.IsBitSet((byte) i))
                 result++;
         }
 
@@ -123,7 +123,7 @@ public static class UlongExtensions
         if (bitToClear > Specs.Integer.UInt64.BitCount)
             throw new ArgumentOutOfRangeException(nameof(bitToClear));
 
-        return input & ~((ulong)1 << (bitToClear - 1));
+        return input & ~((ulong) 1 << (bitToClear - 1));
     }
 
     public static ulong ClearBits(this in ulong input, ulong bitsToClear) => input & ~bitsToClear;
@@ -181,7 +181,7 @@ public static class UlongExtensions
     }
 
     public static bool HasValue(this ulong value, ulong valueToCheck) => (value & valueToCheck) != 0;
-    public static bool IsBitSet(this in ulong value, in byte bitPosition) => (value & ((ulong) 1 << bitPosition)) != 0;
+    public static bool IsBitSet(this in ulong value, in byte bitPosition) => (value & ((ulong) 1 << (bitPosition - 1))) != 0;
     public static bool IsEven(this ulong value) => (value % 2) == 0;
     public static bool IsBitSet(this ulong value, Bits bit) => (value & BitLookup.GetBit(bit)) != 0;
 

@@ -354,7 +354,7 @@ public class UlongTests : TestBase
     [Fact]
     public void ULong_IsBitSet1_ReturnsTrue()
     {
-        ulong testData = 0b1100_0011;
+        ulong testData = 0b1100_0001;
         byte bitPosition = 1;
 
         Assertion(() => Assert.True(testData.IsBitSet(bitPosition)));
@@ -363,7 +363,7 @@ public class UlongTests : TestBase
     [Fact]
     public void ULong_IsBitSet1_ReturnsFalse()
     {
-        ulong testData = 0b1100_0001;
+        ulong testData = 0b1100_0010;
         byte bitPosition = 1;
 
         Assertion(() => Assert.False(testData.IsBitSet(bitPosition)));
@@ -372,7 +372,7 @@ public class UlongTests : TestBase
     [Fact]
     public void ULong_IsBitSet7_ReturnsTrue()
     {
-        ulong testData = 0b1100_0010;
+        ulong testData = 0b0100_0010;
         byte bitPosition = 7;
 
         Assertion(() => Assert.True(testData.IsBitSet(bitPosition)));
@@ -382,8 +382,7 @@ public class UlongTests : TestBase
     public void ULong_IsBitSet7_ReturnsFalse()
     {
         ulong testData = 0b0100_0010;
-        byte bitPosition = 7;
-
+        byte bitPosition = 8;
         Assertion(() => Assert.False(testData.IsBitSet(bitPosition)));
     }
 
