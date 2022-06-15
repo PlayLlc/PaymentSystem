@@ -493,7 +493,7 @@ public class UlongTests : TestBase
     public void ULong_SetBits_Returns0b1111_0000_1111()
     {
         ulong testData = 0b1100_0000_0100;
-        ulong bitsToSet = 0b1111_0000_1111;
+        ulong bitsToSet = 0b0011_0000_1111;
 
         ulong expected = 0b1111_0000_1111;
         Assertion(() => Assert.Equal(expected, testData.SetBits(bitsToSet)));
