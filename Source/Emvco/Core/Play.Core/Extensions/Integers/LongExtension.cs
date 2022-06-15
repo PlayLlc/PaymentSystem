@@ -6,7 +6,6 @@ public static class LongExtension
 {
     #region Instance Members
 
-    public static string GetBinaryString(this long value) => Convert.ToString(value, 2);
     public static long GetMaskedValue(this long value, long bitsToMask) => value & ~bitsToMask;
 
     public static int GetMostSignificantBit(this long value)
@@ -25,8 +24,6 @@ public static class LongExtension
 
         return (byte) ((count % 1) == 0 ? count : count + 1);
     }
-
-    public static bool HasValue(this long value, long valueToCheck) => (value & valueToCheck) != 0;
 
     #endregion
 }
