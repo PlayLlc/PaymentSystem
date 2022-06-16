@@ -1,6 +1,4 @@
-﻿using System;
-
-using Play.Core.Extensions;
+﻿using Play.Core.Extensions;
 using Play.Core.Tests.Data.Fixtures;
 using Play.Testing.BaseTestClasses;
 
@@ -192,7 +190,7 @@ public class ShortTests : TestBase
     public void Short_GetNumberOfDigits_Returns5()
     {
         short testData = short.MaxValue;
-        byte expected = 5;
+        byte expected = Specifications.Specs.Integer.Int16.MaxDigits;
 
         Assertion(() => Assert.Equal(expected, testData.GetNumberOfDigits()));
     }
