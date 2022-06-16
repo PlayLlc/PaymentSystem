@@ -152,12 +152,12 @@ public class UlongTests : TestBase
     }
 
     [Fact]
-    public void ULong_AreAnyBitsSetNoBitSet_ReturnsTrue()
+    public void ULong_AreAnyBitsSetNoBitSet_ReturnsFalse()
     {
-        ulong testData = 0b1111111111111111111111111111111111111111111111111111111111111111;
+        ulong testData = 0b0111111111111111111111111111111111111111111111111111111111111111;
         ulong bitsToCompare = 0b1000000000000000000000000000000000000000000000000000000000000000;
 
-        Assertion(() => Assert.True(testData.AreAnyBitsSet(bitsToCompare)));
+        Assertion(() => Assert.False(testData.AreAnyBitsSet(bitsToCompare)));
     }
 
     [Theory]
