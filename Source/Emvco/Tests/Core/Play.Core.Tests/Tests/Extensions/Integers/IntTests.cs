@@ -32,10 +32,10 @@ public class IntTests : TestBase
     }
 
     [Fact]
-    public void Int_GetMostSignificantBit_Returns15()
+    public void Int_GetMostSignificantBit_Returns23()
     {
-        int testData = 0b0100_0101_0110_1110;
-        int expected = 15;
+        int testData = 0b0100_0101_0100_0101_0110_1110;
+        int expected = 23;
 
         Assertion(() => Assert.Equal(expected, testData.GetMostSignificantBit()));
     }
@@ -132,6 +132,52 @@ public class IntTests : TestBase
     #endregion
 
     #region TryGetRemainder
+
+    [Fact]
+    public void Int_TryGetRemainderFor5Divisor2_ReturnsExpectedResult()
+    {
+        int testData = 5;
+        int divisor = 2;
+        int expected = 1;
+        int actual = testData.TryGetRemainder(divisor, out int resultWithOutRemainder);
+
+        Assertion(() => Assert.Equal(expected, actual));
+
+        int expectedResultWithoutRemainder = 2;
+
+        Assertion(() => Assert.Equal(expectedResultWithoutRemainder, resultWithOutRemainder));
+    }
+
+    [Fact]
+    public void Int_TryGetRemainderFor17Divisor3_ReturnsExpectedResult()
+    {
+        int testData = 17;
+        int divisor = 3;
+        int expected = 2;
+        int actual = testData.TryGetRemainder(divisor, out int resultWithOutRemainder);
+
+        Assertion(() => Assert.Equal(expected, actual));
+
+        int expectedResultWithoutRemainder = 5;
+
+        Assertion(() => Assert.Equal(expectedResultWithoutRemainder, resultWithOutRemainder));
+    }
+
+    [Fact]
+    public void Int_TryGetRemainderFor1743Divisor36_ReturnsExpectedResult()
+    {
+        int testData = 1743;
+        int divisor = 36;
+        int expected = 15;
+        int actual = testData.TryGetRemainder(divisor, out int resultWithOutRemainder);
+
+        Assertion(() => Assert.Equal(expected, actual));
+
+        int expectedResultWithoutRemainder = 48;
+
+        Assertion(() => Assert.Equal(expectedResultWithoutRemainder, resultWithOutRemainder));
+    }
+
     #endregion
 }
 
