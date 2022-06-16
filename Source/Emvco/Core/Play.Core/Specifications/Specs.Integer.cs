@@ -156,7 +156,7 @@ public partial class Specs
             #region Static Metadata
 
             public const byte ByteCount = 2;
-            public const byte MaxDigits = 4;
+            public const byte MaxDigits = 5;
             public const byte BitCount = 16;
             public const byte CompressedNumericByteSize = (MaxDigits / 2) + (MaxDigits % 2);
             public const byte HexadecimalByteSize = (MaxDigits / 2) + (MaxDigits % 2);
