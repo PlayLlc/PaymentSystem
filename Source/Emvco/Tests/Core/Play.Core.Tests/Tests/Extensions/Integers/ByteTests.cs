@@ -210,7 +210,6 @@ public class ByteTests : TestBase
         Assertion(() => Assert.Equal(expected, testData.GetSetBitCount()));
     }
 
-
     #endregion
 
     #region ClearBits
