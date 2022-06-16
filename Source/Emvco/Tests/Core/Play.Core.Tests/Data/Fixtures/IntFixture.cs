@@ -8,6 +8,16 @@ namespace Play.Core.Tests.Data.Fixtures;
 
 internal class IntFixture
 {
+    public static IEnumerable<object[]> ForUInt(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            uint value = Randomize.Integers.UInt(byte.MinValue, byte.MaxValue);
+
+            yield return new object[] { value };
+        }
+    }
+
 
     public static IEnumerable<object[]> ForULong(int count)
     {
@@ -53,7 +63,7 @@ internal class IntFixture
         {
             for (int i = 0; i < count; i++)
             {
-                uint value = Randomize.Integers.UShort(byte.MinValue, byte.MaxValue);
+                uint value = Randomize.Integers.UInt(byte.MinValue, byte.MaxValue);
 
                 yield return new object[] {GetMostSignificantBit(value), value};
             }
