@@ -18,6 +18,17 @@ internal class IntFixture
         }
     }
 
+
+    public static IEnumerable<object[]> ForULong(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            ulong value = Randomize.Integers.ULong();
+
+            yield return new object[] { value };
+        }
+    }
+
     public class MostSignificantBit
     {
         #region Static Metadata
@@ -62,7 +73,7 @@ internal class IntFixture
         {
             for (int i = 0; i < count; i++)
             {
-                ulong value = Randomize.Integers.UShort(byte.MinValue, byte.MaxValue);
+                ulong value = Randomize.Integers.ULong();
 
                 yield return new object[] {GetMostSignificantBit(value), value};
             }
