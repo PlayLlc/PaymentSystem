@@ -227,6 +227,14 @@ public class UshortTests : TestBase
     }
 
     [Fact]
+    public void Ushort_IsBitSet2_ReturnsFalse()
+    {
+        ushort testData = 0b11111100;
+        byte bitPosition = 2;
+        Assertion(() => Assert.False(testData.IsBitSet(bitPosition)));
+    }
+
+    [Fact]
     public void Ushort_IsBitSet0_ReturnsFalse()
     {
         ushort testData = 0b11111110;
@@ -262,7 +270,7 @@ public class UshortTests : TestBase
     public void Ushort_IsBitSet15_ReturnsTrue()
     {
         ushort testData = ushort.MaxValue;
-        byte bitPosition = 15;
+        byte bitPosition = Specs.Integer.Int16.BitCount;
         Assertion(() => Assert.True(testData.IsBitSet(bitPosition)));
     }
 

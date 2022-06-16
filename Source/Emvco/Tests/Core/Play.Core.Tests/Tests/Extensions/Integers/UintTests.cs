@@ -17,7 +17,7 @@ public class UintTests : TestBase
     #region GetNumberOfDigits
 
     [Fact]
-    public void Uint_GetNumberOfDigits5_ReturnsExpectedResult()
+    public void Uint_GetNumberOfDigits10_ReturnsExpectedResult()
     {
         uint testData = uint.MaxValue;
         int expected = Specs.Integer.UInt32.MaxDigits;
@@ -118,7 +118,7 @@ public class UintTests : TestBase
     public void Uint_GetSetBitCountUIntMaxValue_ReturnsExpectedResult()
     {
         uint testData = uint.MaxValue;
-        int expected = 32;
+        int expected = Specs.Integer.Int32.BitCount;
 
         Assertion(() => Assert.Equal(expected, testData.GetSetBitCount()));
     }
@@ -131,16 +131,16 @@ public class UintTests : TestBase
     public void Uint_IsBitSet0_ReturnsTrue()
     {
         uint testData = 0b001;
-        byte expectedBitPosition = 0;
+        byte expectedBitPosition = 1;
 
         Assertion(() => Assert.True(testData.IsBitSet(expectedBitPosition)));
     }
 
     [Fact]
-    public void Uint_IsBitSet1_ReturnsFalse()
+    public void Uint_IsBitSet3_ReturnsFalse()
     {
         uint testData = 0b0001;
-        byte expectedBitPosition = 1;
+        byte expectedBitPosition = 3;
 
         Assertion(() => Assert.False(testData.IsBitSet(expectedBitPosition)));
     }
@@ -148,7 +148,7 @@ public class UintTests : TestBase
     [Fact]
     public void Uint_IsBitSet3_ReturnsTrue()
     {
-        uint testData = 0b1001;
+        uint testData = 0b0101;
         byte expectedBitPosition = 3;
 
         Assertion(() => Assert.True(testData.IsBitSet(expectedBitPosition)));
