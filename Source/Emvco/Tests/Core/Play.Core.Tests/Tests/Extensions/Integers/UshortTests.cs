@@ -238,7 +238,7 @@ public class UshortTests : TestBase
     public void Ushort_IsBitSet0_ReturnsFalse()
     {
         ushort testData = 0b11111110;
-        byte bitPosition = 0;
+        byte bitPosition = 1;
         Assertion(() => Assert.False(testData.IsBitSet(bitPosition)));
     }
 
