@@ -14,8 +14,8 @@ public class IntTests : TestBase
     [Fact]
     public void Int_GetMostSignificantBit_Returns0()
     {
-        int testData = 0;
-        int expected = 0;
+        int testData = 1;
+        int expected = 1;
 
         Assertion(() => Assert.Equal(expected, testData.GetMostSignificantBit()));
     }
