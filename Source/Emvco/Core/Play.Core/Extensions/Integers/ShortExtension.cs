@@ -48,9 +48,10 @@ public static class ShortExtension
 
     public static byte GetNumberOfDigits(this in short value)
     {
-        double count = Math.Log10(Math.Pow(2, value.GetMostSignificantBit()));
+        if (value == 0)
+            return 1;
 
-        return (byte) ((count % 1) == 0 ? count : count + 1);
+        return (byte)Math.Floor(Math.Log10(value) + 1);
     }
 
     #endregion

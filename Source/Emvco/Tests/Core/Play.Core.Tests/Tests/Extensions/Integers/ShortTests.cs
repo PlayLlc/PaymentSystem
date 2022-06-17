@@ -160,10 +160,10 @@ public class ShortTests : TestBase
     #region GetNumberOfDigits
 
     [Fact]
-    public void Short_GetNumberOfDigits_Returns0()
+    public void Short_GetNumberOfDigitsFor0_Returns1()
     {
         short testData = 0;
-        byte expected = 0;
+        byte expected = 1;
 
         Assertion(() => Assert.Equal(expected, testData.GetNumberOfDigits()));
     }
@@ -187,7 +187,16 @@ public class ShortTests : TestBase
     }
 
     [Fact]
-    public void Short_GetNumberOfDigits_Returns5()
+    public void Short_GetNumberOfDigits_Returns4()
+    {
+        short testData = 8319;
+        byte expected = 4;
+
+        Assertion(() => Assert.Equal(expected, testData.GetNumberOfDigits()));
+    }
+
+    [Fact]
+    public void Short_GetNumberOfDigitsForShortMaxValue_ReturnsSpecsIntegerInt16MaxDigits()
     {
         short testData = short.MaxValue;
         byte expected = Specifications.Specs.Integer.Int16.MaxDigits;
