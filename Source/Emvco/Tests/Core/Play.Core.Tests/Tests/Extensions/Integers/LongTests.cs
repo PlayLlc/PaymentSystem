@@ -103,7 +103,10 @@ public class LongTests : TestBase
     {
         int expected = testData.GetMostSignificantBit();
 
-        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
+        if (testData > 0)
+            Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
+        else
+            Assertion(() => Assert.Equal(expected, int.MinValue), Build.Equals.Message(expected, actual));
     }
 
 
