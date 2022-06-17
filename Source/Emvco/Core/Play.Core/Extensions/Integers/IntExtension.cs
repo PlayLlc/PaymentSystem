@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Play.Core.Specifications;
+
 namespace Play.Core.Extensions;
 
 public static class IntExtension
@@ -16,6 +18,9 @@ public static class IntExtension
     {
         if (value == 0)
             return 0;
+
+        if (value < 0)
+            return Specs.Integer.Int32.BitCount;
 
         double count = Math.Log2(value);
 

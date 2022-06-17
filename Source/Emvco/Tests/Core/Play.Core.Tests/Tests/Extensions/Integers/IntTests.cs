@@ -1,4 +1,5 @@
 ﻿using Play.Core.Extensions;
+using Play.Core.Specifications;
 using Play.Core.Tests.Data.Fixtures;
 using Play.Testing.BaseTestClasses;
 
@@ -8,9 +9,6 @@ namespace Play.Core.Tests.Tests.Extensions.Integers;
 
 public class IntTests : TestBase
 {
-    #region Instance Members
-    #endregion
-
     #region GetMostSignificantBit
 
     [Fact]
@@ -124,11 +122,11 @@ public class IntTests : TestBase
     public void Int_GetNumberOfDigits_Returns10()
     {
         int testData = int.MaxValue;
-        byte expected = Specifications.Specs.Integer.Int32.MaxDigits;
+        byte expected = Specs.Integer.Int32.MaxDigits;
 
         Assertion(() => Assert.Equal(expected, testData.GetNumberOfDigits()));
     }
-    
+
     #endregion
 
     #region TryGetRemainder
@@ -180,4 +178,3 @@ public class IntTests : TestBase
 
     #endregion
 }
-
