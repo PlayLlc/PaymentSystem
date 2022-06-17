@@ -40,12 +40,9 @@ public static class ShortExtension
         if (value == 0)
             return 0;
 
-        if (value < 0)
-            return Specs.Integer.UInt16.BitCount;
+        int bitLog = (int) Math.Log(value, 2);
 
-        double count = Math.Log2(value);
-
-        return (int) ((count % 1) == 0 ? count : count + 1);
+        return bitLog + 1;
     }
 
     public static byte GetMostSignificantByte(this in short value) =>

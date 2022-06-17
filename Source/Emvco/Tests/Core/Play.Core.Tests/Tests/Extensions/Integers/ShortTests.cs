@@ -71,8 +71,8 @@ public class ShortTests : TestBase
     [Fact]
     public void Short_GetMostSignificantBit_Returns0()
     {
-        short testData = 0;
-        int expected = 0;
+        short testData = 1;
+        int expected = 1;
 
         Assertion(() => Assert.Equal(expected, testData.GetMostSignificantBit()));
     }
