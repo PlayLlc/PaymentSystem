@@ -64,7 +64,7 @@ internal class IntFixture
             {
                 short value = Randomize.Integers.Short(0, short.MaxValue);
 
-                yield return new object[] { GetMostSignificantBit(value), value };
+                yield return new object[] {GetMostSignificantBit(value), value};
             }
         }
 
@@ -74,7 +74,7 @@ internal class IntFixture
             {
                 short value = Randomize.Integers.Short(short.MinValue, 0);
 
-                yield return new object[] { GetMostSignificantBit(value), value };
+                yield return new object[] {value};
             }
         }
 

@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Play.Core.Specifications;
+
 namespace Play.Core.Extensions;
 
 public static class ShortExtension
@@ -38,6 +40,9 @@ public static class ShortExtension
         if (value == 0)
             return 0;
 
+        if (value < 0)
+            return Specs.Integer.UInt16.BitCount;
+
         double count = Math.Log2(value);
 
         return (int) ((count % 1) == 0 ? count : count + 1);
@@ -51,7 +56,7 @@ public static class ShortExtension
         if (value == 0)
             return 1;
 
-        return (byte)Math.Floor(Math.Log10(value) + 1);
+        return (byte) Math.Floor(Math.Log10(value) + 1);
     }
 
     #endregion

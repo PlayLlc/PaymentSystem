@@ -1,4 +1,5 @@
 ﻿using Play.Core.Extensions;
+using Play.Core.Specifications;
 using Play.Core.Tests.Data.Fixtures;
 using Play.Testing.BaseTestClasses;
 
@@ -8,10 +9,6 @@ namespace Play.Core.Tests.Tests.Extensions.Integers;
 
 public class ShortTests : TestBase
 {
-    #region InstanceMembers
-
-    #endregion
-
     #region GetMaskedShort
 
     [Fact]
@@ -19,12 +16,12 @@ public class ShortTests : TestBase
     {
         short testData = 0b10111;
 
-        Bits[] leftbyteMaskBits = new[] { Bits.One };
-        Bits[] rightbyteMaskBits = new[] { Bits.One };
+        Bits[] leftByteMaskBits = new[] {Bits.One};
+        Bits[] rightByteMaskBits = new[] {Bits.One};
 
         short expected = 0b10110;
 
-        Assertion(() => Assert.Equal(expected, testData.GetMaskedShort(leftbyteMaskBits, rightbyteMaskBits)));
+        Assertion(() => Assert.Equal(expected, testData.GetMaskedShort(leftByteMaskBits, rightByteMaskBits)));
     }
 
     [Fact]
@@ -32,8 +29,8 @@ public class ShortTests : TestBase
     {
         short testData = 0b0100_0101_0110_1110;
 
-        Bits[] leftbyteMaskBits = new[] { Bits.One };
-        Bits[] rightbyteMaskBits = new[] { Bits.Three };
+        Bits[] leftbyteMaskBits = new[] {Bits.One};
+        Bits[] rightbyteMaskBits = new[] {Bits.Three};
 
         short expected = 0b0100_0100_0110_1010;
 
@@ -45,8 +42,8 @@ public class ShortTests : TestBase
     {
         short testData = 0b0100_0101_0110_1110;
 
-        Bits[] leftbyteMaskBits = new[] { Bits.One, Bits.Three };
-        Bits[] rightbyteMaskBits = new[] { Bits.Three, Bits.Six };
+        Bits[] leftbyteMaskBits = new[] {Bits.One, Bits.Three};
+        Bits[] rightbyteMaskBits = new[] {Bits.Three, Bits.Six};
 
         short expected = 0b0100_0000_0100_1010;
 
@@ -58,14 +55,15 @@ public class ShortTests : TestBase
     {
         short testData = short.MaxValue;
 
-        Bits[] leftbyteMaskBits = new[] { Bits.One, Bits.Four };
-        Bits[] rightbyteMaskBits = new[] { Bits.Two, Bits.Five };
+        Bits[] leftbyteMaskBits = new[] {Bits.One, Bits.Four};
+        Bits[] rightbyteMaskBits = new[] {Bits.Two, Bits.Five};
 
         short expected = 0b111_0110_1110_1101;
         short see = testData.GetMaskedShort(leftbyteMaskBits, rightbyteMaskBits);
 
         Assertion(() => Assert.Equal(expected, testData.GetMaskedShort(leftbyteMaskBits, rightbyteMaskBits)));
     }
+
     #endregion
 
     #region GetMostSignificantBit
@@ -108,11 +106,11 @@ public class ShortTests : TestBase
 
     [Theory]
     [MemberData(nameof(IntFixture.MostSignificantBit.ForNegativeShort), 50, MemberType = typeof(IntFixture.MostSignificantBit))]
-    public void RandomShort_GetMostSignificantBitNegativeValue_ReturnsExpectedResult(int actual, short testData)
+    public void RandomShort_GetMostSignificantBitNegativeValue_ReturnsExpectedResult(short testData)
     {
         int expected = 16;
 
-        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
+        Assertion(() => Assert.Equal(expected, testData.GetMostSignificantBit()), Build.Equals.Message(expected, testData.GetMostSignificantBit()));
     }
 
     #endregion
@@ -199,11 +197,10 @@ public class ShortTests : TestBase
     public void Short_GetNumberOfDigitsForShortMaxValue_ReturnsSpecsIntegerInt16MaxDigits()
     {
         short testData = short.MaxValue;
-        byte expected = Specifications.Specs.Integer.Int16.MaxDigits;
+        byte expected = Specs.Integer.Int16.MaxDigits;
 
         Assertion(() => Assert.Equal(expected, testData.GetNumberOfDigits()));
     }
 
     #endregion
 }
-
