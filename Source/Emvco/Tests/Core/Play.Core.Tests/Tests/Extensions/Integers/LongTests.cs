@@ -1,4 +1,5 @@
 ﻿using Play.Core.Extensions;
+using Play.Core.Specifications;
 using Play.Core.Tests.Data.Fixtures;
 using Play.Testing.BaseTestClasses;
 
@@ -8,10 +9,6 @@ namespace Play.Core.Tests.Tests.Extensions.Integers;
 
 public class LongTests : TestBase
 {
-    #region Instance Members
-
-    #endregion
-
     #region GetMaskedValue
 
     [Fact]
@@ -65,7 +62,7 @@ public class LongTests : TestBase
     public void Long_GetMostSignificantBit_Returns0()
     {
         long testData = 1;
-        int expected = 0;
+        int expected = 1;
 
         Assertion(() => Assert.Equal(expected, testData.GetMostSignificantBit()));
     }
@@ -92,7 +89,7 @@ public class LongTests : TestBase
     public void Long_GetMostSignificantBitLongMaxValue_ReturnsLongSpecsMaxBitMinusTheSignBit()
     {
         long testData = long.MaxValue;
-        int expected = Specifications.Specs.Integer.Int64.BitCount - 1;
+        int expected = Specs.Integer.Int64.BitCount - 1;
 
         Assertion(() => Assert.Equal(expected, testData.GetMostSignificantBit()));
     }
@@ -108,7 +105,6 @@ public class LongTests : TestBase
         else
             Assertion(() => Assert.Equal(expected, int.MinValue), Build.Equals.Message(expected, actual));
     }
-
 
     #endregion
 
@@ -145,7 +141,7 @@ public class LongTests : TestBase
     public void Long_GetMostSignificantByteIntMax_ReturnsSpecsIntegerInt64ByteCount()
     {
         long testData = long.MaxValue;
-        byte expected = Specifications.Specs.Integer.Int64.ByteCount;
+        byte expected = Specs.Integer.Int64.ByteCount;
 
         Assertion(() => Assert.Equal(expected, testData.GetMostSignificantByte()));
     }
@@ -194,11 +190,10 @@ public class LongTests : TestBase
     public void Long_GetNumberOfDigits_ReturnsSpecsIntegerInt64MaxDigits()
     {
         long testData = long.MaxValue;
-        byte expected = Specifications.Specs.Integer.Int64.MaxDigits;
+        byte expected = Specs.Integer.Int64.MaxDigits;
 
         Assertion(() => Assert.Equal(expected, testData.GetNumberOfDigits()));
     }
 
     #endregion
 }
-
