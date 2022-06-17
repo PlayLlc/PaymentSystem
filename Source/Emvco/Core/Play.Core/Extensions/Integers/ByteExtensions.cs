@@ -197,8 +197,8 @@ public static class ByteExtensions
     /// <returns></returns>
     public static byte SetBits(this byte input, byte bitsToSet) => (byte) (input | bitsToSet);
 
-    public static byte ShiftNibbleLeft(this byte value, byte rightNibble) => (byte) (value.GetRightNibble() | rightNibble);
-    public static byte ShiftNibbleRight(this byte value, byte leftNibble) => (byte) (value.GetLeftNibble() | leftNibble);
+    public static byte ShiftNibbleLeft(this byte value, Nibble rightNibble) => (byte) ((value.GetRightNibble() << 4) | rightNibble);
+    public static byte ShiftNibbleRight(this byte value, Nibble leftNibble) => (byte) ((leftNibble << 4) | (value.GetLeftNibble() >> 4));
 
     /// <summary>
     ///     Returns the value of the remainder, or 0 if there is no remainder. The out variable will return the result

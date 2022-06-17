@@ -9,6 +9,37 @@ namespace Play.Core.Tests.Tests.Extensions.Integers;
 
 public class ByteTests : TestBase
 {
+    #region ShiftNibbleRight
+
+    [Fact]
+    public void Byte_ShiftNibbleRightMaxValue_Returns0b11111111()
+    {
+        byte testData = byte.MaxValue;
+        byte leftNibble = 0b1111;
+        byte expected = byte.MaxValue;
+        Assertion(() => Assert.Equal(expected, testData.ShiftNibbleRight(leftNibble)));
+    }
+
+    [Fact]
+    public void Byte_ShiftNibbleRight0b10101111_Returns0b00001010()
+    {
+        byte testData = 0b1010_1111;
+        byte leftNibble = 0b0000;
+        byte expected = 0b0000_1010;
+        Assertion(() => Assert.Equal(expected, testData.ShiftNibbleRight(leftNibble)));
+    }
+
+    [Fact]
+    public void Byte_ShiftNibbleRight0b00001111_Returns0b11110000()
+    {
+        byte testData = 0b0000_1111;
+        byte leftNibble = 0b1111;
+        byte expected = 0b1111_0000;
+        Assertion(() => Assert.Equal(expected, testData.ShiftNibbleRight(leftNibble)));
+    }
+
+    #endregion
+
     #region GetNumberOfDigits
 
     [Fact]
@@ -318,38 +349,36 @@ public class ByteTests : TestBase
     #region ShiftNibbleLeft
 
     [Fact]
-    public void Byte_ShiftNibbleLeftMaxValue_Returns0b1111()
+    public void Byte_ShiftNibbleLeftMaxValue_Returns0b11111111()
     {
         byte testData = byte.MaxValue;
         byte rightNibble = 0b1111;
-        byte expected = 0b1111;
+        byte expected = byte.MaxValue;
 
         Assertion(() => Assert.Equal(expected, testData.ShiftNibbleLeft(rightNibble)));
     }
 
     [Fact]
-    public void Byte_ShiftNibbleLeft0b10101010_Returns0b1111()
+    public void Byte_ShiftNibbleLeft0b10101010_Returns0b10101111()
     {
-        byte testData = 0b10101010;
+        byte testData = 0b1010_1010;
         byte rightNibble = 0b1111;
-        byte expected = 0b1111;
+        byte expected = 0b1010_1111;
 
         Assertion(() => Assert.Equal(expected, testData.ShiftNibbleLeft(rightNibble)));
     }
 
     [Fact]
-    public void Byte_ShiftNibbleLeft0b10101010_Returns0b101110()
+    public void Byte_ShiftNibbleLeft0b10100000_Returns0b00001110()
     {
-        byte testData = 0b10101010;
-        byte rightNibble = 0b101110;
-        byte expected = 0b101110;
+        byte testData = 0b1010_0000;
+        byte rightNibble = 0b1110;
+        byte expected = 0b0000_1110;
 
         Assertion(() => Assert.Equal(expected, testData.ShiftNibbleLeft(rightNibble)));
     }
 
     #endregion
-
-    //TODO ShiftNibbleRight
 
     #region GetMaskedValue
 
