@@ -50,7 +50,7 @@ public static class BigIntegerExtensions
         return (byte) ((count % 1) == 0 ? count : count + 1);
     }
 
-    public static bool IsBitSet(this in BigInteger value, in byte bitPosition) => (value & ((BigInteger) 1 << bitPosition)) != 0;
+    public static bool IsBitSet(this in BigInteger value, in byte bitPosition) => (value & ((BigInteger) 1 << (bitPosition -1))) != 0;
 
     public static byte RightPaddedUnsetBitCount(this in BigInteger value)
     {
@@ -91,6 +91,9 @@ public static class BigIntegerExtensions
     {
         checked
         {
+            if (value == 0)
+                return 1;
+
             int offset = 0;
             for (; value > 0; offset++)
                 value /= 10;
