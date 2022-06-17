@@ -20,9 +20,9 @@ public static class LongExtension
 
     public static byte GetNumberOfDigits(this long value)
     {
-        double count = Math.Log10(Math.Pow(2, value.GetMostSignificantBit()));
+        double count = Math.Log10(value);
 
-        return (byte) ((count % 1) == 0 ? count : count + 1);
+        return (byte)((count % 1) == 0 ? count : count + 1);
     }
 
     #endregion
