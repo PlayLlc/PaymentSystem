@@ -9,9 +9,6 @@ namespace Play.Core.Tests.Tests.Extensions.Integers;
 
 public class ByteTests : TestBase
 {
-    #region Instance Members
-    #endregion
-
     #region GetNumberOfDigits
 
     [Fact]
@@ -205,7 +202,7 @@ public class ByteTests : TestBase
     public void Byte_GetSetBitCountByteMax_ReturnsExpectedResult()
     {
         byte testData = byte.MaxValue;
-        int expected = Play.Core.Specifications.Specs.Integer.UInt8.BitCount;
+        int expected = Specs.Integer.UInt8.BitCount;
 
         Assertion(() => Assert.Equal(expected, testData.GetSetBitCount()));
     }
@@ -241,7 +238,7 @@ public class ByteTests : TestBase
     {
         byte testData = 0b1100_0101;
         byte bitsToClear = 0b0100_0001;
-        
+
         byte expected = 0b1000_0100;
 
         Assertion(() => Assert.Equal(expected, testData.ClearBits(bitsToClear)));
@@ -251,7 +248,7 @@ public class ByteTests : TestBase
     [MemberData(nameof(IntFixture.ForByte), 50, MemberType = typeof(IntFixture))]
     public void Byte_ClearBitsSameValue_AllBitsAreAlwaysCleared(byte testData)
     {
-        Assertion(() => Assert.Equal((byte)0, testData.ClearBits(testData)));
+        Assertion(() => Assert.Equal((byte) 0, testData.ClearBits(testData)));
     }
 
     #endregion
@@ -527,7 +524,7 @@ public class ByteTests : TestBase
     public void Byte_ReverseBits0b1010_1101_ReturnsExpectedResult()
     {
         byte testData = 0b1010_1101;
-        byte expected = 0b1011_0101;
+        byte expected = 0b0101_0010;
 
         Assertion(() => Assert.Equal(expected, testData.ReverseBits()));
     }
@@ -536,7 +533,7 @@ public class ByteTests : TestBase
     public void Byte_ReverseBits0b1110_1101_ReturnsExpectedResult()
     {
         byte testData = 0b1110_1101;
-        byte expected = 0b1011_0111;
+        byte expected = 0b0001_0010;
 
         Assertion(() => Assert.Equal(expected, testData.ReverseBits()));
     }
@@ -545,8 +542,8 @@ public class ByteTests : TestBase
     public void Byte_ReverseBits1_ReturnsExpectedResult()
     {
         byte testData = 1;
-        byte expected = 1;
-
+        byte expected = 0b11111110;
+        var a = testData.ReverseBits();
         Assertion(() => Assert.Equal(expected, testData.ReverseBits()));
     }
 

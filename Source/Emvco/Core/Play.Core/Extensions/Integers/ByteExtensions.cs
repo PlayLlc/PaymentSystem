@@ -145,23 +145,7 @@ public static class ByteExtensions
         return (byte) (maxBit - value.GetMostSignificantBit());
     }
 
-    public static byte ReverseBits(this byte value)
-    {
-        byte result = value;
-
-        value >>= 1;
-
-        while (value != 0)
-        {
-            result <<= 1;
-
-            result |= (byte) (value & 1);
-
-            value >>= 1;
-        }
-
-        return result;
-    }
+    public static byte ReverseBits(this byte value) => (byte) ~ value;
 
     /// <summary>
     ///     This will return the number of unset bits there are before the first set bit, starting with the least significant
