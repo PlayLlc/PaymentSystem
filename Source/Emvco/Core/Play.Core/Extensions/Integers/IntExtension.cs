@@ -6,8 +6,6 @@ public static class IntExtension
 {
     #region Instance Members
 
-    public static string GetBinaryString(this int value) => Convert.ToString(value, 2);
-
     /// <summary>
     ///     Returns the most significant bit in the <see cref="int" />
     /// </summary>
@@ -33,9 +31,6 @@ public static class IntExtension
 
         return (byte) ((count % 1) == 0 ? count : count + 1);
     }
-
-    public static bool HasValue(this int value, int valueToCheck) => (value & valueToCheck) != 0;
-    public static bool IsEven(this int value) => (value % 2) == 0;
 
     /// <summary>
     ///     Returns the value of the remainder, or 0 if there is no remainder. The out variable will return the result
