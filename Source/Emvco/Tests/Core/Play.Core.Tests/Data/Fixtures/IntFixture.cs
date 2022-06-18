@@ -29,8 +29,6 @@ internal static class IntFixture
         }
     }
 
-    public class MostSignificantBit
-
     public static IEnumerable<object[]> ForByte(int count)
     {
         for (int i = 0; i < count; i++)
