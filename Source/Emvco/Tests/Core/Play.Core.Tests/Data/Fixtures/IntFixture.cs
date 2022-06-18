@@ -6,7 +6,7 @@ using Play.Randoms;
 
 namespace Play.Core.Tests.Data.Fixtures;
 
-internal class IntFixture
+internal static class IntFixture
 {
     public static IEnumerable<object[]> ForUInt(int count)
     {
@@ -29,7 +29,17 @@ internal class IntFixture
         }
     }
 
-    public class MostSignificantBit
+    public static IEnumerable<object[]> ForByte(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            byte value = Randomize.Integers.Byte(byte.MinValue, byte.MaxValue);
+
+            yield return new object[] { value };
+        }
+    }
+
+    public static class MostSignificantBit
     {
         #region Static Metadata
 
