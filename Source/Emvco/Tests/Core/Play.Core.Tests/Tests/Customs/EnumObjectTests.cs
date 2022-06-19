@@ -25,11 +25,27 @@ public class EnumObjectTests : TestBase
     }
 
     [Fact]
-    public void ValidRawEnumValue_EqualityOnIncorrectObject_ReturnsTrue()
+    public void ValidRawEnumValue_EqualityOnIncorrectObject_ReturnsFalse()
     {
         byte testData = 2;
 
         Assertion(() => Assert.False(testData == TestEnumObject.First));
+    }
+
+    [Fact]
+    public void ValidRawEnumValue_InequalityOnIncorrectObject_ReturnsTrue()
+    {
+        byte testData = 2;
+
+        Assertion(() => Assert.True(testData != TestEnumObject.First));
+    }
+
+    [Fact]
+    public void ValidRawEnumValue_InequalityOnIncorrectObject_ReturnsFalse()
+    {
+        byte testData = 1;
+
+        Assertion(() => Assert.False(testData != TestEnumObject.First));
     }
 
     #endregion
