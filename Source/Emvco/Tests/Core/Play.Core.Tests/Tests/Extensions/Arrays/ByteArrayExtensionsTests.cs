@@ -16,7 +16,75 @@ public class ByteArrayExtensionsTests : TestBase
 
     #endregion
 
-    #region Instance Members
+    #region AsNibbleArray
+
+    [Fact]
+    public void MaxByteArray_InvokesAsNibbleArray_ReturnsExpectedResult()
+    {
+        byte[] testData = new byte[] {0xFF, 0xFF, 0xFF};
+        Nibble[] expected = new Nibble[] {0xF, 0xF, 0xF, 0xF, 0xF, 0xF};
+        Nibble[] actual = testData.AsNibbleArray();
+        Assertion(() => Assert.Equal(expected, actual));
+    }
+
+    [Fact]
+    public void ByteArray_InvokesAsNibbleArray_ReturnsExpectedResult()
+    {
+        byte[] testData = new byte[] {0x01, 0x10, 0xF1};
+        Nibble[] expected = new Nibble[] {0x0, 0x1, 0x1, 0x0, 0xF, 0x1};
+        Nibble[] actual = testData.AsNibbleArray();
+        Assertion(() => Assert.Equal(expected, actual));
+    }
+
+    [Fact]
+    public void MinByteArray_InvokesAsNibbleArray_ReturnsExpectedResult()
+    {
+        byte[] testData = new byte[] {0x00, 0x00, 0x00};
+        Nibble[] expected = new Nibble[] {0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+        Nibble[] actual = testData.AsNibbleArray();
+        Assertion(() => Assert.Equal(expected, actual));
+    }
+
+    #endregion
+
+    #region RemoveLeftPadding
+
+    [Fact]
+    public void PaddedByteArray_InvokesRemovePadding_ReturnsExpectedValue()
+    {
+        byte[] testValue = new byte[] {0xFF, 0xFF, 0xF1, 0x23, 0x44};
+        byte[] expected = new byte[] {0x01, 0x23, 0x44};
+
+        byte[] actual = testValue.RemoveLeftPadding(0xF);
+
+        Assertion(() => Assert.Equal(expected, actual));
+    }
+
+    [Fact]
+    public void ByteArrayWithoutPadding_InvokesRemovePadding_ReturnsExpectedValue()
+    {
+        byte[] testValue = new byte[] {0xFF, 0xFF, 0xF1, 0x23, 0x44};
+        byte[] expected = new byte[] {0xFF, 0xFF, 0xF1, 0x23, 0x44};
+
+        byte[] actual = testValue.RemoveLeftPadding(0);
+
+        Assertion(() => Assert.Equal(expected, actual));
+    }
+
+    [Fact]
+    public void Padding_InvokesRemovePadding_ReturnsExpectedValue()
+    {
+        byte[] testValue = new byte[] {0xFF, 0xFF};
+        byte[] expected = new byte[] { };
+
+        byte[] actual = testValue.RemoveLeftPadding(0xF);
+
+        Assertion(() => Assert.Equal(expected, actual));
+    }
+
+    #endregion
+
+    #region CopyValue
 
     [Fact]
     public void ByteArray_InvokesCopyValue_CorrectlyCopiesValue()
@@ -70,6 +138,10 @@ public class ByteArrayExtensionsTests : TestBase
             Assert.Equal(testValue.Length, actual.Length);
         }, Build.Equals.Message(testValue, actual));
     }
+
+    #endregion
+
+    #region ConcatArrays
 
     [Fact]
     public void ByteArray_InvokesConcatArrays_CorrectlyConcatenatesArrays()
