@@ -42,12 +42,15 @@ public class AlphaNumericSpecialCodec : PlayCodec
         throw new NotImplementedException();
     }
 
-    public int GetCharCount(byte[] bytes, int index, int count) => count;
+    public int GetCharCount(ReadOnlySpan<char> value) => value.Length;
+    public int GetCharCount(ReadOnlySpan<byte> value) => value.Length;
     public int GetMaxCharCount(int byteCount) => byteCount;
 
     #endregion
 
     #region Validation
+
+    public bool IsValid(char value) => _ByteMap.ContainsKey(value);
 
     public bool IsValid(ReadOnlySpan<char> value)
     {
@@ -89,6 +92,7 @@ public class AlphaNumericSpecialCodec : PlayCodec
         return true;
     }
 
+    /// <exception cref="CodecParsingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value)
     {
         if (value.Length > Specs.ByteArray.StackAllocateCeiling)
@@ -97,7 +101,12 @@ public class AlphaNumericSpecialCodec : PlayCodec
             Span<byte> buffer = spanOwner.Span;
 
             for (int i = 0; i < value.Length; i++)
+            {
+                if (!IsValid(value[i]))
+                    throw new CodecParsingException($"The character {value[i]} is a valid encoding for {nameof(AlphaNumericSpecialCodec)}");
+
                 buffer[i] = _ByteMap[value[i]];
+            }
 
             return buffer.ToArray();
         }
@@ -106,7 +115,12 @@ public class AlphaNumericSpecialCodec : PlayCodec
             Span<byte> buffer = stackalloc byte[value.Length];
 
             for (int i = 0; i < value.Length; i++)
+            {
+                if (!IsValid(value[i]))
+                    throw new CodecParsingException($"The character {value[i]} is a valid encoding for {nameof(AlphaNumericSpecialCodec)}");
+
                 buffer[i] = _ByteMap[value[i]];
+            }
 
             return buffer.ToArray();
         }
