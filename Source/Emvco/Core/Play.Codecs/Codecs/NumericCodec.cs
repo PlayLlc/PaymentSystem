@@ -32,6 +32,8 @@ public class NumericCodec : PlayCodec
 
     #region Count
 
+    public ushort GetByteCount(ReadOnlySpan<char> value) => (ushort) ((value.Length / 2) + (value.Length % 2));
+
     // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     public override ushort GetByteCount<T>(T[] value) where T : struct
     {
@@ -80,11 +82,14 @@ public class NumericCodec : PlayCodec
         return true;
     }
 
+    /// <exception cref="OverflowException"></exception>
     public override bool IsValid(ReadOnlySpan<byte> value)
     {
-        for (int i = 0; i < value.Length; i++)
+        Nibble[] buffer = value.AsNibbleArray();
+
+        foreach (var nibble in buffer)
         {
-            if (!IsValid(value[i]))
+            if (!IsValid(nibble))
                 return false;
         }
 
