@@ -126,6 +126,26 @@ public class AlphabeticTests : TestBase
     #region GetCharCount
 
     [Fact]
+    public void ValidEvenByteArray_GetCharCount_ReturnsExpectedResult()
+    {
+        byte[] testData = {(byte) 'a', (byte) 'B', (byte) 'c', (byte) 'D', (byte) 'z', (byte) 'P'};
+        int expected = 6;
+        int actual = _SystemUnderTest.GetCharCount(testData);
+
+        Assertion(() => Assert.Equal(expected, actual));
+    }
+
+    [Fact]
+    public void ValidOddByteArray_GetCharCount_ReturnsExpectedResult()
+    {
+        byte[] testData = {(byte) 'a', (byte) 'B', (byte) 'c', (byte) 'D', (byte) 'z'};
+        int expected = 5;
+        int actual = _SystemUnderTest.GetCharCount(testData);
+
+        Assertion(() => Assert.Equal(expected, actual));
+    }
+
+    [Fact]
     public void ValidEvenString_GetCharCount_ReturnsExpectedResult()
     {
         string testData = "abcdzOpfjz";
@@ -190,30 +210,6 @@ public class AlphabeticTests : TestBase
         byte[] actual = _SystemUnderTest.Encode(testData);
 
         Assert.Equal(expected, actual);
-    }
-
-    #endregion
-
-    #region GetCharCount
-
-    [Fact]
-    public void ValidEvenByteArray_GetCharCount_ReturnsExpectedResult()
-    {
-        byte[] testData = {(byte) 'a', (byte) 'B', (byte) 'c', (byte) 'D', (byte) 'z', (byte) 'P'};
-        int expected = 6;
-        int actual = _SystemUnderTest.GetCharCount(testData);
-
-        Assertion(() => Assert.Equal(expected, actual));
-    }
-
-    [Fact]
-    public void ValidOddByteArray_GetCharCount_ReturnsExpectedResult()
-    {
-        byte[] testData = {(byte) 'a', (byte) 'B', (byte) 'c', (byte) 'D', (byte) 'z'};
-        int expected = 5;
-        int actual = _SystemUnderTest.GetCharCount(testData);
-
-        Assertion(() => Assert.Equal(expected, actual));
     }
 
     #endregion
