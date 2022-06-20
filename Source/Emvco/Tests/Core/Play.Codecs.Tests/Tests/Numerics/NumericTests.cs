@@ -196,7 +196,7 @@ public class NumericTests : TestBase
     }
 
     [Fact]
-    public void ValidString_InvokingIsValid_ReturnsTrue()
+    public void ValidString_InvokingIsValid_ReturnsFalse()
     {
         string testData = "534C34";
         Assertion(() => Assert.False(_SystemUnderTest.IsValid(testData)));
