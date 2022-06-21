@@ -4,8 +4,6 @@ using System.Runtime.CompilerServices;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
-using System;
-
 using Play.Codecs.Exceptions;
 using Play.Core;
 using Play.Core.Extensions;

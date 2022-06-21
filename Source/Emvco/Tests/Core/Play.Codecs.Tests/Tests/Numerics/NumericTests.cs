@@ -1,6 +1,4 @@
 ﻿using Play.Codecs.Exceptions;
-using Play.Core;
-using Play.Core.Extensions;
 using Play.Testing.BaseTestClasses;
 
 using Xunit;

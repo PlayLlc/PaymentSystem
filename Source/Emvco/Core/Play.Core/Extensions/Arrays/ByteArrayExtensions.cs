@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Numerics;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
@@ -44,7 +43,7 @@ public static class ByteArrayExtensions
 
         if (value.Length < Specs.ByteArray.StackAllocateCeiling)
         {
-            Span<byte> result = stackalloc byte[value.Length - paddedNibbles / 2];
+            Span<byte> result = stackalloc byte[value.Length - (paddedNibbles / 2)];
             value[^result.Length..].CopyTo(result);
 
             if ((paddedNibbles % 2) != 0)

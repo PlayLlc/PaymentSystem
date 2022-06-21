@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Codecs.Exceptions;
-using Play.Codecs.Tests.Tests.AlphaNumerics;
-using Play.Randoms;
+﻿using Play.Codecs.Exceptions;
 using Play.Testing.BaseTestClasses;
 
 using Xunit;
-using Xunit.Abstractions;
-using Xunit.Sdk;
 
 namespace Play.Codecs.Tests.Tests.CompressedNumerics
 {

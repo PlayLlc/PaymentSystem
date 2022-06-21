@@ -1,9 +1,7 @@
 ﻿using AutoFixture.Kernel;
 
-using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Codecs.Exceptions;
-using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
 
 namespace Play.Testing.Emv;

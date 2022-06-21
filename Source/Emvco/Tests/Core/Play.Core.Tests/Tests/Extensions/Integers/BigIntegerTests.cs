@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Numerics;
 
-using Microsoft.Toolkit.HighPerformance;
-
 using Play.Core.Extensions;
 using Play.Core.Specifications;
 using Play.Core.Tests.Data.Fixtures;
