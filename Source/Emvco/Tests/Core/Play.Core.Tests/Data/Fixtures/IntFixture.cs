@@ -68,16 +68,6 @@ internal class IntFixture
             }
         }
 
-        public static IEnumerable<object[]> ForNegativeShort(int count)
-        {
-            for (int i = 0; i < count; i++)
-            {
-                short value = Randomize.Integers.Short(short.MinValue, 0);
-
-                yield return new object[] {value};
-            }
-        }
-
         private static int GetMostSignificantBit(byte value)
         {
             if (value == 0)

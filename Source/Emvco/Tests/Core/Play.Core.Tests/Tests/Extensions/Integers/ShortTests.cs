@@ -104,15 +104,6 @@ public class ShortTests : TestBase
         Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
     }
 
-    [Theory]
-    [MemberData(nameof(IntFixture.MostSignificantBit.ForNegativeShort), 50, MemberType = typeof(IntFixture.MostSignificantBit))]
-    public void RandomShort_GetMostSignificantBitNegativeValue_ReturnsExpectedResult(short testData)
-    {
-        int expected = 16;
-
-        Assertion(() => Assert.Equal(expected, testData.GetMostSignificantBit()), Build.Equals.Message(expected, testData.GetMostSignificantBit()));
-    }
-
     #endregion
 
     #region GetMostSignificantByte
