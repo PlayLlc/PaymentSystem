@@ -39,7 +39,13 @@ internal static class IntFixture
         }
     }
 
-    public static class MostSignificantBit
+    public static IEnumerable<object[]> ForBigInteger(int count)
+    {
+        for (int i = 0; i < count; i++)
+            yield return new object[] { Randomize.Integers.BigInteger() };
+    }
+
+    public class MostSignificantBit
     {
         #region Static Metadata
 
