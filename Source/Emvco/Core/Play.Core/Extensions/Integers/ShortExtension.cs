@@ -40,6 +40,9 @@ public static class ShortExtension
         if (value == 0)
             return 0;
 
+        if (value < 0)
+            return Specs.Integer.Int16.BitCount;
+
         int bitLog = (int) Math.Log(value, 2);
 
         return bitLog + 1;

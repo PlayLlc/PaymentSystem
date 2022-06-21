@@ -95,6 +95,24 @@ public class ShortTests : TestBase
         Assertion(() => Assert.Equal(expected, testData.GetMostSignificantBit()));
     }
 
+    [Fact]
+    public void Short_GetMostSignificantBitForShortMaxValue_ReturnsSpecsInt16BitCountMinusTheSignBit()
+    {
+        short testData = short.MaxValue;
+        int expected = Specs.Integer.Int16.BitCount - 1;
+
+        Assertion(() => Assert.Equal(expected, testData.GetMostSignificantBit()));
+    }
+
+    [Fact]
+    public void Short_GetMostSignificantBitForShortMinValue_ReturnsSpecsInt16BitCount()
+    {
+        short testData = short.MinValue;
+        int expected = Specs.Integer.Int16.BitCount;
+
+        Assertion(() => Assert.Equal(expected, testData.GetMostSignificantBit()));
+    }
+
     [Theory]
     [MemberData(nameof(IntFixture.MostSignificantBit.ForPositiveShort), 50, MemberType = typeof(IntFixture.MostSignificantBit))]
     public void RandomShort_GetMostSignificantBitPositiveValue_ReturnsExpectedResult(int actual, short testData)
