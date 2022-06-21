@@ -11,7 +11,7 @@ public static class UIntExtension
     public static bool AreAnyBitsSet(this uint value, uint bitsToCompare) => (value & bitsToCompare) != 0;
     public static uint ClearBits(this in uint input, uint bitsToClear) => input & ~bitsToClear;
     public static string GetBinaryString(this uint value) => Convert.ToString(value, 2);
-    public static uint GetMaskedValue(this uint value, in uint mask) => (byte) (value & ~mask);
+    public static uint GetMaskedValue(this uint value, in uint mask) => value & ~mask;
 
     public static int GetMostSignificantBit(this uint value)
     {
