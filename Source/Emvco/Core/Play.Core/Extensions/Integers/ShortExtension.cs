@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Play.Core.Specifications;
+
 namespace Play.Core.Extensions;
 
 public static class ShortExtension
@@ -38,9 +40,12 @@ public static class ShortExtension
         if (value == 0)
             return 0;
 
-        double count = Math.Log2(value);
+        if (value < 0)
+            return Specs.Integer.Int16.BitCount;
 
-        return (int) ((count % 1) == 0 ? count : count + 1);
+        int bitLog = (int) Math.Log(value, 2);
+
+        return bitLog + 1;
     }
 
     public static byte GetMostSignificantByte(this in short value) =>
@@ -48,9 +53,10 @@ public static class ShortExtension
 
     public static byte GetNumberOfDigits(this in short value)
     {
-        double count = Math.Log10(Math.Pow(2, value.GetMostSignificantBit()));
+        if (value == 0)
+            return 1;
 
-        return (byte) ((count % 1) == 0 ? count : count + 1);
+        return (byte) Math.Floor(Math.Log10(value) + 1);
     }
 
     #endregion
