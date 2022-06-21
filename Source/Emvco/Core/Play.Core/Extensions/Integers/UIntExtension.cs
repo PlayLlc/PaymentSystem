@@ -11,7 +11,7 @@ public static class UIntExtension
     public static bool AreAnyBitsSet(this uint value, uint bitsToCompare) => (value & bitsToCompare) != 0;
     public static uint ClearBits(this in uint input, uint bitsToClear) => input & ~bitsToClear;
     public static string GetBinaryString(this uint value) => Convert.ToString(value, 2);
-    public static uint GetMaskedValue(this uint value, in uint mask) => (byte) (value & ~mask);
+    public static uint GetMaskedValue(this uint value, in uint mask) => value & ~mask;
 
     public static int GetMostSignificantBit(this uint value)
     {
@@ -25,10 +25,10 @@ public static class UIntExtension
 
     public static uint ClearBit(this in uint input, Bits bitToClear, byte bytePosition)
     {
-        if (bytePosition > Specs.Integer.UInt64.ByteCount)
+        if (bytePosition > Specs.Integer.UInt32.ByteCount) 
             throw new ArgumentOutOfRangeException(nameof(bytePosition));
 
-        return input & (~ (uint) bitToClear << ((bytePosition * 8) - 8));
+        return input & ~((uint) bitToClear << ((bytePosition * 8) - 8));
     }
 
     public static byte GetMostSignificantByte(this uint value) =>
@@ -44,7 +44,7 @@ public static class UIntExtension
 
     public static bool HasValue(this uint value, uint valueToCheck) => (value & valueToCheck) != 0;
     public static bool IsBitSet(this uint value, Bits bit) => (value & BitLookup.GetBit(bit)) != 0;
-    public static bool IsBitSet(this uint value, byte bitPosition) => (value & ((uint) 1 << bitPosition)) != 0;
+    public static bool IsBitSet(this uint value, byte bitPosition) => (value & ((uint) 1 << (bitPosition - 1))) != 0;
     public static bool IsEven(this uint value) => (value % 2) == 0;
 
     /// <summary>
@@ -54,9 +54,9 @@ public static class UIntExtension
     {
         int result = 0;
 
-        for (byte i = 0; i < Specs.Integer.UInt32.BitCount; i++)
+        for (byte i = 1; i <= Specs.Integer.UInt32.BitCount; i++)
         {
-            if (value.IsBitSet((byte) (1 << i)))
+            if (value.IsBitSet((byte) i))
                 result++;
         }
 

@@ -45,9 +45,9 @@ public static class ByteExtensions
     {
         int result = 0;
 
-        for (byte i = 0; i < Specs.Integer.UInt8.BitCount; i++)
+        for (byte i = 1; i <= Specs.Integer.UInt8.BitCount; i++)
         {
-            if (value.IsBitSet((byte) (1 << i)))
+            if (value.IsBitSet((byte) i))
                 result++;
         }
 
@@ -134,7 +134,7 @@ public static class ByteExtensions
     /// <returns></returns>
     public static bool IsBitSet(this byte value, Bits bit) => (value & BitLookup.GetBit(bit)) != 0;
 
-    public static bool IsBitSet(this byte value, byte bit) => (value & bit) != 0;
+    public static bool IsBitSet(this byte value, byte bitPosition) => (value & (1 << (bitPosition - 1))) != 0;
     public static bool IsEven(this byte value) => (value % 2) == 0;
     public static bool IsInRange(this byte input, MaxBit maxBit) => (input & (byte) maxBit) == 0;
 
@@ -145,7 +145,7 @@ public static class ByteExtensions
         return (byte) (maxBit - value.GetMostSignificantBit());
     }
 
-    public static byte ReverseBits(this byte value) => (byte) (value ^ byte.MaxValue);
+    public static byte ReverseBits(this byte value) => (byte) ~ value;
 
     /// <summary>
     ///     This will return the number of unset bits there are before the first set bit, starting with the least significant
@@ -197,8 +197,8 @@ public static class ByteExtensions
     /// <returns></returns>
     public static byte SetBits(this byte input, byte bitsToSet) => (byte) (input | bitsToSet);
 
-    public static byte ShiftNibbleLeft(this byte value, byte rightNibble) => (byte) (value.GetRightNibble() | rightNibble);
-    public static byte ShiftNibbleRight(this byte value, byte leftNibble) => (byte) (leftNibble | value.GetLeftNibble());
+    public static byte ShiftNibbleLeft(this byte value, Nibble rightNibble) => (byte) ((value.GetRightNibble() << 4) | rightNibble);
+    public static byte ShiftNibbleRight(this byte value, Nibble leftNibble) => (byte) ((leftNibble << 4) | (value.GetLeftNibble() >> 4));
 
     /// <summary>
     ///     Returns the value of the remainder, or 0 if there is no remainder. The out variable will return the result

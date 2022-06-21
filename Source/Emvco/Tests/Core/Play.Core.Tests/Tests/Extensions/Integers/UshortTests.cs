@@ -106,7 +106,7 @@ public class UshortTests : TestBase
     {
         ushort testData = 0b11111111;
         ushort mask = 0b11111110;
-        ushort expected = 0b0;
+        ushort expected = 0b1;
 
         Assertion(() => Assert.Equal(testData.GetMaskedValue(mask), expected));
     }
@@ -116,7 +116,7 @@ public class UshortTests : TestBase
     {
         ushort testData = 0b11111110;
         ushort mask = 0b11111110;
-        ushort expected = 0b1;
+        ushort expected = 0b0;
 
         Assertion(() => Assert.Equal(testData.GetMaskedValue(mask), expected));
     }
@@ -227,7 +227,15 @@ public class UshortTests : TestBase
     }
 
     [Fact]
-    public void Ushort_IsBitSet1_ReturnsFalse()
+    public void Ushort_IsBitSet2_ReturnsFalse()
+    {
+        ushort testData = 0b11111100;
+        byte bitPosition = 2;
+        Assertion(() => Assert.False(testData.IsBitSet(bitPosition)));
+    }
+
+    [Fact]
+    public void Ushort_IsBitSet0_ReturnsFalse()
     {
         ushort testData = 0b11111110;
         byte bitPosition = 1;
@@ -259,10 +267,10 @@ public class UshortTests : TestBase
     }
 
     [Fact]
-    public void Ushort_IsBitSet16_ReturnsTrue()
+    public void Ushort_IsBitSet15_ReturnsTrue()
     {
         ushort testData = ushort.MaxValue;
-        byte bitPosition = 16;
+        byte bitPosition = Specs.Integer.Int16.BitCount;
         Assertion(() => Assert.True(testData.IsBitSet(bitPosition)));
     }
 
