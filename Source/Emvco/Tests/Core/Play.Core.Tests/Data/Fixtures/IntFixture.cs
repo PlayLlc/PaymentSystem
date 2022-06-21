@@ -89,7 +89,7 @@ internal class IntFixture
         {
             for (int i = 0; i < count; i++)
             {
-                long value = Randomize.Integers.Long();
+                long value = Randomize.Integers.Long(0, long.MaxValue);
 
                 yield return new object[] { GetMostSignificantBit(value), value };
             }
