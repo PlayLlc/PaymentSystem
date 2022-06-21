@@ -38,6 +38,24 @@ public class IntTests : TestBase
         Assertion(() => Assert.Equal(expected, testData.GetMostSignificantBit()));
     }
 
+    [Fact]
+    public void Int_GetMostSignificantBitForInt32MaxValue_ReturnsSpecsInt32BitCountMinusSignBit()
+    {
+        int testData = int.MaxValue;
+        int expected = Specs.Integer.Int32.BitCount - 1;
+
+        Assertion(() => Assert.Equal(expected, testData.GetMostSignificantBit()));
+    }
+
+    [Fact]
+    public void Int_GetMostSignificantBitForInt32MinValue_ReturnsSpecsInt32BitCount()
+    {
+        int testData = int.MinValue;
+        int expected = Specs.Integer.Int32.BitCount;
+
+        Assertion(() => Assert.Equal(expected, testData.GetMostSignificantBit()));
+    }
+
     [Theory]
     [MemberData(nameof(IntFixture.MostSignificantBit.ForInt), 50, MemberType = typeof(IntFixture.MostSignificantBit))]
     public void RandomInt_GetMostSignificantForBitPositiveValue_ReturnsExpectedResult(int actual, int testData)
