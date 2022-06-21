@@ -1,4 +1,6 @@
-﻿using Play.Globalization.Time;
+﻿using System;
+
+using Play.Globalization.Time;
 using Play.Testing.BaseTestClasses;
 
 using Xunit;
@@ -25,7 +27,7 @@ public class DecisecondsTests : TestBase
     {
         Deciseconds sut = new(1);
         Ticks expected = new((uint) 1000000);
-        Ticks actual = sut;
+        Ticks actual = (Ticks) sut;
         Assert.Equal(expected, actual);
     }
 
@@ -34,7 +36,29 @@ public class DecisecondsTests : TestBase
     {
         Deciseconds sut = new(100);
         Ticks expected = new((uint) 100000000);
-        Ticks actual = sut;
+        Ticks actual = sut.AsTicks();
+        Assert.Equal(expected, actual);
+    }
+
+    #endregion
+
+    #region Deciseconds to Timespan
+
+    [Fact]
+    public void Decisecond1_CastingToTimeSpan_ReturnsExpectedResult()
+    {
+        Deciseconds sut = new(1);
+        TimeSpan expected = new((uint) 1000000);
+        TimeSpan actual = (TimeSpan) sut;
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void Decisecond100_CastingToTimeSpan_ReturnsExpectedResult()
+    {
+        Deciseconds sut = new(100);
+        TimeSpan expected = new((uint) 100000000);
+        TimeSpan actual = sut.AsTimeSpan();
         Assert.Equal(expected, actual);
     }
 

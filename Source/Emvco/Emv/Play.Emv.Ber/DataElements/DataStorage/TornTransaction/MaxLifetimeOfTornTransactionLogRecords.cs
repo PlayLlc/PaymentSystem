@@ -74,7 +74,7 @@ public record MaxLifetimeOfTornTransactionLogRecords : DataElement<Seconds>
 
     #region Operator Overrides
 
-    public static implicit operator Seconds(MaxLifetimeOfTornTransactionLogRecords value) => new(value._Value);
+    public static implicit operator Seconds(MaxLifetimeOfTornTransactionLogRecords value) => value._Value;
 
     #endregion
 }

@@ -100,10 +100,10 @@ public readonly record struct Deciseconds
     public static bool operator >=(Deciseconds left, Deciseconds right) => left._Value >= right._Value;
     public static explicit operator TimeSpan(Deciseconds value) => value.AsTimeSpan();
     public static explicit operator Deciseconds(TimeSpan value) => new(value);
+    public static explicit operator Deciseconds(Seconds value) => new(value);
     public static explicit operator Deciseconds(int value) => new(value);
     public static bool operator <(Deciseconds left, Deciseconds right) => left._Value < right._Value;
     public static bool operator <=(Deciseconds left, Deciseconds right) => left._Value <= right._Value;
-    public static implicit operator Deciseconds(Seconds value) => new(value);
 
     #endregion
 }
