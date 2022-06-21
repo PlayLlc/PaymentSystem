@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Numerics;
 
+using Play.Core.Specifications;
+
 namespace Play.Core.Extensions;
 
 public static class BigIntegerExtensions
@@ -35,9 +37,24 @@ public static class BigIntegerExtensions
         if (value == 0)
             return 0;
 
-        double count = Math.Log((double) value, 2);
+        if (value < uint.MaxValue)
+            return (int) Math.Log((double) value, 2) + 1;
 
-        return (int) ((count % 1) == 0 ? count : count + 1);
+        BigInteger buffer = value;
+        int offset = 0;
+
+        for (int i = 0; i < Specs.Integer.Int64.BitCount; i++)
+        {
+            if (buffer == 0)
+                return offset;
+
+            if ((buffer % 10) != 0)
+                offset = i + 1;
+
+            buffer >>= 1;
+        }
+
+        return offset;
     }
 
     public static byte GetMostSignificantByte(this in BigInteger value) =>
@@ -50,7 +67,7 @@ public static class BigIntegerExtensions
         return (byte) ((count % 1) == 0 ? count : count + 1);
     }
 
-    public static bool IsBitSet(this in BigInteger value, in byte bitPosition) => (value & ((BigInteger) 1 << (bitPosition -1))) != 0;
+    public static bool IsBitSet(this in BigInteger value, in byte bitPosition) => (value & ((BigInteger) 1 << (bitPosition - 1))) != 0;
 
     public static byte RightPaddedUnsetBitCount(this in BigInteger value)
     {

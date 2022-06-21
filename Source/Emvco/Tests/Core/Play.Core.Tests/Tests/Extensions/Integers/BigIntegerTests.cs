@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Numerics;
 
+using Microsoft.Toolkit.HighPerformance;
+
 using Play.Core.Extensions;
+using Play.Core.Specifications;
 using Play.Core.Tests.Data.Fixtures;
 using Play.Testing.BaseTestClasses;
 
@@ -11,6 +14,32 @@ namespace Play.Core.Tests.Tests.Extensions.Integers;
 
 public class BigIntegerTests : TestBase
 {
+    #region Encode Then Decode
+
+    [Theory]
+    [MemberData(nameof(IntFixture.ForBigInteger), 50, MemberType = typeof(IntFixture))]
+    public void RandomBigInteger_EncodingThenDecoding_ReturnsExpectedResult(BigInteger testData)
+    {
+        Span<byte> buffer = stackalloc byte[testData.GetByteCount()];
+        testData.AsSpan(buffer);
+
+        BigInteger actual = new(buffer);
+        Assertion(() => Assert.Equal(testData, actual));
+    }
+
+    [Fact]
+    public void BigInteger12345_EncodingThenDecoding_ReturnsExpectedResult()
+    {
+        BigInteger testData = 12345;
+        Span<byte> buffer = stackalloc byte[testData.GetByteCount()];
+        testData.AsSpan(buffer);
+
+        BigInteger actual = new(buffer);
+        Assertion(() => Assert.Equal(testData, actual));
+    }
+
+    #endregion
+
     #region AsSpan
 
     [Fact]
@@ -20,23 +49,9 @@ public class BigIntegerTests : TestBase
         Span<byte> buffer = stackalloc byte[testData.GetByteCount()];
         testData.AsSpan(buffer);
 
-        Span<byte> expectedBuffer = new byte[] { 57, 48 };
-        bool areEqual = AreEqual(expectedBuffer, buffer);
+        Span<byte> expectedBuffer = new byte[] {57, 48};
 
-        Assertion(() => Assert.True(areEqual));
-    }
-
-    [Fact]
-    public void BigInteger_AsSpan12345_ReturnsExpectedResultNotEqual()
-    {
-        BigInteger testData = 12345;
-        Span<byte> buffer = stackalloc byte[testData.GetByteCount()];
-        testData.AsSpan(buffer);
-
-        Span<byte> expectedBuffer = new byte[] { 57, 48, 31 };
-        bool areEqual = AreEqual(expectedBuffer, buffer);
-
-        Assertion(() => Assert.False(areEqual));
+        Assert.Equal(expectedBuffer.ToArray(), buffer.ToArray());
     }
 
     [Fact]
@@ -46,10 +61,9 @@ public class BigIntegerTests : TestBase
         Span<byte> buffer = stackalloc byte[testData.GetByteCount()];
         testData.AsSpan(buffer);
 
-        Span<byte> expectedBuffer = new byte[] { 249, 125, 177, 77, 2 };
-        bool areEqual = AreEqual(expectedBuffer, buffer);
+        Span<byte> expectedBuffer = new byte[] {249, 125, 177, 77, 2};
 
-        Assertion(() => Assert.True(areEqual));
+        Assert.Equal(expectedBuffer.ToArray(), buffer.ToArray());
     }
 
     [Fact]
@@ -66,15 +80,14 @@ public class BigIntegerTests : TestBase
 
     [Theory]
     [MemberData(nameof(IntFixture.ForBigInteger), 50, MemberType = typeof(IntFixture))]
-    public void RandomBigInteger_AsSpan12345_ReturnsExpectedResult(BigInteger testData)
+    public void RandomBigInteger_AsSpan_ReturnsExpectedResult(BigInteger testData)
     {
         Span<byte> buffer = stackalloc byte[testData.GetByteCount()];
         testData.AsSpan(buffer);
 
         Span<byte> expectedBuffer = testData.ToByteArray();
-        bool areEqual = AreEqual(expectedBuffer, buffer);
 
-        Assertion(() => Assert.True(areEqual));
+        Assert.Equal(expectedBuffer.ToArray(), buffer.ToArray());
     }
 
     #endregion
@@ -159,7 +172,7 @@ public class BigIntegerTests : TestBase
     public void BigInteger_GetMostSignificantBit_Returns1()
     {
         BigInteger testData = 0b10;
-        byte expected = 1;
+        byte expected = 2;
 
         Assertion(() => Assert.Equal(expected, testData.GetMostSignificantBit()));
     }
@@ -168,7 +181,7 @@ public class BigIntegerTests : TestBase
     public void BigInteger_GetMostSignificantBit_ReturnsUShortMaxValueMaxBitCount()
     {
         BigInteger testData = ushort.MaxValue;
-        byte expected = Specifications.Specs.Integer.UInt16.BitCount;
+        byte expected = Specs.Integer.UInt16.BitCount;
 
         Assertion(() => Assert.Equal(expected, testData.GetMostSignificantBit()));
     }
@@ -177,7 +190,7 @@ public class BigIntegerTests : TestBase
     public void BigInteger_GetMostSignificantBit_ReturnsUIntMaxValueBitCount()
     {
         BigInteger testData = uint.MaxValue;
-        byte expected = Specifications.Specs.Integer.UInt32.BitCount;
+        byte expected = Specs.Integer.UInt32.BitCount;
 
         Assertion(() => Assert.Equal(expected, testData.GetMostSignificantBit()));
     }
@@ -186,7 +199,7 @@ public class BigIntegerTests : TestBase
     public void BigInteger_GetMostSignificantBit_ReturnsULongMaxValueBitCount()
     {
         BigInteger testData = ulong.MaxValue;
-        byte expected = Specifications.Specs.Integer.UInt64.BitCount;
+        byte expected = Specs.Integer.UInt64.BitCount;
 
         Assertion(() => Assert.Equal(expected, testData.GetMostSignificantBit()));
     }
@@ -195,7 +208,7 @@ public class BigIntegerTests : TestBase
     public void BigInteger_GetMostSignificantBit_ReturnsShortMaxValueBitCountWithoutSignedBit()
     {
         BigInteger testData = short.MaxValue;
-        byte expected = Specifications.Specs.Integer.UInt16.BitCount - 1;
+        byte expected = Specs.Integer.UInt16.BitCount - 1;
 
         Assertion(() => Assert.Equal(expected, testData.GetMostSignificantBit()));
     }
@@ -204,7 +217,7 @@ public class BigIntegerTests : TestBase
     public void BigInteger_GetMostSignificantBit_ReturnsIntMaxValueBitCountWithoutSignedBit()
     {
         BigInteger testData = int.MaxValue;
-        byte expected = Specifications.Specs.Integer.UInt32.BitCount - 1;
+        byte expected = Specs.Integer.UInt32.BitCount - 1;
 
         Assertion(() => Assert.Equal(expected, testData.GetMostSignificantBit()));
     }
@@ -213,7 +226,7 @@ public class BigIntegerTests : TestBase
     public void BigInteger_GetMostSignificantBit_ReturnsLongMaxValueBitCountWithoutSignedBit()
     {
         BigInteger testData = long.MaxValue;
-        byte expected = Specifications.Specs.Integer.Int64.BitCount - 1;
+        byte expected = Specs.Integer.Int64.BitCount - 1;
 
         Assertion(() => Assert.Equal(expected, testData.GetMostSignificantBit()));
     }
@@ -253,7 +266,7 @@ public class BigIntegerTests : TestBase
     public void BigInteger_GetMostSignificantByte_ReturnsUShortMaxValueByteCount()
     {
         BigInteger testData = ushort.MaxValue;
-        byte expected = Specifications.Specs.Integer.UInt16.ByteCount;
+        byte expected = Specs.Integer.UInt16.ByteCount;
 
         Assertion(() => Assert.Equal(expected, testData.GetMostSignificantByte()));
     }
@@ -262,7 +275,7 @@ public class BigIntegerTests : TestBase
     public void BigInteger_GetMostSignificantByte_ReturnsShortMaxValueByteCount()
     {
         BigInteger testData = short.MaxValue;
-        byte expected = Specifications.Specs.Integer.UInt16.ByteCount;
+        byte expected = Specs.Integer.UInt16.ByteCount;
 
         Assertion(() => Assert.Equal(expected, testData.GetMostSignificantByte()));
     }
@@ -271,7 +284,7 @@ public class BigIntegerTests : TestBase
     public void BigInteger_GetMostSignificantByte_ReturnsUIntMaxValueByteCount()
     {
         BigInteger testData = uint.MaxValue;
-        byte expected = Specifications.Specs.Integer.UInt32.ByteCount;
+        byte expected = Specs.Integer.UInt32.ByteCount;
 
         Assertion(() => Assert.Equal(expected, testData.GetMostSignificantByte()));
     }
@@ -280,7 +293,7 @@ public class BigIntegerTests : TestBase
     public void BigInteger_GetMostSignificantByte_ReturnsIntMaxValueByteCount()
     {
         BigInteger testData = int.MaxValue;
-        byte expected = Specifications.Specs.Integer.Int32.ByteCount;
+        byte expected = Specs.Integer.Int32.ByteCount;
 
         Assertion(() => Assert.Equal(expected, testData.GetMostSignificantByte()));
     }
@@ -311,7 +324,7 @@ public class BigIntegerTests : TestBase
     public void BigInteger_GetNumberOfDigits_UShortMaxValueNumberOfDigits()
     {
         BigInteger testData = ushort.MaxValue;
-        byte expected = Specifications.Specs.Integer.UInt16.MaxDigits;
+        byte expected = Specs.Integer.UInt16.MaxDigits;
 
         Assertion(() => Assert.Equal(expected, testData.GetNumberOfDigits()));
     }
@@ -320,7 +333,7 @@ public class BigIntegerTests : TestBase
     public void BigInteger_GetNumberOfDigits_ULongMaxValueNumberOfDigits()
     {
         BigInteger testData = ulong.MaxValue;
-        byte expected = Specifications.Specs.Integer.UInt64.MaxDigits;
+        byte expected = Specs.Integer.UInt64.MaxDigits;
 
         Assertion(() => Assert.Equal(expected, testData.GetNumberOfDigits()));
     }
@@ -446,24 +459,6 @@ public class BigIntegerTests : TestBase
 
         Assertion(() => Assert.Equal(0, remainder));
         Assertion(() => Assert.Equal(9, resultWithoutRemainder));
-    }
-
-    #endregion
-
-    #region Private Methods
-
-    private static bool AreEqual(Span<byte> expected, Span<byte> actual)
-    {
-        if (expected.Length != actual.Length)
-            return false;
-
-        for (int i = 0; i < expected.Length; i++)
-        {
-            if (expected[i] != actual[i])
-                return false;
-        }
-
-        return true;
     }
 
     #endregion
