@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
 using AutoFixture;
@@ -150,7 +151,11 @@ public abstract class TestBase
                 $"\n\n\t\texpected\t: {BitConverter.ToString(expected).Replace("-", "")}; \n\t\tactual\t\t: {BitConverter.ToString(actual).Replace("-", "")};";
 
             public static string Message(Span<byte> expected, Span<byte> actual) =>
-                "\n\n\t\texpected\t: {BitConverter.ToString(expected.ToArray())}; \n\t\tactual\t: {BitConverter.ToString(expected.ToArray())};";
+                $"\n\n\t\texpected\t: {BitConverter.ToString(expected.ToArray())}; \n\t\tactual\t: {BitConverter.ToString(expected.ToArray())};";
+
+            public static string Message(char[] expected, char[] actual) =>
+
+                $"\n\n\t\texpected\t: {new string(expected).Replace("-", "")}; \n\t\tactual\t: {new string(actual).Replace("-", "")};";
 
             public static string Message(Nibble[] expected, Nibble[] actual) =>
                 $"\n\n\t\texpected\t: {BitConverter.ToString(expected.AsByteArray()).Replace("-", "")}; \n\t\tactual\t\t: {BitConverter.ToString(actual.AsByteArray()).Replace("-", "")};";
