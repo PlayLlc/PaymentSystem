@@ -5,7 +5,7 @@ using Play.Core.Tests.Data.Factories;
 
 namespace Play.Core.Tests.Data.Fixtures;
 
-internal class ByteArrayFixture
+internal static class ByteArrayFixture
 {
     #region Static Metadata
 
