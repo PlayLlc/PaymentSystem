@@ -10,9 +10,12 @@ public static class LongExtension
 
     public static int GetMostSignificantBit(this long value)
     {
-        double count = Math.Log2(value);
+        if (value == 0)
+            return 0;
 
-        return (int) ((count % 1) == 0 ? count : count + 1);
+        int bitLog = (int) Math.Log(value, 2);
+
+        return bitLog + 1;
     }
 
     public static byte GetMostSignificantByte(this long value) =>
@@ -22,7 +25,7 @@ public static class LongExtension
     {
         double count = Math.Log10(value);
 
-        return (byte)((count % 1) == 0 ? count : count + 1);
+        return (byte) ((count % 1) == 0 ? count : count + 1);
     }
 
     #endregion
