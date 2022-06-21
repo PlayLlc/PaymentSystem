@@ -28,8 +28,7 @@ public class AlphabeticCodec : PlayCodec
 
     #region Count
 
-    public int GetByteCount(char[] chars, int index, int count) => count;
-    public int GetMaxByteCount(int charCount) => (charCount % 2) == 0 ? charCount / 2 : (charCount / 2) + 1;
+    public int GetByteCount(ReadOnlySpan<char> value) => value.Length;
     public override ushort GetByteCount<T>(T value) where T : struct => throw new NotImplementedException();
 
     /// <summary>
@@ -46,7 +45,8 @@ public class AlphabeticCodec : PlayCodec
         throw new CodecParsingException("This exception should never be reached");
     }
 
-    public int GetCharCount(byte[] bytes, int index, int count) => count;
+    public int GetCharCount(ReadOnlySpan<char> value) => value.Length;
+    public int GetCharCount(ReadOnlySpan<byte> value) => value.Length;
     public int GetMaxCharCount(int byteCount) => byteCount * 2;
 
     #endregion
@@ -142,7 +142,13 @@ public class AlphabeticCodec : PlayCodec
         throw new NotImplementedException();
     }
 
-    public byte[] Encode(string value) => Encode(value.AsSpan());
+    public byte[] Encode(string value)
+    {
+        if (value == string.Empty)
+            return Array.Empty<byte>();
+
+        return Encode(value.AsSpan());
+    }
 
     /// <summary>
     ///     Encode

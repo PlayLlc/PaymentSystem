@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Play.Core.Specifications;
+
 namespace Play.Core.Extensions;
 
 public static class IntExtension
@@ -17,9 +19,12 @@ public static class IntExtension
         if (value == 0)
             return 0;
 
-        double count = Math.Log2(value);
+        if (value < 0)
+            return Specs.Integer.Int32.BitCount;
 
-        return (int) ((count % 1) == 0 ? count : count + 1);
+        int bitLog = (int) Math.Log(value, 2);
+
+        return bitLog + 1;
     }
 
     public static byte GetMostSignificantByte(this int value) =>
