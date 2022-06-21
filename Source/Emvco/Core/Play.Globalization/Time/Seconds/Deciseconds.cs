@@ -68,6 +68,7 @@ public readonly record struct Deciseconds
     #region Instance Members
 
     public TimeSpan AsTimeSpan() => new(_Value * (Ticks.Precision / Precision));
+    public Ticks AsTicks() => new(this);
     public Seconds AsSeconds() => new(this);
 
     #endregion
@@ -94,18 +95,6 @@ public readonly record struct Deciseconds
     public static Deciseconds operator /(Deciseconds left, Deciseconds right) => new(left._Value / right._Value);
     public static Deciseconds operator -(Deciseconds left, Deciseconds right) => new(left._Value - right._Value);
     public static Deciseconds operator +(Deciseconds left, Deciseconds right) => new(left._Value + right._Value);
-    public static bool operator >(long left, Deciseconds right) => left > right._Value;
-    public static bool operator <(long left, Deciseconds right) => left < right._Value;
-    public static bool operator >=(long left, Deciseconds right) => left >= right._Value;
-    public static bool operator <=(long left, Deciseconds right) => left <= right._Value;
-    public static bool operator ==(long left, Deciseconds right) => left == right._Value;
-    public static bool operator !=(long left, Deciseconds right) => left != right._Value;
-    public static bool operator >(Deciseconds left, long right) => left._Value > right;
-    public static bool operator <(Deciseconds left, long right) => left._Value < right;
-    public static bool operator >=(Deciseconds left, long right) => left._Value >= right;
-    public static bool operator <=(Deciseconds left, long right) => left._Value <= right;
-    public static bool operator ==(Deciseconds left, long right) => left._Value == right;
-    public static bool operator !=(Deciseconds left, long right) => left._Value != right;
     public static bool operator ==(Deciseconds left, TimeSpan right) => left.Equals(right);
     public static bool operator ==(TimeSpan left, Deciseconds right) => right.Equals(left);
     public static explicit operator long(Deciseconds value) => value._Value;
