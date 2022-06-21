@@ -21,6 +21,16 @@ public partial class Randomize
 
         public static char Char() => GetRandomChar();
 
+        public static byte[] Bytes(int length)
+        {
+            byte[] result = new byte[length];
+
+            for (short i = 0; i <= (length - 1); i++)
+                result[i] = GetRandomByte();
+
+            return result;
+        }
+
         public static char[] Chars(int length)
         {
             char[] result = new char[length];

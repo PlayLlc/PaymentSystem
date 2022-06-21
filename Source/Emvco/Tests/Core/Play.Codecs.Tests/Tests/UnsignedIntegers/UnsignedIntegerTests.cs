@@ -24,9 +24,6 @@ public class UnsignedIntegerTests : TestBase
 
     #region Instance Members
 
-    /// <summary>
-    ///     RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult
-    /// </summary>
     /// <param name="expected"></param>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="Exceptions.CodecParsingException"></exception>
