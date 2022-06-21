@@ -71,9 +71,7 @@ internal class MainStateMachine
         lock (_Lock)
         {
             if (_Lock.Session == null)
-            {
                 throw new RequestOutOfSyncException($"The {nameof(OutSelectionResponse)} can't be processed because the transaction is no longer processing");
-            }
 
             if (_Lock.Session.KernelSessionId != null)
             {
@@ -110,9 +108,7 @@ internal class MainStateMachine
         lock (_Lock)
         {
             if (_Lock.Session == null)
-            {
                 throw new RequestOutOfSyncException($"The {nameof(OutKernelResponse)} can't be processed because the transaction is no longer processing");
-            }
 
             if (!_Lock.TryGetKernelSessionId(out KernelSessionId? kernelSessionId))
             {
@@ -140,9 +136,7 @@ internal class MainStateMachine
         lock (_Lock)
         {
             if (_Lock.Session == null)
-            {
                 throw new RequestOutOfSyncException($"The {nameof(OutKernelResponse)} can't be processed because the transaction is no longer processing");
-            }
 
             // HACK: Send STOP signal if Selection process is active
             //if(Selection Endpoint is Active)

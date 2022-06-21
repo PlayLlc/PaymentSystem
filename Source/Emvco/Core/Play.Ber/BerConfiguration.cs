@@ -153,9 +153,7 @@ public class BerConfiguration
         Dictionary<PlayEncodingId, string[]> codecsWithTheSameIdentifiers = new();
 
         foreach (PlayEncodingId identifier in duplicateIdentifiers)
-        {
             codecsWithTheSameIdentifiers.Add(identifier, playCodecs.Where(a => a.GetEncodingId() == identifier).Select(a => a.GetType().Name).ToArray());
-        }
 
         StringBuilder builder = new();
 

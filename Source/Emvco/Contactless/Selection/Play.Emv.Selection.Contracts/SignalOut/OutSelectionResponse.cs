@@ -28,8 +28,8 @@ public record OutSelectionResponse : ResponseSignal
 
     public OutSelectionResponse(
         CorrelationId correlationId, Transaction transaction, CombinationCompositeKey combinationCompositeKey,
-        TerminalTransactionQualifiers terminalTransactionQualifiers,
-        SelectApplicationDefinitionFileInfoResponse applicationFileInformationResponse) : base(correlationId, MessageTypeId, ChannelTypeId)
+        TerminalTransactionQualifiers terminalTransactionQualifiers, SelectApplicationDefinitionFileInfoResponse applicationFileInformationResponse) : base(
+        correlationId, MessageTypeId, ChannelTypeId)
     {
         _Transaction = transaction;
         _TerminalTransactionQualifiers = terminalTransactionQualifiers;

@@ -25,8 +25,7 @@ internal class SignedStaticApplicationDataDecoder
 
     #region Instance Members
 
-    private byte[] GetConcatenatedInput(
-        DecodedSignedStaticApplicationData decodedSignedStaticApplicationData, ReadOnlySpan<byte> staticDataToBeAuthenticated)
+    private byte[] GetConcatenatedInput(DecodedSignedStaticApplicationData decodedSignedStaticApplicationData, ReadOnlySpan<byte> staticDataToBeAuthenticated)
     {
         // TODO : static tag list -> AIP is contingent on it existing here for validation
         ReadOnlySpan<byte> inputList = decodedSignedStaticApplicationData.GetConcatenatedInputList();
@@ -57,8 +56,7 @@ internal class SignedStaticApplicationDataDecoder
         DecodedSignedStaticApplicationData decodedSignature =
             new(_SignatureService.Decrypt(signedStaticApplicationData.EncodeValue(), issuerPublicKeyCertificate));
 
-        if (!_SignatureService.IsSignatureValid(decodedSignature.GetHashAlgorithmIndicator(), staticDataToBeAuthenticated,
-            decodedSignature))
+        if (!_SignatureService.IsSignatureValid(decodedSignature.GetHashAlgorithmIndicator(), staticDataToBeAuthenticated, decodedSignature))
             return false;
 
         return true;

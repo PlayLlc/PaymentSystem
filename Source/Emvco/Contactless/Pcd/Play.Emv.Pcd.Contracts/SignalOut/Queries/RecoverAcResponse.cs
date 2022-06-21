@@ -24,8 +24,7 @@ public record RecoverAcResponse : QueryPcdResponse
 
     #region Constructor
 
-    public RecoverAcResponse(
-        CorrelationId correlationId, TransactionSessionId transactionSessionId, RecoverApplicationCryptogramRApduSignal rApdu) : base(
+    public RecoverAcResponse(CorrelationId correlationId, TransactionSessionId transactionSessionId, RecoverApplicationCryptogramRApduSignal rApdu) : base(
         correlationId, MessageTypeId, transactionSessionId, rApdu)
     { }
 
@@ -70,13 +69,11 @@ public record RecoverAcResponse : QueryPcdResponse
     /// <exception cref="IccProtocolException"></exception>
     private void ValidatePrimitiveDataObjects(PrimitiveValue[] values)
     {
-        CryptogramInformationData? cid =
-            (CryptogramInformationData) values.FirstOrDefault(a => a.GetTag() == CryptogramInformationData.Tag)!;
+        CryptogramInformationData? cid = (CryptogramInformationData) values.FirstOrDefault(a => a.GetTag() == CryptogramInformationData.Tag)!;
 
         if (cid is null)
         {
-            throw new IccProtocolException(
-                $"The required object: [{nameof(CryptogramInformationData)}] was missing from the {nameof(RecoverAcResponse)}");
+            throw new IccProtocolException($"The required object: [{nameof(CryptogramInformationData)}] was missing from the {nameof(RecoverAcResponse)}");
         }
 
         if (cid!.IsCdaSignatureRequested())

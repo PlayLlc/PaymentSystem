@@ -25,8 +25,7 @@ public class DisplayEndpoint : IMessageChannel, IHandleDisplayRequests, IDisposa
     #region Constructor
 
     private DisplayEndpoint(
-        IDisplayMessages displayService, IDisplayLed ledDisplayService, IDisplayMessageRepository displayMessageRepository,
-        ICreateEndpointClient messageRouter)
+        IDisplayMessages displayService, IDisplayLed ledDisplayService, IDisplayMessageRepository displayMessageRepository, ICreateEndpointClient messageRouter)
     {
         _DisplayProcess = new DisplayProcess(displayService, ledDisplayService, displayMessageRepository);
         _EndpointClient = messageRouter.CreateEndpointClient(this);

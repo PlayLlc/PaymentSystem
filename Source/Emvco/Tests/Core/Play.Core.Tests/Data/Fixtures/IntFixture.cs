@@ -8,16 +8,17 @@ namespace Play.Core.Tests.Data.Fixtures;
 
 internal static class IntFixture
 {
+    #region Instance Members
+
     public static IEnumerable<object[]> ForUInt(int count)
     {
         for (int i = 0; i < count; i++)
         {
             uint value = Randomize.Integers.UInt(byte.MinValue, byte.MaxValue);
 
-            yield return new object[] { value };
+            yield return new object[] {value};
         }
     }
-
 
     public static IEnumerable<object[]> ForULong(int count)
     {
@@ -25,7 +26,7 @@ internal static class IntFixture
         {
             ulong value = Randomize.Integers.ULong();
 
-            yield return new object[] { value };
+            yield return new object[] {value};
         }
     }
 
@@ -35,15 +36,17 @@ internal static class IntFixture
         {
             byte value = Randomize.Integers.Byte(byte.MinValue, byte.MaxValue);
 
-            yield return new object[] { value };
+            yield return new object[] {value};
         }
     }
 
     public static IEnumerable<object[]> ForBigInteger(int count)
     {
         for (int i = 0; i < count; i++)
-            yield return new object[] { Randomize.Integers.BigInteger() };
+            yield return new object[] {Randomize.Integers.BigInteger()};
     }
+
+    #endregion
 
     public class MostSignificantBit
     {
@@ -91,7 +94,7 @@ internal static class IntFixture
             {
                 int value = Randomize.Integers.Int(0, int.MaxValue);
 
-                yield return new object[] { GetMostSignificantBit(value), value };
+                yield return new object[] {GetMostSignificantBit(value), value};
             }
         }
 
@@ -111,7 +114,7 @@ internal static class IntFixture
             {
                 long value = Randomize.Integers.Long(0, long.MaxValue);
 
-                yield return new object[] { GetMostSignificantBit(value), value };
+                yield return new object[] {GetMostSignificantBit(value), value};
             }
         }
 

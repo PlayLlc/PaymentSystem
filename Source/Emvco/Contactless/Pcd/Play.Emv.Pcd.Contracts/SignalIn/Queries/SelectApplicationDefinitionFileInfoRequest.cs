@@ -21,9 +21,8 @@ public record SelectApplicationDefinitionFileInfoRequest : QueryPcdRequest
 
     #region Constructor
 
-    public SelectApplicationDefinitionFileInfoRequest(
-        TransactionSessionId transactionSessionId, CApduSignal cApduSignal, DedicatedFileName dedicatedFileName) : base(cApduSignal,
-        MessageTypeId, transactionSessionId)
+    public SelectApplicationDefinitionFileInfoRequest(TransactionSessionId transactionSessionId, CApduSignal cApduSignal, DedicatedFileName dedicatedFileName) :
+        base(cApduSignal, MessageTypeId, transactionSessionId)
     {
         _DedicatedFileName = dedicatedFileName;
     }
@@ -32,8 +31,7 @@ public record SelectApplicationDefinitionFileInfoRequest : QueryPcdRequest
 
     #region Instance Members
 
-    public static SelectApplicationDefinitionFileInfoRequest Create(
-        TransactionSessionId transactionSessionId, DedicatedFileName dedicatedFileName) =>
+    public static SelectApplicationDefinitionFileInfoRequest Create(TransactionSessionId transactionSessionId, DedicatedFileName dedicatedFileName) =>
         new(transactionSessionId, GetFileControlInformationCApduSignal.Get(dedicatedFileName), dedicatedFileName);
 
     public DedicatedFileName GetDedicatedFileName() => _DedicatedFileName;

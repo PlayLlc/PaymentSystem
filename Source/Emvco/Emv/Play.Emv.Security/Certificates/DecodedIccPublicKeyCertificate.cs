@@ -14,8 +14,8 @@ internal class DecodedIccPublicKeyCertificate : PublicKeyCertificate
 
     public DecodedIccPublicKeyCertificate(
         DateRange validityPeriod, CertificateSerialNumber certificateSerialNumber, HashAlgorithmIndicator hashAlgorithmIndicator,
-        PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator, PublicKeyInfo publicKeyInfo) : base(certificateSerialNumber,
-        hashAlgorithmIndicator, publicKeyAlgorithmIndicator, validityPeriod, publicKeyInfo)
+        PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator, PublicKeyInfo publicKeyInfo) : base(certificateSerialNumber, hashAlgorithmIndicator,
+        publicKeyAlgorithmIndicator, validityPeriod, publicKeyInfo)
     { }
 
     #endregion
@@ -70,8 +70,7 @@ internal class DecodedIccPublicKeyCertificate : PublicKeyCertificate
     /// <param name="publicKeyRemainder"></param>
     /// <returns></returns>
     internal static PublicKeyModulus ResolvePublicKeyModulus(
-        byte iccModulusLength, DecodedIssuerPublicKeyCertificate issuerPublicKeyCertificate, Message1 message1,
-        PublicKeyRemainder? publicKeyRemainder = null)
+        byte iccModulusLength, DecodedIssuerPublicKeyCertificate issuerPublicKeyCertificate, Message1 message1, PublicKeyRemainder? publicKeyRemainder = null)
     {
         Span<byte> modulusBuffer = stackalloc byte[iccModulusLength];
         message1[1..(message1.GetByteCount() - 42)].CopyTo(modulusBuffer);

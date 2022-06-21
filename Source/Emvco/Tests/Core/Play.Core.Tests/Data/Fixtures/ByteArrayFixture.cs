@@ -31,7 +31,7 @@ internal static class ByteArrayFixture
             throw new ArgumentOutOfRangeException(nameof(minLength));
 
         for (int i = 0; i < count; i++)
-            yield return new object[] { ByteArrayFactory.GetRandom(_Random, _Random.Next(minLength, maxLength)).AsNibbleArray() };
+            yield return new object[] {ByteArrayFactory.GetRandom(_Random, _Random.Next(minLength, maxLength)).AsNibbleArray()};
     }
 
     #endregion

@@ -14,8 +14,8 @@ public class Owhf2Aes
 {
     #region Static Metadata
 
-    private static readonly AesCodec _Codec = new(new BlockCipherConfiguration(BlockCipherMode.Cbc, BlockPaddingMode.None, KeySize._128,
-        BlockSize._16, new Iso7816PlainTextPreprocessor(BlockSize._16)));
+    private static readonly AesCodec _Codec = new(new BlockCipherConfiguration(BlockCipherMode.Cbc, BlockPaddingMode.None, KeySize._128, BlockSize._16,
+        new Iso7816PlainTextPreprocessor(BlockSize._16)));
 
     #endregion
 
@@ -88,8 +88,7 @@ public class Owhf2Aes
 
     /// <exception cref="PlayInternalException"></exception>
     public static void ResolveObjectId(
-        DataStorageRequestedOperatorId operatorId, DataStorageOperatorDataSetInfo info, DataStorageSlotManagementControl? control,
-        Span<byte> buffer)
+        DataStorageRequestedOperatorId operatorId, DataStorageOperatorDataSetInfo info, DataStorageSlotManagementControl? control, Span<byte> buffer)
     {
         if (control is not null)
             operatorId.EncodeValue().CopyTo(buffer);

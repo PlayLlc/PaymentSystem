@@ -26,24 +26,18 @@ internal class ReaderDatabase
     #region Constructor
 
     public ReaderDatabase(
-        IssuerIdentificationNumber issuerIdentificationNumber, MerchantIdentifier merchantIdentifier,
-        TerminalIdentification terminalIdentification, LanguagePreference languagePreference,
-        ICertificateAuthorityDatasetRepository certificateAuthorityDatasetRepository, IDisplayMessageRepository displayMessageRepository,
-        IKernelConfigurationRepository kernelConfigurationRepository,
-        IPcdProtocolConfigurationRepository pcdProtocolConfigurationRepository,
-        IPersistentKernelValuesRepository persistentKernelValuesRepository, ITransactionProfileRepository transactionProfileRepository)
+        IssuerIdentificationNumber issuerIdentificationNumber, MerchantIdentifier merchantIdentifier, TerminalIdentification terminalIdentification,
+        LanguagePreference languagePreference, ICertificateAuthorityDatasetRepository certificateAuthorityDatasetRepository,
+        IDisplayMessageRepository displayMessageRepository, IKernelConfigurationRepository kernelConfigurationRepository,
+        IPcdProtocolConfigurationRepository pcdProtocolConfigurationRepository, IPersistentKernelValuesRepository persistentKernelValuesRepository,
+        ITransactionProfileRepository transactionProfileRepository)
     {
         _KernelConfigurations = kernelConfigurationRepository.Get(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
-        _PersistentKernelValues =
-            persistentKernelValuesRepository.Get(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
-        _CertificateAuthorityDatasets =
-            certificateAuthorityDatasetRepository.Get(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
-        _PcdProtocolConfiguration =
-            pcdProtocolConfigurationRepository.Get(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
-        _TransactionProfileConfigurations =
-            transactionProfileRepository.Get(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
-        _DisplayMessages =
-            displayMessageRepository.Get(issuerIdentificationNumber, merchantIdentifier, terminalIdentification, languagePreference);
+        _PersistentKernelValues = persistentKernelValuesRepository.Get(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
+        _CertificateAuthorityDatasets = certificateAuthorityDatasetRepository.Get(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
+        _PcdProtocolConfiguration = pcdProtocolConfigurationRepository.Get(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
+        _TransactionProfileConfigurations = transactionProfileRepository.Get(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
+        _DisplayMessages = displayMessageRepository.Get(issuerIdentificationNumber, merchantIdentifier, terminalIdentification, languagePreference);
         _KernelConfigurations = kernelConfigurationRepository.Get(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
     }
 

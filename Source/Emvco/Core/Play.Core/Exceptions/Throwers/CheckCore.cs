@@ -141,9 +141,7 @@ public class CheckCore
     public static void ForMaximumLength<T>(ICollection<T> value, int maxLength, string name)
     {
         if (value.Count > maxLength)
-        {
             throw new ArgumentOutOfRangeException(name, $"The argument {name} was expected to have a maximum length of {maxLength} but did not");
-        }
     }
 
     /// <summary>
@@ -156,9 +154,7 @@ public class CheckCore
     public static void ForMaximumLength<T>(T[] value, int maxLength, string name) where T : struct
     {
         if (value.Length > maxLength)
-        {
             throw new ArgumentOutOfRangeException(name, $"The argument {name} was expected to have a maximum length of {maxLength} but did not");
-        }
     }
 
     /// <summary>
@@ -171,9 +167,7 @@ public class CheckCore
     public static void ForMaximumLength<T>(Span<T> value, int maxLength, string name) where T : struct
     {
         if (value.Length > maxLength)
-        {
             throw new ArgumentOutOfRangeException(name, $"The argument {name} was expected to have a maximum length of {maxLength} but did not");
-        }
     }
 
     /// <summary>
@@ -186,9 +180,7 @@ public class CheckCore
     public static void ForMaximumLength<T>(ReadOnlySpan<T> value, int maxLength, string name) where T : struct
     {
         if (value.Length > maxLength)
-        {
             throw new ArgumentOutOfRangeException(name, $"The argument {name} was expected to have a maximum length of {maxLength} but did not");
-        }
     }
 
     /// <summary>
@@ -201,9 +193,7 @@ public class CheckCore
     public static void ForMinimumLength<T>(T[] value, int minLength, string name) where T : struct
     {
         if (value.Length < minLength)
-        {
             throw new ArgumentOutOfRangeException(name, $"The argument {name} was expected to have a minimum length of {minLength} but did not");
-        }
     }
 
     /// <summary>
@@ -216,9 +206,7 @@ public class CheckCore
     public static void ForMinimumLength<T>(ICollection<T> value, int minLength, string name) where T : struct
     {
         if (value.Count < minLength)
-        {
             throw new ArgumentOutOfRangeException(name, $"The argument {name} was expected to have a minimum length of {minLength} but did not");
-        }
     }
 
     /// <summary>
@@ -231,9 +219,7 @@ public class CheckCore
     public static void ForMinimumLength<T>(Span<T> value, int minLength, string name) where T : struct
     {
         if (value.Length < minLength)
-        {
             throw new ArgumentOutOfRangeException(name, $"The argument {name} was expected to have a minimum length of {minLength} but did not");
-        }
     }
 
     /// <summary>
@@ -246,9 +232,7 @@ public class CheckCore
     public static void ForMinimumLength<T>(ReadOnlySpan<T> value, int minLength, string name) where T : struct
     {
         if (value.Length < minLength)
-        {
             throw new ArgumentOutOfRangeException(name, $"The argument {name} was expected to have a minimum length of {minLength} but did not");
-        }
     }
 
     /// <summary>

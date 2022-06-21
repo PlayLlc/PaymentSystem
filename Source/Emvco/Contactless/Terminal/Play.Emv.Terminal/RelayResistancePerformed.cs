@@ -68,9 +68,7 @@ public readonly struct RelayResistancePerformed
 
     #region Equality
 
-    public override bool Equals(object? obj) =>
-        obj is RelayResistancePerformed relayResistancePerformed && Equals(relayResistancePerformed);
-
+    public override bool Equals(object? obj) => obj is RelayResistancePerformed relayResistancePerformed && Equals(relayResistancePerformed);
     public bool Equals(RelayResistancePerformed other) => _Value == other._Value;
     public bool Equals(RelayResistancePerformed x, RelayResistancePerformed y) => x.Equals(y);
     public bool Equals(byte other) => _Value == other;

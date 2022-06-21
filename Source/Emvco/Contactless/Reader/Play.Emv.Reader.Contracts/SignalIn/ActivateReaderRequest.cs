@@ -42,8 +42,7 @@ public record ActivateReaderRequest : RequestSignal
         _TagsToRead = tagsToRead;
     }
 
-    public ActivateReaderRequest(Transaction transaction, DataToSend? dataToSend, TagsToRead? tagsToRead) : base(MessageTypeId,
-        ChannelTypeId)
+    public ActivateReaderRequest(Transaction transaction, DataToSend? dataToSend, TagsToRead? tagsToRead) : base(MessageTypeId, ChannelTypeId)
     {
         _DataToSend = dataToSend;
         _Transaction = transaction;

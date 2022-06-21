@@ -19,8 +19,7 @@ public class TransactionConfiguration
 
     public TransactionConfiguration(
         TransactionCurrencyCode transactionCurrencyCode, TransactionCurrencyExponent transactionCurrencyExponent,
-        TransactionReferenceCurrencyCode transactionReferenceCurrencyCode,
-        TransactionReferenceCurrencyExponent transactionReferenceCurrencyExponent)
+        TransactionReferenceCurrencyCode transactionReferenceCurrencyCode, TransactionReferenceCurrencyExponent transactionReferenceCurrencyExponent)
     {
         _TransactionCurrencyCode = transactionCurrencyCode;
         _TransactionCurrencyExponent = transactionCurrencyExponent;

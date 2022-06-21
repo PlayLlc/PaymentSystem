@@ -17,17 +17,16 @@ public class Kernel2ProcessFactory
     #region Instance Members
 
     public static Kernel2Process Create(
-        ICleanTornTransactions tornTransactionCleaner, Kernel2Configuration kernel2Configuration,
-        Kernel2PersistentValues kernel2PersistentValues, Kernel2KnownObjects knownObjects, IHandleTerminalRequests terminalEndpoint,
-        IKernelEndpoint kernelEndpoint, IHandlePcdRequests pcdEndpoint, IGenerateUnpredictableNumber unpredictableNumberGenerator,
-        IManageTornTransactions tornTransactionManager, CertificateAuthorityDataset[] certificates, IHandleDisplayRequests displayEndpoint,
-        ScratchPad scratchPad)
+        ICleanTornTransactions tornTransactionCleaner, Kernel2Configuration kernel2Configuration, Kernel2PersistentValues kernel2PersistentValues,
+        Kernel2KnownObjects knownObjects, IHandleTerminalRequests terminalEndpoint, IKernelEndpoint kernelEndpoint, IHandlePcdRequests pcdEndpoint,
+        IGenerateUnpredictableNumber unpredictableNumberGenerator, IManageTornTransactions tornTransactionManager, CertificateAuthorityDataset[] certificates,
+        IHandleDisplayRequests displayEndpoint, ScratchPad scratchPad)
     {
         KernelDatabase kernelDatabase = new(certificates, kernel2PersistentValues, knownObjects, scratchPad);
 
         Kernel2StateResolver kernel2StateResolver = Kernel2StateResolver.Create(tornTransactionCleaner, kernelDatabase,
-            new DataExchangeKernelService(terminalEndpoint, kernelDatabase, kernelEndpoint), tornTransactionManager, terminalEndpoint,
-            kernelEndpoint, pcdEndpoint, unpredictableNumberGenerator, displayEndpoint);
+            new DataExchangeKernelService(terminalEndpoint, kernelDatabase, kernelEndpoint), tornTransactionManager, terminalEndpoint, kernelEndpoint,
+            pcdEndpoint, unpredictableNumberGenerator, displayEndpoint);
         Kernel2StateMachine stateMachine = new(kernel2StateResolver.GetKernelState(Idle.StateId));
 
         return new Kernel2Process(stateMachine);

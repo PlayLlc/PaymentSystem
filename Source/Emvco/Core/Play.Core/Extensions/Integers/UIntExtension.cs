@@ -25,7 +25,7 @@ public static class UIntExtension
 
     public static uint ClearBit(this in uint input, Bits bitToClear, byte bytePosition)
     {
-        if (bytePosition > Specs.Integer.UInt32.ByteCount) 
+        if (bytePosition > Specs.Integer.UInt32.ByteCount)
             throw new ArgumentOutOfRangeException(nameof(bytePosition));
 
         return input & ~((uint) bitToClear << ((bytePosition * 8) - 8));

@@ -36,8 +36,8 @@ internal class WaitingForFinalOutcome : TerminalState
     #region Constructor
 
     public WaitingForFinalOutcome(
-        DataExchangeTerminalService dataExchangeTerminalService, IGetTerminalState terminalStateResolver,
-        IHandleAcquirerRequests acquirerEndpoint) : base(dataExchangeTerminalService)
+        DataExchangeTerminalService dataExchangeTerminalService, IGetTerminalState terminalStateResolver, IHandleAcquirerRequests acquirerEndpoint) : base(
+        dataExchangeTerminalService)
     {
         _TerminalStateResolver = terminalStateResolver;
         _AcquirerEndpoint = acquirerEndpoint;
@@ -97,9 +97,7 @@ internal class WaitingForFinalOutcome : TerminalState
     }
 
     public override TerminalState Handle(TerminalSession session, QueryKernelResponse signal) => throw new NotImplementedException();
-
-    public override TerminalState Handle(TerminalSession session, StopReaderAcknowledgedResponse signal) =>
-        throw new NotImplementedException();
+    public override TerminalState Handle(TerminalSession session, StopReaderAcknowledgedResponse signal) => throw new NotImplementedException();
 
     /// <summary>
     ///     Handle

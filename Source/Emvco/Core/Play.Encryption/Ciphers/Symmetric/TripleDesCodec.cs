@@ -28,14 +28,10 @@ public class TripleDesCodec : IBlockCipher
     public TripleDesCodec(BlockCipherConfiguration configuration)
     {
         if (configuration.GetKeySize() != KeySize._128)
-        {
             throw new ArgumentOutOfRangeException(nameof(configuration), $"Valid {nameof(KeySize)} values for {nameof(TripleDesCodec)} are {KeySize._128}");
-        }
 
         if (configuration.GetBlockSize() != BlockSize._8)
-        {
             throw new ArgumentOutOfRangeException(nameof(configuration), $"Valid {nameof(BlockSize)} values for {nameof(TripleDesCodec)} are {BlockSize._8}");
-        }
 
         _Preprocessor = configuration.GetPreprocessor();
         _CipherMode = configuration.GetBlockCipherMode();

@@ -143,8 +143,8 @@ public class ProcessingOptionsDataObjectListTests : TestBase
     [Fact]
     public void PrimitiveValue_EncodingTagLengthValue_ReturnsExpectedResult()
     {
-        byte[] expected = EmvFixture.ProcessingOptionsDataObjectListBuilder.GetDefaultEncodedTagLengthValue(); 
-        ProcessingOptionsDataObjectList sut = _Fixture.Create<ProcessingOptionsDataObjectList>(); 
+        byte[] expected = EmvFixture.ProcessingOptionsDataObjectListBuilder.GetDefaultEncodedTagLengthValue();
+        ProcessingOptionsDataObjectList sut = _Fixture.Create<ProcessingOptionsDataObjectList>();
         byte[] actual = sut.EncodeTagLengthValue();
 
         Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));

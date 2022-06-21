@@ -12,8 +12,7 @@ internal partial class CertificateFactory
 
     /// <remarks>EMV Book 2 Section 5.2</remarks>
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
-    public static CaPublicKeyCertificate RecoverCertificateAuthorityCertificate(
-        ITlvReaderAndWriter tlvDatabase, ICertificateDatabase certificateDatabase)
+    public static CaPublicKeyCertificate RecoverCertificateAuthorityCertificate(ITlvReaderAndWriter tlvDatabase, ICertificateDatabase certificateDatabase)
     {
         try
         {

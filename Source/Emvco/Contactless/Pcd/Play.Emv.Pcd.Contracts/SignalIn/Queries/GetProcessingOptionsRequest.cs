@@ -23,8 +23,8 @@ public record GetProcessingOptionsRequest : QueryPcdRequest
 
     #region Constructor
 
-    private GetProcessingOptionsRequest(CommandTemplate commandTemplate, CApduSignal cApduSignal, TransactionSessionId transactionSessionId)
-        : base(cApduSignal, MessageTypeId, transactionSessionId)
+    private GetProcessingOptionsRequest(CommandTemplate commandTemplate, CApduSignal cApduSignal, TransactionSessionId transactionSessionId) : base(cApduSignal,
+        MessageTypeId, transactionSessionId)
     {
         _CommandTemplate = commandTemplate;
     }
@@ -36,15 +36,14 @@ public record GetProcessingOptionsRequest : QueryPcdRequest
     /// <param name="cApduSignal"></param>
     /// <param name="transactionSessionId"></param>
     /// <exception cref="BerParsingException"></exception>
-    private GetProcessingOptionsRequest(
-        DataObjectListResult dataObjectListResult, CApduSignal cApduSignal, TransactionSessionId transactionSessionId) : base(cApduSignal,
-        MessageTypeId, transactionSessionId)
+    private GetProcessingOptionsRequest(DataObjectListResult dataObjectListResult, CApduSignal cApduSignal, TransactionSessionId transactionSessionId) : base(
+        cApduSignal, MessageTypeId, transactionSessionId)
     {
         _CommandTemplate = dataObjectListResult.AsCommandTemplate();
     }
 
-    private GetProcessingOptionsRequest(CApduSignal cApduSignal, TransactionSessionId transactionSessionId) : base(cApduSignal,
-        MessageTypeId, transactionSessionId)
+    private GetProcessingOptionsRequest(CApduSignal cApduSignal, TransactionSessionId transactionSessionId) : base(cApduSignal, MessageTypeId,
+        transactionSessionId)
     {
         _CommandTemplate = null;
     }
@@ -67,8 +66,7 @@ public record GetProcessingOptionsRequest : QueryPcdRequest
     {
         CommandTemplate commandTemplate = dataObjectListResult.AsCommandTemplate();
 
-        return new GetProcessingOptionsRequest(commandTemplate, GetProcessingOptionsCApduSignal.Create(commandTemplate),
-            transactionSessionId);
+        return new GetProcessingOptionsRequest(commandTemplate, GetProcessingOptionsCApduSignal.Create(commandTemplate), transactionSessionId);
     }
 
     public static GetProcessingOptionsRequest Create(CommandTemplate commandTemplate, TransactionSessionId transactionSessionId) =>

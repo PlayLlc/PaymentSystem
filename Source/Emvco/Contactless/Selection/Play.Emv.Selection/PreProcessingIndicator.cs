@@ -95,8 +95,7 @@ public class PreProcessingIndicator
     /// <remarks>
     ///     Emv Book B Section 3.1.1.4 and 3.1.1.5
     /// </remarks>
-    private void SetContactlessApplicationNotAllowed(
-        Money amountAuthorizedNumeric, Money readerContactlessTransactionLimit, bool isZeroAmountAllowedForOffline)
+    private void SetContactlessApplicationNotAllowed(Money amountAuthorizedNumeric, Money readerContactlessTransactionLimit, bool isZeroAmountAllowedForOffline)
     {
         if (amountAuthorizedNumeric.IsZeroAmount())
             return;
@@ -124,17 +123,15 @@ public class PreProcessingIndicator
 
         StatusCheckRequestedHasBeenSetEvent? statusCheckRequestedHasBeenSet =
             SetStatusCheckRequested(_TransactionProfile.IsStatusCheckSupported(), amountAuthorizedMoney);
-        ZeroAmountHasBeenSetEvent? zeroAmountHasBeenSet =
-            SetZeroAmount(amountAuthorizedMoney, _TransactionProfile.IsZeroAmountAllowedForOffline());
+        ZeroAmountHasBeenSetEvent? zeroAmountHasBeenSet = SetZeroAmount(amountAuthorizedMoney, _TransactionProfile.IsZeroAmountAllowedForOffline());
         SetContactlessApplicationNotAllowed(amountAuthorizedMoney,
             _TransactionProfile.GetReaderContactlessTransactionLimit().AsMoney(cultureProfile.GetNumericCurrencyCode()),
             _TransactionProfile.IsZeroAmountAllowedForOffline());
         ReaderContactlessFloorLimitExceededHasBeenSetEvent? readerContactlessFloorLimitExceededHasBeenSet =
             SetReaderContactlessFloorLimitExceeded(amountAuthorizedMoney,
                 _TransactionProfile.GetReaderContactlessTransactionLimit().AsMoney(cultureProfile.GetNumericCurrencyCode()));
-        ReaderCvmRequiredLimitExceededHasBeenSetEvent? readerCvmRequiredLimitExceeded =
-            SetReaderCvmRequiredLimitExceeded(amountAuthorizedMoney,
-                _TransactionProfile.GetReaderCvmRequiredLimit().AsMoney(cultureProfile.GetNumericCurrencyCode()));
+        ReaderCvmRequiredLimitExceededHasBeenSetEvent? readerCvmRequiredLimitExceeded = SetReaderCvmRequiredLimitExceeded(amountAuthorizedMoney,
+            _TransactionProfile.GetReaderCvmRequiredLimit().AsMoney(cultureProfile.GetNumericCurrencyCode()));
         SetOnlineCryptogramRequired(readerContactlessFloorLimitExceededHasBeenSet);
         SetOnlineCryptogramRequired(statusCheckRequestedHasBeenSet);
         SetOnlineCryptogramRequired(zeroAmountHasBeenSet);
@@ -165,8 +162,7 @@ public class PreProcessingIndicator
     /// <remarks>
     ///     Emv Book B Section 3.1.1.9
     /// </remarks>
-    private void SetOnlineCryptogramRequired(
-        ReaderContactlessFloorLimitExceededHasBeenSetEvent readerContactlessFloorLimitExceededHasBeenSetEvent)
+    private void SetOnlineCryptogramRequired(ReaderContactlessFloorLimitExceededHasBeenSetEvent readerContactlessFloorLimitExceededHasBeenSetEvent)
     {
         if (readerContactlessFloorLimitExceededHasBeenSetEvent.ReaderContactlessFloorLimitExceeded)
             TerminalTransactionQualifiers.SetOnlineCryptogramRequired();
@@ -198,8 +194,7 @@ public class PreProcessingIndicator
     /// <remarks>
     ///     Emv Book B Section 3.1.1.8
     /// </remarks>
-    private ReaderCvmRequiredLimitExceededHasBeenSetEvent SetReaderCvmRequiredLimitExceeded(
-        Money amountAuthorizedNumeric, Money readerCvmRequiredLimit)
+    private ReaderCvmRequiredLimitExceededHasBeenSetEvent SetReaderCvmRequiredLimitExceeded(Money amountAuthorizedNumeric, Money readerCvmRequiredLimit)
     {
         if (amountAuthorizedNumeric > readerCvmRequiredLimit)
             ReaderCvmRequiredLimitExceeded = true;

@@ -11,8 +11,7 @@ internal class EnvelopeFactory
     public static RequestMessageEnvelope CreateRequestEnvelope(RequestMessage message, MessagingConfiguration messagingConfiguration) =>
         new(CreateRequestMessageHeader(message.GetCorrelationId(), messagingConfiguration), message);
 
-    private static RequestMessageHeader CreateRequestMessageHeader(
-        CorrelationId correlationId, MessagingConfiguration messagingConfiguration) =>
+    private static RequestMessageHeader CreateRequestMessageHeader(CorrelationId correlationId, MessagingConfiguration messagingConfiguration) =>
         new(correlationId, messagingConfiguration);
 
     #endregion

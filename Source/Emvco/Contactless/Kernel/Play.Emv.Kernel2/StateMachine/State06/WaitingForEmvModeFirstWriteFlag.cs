@@ -23,9 +23,8 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
 
     public WaitingForEmvModeFirstWriteFlag(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IHandleDisplayRequests displayEndpoint, S456 s456) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionLog,
-        kernelStateResolver, pcdEndpoint, displayEndpoint)
+        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint, IHandleDisplayRequests displayEndpoint,
+        S456 s456) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionLog, kernelStateResolver, pcdEndpoint, displayEndpoint)
     {
         _S456 = s456;
     }
@@ -45,8 +44,7 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
     #region ACT
 
     /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, ActivateKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, KernelChannel.Id);
+    public override KernelState Handle(KernelSession session, ActivateKernelRequest signal) => throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     #endregion
 
@@ -66,8 +64,7 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
     /// <param name="signal"></param>
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, QueryPcdResponse signal) =>
-        throw new RequestOutOfSyncException(signal, KernelChannel.Id);
+    public override KernelState Handle(KernelSession session, QueryPcdResponse signal) => throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     #endregion
 
@@ -76,12 +73,10 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
     #region DET
 
     /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, KernelChannel.Id);
+    public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) => throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, QueryKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, KernelChannel.Id);
+    public override KernelState Handle(KernelSession session, QueryKernelRequest signal) => throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     #endregion
 }

@@ -292,9 +292,7 @@ internal class CountryCodeRepository
     public static bool IsValid(ReadOnlySpan<char> alpha3Code)
     {
         if (alpha3Code.Length != 3)
-        {
             throw new ArgumentOutOfRangeException(nameof(alpha3Code), $"The argument {nameof(alpha3Code)} must be three characters in length");
-        }
 
         _Buffer[0] = alpha3Code[0];
         _Buffer[1] = alpha3Code[1];

@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Play.Core.Specifications;
+
 namespace Play.Core.Extensions;
 
 public static class LongExtension
@@ -14,15 +16,15 @@ public static class LongExtension
             return 0;
 
         if (value < 0)
-            return Specifications.Specs.Integer.Int64.BitCount;
+            return Specs.Integer.Int64.BitCount;
 
         if (value < uint.MaxValue)
-            return (int)Math.Log(value, 2) + 1;
+            return (int) Math.Log(value, 2) + 1;
 
         long buffer = value;
         int offset = 0;
 
-        for (int i = 0; i < Specifications.Specs.Integer.Int64.BitCount; i++)
+        for (int i = 0; i < Specs.Integer.Int64.BitCount; i++)
         {
             if (buffer == 0)
                 return offset;

@@ -20,21 +20,19 @@ public class PcdTimeoutException : PlayException
     { }
 
     public PcdTimeoutException(
-        string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
+        string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0) : base(
         $"{TraceExceptionMessage(typeof(PcdTimeoutException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public PcdTimeoutException(
-        Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(PcdTimeoutException), fileName, memberName, lineNumber)}", innerException)
+        Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0) :
+        base($"{TraceExceptionMessage(typeof(PcdTimeoutException), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public PcdTimeoutException(
         string message, Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(PcdTimeoutException), fileName, memberName, lineNumber)} {message}", innerException)
+        [CallerLineNumber] int lineNumber = 0) : base($"{TraceExceptionMessage(typeof(PcdTimeoutException), fileName, memberName, lineNumber)} {message}",
+        innerException)
     { }
 
     #endregion

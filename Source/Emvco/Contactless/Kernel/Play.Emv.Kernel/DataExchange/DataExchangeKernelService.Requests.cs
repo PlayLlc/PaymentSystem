@@ -48,8 +48,7 @@ public partial class DataExchangeKernelService
         {
             if (!_Lock.Requests.ContainsKey(type))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
+                throw new InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
             }
 
             if (!_Lock.Requests.ContainsKey(type))
@@ -69,8 +68,7 @@ public partial class DataExchangeKernelService
         {
             if (!_Lock.Requests.ContainsKey(type))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
+                throw new InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
             }
 
             return _Lock.Requests[type].TryPeek(out result);
@@ -94,8 +92,7 @@ public partial class DataExchangeKernelService
         {
             if (!_Lock.Requests.ContainsKey(type))
             {
-                throw new TerminalDataException(
-                    $"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
+                throw new TerminalDataException($"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
             }
 
             _Lock.Requests[type].Enqueue(listItems);
@@ -184,8 +181,7 @@ public partial class DataExchangeKernelService
     {
         if (!dekLock.Requests.ContainsKey(DekRequestType.DataNeeded))
         {
-            throw new TerminalDataException(
-                $"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
+            throw new TerminalDataException($"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
         }
 
         DataNeeded dataNeeded = (DataNeeded) dekLock.Requests[DekRequestType.DataNeeded];
@@ -199,14 +195,12 @@ public partial class DataExchangeKernelService
     {
         if (!dekLock.Requests.ContainsKey(DekRequestType.TagsToRead))
         {
-            throw new TerminalDataException(
-                $"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
+            throw new TerminalDataException($"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
         }
 
         if (!dekLock.Responses.ContainsKey(DekResponseType.DataToSend))
         {
-            throw new TerminalDataException(
-                $"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
+            throw new TerminalDataException($"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
         }
 
         TagsToRead tagsToReadYet = (TagsToRead) dekLock.Requests[DekRequestType.TagsToRead];

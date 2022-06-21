@@ -16,8 +16,8 @@ public record RecoverAcRequest : QueryPcdRequest
 
     #region Constructor
 
-    private RecoverAcRequest(TransactionSessionId transactionSessionId, RecoverApplicationCryptogramCApduSignal cApduSignal) : base(
-        cApduSignal, MessageTypeId, transactionSessionId)
+    private RecoverAcRequest(TransactionSessionId transactionSessionId, RecoverApplicationCryptogramCApduSignal cApduSignal) : base(cApduSignal, MessageTypeId,
+        transactionSessionId)
     { }
 
     #endregion

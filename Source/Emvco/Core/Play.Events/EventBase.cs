@@ -19,9 +19,7 @@ public abstract class EventBase : IEquatable<EventBase>
     protected static EventTypeId GetEventTypeId(Type eventType)
     {
         if (!eventType.IsAssignableFrom(typeof(EventBase)))
-        {
             throw new ArgumentOutOfRangeException(nameof(eventType), $"The argument {nameof(eventType)} was expected to inherit {nameof(EventBase)}");
-        }
 
         string fullName = eventType.AssemblyQualifiedName!;
         ReadOnlySpan<byte> buffer = Encoding.Unicode.GetBytes(fullName);

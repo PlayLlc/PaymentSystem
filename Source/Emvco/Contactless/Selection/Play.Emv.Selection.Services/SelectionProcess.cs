@@ -18,11 +18,10 @@ internal class SelectionProcess : CommandProcessingQueue
     #region Constructor
 
     public SelectionProcess(
-        IHandlePcdRequests pcdClient, IHandleDisplayRequests displayClient, TransactionProfile[] transactionProfiles,
-        PoiInformation poiInformation, ISendSelectionResponses endpointClient) : base(new CancellationTokenSource())
+        IHandlePcdRequests pcdClient, IHandleDisplayRequests displayClient, TransactionProfile[] transactionProfiles, PoiInformation poiInformation,
+        ISendSelectionResponses endpointClient) : base(new CancellationTokenSource())
     {
-        _SelectionStateMachine =
-            new SelectionStateMachine(pcdClient, displayClient, transactionProfiles, poiInformation, this, endpointClient);
+        _SelectionStateMachine = new SelectionStateMachine(pcdClient, displayClient, transactionProfiles, poiInformation, this, endpointClient);
     }
 
     #endregion

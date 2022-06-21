@@ -22,8 +22,8 @@ public record SendPoiInformationRequest : QueryPcdRequest
 
     #region Constructor
 
-    private SendPoiInformationRequest(CApduSignal cApduSignal, TransactionSessionId transactionSessionId, CommandTemplate commandTemplate) :
-        base(cApduSignal, MessageTypeId, transactionSessionId)
+    private SendPoiInformationRequest(CApduSignal cApduSignal, TransactionSessionId transactionSessionId, CommandTemplate commandTemplate) : base(cApduSignal,
+        MessageTypeId, transactionSessionId)
     {
         _CommandTemplate = commandTemplate;
     }

@@ -8,8 +8,7 @@ public interface ICertificateAuthorityDatasetRepository
     #region Instance Members
 
     public CertificateAuthorityDataset[] Get(
-        IssuerIdentificationNumber issuerIdentificationNumber, MerchantIdentifier merchantIdentifier,
-        TerminalIdentification terminalIdentification);
+        IssuerIdentificationNumber issuerIdentificationNumber, MerchantIdentifier merchantIdentifier, TerminalIdentification terminalIdentification);
 
     #endregion
 }

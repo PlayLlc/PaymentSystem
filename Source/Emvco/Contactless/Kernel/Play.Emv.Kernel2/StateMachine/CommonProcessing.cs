@@ -29,8 +29,8 @@ public abstract class CommonProcessing
     #region Constructor
 
     protected CommonProcessing(
-        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
-        IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint)
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
+        IKernelEndpoint kernelEndpoint)
     {
         _Database = database;
         _DataExchangeKernelService = dataExchangeKernelService;

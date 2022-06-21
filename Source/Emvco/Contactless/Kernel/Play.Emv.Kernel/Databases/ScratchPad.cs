@@ -36,9 +36,7 @@ public class ScratchPad
     public TornTransactionLog GetTornTransactionLog(ApplicationIdentifier applicationId)
     {
         if (!_TornTransactionLogs.TryGetValue(applicationId, out TornTransactionLog? tornTransactionLog))
-        {
             _TornTransactionLogs.Add(applicationId, new TornTransactionLog(_MaxNumberOfTornTransactionLogRecords, _MaxLifetimeOfTornTransactionLogRecords));
-        }
 
         return tornTransactionLog!;
     }
