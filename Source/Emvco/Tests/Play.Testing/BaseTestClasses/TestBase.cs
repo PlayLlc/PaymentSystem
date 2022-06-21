@@ -7,6 +7,8 @@ using AutoFixture;
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Codecs;
+using Play.Core;
+using Play.Core.Extensions;
 
 using Xunit.Sdk;
 
@@ -154,6 +156,9 @@ public abstract class TestBase
             public static string Message(char[] expected, char[] actual) =>
 
                 $"\n\n\t\texpected\t: {new string(expected).Replace("-", "")}; \n\t\tactual\t: {new string(actual).Replace("-", "")};";
+
+            public static string Message(Nibble[] expected, Nibble[] actual) =>
+                $"\n\n\t\texpected\t: {BitConverter.ToString(expected.AsByteArray()).Replace("-", "")}; \n\t\tactual\t\t: {BitConverter.ToString(actual.AsByteArray()).Replace("-", "")};";
 
             #endregion
         }
