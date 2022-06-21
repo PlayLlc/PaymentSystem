@@ -79,6 +79,16 @@ internal static class IntFixture
             }
         }
 
+        public static IEnumerable<object[]> ForInt(int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                int value = Randomize.Integers.Int(0, int.MaxValue);
+
+                yield return new object[] { GetMostSignificantBit(value), value };
+            }
+        }
+
         public static IEnumerable<object[]> ForULong(int count)
         {
             for (int i = 0; i < count; i++)
@@ -181,6 +191,28 @@ internal static class IntFixture
                 return 0;
 
             uint buffer = value;
+            int offset = 0;
+
+            for (int i = 0; i < Specs.Integer.Int32.BitCount; i++)
+            {
+                if (buffer == 0)
+                    return offset;
+
+                if ((buffer % 10) != 0)
+                    offset = i + 1;
+
+                buffer >>= 1;
+            }
+
+            return offset;
+        }
+
+        private static int GetMostSignificantBit(int value)
+        {
+            if (value == 0)
+                return 0;
+
+            int buffer = value;
             int offset = 0;
 
             for (int i = 0; i < Specs.Integer.Int32.BitCount; i++)
