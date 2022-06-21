@@ -30,7 +30,7 @@ public readonly record struct Nibble
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     public Nibble(byte value)
     {
-        if (value.AreBitsSet(_UnrelatedBits))
+        if (value.AreAnyBitsSet(_UnrelatedBits))
         {
             throw new ArgumentOutOfRangeException(nameof(value),
                 $"The {nameof(Nibble)} could not be initialized because the argument provided has more bits set than a nibble");
