@@ -95,26 +95,14 @@ public readonly record struct Deciseconds
     public static Deciseconds operator /(Deciseconds left, Deciseconds right) => new(left._Value / right._Value);
     public static Deciseconds operator -(Deciseconds left, Deciseconds right) => new(left._Value - right._Value);
     public static Deciseconds operator +(Deciseconds left, Deciseconds right) => new(left._Value + right._Value);
-    public static bool operator ==(Deciseconds left, TimeSpan right) => left.Equals(right);
-    public static bool operator ==(TimeSpan left, Deciseconds right) => right.Equals(left);
     public static explicit operator long(Deciseconds value) => value._Value;
     public static bool operator >(Deciseconds left, Deciseconds right) => left._Value > right._Value;
-    public static bool operator >(Deciseconds left, TimeSpan right) => left.AsTimeSpan() > right;
-    public static bool operator >(TimeSpan left, Deciseconds right) => right.AsTimeSpan() > left;
     public static bool operator >=(Deciseconds left, Deciseconds right) => left._Value >= right._Value;
-    public static bool operator >=(Deciseconds left, TimeSpan right) => left.AsTimeSpan() >= right;
-    public static bool operator >=(TimeSpan left, Deciseconds right) => right.AsTimeSpan() >= left;
-    public static implicit operator TimeSpan(Deciseconds value) => value.AsTimeSpan();
-    public static implicit operator Deciseconds(TimeSpan value) => new(value);
-    public static implicit operator Deciseconds(int value) => new(value);
-    public static bool operator !=(Deciseconds left, TimeSpan right) => !left.Equals(right);
-    public static bool operator !=(TimeSpan left, Deciseconds right) => !right.Equals(left);
+    public static explicit operator TimeSpan(Deciseconds value) => value.AsTimeSpan();
+    public static explicit operator Deciseconds(TimeSpan value) => new(value);
+    public static explicit operator Deciseconds(int value) => new(value);
     public static bool operator <(Deciseconds left, Deciseconds right) => left._Value < right._Value;
-    public static bool operator <(Deciseconds left, TimeSpan right) => left.AsTimeSpan() < right;
-    public static bool operator <(TimeSpan left, Deciseconds right) => right.AsTimeSpan() < left;
     public static bool operator <=(Deciseconds left, Deciseconds right) => left._Value <= right._Value;
-    public static bool operator <=(Deciseconds left, TimeSpan right) => left.AsTimeSpan() <= right;
-    public static bool operator <=(TimeSpan left, Deciseconds right) => right.AsTimeSpan() <= left;
     public static implicit operator Deciseconds(Seconds value) => new(value);
 
     #endregion

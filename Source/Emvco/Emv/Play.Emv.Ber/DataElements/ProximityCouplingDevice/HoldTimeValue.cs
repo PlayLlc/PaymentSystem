@@ -73,7 +73,7 @@ public record HoldTimeValue : DataElement<Deciseconds>, IEqualityComparer<HoldTi
 
         Check.Primitive.ForMaxCharLength(result.GetNumberOfDigits(), _CharLength, Tag);
 
-        return new HoldTimeValue(result);
+        return new HoldTimeValue((Deciseconds) result);
     }
 
     public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
