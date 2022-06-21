@@ -9,7 +9,7 @@ using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel2.Databases;
-using Play.Globalization.Time.Seconds;
+using Play.Globalization.Time;
 using Play.Icc.Exceptions;
 
 namespace Play.Emv.Kernel2.StateMachine;

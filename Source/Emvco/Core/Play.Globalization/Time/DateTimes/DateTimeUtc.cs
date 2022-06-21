@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Play.Core.Exceptions;
-using Play.Globalization.Time.Seconds;
 
 namespace Play.Globalization.Time;
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Play.Globalization.Time.Seconds;
+namespace Play.Globalization.Time;
 
 /// <summary>
 ///     This struct represents a <see cref="TimeSpan" /> that is initialized with Milliseconds

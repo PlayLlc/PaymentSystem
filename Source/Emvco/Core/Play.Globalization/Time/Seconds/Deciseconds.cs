@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Play.Globalization.Time.Seconds;
+namespace Play.Globalization.Time;
 
 /// <summary>
 ///     Decisecond is one tenth of a second

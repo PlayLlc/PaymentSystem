@@ -1,7 +1,5 @@
 ﻿using System;
 
-using Play.Globalization.Time.Seconds;
-
 namespace Play.Globalization.Time;
 
 internal class StopwatchSession

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Play.Globalization.Time.Seconds;
+namespace Play.Globalization.Time;
 
 public readonly record struct Microseconds
 {

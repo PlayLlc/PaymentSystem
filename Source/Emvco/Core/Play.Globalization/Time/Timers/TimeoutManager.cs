@@ -1,7 +1,5 @@
 ﻿using System;
 
-using Play.Globalization.Time.Seconds;
-
 namespace Play.Globalization.Time;
 
 public class TimeoutManager
@@ -95,7 +93,7 @@ public class TimeoutManager
     /// </summary>
     /// <param name="timeout"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    public void Start(Seconds.Seconds timeout)
+    public void Start(Seconds timeout)
     {
         Start(new Milliseconds(timeout));
     }

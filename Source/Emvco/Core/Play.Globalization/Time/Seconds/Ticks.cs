@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Play.Globalization.Time.Seconds;
+namespace Play.Globalization.Time;
 
 /// <summary>
 ///     A single tick represents one hundred nanoseconds or one ten-millionth of a second. There are 10,000 ticks in a
