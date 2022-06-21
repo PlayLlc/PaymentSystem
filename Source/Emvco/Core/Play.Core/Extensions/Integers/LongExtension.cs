@@ -13,9 +13,27 @@ public static class LongExtension
         if (value == 0)
             return 0;
 
-        int bitLog = (int) Math.Log(value, 2);
+        if (value < 0)
+            return Specifications.Specs.Integer.Int64.BitCount;
 
-        return bitLog + 1;
+        if (value < uint.MaxValue)
+            return (int)Math.Log(value, 2) + 1;
+
+        long buffer = value;
+        int offset = 0;
+
+        for (int i = 0; i < Specifications.Specs.Integer.Int64.BitCount; i++)
+        {
+            if (buffer == 0)
+                return offset;
+
+            if ((buffer % 10) != 0)
+                offset = i + 1;
+
+            buffer >>= 1;
+        }
+
+        return offset;
     }
 
     public static byte GetMostSignificantByte(this long value) =>

@@ -89,6 +89,15 @@ public class LongTests : TestBase
     public void Long_GetMostSignificantBitLongMaxValue_ReturnsLongSpecsMaxBitMinusTheSignBit()
     {
         long testData = long.MaxValue;
+        int expected = Specs.Integer.Int64.BitCount - 1;
+
+        Assertion(() => Assert.Equal(expected, testData.GetMostSignificantBit()));
+    }
+
+    [Fact]
+    public void Long_GetMostSignificantBitLongMinValue_ReturnsLongSpecsMaxBitMinusTheSignBit()
+    {
+        long testData = long.MinValue;
         int expected = Specs.Integer.Int64.BitCount;
 
         Assertion(() => Assert.Equal(expected, testData.GetMostSignificantBit()));
