@@ -28,7 +28,7 @@ public class AlphaNumericCodec : PlayCodec
 
     #region Count
 
-    public int GetByteCount(char[] chars, int index, int count) => count;
+    public int GetByteCount(ReadOnlySpan<char> value) => value.Length;
     public int GetMaxByteCount(int charCount) => charCount;
     public override ushort GetByteCount<T>(T value) where T : struct => 1;
 
@@ -47,7 +47,8 @@ public class AlphaNumericCodec : PlayCodec
         throw new CodecParsingException("The code should not reach this point");
     }
 
-    public int GetCharCount(byte[] bytes, int index, int count) => count;
+    public int GetCharCount(ReadOnlySpan<char> value) => value.Length;
+    public int GetCharCount(ReadOnlySpan<byte> value) => value.Length;
     public int GetMaxCharCount(int byteCount) => byteCount;
 
     #endregion
