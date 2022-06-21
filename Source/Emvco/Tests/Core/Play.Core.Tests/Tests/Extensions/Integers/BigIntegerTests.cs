@@ -59,7 +59,7 @@ public class BigIntegerTests : TestBase
 
         Assertion(() => Assert.Throws<ArgumentOutOfRangeException>(() =>
         {
-            Span<byte> buffer = stackalloc byte[testData.GetByteCount() + 3];
+            Span<byte> buffer = stackalloc byte[testData.GetByteCount() - 3];
             testData.AsSpan(buffer);
         }));
     }

@@ -13,7 +13,7 @@ public static class BigIntegerExtensions
     /// <exception cref="OverflowException"></exception>
     public static int AsSpan(this BigInteger value, Span<byte> buffer)
     {
-        if (value.GetByteCount() < buffer.Length)
+        if (buffer.Length < value.GetByteCount())
             throw new ArgumentOutOfRangeException(nameof(buffer));
 
         value.TryWriteBytes(buffer, out int bytesWritten);
