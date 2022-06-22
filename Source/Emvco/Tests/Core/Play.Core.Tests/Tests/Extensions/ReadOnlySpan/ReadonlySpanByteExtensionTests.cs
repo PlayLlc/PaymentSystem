@@ -313,21 +313,6 @@ public class ReadonlySpanByteExtensionTests : TestBase
 
     #endregion
 
-    #region ShiftLeftOneNibble
-
-    [Fact]
-    public void ReadOnlySpanByte_InvokesShiftLeftOneNibble_CorrectIsReturned1()
-    {
-        ReadOnlySpan<byte> testData = stackalloc byte[] { 0b1010_0101, 0b1111_0110 };
-
-        byte[] expected = new byte[] {0b1010, 0b0101_1111, 0b0110 };
-        byte[] actual = testData.ShiftLeftOneNibble();
-
-        Assertion(() => Assert.Equal(expected, actual));
-    }
-
-    #endregion
-
     #region RemoveLeftPadding
 
     [Fact]
