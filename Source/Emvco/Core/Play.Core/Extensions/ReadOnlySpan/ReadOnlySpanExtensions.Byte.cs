@@ -117,7 +117,7 @@ public static partial class ReadOnlySpanExtensions
             paddedNibbles++;
         }
 
-        byte[] result = new byte[value.Length - ((paddedNibbles / 2) + (paddedNibbles % 2))];
+        byte[] result = new byte[value.Length - (paddedNibbles / 2)];
         value[^result.Length..].CopyTo(result);
 
         if ((paddedNibbles % 2) != 0)
