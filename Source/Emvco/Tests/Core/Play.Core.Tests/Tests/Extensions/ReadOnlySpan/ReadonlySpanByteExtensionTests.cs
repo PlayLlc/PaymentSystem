@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Play.Core.Tests.Tests.Extensions.ReadOnlySpan;
 
-public class ReadonlySpanByteTests : TestBase
+public class ReadonlySpanByteExtensionTests : TestBase
 {
     #region AsBigInteger
 
