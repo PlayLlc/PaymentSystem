@@ -16,8 +16,7 @@ public class PcdProtocolConfiguration
 
     // Modulation Type - Type A, Type B (ICC)
     public PcdProtocolConfiguration(
-        MerchantIdentifier merchantIdentifier, TerminalIdentification terminalIdentification,
-        InterfaceDeviceSerialNumber interfaceDeviceSerialNumber)
+        MerchantIdentifier merchantIdentifier, TerminalIdentification terminalIdentification, InterfaceDeviceSerialNumber interfaceDeviceSerialNumber)
     {
         _MerchantIdentifier = merchantIdentifier;
         _TerminalIdentification = terminalIdentification;

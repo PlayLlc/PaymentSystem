@@ -53,8 +53,7 @@ public class DisplayProcess : CommandProcessingQueue
     /// <exception cref="NetworkInformationException"></exception>
     public async Task Handle(DisplayMessageRequest request)
     {
-        DisplayMessage displayMessage =
-            _DisplayMessageRepository.Get(request.GetLanguagePreference().GetPreferredLanguage(), request.GetMessageIdentifier());
+        DisplayMessage displayMessage = _DisplayMessageRepository.Get(request.GetLanguagePreference().GetPreferredLanguage(), request.GetMessageIdentifier());
 
         // Hack: I don't remember if 'Status' is what you're supposed to use for LED, but i sincerely doubt it
         await _LedDisplayService.Display(request.GetStatus()).ConfigureAwait(false);

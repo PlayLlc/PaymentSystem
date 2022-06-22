@@ -23,15 +23,14 @@ public record SelectDirectoryDefinitionFileResponse : QueryPcdResponse
 
     public SelectDirectoryDefinitionFileResponse(
         CorrelationId correlation, TransactionSessionId transactionSessionId, FileControlInformationDdf fileControlInformation,
-        GetFileControlInformationRApduSignal responseApduSignal) : base(correlation, MessageTypeId, transactionSessionId,
-        responseApduSignal)
+        GetFileControlInformationRApduSignal responseApduSignal) : base(correlation, MessageTypeId, transactionSessionId, responseApduSignal)
     {
         _FileControlInformation = fileControlInformation;
     }
 
     public SelectDirectoryDefinitionFileResponse(
-        CorrelationId correlation, TransactionSessionId transactionSessionId, GetFileControlInformationRApduSignal responseApduSignal) :
-        base(correlation, MessageTypeId, transactionSessionId, responseApduSignal)
+        CorrelationId correlation, TransactionSessionId transactionSessionId, GetFileControlInformationRApduSignal responseApduSignal) : base(correlation,
+        MessageTypeId, transactionSessionId, responseApduSignal)
     { }
 
     #endregion

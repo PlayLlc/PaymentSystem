@@ -17,8 +17,7 @@ public abstract record ResponseMessage : Message
     /// </param>
     /// <param name="messageTypeId"></param>
     /// <param name="channelTypeId"></param>
-    protected ResponseMessage(CorrelationId correlationId, MessageTypeId messageTypeId, ChannelTypeId channelTypeId) : base(messageTypeId,
-        channelTypeId)
+    protected ResponseMessage(CorrelationId correlationId, MessageTypeId messageTypeId, ChannelTypeId channelTypeId) : base(messageTypeId, channelTypeId)
     {
         _CorrelationId = correlationId;
     }

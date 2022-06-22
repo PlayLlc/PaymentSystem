@@ -15,16 +15,15 @@ public record ExchangeRelayResistanceDataRequest : QueryPcdRequest
 
     #region Constructor
 
-    private ExchangeRelayResistanceDataRequest(TransactionSessionId transactionSessionId, CApduSignal cApduSignal) : base(cApduSignal,
-        MessageTypeId, transactionSessionId)
+    private ExchangeRelayResistanceDataRequest(TransactionSessionId transactionSessionId, CApduSignal cApduSignal) : base(cApduSignal, MessageTypeId,
+        transactionSessionId)
     { }
 
     #endregion
 
     #region Instance Members
 
-    public static ExchangeRelayResistanceDataRequest Create(
-        TransactionSessionId sessionId, TerminalRelayResistanceEntropy terminalRelayResistanceEntropy) =>
+    public static ExchangeRelayResistanceDataRequest Create(TransactionSessionId sessionId, TerminalRelayResistanceEntropy terminalRelayResistanceEntropy) =>
         new(sessionId, ExchangeRelayResistanceDataCApduSignal.Create(terminalRelayResistanceEntropy.EncodeValue()));
 
     #endregion

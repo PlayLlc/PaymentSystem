@@ -31,9 +31,7 @@ public class AesCodec : IBlockCipher
         }
 
         if (configuration.GetBlockSize() != BlockSize._16)
-        {
             throw new ArgumentOutOfRangeException(nameof(configuration), $"Valid {nameof(BlockSize)} values for {nameof(AesCodec)} are {BlockSize._8}");
-        }
 
         _PlainTextPreprocessor = configuration.GetPreprocessor();
         _CipherMode = configuration.GetBlockCipherMode();

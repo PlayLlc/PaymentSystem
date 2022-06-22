@@ -19,12 +19,12 @@ internal class DecodedSignedStaticApplicationData : DecodedSignature
 
     #region Constructor
 
-    public DecodedSignedStaticApplicationData(DecodedSignature decodedSignature) : base(decodedSignature.GetLeadingByte(),
-        decodedSignature.GetMessage1(), decodedSignature.GetHash(), decodedSignature.GetTrailingByte())
+    public DecodedSignedStaticApplicationData(DecodedSignature decodedSignature) : base(decodedSignature.GetLeadingByte(), decodedSignature.GetMessage1(),
+        decodedSignature.GetHash(), decodedSignature.GetTrailingByte())
     { }
 
-    private DecodedSignedStaticApplicationData(byte leadingByte, Message1 message1, Hash hash, byte trailingByte) : base(leadingByte,
-        message1, hash, trailingByte)
+    private DecodedSignedStaticApplicationData(byte leadingByte, Message1 message1, Hash hash, byte trailingByte) : base(leadingByte, message1, hash,
+        trailingByte)
     { }
 
     #endregion
@@ -47,8 +47,7 @@ internal class DecodedSignedStaticApplicationData : DecodedSignature
         return buffer.ToArray();
     }
 
-    public DataAuthenticationCode GetDataAuthenticationCode() =>
-        new(PlayCodec.UnsignedIntegerCodec.DecodeToUInt16(_Message1.AsByteArray()[3..4]));
+    public DataAuthenticationCode GetDataAuthenticationCode() => new(PlayCodec.UnsignedIntegerCodec.DecodeToUInt16(_Message1.AsByteArray()[3..4]));
 
     public HashAlgorithmIndicator GetHashAlgorithmIndicator()
     {

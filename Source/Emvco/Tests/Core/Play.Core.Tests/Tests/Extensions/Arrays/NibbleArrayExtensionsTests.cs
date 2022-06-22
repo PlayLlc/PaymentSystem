@@ -18,7 +18,7 @@ public class NibbleArrayExtensionsTests : TestBase
     {
         Assertion(() => Assert.Throws<ArgumentOutOfRangeException>(() =>
         {
-            Nibble testData = new Nibble(0xFF);
+            Nibble testData = new(0xFF);
         }));
     }
 
@@ -27,7 +27,7 @@ public class NibbleArrayExtensionsTests : TestBase
     {
         Assertion(() => Assert.Throws<ArgumentOutOfRangeException>(() =>
         {
-            Nibble[] testData = new Nibble[] { 0b01, 0b10, 0b11001100, 0xF0 };
+            Nibble[] testData = new Nibble[] {0b01, 0b10, 0b11001100, 0xF0};
         }));
     }
 
@@ -38,9 +38,9 @@ public class NibbleArrayExtensionsTests : TestBase
     [Fact]
     public void NibbleArray_InvokesAsByteArrayHasEvenLength_CorrectResultIsReturned()
     {
-        Nibble[] testData = new Nibble[] { 0b01, 0b11, 0b1100, 0b1001 };
+        Nibble[] testData = new Nibble[] {0b01, 0b11, 0b1100, 0b1001};
 
-        byte[] expected = new byte[] { 0b010011, 0b11001001 };
+        byte[] expected = new byte[] {0b010011, 0b11001001};
 
         Assertion(() => Assert.Equal(expected, testData.AsByteArray()));
     }
@@ -48,22 +48,21 @@ public class NibbleArrayExtensionsTests : TestBase
     [Fact]
     public void NibbleArray_InvokesAsByteArrayHasOddLengthLastByteHas0AsLeftNibble_CorrectResultIsReturned()
     {
-        Nibble[] testData = new Nibble[] { 0b01, 0b10, 0b1100 };
+        Nibble[] testData = new Nibble[] {0b01, 0b10, 0b1100};
 
-        byte[] expected = new byte[] { 0b10010, 0b11000000 };
+        byte[] expected = new byte[] {0b10010, 0b11000000};
 
         Assertion(() => Assert.Equal(expected, testData.AsByteArray()));
     }
 
     #endregion
 
-
     #region CopyValue
 
     [Fact]
     public void NibbleArray_InvokesCopyValue_CorrectlyCopiesValue()
     {
-        Nibble[] expected = new Nibble[] { 0b01, 0b10, 0b110 };
+        Nibble[] expected = new Nibble[] {0b01, 0b10, 0b110};
         Nibble[] actual = expected.CopyValue();
 
         Assertion(() =>
@@ -76,13 +75,7 @@ public class NibbleArrayExtensionsTests : TestBase
     [Fact]
     public void NibbleArray_InvokesCopyValue_CopiesValueWithCorrectLength()
     {
-        Nibble[] expected = new Nibble[]
-        {
-            0b1010,
-            0b1111,
-            0b01,
-            0b1110
-        };
+        Nibble[] expected = new Nibble[] {0b1010, 0b1111, 0b01, 0b1110};
         Nibble[] actual = expected.CopyValue();
 
         Assertion(() =>
@@ -125,7 +118,7 @@ public class NibbleArrayExtensionsTests : TestBase
     [Fact]
     public void NibbleArray_InvokesCopyToBufferLengthSmallerThenNibble_PlayInternalExceptionIsThrown()
     {
-        Nibble[] expected = { 0b10, 0b01, 0b11, 0b110, 0b10, 0b01, 0b11, 0b1011 };
+        Nibble[] expected = {0b10, 0b01, 0b11, 0b110, 0b10, 0b01, 0b11, 0b1011};
 
         Assertion(() => Assert.Throws<PlayInternalException>(() =>
         {
@@ -138,11 +131,11 @@ public class NibbleArrayExtensionsTests : TestBase
     [Fact]
     public void NibbleArray_InvokesCopyToBufferHasEvenLength_ValueIsCopiedToBuffer()
     {
-        Nibble[] testData = { 0b10, 0b0101, 0b1111, 0b1111 };
+        Nibble[] testData = {0b10, 0b0101, 0b1111, 0b1111};
 
         Assertion(() =>
         {
-            Span<byte> expected = stackalloc byte[] { 0b100101, 0b11111111 };
+            Span<byte> expected = stackalloc byte[] {0b100101, 0b11111111};
             Span<byte> actual = stackalloc byte[(testData.Length / 2) + (testData.Length % 2)];
             testData.CopyTo(actual);
 
@@ -153,11 +146,11 @@ public class NibbleArrayExtensionsTests : TestBase
     [Fact]
     public void NibbleArray_InvokesCopyToBufferHasOddLength_ValueIsCopiedToBufferLastValueHas0AsRightNibble()
     {
-        Nibble[] testData = { 0b10, 0b1101, 0b11, 0b1100, 0b1001 };
+        Nibble[] testData = {0b10, 0b1101, 0b11, 0b1100, 0b1001};
 
         Assertion(() =>
         {
-            Span<byte> expected = stackalloc byte[] { 0b101101, 0b111100, 0b10010000 };
+            Span<byte> expected = stackalloc byte[] {0b101101, 0b111100, 0b10010000};
             Span<byte> actual = stackalloc byte[(testData.Length / 2) + (testData.Length % 2)];
             testData.CopyTo(actual);
 

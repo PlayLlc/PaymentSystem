@@ -36,8 +36,8 @@ public class TerminalRiskManagementCommand
 
     public TerminalRiskManagementCommand(
         ApplicationPan primaryAccountNumber, CultureProfile cultureProfile, AmountAuthorizedNumeric amountAmountAuthorizedNumeric,
-        TerminalRiskConfiguration terminalRiskConfiguration, ushort applicationTransactionCount,
-        ushort lastOnlineApplicationTransactionCount, byte lowerConsecutiveOfflineLimit, byte upperConsecutiveOfflineLimit)
+        TerminalRiskConfiguration terminalRiskConfiguration, ushort applicationTransactionCount, ushort lastOnlineApplicationTransactionCount,
+        byte lowerConsecutiveOfflineLimit, byte upperConsecutiveOfflineLimit)
     {
         _PrimaryAccountNumber = primaryAccountNumber;
         _CultureProfile = cultureProfile;
@@ -55,10 +55,7 @@ public class TerminalRiskManagementCommand
 
     public Money GetAmountAuthorizedNumeric() => _AmountAmountAuthorizedNumeric.AsMoney(_CultureProfile.GetNumericCurrencyCode());
     public ushort? GetApplicationTransactionCount() => _ApplicationTransactionCount;
-
-    public Probability GetBiasedRandomSelectionMaximumPercentage() =>
-        _TerminalRiskConfiguration.GetBiasedRandomSelectionMaximumPercentage();
-
+    public Probability GetBiasedRandomSelectionMaximumPercentage() => _TerminalRiskConfiguration.GetBiasedRandomSelectionMaximumPercentage();
     public Money GetBiasedRandomSelectionThreshold() => _TerminalRiskConfiguration.GetBiasedRandomSelectionThreshold();
     public ushort? GetLastOnlineApplicationTransactionCount() => _LastOnlineApplicationTransactionCount;
     public byte? GetLowerConsecutiveOfflineLimit() => _LowerConsecutiveOfflineLimit;

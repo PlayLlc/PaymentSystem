@@ -14,8 +14,8 @@ public record DekResponseType : EnumObject<Tag>
     #region Static Metadata
 
     public static readonly DekResponseType Empty = new();
-    public static readonly DekResponseType TagsToWriteBeforeGenAc = new(Ber.DataElements.TagsToWriteBeforeGeneratingApplicationCryptogram.Tag);
-    public static readonly DekResponseType TagsToWriteAfterGenAc = new(Ber.DataElements.TagsToWriteAfterGeneratingApplicationCryptogram.Tag);
+    public static readonly DekResponseType TagsToWriteBeforeGenAc = new(TagsToWriteBeforeGeneratingApplicationCryptogram.Tag);
+    public static readonly DekResponseType TagsToWriteAfterGenAc = new(TagsToWriteAfterGeneratingApplicationCryptogram.Tag);
     public static readonly DekResponseType DataToSend = new(Ber.DataElements.DataToSend.Tag);
     public static readonly DekResponseType DataRecord = new(Ber.DataElements.DataRecord.Tag);
     public static readonly DekResponseType DiscretionaryData = new(Ber.DataElements.DiscretionaryData.Tag);

@@ -10,8 +10,7 @@ public interface IPersistentKernelValuesRepository
     #region Instance Members
 
     public Dictionary<KernelId, PersistentValues> Get(
-        IssuerIdentificationNumber issuerIdentificationNumber, MerchantIdentifier merchantIdentifier,
-        TerminalIdentification terminalIdentification);
+        IssuerIdentificationNumber issuerIdentificationNumber, MerchantIdentifier merchantIdentifier, TerminalIdentification terminalIdentification);
 
     #endregion
 }

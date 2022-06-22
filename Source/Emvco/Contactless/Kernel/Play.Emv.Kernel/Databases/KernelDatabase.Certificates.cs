@@ -31,9 +31,7 @@ public partial class KernelDatabase : ICertificateDatabase
     public bool IsRevoked(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex caPublicKeyIndex)
     {
         if (!IsActive())
-        {
             throw new TerminalDataException($"The method {nameof(IsRevoked)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
-        }
 
         if (!TryGet(rid, caPublicKeyIndex, out CaPublicKeyCertificate? result))
             return true;
@@ -77,9 +75,7 @@ public partial class KernelDatabase : ICertificateDatabase
     public bool TryGet(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex index, out CaPublicKeyCertificate? result)
     {
         if (!IsActive())
-        {
             throw new TerminalDataException($"The method {nameof(TryGet)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
-        }
 
         if (!_Certificates.TryGetValue(rid, out CertificateAuthorityDataset? dataset))
         {

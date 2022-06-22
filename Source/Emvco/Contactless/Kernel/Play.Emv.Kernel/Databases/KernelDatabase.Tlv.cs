@@ -49,9 +49,7 @@ public partial class KernelDatabase : ITlvReaderAndWriter
     public bool TryGet(Tag tag, out PrimitiveValue? result)
     {
         if (!IsActive())
-        {
             throw new TerminalDataException($"The method {nameof(TryGet)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
-        }
 
         if (!_Database.TryGetValue(tag, out PrimitiveValue? databaseValue))
         {
@@ -95,9 +93,7 @@ public partial class KernelDatabase : ITlvReaderAndWriter
     public bool TryGet<T>(Tag tag, out T? result) where T : PrimitiveValue
     {
         if (!IsActive())
-        {
             throw new TerminalDataException($"The method {nameof(TryGet)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
-        }
 
         if (!_Database.TryGetValue(tag, out PrimitiveValue? databaseValue))
         {
@@ -145,9 +141,7 @@ public partial class KernelDatabase : ITlvReaderAndWriter
     public bool IsPresent(Tag tag)
     {
         if (!IsActive())
-        {
             throw new TerminalDataException($"The method {nameof(IsPresent)} cannot be accessed because {nameof(KernelDatabase)} is not active");
-        }
 
         return _Database.ContainsKey(tag);
     }
@@ -163,9 +157,7 @@ public partial class KernelDatabase : ITlvReaderAndWriter
     public bool IsPresentAndNotEmpty(Tag tag)
     {
         if (!IsActive())
-        {
             throw new TerminalDataException($"The method {nameof(IsPresentAndNotEmpty)} cannot be accessed because {nameof(KernelDatabase)} is not active");
-        }
 
         return IsPresent(tag) && (_Database[tag] != null);
     }
@@ -184,9 +176,7 @@ public partial class KernelDatabase : ITlvReaderAndWriter
     public void Update(PrimitiveValue value)
     {
         if (!IsActive())
-        {
             throw new TerminalDataException($"The method {nameof(Update)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
-        }
 
         if (!IsKnown(value.GetTag()))
             return;
@@ -207,9 +197,7 @@ public partial class KernelDatabase : ITlvReaderAndWriter
     public void Update(PrimitiveValue[] values)
     {
         if (!IsActive())
-        {
             throw new TerminalDataException($"The method {nameof(Update)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
-        }
 
         for (int i = 0; i < values.Length; i++)
             Update(values[i]);
@@ -223,9 +211,7 @@ public partial class KernelDatabase : ITlvReaderAndWriter
     public void Initialize(Tag tag)
     {
         if (!IsActive())
-        {
             throw new TerminalDataException($"The method {nameof(Initialize)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
-        }
 
         if (!IsKnown(tag))
             return;

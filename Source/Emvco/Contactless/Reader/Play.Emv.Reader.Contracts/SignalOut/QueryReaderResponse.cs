@@ -25,8 +25,8 @@ public record QueryReaderResponse : ResponseSignal, IExchangeDataWithTheTerminal
 
     #region Constructor
 
-    public QueryReaderResponse(CorrelationId correlationId, DataToSend dataToSend, DataExchangeTerminalId dataExchangeTerminalId) : base(
-        correlationId, MessageTypeId, ChannelTypeId)
+    public QueryReaderResponse(CorrelationId correlationId, DataToSend dataToSend, DataExchangeTerminalId dataExchangeTerminalId) : base(correlationId,
+        MessageTypeId, ChannelTypeId)
     {
         _DataToSend = dataToSend;
         _DataExchangeTerminalId = dataExchangeTerminalId;

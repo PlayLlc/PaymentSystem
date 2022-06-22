@@ -13,7 +13,7 @@ public class CharArrayExtensionsTests : TestBase
     [Fact]
     public void CharArray_InvokesCopyValue_CorrectlyCopiesValue()
     {
-        char[] expected = { 'a', 'b', 'c' };
+        char[] expected = {'a', 'b', 'c'};
         char[] actual = expected.CopyValue();
 
         Assertion(() =>
@@ -39,7 +39,7 @@ public class CharArrayExtensionsTests : TestBase
     [Fact]
     public void CharArray_InvokesCopyValue_CreatesValueCopyWithCorrectLength()
     {
-        char[] expected = { 'a', 'A', '0', '9', '1', 'z', 'Z' };
+        char[] expected = {'a', 'A', '0', '9', '1', 'z', 'Z'};
         char[] actual = expected.CopyValue();
 
         Assertion(() =>

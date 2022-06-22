@@ -11,9 +11,6 @@ namespace Play.Core.Tests.Tests.Extensions.Integers;
 
 public class UintTests : TestBase
 {
-    #region Instance Members
-
-    #endregion
     #region GetNumberOfDigits
 
     [Fact]

@@ -75,8 +75,7 @@ public class DataExchangeTerminalService
             if (!_Lock.Responses.ContainsKey(type))
                 return;
 
-            QueryTerminalResponse queryKernelResponse = new(correlationId, new DataToSend(_Lock.Responses[type].GetDataObjects()),
-                dataExchangeKernelId);
+            QueryTerminalResponse queryKernelResponse = new(correlationId, new DataToSend(_Lock.Responses[type].GetDataObjects()), dataExchangeKernelId);
 
             _TerminalEndpoint.Send(queryKernelResponse);
             _Lock.Responses[type].Clear();

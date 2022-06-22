@@ -26,8 +26,8 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
     #region Constructor
 
     private SelectionEndpoint(
-        ICreateEndpointClient messageRouter, IHandlePcdRequests pcdClient, IHandleDisplayRequests displayClient,
-        TransactionProfile[] transactionProfiles, PoiInformation poiInformation)
+        ICreateEndpointClient messageRouter, IHandlePcdRequests pcdClient, IHandleDisplayRequests displayClient, TransactionProfile[] transactionProfiles,
+        PoiInformation poiInformation)
     {
         ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
         _SelectionProcess = new SelectionProcess(pcdClient, displayClient, transactionProfiles, poiInformation, this);
@@ -103,8 +103,8 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
     #endregion
 
     public static SelectionEndpoint Create(
-        ICreateEndpointClient messageRouter, IHandlePcdRequests pcdClient, IHandleDisplayRequests displayClient,
-        TransactionProfile[] transactionProfiles, PoiInformation poiInformation) =>
+        ICreateEndpointClient messageRouter, IHandlePcdRequests pcdClient, IHandleDisplayRequests displayClient, TransactionProfile[] transactionProfiles,
+        PoiInformation poiInformation) =>
         new(messageRouter, pcdClient, displayClient, transactionProfiles, poiInformation);
 
     public void Dispose()

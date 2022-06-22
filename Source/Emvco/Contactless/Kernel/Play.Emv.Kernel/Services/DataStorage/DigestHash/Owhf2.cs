@@ -19,8 +19,8 @@ public class Owhf2
 {
     #region Static Metadata
 
-    private static readonly TripleDesCodec _Codec = new(new BlockCipherConfiguration(BlockCipherMode.Cbc, BlockPaddingMode.None,
-        KeySize._128, BlockSize._8, new Iso7816PlainTextPreprocessor(BlockSize._8)));
+    private static readonly TripleDesCodec _Codec = new(new BlockCipherConfiguration(BlockCipherMode.Cbc, BlockPaddingMode.None, KeySize._128, BlockSize._8,
+        new Iso7816PlainTextPreprocessor(BlockSize._8)));
 
     #endregion
 
@@ -51,8 +51,7 @@ public class Owhf2
 
     /// <exception cref="PlayInternalException"></exception>
     public static void ResolveObjectId(
-        DataStorageRequestedOperatorId operatorId, DataStorageOperatorDataSetInfo info, DataStorageSlotManagementControl? control,
-        Span<byte> buffer)
+        DataStorageRequestedOperatorId operatorId, DataStorageOperatorDataSetInfo info, DataStorageSlotManagementControl? control, Span<byte> buffer)
     {
         if (control is not null)
             operatorId.EncodeValue().CopyTo(buffer);

@@ -16,8 +16,8 @@ public record SelectProximityPaymentSystemEnvironmentResponse : QueryPcdResponse
     #region Constructor
 
     public SelectProximityPaymentSystemEnvironmentResponse(
-        CorrelationId correlationId, TransactionSessionId transactionSessionId, GetFileControlInformationRApduSignal responseApduSignal) :
-        base(correlationId, MessageTypeId, transactionSessionId, responseApduSignal)
+        CorrelationId correlationId, TransactionSessionId transactionSessionId, GetFileControlInformationRApduSignal responseApduSignal) : base(correlationId,
+        MessageTypeId, transactionSessionId, responseApduSignal)
     { }
 
     #endregion

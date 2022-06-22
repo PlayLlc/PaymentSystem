@@ -102,8 +102,7 @@ public class KernelEndpoint : IMessageChannel, IHandleKernelRequests, ISendKerne
 
     #endregion
 
-    public static KernelEndpoint Create(KernelRetriever kernelRetriever, ICreateEndpointClient messageRouter) =>
-        new(kernelRetriever, messageRouter);
+    public static KernelEndpoint Create(KernelRetriever kernelRetriever, ICreateEndpointClient messageRouter) => new(kernelRetriever, messageRouter);
 
     public void Dispose()
     {

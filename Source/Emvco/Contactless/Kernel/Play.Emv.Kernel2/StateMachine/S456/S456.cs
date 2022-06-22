@@ -494,9 +494,7 @@ public class S456 : CommonProcessing
         }
 
         if (!IsCaPublicCertificatePresent())
-        {
             HandleCaPublicKeyNotPresent();
-        }
     }
 
     #endregion

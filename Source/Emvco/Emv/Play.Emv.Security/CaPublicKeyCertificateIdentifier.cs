@@ -8,8 +8,7 @@ namespace Play.Emv.Security;
 /// <summary>
 ///     A composite key that uniquely identifies a certificate for an Issuer
 /// </summary>
-public class CaPublicKeyCertificateIdentifier : IEqualityComparer<CaPublicKeyCertificateIdentifier>,
-    IEquatable<CaPublicKeyCertificateIdentifier>
+public class CaPublicKeyCertificateIdentifier : IEqualityComparer<CaPublicKeyCertificateIdentifier>, IEquatable<CaPublicKeyCertificateIdentifier>
 {
     #region Instance Values
 
@@ -20,9 +19,7 @@ public class CaPublicKeyCertificateIdentifier : IEqualityComparer<CaPublicKeyCer
 
     #region Constructor
 
-    public CaPublicKeyCertificateIdentifier(
-        CaPublicKeyIndex caPublicKeyIndex,
-        RegisteredApplicationProviderIndicator registeredApplicationProviderIndicator)
+    public CaPublicKeyCertificateIdentifier(CaPublicKeyIndex caPublicKeyIndex, RegisteredApplicationProviderIndicator registeredApplicationProviderIndicator)
     {
         _RegisteredApplicationProviderIndicator = registeredApplicationProviderIndicator;
         _Index = caPublicKeyIndex;

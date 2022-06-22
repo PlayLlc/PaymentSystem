@@ -14,8 +14,8 @@ public record SendPoiInformationResponse : QueryPcdResponse
 
     #region Constructor
 
-    public SendPoiInformationResponse(CorrelationId correlation, TransactionSessionId transactionSessionId, RApduSignal responseApdu) :
-        base(correlation, MessageTypeId, transactionSessionId, responseApdu)
+    public SendPoiInformationResponse(CorrelationId correlation, TransactionSessionId transactionSessionId, RApduSignal responseApdu) : base(correlation,
+        MessageTypeId, transactionSessionId, responseApdu)
     { }
 
     #endregion

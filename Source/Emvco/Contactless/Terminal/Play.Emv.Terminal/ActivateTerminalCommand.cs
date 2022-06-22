@@ -19,8 +19,7 @@ public class ActivateTerminalCommand
     #region Constructor
 
     public ActivateTerminalCommand(
-        string terminalIdentification, ulong amountAuthorized, ulong otherAmount, byte transactionType, ulong acquirerIdentifier,
-        string merchantIdentifier)
+        string terminalIdentification, ulong amountAuthorized, ulong otherAmount, byte transactionType, ulong acquirerIdentifier, string merchantIdentifier)
     {
         _AmountAuthorizedNumeric = new AmountAuthorizedNumeric(amountAuthorized);
         _AmountOtherNumeric = new AmountOtherNumeric(otherAmount);

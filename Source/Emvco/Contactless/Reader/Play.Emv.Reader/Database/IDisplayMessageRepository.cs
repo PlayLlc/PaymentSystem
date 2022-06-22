@@ -8,8 +8,8 @@ public interface IDisplayMessageRepository
     #region Instance Members
 
     public DisplayMessages Get(
-        IssuerIdentificationNumber issuerIdentificationNumber, MerchantIdentifier merchantIdentifier,
-        TerminalIdentification terminalIdentification, LanguagePreference languagePreference);
+        IssuerIdentificationNumber issuerIdentificationNumber, MerchantIdentifier merchantIdentifier, TerminalIdentification terminalIdentification,
+        LanguagePreference languagePreference);
 
     #endregion
 }

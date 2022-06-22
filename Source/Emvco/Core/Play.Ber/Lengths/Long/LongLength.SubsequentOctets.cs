@@ -67,9 +67,7 @@ internal static partial class LongLength
         public static void Validate(in uint value)
         {
             if (!IsLengthSupportedInThisCodeBase(value))
-            {
                 throw new BerParsingException($"This code base currently only supports a long Length with Subsequent Octets of {MaxByteCount} bytes or less");
-            }
         }
 
         #endregion

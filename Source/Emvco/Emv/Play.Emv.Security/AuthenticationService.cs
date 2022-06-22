@@ -23,8 +23,7 @@ public class AuthenticationService : IAuthenticateTransactionSession
     #region Constructor
 
     internal AuthenticationService(
-        StaticDataAuthenticator staticDataAuthenticator, DynamicDataAuthenticator dynamicDataAuthenticator,
-        CombinedDataAuthenticator combinedDataAuthenticator)
+        StaticDataAuthenticator staticDataAuthenticator, DynamicDataAuthenticator dynamicDataAuthenticator, CombinedDataAuthenticator combinedDataAuthenticator)
     {
         _StaticDataAuthenticator = staticDataAuthenticator;
         _DynamicDataAuthenticator = dynamicDataAuthenticator;
@@ -46,15 +45,13 @@ public class AuthenticationService : IAuthenticateTransactionSession
     }
 
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
-    public void AuthenticateSda(
-        ITlvReaderAndWriter database, ICertificateDatabase certificateDatabase, StaticDataToBeAuthenticated staticDataToBeAuthenticated)
+    public void AuthenticateSda(ITlvReaderAndWriter database, ICertificateDatabase certificateDatabase, StaticDataToBeAuthenticated staticDataToBeAuthenticated)
     {
         _StaticDataAuthenticator.Authenticate(database, certificateDatabase, staticDataToBeAuthenticated);
     }
 
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
-    public void AuthenticateDda(
-        ITlvReaderAndWriter database, ICertificateDatabase certificateDatabase, StaticDataToBeAuthenticated staticDataToBeAuthenticated)
+    public void AuthenticateDda(ITlvReaderAndWriter database, ICertificateDatabase certificateDatabase, StaticDataToBeAuthenticated staticDataToBeAuthenticated)
     {
         _DynamicDataAuthenticator.Authenticate(database, certificateDatabase, staticDataToBeAuthenticated);
     }

@@ -22,8 +22,8 @@ public record SelectDirectoryDefinitionFileRequest : QueryPcdRequest
     #region Constructor
 
     private SelectDirectoryDefinitionFileRequest(
-        TransactionSessionId transactionSessionId, CApduSignal cApduSignal, DedicatedFileName directoryDefinitionFileName) : base(
-        cApduSignal, MessageTypeId, transactionSessionId)
+        TransactionSessionId transactionSessionId, CApduSignal cApduSignal, DedicatedFileName directoryDefinitionFileName) : base(cApduSignal, MessageTypeId,
+        transactionSessionId)
     {
         _DirectoryDefinitionFileName = directoryDefinitionFileName;
     }
@@ -32,8 +32,7 @@ public record SelectDirectoryDefinitionFileRequest : QueryPcdRequest
 
     #region Instance Members
 
-    public static SelectDirectoryDefinitionFileRequest Create(
-        TransactionSessionId transactionSessionId, DedicatedFileName dedicatedFileName) =>
+    public static SelectDirectoryDefinitionFileRequest Create(TransactionSessionId transactionSessionId, DedicatedFileName dedicatedFileName) =>
         new(transactionSessionId, GetFileControlInformationCApduSignal.Get(dedicatedFileName), dedicatedFileName);
 
     public DedicatedFileName GetDirectoryDefinitionFileName() => _DirectoryDefinitionFileName;

@@ -17,8 +17,7 @@ public partial class DataExchangeKernelService : IQueryDek, IWriteToDek, IDekEnd
 
     #region Constructor
 
-    public DataExchangeKernelService(
-        IHandleTerminalRequests terminalEndpoint, KernelDatabase kernelDatabase, ISendTerminalQueryResponse kernelEndpoint)
+    public DataExchangeKernelService(IHandleTerminalRequests terminalEndpoint, KernelDatabase kernelDatabase, ISendTerminalQueryResponse kernelEndpoint)
     {
         _TerminalEndpoint = terminalEndpoint;
         _KernelEndpoint = kernelEndpoint;

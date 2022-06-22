@@ -7,20 +7,19 @@ public class ApplicationUnBlockCApduSignal : CApduSignal
 {
     #region Constructor
 
-    public ApplicationUnBlockCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2) : base(@class, instruction,
-        parameter1, parameter2)
+    public ApplicationUnBlockCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2) : base(@class, instruction, parameter1, parameter2)
     { }
 
-    public ApplicationUnBlockCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, uint le) : base(@class,
-        instruction, parameter1, parameter2, le)
+    public ApplicationUnBlockCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, uint le) : base(@class, instruction, parameter1,
+        parameter2, le)
     { }
 
-    public ApplicationUnBlockCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) : base(
-        @class, instruction, parameter1, parameter2, data)
+    public ApplicationUnBlockCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) : base(@class, instruction,
+        parameter1, parameter2, data)
     { }
 
-    public ApplicationUnBlockCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data, uint le)
-        : base(@class, instruction, parameter1, parameter2, data, le)
+    public ApplicationUnBlockCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data, uint le) : base(@class,
+        instruction, parameter1, parameter2, data, le)
     { }
 
     #endregion
@@ -45,8 +44,7 @@ public class ApplicationUnBlockCApduSignal : CApduSignal
                 $"The argument {nameof(secureMessaging)} was an unexpected value. The valid values are {nameof(SecureMessaging.Authenticated)} and {nameof(SecureMessaging.Proprietary)}");
         }
 
-        return new ApplicationUnBlockCApduSignal(new Class(secureMessaging), Instruction.ApplicationUnblock, 0, 0,
-            messageAuthenticationCode.EncodeValue());
+        return new ApplicationUnBlockCApduSignal(new Class(secureMessaging), Instruction.ApplicationUnblock, 0, 0, messageAuthenticationCode.EncodeValue());
     }
 
     #endregion

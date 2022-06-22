@@ -21,8 +21,8 @@ public record StopReaderAcknowledgedResponse : ResponseSignal
 
     #region Constructor
 
-    public StopReaderAcknowledgedResponse(TransactionSessionId transactionSessionId, CorrelationId correlationId) : base(correlationId,
-        MessageTypeId, ChannelTypeId)
+    public StopReaderAcknowledgedResponse(TransactionSessionId transactionSessionId, CorrelationId correlationId) : base(correlationId, MessageTypeId,
+        ChannelTypeId)
     {
         _TransactionSessionId = transactionSessionId;
     }

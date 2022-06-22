@@ -4,6 +4,8 @@ namespace Play.Core.Tests.Data.Factories;
 
 internal class CharArrayFactory
 {
+    #region Instance Members
+
     public static char[] GetRandom(Random random, int length)
     {
         char[] result = new char[length];
@@ -14,6 +16,7 @@ internal class CharArrayFactory
         return result;
     }
 
-    private static char GetRandomChar(Random random) => (char)random.Next(char.MinValue, char.MaxValue);
-}
+    private static char GetRandomChar(Random random) => (char) random.Next(char.MinValue, char.MaxValue);
 
+    #endregion
+}

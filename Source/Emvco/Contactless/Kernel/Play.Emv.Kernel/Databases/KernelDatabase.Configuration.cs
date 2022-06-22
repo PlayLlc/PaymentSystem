@@ -29,8 +29,7 @@ public partial class KernelDatabase
     private TransactionType GetTransactionType() => (TransactionType) Get(TransactionType.Tag);
 
     /// <exception cref="TerminalDataException"></exception>
-    private IntegratedDataStorageStatus GetIntegratedDataStorageStatus() =>
-        Get<IntegratedDataStorageStatus>(IntegratedDataStorageStatus.Tag);
+    private IntegratedDataStorageStatus GetIntegratedDataStorageStatus() => Get<IntegratedDataStorageStatus>(IntegratedDataStorageStatus.Tag);
 
     /// <exception cref="TerminalDataException"></exception>
     private TerminalType GetTerminalType() => Get<TerminalType>(TerminalType.Tag);
@@ -46,8 +45,7 @@ public partial class KernelDatabase
     public bool IsTerminalType(TerminalType.EnvironmentType environment) => GetTerminalType().IsEnvironmentType(environment);
 
     /// <exception cref="TerminalDataException"></exception>
-    public bool IsTerminalType(TerminalType.CommunicationType communicationType) =>
-        GetTerminalType().IsCommunicationType(communicationType);
+    public bool IsTerminalType(TerminalType.CommunicationType communicationType) => GetTerminalType().IsCommunicationType(communicationType);
 
     /// <exception cref="TerminalDataException"></exception>
     public bool IsTerminalType(TerminalType.TerminalOperatorType operatorType) => GetTerminalType().IsOperatorType(operatorType);
@@ -68,12 +66,10 @@ public partial class KernelDatabase
     public bool IsDynamicDataAuthenticationSupported() => GetTerminalCapabilities().IsDynamicDataAuthenticationSupported();
 
     /// <exception cref="TerminalDataException"></exception>
-    public bool IsEncipheredPinForOfflineVerificationSupported() =>
-        GetTerminalCapabilities().IsEncipheredPinForOfflineVerificationSupported();
+    public bool IsEncipheredPinForOfflineVerificationSupported() => GetTerminalCapabilities().IsEncipheredPinForOfflineVerificationSupported();
 
     /// <exception cref="TerminalDataException"></exception>
-    public bool IsEncipheredPinForOnlineVerificationSupported() =>
-        GetTerminalCapabilities().IsEncipheredPinForOnlineVerificationSupported();
+    public bool IsEncipheredPinForOnlineVerificationSupported() => GetTerminalCapabilities().IsEncipheredPinForOnlineVerificationSupported();
 
     /// <exception cref="TerminalDataException"></exception>
     public bool IsIcWithContactsSupported() => GetTerminalCapabilities().IsIcWithContactsSupported();

@@ -32,9 +32,7 @@ internal class TimeoutSession
     public void Start(Milliseconds timeout)
     {
         if (_TimeoutBuddy != null)
-        {
             throw new InvalidOperationException($"The {nameof(TimeoutSession)} could not be started because there is already a session running");
-        }
 
         _TimeoutBuddy = new TimerInstance(timeout);
     }
@@ -43,9 +41,7 @@ internal class TimeoutSession
     public void Start(Milliseconds timeout, Action timeoutHandler)
     {
         if (_TimeoutBuddy != null)
-        {
             throw new InvalidOperationException($"The {nameof(TimeoutSession)} could not be started because there is already a session running");
-        }
 
         Task.Run(() => { _TimeoutBuddy = new TimerInstance(timeout); }).WithTimeout(timeout, () =>
         {
@@ -58,9 +54,7 @@ internal class TimeoutSession
     public Microseconds GetElapsedTime()
     {
         if (!IsRunning())
-        {
             throw new InvalidOperationException($"The {nameof(TimeoutSession)} could not be stopped because there currently is not a session available");
-        }
 
         return _TimeoutBuddy!.GetElapsedTime();
     }
@@ -69,9 +63,7 @@ internal class TimeoutSession
     public Microseconds Stop()
     {
         if (!IsRunning())
-        {
             throw new InvalidOperationException($"The {nameof(TimeoutSession)} could not be stopped because there currently is not a session available");
-        }
 
         Microseconds elapsed = _TimeoutBuddy!.Stop();
         _TimeoutBuddy = null;

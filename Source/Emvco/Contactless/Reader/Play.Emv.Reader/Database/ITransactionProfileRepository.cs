@@ -11,8 +11,7 @@ public interface ITransactionProfileRepository
     #region Instance Members
 
     public Dictionary<CombinationCompositeKey, TransactionProfile> Get(
-        IssuerIdentificationNumber issuerIdentificationNumber, MerchantIdentifier merchantIdentifier,
-        TerminalIdentification terminalIdentification);
+        IssuerIdentificationNumber issuerIdentificationNumber, MerchantIdentifier merchantIdentifier, TerminalIdentification terminalIdentification);
 
     #endregion
 }

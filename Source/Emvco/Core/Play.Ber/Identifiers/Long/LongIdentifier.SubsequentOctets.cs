@@ -197,9 +197,7 @@ internal static partial class LongIdentifier
             CheckCore.ForEmptySequence(value, nameof(value));
 
             if (!TagByteCountIsInSupportedRange(value))
-            {
                 throw new BerParsingException($"This code base only support a Subsequent Octet with a byte count of {_MaxBytesAllowedToInitialize}");
-            }
 
             if (!LastOctetIsClearedCorrectly(value))
             {

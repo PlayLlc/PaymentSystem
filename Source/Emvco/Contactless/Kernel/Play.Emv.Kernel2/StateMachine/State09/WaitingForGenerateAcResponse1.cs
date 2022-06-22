@@ -26,12 +26,11 @@ public partial class WaitingForGenerateAcResponse1 : KernelState
 
     public WaitingForGenerateAcResponse1(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IHandleDisplayRequests displayEndpoint, IAuthenticateTransactionSession transactionAuthenticator) : base(database,
-        dataExchangeKernelService, kernelEndpoint, tornTransactionLog, kernelStateResolver, pcdEndpoint, displayEndpoint)
+        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint, IHandleDisplayRequests displayEndpoint,
+        IAuthenticateTransactionSession transactionAuthenticator) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionLog,
+        kernelStateResolver, pcdEndpoint, displayEndpoint)
     {
-        _S910 = new S910(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint, transactionAuthenticator,
-            displayEndpoint);
+        _S910 = new S910(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint, transactionAuthenticator, displayEndpoint);
         _BalanceReader = new OfflineBalanceReader(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint);
     }
 
@@ -50,8 +49,7 @@ public partial class WaitingForGenerateAcResponse1 : KernelState
     #region ACT
 
     /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, ActivateKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, KernelChannel.Id);
+    public override KernelState Handle(KernelSession session, ActivateKernelRequest signal) => throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     #endregion
 
@@ -80,8 +78,7 @@ public partial class WaitingForGenerateAcResponse1 : KernelState
     /// <param name="signal"></param>
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, QueryKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, KernelChannel.Id);
+    public override KernelState Handle(KernelSession session, QueryKernelRequest signal) => throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     /// <summary>
     ///     Handle
@@ -90,8 +87,7 @@ public partial class WaitingForGenerateAcResponse1 : KernelState
     /// <param name="signal"></param>
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, KernelChannel.Id);
+    public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) => throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     #endregion
 }

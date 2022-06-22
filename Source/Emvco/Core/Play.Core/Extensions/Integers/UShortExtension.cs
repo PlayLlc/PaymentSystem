@@ -55,7 +55,7 @@ public static class UShortExtension
     public static byte GetMostSignificantByte(this in ushort value) =>
         (byte) (value.GetMostSignificantBit().TryGetRemainder(8, out byte resultWithoutRemainder) == 0 ? resultWithoutRemainder : resultWithoutRemainder + 1);
 
-    public static bool IsBitSet(this ushort value, byte bitPosition) => (value & 1 << (bitPosition - 1)) != 0;
+    public static bool IsBitSet(this ushort value, byte bitPosition) => (value & (1 << (bitPosition - 1))) != 0;
     public static bool IsBitSet(this ushort value, Bits bit) => (value & BitLookup.GetBit(bit)) != 0;
     public static bool IsEven(this ushort value) => (value % 2) == 0;
 

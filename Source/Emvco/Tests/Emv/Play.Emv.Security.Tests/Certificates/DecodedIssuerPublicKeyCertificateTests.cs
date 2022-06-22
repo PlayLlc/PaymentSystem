@@ -1,10 +1,5 @@
-﻿using System;
+﻿using AutoFixture;
 
-using AutoFixture;
-
-using Play.Ber.Exceptions;
-using Play.Emv.Ber.Exceptions;
-using Play.Emv.Security.Certificates;
 using Play.Testing.BaseTestClasses;
 using Play.Testing.Emv;
 

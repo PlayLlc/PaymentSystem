@@ -34,10 +34,7 @@ public class WaitingForAuthorizationResponse : TerminalState
     public override TerminalState Handle(TerminalSession session, ActivateTerminalRequest signal) => throw new NotImplementedException();
     public override TerminalState Handle(TerminalSession session, OutReaderResponse signal) => throw new NotImplementedException();
     public override TerminalState Handle(TerminalSession session, QueryKernelResponse signal) => throw new NotImplementedException();
-
-    public override TerminalState Handle(TerminalSession session, StopReaderAcknowledgedResponse signal) =>
-        throw new NotImplementedException();
-
+    public override TerminalState Handle(TerminalSession session, StopReaderAcknowledgedResponse signal) => throw new NotImplementedException();
     public override TerminalState Handle(TerminalSession? session, AcquirerResponseSignal signal) => throw new NotImplementedException();
     public override TerminalState Handle(TerminalSession session, QueryTerminalRequest signal) => throw new NotImplementedException();
     public override TerminalState Handle(TerminalSession? session, InitiateSettlementRequest signal) => throw new NotImplementedException();

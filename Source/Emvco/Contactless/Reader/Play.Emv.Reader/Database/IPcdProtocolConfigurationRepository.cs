@@ -8,8 +8,7 @@ public interface IPcdProtocolConfigurationRepository
     #region Instance Members
 
     public PcdProtocolConfiguration Get(
-        IssuerIdentificationNumber issuerIdentificationNumber, MerchantIdentifier merchantIdentifier,
-        TerminalIdentification terminalIdentification);
+        IssuerIdentificationNumber issuerIdentificationNumber, MerchantIdentifier merchantIdentifier, TerminalIdentification terminalIdentification);
 
     #endregion
 }

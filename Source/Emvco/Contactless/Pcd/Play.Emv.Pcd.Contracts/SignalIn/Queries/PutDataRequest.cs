@@ -17,8 +17,7 @@ public record PutDataRequest : QueryPcdRequest
 
     #region Constructor
 
-    private PutDataRequest(TransactionSessionId transactionSessionId, PutDataCApduSignal cApduSignal) : base(cApduSignal, MessageTypeId,
-        transactionSessionId)
+    private PutDataRequest(TransactionSessionId transactionSessionId, PutDataCApduSignal cApduSignal) : base(cApduSignal, MessageTypeId, transactionSessionId)
     { }
 
     #endregion

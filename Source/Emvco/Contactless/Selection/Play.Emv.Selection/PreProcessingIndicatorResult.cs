@@ -20,8 +20,7 @@ public class PreProcessingIndicatorResult
 
     #region Constructor
 
-    public PreProcessingIndicatorResult(
-        CombinationCompositeKey combinationCompositeKey, TerminalTransactionQualifiers terminalTransactionQualifiers)
+    public PreProcessingIndicatorResult(CombinationCompositeKey combinationCompositeKey, TerminalTransactionQualifiers terminalTransactionQualifiers)
     {
         _CombinationCompositeKey = combinationCompositeKey;
         _TerminalTransactionQualifiers = terminalTransactionQualifiers;

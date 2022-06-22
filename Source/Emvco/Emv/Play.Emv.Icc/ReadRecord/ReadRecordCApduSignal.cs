@@ -7,20 +7,19 @@ public class ReadRecordCApduSignal : CApduSignal
 {
     #region Constructor
 
-    protected ReadRecordCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2) : base(@class, instruction, parameter1,
-        parameter2)
+    protected ReadRecordCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2) : base(@class, instruction, parameter1, parameter2)
     { }
 
-    protected ReadRecordCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, uint? le) : base(@class, instruction,
-        parameter1, parameter2, le)
+    protected ReadRecordCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, uint? le) : base(@class, instruction, parameter1,
+        parameter2, le)
     { }
 
-    protected ReadRecordCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) : base(@class,
-        instruction, parameter1, parameter2, data)
+    protected ReadRecordCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) : base(@class, instruction,
+        parameter1, parameter2, data)
     { }
 
-    protected ReadRecordCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data, uint? le) :
-        base(@class, instruction, parameter1, parameter2, data, le)
+    protected ReadRecordCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data, uint? le) : base(@class,
+        instruction, parameter1, parameter2, data, le)
     { }
 
     #endregion
@@ -31,8 +30,7 @@ public class ReadRecordCApduSignal : CApduSignal
     {
         ReadRecordApduCommand cApdu = ReadRecordApduCommand.ReadAllRecords(shortFileIdentifier);
 
-        return new ReadRecordCApduSignal(cApdu.GetClass(), cApdu.GetInstruction(), cApdu.GetParameter1(), cApdu.GetParameter2(),
-            cApdu.GetLe());
+        return new ReadRecordCApduSignal(cApdu.GetClass(), cApdu.GetInstruction(), cApdu.GetParameter1(), cApdu.GetParameter2(), cApdu.GetLe());
     }
 
     /// <summary>
@@ -45,8 +43,7 @@ public class ReadRecordCApduSignal : CApduSignal
     {
         ReadRecordApduCommand cApdu = ReadRecordApduCommand.ReadRecord(shortFileIdentifier, recordNumber);
 
-        return new ReadRecordCApduSignal(cApdu.GetClass(), cApdu.GetInstruction(), cApdu.GetParameter1(), cApdu.GetParameter2(),
-            cApdu.GetLe());
+        return new ReadRecordCApduSignal(cApdu.GetClass(), cApdu.GetInstruction(), cApdu.GetParameter1(), cApdu.GetParameter2(), cApdu.GetLe());
     }
 
     /// <summary>
@@ -56,8 +53,8 @@ public class ReadRecordCApduSignal : CApduSignal
     {
         ReadRecordApduCommand cApdu = ReadRecordApduCommand.ReadRecord(recordNumber);
 
-        return new ReadRecordCApduSignal(cApdu.GetClass(), cApdu.GetInstruction(), cApdu.GetParameter1(), cApdu.GetParameter2(),
-            cApdu.GetData(), cApdu.GetLe());
+        return new ReadRecordCApduSignal(cApdu.GetClass(), cApdu.GetInstruction(), cApdu.GetParameter1(), cApdu.GetParameter2(), cApdu.GetData(),
+            cApdu.GetLe());
     }
 
     #endregion

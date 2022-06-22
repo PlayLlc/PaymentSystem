@@ -41,8 +41,8 @@ public record ExchangeRelayResistanceDataResponse : QueryPcdResponse
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public ExchangeRelayResistanceDataResponse(
-        CorrelationId correlation, TransactionSessionId transactionSessionId, ExchangeRelayResistanceDataRApduSignal response) : base(
-        correlation, MessageTypeId, transactionSessionId, response)
+        CorrelationId correlation, TransactionSessionId transactionSessionId, ExchangeRelayResistanceDataRApduSignal response) : base(correlation,
+        MessageTypeId, transactionSessionId, response)
     {
         if (GetStatusWords() == StatusWords._9000)
             _RelayResistanceResponseData = DecodeData(response);
@@ -80,16 +80,13 @@ public record ExchangeRelayResistanceDataResponse : QueryPcdResponse
         PrimitiveValue[] primitiveValues = new PrimitiveValue[4];
         TagLengthValue[] tlv = ResponseMessageTemplate.DecodeData(rapdu);
 
-        primitiveValues[0] = DeviceRelayResistanceEntropy.Decode(tlv.First(a => a.GetTag() == DeviceRelayResistanceEntropy.Tag)
-            .EncodeValue().AsSpan());
+        primitiveValues[0] = DeviceRelayResistanceEntropy.Decode(tlv.First(a => a.GetTag() == DeviceRelayResistanceEntropy.Tag).EncodeValue().AsSpan());
 
         primitiveValues[1] =
-            MinTimeForProcessingRelayResistanceApdu.Decode(tlv.First(a => a.GetTag() == MinTimeForProcessingRelayResistanceApdu.Tag)
-                .EncodeValue().AsSpan());
+            MinTimeForProcessingRelayResistanceApdu.Decode(tlv.First(a => a.GetTag() == MinTimeForProcessingRelayResistanceApdu.Tag).EncodeValue().AsSpan());
 
         primitiveValues[2] =
-            MaxTimeForProcessingRelayResistanceApdu.Decode(tlv.First(a => a.GetTag() == MaxTimeForProcessingRelayResistanceApdu.Tag)
-                .EncodeValue().AsSpan());
+            MaxTimeForProcessingRelayResistanceApdu.Decode(tlv.First(a => a.GetTag() == MaxTimeForProcessingRelayResistanceApdu.Tag).EncodeValue().AsSpan());
 
         primitiveValues[3] = DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Decode(tlv
             .First(a => a.GetTag() == DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag).EncodeValue().AsSpan());
