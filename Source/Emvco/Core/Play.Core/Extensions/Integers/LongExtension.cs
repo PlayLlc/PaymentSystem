@@ -10,9 +10,30 @@ public static class LongExtension
 
     public static int GetMostSignificantBit(this long value)
     {
-        double count = Math.Log2(value);
+        if (value == 0)
+            return 0;
 
-        return (int) ((count % 1) == 0 ? count : count + 1);
+        if (value < 0)
+            return Specifications.Specs.Integer.Int64.BitCount;
+
+        if (value < uint.MaxValue)
+            return (int)Math.Log(value, 2) + 1;
+
+        long buffer = value;
+        int offset = 0;
+
+        for (int i = 0; i < Specifications.Specs.Integer.Int64.BitCount; i++)
+        {
+            if (buffer == 0)
+                return offset;
+
+            if ((buffer % 10) != 0)
+                offset = i + 1;
+
+            buffer >>= 1;
+        }
+
+        return offset;
     }
 
     public static byte GetMostSignificantByte(this long value) =>
@@ -20,7 +41,7 @@ public static class LongExtension
 
     public static byte GetNumberOfDigits(this long value)
     {
-        double count = Math.Log10(Math.Pow(2, value.GetMostSignificantBit()));
+        double count = Math.Log10(value);
 
         return (byte) ((count % 1) == 0 ? count : count + 1);
     }
