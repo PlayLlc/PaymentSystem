@@ -32,6 +32,11 @@ public readonly record struct DateTimeUtc
         _Value = value;
     }
 
+    public DateTimeUtc(int year, int month, int day)
+    {
+        _Value = new DateTime(year, month, day, 0, 0, 0, DateTimeKind.Utc);
+    }
+
     /// <exception cref="PlayInternalException"></exception>
     public DateTimeUtc(long value)
     {
