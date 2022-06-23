@@ -1,11 +1,10 @@
-﻿using System;
-
+﻿
 using Play.Globalization.Time;
 using Play.Testing.BaseTestClasses;
 
 using Xunit;
 
-namespace Play.Globalization.Tests.Time;
+namespace Play.Globalization.Tests.Tests.Time;
 
 public class DecisecondsTests : TestBase
 {
@@ -26,8 +25,8 @@ public class DecisecondsTests : TestBase
     public void Decisecond1_CastingToSeconds_ReturnsExpectedResult()
     {
         Deciseconds sut = new(1);
-        Ticks expected = new((uint) 1000000);
-        Ticks actual = (Ticks) sut;
+        Ticks expected = new((uint)1000000);
+        Ticks actual = (Ticks)sut;
         Assert.Equal(expected, actual);
     }
 
@@ -35,7 +34,7 @@ public class DecisecondsTests : TestBase
     public void Decisecond100_CastingToSeconds_ReturnsExpectedResult()
     {
         Deciseconds sut = new(100);
-        Ticks expected = new((uint) 100000000);
+        Ticks expected = new((uint)100000000);
         Ticks actual = sut.AsTicks();
         Assert.Equal(expected, actual);
     }
@@ -48,8 +47,8 @@ public class DecisecondsTests : TestBase
     public void Decisecond1_CastingToTimeSpan_ReturnsExpectedResult()
     {
         Deciseconds sut = new(1);
-        TimeSpan expected = new((uint) 1000000);
-        TimeSpan actual = (TimeSpan) sut;
+        TimeSpan expected = new(1000000);
+        TimeSpan actual = (TimeSpan)sut;
         Assert.Equal(expected, actual);
     }
 
@@ -57,7 +56,7 @@ public class DecisecondsTests : TestBase
     public void Decisecond100_CastingToTimeSpan_ReturnsExpectedResult()
     {
         Deciseconds sut = new(100);
-        TimeSpan expected = new((uint) 100000000);
+        TimeSpan expected = new(100000000);
         TimeSpan actual = sut.AsTimeSpan();
         Assert.Equal(expected, actual);
     }
