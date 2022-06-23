@@ -75,8 +75,8 @@ public class DateRangeTests : TestBase
     [Fact]
     public void DateRange_Initialize_IsExpired()
     {
-        ShortDate activationDate = new(1906);
-        ShortDate expirationDate = new(2005);
+        ShortDate activationDate = new(1905);
+        ShortDate expirationDate = new(2109);
 
         DateRange dateRange = new DateRange(activationDate, expirationDate);
 
