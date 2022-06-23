@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 
 using Play.Globalization.Time;
 using Play.Testing.BaseTestClasses;
@@ -10,20 +9,19 @@ namespace Play.Globalization.Tests.Tests.Time;
 
 public class DateRangeTests : TestBase
 {
-
     #region Instantiation
 
     [Fact]
     public void DateRange_Instantiate_ValidationErrorExceptionIsThrown()
     {
         ShortDate activationDate = new(DateTimeUtc.Now);
-        ShortDate expirationDate = new((uint)2006);
+        ShortDate expirationDate = new(2006);
 
         Assertion(() =>
         {
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                DateRange testData = new DateRange(activationDate, expirationDate);
+                DateRange testData = new(activationDate, expirationDate);
             });
         });
     }
@@ -31,10 +29,10 @@ public class DateRangeTests : TestBase
     [Fact]
     public void DateRange_Instantiate_CorrectInstantiation()
     {
-        ShortDate activationDate = new((uint)2006);
+        ShortDate activationDate = new(2006);
         ShortDate expirationDate = new(DateTimeUtc.Now);
 
-        DateRange testData = new DateRange(activationDate, expirationDate);
+        DateRange testData = new(activationDate, expirationDate);
 
         Assertion(() =>
         {
@@ -49,7 +47,7 @@ public class DateRangeTests : TestBase
         ShortDate activationDate = new(2206);
         ShortDate expirationDate = new(2407);
 
-        DateRange dateRange = new DateRange(activationDate, expirationDate);
+        DateRange dateRange = new(activationDate, expirationDate);
 
         Assertion(() =>
         {
@@ -64,12 +62,9 @@ public class DateRangeTests : TestBase
         ShortDate activationDate = new(2206);
         ShortDate expirationDate = new(2407);
 
-        DateRange dateRange = new DateRange(activationDate, expirationDate);
+        DateRange dateRange = new(activationDate, expirationDate);
 
-        Assertion(() =>
-        {
-            Assert.True(dateRange.IsActive());
-        });
+        Assertion(() => { Assert.True(dateRange.IsActive()); });
     }
 
     [Fact]
@@ -78,12 +73,9 @@ public class DateRangeTests : TestBase
         ShortDate activationDate = new(1905);
         ShortDate expirationDate = new(2109);
 
-        DateRange dateRange = new DateRange(activationDate, expirationDate);
+        DateRange dateRange = new(activationDate, expirationDate);
 
-        Assertion(() =>
-        {
-            Assert.True(dateRange.IsExpired());
-        });
+        Assertion(() => { Assert.True(dateRange.IsExpired()); });
     }
 
     #endregion
