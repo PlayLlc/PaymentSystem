@@ -48,8 +48,7 @@ public readonly struct ShortDate
                 $"The argument {nameof(value)} was not in a correct format. The argument must be either {_YyMmDdLength} or {_YyMmLength} digits in length. Only YyMmDd and YyMm formats are supported"));
         }
 
-        _Value = new DateTimeUtc(new DateTime(GetYear(value), GetMonth(value), GetDay(value)));
-        ;
+        _Value = new DateTimeUtc(new DateTime(GetYear(value), GetMonth(value), GetDay(value), 0, 0, 0, 0, DateTimeKind.Utc));
     }
 
     /// <exception cref="PlayInternalException"></exception>
@@ -112,8 +111,8 @@ public readonly struct ShortDate
     {
         Nibble[] result = new Nibble[6];
 
-        result[0] = (Nibble) (_Value.Year / 1000);
-        result[1] = (Nibble) ((_Value.Year / 100) % 10);
+        result[0] = (Nibble)((_Value.Year % 100) / 10);
+        result[1] = (Nibble) ((_Value.Year % 100) % 10);
 
         if (_Value.Month <= 9)
         {
@@ -158,7 +157,7 @@ public readonly struct ShortDate
 
     public bool Equals(ShortDate other) => _Value == other._Value;
     public bool Equals(DateTime other) => _Value == other;
-    public bool Equals(ShortDate x, ShortDate y) => x.Equals(y);
+    public static bool Equals(ShortDate x, ShortDate y) => x.Equals(y);
     public override bool Equals(object? obj) => obj is ShortDate shortDateValueYyMm && Equals(shortDateValueYyMm);
     public int GetHashCode(ShortDate obj) => obj.GetHashCode();
     public override int GetHashCode() => unchecked(27329 * _Value.GetHashCode());
