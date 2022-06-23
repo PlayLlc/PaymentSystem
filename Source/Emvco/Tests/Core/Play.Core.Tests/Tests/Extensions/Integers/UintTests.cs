@@ -362,23 +362,23 @@ public class UintTests : TestBase
     #region GetMaskedValue
 
     [Fact]
-    public void Uint_GetMaskedValue_Value0b1100_0000_1101_1111_Mask0b0010_1111_ReturnsExpectedResult()
+    public void Uint_GetMaskedValue_Value0b1100_0000_1101_1111_Mask0b0011_1111_ReturnsExpectedResult()
     {
         uint testData = 0b1100_0000_1101_1111;
-        uint mask = 0b0010_1111;
+        uint mask = 0b0011_1111;
 
-        uint expectedOutput = 0b1101_0000;
+        uint expectedOutput = 0b1100_0000_1100_0000;
 
         Assertion(() => Assert.Equal(expectedOutput, testData.GetMaskedValue(mask)));
     }
 
     [Fact]
-    public void Uint_GetMaskedValue_Value0b1100_0000_1101_1001_Mask0b0010_1001_ReturnsExpectedResult()
+    public void Uint_GetMaskedValue_Value0b1100_0000_1101_1001_Mask0b0010_1111_ReturnsExpectedResult()
     {
         uint testData = 0b1100_0000_1101_1001;
         uint mask = 0b0010_1111;
 
-        uint expectedOutput = 0b1101_0000;
+        uint expectedOutput = 0b1100_0000_1101_0000;
 
         Assertion(() => Assert.Equal(expectedOutput, testData.GetMaskedValue(mask)));
     }
@@ -389,7 +389,7 @@ public class UintTests : TestBase
         uint testData = 0b1100_0000_1101_1111;
         uint mask = 0b0010_1001;
 
-        uint expectedOutput = 0b1101_0110;
+        uint expectedOutput = 0b1100_0000_1101_0110;
 
         Assertion(() => Assert.Equal(expectedOutput, testData.GetMaskedValue(mask)));
     }
@@ -400,7 +400,7 @@ public class UintTests : TestBase
         uint testData = 0b1100_0000_1111_1111;
         uint mask = 0b0010_1001;
 
-        uint expectedOutput = 0b1101_0110;
+        uint expectedOutput = 0b1100_0000_1101_0110;
 
         Assertion(() => Assert.Equal(expectedOutput, testData.GetMaskedValue(mask)));
     }
@@ -411,7 +411,7 @@ public class UintTests : TestBase
         uint testData = 0b1100_0000_1111_1111;
         uint mask = 0b1010_1001;
 
-        uint expectedOutput = 0b0101_0110;
+        uint expectedOutput = 0b1100_0000_0101_0110;
 
         Assertion(() => Assert.Equal(expectedOutput, testData.GetMaskedValue(mask)));
     }
