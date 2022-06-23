@@ -8,7 +8,7 @@ namespace Play.Globalization.Time;
 
 // TODO: This is actually super unwieldy to use. Let's add some more constructors
 /// <summary>
-///     Supports short date values in the formats YYMMDD or YYMM
+///     Supports short date values in the format YYMM. The day value will always be the first of the month
 /// </summary>
 /// <remarks>
 ///     All internal DateTime values are UTC
@@ -17,10 +17,8 @@ public readonly struct ShortDate
 {
     #region Static Metadata
 
-    private static readonly int _MillenniumAndCentury = (byte) (DateTime.Now.Year / 100);
-    public static readonly ShortDate Min = new(1901);
-    private const byte _YyMmDdLength = 6;
-    private const byte _YyMmLength = 4;
+    private static readonly int _MillenniumAndCentury = (byte) (DateTime.Now.Year / 100) * 100;
+    public static readonly ShortDate Min = new(0001);
 
     #endregion
 
@@ -42,77 +40,80 @@ public readonly struct ShortDate
     /// <exception cref="PlayInternalException"></exception>
     public ShortDate(ushort value)
     {
-        if (value.GetNumberOfDigits() != _YyMmLength)
+        int month = GetMonth(value);
+
+        if (month > 12)
         {
             throw new PlayInternalException(new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} was not in a correct format. The argument must be either {_YyMmDdLength} or {_YyMmLength} digits in length. Only YyMmDd and YyMm formats are supported"));
+                $"The {nameof(ShortDate)} could not be initialized because the value was out of range"));
         }
 
-        _Value = new DateTimeUtc(new DateTime(GetYear(value), GetMonth(value), GetDay(value), 0, 0, 0, 0, DateTimeKind.Utc));
-    }
+        int year = GetYear(value);
 
-    /// <exception cref="PlayInternalException"></exception>
-    public ShortDate(uint value)
-    {
-        byte numberOfDigits = value.GetNumberOfDigits();
-
-        if ((numberOfDigits != _YyMmLength) && (numberOfDigits != _YyMmDdLength))
+        if (year > 99)
         {
             throw new PlayInternalException(new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} was not in a correct format. The argument must be either {_YyMmDdLength} or {_YyMmLength} digits in length. Only YyMmDd and YyMm formats are supported"));
+                $"The {nameof(ShortDate)} could not be initialized because the value was out of range"));
         }
 
-        _Value = new DateTimeUtc(new DateTime(GetYear(value), GetMonth(value), GetDay(value), 0, 0, 0, 0, DateTimeKind.Utc));
+        _Value = new DateTimeUtc(new DateTime(year + _MillenniumAndCentury, month, 1, 0, 0, 0, 0, DateTimeKind.Utc));
+
+        if (_Value < Min)
+        {
+            throw new PlayInternalException(new ArgumentOutOfRangeException(nameof(value),
+                $"The argument was out of range. The minimum {nameof(ShortDate)} value is {Min.AsYyMm()}"));
+        }
     }
 
     /// <exception cref="PlayInternalException"></exception>
     public ShortDate(DateTimeUtc dateTime)
     {
-        _Value = new DateTimeUtc(new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0, 0, DateTimeKind.Utc));
+        _Value = new DateTimeUtc(new DateTime(dateTime.Year, dateTime.Month, 1, 0, 0, 0, 0, DateTimeKind.Utc));
     }
 
     /// <exception cref="PlayInternalException"></exception>
     public ShortDate(ReadOnlySpan<Nibble> value)
     {
-        byte year;
-        byte month;
+        byte month = (byte) (value[2] * 10);
+        month += value[3];
 
-        if (value.Length == 4)
+        if (month > 12)
         {
-            year = (byte) (value[0] * 10);
-            year += value[1];
-            month = (byte) (value[2] * 10);
-            month += value[3];
-
-            _Value = new DateTimeUtc(new DateTime(year, month, 1, 0, 0, 0, 0, DateTimeKind.Utc));
+            throw new PlayInternalException(new ArgumentOutOfRangeException(nameof(value),
+                $"The {nameof(ShortDate)} could not be initialized because the value was out of range"));
         }
 
-        if (value.Length == 6)
-        {
-            year = (byte) (value[0] * 10);
-            year += value[1];
-            month = (byte) (value[2] * 10);
-            month += value[3];
-            byte day = (byte) (value[4] * 10);
-            day += value[5];
+        byte year = (byte) (value[0] * 10);
+        year += value[1];
 
-            _Value = new DateTimeUtc(new DateTime(year, month, day, 0, 0, 0, 0, DateTimeKind.Utc));
+        if (year > 99)
+        {
+            throw new PlayInternalException(new ArgumentOutOfRangeException(nameof(value),
+                $"The {nameof(ShortDate)} could not be initialized because the value was out of range"));
         }
 
-        throw new PlayInternalException(new ArgumentOutOfRangeException(nameof(value),
-            $"The {nameof(ShortDate)} could not be initialized because the value was out of range"));
+        _Value = new DateTimeUtc(new DateTime(year + _MillenniumAndCentury, month, 1, 0, 0, 0, 0, DateTimeKind.Utc));
+
+        if (_Value < Min)
+        {
+            throw new PlayInternalException(new ArgumentOutOfRangeException(nameof(value),
+                $"The argument was out of range. The minimum {nameof(ShortDate)} value is {Min.AsYyMm()}"));
+        }
     }
 
     #endregion
 
     #region Instance Members
 
+    private static int GetYear(int value) => value / 100;
+    private static int GetMonth(int value) => value % 100;
+
     public Nibble[] AsNibbleArray()
     {
-        Nibble[] result = new Nibble[6];
+        Nibble[] result = new Nibble[4];
 
-        result[0] = (Nibble)((_Value.Year % 100) / 10);
-        result[1] = (Nibble) ((_Value.Year % 100) % 10);
+        result[0] = (Nibble) ((_Value.Year % 100) / 10);
+        result[1] = (Nibble) (_Value.Year % 100 % 10);
 
         if (_Value.Month <= 9)
         {
@@ -125,31 +126,10 @@ public readonly struct ShortDate
             result[3] = (Nibble) (_Value.Month % 10);
         }
 
-        if (_Value.Day <= 9)
-        {
-            result[4] = 0;
-            result[5] = (Nibble) _Value.Day;
-        }
-        else
-        {
-            result[4] = (Nibble) (_Value.Day / 10);
-            result[5] = (Nibble) (_Value.Day % 10);
-        }
-
         return result;
     }
 
     public ushort AsYyMm() => (ushort) (((byte) (_Value.Year % 100) * 100) + _Value.Month);
-    public uint AsYyMmDd() => (uint) (((_Value.Year % 100) * 10000) + (_Value.Month * 100) + _Value.Day);
-    private static byte GetDay(uint value) => value.GetNumberOfDigits() == 6 ? GetDayYyMmDd(value) : GetDayYyMm(value);
-    private static byte GetDayYyMm(uint value) => 1;
-    private static byte GetDayYyMmDd(uint value) => (byte) (value % 100);
-    private static byte GetMonth(uint value) => value.GetNumberOfDigits() == 6 ? GetMonthYyMmDd(value) : GetMonthYyMm(value);
-    private static byte GetMonthYyMm(uint value) => (byte) (value % 100);
-    private static byte GetMonthYyMmDd(uint value) => (byte) ((value / 100) % 100);
-    private static int GetYear(uint value) => value.GetNumberOfDigits() == 6 ? GetYearYyMmDd(value) : GetYearYyMm(value);
-    private static byte GetYearYyMm(uint value) => (byte) ((_MillenniumAndCentury * 100) + (value / 100));
-    private static byte GetYearYyMmDd(uint value) => (byte) ((_MillenniumAndCentury * 100) + (value / 10000));
 
     #endregion
 
