@@ -69,8 +69,8 @@ public class DecisecondsTests : TestBase
     public void Decisecond_CastingToSeconds_ReturnsExpectedResult()
     {
         Deciseconds sut = new(10);
-        Seconds expected = new(1);
-        Seconds actual = sut.AsSeconds();
+        Globalization.Time.Seconds expected = new(1);
+        Globalization.Time.Seconds actual = sut.AsSeconds();
         Assert.Equal(expected, actual);
     }
 
@@ -78,8 +78,8 @@ public class DecisecondsTests : TestBase
     public void Decisecond1000_CastingToSeconds_ReturnsExpectedResult()
     {
         Deciseconds sut = new(10000);
-        Seconds expected = new(1000);
-        Seconds actual = sut.AsSeconds();
+        Globalization.Time.Seconds expected = new(1000);
+        Globalization.Time.Seconds actual = sut.AsSeconds();
         Assert.Equal(expected, actual);
     }
 
@@ -114,7 +114,7 @@ public class DecisecondsTests : TestBase
     [Fact]
     public void Seconds_InitializingDecisecond_ReturnsDecisecondInstance()
     {
-        Seconds testData = new(0);
+        Globalization.Time.Seconds testData = new(0);
         Deciseconds sut = new(testData);
         Assert.NotNull(sut);
     }

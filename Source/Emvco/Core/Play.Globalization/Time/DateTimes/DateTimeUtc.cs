@@ -31,26 +31,31 @@ public readonly record struct DateTimeUtc
         _Value = value;
     }
 
+    public DateTimeUtc(int year, int month, int day)
+    {
+        _Value = new DateTime(year, month, day, 0, 0, 0, DateTimeKind.Utc);
+    }
+
     /// <exception cref="PlayInternalException"></exception>
     public DateTimeUtc(long value)
     {
-        DateTime dateTimeValue = new(value);
+        DateTime dateTimeValue = new(value, DateTimeKind.Utc);
 
         if (dateTimeValue.Kind != DateTimeKind.Utc)
             throw new PlayInternalException(new ArgumentOutOfRangeException($"The argument {nameof(value)} was not in UTC format"));
 
-        _Value = DateTime.UtcNow;
+        _Value = dateTimeValue;
     }
 
     /// <exception cref="PlayInternalException"></exception>
     public DateTimeUtc(int value)
     {
-        DateTime dateTimeValue = new(value);
+        DateTime dateTimeValue = new(value, DateTimeKind.Utc);
 
         if (dateTimeValue.Kind != DateTimeKind.Utc)
             throw new ArgumentOutOfRangeException($"The argument {nameof(value)} was not in UTC format");
 
-        _Value = DateTime.UtcNow;
+        _Value = dateTimeValue;
     }
 
     #endregion
@@ -58,7 +63,7 @@ public readonly record struct DateTimeUtc
     #region Equality
 
     public bool Equals(DateTime dateTime) => dateTime == _Value;
-    public int CompareTo(DateTimeUtc? other) => _Value.CompareTo(other);
+    public int CompareTo(DateTime other) => _Value.CompareTo(other);
 
     #endregion
 

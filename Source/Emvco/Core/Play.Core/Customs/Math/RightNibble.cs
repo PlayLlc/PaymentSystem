@@ -23,7 +23,7 @@ internal readonly record struct RightNibble
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     public RightNibble(byte value)
     {
-        if (value.AreBitsSet(_UnrelatedBits))
+        if (value.AreAnyBitsSet(_UnrelatedBits))
         {
             throw new ArgumentOutOfRangeException(nameof(value),
                 $"The {nameof(RightNibble)} could not be initialized because the argument provided has more bits set than a nibble");
