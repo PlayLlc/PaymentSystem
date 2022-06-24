@@ -170,6 +170,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Emv.Acquirer.Contracts
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Globalization.Tests", "Tests\Core\Play.Globalization.Tests\Play.Globalization.Tests.csproj", "{3B56BA53-0821-4CA8-BEA2-9E38B0EDF508}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Randoms.Tests", "Tests\Core\Play.Randoms.Tests\Play.Randoms.Tests.csproj", "{CC073524-B669-42A7-92CF-AB9D8369C09C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -416,6 +418,10 @@ Global
 		{3B56BA53-0821-4CA8-BEA2-9E38B0EDF508}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B56BA53-0821-4CA8-BEA2-9E38B0EDF508}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B56BA53-0821-4CA8-BEA2-9E38B0EDF508}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC073524-B669-42A7-92CF-AB9D8369C09C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC073524-B669-42A7-92CF-AB9D8369C09C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC073524-B669-42A7-92CF-AB9D8369C09C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC073524-B669-42A7-92CF-AB9D8369C09C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -493,6 +499,7 @@ Global
 		{45D4AC32-6863-4864-A069-4677E15C8069} = {A5BB97F6-5DA0-404B-B60E-356C04EE0538}
 		{AB20E167-CDE0-4F05-8669-19565BC0299A} = {69C1955C-655F-4958-8C6B-243C39CEF0D7}
 		{3B56BA53-0821-4CA8-BEA2-9E38B0EDF508} = {92C77034-1B33-4CFD-9C5E-033BBFCBFA90}
+		{CC073524-B669-42A7-92CF-AB9D8369C09C} = {92C77034-1B33-4CFD-9C5E-033BBFCBFA90}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E9927CF8-C10C-47E1-87FD-7ACEEBCD340D}
