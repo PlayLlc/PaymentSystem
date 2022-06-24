@@ -79,6 +79,9 @@ public readonly record struct Ticks
 
     public TimeSpan AsTimeSpan() => new(_Value * (Precision - Milliseconds.Precision));
     public Seconds AsSeconds() => new(this);
+    public Deciseconds AsDeciSeconds() => new(this);
+    public Milliseconds AsMilliSeconds() => new(this);
+    public Microseconds AsMicroSeconds() => new(this);
 
     #endregion
 
