@@ -12,7 +12,7 @@ public class MillisecondsTests : TestBase
     [Fact]
     public void Milliseconds_CastingToTicks_ReturnsExpectedResult()
     {
-        //10000 ticks per microsecond
+        //10000 ticks per millisecond
         Milliseconds sut = new(1);
 
         Ticks expected = new((uint)10000);
