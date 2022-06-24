@@ -25,4 +25,9 @@
 	  <ProjectReference Include="..\..\Play.Testing\Play.Testing.csproj" />
 	</ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Core\Play.Globalization\Play.Globalization.csproj" />
+    <ProjectReference Include="..\..\Play.Testing\Play.Testing.csproj" />
+  </ItemGroup>
+
 </Project>
