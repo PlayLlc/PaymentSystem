@@ -13,9 +13,9 @@ public static partial class SpanExtensions
 
     public static void SetBits(this Span<byte> value, ReadOnlySpan<byte> other)
     {
-        int maxCount = value.Length > other.Length ? value.Length : other.Length;
+        int minCount = value.Length < other.Length ? value.Length : other.Length;
 
-        for (int i = 0; i < maxCount; i++)
+        for (int i = 0; i < minCount; i++)
             value[i] |= other[i];
     }
 
@@ -39,7 +39,7 @@ public static partial class SpanExtensions
             paddedNibbles++;
         }
 
-        byte[] result = new byte[value.Length - ((paddedNibbles / 2) + (paddedNibbles % 2))];
+        byte[] result = new byte[value.Length - (paddedNibbles / 2)];
         value[^result.Length..].CopyTo(result);
 
         if ((paddedNibbles % 2) != 0)
@@ -90,19 +90,6 @@ public static partial class SpanExtensions
 
         for (int i = 1; i < value.Length; i++)
             buffer[i] = value[i].ShiftNibbleRight(value[i - 1].GetRightNibble());
-
-        return buffer.ToArray();
-    }
-
-    public static byte[] ShiftLeftOneNibble(this Span<byte> value)
-    {
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(value.Length + 1);
-        Span<byte> buffer = spanOwner.Span;
-
-        for (int i = 1; i < value.Length; i++)
-            buffer[i] = value[i].ShiftNibbleLeft(value[i + 1].GetLeftNibble());
-
-        buffer[^1] = value[^1].ShiftNibbleLeft(0x00);
 
         return buffer.ToArray();
     }
