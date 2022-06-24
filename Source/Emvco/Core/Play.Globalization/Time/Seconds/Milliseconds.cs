@@ -4,6 +4,7 @@ namespace Play.Globalization.Time.Seconds;
 
 /// <summary>
 ///     This struct represents a <see cref="TimeSpan" /> that is initialized with Milliseconds
+///     10000 ticks per millisecond
 /// </summary>
 public readonly record struct Milliseconds
 {
@@ -73,6 +74,12 @@ public readonly record struct Milliseconds
 
     public TimeSpan AsTimeSpan() => new(_Value * (Ticks.Precision / Precision));
     public Seconds AsSeconds() => new(this);
+
+    public Ticks AsTicks() => new(this);
+
+    public Deciseconds AsDeciSeconds() => new(this);
+
+    public Microseconds AsMicroseconds() => new(this);
 
     #endregion
 
