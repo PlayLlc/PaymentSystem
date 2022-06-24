@@ -21,6 +21,7 @@ public readonly record struct Microseconds
 
     /// <remarks>
     ///     The <paramref name="value" /> must be 922337203685477 or less in value
+    ///     Ticks: 10 ticks per microsecond
     /// </remarks>
     /// <param name="value"></param>
     /// <exception cref="InvalidOperationException"></exception>
