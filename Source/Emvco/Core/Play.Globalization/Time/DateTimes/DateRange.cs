@@ -32,7 +32,7 @@ public readonly struct DateRange
 
     public ShortDate GetActivationDate() => _ActivationDate;
     public ShortDate GetExpirationDate() => _ExpiryDate;
-    public bool IsActive() => _ExpiryDate < DateTimeUtc.Now;
+    public bool IsActive() => (_ExpiryDate > DateTimeUtc.Now) && (DateTimeUtc.Now > _ActivationDate);
     public bool IsExpired() => !IsActive();
 
     #endregion

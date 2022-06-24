@@ -58,7 +58,7 @@ public partial class Randomize
             if (min > max)
                 throw new ArgumentOutOfRangeException();
 
-            return _Random.Next(0, max - min);
+            return _Random.Next(min, max);
         }
 
         public static uint UInt()

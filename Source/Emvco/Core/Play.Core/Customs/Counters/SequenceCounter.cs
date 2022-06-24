@@ -1,4 +1,6 @@
-﻿namespace Play.Core;
+﻿using Play.Core.Exceptions;
+
+namespace Play.Core;
 
 /// <summary>
 ///     A simple counter that retains the value of each incremental occurrence. When the maximum sequence number is
@@ -19,6 +21,10 @@ public abstract class SequenceCounter
 
     protected SequenceCounter(int minimumValue, int maximumValue, int increment)
     {
+        if (minimumValue > maximumValue)
+            throw new PlayInternalException(
+                $"The {nameof(SequenceCounter)} could not be initialized because the minimum value is greater than the maximum value");
+
         _Value = minimumValue;
         _IncrementValue = increment;
         _MinimumValue = minimumValue;
