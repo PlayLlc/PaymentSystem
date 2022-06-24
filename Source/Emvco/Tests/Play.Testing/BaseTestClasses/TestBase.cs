@@ -8,6 +8,7 @@ using Play.Ber.DataObjects;
 using Play.Codecs;
 using Play.Core;
 using Play.Core.Extensions;
+using Play.Globalization.Time.Seconds;
 
 using Xunit.Sdk;
 
@@ -157,6 +158,9 @@ public abstract class TestBase
 
             public static string Message(Nibble[] expected, Nibble[] actual) =>
                 $"\n\n\t\texpected\t: {BitConverter.ToString(expected.AsByteArray()).Replace("-", "")}; \n\t\tactual\t\t: {BitConverter.ToString(actual.AsByteArray()).Replace("-", "")};";
+
+            public static string Message(Microseconds expected, Microseconds actual) =>
+                $"\n\n\t\texpected\t: {((long)expected)}; \n\t\tactual\t\t: {((long)actual)};";
 
             #endregion
         }
