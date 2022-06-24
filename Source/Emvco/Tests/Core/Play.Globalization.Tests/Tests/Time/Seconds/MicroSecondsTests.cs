@@ -105,4 +105,53 @@ public class MicroSecondsTests : TestBase
             Assert.Equal(multiply, actual);
         }, Build.Equals.Message(multiply, actual));
     }
+
+    [Fact]
+    public void Microsecond_CastingToTicks_ReturnsExpectedResult()
+    {
+        //10 ticks per microsecond
+        Microseconds sut = new(1);
+
+        Ticks expected = new((uint)10);
+        Ticks actual = sut.AsTicks();
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void Microsecond_CastingToSeconds_ReturnsExpectedResults()
+    {
+        long microseconds = 1000000;
+        Microseconds sut = new(microseconds);
+
+        Globalization.Time.Seconds.Seconds expected = new(1);
+        Globalization.Time.Seconds.Seconds actual = sut.AsSeconds();
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void Microsecond_CastingToDeciseconds_ReturnsExpectedResult()
+    {
+        long microseconds = 100000;
+        Microseconds sut = new(microseconds);
+
+        Deciseconds expected = new(1);
+        Deciseconds actual = sut.AsDeciSeconds();
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void Microsecond_CastingToMiliseconds_ReturnsExpectedResult()
+    {
+        long microseconds = 1000;
+        Microseconds sut = new(microseconds);
+        Milliseconds expected = new(1);
+        Milliseconds actual = sut.AsMilliseconds();
+
+        Assertion(() =>
+        {
+            Assert.Equal(expected, actual);
+        }, Build.Equals.Message(expected, actual));
+    }
 }

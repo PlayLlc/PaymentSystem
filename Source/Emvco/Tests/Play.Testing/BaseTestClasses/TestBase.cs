@@ -162,6 +162,9 @@ public abstract class TestBase
             public static string Message(Microseconds expected, Microseconds actual) =>
                 $"\n\n\t\texpected\t: {((long)expected)}; \n\t\tactual\t\t: {((long)actual)};";
 
+            public static string Message(Milliseconds expected, Milliseconds actual) =>
+                $"\n\n\t\texpected\t: {((long)expected)}; \n\t\tactual\t\t: {((long)actual)};";
+
             #endregion
         }
     }

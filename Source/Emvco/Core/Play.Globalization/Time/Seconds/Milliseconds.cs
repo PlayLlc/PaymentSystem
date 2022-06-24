@@ -57,6 +57,11 @@ public readonly record struct Milliseconds
         _Value = (long) value * (Precision / Seconds.Precision);
     }
 
+    public Milliseconds(Microseconds value)
+    {
+        _Value = (long)value / Precision;
+    }
+
     public Milliseconds(TimeSpan value)
     {
         _Value = value.Milliseconds;
