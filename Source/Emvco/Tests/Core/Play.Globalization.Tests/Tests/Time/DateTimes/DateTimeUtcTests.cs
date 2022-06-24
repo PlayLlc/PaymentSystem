@@ -34,11 +34,13 @@ public class DateTimeUtcTests : TestBase
             DateTimeUtc test = new DateTimeUtc(input);
             Assert.NotNull(test);
             Assert.Equal(2019, test.Year);
+            Assert.Equal(06, test.Month);
+            Assert.Equal(11, test.Day);
         });
     }
 
     [Fact]
-    public void DateTimeUtc_InstantiateUsingLongValue_DateTimeUtcInstantiated()
+    public void DateTimeUtc_InstantiateFromLongValue_DateTimeUtcInstantiated()
     {
         long input = 20190615;
         DateTimeUtc testData = new DateTimeUtc(input);
@@ -47,7 +49,7 @@ public class DateTimeUtcTests : TestBase
     }
 
     [Fact]
-    public void DateTimeUtc_InstiateUsingIntValue_DateTimeUtcInstantiated()
+    public void DateTimeUtc_InstiateFromIntValue_DateTimeUtcInstantiated()
     {
         int input = 637915392;
         DateTimeUtc testData = new DateTimeUtc(input);
@@ -56,7 +58,7 @@ public class DateTimeUtcTests : TestBase
     }
 
     [Fact]
-    public void DateTimeUtc_Instantiate_InstantiatedCorrectly()
+    public void DateTimeUtc_InstantiateFromDate_InstantiatedCorrectly()
     {
         DateTime input = new DateTime(2020, 07, 11, 11, 36, 10, DateTimeKind.Utc);
         DateTimeUtc testData = new DateTimeUtc(input);
@@ -99,6 +101,48 @@ public class DateTimeUtcTests : TestBase
             Assert.Equal(DateTime.UtcNow.Month, today.Month);
             Assert.Equal(DateTime.UtcNow.Day, today.Day);
         });
+    }
+
+    [Fact]
+    public void DateTimeUtc_EqualsDateTime_AreEqual()
+    {
+        DateTime input = new DateTime(2020, 07, 11, 11, 36, 10, DateTimeKind.Utc);
+        DateTimeUtc testData = new DateTimeUtc(input);
+        DateTimeUtc compareTo = new DateTimeUtc(input);
+
+        Assertion(() => Assert.True(testData.Equals(input)));
+    }
+
+    [Fact]
+    public void DateTimeUtc_CompareToDateTime_AreEqual()
+    {
+        DateTime input = new DateTime(2020, 07, 11, 11, 36, 10, DateTimeKind.Utc);
+        DateTimeUtc testData = new DateTimeUtc(input);
+        DateTimeUtc compareTo = new DateTimeUtc(input);
+
+        Assertion(() => Assert.Equal(0, testData.CompareTo(compareTo)));
+    }
+
+    [Fact]
+    public void DateTimeUtc_CompareToDateTime_IsLesserThan()
+    {
+        DateTime input = new DateTime(2020, 07, 11, 11, 36, 10, DateTimeKind.Utc);
+        DateTime compareToInput = new DateTime(2019, 07, 11, 11, 36, 10, DateTimeKind.Utc);
+        DateTimeUtc testData = new DateTimeUtc(input);
+        DateTimeUtc compareTo = new DateTimeUtc(compareToInput);
+
+        Assertion(() => Assert.True(compareTo.CompareTo(testData) < 0));
+    }
+
+    [Fact]
+    public void DateTimeUtc_CompareToDateTime_IsGreaterThan()
+    {
+        DateTime input = new DateTime(2020, 07, 11, 11, 36, 10, DateTimeKind.Utc);
+        DateTime compareToInput = new DateTime(2019, 07, 11, 11, 36, 10, DateTimeKind.Utc);
+        DateTimeUtc testData = new DateTimeUtc(input);
+        DateTimeUtc compareTo = new DateTimeUtc(compareToInput);
+
+        Assertion(() => Assert.True(testData.CompareTo(compareTo) > 0));
     }
 }
 

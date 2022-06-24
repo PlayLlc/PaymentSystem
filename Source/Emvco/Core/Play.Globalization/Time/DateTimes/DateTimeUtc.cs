@@ -64,7 +64,7 @@ public readonly record struct DateTimeUtc
     #region Equality
 
     public bool Equals(DateTime dateTime) => dateTime == _Value;
-    public int CompareTo(DateTimeUtc? other) => _Value.CompareTo(other);
+    public int CompareTo(DateTime other) => _Value.CompareTo(other);
 
     #endregion
 
