@@ -1,4 +1,4 @@
-﻿using Play.Globalization.Time.Seconds;
+﻿using Play.Globalization.Time;
 
 namespace Play.Emv.Ber.ValueTypes;
 

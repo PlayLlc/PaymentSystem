@@ -10,7 +10,7 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
 using Play.Emv.Ber.Enums;
 using Play.Globalization.Country;
-using Play.Globalization.Time.Seconds;
+using Play.Globalization.Time;
 
 namespace Play.Emv.Kernel2.Databases;
 

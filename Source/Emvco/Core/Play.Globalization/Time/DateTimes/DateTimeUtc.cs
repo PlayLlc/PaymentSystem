@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Play.Core.Exceptions;
-using Play.Globalization.Time.Seconds;
 
 namespace Play.Globalization.Time;
 
@@ -74,7 +73,7 @@ public readonly record struct DateTimeUtc
     public static bool operator >(DateTimeUtc left, DateTimeUtc right) => left._Value > right._Value;
     public static bool operator <=(DateTimeUtc left, DateTimeUtc right) => left._Value <= right._Value;
     public static bool operator >=(DateTimeUtc left, DateTimeUtc right) => left._Value >= right._Value;
-    public static Ticks operator -(DateTimeUtc left, DateTimeUtc right) => left._Value - right._Value;
+    public static Ticks operator -(DateTimeUtc left, DateTimeUtc right) => (Ticks) (left._Value - right._Value);
     public static implicit operator DateTime(DateTimeUtc value) => value._Value;
 
     #endregion

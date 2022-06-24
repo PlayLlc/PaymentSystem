@@ -1,6 +1,5 @@
-﻿using System;
-
-using Play.Globalization.Time.Seconds;
+﻿
+using Play.Globalization.Time;
 using Play.Testing.BaseTestClasses;
 
 using Xunit;
@@ -26,8 +25,8 @@ public class MillisecondsTests : TestBase
         long milliseconds = 1000;
         Milliseconds sut = new(milliseconds);
 
-        Globalization.Time.Seconds.Seconds expected = new(1);
-        Globalization.Time.Seconds.Seconds actual = sut.AsSeconds();
+        Globalization.Time.Seconds expected = new(1);
+        Globalization.Time.Seconds actual = sut.AsSeconds();
 
         Assert.Equal(expected, actual);
     }

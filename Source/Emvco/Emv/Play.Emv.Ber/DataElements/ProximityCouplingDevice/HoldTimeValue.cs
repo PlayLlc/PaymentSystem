@@ -4,7 +4,7 @@ using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
-using Play.Globalization.Time.Seconds;
+using Play.Globalization.Time;
 
 namespace Play.Emv.Ber.DataElements;
 
@@ -73,7 +73,7 @@ public record HoldTimeValue : DataElement<Deciseconds>, IEqualityComparer<HoldTi
 
         Check.Primitive.ForMaxCharLength(result.GetNumberOfDigits(), _CharLength, Tag);
 
-        return new HoldTimeValue(result);
+        return new HoldTimeValue((Deciseconds) result);
     }
 
     public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);

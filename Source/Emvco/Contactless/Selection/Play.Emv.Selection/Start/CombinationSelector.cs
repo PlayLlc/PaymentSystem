@@ -8,7 +8,7 @@ using Play.Emv.Identifiers;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Selection.Contracts;
-using Play.Globalization.Time.Seconds;
+using Play.Globalization.Time;
 using Play.Icc.FileSystem.DedicatedFiles;
 using Play.Icc.Messaging.Apdu;
 using Play.Messaging;

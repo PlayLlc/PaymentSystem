@@ -8,7 +8,7 @@ using Play.Ber.DataObjects;
 using Play.Codecs;
 using Play.Core;
 using Play.Core.Extensions;
-using Play.Globalization.Time.Seconds;
+using Play.Globalization.Time;
 
 using Xunit.Sdk;
 

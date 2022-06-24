@@ -14,7 +14,7 @@ using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.State;
 using Play.Emv.Pcd.Contracts;
-using Play.Globalization.Time.Seconds;
+using Play.Globalization.Time;
 
 namespace Play.Emv.Kernel2.StateMachine;
 

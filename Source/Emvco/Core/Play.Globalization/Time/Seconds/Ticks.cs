@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Play.Globalization.Time.Seconds;
+namespace Play.Globalization.Time;
 
 /// <summary>
 ///     A single tick represents one hundred nanoseconds or one ten-millionth of a second. There are 10,000 ticks in a
@@ -128,9 +128,9 @@ public readonly record struct Ticks
     public static bool operator >=(Ticks left, Ticks right) => left._Value >= right._Value;
     public static bool operator >=(Ticks left, TimeSpan right) => left.AsTimeSpan() >= right;
     public static bool operator >=(TimeSpan left, Ticks right) => right.AsTimeSpan() >= left;
-    public static implicit operator TimeSpan(Ticks value) => value.AsTimeSpan();
-    public static implicit operator Ticks(TimeSpan value) => new(value);
-    public static implicit operator Ticks(int value) => new((uint) value);
+    public static explicit operator TimeSpan(Ticks value) => value.AsTimeSpan();
+    public static explicit operator Ticks(TimeSpan value) => new(value);
+    public static explicit operator Ticks(int value) => new((uint) value);
     public static bool operator !=(Ticks left, TimeSpan right) => !left.Equals(right);
     public static bool operator !=(TimeSpan left, Ticks right) => !right.Equals(left);
     public static bool operator <(Ticks left, Ticks right) => left._Value < right._Value;
@@ -139,8 +139,8 @@ public readonly record struct Ticks
     public static bool operator <=(Ticks left, Ticks right) => left._Value <= right._Value;
     public static bool operator <=(Ticks left, TimeSpan right) => left.AsTimeSpan() <= right;
     public static bool operator <=(TimeSpan left, Ticks right) => right.AsTimeSpan() <= left;
-    public static implicit operator Ticks(Seconds value) => new(value);
-    public static implicit operator Ticks(Deciseconds value) => new(value);
+    public static explicit operator Ticks(Seconds value) => new(value);
+    public static explicit operator Ticks(Deciseconds value) => new(value);
 
     #endregion
 }
