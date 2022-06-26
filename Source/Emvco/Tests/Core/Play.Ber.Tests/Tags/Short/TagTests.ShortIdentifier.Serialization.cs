@@ -1,13 +1,18 @@
-﻿using Play.Ber.Identifiers;
-using Play.Ber.Identifiers.Short;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using Play.Ber.Identifiers;
 using Play.Ber.Tests.TestData;
-using Play.Core.Iso8825.Tests.Ber.TestData;
+using Play.Core.Extensions;
 
 using Xunit;
 
-namespace Play.Core.Iso8825.Tests.Ber.TagTests.ShortIdentifiers
+namespace Play.Ber.Tests.Tags.__Temp
 {
-    public partial class TagFactoryTests
+    public partial class TagTests
     {
         #region Instance Members
 
@@ -32,7 +37,7 @@ namespace Play.Core.Iso8825.Tests.Ber.TagTests.ShortIdentifiers
             byte initializationValue = (byte) ((byte) expectedClassType | (byte) expectedDataObjectType | expectedTagNumber);
 
             Tag testThing = new(initializationValue);
-            var sut = testThing.Serialize()[0];
+            byte sut = testThing.Serialize()[0];
 
             Assert.Equal(sut, initializationValue);
         }
@@ -43,7 +48,7 @@ namespace Play.Core.Iso8825.Tests.Ber.TagTests.ShortIdentifiers
             byte expectedValue = 0b00000001;
             Tag testValue = new(expectedValue);
 
-            var sut = testValue.Serialize()[0];
+            byte sut = testValue.Serialize()[0];
 
             Assert.Equal(sut, expectedValue);
         }
@@ -54,9 +59,42 @@ namespace Play.Core.Iso8825.Tests.Ber.TagTests.ShortIdentifiers
             byte expectedValue = 0b00000001;
             Tag testValue = new(expectedValue);
 
-            var sut = testValue.Serialize()[0];
+            byte sut = testValue.Serialize()[0];
 
             Assert.Equal(sut, expectedValue);
+        }
+
+        [Fact]
+        public void RandomShortTag_WhenSerializingInstance_CreatesByteWithCorrectValue()
+        {
+            byte expectedValue = ShortIdentifierTestValueFactory.CreateByte(_Random);
+            Tag testValue = new(expectedValue.AsReadOnlySpan());
+
+            byte[]? sut = testValue.Serialize();
+
+            Assert.Equal(sut[0], expectedValue);
+        }
+
+        [Fact]
+        public void ShortTag_WhenSerializingInstance_CreatesByteWithCorrectValue()
+        {
+            byte expectedValue = 0b00000001;
+            Tag testValue = new(expectedValue.AsReadOnlySpan());
+
+            byte[]? sut = testValue.Serialize();
+
+            Assert.Equal(sut[0], expectedValue);
+        }
+
+        [Fact]
+        public void ShortTagComponentParts_WhenSerializingInstance_CreatesByteWithCorrectValue()
+        {
+            byte expectedValue = 0b00000001;
+            Tag testValue = new(expectedValue.AsReadOnlySpan());
+
+            byte[]? sut = testValue.Serialize();
+
+            Assert.Equal(sut[0], expectedValue);
         }
 
         #endregion

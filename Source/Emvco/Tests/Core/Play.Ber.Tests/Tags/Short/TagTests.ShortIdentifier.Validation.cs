@@ -1,12 +1,18 @@
-﻿using Play.Ber.Identifiers.Long;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using Play.Ber.Identifiers.Long;
 using Play.Ber.Identifiers.Short;
 using Play.Core.Extensions;
 
 using Xunit;
 
-namespace Play.Core.Iso8825.Tests.Ber.TagTests.ShortIdentifiers
+namespace Play.Ber.Tests.Tags.__Temp
 {
-    public partial class TagFactoryTests
+    public partial class TagTests
     {
         #region Instance Members
 
@@ -32,7 +38,7 @@ namespace Play.Core.Iso8825.Tests.Ber.TagTests.ShortIdentifiers
         [Fact]
         public void Byte_TagNumberLessThan31_IsValidShortIdentifier()
         {
-            var testValue = ShortIdentifier.TagNumber.MaxValue;
+            byte testValue = ShortIdentifier.TagNumber.MaxValue;
             bool result = ShortIdentifier.IsValid(testValue);
 
             Assert.True(result);

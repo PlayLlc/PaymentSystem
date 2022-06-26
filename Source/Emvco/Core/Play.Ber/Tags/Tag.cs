@@ -176,8 +176,6 @@ public readonly record struct Tag
         PlayCodec.UnsignedIntegerCodec.Encode(_Value, buffer, ref offset);
     }
 
-    public static byte[] Serialize(IEncodeBerDataObjects value) => PlayCodec.UnsignedIntegerCodec.Encode(value.GetTag(), true);
-
     #endregion
 
     #region Equality
