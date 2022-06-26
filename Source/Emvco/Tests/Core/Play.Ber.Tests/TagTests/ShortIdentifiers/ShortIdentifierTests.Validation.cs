@@ -1,51 +1,52 @@
-﻿//using Play.Core.Extensions;
-//using Play.Core.Iso8825.Ber.Identifiers;
-//using Play.Core.Iso8825.Ber.Identifiers.Specifications;
-//using Xunit;
+﻿using Play.Ber.Identifiers.Long;
+using Play.Ber.Identifiers.Short;
+using Play.Core.Extensions;
 
-//namespace Play.Core.Iso8825.Tests.Ber.TagTests.ShortIdentifiers
-//{
-//    public partial class TagFactoryTests
-//    {
-//        [Fact]
-//        public void Byte_RandomTagNumberLessThan31_IsValidShortIdentifier()
-//        {
-//            var testValue = (byte) _Random.Next(0, Spec.ShortIdentifier.TagNumber.MaxLength);
-//            var result = ShortIdentifier.IsValid(testValue);
+using Xunit;
 
-//            Assert.True(result);
-//        }
+namespace Play.Core.Iso8825.Tests.Ber.TagTests.ShortIdentifiers
+{
+    public partial class TagFactoryTests
+    {
+        #region Instance Members
 
-//        [Fact]
-//        public void Byte_RandomValueWithLongIdentifierFlag_IsNotValidShortIdentifier()
-//        {
-//            var testValue =
-//                ((byte) _Random.Next(0, byte.MaxValue)).SetBits(Spec.LeadingOctet.LongIdentifierFlag);
+        [Fact]
+        public void Byte_RandomTagNumberLessThan31_IsValidShortIdentifier()
+        {
+            byte testValue = (byte) _Random.Next(0, ShortIdentifier.TagNumber.MaxValue);
+            bool result = ShortIdentifier.IsValid(testValue);
 
-//            var result = ShortIdentifier.IsValid(testValue);
+            Assert.True(result);
+        }
 
-//            Assert.False(result);
-//        }
+        [Fact]
+        public void Byte_RandomValueWithLongIdentifierFlag_IsNotValidShortIdentifier()
+        {
+            byte testValue = ((byte) _Random.Next(0, byte.MaxValue)).SetBits(LongIdentifier.LongIdentifierFlag);
 
-//        [Fact]
-//        public void Byte_TagNumberLessThan31_IsValidShortIdentifier()
-//        {
-//            var testValue = Spec.ShortIdentifier.TagNumber.MaxLength;
-//            var result = ShortIdentifier.IsValid(testValue);
+            bool result = ShortIdentifier.IsValid(testValue);
 
-//            Assert.True(result);
-//        }
+            Assert.False(result);
+        }
 
-//        [Fact]
-//        public void Byte_ValueWithLongIdentifierFlag_IsNotValidShortIdentifier()
-//        {
-//            var testValue =
-//                ((byte) _Random.Next(Spec.ShortIdentifier.TagNumber.MaxLength + 1, byte.MaxValue)).SetBits(
-//                    Spec.LeadingOctet.LongIdentifierFlag);
-//            var result = ShortIdentifier.IsValid(testValue);
+        [Fact]
+        public void Byte_TagNumberLessThan31_IsValidShortIdentifier()
+        {
+            var testValue = ShortIdentifier.TagNumber.MaxValue;
+            bool result = ShortIdentifier.IsValid(testValue);
 
-//            Assert.False(result);
-//        }
-//    }
-//}
+            Assert.True(result);
+        }
 
+        [Fact]
+        public void Byte_ValueWithLongIdentifierFlag_IsNotValidShortIdentifier()
+        {
+            byte testValue = ((byte) _Random.Next(ShortIdentifier.TagNumber.MaxValue + 1, byte.MaxValue)).SetBits(LongIdentifier.LongIdentifierFlag);
+            bool result = ShortIdentifier.IsValid(testValue);
+
+            Assert.False(result);
+        }
+
+        #endregion
+    }
+}

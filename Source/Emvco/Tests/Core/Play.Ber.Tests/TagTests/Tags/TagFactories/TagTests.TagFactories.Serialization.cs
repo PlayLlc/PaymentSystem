@@ -1,72 +1,75 @@
-﻿//using System;
-//using Play.Core.Extensions;
-//using Play.Core.Iso8825.Ber.Identifiers;
-//using Play.Core.Iso8825.Tests.Ber.TagTests.Tags.TestData;
-//using Play.Core.Iso8825.Tests.Ber.TestData;
-//using Xunit;
+﻿using System;
 
-//namespace Play.Core.Iso8825.Tests.Ber.TagTests.Tags.TagFactories
-//{
-//    public partial class TagTests
-//    {
-//        #region ShortIdentifiers
+using Play.Ber.Identifiers;
+using Play.Ber.Tests.TestData;
+using Play.Core.Extensions;
+using Play.Core.Iso8825.Tests.Ber.TagTests.Tags.TestData;
+using Play.Core.Iso8825.Tests.Ber.TestData;
 
-//        [Fact]
-//        public void RandomShortTag_WhenSerializingInstance_CreatesByteWithCorrectValue()
-//        {
-//            var expectedValue = ShortIdentifierTestValueFactory.CreateByte(_Random);
-//            var testValue = _TagFactory.ParseFirstTag(expectedValue.AsReadOnlySpan());
+using Xunit;
 
-//            var sut = testValue.Serialize();
+namespace Play.Ber.Tests.TagTests.Tags.TagFactories
+{
+    public partial class TagTests
+    {
+        #region ShortIdentifiers
 
-//            Assert.Equal(sut[0], expectedValue);
-//        }
+        [Fact]
+        public void RandomShortTag_WhenSerializingInstance_CreatesByteWithCorrectValue()
+        {
+            byte expectedValue = ShortIdentifierTestValueFactory.CreateByte(_Random);
+            var testValue = new Tag(expectedValue.AsReadOnlySpan());
 
-//        [Fact]
-//        public void ShortTag_WhenSerializingInstance_CreatesByteWithCorrectValue()
-//        {
-//            byte expectedValue = 0b00000001;
-//            var testValue = _TagFactory.ParseFirstTag(expectedValue.AsReadOnlySpan());
+            var sut = testValue.Serialize();
 
-//            var sut = testValue.Serialize();
+            Assert.Equal(sut[0], expectedValue);
+        }
 
-//            Assert.Equal(sut[0], expectedValue);
-//        }
+        [Fact]
+        public void ShortTag_WhenSerializingInstance_CreatesByteWithCorrectValue()
+        {
+            byte expectedValue = 0b00000001;
+            var testValue = new Tag(expectedValue.AsReadOnlySpan());
 
-//        [Fact]
-//        public void ShortTagComponentParts_WhenSerializingInstance_CreatesByteWithCorrectValue()
-//        {
-//            byte expectedValue = 0b00000001;
-//            var testValue = _TagFactory.ParseFirstTag(expectedValue.AsReadOnlySpan());
+            var sut = testValue.Serialize();
 
-//            var sut = testValue.Serialize();
+            Assert.Equal(sut[0], expectedValue);
+        }
 
-//            Assert.Equal(sut[0], expectedValue);
-//        }
+        [Fact]
+        public void ShortTagComponentParts_WhenSerializingInstance_CreatesByteWithCorrectValue()
+        {
+            byte expectedValue = 0b00000001;
+            var testValue = new Tag(expectedValue.AsReadOnlySpan());
 
-//        #endregion
+            var sut = testValue.Serialize();
 
-//        #region Short & Long Identifiers
+            Assert.Equal(sut[0], expectedValue);
+        }
 
-//        [Theory]
-//        [MemberData(nameof(TagTestValues.GetValidTags), MemberType = typeof(TagTestValues))]
-//        public void ValidTagTestValue_ExplicitlyCastToInt_ReturnsCorrectValue(TagTestValue value)
-//        {
-//            Tag sut = _TagFactory.ParseFirstTag(value.Value.AsSpan());
-//            Assert.Equal((int) value.GetInt(), (int) sut);
-//        }
+        #endregion
 
-//        [Theory]
-//        [MemberData(nameof(TagLengthValueTestValues.GetValidTestValues),
-//            MemberType = typeof(TagLengthValueTestValues))]
-//        public void TagLengthValueTestValue_ExplicitlyCastToInt_ReturnsCorrectValue(TagLengthValueTestValue value)
-//        {
-//            Tag sut = _TagFactory.ParseFirstTag(value.Tag.AsSpan());
-//            Assert.Equal((int) value.Tag.GetInt32(), (int) sut);
-//        }
+        #region Short & Long Identifiers
 
-//        #endregion
+        [Theory]
+        [MemberData(nameof(TagTestValues.GetValidTags), MemberType = typeof(TagTestValues))]
+        public void ValidTagTestValue_ExplicitlyCastToInt_ReturnsCorrectValue(TagTestValue value)
+        {
+            Tag sut = new(value.Value.AsSpan());
+            var expected = value.GetUInt32();
+            var actual = (uint) sut;
 
-//    }
-//}
+            Assert.Equal(expected, actual);
+        }
 
+        [Theory]
+        [MemberData(nameof(TagLengthValueTestValues.GetValidTestValues), MemberType = typeof(TagLengthValueTestValues))]
+        public void TagLengthValueTestValue_ExplicitlyCastToInt_ReturnsCorrectValue(TagLengthValueTestValue value)
+        {
+            Tag sut = new(value.Tag.AsSpan());
+            Assert.Equal(value.Tag, sut.Serialize());
+        }
+
+        #endregion
+    }
+}

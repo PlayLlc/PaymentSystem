@@ -1,54 +1,47 @@
-﻿//using Play.Core.Iso8825.Ber.Identifiers;
-//using Play.Core.Iso8825.Tests.Ber.TestData;
-//using Xunit;
+﻿using Play.Ber.Identifiers;
+using Play.Ber.Identifiers.Short;
+using Play.Ber.Tests.TestData;
 
-//namespace Play.Core.Iso8825.Tests.Ber.TagTests.ShortIdentifiers
-//{
-//    public partial class TagFactoryTests
-//    {
-//        [Fact]
-//        public void RandomShortIdentifier_WhenExplicitlyCastingToInt_CreatesIntWithCorrectValue()
-//        {
-//            var expectedValue = ShortIdentifierTestValueFactory.CreateByte(_Random);
-//            var testValue = new ShortIdentifier(expectedValue);
+using Xunit;
 
-//            var sut = (int) testValue;
+namespace Play.Core.Iso8825.Tests.Ber.TagTests.ShortIdentifiers
+{
+    public partial class TagFactoryTests
+    {
+        #region Instance Members
 
-//            Assert.Equal(sut, expectedValue);
-//        }
+        [Fact]
+        public void RandomShortIdentifier_WhenExplicitlyCastingToInt_CreatesIntWithCorrectValue()
+        {
+            byte expectedValue = ShortIdentifierTestValueFactory.CreateByte(_Random);
+            Tag testValue = new(expectedValue);
 
-//        [Fact]
-//        public void RandomShortIdentifier_WhenExplicitlyCastingToTag_CreatesTagWithCorrectInstanceValues()
-//        {
-//            var testValue = ShortIdentifierTestValueFactory.Create(_Random);
-//            var sut = (Tag) testValue;
+            byte sut = (byte) testValue;
 
-//            Assert.Equal(testValue.TagNumber, sut.TagNumber);
-//            Assert.Equal(testValue.Class, sut.Class);
-//            Assert.Equal(testValue.DataObject, sut.DataObject);
-//            Assert.Equal(testValue.ByteCount, sut.ByteCount);
-//        }
+            Assert.Equal(sut, expectedValue);
+        }
 
-//        [Fact]
-//        public void ShortIdentifier_WhenExplicitlyCastingToInt_CreatesIntWithCorrectValue()
-//        {
-//            var testValue = new ShortIdentifier(0b_00000001);
-//            var sut = (int) testValue;
+        [Fact]
+        public void ShortIdentifier_WhenExplicitlyCastingToInt_CreatesIntWithCorrectValue()
+        {
+            Tag testValue = new(0b_00000001);
+            uint sut = (uint) testValue;
 
-//            Assert.Equal(0x01, sut);
-//        }
+            Assert.Equal((uint) 0x01, sut);
+        }
 
-//        [Fact]
-//        public void ShortIdentifier_WhenExplicitlyCastingToTag_CreatesTagWithCorrectInstanceValues()
-//        {
-//            var testValue = new ShortIdentifier(0b_00000001);
-//            var sut = (Tag) testValue;
+        [Fact]
+        public void ShortIdentifier_WhenExplicitlyCastingToTag_CreatesTagWithCorrectInstanceValues()
+        {
+            Tag testValue = new(0b_00000001);
+            Tag sut = (Tag) testValue;
 
-//            Assert.Equal(0x01, sut.TagNumber);
-//            Assert.Equal(ClassType.Universal, sut.Class);
-//            Assert.Equal(DataObjectType.Primitive, sut.DataObject);
-//            Assert.Equal(1, sut.ByteCount);
-//        }
-//    }
-//}
+            Assert.Equal(0x01, sut.GetTagNumber());
+            Assert.Equal(ClassTypes.Universal, sut.GetClass());
+            Assert.Equal(DataObjectTypes.Primitive, sut.GetDataObject());
+            Assert.Equal(1, sut.GetByteCount());
+        }
 
+        #endregion
+    }
+}

@@ -1,17 +1,20 @@
-﻿//using System;
-//using Play.Core.Iso8825.Ber.Identifiers;
+﻿using System;
 
-//namespace Play.Core.Iso8825.Tests.Ber.TagTests.ShortIdentifiers
-//{
-//    public partial class TagFactoryTests
-//    {
-//        private static readonly Random _Random = new Random();
-//        private static readonly TagFactory _TagFactory;
+namespace Play.Core.Iso8825.Tests.Ber.TagTests.ShortIdentifiers
+{
+    public partial class TagFactoryTests
+    {
+        #region Static Metadata
 
-//        static TagFactoryTests()
-//        {
-//            _TagFactory = new TagFactory();
-//        }
-//    }
-//}
+        private static readonly Random _Random = new();
 
+        #endregion
+
+        #region Constructor
+
+        static TagFactoryTests()
+        { }
+
+        #endregion
+    }
+}

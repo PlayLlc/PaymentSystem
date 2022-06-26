@@ -1,76 +1,64 @@
-﻿//using Play.Core.Iso8825.Ber.Identifiers;
-//using Play.Core.Iso8825.Tests.Ber.TestData;
-//using Xunit;
+﻿using Play.Ber.Identifiers;
+using Play.Ber.Identifiers.Short;
+using Play.Ber.Tests.TestData;
+using Play.Core.Iso8825.Tests.Ber.TestData;
 
-//namespace Play.Core.Iso8825.Tests.Ber.TagTests.ShortIdentifiers
-//{
-//    public partial class TagFactoryTests
-//    {
-//        [Fact]
-//        public void RandomShortIdentifier_WhenSerializingInstance_CreatesByteWithCorrectValue()
-//        {
-//            var expectedValue = ShortIdentifierTestValueFactory.CreateByte(_Random);
-//            var testValue = new ShortIdentifier(expectedValue);
+using Xunit;
 
-//            var sut = testValue.Serialize();
+namespace Play.Core.Iso8825.Tests.Ber.TagTests.ShortIdentifiers
+{
+    public partial class TagFactoryTests
+    {
+        #region Instance Members
 
-//            Assert.Equal(sut, expectedValue);
-//        }
+        [Fact]
+        public void RandomShortIdentifier_WhenSerializingInstance_CreatesByteWithCorrectValue()
+        {
+            byte expectedValue = ShortIdentifierTestValueFactory.CreateByte(_Random);
+            Tag testValue = new(expectedValue);
 
-//        [Fact]
-//        public void
-//            RandomShortIdentifierComponentParts_WhenInitializingAndSerializingInstance_CreatesByteWithCorrectValue()
-//        {
-//            var expectedClassType = ShortIdentifierTestValueFactory.GetClassType(_Random);
-//            var expectedDataObjectType = ShortIdentifierTestValueFactory.GetDataObjectType(_Random);
-//            var expectedTagNumber = ShortIdentifierTestValueFactory.GetTagNumber(_Random);
+            byte[] sut = testValue.Serialize();
 
-//            var initializationValue = (byte) ((byte) expectedClassType | (byte) expectedDataObjectType |
-//                                              expectedTagNumber);
+            Assert.Equal(sut[0], expectedValue);
+        }
 
-//            var testThing = new ShortIdentifier(initializationValue);
-//            var sut = testThing.Serialize();
+        [Fact]
+        public void RandomShortIdentifierComponentParts_WhenInitializingAndSerializingInstance_CreatesByteWithCorrectValue()
+        {
+            ClassTypes? expectedClassType = ShortIdentifierTestValueFactory.GetClassType(_Random);
+            DataObjectTypes? expectedDataObjectType = ShortIdentifierTestValueFactory.GetDataObjectType(_Random);
+            byte expectedTagNumber = ShortIdentifierTestValueFactory.GetTagNumber(_Random);
 
-//            Assert.Equal(sut, initializationValue);
-//        }
+            byte initializationValue = (byte) ((byte) expectedClassType | (byte) expectedDataObjectType | expectedTagNumber);
 
-//        [Fact]
-//        public void
-//            RandomShortIdentifierComponentParts_WhenSerializingFromStatic_CreatesByteWithCorrectValue()
-//        {
-//            var expectedClassType = ShortIdentifierTestValueFactory.GetClassType(_Random);
-//            var expectedDataObjectType = ShortIdentifierTestValueFactory.GetDataObjectType(_Random);
-//            var expectedTagNumber = ShortIdentifierTestValueFactory.GetTagNumber(_Random);
+            Tag testThing = new(initializationValue);
+            var sut = testThing.Serialize()[0];
 
-//            var expectedValue = (byte) ((byte) expectedClassType | (byte) expectedDataObjectType |
-//                                        expectedTagNumber);
+            Assert.Equal(sut, initializationValue);
+        }
 
-//            var sut = ShortIdentifier.Serialize(expectedClassType, expectedDataObjectType, expectedTagNumber);
+        [Fact]
+        public void ShortIdentifier_WhenSerializingInstance_CreatesByteWithCorrectValue()
+        {
+            byte expectedValue = 0b00000001;
+            Tag testValue = new(expectedValue);
 
-//            Assert.Equal(sut, expectedValue);
-//        }
+            var sut = testValue.Serialize()[0];
 
-//        [Fact]
-//        public void ShortIdentifier_WhenSerializingInstance_CreatesByteWithCorrectValue()
-//        {
-//            byte expectedValue = 0b00000001;
-//            var testValue = new ShortIdentifier(expectedValue);
+            Assert.Equal(sut, expectedValue);
+        }
 
-//            var sut = testValue.Serialize();
+        [Fact]
+        public void ShortIdentifierComponentParts_WhenSerializingInstance_CreatesByteWithCorrectValue()
+        {
+            byte expectedValue = 0b00000001;
+            Tag testValue = new(expectedValue);
 
-//            Assert.Equal(sut, expectedValue);
-//        }
+            var sut = testValue.Serialize()[0];
 
-//        [Fact]
-//        public void ShortIdentifierComponentParts_WhenSerializingInstance_CreatesByteWithCorrectValue()
-//        {
-//            byte expectedValue = 0b00000001;
-//            var testValue = new ShortIdentifier(expectedValue);
+            Assert.Equal(sut, expectedValue);
+        }
 
-//            var sut = testValue.Serialize();
-
-//            Assert.Equal(sut, expectedValue);
-//        }
-//    }
-//}
-
+        #endregion
+    }
+}

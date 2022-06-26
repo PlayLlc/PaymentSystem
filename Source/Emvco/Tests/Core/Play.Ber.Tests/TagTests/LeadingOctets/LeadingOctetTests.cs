@@ -1,7 +1,12 @@
-﻿namespace Play.Ber.Tests.TagTests.LeadingOctets;
+﻿using System;
 
-//public partial class LeadingOctetTests
-//{
-//    private static readonly Random _Random = new Random();
-//    private static readonly TagFactory _TagFactory = new TagFactory();
-//}
+namespace Play.Ber.Tests.TagTests.LeadingOctets;
+
+public partial class LeadingOctetTests
+{
+    #region Static Metadata
+
+    private static readonly Random _Random = new();
+
+    #endregion
+}

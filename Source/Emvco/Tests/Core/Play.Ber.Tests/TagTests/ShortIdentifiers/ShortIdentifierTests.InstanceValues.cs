@@ -1,208 +1,201 @@
-﻿//using Play.Core.Extensions;
-//using Play.Core.Iso8825.Ber.Identifiers;
-//using Play.Core.Iso8825.Ber.Identifiers.Specifications;
-//using Play.Core.Iso8825.Tests.Ber.TestData;
-//using Xunit;
+﻿using Play.Ber.Identifiers;
+using Play.Ber.Identifiers.Long;
+using Play.Ber.Identifiers.Short;
+using Play.Ber.Tests.TestData;
+using Play.Core.Extensions;
 
-//namespace Play.Core.Iso8825.Tests.Ber.TagTests.ShortIdentifiers
-//{
-//    public partial class TagFactoryTests
-//    {
-//        [Fact]
-//        public void Byte_WithApplicationClassFlag_CreatesTagWithCorrectClass()
-//        {
-//            var testValue = Spec.ShortIdentifier.TagNumber.MaxLength.GetMaskedByte(BitCount.Eight, BitCount.Seven)
-//                .SetBits((byte) ClassType.Application);
+using Xunit;
 
-//            var sut = new ShortIdentifier(testValue);
+namespace Play.Core.Iso8825.Tests.Ber.TagTests.ShortIdentifiers
+{
+    public partial class TagFactoryTests
+    {
+        #region Instance Members
 
-//            var result = sut.Class;
+        [Fact]
+        public void Byte_WithApplicationClassFlag_CreatesTagWithCorrectClass()
+        {
+            var testValue = ShortIdentifier.TagNumber.MaxValue.GetMaskedValue(Bits.Eight, Bits.Seven).SetBits((byte) ClassTypes.Application);
 
-//            Assert.Equal(result, ClassType.Application);
-//        }
+            Tag sut = new(testValue);
 
-//        [Fact]
-//        public void Byte_WithConstructedFlag_CreatesTagWithCorrectDataObjectType()
-//        {
-//            byte testValue = 0b_01111011;
+            var result = sut.GetClass();
 
-//            var sut = new ShortIdentifier(testValue);
+            Assert.Equal(result, ClassTypes.Application);
+        }
 
-//            var result = sut.DataObject;
+        [Fact]
+        public void Byte_WithConstructedFlag_CreatesTagWithCorrectDataObjectType()
+        {
+            byte testValue = 0b_01111011;
 
-//            Assert.Equal(result, DataObjectType.Constructed);
-//        }
+            Tag sut = new(testValue);
 
-//        [Fact]
-//        public void Byte_WithContextSpecificClassFlag_CreatesTagWithCorrectClass()
-//        {
-//            var testValue = Spec.ShortIdentifier.TagNumber.MaxLength.GetMaskedByte(BitCount.Eight, BitCount.Seven)
-//                .SetBits((byte) ClassType.ContextSpecific);
+            var result = sut.GetDataObject();
 
-//            var sut = new ShortIdentifier(testValue);
+            Assert.Equal(result, DataObjectTypes.Constructed);
+        }
 
-//            var result = sut.Class;
+        [Fact]
+        public void Byte_WithContextSpecificClassFlag_CreatesTagWithCorrectClass()
+        {
+            var testValue = ShortIdentifier.TagNumber.MaxValue.GetMaskedValue(Bits.Eight, Bits.Seven).SetBits((byte) ClassTypes.ContextSpecific);
 
-//            Assert.Equal(result, ClassType.ContextSpecific);
-//        }
+            Tag sut = new(testValue);
 
-//        [Fact]
-//        public void Byte_WithPrimitiveFlag_CreatesTagWithCorrectDataObjectType()
-//        {
-//            byte testValue = 0b_01011011;
+            var result = sut.GetClass();
 
-//            var sut = new ShortIdentifier(testValue);
+            Assert.Equal(result, ClassTypes.ContextSpecific);
+        }
 
-//            var result = sut.DataObject;
+        [Fact]
+        public void Byte_WithPrimitiveFlag_CreatesTagWithCorrectDataObjectType()
+        {
+            byte testValue = 0b_01011011;
 
-//            Assert.Equal(result, DataObjectType.Primitive);
-//        }
+            Tag sut = new(testValue);
 
-//        [Fact]
-//        public void Byte_WithPrivateClassFlag_CreatesTagWithCorrectClass()
-//        {
-//            var testValue = Spec.ShortIdentifier.TagNumber.MaxLength.GetMaskedByte(BitCount.Eight, BitCount.Seven)
-//                .SetBits((byte) ClassType.Private);
+            var result = sut.GetDataObject();
 
-//            var sut = new ShortIdentifier(testValue);
+            Assert.Equal(result, DataObjectTypes.Primitive);
+        }
 
-//            var result = sut.Class;
+        [Fact]
+        public void Byte_WithPrivateClassFlag_CreatesTagWithCorrectClass()
+        {
+            var testValue = ShortIdentifier.TagNumber.MaxValue.SetBits((byte) ClassTypes.Private);
 
-//            Assert.Equal(result, ClassType.Private);
-//        }
+            Tag sut = new(testValue);
 
-//        [Fact]
-//        public void Byte_WithUniversalClassFlag_CreatesTagWithCorrectClass()
-//        {
-//            var testValue = Spec.ShortIdentifier.TagNumber.MaxLength.GetMaskedByte(BitCount.Eight, BitCount.Seven);
+            var result = sut.GetClass();
 
-//            var sut = new ShortIdentifier(testValue);
+            Assert.Equal(result, ClassTypes.Private);
+        }
 
-//            var result = sut.Class;
+        [Fact]
+        public void Byte_WithUniversalClassFlag_CreatesTagWithCorrectClass()
+        {
+            var testValue = ShortIdentifier.TagNumber.MaxValue;
 
-//            Assert.Equal(result, ClassType.Universal);
-//        }
+            Tag sut = new(testValue);
 
-//        [Fact]
-//        public void Byte_WithValueLessThan31_CreatesTagWithCorrectTagNumber()
-//        {
-//            byte tagNumber = 0b_00000101;
-//            var testValue = (byte) (0b_10100000 | tagNumber);
+            var result = sut.GetClass();
 
-//            var sut = new ShortIdentifier(testValue);
+            Assert.Equal(result, ClassTypes.Universal);
+        }
 
-//            var result = sut.TagNumber;
+        [Fact]
+        public void Byte_WithValueLessThan31_CreatesTagWithCorrectTagNumber()
+        {
+            byte tagNumber = 0b_00000101;
+            byte testValue = (byte) (0b_10100000 | tagNumber);
 
-//            Assert.Equal(result, tagNumber);
-//        }
+            Tag sut = new(testValue);
 
-//        [Fact]
-//        public void RandomByte_WithApplicationClassFlag_CreatesTagWithCorrectClass()
-//        {
-//            var testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedByte(BitCount.Eight, BitCount.Seven)
-//                .SetBits((byte) ClassType.Application);
+            var result = sut.GetTagNumber();
 
-//            var sut = new ShortIdentifier(testValue);
+            Assert.Equal(result, tagNumber);
+        }
 
-//            var result = sut.Class;
+        [Fact]
+        public void RandomByte_WithApplicationClassFlag_CreatesTagWithCorrectClass()
+        {
+            var testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedValue(Bits.Eight, Bits.Seven).SetBits((byte) ClassTypes.Application);
 
-//            Assert.Equal(result, ClassType.Application);
-//        }
+            Tag sut = new(testValue);
 
-//        [Fact]
-//        public void RandomByte_WithConstructedFlag_CreatesTagWithCorrectDataObjectType()
-//        {
-//            var testValue =
-//                ((byte) _Random.Next(0, byte.MaxValue)).SetBits((byte) DataObjectType.Constructed);
+            var result = sut.GetClass();
 
-//            var sut = new ShortIdentifier(testValue);
+            Assert.Equal(result, ClassTypes.Application);
+        }
 
-//            var result = sut.DataObject;
+        [Fact]
+        public void RandomByte_WithConstructedFlag_CreatesTagWithCorrectDataObjectType()
+        {
+            byte testValue = ((byte) _Random.Next(0, byte.MaxValue)).SetBits((byte) DataObjectTypes.Constructed);
 
-//            Assert.Equal(result, DataObjectType.Constructed);
-//        }
+            Tag sut = new(testValue);
 
-//        [Fact]
-//        public void RandomByte_WithContextSpecificClassFlag_CreatesTagWithCorrectClass()
-//        {
-//            var testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedByte(BitCount.Eight, BitCount.Seven)
-//                .SetBits((byte) ClassType.ContextSpecific);
+            var result = sut.GetDataObject();
 
-//            var sut = new ShortIdentifier(testValue);
+            Assert.Equal(result, DataObjectTypes.Constructed);
+        }
 
-//            var result = sut.Class;
+        [Fact]
+        public void RandomByte_WithContextSpecificClassFlag_CreatesTagWithCorrectClass()
+        {
+            var testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedValue(Bits.Eight, Bits.Seven).SetBits((byte) ClassTypes.ContextSpecific);
 
-//            Assert.Equal(result, ClassType.ContextSpecific);
-//        }
+            Tag sut = new(testValue);
 
-//        [Fact]
-//        public void RandomByte_WithPrimitiveFlag_CreatesTagWithCorrectDataObjectType()
-//        {
-//            var testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedByte((byte) BitCount.Six);
+            var result = sut.GetClass();
 
-//            var sut = new ShortIdentifier(testValue);
+            Assert.Equal(result, ClassTypes.ContextSpecific);
+        }
 
-//            var result = sut.DataObject;
+        [Fact]
+        public void RandomByte_WithPrimitiveFlag_CreatesTagWithCorrectDataObjectType()
+        {
+            var testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedValue((byte) Bits.Six);
 
-//            Assert.Equal(result, DataObjectType.Primitive);
-//        }
+            Tag sut = new(testValue);
 
-//        [Fact]
-//        public void RandomByte_WithPrivateClassFlag_CreatesTagWithCorrectClass()
-//        {
-//            var testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedByte(BitCount.Eight, BitCount.Seven)
-//                .SetBits((byte) ClassType.ContextSpecific);
+            var result = sut.GetDataObject();
 
-//            var sut = new ShortIdentifier(testValue);
+            Assert.Equal(result, DataObjectTypes.Primitive);
+        }
 
-//            var result = sut.Class;
+        [Fact]
+        public void RandomByte_WithPrivateClassFlag_CreatesTagWithCorrectClass()
+        {
+            var testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedValue(Bits.Eight, Bits.Seven).SetBits((byte) ClassTypes.ContextSpecific);
 
-//            Assert.Equal(result, ClassType.ContextSpecific);
-//        }
+            Tag sut = new(testValue);
 
-//        [Fact]
-//        public void RandomByte_WithUniversalClassFlag_CreatesTagWithCorrectClass()
-//        {
-//            var testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedByte(BitCount.Eight, BitCount.Seven)
-//                .SetBits((byte) ClassType.Universal);
+            var result = sut.GetClass();
 
-//            var sut = new ShortIdentifier(testValue);
+            Assert.Equal(result, ClassTypes.ContextSpecific);
+        }
 
-//            var result = sut.Class;
+        [Fact]
+        public void RandomByte_WithUniversalClassFlag_CreatesTagWithCorrectClass()
+        {
+            var testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedValue(Bits.Eight, Bits.Seven).SetBits((byte) ClassTypes.Universal);
 
-//            Assert.Equal(result, ClassType.Universal);
-//        }
+            Tag sut = new(testValue);
 
-//        [Fact]
-//        public void RandomByte_WithValueLessThan31_CreatesTagWithCorrectTagNumber()
-//        {
-//            var tagNumber = (byte) _Random.Next(0, Spec.ShortIdentifier.TagNumber.MaxLength);
-//            var testValue = ((byte) _Random.Next(0, byte.MaxValue))
-//                .GetMaskedByte(Spec.LeadingOctet.LongIdentifierFlag).SetBits(tagNumber);
+            var result = sut.GetClass();
 
-//            var sut = new ShortIdentifier(testValue);
+            Assert.Equal(result, ClassTypes.Universal);
+        }
 
-//            var result = sut.TagNumber;
+        [Fact]
+        public void RandomByte_WithValueLessThan31_CreatesTagWithCorrectTagNumber()
+        {
+            byte tagNumber = (byte) _Random.Next(0, ShortIdentifier.TagNumber.MaxValue);
+            var testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedValue(LongIdentifier.LongIdentifierFlag).SetBits(tagNumber);
 
-//            Assert.Equal(result, tagNumber);
-//        }
+            Tag sut = new(testValue);
 
-//        [Fact]
-//        public void RandomShortIdentifierComponentParts_WhenInitializing_CreatesByteWithCorrectValue()
-//        {
-//            var expectedClassType = ShortIdentifierTestValueFactory.GetClassType(_Random);
-//            var expectedDataObjectType = ShortIdentifierTestValueFactory.GetDataObjectType(_Random);
-//            var expectedTagNumber = ShortIdentifierTestValueFactory.GetTagNumber(_Random);
+            Assert.Equal(tagNumber, sut.GetTagNumber());
+        }
 
-//            var initializationValue = (byte) ((byte) expectedClassType | (byte) expectedDataObjectType |
-//                                              expectedTagNumber);
+        [Fact]
+        public void RandomShortIdentifierComponentParts_WhenInitializing_CreatesByteWithCorrectValue()
+        {
+            ClassTypes? expectedClassType = ShortIdentifierTestValueFactory.GetClassType(_Random);
+            DataObjectTypes? expectedDataObjectType = ShortIdentifierTestValueFactory.GetDataObjectType(_Random);
+            byte expectedTagNumber = ShortIdentifierTestValueFactory.GetTagNumber(_Random);
 
-//            var testThing = new ShortIdentifier(initializationValue);
+            byte initializationValue = (byte) ((byte) expectedClassType | (byte) expectedDataObjectType | expectedTagNumber);
 
-//            Assert.Equal(expectedClassType, testThing.Class);
-//            Assert.Equal(expectedDataObjectType, testThing.DataObject);
-//            Assert.Equal(expectedTagNumber, testThing.TagNumber);
-//        }
-//    }
-//}
+            Tag sut = new(initializationValue);
 
+            Assert.Equal(expectedClassType, sut.GetClass());
+            Assert.Equal(expectedDataObjectType, sut.GetDataObject());
+            Assert.Equal(expectedTagNumber, sut.GetTagNumber());
+        }
+
+        #endregion
+    }
+}

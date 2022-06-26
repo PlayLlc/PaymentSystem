@@ -1,32 +1,28 @@
-﻿namespace Play.Ber.Tests.TagTests.LeadingOctets;
+﻿using Play.Ber.Identifiers;
+using Play.Ber.Identifiers.Long;
+using Play.Core.Extensions;
 
-public class LeadingOctetTests
+using Xunit;
+
+namespace Play.Ber.Tests.TagTests.LeadingOctets;
+
+public partial class LeadingOctetTests
 {
-    //[Fact]
-    //public void Byte_WithUniversalClassFlag_CreatesTagWithCorrectClass()
-    //{
-    //    var expectedClass = (ClassType) 0b11000000;
-    //    var dataObjectType = (DataObjectType) 0b00100000;
+    #region Instance Members
 
-    //    var initializationValue = (byte) ((byte) expectedClass | (byte) dataObjectType |
-    //                                      LongIdentifier.LongIdentifierFlag);
+    [Fact]
+    public void Byte_WithUniversalClassFlag_CreatesTagWithCorrectClass()
+    {
+        ClassTypes expectedClass = ClassTypes.Private;
+        DataObjectTypes dataObjectType = DataObjectTypes.Constructed;
 
-    //    var sut = new LeadingOctet(initializationValue);
+        byte initializationValue = (byte) ((byte) expectedClass | (byte) dataObjectType | LongIdentifier.LongIdentifierFlag);
 
-    //    Assert.Equal(sut.GetClassType(), expectedClass);
-    //    Assert.Equal(sut.DataObject, dataObjectType);
-    //}
+        Tag sut = new(initializationValue);
 
-    //[Fact]
-    //public void RandomByte_WithUniversalClassFlag_CreatesTagWithCorrectClass()
-    //{
-    //    var testValue = ((byte) _Random.Next(0, byte.MaxValue))
-    //        .GetMaskedByte(Spec.LeadingOctet.LongIdentifierFlag)
-    //        .SetBits(Spec.LeadingOctet.LongIdentifierFlag);
+        Assert.Equal(sut.GetClassType(), expectedClass);
+        Assert.Equal(sut.GetDataObject(), dataObjectType);
+    }
 
-    //    var sut = new LeadingOctet(testValue);
-
-    //    Assert.Equal(sut.GetClassType(), (ClassType) testValue.GetMaskedByte(0b00111111));
-    //    Assert.Equal(sut.DataObject, (DataObjectType) testValue.GetMaskedByte(0b11011111));
-    //}
+    #endregion
 }

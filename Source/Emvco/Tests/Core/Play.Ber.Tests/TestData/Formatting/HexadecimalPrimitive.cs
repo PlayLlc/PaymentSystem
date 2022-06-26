@@ -1,4 +1,6 @@
 ﻿//using System;
+
+//using Play.Ber.DataObjects;
 //using Play.Core.Codecs;
 //using Play.Core.Iso8825.Ber.Contents;
 
@@ -6,9 +8,21 @@
 //{
 //    public class HexadecimalPrimitive : PrimitiveValue
 //    {
+//        #region Static Metadata
+
 //        public static HexadecimalPrimitive Default;
+
+//        #endregion
+
+//        #region Instance Values
+
 //        private readonly byte _ByteLength;
 //        private readonly byte _CharacterLength;
+//        protected override Codec Codec => Codec.Hexadecimal;
+
+//        #endregion
+
+//        #region Constructor
 
 //        static HexadecimalPrimitive()
 //        {
@@ -28,17 +42,14 @@
 //            _CharacterLength = (byte) _Value.Length;
 //        }
 
-//        protected override Codec Codec => Codec.Hexadecimal;
+//        #endregion
 
-//        public override PrimitiveValue GetNullPrimitive()
-//        {
-//            return Default;
-//        }
+//        #region Instance Members
 
-//        protected internal override PrimitiveValue Create(ReadOnlySpan<byte> value)
-//        {
-//            return new HexadecimalPrimitive(value);
-//        }
+//        public override PrimitiveValue GetNullPrimitive() => Default;
+//        protected internal override PrimitiveValue Create(ReadOnlySpan<byte> value) => new HexadecimalPrimitive(value);
+
+//        #endregion
 //    }
 //}
 
