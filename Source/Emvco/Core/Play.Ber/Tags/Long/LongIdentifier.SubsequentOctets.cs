@@ -93,6 +93,9 @@ internal static partial class LongIdentifier
         /// <exception cref="BerParsingException"></exception>
         public static byte FindLastSubsequentOctetIndex(ReadOnlySpan<byte> value)
         {
+            if (value[0] < 30)
+                return 0;
+
             if (value.Length == 1)
             {
                 return (byte) (value[0].IsBitSet(Bits.Eight)
@@ -100,11 +103,14 @@ internal static partial class LongIdentifier
                     : 0);
             }
 
-            // The _MaxBytesAllowedToInitialize is not compliant with ISO8825-1 but if a Tag needs more than
-            // 255 bytes... then that tag is a selfish son of a bitch, and that'_Stream how I'm #weedingThingsOutOfMyLife
-            for (int i = 0; (i < value.Length) || (i > _MaxBytesAllowedToInitialize); i++)
+            if (value[0].GetMaskedValue(LongIdentifierFlagMask) != LongIdentifierFlag)
+                return 0;
+
+            // The _MaxBytesAllowedToInitialize is not compliant with ISO8825-1. We're setting an arbitrary
+            // maximum bytes allowed to initialize
+            for (int i = 1; (i < value.Length) || (i > _MaxBytesAllowedToInitialize); i++)
             {
-                if ((value[i].GetMaskedValue(LongIdentifierFlagMask) != LongIdentifierFlag) && !value[i].IsBitSet(Bits.Eight))
+                if (!value[i].IsBitSet(Bits.Eight))
                     return (byte) i;
             }
 

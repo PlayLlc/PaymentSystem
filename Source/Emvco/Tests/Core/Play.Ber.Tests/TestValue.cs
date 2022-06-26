@@ -1,25 +1,37 @@
-﻿//using Play.Core.Extensions;
+﻿using Play.Core.Extensions;
 
-//namespace Play.Core.Iso8825.Tests.Ber
-//{
-//    public interface ITestValue
-//    {
-//        int GetInt();
-//    }
+namespace Play.Core.Iso8825.Tests.Ber
+{
+    //public interface ITestValue
+    //{
+    //    #region Instance Members
 
-//    public class TestValue : ITestValue
-//    {
-//        public byte[] Value;
+    //    int GetInt();
 
-//        public TestValue(byte[] value)
-//        {
-//            Value = value;
-//        }
+    //    #endregion
+    //}
 
-//        public int GetInt()
-//        {
-//            return Value.GetInt32();
-//        }
-//    }
-//}
+    //public class TestValue : ITestValue
+    //{
+    //    #region Instance Values
 
+    //    public byte[] Value;
+
+    //    #endregion
+
+    //    #region Constructor
+
+    //    public TestValue(byte[] value)
+    //    {
+    //        Value = value;
+    //    }
+
+    //    #endregion
+
+    //    #region Instance Members
+
+    //    public int GetInt() => Value.GetInt32();
+
+    //    #endregion
+    //}
+}
