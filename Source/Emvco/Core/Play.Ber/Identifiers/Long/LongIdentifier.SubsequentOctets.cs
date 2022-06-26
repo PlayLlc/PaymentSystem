@@ -106,8 +106,8 @@ internal static partial class LongIdentifier
             if (value[0].GetMaskedValue(LongIdentifierFlagMask) != LongIdentifierFlag)
                 return 0;
 
-            // The _MaxBytesAllowedToInitialize is not compliant with ISO8825-1 but if a Tag needs more than
-            // 255 bytes... then that tag is a selfish son of a bitch, and that's how I'm #weedingThingsOutOfMyLife
+            // The _MaxBytesAllowedToInitialize is not compliant with ISO8825-1. We're setting an arbitrary
+            // maximum bytes allowed to initialize
             for (int i = 1; (i < value.Length) || (i > _MaxBytesAllowedToInitialize); i++)
             {
                 if (!value[i].IsBitSet(Bits.Eight))
