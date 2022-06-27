@@ -305,15 +305,15 @@ public class BerCodecTests : TestBase
         Assert.Equal(expected, encoded);
     }
 
-    [Fact]
-    public void BerCodec_DecodeTagLengthValueThenEncodeItAgain_SameResultIsCreated()
-    {
-        ReadOnlySpan<byte> input = stackalloc byte[] { 114, 14, 45, 37, 12, 14, 23, 2 };
+    //[Fact]
+    //public void BerCodec_DecodeTagLengthValueThenEncodeItAgain_SameResultIsCreated()
+    //{
+    //    ReadOnlySpan<byte> input = stackalloc byte[] { 114, 14, 45, 37, 12, 14, 23, 2 };
 
-        TagLengthValue tlv = _SystemUnderTest.DecodeTagLengthValue(input);
+    //    TagLengthValue tlv = _SystemUnderTest.DecodeTagLengthValue(input);
 
-        byte[] 
-    }
+    //    byte[] 
+    //}
 
     #endregion
 }
