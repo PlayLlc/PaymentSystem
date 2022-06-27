@@ -60,7 +60,11 @@ public readonly record struct Deciseconds
     public Deciseconds(TimeSpan value)
     {
         _Value = value.Ticks / (Ticks.Precision / Precision);
-        ;
+    }
+
+    public Deciseconds(Ticks value)
+    {
+        _Value = (long)value / (Ticks.Precision / Precision);
     }
 
     #endregion
