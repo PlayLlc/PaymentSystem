@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Ber.Identifiers;
+﻿using Play.Ber.Identifiers;
 using Play.Ber.Identifiers.Short;
 using Play.Core.Extensions;
 
 using Xunit;
 
-namespace Play.Ber.Tests.Tags.__Temp
+namespace Play.Ber.Tests.Short
 {
     public partial class TagTests
     {
@@ -67,7 +61,8 @@ namespace Play.Ber.Tests.Tags.__Temp
         [Fact]
         public void RandomByte_WithApplicationClassFlag_CreatesTagWithCorrectClass()
         {
-            byte testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedValue(Bits.Eight, Bits.Seven).SetBits((byte) ClassTypes.Application);
+            byte testValue = ((byte) Tests.TagTests._Random.Next(0, byte.MaxValue)).GetMaskedValue(Bits.Eight, Bits.Seven)
+                .SetBits((byte) ClassTypes.Application);
 
             Tag sut = new(testValue);
 
@@ -79,7 +74,8 @@ namespace Play.Ber.Tests.Tags.__Temp
         [Fact]
         public void RandomByte_WithContextSpecificClassFlag_CreatesTagWithCorrectClass()
         {
-            byte testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedValue(Bits.Eight, Bits.Seven).SetBits((byte) ClassTypes.ContextSpecific);
+            byte testValue = ((byte) Tests.TagTests._Random.Next(0, byte.MaxValue)).GetMaskedValue(Bits.Eight, Bits.Seven)
+                .SetBits((byte) ClassTypes.ContextSpecific);
 
             Tag sut = new(testValue);
 
@@ -91,7 +87,8 @@ namespace Play.Ber.Tests.Tags.__Temp
         [Fact]
         public void RandomByte_WithPrivateClassFlag_CreatesTagWithCorrectClass()
         {
-            byte testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedValue(Bits.Eight, Bits.Seven).SetBits((byte) ClassTypes.ContextSpecific);
+            byte testValue = ((byte) Tests.TagTests._Random.Next(0, byte.MaxValue)).GetMaskedValue(Bits.Eight, Bits.Seven)
+                .SetBits((byte) ClassTypes.ContextSpecific);
 
             Tag sut = new(testValue);
 
@@ -103,7 +100,7 @@ namespace Play.Ber.Tests.Tags.__Temp
         [Fact]
         public void RandomByte_WithUniversalClassFlag_CreatesTagWithCorrectClass()
         {
-            byte testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedValue(Bits.Eight, Bits.Seven).SetBits((byte) ClassTypes.Universal);
+            byte testValue = ((byte) Tests.TagTests._Random.Next(0, byte.MaxValue)).GetMaskedValue(Bits.Eight, Bits.Seven).SetBits((byte) ClassTypes.Universal);
 
             Tag sut = new(testValue);
 

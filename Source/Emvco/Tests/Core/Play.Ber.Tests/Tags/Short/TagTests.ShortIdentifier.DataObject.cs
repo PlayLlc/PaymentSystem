@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Ber.Identifiers;
+﻿using Play.Ber.Identifiers;
 using Play.Core.Extensions;
 
 using Xunit;
 
-namespace Play.Ber.Tests.Tags.__Temp
+namespace Play.Ber.Tests.Short
 {
     public partial class TagTests
     {
@@ -18,7 +12,7 @@ namespace Play.Ber.Tests.Tags.__Temp
         [Fact]
         public void RandomByte_WithConstructedFlag_CreatesTagWithCorrectDataObjectType()
         {
-            byte testValue = ((byte) _Random.Next(0, byte.MaxValue)).SetBits((byte) DataObjectTypes.Constructed);
+            byte testValue = ((byte) Tests.TagTests._Random.Next(0, byte.MaxValue)).SetBits((byte) DataObjectTypes.Constructed);
 
             Tag sut = new(testValue);
 
@@ -30,7 +24,7 @@ namespace Play.Ber.Tests.Tags.__Temp
         [Fact]
         public void RandomByte_WithPrimitiveFlag_CreatesTagWithCorrectDataObjectType()
         {
-            byte testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedValue((byte) Bits.Six);
+            byte testValue = ((byte) Tests.TagTests._Random.Next(0, byte.MaxValue)).GetMaskedValue((byte) Bits.Six);
 
             Tag sut = new(testValue);
 

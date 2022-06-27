@@ -26,6 +26,11 @@ internal static class ShortLength
     /// </remarks>
     public const byte ByteCount = 1;
 
+    /// <summary>
+    ///     The maximum value allowed for a length in the short form
+    /// </summary>
+    public const byte MaxValue = 127;
+
     #endregion
 
     #region Instance Members
@@ -54,7 +59,21 @@ internal static class ShortLength
 
     public static bool TryGetContentLength(uint value, out ushort result)
     {
-        result = (ushort) ((value <= byte.MaxValue) && IsValid(value) ? GetContentLength((byte) value) : 0);
+        if (value == 0)
+        {
+            result = 0;
+
+            return true;
+        }
+
+        if (IsValid(value))
+        {
+            result = GetContentLength((byte) value);
+
+            return true;
+        }
+
+        result = 0;
 
         return result != 0;
     }

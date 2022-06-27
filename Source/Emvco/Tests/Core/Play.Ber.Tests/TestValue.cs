@@ -1,6 +1,4 @@
-﻿using Play.Core.Extensions;
-
-namespace Play.Core.Iso8825.Tests.Ber
+﻿namespace Play.Ber.Tests
 {
     //public interface ITestValue
     //{
