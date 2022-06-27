@@ -20,33 +20,35 @@ public readonly struct Length
 
     #region Constructor
 
-    /// <summary>
-    ///     Takes a sequence of content octets and creates a Length object
-    /// </summary>
-    /// <exception cref="BerParsingException"></exception>
-    internal Length(ReadOnlySpan<byte> contentOctets)
-    {
-        if (contentOctets.Length == 0)
-        {
-            _Value = 0;
+    // TODO: Forcing clients to use the uint constructor
+    ///// <summary>
+    /////     Takes a sequence of content octets and creates a Length object
+    ///// </summary>
+    ///// <exception cref="BerParsingException"></exception>
+    //internal Length(ReadOnlySpan<byte> contentOctets)
+    //{
+    //    if (contentOctets.Length == 0)
+    //    {
+    //        _Value = 0;
 
-            return;
-        }
+    //        return;
+    //    }
 
-        Span<byte> encodedContentOctets = Serialize(contentOctets);
+    //    Span<byte> encodedContentOctets = Serialize(contentOctets);
 
-        if (ShortLength.IsValid(encodedContentOctets[0]))
-        {
-            _Value = encodedContentOctets[0];
+    //    if (ShortLength.IsValid(encodedContentOctets[0]))
+    //    {
+    //        _Value = encodedContentOctets[0];
 
-            return;
-        }
+    //        return;
+    //    }
 
-        LongLength.Validate(encodedContentOctets[..LongLength.GetByteCount(encodedContentOctets)]);
+    //    LongLength.Validate(encodedContentOctets[..LongLength.GetByteCount(encodedContentOctets)]);
 
-        _Value = PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(encodedContentOctets[..LongLength.GetByteCount(encodedContentOctets)]);
-    }
+    //    _Value = PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(encodedContentOctets[..LongLength.GetByteCount(encodedContentOctets)]);
+    //}
 
+    /// <summary>The argument represents the number of bytes in the Content Octets</summary>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     internal Length(uint value)
@@ -58,9 +60,9 @@ public readonly struct Length
             return;
         }
 
-        LongLength.Validate(value);
-
-        _Value = value;
+        Span<byte> encodedContentOctets = LongLength.Serialize((ushort) value);
+        LongLength.Validate(encodedContentOctets[..LongLength.GetByteCount(encodedContentOctets)]);
+        _Value = PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(encodedContentOctets[..LongLength.GetByteCount(encodedContentOctets)]);
     }
 
     #endregion
@@ -114,7 +116,10 @@ public readonly struct Length
 
         LongLength.Validate(berLength[..LongLength.GetByteCount(berLength)]);
 
-        return new Length(PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(berLength[..LongLength.GetByteCount(berLength)]));
+        var byteCount = LongLength.GetByteCount(berLength);
+        var hello = PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(berLength[1..byteCount]);
+
+        return new Length(hello);
     }
 
     #endregion

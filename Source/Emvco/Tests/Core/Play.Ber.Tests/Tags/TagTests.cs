@@ -12,7 +12,7 @@ namespace Play.Ber.Tests
     {
         #region Static Metadata
 
-        private static readonly Random _Random = new();
+        public static readonly Random _Random = new();
 
         #endregion
 

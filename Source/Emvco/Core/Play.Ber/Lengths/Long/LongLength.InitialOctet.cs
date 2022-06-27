@@ -87,7 +87,6 @@ internal static partial class LongLength
         }
 
         /// <exception cref="BerParsingException"></exception>
-        /// <exception cref="Exceptions._Temp.BerFormatException">Ignore.</exception>
         public static void Validate(byte value)
         {
             if (!InitialOctetHasBitEightSet(value))
