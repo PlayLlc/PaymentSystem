@@ -70,9 +70,9 @@ internal static partial class LongLength
 
         /// <summary>
         ///     This is NOT a specification limitation. This is a limitation introduced purposefully by this code base.
-        ///     This value may change in the future to support larger tags
+        ///     This value may change in the future to support larger lengths of subsequent octets
         /// </summary>
-        private static bool SubsequentOctetCountIsSupportedByThisCodeBase(byte value) => value.GetMaskedValue(Bits.Eight) <= SubsequentOctets.MaxByteCount;
+        private static bool SubsequentOctetCountIsSupportedByThisCodeBase(byte value) => value.GetMaskedValue(Bits.Eight) <= MaxByteCount;
 
         /// <summary>
         ///     Validate

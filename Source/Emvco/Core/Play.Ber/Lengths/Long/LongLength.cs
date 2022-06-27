@@ -10,6 +10,12 @@ internal static partial class LongLength
     #region Static Metadata
 
     /// <summary>
+    ///     This is NOT a specification limitation. This is a limitation introduced purposefully by this code base.
+    ///     This value may change in the future to support larger lengths
+    /// </summary>
+    public const byte MaxByteCount = 2;
+
+    /// <summary>
     ///     Bit 8 shall be set
     /// </summary>
     /// <remarks>
@@ -29,7 +35,7 @@ internal static partial class LongLength
     public static byte GetByteCount(in uint value)
     {
         const byte octetBitCount = 8;
-        byte mostSignificantBit = (byte) (value.GetMostSignificantBit() - octetBitCount);
+        byte mostSignificantBit = (byte) value.GetMostSignificantBit();
 
         return mostSignificantBit.TryGetRemainder(octetBitCount, out byte resultWithoutRemainder) == 0
             ? resultWithoutRemainder
@@ -57,7 +63,7 @@ internal static partial class LongLength
 
             try
             {
-                return checked((byte) (value >> ((byteCount * octetBitCount) - octetBitCount)));
+                return (byte) (value >> ((byteCount * octetBitCount) - octetBitCount));
             }
             catch (OverflowException exception)
             {

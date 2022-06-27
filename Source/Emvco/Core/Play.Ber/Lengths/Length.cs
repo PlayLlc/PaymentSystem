@@ -24,7 +24,6 @@ public readonly struct Length
     ///     Takes a sequence of content octets and creates a Length object
     /// </summary>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     internal Length(ReadOnlySpan<byte> contentOctets)
     {
         if (contentOctets.Length == 0)
@@ -52,9 +51,9 @@ public readonly struct Length
     /// <exception cref="InvalidOperationException"></exception>
     internal Length(uint value)
     {
-        if (ShortLength.IsValid((byte) value))
+        if (value <= ShortLength.MaxValue)
         {
-            _Value = (byte) value;
+            _Value = value;
 
             return;
         }
