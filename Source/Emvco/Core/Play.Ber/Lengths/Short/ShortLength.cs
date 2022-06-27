@@ -26,6 +26,8 @@ internal static class ShortLength
     /// </remarks>
     public const byte ByteCount = 1;
 
+    public const byte MaxValue = 127;
+
     #endregion
 
     #region Instance Members

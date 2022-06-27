@@ -14,9 +14,33 @@ namespace Play.Ber.Tests.BerCodec;
 
 public class BerCodecTests : TestBase
 {
-    #region Instance Members
+    #region Instance Values
 
     private readonly Codecs.BerCodec _SystemUnderTest = new(BerCodecTestDataConfiguration.EmvBerCodecConfiguration);
+
+    #endregion
+
+    #region Instance Members
+
+    #region DecodeTags
+
+    [Fact]
+    public void BerCodec_DecodeTags_CreatesExpectedTags()
+    {
+        ClassTypes expectedClass = ClassTypes.Private;
+        DataObjectTypes dataObjectType = DataObjectTypes.Constructed;
+
+        byte leadingOctet = (byte) ((byte) expectedClass | (byte) dataObjectType | LongIdentifier.LongIdentifierFlag);
+
+        ReadOnlySpan<byte> input = stackalloc byte[] {leadingOctet, 14, 45, 37, 12, 14, 23, 2};
+
+        Tag[] expectedTags = new Tag[] {new(new byte[] {leadingOctet, 14}), new(45), new(37), new(12), new(14), new(23), new(2)};
+        Tag[] actualTags = _SystemUnderTest.DecodeTags(input);
+
+        Assert.Equal(expectedTags, actualTags);
+    }
+
+    #endregion
 
     #endregion
 
@@ -25,14 +49,14 @@ public class BerCodecTests : TestBase
     [Fact]
     public void BerCodec_GetContentOctetsShortTagIdentifierTLV_ReturnsLastByte()
     {
-        ReadOnlySpan<byte> input = stackalloc byte[] { 12, 34, 15 };
+        ReadOnlySpan<byte> input = stackalloc byte[] {12, 1, 15};
 
         //TLV : FirstTwoBytesRepresentTheTagAndLength
         // Tag is a Short Identifier: 12
         // TagLength is 34 : ShortLength.
         // GetByteCountTag + GetByteCountForTagLength = 1+1 = 2.
         byte[] actualContentOctets = _SystemUnderTest.GetContentOctets(input);
-        byte[] expected = new byte[] { 15 };
+        byte[] expected = new byte[] {15};
 
         Assert.Equal(expected, actualContentOctets);
     }
@@ -40,13 +64,13 @@ public class BerCodecTests : TestBase
     [Fact]
     public void BerCodec_GetContentOctetsShortTagIdentifierAndTagLength_ReturnsLastThreeBytes()
     {
-        ReadOnlySpan<byte> input = stackalloc byte[] { 16, 3, 15, 22, 37 };
+        ReadOnlySpan<byte> input = stackalloc byte[] {16, 3, 15, 22, 37};
 
         // Tag is a Short Identifier: 12
         // TagLength is 3 : ShortLength.
         // GetByteCountTag + GetByteCountForTagLength = 1+1 = 2 bytes.
         byte[] actualContentOctets = _SystemUnderTest.GetContentOctets(input);
-        byte[] expected = new byte[] { 15, 22, 37 };
+        byte[] expected = new byte[] {15, 22, 37};
 
         Assert.Equal(expected, actualContentOctets);
     }
@@ -54,13 +78,13 @@ public class BerCodecTests : TestBase
     [Fact]
     public void BerCodec_GetContentOctetsLongTagIdentifierTLV_ReturnsExpectedOctetContents()
     {
-        ReadOnlySpan<byte> input = stackalloc byte[] { 31, 15, 3, 22, 37 };
+        ReadOnlySpan<byte> input = stackalloc byte[] {31, 15, 3, 22, 37};
 
         //TLV:
         //Tag: LongIdentifier : Tag has 2 bytes
         //Length: 3rd byte : 3
         //Content Octets: 22, 37
-        byte[] expected = new byte[] { 22, 37 };
+        byte[] expected = new byte[] {22, 37};
         byte[] actualContentOctets = _SystemUnderTest.GetContentOctets(input);
 
         Assert.Equal(expected, actualContentOctets);
@@ -69,7 +93,7 @@ public class BerCodecTests : TestBase
     [Fact]
     public void BerCodec_GetContentOctetsLongTagIdentifierTLVInputasOnly3Bytes_ReturnsEmptyByteArray()
     {
-        ReadOnlySpan<byte> input = stackalloc byte[] { 63, 15, 3 };
+        ReadOnlySpan<byte> input = stackalloc byte[] {63, 15, 3};
 
         //TLV:
         //Tag: LongIdentifier : Tag has 2 bytes
@@ -86,9 +110,9 @@ public class BerCodecTests : TestBase
         //TLV:
         //Tag: LongIdentifier
         //Length : Long Length 136 => 9 bytes
-        Assert.Throws<System.ArgumentOutOfRangeException>(() =>
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
         {
-            ReadOnlySpan<byte> input = stackalloc byte[] { 31, 12, 136, 63, 15, 3, 7 };
+            ReadOnlySpan<byte> input = stackalloc byte[] {31, 12, 136, 63, 15, 3, 7};
 
             _SystemUnderTest.GetContentOctets(input);
         });
@@ -99,7 +123,11 @@ public class BerCodecTests : TestBase
     {
         Assert.Throws<BerParsingException>(() =>
         {
-            ReadOnlySpan<byte> input = stackalloc byte[] { 31, 12, 136, 63, 15, 3, 7, 63, 15, 3, 7, 63, 15, 3, 7 };
+            ReadOnlySpan<byte> input = stackalloc byte[]
+            {
+                31, 12, 136, 63, 15, 3, 7, 63, 15, 3,
+                7, 63, 15, 3, 7
+            };
 
             //TLV:
             //Tag: LongIdentifier
@@ -112,9 +140,17 @@ public class BerCodecTests : TestBase
     [Fact]
     public void BerCodec_GetContentOctetsLongTLV_ReturnsExpectedResult()
     {
-        ReadOnlySpan<byte> input = stackalloc byte[] { 31, 12, 8, 63, 15, 3, 7, 63, 15, 3, 7, 63, 15, 3, 7 };
+        ReadOnlySpan<byte> input = stackalloc byte[]
+        {
+            31, 12, 8, 63, 15, 3, 7, 63, 15, 3,
+            7, 63, 15, 3, 7
+        };
 
-        byte[] expected = new byte[] { 63, 15, 3, 7, 63, 15, 3, 7, 63, 15, 3, 7 };
+        byte[] expected = new byte[]
+        {
+            63, 15, 3, 7, 63, 15, 3, 7, 63, 15,
+            3, 7
+        };
         byte[] actualContentOctets = _SystemUnderTest.GetContentOctets(input);
 
         Assert.Equal(expected, actualContentOctets);
@@ -127,9 +163,9 @@ public class BerCodecTests : TestBase
     [Fact]
     public void BerCodec_DecodeFirstTagShortIdentifier_ReturnsExpectedResult()
     {
-        ReadOnlySpan<byte> input = stackalloc byte[] { 15, 3, 7, 63 };
+        ReadOnlySpan<byte> input = stackalloc byte[] {15, 3, 7, 63};
 
-        Tag expected = new Tag(15);
+        Tag expected = new(15);
         Tag actual = _SystemUnderTest.DecodeFirstTag(input);
 
         Assert.Equal(expected, actual);
@@ -138,9 +174,9 @@ public class BerCodecTests : TestBase
     [Fact]
     public void BerCodec_DecodeFirstTagLongIdentifier_ReturnsExpectedResult()
     {
-        ReadOnlySpan<byte> input = stackalloc byte[] { 26, 3, 7, 37 };
+        ReadOnlySpan<byte> input = stackalloc byte[] {26, 3, 7, 37};
 
-        Tag expected = new Tag(new byte[] { 63, 3 });
+        Tag expected = new(new byte[] {63, 3});
         Tag actual = _SystemUnderTest.DecodeFirstTag(input);
 
         Assert.Equal(expected, actual);
@@ -149,9 +185,9 @@ public class BerCodecTests : TestBase
     [Fact]
     public void BerCodec_DecodeFirstTagLongIdentifierByteMaxValue_ReturnsExpectedResult()
     {
-        ReadOnlySpan<byte> input = stackalloc byte[] { byte.MaxValue, 3, 7, 37 };
+        ReadOnlySpan<byte> input = stackalloc byte[] {byte.MaxValue, 3, 7, 37};
 
-        Tag expected = new Tag(new byte[] { byte.MaxValue, 3 });
+        Tag expected = new(new byte[] {byte.MaxValue, 3});
         Tag actual = _SystemUnderTest.DecodeFirstTag(input);
 
         Assert.Equal(expected, actual);
@@ -162,7 +198,7 @@ public class BerCodecTests : TestBase
     {
         Assert.Throws<BerParsingException>(() =>
         {
-            ReadOnlySpan<byte> input = stackalloc byte[] { byte.MaxValue, byte.MaxValue, byte.MaxValue, 7, 37 };
+            ReadOnlySpan<byte> input = stackalloc byte[] {byte.MaxValue, byte.MaxValue, byte.MaxValue, 7, 37};
 
             Tag firstTag = _SystemUnderTest.DecodeFirstTag(input);
         });
@@ -171,9 +207,9 @@ public class BerCodecTests : TestBase
     [Fact]
     public void BerCodec_DecodeFirstTagLongIdentifier2ndByteIs0_ReturnsExpectedTag()
     {
-        ReadOnlySpan<byte> input = stackalloc byte[] { 31, 0, 8, 37 };
+        ReadOnlySpan<byte> input = stackalloc byte[] {31, 0, 8, 37};
 
-        Tag expected = new Tag(new byte[] { 31, 0});
+        Tag expected = new(new byte[] {31, 0});
         Tag actual = _SystemUnderTest.DecodeFirstTag(input);
 
         Assert.Equal(expected, actual);
@@ -185,8 +221,8 @@ public class BerCodecTests : TestBase
         ClassTypes expectedClass = ClassTypes.Private;
         DataObjectTypes dataObjectType = DataObjectTypes.Constructed;
 
-        byte leadingOctet = (byte)((byte)expectedClass | (byte)dataObjectType | LongIdentifier.LongIdentifierFlag);
-        ReadOnlySpan<byte> input = stackalloc byte[] { leadingOctet, 45 };
+        byte leadingOctet = (byte) ((byte) expectedClass | (byte) dataObjectType | LongIdentifier.LongIdentifierFlag);
+        ReadOnlySpan<byte> input = stackalloc byte[] {leadingOctet, 45};
 
         Tag decodedTag = _SystemUnderTest.DecodeFirstTag(input);
 
@@ -199,7 +235,7 @@ public class BerCodecTests : TestBase
         //191 : 0b10111111
         Assert.Throws<BerParsingException>(() =>
         {
-            ReadOnlySpan<byte> input = stackalloc byte[] { 0b10111111 };
+            ReadOnlySpan<byte> input = stackalloc byte[] {0b10111111};
 
             Tag actual = _SystemUnderTest.DecodeFirstTag(input);
         });
@@ -212,9 +248,9 @@ public class BerCodecTests : TestBase
     [Fact]
     public void BerCodec_DecodeFirstTLVShortIdentifier_ReturnsExpectedLength()
     {
-        ReadOnlySpan<byte> input = stackalloc byte[] { 26, 3, 7, 37 };
+        ReadOnlySpan<byte> input = stackalloc byte[] {26, 3, 7, 37};
 
-        TagLength expected = new TagLength(new Tag(26), 3);
+        TagLength expected = new(new Tag(26), 3);
         TagLength actualTLV = _SystemUnderTest.DecodeFirstTagLength(input);
 
         Assert.Equal(expected, actualTLV);
@@ -223,9 +259,9 @@ public class BerCodecTests : TestBase
     [Fact]
     public void BerCodec_DecodeFirstTLVWithLongIdentifier_ReturnsExpectedLength()
     {
-        ReadOnlySpan<byte> input = stackalloc byte[] { 31, 14, 6, 7, 37 };
+        ReadOnlySpan<byte> input = stackalloc byte[] {31, 14, 6, 7, 37};
 
-        TagLength expected = new TagLength(new Tag(new byte[] { 31, 14 }), 6);
+        TagLength expected = new(new Tag(new byte[] {31, 14}), 6);
         TagLength actualTLV = _SystemUnderTest.DecodeFirstTagLength(input);
 
         Assert.Equal(expected, actualTLV);
@@ -234,9 +270,9 @@ public class BerCodecTests : TestBase
     [Fact]
     public void BerCodec_DecodeFirstTLVWithLongLength_ReturnsExpectedResult()
     {
-        ReadOnlySpan<byte> input = stackalloc byte[] { 31, 14, 14, 15, 37, 12, 14, 23, 2 };
+        ReadOnlySpan<byte> input = stackalloc byte[] {31, 14, 14, 15, 37, 12, 14, 23, 2};
 
-        TagLength expected = new TagLength(new Tag(new byte[] { 31, 14 }), 15);
+        TagLength expected = new(new Tag(new byte[] {31, 14}), 15);
         TagLength tlv = _SystemUnderTest.DecodeFirstTagLength(input);
 
         Assert.Equal(expected, tlv);
@@ -244,29 +280,7 @@ public class BerCodecTests : TestBase
 
     #endregion
 
-    #region DecodeTags
-
-    [Fact]
-    public void BerCodec_DecodeTags_CreatesExpectedTags()
-    {
-        ClassTypes expectedClass = ClassTypes.Private;
-        DataObjectTypes dataObjectType = DataObjectTypes.Constructed;
-
-        byte leadingOctet = (byte)((byte)expectedClass | (byte)dataObjectType | LongIdentifier.LongIdentifierFlag);
-
-        ReadOnlySpan<byte> input = stackalloc byte[] { leadingOctet, 14, 45, 37, 12, 14, 23, 2 };
-
-        Tag[] expectedTags = new Tag[] { new Tag(new byte[] { leadingOctet, 14 }), new Tag(45), new Tag(37), new Tag(12), new Tag(14), new Tag(23), new Tag(2) };
-        Tag[] actualTags = _SystemUnderTest.DecodeTags(input);
-
-        Assert.Equal(expectedTags, actualTags);
-    }
-
-    #endregion
-
     #region DecodeChildren
-
-
 
     #endregion
 
@@ -278,16 +292,16 @@ public class BerCodecTests : TestBase
         ClassTypes expectedClass = ClassTypes.Universal;
         DataObjectTypes dataObjectType = DataObjectTypes.Primitive;
 
-        byte leadingOctet = (byte)((byte)expectedClass | (byte)dataObjectType);
+        byte leadingOctet = (byte) ((byte) expectedClass | (byte) dataObjectType);
 
-        ReadOnlySpan<byte> input = stackalloc byte[] { leadingOctet, 14, 45, 37, 12, 14, 23, 2 };
+        ReadOnlySpan<byte> input = stackalloc byte[] {leadingOctet, 14, 45, 37, 12, 14, 23, 2};
 
         TagLengthValue result = _SystemUnderTest.DecodeTagLengthValue(input);
 
-        Tag expectedTag = new Tag(leadingOctet);
+        Tag expectedTag = new(leadingOctet);
         Assert.Equal(expectedTag, result.GetTag());
 
-        Length expectedLength = new Length(6);
+        Length expectedLength = new(6);
         Assert.Equal(expectedLength, result.GetLength());
 
         byte[] expectedContent = input.Slice(2, input.Length - 1).ToArray();
@@ -296,7 +310,7 @@ public class BerCodecTests : TestBase
     [Fact]
     public void BerCodec_DecodeTagLengthValue_CorrectContentOctetsAreEncoded()
     {
-        ReadOnlySpan<byte> input = stackalloc byte[] { 114, 14, 45, 37, 12, 14, 23, 2 };
+        ReadOnlySpan<byte> input = stackalloc byte[] {114, 14, 45, 37, 12, 14, 23, 2};
 
         TagLengthValue result = _SystemUnderTest.DecodeTagLengthValue(input);
 

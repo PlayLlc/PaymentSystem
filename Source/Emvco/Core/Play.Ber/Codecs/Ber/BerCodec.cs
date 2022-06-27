@@ -44,7 +44,12 @@ public partial class BerCodec
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    public byte[] GetContentOctets(ReadOnlySpan<byte> value) => value[_TagLengthFactory.ParseFirstTagLength(value).GetTagLengthByteCount()..].ToArray();
+    public byte[] GetContentOctets(ReadOnlySpan<byte> value)
+    {
+        TagLength tagLength = _TagLengthFactory.ParseFirstTagLength(value);
+
+        return value[tagLength.ValueRange()].ToArray();
+    }
 
     #region Encode
 

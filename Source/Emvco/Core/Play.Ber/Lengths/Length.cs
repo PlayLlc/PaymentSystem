@@ -52,9 +52,9 @@ public readonly struct Length
     /// <exception cref="InvalidOperationException"></exception>
     internal Length(uint value)
     {
-        if (ShortLength.IsValid((byte) value))
+        if (value < ShortLength.MaxValue)
         {
-            _Value = (byte) value; //not sure about this, why cast from uint to byte ? 
+            _Value = value;
 
             return;
         }
@@ -113,7 +113,6 @@ public readonly struct Length
         if (ShortLength.IsValid(berLength[0]))
             return new Length(berLength[0]);
 
-        //maybe validate here the length byte.
         LongLength.Validate(berLength[..LongLength.GetByteCount(berLength)]);
 
         return new Length(PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(berLength[..LongLength.GetByteCount(berLength)]));
