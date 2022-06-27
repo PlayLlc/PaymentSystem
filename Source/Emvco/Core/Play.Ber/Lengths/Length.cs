@@ -54,7 +54,7 @@ public readonly struct Length
     {
         if (ShortLength.IsValid((byte) value))
         {
-            _Value = (byte) value;
+            _Value = (byte) value; //not sure about this, why cast from uint to byte ? 
 
             return;
         }
@@ -113,6 +113,7 @@ public readonly struct Length
         if (ShortLength.IsValid(berLength[0]))
             return new Length(berLength[0]);
 
+        //maybe validate here the length byte.
         LongLength.Validate(berLength[..LongLength.GetByteCount(berLength)]);
 
         return new Length(PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(berLength[..LongLength.GetByteCount(berLength)]));
