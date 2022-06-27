@@ -129,37 +129,6 @@ public readonly struct Length
 
     public byte[] Serialize() => BitConverter.GetBytes(_Value)[..GetByteCount()].Reverse().ToArray();
 
-    internal static byte[] Serialize(PrimitiveValue value, BerCodec codec)
-    {
-        ushort contentOctetByteCount = value.GetValueByteCount(codec);
-
-        if (ShortLength.IsValid(contentOctetByteCount))
-            return new[] {(byte) contentOctetByteCount};
-
-        return LongLength.Serialize(contentOctetByteCount);
-    }
-
-    /// <summary>
-    ///     Takes a sequence of content octets and creates an encoded Length sequence
-    /// </summary>
-    /// <param name="contentOctets"></param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    internal static byte[] Serialize(ReadOnlySpan<byte> contentOctets)
-    {
-        if (contentOctets.Length > LongLength.MaxLengthSupported)
-        {
-            throw new BerParsingException(new ArgumentOutOfRangeException(nameof(contentOctets),
-                $"This code base supports a TLV with a maximum Length field with {LongLength.MaxLengthSupported} bytes"));
-        }
-
-        if (ShortLength.IsValid(contentOctets.Length))
-            return new[] {(byte) contentOctets.Length};
-
-        return LongLength.Serialize((ushort) contentOctets.Length);
-    }
-
     #endregion
 
     #region Equality

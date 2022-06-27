@@ -15,7 +15,7 @@ namespace Play.Ber.Tests.Lengths
 {
     public partial class LengthTests : TestBase
     {
-        #region Instance Members
+        #region Serializing
 
         [Fact]
         public void LongLengthByteArray0b1000000110000000_ParsingThenSerializing_ReturnsExpectedResult()
