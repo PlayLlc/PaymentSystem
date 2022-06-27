@@ -138,8 +138,8 @@ internal static partial class LongLength
         const byte initialOctetForTwoSubsequentOctets = 0b10000010;
         byte[] twoSubsequentOctetsResult = new byte[3];
         twoSubsequentOctetsResult[0] = initialOctetForTwoSubsequentOctets;
-        twoSubsequentOctetsResult[1] = (byte) contentOctetsLength;
-        twoSubsequentOctetsResult[2] = (byte) (contentOctetsLength >> 8);
+        twoSubsequentOctetsResult[1] = (byte) (contentOctetsLength >> 8);
+        twoSubsequentOctetsResult[2] = (byte) contentOctetsLength;
 
         return twoSubsequentOctetsResult;
     }

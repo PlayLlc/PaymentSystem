@@ -15,6 +15,43 @@ namespace Play.Ber.Tests.Lengths
 {
     public partial class LengthTests : TestBase
     {
+        #region Instance Members
+
+        [Fact]
+        public void LongLengthByteArray0b1000000110000000_ParsingThenSerializing_ReturnsExpectedResult()
+        {
+            byte[] testData = new byte[] {0b10000001, 0b10000000};
+            byte[] expected = testData;
+            Length sut = Length.Parse(testData);
+            byte[] actual = sut.Serialize();
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void LongLengthByteArray100000101000000100000001_ParsingThenSerializing_ReturnsExpectedResult()
+        {
+            byte[] testData = new byte[] {0b10000010, 0b10000001, 0b00000001};
+            byte[] expected = testData;
+            Length sut = Length.Parse(testData);
+            byte[] actual = sut.Serialize();
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void LongLengthByteArray10000010100100101001001_ParsingThenSerializing_ReturnsExpectedResult()
+        {
+            byte[] testData = new byte[] {0b10000010, 0b1001001, 0b01001001};
+            byte[] expected = testData;
+            Length sut = Length.Parse(testData);
+            byte[] actual = sut.Serialize();
+
+            Assert.Equal(expected, actual);
+        }
+
+        #endregion
+
         #region Parsing
 
         [Fact]
@@ -217,6 +254,16 @@ namespace Play.Ber.Tests.Lengths
             int expected = 127;
             Length sut = new((uint) testData.Length);
             int actual = sut.GetContentLength();
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void MinShortLength_GetContentLength_ReturnsExpectedResult1()
+        {
+            uint expected = 0;
+            Length sut = new(expected);
+            uint actual = sut.GetContentLength();
 
             Assert.Equal(expected, actual);
         }

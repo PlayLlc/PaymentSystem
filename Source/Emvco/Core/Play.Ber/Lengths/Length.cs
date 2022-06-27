@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
@@ -126,7 +127,7 @@ public readonly struct Length
 
     #region Serialization
 
-    public byte[] Serialize() => BitConverter.GetBytes(_Value)[..GetByteCount()];
+    public byte[] Serialize() => BitConverter.GetBytes(_Value)[..GetByteCount()].Reverse().ToArray();
 
     internal static byte[] Serialize(PrimitiveValue value, BerCodec codec)
     {
