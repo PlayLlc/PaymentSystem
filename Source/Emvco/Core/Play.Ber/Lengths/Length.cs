@@ -21,34 +21,6 @@ public readonly struct Length
 
     #region Constructor
 
-    // TODO: Forcing clients to use the uint constructor
-    ///// <summary>
-    /////     Takes a sequence of content octets and creates a Length object
-    ///// </summary>
-    ///// <exception cref="BerParsingException"></exception>
-    //internal Length(ReadOnlySpan<byte> contentOctets)
-    //{
-    //    if (contentOctets.Length == 0)
-    //    {
-    //        _Value = 0;
-
-    //        return;
-    //    }
-
-    //    Span<byte> encodedContentOctets = Serialize(contentOctets);
-
-    //    if (ShortLength.IsValid(encodedContentOctets[0]))
-    //    {
-    //        _Value = encodedContentOctets[0];
-
-    //        return;
-    //    }
-
-    //    LongLength.Validate(encodedContentOctets[..LongLength.GetByteCount(encodedContentOctets)]);
-
-    //    _Value = PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(encodedContentOctets[..LongLength.GetByteCount(encodedContentOctets)]);
-    //}
-
     /// <summary>The argument represents the number of bytes in the Content Octets</summary>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
