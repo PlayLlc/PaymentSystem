@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Play.Core.Iso8825.Tests.Ber.TagTests.Tags.TestData
+namespace Play.Ber.Tests.TestData
 {
     public class TagTestValues
     {

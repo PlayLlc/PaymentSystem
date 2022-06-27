@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Play.Core.Iso8825.Tests.Ber.TestData
+namespace Play.Ber.Tests.TestData
 {
     public class TagLengthValueTestValue
     {

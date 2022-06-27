@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Ber.Identifiers;
+﻿using Play.Ber.Identifiers;
 using Play.Ber.Tests.TestData;
-using Play.Core.Extensions;
 
 using Xunit;
 
-namespace Play.Ber.Tests.Tags.__Temp
+namespace Play.Ber.Tests.Short
 {
     public partial class TagTests
     {
@@ -28,7 +21,7 @@ namespace Play.Ber.Tests.Tags.__Temp
         [Fact]
         public void RandomShortIdentifier_WhenExplicitlyCastingToInt_CreatesIntWithCorrectValue()
         {
-            byte expectedValue = ShortIdentifierTestValueFactory.CreateByte(_Random);
+            byte expectedValue = ShortIdentifierTestValueFactory.CreateByte(Tests.TagTests._Random);
             Tag testValue = new(expectedValue);
 
             byte sut = (byte) testValue;

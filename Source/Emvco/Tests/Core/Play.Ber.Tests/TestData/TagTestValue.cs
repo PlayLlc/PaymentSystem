@@ -1,7 +1,6 @@
 ﻿using Play.Codecs;
-using Play.Core.Extensions;
 
-namespace Play.Core.Iso8825.Tests.Ber.TagTests.Tags.TestData
+namespace Play.Ber.Tests.TestData
 {
     public class TagTestValue
     {
