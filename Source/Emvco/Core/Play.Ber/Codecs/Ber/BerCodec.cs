@@ -181,12 +181,12 @@ public partial class BerCodec
     public EncodedTlvSiblings DecodeSiblings(ReadOnlyMemory<byte> value) => new(_TagLengthFactory.GetTagLengthArray(value.Span), value);
 
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public TagLengthValue DecodeTagLengthValue(ReadOnlySpan<byte> value)
     {
-        Tag tag = new(value);
-        Length length = Length.Parse(value[tag.GetByteCount()..]);
+        TagLength tagLength = _TagLengthFactory.ParseFirstTagLength(value);
 
-        return new TagLengthValue(tag, value[(tag.GetByteCount() + length.GetByteCount())..]);
+        return new TagLengthValue(tagLength.GetTag(), value[tagLength.ValueRange()]);
     }
 
     /// <exception cref="BerParsingException"></exception>

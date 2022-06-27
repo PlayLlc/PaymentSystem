@@ -78,30 +78,29 @@ public class BerCodecTests : TestBase
     [Fact]
     public void BerCodec_GetContentOctetsLongTagIdentifierTLV_ReturnsExpectedOctetContents()
     {
-        ReadOnlySpan<byte> input = stackalloc byte[] {31, 15, 3, 22, 37};
+        ReadOnlySpan<byte> input = stackalloc byte[] {31, 15, 3, 22, 37, 0};
 
         //TLV:
         //Tag: LongIdentifier : Tag has 2 bytes
         //Length: 3rd byte : 3
-        //Content Octets: 22, 37
-        byte[] expected = new byte[] {22, 37};
+        //Content Octets: 22, 37, 0
+        byte[] expected = new byte[] {22, 37, 0};
         byte[] actualContentOctets = _SystemUnderTest.GetContentOctets(input);
 
         Assert.Equal(expected, actualContentOctets);
     }
 
     [Fact]
-    public void BerCodec_GetContentOctetsLongTagIdentifierTLVInputasOnly3Bytes_ReturnsEmptyByteArray()
+    public void BerCodec_GetContentOctetsLongTagIdentifierTlvInputAsOnly3Bytes_ReturnsEmptyByteArray()
     {
-        ReadOnlySpan<byte> input = stackalloc byte[] {63, 15, 3};
+        byte[] input = new byte[] {63, 15, 3};
 
         //TLV:
         //Tag: LongIdentifier : Tag has 2 bytes
         //Length: Short length 3rd byte : 3
         byte[] expected = new byte[0];
-        byte[] actualContentOctets = _SystemUnderTest.GetContentOctets(input);
 
-        Assert.Equal(expected, actualContentOctets);
+        Assert.Throws<ArgumentOutOfRangeException>(() => _SystemUnderTest.GetContentOctets(input));
     }
 
     [Fact]
@@ -143,14 +142,10 @@ public class BerCodecTests : TestBase
         ReadOnlySpan<byte> input = stackalloc byte[]
         {
             31, 12, 8, 63, 15, 3, 7, 63, 15, 3,
-            7, 63, 15, 3, 7
+            7
         };
 
-        byte[] expected = new byte[]
-        {
-            63, 15, 3, 7, 63, 15, 3, 7, 63, 15,
-            3, 7
-        };
+        byte[] expected = new byte[] {63, 15, 3, 7, 63, 15, 3, 7};
         byte[] actualContentOctets = _SystemUnderTest.GetContentOctets(input);
 
         Assert.Equal(expected, actualContentOctets);
@@ -176,7 +171,7 @@ public class BerCodecTests : TestBase
     {
         ReadOnlySpan<byte> input = stackalloc byte[] {26, 3, 7, 37};
 
-        Tag expected = new(new byte[] {63, 3});
+        Tag expected = new(new byte[] {26});
         Tag actual = _SystemUnderTest.DecodeFirstTag(input);
 
         Assert.Equal(expected, actual);
@@ -270,9 +265,9 @@ public class BerCodecTests : TestBase
     [Fact]
     public void BerCodec_DecodeFirstTLVWithLongLength_ReturnsExpectedResult()
     {
-        ReadOnlySpan<byte> input = stackalloc byte[] {31, 14, 14, 15, 37, 12, 14, 23, 2};
+        ReadOnlySpan<byte> input = stackalloc byte[] {31, 14, 6, 15, 37, 12, 14, 23, 2};
 
-        TagLength expected = new(new Tag(new byte[] {31, 14}), 15);
+        TagLength expected = new(new Tag(new byte[] {31, 14}), 6);
         TagLength tlv = _SystemUnderTest.DecodeFirstTagLength(input);
 
         Assert.Equal(expected, tlv);
@@ -287,14 +282,14 @@ public class BerCodecTests : TestBase
     #region DecodeTagLengthValue
 
     [Fact]
-    public void BerCodec_DecodeTagLengthValue_InputWithhortIdentifierAndShortLength_DecodesExpectedTagLengthValue()
+    public void BerCodec_DecodeTagLengthValue_InputWithoutIdentifierAndShortLength_DecodesExpectedTagLengthValue()
     {
         ClassTypes expectedClass = ClassTypes.Universal;
         DataObjectTypes dataObjectType = DataObjectTypes.Primitive;
 
         byte leadingOctet = (byte) ((byte) expectedClass | (byte) dataObjectType);
 
-        ReadOnlySpan<byte> input = stackalloc byte[] {leadingOctet, 14, 45, 37, 12, 14, 23, 2};
+        ReadOnlySpan<byte> input = stackalloc byte[] {leadingOctet, 6, 45, 37, 12, 14, 23, 2};
 
         TagLengthValue result = _SystemUnderTest.DecodeTagLengthValue(input);
 
@@ -304,7 +299,8 @@ public class BerCodecTests : TestBase
         Length expectedLength = new(6);
         Assert.Equal(expectedLength, result.GetLength());
 
-        byte[] expectedContent = input.Slice(2, input.Length - 1).ToArray();
+        byte[] expectedContent = input.Slice(2, input.Length - 2).ToArray();
+        Assert.Equal(expectedContent, result.EncodeValue());
     }
 
     [Fact]
