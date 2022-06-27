@@ -1,5 +1,6 @@
 ﻿using System;
 
+using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.Identifiers.Long;
@@ -272,9 +273,46 @@ public class BerCodecTests : TestBase
     #region DecodeTagLengthValue
 
     [Fact]
-    public void DecodeTagLengthValue_InputWithLongIdentifierSet_DecodesExpectedTagLengthValue()
+    public void BerCodec_DecodeTagLengthValue_InputWithhortIdentifierAndShortLength_DecodesExpectedTagLengthValue()
     {
+        ClassTypes expectedClass = ClassTypes.Universal;
+        DataObjectTypes dataObjectType = DataObjectTypes.Primitive;
 
+        byte leadingOctet = (byte)((byte)expectedClass | (byte)dataObjectType);
+
+        ReadOnlySpan<byte> input = stackalloc byte[] { leadingOctet, 14, 45, 37, 12, 14, 23, 2 };
+
+        TagLengthValue result = _SystemUnderTest.DecodeTagLengthValue(input);
+
+        Tag expectedTag = new Tag(leadingOctet);
+        Assert.Equal(expectedTag, result.GetTag());
+
+        Length expectedLength = new Length(6);
+        Assert.Equal(expectedLength, result.GetLength());
+
+        byte[] expectedContent = input.Slice(2, input.Length - 1).ToArray();
+    }
+
+    [Fact]
+    public void BerCodec_DecodeTagLengthValue_CorrectContentOctetsAreEncoded()
+    {
+        ReadOnlySpan<byte> input = stackalloc byte[] { 114, 14, 45, 37, 12, 14, 23, 2 };
+
+        TagLengthValue result = _SystemUnderTest.DecodeTagLengthValue(input);
+
+        byte[] encoded = result.EncodeValue();
+        byte[] expected = input.Slice(2, input.Length - 2).ToArray();
+        Assert.Equal(expected, encoded);
+    }
+
+    [Fact]
+    public void BerCodec_DecodeTagLengthValueThenEncodeItAgain_SameResultIsCreated()
+    {
+        ReadOnlySpan<byte> input = stackalloc byte[] { 114, 14, 45, 37, 12, 14, 23, 2 };
+
+        TagLengthValue tlv = _SystemUnderTest.DecodeTagLengthValue(input);
+
+        byte[] 
     }
 
     #endregion
