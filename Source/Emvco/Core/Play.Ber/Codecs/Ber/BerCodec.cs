@@ -172,7 +172,7 @@ public partial class BerCodec
         if (tagLength.GetValueByteCount() == 0)
             return new EncodedTlvSiblings();
 
-        return DecodeSiblings(value[tagLength.GetValueOffset()..]);
+        return DecodeSiblings(value[tagLength.ValueRange()]); //I suggest we use also the value range here in order to validate the Length from the TagLength.
     }
 
     // HACK: We should probably encapsulate this method and not expose it to the outside world
@@ -207,7 +207,15 @@ public partial class BerCodec
         TagLengthValue[] result = new TagLengthValue[tagLengthArray.Length];
 
         for (int i = 0, j = 0; i < tagLengthArray.Length; i++)
-            result[i] = new TagLengthValue(tagLengthArray[i].GetTag(), value[j..tagLengthArray[i].GetLength().GetByteCount()]);
+        {
+            Range contentOctetsValueRange = tagLengthArray[i].ValueRange();
+            int startOfValueRange = j + contentOctetsValueRange.Start.Value;
+            int endOfValueRange = j + contentOctetsValueRange.End.Value;
+
+            result[i] = new TagLengthValue(tagLengthArray[i].GetTag(), value[startOfValueRange..endOfValueRange]);
+
+            j += contentOctetsValueRange.End.Value;
+        }
 
         return result;
     }
