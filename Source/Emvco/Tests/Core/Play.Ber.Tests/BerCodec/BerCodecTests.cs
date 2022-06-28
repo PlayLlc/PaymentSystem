@@ -595,38 +595,28 @@ public class BerCodecTests : TestBase
             0x9F, 0x12,
 
             // Length: 0x8112
-            0x81, 0x12
+            0x81, 0xC9,
 
-            //// Tag: 0x5F1F
-            //0x5F, 0x1F,
+            // Tag: 0x5F1F
+            0x5F, 0x1F,
 
-            //// Length: 0x8220
-            //0x82, 0x20, 0x01
+            // Length: 0x82C001
+            0x82, 0xC0, 0x01,
 
-            //// Tag 0x9F05
-            //0x9F, 0x05,
+            // Tag 0x9F05
+            0x9F, 0x05,
 
-            //// Length 0x8101
-            //0x81, 0x01
+            // Length 0x8101
+            0x81, 0xC2
         };
 
         TagLength[] tagLengths = _SystemUnderTest.DecodeTagLengths(input);
 
-        Assert.Equal(1, tagLengths.Length);
-
-        //TagLength firstTl = new(new Tag(new byte[] {63, 18}), new byte[] {132, 12});
-        //Assert.Equal(firstTl, tagLengths[0]);
-
-        //TagLength secondTl = new(new Tag(new byte[] {31, 32}), new byte[] {132, 14});
-        //Assert.Equal(secondTl, tagLengths[1]);
-
-        //TagLength thirdTl = new(new Tag(12), 8);
-        //Assert.Equal(thirdTl, tagLengths[2]);
+        Assert.Equal(3, tagLengths.Length);
     }
 
-    //I`d take a look at this case, it gives an overflow exception for LongIdentified Length.
     [Fact]
-    public void BerCodec_DecodeTagLengthsWithLongIdentifiersAndLogLengthIdentifiers_ReturnsExpectedResult()
+    public void EncodedTagLengthArray_DecodingTagLength_HasExpectedValueInIndexPosition0()
     {
         ReadOnlySpan<byte> input = stackalloc byte[]
         {
@@ -634,33 +624,91 @@ public class BerCodecTests : TestBase
             0x9F, 0x12,
 
             // Length: 0x8112
-            0x81, 0x12,
+            0x81, 0xC9,
 
             // Tag: 0x5F1F
             0x5F, 0x1F,
 
-            // Length: 0x8220
-            0x82, 0x20, 0x01,
+            // Length: 0x82C001
+            0x82, 0xC0, 0x01,
 
             // Tag 0x9F05
             0x9F, 0x05,
 
             // Length 0x8101
-            0x81, 0x01
+            0x81, 0xC2
         };
 
         TagLength[] tagLengths = _SystemUnderTest.DecodeTagLengths(input);
 
-        Assert.Equal(3, tagLengths.Length);
+        TagLength expected = new(new Tag(new byte[] {0x9F, 0x12}), Length.Parse(new byte[] {0x81, 0xC9}));
+        TagLength actual = tagLengths[0];
 
-        TagLength firstTl = new(new Tag(new byte[] {0x9F, 0x12}), Length.Parse(new byte[] {0x81, 0x12}));
-        Assert.Equal(firstTl, tagLengths[0]);
+        Assert.Equal(expected, actual);
+    }
 
-        //TagLength secondTl = new(new Tag(new byte[] {31, 32}), new byte[] {132, 14});
-        //Assert.Equal(secondTl, tagLengths[1]);
+    [Fact]
+    public void EncodedTagLengthArray_DecodingTagLength_HasExpectedValueInIndexPosition2()
+    {
+        ReadOnlySpan<byte> input = stackalloc byte[]
+        {
+            // Tag: 0x9F12
+            0x9F, 0x12,
 
-        //TagLength thirdTl = new(new Tag(12), 8);
-        //Assert.Equal(thirdTl, tagLengths[2]);
+            // Length: 0x8112
+            0x81, 0xC9,
+
+            // Tag: 0x5F1F
+            0x5F, 0x1F,
+
+            // Length: 0x82C001
+            0x82, 0xC0, 0x01,
+
+            // Tag 0x9F05
+            0x9F, 0x05,
+
+            // Length 0x8101
+            0x81, 0xC2
+        };
+
+        TagLength[] tagLengths = _SystemUnderTest.DecodeTagLengths(input);
+
+        TagLength expected = new(new Tag(new byte[] {0x9F, 0x05}), Length.Parse(new byte[] {0x81, 0xC2}));
+        TagLength actual = tagLengths[2];
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void EncodedTagLengthArray_DecodingTagLength_HasExpectedValueInIndexPosition1()
+    {
+        ReadOnlySpan<byte> input = stackalloc byte[]
+        {
+            // Tag: 0x9F12
+            0x9F, 0x12,
+
+            // Length: 0x8112
+            0x81, 0xC9,
+
+            // Tag: 0x5F1F
+            0x5F, 0x1F,
+
+            // Length: 0x82C001
+            0x82, 0xC0, 0x01,
+
+            // Tag 0x9F05
+            0x9F, 0x05,
+
+            // Length 0x8101
+            0x81, 0xC2
+        };
+
+        TagLength[] tagLengths = _SystemUnderTest.DecodeTagLengths(input);
+
+        TagLength expected = new(new Tag(new byte[] {0x5F, 0x1F}), Length.Parse(new byte[] {0x82, 0xC0, 0x01}));
+        TagLength actual = tagLengths[1];
+
+        Assert.Equal(expected, actual);
     }
 
     [Fact]
