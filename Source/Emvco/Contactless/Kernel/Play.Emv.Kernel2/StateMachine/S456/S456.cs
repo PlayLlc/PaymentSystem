@@ -22,7 +22,7 @@ using Play.Emv.Kernel2.Services.PrepareGenerateAc;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;
 using Play.Emv.Security.Exceptions;
-using Play.Globalization.Time.Seconds;
+using Play.Globalization.Time;
 using Play.Icc.Exceptions;
 using Play.Icc.FileSystem.DedicatedFiles;
 using Play.Messaging;

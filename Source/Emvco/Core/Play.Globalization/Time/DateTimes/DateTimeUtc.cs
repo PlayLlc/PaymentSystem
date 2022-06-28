@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Play.Core.Exceptions;
-using Play.Globalization.Time.Seconds;
 
 namespace Play.Globalization.Time;
 
@@ -40,23 +39,23 @@ public readonly record struct DateTimeUtc
     /// <exception cref="PlayInternalException"></exception>
     public DateTimeUtc(long value)
     {
-        DateTime dateTimeValue = new(value);
+        DateTime dateTimeValue = new(value, DateTimeKind.Utc);
 
         if (dateTimeValue.Kind != DateTimeKind.Utc)
             throw new PlayInternalException(new ArgumentOutOfRangeException($"The argument {nameof(value)} was not in UTC format"));
 
-        _Value = DateTime.UtcNow;
+        _Value = dateTimeValue;
     }
 
     /// <exception cref="PlayInternalException"></exception>
     public DateTimeUtc(int value)
     {
-        DateTime dateTimeValue = new(value);
+        DateTime dateTimeValue = new(value, DateTimeKind.Utc);
 
         if (dateTimeValue.Kind != DateTimeKind.Utc)
             throw new ArgumentOutOfRangeException($"The argument {nameof(value)} was not in UTC format");
 
-        _Value = DateTime.UtcNow;
+        _Value = dateTimeValue;
     }
 
     #endregion
@@ -64,7 +63,7 @@ public readonly record struct DateTimeUtc
     #region Equality
 
     public bool Equals(DateTime dateTime) => dateTime == _Value;
-    public int CompareTo(DateTimeUtc? other) => _Value.CompareTo(other);
+    public int CompareTo(DateTime other) => _Value.CompareTo(other);
 
     #endregion
 
@@ -74,7 +73,7 @@ public readonly record struct DateTimeUtc
     public static bool operator >(DateTimeUtc left, DateTimeUtc right) => left._Value > right._Value;
     public static bool operator <=(DateTimeUtc left, DateTimeUtc right) => left._Value <= right._Value;
     public static bool operator >=(DateTimeUtc left, DateTimeUtc right) => left._Value >= right._Value;
-    public static Ticks operator -(DateTimeUtc left, DateTimeUtc right) => left._Value - right._Value;
+    public static Ticks operator -(DateTimeUtc left, DateTimeUtc right) => (Ticks) (left._Value - right._Value);
     public static implicit operator DateTime(DateTimeUtc value) => value._Value;
 
     #endregion

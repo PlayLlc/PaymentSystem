@@ -4,7 +4,7 @@ using Play.Ber.DataObjects;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.ValueTypes;
-using Play.Globalization.Time.Seconds;
+using Play.Globalization.Time;
 
 namespace Play.Emv.Outcomes;
 

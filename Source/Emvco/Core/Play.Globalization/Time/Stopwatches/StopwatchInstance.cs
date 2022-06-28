@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 
-using Play.Globalization.Time.Seconds;
-
 namespace Play.Globalization.Time;
 
 internal class StopwatchInstance

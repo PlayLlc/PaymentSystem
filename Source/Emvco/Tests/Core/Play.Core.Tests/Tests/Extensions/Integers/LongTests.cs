@@ -112,7 +112,7 @@ public class LongTests : TestBase
         if (testData > 0)
             Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
         else
-            Assertion(() => Assert.Equal(expected, int.MinValue), Build.Equals.Message(expected, actual));
+            Assertion(() => Assert.Equal(expected, Specs.Integer.Int64.BitCount), Build.Equals.Message(expected, actual));
     }
 
     #endregion

@@ -2,7 +2,7 @@
 using Play.Emv.Ber.Enums;
 using Play.Emv.Outcomes;
 using Play.Globalization;
-using Play.Globalization.Time.Seconds;
+using Play.Globalization.Time;
 
 namespace Play.Emv.Selection.Start;
 

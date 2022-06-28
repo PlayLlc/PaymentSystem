@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Play.Globalization.Time.Seconds;
+namespace Play.Globalization.Time;
 
 /// <summary>
 ///     This struct represents a <see cref="TimeSpan" /> that is initialized with Milliseconds
@@ -60,6 +60,11 @@ public readonly record struct Seconds
     #endregion
 
     #region Instance Members
+
+    public Ticks AsTicks() => new(this);
+    public Microseconds AsMicroseconds() => new(this);
+    public Deciseconds AsDeciSeconds() => new(this);
+    public Milliseconds AsMilliseconds() => new(this);
 
     public TimeSpan AsTimeSpan() => GetTimeSpan(_Value);
     private static TimeSpan GetTimeSpan(long value) => new(GetDays(value), GetHours(value), GetMinutes(value), GetSeconds(value));
