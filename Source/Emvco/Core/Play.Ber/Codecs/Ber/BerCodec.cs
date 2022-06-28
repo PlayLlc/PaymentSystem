@@ -85,6 +85,7 @@ public partial class BerCodec
     ///     <see cref="TagLength" />
     /// </returns>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public TagLength DecodeFirstTagLength(ReadOnlySpan<byte> value)
     {
         Tag tag = new(value);
@@ -172,7 +173,7 @@ public partial class BerCodec
         if (tagLength.GetValueByteCount() == 0)
             return new EncodedTlvSiblings();
 
-        return DecodeSiblings(value[tagLength.ValueRange()]); //I suggest we use also the value range here in order to validate the Length from the TagLength.
+        return DecodeSiblings(value[tagLength.ValueRange()]);
     }
 
     // HACK: We should probably encapsulate this method and not expose it to the outside world
