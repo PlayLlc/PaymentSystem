@@ -52,7 +52,7 @@ public class NumericTests : TestBase
     public void ValidEvenByteArray_GetCharCount_ReturnsExpectedResult()
     {
         byte[] testData = new byte[] {12, 34, 56};
-        int expected = 6;
+        int expected = 5;
         int actual = _SystemUnderTest.GetCharCount(testData);
 
         Assertion(() => Assert.Equal(expected, actual));
