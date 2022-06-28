@@ -373,17 +373,25 @@ public class BerCodecTests : TestBase
         Tag secondChildTag = new(14);
 
         uint[] tags = result.GetTags();
-        Assert.Equal(2, tags.Length);
+        Assert.Equal(2, result.SiblingCount());
         Assert.Equal(tags[0], (uint)firstChildTag);
         Assert.Equal(tags[1], (uint)secondChildTag);
 
         Assert.Equal(result.GetTag(32), firstChildTag);
         Assert.Equal(result.GetTag(14), secondChildTag);
-
+        
         Assert.Throws<BerParsingException>(() =>
         {
             Tag notFound = result.GetTag(16);
         });
+
+        ReadOnlySpan<byte> firstChildValueOctets = result.GetValueOctetsOfSibling(firstChildTag);
+        byte[] expectedValueOctets = new byte[] { 37, 12 };
+        Assert.Equal(expectedValueOctets, firstChildValueOctets.ToArray());
+
+        ReadOnlySpan<byte> secondChildValueOctets = result.GetValueOctetsOfSibling(secondChildTag);
+        byte[] expectedSecondChildValueOctets = new byte[] { 2 };
+        Assert.Equal(expectedSecondChildValueOctets, secondChildValueOctets.ToArray());
     }
 
     [Fact]
@@ -395,7 +403,7 @@ public class BerCodecTests : TestBase
 
         uint[] tags = result.GetTags();
 
-        Assert.Equal(1, tags.Length);
+        Assert.Equal(1, result.SiblingCount());
         Tag expectedChild = new Tag(16);
         Assert.Equal(tags[0], (uint)expectedChild);
     }
