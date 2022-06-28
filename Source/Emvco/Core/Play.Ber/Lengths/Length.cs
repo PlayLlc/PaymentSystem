@@ -38,22 +38,6 @@ public readonly struct Length
         _Value = PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(encodedContentOctets[..LongLength.GetByteCount(encodedContentOctets)]);
     }
 
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    internal Length(uint value)
-    {
-        if (ShortLength.IsValid((byte) value))
-        {
-            _Value = (byte) value;
-
-            return;
-        }
-
-        LongLength.Validate(value);
-
-        _Value = value;
-    }
-
     #endregion
 
     #region Instance Members
@@ -106,7 +90,7 @@ public readonly struct Length
         LongLength.Validate(berLength[..LongLength.GetByteCount(berLength)]);
 
         var byteCount = LongLength.GetByteCount(berLength);
-        var hello = PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(berLength[1..byteCount]);
+        var hello = PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(berLength[..byteCount]);
 
         return new Length(hello);
     }
