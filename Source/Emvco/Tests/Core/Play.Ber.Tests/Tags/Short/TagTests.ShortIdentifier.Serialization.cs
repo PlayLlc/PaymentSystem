@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Ber.Identifiers;
+﻿using Play.Ber.Identifiers;
 using Play.Ber.Tests.TestData;
 using Play.Core.Extensions;
 
 using Xunit;
 
-namespace Play.Ber.Tests.Tags.__Temp
+namespace Play.Ber.Tests.Short
 {
     public partial class TagTests
     {
@@ -19,7 +13,7 @@ namespace Play.Ber.Tests.Tags.__Temp
         [Fact]
         public void RandomShortIdentifier_WhenSerializingInstance_CreatesByteWithCorrectValue()
         {
-            byte expectedValue = ShortIdentifierTestValueFactory.CreateByte(_Random);
+            byte expectedValue = ShortIdentifierTestValueFactory.CreateByte(Tests.TagTests._Random);
             Tag testValue = new(expectedValue);
 
             byte[] sut = testValue.Serialize();
@@ -30,9 +24,9 @@ namespace Play.Ber.Tests.Tags.__Temp
         [Fact]
         public void RandomShortIdentifierComponentParts_WhenInitializingAndSerializingInstance_CreatesByteWithCorrectValue()
         {
-            ClassTypes? expectedClassType = ShortIdentifierTestValueFactory.GetClassType(_Random);
-            DataObjectTypes? expectedDataObjectType = ShortIdentifierTestValueFactory.GetDataObjectType(_Random);
-            byte expectedTagNumber = ShortIdentifierTestValueFactory.GetTagNumber(_Random);
+            ClassTypes? expectedClassType = ShortIdentifierTestValueFactory.GetClassType(Tests.TagTests._Random);
+            DataObjectTypes? expectedDataObjectType = ShortIdentifierTestValueFactory.GetDataObjectType(Tests.TagTests._Random);
+            byte expectedTagNumber = ShortIdentifierTestValueFactory.GetTagNumber(Tests.TagTests._Random);
 
             byte initializationValue = (byte) ((byte) expectedClassType | (byte) expectedDataObjectType | expectedTagNumber);
 
@@ -67,7 +61,7 @@ namespace Play.Ber.Tests.Tags.__Temp
         [Fact]
         public void RandomShortTag_WhenSerializingInstance_CreatesByteWithCorrectValue()
         {
-            byte expectedValue = ShortIdentifierTestValueFactory.CreateByte(_Random);
+            byte expectedValue = ShortIdentifierTestValueFactory.CreateByte(Tests.TagTests._Random);
             Tag testValue = new(expectedValue.AsReadOnlySpan());
 
             byte[]? sut = testValue.Serialize();

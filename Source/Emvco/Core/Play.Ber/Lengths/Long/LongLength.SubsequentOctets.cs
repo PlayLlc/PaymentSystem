@@ -18,18 +18,14 @@ internal static partial class LongLength
         #region Static Metadata
 
         /// <summary>
-        ///     This is NOT a specification limitation. This is a limitation introduced purposefully by this code base.
-        ///     This value may change in the future to support larger tags
-        /// </summary>
-        public const byte MaxByteCount = 2;
-
-        /// <summary>
         ///     In the long form, the length octets shall have one or more Subsequent Octets.
         /// </summary>
         /// <remarks>
         ///     <see cref="ITUT_X690" /> Section 8.1.3.5
         /// </remarks>
         public const byte MinByteCount = 1;
+
+        public const byte MaxByteCount = 255;
 
         #endregion
 

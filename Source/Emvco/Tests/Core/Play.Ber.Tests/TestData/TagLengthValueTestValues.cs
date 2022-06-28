@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Play.Core.Iso8825.Tests.Ber.TestData
+namespace Play.Ber.Tests.TestData
 {
     internal class TagLengthValueTestValues
     {

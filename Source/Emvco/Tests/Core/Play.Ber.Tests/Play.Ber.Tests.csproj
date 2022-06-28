@@ -25,8 +25,4 @@
 	  <ProjectReference Include="..\..\Play.Testing\Play.Testing.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Lengths\" />
-	</ItemGroup>
-
 </Project>

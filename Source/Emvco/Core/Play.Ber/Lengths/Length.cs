@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
@@ -20,31 +21,20 @@ public readonly struct Length
 
     #region Constructor
 
-    /// <summary>
-    ///     Takes a sequence of content octets and creates a Length object
-    /// </summary>
+    /// <summary>The argument represents the number of bytes in the Content Octets</summary>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
-    internal Length(ReadOnlySpan<byte> contentOctets)
+    /// <exception cref="InvalidOperationException"></exception>
+    internal Length(uint value)
     {
-        if (contentOctets.Length == 0)
+        if (value <= ShortLength.MaxValue)
         {
-            _Value = 0;
+            _Value = value;
 
             return;
         }
 
-        Span<byte> encodedContentOctets = Serialize(contentOctets);
-
-        if (ShortLength.IsValid(encodedContentOctets[0]))
-        {
-            _Value = encodedContentOctets[0];
-
-            return;
-        }
-
+        Span<byte> encodedContentOctets = LongLength.Serialize((ushort) value);
         LongLength.Validate(encodedContentOctets[..LongLength.GetByteCount(encodedContentOctets)]);
-
         _Value = PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(encodedContentOctets[..LongLength.GetByteCount(encodedContentOctets)]);
     }
 
@@ -52,9 +42,9 @@ public readonly struct Length
     /// <exception cref="InvalidOperationException"></exception>
     internal Length(uint value)
     {
-        if (value < ShortLength.MaxValue)
+        if (ShortLength.IsValid((byte) value))
         {
-            _Value = value;
+            _Value = (byte) value;
 
             return;
         }
@@ -115,45 +105,17 @@ public readonly struct Length
 
         LongLength.Validate(berLength[..LongLength.GetByteCount(berLength)]);
 
-        return new Length(PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(berLength[..LongLength.GetByteCount(berLength)]));
+        var byteCount = LongLength.GetByteCount(berLength);
+        var hello = PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(berLength[1..byteCount]);
+
+        return new Length(hello);
     }
 
     #endregion
 
     #region Serialization
 
-    public byte[] Serialize() => BitConverter.GetBytes(_Value)[..GetByteCount()];
-
-    internal static byte[] Serialize(PrimitiveValue value, BerCodec codec)
-    {
-        ushort contentOctetByteCount = value.GetValueByteCount(codec);
-
-        if (ShortLength.IsValid(contentOctetByteCount))
-            return new[] {(byte) contentOctetByteCount};
-
-        return LongLength.Serialize(contentOctetByteCount);
-    }
-
-    /// <summary>
-    ///     Takes a sequence of content octets and creates an encoded Length sequence
-    /// </summary>
-    /// <param name="contentOctets"></param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    internal static byte[] Serialize(ReadOnlySpan<byte> contentOctets)
-    {
-        if (contentOctets.Length > LongLength.MaxLengthSupported)
-        {
-            throw new BerParsingException(new ArgumentOutOfRangeException(nameof(contentOctets),
-                $"This code base supports a TLV with a maximum Length field with {LongLength.MaxLengthSupported} bytes"));
-        }
-
-        if (ShortLength.IsValid(contentOctets.Length))
-            return new[] {(byte) contentOctets.Length};
-
-        return LongLength.Serialize((ushort) contentOctets.Length);
-    }
+    public byte[] Serialize() => BitConverter.GetBytes(_Value)[..GetByteCount()].Reverse().ToArray();
 
     #endregion
 

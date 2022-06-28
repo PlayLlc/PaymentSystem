@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Play.Ber.Identifiers;
 using Play.Ber.Tests.TestData;
@@ -10,13 +6,13 @@ using Play.Testing.BaseTestClasses;
 
 using Xunit;
 
-namespace Play.Ber.Tests.Tags.__Temp
+namespace Play.Ber.Tests
 {
     public partial class TagTests : TestBase
     {
         #region Static Metadata
 
-        private static readonly Random _Random = new();
+        public static readonly Random _Random = new();
 
         #endregion
 

@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Play.Ber.Identifiers;
-using Play.Core.Iso8825.Tests.Ber.TagTests.Tags.TestData;
+using Play.Ber.Tests.TestData;
 
 using Xunit;
 
-namespace Play.Ber.Tests.Tags.__Temp
+namespace Play.Ber.Tests.Long
 {
     public partial class TagTests
     {
