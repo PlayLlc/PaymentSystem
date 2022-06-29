@@ -68,6 +68,11 @@ public readonly record struct Milliseconds
         _Value = value.Milliseconds;
     }
 
+    public Milliseconds(Ticks value)
+    {
+        _Value = (long)value / (Ticks.Precision / Precision);
+    }
+
     #endregion
 
     #region Instance Members

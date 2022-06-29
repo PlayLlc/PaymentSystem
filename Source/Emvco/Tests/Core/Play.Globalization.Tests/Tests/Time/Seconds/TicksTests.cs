@@ -22,7 +22,7 @@ public class TicksTests : TestBase
     [Fact]
     public void Ticks_CastingToDeciSeconds_ReturnsExpectedResult()
     {
-        long ticks = 100000;
+        long ticks = 1000000;
         Ticks sut = new Ticks(ticks);
 
         Deciseconds expected = new(1);
@@ -34,7 +34,7 @@ public class TicksTests : TestBase
     [Fact]
     public void Ticks_CastingToMilliSeconds_ReturnsExpectedResult()
     {
-        long ticks = 100000;
+        long ticks = 10000;
         Ticks sut = new Ticks(ticks);
 
         Milliseconds expected = new(1);
@@ -46,7 +46,7 @@ public class TicksTests : TestBase
     [Fact]
     public void Ticks_CastingToMicroSeconds_ReturnsExpectedResult()
     {
-        long ticks = 1000;
+        long ticks = 10;
         Ticks sut = new Ticks(ticks);
 
         Microseconds expected = new(1);
