@@ -44,7 +44,12 @@ public partial class BerCodec
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    public byte[] GetContentOctets(ReadOnlySpan<byte> value) => value[_TagLengthFactory.ParseFirstTagLength(value).GetTagLengthByteCount()..].ToArray();
+    public byte[] GetContentOctets(ReadOnlySpan<byte> value)
+    {
+        TagLength tagLength = _TagLengthFactory.ParseFirstTagLength(value);
+
+        return value[tagLength.ValueRange()].ToArray();
+    }
 
     #region Encode
 
@@ -80,6 +85,7 @@ public partial class BerCodec
     ///     <see cref="TagLength" />
     /// </returns>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public TagLength DecodeFirstTagLength(ReadOnlySpan<byte> value)
     {
         Tag tag = new(value);
@@ -167,7 +173,7 @@ public partial class BerCodec
         if (tagLength.GetValueByteCount() == 0)
             return new EncodedTlvSiblings();
 
-        return DecodeSiblings(value[tagLength.GetValueOffset()..]);
+        return DecodeSiblings(value[tagLength.ValueRange()]);
     }
 
     // HACK: We should probably encapsulate this method and not expose it to the outside world
@@ -176,12 +182,12 @@ public partial class BerCodec
     public EncodedTlvSiblings DecodeSiblings(ReadOnlyMemory<byte> value) => new(_TagLengthFactory.GetTagLengthArray(value.Span), value);
 
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public TagLengthValue DecodeTagLengthValue(ReadOnlySpan<byte> value)
     {
-        Tag tag = new(value);
-        Length length = Length.Parse(value[tag.GetByteCount()..]);
+        TagLength tagLength = _TagLengthFactory.ParseFirstTagLength(value);
 
-        return new TagLengthValue(tag, value[(tag.GetByteCount() + length.GetByteCount())..]);
+        return new TagLengthValue(tagLength.GetTag(), value[tagLength.ValueRange()]);
     }
 
     /// <exception cref="BerParsingException"></exception>
@@ -202,7 +208,15 @@ public partial class BerCodec
         TagLengthValue[] result = new TagLengthValue[tagLengthArray.Length];
 
         for (int i = 0, j = 0; i < tagLengthArray.Length; i++)
-            result[i] = new TagLengthValue(tagLengthArray[i].GetTag(), value[j..tagLengthArray[i].GetLength().GetByteCount()]);
+        {
+            Range contentOctetsValueRange = tagLengthArray[i].ValueRange();
+            int startOfValueRange = j + contentOctetsValueRange.Start.Value;
+            int endOfValueRange = j + contentOctetsValueRange.End.Value;
+
+            result[i] = new TagLengthValue(tagLengthArray[i].GetTag(), value[startOfValueRange..endOfValueRange]);
+
+            j += contentOctetsValueRange.End.Value;
+        }
 
         return result;
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.Exceptions;
+using Play.Ber.Identifiers.Short;
 using Play.Core.Exceptions;
 using Play.Core.Extensions;
 
@@ -93,7 +94,7 @@ internal static partial class LongIdentifier
         /// <exception cref="BerParsingException"></exception>
         public static byte FindLastSubsequentOctetIndex(ReadOnlySpan<byte> value)
         {
-            if (value[0] < 30)
+            if (value[0] < ShortIdentifier.TagNumber.MaxValue)
                 return 0;
 
             if (value.Length == 1)
