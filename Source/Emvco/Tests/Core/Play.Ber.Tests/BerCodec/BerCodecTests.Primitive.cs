@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 
+using Play.Ber.Exceptions;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Testing.BaseTestClasses;
@@ -26,7 +28,7 @@ public partial class BerCodecTests :  TestBase
 
     #endregion
 
-    #region Decode Metadata
+    #region Decode To DecodedMetadata
 
     [Fact]
     public void BerCodecPrimitive_DecodeWithValidPlayEncodingIdForBinaryCodec_ReturnsExpectedResult()
@@ -136,6 +138,111 @@ public partial class BerCodecTests :  TestBase
         uint expected = 303132;
 
         Assert.Equal(expected, result.Value);
+    }
+
+    [Fact]
+    public void BerCodec_DecodeWithValidPlayEncodingIdForNumericCodec_ExpectUShort()
+    {
+        PlayEncodingId numericCodecEncodingId = NumericCodec.EncodingId;
+
+        ReadOnlySpan<byte> input = stackalloc byte[] { 12, 16 };
+
+        DecodedMetadata metadata = _SystemUnderTest.Decode(numericCodecEncodingId, input);
+
+        DecodedResult<ushort> result = metadata.ToUInt16Result();
+        ushort expected = 1216;
+
+        Assert.NotNull(result);
+        Assert.Equal(expected, result.Value);
+    }
+
+    [Fact]
+    public void BerCodec_DecodeWithValidPlayEncodingIdForNumericCodec_ExpectUInt()
+    {
+        PlayEncodingId numericCodecEncodingId = NumericCodec.EncodingId;
+
+        ReadOnlySpan<byte> input = stackalloc byte[] { 12, 16, 8, 11 };
+
+        DecodedMetadata metadata = _SystemUnderTest.Decode(numericCodecEncodingId, input);
+
+        DecodedResult<uint> result = metadata.ToUInt32Result();
+        uint expected = 12160811;
+
+        Assert.NotNull(result);
+        Assert.Equal(expected, result.Value);
+    }
+
+    [Fact]
+    public void BerCodec_DecodeWithValidPlayEncodingIdForNumericCodec_ExpectULong()
+    {
+        PlayEncodingId numericCodecEncodingId = NumericCodec.EncodingId;
+
+        ReadOnlySpan<byte> input = stackalloc byte[] { 12, 16, 8, 11, 7 };
+
+        DecodedMetadata metadata = _SystemUnderTest.Decode(numericCodecEncodingId, input);
+
+        DecodedResult<ulong> result = metadata.ToUInt64Result();
+        ulong expected = 1216081107;
+
+        Assert.NotNull(result);
+        Assert.Equal(expected, result.Value);
+    }
+
+    [Fact]
+    public void BerCodec_DecodeWithValidPlayEncodingIdForNumericCodec_ExpectBigInteger()
+    {
+        PlayEncodingId numericCodecEncodingId = NumericCodec.EncodingId;
+
+        ReadOnlySpan<byte> input = stackalloc byte[] { 12, 16, 8, 11, 7, 22, 23, 34, 17 };
+        DecodedMetadata metadata = _SystemUnderTest.Decode(numericCodecEncodingId, input);
+
+        DecodedResult<BigInteger> result = metadata.ToBigInteger();
+        BigInteger expected = 121608110722233417;
+
+        Assert.NotNull(result);
+        Assert.Equal(expected, result.Value);
+    }
+
+    [Fact]
+    public void BerCodec_DecodeWithValidPlayEncodingIdForHexadecimalCodec_ExpectUshort()
+    {
+        PlayEncodingId hexadecimalCodecEncodingId = HexadecimalCodec.EncodingId;
+
+        ReadOnlySpan<byte> input = stackalloc byte[] { 0x0c, 0x10 };
+        DecodedMetadata metadata = _SystemUnderTest.Decode(hexadecimalCodecEncodingId, input);
+
+        DecodedResult<ushort> result = metadata.ToUInt16Result();
+        ushort expected = 3088;
+
+        Assert.NotNull(result);
+        Assert.Equal(expected, result.Value);
+    }
+
+    [Fact]
+    public void BerCodec_DecodeWithValidPlayEncodingIdForHexadecimalCodec_ExpectULong()
+    {
+        PlayEncodingId hexadecimalCodecEncodingId = HexadecimalCodec.EncodingId;
+
+        ReadOnlySpan<byte> input = stackalloc byte[] { 0x0c, 0x10, 0x0a, 0x05, 0x11, 0x05, 0x1e, 0x2c };
+        DecodedMetadata metadata = _SystemUnderTest.Decode(hexadecimalCodecEncodingId, input);
+
+        DecodedResult<ulong> result = metadata.ToUInt64Result();
+        ulong expected = 869205744959168044;
+
+        Assert.NotNull(result);
+        Assert.Equal(expected, result.Value);
+    }
+
+    [Fact]
+    public void BerCodec_DecodeWithInvalidPlayCodecEncodingId_ExceptionIsThrown()
+    {
+        PlayEncodingId invalidEncodingId = new(typeof(int));
+
+        Assert.Throws<BerParsingException>(() =>
+        {
+            ReadOnlySpan<byte> input = stackalloc byte[] { 12, 16 };
+            DecodedMetadata metadata = _SystemUnderTest.Decode(invalidEncodingId, input);
+        });
     }
 
     #endregion

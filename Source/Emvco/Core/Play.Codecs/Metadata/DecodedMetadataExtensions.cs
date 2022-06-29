@@ -9,6 +9,20 @@ public static class DecodedMetadataExtensions
     #region Instance Members
 
     /// <summary>
+    ///     ToCharArrayResult
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="CodecParsingException"></exception>
+    public static DecodedResult<char[]>? ToCharArrayResult(this DecodedMetadata? value)
+    {
+        if (value is DecodedResult<char[]> decodedResultCharArray)
+            return decodedResultCharArray;
+
+        throw new CodecParsingException("This error should never be thrown");
+    }
+
+    /// <summary>
     ///     ToUInt64Result
     /// </summary>
     /// <param name="value"></param>
@@ -25,6 +39,8 @@ public static class DecodedMetadataExtensions
             return new DecodedResult<ulong>(decodedResultUShort.Value, decodedResultUShort.CharCount);
         if (value is DecodedResult<uint> decodedResultUInt)
             return new DecodedResult<ulong>(decodedResultUInt.Value, decodedResultUInt.CharCount);
+        if (value is DecodedResult<ulong> decodedResultULong)
+            return decodedResultULong;
 
         throw new CodecParsingException("This error should never be thrown");
     }
@@ -44,6 +60,8 @@ public static class DecodedMetadataExtensions
             return new DecodedResult<uint>(decodedResultByte.Value, decodedResultByte.CharCount);
         if (value is DecodedResult<ushort> decodedResultUShort)
             return new DecodedResult<uint>(decodedResultUShort.Value, decodedResultUShort.CharCount);
+        if (value is DecodedResult<uint> decodedResultUInt)
+            return decodedResultUInt;
 
         throw new CodecParsingException("This error should never be thrown");
     }
@@ -61,6 +79,8 @@ public static class DecodedMetadataExtensions
 
         if (value is DecodedResult<byte> decodedResultByte)
             return new DecodedResult<ushort>(decodedResultByte.Value, decodedResultByte.CharCount);
+        if (value is DecodedResult<ushort> decodedResultUShort)
+            return decodedResultUShort;
 
         throw new CodecParsingException("This error should never be thrown");
     }
@@ -101,6 +121,8 @@ public static class DecodedMetadataExtensions
             return new DecodedResult<BigInteger>(decodedResultUInt.Value, decodedResultUInt.CharCount);
         if (value is DecodedResult<ulong> decodedResultULong)
             return new DecodedResult<BigInteger>(decodedResultULong.Value, decodedResultULong.CharCount);
+        if (value is DecodedResult<BigInteger> decodedResultBigInteger)
+            return decodedResultBigInteger;
 
         throw new CodecParsingException("This error should never be thrown");
     }

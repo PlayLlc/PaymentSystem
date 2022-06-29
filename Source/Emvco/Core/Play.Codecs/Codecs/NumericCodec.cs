@@ -836,7 +836,7 @@ public class NumericCodec : PlayCodec
     {
         ReadOnlySpan<byte> trimmedValue = value.TrimStart((byte) 0);
 
-        if (value.Length == Specs.Integer.UInt8.ByteCount)
+        if (value.Length <= Specs.Integer.UInt8.ByteCount)
         {
             byte byteResult = DecodeToByte(trimmedValue[0]);
 
