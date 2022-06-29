@@ -6,7 +6,7 @@ public interface IEncodeBerDataObjects : IRetrieveBerDataObjectMetadata
 {
     #region Instance Members
 
-    public TagLengthValue AsTagLengthValue(BerCodec codec);
+    TagLengthValue AsTagLengthValue(BerCodec codec);
 
     #endregion
 
