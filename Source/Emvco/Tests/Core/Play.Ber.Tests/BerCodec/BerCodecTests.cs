@@ -415,30 +415,57 @@ public class BerCodecTests : TestBase
     {
         ReadOnlyMemory<byte> input = new byte[] {87, 7, 32, 2, 37, 12, 14, 1, 2};
 
-        EncodedTlvSiblings result = _SystemUnderTest.DecodeChildren(input);
+        EncodedTlvSiblings sut = _SystemUnderTest.DecodeChildren(input);
 
         Tag firstChildTag = new(32);
         Tag secondChildTag = new(14);
 
-        uint[] tags = result.GetTags();
-        Assert.Equal(2, result.SiblingCount());
+        uint[] tags = sut.GetTags();
         Assert.Equal(tags[0], (uint) firstChildTag);
         Assert.Equal(tags[1], (uint) secondChildTag);
 
-        Assert.Equal(result.GetTag(32), firstChildTag);
-        Assert.Equal(result.GetTag(14), secondChildTag);
+        Assert.Equal(sut.GetTag(32), firstChildTag);
+        Assert.Equal(sut.GetTag(14), secondChildTag);
+    }
+
+    [Fact]
+    public void BerCodec_DecodeChildrentInputHas2TLVChildren_ExceptionIsThrowWhenTagIsNotFound()
+    {
+        ReadOnlyMemory<byte> input = new byte[] { 87, 7, 32, 2, 37, 12, 14, 1, 2 };
+
+        EncodedTlvSiblings sut = _SystemUnderTest.DecodeChildren(input);
 
         Assert.Throws<BerParsingException>(() =>
         {
-            Tag notFound = result.GetTag(16);
+            Tag notFound = sut.GetTag(16);
         });
+    }
 
-        ReadOnlySpan<byte> firstChildValueOctets = result.GetValueOctetsOfSibling(firstChildTag);
-        byte[] expectedValueOctets = {37, 12};
+    [Fact]
+    public void BerCodec_DecodeChildrenInputHas2TLVChildren_ReturnsCorrectSiblingCount()
+    {
+        ReadOnlyMemory<byte> input = new byte[] { 87, 7, 32, 2, 37, 12, 14, 1, 2 };
+
+        EncodedTlvSiblings sut = _SystemUnderTest.DecodeChildren(input);
+
+        Assert.Equal(2, sut.SiblingCount());
+    }
+
+    [Fact]
+    public void BerCodec_DecodeChildrenInputHas2TLVChildren_ReturnsExpectedContentOctets()
+    {
+        ReadOnlyMemory<byte> input = new byte[] { 87, 7, 32, 2, 37, 12, 14, 1, 2 };
+
+        EncodedTlvSiblings sut = _SystemUnderTest.DecodeChildren(input);
+
+        Tag firstChildTag = new(32);
+        ReadOnlySpan<byte> firstChildValueOctets = sut.GetValueOctetsOfSibling(firstChildTag);
+        byte[] expectedValueOctets = { 37, 12 };
         Assert.Equal(expectedValueOctets, firstChildValueOctets.ToArray());
 
-        ReadOnlySpan<byte> secondChildValueOctets = result.GetValueOctetsOfSibling(secondChildTag);
-        byte[] expectedSecondChildValueOctets = {2};
+        Tag secondChildTag = new(14);
+        ReadOnlySpan<byte> secondChildValueOctets = sut.GetValueOctetsOfSibling(secondChildTag);
+        byte[] expectedSecondChildValueOctets = { 2 };
         Assert.Equal(expectedSecondChildValueOctets, secondChildValueOctets.ToArray());
     }
 
@@ -447,13 +474,22 @@ public class BerCodecTests : TestBase
     {
         ReadOnlyMemory<byte> input = new byte[] {36, 8, 16, 9, 34, 16, 27, 86, 33, 09};
 
-        EncodedTlvSiblings result = _SystemUnderTest.DecodeChildren(input);
+        EncodedTlvSiblings sut = _SystemUnderTest.DecodeChildren(input);
 
-        uint[] tags = result.GetTags();
+        uint[] tags = sut.GetTags();
 
-        Assert.Equal(1, result.SiblingCount());
         Tag expectedChild = new(16);
         Assert.Equal(tags[0], (uint) expectedChild);
+    }
+
+    [Fact]
+    public void BerCodec_DecodeChildrenInputHas1TLVChildrenBasedOnLengthByte_ReturnsExpectedSiblingCount()
+    {
+        ReadOnlyMemory<byte> input = new byte[] { 36, 8, 16, 9, 34, 16, 27, 86, 33, 09 };
+
+        EncodedTlvSiblings sut = _SystemUnderTest.DecodeChildren(input);
+
+        Assert.Equal(1, sut.SiblingCount());
     }
 
     [Fact]
@@ -470,6 +506,94 @@ public class BerCodecTests : TestBase
         {
             EncodedTlvSiblings result = _SystemUnderTest.DecodeChildren(input);
         });
+    }
+
+    #endregion
+
+    #region DecodeSiblings
+
+    [Fact]
+    public void BerCodec_DecodeSiblingsInputHas1Sibling_ReturnsExpectedResult()
+    {
+        ReadOnlyMemory<byte> input = new byte[] {
+            //Tag
+            13,
+            //Length
+            5,
+            //Content Octets
+            2, 37, 12, 14, 2 };
+
+        EncodedTlvSiblings sut = _SystemUnderTest.DecodeSiblings(input);
+
+        Tag expected = new(13);
+        Assert.Equal(expected, sut.GetTag(13));
+    }
+
+    [Fact]
+    public void BerCodec_DecodeSiblingsInputHas1Sibling_ReturnsExpectedContentOctets()
+    {
+        ReadOnlyMemory<byte> input = new byte[] {
+            //Tag
+            13,
+            //Length
+            5,
+            //Content Octets
+            2, 37, 12, 14, 2 };
+
+        EncodedTlvSiblings sut = _SystemUnderTest.DecodeSiblings(input);
+
+        byte[] expected = { 2, 37, 12, 14, 2 };
+
+        Tag sibling = sut.GetTag(13);
+        Assert.Equal(expected, sut.GetValueOctetsOfSibling(sibling).ToArray());
+    }
+
+    [Fact]
+    public void BerCodec_DecodeSiblingsInputHas2Siblings_ReturnsExpectedSiblingCount()
+    {
+        ReadOnlyMemory<byte> input = new byte[] {
+            //Tag
+            13,
+            //Length
+            2,
+            //Content octets
+            2, 37,
+            //Tag
+            28,
+            //Length
+            3,
+            //Content octets
+            12, 14, 2 };
+
+        EncodedTlvSiblings sut = _SystemUnderTest.DecodeSiblings(input);
+
+        Assert.Equal(2, sut.GetTags().Length);
+    }
+
+    [Fact]
+    public void BerCodec_DecodeSiblingsInputHas2Siblings_ReturnsExpectedTags()
+    {
+        ReadOnlyMemory<byte> input = new byte[] {
+            //Tag
+            13,
+            //Length
+            2,
+            //Content octets
+            2, 37,
+            //Tag
+            28,
+            //Length
+            3,
+            //Content octets
+            12, 14, 2 };
+
+        EncodedTlvSiblings sut = _SystemUnderTest.DecodeSiblings(input);
+
+        Tag firstSibling = new(13);
+        Assert.Equal(firstSibling, sut.GetTag(13));
+
+        Tag secondSibling = new(28);
+        Assert.Equal(secondSibling, sut.GetTag(28));
     }
 
     #endregion
