@@ -22,18 +22,6 @@ public class BerCodecTests : TestBase
 
     #endregion
 
-    #region Instance Members
-
-    #region EncodeEmptyDataObject
-
-    [Fact]
-    public void BerCodec_EncodeEmptyDataObject_ReturnsExpectedResult()
-    { }
-
-    #endregion
-
-    #endregion
-
     #region DecodeTags
 
     [Fact]
