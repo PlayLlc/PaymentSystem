@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 
 using Play.Ber.Exceptions;
+using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Testing.BaseTestClasses;
@@ -247,24 +248,114 @@ public partial class BerCodecTests :  TestBase
 
     #endregion
 
-    #region Decode Primitive
+    #region Byte Count
 
     [Fact]
-    public void BerCodec_AsPrimitive_ReturnsExpectedResult()
+    public void BerCodec_GetByteCountForAlphabeticCodecEncodingId_ReturnsExpectedResult()
     {
+        PlayEncodingId alphabeticEncodingId = AlphabeticCodec.EncodingId;
 
+        char[] input = { 'p', 'l', 'a', 'y' };
+
+        ushort expected = 4;
+        ushort actual = _SystemUnderTest.GetByteCount(alphabeticEncodingId, input);
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void BerCodec_GetByteCountForAlphabeticCodecEncodingId_ReturnsExpectedResult2()
+    {
+        PlayEncodingId alphabeticEncodingId = AlphabeticCodec.EncodingId;
+
+        char[] input = { '[', 'p', 'l', 'a', 'y' };
+
+        ushort expected = 5;
+        ushort actual = _SystemUnderTest.GetByteCount(alphabeticEncodingId, input);
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void BerCodec_GetByteCountForAlphaNumericCodecEncodingId_ReturnsExpectedResult2()
+    {
+        PlayEncodingId alphaNumericCodecEncodingId = AlphaNumericCodec.EncodingId;
+
+        char[] input = { 'p', 'l', 'a', 'y', '0', '1' };
+
+        ushort expected = 6;
+        ushort actual = _SystemUnderTest.GetByteCount(alphaNumericCodecEncodingId, input);
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void BerCodec_GetByteCountForCompressedNumericCodecByteArray_ReturnsExpectedResult()
+    {
+        PlayEncodingId compressedNumericEncodingId = CompressedNumericCodec.EncodingId;
+
+        byte[] input = new byte[] { 1, 2, 3, 4 };
+
+        ushort actual = _SystemUnderTest.GetByteCount(compressedNumericEncodingId, input);
+        ushort expected = 4;
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void BerCodec_GetByteCountForCompressedNumericCodecCharArray_ReturnsExpectedResult()
+    {
+        PlayEncodingId compressedNumericEncodingId = CompressedNumericCodec.EncodingId;
+
+        char[] input = new char[] { 'p', 'l', 'a', 'y' };
+
+        ushort actual = _SystemUnderTest.GetByteCount(compressedNumericEncodingId, input);
+        ushort expected = 2;
+
+        Assert.Equal(expected, actual);
+    }
+
+    //NumericCodec
+    [Fact]
+    public void BerCodec_GetByteCountForNumericCodecByteArray_ReturnsExpectedResult()
+    {
+        PlayEncodingId numericCodecEncodingId = NumericCodec.EncodingId;
+
+        byte[] input = new byte[] { 32, 13, 0x5f, 12, 11 };
+
+        ushort actual = _SystemUnderTest.GetByteCount(numericCodecEncodingId, input);
+        ushort expected = 5;
+
+        Assert.Equal(expected, actual);
     }
 
     #endregion
 
-    #region Byte Count
+    #region EncodeTagLengthValue Tag And Content Octets
 
+    [Fact]
+    public void BerCodec_EncodeTagLengthValueForGivenTagAndContentOctets_ReturnsExpectedResult()
+    {
+        Tag tag = new(12);
 
+        ReadOnlySpan<byte> contentOctets = stackalloc byte[] { 34, 3, 4, 16 };
+        byte[] expected = { 12, 4, 34, 3, 4, 16 };
+        byte[] actual = _SystemUnderTest.EncodeTagLengthValue(tag, contentOctets);
 
-    #endregion
+        Assert.Equal(expected, actual);
+    }
 
-    #region EncodeTagLengthValue for Primitive
+    [Fact]
+    public void BerCodec_EncodeTagLengthValueForGivenLongIdentifierTagAndContentOctets_ReturnsExpectedResult()
+    {
+        Tag tag = new(new byte[] { 31, 12 });
 
+        ReadOnlySpan<byte> contentOctets = stackalloc byte[] { 34, 5, 12, 4, 6, 12, 33 };
+        byte[] expected = { 31, 12, 7, 34, 5, 12, 4, 6, 12, 33 };
+        byte[] actual = _SystemUnderTest.EncodeTagLengthValue(tag, contentOctets);
+
+        Assert.Equal(expected, actual);
+    }
 
     #endregion
 }
