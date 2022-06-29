@@ -249,12 +249,21 @@ public partial class BerCodecTests :  TestBase
 
     #region Decode Primitive
 
+    [Fact]
+    public void BerCodec_AsPrimitive_ReturnsExpectedResult()
+    {
 
+    }
 
     #endregion
 
     #region Byte Count
 
+
+
+    #endregion
+
+    #region EncodeTagLengthValue for Primitive
 
 
     #endregion
