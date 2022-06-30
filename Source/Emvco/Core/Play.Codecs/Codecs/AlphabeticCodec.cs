@@ -308,12 +308,16 @@ public class AlphabeticCodec : PlayCodec
 
     #region Decode To Chars
 
+    /// <exception cref="CodecParsingException"></exception>
     public char[] DecodeToChars(ReadOnlySpan<byte> value)
     {
         char[] result = new char[value.Length];
 
         for (int i = 0; i < value.Length; i++)
+        {
+            Validate(value[i]);
             result[i] = _CharMapper[value[i]];
+        }
 
         return result;
     }
