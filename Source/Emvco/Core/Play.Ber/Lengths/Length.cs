@@ -42,6 +42,7 @@ public readonly struct Length
 
     #region Instance Members
 
+    /// <summary>Gets the number of bytes that this Length object is composed of</summary>
     /// <exception cref="InvalidOperationException">Ignore.</exception>
     public readonly byte GetByteCount()
     {
@@ -51,6 +52,7 @@ public readonly struct Length
         return LongLength.GetByteCount(_Value);
     }
 
+    /// <summary>Gets the number of bytes that this Length object is composed of</summary>
     internal static byte GetByteCount(PrimitiveValue value, BerCodec codec)
     {
         ushort contentOctetByteCount = value.GetValueByteCount(codec);
@@ -99,6 +101,10 @@ public readonly struct Length
 
     #region Serialization
 
+    /// <summary>
+    ///     Serializes this Length object into the appropriate BER encoding for a Length
+    /// </summary>
+    /// <returns></returns>
     public byte[] Serialize() => BitConverter.GetBytes(_Value)[..GetByteCount()].Reverse().ToArray();
 
     #endregion
