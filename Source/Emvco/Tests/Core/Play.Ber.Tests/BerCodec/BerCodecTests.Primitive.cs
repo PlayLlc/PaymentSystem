@@ -14,21 +14,6 @@ namespace Play.Ber.Tests.BerCodec;
 
 public partial class BerCodecTests :  TestBase
 {
-    #region Instance Members
-
-    private readonly Play.Ber.Codecs.BerCodec _SystemUnderTest = new Codecs.BerCodec(new(new Dictionary<PlayEncodingId, PlayCodec>
-    {
-        {AlphabeticCodec.EncodingId, new AlphabeticCodec()},
-        {AlphaNumericCodec.EncodingId, new AlphaNumericCodec()},
-        {AlphaNumericSpecialCodec.EncodingId, new AlphaNumericSpecialCodec()},
-        {CompressedNumericCodec.EncodingId, new CompressedNumericCodec()},
-        {NumericCodec.EncodingId, new NumericCodec()},
-        {BinaryCodec.EncodingId, new BinaryCodec()},
-        {HexadecimalCodec.EncodingId, new HexadecimalCodec()}
-    }));
-
-    #endregion
-
     #region Decode To DecodedMetadata
 
     [Fact]
