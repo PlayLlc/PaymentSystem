@@ -30,7 +30,7 @@ public record DiscretionaryData : DataExchangeResponse, IEqualityComparer<Discre
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override ushort GetValueByteCount() => GetByteCount();
 
     #endregion
 

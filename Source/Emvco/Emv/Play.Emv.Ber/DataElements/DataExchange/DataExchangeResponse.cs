@@ -39,6 +39,8 @@ public abstract record DataExchangeResponse : DataExchangeList<PrimitiveValue>
         return result is null;
     }
 
+    public ushort GetByteCount() => (ushort) _Value.Sum(a => a.GetTagLengthValueByteCount(_Codec));
+
     #endregion
 
     #region Serialization

@@ -30,7 +30,7 @@ public record CardRiskManagementDataObjectList1RelatedData : DataElement<TagLeng
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => (ushort) _Value.Sum(a => a.GetTagLengthValueByteCount());
 
     #endregion
 

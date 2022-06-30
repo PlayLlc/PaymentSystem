@@ -14,7 +14,7 @@ using Xunit;
 
 namespace Play.Ber.Tests.BerCodec;
 
-public class BerCodecTests : TestBase
+public partial class BerCodecTests : TestBase
 {
     #region Instance Values
 

@@ -49,6 +49,8 @@ public record MessageTableEntry
 
     #region Instance Members
 
+    public ushort GetByteCount() => _ByteCount;
+
     public void Encode(Span<byte> buffer, ref int offset)
     {
         _Mask.Decode(buffer, ref offset);

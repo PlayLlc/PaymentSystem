@@ -37,6 +37,9 @@ public class NumericCodec : PlayCodec
     // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     public override ushort GetByteCount<T>(T[] value) where T : struct
     {
+        if (typeof(T) == typeof(byte))
+            return (ushort)(ushort)value.Length;
+
         if (typeof(T) == typeof(char))
             return (ushort) checked((value.Length % 2) + (value.Length / 2));
 
@@ -836,7 +839,7 @@ public class NumericCodec : PlayCodec
     {
         ReadOnlySpan<byte> trimmedValue = value.TrimStart((byte) 0);
 
-        if (value.Length == Specs.Integer.UInt8.ByteCount)
+        if (value.Length <= Specs.Integer.UInt8.ByteCount)
         {
             byte byteResult = DecodeToByte(trimmedValue[0]);
 

@@ -8,6 +8,7 @@ using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Ber.Lengths;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Core.Exceptions;
 using Play.Core.Specifications;
 
@@ -21,6 +22,7 @@ public partial class BerCodec
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public DecodedMetadata Decode(PlayEncodingId codecIdentifier, ReadOnlySpan<byte> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
