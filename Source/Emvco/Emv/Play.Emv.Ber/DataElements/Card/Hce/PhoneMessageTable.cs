@@ -38,7 +38,7 @@ public record PhoneMessageTable : DataElement<MessageTableEntry[]>, IEqualityCom
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override ushort GetValueByteCount() => (ushort) _Value.Sum(a => a.GetByteCount());
 
     // HACK: This is a technology specific implementation and should move to Kernel 2
     /// <exception cref="PlayInternalException"></exception>
