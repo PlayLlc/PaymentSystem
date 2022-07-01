@@ -359,6 +359,7 @@ public class UnsignedIntegerCodec : PlayCodec
         return buffer.ToByteArray();
     }
 
+
     public void Encode(ushort value, Span<byte> buffer, bool trimEmptyBytes = false)
     {
         LocalEncode(value, buffer, trimEmptyBytes ? value.GetMostSignificantByte() : Specs.Integer.UInt16.ByteCount);

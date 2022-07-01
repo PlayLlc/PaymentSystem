@@ -24,6 +24,15 @@ internal class UnsignedIntegerFixture
             yield return new object[] {GetRandomBytes(Randomize.Arrays.Bytes(_Random.Next(minLength, maxLength)))};
     }
 
+    public static IEnumerable<object[]> GetRandomString(int count, int minLength, int maxLength)
+    {
+        if (minLength > maxLength)
+            throw new ArgumentOutOfRangeException(nameof(minLength));
+
+        for (int i = 0; i < count; i++)
+            yield return new object[] { Randomize.Numeric.String(_Random.Next(minLength, maxLength)) };
+    }
+
     private static byte[] GetRandomBytes(byte[] value)
     {
         // Encoding to unsigned integers will truncate leading 0 values. We only want to 
