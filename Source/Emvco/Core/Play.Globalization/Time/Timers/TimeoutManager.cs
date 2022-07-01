@@ -84,7 +84,7 @@ public class TimeoutManager
                     $"The {nameof(TimeoutManager)} could not complete the {nameof(Start)} method because the {nameof(TimeoutManager)} is currently running");
             }
 
-            _TimeoutSession.Start(timeout);
+            _TimeoutSession.Start(timeout, null);
         }
     }
 
