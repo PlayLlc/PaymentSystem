@@ -61,11 +61,11 @@ public class UnsignedIntegerTests : TestBase
     }
 
     [Theory]
-    [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 100, 2, Specs.Integer.UInt16.ByteCount + 1, MemberType = typeof(UnsignedIntegerFixture))]
+    [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 100, 1, Specs.Integer.UInt16.ByteCount + 1, MemberType = typeof(UnsignedIntegerFixture))]
     public void RandomEncodedUShort_DecodingThenEncoding_ReturnsExpectedResult(byte[] expected)
     {
         ushort decoded = _SystemUnderTest.DecodeToUInt16(expected);
-        byte[]? encoded = _SystemUnderTest.Encode(decoded);
+        byte[]? encoded = _SystemUnderTest.Encode(decoded, true);
         
         Assert.Equal(expected, encoded);
     }
@@ -81,11 +81,11 @@ public class UnsignedIntegerTests : TestBase
     }
 
     [Theory]
-    [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 100, 4, Specs.Integer.UInt32.ByteCount + 1, MemberType = typeof(UnsignedIntegerFixture))]
+    [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 100, 1, Specs.Integer.UInt32.ByteCount + 1, MemberType = typeof(UnsignedIntegerFixture))]
     public void RandomEncodedUInt_DecodingThenEncoding_ReturnsExpectedResult(byte[] expected)
     {
         uint decoded = _SystemUnderTest.DecodeToUInt32(expected);
-        byte[]? encoded = _SystemUnderTest.Encode(expected);
+        byte[]? encoded = _SystemUnderTest.Encode(decoded, true);
         
         Assertion(() => { Assert.Equal(expected, encoded); }, Build.Equals.Message(expected, encoded));
     }
@@ -101,11 +101,11 @@ public class UnsignedIntegerTests : TestBase
     }
 
     [Theory]
-    [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 100, 8, Specs.Integer.UInt64.ByteCount + 1, MemberType = typeof(UnsignedIntegerFixture))]
+    [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 100, 1, Specs.Integer.UInt64.ByteCount + 1, MemberType = typeof(UnsignedIntegerFixture))]
     public void RandomEncodedULong_DecodingThenEncoding_ReturnsExpectedResult(byte[] expected)
     {
         ulong decoded = _SystemUnderTest.DecodeToUInt64(expected);
-        byte[]? encoded = _SystemUnderTest.Encode(decoded);
+        byte[]? encoded = _SystemUnderTest.Encode(decoded, true);
         
         Assertion(() => { Assert.Equal(expected, encoded); }, Build.Equals.Message(expected, encoded));
     }
