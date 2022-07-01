@@ -57,5 +57,11 @@ internal class UnsignedIntegerFixture
             yield return new object[] {Randomize.Integers.ULong()};
     }
 
+    public static IEnumerable<object[]> GetRandomBigInteger(int count)
+    {
+        for (int i = 0; i < count; i++)
+            yield return new object[] { Randomize.Integers.BigInteger() };
+    }
+
     #endregion
 }

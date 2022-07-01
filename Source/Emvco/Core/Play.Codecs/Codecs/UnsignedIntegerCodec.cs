@@ -67,7 +67,7 @@ public class UnsignedIntegerCodec : PlayCodec
         return (ushort) value.Length;
     }
 
-    public int GetByteCount(char[] chars, int index, int count) => Encode(chars).Length;
+    public int GetByteCount(char[] chars) => Encode(chars).Length;
 
     // you're smarter than you think you are - this checks out
     public int GetMaxByteCount(int charCount)
@@ -85,7 +85,7 @@ public class UnsignedIntegerCodec : PlayCodec
 
         for (int i = 0; i < valueLength; i++)
         {
-            if ((value % 10) == 0)
+            if (value == 0)
                 return i;
 
             value /= 10;
@@ -100,7 +100,7 @@ public class UnsignedIntegerCodec : PlayCodec
 
         for (int i = 0; i < valueLength; i++)
         {
-            if ((value % 10) == 0)
+            if (value == 0)
                 return i;
 
             value /= 10;
@@ -115,7 +115,7 @@ public class UnsignedIntegerCodec : PlayCodec
 
         for (int i = 0; i < valueLength; i++)
         {
-            if ((value % 10) == 0)
+            if (value == 0)
                 return i;
 
             value /= 10;
@@ -130,7 +130,7 @@ public class UnsignedIntegerCodec : PlayCodec
 
         for (int i = 0; i < valueLength; i++)
         {
-            if ((value % 10) == 0)
+            if (value == 0)
                 return i;
 
             value /= 10;
