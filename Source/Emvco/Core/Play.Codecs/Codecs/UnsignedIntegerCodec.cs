@@ -359,7 +359,6 @@ public class UnsignedIntegerCodec : PlayCodec
         return buffer.ToByteArray();
     }
 
-
     public void Encode(ushort value, Span<byte> buffer, bool trimEmptyBytes = false)
     {
         LocalEncode(value, buffer, trimEmptyBytes ? value.GetMostSignificantByte() : Specs.Integer.UInt16.ByteCount);
@@ -575,7 +574,7 @@ public class UnsignedIntegerCodec : PlayCodec
 
     #region Decode To Integers
 
-    public BigInteger DecodeToBigInteger(ReadOnlySpan<byte> value) => new(value);
+    public BigInteger DecodeToBigInteger(ReadOnlySpan<byte> value) => new(value, true);
 
     public byte DecodeToByte(ReadOnlySpan<byte> value)
     {
