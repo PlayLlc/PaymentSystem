@@ -25,7 +25,83 @@ public class UnsignedIntegerTests : TestBase
 
     #endregion
 
+    #region Instance Members
+
+    #region Encode BigInteger
+
+    [Theory]
+    [MemberData(nameof(UnsignedIntegerFixture.GetRandomBigInteger), 50, MemberType = typeof(UnsignedIntegerFixture))]
+    public void BigInteger_Encode_ReturnsExpectedResult(BigInteger testData)
+    {
+        byte[] expected = testData.ToByteArray();
+        byte[] actual = _SystemUnderTest.Encode(testData);
+
+        Assert.Equal(expected, actual);
+    }
+
+    #endregion
+
+    #region DecodeToBigInteger
+
+    [Theory]
+    [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(UnsignedIntegerFixture))]
+    public void RandomByteArray_DecodeToBigInteger__ReturnsExpectedResult(byte[] input)
+    {
+        BigInteger expected = new(input);
+        BigInteger actual = _SystemUnderTest.DecodeToBigInteger(input);
+
+        Assert.Equal(expected, actual);
+    }
+
+    #endregion
+
+    #region DecodeToByte
+
+    [Theory]
+    [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(UnsignedIntegerFixture))]
+    public void RandomByteArray_DecodeToByte_TheFirstByteIsReturned(byte[] input)
+    {
+        byte expected = input[0];
+        byte actual = _SystemUnderTest.DecodeToByte(input);
+
+        Assert.Equal(expected, actual);
+    }
+
+    #endregion
+
+    #endregion
+
     #region Encoding <-> Decoding
+
+    [Theory]
+    [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 100, 1, Specs.Integer.UInt64.ByteCount + 1, MemberType = typeof(UnsignedIntegerFixture))]
+    public void RandomEncodedULong_DecodingThenEncoding_ReturnsExpectedResult(byte[] expected)
+    {
+        ulong decoded = _SystemUnderTest.DecodeToUInt64(expected);
+        byte[]? encoded = _SystemUnderTest.Encode(decoded)[^expected.Length..];
+
+        Assertion(() => { Assert.Equal(expected, encoded); }, Build.Equals.Message(expected, encoded));
+    }
+
+    [Theory]
+    [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 100, 1, Specs.Integer.UInt32.ByteCount + 1, MemberType = typeof(UnsignedIntegerFixture))]
+    public void RandomEncodedUInt_DecodingThenEncoding_ReturnsExpectedResult(byte[] expected)
+    {
+        uint decoded = _SystemUnderTest.DecodeToUInt32(expected);
+        byte[]? encoded = _SystemUnderTest.Encode(decoded)[^expected.Length..];
+
+        Assertion(() => { Assert.Equal(expected, encoded); }, Build.Equals.Message(expected, encoded));
+    }
+
+    [Theory]
+    [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 100, 1, Specs.Integer.UInt16.ByteCount + 1, MemberType = typeof(UnsignedIntegerFixture))]
+    public void RandomEncodedUShort_DecodingThenEncoding_ReturnsExpectedResult(byte[] expected)
+    {
+        ushort decoded = _SystemUnderTest.DecodeToUInt16(expected);
+        byte[]? encoded = _SystemUnderTest.Encode(decoded)[^expected.Length..];
+
+        Assert.Equal(expected, encoded);
+    }
 
     /// <param name="expected"></param>
     /// <exception cref="CodecParsingException"></exception>
@@ -46,6 +122,7 @@ public class UnsignedIntegerTests : TestBase
     {
         byte[]? encoded = _SystemUnderTest.Encode(expected);
         string? decoded = _SystemUnderTest.DecodeToString(encoded);
+
         //does not take leading 0s into account
         Assertion(() => { Assert.Equal(expected, decoded!); }, Build.Equals.Message(expected, decoded!));
     }
@@ -61,16 +138,6 @@ public class UnsignedIntegerTests : TestBase
     }
 
     [Theory]
-    [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 100, 1, Specs.Integer.UInt16.ByteCount + 1, MemberType = typeof(UnsignedIntegerFixture))]
-    public void RandomEncodedUShort_DecodingThenEncoding_ReturnsExpectedResult(byte[] expected)
-    {
-        ushort decoded = _SystemUnderTest.DecodeToUInt16(expected);
-        byte[]? encoded = _SystemUnderTest.Encode(decoded, true);
-        
-        Assert.Equal(expected, encoded);
-    }
-
-    [Theory]
     [MemberData(nameof(UnsignedIntegerFixture.GetRandomUInt), 50, MemberType = typeof(UnsignedIntegerFixture))]
     public void RandomDecodedUInt_EncodingThenDecoding_ReturnsExpectedResult(uint expected)
     {
@@ -78,16 +145,6 @@ public class UnsignedIntegerTests : TestBase
         uint actual = _SystemUnderTest.DecodeToUInt32(decoded);
 
         Assertion(() => { Assert.Equal(expected, actual); }, Build.Equals.Message(expected, actual));
-    }
-
-    [Theory]
-    [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 100, 1, Specs.Integer.UInt32.ByteCount + 1, MemberType = typeof(UnsignedIntegerFixture))]
-    public void RandomEncodedUInt_DecodingThenEncoding_ReturnsExpectedResult(byte[] expected)
-    {
-        uint decoded = _SystemUnderTest.DecodeToUInt32(expected);
-        byte[]? encoded = _SystemUnderTest.Encode(decoded, true);
-        
-        Assertion(() => { Assert.Equal(expected, encoded); }, Build.Equals.Message(expected, encoded));
     }
 
     [Theory]
@@ -100,16 +157,6 @@ public class UnsignedIntegerTests : TestBase
         Assertion(() => { Assert.Equal(expected, actual); }, Build.Equals.Message(expected, actual));
     }
 
-    [Theory]
-    [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 100, 1, Specs.Integer.UInt64.ByteCount + 1, MemberType = typeof(UnsignedIntegerFixture))]
-    public void RandomEncodedULong_DecodingThenEncoding_ReturnsExpectedResult(byte[] expected)
-    {
-        ulong decoded = _SystemUnderTest.DecodeToUInt64(expected);
-        byte[]? encoded = _SystemUnderTest.Encode(decoded, true);
-        
-        Assertion(() => { Assert.Equal(expected, encoded); }, Build.Equals.Message(expected, encoded));
-    }
-
     #endregion
 
     #region GetByteCount
@@ -117,7 +164,7 @@ public class UnsignedIntegerTests : TestBase
     [Fact]
     public void ValidOddString_GetByteCount_ReturnsExpectedResult()
     {
-        char[] testData = { '1', '2', '3', '4', '5' };
+        char[] testData = {'1', '2', '3', '4', '5'};
         int expected = 2;
         int actual = _SystemUnderTest.GetByteCount(testData);
 
@@ -127,7 +174,7 @@ public class UnsignedIntegerTests : TestBase
     [Fact]
     public void ValidEvenString_GetByteCount_ReturnsExpectedResult()
     {
-        char[] testData = { '1', '2', '3', '4', '5', '6' };
+        char[] testData = {'1', '2', '3', '4', '5', '6'};
         int expected = 3;
         int actual = _SystemUnderTest.GetByteCount(testData);
 
@@ -141,7 +188,7 @@ public class UnsignedIntegerTests : TestBase
     [Fact]
     public void Byte_GetCharCount_ReturnsExpectedResult()
     {
-        byte testData = 56 ;
+        byte testData = 56;
         nint expected = 2;
         nint actual = _SystemUnderTest.GetCharCount(testData);
 
@@ -190,48 +237,6 @@ public class UnsignedIntegerTests : TestBase
 
     #endregion
 
-    #region Encode BigInteger
-
-    [Theory]
-    [MemberData(nameof(UnsignedIntegerFixture.GetRandomBigInteger), 50, MemberType = typeof(UnsignedIntegerFixture))]
-    public void BigInteger_Encode_ReturnsExpectedResult(BigInteger testData)
-    {
-        byte[] expected = testData.ToByteArray();
-        byte[] actual = _SystemUnderTest.Encode(testData);
-
-        Assert.Equal(expected, actual);
-    }
-
-    #endregion
-
-    #region DecodeToBigInteger
-
-    [Theory]
-    [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(UnsignedIntegerFixture))]
-    public void RandomByteArray_DecodeToBigInteger__ReturnsExpectedResult(byte[] input)
-    {
-        BigInteger expected = new(input);
-        BigInteger actual = _SystemUnderTest.DecodeToBigInteger(input);
-
-        Assert.Equal(expected, actual);
-    }
-
-    #endregion
-
-    #region DecodeToByte
-
-    [Theory]
-    [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(UnsignedIntegerFixture))]
-    public void RandomByteArray_DecodeToByte_TheFirstByteIsReturned(byte[] input)
-    {
-        byte expected = input[0];
-        byte actual = _SystemUnderTest.DecodeToByte(input);
-
-        Assert.Equal(expected, actual);
-    }
-
-    #endregion
-
     #region Decode To DecodeToMetaData
 
     [Theory]
@@ -247,7 +252,7 @@ public class UnsignedIntegerTests : TestBase
     }
 
     [Theory]
-    [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 100, 1, Specs.Integer.UInt16.ByteCount+1, MemberType = typeof(UnsignedIntegerFixture))]
+    [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 100, 1, Specs.Integer.UInt16.ByteCount + 1, MemberType = typeof(UnsignedIntegerFixture))]
     public void RandomByteArray_DecodeToMetadataInputByteCountUInt16_DecodesExpectedResult(byte[] input)
     {
         DecodedMetadata metadata = _SystemUnderTest.Decode(input);
@@ -297,7 +302,7 @@ public class UnsignedIntegerTests : TestBase
     [Fact]
     public void ValidByteArray_InvokingIsValid_ReturnsTrue()
     {
-        byte[] testData = new byte[] { 0x12, 0x34, 0x56 };
+        byte[] testData = new byte[] {0x12, 0x34, 0x56};
         Assertion(() => Assert.True(_SystemUnderTest.IsValid(testData)));
     }
 
