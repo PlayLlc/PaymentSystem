@@ -12,7 +12,7 @@ public class StopwatchManagerTests : TestBase
     [Fact]
     public void NewStopWatchManager_StartAndStop_ExpectedElapsedTimeWithSecondPrecision()
     {
-        StopwatchManager sut = new StopwatchManager();
+        StopwatchManager sut = new();
 
         sut.Start();
 
@@ -20,14 +20,14 @@ public class StopwatchManagerTests : TestBase
 
         Microseconds elapsedTime = sut.Stop();
 
-        Play.Globalization.Time.Seconds expected = new(1);
-        Assert.Equal(expected, elapsedTime.AsSeconds());
+        Globalization.Time.Seconds expected = new(1);
+        Assert.True(expected <= elapsedTime.AsSeconds());
     }
 
     [Fact]
     public void NewStopWatchManager_StartAndStop_ExpectedElapsedTimeWithDeciSecondPrecision()
     {
-        StopwatchManager sut = new StopwatchManager();
+        StopwatchManager sut = new();
 
         sut.Start();
 
@@ -36,13 +36,13 @@ public class StopwatchManagerTests : TestBase
         Microseconds elapsedTime = sut.Stop();
 
         Deciseconds expected = new(10);
-        Assert.Equal(expected, elapsedTime.AsDeciSeconds());
+        Assert.True(expected <= elapsedTime.AsDeciSeconds());
     }
 
     [Fact]
     public void NewStopWatchManager_StartAndStop_AlmoastExpectedElapsedTimeWithMilliSecondPrecision()
     {
-        StopwatchManager sut = new StopwatchManager();
+        StopwatchManager sut = new();
 
         sut.Start();
 
@@ -57,18 +57,15 @@ public class StopwatchManagerTests : TestBase
     [Fact]
     public void NewStopWatchManager_StartAndStopThentryToStopAgainTheStopWatch_ExceptionIsThrown()
     {
-        StopwatchManager sut = new StopwatchManager();
+        StopwatchManager sut = new();
 
         sut.Start();
 
         Thread.Sleep(200);
 
-        Microseconds elapsedTime = sut.Stop();
+        _ = sut.Stop();
 
-        _ = Assert.Throws<InvalidOperationException>(() =>
-        {
-            sut.Stop();
-        });
+        Assert.Throws<InvalidOperationException>(() => { sut.Stop(); });
     }
 
     #endregion
@@ -78,7 +75,7 @@ public class StopwatchManagerTests : TestBase
     [Fact]
     public void NewStopWatchManager_StartThenGetElapsedTimeThenStop_ReturnsExpectedResultWithSecondPrecision()
     {
-        StopwatchManager sut = new StopwatchManager();
+        StopwatchManager sut = new();
 
         sut.Start();
 
@@ -88,14 +85,14 @@ public class StopwatchManagerTests : TestBase
 
         sut.Stop();
 
-        Play.Globalization.Time.Seconds expected = new(1);
-        Assert.Equal(expected, elapsed.AsSeconds());
+        Globalization.Time.Seconds expected = new(1);
+        Assert.True(expected <= elapsed.AsSeconds());
     }
 
     [Fact]
-    public void NewStopWatchManager_StartThenGetElapsedTimeThenStop_ReturnsExpectedResultWithDeciSecondPrecision()
+    public void NewStopWatchManager_StartThenGetElapsedTimeThenStop_ReturnsExpectedResultWithDecisecondPrecision()
     {
-        StopwatchManager sut = new StopwatchManager();
+        StopwatchManager sut = new();
 
         sut.Start();
 
@@ -106,20 +103,19 @@ public class StopwatchManagerTests : TestBase
         sut.Stop();
 
         Deciseconds expected = new(10);
-        Assert.Equal(expected, elapsed.AsDeciSeconds());
+        Assert.True(expected <= elapsed.AsDeciSeconds());
     }
 
     [Fact]
-    public void NewStopWatchManager_StartThenGetElapsedTimeThenStop_ReturnsExpectedResultWithMilliSecondPrecision()
+    public void NewStopWatchManager_StartThenGetElapsedTimeThenStop_ReturnsExpectedResultWithMillisecondPrecision()
     {
-        StopwatchManager sut = new StopwatchManager();
+        StopwatchManager sut = new();
 
         sut.Start();
 
         Thread.Sleep(1000);
 
         Microseconds elapsed = sut.GetElapsedTime();
-
         sut.Stop();
 
         Milliseconds expected = new(1000);
@@ -129,7 +125,7 @@ public class StopwatchManagerTests : TestBase
     [Fact]
     public void NewStopWatchManager_StartThenGetElapsedTime2ndTimeThenStop_ReturnsExpectedResultWithSecondPrecision()
     {
-        StopwatchManager sut = new StopwatchManager();
+        StopwatchManager sut = new();
 
         sut.Start();
 
@@ -143,26 +139,22 @@ public class StopwatchManagerTests : TestBase
 
         sut.Stop();
 
-        Play.Globalization.Time.Seconds expected = new(1);
-        Assert.Equal(expected, elapsed.AsSeconds());
+        Globalization.Time.Seconds expected = new(1);
+        Assert.True(expected <= elapsed.AsSeconds());
 
-        Play.Globalization.Time.Seconds secondExpected = new(2);
-        Assert.Equal(secondExpected, secondElapsed.AsSeconds());
+        Globalization.Time.Seconds secondExpected = new(2);
+        Assert.True(secondExpected <= secondElapsed.AsSeconds());
     }
 
     [Fact]
-    public void StopWatchManager_StartMultipleTimmes_ExceptionIsThrown()
+    public void StopWatchManager_StartMultipleTimes_ExceptionIsThrown()
     {
-        StopwatchManager sut = new StopwatchManager();
+        StopwatchManager sut = new();
 
         sut.Start();
 
-        Assert.Throws<InvalidOperationException>(() =>
-        {
-            sut.Start();
-        });
+        Assert.Throws<InvalidOperationException>(() => { sut.Start(); });
     }
 
     #endregion
-
 }
