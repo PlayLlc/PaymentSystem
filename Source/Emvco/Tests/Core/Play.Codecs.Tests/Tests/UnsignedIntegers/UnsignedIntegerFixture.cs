@@ -21,7 +21,17 @@ internal class UnsignedIntegerFixture
             throw new ArgumentOutOfRangeException(nameof(minLength));
 
         for (int i = 0; i < count; i++)
-            yield return new object[] {GetRandomBytes(Randomize.Arrays.Bytes(_Random.Next(minLength, maxLength)))};
+            yield return new object[] {GetRandomBytesWithoutLeadingZero(minLength, maxLength)};
+    }
+
+    private static byte[] GetRandomBytesWithoutLeadingZero(int minLength, int maxLength)
+    {
+        byte[] result = GetRandomBytes(Randomize.Arrays.Bytes(_Random.Next(minLength, maxLength)));
+
+        if (result[0] <= 0xF)
+            return GetRandomBytesWithoutLeadingZero(minLength, maxLength);
+
+        return result;
     }
 
     public static IEnumerable<object[]> GetRandomString(int count, int minLength, int maxLength)
@@ -30,7 +40,17 @@ internal class UnsignedIntegerFixture
             throw new ArgumentOutOfRangeException(nameof(minLength));
 
         for (int i = 0; i < count; i++)
-            yield return new object[] { Randomize.Numeric.String(_Random.Next(minLength, maxLength)) };
+            yield return new object[] {GetRandomStringWithoutLeadingZero(minLength, maxLength)};
+    }
+
+    private static string GetRandomStringWithoutLeadingZero(int minLength, int maxLength)
+    {
+        string result = Randomize.Numeric.String(_Random.Next(minLength, maxLength));
+
+        if (result.StartsWith("0"))
+            return GetRandomStringWithoutLeadingZero(minLength, maxLength);
+
+        return result;
     }
 
     private static byte[] GetRandomBytes(byte[] value)
@@ -69,7 +89,7 @@ internal class UnsignedIntegerFixture
     public static IEnumerable<object[]> GetRandomBigInteger(int count)
     {
         for (int i = 0; i < count; i++)
-            yield return new object[] { Randomize.Integers.BigInteger() };
+            yield return new object[] {Randomize.Integers.BigInteger()};
     }
 
     #endregion

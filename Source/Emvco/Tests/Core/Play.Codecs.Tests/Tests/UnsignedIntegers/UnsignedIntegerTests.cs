@@ -120,13 +120,9 @@ public class UnsignedIntegerTests : TestBase
     [MemberData(nameof(UnsignedIntegerFixture.GetRandomString), 50, 1, 300, MemberType = typeof(UnsignedIntegerFixture))]
     public void RandomStringEncoding_EncodingThenDecoding_ReturnsExpectedResult(string expected)
     {
-        if (expected.StartsWith("0"))
-            return;
-
         byte[]? encoded = _SystemUnderTest.Encode(expected);
         string? decoded = _SystemUnderTest.DecodeToString(encoded);
 
-        //does not take leading 0s into account
         Assertion(() => { Assert.Equal(expected, decoded!); }, Build.Equals.Message(expected, decoded!));
     }
 
