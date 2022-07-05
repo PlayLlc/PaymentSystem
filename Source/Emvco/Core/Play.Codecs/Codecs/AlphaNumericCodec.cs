@@ -196,6 +196,26 @@ public class AlphaNumericCodec : PlayCodec
         return byteArray;
     }
 
+    public byte[] Encode(ReadOnlySpan<char> value, int length)
+    {
+        if (value.Length < length)
+            throw new CodecParsingException("The code should not reach this point");
+
+        Validate(value);
+
+        byte[] byteArray = new byte[value.Length];
+
+        for (int i = 0; i < length; i++)
+        {
+            if (!_ByteMapper.ContainsKey(value[i]))
+                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+
+            byteArray[i] = _ByteMapper[value[i]];
+        }
+
+        return byteArray;
+    }
+
     public byte[] Encode(ReadOnlySpan<Nibble> value)
     {
         if ((value.Length % 2) != 0)
