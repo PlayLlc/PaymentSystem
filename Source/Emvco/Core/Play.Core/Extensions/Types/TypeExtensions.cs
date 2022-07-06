@@ -137,9 +137,6 @@ public static class TypeExtensions
 
     public static bool IsChar(this Type value)
     {
-        if (value == typeof(BigInteger))
-            return true;
-
         return Type.GetTypeCode(value) switch
         {
             TypeCode.Char => true,
