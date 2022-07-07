@@ -5,24 +5,14 @@ using Xunit;
 
 namespace Play.Globalization.Tests.Tests.Time.Timers;
 
-public class TimeoutManagerUnitTests : TestBase
+public class TimeoutManagerTests : TestBase
 {
-    [Fact]
-    public void NewTimeoutManager_InstantiatedAndStarted_StartedSuccessFully()
-    {
-        TimeoutManager sut = new TimeoutManager();
-
-        Globalization.Time.Seconds timeout = new(2);
-
-        sut.Start(timeout);
-
-        sut.Stop();
-    }
+    #region Instance Members
 
     [Fact]
     public void NewTimeoutManager_StartAndStop_ExpectedElapsedTimeWithSecondPrecision()
     {
-        TimeoutManager sut = new TimeoutManager();
+        TimeoutManager sut = new();
 
         Globalization.Time.Seconds timeout = new(2);
 
@@ -32,13 +22,13 @@ public class TimeoutManagerUnitTests : TestBase
 
         Microseconds elapsed = sut.Stop();
 
-        Assert.Equal(timeout, elapsed.AsSeconds());
+        Assert.True(timeout <= elapsed.AsSeconds());
     }
 
     [Fact]
     public void NewTimeoutManager_StartAndStop_ExpectedElapsedTimeWithDeciSecondPrecision()
     {
-        TimeoutManager sut = new TimeoutManager();
+        TimeoutManager sut = new();
 
         Globalization.Time.Seconds timeout = new(2);
 
@@ -49,30 +39,29 @@ public class TimeoutManagerUnitTests : TestBase
         Microseconds elapsed = sut.Stop();
 
         Deciseconds expected = new(20);
-        Assert.Equal(expected, elapsed.AsDeciSeconds());
+        Assert.True(expected <= elapsed.AsDeciSeconds());
     }
 
     [Fact]
     public void NewTimeOutManager_StartTOMThenStartItAgain_ExceptionIsThrown()
     {
-        TimeoutManager sut = new TimeoutManager();
+        TimeoutManager sut = new();
 
         Globalization.Time.Seconds timeout = new(2);
 
         sut.Start(timeout);
 
-        Assert.Throws<InvalidOperationException>(() =>
-        {
-            sut.Start(timeout);
-        });
+        Assert.Throws<InvalidOperationException>(() => { sut.Start(timeout); });
     }
+
+    #endregion
 
     #region IsTimeOut
 
     [Fact]
     public void NewTimeOutManager_TOMStarted_IsNotTimedOut()
     {
-        TimeoutManager sut = new TimeoutManager();
+        TimeoutManager sut = new();
 
         Globalization.Time.Seconds timeout = new(3);
 
@@ -86,7 +75,7 @@ public class TimeoutManagerUnitTests : TestBase
     [Fact]
     public void NewTimeOutManager_TOMStarted_IsTimedOut()
     {
-        TimeoutManager sut = new TimeoutManager();
+        TimeoutManager sut = new();
 
         Globalization.Time.Seconds timeout = new(1);
 
@@ -104,16 +93,13 @@ public class TimeoutManagerUnitTests : TestBase
     [Fact]
     public void NewTimeOutManager_TOMStartedWithActionHandler_ActionHandlerGetsTriggeredAfterTimeoutIsReached()
     {
-        TimeoutManager sut = new TimeoutManager();
+        TimeoutManager sut = new();
 
         Globalization.Time.Seconds timeout = new(1);
 
         int j = 0;
 
-        sut.Start(timeout, () =>
-        {
-            j = 11;
-        });
+        sut.Start(timeout, () => { j = 11; });
 
         Thread.Sleep(3000);
         Assert.Equal(11, j);
@@ -122,17 +108,14 @@ public class TimeoutManagerUnitTests : TestBase
     [Fact]
     public void NewTimeOutManager_TryingToStopTOMWhenTimeoutHasReached_ThrowsException()
     {
-        TimeoutManager sut = new TimeoutManager();
+        TimeoutManager sut = new();
 
         Globalization.Time.Seconds timeout = new(1);
 
         sut.Start(timeout);
 
         Thread.Sleep(3000);
-        Assert.Throws<InvalidOperationException>(() =>
-        {
-            sut.Stop();
-        });
+        Assert.Throws<InvalidOperationException>(() => { sut.Stop(); });
     }
 
     #endregion
