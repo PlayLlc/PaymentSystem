@@ -24,6 +24,12 @@ namespace Play.Messaging.Tests.Data.Channels
 
         #endregion
 
+        #region Instance Values
+
+        private int _Value;
+
+        #endregion
+
         #region Constructor
 
         public TestEndpoint1(ICreateEndpointClient messageRouter)
@@ -51,7 +57,7 @@ namespace Play.Messaging.Tests.Data.Channels
 
         public void Request(TestRequestMessage message)
         {
-            _EndpointClient.Send(message);
+            _Value = message.GetValue();
         }
 
         #endregion
@@ -64,6 +70,8 @@ namespace Play.Messaging.Tests.Data.Channels
         }
 
         #endregion
+
+        public int GetIndex() => _Value;
 
         #endregion
     }

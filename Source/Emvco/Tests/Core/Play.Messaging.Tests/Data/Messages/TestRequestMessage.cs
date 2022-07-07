@@ -17,10 +17,24 @@ namespace Play.Messaging.Tests.Data.Messages
 
         #endregion
 
+        #region Instance Values
+
+        private readonly int _Value;
+
+        #endregion
+
         #region Constructor
 
-        public TestRequestMessage() : base(ChannelTypeId, MessageTypeId)
-        { }
+        public TestRequestMessage(int value) : base(ChannelTypeId, MessageTypeId)
+        {
+            _Value = value;
+        }
+
+        #endregion
+
+        #region Instance Members
+
+        public int GetValue() => _Value;
 
         #endregion
     }

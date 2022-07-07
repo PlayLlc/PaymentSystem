@@ -41,11 +41,11 @@ public class MessageRouter : IRouteMessages
     /// <summary>
     ///     Send
     /// </summary>
-    /// <param name="requestMessageEnvelop"></param>
+    /// <param name="requestMessageEnvelope"></param>
     /// <exception cref="Exceptions.InvalidMessageRoutingException"></exception>
-    void IRouteMessages.Send(RequestMessageEnvelope requestMessageEnvelop)
+    void IRouteMessages.Send(RequestMessageEnvelope requestMessageEnvelope)
     {
-        _MessageBus.Send(requestMessageEnvelop.GetMessage());
+        _MessageBus.Send(requestMessageEnvelope.GetMessage());
     }
 
     #endregion
