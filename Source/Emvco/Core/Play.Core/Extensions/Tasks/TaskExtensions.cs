@@ -75,7 +75,7 @@ public static class TaskExtensions
     {
         using CancellationTokenSource timeoutCancellationTokenSource = new();
 
-        if (await Task.WhenAny(task, Task.Delay(timeout, timeoutCancellationTokenSource.Token)) != task)
+        if (await Task.WhenAny(Task.Delay(timeout, timeoutCancellationTokenSource.Token)) != task)
         {
             timeoutHandler.Invoke();
 
