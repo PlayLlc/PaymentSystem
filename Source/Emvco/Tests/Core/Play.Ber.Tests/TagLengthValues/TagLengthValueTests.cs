@@ -2,68 +2,112 @@
 
 using Play.Ber.Identifiers;
 using Play.Testing.BaseTestClasses;
+
 using TagLengthValue = Play.Ber.DataObjects.TagLengthValue;
 
 using Xunit;
+
 using Play.Ber.Tests.TestData;
+
 using System.Linq;
+
 using Play.Ber.Lengths;
 
 namespace Play.Ber.Tests.TagLengthValues;
 
 public class TagLengthValueTests : TestBase
 {
-    #region Instance Members
+    #region Static Metadata
 
     public static readonly Random _Random = new();
 
-    [Fact]
-    public void TagLengthValue_InstantiateFromTag_InstantiateCorrectTLV()
-    {
-        Tag tag = new(12);
-        ReadOnlySpan<byte> contentOctes = stackalloc byte[] { 13, 7, 36, 63, 0xF0 };
+    #endregion
 
-        TagLengthValue sut = new TagLengthValue(tag, contentOctes);
+    #region GetTag
+
+    [Fact]
+    public void TagLengthValue_InstantiateFromTag_InstantiateCorrectTlv()
+    {
+        Tag tag = new(0xC);
+        ReadOnlySpan<byte> contentOctets = stackalloc byte[] {13, 7, 36, 63, 0xF0};
+
+        TagLengthValue sut = new(tag, contentOctets);
 
         Tag actual = sut.GetTag();
         Assert.Equal(tag, actual);
     }
 
     [Fact]
-    public void TagLengthValue_InstantiateFromTagWithLongIdentifier_InstantiateCorrectTLV()
+    public void TagLengthValue_InstantiateFromTagWithLongIdentifier_InstantiateCorrectTlv()
     {
-        Tag tag = new(new byte[] { 31, 12 });
-        ReadOnlySpan<byte> contentOctes = stackalloc byte[] { 0xF0, 0x05, 0x12, 0x1C };
+        Tag tag = new(new byte[] {0x1F, 0x0C});
+        ReadOnlySpan<byte> contentOctets = stackalloc byte[] {0xF0, 0x05, 0x12, 0x1C};
 
-        TagLengthValue sut = new TagLengthValue(tag, contentOctes);
+        TagLengthValue sut = new(tag, contentOctets);
 
         Tag actual = sut.GetTag();
         Assert.Equal(tag, actual);
     }
 
     [Fact]
-    public void TagLengthValue_InstantiateFromRandomTagAndContentOctets_CreatesExpectedTLV()
+    public void TagLengthValue_InstantiateFromRandomTagAndContentOctets_CreatesExpectedTlv()
     {
-        Tag expectedtag = ShortIdentifierTestValueFactory.CreateTag(_Random);
+        Tag expectedTag = ShortIdentifierTestValueFactory.CreateTag(_Random);
         byte[] contentOctets = ByteArrayFactory.GetRandom(_Random, 50, byte.MinValue, byte.MaxValue).ToArray();
 
-        TagLengthValue sut = new TagLengthValue(expectedtag, contentOctets);
+        TagLengthValue sut = new(expectedTag, contentOctets);
 
         Tag actual = sut.GetTag();
-        Assert.Equal(expectedtag, actual);
+        Assert.Equal(expectedTag, actual);
     }
+
+    #region GetValueByteCount
+
+    [Fact]
+    public void RandomTagLengthValue_GetValueByteCount_ReturnsExpectedResult()
+    {
+        Tag tag = ShortIdentifierTestValueFactory.CreateTag(_Random);
+        byte[] contentOctets = ByteArrayFactory.GetRandom(_Random, 50, byte.MinValue, byte.MaxValue).ToArray();
+
+        TagLengthValue sut = new(tag, contentOctets);
+
+        ushort expected = (ushort) contentOctets.Length;
+        ushort actual = sut.GetValueByteCount();
+
+        Assert.Equal(expected, actual);
+    }
+
+    #endregion
+
+    #region EncodeValue
+
+    [Fact]
+    public void RandomTagLengthValue_EncodeValue_ReturnsSameContentOctets()
+    {
+        Tag tag = new(13);
+        byte[] contentOctets = {13, 194, 0x5C};
+
+        TagLengthValue sut = new(tag, contentOctets);
+
+        byte[] expected = contentOctets;
+        byte[] actual = sut.EncodeValue();
+
+        Assert.Equal(expected, actual);
+    }
+
+    #endregion
 
     #endregion
 
     #region GetTagLengthValueByteCount
 
     [Fact]
-    public void TagLengthValue_GetTagLengthValueByteCountForTLV_ReturnsExpectedResult()
+    public void TagLengthValue_GetTagLengthValueByteCountForTlv_ReturnsExpectedResult()
     {
         Tag tag = new(28);
-        byte[] contentOctets = new byte[] { 32, 17, 6, 12, 8, 11, 114 };
+        byte[] contentOctets = {32, 17, 6, 12, 8, 11, 114};
 
-        TagLengthValue sut = new TagLengthValue(tag, contentOctets);
+        TagLengthValue sut = new(tag, contentOctets);
 
         uint expected = 9;
         uint actual = sut.GetTagLengthValueByteCount();
@@ -71,12 +115,12 @@ public class TagLengthValueTests : TestBase
     }
 
     [Fact]
-    public void TagLengthValue_GetTagLengthValueByteCountForTLVWithLogIdentifiedTag_ReturnsExpectedResult()
+    public void TagLengthValue_GetTagLengthValueByteCountForTlvWithLogIdentifiedTag_ReturnsExpectedResult()
     {
-        Tag tag = new(new byte[] { 31, 48 });
-        byte[] contentOctets = new byte[] { 1, 4, 43, 32, 23, 119 };
+        Tag tag = new(new byte[] {31, 48});
+        byte[] contentOctets = {1, 4, 43, 32, 23, 119};
 
-        TagLengthValue sut = new TagLengthValue(tag, contentOctets);
+        TagLengthValue sut = new(tag, contentOctets);
 
         uint expected = 9;
         uint actual = sut.GetTagLengthValueByteCount();
@@ -90,28 +134,10 @@ public class TagLengthValueTests : TestBase
         Tag tag = ShortIdentifierTestValueFactory.CreateTag(_Random);
         byte[] contentOctets = ByteArrayFactory.GetRandom(_Random, 50, byte.MinValue, byte.MaxValue).ToArray();
 
-        TagLengthValue sut = new TagLengthValue(tag, contentOctets);
+        TagLengthValue sut = new(tag, contentOctets);
 
-        uint expected = (uint)(tag.GetByteCount() + contentOctets.Length + 1);
+        uint expected = (uint) (tag.GetByteCount() + contentOctets.Length + 1);
         uint actual = sut.GetTagLengthValueByteCount();
-
-        Assert.Equal(expected, actual);
-    }
-
-    #endregion
-
-    #region  GetValueByteCount
-
-    [Fact]
-    public void RandomTagLengthValue_GetValueByteCount_ReturnsExpectedResult()
-    {
-        Tag tag = ShortIdentifierTestValueFactory.CreateTag(_Random);
-        byte[] contentOctets = ByteArrayFactory.GetRandom(_Random, 50, byte.MinValue, byte.MaxValue).ToArray();
-
-        TagLengthValue sut = new TagLengthValue(tag, contentOctets);
-
-        ushort expected = (ushort)contentOctets.Length;
-        ushort actual = sut.GetValueByteCount();
 
         Assert.Equal(expected, actual);
     }
@@ -121,14 +147,14 @@ public class TagLengthValueTests : TestBase
     #region GetLength
 
     [Fact]
-    public void TagLengthValue_GetLengthForTLV_ReturnsExpectedResult()
+    public void TagLengthValue_GetLengthForTlv_ReturnsExpectedResult()
     {
         Tag tag = new(36);
-        byte[] contentOctets = new byte[] { 11, 94, 136, 17, 8 };
+        byte[] contentOctets = {11, 94, 136, 17, 8};
 
-        TagLengthValue sut = new TagLengthValue(tag, contentOctets);
+        TagLengthValue sut = new(tag, contentOctets);
 
-        Length expected = new Length(5);
+        Length expected = new(5);
         Length actual = sut.GetLength();
 
         Assert.Equal(expected, actual);
@@ -140,28 +166,10 @@ public class TagLengthValueTests : TestBase
         Tag tag = ShortIdentifierTestValueFactory.CreateTag(_Random);
         byte[] contentOctets = ByteArrayFactory.GetRandom(_Random, 50, byte.MinValue, byte.MaxValue).ToArray();
 
-        TagLengthValue sut = new TagLengthValue(tag, contentOctets);
+        TagLengthValue sut = new(tag, contentOctets);
 
-        Length expected = new Length((ushort)contentOctets.Length);
+        Length expected = new((ushort) contentOctets.Length);
         Length actual = sut.GetLength();
-
-        Assert.Equal(expected, actual);
-    }
-
-    #endregion
-
-    #region EncodeValue
-
-    [Fact]
-    public void RandomTagLengthValue_EncodeValue_ReturnsSameContentOctets()
-    {
-        Tag tag = new(13);
-        byte[] contentOctets = { 13, 194, 0x5C };
-
-        TagLengthValue sut = new TagLengthValue(tag, contentOctets);
-
-        byte[] expected = contentOctets;
-        byte[] actual = sut.EncodeValue();
 
         Assert.Equal(expected, actual);
     }
@@ -171,32 +179,32 @@ public class TagLengthValueTests : TestBase
     #region EncodeTagLengthValue
 
     [Fact]
-    public void TagLengthValue_EncodeTheTLV_ReturnsExpectedResult()
+    public void TagLengthValue_EncodeTheTlv_ReturnsExpectedResult()
     {
         Tag tag = new(31);
 
-        byte[] contentOctets = { 18, 6, 22, 3, 4, 5, 0xc, 0x09 };
+        byte[] contentOctets = {18, 6, 22, 3, 4, 5, 0xc, 0x09};
 
-        TagLengthValue sut = new TagLengthValue(tag, contentOctets);
+        TagLengthValue sut = new(tag, contentOctets);
 
-        byte[] expected = { 31, 8, 18, 6, 22, 3, 4, 5, 0xc, 0x09 };
+        byte[] expected = {31, 8, 18, 6, 22, 3, 4, 5, 0xc, 0x09};
         byte[] actual = sut.EncodeTagLengthValue();
 
         Assert.Equal(expected, actual);
     }
 
     [Fact]
-    public void RandomTLV_LengthIsSerializedAsContentOctetsLength_ReturnsExpectedEncodedTLVVAlue()
+    public void RandomTlv_LengthIsSerializedAsContentOctetsLength_ReturnsExpectedEncodedTLVVAlue()
     {
         Tag tag = ShortIdentifierTestValueFactory.CreateTag(_Random);
         byte[] contentOctets = ByteArrayFactory.GetRandom(_Random, 50, byte.MinValue, byte.MaxValue).ToArray();
 
-        TagLengthValue sut = new TagLengthValue(tag, contentOctets);
+        TagLengthValue sut = new(tag, contentOctets);
 
         Span<byte> buffer = stackalloc byte[contentOctets.Length + 2];
 
         tag.Serialize().CopyTo(buffer);
-        buffer[tag.GetByteCount()] = (byte)contentOctets.Length;
+        buffer[tag.GetByteCount()] = (byte) contentOctets.Length;
         contentOctets.CopyTo(buffer[^contentOctets.Length..]);
 
         byte[] expected = buffer.ToArray();
@@ -210,13 +218,13 @@ public class TagLengthValueTests : TestBase
     #region Equals
 
     [Fact]
-    public void GivenTwoTLVs_InstantiatedFromSameTagAndContentOctets_AreEqual()
+    public void GivenTwoTlvObjects_InstantiatedFromSameTagAndContentOctets_AreEqual()
     {
         Tag tag = new(13);
-        byte[] contentOctets = new byte[] { 25, 64, 234, 23, 7, 134, 14 };
+        byte[] contentOctets = {25, 64, 234, 23, 7, 134, 14};
 
-        TagLengthValue sut1 = new TagLengthValue(tag, contentOctets);
-        TagLengthValue sut2 = new TagLengthValue(tag, contentOctets);
+        TagLengthValue sut1 = new(tag, contentOctets);
+        TagLengthValue sut2 = new(tag, contentOctets);
 
         Assert.NotSame(sut1, sut2);
         Assert.Equal(sut1, sut2);
@@ -227,9 +235,9 @@ public class TagLengthValueTests : TestBase
     public void OneTlvAndOneOtherTypeObject_Comparing_AreNotEqual()
     {
         Tag tag = new(13);
-        byte[] contentOctets = new byte[] { 25, 64, 234, 23, 7, 134, 14 };
+        byte[] contentOctets = {25, 64, 234, 23, 7, 134, 14};
 
-        TagLengthValue sut1 = new TagLengthValue(tag, contentOctets);
+        TagLengthValue sut1 = new(tag, contentOctets);
         Tag objectToCompareTo = new(11);
 
         Assert.False(sut1.Equals(objectToCompareTo));
@@ -239,9 +247,9 @@ public class TagLengthValueTests : TestBase
     public void CompareTlvWithNullValue_AreNotEqual()
     {
         Tag tag = new(13);
-        byte[] contentOctets = new byte[] { 25, 64, 234, 23, 7, 134, 14 };
+        byte[] contentOctets = {25, 64, 234, 23, 7, 134, 14};
 
-        TagLengthValue sut1 = new TagLengthValue(tag, contentOctets);
+        TagLengthValue sut1 = new(tag, contentOctets);
 
         Assert.False(sut1.Equals(null));
     }
@@ -251,29 +259,29 @@ public class TagLengthValueTests : TestBase
     #region Operators
 
     [Fact]
-    public void GivenTwoTLVs_InstantiatedFromSameTagAndContentOctets_AreEqualWhenComparingThem()
+    public void GivenTwoTlvObjects_InstantiatedFromSameTagAndContentOctets_AreEqualWhenComparingThem()
     {
         Tag tag = new(13);
-        byte[] contentOctets = new byte[] { 25, 64, 234, 23, 7, 134, 14 };
+        byte[] contentOctets = {25, 64, 234, 23, 7, 134, 14};
 
-        TagLengthValue sut1 = new TagLengthValue(tag, contentOctets);
-        TagLengthValue sut2 = new TagLengthValue(tag, contentOctets);
+        TagLengthValue sut1 = new(tag, contentOctets);
+        TagLengthValue sut2 = new(tag, contentOctets);
 
         Assert.NotSame(sut1, sut2);
         Assert.True(sut1 == sut2);
     }
 
     [Fact]
-    public void GivenTwoTLVs_InstantiatedFromDifferentTagAndContentOctets_AreNotEqualWhenComparingThem()
+    public void GivenTwoTlvObjects_InstantiatedFromDifferentTagAndContentOctets_AreNotEqualWhenComparingThem()
     {
         Tag tag = new(13);
-        byte[] contentOctets = new byte[] { 25, 64, 234, 23, 7, 134, 14 };
+        byte[] contentOctets = {25, 64, 234, 23, 7, 134, 14};
 
-        TagLengthValue sut1 = new TagLengthValue(tag, contentOctets);
+        TagLengthValue sut1 = new(tag, contentOctets);
 
         Tag tag2 = new(23);
-        byte[] contentOctets2 = new byte[] { 33, 31, 118, 23, 7, 198, 14 };
-        TagLengthValue sut2 = new TagLengthValue(tag2, contentOctets2);
+        byte[] contentOctets2 = {33, 31, 118, 23, 7, 198, 14};
+        TagLengthValue sut2 = new(tag2, contentOctets2);
 
         Assert.NotSame(sut1, sut2);
         Assert.False(sut1 == sut2);

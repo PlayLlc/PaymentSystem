@@ -16,7 +16,7 @@ namespace Play.Ber.Tests.Long
             DataObjectTypes dataObjectType = DataObjectTypes.Constructed;
 
             byte leadingOctet = (byte) ((byte) expectedClass | (byte) dataObjectType | LongIdentifier.LongIdentifierFlag);
-            byte[] testValue = new byte[] {leadingOctet, 45};
+            byte[] testValue = {leadingOctet, 45};
 
             Tag sut = new(testValue);
 

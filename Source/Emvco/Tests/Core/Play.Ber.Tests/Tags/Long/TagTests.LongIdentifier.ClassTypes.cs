@@ -16,7 +16,7 @@ namespace Play.Ber.Tests.Long
             DataObjectTypes dataObjectType = DataObjectTypes.Constructed;
 
             byte leadingOctet = (byte) ((byte) expectedClass | (byte) dataObjectType | LongIdentifier.LongIdentifierFlag);
-            byte[] testValue = new byte[] {leadingOctet, 31};
+            byte[] testValue = {leadingOctet, 31};
 
             Tag sut = new(testValue);
 
@@ -30,7 +30,7 @@ namespace Play.Ber.Tests.Long
             DataObjectTypes dataObjectType = DataObjectTypes.Constructed;
 
             byte leadingOctet = (byte) ((byte) expectedClass | (byte) dataObjectType | LongIdentifier.LongIdentifierFlag);
-            byte[] testValue = new byte[] {leadingOctet, 47};
+            byte[] testValue = {leadingOctet, 47};
 
             Tag sut = new(testValue);
 
@@ -44,7 +44,7 @@ namespace Play.Ber.Tests.Long
             DataObjectTypes dataObjectType = DataObjectTypes.Constructed;
 
             byte leadingOctet = (byte) ((byte) expectedClass | (byte) dataObjectType | LongIdentifier.LongIdentifierFlag);
-            byte[] testValue = new byte[] {leadingOctet, 33};
+            byte[] testValue = {leadingOctet, 33};
 
             Tag sut = new(testValue);
 
@@ -58,7 +58,7 @@ namespace Play.Ber.Tests.Long
             DataObjectTypes dataObjectType = DataObjectTypes.Primitive;
 
             byte leadingOctet = (byte) ((byte) expectedClass | (byte) dataObjectType | LongIdentifier.LongIdentifierFlag);
-            byte[] testValue = new byte[] {leadingOctet, 34};
+            byte[] testValue = {leadingOctet, 34};
 
             Tag sut = new(testValue);
 

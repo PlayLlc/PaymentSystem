@@ -20,7 +20,7 @@ namespace Play.Ber.Tests.Lengths
         [Fact]
         public void LongLengthByteArray0b1000000110000000_ParsingThenSerializing_ReturnsExpectedResult()
         {
-            byte[] testData = new byte[] {0b10000001, 0b10000000};
+            byte[] testData = {0b10000001, 0b10000000};
             byte[] expected = testData;
             Length sut = Length.Parse(testData);
             byte[] actual = sut.Serialize();
@@ -31,7 +31,7 @@ namespace Play.Ber.Tests.Lengths
         [Fact]
         public void LongLengthByteArray100000101000000100000001_ParsingThenSerializing_ReturnsExpectedResult()
         {
-            byte[] testData = new byte[] {0b10000010, 0b10000001, 0b00000001};
+            byte[] testData = {0b10000010, 0b10000001, 0b00000001};
             byte[] expected = testData;
             Length sut = Length.Parse(testData);
             byte[] actual = sut.Serialize();
@@ -42,7 +42,7 @@ namespace Play.Ber.Tests.Lengths
         [Fact]
         public void LongLengthByteArray10000010100100101001001_ParsingThenSerializing_ReturnsExpectedResult()
         {
-            byte[] testData = new byte[] {0b10000010, 0b1001001, 0b01001001};
+            byte[] testData = {0b10000010, 0b1001001, 0b01001001};
             byte[] expected = testData;
             Length sut = Length.Parse(testData);
             byte[] actual = sut.Serialize();
@@ -57,7 +57,7 @@ namespace Play.Ber.Tests.Lengths
         [Fact]
         public void ArrayOfLengthOctets_Parsing_ReturnsExpectedResult()
         {
-            byte[] testData = new byte[] {0b10000001, 0b10000000};
+            byte[] testData = {0b10000001, 0b10000000};
             uint expected = 0b10000001_10000000;
             Length actual = Length.Parse(testData);
 
@@ -67,7 +67,7 @@ namespace Play.Ber.Tests.Lengths
         [Fact]
         public void ArrayOfShortLength0b00000001_Parsing_ReturnsExpectedResult()
         {
-            byte[] testData = new byte[] {0b00000001};
+            byte[] testData = {0b00000001};
             uint expected = 1;
             Length actual = Length.Parse(testData);
 
@@ -77,7 +77,7 @@ namespace Play.Ber.Tests.Lengths
         [Fact]
         public void ArrayOfLongLength_Parsing_ReturnsExpectedResult()
         {
-            byte[] testData = new byte[] {0b10000001, 0b10011111};
+            byte[] testData = {0b10000001, 0b10011111};
             uint expected = 0b10000001_10011111;
             Length actual = Length.Parse(testData);
 
@@ -87,7 +87,7 @@ namespace Play.Ber.Tests.Lengths
         [Fact]
         public void ArrayOfShortLength0b00011111_Parsing_ReturnsExpectedResult()
         {
-            byte[] testData = new byte[] {0b00011111};
+            byte[] testData = {0b00011111};
             uint expected = 0b00011111;
             Length actual = Length.Parse(testData);
 
@@ -97,7 +97,7 @@ namespace Play.Ber.Tests.Lengths
         [Fact]
         public void ArrayOfShortLengthInLongLengthFormat_Parsing_ReturnsShortLengthResult()
         {
-            byte[] testData = new byte[] {0b10000001, 0b00011111};
+            byte[] testData = {0b10000001, 0b00011111};
             uint expected = 0b00011111;
             Length actual = Length.Parse(testData);
 
