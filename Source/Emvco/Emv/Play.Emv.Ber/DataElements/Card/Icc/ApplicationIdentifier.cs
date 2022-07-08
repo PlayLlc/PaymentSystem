@@ -77,6 +77,8 @@ public record ApplicationIdentifier : DataElement<BigInteger>, IEqualityComparer
     /// <exception cref="BerParsingException"></exception>
     public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
+
     #endregion
 
     #region Equality

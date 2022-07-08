@@ -77,7 +77,6 @@ public readonly record struct SdsSchemeIndicator
 
     public static SdsSchemeIndicator Get(byte value)
     {
-        const byte bitMask = 0b11111100;
 
         if (!_ValueObjectMap.ContainsKey(value))
         {
@@ -85,7 +84,7 @@ public readonly record struct SdsSchemeIndicator
                 $"No {nameof(SdsSchemeIndicator)} could be retrieved because the argument provided does not match a definition value");
         }
 
-        return _ValueObjectMap[value.GetMaskedValue(bitMask)];
+        return _ValueObjectMap[value];
     }
 
     #endregion

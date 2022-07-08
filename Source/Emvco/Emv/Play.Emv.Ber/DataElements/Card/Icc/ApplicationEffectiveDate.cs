@@ -2,6 +2,7 @@
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
+using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -13,6 +14,7 @@ public record ApplicationEffectiveDate : DataElement<uint>, IEqualityComparer<Ap
     public static readonly Tag Tag = 0x5F25;
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     private const byte _ByteLength = 3;
+    private const byte _CharLength = 6;
 
     #endregion
 
@@ -43,6 +45,10 @@ public record ApplicationEffectiveDate : DataElement<uint>, IEqualityComparer<Ap
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         uint result = PlayCodec.NumericCodec.DecodeToUInt32(value);
+
+        nint charLength = result.GetNumberOfDigits();
+
+        Check.Primitive.ForCharLength(charLength, _CharLength, Tag);
 
         return new ApplicationEffectiveDate(result);
     }

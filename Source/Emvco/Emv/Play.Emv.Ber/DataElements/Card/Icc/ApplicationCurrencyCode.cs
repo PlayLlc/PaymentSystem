@@ -2,6 +2,7 @@
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
+using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 using Play.Globalization.Currency;
 
@@ -17,6 +18,7 @@ public record ApplicationCurrencyCode : DataElement<NumericCurrencyCode>
     public static readonly Tag Tag = 0x9F42;
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     private const byte _ByteLength = 2;
+    private const byte _CharLength = 3;
 
     #endregion
 
@@ -48,10 +50,14 @@ public record ApplicationCurrencyCode : DataElement<NumericCurrencyCode>
 
         ushort result = PlayCodec.NumericCodec.DecodeToUInt16(value);
 
+        nint charLength = result.GetNumberOfDigits();
+
+        Check.Primitive.ForCharLength(charLength, _CharLength, Tag);
+
         return new ApplicationCurrencyCode(new NumericCurrencyCode(result));
     }
 
-    public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value, _ByteLength);
+    public override byte[] EncodeValue() => _Value.EncodeValue();
     public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(_Value, length);
 
     #endregion

@@ -726,7 +726,7 @@ public class NumericCodec : PlayCodec
     {
         CheckCore.ForExactLength(value, 1, nameof(value));
 
-        return DecodeToByte(value);
+        return DecodeToByte(value[0]);
     }
 
     /// <summary>

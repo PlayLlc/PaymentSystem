@@ -59,6 +59,8 @@ public record ExtendedSelection : DataElement<BigInteger>, IEqualityComparer<Ext
         return new ExtendedSelection(result);
     }
 
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
+
     #endregion
 
     #region Equality

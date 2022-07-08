@@ -38,7 +38,7 @@ public record ThirdPartyData : DataElement<BigInteger>
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
-    public Alpha2CountryCode GetCountryCode() => new(PlayCodec.AlphabeticCodec.DecodeToChars(_Value.ToByteArray()[..2].AsSpan()));
+    public Alpha2CountryCode GetCountryCode() => new(PlayCodec.AlphabeticCodec.DecodeToChars(_Value.ToByteArray()[..2].AsSpan()), true);
     public ushort GetUniqueIdentifier() => PlayCodec.UnsignedIntegerCodec.DecodeToUInt16(_Value.ToByteArray()[2..4].AsSpan());
     private bool IsDeviceTypePresent() => GetUniqueIdentifier().IsBitSet(16);
 

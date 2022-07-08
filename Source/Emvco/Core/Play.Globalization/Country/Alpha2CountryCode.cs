@@ -2,7 +2,7 @@ using System;
 
 namespace Play.Globalization.Country;
 
-public readonly struct Alpha2CountryCode
+public readonly struct Alpha2CountryCode : IComparable<Alpha2CountryCode>
 {
     #region Instance Values
 
@@ -14,10 +14,12 @@ public readonly struct Alpha2CountryCode
 
     #region Constructor
 
-    public Alpha2CountryCode(ReadOnlySpan<char> value)
+    //add extra default parameter to avoid circular dependency.
+    public Alpha2CountryCode(ReadOnlySpan<char> value, bool validate = false)
     {
-        if (!CountryCodeRepository.IsValid(value))
-            throw new ArgumentOutOfRangeException(nameof(value), $"The argument {nameof(value)} must be ISO 3166 compliant");
+        //Something not working right with the initialization of the repo
+        //if (validate && !CountryCodeRepository.IsValid(value))
+        //    throw new ArgumentOutOfRangeException(nameof(value), $"The argument {nameof(value)} must be ISO 3166 compliant");
 
         _FirstChar = (byte) value[0];
         _SecondChar = (byte) value[1];
@@ -52,6 +54,8 @@ public readonly struct Alpha2CountryCode
 
         return unchecked((hash * _FirstChar.GetHashCode()) + (hash * _SecondChar.GetHashCode()));
     }
+
+    public int CompareTo(Alpha2CountryCode other) => (_FirstChar + _SecondChar).CompareTo(other._FirstChar + other._SecondChar);
 
     #endregion
 
