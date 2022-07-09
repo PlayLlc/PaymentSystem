@@ -27,18 +27,21 @@ namespace Play.Messaging.Tests.Endpoints
         public EndpointClientTests()
         {
             _MessageRouter = new MessageRouter();
-            _TestEndpoint1 = new TestEndpoint1(_MessageRouter); 
+            _TestEndpoint1 = new TestEndpoint1(_MessageRouter);
         }
 
         #endregion
 
+        #region Instance Members
+
         [Fact]
         public void Test()
         {
-            int expected = 10;
-            TestRequestMessage message = new TestRequestMessage(expected);
-            _MessageRouter.
-            
+            //int expected = 10;
+            //TestRequestMessage message = new TestRequestMessage(expected);
+            //_MessageRouter.
         }
+
+        #endregion
     }
 }

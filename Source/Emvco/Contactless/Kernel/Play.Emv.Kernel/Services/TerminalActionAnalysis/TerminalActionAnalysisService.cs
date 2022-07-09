@@ -47,10 +47,6 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
 
     #endregion
 
-    #region _TEMP - required data handling
-
-    #endregion
-
     #region Denial
 
     /// <exception cref="TerminalDataException"></exception>
