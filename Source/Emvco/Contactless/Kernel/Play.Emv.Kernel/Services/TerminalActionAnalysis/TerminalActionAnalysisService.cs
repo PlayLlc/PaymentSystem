@@ -18,8 +18,6 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
 {
     #region Instance Members
 
-    // BUG: This isn't supposed to return a Gen AC request. It's supposed to update reference control
-
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>

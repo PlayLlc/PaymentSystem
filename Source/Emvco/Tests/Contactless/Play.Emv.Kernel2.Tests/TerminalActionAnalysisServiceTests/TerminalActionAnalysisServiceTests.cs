@@ -4,6 +4,7 @@ using AutoFixture;
 
 using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Kernel.Databases;
 using Play.Testing.Emv.Contactless.AutoFixture;
 
@@ -34,6 +35,16 @@ public partial class TerminalActionAnalysisServiceTests : TestBase
     #endregion
 
     #region Instance Members
+
+    internal static void ClearActionCodes(KernelDatabase database)
+    {
+        database.Update(new TerminalActionCodeOnline(0));
+        database.Update(new TerminalActionCodeDenial(0));
+        database.Update(new TerminalActionCodeDefault(0));
+        database.Update(new IssuerActionCodeOnline(0));
+        database.Update(new IssuerActionCodeDenial(0));
+        database.Update(new IssuerActionCodeDefault(0));
+    }
 
     internal static KernelDatabase GetKernelDatabaseForOfflineOnly(IFixture fixture)
     {
