@@ -39,6 +39,7 @@ public class EmvFixture : TestingFixture
         factory.Build(CertificateSerialNumberBuilder.Id);
         factory.Build(CvmPerformedOutcomeBuilder.Id);
         factory.Build(CvmRuleBuilder.Id);
+        factory.Build(DedicatedFileNameBuilder.Id);
         factory.Build(MessageOnErrorIdentifiersBuilder.Id);
         factory.Build(MessageTableEntryBuilder.Id);
         factory.Build(OnlineResponseOutcomeBuilder.Id);
@@ -55,6 +56,24 @@ public class EmvFixture : TestingFixture
         factory.Build(FileControlInformationAdfBuilder.Id);
         factory.Build(ProcessingOptionsDataObjectListBuilder.Id);
         factory.Build(FileControlInformationIssuerDiscretionaryDataAdfBuilder.Id);
+
+        factory.Build(AmountAuthorizedNumericBuilder.Id);
+        factory.Build(AmountOtherNumericBuilder.Id);
+        factory.Build(ApplicationDedicatedFileNameBuilder.Id);
+        factory.Build(ApplicationExpirationDateBuilder.Id);
+        factory.Build(ApplicationFileLocatorBuilder.Id);
+        factory.Build(ApplicationInterchangeProfileBuilder.Id);
+        factory.Build(ApplicationLabelBuilder.Id);
+        factory.Build(ApplicationPreferredNameBuilder.Id);
+        factory.Build(ApplicationPriorityIndicatorBuilder.Id);
+        factory.Build(CardholderNameBuilder.Id);
+        factory.Build(CvmResultsBuilder.Id);
+        factory.Build(IssuerIdentificationNumberBuilder.Id);
+        factory.Build(KernelIdentifierBuilder.Id);
+        factory.Build(MerchantIdentifierBuilder.Id);
+        factory.Build(TransactionDateBuilder.Id);
+        factory.Build(FileControlInformationIssuerDiscretionaryPpseBuilder.Id);
+        factory.Build(LanguagePreferenceBuilder.Id);
     }
 
     #region Customize Fixture

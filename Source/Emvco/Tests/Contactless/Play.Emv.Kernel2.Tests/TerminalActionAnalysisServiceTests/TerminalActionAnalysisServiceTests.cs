@@ -1,64 +1,74 @@
-﻿//using System;
+﻿using System;
 
-//using AutoFixture;
+using AutoFixture;
 
-//using Play.Ber.Exceptions;
-//using Play.Emv.Ber.DataElements;
-//using Play.Emv.Kernel.Databases;
-//using Play.Testing.Emv.Contactless.AutoFixture;
+using Play.Ber.Exceptions;
+using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.ValueTypes;
+using Play.Emv.Kernel.Databases;
+using Play.Testing.Emv.Contactless.AutoFixture;
 
-//using Xunit;
+using Xunit;
 
-//using Play.Testing.BaseTestClasses;
+using Play.Testing.BaseTestClasses;
 
-//namespace Play.Emv.Kernel2.Tests.TerminalActionAnalysisServiceTests;
+namespace Play.Emv.Kernel2.Tests.TerminalActionAnalysisServiceTests;
 
-//[Trait("Type", "Unit")]
-//public partial class TerminalActionAnalysisServiceTests : TestBase
-//{
-//    #region Instance Values
+[Trait("Type", "Unit")]
+public partial class TerminalActionAnalysisServiceTests : TestBase
+{
+    #region Instance Values
 
-//    private readonly IFixture _Fixture;
+    private readonly IFixture _Fixture;
 
-//    #endregion
+    #endregion
 
-//    #region Constructor
+    #region Constructor
 
-//    /// <exception cref="InvalidOperationException"></exception>
-//    /// <exception cref="BerParsingException"></exception>
-//    public TerminalActionAnalysisServiceTests()
-//    {
-//        _Fixture = new ContactlessFixture().Create();
-//    }
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    public TerminalActionAnalysisServiceTests()
+    {
+        _Fixture = new ContactlessFixture().Create();
+    }
 
-//    #endregion
+    #endregion
 
-//    #region Instance Members
+    #region Instance Members
 
-//    internal static KernelDatabase GetKernelDatabaseForOfflineOnly(IFixture fixture)
-//    {
-//        KernelDatabase database = ContactlessFixture.CreateDefaultDatabase(fixture);
-//        database.Update(new TerminalType(TerminalType.CommunicationType.OnlineOnly));
+    internal static void ClearActionCodes(KernelDatabase database)
+    {
+        database.Update(new TerminalActionCodeOnline(0));
+        database.Update(new TerminalActionCodeDenial(0));
+        database.Update(new TerminalActionCodeDefault(0));
+        database.Update(new IssuerActionCodeOnline(0));
+        database.Update(new IssuerActionCodeDenial(0));
+        database.Update(new IssuerActionCodeDefault(0));
+    }
 
-//        return database;
-//    }
+    internal static KernelDatabase GetKernelDatabaseForOfflineOnly(IFixture fixture)
+    {
+        KernelDatabase database = ContactlessFixture.CreateDefaultDatabase(fixture);
+        database.Update(new TerminalType(TerminalType.CommunicationType.OfflineOnly));
 
-//    internal KernelDatabase GetKernelDatabaseForOnlineOnly(IFixture fixture)
-//    {
-//        KernelDatabase database = ContactlessFixture.CreateDefaultDatabase(fixture);
-//        database.Update(new TerminalType(TerminalType.CommunicationType.OnlineOnly));
+        return database;
+    }
 
-//        return database;
-//    }
+    internal KernelDatabase GetKernelDatabaseForOnlineOnly(IFixture fixture)
+    {
+        KernelDatabase database = ContactlessFixture.CreateDefaultDatabase(fixture);
+        database.Update(new TerminalType(TerminalType.CommunicationType.OnlineOnly));
 
-//    internal KernelDatabase GetKernelDatabaseForOnlineAndOfflineCapable(IFixture fixture)
-//    {
-//        KernelDatabase database = ContactlessFixture.CreateDefaultDatabase(fixture);
-//        database.Update(new TerminalType(TerminalType.CommunicationType.OnlineAndOfflineCapable));
+        return database;
+    }
 
-//        return database;
-//    }
+    internal KernelDatabase GetKernelDatabaseForOnlineAndOfflineCapable(IFixture fixture)
+    {
+        KernelDatabase database = ContactlessFixture.CreateDefaultDatabase(fixture);
+        database.Update(new TerminalType(TerminalType.CommunicationType.OnlineAndOfflineCapable));
 
-//    #endregion
-//}
+        return database;
+    }
 
+    #endregion
+}

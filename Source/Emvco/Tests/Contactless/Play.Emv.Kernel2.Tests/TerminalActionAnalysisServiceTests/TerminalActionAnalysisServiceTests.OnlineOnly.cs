@@ -1,190 +1,206 @@
-﻿//using System;
+﻿using System;
 
-//using AutoFixture;
+using AutoFixture;
 
-//using Play.Ber.Exceptions;
-//using Play.Emv.Ber.Enums;
-//using Play.Emv.Ber.Exceptions;
-//using Play.Emv.Identifiers;
-//using Play.Emv.Kernel.Services;
+using Play.Ber.Exceptions;
+using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.Exceptions;
+using Play.Emv.Ber.ValueTypes;
+using Play.Emv.Identifiers;
+using Play.Emv.Kernel.Databases;
+using Play.Emv.Kernel.Services;
 
-//using Xunit;
+using Xunit;
 
-//namespace Play.Emv.Kernel2.Tests.TerminalActionAnalysisServiceTests;
+namespace Play.Emv.Kernel2.Tests.TerminalActionAnalysisServiceTests;
 
-//public partial class TerminalActionAnalysisServiceTests
-//{
-//    #region Authorization Request Cryptogram - Online
+public partial class TerminalActionAnalysisServiceTests
+{
+    #region Instance Members
 
-//    /// <exception cref="InvalidOperationException"></exception>
-//    /// <exception cref="BerParsingException"></exception>
-//    /// <exception cref="TerminalDataException"></exception>
-//    [Fact]
-//    public void OnlineOnlyTerminal_WithDefaultTerminalVerificationResults_GeneratesAuthorizationRequestCryptogram()
-//    {
-//        TerminalActionAnalysisService sut = new();
-//        TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
+    [Fact]
+    public void OnlineOnlyTerminal_WithEmptyTerminalVerificationResults_GeneratesAuthorizationRequestCryptogram()
+    {
+        TerminalActionAnalysisService sut = new();
+        TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
+        CryptogramTypes actual = sut.Process(sessionId, GetKernelDatabaseForOnlineOnly(_Fixture));
+        Assertion(() => { Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, actual); },
+            Build.Equals.Message((byte) CryptogramTypes.AuthorizationRequestCryptogram, (byte) actual));
+    }
 
-//        CryptogramTypes actual = sut.Process(sessionId, GetKernelDatabaseForOnlineOnly(_Fixture));
-//        Assertion(() => { Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, actual); });
-//    }
+    [Fact]
+    public void OnlineOnlyTerminal_WithTerminalOnlineActionCodeSet_GeneratesAuthorizationRequestCryptogram()
+    {
+        // Arrange
+        TerminalActionAnalysisService sut = new();
+        KernelDatabase database = GetKernelDatabaseForOnlineOnly(_Fixture);
+        ClearActionCodes(database);
+        TerminalVerificationResult terminalVerificationResult = new();
+        terminalVerificationResult.SetOfflineDataAuthenticationWasNotPerformed();
+        database.Update(new TerminalActionCodeOnline((ulong) terminalVerificationResult));
 
-//    /// <param name="actionCode"></param>
-//    /// <exception cref="InvalidOperationException"></exception>
-//    /// <exception cref="BerParsingException"></exception>
-//    /// <exception cref="TerminalDataException"></exception>
-//    [Fact]
-//    public void OnlineOnlyTerminal_WithTerminalActionCodeOnline_GeneratesAuthorizationRequestCryptogram()
-//    {
-//        TerminalActionAnalysisService sut = new();
-//        TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
+        // Act
+        CryptogramTypes actual = sut.Process(_Fixture.Create<TransactionSessionId>(), database);
 
-//        CryptogramTypes actual = sut.Process(sessionId, GetKernelDatabaseForOnlineOnly(_Fixture));
-//        Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, actual);
-//    }
+        // Assert
+        Assertion(() => { Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, actual); },
+            Build.Equals.Message((byte) CryptogramTypes.AuthorizationRequestCryptogram, (byte) actual));
+    }
 
-//    /// <exception cref="InvalidOperationException"></exception>
-//    /// <exception cref="BerParsingException"></exception>
-//    /// <exception cref="TerminalDataException"></exception>
-//    [Fact]
-//    public void OnlineOnlyTerminal_WithIssuerActionCodeOnline_GeneratesAuthorizationRequestCryptogram()
-//    {
-//        TerminalActionAnalysisService sut = new();
-//        TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
+    [Fact]
+    public void OnlineOnlyTerminal_WithIssuerOnlineActionCodeSet_GeneratesAuthorizationRequestCryptogram()
+    {
+        // Arrange
+        TerminalActionAnalysisService sut = new();
+        KernelDatabase database = GetKernelDatabaseForOnlineOnly(_Fixture);
+        ClearActionCodes(database);
+        TerminalVerificationResult terminalVerificationResult = new();
+        terminalVerificationResult.SetOfflineDataAuthenticationWasNotPerformed();
+        database.Update(new IssuerActionCodeOnline((ulong) terminalVerificationResult));
+        database.Update(new TerminalVerificationResults(terminalVerificationResult));
 
-//        CryptogramTypes actual = sut.Process(sessionId, GetKernelDatabaseForOnlineOnly(_Fixture));
+        // Act
+        CryptogramTypes actual = sut.Process(_Fixture.Create<TransactionSessionId>(), database);
 
-//        Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, actual);
-//    }
+        //Assert
+        Assertion(() => { Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, actual); },
+            Build.Equals.Message((byte) CryptogramTypes.AuthorizationRequestCryptogram, (byte) actual));
+    }
 
-//    /// <exception cref="InvalidOperationException"></exception>
-//    /// <exception cref="BerParsingException"></exception>
-//    /// <exception cref="TerminalDataException"></exception>
-//    [Fact]
-//    public void OnlineOnlyTerminal_WithTerminalAndIssuerActionCodeOnline_GeneratesAuthorizationRequestCryptogram()
-//    {
-//        TerminalActionAnalysisService sut = new();
-//        TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
+    [Fact]
+    public void OnlineOnlyTerminal_WithDenialActionCodeSet_GeneratesApplicationAuthenticationCryptogram()
+    {
+        // Arrange
+        TerminalActionAnalysisService sut = new();
+        KernelDatabase database = GetKernelDatabaseForOnlineOnly(_Fixture);
+        ClearActionCodes(database);
+        TerminalVerificationResult terminalVerificationResult = new();
+        terminalVerificationResult.SetCombinationDataAuthenticationFailed();
+        database.Update(new TerminalActionCodeDenial((ulong) terminalVerificationResult));
+        database.Update(new TerminalVerificationResults(terminalVerificationResult));
 
-//        CryptogramTypes actual = sut.Process(sessionId, GetKernelDatabaseForOnlineOnly(_Fixture));
-//        Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, actual);
-//    }
+        // Act
+        CryptogramTypes actual = sut.Process(_Fixture.Create<TransactionSessionId>(), database);
 
-//    /// <exception cref="InvalidOperationException"></exception>
-//    /// <exception cref="BerParsingException"></exception>
-//    /// <exception cref="TerminalDataException"></exception>
-//    [Fact]
-//    public void OnlineOnlyTerminal_WithoutTimeoutAndIssuerActionCodeDefault_GeneratesAuthenticationRequestCryptogram()
-//    {
-//        TerminalActionAnalysisService sut = new();
-//        TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
+        // Assert
+        Assertion(() => { Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual); },
+            Build.Equals.Message((byte) CryptogramTypes.ApplicationAuthenticationCryptogram, (byte) actual));
+    }
 
-//        CryptogramTypes actual = sut.Process(sessionId, GetKernelDatabaseForOnlineOnly(_Fixture));
-//        Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, actual);
-//    }
+    [Theory]
+    [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomIssuerActionCodeDefault), 10, MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+    public void OnlineOnlyTerminal_WithIssuerActionCodeDefault_GeneratesAuthenticationRequestCryptogram(ActionCodes actionCode)
+    {
+        // Arrange
+        TerminalActionAnalysisService sut = new();
+        KernelDatabase database = GetKernelDatabaseForOnlineOnly(_Fixture);
+        ClearActionCodes(database);
+        database.Update(new IssuerActionCodeDefault((ulong) actionCode));
+        database.Update(new TerminalVerificationResults((ulong) actionCode));
 
-//    /// <exception cref="InvalidOperationException"></exception>
-//    /// <exception cref="BerParsingException"></exception>
-//    /// <exception cref="TerminalDataException"></exception>
-//    [Fact]
-//    public void OnlineOnlyTerminal_WithoutTimeoutTerminalAndIssuerActionCodeDefault_GeneratesApplicationAuthenticationCryptogram()
-//    {
-//        TerminalActionAnalysisService sut = new();
-//        TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
+        // Act
+        CryptogramTypes actual = sut.Process(_Fixture.Create<TransactionSessionId>(), database);
 
-//        CryptogramTypes actual = sut.Process(sessionId, GetKernelDatabaseForOnlineOnly(_Fixture));
-//        Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, actual);
-//    }
+        // Assert
+        Assertion(() => { Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual); },
+            Build.Equals.Message((byte) CryptogramTypes.ApplicationAuthenticationCryptogram, (byte) actual));
+    }
 
-//    #endregion
+    [Theory]
+    [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomIssuerActionCodeOnline), 10, MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+    public void OnlineOnlyTerminal_WithIssuerActionCodeOnline_GeneratesAuthorizationRequestCryptogram(ActionCodes actionCode)
+    {
+        // Arrange
+        TerminalActionAnalysisService sut = new();
+        KernelDatabase database = GetKernelDatabaseForOnlineOnly(_Fixture);
+        ClearActionCodes(database);
+        database.Update(new IssuerActionCodeOnline((ulong) actionCode));
+        database.Update(new TerminalVerificationResults((ulong) actionCode));
 
-//    #region Application Authentication Cryptogram - Deny
+        // Act
+        CryptogramTypes actual = sut.Process(_Fixture.Create<TransactionSessionId>(), database);
 
-//    /// <exception cref="InvalidOperationException"></exception>
-//    /// <exception cref="BerParsingException"></exception>
-//    /// <exception cref="TerminalDataException"></exception>
-//    [Fact]
-//    public void OnlineOnlyTerminal_WithTimeoutAndTerminalActionCodeDefault_GeneratesAuthenticationRequestCryptogram()
-//    {
-//        TerminalActionAnalysisService sut = new();
+        // Assert
+        Assertion(() => { Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, actual); },
+            Build.Equals.Message((byte) CryptogramTypes.AuthorizationRequestCryptogram, (byte) actual));
+    }
 
-//        TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
+    [Theory]
+    [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomIssuerActionCodeDenial), 10, MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+    public void OnlineOnlyTerminal_WithIssuerActionCodeDenial_GeneratesApplicationAuthenticationCryptogram(ActionCodes actionCode)
+    {
+        // Arrange
+        TerminalActionAnalysisService sut = new();
+        KernelDatabase database = GetKernelDatabaseForOnlineOnly(_Fixture);
+        ClearActionCodes(database);
+        database.Update(new IssuerActionCodeDenial((ulong) actionCode));
+        database.Update(new TerminalVerificationResults((ulong) actionCode));
 
-//        CryptogramTypes actual = sut.Process(sessionId, GetKernelDatabaseForOnlineOnly(_Fixture));
-//        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual);
-//    }
+        // Act
+        CryptogramTypes actual = sut.Process(_Fixture.Create<TransactionSessionId>(), database);
 
-//    /// <param name="actionCode"></param>
-//    /// <exception cref="InvalidOperationException"></exception>
-//    /// <exception cref="BerParsingException"></exception>
-//    /// <exception cref="TerminalDataException"></exception>
-//    [Fact]
-//    public void OnlineOnlyTerminal_WithTimeoutAndIssuerActionCodeDefault_GeneratesAuthenticationRequestCryptogram()
-//    {
-//        TerminalActionAnalysisService sut = new();
+        // Assert
+        Assertion(() => { Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual); },
+            Build.Equals.Message((byte) CryptogramTypes.ApplicationAuthenticationCryptogram, (byte) actual));
+    }
 
-//        TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
+    [Theory]
+    [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalActionCodeDefault), 10, MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+    public void OnlineOnlyTerminal_WithTerminalActionCodeDefault_GeneratesApplicationAuthenticationCryptogram(ActionCodes actionCode)
+    {
+        // Arrange
+        TerminalActionAnalysisService sut = new();
+        KernelDatabase database = GetKernelDatabaseForOnlineOnly(_Fixture);
+        ClearActionCodes(database);
+        database.Update(new TerminalActionCodeDefault((ulong) actionCode));
+        database.Update(new TerminalVerificationResults((ulong) actionCode));
 
-//        CryptogramTypes actual = sut.Process(sessionId, GetKernelDatabaseForOnlineOnly(_Fixture));
-//        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual);
-//    }
+        // Act
+        CryptogramTypes actual = sut.Process(_Fixture.Create<TransactionSessionId>(), database);
 
-//    /// <exception cref="InvalidOperationException"></exception>
-//    /// <exception cref="BerParsingException"></exception>
-//    /// <exception cref="TerminalDataException"></exception>
-//    [Fact]
-//    public void OnlineOnlyTerminal_WithTimeoutAndTerminalAndIssuerActionCodeDefault_GeneratesApplicationAuthenticationCryptogram()
-//    {
-//        TerminalActionAnalysisService sut = new();
+        // Assert
+        Assertion(() => { Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual); },
+            Build.Equals.Message((byte) CryptogramTypes.ApplicationAuthenticationCryptogram, (byte) actual));
+    }
 
-//        TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
+    [Theory]
+    [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalActionCodeOnline), 10, MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+    public void OnlineOnlyTerminal_WithTerminalActionCodeOnline_GeneratesAuthorizationRequestCryptogram(ActionCodes actionCode)
+    {
+        // Arrange
+        TerminalActionAnalysisService sut = new();
+        KernelDatabase database = GetKernelDatabaseForOnlineOnly(_Fixture);
+        ClearActionCodes(database);
+        database.Update(new TerminalActionCodeOnline((ulong) actionCode));
+        database.Update(new TerminalVerificationResults((ulong) actionCode));
 
-//        CryptogramTypes actual = sut.Process(sessionId, GetKernelDatabaseForOnlineOnly(_Fixture));
-//        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual);
-//    }
+        // Act
+        CryptogramTypes actual = sut.Process(_Fixture.Create<TransactionSessionId>(), database);
 
-//    /// <exception cref="InvalidOperationException"></exception>
-//    /// <exception cref="BerParsingException"></exception>
-//    /// <exception cref="TerminalDataException"></exception>
-//    [Fact]
-//    public void OnlineOnlyTerminal_WithTerminalActionCodeDenial_GeneratesApplicationAuthenticationCryptogram()
-//    {
-//        TerminalActionAnalysisService sut = new();
+        // Assert
+        Assertion(() => { Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, actual); },
+            Build.Equals.Message((byte) CryptogramTypes.AuthorizationRequestCryptogram, (byte) actual));
+    }
 
-//        TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
+    [Theory]
+    [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalActionCodeDenial), 10, MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+    public void OnlineOnlyTerminal_WithTerminalActionCodeDenial_GeneratesApplicationAuthenticationCryptogram(ActionCodes actionCode)
+    {
+        // Arrange
+        TerminalActionAnalysisService sut = new();
+        KernelDatabase database = GetKernelDatabaseForOnlineOnly(_Fixture);
+        ClearActionCodes(database);
+        database.Update(new TerminalActionCodeDenial((ulong) actionCode));
+        database.Update(new TerminalVerificationResults((ulong) actionCode));
 
-//        CryptogramTypes actual = sut.Process(sessionId, GetKernelDatabaseForOnlineOnly(_Fixture));
-//        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual);
-//    }
+        // Act
+        CryptogramTypes actual = sut.Process(_Fixture.Create<TransactionSessionId>(), database);
 
-//    /// <exception cref="InvalidOperationException"></exception>
-//    /// <exception cref="BerParsingException"></exception>
-//    /// <exception cref="TerminalDataException"></exception>
-//    [Fact]
-//    public void OnlineOnlyTerminal_WithIssuerActionCodeDenial_GeneratesApplicationAuthenticationCryptogram()
-//    {
-//        TerminalActionAnalysisService sut = new();
+        // Assert
+        Assertion(() => { Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual); },
+            Build.Equals.Message((byte) CryptogramTypes.ApplicationAuthenticationCryptogram, (byte) actual));
+    }
 
-//        TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
-
-//        CryptogramTypes actual = sut.Process(sessionId, GetKernelDatabaseForOnlineOnly(_Fixture));
-//        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual);
-//    }
-
-//    /// <exception cref="InvalidOperationException"></exception>
-//    /// <exception cref="BerParsingException"></exception>
-//    /// <exception cref="TerminalDataException"></exception>
-//    [Fact]
-//    public void OnlineOnlyTerminal_WithTerminalAndIssuerActionCodeDenial_GeneratesApplicationAuthenticationCryptogram()
-//    {
-//        TerminalActionAnalysisService sut = new();
-
-//        TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
-
-//        CryptogramTypes actual = sut.Process(sessionId, GetKernelDatabaseForOnlineOnly(_Fixture));
-//        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual);
-//    }
-
-//    #endregion
-//}
-
+    #endregion
+}

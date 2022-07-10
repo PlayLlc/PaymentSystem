@@ -29,7 +29,8 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
 
     #region Constructor
 
-    private TerminalEndpoint(ITerminalConfigurationRepository terminalConfigurationRepository, ICreateEndpointClient messageRouter)
+    private TerminalEndpoint(ITerminalConfigurationRepository terminalConfigurationRepository,
+        ICreateEndpointClient messageRouter)
     {
         ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
         _TerminalProcess = new TerminalProcess(terminalConfigurationRepository);
