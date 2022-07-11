@@ -32,7 +32,6 @@ public record DeviceEstimatedTransmissionTimeForRelayResistanceRapdu : DataEleme
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount() => PlayCodec.BinaryCodec.GetByteCount((ushort)_Value);
 
     #endregion
 
@@ -55,8 +54,8 @@ public record DeviceEstimatedTransmissionTimeForRelayResistanceRapdu : DataEleme
         return new DeviceEstimatedTransmissionTimeForRelayResistanceRapdu(result);
     }
 
-    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode((ushort)_Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode((ushort)_Value, length);
+    public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public override byte[] EncodeValue(int length) => _Codec.EncodeValue(EncodingId, _Value, length);
 
     #endregion
 
