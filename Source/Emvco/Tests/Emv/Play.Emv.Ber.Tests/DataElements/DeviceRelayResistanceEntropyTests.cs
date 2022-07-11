@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Play.Emv.Ber.Tests.DataElements;
 
-public class DeviceEstimatedTransmissionTimeForRelayResistanceRapduTests
+public class DeviceRelayResistanceEntropyTests
 {
     #region Instance Members
 
@@ -21,8 +21,8 @@ public class DeviceEstimatedTransmissionTimeForRelayResistanceRapduTests
     [Fact]
     public void BerEncoding_DeserializingDataElement_CreatesPrimitiveValue()
     {
-        DeviceEstimatedTransmissionTimeForRelayResistanceRapduTestTlv testData = new();
-        DeviceEstimatedTransmissionTimeForRelayResistanceRapdu testValue = DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Decode(testData.EncodeValue().AsSpan());
+        DeviceRelayResistanceEntropyTestTlv testData = new();
+        DeviceRelayResistanceEntropy testValue = DeviceRelayResistanceEntropy.Decode(testData.EncodeValue().AsSpan());
         Assert.NotNull(testValue);
     }
 
@@ -34,8 +34,8 @@ public class DeviceEstimatedTransmissionTimeForRelayResistanceRapduTests
     [Fact]
     public void BerEncoding_EncodingDataElement_SerializesExpectedValue()
     {
-        DeviceEstimatedTransmissionTimeForRelayResistanceRapduTestTlv testData = new();
-        DeviceEstimatedTransmissionTimeForRelayResistanceRapdu sut = DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Decode(testData.EncodeValue().AsSpan());
+        DeviceRelayResistanceEntropyTestTlv testData = new();
+        DeviceRelayResistanceEntropy sut = DeviceRelayResistanceEntropy.Decode(testData.EncodeValue().AsSpan());
         byte[] expectedResult = testData.EncodeValue();
         byte[]? testValue = sut.EncodeValue();
 
@@ -50,8 +50,8 @@ public class DeviceEstimatedTransmissionTimeForRelayResistanceRapduTests
     [Fact]
     public void BerEncoding_EncodingDataElementTlv_SerializesExpectedValue()
     {
-        DeviceEstimatedTransmissionTimeForRelayResistanceRapduTestTlv testData = new();
-        DeviceEstimatedTransmissionTimeForRelayResistanceRapdu sut = DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Decode(testData.EncodeValue().AsSpan());
+        DeviceRelayResistanceEntropyTestTlv testData = new();
+        DeviceRelayResistanceEntropy sut = DeviceRelayResistanceEntropy.Decode(testData.EncodeValue().AsSpan());
         byte[] expectedResult = testData.EncodeTagLengthValue();
         byte[]? testValue = sut.EncodeTagLengthValue();
 
@@ -66,10 +66,10 @@ public class DeviceEstimatedTransmissionTimeForRelayResistanceRapduTests
     [Fact]
     public void BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue()
     {
-        DeviceEstimatedTransmissionTimeForRelayResistanceRapduTestTlv testData = new();
-        DeviceEstimatedTransmissionTimeForRelayResistanceRapdu sut = DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Decode(testData.EncodeValue().AsSpan());
+        DeviceRelayResistanceEntropyTestTlv testData = new();
+        DeviceRelayResistanceEntropy sut = DeviceRelayResistanceEntropy.Decode(testData.EncodeValue().AsSpan());
         TagLengthValue? testValue = sut.AsTagLengthValue();
-        TagLengthValue expectedResult = new(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag, testData.EncodeValue());
+        TagLengthValue expectedResult = new(DeviceRelayResistanceEntropy.Tag, testData.EncodeValue());
         Assert.Equal(testValue, expectedResult);
     }
 
@@ -81,8 +81,8 @@ public class DeviceEstimatedTransmissionTimeForRelayResistanceRapduTests
     [Fact]
     public void TagLengthValue_SerializingToBer_ReturnsExpectedResult()
     {
-        DeviceEstimatedTransmissionTimeForRelayResistanceRapduTestTlv testData = new();
-        DeviceEstimatedTransmissionTimeForRelayResistanceRapdu sut = DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Decode(testData.EncodeValue().AsSpan());
+        DeviceRelayResistanceEntropyTestTlv testData = new();
+        DeviceRelayResistanceEntropy sut = DeviceRelayResistanceEntropy.Decode(testData.EncodeValue().AsSpan());
 
         byte[] testValue = sut.AsTagLengthValue().EncodeTagLengthValue();
         byte[] expectedResult = testData.EncodeTagLengthValue();
@@ -97,9 +97,9 @@ public class DeviceEstimatedTransmissionTimeForRelayResistanceRapduTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        DeviceEstimatedTransmissionTimeForRelayResistanceRapduTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        DeviceRelayResistanceEntropyTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
 
-        Assert.Throws<DataElementParsingException>(() => DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Decode(testData.EncodeValue().AsSpan()));
+        Assert.Throws<DataElementParsingException>(() => DeviceRelayResistanceEntropy.Decode(testData.EncodeValue().AsSpan()));
     }
 
     /// <summary>
@@ -110,8 +110,8 @@ public class DeviceEstimatedTransmissionTimeForRelayResistanceRapduTests
     [Fact]
     public void DataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        DeviceEstimatedTransmissionTimeForRelayResistanceRapduTestTlv testData = new();
-        DeviceEstimatedTransmissionTimeForRelayResistanceRapdu sut = DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Decode(testData.EncodeValue().AsSpan());
+        DeviceRelayResistanceEntropyTestTlv testData = new();
+        DeviceRelayResistanceEntropy sut = DeviceRelayResistanceEntropy.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
 
@@ -126,8 +126,8 @@ public class DeviceEstimatedTransmissionTimeForRelayResistanceRapduTests
     [Fact]
     public void DataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        DeviceEstimatedTransmissionTimeForRelayResistanceRapduTestTlv testData = new();
-        DeviceEstimatedTransmissionTimeForRelayResistanceRapdu sut = DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Decode(testData.EncodeValue().AsSpan());
+        DeviceRelayResistanceEntropyTestTlv testData = new();
+        DeviceRelayResistanceEntropy sut = DeviceRelayResistanceEntropy.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
         ushort testResult = sut.GetTagLengthValueByteCount();
 
@@ -142,8 +142,8 @@ public class DeviceEstimatedTransmissionTimeForRelayResistanceRapduTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        DeviceEstimatedTransmissionTimeForRelayResistanceRapduTestTlv testData = new(new byte[] { 0x08, 0x32 });
-        DeviceEstimatedTransmissionTimeForRelayResistanceRapdu sut = DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Decode(testData.EncodeValue().AsSpan());
+        DeviceRelayResistanceEntropyTestTlv testData = new(new byte[] { 0x08, 0x32, 0x4c, 0x7d });
+        DeviceRelayResistanceEntropy sut = DeviceRelayResistanceEntropy.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
 
@@ -158,12 +158,12 @@ public class DeviceEstimatedTransmissionTimeForRelayResistanceRapduTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        DeviceEstimatedTransmissionTimeForRelayResistanceRapduTestTlv testData = new(new byte[]
+        DeviceRelayResistanceEntropyTestTlv testData = new(new byte[]
         {
-            0x08, 0x32
+            0x08, 0x32, 0x64, 0x73
         });
 
-        DeviceEstimatedTransmissionTimeForRelayResistanceRapdu sut = DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Decode(testData.EncodeValue().AsSpan());
+        DeviceRelayResistanceEntropy sut = DeviceRelayResistanceEntropy.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
         ushort testResult = sut.GetTagLengthValueByteCount();
 
