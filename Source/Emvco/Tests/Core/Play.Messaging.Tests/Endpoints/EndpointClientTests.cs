@@ -90,5 +90,16 @@ public partial class EndpointClientTests : TestBase
         Assert.Equal(11, _TestChannel1.GetResponseValue());
     }
 
+    [Fact]
+    public void TestChannel1AndTestChannel2_SendingTestChannel2RequestMessage_CorrectlyRoutesToChannel2()
+    {
+        int expected = 10;
+        TestChannel2RequestMessage requestMessage = new(expected);
+        _EndpointClient.Send(requestMessage);
+        int actual = _TestChannel2.GetRequestValue();
+
+        Assert.Equal(expected, actual);
+    }
+
     #endregion
 }
