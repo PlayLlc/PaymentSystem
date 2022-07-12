@@ -1,11 +1,12 @@
-﻿namespace Play.Messaging;
+﻿using Play.Messaging.Exceptions;
 
-public class MessageBus : IRouteMessages
+namespace Play.Messaging;
+
+internal class MessageBus
 {
     #region Instance Values
 
-    private readonly EventRouter _EventBus;
-    private readonly MessageRouter _MessageRouter;
+    private readonly Dictionary<ChannelTypeId, IMessageChannel> _ChannelMap;
 
     #endregion
 
@@ -13,80 +14,81 @@ public class MessageBus : IRouteMessages
 
     public MessageBus()
     {
-        _EventBus = new EventRouter();
-        _MessageRouter = new MessageRouter();
+        _ChannelMap = new Dictionary<ChannelTypeId, IMessageChannel>();
     }
 
     #endregion
 
     #region Instance Members
 
-    public IEndpointClient CreateEndpointClient() => new EndpointClient(this);
-
-    #endregion
-
-    #region Message Subscription
-
     /// <summary>
     ///     Subscribe
     /// </summary>
     /// <param name="messageChannel"></param>
-    /// <exception cref="Exceptions.MessagingException"></exception>
+    /// <exception cref="MessagingException"></exception>
     public void Subscribe(IMessageChannel messageChannel)
     {
-        _MessageRouter.Subscribe(messageChannel);
+        lock (_ChannelMap)
+        {
+            if (_ChannelMap.ContainsKey(messageChannel.GetChannelTypeId()))
+            {
+                throw new MessagingException(
+                    $"The {nameof(IMessageChannel)}: {messageChannel.GetType().FullName} could not {nameof(Subscribe)} because a {nameof(IMessageChannel)} subscription already exists");
+            }
+
+            _ChannelMap.Add(messageChannel.GetChannelTypeId(), messageChannel);
+        }
     }
 
-    public void Unsubscribe(ChannelIdentifier channelIdentifier)
+    public void Unsubscribe(ChannelTypeId channelTypeId)
     {
-        _MessageRouter.Unsubscribe(channelIdentifier.GetChannelTypeId());
-    }
+        lock (_ChannelMap)
+        {
+            if (_ChannelMap.ContainsKey(channelTypeId))
+                return;
 
-    #region Requests
+            _ChannelMap.Remove(channelTypeId);
+        }
+    }
 
     /// <summary>
     ///     Send
     /// </summary>
-    /// <param name="requestMessageEnvelope"></param>
-    /// <exception cref="Exceptions.InvalidMessageRoutingException"></exception>
-    void IRouteMessages.Send(RequestMessageEnvelope requestMessageEnvelope)
+    /// <param name="requestMessage"></param>
+    /// <exception cref="InvalidMessageRoutingException"></exception>
+    public void Send(RequestMessage requestMessage)
     {
-        _MessageRouter.Send(requestMessageEnvelope.GetMessage());
+        lock (_ChannelMap)
+        {
+            if (!_ChannelMap.ContainsKey(requestMessage.GetChannelTypeId()))
+            {
+                throw new InvalidMessageRoutingException(
+                    $"The message type [{requestMessage.GetType().FullName}] could not be sent because the no message channel has subscribed with the {nameof(ChannelTypeId)}: [{requestMessage.GetChannelTypeId()}]");
+            }
+
+            _ChannelMap[requestMessage.GetChannelTypeId()]!.Request(requestMessage);
+        }
     }
-
-    #endregion
-
-    #region Replies
 
     /// <summary>
     ///     Send
     /// </summary>
-    /// <param name="responseMessageEnvelope"></param>
-    /// <exception cref="Exceptions.InvalidMessageRoutingException"></exception>
-    void IRouteMessages.Send(ResponseMessageEnvelope responseMessageEnvelope)
+    /// <param name="responseMessage"></param>
+    /// <exception cref="InvalidMessageRoutingException"></exception>
+    public void Send(ResponseMessage responseMessage)
     {
-        _MessageRouter.Send(responseMessageEnvelope.GetMessage());
-    }
+        CorrelationId? correlationId = responseMessage.GetCorrelationId();
 
-    #endregion
+        lock (_ChannelMap)
+        {
+            if (!_ChannelMap.ContainsKey(correlationId.GetChannelTypeId()))
+            {
+                throw new InvalidMessageRoutingException(
+                    $"The message type [{responseMessage.GetType().FullName}] could not be sent because the no message channel has subscribed with the {nameof(ChannelTypeId)}: [{correlationId.GetChannelTypeId()}]");
+            }
 
-    #endregion
-
-    #region Events
-
-    public void Subscribe(EventHandlerBase eventHandler)
-    {
-        _EventBus.Subscribe(eventHandler);
-    }
-
-    public void Unsubscribe(EventHandlerBase eventHandler)
-    {
-        _EventBus.Unsubscribe(eventHandler);
-    }
-
-    async Task IRouteMessages.Publish(EventEnvelope eventEnvelope)
-    {
-        await _EventBus.Publish(eventEnvelope.GetEvent()).ConfigureAwait(false);
+            _ChannelMap[correlationId.GetChannelTypeId()].Handle(responseMessage);
+        }
     }
 
     #endregion

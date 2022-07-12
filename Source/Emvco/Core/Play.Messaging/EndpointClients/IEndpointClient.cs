@@ -6,6 +6,8 @@ public interface IEndpointClient
 {
     #region Instance Members
 
+    public void Subscribe();
+    public void Unsubscribe();
     public void Send(ResponseMessage message);
     public void Send(ResponseMessage message, Milliseconds timeout);
     public void Send(ResponseMessage message, Milliseconds timeout, Action timeoutHandler);
