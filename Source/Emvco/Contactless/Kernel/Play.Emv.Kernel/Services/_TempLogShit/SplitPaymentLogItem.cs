@@ -26,7 +26,7 @@ public class SplitPaymentLogItem : Record
 
     #region Constructor
 
-    protected SplitPaymentLogItem(Record value, Money subtotal) : base(value.GetKey(), value.GetValues())
+    public SplitPaymentLogItem(Record value, Money subtotal) : base(value.GetKey(), value.GetValues())
     {
         _Subtotal = subtotal;
     }

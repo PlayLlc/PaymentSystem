@@ -27,7 +27,7 @@ namespace Play.Emv.Kernel.Services;
 /// </summary>
 
 // DEPRECATING: We're refactoring Terminal Risk Management a bit. No commands sent. We'll add kernel DB interfaces as method injection
-internal class TerminalRiskManager : IManageTerminalRisk
+public class TerminalRiskManager : IManageTerminalRisk
 {
     #region Instance Values
 
@@ -148,9 +148,9 @@ internal class TerminalRiskManager : IManageTerminalRisk
         Money amountAuthorizedNumeric, Money terminalFloorLimit)
     {
         if (!_SplitPaymentCoordinator.TryGetSplitPaymentLogItem(primaryAccountNumber, out SplitPaymentLogItem result))
-            return terminalFloorLimit > amountAuthorizedNumeric;
+            return amountAuthorizedNumeric > terminalFloorLimit;
 
-        return terminalFloorLimit > amountAuthorizedNumeric.Add(result.GetSubtotal());
+        return amountAuthorizedNumeric.Add(result.GetSubtotal()) > terminalFloorLimit;
     }
 
     /// <summary>
