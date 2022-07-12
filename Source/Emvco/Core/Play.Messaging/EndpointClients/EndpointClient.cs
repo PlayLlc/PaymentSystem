@@ -6,7 +6,6 @@ public class EndpointClient : IEndpointClient
 {
     #region Instance Values
 
-    private readonly IMessageChannel _MessageChannel;
     private readonly IRouteMessages _MessageRouter;
     private readonly TimeoutConfiguration? _TimeoutConfiguration;
 
@@ -14,31 +13,15 @@ public class EndpointClient : IEndpointClient
 
     #region Constructor
 
-    internal EndpointClient(IRouteMessages messageRouter, IMessageChannel messageChannel)
+    internal EndpointClient(IRouteMessages messageRouter)
     {
         _MessageRouter = messageRouter;
-        _MessageChannel = messageChannel;
     }
 
-    internal EndpointClient(IRouteMessages messageRouter, IMessageChannel messageChannel, TimeoutConfiguration? timeoutConfiguration)
+    internal EndpointClient(IRouteMessages messageRouter, TimeoutConfiguration? timeoutConfiguration)
     {
         _MessageRouter = messageRouter;
-        _MessageChannel = messageChannel;
         _TimeoutConfiguration = timeoutConfiguration;
-    }
-
-    #endregion
-
-    #region Subscription
-
-    public void Subscribe()
-    {
-        _MessageRouter.Subscribe(_MessageChannel);
-    }
-
-    public void Unsubscribe()
-    {
-        _MessageRouter.Unsubscribe(_MessageChannel.GetChannelIdentifier());
     }
 
     #endregion

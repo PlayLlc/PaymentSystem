@@ -1,15 +1,24 @@
 ﻿namespace Play.Messaging;
 
-internal interface IRouteMessages : ICreateEndpointClient
+public interface IMessageBus
 {
     #region Instance Members
 
-    void Subscribe(IMessageChannel messageChannel);
-    void Unsubscribe(ChannelIdentifier channelIdentifier);
+    public void Subscribe(IMessageChannel messageChannel);
+    public void Unsubscribe(ChannelIdentifier channelIdentifier);
+    public void Subscribe(EventHandlerBase eventHandler);
+    public void Unsubscribe(EventHandlerBase eventHandler);
+    public IEndpointClient CreateEndpointClient();
+
+    #endregion
+}
+
+internal interface IRouteMessages : IMessageBus
+{
+    #region Instance Members
+
     void Send(RequestMessageEnvelope messageEnvelop);
     void Send(ResponseMessageEnvelope messageEnvelop);
-    void Subscribe(EventHandlerBase eventHandler);
-    void Unsubscribe(EventHandlerBase eventHandler);
     Task Publish(EventEnvelope eventEnvelope);
 
     #endregion

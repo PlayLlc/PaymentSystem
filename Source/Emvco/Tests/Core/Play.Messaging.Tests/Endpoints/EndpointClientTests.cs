@@ -18,7 +18,7 @@ namespace Play.Messaging.Tests.Endpoints
         #region Instance Values
 
         private readonly TestEndpoint1 _TestEndpoint1;
-        private readonly MessageRouter _MessageRouter;
+        private readonly MessageBus _MessageBus;
 
         #endregion
 
@@ -26,8 +26,8 @@ namespace Play.Messaging.Tests.Endpoints
 
         public EndpointClientTests()
         {
-            _MessageRouter = new MessageRouter();
-            _TestEndpoint1 = new TestEndpoint1(_MessageRouter);
+            _MessageBus = new MessageBus();
+            _TestEndpoint1 = new TestEndpoint1(_MessageBus);
         }
 
         #endregion
