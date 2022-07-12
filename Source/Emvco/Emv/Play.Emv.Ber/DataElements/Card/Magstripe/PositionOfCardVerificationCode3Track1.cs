@@ -36,6 +36,7 @@ public record PositionOfCardVerificationCode3Track1 : DataElement<ulong>
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
+    //not sure what this needs to do (comment left for tracking on pr.)
     internal Nibble[] GetBitFlagIndex()
     {
         Nibble[] result = new Nibble[_Value.GetSetBitCount()];

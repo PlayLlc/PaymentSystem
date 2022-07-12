@@ -51,8 +51,8 @@ namespace Play.Messaging.Tests.Data.Channels
         {
             if (message is TestRequestMessage testRequestMessage)
                 Request(testRequestMessage);
-            else
-                throw new InvalidMessageRoutingException(message, this);
+            //else
+            //    throw new InvalidMessageRoutingException(message, this);
         }
 
         public void Request(TestRequestMessage message)
