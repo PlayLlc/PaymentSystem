@@ -1,6 +1,6 @@
 ﻿namespace Play.Messaging.Tests.Data.Channels;
 
-public readonly record struct TestChannel
+public readonly record struct TestChannel1Id
 {
     #region Static Metadata
 
@@ -16,12 +16,12 @@ public readonly record struct TestChannel
 
     #region Constructor
 
-    static TestChannel()
+    static TestChannel1Id()
     {
-        Id = new ChannelTypeId(nameof(TestChannel));
+        Id = new ChannelTypeId(nameof(TestChannel1Id));
     }
 
-    private TestChannel(ChannelTypeId value)
+    private TestChannel1Id(ChannelTypeId value)
     {
         _Value = value;
     }
@@ -30,7 +30,7 @@ public readonly record struct TestChannel
 
     #region Operator Overrides
 
-    public static explicit operator ChannelTypeId(TestChannel value) => value._Value;
+    public static explicit operator ChannelTypeId(TestChannel1Id value) => value._Value;
 
     #endregion
 }

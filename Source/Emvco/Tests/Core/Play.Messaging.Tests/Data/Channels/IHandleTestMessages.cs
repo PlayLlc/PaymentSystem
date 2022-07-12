@@ -6,7 +6,7 @@ public interface IHandleTestMessages
 {
     #region Instance Members
 
-    public void Request(TestRequestMessage message);
+    public void Request(TestChannel1RequestMessage message);
 
     #endregion
 }

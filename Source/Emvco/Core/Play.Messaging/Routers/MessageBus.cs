@@ -4,8 +4,8 @@ public class MessageBus : IRouteMessages
 {
     #region Instance Values
 
-    private readonly EventRouter _EventBus;
-    private readonly MessageRouter _MessageBus;
+    private readonly EventRouter _EventRouter;
+    private readonly MessageRouter _MessageRouter;
 
     #endregion
 
@@ -13,8 +13,8 @@ public class MessageBus : IRouteMessages
 
     public MessageBus()
     {
-        _EventBus = new EventRouter();
-        _MessageBus = new MessageRouter();
+        _EventRouter = new EventRouter();
+        _MessageRouter = new MessageRouter();
     }
 
     #endregion
@@ -28,12 +28,18 @@ public class MessageBus : IRouteMessages
     /// <exception cref="Exceptions.MessagingException"></exception>
     void IRouteMessages.Subscribe(IMessageChannel messageChannel)
     {
-        _MessageBus.Subscribe(messageChannel);
+        lock (_MessageRouter)
+        {
+            _MessageRouter.Subscribe(messageChannel);
+        }
     }
 
     void IRouteMessages.Unsubscribe(ChannelIdentifier channelIdentifier)
     {
-        _MessageBus.Unsubscribe(channelIdentifier.GetChannelTypeId());
+        lock (_MessageRouter)
+        {
+            _MessageRouter.Unsubscribe(channelIdentifier.GetChannelTypeId());
+        }
     }
 
     #region Requests
@@ -45,7 +51,10 @@ public class MessageBus : IRouteMessages
     /// <exception cref="Exceptions.InvalidMessageRoutingException"></exception>
     void IRouteMessages.Send(RequestMessageEnvelope requestMessageEnvelope)
     {
-        _MessageBus.Send(requestMessageEnvelope.GetMessage());
+        lock (_MessageRouter)
+        {
+            _MessageRouter.Send(requestMessageEnvelope.GetMessage());
+        }
     }
 
     #endregion
@@ -61,7 +70,10 @@ public class MessageBus : IRouteMessages
     /// <exception cref="Exceptions.InvalidMessageRoutingException"></exception>
     void IRouteMessages.Send(ResponseMessageEnvelope responseMessageEnvelope)
     {
-        _MessageBus.Send(responseMessageEnvelope.GetMessage());
+        lock (_MessageRouter)
+        {
+            _MessageRouter.Send(responseMessageEnvelope.GetMessage());
+        }
     }
 
     #endregion
@@ -72,17 +84,26 @@ public class MessageBus : IRouteMessages
 
     public void Subscribe(EventHandlerBase eventHandler)
     {
-        _EventBus.Subscribe(eventHandler);
+        lock (_EventRouter)
+        {
+            _EventRouter.Subscribe(eventHandler);
+        }
     }
 
     public void Unsubscribe(EventHandlerBase eventHandler)
     {
-        _EventBus.Unsubscribe(eventHandler);
+        lock (_EventRouter)
+        {
+            _EventRouter.Unsubscribe(eventHandler);
+        }
     }
 
-    async Task IRouteMessages.Publish(EventEnvelope eventEnvelope)
+    void IRouteMessages.Publish(EventEnvelope eventEnvelope)
     {
-        await _EventBus.Publish(eventEnvelope.GetEvent()).ConfigureAwait(false);
+        lock (_EventRouter)
+        {
+            _EventRouter.Publish(eventEnvelope.GetEvent()).ConfigureAwait(false);
+        }
     }
 
     #endregion
