@@ -1,6 +1,6 @@
 ﻿namespace Play.Messaging;
 
-internal class EventBus
+internal class EventRouter
 {
     #region Instance Values
 
@@ -10,7 +10,7 @@ internal class EventBus
 
     #region Constructor
 
-    public EventBus()
+    public EventRouter()
     {
         _HandlerMap = new Dictionary<EventTypeId, HashSet<EventHandlerBase>>();
     }

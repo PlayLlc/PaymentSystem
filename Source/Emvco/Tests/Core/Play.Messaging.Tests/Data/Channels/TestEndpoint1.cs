@@ -34,7 +34,8 @@ namespace Play.Messaging.Tests.Data.Channels
 
         public TestEndpoint1(ICreateEndpointClient messageRouter)
         {
-            _EndpointClient = messageRouter.CreateEndpointClient(this);
+            _EndpointClient = messageRouter.CreateEndpointClient();
+            _EndpointClient.Subscribe(this);
             ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
         }
 

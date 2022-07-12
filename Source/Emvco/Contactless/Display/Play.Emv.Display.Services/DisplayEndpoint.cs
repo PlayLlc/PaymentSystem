@@ -25,11 +25,11 @@ public class DisplayEndpoint : IMessageChannel, IHandleDisplayRequests, IDisposa
     #region Constructor
 
     private DisplayEndpoint(
-        IDisplayMessages displayService, IDisplayLed ledDisplayService, IDisplayMessageRepository displayMessageRepository, ICreateEndpointClient messageRouter)
+        IDisplayMessages displayService, IDisplayLed ledDisplayService, IDisplayMessageRepository displayMessageRepository, ICreateEndpointClient messageBus)
     {
         _DisplayProcess = new DisplayProcess(displayService, ledDisplayService, displayMessageRepository);
-        _EndpointClient = messageRouter.CreateEndpointClient(this);
-        _EndpointClient.Subscribe();
+        _EndpointClient = messageBus.CreateEndpointClient();
+        _EndpointClient.Subscribe(this);
     }
 
     #endregion
@@ -89,7 +89,7 @@ public class DisplayEndpoint : IMessageChannel, IHandleDisplayRequests, IDisposa
 
     public void Dispose()
     {
-        _EndpointClient.Unsubscribe();
+        _EndpointClient.Unsubscribe(this);
     }
 
     #endregion
