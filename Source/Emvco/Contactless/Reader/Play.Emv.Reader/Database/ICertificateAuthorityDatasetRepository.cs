@@ -1,4 +1,6 @@
-﻿using Play.Emv.Ber.DataElements;
+﻿using System.Collections.Generic;
+
+using Play.Emv.Ber.DataElements;
 using Play.Emv.Kernel.Contracts;
 
 namespace Play.Emv.Reader.Database;
@@ -7,7 +9,7 @@ public interface ICertificateAuthorityDatasetRepository
 {
     #region Instance Members
 
-    public CertificateAuthorityDataset[] Get(
+    public Dictionary<KernelId, CertificateAuthorityDataset[]> GetCertificateAuthorityDatasets(
         IssuerIdentificationNumber issuerIdentificationNumber, MerchantIdentifier merchantIdentifier, TerminalIdentification terminalIdentification);
 
     #endregion

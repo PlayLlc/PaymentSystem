@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Play.Ber.DataObjects;
+using Play.Ber.Identifiers;
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Identifiers;
@@ -10,16 +13,27 @@ using Play.Emv.Selection.Contracts;
 
 namespace Play.Emv.Reader.Database;
 
-internal class ReaderDatabase
+public interface IReaderRepository
+{
+    #region Instance Members
+
+    public PrimitiveValue[] GetReaderConfiguration(
+        IssuerIdentificationNumber issuerIdentificationNumber, MerchantIdentifier merchantIdentifier, TerminalIdentification terminalIdentification);
+
+    #endregion
+}
+
+public partial class ReaderDatabase
 {
     #region Instance Values
 
-    private readonly Dictionary<KernelId, KernelConfiguration> _KernelConfigurations;
-    private readonly Dictionary<KernelId, PersistentValues> _PersistentKernelValues;
-    private readonly Dictionary<CombinationCompositeKey, TransactionProfile> _TransactionProfileConfigurations;
-    private readonly CertificateAuthorityDataset[] _CertificateAuthorityDatasets;
+    private readonly Dictionary<KernelId, PrimitiveValue[]> _KernelConfigurations;
+    private readonly Dictionary<CombinationCompositeKey, PrimitiveValue[]> _TransactionProfiles;
+    private readonly Dictionary<LanguagePreference, DisplayMessages> _DisplayMessages;
+    private readonly Dictionary<KernelId, CertificateAuthorityDataset[]> _CertificateAuthorityDatasets;
+    private readonly TransactionType[] _SupportedTransactionTypes;
     private readonly PcdProtocolConfiguration _PcdProtocolConfiguration;
-    private readonly DisplayMessages _DisplayMessages;
+    private readonly PrimitiveValue[] _ReaderConfiguration;
 
     #endregion
 
@@ -27,31 +41,33 @@ internal class ReaderDatabase
 
     public ReaderDatabase(
         IssuerIdentificationNumber issuerIdentificationNumber, MerchantIdentifier merchantIdentifier, TerminalIdentification terminalIdentification,
-        LanguagePreference languagePreference, ICertificateAuthorityDatasetRepository certificateAuthorityDatasetRepository,
-        IDisplayMessageRepository displayMessageRepository, IKernelConfigurationRepository kernelConfigurationRepository,
-        IPcdProtocolConfigurationRepository pcdProtocolConfigurationRepository, IPersistentKernelValuesRepository persistentKernelValuesRepository,
+        LanguagePreference languagePreference, IReaderRepository readerRepository, ICertificateAuthorityDatasetRepository certificateAuthorityDatasetRepository,
+        IDisplayMessageRepository displayMessageRepository, IPcdProtocolRepository pcdProtocolRepository, IKernelRepository kernelRepository,
         ITransactionProfileRepository transactionProfileRepository)
     {
-        _KernelConfigurations = kernelConfigurationRepository.Get(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
-        _PersistentKernelValues = persistentKernelValuesRepository.Get(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
-        _CertificateAuthorityDatasets = certificateAuthorityDatasetRepository.Get(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
-        _PcdProtocolConfiguration = pcdProtocolConfigurationRepository.Get(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
-        _TransactionProfileConfigurations = transactionProfileRepository.Get(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
-        _DisplayMessages = displayMessageRepository.Get(issuerIdentificationNumber, merchantIdentifier, terminalIdentification, languagePreference);
-        _KernelConfigurations = kernelConfigurationRepository.Get(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
+        _TransactionValues = new Dictionary<Tag, PrimitiveValue>();
+        _ReaderConfiguration = readerRepository.GetReaderConfiguration(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
+
+        _KernelConfigurations = kernelRepository.GetKernelConfigurations(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
+        _CertificateAuthorityDatasets =
+            certificateAuthorityDatasetRepository.GetCertificateAuthorityDatasets(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
+        _PcdProtocolConfiguration = pcdProtocolRepository.Get(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
+        _TransactionProfiles = transactionProfileRepository.GetTransactionProfiles(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
+        _SupportedTransactionTypes = _TransactionProfiles.Keys.Select(a => a.GetTransactionType()).Distinct().ToArray();
+        _DisplayMessages =
+            displayMessageRepository.GetDisplayMessages(issuerIdentificationNumber, merchantIdentifier, terminalIdentification, languagePreference);
     }
 
     #endregion
 
     #region Instance Members
 
-    public KernelConfiguration GetKernelConfiguration(KernelId kernelId) => _KernelConfigurations[kernelId];
-    public PersistentValues GetPersistentKernelValues(KernelId kernelId) => _PersistentKernelValues[kernelId];
-    public CertificateAuthorityDataset[] GetCertificateAuthorityDatasets(KernelId kernelId) => _CertificateAuthorityDatasets;
+    public TransactionType[] GetSupportedTransactionTypes() => _SupportedTransactionTypes;
+    public PrimitiveValue[] GetKernelConfiguration(KernelId kernelId) => _KernelConfigurations[kernelId];
+    public CertificateAuthorityDataset[] GetCertificateAuthorityDatasets(KernelId kernelId) => _CertificateAuthorityDatasets[kernelId];
     public PcdProtocolConfiguration GetPcdProtocolConfiguration() => _PcdProtocolConfiguration;
-    public TransactionProfile[] GetTransactionProfiles() => _TransactionProfileConfigurations.Values.ToArray();
-    public TransactionProfile GetTransactionProfile(CombinationCompositeKey key) => _TransactionProfileConfigurations[key];
-    public DisplayMessages GetDisplayMessages(LanguagePreference languagePreference) => _DisplayMessages;
+    public PrimitiveValue[] GetTransactionProfile(CombinationCompositeKey key) => _TransactionProfiles[key];
+    public DisplayMessages GetDisplayMessages(LanguagePreference languagePreference) => _DisplayMessages[languagePreference];
 
     #endregion
 }

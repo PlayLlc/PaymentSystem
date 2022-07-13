@@ -44,9 +44,12 @@ public class CombinationSelector
 
     #region Instance Members
 
-    public void Start(
-        TransactionSessionId transactionSessionId, in CandidateList candidateList, in PreProcessingIndicators preProcessingIndicators, in Outcome outcome,
-        in TransactionType transactionType)
+    public void Start(  
+        TransactionSessionId transactionSessionId,
+        CandidateList candidateList,
+        PreProcessingIndicators preProcessingIndicators,
+        Outcome outcome,
+        TransactionType transactionType)
     {
         if (outcome.GetStartOutcome() == StartOutcomes.B)
         {

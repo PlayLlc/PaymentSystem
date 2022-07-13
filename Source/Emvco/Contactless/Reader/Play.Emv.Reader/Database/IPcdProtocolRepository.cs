@@ -1,15 +1,13 @@
-﻿using System.Collections.Generic;
-
-using Play.Emv.Ber.DataElements;
-using Play.Emv.Kernel.Contracts;
+﻿using Play.Emv.Ber.DataElements;
+using Play.Emv.Pcd.Contracts;
 
 namespace Play.Emv.Reader.Database;
 
-public interface IPersistentKernelValuesRepository
+public interface IPcdProtocolRepository
 {
     #region Instance Members
 
-    public Dictionary<KernelId, PersistentValues> Get(
+    public PcdProtocolConfiguration Get(
         IssuerIdentificationNumber issuerIdentificationNumber, MerchantIdentifier merchantIdentifier, TerminalIdentification terminalIdentification);
 
     #endregion
