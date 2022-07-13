@@ -279,6 +279,9 @@ public partial class CompressedNumericCodec : PlayCodec
         if (typeof(T) == typeof(char))
             return Encode(Unsafe.As<T[], char[]>(ref value));
 
+        if (typeof(T) == typeof(Nibble))
+            return Encode(Unsafe.As<T[], Nibble[]>(ref value));
+
         throw new NotImplementedException();
     }
 
@@ -349,6 +352,11 @@ public partial class CompressedNumericCodec : PlayCodec
 
             return result.ToArray();
         }
+    }
+
+    public byte[] Encode(Nibble[] value)
+    {
+        return value.AsByteArray();
     }
 
     public byte[] Encode(byte value)

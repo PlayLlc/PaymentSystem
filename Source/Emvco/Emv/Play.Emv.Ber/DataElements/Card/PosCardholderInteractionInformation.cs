@@ -34,10 +34,10 @@ public record PosCardholderInteractionInformation : DataElement<uint>, IEquality
     public bool IsOfflinePinChangeRequired() => _Value.IsBitSet(11);
     public bool IsContextConflicting() => _Value.IsBitSet(12);
     public bool IsOfflineDeviceCvmVerificationSuccessful() => _Value.IsBitSet(9);
+    public bool IsSecondTapNeeded() => _Value.AreAnyBitsSet(0x30F);
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-    public bool IsSecondTapNeeded() => _Value.AreAnyBitsSet(0x30F);
     public uint GetMaskedValue(MessageTableEntry value) => _Value.GetMaskedValue((uint) value.GetPciiMask());
 
     public static bool EqualsStatic(PosCardholderInteractionInformation? x, PosCardholderInteractionInformation? y)
@@ -73,6 +73,7 @@ public record PosCardholderInteractionInformation : DataElement<uint>, IEquality
     }
 
     #endregion
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
 
     #region Equality
 
