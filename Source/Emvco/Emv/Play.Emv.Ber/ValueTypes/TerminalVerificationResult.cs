@@ -13,7 +13,18 @@ public struct TerminalVerificationResult
 
     #endregion
 
+    #region Static Members
+
+    public static TerminalVerificationResult Empty;
+
+    #endregion
+
     #region Constructor
+
+    static TerminalVerificationResult()
+    {
+        Empty = Create();
+    }
 
     public TerminalVerificationResult(ulong value)
     {

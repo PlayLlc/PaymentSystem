@@ -23,6 +23,25 @@ public class TerminalRiskManagerFactory
         return command;
     }
 
+    public static TerminalRiskManagementCommand CreateFullCommand(
+        IFixture fixture,
+        ushort? applicationTransactionCount,
+        ushort? lastOnlineApplicationTransactionCount,
+        byte? lowerConsecutiveOfflineLimit,
+        byte? upperConsecutiveOfflineLimit
+        )
+    {
+        AmountAuthorizedNumeric authorizedAmmount = fixture.Create<AmountAuthorizedNumeric>();
+        ApplicationPan primaryAccountNumber = fixture.Create<ApplicationPan>();
+        CultureProfile cultureProfile = fixture.Create<CultureProfile>();
+        TerminalRiskConfiguration terminalRiskConfiguration = CreateTerminalRiskConfiguration(fixture, cultureProfile);
+
+        TerminalRiskManagementCommand command = new(primaryAccountNumber, cultureProfile, authorizedAmmount, terminalRiskConfiguration,
+            applicationTransactionCount, lastOnlineApplicationTransactionCount, lowerConsecutiveOfflineLimit, upperConsecutiveOfflineLimit);
+
+        return command;
+    }
+
     private static TerminalRiskConfiguration CreateTerminalRiskConfiguration(IFixture fixture, CultureProfile cultureProfile)
     {
         Money biasedRandomSelectionTreshHold = fixture.Create<Money>();

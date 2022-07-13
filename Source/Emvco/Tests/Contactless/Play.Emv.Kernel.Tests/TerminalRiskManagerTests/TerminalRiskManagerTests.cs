@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 
 using AutoFixture;
-using AutoFixture.AutoMoq;
 
 using Moq;
 
@@ -12,9 +11,7 @@ using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.Services._TempLogShit;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
-using Play.Globalization.Country;
 using Play.Globalization.Currency;
-using Play.Globalization.Language;
 using Play.Testing.BaseTestClasses;
 using Play.Testing.Emv.Contactless.AutoFixture;
 
@@ -161,6 +158,37 @@ public class TerminalRiskManagerTests : TestBase
     }
 
     [Fact]
+    public async Task CommandWithAuthorizedAmmount_ProbabilitySetTo100_TransactionIsRandomlySelectedForOnlineProcessing()
+    {
+        //Arrange & setup
+        _fixture.Register(() => new AmountAuthorizedNumeric(123));
+        _fixture.Register(() => new TerminalFloorLimit(1234));
+
+        Probability randomSelectionTargetProbability = new Probability(100);
+
+        _fixture.Register(() => randomSelectionTargetProbability);
+
+        SplitPaymentLogItem splitPaymentLogItem = null;
+        _splitPaymentsCoordinator.Setup(m => m.TryGetSplitPaymentLogItem(It.IsAny<ApplicationPan>(), out splitPaymentLogItem))
+            .Returns(false);
+
+        TerminalRiskManagementCommand command = TerminalRiskManagerFactory.CreateCommand(_fixture);
+
+        _probabilitySelectionQueue.Setup(m => m.IsRandomSelection(
+            It.Is<Probability>(x => x.Equals(command.GetRandomSelectionTargetPercentage()))))
+            .Returns(Task.FromResult(true));
+
+        TerminalVerificationResult tvr = new();
+        tvr.SetTransactionSelectedRandomlyForOnlineProcessing();
+
+        //Act
+        TerminalRiskManagementResponse actual = await _systemUnderTest.Process(command);
+
+        //Assert
+        Assert.Equal(tvr, actual.GetTerminalVerificationResult());
+    }
+
+    [Fact]
     public async Task CommandWithAuthorizedAmmount_VelocityCheckIsNotSupported_TransactionNotValid()
     {
         //Arrange & Setup
@@ -190,5 +218,203 @@ public class TerminalRiskManagerTests : TestBase
         //Assert
         Assert.Equal(tvr, actual.GetTerminalVerificationResult());
         Assert.Equal(TransactionStatusInformationFlags.NotAvailable, actual.GetTransactionStatus());
+    }
+
+    [Fact]
+    public async Task CommandWithAuthorizedAmount_VelocityCheckIsSuportedButDoesNotHaveRequiredItems_ReturnsUpperAndLowerConsecutiveOfflineLimitExceeded()
+    {
+        //Arrange & Setup
+        _fixture.Register(() => new AmountAuthorizedNumeric(123));
+        _fixture.Register(() => new TerminalFloorLimit(1234));
+
+        Alpha3CurrencyCode currencyCode = _fixture.Create<Alpha3CurrencyCode>();
+        Money expectedBiasedRandomSelectionTreshHold = new Money(134, currencyCode);
+
+        _fixture.Register(() => expectedBiasedRandomSelectionTreshHold);
+
+        SplitPaymentLogItem splitPaymentLogItem = null;
+        _splitPaymentsCoordinator.Setup(m => m.TryGetSplitPaymentLogItem(It.IsAny<ApplicationPan>(), out splitPaymentLogItem))
+            .Returns(false);
+
+        byte lowerConsecutiveOfflineLimit = 15;
+        byte upperConsecutiveOfflineLimit = 35;
+
+        TerminalRiskManagementCommand command = TerminalRiskManagerFactory.CreateFullCommand(_fixture,
+            null, null, lowerConsecutiveOfflineLimit, upperConsecutiveOfflineLimit);
+
+        _probabilitySelectionQueue.Setup(m => m.IsRandomSelection(
+            It.Is<Probability>(x => x.Equals(command.GetRandomSelectionTargetPercentage()))))
+            .Returns(Task.FromResult(false));
+
+        TerminalVerificationResult tvr = TerminalVerificationResult.Create();
+        tvr.SetUpperConsecutiveOfflineLimitExceeded();
+        tvr.SetLowerConsecutiveOfflineLimitExceeded();
+
+        //Act
+        TerminalRiskManagementResponse actual = await _systemUnderTest.Process(command);
+
+        //Assert
+        Assert.Equal(tvr, actual.GetTerminalVerificationResult());
+        Assert.Equal(TransactionStatusInformationFlags.TerminalRiskManagementPerformed, actual.GetTransactionStatus());
+    }
+
+    [Fact]
+    public async Task CommandWithAuthorizedAmount_VelocityCheckIsSupportedAndHasRequiredItemsButApplicationTransactionCountIsSmallerThenLastTransactionCount_ReturnsUpperAndLowerConsecutiveOfflineLimitExceeded()
+    {
+        //Arrange & Setup
+        _fixture.Register(() => new AmountAuthorizedNumeric(123));
+        _fixture.Register(() => new TerminalFloorLimit(1234));
+
+        Alpha3CurrencyCode currencyCode = _fixture.Create<Alpha3CurrencyCode>();
+        Money expectedBiasedRandomSelectionTreshHold = new Money(134, currencyCode);
+
+        _fixture.Register(() => expectedBiasedRandomSelectionTreshHold);
+
+        SplitPaymentLogItem splitPaymentLogItem = null;
+        _splitPaymentsCoordinator.Setup(m => m.TryGetSplitPaymentLogItem(It.IsAny<ApplicationPan>(), out splitPaymentLogItem))
+            .Returns(false);
+
+        ushort? applicationTransactionCount = 12;
+        ushort? lastOnlineApplicationTransactionCount = 118;
+        byte lowerConsecutiveOfflineLimit = 15;
+        byte upperConsecutiveOfflineLimit = 35;
+
+        TerminalRiskManagementCommand command = TerminalRiskManagerFactory.CreateFullCommand(_fixture,
+            applicationTransactionCount, lastOnlineApplicationTransactionCount, lowerConsecutiveOfflineLimit, upperConsecutiveOfflineLimit);
+
+        _probabilitySelectionQueue.Setup(m => m.IsRandomSelection(
+            It.Is<Probability>(x => x.Equals(command.GetRandomSelectionTargetPercentage()))))
+            .Returns(Task.FromResult(false));
+
+        TerminalVerificationResult tvr = TerminalVerificationResult.Create();
+        tvr.SetLowerConsecutiveOfflineLimitExceeded();
+        tvr.SetUpperConsecutiveOfflineLimitExceeded();
+
+        //Act
+        TerminalRiskManagementResponse actual = await _systemUnderTest.Process(command);
+
+        //Assert
+        Assert.Equal(tvr, actual.GetTerminalVerificationResult());
+        Assert.Equal(TransactionStatusInformationFlags.TerminalRiskManagementPerformed, actual.GetTransactionStatus());
+    }
+
+    [Fact]
+    public async Task CommandWithAuthorizedAmount_VelocityCheckIsSupportedAndHasRequiredItemsButLowerVelocityIsExceeded_ReturnsLowerConsecutiveOfflineLimitExceeded()
+    {
+        //Arrange & Setup
+        _fixture.Register(() => new AmountAuthorizedNumeric(123));
+        _fixture.Register(() => new TerminalFloorLimit(1234));
+
+        Alpha3CurrencyCode currencyCode = _fixture.Create<Alpha3CurrencyCode>();
+        Money expectedBiasedRandomSelectionTreshHold = new Money(134, currencyCode);
+
+        _fixture.Register(() => expectedBiasedRandomSelectionTreshHold);
+
+        SplitPaymentLogItem splitPaymentLogItem = null;
+        _splitPaymentsCoordinator.Setup(m => m.TryGetSplitPaymentLogItem(It.IsAny<ApplicationPan>(), out splitPaymentLogItem))
+            .Returns(false);
+
+        ushort? applicationTransactionCount = 118;
+        ushort? lastOnlineApplicationTransactionCount = 13;
+        byte lowerConsecutiveOfflineLimit = 15;
+        byte upperConsecutiveOfflineLimit = 140;
+
+        TerminalRiskManagementCommand command = TerminalRiskManagerFactory.CreateFullCommand(_fixture,
+            applicationTransactionCount, lastOnlineApplicationTransactionCount, lowerConsecutiveOfflineLimit, upperConsecutiveOfflineLimit);
+
+        _probabilitySelectionQueue.Setup(m => m.IsRandomSelection(
+            It.Is<Probability>(x => x.Equals(command.GetRandomSelectionTargetPercentage()))))
+            .Returns(Task.FromResult(false));
+
+        TerminalVerificationResult tvr = TerminalVerificationResult.Create();
+        tvr.SetLowerConsecutiveOfflineLimitExceeded();
+
+        //Act
+        TerminalRiskManagementResponse actual = await _systemUnderTest.Process(command);
+
+        //Assert
+        Assert.Equal(tvr, actual.GetTerminalVerificationResult());
+        Assert.Equal(TransactionStatusInformationFlags.TerminalRiskManagementPerformed, actual.GetTransactionStatus());
+    }
+
+    [Fact]
+    public async Task CommandWithAuthorizedAmount_VelocityCheckIsSupportedAndHasRequiredItemsButLowerAndHigherVelocityAreExceeded_ReturnsHigherAndLowerConsecutiveOfflineLimitExceeded()
+    {
+        //Arrange & Setup
+        _fixture.Register(() => new AmountAuthorizedNumeric(123));
+        _fixture.Register(() => new TerminalFloorLimit(1234));
+
+        Alpha3CurrencyCode currencyCode = _fixture.Create<Alpha3CurrencyCode>();
+        Money expectedBiasedRandomSelectionTreshHold = new Money(134, currencyCode);
+
+        _fixture.Register(() => expectedBiasedRandomSelectionTreshHold);
+
+        SplitPaymentLogItem splitPaymentLogItem = null;
+        _splitPaymentsCoordinator.Setup(m => m.TryGetSplitPaymentLogItem(It.IsAny<ApplicationPan>(), out splitPaymentLogItem))
+            .Returns(false);
+
+        ushort? applicationTransactionCount = 118;
+        ushort? lastOnlineApplicationTransactionCount = 13;
+        byte lowerConsecutiveOfflineLimit = 15;
+        byte upperConsecutiveOfflineLimit = 35;
+
+        TerminalRiskManagementCommand command = TerminalRiskManagerFactory.CreateFullCommand(_fixture,
+            applicationTransactionCount, lastOnlineApplicationTransactionCount, lowerConsecutiveOfflineLimit, upperConsecutiveOfflineLimit);
+
+        _probabilitySelectionQueue.Setup(m => m.IsRandomSelection(
+            It.Is<Probability>(x => x.Equals(command.GetRandomSelectionTargetPercentage()))))
+            .Returns(Task.FromResult(false));
+
+        TerminalVerificationResult tvr = TerminalVerificationResult.Create();
+        tvr.SetLowerConsecutiveOfflineLimitExceeded();
+        tvr.SetUpperConsecutiveOfflineLimitExceeded();
+
+        //Act
+        TerminalRiskManagementResponse actual = await _systemUnderTest.Process(command);
+
+        //Assert
+        Assert.Equal(tvr, actual.GetTerminalVerificationResult());
+        Assert.Equal(TransactionStatusInformationFlags.TerminalRiskManagementPerformed, actual.GetTransactionStatus());
+    }
+
+    [Fact]
+    public async Task CommandWithAuthorizedAmount_VelocityCheckIsSupportedAndHasRequiredItemsButLastOnlineATCIs0_SetsTheNewCardTVRBitTo1()
+    {
+        //Arrange & Setup
+        _fixture.Register(() => new AmountAuthorizedNumeric(123));
+        _fixture.Register(() => new TerminalFloorLimit(1234));
+
+        Alpha3CurrencyCode currencyCode = _fixture.Create<Alpha3CurrencyCode>();
+        Money expectedBiasedRandomSelectionTreshHold = new Money(134, currencyCode);
+
+        _fixture.Register(() => expectedBiasedRandomSelectionTreshHold);
+
+        SplitPaymentLogItem splitPaymentLogItem = null;
+        _splitPaymentsCoordinator.Setup(m => m.TryGetSplitPaymentLogItem(It.IsAny<ApplicationPan>(), out splitPaymentLogItem))
+            .Returns(false);
+
+        ushort? applicationTransactionCount = 118;
+        ushort? lastOnlineApplicationTransactionCount = 0;
+        byte lowerConsecutiveOfflineLimit = 15;
+        byte upperConsecutiveOfflineLimit = 35;
+
+        TerminalRiskManagementCommand command = TerminalRiskManagerFactory.CreateFullCommand(_fixture,
+            applicationTransactionCount, lastOnlineApplicationTransactionCount, lowerConsecutiveOfflineLimit, upperConsecutiveOfflineLimit);
+
+        _probabilitySelectionQueue.Setup(m => m.IsRandomSelection(
+            It.Is<Probability>(x => x.Equals(command.GetRandomSelectionTargetPercentage()))))
+            .Returns(Task.FromResult(false));
+
+        TerminalVerificationResult tvr = TerminalVerificationResult.Create();
+        tvr.SetLowerConsecutiveOfflineLimitExceeded();
+        tvr.SetUpperConsecutiveOfflineLimitExceeded();
+        tvr.SetNewCard();
+
+        //Act
+        TerminalRiskManagementResponse actual = await _systemUnderTest.Process(command);
+
+        //Assert
+        Assert.Equal(tvr, actual.GetTerminalVerificationResult());
+        Assert.Equal(TransactionStatusInformationFlags.TerminalRiskManagementPerformed, actual.GetTransactionStatus());
     }
 }

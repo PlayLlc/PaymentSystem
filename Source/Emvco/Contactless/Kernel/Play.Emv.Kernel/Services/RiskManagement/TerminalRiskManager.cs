@@ -91,9 +91,10 @@ public class TerminalRiskManager : IManageTerminalRisk
 
     private static bool DoesVelocityCheckHaveRequiredItems(ushort? applicationTransactionCount, ushort? lastOnlineApplicationTransactionCount)
     {
-        if (applicationTransactionCount is null)
+        if (applicationTransactionCount is null || lastOnlineApplicationTransactionCount is null)
             return false;
-        if (lastOnlineApplicationTransactionCount is null)
+
+        if (applicationTransactionCount <= lastOnlineApplicationTransactionCount)
             return false;
 
         return true;
@@ -162,9 +163,6 @@ public class TerminalRiskManager : IManageTerminalRisk
     private static bool IsLowerVelocityThresholdExceeded(
         byte lowerConsecutiveOfflineLimit, ushort applicationTransactionCount, ushort lastOnlineApplicationTransactionCount)
     {
-        if (applicationTransactionCount <= lastOnlineApplicationTransactionCount)
-            return true;
-
         if ((applicationTransactionCount - lastOnlineApplicationTransactionCount) > lowerConsecutiveOfflineLimit)
             return true;
 
@@ -195,13 +193,30 @@ public class TerminalRiskManager : IManageTerminalRisk
     private static bool IsUpperVelocityThresholdExceeded(
         byte upperConsecutiveOfflineLimit, ushort applicationTransactionCount, ushort lastOnlineApplicationTransactionCount)
     {
-        if (applicationTransactionCount <= lastOnlineApplicationTransactionCount)
-            return true;
-
         if ((applicationTransactionCount - lastOnlineApplicationTransactionCount) > upperConsecutiveOfflineLimit)
             return true;
 
         return false;
+    }
+
+    private static TerminalVerificationResult CheckVelocity(TerminalRiskManagementCommand command)
+    {
+        TerminalVerificationResult tvr = TerminalVerificationResult.Create();
+
+        if (IsLowerVelocityThresholdExceeded(command.GetLowerConsecutiveOfflineLimit()!.Value, command.GetApplicationTransactionCount()!.Value,
+            command.GetLastOnlineApplicationTransactionCount()!.Value))
+            tvr.SetLowerConsecutiveOfflineLimitExceeded();
+
+        if (IsUpperVelocityThresholdExceeded(command.GetUpperConsecutiveOfflineLimit()!.Value, command.GetApplicationTransactionCount()!.Value,
+            command.GetLastOnlineApplicationTransactionCount()!.Value))
+            tvr.SetUpperConsecutiveOfflineLimitExceeded();
+
+        return tvr;
+    }
+
+    private static bool IsLastATCZero(ushort lastOnlineApplicationTransactionCount)
+    {
+        return lastOnlineApplicationTransactionCount == 0;
     }
 
     // HACK: There's probably no real reason that you're using async here
@@ -225,15 +240,14 @@ public class TerminalRiskManager : IManageTerminalRisk
         if (!DoesVelocityCheckHaveRequiredItems(command.GetApplicationTransactionCount(), command.GetLastOnlineApplicationTransactionCount()))
             return CreateVelocityCheckDoesNotHaveRequiredItemsResponse();
 
-        if (IsLowerVelocityThresholdExceeded(command.GetLowerConsecutiveOfflineLimit()!.Value, command.GetApplicationTransactionCount()!.Value,
-            command.GetLastOnlineApplicationTransactionCount()!.Value))
-            return CreateVelocityLowerThresholdExceededResponse();
+        TerminalVerificationResult result = CheckVelocity(command);
 
-        if (IsUpperVelocityThresholdExceeded(command.GetUpperConsecutiveOfflineLimit()!.Value, command.GetApplicationTransactionCount()!.Value,
-            command.GetLastOnlineApplicationTransactionCount()!.Value))
-            return CreateVelocityUpperThresholdExceededResponse();
+        if (IsLastATCZero(command.GetLastOnlineApplicationTransactionCount()!.Value))
+            result.SetNewCard();
 
-        return new TerminalRiskManagementResponse(TerminalVerificationResult.Create(), TransactionStatusInformationFlags.NotAvailable);
+        return result.CompareTo(TerminalVerificationResult.Empty) == 0 ?
+            new TerminalRiskManagementResponse(TerminalVerificationResult.Create(), TransactionStatusInformationFlags.NotAvailable):
+            new TerminalRiskManagementResponse(result, TransactionStatusInformationFlags.TerminalRiskManagementPerformed);
     }
 
     #endregion

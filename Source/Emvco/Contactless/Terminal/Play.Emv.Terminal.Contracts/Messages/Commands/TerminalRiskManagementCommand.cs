@@ -36,8 +36,8 @@ public class TerminalRiskManagementCommand
 
     public TerminalRiskManagementCommand(
         ApplicationPan primaryAccountNumber, CultureProfile cultureProfile, AmountAuthorizedNumeric amountAmountAuthorizedNumeric,
-        TerminalRiskConfiguration terminalRiskConfiguration, ushort applicationTransactionCount, ushort lastOnlineApplicationTransactionCount,
-        byte lowerConsecutiveOfflineLimit, byte upperConsecutiveOfflineLimit)
+        TerminalRiskConfiguration terminalRiskConfiguration, ushort? applicationTransactionCount, ushort? lastOnlineApplicationTransactionCount,
+        byte? lowerConsecutiveOfflineLimit, byte? upperConsecutiveOfflineLimit)
     {
         _PrimaryAccountNumber = primaryAccountNumber;
         _CultureProfile = cultureProfile;
