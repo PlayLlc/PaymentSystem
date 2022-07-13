@@ -73,6 +73,7 @@ public record PosCardholderInteractionInformation : DataElement<uint>, IEquality
     }
 
     #endregion
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
 
     #region Equality
 

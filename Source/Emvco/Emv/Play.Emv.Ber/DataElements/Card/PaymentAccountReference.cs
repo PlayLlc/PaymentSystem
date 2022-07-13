@@ -56,8 +56,7 @@ public record PaymentAccountReference : DataElement<char[]>, IEqualityComparer<P
         return new PaymentAccountReference(result);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
+    public override byte[] EncodeValue() => PlayCodec.AlphaNumericCodec.Encode(_Value); 
 
     #endregion
 
