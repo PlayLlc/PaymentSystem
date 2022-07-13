@@ -33,7 +33,7 @@ public record MinTimeForProcessingRelayResistanceApdu : DataElement<RelaySeconds
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
-    public override ushort GetValueByteCount() => PlayCodec.BinaryCodec.GetByteCount((ushort)_Value);
+    public override ushort GetValueByteCount() => _ByteLength;
 
     #endregion
 
@@ -56,7 +56,7 @@ public record MinTimeForProcessingRelayResistanceApdu : DataElement<RelaySeconds
         return new MinTimeForProcessingRelayResistanceApdu(result);
     }
 
-    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode((ushort)_Value, _ByteLength);
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode((ushort)_Value);
     public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode((ushort)_Value, length);
 
     #endregion
