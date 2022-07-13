@@ -38,7 +38,7 @@ public class NumericCodec : PlayCodec
     public override ushort GetByteCount<T>(T[] value) where T : struct
     {
         if (typeof(T) == typeof(byte))
-            return (ushort)(ushort)value.Length;
+            return (ushort) (ushort) value.Length;
 
         if (typeof(T) == typeof(char))
             return (ushort) checked((value.Length % 2) + (value.Length / 2));
@@ -90,7 +90,7 @@ public class NumericCodec : PlayCodec
     {
         Nibble[] buffer = value.AsNibbleArray();
 
-        foreach (var nibble in buffer)
+        foreach (Nibble nibble in buffer)
         {
             if (!IsValid(nibble))
                 return false;

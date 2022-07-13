@@ -10,7 +10,7 @@ internal interface IRouteMessages : ICreateEndpointClient
     void Send(ResponseMessageEnvelope messageEnvelop);
     void Subscribe(EventHandlerBase eventHandler);
     void Unsubscribe(EventHandlerBase eventHandler);
-    Task Publish(EventEnvelope eventEnvelope);
+    void Publish(EventEnvelope eventEnvelope);
 
     #endregion
 }

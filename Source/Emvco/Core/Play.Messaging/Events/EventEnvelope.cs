@@ -21,7 +21,6 @@ internal class EventEnvelope
 
     #region Instance Members
 
-    public bool TryGetMessagingConfiguration(out MessagingConfiguration? result) => _EventHeader.TryGetMessagingConfiguration(out result);
     public Event GetEvent() => _Event;
 
     #endregion

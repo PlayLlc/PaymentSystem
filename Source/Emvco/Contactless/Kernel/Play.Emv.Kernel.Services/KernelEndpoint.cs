@@ -26,12 +26,12 @@ public class KernelEndpoint : IMessageChannel, IHandleKernelRequests, ISendKerne
 
     #region Constructor
 
-    private KernelEndpoint(KernelRetriever kernelRetriever, ICreateEndpointClient messageRouter)
+    private KernelEndpoint(KernelRetriever kernelRetriever, ICreateEndpointClient messageBus)
     {
         ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
         _KernelRetriever = kernelRetriever;
-        _EndpointClient = messageRouter.CreateEndpointClient(this);
-        _EndpointClient.Subscribe();
+        _EndpointClient = messageBus.CreateEndpointClient();
+        _EndpointClient.Subscribe(this);
     }
 
     #endregion
@@ -106,7 +106,7 @@ public class KernelEndpoint : IMessageChannel, IHandleKernelRequests, ISendKerne
 
     public void Dispose()
     {
-        _EndpointClient.Unsubscribe();
+        _EndpointClient.Unsubscribe(this);
     }
 
     #endregion
