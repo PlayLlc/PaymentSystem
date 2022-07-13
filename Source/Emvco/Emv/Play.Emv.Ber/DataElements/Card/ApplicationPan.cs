@@ -65,11 +65,11 @@ public record ApplicationPan : DataElement<TrackPrimaryAccountNumber>
 
         valueBuffer.CopyTo(resultBuffer);
 
-        return new DataStorageId(new BigInteger(valueBuffer));
+        return new DataStorageId(new BigInteger(resultBuffer));
     }
 
     /// <summary>
-    ///     Checks whether the Issuer EncodingId provided in the argument matches the leftmost 3 - 8 PAN digits (allowing for
+    ///     Checks whether the Issuer EncodingId provided in the argument matches the leftmost 5 - 8 (issuer exact length is 3 bytes) PAN digits (allowing for
     ///     the possible padding of the Issuer EncodingId with hexadecimal 'F's)
     /// </summary>
     /// <param name="issuerIdentifier"></param>
@@ -78,7 +78,7 @@ public record ApplicationPan : DataElement<TrackPrimaryAccountNumber>
     /// <exception cref="OverflowException"></exception>
     public bool IsIssuerIdentifierMatching(IssuerIdentificationNumber issuerIdentifier)
     {
-        uint thisPan = PlayCodec.NumericCodec.DecodeToUInt16(PlayCodec.NumericCodec.Encode(_Value.Encode()[2..8]));
+        uint thisPan = PlayCodec.NumericCodec.DecodeToUInt32(_Value.Encode()[5..8]);
 
         return thisPan == (uint) issuerIdentifier;
     }
@@ -101,6 +101,8 @@ public record ApplicationPan : DataElement<TrackPrimaryAccountNumber>
     #endregion
 
     #region Serialization
+
+    public override byte[] EncodeValue() => _Value.Encode();
 
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="OverflowException"></exception>

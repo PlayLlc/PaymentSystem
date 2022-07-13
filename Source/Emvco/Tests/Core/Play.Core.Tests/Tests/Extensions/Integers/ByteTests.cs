@@ -572,7 +572,7 @@ public class ByteTests : TestBase
     {
         byte testData = 1;
         byte expected = 0b11111110;
-        var a = testData.ReverseBits();
+        byte a = testData.ReverseBits();
         Assertion(() => Assert.Equal(expected, testData.ReverseBits()));
     }
 

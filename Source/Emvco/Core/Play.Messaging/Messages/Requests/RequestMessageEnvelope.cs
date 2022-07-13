@@ -22,7 +22,6 @@ public record RequestMessageEnvelope
     #region Instance Members
 
     public CorrelationId GetCorrelationId() => _Message.GetCorrelationId();
-    public MessagingConfiguration GetMessagingConfiguration() => _RequestMessageHeader.GetMessagingConfiguration();
     public ChannelTypeId GetChannelTypeId() => _RequestMessageHeader.GetChannelTypeId();
     public MessageTypeId GetMessageTypeId() => _Message.CreateMessageTypeId();
     public MessageIdentifier GetMessageIdentifier() => _Message.GetMessageIdentifier();
