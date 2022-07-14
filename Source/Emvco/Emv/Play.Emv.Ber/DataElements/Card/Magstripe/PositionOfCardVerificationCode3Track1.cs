@@ -37,14 +37,14 @@ public record PositionOfCardVerificationCode3Track1 : DataElement<ulong>
     public override Tag GetTag() => Tag;
 
     //not sure what this needs to do (comment left for tracking on pr.)
-    internal Nibble[] GetBitFlagIndex()
+    internal byte[] GetBitFlagIndex()
     {
-        Nibble[] result = new Nibble[_Value.GetSetBitCount()];
+        byte[] result = new byte[_Value.GetSetBitCount()];
         ulong bufferValue = _Value;
 
         for (byte i = 0, j = 0; i < Specs.Integer.Int64.BitCount; i++)
         {
-            if (bufferValue.IsBitSet(Bits.One))
+            if (bufferValue.IsBitSet(i))
                 result[j++] = i;
         }
 

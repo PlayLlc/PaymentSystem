@@ -16,7 +16,7 @@ public record Track2DiscretionaryData : DataElement<TrackDiscretionaryData>
     #region Static Metadata
 
     public static readonly Tag Tag = 0xDF812B;
-    public static readonly PlayEncodingId EncodingId = AlphaNumericSpecialCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = CompressedNumericCodec.EncodingId;
     private const byte _MaxByteLength = 11;
 
     #endregion
@@ -32,7 +32,8 @@ public record Track2DiscretionaryData : DataElement<TrackDiscretionaryData>
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
-    public byte[] Encode() => _Value.Encode();
+
+    public override ushort GetValueByteCount() => (ushort)_Value.GetByteCount();
 
     #endregion
 
@@ -48,14 +49,16 @@ public record Track2DiscretionaryData : DataElement<TrackDiscretionaryData>
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        if (!PlayCodec.AlphaNumericSpecialCodec.IsValid(value))
+        if (!PlayCodec.CompressedNumericCodec.IsValid(value))
         {
             throw new DataElementParsingException(
-                $"The {nameof(Track2DiscretionaryData)} could not be initialized because the format was invalid for the {nameof(AlphaNumericSpecialCodec)}");
+                $"The {nameof(Track2DiscretionaryData)} could not be initialized because the format was invalid for the {nameof(CompressedNumericCodec)}");
         }
 
-        return new Track2DiscretionaryData(new TrackDiscretionaryData(PlayCodec.AlphaNumericSpecialCodec.DecodeToNibbles(value)));
+        return new Track2DiscretionaryData(new TrackDiscretionaryData(PlayCodec.CompressedNumericCodec.DecodeToNibbles(value)));
     }
+
+    public override byte[] EncodeValue() => _Value.Encode();
 
     #endregion
 }

@@ -21,7 +21,7 @@ public readonly record struct NumberOfNonZeroBits
         _Value = (byte) (punatc.GetSetBitCount() - natc.GetSetBitCount());
     }
 
-    private NumberOfNonZeroBits(byte value)
+    public NumberOfNonZeroBits(byte value)
     {
         _Value = value;
     }

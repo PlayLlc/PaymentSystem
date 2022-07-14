@@ -36,6 +36,8 @@ public record Track1Data : DataElement<Track1>
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
+    public override ushort GetValueByteCount() => _Value.GetByteCount();
+
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
@@ -51,18 +53,18 @@ public record Track1Data : DataElement<Track1>
     /// <exception cref="CodecParsingException"></exception>
     /// <remarks>EMVco Book C-2 Section S13.20 - S13.22 && S14.29 - S14.30</remarks>
     public Track1Data UpdateDiscretionaryData(
-        NumberOfNonZeroBits nun, CardholderVerificationCode3Track1 cvc, PositionOfCardVerificationCode3Track1 pcvc, PunatcTrack1 punatc,
+        NumberOfNonZeroBits nun, CardholderVerificationCode3Track1 cvc3, PositionOfCardVerificationCode3Track1 pcvc3, PunatcTrack1 punatc,
         UnpredictableNumberNumeric unpredictableNumber, NumericApplicationTransactionCounterTrack1 natc, ApplicationTransactionCounter atc)
     {
         char[] discretionaryData = GetTrack1DiscretionaryData().AsCharArray();
-        byte qNumberOfChars = (byte) pcvc.GetSetBitCount();
+        byte qNumberOfChars = (byte) pcvc3.GetSetBitCount();
         byte nunNumberOfChars = nun;
         byte tNumberOfChars = (byte) natc.GetSetBitCount();
 
-        ReadOnlySpan<Nibble> pcvcIndexArray = pcvc.GetBitFlagIndex();
-        ReadOnlySpan<Nibble> punatcIndexArray = punatc.GetBitFlagIndex();
+        ReadOnlySpan<byte> pcvcIndexArray = pcvc3.GetBitFlagIndex();
+        ReadOnlySpan<byte> punatcIndexArray = punatc.GetBitFlagIndex();
 
-        UpdateDiscretionaryData(discretionaryData, qNumberOfChars, cvc, pcvcIndexArray);
+        UpdateDiscretionaryData(discretionaryData, qNumberOfChars, cvc3, pcvcIndexArray);
         UpdateDiscretionaryData(discretionaryData, unpredictableNumber, punatcIndexArray[^nunNumberOfChars..]);
         UpdateDiscretionaryData(discretionaryData, natc, atc, punatcIndexArray[..tNumberOfChars]);
         UpdateDiscretionaryData(discretionaryData, nun);
@@ -78,15 +80,18 @@ public record Track1Data : DataElement<Track1>
     /// </summary>
     /// <param name="discretionaryData"></param>
     /// <param name="qNumberOfDigits">Number of non-zero bits in PositionOfCardVerificationCode3Track2</param>
-    /// <param name="cvc"></param>
+    /// <param name="cvc3"></param>
     /// <param name="pcvcIndexArray"></param>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
     /// <remarks>EMVco Book C-2 Section S13.21 && S14.29</remarks>
     private void UpdateDiscretionaryData(
-        Span<char> discretionaryData, int qNumberOfDigits, CardholderVerificationCode3Track1 cvc, ReadOnlySpan<Nibble> pcvcIndexArray)
+        Span<char> discretionaryData,
+        int qNumberOfDigits,
+        CardholderVerificationCode3Track1 cvc3,
+        ReadOnlySpan<byte> pcvcIndexArray)
     {
-        ReadOnlySpan<char> digitsToCopy = cvc.AsCharArray()[^qNumberOfDigits..];
+        ReadOnlySpan<char> digitsToCopy = cvc3.AsCharArray()[^qNumberOfDigits..];
 
         if (pcvcIndexArray.Length < digitsToCopy.Length)
         {
@@ -99,7 +104,8 @@ public record Track1Data : DataElement<Track1>
     }
 
     /// <summary>
-    ///     Convert the BCD encoded Unpredictable Number (Numeric) into ASCII format and replace the nUN least significant
+    ///     Convert the BCD encoded Unpredictable Number (Numeric) into ASCII format
+    ///     and replace the nUN least significant
     ///     eligible positions of the 'Discretionary Data' in Track 1 Data by the nUN least significant characters of the ASCII
     ///     encoded Unpredictable Number (Numeric). The eligible positions in the 'Discretionary Data' in Track 1 Data are
     ///     indicated by the nUN least significant non-zero bits in PUNATC(Track1).
@@ -110,7 +116,10 @@ public record Track1Data : DataElement<Track1>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
     /// <remarks>EMVco Book C-2 Section S13.21 && S14.29</remarks>
-    private void UpdateDiscretionaryData(Span<char> discretionaryData, UnpredictableNumberNumeric unpredictableNumber, ReadOnlySpan<Nibble> punatcIndexArray)
+    private void UpdateDiscretionaryData(
+        Span<char> discretionaryData,
+        UnpredictableNumberNumeric unpredictableNumber,
+        ReadOnlySpan<byte> punatcIndexArray)
     {
         ReadOnlySpan<char> digitsToCopy = unpredictableNumber.AsCharArray()[^punatcIndexArray.Length..];
 
@@ -135,7 +144,10 @@ public record Track1Data : DataElement<Track1>
     /// <exception cref="TerminalDataException"></exception>
     /// <remarks>EMVco Book C-2 Section S13.21 && S14.29</remarks>
     private void UpdateDiscretionaryData(
-        Span<char> discretionaryData, NumericApplicationTransactionCounterTrack1 natc, ApplicationTransactionCounter atc, ReadOnlySpan<Nibble> punatcIndexArray)
+        Span<char> discretionaryData,
+        NumericApplicationTransactionCounterTrack1 natc,
+        ApplicationTransactionCounter atc,
+        ReadOnlySpan<byte> punatcIndexArray)
     {
         if ((byte) natc == 0)
             return;
@@ -183,6 +195,8 @@ public record Track1Data : DataElement<Track1>
 
         return new Track1Data(new Track1(value));
     }
+
+    public override byte[] EncodeValue() => _Value.Encode();
 
     #endregion
 }

@@ -1,4 +1,5 @@
 ﻿using Play.Ber.Identifiers;
+using Play.Emv.Ber.DataElements;
 
 namespace Play.Testing.Emv.Ber.Primitive;
 
@@ -6,14 +7,24 @@ public class Track1DataTestTlv : TestTlv
 {
     private static readonly byte[] _DefaultContentOctets =
     {
-        61, 34, 98, 12, 33, 44, 22, 12, 80, 64,
-        62, 33, 99, 11, 33, 44, 22, 12, 80, 64,
-        63, 32, 100, 10, 33, 44, 22, 12, 80, 64,
-        64, 31, 101, 9, 33, 44, 22, 12, 80, 64,
-        65, 30, 102, 8, 33, 44, 22, 12, 80, 64,
-        66, 29, 103, 7, 33, 44, 22, 12, 80, 64,
-        67, 28, 104, 6, 33, 44, 22, 12, 80, 64,
-        68, 27, 105, 5, 33, 44
+        //Format Code.
+        (byte) 'B',
+        //PAN
+        84, 98, 62, 33, 44, 92, 42, 80, 64,
+        //Field Separator
+        (byte) '^',
+        //Name
+        62, 83, 99, 61, 34, 44, 92, 43, 80, 64,
+        63, 82, 100, 60, 35, 44, 92, 44, 80, 64,
+        //Field Separator
+        (byte) '^',
+        //Expiry Date
+        34, 34, 32, 39,
+        //Service Code
+        39, 34, 37,
+        //Discretionary Data.
+        61, 84, 98, 62, (byte)'^', 44, 92, 42, 80, 64,
+        62, 83, 99, 61, (byte)'^', 44, 92, 43, 80, 65,
     };
 
     public Track1DataTestTlv() : base(_DefaultContentOctets) { }
@@ -22,5 +33,5 @@ public class Track1DataTestTlv : TestTlv
     {
     }
 
-    public override Tag GetTag() => throw new NotImplementedException();
+    public override Tag GetTag() => Track1Data.Tag;
 }
