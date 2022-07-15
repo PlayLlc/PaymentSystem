@@ -10,6 +10,7 @@ public class CardholderVerificationMethodService
 
     private readonly IVerifyCardholderPinOffline _OfflinePinAuthentication;
     private readonly IVerifyCardholderPinOnline _OnlinePinAuthentication;
+    //not implemented
     private readonly IVerifyCardholderSignature _CardholderSignatureVerification;
 
     #endregion
@@ -39,13 +40,13 @@ public class CardholderVerificationMethodService
                 return result;
 
             if (cardholderVerificationMethods[i] == CardholderVerificationMethods.OfflinePlaintextPin)
-                _OfflinePinAuthentication.Process(database);
+                return _OfflinePinAuthentication.Process(database);
             if (cardholderVerificationMethods[i] == CardholderVerificationMethods.OfflineEncipheredPin)
-                _OfflinePinAuthentication.Process(database);
+                return _OfflinePinAuthentication.Process(database);
             if (cardholderVerificationMethods[i] == CardholderVerificationMethods.OnlineEncipheredPin)
-                _OnlinePinAuthentication.Process(database);
+                return _OnlinePinAuthentication.Process(database);
             if (cardholderVerificationMethods[i] == CardholderVerificationMethods.SignaturePaper)
-                _CardholderSignatureVerification.Process();
+                return _CardholderSignatureVerification.Process();
         }
 
         return result;
