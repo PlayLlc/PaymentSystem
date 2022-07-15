@@ -50,6 +50,8 @@ public readonly struct Track2
 
     public byte[] Encode() => _Value.AsByteArray();
 
+    public int GetByteCount() => _Value.AsByteArray().Length;
+
     #endregion
 
     #endregion
