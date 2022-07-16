@@ -10,12 +10,12 @@ using Play.Globalization.Time;
 
 namespace Play.Emv.Kernel.Services;
 
-internal class RelayResistanceProtocolValidator
+public class RelayResistanceProtocolValidator : IValidateRelayResistanceProtocol
 {
     #region Instance Values
 
     private readonly TransactionSessionId _SessionId;
-    private readonly int _MaximumRetryCount;
+    private readonly int _MaximumRetryCount; //usually 2
     private int _RetryCount;
 
     #endregion
@@ -45,7 +45,7 @@ internal class RelayResistanceProtocolValidator
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    private bool IsInRange(TransactionSessionId transactionSessionId, Milliseconds timeElapsed, IReadTlvDatabase tlvDatabase)
+    public bool IsInRange(TransactionSessionId transactionSessionId, Milliseconds timeElapsed, IReadTlvDatabase tlvDatabase)
     {
         if (transactionSessionId != _SessionId)
         {
@@ -58,7 +58,7 @@ internal class RelayResistanceProtocolValidator
         if (IsRelayResistanceWithinMinimumRange(processingTime, tlvDatabase))
             return false;
 
-        if (IsRelayResistanceWithinMaximumRange())
+        if (IsRelayResistanceWithinMaximumRange(processingTime, tlvDatabase))
             return false;
 
         return true;
@@ -108,7 +108,20 @@ internal class RelayResistanceProtocolValidator
         return true;
     }
 
-    public bool IsRelayResistanceWithinMaximumRange() => throw new NotImplementedException();
+    public bool IsRelayResistanceWithinMaximumRange(MeasuredRelayResistanceProcessingTime processingTime, IReadTlvDatabase tlvDatabase)
+    {
+        MaxTimeForProcessingRelayResistanceApdu maxTimeForProcessingRelayResistanceApdu =
+            (MaxTimeForProcessingRelayResistanceApdu)tlvDatabase.Get(MaxTimeForProcessingRelayResistanceApdu.Tag);
+
+        MaximumRelayResistanceGracePeriod maxGracePeriod = (MaximumRelayResistanceGracePeriod)tlvDatabase.Get(MaximumRelayResistanceGracePeriod.Tag);
+
+        RelaySeconds expectedProcessingTime = (RelaySeconds)maxTimeForProcessingRelayResistanceApdu - (RelaySeconds)maxGracePeriod;
+
+        if ((RelaySeconds)processingTime > expectedProcessingTime)
+            return false;
+
+        return true;
+    }
 
     #endregion
 }
