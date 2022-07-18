@@ -2,6 +2,8 @@
 
 using AutoFixture;
 
+using Moq;
+
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
@@ -18,6 +20,7 @@ public class ProcessingOptionsDataObjectListTests : TestBase
     #region Instance Values
 
     private readonly IFixture _Fixture;
+    private readonly Mock<ITlvReaderAndWriter> _Database;
 
     #endregion
 
@@ -28,6 +31,7 @@ public class ProcessingOptionsDataObjectListTests : TestBase
     public ProcessingOptionsDataObjectListTests()
     {
         _Fixture = new EmvFixture().Create();
+        _Database = new Mock<ITlvReaderAndWriter>();
     }
 
     #endregion
@@ -172,95 +176,35 @@ public class ProcessingOptionsDataObjectListTests : TestBase
 
     #endregion
 
-    ///// <summary>
-    /////     TagLengthValue_CreatingDataObjectListResult_IsNotNull
-    ///// </summary>
-    ///// <exception cref="InvalidOperationException"></exception>
-    ///// <exception cref="BerParsingException"></exception>
     //[Fact]
-    //public void TagLengthValue_CreatingDataObjectListResult_IsNotNull()
+    //public void DataObjectList_AsDataObjectListResult_ReturnsExpectedResult()
     //{
-    //    ProcessingOptionsDataObjectListTestTlv testData = new();
+    //    CardRiskManagementDataObjectList1TestTlv testData = new();
 
-    //    ProcessingOptionsDataObjectList sut = ProcessingOptionsDataObjectList.Decode(testData.EncodeValue().AsSpan());
+    //    CardRiskManagementDataObjectList1 sut = CardRiskManagementDataObjectList1.Decode(testData.EncodeValue().AsSpan());
 
-    //    Mock<IReadTlvDatabase> databaseMock = new();
-    //    databaseMock.Setup(a => a.IsPresentAndNotEmpty(It.IsAny<Tag>())).Returns(true);
-    //    databaseMock.Setup(a => a.Get(ApplicationExpirationDate.Tag)).Returns(new ApplicationExpirationDateTestTlv().AsPrimitiveValue());
+    //    testData.SetupTlvTagsForGivenDb(_Database);
 
-    //    DataObjectListResult testValue = sut.AsDataObjectListResult(databaseMock.Object);
+    //    DataObjectListResult expected = testData.SetupValuesForTags(_Database, _Fixture);
+    //    DataObjectListResult actual = sut.AsDataObjectListResult(_Database.Object);
 
-    //    Assert.NotNull(testValue);
+    //    Assert.NotNull(actual);
+    //    Assert.Equal(expected, actual);
     //}
 
-    ///// <summary>
-    /////     TagLengthValue_CreatingDataObjectListResult_ReturnsExpectedResult
-    ///// </summary>
-    ///// <exception cref="InvalidOperationException"></exception>
-    ///// <exception cref="BerParsingException"></exception>
     //[Fact]
-    //public void TagLengthValue_CreatingDataObjectListResult_ReturnsExpectedResult()
+    //public void DataObjectList_AsCommandTemplate_CommandTemplateCreatedSuccesfully()
     //{
-    //    ProcessingOptionsDataObjectListTestTlv testData = new();
+    //    CardRiskManagementDataObjectList1TestTlv testData = new();
 
-    //    ProcessingOptionsDataObjectList sut = ProcessingOptionsDataObjectList.Decode(testData.EncodeValue().AsSpan());
-    //    Mock<IReadTlvDatabase> databaseMock = new();
-    //    databaseMock.Setup(a => a.IsPresentAndNotEmpty(It.IsAny<Tag>())).Returns(true);
-    //    databaseMock.Setup(a => a.Get(ApplicationExpirationDate.Tag)).Returns(new ApplicationExpirationDateTestTlv().AsPrimitiveValue());
+    //    CardRiskManagementDataObjectList1 sut = CardRiskManagementDataObjectList1.Decode(testData.EncodeValue().AsSpan());
 
-    //    sut.AsDataObjectListResult(databaseMock.Object);
+    //    testData.SetupTlvTagsForGivenDb(_Database);
 
-    //    DataObjectListResult expectedResult = new(testData.AsTagLengthValues());
-    //    DataObjectListResult testValue = sut.AsDataObjectListResult(databaseMock.Object);
+    //    DataObjectListResult objListResult = testData.SetupValuesForTags(_Database, _Fixture);
+    //    CommandTemplate expected = objListResult.AsCommandTemplate();
+    //    CommandTemplate actual = sut.AsCommandTemplate(_Database.Object);
 
-    //    Assert.Equal(expectedResult, testValue);
+    //    Assert.Equal(expected, actual);
     //}
-
-    ///// <summary>
-    /////     TagLengthValue_CreatingCommandTemplate_IsNotNull
-    ///// </summary>
-    ///// <exception cref="InvalidOperationException"></exception>
-    ///// <exception cref="BerParsingException"></exception>
-    //[Fact]
-    //public void TagLengthValue_CreatingCommandTemplate_IsNotNull()
-    //{
-    //    ProcessingOptionsDataObjectListTestTlv testData = new();
-
-    //    ProcessingOptionsDataObjectList sut = ProcessingOptionsDataObjectList.Decode(testData.EncodeValue().AsSpan());
-    //    Mock<IReadTlvDatabase> databaseMock = new();
-    //    databaseMock.Setup(a => a.IsPresentAndNotEmpty(It.IsAny<Tag>())).Returns(true);
-    //    databaseMock.Setup(a => a.Get(ApplicationExpirationDate.Tag)).Returns(new ApplicationExpirationDateTestTlv().AsPrimitiveValue());
-
-    //    sut.AsDataObjectListResult(databaseMock.Object);
-    //    CommandTemplate? testValue = sut.AsCommandTemplate(databaseMock.Object);
-
-    //    Assert.NotNull(testValue);
-    //}
-
-    ///// <summary>
-    /////     TagLengthValue_CreatingCommandTemplate_ReturnsExpectedResult
-    ///// </summary>
-    ///// <exception cref="InvalidOperationException"></exception>
-    ///// <exception cref="BerParsingException"></exception>
-    //[Fact]
-    //public void TagLengthValue_CreatingCommandTemplate_ReturnsExpectedResult()
-    //{
-    //    ProcessingOptionsDataObjectListTestTlv testData = new();
-
-    //    ProcessingOptionsDataObjectList sut = ProcessingOptionsDataObjectList.Decode(testData.EncodeValue().AsSpan());
-
-    //    CommandTemplate expectedResult = CommandTemplate.Decode(testData.GetTerminalValues()
-    //        .SelectMany(a => a.EncodeTagLengthValue(EmvCodec.GetBerCodec())).ToArray().AsSpan());
-
-    //    Mock<IReadTlvDatabase> databaseMock = new();
-    //    databaseMock.Setup(a => a.IsPresentAndNotEmpty(It.IsAny<Tag>())).Returns(true);
-    //    databaseMock.Setup(a => a.Get(ApplicationExpirationDate.Tag)).Returns(new ApplicationExpirationDateTestTlv().AsPrimitiveValue());
-
-    //    CommandTemplate testValue = sut.AsCommandTemplate(databaseMock.Object);
-
-    //    Assert.Equal(expectedResult, testValue);
-    //}
-
-    // TODO: Need to test the creation of a DataObjectListResult
-    // ProcessingOptionsDataObjectList.AsDataObjectListResult(TagLengthValue[] terminalValues);
 }
