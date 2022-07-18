@@ -63,7 +63,7 @@ public class RelayResistanceProtocolValidatorTests : TestBase
 
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
         //Act
-        bool isThresHoldReached = _SystemUnderTest.IsRetryThresholdHit();
+        bool isThresHoldReached = _SystemUnderTest.IsRetryThresholdHit(3);
 
         //Assert
         Assert.False(isThresHoldReached);
@@ -78,7 +78,7 @@ public class RelayResistanceProtocolValidatorTests : TestBase
 
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
         //Act
-        bool isThresHoldReached = _SystemUnderTest.IsRetryThresholdHit();
+        bool isThresHoldReached = _SystemUnderTest.IsRetryThresholdHit(1);
 
         //Assert
         Assert.True(isThresHoldReached);
@@ -96,7 +96,7 @@ public class RelayResistanceProtocolValidatorTests : TestBase
         TransactionType transactionType = new TransactionType(14);
 
         TransactionSessionId differentSessionId = new TransactionSessionId(transactionType);
-        Milliseconds timeElapsed = new Milliseconds(1000);
+        Microseconds timeElapsed = new Microseconds(1000);
 
         //Act & Assert
 
@@ -107,20 +107,19 @@ public class RelayResistanceProtocolValidatorTests : TestBase
     }
 
     [Fact]
-    public void RelayResistanceProtocolValidator_IsInRange_ReturnsExpectedResult()
+    public void RelayResistanceProtocolValidator_IsInRange_ReturnsTrue()
     {
         //Arrange
+        RegisterTerminaRelayResistanceProtocolTimes(_Database, 15, 12, 10, 8);
+        RegisterMinimumRelayResistanceConfigurationTimes(_Database, 3, 2);
+        RegisterMaximumRelayResistanceConfigurationTimes(_Database, 17, 10);
+
         TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
         int maxNrOfRetries = 2;
 
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
 
-        TransactionType transactionType = new TransactionType(14);
-
-        TransactionSessionId differentSessionId = new TransactionSessionId(transactionType);
-        Milliseconds timeElapsed = new Milliseconds(1000);
-
-        RegisterRelayResistanceApduDataElements(_Database);
+        Microseconds timeElapsed = new Microseconds(1000); //is this the entropy ?
 
         //Act
         bool isInRange = _SystemUnderTest.IsInRange(sessionId, timeElapsed, _Database);
@@ -129,24 +128,278 @@ public class RelayResistanceProtocolValidatorTests : TestBase
         Assert.True(isInRange);
     }
 
-    private void RegisterRelayResistanceApduDataElements(ITlvReaderAndWriter kernelDb)
+    [Fact]
+    public void RelayResistanceProtocolValidator_ProcessingTimeExceedsMaximumProcessedRelayTime_ReturnsFalse()
     {
+        //Arrange
+        RegisterTerminaRelayResistanceProtocolTimes(_Database, 15, 12, 10, 8);
+        RegisterMinimumRelayResistanceConfigurationTimes(_Database, 3, 2);
+        RegisterMaximumRelayResistanceConfigurationTimes(_Database, 17, 15);
+
+        TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
+        int maxNrOfRetries = 2;
+
+        _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
+
+        Microseconds timeElapsed = new Microseconds(1000); //is this the entropy ?
+
+        //Act
+        bool isInRange = _SystemUnderTest.IsInRange(sessionId, timeElapsed, _Database);
+
+        //Assert
+        Assert.False(isInRange);
+    }
+
+    [Fact]
+    public void RelayResistanceProtocolValidator_ProcessingTimeSubceedsMinimumProcessedRelayTime_ReturnsFalse()
+    {
+        //Arrange
+        RegisterTerminaRelayResistanceProtocolTimes(_Database, 15, 12, 10, 8);
+        RegisterMinimumRelayResistanceConfigurationTimes(_Database, 8, 2);
+        RegisterMaximumRelayResistanceConfigurationTimes(_Database, 17, 10);
+
+        TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
+        int maxNrOfRetries = 2;
+
+        _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
+
+        Microseconds timeElapsed = new Microseconds(1000); //is this the entropy ?
+
+        //Act
+        bool isInRange = _SystemUnderTest.IsInRange(sessionId, timeElapsed, _Database);
+
+        //Assert
+        Assert.False(isInRange);
+    }
+
+    [Fact]
+    public void RelayResistanceProtocolValidator_MinTimeForProcessingRelayResistnaceIs0_ReturnsTrue()
+    {
+        //Arrange
+        RegisterTerminaRelayResistanceProtocolTimes(_Database, 15, 12, 10, 8);
+        RegisterMinimumRelayResistanceConfigurationTimes(_Database, 3, 2);
+        RegisterMaximumRelayResistanceConfigurationTimes(_Database, 17, 10);
+
+        TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
+        int maxNrOfRetries = 2;
+
+        _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
+
+        Microseconds timeElapsed = new Microseconds(1000); //is this the entropy ?
+
+        //Act
+        bool isInRange = _SystemUnderTest.IsInRange(sessionId, timeElapsed, _Database);
+
+        //Assert
+        Assert.True(isInRange);
+    }
+
+    [Fact]
+    public void RelayResistanceProtocolValidator_MaxTimeForProcessingRelayResistnaceIs0_ReturnsFalse()
+    {
+        //Arrange
+        RegisterTerminaRelayResistanceProtocolTimes(_Database, 15, 12, 10, 8);
+        RegisterMinimumRelayResistanceConfigurationTimes(_Database, 3, 2);
+        RegisterMaximumRelayResistanceConfigurationTimes(_Database, 17, 18);
+
+        TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
+        int maxNrOfRetries = 2;
+
+        _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
+
+        Microseconds timeElapsed = new Microseconds(1000); //is this the entropy ?
+
+        //Act
+        bool isInRange = _SystemUnderTest.IsInRange(sessionId, timeElapsed, _Database);
+
+        //Assert
+        Assert.False(isInRange);
+    }
+
+    [Fact]
+    public void RelayResistanceProtocolValidator_CalculateMeasuredRrpTime_ReturnsExpectedResult()
+    {
+        //Arrange
+        RegisterTerminaRelayResistanceProtocolTimes(_Database, 15, 12, 10, 8);
+
+        TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
+        int maxNrOfRetries = 2;
+
+        _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
+
+        Microseconds timeElapsed = new Microseconds(1000); //is this the entropy ?
+
+        MeasuredRelayResistanceProcessingTime expected = new MeasuredRelayResistanceProcessingTime(10 - (15 - 10));
+        //Act
+        MeasuredRelayResistanceProcessingTime actual = _SystemUnderTest.CalculateMeasuredRrpTime(timeElapsed, _Database);
+
+        //Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void RelayResistanceProtocolValidator_CalculateMeasuredRrpTimeWhenElapsedTimeIs0_AlwaysReturns0RelaySeconds()
+    {
+        //Arrange
+        ushort terminalExpectedTransmissionTimeForCapduRelaySeconds = _Fixture.Create<ushort>();
+        ushort terminalExpectedTransmissionTimeForRapduRelaySeconds = _Fixture.Create<ushort>();
+        ushort deviceEstimatedTransmissionTimeForRapduRelaySeconds =  _Fixture.Create<ushort>();
+        ushort deviceResistanceEntropyRelaySeconds = _Fixture.Create<ushort>();
+
+        RegisterTerminaRelayResistanceProtocolTimes(_Database,
+            terminalExpectedTransmissionTimeForCapduRelaySeconds,
+            terminalExpectedTransmissionTimeForRapduRelaySeconds,
+            deviceEstimatedTransmissionTimeForRapduRelaySeconds,
+            deviceResistanceEntropyRelaySeconds);
+
+        TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
+        int maxNrOfRetries = 2;
+
+        _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
+
+        Microseconds timeElapsed = new Microseconds(0); //is this the entropy ?
+
+        MeasuredRelayResistanceProcessingTime expected = new MeasuredRelayResistanceProcessingTime(0);
+        //Act
+        MeasuredRelayResistanceProcessingTime actual = _SystemUnderTest.CalculateMeasuredRrpTime(timeElapsed, _Database);
+
+        //Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void RelayResistanceProtocolValidator_ProcessedRrpTimeIsGreaterThenMinimumProcessed_ReturnsTrue()
+    {
+        //Arrange
+        RegisterMinimumRelayResistanceConfigurationTimes(_Database, 12, 8);
+
+        TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
+        int maxNrOfRetries = 2;
+
+        _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
+
+        Microseconds timeElapsed = new Microseconds(0); //is this the entropy ?
+
+        MeasuredRelayResistanceProcessingTime value = new MeasuredRelayResistanceProcessingTime(5);
+        //Act
+        bool isWithingMinimumRange = _SystemUnderTest.IsRelayResistanceWithinMinimumRange(value, _Database);
+
+        //Assert
+        Assert.True(isWithingMinimumRange);
+    }
+
+    [Fact]
+    public void RelayResistanceProtocolValidator_ProcessedRrpTimeIsSmallerThenMinimumProcessed_ReturnsFalse()
+    {
+        //Arrange
+        RegisterMinimumRelayResistanceConfigurationTimes(_Database, 12, 8);
+
+        TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
+        int maxNrOfRetries = 2;
+
+        _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
+
+        Microseconds timeElapsed = new Microseconds(0); //is this the entropy ?
+
+        MeasuredRelayResistanceProcessingTime value = new MeasuredRelayResistanceProcessingTime(3);
+        //Act
+        bool isWithingMinimumRange = _SystemUnderTest.IsRelayResistanceWithinMinimumRange(value, _Database);
+
+        //Assert
+        Assert.False(isWithingMinimumRange);
+    }
+
+    [Fact]
+    public void RelayResistanceProtocolValidator_ProcessedRrpTimeIsSmallerThenMaximumProcessed_ReturnsTrue()
+    {
+        //Arrange
+        RegisterMaximumRelayResistanceConfigurationTimes(_Database, 12, 8);
+
+        TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
+        int maxNrOfRetries = 2;
+
+        _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
+
+        MeasuredRelayResistanceProcessingTime value = new MeasuredRelayResistanceProcessingTime(17);
+        //Act
+        bool isWithingMinimumRange = _SystemUnderTest.IsRelayResistanceWithinMaximumRange(value, _Database);
+
+        //Assert
+        Assert.True(isWithingMinimumRange);
+    }
+
+    [Fact]
+    public void RelayResistanceProtocolValidator_ProcessedRrpTimeIsGreaterThenMaximumProcessed_ReturnsTrue()
+    {
+        //Arrange
+        RegisterMaximumRelayResistanceConfigurationTimes(_Database, 8, 4);
+
+        TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
+        int maxNrOfRetries = 2;
+
+        _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
+
+        MeasuredRelayResistanceProcessingTime value = new MeasuredRelayResistanceProcessingTime(17);
+        //Act
+        bool isWithingMinimumRange = _SystemUnderTest.IsRelayResistanceWithinMaximumRange(value, _Database);
+
+        //Assert
+        Assert.False(isWithingMinimumRange);
+    }
+
+    private void RegisterTerminaRelayResistanceProtocolTimes(ITlvReaderAndWriter kernelDb,
+        ushort terminalExpectedTransmissionTimeForCapduRelaySeconds,
+        ushort terminalExpectedTransmissionTimeForRapduRelaySeconds,
+        ushort deviceEstimatedTransmissionTimeForRapduRelaySeconds,
+        ushort deviceResistanceEntropyRelaySeconds)
+    {
+        //C-APDU : terminal sending to Device
+        TerminalExpectedTransmissionTimeForRelayResistanceCapdu terminalExpectedTransmissionTimeForRelayResistanceCapdu =
+            new TerminalExpectedTransmissionTimeForRelayResistanceCapdu(terminalExpectedTransmissionTimeForCapduRelaySeconds);
+
+        kernelDb.Update(terminalExpectedTransmissionTimeForRelayResistanceCapdu);
+
+        //R-APDU : terminal reading from Device
+        TerminalExpectedTransmissionTimeForRelayResistanceRapdu terminalExpectedTransmissionTimeForRelayResistanceRapdu =
+            new TerminalExpectedTransmissionTimeForRelayResistanceRapdu(new RelaySeconds(terminalExpectedTransmissionTimeForRapduRelaySeconds));
+
+        kernelDb.Update(terminalExpectedTransmissionTimeForRelayResistanceRapdu);
+
+        //Device R-APDU : device sending to terminal(Kernel).
         DeviceEstimatedTransmissionTimeForRelayResistanceRapdu deviceEstimatedTransmissionTimeForRelayResistanceRapdu =
-            new DeviceEstimatedTransmissionTimeForRelayResistanceRapdu(new RelaySeconds(4));
+            new DeviceEstimatedTransmissionTimeForRelayResistanceRapdu(new RelaySeconds(deviceEstimatedTransmissionTimeForRapduRelaySeconds));
 
         kernelDb.Update(deviceEstimatedTransmissionTimeForRelayResistanceRapdu);
 
-        DeviceRelayResistanceEntropy deviceRelayResistanceEntropy = new DeviceRelayResistanceEntropy(new RelaySeconds(8));
+        DeviceRelayResistanceEntropy deviceRelayResistanceEntropy = new DeviceRelayResistanceEntropy(new RelaySeconds(deviceResistanceEntropyRelaySeconds));
 
         kernelDb.Update(deviceRelayResistanceEntropy);
+    }
 
-        MinTimeForProcessingRelayResistanceApdu minTimeForProcessing = new MinTimeForProcessingRelayResistanceApdu(2);
+    private void RegisterMinimumRelayResistanceConfigurationTimes(ITlvReaderAndWriter kernelDb,
+        ushort minTimeForProcessingApduRelaySeconds,
+        ushort minimumResistanceGracePeriodRelaySeconds)
+    {
+        MinTimeForProcessingRelayResistanceApdu minTimeForProcessing = new MinTimeForProcessingRelayResistanceApdu(minTimeForProcessingApduRelaySeconds);
 
         kernelDb.Update(minTimeForProcessing);
 
-        MaxTimeForProcessingRelayResistanceApdu maxTimeForProcessing = new MaxTimeForProcessingRelayResistanceApdu(5);
+        MinimumRelayResistanceGracePeriod minimumRelayResistanceGracePeriod = new MinimumRelayResistanceGracePeriod(minimumResistanceGracePeriodRelaySeconds);
 
-        kernelDb.Update(maxTimeForProcessing);
+        kernelDb.Update(minimumRelayResistanceGracePeriod);
+    }
+
+    private void RegisterMaximumRelayResistanceConfigurationTimes(ITlvReaderAndWriter kernelDb,
+        ushort maxTimeForProcessingResistanceApduRelaySeconds,
+        ushort maximumResistanceGracePeriodRelaySeconds)
+    {
+        MaxTimeForProcessingRelayResistanceApdu maxTimeForProcessingRelayResistanceApdu = new MaxTimeForProcessingRelayResistanceApdu(new RelaySeconds(maxTimeForProcessingResistanceApduRelaySeconds));
+
+        kernelDb.Update(maxTimeForProcessingRelayResistanceApdu);
+        
+        MaximumRelayResistanceGracePeriod maximumRelayResistanceGracePeriod = new MaximumRelayResistanceGracePeriod(new RelaySeconds(maximumResistanceGracePeriodRelaySeconds));
+
+        kernelDb.Update(maximumRelayResistanceGracePeriod);
     }
 
     #endregion

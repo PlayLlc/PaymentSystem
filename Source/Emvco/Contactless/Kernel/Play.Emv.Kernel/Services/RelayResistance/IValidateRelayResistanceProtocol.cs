@@ -1,4 +1,5 @@
 ﻿using Play.Emv.Ber;
+using Play.Emv.Ber.DataElements;
 using Play.Emv.Identifiers;
 using Play.Globalization.Time;
 
@@ -8,8 +9,11 @@ public interface IValidateRelayResistanceProtocol
 {
     #region Instance Members
 
-    public bool IsInRange(TransactionSessionId transactionSessionId, Milliseconds timeElapsed, IReadTlvDatabase tlvDatabase);
-    public bool IsRetryThresholdHit();
+    bool IsInRange(TransactionSessionId transactionSessionId, Microseconds timeElapsed, IReadTlvDatabase tlvDatabase);
+    bool IsRetryThresholdHit(int retryCount);
+    bool IsRelayResistanceWithinMinimumRange(MeasuredRelayResistanceProcessingTime processingTime, IReadTlvDatabase tlvDatabase);
+    bool IsRelayResistanceWithinMaximumRange(MeasuredRelayResistanceProcessingTime processingTime, IReadTlvDatabase tlvDatabase);
+    MeasuredRelayResistanceProcessingTime CalculateMeasuredRrpTime(Microseconds timeElapsed, IReadTlvDatabase tlvDatabase);
 
     #endregion
 }

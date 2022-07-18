@@ -15,8 +15,7 @@ public class RelayResistanceProtocolValidator : IValidateRelayResistanceProtocol
     #region Instance Values
 
     private readonly TransactionSessionId _SessionId;
-    private readonly int _MaximumRetryCount; //usually 2
-    private int _RetryCount;
+    private readonly int _MaximumRetryCount;
 
     #endregion
 
@@ -25,14 +24,15 @@ public class RelayResistanceProtocolValidator : IValidateRelayResistanceProtocol
     public RelayResistanceProtocolValidator(TransactionSessionId sessionId, int maximumRetryCount)
     {
         _SessionId = sessionId;
-        _MaximumRetryCount = maximumRetryCount;
+        _MaximumRetryCount = maximumRetryCount; //usually 2
     }
 
     #endregion
 
     #region Instance Members
 
-    public bool IsRetryThresholdHit() => ++_RetryCount > _MaximumRetryCount;
+    //The RelayResistanceProtocolCount is part of the KernelSession.
+    public bool IsRetryThresholdHit(int retryCount) => retryCount > _MaximumRetryCount;
 
     /// <summary>
     ///     IsInRange
@@ -45,7 +45,7 @@ public class RelayResistanceProtocolValidator : IValidateRelayResistanceProtocol
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    public bool IsInRange(TransactionSessionId transactionSessionId, Milliseconds timeElapsed, IReadTlvDatabase tlvDatabase)
+    public bool IsInRange(TransactionSessionId transactionSessionId, Microseconds timeElapsed, IReadTlvDatabase tlvDatabase)
     {
         if (transactionSessionId != _SessionId)
         {
@@ -55,17 +55,17 @@ public class RelayResistanceProtocolValidator : IValidateRelayResistanceProtocol
 
         MeasuredRelayResistanceProcessingTime processingTime = CalculateMeasuredRrpTime(timeElapsed, tlvDatabase);
 
-        if (IsRelayResistanceWithinMinimumRange(processingTime, tlvDatabase))
+        if (!IsRelayResistanceWithinMinimumRange(processingTime, tlvDatabase))
             return false;
 
-        if (IsRelayResistanceWithinMaximumRange(processingTime, tlvDatabase))
+        if (!IsRelayResistanceWithinMaximumRange(processingTime, tlvDatabase))
             return false;
 
         return true;
     }
 
     /// <summary>
-    ///     CalculateMeasuredRrpTime
+    ///     CalculateMeasuredRrpTime Book C-2 SR1.18
     /// </summary>
     /// <param name="timeElapsed"></param>
     /// <param name="tlvDatabase"></param>
@@ -74,13 +74,14 @@ public class RelayResistanceProtocolValidator : IValidateRelayResistanceProtocol
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    private MeasuredRelayResistanceProcessingTime CalculateMeasuredRrpTime(Seconds timeElapsed, IReadTlvDatabase tlvDatabase)
+    public MeasuredRelayResistanceProcessingTime CalculateMeasuredRrpTime(Microseconds timeElapsed, IReadTlvDatabase tlvDatabase)
     {
         TerminalExpectedTransmissionTimeForRelayResistanceCapdu terminalExpectedCapduTransmissionTime =
             (TerminalExpectedTransmissionTimeForRelayResistanceCapdu) tlvDatabase.Get(TerminalExpectedTransmissionTimeForRelayResistanceCapdu.Tag);
 
         TerminalExpectedTransmissionTimeForRelayResistanceRapdu terminalExpectedRapduTransmissionTime =
             (TerminalExpectedTransmissionTimeForRelayResistanceRapdu) tlvDatabase.Get(TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Tag);
+
         DeviceEstimatedTransmissionTimeForRelayResistanceRapdu deviceExpectedRapduTransmissionTime =
             (DeviceEstimatedTransmissionTimeForRelayResistanceRapdu) tlvDatabase.Get(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag);
 
@@ -115,7 +116,7 @@ public class RelayResistanceProtocolValidator : IValidateRelayResistanceProtocol
 
         MaximumRelayResistanceGracePeriod maxGracePeriod = (MaximumRelayResistanceGracePeriod)tlvDatabase.Get(MaximumRelayResistanceGracePeriod.Tag);
 
-        RelaySeconds expectedProcessingTime = (RelaySeconds)maxTimeForProcessingRelayResistanceApdu - (RelaySeconds)maxGracePeriod;
+        RelaySeconds expectedProcessingTime = (RelaySeconds)maxTimeForProcessingRelayResistanceApdu + (RelaySeconds)maxGracePeriod;
 
         if ((RelaySeconds)processingTime > expectedProcessingTime)
             return false;
