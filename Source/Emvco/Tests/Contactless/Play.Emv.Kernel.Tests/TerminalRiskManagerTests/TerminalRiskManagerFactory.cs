@@ -11,38 +11,36 @@ namespace Play.Emv.Kernel.Tests.TerminalRiskManagerTests;
 
 public class TerminalRiskManagerFactory
 {
+    #region Instance Members
+
     public static TerminalRiskManagementCommand CreateCommand(IFixture fixture)
     {
         AmountAuthorizedNumeric authorizedAmmount = fixture.Create<AmountAuthorizedNumeric>();
         ApplicationPan primaryAccountNumber = fixture.Create<ApplicationPan>();
         CultureProfile cultureProfile = fixture.Create<CultureProfile>();
-        TerminalRiskConfiguration terminalRiskConfiguration = CreateTerminalRiskConfiguration(fixture, cultureProfile);
+        TerminalRiskManagementConfiguration terminalRiskManagementConfiguration = CreateTerminalRiskConfiguration(fixture, cultureProfile);
 
-        TerminalRiskManagementCommand command = new(primaryAccountNumber, cultureProfile, authorizedAmmount, terminalRiskConfiguration);
+        TerminalRiskManagementCommand command = new(primaryAccountNumber, cultureProfile, authorizedAmmount, terminalRiskManagementConfiguration);
 
         return command;
     }
 
     public static TerminalRiskManagementCommand CreateFullCommand(
-        IFixture fixture,
-        ushort? applicationTransactionCount,
-        ushort? lastOnlineApplicationTransactionCount,
-        byte? lowerConsecutiveOfflineLimit,
-        byte? upperConsecutiveOfflineLimit
-        )
+        IFixture fixture, ushort? applicationTransactionCount, ushort? lastOnlineApplicationTransactionCount, byte? lowerConsecutiveOfflineLimit,
+        byte? upperConsecutiveOfflineLimit)
     {
         AmountAuthorizedNumeric authorizedAmmount = fixture.Create<AmountAuthorizedNumeric>();
         ApplicationPan primaryAccountNumber = fixture.Create<ApplicationPan>();
         CultureProfile cultureProfile = fixture.Create<CultureProfile>();
-        TerminalRiskConfiguration terminalRiskConfiguration = CreateTerminalRiskConfiguration(fixture, cultureProfile);
+        TerminalRiskManagementConfiguration terminalRiskManagementConfiguration = CreateTerminalRiskConfiguration(fixture, cultureProfile);
 
-        TerminalRiskManagementCommand command = new(primaryAccountNumber, cultureProfile, authorizedAmmount, terminalRiskConfiguration,
+        TerminalRiskManagementCommand command = new(primaryAccountNumber, cultureProfile, authorizedAmmount, terminalRiskManagementConfiguration,
             applicationTransactionCount, lastOnlineApplicationTransactionCount, lowerConsecutiveOfflineLimit, upperConsecutiveOfflineLimit);
 
         return command;
     }
 
-    private static TerminalRiskConfiguration CreateTerminalRiskConfiguration(IFixture fixture, CultureProfile cultureProfile)
+    private static TerminalRiskManagementConfiguration CreateTerminalRiskConfiguration(IFixture fixture, CultureProfile cultureProfile)
     {
         Money biasedRandomSelectionTreshHold = fixture.Create<Money>();
         Probability randomSelectionTargetProbability = fixture.Create<Probability>();
@@ -50,7 +48,9 @@ public class TerminalRiskManagerFactory
         TerminalFloorLimit terminalFloorLimit = fixture.Create<TerminalFloorLimit>();
         TerminalRiskManagementData terminalRiskManagementData = fixture.Create<TerminalRiskManagementData>();
 
-        return new TerminalRiskConfiguration(cultureProfile, terminalRiskManagementData, randomSelectionTargetProbability, biasedRandomSelectionTreshHold,
-            randomSelectionMaximumProbability, terminalFloorLimit);
+        return new TerminalRiskManagementConfiguration(cultureProfile, terminalRiskManagementData, randomSelectionTargetProbability,
+            biasedRandomSelectionTreshHold, randomSelectionMaximumProbability, terminalFloorLimit);
     }
+
+    #endregion
 }

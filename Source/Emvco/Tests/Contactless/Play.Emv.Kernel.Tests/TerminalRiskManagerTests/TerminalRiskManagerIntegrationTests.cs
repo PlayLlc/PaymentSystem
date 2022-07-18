@@ -25,7 +25,7 @@ public class TerminalRiskManagerIntegrationTests
 
     private readonly IFixture _Fixture;
 
-    private readonly Mock<ICoordinateSplitPayments> _SplitPaymentsCoordinator;
+    private readonly Mock<IStoreApprovedTransactions> _SplitPaymentsCoordinator;
     private readonly IProbabilitySelectionQueue _ProbabilitySelectionQueue;
 
     private readonly IManageTerminalRisk _SystemUnderTest;
@@ -39,7 +39,7 @@ public class TerminalRiskManagerIntegrationTests
         ContactlessFixture.RegisterDefaultDatabase(_Fixture);
         _Fixture.RegisterGlobalizationCodes();
 
-        _SplitPaymentsCoordinator = new Mock<ICoordinateSplitPayments>(MockBehavior.Strict);
+        _SplitPaymentsCoordinator = new Mock<IStoreApprovedTransactions>(MockBehavior.Strict);
         _ProbabilitySelectionQueue = new ProbabilitySelectionQueue();
 
         _SystemUnderTest = new TerminalRiskManager(_SplitPaymentsCoordinator.Object, _ProbabilitySelectionQueue);

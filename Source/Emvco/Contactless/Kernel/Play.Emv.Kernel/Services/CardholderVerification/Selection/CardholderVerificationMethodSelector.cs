@@ -101,7 +101,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
         KernelDatabase database, NumericCurrencyCode currencyCode, AmountAuthorizedNumeric transactionAmount, ReaderCvmRequiredLimit readerCvmThreshold)
     {
         if (!database!.IsPlaintextPinForIccVerificationSupported())
-            database.Set(TerminalVerificationResultCodes.PinEntryRequiredAndPinPadNotPresentOrNotWorking);
+            database.Update(TerminalVerificationResultCodes.PinEntryRequiredAndPinPadNotPresentOrNotWorking);
 
         if (transactionAmount.AsMoney(currencyCode) > readerCvmThreshold.AsMoney(currencyCode))
         {
@@ -189,7 +189,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
         database.Update(CvmPerformedOutcome.NoCvm);
         CvmResults results = new(CvmCodes.None, new CvmConditionCode(0), CvmResultCodes.Unknown);
         database.Update(results);
-        database.Set(TerminalVerificationResultCodes.IccDataMissing);
+        database.Update(TerminalVerificationResultCodes.IccDataMissing);
     }
 
     #endregion

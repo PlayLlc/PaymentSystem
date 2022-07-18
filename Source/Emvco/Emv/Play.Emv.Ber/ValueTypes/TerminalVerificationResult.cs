@@ -7,15 +7,19 @@ namespace Play.Emv.Ber.ValueTypes;
 /// </summary>
 public struct TerminalVerificationResult
 {
-    #region Instance Values
-
-    private ulong _Value;
-
-    #endregion
+    #region Static Metadata
 
     #region Static Members
 
     public static TerminalVerificationResult Empty;
+
+    #endregion
+
+    #endregion
+
+    #region Instance Values
+
+    private ulong _Value;
 
     #endregion
 
@@ -70,12 +74,17 @@ public struct TerminalVerificationResult
 
     #region Equality
 
+    public override bool Equals(object? obj) => obj is TerminalVerificationResult relayResistancePerformed && Equals(relayResistancePerformed);
+    public bool Equals(TerminalVerificationResult other) => _Value == other._Value;
+    public override int GetHashCode() => _Value.GetHashCode();
     public int CompareTo(TerminalVerificationResult other) => _Value.CompareTo(other._Value);
 
     #endregion
 
     #region Operator Overrides
 
+    public static bool operator ==(TerminalVerificationResult left, TerminalVerificationResult right) => left._Value == right._Value;
+    public static bool operator !=(TerminalVerificationResult left, TerminalVerificationResult right) => left._Value != right._Value;
     public static explicit operator ulong(TerminalVerificationResult value) => value._Value;
 
     #endregion

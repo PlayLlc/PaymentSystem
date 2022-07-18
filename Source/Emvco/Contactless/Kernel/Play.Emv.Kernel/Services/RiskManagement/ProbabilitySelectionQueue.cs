@@ -62,20 +62,20 @@ public class ProbabilitySelectionQueue : IProbabilitySelectionQueue
      The terminal shall generate a random
      number in the range of 1 to 99. If this random number is less than or equal to the  ‘Target Percentage to be used for Random Selection’, the transaction shall be selected
      */
-    public async Task<bool> IsRandomSelection(Probability threshold)
+    public bool IsRandomSelection(Probability threshold)
     {
         if (!_RandomNumberQueue.TryDequeue(out Probability result))
         {
             Probability randomProbability = GetRandomPercentage();
 
             if (_RandomNumberQueue.Count < _EnqueueFloor)
-                await UpdateQueue().ConfigureAwait(false);
+                Task.WhenAny(UpdateQueue());
 
             return randomProbability <= threshold;
         }
 
         if (_RandomNumberQueue.Count < _EnqueueFloor)
-            await UpdateQueue().ConfigureAwait(false);
+            Task.WhenAny(UpdateQueue());
 
         return result <= threshold;
     }
