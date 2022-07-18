@@ -52,6 +52,27 @@ public class Transaction
         _Outcome = new Outcome();
     }
 
+    public Transaction(
+        TransactionSessionId transactionSessionId, AccountType accountType, AmountAuthorizedNumeric amountAuthorizedNumeric,
+        AmountOtherNumeric amountOtherNumeric, TransactionType transactionType, LanguagePreference languagePreference, TerminalCountryCode terminalCountryCode,
+        TransactionDate transactionDate, TransactionTime transactionTime, TransactionCurrencyExponent transactionCurrencyExponent,
+        TransactionCurrencyCode transactionCurrencyCode, Outcome outcome)
+    {
+        _AccountType = accountType;
+        _TransactionSessionId = transactionSessionId;
+        _AmountAuthorizedNumeric = amountAuthorizedNumeric;
+        _AmountOtherNumeric = amountOtherNumeric;
+        _TransactionType = transactionType;
+        _TransactionDate = transactionDate;
+        _TransactionTime = transactionTime;
+        _TerminalCountryCode = terminalCountryCode;
+        _TransactionCurrencyExponent = transactionCurrencyExponent;
+        _TransactionCurrencyCode = transactionCurrencyCode;
+        _LanguagePreference = languagePreference;
+
+        _Outcome = outcome;
+    }
+
     #endregion
 
     #region Instance Members

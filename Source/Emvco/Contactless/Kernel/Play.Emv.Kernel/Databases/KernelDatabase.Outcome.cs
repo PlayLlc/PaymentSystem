@@ -94,7 +94,7 @@ public partial class KernelDatabase
     /// <exception cref="TerminalDataException"></exception>
     private DiscretionaryData? GetDiscretionaryData()
     {
-        if (IsPresentAndNotEmpty(DiscretionaryData.Tag))
+        if (!IsPresentAndNotEmpty(DiscretionaryData.Tag))
             return null;
 
         return (DiscretionaryData) Get(DiscretionaryData.Tag);
