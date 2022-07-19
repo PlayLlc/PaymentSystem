@@ -1,5 +1,8 @@
 ﻿using AutoFixture;
 
+using Play.Emv.Ber;
+using Play.Emv.Ber.DataElements;
+using Play.Emv.Kernel.Databases;
 using Play.Globalization.Country;
 using Play.Globalization.Currency;
 using Play.Globalization.Language;
@@ -31,5 +34,20 @@ public static class TerminalRiskManagerFixture
         alpha3CurrencyCode);
 
         return fixture;
+    }
+
+    public static void RegisterTerminalRiskData(this IFixture fixture, ITlvReaderAndWriter kernelDatabase)
+    {
+        AmountAuthorizedNumeric authorizedAmmount = fixture.Create<AmountAuthorizedNumeric>();
+        kernelDatabase.Update(authorizedAmmount);
+
+        ApplicationPan primaryAccountNumber = fixture.Create<ApplicationPan>();
+        kernelDatabase.Update(primaryAccountNumber);
+
+        ApplicationCurrencyCode currencyCode = fixture.Create<ApplicationCurrencyCode>();
+        kernelDatabase.Update(currencyCode);
+
+        TerminalFloorLimit terminalFloorLimit = fixture.Create<TerminalFloorLimit>();
+        kernelDatabase.Update(terminalFloorLimit);
     }
 }

@@ -125,6 +125,8 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
 
     public static explicit operator ulong(TerminalVerificationResults value) => value._Value;
 
+    public static explicit operator TerminalVerificationResult(TerminalVerificationResults value) => new(value._Value);
+
     //public RelayResistancePerformed GetRelayResistancePerformed()
     //{
     //    const byte bitOffset = 1;

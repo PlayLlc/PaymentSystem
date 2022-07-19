@@ -8,7 +8,7 @@ using Play.Emv.Ber.Exceptions;
 namespace Play.Emv.Ber.DataElements
 {
     /// <summary>
-    ///     Issuer-specified preference for the maximum number of consecutive offline transactions for this ICC application
+    ///     Issuer-specified preference for the minimum number of consecutive offline transactions for this ICC application
     ///     allowed in a terminal with online capability
     /// </summary>
     public record LowerConsecutiveOfflineLimit : DataElement<byte>
@@ -16,7 +16,7 @@ namespace Play.Emv.Ber.DataElements
         #region Static Metadata
 
         public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
-        public static readonly Tag Tag = 0x9F23;
+        public static readonly Tag Tag = 0x9F14;
         private const byte _ByteLength = 1;
 
         #endregion
