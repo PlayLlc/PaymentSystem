@@ -11,8 +11,8 @@ namespace Play.Testing.Emv.Ber.Primitive;
 
 public class SelectionDataObjectListTestTlv : TestTlv
 {
-    private static readonly byte[] _DefaultContentOctets = { 12, 3, 14, 5, 23, 4, 30, 5 };
-    private static readonly Tag[] _DefaultContentTags = { new(12), new(14), new(23), new(30) };
+    private static readonly byte[] _DefaultContentOctets = { 0x9F, 0x02, 3, 0x8B, 5, 0x9F, 0x1A, 4, 0x5F, 0x2A, 5 };
+    private static readonly Tag[] _DefaultContentTags = { AmountAuthorizedNumeric.Tag, PoiInformation.Tag, TerminalCountryCode.Tag, TransactionCurrencyCode.Tag };
 
     public SelectionDataObjectListTestTlv() : base(_DefaultContentOctets) { }
 
