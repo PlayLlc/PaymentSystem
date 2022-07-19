@@ -9,18 +9,18 @@ using Play.Emv.Ber.DataElements;
 
 namespace Play.Testing.Emv.Ber.Primitive;
 
-public class DynamicDataAuthenticationDataObjectListTestTlv : TestTlv
+public class UnpredictableNumberDataObjectListTestTlv : TestTlv
 {
-    private static readonly byte[] _DefaultContentOctets = { 0x9F, 0x37, 3, 14, 5, 23, 4, 30, 5 };
-    private static readonly Tag[] _DefaultContentTags = { UnpredictableNumber.Tag, new(14), new(23), new(30) };
+    private static readonly byte[] _DefaultContentOctets = { 14, 5, 23, 4, 30, 5, 0x9F, 0x37, 3 };
+    private static readonly Tag[] _DefaultContentTags = { new(14), new(23), new(30), UnpredictableNumber.Tag };
 
-    public DynamicDataAuthenticationDataObjectListTestTlv() : base(_DefaultContentOctets) { }
+    public UnpredictableNumberDataObjectListTestTlv() : base(_DefaultContentOctets) { }
 
-    public DynamicDataAuthenticationDataObjectListTestTlv(byte[] contentOctets) : base(contentOctets)
+    public UnpredictableNumberDataObjectListTestTlv(byte[] contentOctets) : base(contentOctets)
     {
     }
 
-    public override Tag GetTag() => DynamicDataAuthenticationDataObjectList.Tag;
+    public override Tag GetTag() => UnpredictableNumberDataObjectList.Tag;
 
     public Tag[] GetTags() => _DefaultContentTags;
 
