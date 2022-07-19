@@ -39,11 +39,11 @@ public class TerminalRiskManagerFactory
 
     public static TerminalRiskManagementConfiguration CreateTerminalRiskConfiguration(IFixture fixture)
     {
-        Money biasedRandomSelectionTreshHold = fixture.Create<Money>();
+        Money biasedRandomSelectionThreshold = fixture.Create<Money>();
         Probability randomSelectionTargetProbability = fixture.Create<Probability>();
         Probability randomSelectionMaximumProbability = fixture.Create<Probability>();
 
-        return new TerminalRiskManagementConfiguration(biasedRandomSelectionTreshHold, randomSelectionTargetProbability, randomSelectionMaximumProbability);
+        return new TerminalRiskManagementConfiguration(biasedRandomSelectionThreshold, randomSelectionTargetProbability, randomSelectionMaximumProbability);
     }
 
     #endregion

@@ -26,10 +26,8 @@ public class TerminalRiskManagerIntegrationTests
     #region Instance Values
 
     private readonly IFixture _Fixture;
-
     private readonly ITlvReaderAndWriter _Database;
-    private readonly Mock<IStoreApprovedTransactions> _SplitPaymentsCoordinator;
-    private readonly IProbabilitySelectionQueue _ProbabilitySelectionQueue;
+    private readonly Mock<ICoordinateSplitPayments> _SplitPaymentsCoordinator;
     private readonly IManageTerminalRisk _SystemUnderTest;
 
     #endregion
@@ -44,9 +42,8 @@ public class TerminalRiskManagerIntegrationTests
         _Fixture.RegisterGlobalizationCodes();
 
         _SplitPaymentsCoordinator = new Mock<ICoordinateSplitPayments>(MockBehavior.Strict);
-        _ProbabilitySelectionQueue = new ProbabilitySelectionQueue();
 
-        _SystemUnderTest = new TerminalRiskManager(_SplitPaymentsCoordinator.Object, _ProbabilitySelectionQueue);
+        _SystemUnderTest = new TerminalRiskManager(_SplitPaymentsCoordinator.Object, new ProbabilitySelectionQueue());
     }
 
     #endregion
@@ -62,7 +59,7 @@ public class TerminalRiskManagerIntegrationTests
 
         TerminalRiskManagerFixture.RegisterTerminalRiskData(_Fixture, _Database);
 
-        Probability randomSelectionTargetProbability = new Probability(100);
+        Probability randomSelectionTargetProbability = new(100);
 
         _Fixture.Register(() => randomSelectionTargetProbability);
 
@@ -79,11 +76,12 @@ public class TerminalRiskManagerIntegrationTests
         TerminalVerificationResults result = _Database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
 
         //Assert
-        Assert.Equal(tvr, (TerminalVerificationResult)result);
+        Assert.Equal(tvr, (TerminalVerificationResult) result);
     }
 
     [Fact]
-    public void CommandWithAuthorizedAmountGreatherThenBiasedThresholValue_IsUpForBiasedRandomSelectionWithTargetPercentageOf100Percent_TransactionWillAlwaysBeSelectedForOnlineProcessing()
+    public void
+        CommandWithAuthorizedAmountGreatherThenBiasedThresholValue_IsUpForBiasedRandomSelectionWithTargetPercentageOf100Percent_TransactionWillAlwaysBeSelectedForOnlineProcessing()
     {
         //Arrange & setup
         _Fixture.Register(() => new AmountAuthorizedNumeric(3671));
@@ -113,11 +111,12 @@ public class TerminalRiskManagerIntegrationTests
         TerminalVerificationResults result = _Database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
 
         //Assert
-        Assert.Equal(tvr, (TerminalVerificationResult)result);
+        Assert.Equal(tvr, (TerminalVerificationResult) result);
     }
 
     [Fact]
-    public void CommandWithAuthorizedAmount_WithRandomTargetPercentAndRandomBiasedSelectionTreshold_TransactionWith2PossibleOutcomes_WillOrWillNotBeProcessedOnline()
+    public void
+        CommandWithAuthorizedAmount_WithRandomTargetPercentAndRandomBiasedSelectionTreshold_TransactionWith2PossibleOutcomes_WillOrWillNotBeProcessedOnline()
     {
         //Arrange & setup
         _Fixture.Register(() => new AmountAuthorizedNumeric(3671));
@@ -143,7 +142,7 @@ public class TerminalRiskManagerIntegrationTests
         TerminalVerificationResults result = _Database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
 
         //Assert
-        Assert.True((ulong)result == 4096 || ((TerminalVerificationResult)result == TerminalVerificationResult.Empty));
+        Assert.True(((ulong) result == 4096) || ((TerminalVerificationResult) result == TerminalVerificationResult.Empty));
     }
 
     #endregion
