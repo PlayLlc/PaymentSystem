@@ -64,22 +64,17 @@ public class TerminalRiskManagerTests : TestBase
 
         TerminalRiskManagerFixture.RegisterTerminalRiskData(_Fixture, _Database);
 
-        SplitPaymentLogItem splitPaymentLogItem = null;
+        SplitPaymentLogItem? splitPaymentLogItem = null;
         _SplitPaymentsCoordinator.Setup(m => m.TryGetSplitPaymentLogItem(It.IsAny<ApplicationPan>(), out splitPaymentLogItem)).Returns(false);
 
         TerminalRiskManagementConfiguration terminalConfiguration = TerminalRiskManagerFactory.CreateTerminalRiskConfiguration(_Fixture);
-
-        TerminalVerificationResult tvr = new();
-        tvr.SetTransactionExceedsFloorLimit();
 
         //Act
         _SystemUnderTest.Process(_Database, terminalConfiguration);
         TerminalVerificationResults result = _Database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
 
         //Assert
-        _SplitPaymentsCoordinator.Verify(m => m.TryGetSplitPaymentLogItem(It.IsAny<ApplicationPan>(), out splitPaymentLogItem), Times.Once);
-
-        Assert.Equal(tvr, (TerminalVerificationResult) result);
+        Assert.True(result.TransactionExceedsFloorLimit());
     }
 
     [Fact]
@@ -90,21 +85,14 @@ public class TerminalRiskManagerTests : TestBase
         _Fixture.Register(() => new TerminalFloorLimit(123));
 
         TerminalRiskManagerFixture.RegisterTerminalRiskData(_Fixture, _Database);
-
         RecordKey recordKey = _Fixture.Create<RecordKey>();
         Record dummyRecord = new(recordKey, Array.Empty<PrimitiveValue>());
-
         ApplicationCurrencyCode applicationCurrencyCode = _Fixture.Create<ApplicationCurrencyCode>();
         AmountAuthorizedNumeric previousAmount = new(123);
-
         SplitPaymentLogItem expectedLogItem = new(dummyRecord, applicationCurrencyCode, previousAmount);
-
         TerminalRiskManagementConfiguration terminalConfiguration = TerminalRiskManagerFactory.CreateTerminalRiskConfiguration(_Fixture);
 
         _SplitPaymentsCoordinator.Setup(m => m.TryGetSplitPaymentLogItem(It.IsAny<ApplicationPan>(), out expectedLogItem)).Returns(true);
-
-        TerminalVerificationResult tvr = new();
-        tvr.SetTransactionExceedsFloorLimit();
 
         //Act
         _SystemUnderTest.Process(_Database, terminalConfiguration);
@@ -112,35 +100,29 @@ public class TerminalRiskManagerTests : TestBase
 
         //Assert
         _SplitPaymentsCoordinator.Verify(m => m.TryGetSplitPaymentLogItem(It.IsAny<ApplicationPan>(), out expectedLogItem), Times.Once);
-        Assert.Equal(tvr, (TerminalVerificationResult) result);
+        Assert.True(result.TransactionExceedsFloorLimit());
     }
 
     [Fact]
     public void CommandWithAuthorizedAmount_AuthorizedAmountIsSmallerThanRandomSelectionThreshold_TransactionIsRandomlySelectedForOnlineProcessing()
     {
-        //Arrange & Setup.
+        //Arrange 
         _Fixture.Register(() => new AmountAuthorizedNumeric(123));
         _Fixture.Register(() => new TerminalFloorLimit(1234));
 
         TerminalRiskManagerFixture.RegisterTerminalRiskData(_Fixture, _Database);
-
-        SplitPaymentLogItem splitPaymentLogItem = null;
+        SplitPaymentLogItem? splitPaymentLogItem = null;
         _SplitPaymentsCoordinator.Setup(m => m.TryGetSplitPaymentLogItem(It.IsAny<ApplicationPan>(), out splitPaymentLogItem)).Returns(false);
-
         TerminalRiskManagementConfiguration terminalConfiguration = TerminalRiskManagerFactory.CreateTerminalRiskConfiguration(_Fixture);
-
         _ProbabilitySelectionQueue.Setup(m => m.IsRandomSelection(
             It.Is<Probability>(x => x.Equals(terminalConfiguration.BiasedRandomSelectionTargetPercentage)))).Returns(true);
-
-        TerminalVerificationResult tvr = new();
-        tvr.SetTransactionSelectedRandomlyForOnlineProcessing();
 
         //Act
         _SystemUnderTest.Process(_Database, terminalConfiguration);
         TerminalVerificationResults result = _Database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
 
         //Assert
-        Assert.Equal(tvr, (TerminalVerificationResult) result);
+        Assert.True(result.TransactionSelectedRandomlyForOnlineProcessing());
     }
 
     [Fact]
@@ -150,7 +132,6 @@ public class TerminalRiskManagerTests : TestBase
         //Arrange & setup.
         _Fixture.Register(() => new AmountAuthorizedNumeric(123));
         _Fixture.Register(() => new TerminalFloorLimit(1234));
-
         TerminalRiskManagerFixture.RegisterTerminalRiskData(_Fixture, _Database);
 
         Alpha3CurrencyCode currencyCode = _Fixture.Create<Alpha3CurrencyCode>();
@@ -166,15 +147,13 @@ public class TerminalRiskManagerTests : TestBase
         _ProbabilitySelectionQueue.Setup(m => m.IsRandomSelection(
             It.Is<Probability>(x => x.Equals(terminalConfiguration.BiasedRandomSelectionTargetPercentage)))).Returns(true);
 
-        TerminalVerificationResult tvr = new();
-        tvr.SetTransactionSelectedRandomlyForOnlineProcessing();
-
         //Act
         _SystemUnderTest.Process(_Database, terminalConfiguration);
         TerminalVerificationResults result = _Database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
 
         //Assert
-        Assert.Equal(tvr, (TerminalVerificationResult) result);
+
+        Assert.True(result.TransactionSelectedRandomlyForOnlineProcessing());
     }
 
     [Fact]
@@ -190,7 +169,7 @@ public class TerminalRiskManagerTests : TestBase
 
         _Fixture.Register(() => randomSelectionTargetProbability);
 
-        SplitPaymentLogItem splitPaymentLogItem = null;
+        SplitPaymentLogItem? splitPaymentLogItem = null;
         _SplitPaymentsCoordinator.Setup(m => m.TryGetSplitPaymentLogItem(It.IsAny<ApplicationPan>(), out splitPaymentLogItem)).Returns(false);
 
         TerminalRiskManagementConfiguration terminalConfiguration = TerminalRiskManagerFactory.CreateTerminalRiskConfiguration(_Fixture);
@@ -198,30 +177,27 @@ public class TerminalRiskManagerTests : TestBase
         _ProbabilitySelectionQueue.Setup(m => m.IsRandomSelection(
             It.Is<Probability>(x => x.Equals(terminalConfiguration.BiasedRandomSelectionTargetPercentage)))).Returns(true);
 
-        TerminalVerificationResult tvr = new();
-        tvr.SetTransactionSelectedRandomlyForOnlineProcessing();
-
         //Act
         _SystemUnderTest.Process(_Database, terminalConfiguration);
         TerminalVerificationResults result = _Database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
 
         //Assert
-        Assert.Equal(tvr, (TerminalVerificationResult) result);
+        Assert.True(result.TransactionSelectedRandomlyForOnlineProcessing());
     }
 
     [Fact]
     public void CommandWithAuthorizedAmount_VelocityCheckIsNotSupported_TransactionNotValid()
     {
-        //Arrange & Setup
+        //Arrange 
         _Fixture.Register(() => new AmountAuthorizedNumeric(123));
         _Fixture.Register(() => new TerminalFloorLimit(1234));
 
         TerminalRiskManagerFixture.RegisterTerminalRiskData(_Fixture, _Database);
 
         Alpha3CurrencyCode currencyCode = _Fixture.Create<Alpha3CurrencyCode>();
-        Money expectedBiasedRandomSelectionTreshHold = new(134, currencyCode);
+        Money expectedBiasedRandomSelectionThreshold = new(134, currencyCode);
 
-        _Fixture.Register(() => expectedBiasedRandomSelectionTreshHold);
+        _Fixture.Register(() => expectedBiasedRandomSelectionThreshold);
 
         SplitPaymentLogItem splitPaymentLogItem = null;
         _SplitPaymentsCoordinator.Setup(m => m.TryGetSplitPaymentLogItem(It.IsAny<ApplicationPan>(), out splitPaymentLogItem)).Returns(false);
@@ -298,7 +274,7 @@ public class TerminalRiskManagerTests : TestBase
 
         TerminalRiskManagerFixture.RegisterTerminalRiskData(_Fixture, _Database);
 
-        SplitPaymentLogItem splitPaymentLogItem = null;
+        SplitPaymentLogItem? splitPaymentLogItem = null;
         _SplitPaymentsCoordinator.Setup(m => m.TryGetSplitPaymentLogItem(It.IsAny<ApplicationPan>(), out splitPaymentLogItem)).Returns(false);
 
         TerminalRiskManagementConfiguration terminalConfiguration = TerminalRiskManagerFactory.CreateTerminalRiskConfiguration(_Fixture);
@@ -306,16 +282,13 @@ public class TerminalRiskManagerTests : TestBase
         _ProbabilitySelectionQueue.Setup(m => m.IsRandomSelection(
             It.Is<Probability>(x => x.Equals(terminalConfiguration.BiasedRandomSelectionTargetPercentage)))).Returns(false);
 
-        TerminalVerificationResult tvr = TerminalVerificationResult.Create();
-        tvr.SetLowerConsecutiveOfflineLimitExceeded();
-        tvr.SetUpperConsecutiveOfflineLimitExceeded();
-
         //Act
         _SystemUnderTest.Process(_Database, terminalConfiguration);
         TerminalVerificationResults result = _Database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
 
         //Assert
-        Assert.Equal(tvr, (TerminalVerificationResult) result);
+        Assert.True(result.LowerConsecutiveOfflineLimitExceeded());
+        Assert.True(result.UpperConsecutiveOfflineLimitExceeded());
     }
 
     [Fact]

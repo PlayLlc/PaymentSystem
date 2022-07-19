@@ -57,13 +57,13 @@ public class TerminalRiskManagerIntegrationTests
         _Fixture.Register(() => new AmountAuthorizedNumeric(123));
         _Fixture.Register(() => new TerminalFloorLimit(1234));
 
-        TerminalRiskManagerFixture.RegisterTerminalRiskData(_Fixture, _Database);
+        _Fixture.RegisterTerminalRiskData(_Database);
 
         Probability randomSelectionTargetProbability = new(100);
 
         _Fixture.Register(() => randomSelectionTargetProbability);
 
-        SplitPaymentLogItem splitPaymentLogItem = null;
+        SplitPaymentLogItem? splitPaymentLogItem = null;
         _SplitPaymentsCoordinator.Setup(m => m.TryGetSplitPaymentLogItem(It.IsAny<ApplicationPan>(), out splitPaymentLogItem)).Returns(false);
 
         TerminalRiskManagementConfiguration terminalConfiguration = TerminalRiskManagerFactory.CreateTerminalRiskConfiguration(_Fixture);
@@ -81,7 +81,7 @@ public class TerminalRiskManagerIntegrationTests
 
     [Fact]
     public void
-        CommandWithAuthorizedAmountGreatherThenBiasedThresholValue_IsUpForBiasedRandomSelectionWithTargetPercentageOf100Percent_TransactionWillAlwaysBeSelectedForOnlineProcessing()
+        CommandWithAuthorizedAmountGreaterThanBiasedThresholdValue_IsUpForBiasedRandomSelectionWithTargetPercentageOf100Percent_TransactionWillAlwaysBeSelectedForOnlineProcessing()
     {
         //Arrange & setup
         _Fixture.Register(() => new AmountAuthorizedNumeric(3671));
@@ -100,7 +100,7 @@ public class TerminalRiskManagerIntegrationTests
 
         TerminalRiskManagementConfiguration terminalConfiguration = TerminalRiskManagerFactory.CreateTerminalRiskConfiguration(_Fixture);
 
-        SplitPaymentLogItem splitPaymentLogItem = null;
+        SplitPaymentLogItem? splitPaymentLogItem = null;
         _SplitPaymentsCoordinator.Setup(m => m.TryGetSplitPaymentLogItem(It.IsAny<ApplicationPan>(), out splitPaymentLogItem)).Returns(false);
 
         TerminalVerificationResult tvr = new();
@@ -131,7 +131,7 @@ public class TerminalRiskManagerIntegrationTests
 
         TerminalRiskManagementConfiguration terminalConfiguration = TerminalRiskManagerFactory.CreateTerminalRiskConfiguration(_Fixture);
 
-        SplitPaymentLogItem splitPaymentLogItem = null;
+        SplitPaymentLogItem? splitPaymentLogItem = null;
         _SplitPaymentsCoordinator.Setup(m => m.TryGetSplitPaymentLogItem(It.IsAny<ApplicationPan>(), out splitPaymentLogItem)).Returns(false);
 
         TerminalVerificationResult possibleTvr = new();

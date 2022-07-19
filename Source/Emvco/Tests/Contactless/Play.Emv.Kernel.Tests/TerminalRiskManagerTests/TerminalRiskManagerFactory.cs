@@ -10,33 +10,6 @@ public class TerminalRiskManagerFactory
 {
     #region Instance Members
 
-    //public static TerminalRiskManagementCommand CreateCommand(IFixture fixture)
-    //{
-    //    AmountAuthorizedNumeric authorizedAmmount = fixture.Create<AmountAuthorizedNumeric>();
-    //    ApplicationPan primaryAccountNumber = fixture.Create<ApplicationPan>();
-    //    CultureProfile cultureProfile = fixture.Create<CultureProfile>();
-    //    TerminalRiskManagementConfiguration terminalRiskManagementConfiguration = CreateTerminalRiskConfiguration(fixture, cultureProfile);
-
-    //    TerminalRiskManagementCommand command = new(primaryAccountNumber, cultureProfile, authorizedAmmount, terminalRiskManagementConfiguration);
-
-    //    return command;
-    //}
-
-    //public static TerminalRiskManagementCommand CreateFullCommand(
-    //    IFixture fixture, ushort? applicationTransactionCount, ushort? lastOnlineApplicationTransactionCount, byte? lowerConsecutiveOfflineLimit,
-    //    byte? upperConsecutiveOfflineLimit)
-    //{
-    //    AmountAuthorizedNumeric authorizedAmmount = fixture.Create<AmountAuthorizedNumeric>();
-    //    ApplicationPan primaryAccountNumber = fixture.Create<ApplicationPan>();
-    //    CultureProfile cultureProfile = fixture.Create<CultureProfile>();
-    //    TerminalRiskManagementConfiguration terminalRiskManagementConfiguration = CreateTerminalRiskConfiguration(fixture, cultureProfile);
-
-    //    TerminalRiskManagementCommand command = new(primaryAccountNumber, cultureProfile, authorizedAmmount, terminalRiskManagementConfiguration,
-    //        applicationTransactionCount, lastOnlineApplicationTransactionCount, lowerConsecutiveOfflineLimit, upperConsecutiveOfflineLimit);
-
-    //    return command;
-    //}
-
     public static TerminalRiskManagementConfiguration CreateTerminalRiskConfiguration(IFixture fixture)
     {
         Money biasedRandomSelectionThreshold = fixture.Create<Money>();
