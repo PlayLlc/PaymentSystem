@@ -38,7 +38,7 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
         ApplicationVersionNumberReader versionNumberReader = database.Get<ApplicationVersionNumberReader>(ApplicationVersionNumberReader.Tag);
 
         if ((ushort) versionNumberCard != (ushort) versionNumberReader)
-            database.Set(TerminalVerificationResultCodes.IccAndTerminalHaveDifferentApplicationVersions);
+            database.Update(TerminalVerificationResultCodes.IccAndTerminalHaveDifferentApplicationVersions);
     }
 
     #endregion
@@ -67,7 +67,7 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
         ApplicationEffectiveDate applicationEffectiveDate = database.Get<ApplicationEffectiveDate>(ApplicationEffectiveDate.Tag);
 
         if ((uint) transactionDate < (uint) applicationEffectiveDate)
-            database.Set(TerminalVerificationResultCodes.ExpiredApplication);
+            database.Update(TerminalVerificationResultCodes.ExpiredApplication);
     }
 
     /// <exception cref="CodecParsingException"></exception>
@@ -78,7 +78,7 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
         ApplicationExpirationDate applicationExpirationDate = database.Get<ApplicationExpirationDate>(ApplicationExpirationDate.Tag);
 
         if ((uint) transactionDate > (uint) applicationExpirationDate)
-            database.Set(TerminalVerificationResultCodes.ExpiredApplication);
+            database.Update(TerminalVerificationResultCodes.ExpiredApplication);
     }
 
     #endregion

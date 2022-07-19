@@ -81,4 +81,10 @@ public record ApplicationTransactionCounter : DataElement<ushort>, IEqualityComp
     public int GetHashCode(ApplicationTransactionCounter obj) => obj.GetHashCode();
 
     #endregion
+
+    #region Operator Overrides
+
+    public static implicit operator ushort(ApplicationTransactionCounter value) => value._Value;
+
+    #endregion
 }

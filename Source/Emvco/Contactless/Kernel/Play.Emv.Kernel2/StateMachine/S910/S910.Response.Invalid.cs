@@ -22,7 +22,7 @@ internal partial class S910
         public void ProcessCamFailedResponse(KernelSessionId sessionId)
         {
             _Database.Update(Level2Error.CryptographicAuthenticationMethodFailed);
-            _Database.Set(TerminalVerificationResultCodes.CombinationDataAuthenticationFailed);
+            _Database.Update(TerminalVerificationResultCodes.CombinationDataAuthenticationFailed);
 
             ProcessInvalidDataResponse(sessionId);
         }

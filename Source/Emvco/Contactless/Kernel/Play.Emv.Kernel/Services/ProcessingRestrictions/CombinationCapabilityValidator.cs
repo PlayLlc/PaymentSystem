@@ -115,7 +115,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
         if (!applicationUsageControl.IsValidAtTerminalsOtherThanAtms())
         {
             // PRE.13
-            database.Set(TerminalVerificationResultCodes.RequestedServiceNotAllowedForCardProduct);
+            database.Update(TerminalVerificationResultCodes.RequestedServiceNotAllowedForCardProduct);
 
             return false;
         }
@@ -134,7 +134,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
         if (!applicationUsageControl.IsValidAtAtms())
         {
             // PRE.13
-            database.Set(TerminalVerificationResultCodes.RequestedServiceNotAllowedForCardProduct);
+            database.Update(TerminalVerificationResultCodes.RequestedServiceNotAllowedForCardProduct);
 
             return false;
         }
@@ -220,7 +220,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     private void CheckIfDomesticCashTransactionIsAllowed(ApplicationUsageControl applicationUsageControl, KernelDatabase database)
     {
         if (!applicationUsageControl.IsValidForDomesticCashTransactions())
-            database.Set(TerminalVerificationResultCodes.RequestedServiceNotAllowedForCardProduct);
+            database.Update(TerminalVerificationResultCodes.RequestedServiceNotAllowedForCardProduct);
     }
 
     #endregion
@@ -232,7 +232,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     private void CheckIfInternationalCashTransactionIsAllowed(ApplicationUsageControl applicationUsageControl, KernelDatabase database)
     {
         if (!applicationUsageControl.IsValidForInternationalCashTransactions())
-            database.Set(TerminalVerificationResultCodes.RequestedServiceNotAllowedForCardProduct);
+            database.Update(TerminalVerificationResultCodes.RequestedServiceNotAllowedForCardProduct);
     }
 
     #endregion
@@ -292,7 +292,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
         if (applicationUsageControl.IsValidForDomesticServices())
             return;
 
-        database.Set(TerminalVerificationResultCodes.RequestedServiceNotAllowedForCardProduct);
+        database.Update(TerminalVerificationResultCodes.RequestedServiceNotAllowedForCardProduct);
     }
 
     #endregion
@@ -309,7 +309,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
         if (applicationUsageControl.IsValidForInternationalServices())
             return;
 
-        database.Set(TerminalVerificationResultCodes.RequestedServiceNotAllowedForCardProduct);
+        database.Update(TerminalVerificationResultCodes.RequestedServiceNotAllowedForCardProduct);
     }
 
     #endregion
@@ -359,7 +359,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
         if (applicationUsageControl.IsDomesticCashbackAllowed())
             return;
 
-        database.Set(TerminalVerificationResultCodes.RequestedServiceNotAllowedForCardProduct);
+        database.Update(TerminalVerificationResultCodes.RequestedServiceNotAllowedForCardProduct);
     }
 
     #endregion
@@ -373,7 +373,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
         if (applicationUsageControl.IsInternationalCashbackAllowed())
             return;
 
-        database.Set(TerminalVerificationResultCodes.RequestedServiceNotAllowedForCardProduct);
+        database.Update(TerminalVerificationResultCodes.RequestedServiceNotAllowedForCardProduct);
     }
 
     #endregion

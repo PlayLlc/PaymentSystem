@@ -12,4 +12,8 @@
     <ProjectReference Include="..\..\Core\Play.Icc\Play.Icc.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DataElements\DataStorage\TransactionCounter\" />
+  </ItemGroup>
+
 </Project>

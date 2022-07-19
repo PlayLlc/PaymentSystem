@@ -48,18 +48,6 @@ public readonly record struct NumberOfNonZeroBits
     #region Operator Overrides
 
     public static implicit operator byte(NumberOfNonZeroBits value) => value._Value;
-    public static bool operator >(byte left, NumberOfNonZeroBits right) => left > right._Value;
-    public static bool operator <(byte left, NumberOfNonZeroBits right) => left < right._Value;
-    public static bool operator >=(byte left, NumberOfNonZeroBits right) => left >= right._Value;
-    public static bool operator <=(byte left, NumberOfNonZeroBits right) => left <= right._Value;
-    public static bool operator ==(byte left, NumberOfNonZeroBits right) => left == right._Value;
-    public static bool operator !=(byte left, NumberOfNonZeroBits right) => left != right._Value;
-    public static bool operator >(NumberOfNonZeroBits left, byte right) => left._Value > right;
-    public static bool operator <(NumberOfNonZeroBits left, byte right) => left._Value < right;
-    public static bool operator >=(NumberOfNonZeroBits left, byte right) => left._Value >= right;
-    public static bool operator <=(NumberOfNonZeroBits left, byte right) => left._Value <= right;
-    public static bool operator ==(NumberOfNonZeroBits left, byte right) => left._Value == right;
-    public static bool operator !=(NumberOfNonZeroBits left, byte right) => left._Value != right;
 
     #endregion
 }
