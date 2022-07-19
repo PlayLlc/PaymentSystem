@@ -65,10 +65,8 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
     public bool ScriptProcessingFailedAfterFinalGenerateAc() => _Value.IsBitSet(5);
     public bool ScriptProcessingFailedBeforeFinalGenerateAc() => _Value.IsBitSet(6);
 
-    public void SetBits(TerminalVerificationResult terminalVerificationResult)
-    {
-        _Value.SetBits((ulong) terminalVerificationResult);
-    }
+    public TerminalVerificationResults SetBits(TerminalVerificationResultCodes terminalVerificationResult) =>
+        new(_Value | (ulong) (TerminalVerificationResult) terminalVerificationResult);
 
     public bool StaticDataAuthenticationFailed() => _Value.IsBitSet(39);
     public bool TransactionExceedsFloorLimit() => _Value.IsBitSet(16);
@@ -126,6 +124,8 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
     #region Operator Overrides
 
     public static explicit operator ulong(TerminalVerificationResults value) => value._Value;
+
+    public static explicit operator TerminalVerificationResult(TerminalVerificationResults value) => new(value._Value);
 
     //public RelayResistancePerformed GetRelayResistancePerformed()
     //{

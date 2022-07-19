@@ -16,7 +16,7 @@ public record Currency
 
     #region Constructor
 
-    internal Currency(NumericCurrencyCode numericCode, Alpha3CurrencyCode alpha3Code, string currencySymbol, int precision)
+    public Currency(NumericCurrencyCode numericCode, Alpha3CurrencyCode alpha3Code, string currencySymbol, int precision)
     {
         _Numeric = numericCode;
         _Alpha3 = alpha3Code;

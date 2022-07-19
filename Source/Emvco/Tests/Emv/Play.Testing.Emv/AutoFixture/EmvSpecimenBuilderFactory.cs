@@ -1,4 +1,6 @@
-﻿using Play.Testing.Infrastructure.AutoFixture;
+﻿using Play.Testing.Emv.AutoFixture.Builders.DataElements;
+using Play.Testing.Emv.AutoFixture.Builders.Globalization;
+using Play.Testing.Infrastructure.AutoFixture;
 
 namespace Play.Testing.Emv;
 
@@ -67,6 +69,9 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
             new TerminalCategoryCodeBuilder(),
             new TerminalVerificationResultCodesBuilder(),
             new ValueQualifierBuilder(),
+            new ApplicationPanBuilder(),
+            new NumericCountryCodeBuilder(),
+            new Alpha2CountryCodeBuilder(),
             AmountAuthorizedNumericBuilder,
             AmountOtherNumericBuilder,
             ApplicationDedicatedFileNameBuilder,

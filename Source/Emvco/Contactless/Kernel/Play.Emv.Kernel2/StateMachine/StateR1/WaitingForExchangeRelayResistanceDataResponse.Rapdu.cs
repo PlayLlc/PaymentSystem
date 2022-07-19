@@ -274,7 +274,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private void SetRelayTimeLimitExceeded()
     {
-        _Database.Set(TerminalVerificationResultCodes.RelayResistanceTimeLimitsExceeded);
+        _Database.Update(TerminalVerificationResultCodes.RelayResistanceTimeLimitsExceeded);
     }
 
     #endregion
@@ -331,7 +331,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private void SetRelayResistanceThresholdExceeded()
     {
-        _Database.Set(TerminalVerificationResultCodes.RelayResistanceThresholdExceeded);
+        _Database.Update(TerminalVerificationResultCodes.RelayResistanceThresholdExceeded);
     }
 
     #endregion
@@ -342,7 +342,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private void SetRelayResistancePerformed()
     {
-        _Database.Set(TerminalVerificationResultCodes.RelayResistancePerformed);
+        _Database.Update(TerminalVerificationResultCodes.RelayResistancePerformed);
     }
 
     #endregion
