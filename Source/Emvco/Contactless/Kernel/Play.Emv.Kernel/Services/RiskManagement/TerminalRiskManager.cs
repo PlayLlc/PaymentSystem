@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Threading.Tasks;
 
 using Play.Core;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Terminal.RiskManagement;
 using Play.Emv.Ber.Enums;
-using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Configuration;
-using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.Services._TempLogShit;
-using Play.Emv.Terminal.Contracts.Messages.Commands;
 using Play.Globalization.Currency;
 
 namespace Play.Emv.Kernel.Services;
@@ -56,18 +52,17 @@ public class TerminalRiskManager : IManageTerminalRisk
 
     // HACK: There's probably no real reason that you're using async here
     /// <exception cref="InvalidOperationException"></exception>
-    public void Process(KernelDatabase database, TerminalRiskManagementConfiguration configuration)
+    public void Process(ITlvReaderAndWriter database, TerminalRiskManagementConfiguration configuration)
     {
         ApplicationPan pan = database.Get<ApplicationPan>(ApplicationPan.Tag);
         ApplicationCurrencyCode currencyCode = database.Get<ApplicationCurrencyCode>(ApplicationCurrencyCode.Tag);
         Money amountAuthorizedNumeric = database.Get<AmountAuthorizedNumeric>(AmountAuthorizedNumeric.Tag).AsMoney(currencyCode);
         Money terminalFloorLimit = database.Get<TerminalFloorLimit>(TerminalFloorLimit.Tag).AsMoney(currencyCode);
-        LowerConsecutiveOfflineLimit lowerConsecutiveOfflineLimit = database.Get<LowerConsecutiveOfflineLimit>(LowerConsecutiveOfflineLimit.Tag);
-        UpperConsecutiveOfflineLimit upperConsecutiveOfflineLimit = database.Get<UpperConsecutiveOfflineLimit>(UpperConsecutiveOfflineLimit.Tag);
 
+        database.TryGet(LowerConsecutiveOfflineLimit.Tag, out LowerConsecutiveOfflineLimit? lowerConsecutiveOfflineLimit);
+        database.TryGet(UpperConsecutiveOfflineLimit.Tag, out UpperConsecutiveOfflineLimit? upperConsecutiveOfflineLimit);
         database.TryGet(ApplicationTransactionCounter.Tag, out ApplicationTransactionCounter? applicationTransactionCount);
-        database.TryGet(LastOnlineApplicationTransactionCounterRegister.Tag,
-            out LastOnlineApplicationTransactionCounterRegister? lastOnlineApplicationTransactionCount);
+        database.TryGet(LastOnlineApplicationTransactionCounterRegister.Tag, out LastOnlineApplicationTransactionCounterRegister? lastOnlineApplicationTransactionCount);
 
         if (IsFloorLimitExceeded(pan, amountAuthorizedNumeric, terminalFloorLimit))
         {
@@ -84,7 +79,7 @@ public class TerminalRiskManager : IManageTerminalRisk
         }
 
         if (IsBiasedRandomSelection(amountAuthorizedNumeric, configuration.BiasedRandomSelectionThreshold, terminalFloorLimit,
-            configuration._BiasedRandomSelectionMaximumPercentage, configuration.BiasedRandomSelectionTargetPercentage))
+            configuration.BiasedRandomSelectionMaximumPercentage, configuration.BiasedRandomSelectionTargetPercentage))
         {
             database.Update(TerminalVerificationResultCodes.TransactionSelectedRandomlyForOnlineProcessing);
 
@@ -102,13 +97,13 @@ public class TerminalRiskManager : IManageTerminalRisk
             return;
         }
 
-        if (IsLowerVelocityThresholdExceeded(lowerConsecutiveOfflineLimit, applicationTransactionCount!, lastOnlineApplicationTransactionCount!))
+        if (IsLowerVelocityThresholdExceeded(lowerConsecutiveOfflineLimit!, applicationTransactionCount!, lastOnlineApplicationTransactionCount!))
             database.Update(TerminalVerificationResultCodes.LowerConsecutiveOfflineLimitExceeded);
 
-        if (IsUpperVelocityThresholdExceeded(upperConsecutiveOfflineLimit, applicationTransactionCount!, lastOnlineApplicationTransactionCount!))
+        if (IsUpperVelocityThresholdExceeded(upperConsecutiveOfflineLimit!, applicationTransactionCount!, lastOnlineApplicationTransactionCount!))
             database.Update(TerminalVerificationResultCodes.UpperConsecutiveOfflineLimitExceeded);
 
-        if (IsLastAtcZero(applicationTransactionCount!))
+        if (IsLastAtcZero(lastOnlineApplicationTransactionCount!))
             database.Update(TerminalVerificationResultCodes.NewCard);
     }
 
