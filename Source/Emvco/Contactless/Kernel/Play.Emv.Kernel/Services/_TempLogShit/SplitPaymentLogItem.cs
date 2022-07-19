@@ -7,7 +7,7 @@ using Play.Globalization.Currency;
 namespace Play.Emv.Kernel.Services._TempLogShit;
 
 /// <summary>
-///     Maintains a log of transactions to aid in Split Payment scenarios. The <see cref="IStoreApprovedTransactions" /> will
+///     Maintains a log of transactions to aid in Split Payment scenarios. The <see cref="ICoordinateSplitPayments" /> will
 ///     use this object
 ///     to coordinate the individual payments with the state of the transaction session. The only value stored in this log
 ///     is a snapshot of
@@ -20,13 +20,14 @@ public class SplitPaymentLogItem : Record
     /// <summary>
     ///     A subtotal of the split payments successfully processed for this transaction session
     /// </summary>
-    private readonly Money _Subtotal; 
+    private readonly Money _Subtotal;
 
     #endregion
 
     #region Constructor
 
-    public SplitPaymentLogItem(Record value, ApplicationCurrencyCode applicationCurrencyCode, AmountAuthorizedNumeric amountAuthorized) : base(value.GetKey(), value.GetValues())
+    public SplitPaymentLogItem(Record value, ApplicationCurrencyCode applicationCurrencyCode, AmountAuthorizedNumeric amountAuthorized) : base(value.GetKey(),
+        value.GetValues())
     {
         _Subtotal = new Money(amountAuthorized, applicationCurrencyCode);
     }

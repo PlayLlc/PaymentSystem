@@ -36,13 +36,13 @@ public class TerminalRiskManager : IManageTerminalRisk
     #region Instance Values
 
     private readonly IProbabilitySelectionQueue _ProbabilitySelectionQueue;
-    private readonly IStoreApprovedTransactions _SplitPaymentCoordinator;
+    private readonly ICoordinateSplitPayments _SplitPaymentCoordinator;
 
     #endregion
 
     #region Constructor
 
-    public TerminalRiskManager(IStoreApprovedTransactions splitPaymentCoordinator, IProbabilitySelectionQueue probabilitySelectionQueue)
+    public TerminalRiskManager(ICoordinateSplitPayments splitPaymentCoordinator, IProbabilitySelectionQueue probabilitySelectionQueue)
     {
         _SplitPaymentCoordinator = splitPaymentCoordinator;
         _ProbabilitySelectionQueue = probabilitySelectionQueue;
@@ -52,9 +52,6 @@ public class TerminalRiskManager : IManageTerminalRisk
 
     #region Instance Members
 
-    private static bool IsLastAtcZero(ushort lastOnlineApplicationTransactionCount) => lastOnlineApplicationTransactionCount == 0;
-
-    // HACK: There's probably no real reason that you're using async here
     /// <exception cref="InvalidOperationException"></exception>
     public void Process(KernelDatabase database, TerminalRiskManagementConfiguration configuration)
     {
@@ -263,6 +260,8 @@ public class TerminalRiskManager : IManageTerminalRisk
 
         return true;
     }
+
+    private static bool IsLastAtcZero(ushort lastOnlineApplicationTransactionCount) => lastOnlineApplicationTransactionCount == 0;
 
     #endregion
 }
