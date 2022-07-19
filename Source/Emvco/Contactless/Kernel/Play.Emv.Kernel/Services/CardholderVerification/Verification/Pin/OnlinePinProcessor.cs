@@ -32,7 +32,7 @@ internal class OnlinePinProcessor : IVerifyCardholderPinOnline
         catch (Exception exception)
         {
             // EMV Book 3 Section 10.5.2
-            database.Set(TerminalVerificationResultCodes.PinEntryRequiredAndPinPadNotPresentOrNotWorking);
+            database.Update(TerminalVerificationResultCodes.PinEntryRequiredAndPinPadNotPresentOrNotWorking);
         }
 
         throw new NotImplementedException();

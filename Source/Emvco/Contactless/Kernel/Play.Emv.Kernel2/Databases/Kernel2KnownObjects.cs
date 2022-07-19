@@ -8,6 +8,7 @@ using Play.Core;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
+using Play.Emv.Ber.DataElements.Terminal.RiskManagement;
 using Play.Emv.Ber.Templates;
 using Play.Icc.FileSystem.DedicatedFiles;
 
@@ -92,6 +93,9 @@ public sealed record Kernel2KnownObjects : KnownObjects
             {DataStorageUnpredictableNumber.Tag, new(DataStorageUnpredictableNumber.Tag)},
             {DataStorageVersionNumberTerminal.Tag, new(DataStorageVersionNumberTerminal.Tag)},
             {DataToSend.Tag, new(DataToSend.Tag)},
+            {LowerConsecutiveOfflineLimit.Tag, new(LowerConsecutiveOfflineLimit.Tag)},
+            {UpperConsecutiveOfflineLimit.Tag, new(UpperConsecutiveOfflineLimit.Tag)},
+            {LastOnlineApplicationTransactionCounterRegister.Tag, new(LastOnlineApplicationTransactionCounterRegister.Tag)},
             {Track1DiscretionaryData.Tag, new(Track1DiscretionaryData.Tag)},
             {Track2DiscretionaryData.Tag, new(Track2DiscretionaryData.Tag)},
             {DedicatedFileName.Tag, new(DedicatedFileName.Tag)},
@@ -185,6 +189,7 @@ public sealed record Kernel2KnownObjects : KnownObjects
             {TerminalRelayResistanceEntropy.Tag, new(TerminalRelayResistanceEntropy.Tag)},
             {TerminalRiskManagementData.Tag, new(TerminalRiskManagementData.Tag)},
             {TerminalType.Tag, new(TerminalType.Tag)},
+            {TerminalFloorLimit.Tag, new(TerminalFloorLimit.Tag) },
             {TerminalVerificationResults.Tag, new(TerminalVerificationResults.Tag)},
             {ThirdPartyData.Tag, new(ThirdPartyData.Tag)},
             {TimeoutValue.Tag, new(TimeoutValue.Tag)},
