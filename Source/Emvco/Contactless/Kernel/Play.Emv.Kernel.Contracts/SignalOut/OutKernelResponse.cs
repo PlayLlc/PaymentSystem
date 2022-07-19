@@ -16,16 +16,17 @@ public record OutKernelResponse : ResponseSignal
 
     #region Instance Values
 
-    private readonly Outcome _Outcome;
+    private readonly Transaction _Transaction;
     private readonly KernelSessionId _KernelSessionId;
 
     #endregion
 
     #region Constructor
 
-    public OutKernelResponse(CorrelationId correlationId, KernelSessionId sessionId, Outcome outcome) : base(correlationId, MessageTypeId, ChannelTypeId)
+    public OutKernelResponse(CorrelationId correlationId, KernelSessionId sessionId, Transaction transaction) : base(correlationId, MessageTypeId,
+        ChannelTypeId)
     {
-        _Outcome = outcome;
+        _Transaction = transaction;
         _KernelSessionId = sessionId;
     }
 
@@ -34,7 +35,8 @@ public record OutKernelResponse : ResponseSignal
     #region Instance Members
 
     public KernelSessionId GetKernelSessionId() => _KernelSessionId;
-    public Outcome GetOutcome() => _Outcome;
+    public Outcome GetOutcome() => _Transaction.GetOutcome();
+    public Transaction GetTransaction() => _Transaction;
 
     #endregion
 }

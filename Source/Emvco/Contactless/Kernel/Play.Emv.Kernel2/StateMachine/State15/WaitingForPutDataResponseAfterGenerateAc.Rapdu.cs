@@ -102,7 +102,7 @@ public partial class WaitingForPutDataResponseAfterGenerateAc
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         _Database.Update(Statuses.ReadyToRead);
         _Database.Update(MessageHoldTime.MinimumValue);
-        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
     }
 
     #endregion
@@ -121,7 +121,7 @@ public partial class WaitingForPutDataResponseAfterGenerateAc
 
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         _Database.SetUiRequestOnOutcomePresent(true);
-        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
     }
 
     #endregion

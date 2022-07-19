@@ -411,7 +411,7 @@ public partial class WaitingForCccResponse1
         }
         finally
         {
-            _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+            _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
         }
     }
 
@@ -451,7 +451,7 @@ public partial class WaitingForCccResponse1
         _Database.CreateMagstripeDataRecord(_DataExchangeKernelService);
         _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);
 
-        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
     }
 
     #endregion
@@ -471,7 +471,7 @@ public partial class WaitingForCccResponse1
         _Database.CreateMagstripeDataRecord(_DataExchangeKernelService);
         _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);
 
-        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
     }
 
     #endregion
@@ -496,7 +496,7 @@ public partial class WaitingForCccResponse1
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
         _Database.SetUiRequestOnOutcomePresent(true);
         _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);
-        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
     }
 
     #endregion
@@ -518,7 +518,7 @@ public partial class WaitingForCccResponse1
         _Database.Update(StartOutcomes.B);
         _Database.SetIsDataRecordPresent(true);
         _Database.CreateMagstripeDataRecord(_DataExchangeKernelService);
-        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
     }
 
     #endregion
@@ -561,7 +561,7 @@ public partial class WaitingForCccResponse1
         _Database.CreateMagstripeDataRecord(_DataExchangeKernelService);
 
         _Database.Update(StartOutcomes.B);
-        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
     }
 
     #endregion

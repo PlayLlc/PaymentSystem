@@ -10,8 +10,8 @@ using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Reader.Contracts.SignalIn;
 using Play.Emv.Reader.Database;
+using Play.Emv.Reader.Services.States;
 using Play.Emv.Selection.Contracts;
-using Play.Messaging;
 
 namespace Play.Emv.Reader.Services;
 
@@ -53,16 +53,15 @@ internal class MainStateMachine
     {
         lock (_Lock)
         {
-            if (_Lock.ReaderDatabase.TryGetTransactionSessionId(out TransactionSessionId? sessionId))
+            if (_Lock.State is not AwaitingTransaction state)
             {
                 throw new RequestOutOfSyncException(
-                    $"The {nameof(ActivateReaderRequest)} can't be processed because the {nameof(TransactionSessionId)}: [{sessionId}] is currently processing");
+                    $"The {nameof(ActivateReaderRequest)} can't be processed because the state of the {nameof(MainStateMachine)} is not in the {nameof(AwaitingTransaction)} state");
             }
 
-            _Lock.ReaderDatabase.Activate(request.GetTransaction().GetTransactionSessionId());
-            _Lock.ReaderDatabase.Update(request.GetTransaction().AsPrimitiveValues());
-            _Lock.CorrelationId = request.GetCorrelationId();
-
+            state = new AwaitingSelection(request.GetTransaction().GetTransactionSessionId(), request.GetCorrelationId(), _Lock.State.ReaderDatabase);
+            state.ReaderDatabase.Activate(request.GetTransaction().GetTransactionSessionId());
+            state.ReaderDatabase.Update(request.GetTransaction().AsPrimitiveValues());
             _SelectionEndpoint.Request(new ActivateSelectionRequest(request.GetTransaction()));
         }
     }
@@ -76,29 +75,27 @@ internal class MainStateMachine
     {
         lock (_Lock)
         {
-            if (!_Lock.ReaderDatabase.TryGetTransactionSessionId(out TransactionSessionId? transactionSessionId))
-                throw new RequestOutOfSyncException($"The {nameof(OutSelectionResponse)} can't be processed because the transaction is no longer processing");
-
-            if (_Lock.KernelSessionId != null)
+            if (_Lock.State is not AwaitingSelection state)
             {
                 throw new RequestOutOfSyncException(
-                    $"The {nameof(OutSelectionResponse)} can't be processed because an active Kernel still exists for this session");
+                    $"The {nameof(OutSelectionResponse)} can't be processed because the transaction is not in the {nameof(AwaitingSelection)} state");
             }
+
+            _SelectionEndpoint.Request(new StopSelectionRequest(state.TransactionSessionId));
 
             if (request.GetErrorIndication().IsErrorPresent())
             {
-                _OutcomeProcessor.Process(_Lock.CorrelationId!, _Lock.KernelSessionId!.Value, _Lock.ReaderDatabase.GetTransaction());
-                _SelectionEndpoint.Request(new StopSelectionRequest(transactionSessionId!.Value));
+                _OutcomeProcessor.Process(state.CorrelationId!, state.TransactionSessionId, state.ReaderDatabase.GetTransaction());
+                _SelectionEndpoint.Request(new StopSelectionRequest(state.TransactionSessionId));
 
+                // Return control back to the Terminal or Selection process after outcome processing
                 return;
             }
 
-            KernelSessionId kernelSessionId = new(request.GetKernelId()!, transactionSessionId!.Value);
+            KernelSessionId kernelSessionId = new(request.GetKernelId()!, state.TransactionSessionId);
 
-            _Lock.KernelSessionId = kernelSessionId;
-
-            ActivateKernelRequest activateKernelRequest = new(kernelSessionId, request.GetCombinationCompositeKey()!, request.GetTransaction(),
-                _Lock.ReaderDatabase.Get<TagsToRead>(TagsToRead.Tag), request.GetTerminalTransactionQualifiers()!,
+            _Lock.State = new AwaitingKernel(kernelSessionId, state.TransactionSessionId, state.CorrelationId, state.ReaderDatabase);
+            ActivateKernelRequest activateKernelRequest = new(kernelSessionId, _Lock.State.ReaderDatabase.GetKernelValues(request.GetCombinationCompositeKey()),
                 request.GetApplicationFileInformationResponse()!);
 
             _KernelRetriever.Enqueue(activateKernelRequest);
@@ -116,17 +113,11 @@ internal class MainStateMachine
     {
         lock (_Lock)
         {
-            if (!_Lock.ReaderDatabase.IsActive())
+            if (_Lock.State is not AwaitingKernel state)
                 throw new RequestOutOfSyncException($"The {nameof(OutSelectionResponse)} can't be processed because the transaction is no longer processing");
 
-            if (_Lock.KernelSessionId != null)
-            {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(OutSelectionResponse)} can't be processed because an active Kernel still exists for this session");
-            }
-
-            _OutcomeProcessor.Process(_Lock.CorrelationId!, request.GetKernelSessionId(), _Lock.ReaderDatabase.GetTransaction());
-            _KernelRetriever.Enqueue(new StopKernelRequest(_Lock.KernelSessionId!.Value));
+            _KernelRetriever.Enqueue(new StopKernelRequest(state.KernelSessionId));
+            _OutcomeProcessor.Process(state.CorrelationId!, request.GetKernelSessionId(), request.GetTransaction());
         }
     }
 
@@ -144,7 +135,7 @@ internal class MainStateMachine
     {
         lock (_Lock)
         {
-            if (!_Lock.ReaderDatabase.TryGetTransactionSessionId(out TransactionSessionId? transactionSessionId))
+            if (_Lock.State is AwaitingTransaction)
                 throw new RequestOutOfSyncException($"The {nameof(OutSelectionResponse)} can't be processed because the transaction is no longer processing");
 
             // HACK: Send STOP signal if Selection process is active
@@ -155,10 +146,17 @@ internal class MainStateMachine
             //if(PCD is Active)
             //_PCD.Request(new StopPcdRequest(_MainSessionLock.Session.Transaction));
 
-            if (_Lock.KernelSessionId is not null)
-                _KernelRetriever.Enqueue(new StopKernelRequest(_Lock.KernelSessionId!.Value));
+            if (_Lock.State is AwaitingKernel kernelState)
+                _KernelRetriever.Enqueue(new StopKernelRequest(kernelState.KernelSessionId));
+            else if (_Lock.State is AwaitingSelection selectionState)
+                _SelectionEndpoint.Request(new StopSelectionRequest(selectionState.TransactionSessionId));
+            else
+            {
+                throw new RequestOutOfSyncException(
+                    $"The {nameof(StopReaderRequest)} can't be processed because the {nameof(MainStateMachine)} is in an unknown state");
+            }
 
-            _OutcomeProcessor.Process(_Lock.CorrelationId!, _Lock.KernelSessionId!.Value, _Lock.ReaderDatabase.GetTransaction());
+            _Lock.State = new AwaitingTransaction(_Lock.State.ReaderDatabase);
         }
     }
 
@@ -168,11 +166,7 @@ internal class MainStateMachine
     {
         #region Instance Values
 
-        public readonly ReaderDatabase ReaderDatabase;
-
-        // HACK - Need to save KernelSessionId to the Reader Database when initializing the Kernel. Save CorrelationId to the Reader when Activate()
-        public KernelSessionId? KernelSessionId;
-        public CorrelationId? CorrelationId;
+        public MainState State;
 
         #endregion
 
@@ -180,7 +174,7 @@ internal class MainStateMachine
 
         public MainSessionLock(ReaderDatabase database)
         {
-            ReaderDatabase = database;
+            State = new AwaitingTransaction(database);
         }
 
         #endregion

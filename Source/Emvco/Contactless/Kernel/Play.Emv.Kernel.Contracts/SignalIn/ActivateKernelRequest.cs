@@ -31,96 +31,75 @@ public record ActivateKernelRequest : RequestSignal
     // RAPDU
     private readonly SelectApplicationDefinitionFileInfoResponse _Rapdu;
 
-    // Terminal
-    private readonly AccountType _AccountType;
-    private readonly LanguagePreference _LanguagePreference;
-    private readonly TerminalCountryCode _TerminalCountryCode;
+    //// Terminal
+    //private readonly AccountType _AccountType;
+    //private readonly LanguagePreference _LanguagePreference;
+    //private readonly TerminalCountryCode _TerminalCountryCode;
 
-    // Application Shit 
-    private readonly KernelId _KernelId;
-    private readonly TransactionType _TransactionType;
-    private readonly TagsToRead _TagsToRead;
-    private readonly TerminalTransactionQualifiers _TerminalTransactionQualifiers;
+    //// Application Shit 
+    //private readonly KernelId _KernelId;
+    //private readonly TransactionType _TransactionType;
+    //private readonly TagsToRead _TagsToRead;
+    //private readonly TerminalTransactionQualifiers _TerminalTransactionQualifiers;
 
-    // Transaction Shit
-    private readonly TransactionDate _TransactionDate;
-    private readonly TransactionTime _TransactionTime;
-    private readonly AmountAuthorizedNumeric _AmountAuthorizedNumeric;
-    private readonly AmountOtherNumeric _AmountOtherNumeric;
-    private readonly TransactionCurrencyExponent _TransactionCurrencyExponent;
+    //// Transaction Shit
+    //private readonly TransactionDate _TransactionDate;
+    //private readonly TransactionTime _TransactionTime;
+    //private readonly AmountAuthorizedNumeric _AmountAuthorizedNumeric;
+    //private readonly AmountOtherNumeric _AmountOtherNumeric;
+    //private readonly TransactionCurrencyExponent _TransactionCurrencyExponent;
 
-    // Outcome 
-    private readonly DataRecord _DataRecord;
-    private readonly DiscretionaryData _DiscretionaryData;
-    private readonly TerminalVerificationResults _TerminalVerificationResults;
-    private readonly ErrorIndication _ErrorIndication;
-    private readonly OutcomeParameterSet _OutcomeParameterSet;
-    private readonly UserInterfaceRequestData _UserInterfaceRequestData;
+    //// Outcome 
+    //private readonly DataRecord _DataRecord;
+    //private readonly DiscretionaryData _DiscretionaryData;
+    //private readonly TerminalVerificationResults _TerminalVerificationResults;
+    //private readonly ErrorIndication _ErrorIndication;
+    //private readonly OutcomeParameterSet _OutcomeParameterSet;
+    //private readonly UserInterfaceRequestData _UserInterfaceRequestData;
+    private readonly List<PrimitiveValue> _TransactionValues;
 
     #endregion
 
     #region Constructor
 
     public ActivateKernelRequest(
-        KernelSessionId kernelSessionId, CombinationCompositeKey combinationCompositeKey, Transaction transaction, TagsToRead? tagsToRead,
-        TerminalTransactionQualifiers terminalTransactionQualifiers, SelectApplicationDefinitionFileInfoResponse rapdu) : base(MessageTypeId, ChannelTypeId)
+        KernelSessionId kernelSessionId, PrimitiveValue[] transactionValues, SelectApplicationDefinitionFileInfoResponse rapdu) : base(MessageTypeId,
+        ChannelTypeId)
     {
         _KernelSessionId = kernelSessionId;
         _Rapdu = rapdu;
-        _AccountType = transaction.GetAccountType();
-        _LanguagePreference = transaction.GetLanguagePreference();
-        _TerminalCountryCode = transaction.GetTerminalCountryCode();
+        _TransactionValues = new List<PrimitiveValue>(transactionValues);
+        _TransactionValues.AddRange(rapdu.AsPrimitiveValues());
 
-        _KernelId = combinationCompositeKey.GetKernelId();
-        _TransactionType = transaction.GetTransactionType();
-        _TagsToRead = tagsToRead ?? new TagsToRead();
-        _TerminalTransactionQualifiers = terminalTransactionQualifiers;
-        _TransactionDate = transaction.GetTransactionDate();
-        _TransactionTime = transaction.GetTransactionTime();
-        _AmountAuthorizedNumeric = transaction.GetAmountAuthorizedNumeric();
-        _AmountOtherNumeric = transaction.GetAmountOtherNumeric();
-        _TransactionCurrencyExponent = transaction.GetTransactionCurrencyExponent();
-        _TerminalVerificationResults = transaction.GetTerminalVerificationResults();
-        _ErrorIndication = transaction.GetErrorIndication();
-        _OutcomeParameterSet = transaction.GetOutcomeParameterSet();
+        //_AccountType = transaction.GetAccountType();
+        //_LanguagePreference = transaction.GetLanguagePreference();
+        //_TerminalCountryCode = transaction.GetTerminalCountryCode();
 
-        _DataRecord = transaction.TryGetDataRecord(out DataRecord? dataRecord) ? dataRecord! : new DataRecord();
-        _DiscretionaryData = transaction.TryGetDiscretionaryData(out DiscretionaryData? discretionaryData) ? discretionaryData! : new DiscretionaryData();
-        _UserInterfaceRequestData = transaction.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData)
-            ? userInterfaceRequestData!
-            : UserInterfaceRequestData.GetBuilder().Complete();
+        //_KernelId = combinationCompositeKey.GetKernelId();
+        //_TransactionType = transaction.GetTransactionType();
+        //_TagsToRead = tagsToRead ?? new TagsToRead();
+        //_TerminalTransactionQualifiers = terminalTransactionQualifiers;
+        //_TransactionDate = transaction.GetTransactionDate();
+        //_TransactionTime = transaction.GetTransactionTime();
+        //_AmountAuthorizedNumeric = transaction.GetAmountAuthorizedNumeric();
+        //_AmountOtherNumeric = transaction.GetAmountOtherNumeric();
+        //_TransactionCurrencyExponent = transaction.GetTransactionCurrencyExponent();
+        //_TerminalVerificationResults = transaction.GetTerminalVerificationResults();
+        //_ErrorIndication = transaction.GetErrorIndication();
+        //_OutcomeParameterSet = transaction.GetOutcomeParameterSet();
+
+        //_DataRecord = transaction.TryGetDataRecord(out DataRecord? dataRecord) ? dataRecord! : new DataRecord();
+        //_DiscretionaryData = transaction.TryGetDiscretionaryData(out DiscretionaryData? discretionaryData) ? discretionaryData! : new DiscretionaryData();
+        //_UserInterfaceRequestData = transaction.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData)
+        //    ? userInterfaceRequestData!
+        //    : UserInterfaceRequestData.GetBuilder().Complete();
     }
 
     #endregion
 
     #region Instance Members
 
-    public PrimitiveValue[] GetPrimitiveValues()
-    {
-        List<PrimitiveValue> values = _Rapdu.AsPrimitiveValues().ToList();
-
-        values.Add(_AccountType);
-        values.Add(_LanguagePreference);
-        values.Add(_TerminalCountryCode);
-        values.Add(_KernelId);
-        values.Add(_TransactionType);
-        values.Add(_TagsToRead);
-        values.Add(_TerminalTransactionQualifiers);
-        values.Add(_TransactionDate);
-        values.Add(_TransactionTime);
-        values.Add(_AmountAuthorizedNumeric);
-        values.Add(_AmountOtherNumeric);
-        values.Add(_TransactionCurrencyExponent);
-        values.Add(_DataRecord);
-        values.Add(_DiscretionaryData);
-        values.Add(_TerminalVerificationResults);
-        values.Add(_ErrorIndication);
-        values.Add(_OutcomeParameterSet);
-        values.Add(_UserInterfaceRequestData);
-
-        return values.ToArray();
-    }
-
+    public PrimitiveValue[] GetPrimitiveValues() => _TransactionValues.ToArray();
     public SelectApplicationDefinitionFileInfoResponse GetRapdu() => _Rapdu;
     public KernelSessionId GetKernelSessionId() => _KernelSessionId;
     public TransactionSessionId GetTransactionSessionId() => _KernelSessionId.GetTransactionSessionId();

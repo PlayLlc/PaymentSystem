@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
@@ -14,47 +12,13 @@ using Play.Emv.Identifiers;
 using Play.Emv.Outcomes;
 using Play.Messaging;
 
-namespace Play.Emv.Reader.Database
+namespace Play.Emv.Reader
 {
-    public interface IReaderTransactionDatabase
-    {
-        #region Instance Members
-
-        /// <summary>
-        ///     Returns TRUE if the TLV Database includes a data object with tag T. Note that the length of the data object may be
-        ///     zero
-        /// </summary>
-        /// <param name="tag"></param>
-        /// <returns></returns>
-        /// <exception cref="TerminalDataException"></exception>
-        public bool IsPresent(Tag tag);
-
-        /// <summary>
-        ///     Returns true if a TLV object with the provided <see cref="Tag" /> exists in the database and the corresponding
-        ///     <see cref="PrimitiveValue" /> in an out parameter
-        /// </summary>
-        /// <param name="tag"></param>
-        /// <param name="result"></param>
-        /// <exception cref="TerminalDataException"></exception>
-        public bool TryGet(Tag tag, out PrimitiveValue? result);
-
-        /// <summary>
-        ///     Returns true if a TLV object with the provided <see cref="Tag" /> exists in the database and the corresponding
-        ///     <see cref="PrimitiveValue" /> in an out parameter
-        /// </summary>
-        /// <param name="tag"></param>
-        /// <param name="result"></param>
-        /// <exception cref="TerminalDataException"></exception>
-        bool TryGet<T>(Tag tag, out T? result) where T : PrimitiveValue;
-
-        #endregion
-    }
-
-    public partial class ReaderDatabase : IReaderTransactionDatabase
+    public partial class ReaderDatabase : ITlvReaderAndWriter
     {
         #region Instance Values
 
-        private readonly Dictionary<Tag, PrimitiveValue> _TransactionValues;
+        private readonly Dictionary<Tag, PrimitiveValue?> _TransactionDatabase;
         private TransactionSessionId? _TransactionSessionId;
 
         #endregion
@@ -66,6 +30,32 @@ namespace Play.Emv.Reader.Database
             result = _TransactionSessionId;
 
             return result is not null;
+        }
+
+        #endregion
+
+        #region Write
+
+        public void Initialize(Tag tag)
+        {
+            if (!IsActive())
+                throw new TerminalDataException($"The method {nameof(Initialize)} cannot be accessed because the {nameof(ReaderDatabase)} is not active");
+
+            if (!IsKnown(tag))
+                return;
+
+            _TransactionDatabase.Add(tag, null);
+        }
+
+        public void Initialize(params Tag[] tag)
+        {
+            for (int i = 0; i < tag.Length; i++)
+            {
+                if (!IsKnown(tag[i]))
+                    continue;
+
+                Initialize(tag[i]);
+            }
         }
 
         /// <summary>
@@ -80,10 +70,10 @@ namespace Play.Emv.Reader.Database
             if (!IsActive())
                 throw new TerminalDataException($"The method {nameof(Update)} cannot be accessed because the {nameof(ReaderDatabase)} is not active");
 
-            if (_TransactionValues.ContainsKey(value.GetTag()))
-                _TransactionValues[value.GetTag()] = value;
+            if (_TransactionDatabase.ContainsKey(value.GetTag()))
+                _TransactionDatabase[value.GetTag()] = value;
             else
-                _TransactionValues.Add(value.GetTag(), value);
+                _TransactionDatabase.Add(value.GetTag(), value);
         }
 
         /// <summary>
@@ -102,6 +92,21 @@ namespace Play.Emv.Reader.Database
                 Update(values[i]);
         }
 
+        public void Clear()
+        {
+            foreach (KeyValuePair<Tag, PrimitiveValue?> a in _TransactionDatabase)
+                _TransactionDatabase[a.Key] = null;
+
+            Seed();
+        }
+
+        #endregion
+
+        #region Read
+
+        public TransactionSessionId? GetKernelSessionId() => _TransactionSessionId;
+        public bool IsKnown(Tag tag) => true;
+
         /// <summary>
         ///     Returns TRUE if the TLV Database includes a data object with tag T. Note that the length of the data object may be
         ///     zero
@@ -114,7 +119,7 @@ namespace Play.Emv.Reader.Database
             if (!IsActive())
                 throw new TerminalDataException($"The method {nameof(IsPresent)} cannot be accessed because {nameof(ReaderDatabase)} is not active");
 
-            return _TransactionValues.ContainsKey(tag);
+            return _TransactionDatabase.ContainsKey(tag);
         }
 
         /// <summary>
@@ -129,7 +134,7 @@ namespace Play.Emv.Reader.Database
             if (!IsActive())
                 throw new TerminalDataException($"The method {nameof(Get)} cannot be accessed because {nameof(ReaderDatabase)} is not active");
 
-            if (!_TransactionValues.TryGetValue(tag, out PrimitiveValue? result))
+            if (!_TransactionDatabase.TryGetValue(tag, out PrimitiveValue? result))
                 throw new TerminalDataException($"The argument {nameof(tag)} provided does not exist in {nameof(ReaderDatabase)}");
 
             return (T) result!;
@@ -149,7 +154,7 @@ namespace Play.Emv.Reader.Database
             if (!IsActive())
                 throw new TerminalDataException($"The method {nameof(Get)} cannot be accessed because {nameof(ReaderDatabase)} is not active");
 
-            if (!_TransactionValues.TryGetValue(tag, out PrimitiveValue? result))
+            if (!_TransactionDatabase.TryGetValue(tag, out PrimitiveValue? result))
                 throw new TerminalDataException($"The argument {nameof(tag)} with the value: [{tag}] provided does not exist in {nameof(ReaderDatabase)}");
 
             return result!;
@@ -167,7 +172,7 @@ namespace Play.Emv.Reader.Database
             if (!IsActive())
                 throw new TerminalDataException($"The method {nameof(TryGet)} cannot be accessed because the {nameof(ReaderDatabase)} is not active");
 
-            if (!_TransactionValues.TryGetValue(tag, out PrimitiveValue? databaseValue))
+            if (!_TransactionDatabase.TryGetValue(tag, out PrimitiveValue? databaseValue))
             {
                 result = null;
 
@@ -191,7 +196,7 @@ namespace Play.Emv.Reader.Database
             if (!IsActive())
                 throw new TerminalDataException($"The method {nameof(TryGet)} cannot be accessed because the {nameof(ReaderDatabase)} is not active");
 
-            if (!_TransactionValues.TryGetValue(tag, out PrimitiveValue? databaseValue))
+            if (!_TransactionDatabase.TryGetValue(tag, out PrimitiveValue? databaseValue))
             {
                 result = null;
 
@@ -203,88 +208,12 @@ namespace Play.Emv.Reader.Database
             return true;
         }
 
-        /// <exception cref="BerParsingException"></exception>
-        /// <exception cref="InvalidOperationException"></exception>
-        /// <exception cref="TerminalDataException"></exception>
-        /// <exception cref="TerminalException"></exception>
-        public virtual void Activate(TransactionSessionId kernelSessionId)
-        {
-            if (IsActive())
-            {
-                throw new TerminalException(
-                    new InvalidOperationException(
-                        $"A command to initialize the Kernel Database was invoked but the {nameof(ReaderDatabase)} is already active"));
-            }
-
-            _TransactionSessionId = kernelSessionId;
-            Seed();
-        }
-
-        private void Seed()
-        {
-            foreach (PrimitiveValue value in _ReaderConfiguration)
-                _TransactionValues.Add(value.GetTag(), value);
-        }
-
-        /// <summary>
-        ///     Resets the transient values in the database to their default values. The persistent values
-        ///     will remain unchanged during the database lifetime
-        /// </summary>
-        public virtual void Deactivate()
-        {
-            _TransactionValues.Clear();
-        }
-
-        public bool IsActive() => _TransactionSessionId != null;
-        public TransactionSessionId? GetKernelSessionId() => _TransactionSessionId;
-
-        /// <exception cref="TerminalDataException"></exception>
-        /// <exception cref="TerminalException"></exception>
-        public Outcome GetOutcome()
+        public bool IsPresentAndNotEmpty(Tag tag)
         {
             if (!IsActive())
-            {
-                throw new TerminalException(
-                    new InvalidOperationException(
-                        $"A command to initialize the Kernel Database was invoked but the {nameof(ReaderDatabase)} is already active"));
-            }
+                throw new TerminalDataException($"The method {nameof(IsPresentAndNotEmpty)} cannot be accessed because {nameof(ReaderDatabase)} is not active");
 
-            TryGet(DiscretionaryData.Tag, out DiscretionaryData? discretionaryData);
-            TryGet(ErrorIndication.Tag, out ErrorIndication? errorIndication);
-            TryGet(OutcomeParameterSet.Tag, out OutcomeParameterSet? outcomeParameterSet);
-            TryGet(DataRecord.Tag, out DataRecord? dataRecord);
-            TryGet(UserInterfaceRequestData.Tag, out UserInterfaceRequestData? userInterfaceRequestData);
-
-            return new Outcome(errorIndication!, outcomeParameterSet!, dataRecord, discretionaryData, userInterfaceRequestData);
-        }
-
-        /// <exception cref="TerminalException"></exception>
-        /// <exception cref="TerminalDataException"></exception>
-        public Transaction GetTransaction()
-        {
-            if (!IsActive())
-            {
-                throw new TerminalException(
-                    new InvalidOperationException(
-                        $"A command to initialize the Kernel Database was invoked but the {nameof(ReaderDatabase)} is already active"));
-            }
-
-            TryGet(AccountType.Tag, out AccountType? accountType);
-            TryGet(AmountAuthorizedNumeric.Tag, out AmountAuthorizedNumeric? amountAuthorizedNumeric);
-            TryGet(AmountOtherNumeric.Tag, out AmountOtherNumeric? amountOtherNumeric);
-            TryGet(LanguagePreference.Tag, out LanguagePreference? languagePreference);
-            TryGet(TerminalCountryCode.Tag, out TerminalCountryCode? terminalCountryCode);
-            TryGet(TransactionDate.Tag, out TransactionDate? transactionDate);
-            TryGet(TransactionTime.Tag, out TransactionTime? transactionTime);
-
-            TryGet(TransactionType.Tag, out TransactionType? transactionType);
-            TryGet(TransactionCurrencyCode.Tag, out TransactionCurrencyCode? transactionCurrencyCode);
-            TryGet(TransactionCurrencyExponent.Tag, out TransactionCurrencyExponent? transactionCurrencyExponent);
-
-            Outcome outcome = GetOutcome();
-
-            return new Transaction(_TransactionSessionId!.Value, accountType!, amountAuthorizedNumeric!, amountOtherNumeric!, transactionType!,
-                languagePreference!, terminalCountryCode!, transactionDate!, transactionTime!, transactionCurrencyExponent!, transactionCurrencyCode!, outcome);
+            return IsPresent(tag) && (_TransactionDatabase[tag] != null);
         }
 
         #endregion

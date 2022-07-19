@@ -1,27 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Pcd.Contracts;
-using Play.Emv.Selection.Contracts;
+using Play.Emv.Reader.Database;
+using Play.Messaging;
 
-namespace Play.Emv.Reader.Database;
-
-public interface IReaderRepository
-{
-    #region Instance Members
-
-    public PrimitiveValue[] GetReaderConfiguration(
-        IssuerIdentificationNumber issuerIdentificationNumber, MerchantIdentifier merchantIdentifier, TerminalIdentification terminalIdentification);
-
-    #endregion
-}
+namespace Play.Emv.Reader;
 
 public partial class ReaderDatabase
 {
@@ -45,7 +39,7 @@ public partial class ReaderDatabase
         IDisplayMessageRepository displayMessageRepository, IPcdProtocolRepository pcdProtocolRepository, IKernelRepository kernelRepository,
         ITransactionProfileRepository transactionProfileRepository)
     {
-        _TransactionValues = new Dictionary<Tag, PrimitiveValue>();
+        _TransactionDatabase = new Dictionary<Tag, PrimitiveValue?>();
         _ReaderConfiguration = readerRepository.GetReaderConfiguration(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
 
         _KernelConfigurations = kernelRepository.GetKernelConfigurations(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
@@ -62,12 +56,73 @@ public partial class ReaderDatabase
 
     #region Instance Members
 
+    public PrimitiveValue[] GetKernelValues(CombinationCompositeKey key)
+    {
+        List<PrimitiveValue> result = new();
+        result.AddRange(_TransactionDatabase.Values.OfType<PrimitiveValue>());
+        result.AddRange(_KernelConfigurations[key.GetKernelId()]);
+        result.AddRange(_TransactionProfiles[key]);
+
+        return result.ToArray();
+    }
+
     public TransactionType[] GetSupportedTransactionTypes() => _SupportedTransactionTypes;
     public PrimitiveValue[] GetKernelConfiguration(KernelId kernelId) => _KernelConfigurations[kernelId];
     public CertificateAuthorityDataset[] GetCertificateAuthorityDatasets(KernelId kernelId) => _CertificateAuthorityDatasets[kernelId];
     public PcdProtocolConfiguration GetPcdProtocolConfiguration() => _PcdProtocolConfiguration;
     public PrimitiveValue[] GetTransactionProfile(CombinationCompositeKey key) => _TransactionProfiles[key];
     public DisplayMessages GetDisplayMessages(LanguagePreference languagePreference) => _DisplayMessages[languagePreference];
+
+    #endregion
+
+    #region Lifetime Management
+
+    /// <summary>
+    ///     Resets the transient values in the database to their default values. The persistent values
+    ///     will remain unchanged during the database lifetime
+    /// </summary>
+    public virtual void Deactivate()
+    {
+        _TransactionDatabase.Clear();
+    }
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="TerminalException"></exception>
+    public virtual void Activate(TransactionSessionId kernelSessionId)
+    {
+        if (IsActive())
+        {
+            throw new TerminalException(
+                new InvalidOperationException($"A command to initialize the Kernel Database was invoked but the {nameof(ReaderDatabase)} is already active"));
+        }
+
+        _TransactionSessionId = kernelSessionId;
+        Seed();
+    }
+
+    private void Seed()
+    {
+        foreach (PrimitiveValue value in _ReaderConfiguration)
+            _TransactionDatabase.Add(value.GetTag(), value);
+    }
+
+    public bool IsActive() => _TransactionSessionId != null;
+
+    public bool IsActive(out TransactionSessionId? result)
+    {
+        if (!IsActive())
+        {
+            result = null;
+
+            return false;
+        }
+
+        result = _TransactionSessionId;
+
+        return true;
+    }
 
     #endregion
 }

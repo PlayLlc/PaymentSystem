@@ -22,7 +22,7 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
         _Database.Update(StatusOutcomes.EndApplication);
         _Database.Update(Level3Error.Stop);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
 
         // BUG: I think the book says to clear the database and session on stop but i think our implementation might still use DEK to grab the required data before sending it to the acquirer. Check the pattern in the book and your implementation
         Clear();

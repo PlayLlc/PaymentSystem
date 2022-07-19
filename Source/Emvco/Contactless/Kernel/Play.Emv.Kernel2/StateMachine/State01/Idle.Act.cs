@@ -88,7 +88,7 @@ public partial class Idle : KernelState
         _Database.Update(StatusOutcomes.SelectNext);
         _Database.Update(StartOutcomes.C);
 
-        _KernelEndpoint.Send(new OutKernelResponse(correlationId, kernelSessionId, _Database.GetOutcome()));
+        _KernelEndpoint.Send(new OutKernelResponse(correlationId, kernelSessionId, _Database.GetTransaction()));
     }
 
     /// <exception cref="InvalidOperationException"></exception>
