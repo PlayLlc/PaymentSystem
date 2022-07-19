@@ -16,15 +16,6 @@ namespace Play.Emv.Kernel.Tests.RelayResistanceValidatorService;
 
 public class RelayResistanceProtocolValidatorTests : TestBase
 {
-    #region Instance values
-
-    private readonly IFixture _Fixture;
-    private readonly ITlvReaderAndWriter _Database;
-
-    private IValidateRelayResistanceProtocol _SystemUnderTest;
-
-    #endregion
-
     #region Constructor
 
     public RelayResistanceProtocolValidatorTests()
@@ -62,11 +53,12 @@ public class RelayResistanceProtocolValidatorTests : TestBase
         int maxNrOfRetries = 2;
 
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
+
         //Act
-        bool isThresHoldReached = _SystemUnderTest.IsRetryThresholdHit(3);
+        bool isThresholdReached = _SystemUnderTest.IsRetryThresholdHit(3);
 
         //Assert
-        Assert.False(isThresHoldReached);
+        Assert.False(isThresholdReached);
     }
 
     [Fact]
@@ -77,6 +69,7 @@ public class RelayResistanceProtocolValidatorTests : TestBase
         int maxNrOfRetries = 0;
 
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
+
         //Act
         bool isThresHoldReached = _SystemUnderTest.IsRetryThresholdHit(1);
 
@@ -93,10 +86,10 @@ public class RelayResistanceProtocolValidatorTests : TestBase
 
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
 
-        TransactionType transactionType = new TransactionType(14);
+        TransactionType transactionType = new(14);
 
-        TransactionSessionId differentSessionId = new TransactionSessionId(transactionType);
-        Microseconds timeElapsed = new Microseconds(1000);
+        TransactionSessionId differentSessionId = new(transactionType);
+        Microseconds timeElapsed = new(1000);
 
         //Act & Assert
 
@@ -119,7 +112,7 @@ public class RelayResistanceProtocolValidatorTests : TestBase
 
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
 
-        Microseconds timeElapsed = new Microseconds(1000); //is this the entropy ?
+        Microseconds timeElapsed = new(1000); //is this the entropy ?
 
         //Act
         bool isInRange = _SystemUnderTest.IsInRange(sessionId, timeElapsed, _Database);
@@ -141,7 +134,7 @@ public class RelayResistanceProtocolValidatorTests : TestBase
 
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
 
-        Microseconds timeElapsed = new Microseconds(1000); //is this the entropy ?
+        Microseconds timeElapsed = new(1000); //is this the entropy ?
 
         //Act
         bool isInRange = _SystemUnderTest.IsInRange(sessionId, timeElapsed, _Database);
@@ -151,7 +144,7 @@ public class RelayResistanceProtocolValidatorTests : TestBase
     }
 
     [Fact]
-    public void RelayResistanceProtocolValidator_ProcessingTimeSubceedsMinimumProcessedRelayTime_ReturnsFalse()
+    public void RelayResistanceProtocolValidator_ProcessingTimeSucceedsMinimumProcessedRelayTime_ReturnsFalse()
     {
         //Arrange
         RegisterTerminaRelayResistanceProtocolTimes(_Database, 15, 12, 10, 8);
@@ -163,7 +156,7 @@ public class RelayResistanceProtocolValidatorTests : TestBase
 
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
 
-        Microseconds timeElapsed = new Microseconds(1000); //is this the entropy ?
+        Microseconds timeElapsed = new(1000); //is this the entropy ?
 
         //Act
         bool isInRange = _SystemUnderTest.IsInRange(sessionId, timeElapsed, _Database);
@@ -173,7 +166,7 @@ public class RelayResistanceProtocolValidatorTests : TestBase
     }
 
     [Fact]
-    public void RelayResistanceProtocolValidator_MinTimeForProcessingRelayResistnaceIs0_ReturnsTrue()
+    public void RelayResistanceProtocolValidator_MinTimeForProcessingRelayResistanceIs0_ReturnsTrue()
     {
         //Arrange
         RegisterTerminaRelayResistanceProtocolTimes(_Database, 15, 12, 10, 8);
@@ -185,7 +178,7 @@ public class RelayResistanceProtocolValidatorTests : TestBase
 
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
 
-        Microseconds timeElapsed = new Microseconds(1000); //is this the entropy ?
+        Microseconds timeElapsed = new(1000); //is this the entropy ?
 
         //Act
         bool isInRange = _SystemUnderTest.IsInRange(sessionId, timeElapsed, _Database);
@@ -195,7 +188,7 @@ public class RelayResistanceProtocolValidatorTests : TestBase
     }
 
     [Fact]
-    public void RelayResistanceProtocolValidator_MaxTimeForProcessingRelayResistnaceIs0_ReturnsFalse()
+    public void RelayResistanceProtocolValidator_MaxTimeForProcessingRelayResistanceIs0_ReturnsFalse()
     {
         //Arrange
         RegisterTerminaRelayResistanceProtocolTimes(_Database, 15, 12, 10, 8);
@@ -207,7 +200,7 @@ public class RelayResistanceProtocolValidatorTests : TestBase
 
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
 
-        Microseconds timeElapsed = new Microseconds(1000); //is this the entropy ?
+        Microseconds timeElapsed = new(1000); //is this the entropy ?
 
         //Act
         bool isInRange = _SystemUnderTest.IsInRange(sessionId, timeElapsed, _Database);
@@ -227,9 +220,10 @@ public class RelayResistanceProtocolValidatorTests : TestBase
 
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
 
-        Microseconds timeElapsed = new Microseconds(1000); //is this the entropy ?
+        Microseconds timeElapsed = new(1000); //is this the entropy ?
 
-        MeasuredRelayResistanceProcessingTime expected = new MeasuredRelayResistanceProcessingTime(10 - (15 - 10));
+        MeasuredRelayResistanceProcessingTime expected = new(10 - (15 - 10));
+
         //Act
         MeasuredRelayResistanceProcessingTime actual = _SystemUnderTest.CalculateMeasuredRrpTime(timeElapsed, _Database);
 
@@ -243,23 +237,21 @@ public class RelayResistanceProtocolValidatorTests : TestBase
         //Arrange
         ushort terminalExpectedTransmissionTimeForCapduRelaySeconds = _Fixture.Create<ushort>();
         ushort terminalExpectedTransmissionTimeForRapduRelaySeconds = _Fixture.Create<ushort>();
-        ushort deviceEstimatedTransmissionTimeForRapduRelaySeconds =  _Fixture.Create<ushort>();
+        ushort deviceEstimatedTransmissionTimeForRapduRelaySeconds = _Fixture.Create<ushort>();
         ushort deviceResistanceEntropyRelaySeconds = _Fixture.Create<ushort>();
 
-        RegisterTerminaRelayResistanceProtocolTimes(_Database,
-            terminalExpectedTransmissionTimeForCapduRelaySeconds,
-            terminalExpectedTransmissionTimeForRapduRelaySeconds,
-            deviceEstimatedTransmissionTimeForRapduRelaySeconds,
-            deviceResistanceEntropyRelaySeconds);
+        RegisterTerminaRelayResistanceProtocolTimes(_Database, terminalExpectedTransmissionTimeForCapduRelaySeconds,
+            terminalExpectedTransmissionTimeForRapduRelaySeconds, deviceEstimatedTransmissionTimeForRapduRelaySeconds, deviceResistanceEntropyRelaySeconds);
 
         TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
         int maxNrOfRetries = 2;
 
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
 
-        Microseconds timeElapsed = new Microseconds(0); //is this the entropy ?
+        Microseconds timeElapsed = new(0); //is this the entropy ?
 
-        MeasuredRelayResistanceProcessingTime expected = new MeasuredRelayResistanceProcessingTime(0);
+        MeasuredRelayResistanceProcessingTime expected = new(0);
+
         //Act
         MeasuredRelayResistanceProcessingTime actual = _SystemUnderTest.CalculateMeasuredRrpTime(timeElapsed, _Database);
 
@@ -278,9 +270,10 @@ public class RelayResistanceProtocolValidatorTests : TestBase
 
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
 
-        Microseconds timeElapsed = new Microseconds(0); //is this the entropy ?
+        Microseconds timeElapsed = new(0); //is this the entropy ?
 
-        MeasuredRelayResistanceProcessingTime value = new MeasuredRelayResistanceProcessingTime(5);
+        MeasuredRelayResistanceProcessingTime value = new(5);
+
         //Act
         bool isWithingMinimumRange = _SystemUnderTest.IsRelayResistanceWithinMinimumRange(value, _Database);
 
@@ -299,9 +292,10 @@ public class RelayResistanceProtocolValidatorTests : TestBase
 
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
 
-        Microseconds timeElapsed = new Microseconds(0); //is this the entropy ?
+        Microseconds timeElapsed = new(0); //is this the entropy ?
 
-        MeasuredRelayResistanceProcessingTime value = new MeasuredRelayResistanceProcessingTime(3);
+        MeasuredRelayResistanceProcessingTime value = new(3);
+
         //Act
         bool isWithingMinimumRange = _SystemUnderTest.IsRelayResistanceWithinMinimumRange(value, _Database);
 
@@ -320,7 +314,8 @@ public class RelayResistanceProtocolValidatorTests : TestBase
 
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
 
-        MeasuredRelayResistanceProcessingTime value = new MeasuredRelayResistanceProcessingTime(17);
+        MeasuredRelayResistanceProcessingTime value = new(17);
+
         //Act
         bool isWithingMinimumRange = _SystemUnderTest.IsRelayResistanceWithinMaximumRange(value, _Database);
 
@@ -339,7 +334,8 @@ public class RelayResistanceProtocolValidatorTests : TestBase
 
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
 
-        MeasuredRelayResistanceProcessingTime value = new MeasuredRelayResistanceProcessingTime(17);
+        MeasuredRelayResistanceProcessingTime value = new(17);
+
         //Act
         bool isWithingMinimumRange = _SystemUnderTest.IsRelayResistanceWithinMaximumRange(value, _Database);
 
@@ -347,60 +343,64 @@ public class RelayResistanceProtocolValidatorTests : TestBase
         Assert.False(isWithingMinimumRange);
     }
 
-    private void RegisterTerminaRelayResistanceProtocolTimes(ITlvReaderAndWriter kernelDb,
-        ushort terminalExpectedTransmissionTimeForCapduRelaySeconds,
-        ushort terminalExpectedTransmissionTimeForRapduRelaySeconds,
-        ushort deviceEstimatedTransmissionTimeForRapduRelaySeconds,
-        ushort deviceResistanceEntropyRelaySeconds)
+    private void RegisterTerminaRelayResistanceProtocolTimes(
+        ITlvReaderAndWriter kernelDb, ushort terminalExpectedTransmissionTimeForCapduRelaySeconds, ushort terminalExpectedTransmissionTimeForRapduRelaySeconds,
+        ushort deviceEstimatedTransmissionTimeForRapduRelaySeconds, ushort deviceResistanceEntropyRelaySeconds)
     {
         //C-APDU : terminal sending to Device
         TerminalExpectedTransmissionTimeForRelayResistanceCapdu terminalExpectedTransmissionTimeForRelayResistanceCapdu =
-            new TerminalExpectedTransmissionTimeForRelayResistanceCapdu(terminalExpectedTransmissionTimeForCapduRelaySeconds);
+            new(terminalExpectedTransmissionTimeForCapduRelaySeconds);
 
         kernelDb.Update(terminalExpectedTransmissionTimeForRelayResistanceCapdu);
 
         //R-APDU : terminal reading from Device
         TerminalExpectedTransmissionTimeForRelayResistanceRapdu terminalExpectedTransmissionTimeForRelayResistanceRapdu =
-            new TerminalExpectedTransmissionTimeForRelayResistanceRapdu(new RelaySeconds(terminalExpectedTransmissionTimeForRapduRelaySeconds));
+            new(new RelaySeconds(terminalExpectedTransmissionTimeForRapduRelaySeconds));
 
         kernelDb.Update(terminalExpectedTransmissionTimeForRelayResistanceRapdu);
 
         //Device R-APDU : device sending to terminal(Kernel).
         DeviceEstimatedTransmissionTimeForRelayResistanceRapdu deviceEstimatedTransmissionTimeForRelayResistanceRapdu =
-            new DeviceEstimatedTransmissionTimeForRelayResistanceRapdu(new RelaySeconds(deviceEstimatedTransmissionTimeForRapduRelaySeconds));
+            new(new RelaySeconds(deviceEstimatedTransmissionTimeForRapduRelaySeconds));
 
         kernelDb.Update(deviceEstimatedTransmissionTimeForRelayResistanceRapdu);
 
-        DeviceRelayResistanceEntropy deviceRelayResistanceEntropy = new DeviceRelayResistanceEntropy(new RelaySeconds(deviceResistanceEntropyRelaySeconds));
+        DeviceRelayResistanceEntropy deviceRelayResistanceEntropy = new(new RelaySeconds(deviceResistanceEntropyRelaySeconds));
 
         kernelDb.Update(deviceRelayResistanceEntropy);
     }
 
-    private void RegisterMinimumRelayResistanceConfigurationTimes(ITlvReaderAndWriter kernelDb,
-        ushort minTimeForProcessingApduRelaySeconds,
-        ushort minimumResistanceGracePeriodRelaySeconds)
+    private void RegisterMinimumRelayResistanceConfigurationTimes(
+        ITlvReaderAndWriter kernelDb, ushort minTimeForProcessingApduRelaySeconds, ushort minimumResistanceGracePeriodRelaySeconds)
     {
-        MinTimeForProcessingRelayResistanceApdu minTimeForProcessing = new MinTimeForProcessingRelayResistanceApdu(minTimeForProcessingApduRelaySeconds);
+        MinTimeForProcessingRelayResistanceApdu minTimeForProcessing = new(minTimeForProcessingApduRelaySeconds);
 
         kernelDb.Update(minTimeForProcessing);
 
-        MinimumRelayResistanceGracePeriod minimumRelayResistanceGracePeriod = new MinimumRelayResistanceGracePeriod(minimumResistanceGracePeriodRelaySeconds);
+        MinimumRelayResistanceGracePeriod minimumRelayResistanceGracePeriod = new(minimumResistanceGracePeriodRelaySeconds);
 
         kernelDb.Update(minimumRelayResistanceGracePeriod);
     }
 
-    private void RegisterMaximumRelayResistanceConfigurationTimes(ITlvReaderAndWriter kernelDb,
-        ushort maxTimeForProcessingResistanceApduRelaySeconds,
-        ushort maximumResistanceGracePeriodRelaySeconds)
+    private void RegisterMaximumRelayResistanceConfigurationTimes(
+        ITlvReaderAndWriter kernelDb, ushort maxTimeForProcessingResistanceApduRelaySeconds, ushort maximumResistanceGracePeriodRelaySeconds)
     {
-        MaxTimeForProcessingRelayResistanceApdu maxTimeForProcessingRelayResistanceApdu = new MaxTimeForProcessingRelayResistanceApdu(new RelaySeconds(maxTimeForProcessingResistanceApduRelaySeconds));
+        MaxTimeForProcessingRelayResistanceApdu maxTimeForProcessingRelayResistanceApdu = new(new RelaySeconds(maxTimeForProcessingResistanceApduRelaySeconds));
 
         kernelDb.Update(maxTimeForProcessingRelayResistanceApdu);
-        
-        MaximumRelayResistanceGracePeriod maximumRelayResistanceGracePeriod = new MaximumRelayResistanceGracePeriod(new RelaySeconds(maximumResistanceGracePeriodRelaySeconds));
+
+        MaximumRelayResistanceGracePeriod maximumRelayResistanceGracePeriod = new(new RelaySeconds(maximumResistanceGracePeriodRelaySeconds));
 
         kernelDb.Update(maximumRelayResistanceGracePeriod);
     }
+
+    #endregion
+
+    #region Instance values
+
+    private readonly IFixture _Fixture;
+    private readonly ITlvReaderAndWriter _Database;
+    private IValidateRelayResistanceProtocol _SystemUnderTest;
 
     #endregion
 }
