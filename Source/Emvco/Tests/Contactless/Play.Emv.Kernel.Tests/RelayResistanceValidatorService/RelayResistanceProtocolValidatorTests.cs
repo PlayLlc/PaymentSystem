@@ -16,6 +16,14 @@ namespace Play.Emv.Kernel.Tests.RelayResistanceValidatorService;
 
 public class RelayResistanceProtocolValidatorTests : TestBase
 {
+    #region Instance values
+
+    private readonly IFixture _Fixture;
+    private readonly ITlvReaderAndWriter _Database;
+    private IValidateRelayResistanceProtocol _SystemUnderTest;
+
+    #endregion
+
     #region Constructor
 
     public RelayResistanceProtocolValidatorTests()
@@ -55,7 +63,7 @@ public class RelayResistanceProtocolValidatorTests : TestBase
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
 
         //Act
-        bool isThresholdReached = _SystemUnderTest.IsRetryThresholdHit(3);
+        bool isThresholdReached = _SystemUnderTest.IsRetryThresholdHit(1);
 
         //Assert
         Assert.False(isThresholdReached);
@@ -112,7 +120,7 @@ public class RelayResistanceProtocolValidatorTests : TestBase
 
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
 
-        Microseconds timeElapsed = new(1000); //is this the entropy ?
+        Microseconds timeElapsed = new(1000);
 
         //Act
         bool isInRange = _SystemUnderTest.IsInRange(sessionId, timeElapsed, _Database);
@@ -125,16 +133,16 @@ public class RelayResistanceProtocolValidatorTests : TestBase
     public void RelayResistanceProtocolValidator_ProcessingTimeExceedsMaximumProcessedRelayTime_ReturnsFalse()
     {
         //Arrange
-        RegisterTerminaRelayResistanceProtocolTimes(_Database, 15, 12, 10, 8);
+        RegisterTerminaRelayResistanceProtocolTimes(_Database,  25, 12, 10, 8);
         RegisterMinimumRelayResistanceConfigurationTimes(_Database, 3, 2);
-        RegisterMaximumRelayResistanceConfigurationTimes(_Database, 17, 15);
+        RegisterMaximumRelayResistanceConfigurationTimes(_Database, 5, 4);
 
         TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
         int maxNrOfRetries = 2;
 
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
 
-        Microseconds timeElapsed = new(1000); //is this the entropy ?
+        Microseconds timeElapsed = new(1000);
 
         //Act
         bool isInRange = _SystemUnderTest.IsInRange(sessionId, timeElapsed, _Database);
@@ -156,7 +164,7 @@ public class RelayResistanceProtocolValidatorTests : TestBase
 
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
 
-        Microseconds timeElapsed = new(1000); //is this the entropy ?
+        Microseconds timeElapsed = new(1000);
 
         //Act
         bool isInRange = _SystemUnderTest.IsInRange(sessionId, timeElapsed, _Database);
@@ -178,7 +186,7 @@ public class RelayResistanceProtocolValidatorTests : TestBase
 
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
 
-        Microseconds timeElapsed = new(1000); //is this the entropy ?
+        Microseconds timeElapsed = new(1000);
 
         //Act
         bool isInRange = _SystemUnderTest.IsInRange(sessionId, timeElapsed, _Database);
@@ -193,14 +201,14 @@ public class RelayResistanceProtocolValidatorTests : TestBase
         //Arrange
         RegisterTerminaRelayResistanceProtocolTimes(_Database, 15, 12, 10, 8);
         RegisterMinimumRelayResistanceConfigurationTimes(_Database, 3, 2);
-        RegisterMaximumRelayResistanceConfigurationTimes(_Database, 17, 18);
+        RegisterMaximumRelayResistanceConfigurationTimes(_Database, 0, 0);
 
         TransactionSessionId sessionId = _Fixture.Create<TransactionSessionId>();
         int maxNrOfRetries = 2;
 
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
 
-        Microseconds timeElapsed = new(1000); //is this the entropy ?
+        Microseconds timeElapsed = new(1000);
 
         //Act
         bool isInRange = _SystemUnderTest.IsInRange(sessionId, timeElapsed, _Database);
@@ -220,7 +228,7 @@ public class RelayResistanceProtocolValidatorTests : TestBase
 
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
 
-        Microseconds timeElapsed = new(1000); //is this the entropy ?
+        Microseconds timeElapsed = new(1000);
 
         MeasuredRelayResistanceProcessingTime expected = new(10 - (15 - 10));
 
@@ -248,7 +256,7 @@ public class RelayResistanceProtocolValidatorTests : TestBase
 
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
 
-        Microseconds timeElapsed = new(0); //is this the entropy ?
+        Microseconds timeElapsed = new(0);
 
         MeasuredRelayResistanceProcessingTime expected = new(0);
 
@@ -270,7 +278,7 @@ public class RelayResistanceProtocolValidatorTests : TestBase
 
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
 
-        Microseconds timeElapsed = new(0); //is this the entropy ?
+        Microseconds timeElapsed = new(0);
 
         MeasuredRelayResistanceProcessingTime value = new(5);
 
@@ -292,7 +300,7 @@ public class RelayResistanceProtocolValidatorTests : TestBase
 
         _SystemUnderTest = new RelayResistanceProtocolValidator(sessionId, maxNrOfRetries);
 
-        Microseconds timeElapsed = new(0); //is this the entropy ?
+        Microseconds timeElapsed = new(0);
 
         MeasuredRelayResistanceProcessingTime value = new(3);
 
@@ -393,14 +401,6 @@ public class RelayResistanceProtocolValidatorTests : TestBase
 
         kernelDb.Update(maximumRelayResistanceGracePeriod);
     }
-
-    #endregion
-
-    #region Instance values
-
-    private readonly IFixture _Fixture;
-    private readonly ITlvReaderAndWriter _Database;
-    private IValidateRelayResistanceProtocol _SystemUnderTest;
 
     #endregion
 }
