@@ -1,18 +1,15 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
-using Play.Codecs;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
-using Play.Emv.Ber.ValueTypes;
-using Play.Globalization.Currency;
 using Play.Testing.Emv.Ber.Primitive;
 
 using Xunit;
 
 namespace Play.Emv.Ber.Tests.DataElements;
 
-public class CvmListTests
+public class MagstripeCvmCapabilityCvmRequiredTests
 {
     #region Instance Members
 
@@ -24,8 +21,8 @@ public class CvmListTests
     [Fact]
     public void BerEncoding_DeserializingDataElement_CreatesPrimitiveValue()
     {
-        CvmListTestTlv testData = new();
-        CvmList testValue = CvmList.Decode(testData.EncodeValue().AsSpan());
+        MagstripeCvmCapabilityCvmRequiredTestTlv testData = new();
+        MagstripeCvmCapabilityCvmRequired testValue = MagstripeCvmCapabilityCvmRequired.Decode(testData.EncodeValue().AsSpan());
         Assert.NotNull(testValue);
     }
 
@@ -37,8 +34,8 @@ public class CvmListTests
     [Fact]
     public void BerEncoding_EncodingDataElement_SerializesExpectedValue()
     {
-        CvmListTestTlv testData = new();
-        CvmList sut = CvmList.Decode(testData.EncodeValue().AsSpan());
+        MagstripeCvmCapabilityCvmRequiredTestTlv testData = new();
+        MagstripeCvmCapabilityCvmRequired sut = MagstripeCvmCapabilityCvmRequired.Decode(testData.EncodeValue().AsSpan());
         byte[] expectedResult = testData.EncodeValue();
         byte[]? testValue = sut.EncodeValue();
 
@@ -53,8 +50,8 @@ public class CvmListTests
     [Fact]
     public void BerEncoding_EncodingDataElementTlv_SerializesExpectedValue()
     {
-        CvmListTestTlv testData = new();
-        CvmList sut = CvmList.Decode(testData.EncodeValue().AsSpan());
+        MagstripeCvmCapabilityCvmRequiredTestTlv testData = new();
+        MagstripeCvmCapabilityCvmRequired sut = MagstripeCvmCapabilityCvmRequired.Decode(testData.EncodeValue().AsSpan());
         byte[] expectedResult = testData.EncodeTagLengthValue();
         byte[]? testValue = sut.EncodeTagLengthValue();
 
@@ -69,10 +66,10 @@ public class CvmListTests
     [Fact]
     public void BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue()
     {
-        CvmListTestTlv testData = new();
-        CvmList sut = CvmList.Decode(testData.EncodeValue().AsSpan());
+        MagstripeCvmCapabilityCvmRequiredTestTlv testData = new();
+        MagstripeCvmCapabilityCvmRequired sut = MagstripeCvmCapabilityCvmRequired.Decode(testData.EncodeValue().AsSpan());
         TagLengthValue? testValue = sut.AsTagLengthValue();
-        TagLengthValue expectedResult = new(CvmList.Tag, testData.EncodeValue());
+        TagLengthValue expectedResult = new(MagstripeCvmCapabilityCvmRequired.Tag, testData.EncodeValue());
         Assert.Equal(testValue, expectedResult);
     }
 
@@ -84,8 +81,8 @@ public class CvmListTests
     [Fact]
     public void TagLengthValue_SerializingToBer_ReturnsExpectedResult()
     {
-        CvmListTestTlv testData = new();
-        CvmList sut = CvmList.Decode(testData.EncodeValue().AsSpan());
+        MagstripeCvmCapabilityCvmRequiredTestTlv testData = new();
+        MagstripeCvmCapabilityCvmRequired sut = MagstripeCvmCapabilityCvmRequired.Decode(testData.EncodeValue().AsSpan());
 
         byte[] testValue = sut.AsTagLengthValue().EncodeTagLengthValue();
         byte[] expectedResult = testData.EncodeTagLengthValue();
@@ -100,9 +97,9 @@ public class CvmListTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        CvmListTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        MagstripeCvmCapabilityCvmRequiredTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
 
-        Assert.Throws<DataElementParsingException>(() => CvmList.Decode(testData.EncodeValue().AsSpan()));
+        Assert.Throws<DataElementParsingException>(() => MagstripeCvmCapabilityCvmRequired.Decode(testData.EncodeValue().AsSpan()));
     }
 
     /// <summary>
@@ -113,8 +110,8 @@ public class CvmListTests
     [Fact]
     public void DataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        CvmListTestTlv testData = new();
-        CvmList sut = CvmList.Decode(testData.EncodeValue().AsSpan());
+        MagstripeCvmCapabilityCvmRequiredTestTlv testData = new();
+        MagstripeCvmCapabilityCvmRequired sut = MagstripeCvmCapabilityCvmRequired.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
 
@@ -129,8 +126,8 @@ public class CvmListTests
     [Fact]
     public void DataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        CvmListTestTlv testData = new();
-        CvmList sut = CvmList.Decode(testData.EncodeValue().AsSpan());
+        MagstripeCvmCapabilityCvmRequiredTestTlv testData = new();
+        MagstripeCvmCapabilityCvmRequired sut = MagstripeCvmCapabilityCvmRequired.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
         ushort testResult = sut.GetTagLengthValueByteCount();
 
@@ -145,8 +142,8 @@ public class CvmListTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        CvmListTestTlv testData = new(new byte[] { 0x32, 0x3D, 0x2c, 0x1a, 0x9, 0x58, 0x33, 0xF, 0x15, 0x25 });
-        CvmList sut = CvmList.Decode(testData.EncodeValue().AsSpan());
+        MagstripeCvmCapabilityCvmRequiredTestTlv testData = new(new byte[] { 0x3D });
+        MagstripeCvmCapabilityCvmRequired sut = MagstripeCvmCapabilityCvmRequired.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
 
@@ -161,108 +158,16 @@ public class CvmListTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        CvmListTestTlv testData = new(new byte[]
+        MagstripeCvmCapabilityCvmRequiredTestTlv testData = new(new byte[]
         {
-            0x32, 0x3D, 0x2c, 0x1a, 0x9, 0x58, 0x33, 0xF, 0x15, 0x25, 0x68, 0x89
+            0x89
         });
 
-        CvmList sut = CvmList.Decode(testData.EncodeValue().AsSpan());
+        MagstripeCvmCapabilityCvmRequired sut = MagstripeCvmCapabilityCvmRequired.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
         ushort testResult = sut.GetTagLengthValueByteCount();
 
         Assert.Equal(expectedResult, testResult);
-    }
-
-    #endregion
-
-    #region CvmList
-
-    [Fact]
-    public void InstantiatedCvmListWithSmallerLengthThen8_InvokingAreCardholderVerificationRulesPresent_ExceptionIsThrown()
-    {
-        Assert.Throws<DataElementParsingException>(() =>
-        {
-            CvmList sut = new CvmList(new(new byte[] { 0x32, 0x3D, 0x2c, 0x1a, 0x9, 0x58 }));
-
-            bool cvmRulesPresent = sut.AreCardholderVerificationRulesPresent();
-        });
-    }
-
-    [Fact]
-    public void InstantiatedCvmListWithOddNumberOfBytes_InvokingAreCardholderVerificationRulesPresent_ReturnsFalse()
-    {
-        CvmList sut = new CvmList(new(new byte[] { 0x32, 0x3D, 0x2c, 0x1a, 0x9, 0x58, 0x17, 0x34, 0x10, 0x20, 0x30 }));
-
-        bool cvmRulesPresent = sut.AreCardholderVerificationRulesPresent();
-
-        Assert.False(cvmRulesPresent);
-    }
-
-    [Fact]
-    public void InstantiatedCvmList_InvokingAreCardholderVerificationRulesPresent_ReturnsTrue()
-    {
-        CvmList sut = new CvmList(new(new byte[] { 0x32, 0x3D, 0x2c, 0x1a, 0x9, 0x58, 0x17, 0x34, 0x10, 0x20 }));
-
-        bool cvmRulesPresent = sut.AreCardholderVerificationRulesPresent();
-
-        Assert.True(cvmRulesPresent);
-    }
-
-    [Fact]
-    public void InvalidCvmList_InvokingTryGetCardholderVerificationRules_ReturnsFalseWithEmptyOutResult()
-    {
-        CvmList sut = new CvmList(new(new byte[] { 0x32, 0x3D, 0x2c, 0x1a, 0x9, 0x58, 0x17, 0x34, 0x10, 0x20, 0x30 }));
-
-        bool result = sut.TryGetCardholderVerificationRules(out CvmRule[]? output);
-
-        Assert.False(result);
-        Assert.Equal(output, Array.Empty<CvmRule>());
-    }
-
-    [Fact]
-    public void CvmList_InvokingTryGetCardholderVerificationRules_ReturnsExpectedResult()
-    {
-        CvmListTestTlv testData = new();
-        CvmList sut = CvmList.Decode(testData.EncodeValue().AsSpan());
-
-        CvmRule[] expected = { new(new byte[] { 0x34, 0x8F }), new(new byte[] { 0x45, 0x7C }) };
-        bool result = sut.TryGetCardholderVerificationRules(out CvmRule[]? output);
-
-        Assert.True(result);
-        Assert.Equal(expected, output);
-
-    }
-
-    [Fact]
-    public void CvmList_GetXAmount_ReturnsExpectedResult()
-    {
-        CvmListTestTlv testData = new();
-        CvmList sut = CvmList.Decode(testData.EncodeValue().AsSpan());
-
-        NumericCurrencyCode currencyCode = new NumericCurrencyCode(840);
-
-        ulong expectedAmount = PlayCodec.BinaryCodec.DecodeToUInt64(new byte[] { 0x08, 0x32, 0x3c, 0x4d });
-        Money expected = new Money(expectedAmount, currencyCode);
-
-        Money xAmount = sut.GetXAmount(currencyCode);
-
-        Assert.Equal((ulong)expected, (ulong)xAmount);
-    }
-
-    [Fact]
-    public void CvmList_GetYAmount_ReturnsExpectedResult()
-    {
-        CvmListTestTlv testData = new();
-        CvmList sut = CvmList.Decode(testData.EncodeValue().AsSpan());
-
-        NumericCurrencyCode currencyCode = new NumericCurrencyCode(840);
-
-        ulong expectedAmount = PlayCodec.BinaryCodec.DecodeToUInt64(new byte[] { 0x16, 0x10, 0x8, 0x2 });
-        Money expected = new Money(expectedAmount, currencyCode);
-
-        Money yAmount = sut.GetYAmount(currencyCode);
-
-        Assert.Equal((ulong)expected, (ulong)yAmount);
     }
 
     #endregion

@@ -40,12 +40,12 @@ public record CvmList : DataElement<BigInteger>, IResolveXAndYAmountForCvmSelect
     ///     odd number of bytes, is treated as if it is empty
     /// </summary>
     /// <remarks>EMV Book 3 Section 10.5</remarks>
-    public bool AreCardholderVerificationRulesPresent() => (_Value.GetByteCount() > 8) && ((_Value.GetByteCount() % 2) != 0);
+    public bool AreCardholderVerificationRulesPresent() => (_Value.GetByteCount() > 8) && ((_Value.GetByteCount() % 2) == 0);
 
     /// <exception cref="DataElementParsingException"></exception>
     public bool TryGetCardholderVerificationRules(out CvmRule[]? result)
     {
-        if ((_Value.GetByteCount() % 2) != 0)
+        if (!AreCardholderVerificationRulesPresent())
         {
             result = Array.Empty<CvmRule>();
 
@@ -53,11 +53,15 @@ public record CvmList : DataElement<BigInteger>, IResolveXAndYAmountForCvmSelect
         }
 
         const int offset = 8;
-        result = new CvmRule[((_Value.GetByteCount() - offset) / 2) - 1];
+        result = new CvmRule[((_Value.GetByteCount() - offset) / 2)];
         Span<byte> valueBuffer = _Value.ToByteArray().AsSpan()[offset..];
 
-        for (int i = 2, j = 0; i < result.Length; j++)
-            result[j] = new CvmRule(valueBuffer[i++..i++]);
+        for (int i = 0, j = 0; j < result.Length; j++)
+        {
+            result[j] = new CvmRule(valueBuffer[i..(i + 2)]);
+            i += 2;
+        }
+            
 
         return true;
     }
@@ -82,10 +86,12 @@ public record CvmList : DataElement<BigInteger>, IResolveXAndYAmountForCvmSelect
         Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
+        BigInteger result = new(value);
 
         return new CvmList(result);
     }
+
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
 
     #endregion
 
