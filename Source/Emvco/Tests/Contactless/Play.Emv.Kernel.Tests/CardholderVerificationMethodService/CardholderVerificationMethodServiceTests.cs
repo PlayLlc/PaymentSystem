@@ -46,6 +46,12 @@ public class CardholderVerificationMethodServiceTests : TestBase
     #region Instance Members
 
     [Fact]
+    public void CvmList_NoCvRulesPresent_IccDataMissingIsSetInTvr()
+    {
+
+    }
+
+    [Fact]
     public void CvmListWithCVMForOfflineProcessing_TerminalDoesNotSupportOfflinePinProcessing_PinEntryRequiredAndPinPadNotPresentAreSetInTheTvr()
     {
 
@@ -63,8 +69,53 @@ public class CardholderVerificationMethodServiceTests : TestBase
 
     }
 
+    //(the ICC returns SW1 SW2 = '6983' or '6984' in response to the VERIFY command)
     [Fact]
-    public void CvmListWithCVMForOnlineProcessing_Terminal()
+    public void CvmListWithCVMForOfflineProcessing_PinIsBlockedUponInitialVerify_PinTryLimitExceededSetInTheTvr()
+    {
+
+    }
+
+    // (indicated by an SW1 SW2 of '63C0' in the response to the VERIFY command)
+    [Fact]
+    public void CvmListWithCVMForOfflineProcessing_PinTriesReducedToZero_PinTryLimitExceededSetInTheTvr()
+    {
+
+    }
+
+    //PIN processing is considered successful is when the ICC returns an SW1 SW2 of '9000' in response to the VERIFY command
+        [Fact]
+    public void CvmListWithCVMForOfflineProcessing_OfflinePinProcessingConsideredSuccesfull_OfflinePinEnteredSetInTheTvr()
+    {
+
+    }
+
+    [Fact]
+    public void CvmListWithCVMForOnlinePinProcessing_TerminalDoesNotSupportOnlinePIN_PinEntryRequiredAndPinPadNotPresentIsSetInTheTVR()
+    {
+
+    }
+
+    [Fact]
+    public void CvmListWithCVMForOnlinePinProcessing_TerminalSupportOnlinePINButPinPadIsMalfunctioning_PinEntryRequiredAndPinPadNotPresentIsSetInTheTVR()
+    {
+
+    }
+
+    [Fact]
+    public void CvmListWithCVMForOnlinePinProcessing_TerminalBypassedOnlinePIN_PinEntryRequiredAndPinPadPresentButPinNotEnteredIsSetInTheTVR()
+    {
+
+    }
+
+    [Fact]
+    public void CvmListWithCVMForOnlinePinProcessing_PinSuccessfullyEntered_OnlinePinEnteredIsSetInTheTvr()
+    {
+
+    }
+
+    [Fact]
+    public void CvmListWithCVMForSignatureProcessing_TerminalSupportsSignatureProcessing_CardHolderVerificationIsConsideredSuccesfull()
     {
 
     }

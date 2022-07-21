@@ -28,7 +28,7 @@ public partial class DataExchangeKernelService : IQueryDek, IWriteToDek, IDekEnd
 
     #region Instance Members
 
-    #region Instnace Members
+    #region Instance Members
 
     public void Clear()
     {

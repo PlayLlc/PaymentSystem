@@ -58,12 +58,18 @@ internal class OfflinePinProcessor : IVerifyCardholderPinOffline
     {
         try
         {
+            TerminalCapabilities terminalCapabilities = database.Get<TerminalCapabilities>(TerminalCapabilities.Tag);
 
+            if ()
+
+            // EMV Book 3 Section 10.5.1
+            database.Update(TerminalVerificationResultCodes.PinEntryRequiredAndPinPadNotPresentOrNotWorking);
+
+            return new CvmCode()
         }
         catch (Exception exception)
         {
-            // EMV Book 3 Section 10.5.1
-            database.Update(TerminalVerificationResultCodes.PinEntryRequiredAndPinPadNotPresentOrNotWorking);
+
         }
 
         throw new NotImplementedException();
