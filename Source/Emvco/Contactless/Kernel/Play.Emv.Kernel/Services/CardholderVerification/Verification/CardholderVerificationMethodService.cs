@@ -31,60 +31,27 @@ public class CardholderVerificationService : IVerifyCardholder
 
     #region Instance Members
 
-    public CvmResults Process(ITlvReaderAndWriter database)
+    public CvmCode Process(ITlvReaderAndWriter database, params CardholderVerificationMethods[] cardholderVerificationMethods)
     {
         CvmCode result = new(0);
 
-        CvmList cvmList = database.Get<CvmList>(CvmList.Tag);
-
-        if (!cvmList.AreCardholderVerificationRulesPresent())
+        for (int i = 0; i < cardholderVerificationMethods.Length; i++)
         {
-            database.Update(TerminalVerificationResultCodes.IccDataMissing);
+            if (result == CvmCodes.Fail)
+                return result;
 
-            return new(CvmCodes.Empty, new CvmConditionCode(0), CvmResultCodes.Unknown);
+            if (cardholderVerificationMethods[i] == CardholderVerificationMethods.OfflinePlaintextPin)
+                return _OfflinePinAuthentication.Process(database);
+            if (cardholderVerificationMethods[i] == CardholderVerificationMethods.OfflineEncipheredPin)
+                return _OfflinePinAuthentication.Process(database);
+            if (cardholderVerificationMethods[i] == CardholderVerificationMethods.OnlineEncipheredPin)
+                return _OnlinePinAuthentication.Process(database);
+            if (cardholderVerificationMethods[i] == CardholderVerificationMethods.SignaturePaper)
+                _CardholderSignatureVerification.Process(database);
         }
 
-        if (!cvmList.TryGetCardholderVerificationRules(out CvmRule[]? rules))
-        {
-            database.Update(TerminalVerificationResultCodes.IccDataMissing);
-
-            return new(CvmCodes.Empty, new CvmConditionCode(0), CvmResultCodes.Unknown);
-        }
-
-        TerminalCapabilities terminalCapabilities = database.Get<TerminalCapabilities>(TerminalCapabilities.Tag);
-        for (int i = 0; i < rules.Length; i++)
-        {
-            CvmRule currentRule = rules[i];
-
-            if (currentRule.GetCvmConditionCode().Always() == true)
-            {
-                if (currentRule.)
-                if (!currentRule.GetCvmCode().IsSupported(terminalCapabilities))
-                {
-                    return new(CvmCodes.Fail, new CvmConditionCode(0), CvmResultCodes.Failed);
-                }
-
-
-            }
-            else
-            {
-
-            }
-
-            //if (cardholderVerificationMethods[i] == CardholderVerificationMethods.OfflinePlaintextPin)
-            //    result = _OfflinePinAuthentication.Process(database);
-            //if (cardholderVerificationMethods[i] == CardholderVerificationMethods.OfflineEncipheredPin)
-            //    result = _OfflinePinAuthentication.Process(database);
-            //if (cardholderVerificationMethods[i] == CardholderVerificationMethods.OnlineEncipheredPin)
-            //    result = _OnlinePinAuthentication.Process(database);
-            //if (cardholderVerificationMethods[i] == CardholderVerificationMethods.SignaturePaper)
-            //    result = _CardholderSignatureVerification.Process(database);
-        }
-
-        return new(CvmCodes.Fail, new CvmConditionCode(0), CvmResultCodes.Failed);
+        return result;
     }
-
-    public CvmResults Process() => throw new System.NotImplementedException();
 
     #endregion
 }

@@ -91,7 +91,7 @@ internal class CvmQueue
             if (!_Rules[_Offset].GetCvmCode().IsTryNextIfUnsuccessfulSet())
                 continue;
 
-            HandleSuccessfulSelect(database, _Rules[_Offset++].GetCvmCode(), _Rules[_Offset++].GetCvmConditionCode());
+            HandleSuccessfulSelect(database, _Rules[_Offset].GetCvmCode(), _Rules[_Offset].GetCvmConditionCode());
 
             return true;
         }

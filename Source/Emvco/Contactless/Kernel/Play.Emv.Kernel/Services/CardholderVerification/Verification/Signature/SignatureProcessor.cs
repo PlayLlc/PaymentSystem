@@ -1,9 +1,10 @@
-﻿using Play.Emv.Ber.ValueTypes;
+﻿using Play.Emv.Ber;
+using Play.Emv.Ber.ValueTypes;
 
 namespace Play.Emv.Kernel.Services.Verification;
 
 // TODO: Book 3 Section 10.5.3 Offline PIN Processing
 internal class SignatureProcessor : IVerifyCardholderSignature
 {
-    public CvmCode Process() => throw new System.NotImplementedException();
+    public CvmCode Process(ITlvReaderAndWriter database) => throw new System.NotImplementedException();
 }
