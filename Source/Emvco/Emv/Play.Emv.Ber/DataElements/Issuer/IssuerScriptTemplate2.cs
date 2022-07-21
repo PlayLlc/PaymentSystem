@@ -49,11 +49,9 @@ public record IssuerScriptTemplate2 : DataElement<BigInteger>, IEqualityComparer
     /// <exception cref="DataElementParsingException"></exception>
     public static IssuerScriptTemplate2 Decode(ReadOnlySpan<byte> value)
     {
-        DecodedResult<BigInteger> result = _Codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(IssuerScriptTemplate2)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+        BigInteger result = new(value);
 
-        return new IssuerScriptTemplate2(result.Value);
+        return new IssuerScriptTemplate2(result);
     }
 
     #endregion

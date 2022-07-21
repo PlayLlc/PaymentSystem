@@ -52,7 +52,7 @@ public record IssuerPublicKeyCertificate : DataElement<BigInteger>, IEqualityCom
     /// <exception cref="CodecParsingException"></exception>
     public static IssuerPublicKeyCertificate Decode(ReadOnlySpan<byte> value)
     {
-        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
+        BigInteger result = new(value);
 
         return new IssuerPublicKeyCertificate(result);
     }

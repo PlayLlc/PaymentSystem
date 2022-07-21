@@ -19,8 +19,8 @@ public readonly struct Alpha2CountryCode
         //if (!CountryCodeRepository.IsValid(value))
         //    throw new ArgumentOutOfRangeException(nameof(value), $"The argument {nameof(value)} must be ISO 3166 compliant");
 
-        _FirstChar = (byte) value[0];
-        _SecondChar = (byte) value[1];
+        _FirstChar = (byte)value[0];
+        _SecondChar = (byte)value[1];
     }
 
     #endregion
@@ -32,6 +32,8 @@ public readonly struct Alpha2CountryCode
     public string AsString() => new(AsReadOnlySpan());
 
     public override string ToString() => AsString();
+
+    public byte[] Encode() => new byte[] { _FirstChar, _SecondChar };
 
     #endregion
 
