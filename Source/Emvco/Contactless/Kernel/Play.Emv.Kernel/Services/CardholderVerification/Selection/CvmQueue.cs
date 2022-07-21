@@ -106,7 +106,7 @@ internal class CvmQueue
     /// <exception cref="TerminalDataException"></exception>
     public void HandleUnrecognizedRule(KernelDatabase database)
     {
-        database.Set(TerminalVerificationResultCodes.UnrecognizedCvm);
+        database.Update(TerminalVerificationResultCodes.UnrecognizedCvm);
     }
 
     #endregion
@@ -148,7 +148,7 @@ internal class CvmQueue
     /// <exception cref="TerminalDataException"></exception>
     public void SetCardholderVerificationWasNotSuccessful(KernelDatabase database)
     {
-        database.Set(TerminalVerificationResultCodes.CardholderVerificationWasNotSuccessful);
+        database.Update(TerminalVerificationResultCodes.CardholderVerificationWasNotSuccessful);
     }
 
     #endregion
@@ -226,7 +226,7 @@ internal class CvmQueue
     /// <exception cref="TerminalDataException"></exception>
     private void SetPinRequiredButNotSupported(KernelDatabase database)
     {
-        database.Set(TerminalVerificationResultCodes.PinEntryRequiredAndPinPadNotPresentOrNotWorking);
+        database.Update(TerminalVerificationResultCodes.PinEntryRequiredAndPinPadNotPresentOrNotWorking);
     }
 
     #endregion
@@ -277,7 +277,7 @@ internal class CvmQueue
     private void HandleSuccessfulOnlineEncipheredPinSelection(KernelDatabase database, CvmCode cvmCode)
     {
         CvmResults results = new(cvmCode, new CvmConditionCode(0), CvmResultCodes.Unknown);
-        database.Set(TerminalVerificationResultCodes.OnlinePinEntered);
+        database.Update(TerminalVerificationResultCodes.OnlinePinEntered);
         database.Update(results);
         database.Update(CvmPerformedOutcome.OnlinePin);
     }
