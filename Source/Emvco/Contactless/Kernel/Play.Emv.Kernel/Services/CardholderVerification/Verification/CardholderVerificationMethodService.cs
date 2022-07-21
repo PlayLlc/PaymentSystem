@@ -1,10 +1,11 @@
-﻿using Play.Emv.Ber.Enums;
+﻿using Play.Emv.Ber;
+using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.ValueTypes;
-using Play.Emv.Kernel.Databases;
 
 namespace Play.Emv.Kernel.Services.Verification;
 
-public class CardholderVerificationMethodService
+public class CardholderVerificationService : IVerifyCardholder
 {
     #region Instance Values
 
@@ -16,7 +17,7 @@ public class CardholderVerificationMethodService
 
     #region Constructor
 
-    public CardholderVerificationMethodService(
+    public CardholderVerificationService(
         IVerifyCardholderPinOffline offlinePinAuthentication, IVerifyCardholderPinOnline onlinePinAuthentication,
         IVerifyCardholderSignature cardholderSignatureVerification)
     {
@@ -29,7 +30,7 @@ public class CardholderVerificationMethodService
 
     #region Instance Members
 
-    public CvmCode Process(KernelDatabase database, params CardholderVerificationMethods[] cardholderVerificationMethods)
+    public CvmCode Process(ITlvReaderAndWriter database, params CardholderVerificationMethods[] cardholderVerificationMethods)
     {
         CvmCode result = new(0);
 
@@ -45,11 +46,13 @@ public class CardholderVerificationMethodService
             if (cardholderVerificationMethods[i] == CardholderVerificationMethods.OnlineEncipheredPin)
                 _OnlinePinAuthentication.Process(database);
             if (cardholderVerificationMethods[i] == CardholderVerificationMethods.SignaturePaper)
-                _CardholderSignatureVerification.Process();
+                _CardholderSignatureVerification.Process(database);
         }
 
         return result;
     }
+
+    public CvmResults Process() => throw new System.NotImplementedException();
 
     #endregion
 }

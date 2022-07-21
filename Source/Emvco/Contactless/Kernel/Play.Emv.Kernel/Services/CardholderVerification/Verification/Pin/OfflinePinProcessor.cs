@@ -1,10 +1,10 @@
 ﻿using System;
 
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.ValueTypes;
-using Play.Emv.Kernel.Databases;
 
 namespace Play.Emv.Kernel.Services.Verification;
 
@@ -54,10 +54,12 @@ internal class OfflinePinProcessor : IVerifyCardholderPinOffline
     /// <param name="database"></param>
     /// <returns></returns>
     /// <exception cref="TerminalDataException"></exception>
-    public CvmCode Process(KernelDatabase database)
+    public CvmCode Process(ITlvReaderAndWriter database)
     {
         try
-        { }
+        {
+
+        }
         catch (Exception exception)
         {
             // EMV Book 3 Section 10.5.1
