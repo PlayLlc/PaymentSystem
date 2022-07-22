@@ -10,7 +10,7 @@ namespace Play.Emv.Kernel.Tests.CardholderVerificationServices.Selection;
 
 public static class CardholderVerificationMethodSelectorConfigSetup
 {
-    public static IFixture RegisterGlobalizationCodes(this IFixture fixture)
+    public static IFixture RegisterGlobalizationProperties(this IFixture fixture)
     {
         NumericCountryCode numericCountryCode = new(840);
         fixture.Register(() => numericCountryCode);

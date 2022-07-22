@@ -4,6 +4,7 @@ using AutoFixture;
 
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.Enums.Interchange;
 using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.Services.Selection;
@@ -30,10 +31,8 @@ public class CardholderVerificationMethodSelectorTests : TestBase
     public CardholderVerificationMethodSelectorTests()
     {
         _Fixture = new ContactlessFixture().Create();
-
+        _Fixture.RegisterGlobalizationProperties();
         _Database = ContactlessFixture.CreateDefaultDatabase(_Fixture);
-        _Fixture.RegisterGlobalizationCodes();
-
         _SystemUnderTest = new CardholderVerificationMethodSelector();
     }
 
@@ -164,7 +163,7 @@ public class CardholderVerificationMethodSelectorTests : TestBase
     }
 
     [Fact]
-    public void CVMSelectorWithEnabledConfiguration_CVRuleIsUnderstoodCVMConditionCodeIsAlwaysButRequiredDataNotPresentInDB_IsLastRule_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
+    public void CVMSelectorWithEnabledConfiguration_CVRuleIsUnderstoodCVMConditionCodeIsManualButRequiredDataNotPresentInDB_IsLastRule_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
     {
         //Validating CM.10
         //Arrange
@@ -200,23 +199,174 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         Assert.Equal(CvmPerformedOutcome.NoCvm, outcome.GetCvmPerformed());
     }
 
-        [Fact]
-    public void CVMSelectorWithEnabledConfiguration_CVRuleIsUnderstoodCVMConditionCodeIsAlwaysButRequiredDataNotPresentInDB_IsLastRule_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
+    [Fact]
+    public void CVMSelectorWithEnabledConfiguration_CVRuleWithCVMCondition_AmountInApplicationCurrencyAndOverXValueCondition_ConditionNotSatisfied_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
     {
         //Validating CM.10
         //Arrange
         CardholderVerificationMethodSelectorConfigSetup.RegisterEnabledConfigurationCVMDefaults(_Fixture, _Database);
-        CardholderVerificationMethodSelectorConfigSetup.RegisterTransactionAmountAndCVMTresholdValues(_Database, 123, 140);
+        CardholderVerificationMethodSelectorConfigSetup.RegisterTransactionAmountAndCVMTresholdValues(_Database, 345, 470);
 
         ReadOnlySpan<byte> cvmListEncodedContent = stackalloc byte[] {
             //xAmount
-            12, 13, 14, 15,
+            0,0, 12, 34,
             //yAmount
-            16, 17, 18, 19,
+            0, 0, 13, 63,
             // CvmRules
-            17, 4 //cvm condition code = manual cash condition
+            17, 7 //cvm condition code = AmountInApplicationCurrencyAndOverXValueCondition
             //Problem where when there are ending zeroes(conversion to big integer ditches those zeroes).
         };
+
+        CvmList cvmList = CvmList.Decode(cvmListEncodedContent);
+        _Database.Update(cvmList);
+
+        TerminalVerificationResult tvr = TerminalVerificationResult.Create();
+        tvr.SetCardholderVerificationWasNotSuccessful();
+
+        //Act
+        _SystemUnderTest.Process(_Database);
+
+        //Assert
+        ExpectedTvr(tvr);
+
+        CvmResults expectedResult = new(CvmCodes.None, new CvmConditionCode(0), CvmResultCodes.Failed);
+        Assert.Equal(expectedResult, _Database.Get(CvmResults.Tag));
+
+        OutcomeParameterSet outcome = _Database.Get<OutcomeParameterSet>(OutcomeParameterSet.Tag);
+        Assert.Equal(CvmPerformedOutcome.NoCvm, outcome.GetCvmPerformed());
+    }
+
+        [Fact]
+    public void CVMSelectorWithEnabledConfiguration_CVRuleWithCVMCondition_AmountInApplicationCurrencyAndOverYValueCondition_ConditionNotSatisfied_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
+    {
+        //Validating CM.10
+        //Arrange
+        CardholderVerificationMethodSelectorConfigSetup.RegisterEnabledConfigurationCVMDefaults(_Fixture, _Database);
+        CardholderVerificationMethodSelectorConfigSetup.RegisterTransactionAmountAndCVMTresholdValues(_Database, 345, 470);
+
+        ReadOnlySpan<byte> cvmListEncodedContent = stackalloc byte[] {
+            //xAmount
+            0,0, 12, 34,
+            //yAmount
+            0, 0, 13, 63,
+            // CvmRules
+            17, 9 //cvm condition code = AmountInApplicationCurrencyAndOverYValueCondition
+            //Problem where when there are ending zeroes(conversion to big integer ditches those zeroes).
+        };
+
+        CvmList cvmList = CvmList.Decode(cvmListEncodedContent);
+        _Database.Update(cvmList);
+
+        TerminalVerificationResult tvr = TerminalVerificationResult.Create();
+        tvr.SetCardholderVerificationWasNotSuccessful();
+
+        //Act
+        _SystemUnderTest.Process(_Database);
+
+        //Assert
+        ExpectedTvr(tvr);
+
+        CvmResults expectedResult = new(CvmCodes.None, new CvmConditionCode(0), CvmResultCodes.Failed);
+        Assert.Equal(expectedResult, _Database.Get(CvmResults.Tag));
+
+        OutcomeParameterSet outcome = _Database.Get<OutcomeParameterSet>(OutcomeParameterSet.Tag);
+        Assert.Equal(CvmPerformedOutcome.NoCvm, outcome.GetCvmPerformed());
+    }
+
+            [Fact]
+    public void CVMSelectorWithEnabledConfiguration_CVRuleWithCVMCondition_AmountInApplicationCurrencyAndUnderXValueCondition_ConditionNotSatisfied_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
+    {
+        //Validating CM.10
+        //Arrange
+        CardholderVerificationMethodSelectorConfigSetup.RegisterEnabledConfigurationCVMDefaults(_Fixture, _Database);
+        CardholderVerificationMethodSelectorConfigSetup.RegisterTransactionAmountAndCVMTresholdValues(_Database, 4000, 4500);
+
+        ReadOnlySpan<byte> cvmListEncodedContent = stackalloc byte[] {
+            //xAmount
+            0,0, 12, 34,
+            //yAmount
+            0, 0, 13, 63,
+            // CvmRules
+            17, 6 //cvm condition code = AmountInApplicationCurrencyAndUnderXValueCondition
+            //Problem where when there are ending zeroes(conversion to big integer ditches those zeroes).
+        };
+
+        CvmList cvmList = CvmList.Decode(cvmListEncodedContent);
+        _Database.Update(cvmList);
+
+        TerminalVerificationResult tvr = TerminalVerificationResult.Create();
+        tvr.SetCardholderVerificationWasNotSuccessful();
+
+        //Act
+        _SystemUnderTest.Process(_Database);
+
+        //Assert
+        ExpectedTvr(tvr);
+
+        CvmResults expectedResult = new(CvmCodes.None, new CvmConditionCode(0), CvmResultCodes.Failed);
+        Assert.Equal(expectedResult, _Database.Get(CvmResults.Tag));
+
+        OutcomeParameterSet outcome = _Database.Get<OutcomeParameterSet>(OutcomeParameterSet.Tag);
+        Assert.Equal(CvmPerformedOutcome.NoCvm, outcome.GetCvmPerformed());
+    }
+
+    [Fact]
+    public void CVMSelectorWithEnabledConfiguration_CVRuleWithCVMCondition_AmountInApplicationCurrencyAndUnderYValueCondition_ConditionNotSatisfied_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
+    {
+        //Validating CM.10
+        //Arrange
+        CardholderVerificationMethodSelectorConfigSetup.RegisterEnabledConfigurationCVMDefaults(_Fixture, _Database);
+        CardholderVerificationMethodSelectorConfigSetup.RegisterTransactionAmountAndCVMTresholdValues(_Database, 4000, 4500);
+
+        ReadOnlySpan<byte> cvmListEncodedContent = stackalloc byte[] {
+            //xAmount
+            0,0, 12, 34,
+            //yAmount
+            0, 0, 13, 63,
+            // CvmRules
+            17, 8 //cvm condition code = AmountInApplicationCurrencyAndUnderXValueCondition
+            //Problem where when there are ending zeroes(conversion to big integer ditches those zeroes).
+        };
+
+        CvmList cvmList = CvmList.Decode(cvmListEncodedContent);
+        _Database.Update(cvmList);
+
+        TerminalVerificationResult tvr = TerminalVerificationResult.Create();
+        tvr.SetCardholderVerificationWasNotSuccessful();
+
+        //Act
+        _SystemUnderTest.Process(_Database);
+
+        //Assert
+        ExpectedTvr(tvr);
+
+        CvmResults expectedResult = new(CvmCodes.None, new CvmConditionCode(0), CvmResultCodes.Failed);
+        Assert.Equal(expectedResult, _Database.Get(CvmResults.Tag));
+
+        OutcomeParameterSet outcome = _Database.Get<OutcomeParameterSet>(OutcomeParameterSet.Tag);
+        Assert.Equal(CvmPerformedOutcome.NoCvm, outcome.GetCvmPerformed());
+    }
+
+    [Fact]
+    public void CVMSelectorWithEnabledConfiguration_CVRuleWithCVMCondition_ManualCash_ConditionNotSatisfied_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
+    {
+        //Validating CM.10
+        //Arrange
+        CardholderVerificationMethodSelectorConfigSetup.RegisterEnabledConfigurationCVMDefaults(_Fixture, _Database);
+        CardholderVerificationMethodSelectorConfigSetup.RegisterTransactionAmountAndCVMTresholdValues(_Database, 4000, 4500);
+
+        ReadOnlySpan<byte> cvmListEncodedContent = stackalloc byte[] {
+            //xAmount
+            0,0, 12, 34,
+            //yAmount
+            0, 0, 13, 63,
+            // CvmRules
+            17, 4 //cvm condition code = AmountInApplicationCurrencyAndUnderXValueCondition
+            //Problem where when there are ending zeroes(conversion to big integer ditches those zeroes).
+        };
+
+        _Database.Update(TransactionTypes.CardVerification);
+        _Database.Update(new PosEntryMode(3));
 
         CvmList cvmList = CvmList.Decode(cvmListEncodedContent);
         _Database.Update(cvmList);
