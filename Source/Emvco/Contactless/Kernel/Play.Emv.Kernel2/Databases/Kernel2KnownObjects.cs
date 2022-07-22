@@ -210,7 +210,8 @@ public sealed record Kernel2KnownObjects : KnownObjects
             {UnprotectedDataEnvelope3.Tag, new(UnprotectedDataEnvelope3.Tag)},
             {UnprotectedDataEnvelope4.Tag, new(UnprotectedDataEnvelope4.Tag)},
             {UnprotectedDataEnvelope5.Tag, new(UnprotectedDataEnvelope5.Tag)},
-            {UserInterfaceRequestData.Tag, new(UserInterfaceRequestData.Tag)}
+            {UserInterfaceRequestData.Tag, new(UserInterfaceRequestData.Tag)},
+            {TransactionReferenceCurrencyCode.Tag, new(TransactionReferenceCurrencyCode.Tag) }
         }.ToImmutableSortedDictionary();
     }
 

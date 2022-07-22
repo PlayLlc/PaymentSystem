@@ -23,7 +23,7 @@ public readonly record struct CvmCode
     #endregion
 
     #region Instance Members
-
+    //CVM.15
     public bool IsRecognized() => CvmCodes.Exists(_Value);
 
     /// <remarks>EMV Book C-2 Section CVM.17</remarks>

@@ -28,14 +28,14 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
 
         NumericCurrencyCode currencyCode = GetCurrencyCode(database);
 
-        if (IsOfflineVerificationSupported(applicationInterchangeProfile, database))
+        if (IsDeviceCardholderVerificationSupportedOnAipAndKernel(applicationInterchangeProfile, database))
         {
             CreateResultForOfflineVerification(database, currencyCode, amountAuthorizedNumeric, readerCvmRequiredLimit);
 
             return;
         }
 
-        if (!IsCardholderVerificationSupported(database))
+        if (!IsCardholderVerificationSupportedInAip(database))
         {
             CreateResultForCardholderVerificationNotSupported(database);
 
@@ -43,7 +43,11 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
         }
 
         if (IsCvmListEmpty(database, out CvmList? cvmList))
+        {
             CreateIccDataMissingCvmResult(database);
+
+            return;
+        }
 
         Select(database, cvmList!, currencyCode);
     }
@@ -77,12 +81,9 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     /// <param name="database"></param>
     /// <returns></returns>
     /// <exception cref="TerminalDataException"></exception>
-    public static bool IsOfflineVerificationSupported(ApplicationInterchangeProfile aip, KernelDatabase database)
+    public static bool IsDeviceCardholderVerificationSupportedOnAipAndKernel(ApplicationInterchangeProfile aip, KernelDatabase database)
     {
-        if (!aip.IsOnDeviceCardholderVerificationSupported())
-            return false;
-
-        return database.IsOnDeviceCardholderVerificationSupported();
+        return (aip.IsOnDeviceCardholderVerificationSupported() && database.IsOnDeviceCardholderVerificationSupported());
     }
 
     #endregion
@@ -141,7 +142,8 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
 
     #region CVM.5
 
-    public static bool IsCardholderVerificationSupported(KernelDatabase database) => database.IsOnDeviceCardholderVerificationSupported();
+    public static bool IsCardholderVerificationSupportedInAip(KernelDatabase database) => database.Get<ApplicationInterchangeProfile>(ApplicationInterchangeProfile.Tag).IsOnDeviceCardholderVerificationSupported();
+
 
     #endregion
 

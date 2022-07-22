@@ -17,7 +17,7 @@ internal record NotUnattendedCashOrManualCashOrPurchaseWithCashback : CvmConditi
 
     #region Instance Values
 
-    protected override Tag[] _RequiredData => throw new NotImplementedException();
+    protected override Tag[] _RequiredData => Array.Empty<Tag>();
 
     #endregion
 
