@@ -78,6 +78,32 @@ public class CardholderVerificationMethodSelectorTests : TestBase
     }
 
     [Fact]
+    public void CVMSelectorWith_KernelConfigurationWithAIPAndConfigSupportCardholderVerification_AmmountAuthorizedGreaterThenTreshHold_ConfirmationCodeVerifiedOnDeviceCardholderCVMResult()
+    {
+        //Arrange
+        CardholderVerificationMethodSelectorConfigSetup.RegisterEnabledConfigurationCVMDefaults(_Fixture, _Database);
+        CardholderVerificationMethodSelectorConfigSetup.RegisterTransactionAmountAndCVMTresholdValues(_Database, 140, 123);
+
+        KernelConfiguration kernelConfiguration = new KernelConfiguration(0b0010_0000);
+        _Database.Update(kernelConfiguration);
+
+        TerminalVerificationResult tvr = TerminalVerificationResult.Create();
+        tvr.SetPinEntryRequiredAndPinPadNotPresentOrNotWorking();
+
+        //Act
+        _SystemUnderTest.Process(_Database);
+
+        //Assert
+        AssertExpectedTvr(tvr);
+
+        CvmResults expectedResult = new(CvmCodes.OfflinePlaintextPin, new CvmConditionCode(0), CvmResultCodes.Successful);
+        Assert.Equal(expectedResult, _Database.Get(CvmResults.Tag));
+
+        OutcomeParameterSet outcome = _Database.Get<OutcomeParameterSet>(OutcomeParameterSet.Tag);
+        Assert.Equal(CvmPerformedOutcome.ConfirmationCodeVerified, outcome.GetCvmPerformed());
+    }
+
+    [Fact]
     public void CVMSelectorWithEnabledConfiguration_CVMListTagNotPresent_NoCvmPerformedMissingICCDataInTvr()
     {
         //Arrange
@@ -91,7 +117,7 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         _SystemUnderTest.Process(_Database);
 
         //Assert
-        ExpectedTvr(tvr);
+        AssertExpectedTvr(tvr);
 
         CvmResults expectedResult = new(CvmCodes.None, new CvmConditionCode(0), CvmResultCodes.Unknown);
         Assert.Equal(expectedResult, _Database.Get(CvmResults.Tag));
@@ -127,13 +153,13 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         _SystemUnderTest.Process(_Database);
 
         //Assert
-        ExpectedTvr(tvr);
+        AssertExpectedTvr(tvr);
 
         CvmResults expectedResult = new(new(0), new(0), CvmResultCodes.Failed);
         Assert.Equal(expectedResult, _Database.Get(CvmResults.Tag));
 
         OutcomeParameterSet outcome = _Database.Get<OutcomeParameterSet>(OutcomeParameterSet.Tag);
-        Assert.Equal(CvmPerformedOutcome.NoCvm, outcome.GetCvmPerformed());
+        Assert.Equal(CvmPerformedOutcome.NotAvailable, outcome.GetCvmPerformed());
     }
 
     [Fact]
@@ -163,13 +189,13 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         _SystemUnderTest.Process(_Database);
 
         //Assert
-        ExpectedTvr(tvr);
+        AssertExpectedTvr(tvr);
 
         CvmResults expectedResult = new(new(0), new(0), CvmResultCodes.Failed);
         Assert.Equal(expectedResult, _Database.Get(CvmResults.Tag));
 
         OutcomeParameterSet outcome = _Database.Get<OutcomeParameterSet>(OutcomeParameterSet.Tag);
-        Assert.Equal(CvmPerformedOutcome.NoCvm, outcome.GetCvmPerformed());
+        Assert.Equal(CvmPerformedOutcome.NotAvailable, outcome.GetCvmPerformed());
     }
 
     [Fact]
@@ -199,13 +225,13 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         _SystemUnderTest.Process(_Database);
 
         //Assert
-        ExpectedTvr(tvr);
+        AssertExpectedTvr(tvr);
 
         CvmResults expectedResult = new(new(0), new(0), CvmResultCodes.Failed);
         Assert.Equal(expectedResult, _Database.Get(CvmResults.Tag));
 
         OutcomeParameterSet outcome = _Database.Get<OutcomeParameterSet>(OutcomeParameterSet.Tag);
-        Assert.Equal(CvmPerformedOutcome.NoCvm, outcome.GetCvmPerformed());
+        Assert.Equal(CvmPerformedOutcome.NotAvailable, outcome.GetCvmPerformed());
     }
 
         [Fact]
@@ -235,13 +261,13 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         _SystemUnderTest.Process(_Database);
 
         //Assert
-        ExpectedTvr(tvr);
+        AssertExpectedTvr(tvr);
 
         CvmResults expectedResult = new(new(0), new(0), CvmResultCodes.Failed);
         Assert.Equal(expectedResult, _Database.Get(CvmResults.Tag));
 
         OutcomeParameterSet outcome = _Database.Get<OutcomeParameterSet>(OutcomeParameterSet.Tag);
-        Assert.Equal(CvmPerformedOutcome.NoCvm, outcome.GetCvmPerformed());
+        Assert.Equal(CvmPerformedOutcome.NotAvailable, outcome.GetCvmPerformed());
     }
 
     [Fact]
@@ -271,13 +297,13 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         _SystemUnderTest.Process(_Database);
 
         //Assert
-        ExpectedTvr(tvr);
+        AssertExpectedTvr(tvr);
 
         CvmResults expectedResult = new(new(0), new(0), CvmResultCodes.Failed);
         Assert.Equal(expectedResult, _Database.Get(CvmResults.Tag));
 
         OutcomeParameterSet outcome = _Database.Get<OutcomeParameterSet>(OutcomeParameterSet.Tag);
-        Assert.Equal(CvmPerformedOutcome.NoCvm, outcome.GetCvmPerformed());
+        Assert.Equal(CvmPerformedOutcome.NotAvailable, outcome.GetCvmPerformed());
     }
 
     [Fact]
@@ -307,13 +333,13 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         _SystemUnderTest.Process(_Database);
 
         //Assert
-        ExpectedTvr(tvr);
+        AssertExpectedTvr(tvr);
 
         CvmResults expectedResult = new(new(0), new(0), CvmResultCodes.Failed);
         Assert.Equal(expectedResult, _Database.Get(CvmResults.Tag));
 
         OutcomeParameterSet outcome = _Database.Get<OutcomeParameterSet>(OutcomeParameterSet.Tag);
-        Assert.Equal(CvmPerformedOutcome.NoCvm, outcome.GetCvmPerformed());
+        Assert.Equal(CvmPerformedOutcome.NotAvailable, outcome.GetCvmPerformed());
     }
 
     [Fact]
@@ -346,13 +372,13 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         _SystemUnderTest.Process(_Database);
 
         //Assert
-        ExpectedTvr(tvr);
+        AssertExpectedTvr(tvr);
 
         CvmResults expectedResult = new(new(0), new(0), CvmResultCodes.Failed);
         Assert.Equal(expectedResult, _Database.Get(CvmResults.Tag));
 
         OutcomeParameterSet outcome = _Database.Get<OutcomeParameterSet>(OutcomeParameterSet.Tag);
-        Assert.Equal(CvmPerformedOutcome.NoCvm, outcome.GetCvmPerformed());
+        Assert.Equal(CvmPerformedOutcome.NotAvailable, outcome.GetCvmPerformed());
     }
 
     //NotUnattendedCashOrManualCashOrPurchaseWithCashback
@@ -386,13 +412,13 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         _SystemUnderTest.Process(_Database);
 
         //Assert
-        ExpectedTvr(tvr);
+        AssertExpectedTvr(tvr);
 
         CvmResults expectedResult = new(new(0), new(0), CvmResultCodes.Failed);
         Assert.Equal(expectedResult, _Database.Get(CvmResults.Tag));
 
         OutcomeParameterSet outcome = _Database.Get<OutcomeParameterSet>(OutcomeParameterSet.Tag);
-        Assert.Equal(CvmPerformedOutcome.NoCvm, outcome.GetCvmPerformed());
+        Assert.Equal(CvmPerformedOutcome.NotAvailable, outcome.GetCvmPerformed());
     }
 
     [Fact]
@@ -421,13 +447,13 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         _SystemUnderTest.Process(_Database);
 
         //Assert
-        ExpectedTvr(tvr);
+        AssertExpectedTvr(tvr);
 
         CvmResults expectedResult = new(new(0), new(0), CvmResultCodes.Failed);
         Assert.Equal(expectedResult, _Database.Get(CvmResults.Tag));
 
         OutcomeParameterSet outcome = _Database.Get<OutcomeParameterSet>(OutcomeParameterSet.Tag);
-        Assert.Equal(CvmPerformedOutcome.NoCvm, outcome.GetCvmPerformed());
+        Assert.Equal(CvmPerformedOutcome.NotAvailable, outcome.GetCvmPerformed());
     }
 
     [Fact]
@@ -461,13 +487,13 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         _SystemUnderTest.Process(_Database);
 
         //Assert
-        ExpectedTvr(tvr);
+        AssertExpectedTvr(tvr);
 
         CvmResults expectedResult = new(new(0), new(0), CvmResultCodes.Failed);
         Assert.Equal(expectedResult, _Database.Get(CvmResults.Tag));
 
         OutcomeParameterSet outcome = _Database.Get<OutcomeParameterSet>(OutcomeParameterSet.Tag);
-        Assert.Equal(CvmPerformedOutcome.NoCvm, outcome.GetCvmPerformed());
+        Assert.Equal(CvmPerformedOutcome.NotAvailable, outcome.GetCvmPerformed());
     }
 
     [Fact]
@@ -502,13 +528,13 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         _SystemUnderTest.Process(_Database);
 
         //Assert
-        ExpectedTvr(tvr);
+        AssertExpectedTvr(tvr);
 
         CvmResults expectedResult = new(new(2), new(3), CvmResultCodes.Failed);
         Assert.Equal(expectedResult, _Database.Get(CvmResults.Tag));
 
         OutcomeParameterSet outcome = _Database.Get<OutcomeParameterSet>(OutcomeParameterSet.Tag);
-        Assert.Equal(CvmPerformedOutcome.NoCvm, outcome.GetCvmPerformed());
+        Assert.Equal(CvmPerformedOutcome.NotAvailable, outcome.GetCvmPerformed());
     }
 
     [Fact]
@@ -543,7 +569,7 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         _SystemUnderTest.Process(_Database);
 
         //Assert
-        ExpectedTvr(tvr);
+        AssertExpectedTvr(tvr);
 
         CvmResults expectedResult = new(new(2), new(0), CvmResultCodes.Unknown);
         Assert.Equal(expectedResult, _Database.Get(CvmResults.Tag));
@@ -760,13 +786,13 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         _SystemUnderTest.Process(_Database);
 
         //Assert
-        ExpectedTvr(tvr);
+        AssertExpectedTvr(tvr);
 
         CvmResults expectedResult = new(new(0), new(3), CvmResultCodes.Failed);
         Assert.Equal(expectedResult, _Database.Get(CvmResults.Tag));
 
         OutcomeParameterSet outcome = _Database.Get<OutcomeParameterSet>(OutcomeParameterSet.Tag);
-        Assert.Equal(CvmPerformedOutcome.NoCvm, outcome.GetCvmPerformed());
+        Assert.Equal(CvmPerformedOutcome.NotAvailable, outcome.GetCvmPerformed());
     }
 
     [Fact]
@@ -843,10 +869,10 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         Assert.Equal(expectedResult, _Database.Get(CvmResults.Tag));
 
         OutcomeParameterSet outcome = _Database.Get<OutcomeParameterSet>(OutcomeParameterSet.Tag);
-        Assert.Equal(CvmPerformedOutcome.NoCvm, outcome.GetCvmPerformed());
+        Assert.Equal(CvmPerformedOutcome.NotAvailable, outcome.GetCvmPerformed());
     }
 
-    private void ExpectedTvr(TerminalVerificationResult tvr)
+    private void AssertExpectedTvr(TerminalVerificationResult tvr)
     {
         TerminalVerificationResults expectedTvr = _Database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
         Assert.Equal(tvr, (TerminalVerificationResult)expectedTvr);

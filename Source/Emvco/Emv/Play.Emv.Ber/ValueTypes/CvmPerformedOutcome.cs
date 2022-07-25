@@ -82,7 +82,7 @@ public readonly record struct CvmPerformedOutcome
                 $"No {nameof(CvmPerformedOutcome)} could be retrieved because the argument provided does not match a definition value"));
         }
 
-        return _ValueObjectMap[value.GetMaskedValue(bitMask)];
+        return _ValueObjectMap[value];
     }
 
     #endregion
