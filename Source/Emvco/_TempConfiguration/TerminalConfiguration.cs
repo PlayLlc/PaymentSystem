@@ -1,55 +1,48 @@
-﻿using System.Collections.Generic;
-
-using Play.Ber.DataObjects;
+﻿using Play.Ber.DataObjects;
 using Play.Core;
 using Play.Emv.Ber.DataElements;
 using Play.Globalization;
 using Play.Globalization.Currency;
 
-namespace Play.Emv.Configuration;
+namespace _TempConfiguration;
 
 public abstract record TerminalConfiguration
 {
     #region Instance Values
 
     private readonly MerchantIdentifier _MerchantIdentifier;
+    private readonly MerchantCategoryCode _MerchantCategoryCode;
+    private readonly MerchantNameAndLocation _MerchantNameAndLocation;
     private readonly AcquirerIdentifier _AcquirerIdentifier;
     private readonly InterfaceDeviceSerialNumber _InterfaceDeviceSerialNumber;
     private readonly TerminalIdentification _TerminalIdentification;
-
-    // TLV
-    private readonly MerchantCategoryCode _MerchantCategoryCode;
-    private readonly MerchantNameAndLocation _MerchantNameAndLocation;
     private readonly TerminalCapabilities _TerminalCapabilities;
-    private readonly AdditionalTerminalCapabilities _AdditionalTerminalCapabilities;
-    private readonly TerminalType _TerminalType;
-    private readonly TerminalFloorLimit _TerminalFloorLimit; 
     private readonly TerminalCountryCode _TerminalCountryCode;
-    private readonly LanguagePreference _LanguagePreference; 
+    private readonly TerminalFloorLimit _TerminalFloorLimit;
+    private readonly TerminalType _TerminalType;
+    private readonly AdditionalTerminalCapabilities _AdditionalTerminalCapabilities;
     private readonly TransactionReferenceCurrencyCode _TransactionReferenceCurrencyCode;
-    private readonly TransactionReferenceCurrencyExponent _TransactionReferenceCurrencyExponent; 
+    private readonly TransactionReferenceCurrencyExponent _TransactionReferenceCurrencyExponent;
     private readonly PoiInformation _PoiInformation;
-    private readonly TerminalRiskManagementData _TerminalRiskManagementData;
-    private readonly DataStorageRequestedOperatorId _DataStorageRequestedOperatorId;
+    private readonly LanguagePreference _LanguagePreference;
+    private readonly TransactionCurrencyCode _TransactionCurrencyCode;
+    private readonly TransactionCurrencyExponent _TransactionCurrencyExponent;
 
-
-
+    private readonly TerminalActionCodeDefault _TerminalActionCodeDefault;
+    private readonly TerminalActionCodeOnline _TerminalActionCodeOnline;
+    private readonly TerminalActionCodeDenial _TerminalActionCodeDenial;
 
     // BUG: TerminalRiskManagementData is transient per transaction. This should live with the transaction session, not the terminal configuration
-
+    private readonly TerminalRiskManagementData _TerminalRiskManagementData;
+    private readonly DataStorageRequestedOperatorId _DataStorageRequestedOperatorId;
     private readonly Probability _BiasedRandomSelectionProbability;
     private readonly Probability _RandomSelectionTargetProbability;
+
     /// <summary>
     ///     This is a threshold amount, simply referred to as the threshold value, which can be zero or a positive number
     ///     smaller than the Terminal Floor Limit
     /// </summary>
     private readonly ulong _ThresholdValueForBiasedRandomSelection;
-
-
-
-    private readonly TransactionCurrencyCode _TransactionCurrencyCode;
-    private readonly TransactionCurrencyExponent _TransactionCurrencyExponent;
-
 
     private readonly List<TagLengthValue> _TagLengthValues = new();
 
@@ -65,7 +58,9 @@ public abstract record TerminalConfiguration
         Probability randomSelectionTargetProbability, ulong thresholdValueForBiasedRandomSelection, PoiInformation poiInformation,
         AdditionalTerminalCapabilities additionalTerminalCapabilities, TransactionReferenceCurrencyCode transactionReferenceCurrencyCode,
         TransactionReferenceCurrencyExponent transactionReferenceCurrencyExponent, AcquirerIdentifier acquirerIdentifier,
-        DataStorageRequestedOperatorId dataStorageRequestedOperatorId, TransactionCurrencyExponent transactionCurrencyExponent)
+        DataStorageRequestedOperatorId dataStorageRequestedOperatorId, TransactionCurrencyExponent transactionCurrencyExponent,
+        TerminalActionCodeDefault terminalActionCodeDefault, TerminalActionCodeOnline terminalActionCodeOnline,
+        TerminalActionCodeDenial terminalActionCodeDenial)
     {
         _TerminalIdentification = terminalIdentification;
         _TransactionCurrencyCode = transactionCurrencyCode;
@@ -89,6 +84,9 @@ public abstract record TerminalConfiguration
         _AcquirerIdentifier = acquirerIdentifier;
         _DataStorageRequestedOperatorId = dataStorageRequestedOperatorId;
         _TransactionCurrencyExponent = transactionCurrencyExponent;
+        _TerminalActionCodeDefault = terminalActionCodeDefault;
+        _TerminalActionCodeOnline = terminalActionCodeOnline;
+        _TerminalActionCodeDenial = terminalActionCodeDenial;
 
         _TagLengthValues.Add(_TerminalIdentification);
         _TagLengthValues.Add(_TransactionCurrencyCode);

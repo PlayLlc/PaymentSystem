@@ -7,8 +7,7 @@ namespace Play.Icc.FileSystem.DedicatedFiles;
 
 /// <summary>
 ///     File containing file control information and optionally memory available for allocation. It may be the parent of
-///     EFs
-///     and/or DFs.
+///     EFs and/or DFs.
 /// </summary>
 internal readonly struct ApplicationIdentifier
 {
