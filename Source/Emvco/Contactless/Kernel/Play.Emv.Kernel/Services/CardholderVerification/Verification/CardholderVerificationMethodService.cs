@@ -5,12 +5,13 @@ using Play.Emv.Ber.ValueTypes;
 
 namespace Play.Emv.Kernel.Services.Verification;
 
-public class CardholderVerificationService : IVerifyCardholder
+public class CardholderVerificationMethodService : IVerifyCardholder
 {
     #region Instance Values
 
     private readonly IVerifyCardholderPinOffline _OfflinePinAuthentication;
     private readonly IVerifyCardholderPinOnline _OnlinePinAuthentication;
+
     //not implemented
     private readonly IVerifyCardholderSignature _CardholderSignatureVerification;
 
@@ -18,7 +19,7 @@ public class CardholderVerificationService : IVerifyCardholder
 
     #region Constructor
 
-    public CardholderVerificationService(
+    public CardholderVerificationMethodService(
         IVerifyCardholderPinOffline offlinePinAuthentication, IVerifyCardholderPinOnline onlinePinAuthentication,
         IVerifyCardholderSignature cardholderSignatureVerification)
     {
@@ -46,6 +47,7 @@ public class CardholderVerificationService : IVerifyCardholder
                 return _OfflinePinAuthentication.Process(database);
             if (cardholderVerificationMethods[i] == CardholderVerificationMethods.OnlineEncipheredPin)
                 return _OnlinePinAuthentication.Process(database);
+
             if (cardholderVerificationMethods[i] == CardholderVerificationMethods.SignaturePaper)
                 _CardholderSignatureVerification.Process(database);
         }

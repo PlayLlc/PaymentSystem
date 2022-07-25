@@ -12,14 +12,14 @@ internal record ManualCashCondition : CvmCondition
 {
     #region Static Metadata
 
-    private static readonly Tag[] _RequiredTags = new[] { PosEntryMode.Tag, TransactionType.Tag };
+    private static readonly Tag[] _RequiredTags = new[] {PosEntryMode.Tag, TransactionType.Tag};
     public static readonly CvmConditionCode Code = new(4);
 
     #endregion
 
     #region Instance Values
 
-    protected override Tag[] RequiredData => _RequiredTags;
+    protected override Tag[] _RequiredData => _RequiredTags;
 
     #endregion
 
@@ -28,8 +28,7 @@ internal record ManualCashCondition : CvmCondition
     public override CvmConditionCode GetConditionCode() => Code;
 
     /// <exception cref="CodecParsingException"></exception>
-    protected override bool IsConditionSatisfied(KernelDatabase database, Money xAmount, Money yAmount) =>
-        database.IsManualCashTransaction();
+    protected override bool IsConditionSatisfied(KernelDatabase database, Money xAmount, Money yAmount) => database.IsManualCashTransaction();
 
     #endregion
 }

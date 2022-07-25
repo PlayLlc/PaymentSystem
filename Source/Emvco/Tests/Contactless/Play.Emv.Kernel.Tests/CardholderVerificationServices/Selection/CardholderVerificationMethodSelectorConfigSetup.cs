@@ -10,6 +10,8 @@ namespace Play.Emv.Kernel.Tests.CardholderVerificationServices.Selection;
 
 public static class CardholderVerificationMethodSelectorConfigSetup
 {
+    #region Instance Members
+
     public static IFixture RegisterGlobalizationProperties(this IFixture fixture)
     {
         NumericCountryCode numericCountryCode = new(840);
@@ -30,15 +32,15 @@ public static class CardholderVerificationMethodSelectorConfigSetup
         return fixture;
     }
 
-    public static void RegisterDisabledConfigurationCVMDefaults(IFixture fixture, KernelDatabase database)
+    public static void RegisterDisabledConfigurationCvmDefaults(IFixture fixture, KernelDatabase database)
     {
-        ApplicationInterchangeProfile applicationInterchangeProfile = new ApplicationInterchangeProfile(0b1000_0000_0000_0000);
+        ApplicationInterchangeProfile applicationInterchangeProfile = new(0b1000_0000_0000_0000);
         database.Update(applicationInterchangeProfile);
 
-        KernelConfiguration kernelConfiguration = new KernelConfiguration(0b0000_0000);
+        KernelConfiguration kernelConfiguration = new(0b0000_0000);
         database.Update(kernelConfiguration);
 
-        TerminalCapabilities terminalCapabilities = new TerminalCapabilities(1234);
+        TerminalCapabilities terminalCapabilities = new(1234);
         database.Update(terminalCapabilities);
 
         ApplicationCurrencyCode applicationCurrencyCode = fixture.Create<ApplicationCurrencyCode>();
@@ -48,15 +50,15 @@ public static class CardholderVerificationMethodSelectorConfigSetup
         database.Update(transactionReferenceCurrencyCode);
     }
 
-    public static void RegisterEnabledConfigurationCVMDefaults(IFixture fixture, KernelDatabase database)
+    public static void RegisterEnabledConfigurationCvmDefaults(IFixture fixture, KernelDatabase database)
     {
-        ApplicationInterchangeProfile applicationInterchangeProfile = new ApplicationInterchangeProfile(0b1001_0010_0000_0000);
+        ApplicationInterchangeProfile applicationInterchangeProfile = new(0b1001_0010_0000_0000);
         database.Update(applicationInterchangeProfile);
 
-        KernelConfiguration kernelConfiguration = new KernelConfiguration(0b0000_0000);
+        KernelConfiguration kernelConfiguration = new(0b0000_0000);
         database.Update(kernelConfiguration);
 
-        TerminalCapabilities terminalCapabilities = new TerminalCapabilities(1234);
+        TerminalCapabilities terminalCapabilities = new(1234);
         database.Update(terminalCapabilities);
 
         ApplicationCurrencyCode applicationCurrencyCode = fixture.Create<ApplicationCurrencyCode>();
@@ -66,12 +68,14 @@ public static class CardholderVerificationMethodSelectorConfigSetup
         database.Update(transactionReferenceCurrencyCode);
     }
 
-    public static void RegisterTransactionAmountAndCVMTresholdValues(KernelDatabase database, ulong amountAuthorized, ulong cvmThreshold)
+    public static void RegisterTransactionAmountAndCvmThresholdValues(KernelDatabase database, ulong amountAuthorized, ulong cvmThreshold)
     {
-        AmountAuthorizedNumeric amountAuthorizedNumeric = new AmountAuthorizedNumeric(amountAuthorized);
+        AmountAuthorizedNumeric amountAuthorizedNumeric = new(amountAuthorized);
         database.Update(amountAuthorizedNumeric);
 
-        ReaderCvmRequiredLimit readerCvmRequiredLimit = new ReaderCvmRequiredLimit(cvmThreshold);
+        ReaderCvmRequiredLimit readerCvmRequiredLimit = new(cvmThreshold);
         database.Update(readerCvmRequiredLimit);
     }
+
+    #endregion
 }

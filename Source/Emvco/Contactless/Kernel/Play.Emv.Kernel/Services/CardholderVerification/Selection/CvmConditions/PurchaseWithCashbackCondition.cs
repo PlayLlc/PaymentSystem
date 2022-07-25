@@ -12,14 +12,14 @@ internal record PurchaseWithCashbackCondition : CvmCondition
 {
     #region Static Metadata
 
-    private static readonly Tag[] _RequiredTags = new[] { TransactionType.Tag };
+    private static readonly Tag[] _RequiredTags = new[] {TransactionType.Tag};
     public static readonly CvmConditionCode Code = new(5);
 
     #endregion
 
     #region Instance Values
 
-    protected override Tag[] RequiredData => _RequiredTags;
+    protected override Tag[] _RequiredData => _RequiredTags;
 
     #endregion
 

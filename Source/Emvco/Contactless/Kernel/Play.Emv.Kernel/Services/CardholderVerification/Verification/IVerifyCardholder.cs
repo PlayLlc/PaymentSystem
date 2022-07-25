@@ -9,7 +9,7 @@ public interface IVerifyCardholder
 {
     #region Instance Members
 
-    CvmCode Process(ITlvReaderAndWriter database, params CardholderVerificationMethods[] cardholderVerificationMethods);
+    public CvmCode Process(ITlvReaderAndWriter database, params CardholderVerificationMethods[] cardholderVerificationMethods);
 
     #endregion
 }

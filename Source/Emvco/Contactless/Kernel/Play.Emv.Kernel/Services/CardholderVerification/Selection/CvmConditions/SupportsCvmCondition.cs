@@ -1,5 +1,4 @@
-﻿
-using Play.Ber.Identifiers;
+﻿using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Kernel.Databases;
@@ -11,14 +10,14 @@ internal record SupportsCvmCondition : CvmCondition
 {
     #region Static Metadata
 
-    private static Tag[] _RequiredTags = new[] { TerminalCapabilities.Tag };
+    private static readonly Tag[] _RequiredTags = new[] {TerminalCapabilities.Tag};
     public static readonly CvmConditionCode Code = new(3);
 
     #endregion
 
     #region Instance Values
 
-    protected override Tag[] RequiredData => _RequiredTags;
+    protected override Tag[] _RequiredData => _RequiredTags;
 
     #endregion
 

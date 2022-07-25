@@ -53,14 +53,11 @@ public record CvmList : DataElement<BigInteger>, IResolveXAndYAmountForCvmSelect
         }
 
         const int offset = 8;
-        result = new CvmRule[((_Value.GetByteCount() - offset) / 2)];
+        result = new CvmRule[(_Value.GetByteCount() - offset) / 2];
         Span<byte> valueBuffer = _Value.ToByteArray().AsSpan()[offset..];
 
         for (int i = 0, j = 0; j < result.Length; j++)
-        {
-            result[j] = new CvmRule(valueBuffer[i..(i + 2)]);
-            i += 2;
-        }
+            result[j] = new CvmRule(valueBuffer[i++..++i]);
 
         return true;
     }
