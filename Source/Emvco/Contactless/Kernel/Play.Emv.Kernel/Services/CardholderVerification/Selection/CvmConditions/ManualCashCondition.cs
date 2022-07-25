@@ -12,13 +12,14 @@ internal record ManualCashCondition : CvmCondition
 {
     #region Static Metadata
 
+    private static readonly Tag[] _RequiredTags = new[] { PosEntryMode.Tag, TransactionType.Tag };
     public static readonly CvmConditionCode Code = new(4);
 
     #endregion
 
     #region Instance Values
 
-    protected override Tag[] _RequiredData => new[] {PosEntryMode.Tag, TransactionType.Tag};
+    protected override Tag[] RequiredData => _RequiredTags;
 
     #endregion
 

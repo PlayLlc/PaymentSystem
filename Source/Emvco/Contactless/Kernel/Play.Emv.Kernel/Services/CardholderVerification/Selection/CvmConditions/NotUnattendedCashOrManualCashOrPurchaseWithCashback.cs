@@ -1,6 +1,7 @@
-﻿using System;
-
+﻿
 using Play.Ber.Identifiers;
+using Play.Emv.Ber;
+using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Kernel.Databases;
 using Play.Globalization.Currency;
@@ -11,13 +12,14 @@ internal record NotUnattendedCashOrManualCashOrPurchaseWithCashback : CvmConditi
 {
     #region Static Metadata
 
+    private static readonly Tag[] _RequiredTags = new[] { TerminalType.Tag, TransactionType.Tag };
     public static readonly CvmConditionCode Code = new(2);
 
     #endregion
 
     #region Instance Values
 
-    protected override Tag[] _RequiredData => Array.Empty<Tag>();
+    protected override Tag[] RequiredData => _RequiredTags;
 
     #endregion
 

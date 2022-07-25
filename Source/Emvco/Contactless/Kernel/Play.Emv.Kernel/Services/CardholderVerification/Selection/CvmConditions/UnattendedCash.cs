@@ -17,7 +17,7 @@ internal record class UnattendedCash : CvmCondition
 
     #region Instance Values
 
-    protected override Tag[] _RequiredData => Array.Empty<Tag>();
+    protected override Tag[] RequiredData => Array.Empty<Tag>();
 
     #endregion
 

@@ -20,7 +20,7 @@ internal abstract record CvmCondition
 
     #region Instance Values
 
-    protected abstract Tag[] _RequiredData { get; }
+    protected abstract Tag[] RequiredData { get; }
 
     #endregion
 
@@ -108,12 +108,12 @@ internal abstract record CvmCondition
     /// <exception cref="TerminalDataException"></exception>
     private bool IsRequiredDataPresent(IReadTlvDatabase database)
     {
-        if (_RequiredData.Length == 0)
+        if (RequiredData.Length == 0)
             return true;
 
-        for (int i = 0; i < _RequiredData.Length; i++)
+        for (int i = 0; i < RequiredData.Length; i++)
         {
-            if (!database.IsPresent(_RequiredData[i]))
+            if (!database.IsPresent(RequiredData[i]))
                 return false;
         }
 
