@@ -27,7 +27,6 @@ public abstract record TerminalConfiguration
     private readonly LanguagePreference _LanguagePreference;
     private readonly TransactionCurrencyCode _TransactionCurrencyCode;
     private readonly TransactionCurrencyExponent _TransactionCurrencyExponent;
-
     private readonly TerminalActionCodeDefault _TerminalActionCodeDefault;
     private readonly TerminalActionCodeOnline _TerminalActionCodeOnline;
     private readonly TerminalActionCodeDenial _TerminalActionCodeDenial;

@@ -23,34 +23,27 @@ public abstract record TerminalConfiguration
     private readonly TerminalCapabilities _TerminalCapabilities;
     private readonly AdditionalTerminalCapabilities _AdditionalTerminalCapabilities;
     private readonly TerminalType _TerminalType;
-    private readonly TerminalFloorLimit _TerminalFloorLimit; 
+    private readonly TerminalFloorLimit _TerminalFloorLimit;
     private readonly TerminalCountryCode _TerminalCountryCode;
-    private readonly LanguagePreference _LanguagePreference; 
+    private readonly LanguagePreference _LanguagePreference;
     private readonly TransactionReferenceCurrencyCode _TransactionReferenceCurrencyCode;
-    private readonly TransactionReferenceCurrencyExponent _TransactionReferenceCurrencyExponent; 
+    private readonly TransactionReferenceCurrencyExponent _TransactionReferenceCurrencyExponent;
     private readonly PoiInformation _PoiInformation;
     private readonly TerminalRiskManagementData _TerminalRiskManagementData;
     private readonly DataStorageRequestedOperatorId _DataStorageRequestedOperatorId;
 
-
-
-
     // BUG: TerminalRiskManagementData is transient per transaction. This should live with the transaction session, not the terminal configuration
-
     private readonly Probability _BiasedRandomSelectionProbability;
     private readonly Probability _RandomSelectionTargetProbability;
+
     /// <summary>
     ///     This is a threshold amount, simply referred to as the threshold value, which can be zero or a positive number
     ///     smaller than the Terminal Floor Limit
     /// </summary>
     private readonly ulong _ThresholdValueForBiasedRandomSelection;
 
-
-
     private readonly TransactionCurrencyCode _TransactionCurrencyCode;
     private readonly TransactionCurrencyExponent _TransactionCurrencyExponent;
-
-
     private readonly List<TagLengthValue> _TagLengthValues = new();
 
     #endregion
