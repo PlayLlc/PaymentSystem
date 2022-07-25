@@ -82,7 +82,10 @@ internal class CvmQueue
                     continue;
 
                 HandleInvalidRule(database, currentCvmRule.GetCvmCode(), currentCvmRule.GetCvmConditionCode());
+
+                return false;
             }
+
             //CVM.17
             if (!currentCvmRule.GetCvmCode().IsSupported(terminalCapabilities))
             {
@@ -90,12 +93,15 @@ internal class CvmQueue
                 if (IsPinRequiredButNotAvailable(currentCvmRule.GetCvmCode(), database))
                     SetPinRequiredButNotSupported(database);
 
-                continue;
-            }
+                //CVM.19
+                if (currentCvmRule.GetCvmCode().IsTryNextIfUnsuccessfulSet())
+                    continue;
 
-            //CVM.19
-            if (!currentCvmRule.GetCvmCode().IsTryNextIfUnsuccessfulSet())
-                continue;
+                //CVM.22
+                HandleInvalidRule(database, currentCvmRule.GetCvmCode(), currentCvmRule.GetCvmConditionCode());
+
+                return false;
+            }
 
             //CVM.18
             HandleSuccessfulSelect(database, currentCvmRule.GetCvmCode(), currentCvmRule.GetCvmConditionCode());
@@ -138,10 +144,10 @@ internal class CvmQueue
         SetCardholderVerificationWasNotSuccessful(database);
 
         // CVM.23
-        if (cvmCode.IsFailureControlSupported())
-            SetCvmProcessedToFailedCvm(database, cvmCode, cvmConditionCode);
-
-        SetCvmProcessedToNone(database);
+        if (!cvmCode.IsFailureControlSupported())
+            SetCvmProcessedToFailedCvm(database, cvmCode, cvmConditionCode); //24
+        else
+            SetCvmProcessedToNone(database); //25
     }
 
     #endregion
