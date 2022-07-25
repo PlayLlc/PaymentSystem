@@ -69,22 +69,19 @@ public class CardholderVerificationMethodServiceTests : TestBase
 
     }
 
-    //(the ICC returns SW1 SW2 = '6983' or '6984' in response to the VERIFY command)
     [Fact]
     public void CvmListWithCVMForOfflineProcessing_PinIsBlockedUponInitialVerify_PinTryLimitExceededSetInTheTvr()
     {
 
     }
 
-    // (indicated by an SW1 SW2 of '63C0' in the response to the VERIFY command)
     [Fact]
     public void CvmListWithCVMForOfflineProcessing_PinTriesReducedToZero_PinTryLimitExceededSetInTheTvr()
     {
 
     }
 
-    //PIN processing is considered successful is when the ICC returns an SW1 SW2 of '9000' in response to the VERIFY command
-        [Fact]
+    [Fact]
     public void CvmListWithCVMForOfflineProcessing_OfflinePinProcessingConsideredSuccesfull_OfflinePinEnteredSetInTheTvr()
     {
 
