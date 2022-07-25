@@ -9,7 +9,7 @@ using Play.Testing.Emv.Contactless.AutoFixture;
 
 using Xunit;
 
-namespace Play.Emv.Kernel.Tests.CardholderVerificationMethodService;
+namespace Play.Emv.Kernel.Tests.CardholderVerificationServices.Verification;
 
 public class CardholderVerificationMethodServiceTests : TestBase
 {
