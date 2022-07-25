@@ -28,14 +28,14 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
 
         NumericCurrencyCode currencyCode = GetCurrencyCode(database);
 
-        if (IsDeviceCardholderVerificationSupportedOnAipAndKernel(applicationInterchangeProfile, database))
+        if (IsOfflineVerificationSupported(applicationInterchangeProfile, database))
         {
             CreateResultForOfflineVerification(database, currencyCode, amountAuthorizedNumeric, readerCvmRequiredLimit);
 
             return;
         }
 
-        if (!IsCardholderVerificationSupportedInAip(database))
+        if (!IsCardholderVerificationSupported(database))
         {
             CreateResultForCardholderVerificationNotSupported(database);
 
@@ -81,10 +81,8 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     /// <param name="database"></param>
     /// <returns></returns>
     /// <exception cref="TerminalDataException"></exception>
-    public static bool IsDeviceCardholderVerificationSupportedOnAipAndKernel(ApplicationInterchangeProfile aip, KernelDatabase database)
-    {
-        return (aip.IsOnDeviceCardholderVerificationSupported() && database.IsOnDeviceCardholderVerificationSupported());
-    }
+    public static bool IsOfflineVerificationSupported(ApplicationInterchangeProfile aip, KernelDatabase database) =>
+        aip.IsOnDeviceCardholderVerificationSupported() && database.IsOnDeviceCardholderVerificationSupported();
 
     #endregion
 
@@ -142,8 +140,8 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
 
     #region CVM.5
 
-    public static bool IsCardholderVerificationSupportedInAip(KernelDatabase database) => database.Get<ApplicationInterchangeProfile>(ApplicationInterchangeProfile.Tag).IsOnDeviceCardholderVerificationSupported();
-
+    public static bool IsCardholderVerificationSupported(KernelDatabase database) =>
+        database.Get<ApplicationInterchangeProfile>(ApplicationInterchangeProfile.Tag).IsOnDeviceCardholderVerificationSupported();
 
     #endregion
 
