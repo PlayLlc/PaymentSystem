@@ -53,5 +53,7 @@ public record DataStorageRequestedOperatorId : DataElement<ulong>
 
     public override DataStorageRequestedOperatorId Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value, _ByteLength);
+
     #endregion
 }

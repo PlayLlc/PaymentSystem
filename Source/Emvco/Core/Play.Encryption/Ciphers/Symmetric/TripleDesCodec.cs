@@ -6,6 +6,9 @@ namespace Play.Encryption.Ciphers.Symmetric;
 
 /// <summary>
 ///     An 8 block cypher that applies the DES algorithm three times to each block
+///     The block size is the basic unit of data that can be encrypted or decrypted in one operation.
+///     Messages longer than the block size are handled as successive blocks;
+///     messages shorter than the block size must be padded with extra bits to reach the size of a block. Valid block sizes are determined by the symmetric algorithm used.
 /// </summary>
 public class TripleDesCodec : IBlockCipher
 {
@@ -62,17 +65,24 @@ public class TripleDesCodec : IBlockCipher
         using CryptoStream cryptoStream = new(memoryStream, desCryptoServiceProvider.CreateEncryptor(), CryptoStreamMode.Read);
         using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(encipherment.Length);
 
-        Span<byte> buffer = spanOwner.Span;
-        encipherment.CopyTo(buffer);
-        cryptoStream.Read(buffer);
+        byte[] result = new byte[encipherment.Length];
 
-        return buffer.ToArray();
+        cryptoStream.Read(result, 0, encipherment.Length);
+
+        return result;
     }
 
     public BlockCipherAlgorithm GetAlgorithm() => BlockCipherAlgorithm.Aes;
 
     private TripleDESCryptoServiceProvider GetDesProvider(ReadOnlySpan<byte> key) =>
-        new() {BlockSize = _BlockSize, KeySize = _KeySize, Key = key.ToArray(), Mode = _CipherMode.AsCipherMode(), Padding = _PaddingMode.AsPaddingMode()};
+        new()
+        {
+            BlockSize = _BlockSize.GetBlockSize(),
+            KeySize = _KeySize,
+            Key = key.ToArray(),
+            Mode = _CipherMode.AsCipherMode(),
+            Padding = _PaddingMode.AsPaddingMode()
+        };
 
     public KeySize GetKeySize() => _KeySize;
 

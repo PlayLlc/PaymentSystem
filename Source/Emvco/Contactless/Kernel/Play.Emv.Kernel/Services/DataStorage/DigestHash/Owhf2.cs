@@ -19,7 +19,7 @@ public class Owhf2
 {
     #region Static Metadata
 
-    private static readonly TripleDesCodec _Codec = new(new BlockCipherConfiguration(BlockCipherMode.Cbc, BlockPaddingMode.None, KeySize._128, BlockSize._8,
+    private static readonly IBlockCipher _Codec = new TripleDesCodec(new BlockCipherConfiguration(BlockCipherMode.Cbc, BlockPaddingMode.None, KeySize._128, BlockSize._8,
         new Iso7816PlainTextPreprocessor(BlockSize._8)));
 
     #endregion
@@ -47,24 +47,33 @@ public class Owhf2
     #region Key Generation
 
     /// <remarks>EMVco Book C-2 Section 8.2 </remarks>
-    public static int GetPermanentSlotIdLength(DataStorageId id) => id.GetValueByteCount();
+    private static int GetPermanentSlotIdLength(DataStorageId id) => id.GetValueByteCount();
 
     /// <exception cref="PlayInternalException"></exception>
-    public static void ResolveObjectId(
+    private static void ResolveObjectId(
         DataStorageRequestedOperatorId operatorId, DataStorageOperatorDataSetInfo info, DataStorageSlotManagementControl? control, Span<byte> buffer)
     {
-        if (control is not null)
+        if (control is null)
+        {
             operatorId.EncodeValue().CopyTo(buffer);
+            return;
+        }
 
         if (!control?.IsPermanent() ?? false)
+        {
             operatorId.EncodeValue().CopyTo(buffer);
-
-        if (info.IsVolatile())
+            return;
+        }
+            
+        if (!info.IsVolatile())
+        {
             operatorId.EncodeValue().CopyTo(buffer);
+            return;
+        }
     }
 
     /// <exception cref="PlayInternalException"></exception>
-    public static void ResolveLeftKey(ReadOnlySpan<byte> objectId, DataStorageId dataStorageId, Span<byte> buffer)
+    private static void ResolveLeftKey(ReadOnlySpan<byte> objectId, DataStorageId dataStorageId, Span<byte> buffer)
     {
         ReadOnlySpan<byte> dataStorageIdContentOctets = dataStorageId.EncodeValue();
 
@@ -72,7 +81,7 @@ public class Owhf2
         {
             unchecked
             {
-                buffer[i] = (byte) ((((dataStorageIdContentOctets[i - 1] / 16) * 10) + (dataStorageIdContentOctets[i - 1] % 16)) * 2);
+                buffer[i] = (byte) ((((dataStorageIdContentOctets[i] / 16) * 10) + (dataStorageIdContentOctets[i] % 16)) * 2);
             }
         }
 
@@ -81,12 +90,12 @@ public class Owhf2
 
     /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="OverflowException"></exception>
-    public static void ResolveRightKey(ReadOnlySpan<byte> objectId, DataStorageId dataStorageId, Span<byte> buffer)
+    private static void ResolveRightKey(ReadOnlySpan<byte> objectId, DataStorageId dataStorageId, Span<byte> buffer)
     {
         ReadOnlySpan<byte> dataStorageIdContentOctets = dataStorageId.EncodeValue();
         int permanentSlotIdLength = GetPermanentSlotIdLength(dataStorageId);
 
-        for (int i = 0; i < buffer.Length; i++)
+        for (int i = 0; i < 6; i++)
         {
             unchecked
             {

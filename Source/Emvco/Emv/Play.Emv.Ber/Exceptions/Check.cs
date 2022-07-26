@@ -36,7 +36,7 @@ internal class Check
 
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="Play.Emv.Ber.Exceptions.DataElementParsingException"></exception>
-        public static void ForMinCharLength(nint value, int minLength, Tag tag)
+        public static void ForMinCharLength(int value, int minLength, Tag tag)
         {
             if (value < minLength)
             {
