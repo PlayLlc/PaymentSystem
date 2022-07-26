@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Codecs;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
@@ -99,7 +100,7 @@ public class IssuerActionCodeOnlineTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        IssuerActionCodeOnlineTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        IssuerActionCodeOnlineTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => IssuerActionCodeOnline.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -144,7 +145,7 @@ public class IssuerActionCodeOnlineTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        IssuerActionCodeOnlineTestTlv testData = new(new byte[] { 0x08, 0x32, 0x4c, 0x7d, 0xEC });
+        IssuerActionCodeOnlineTestTlv testData = new(new byte[] {0x08, 0x32, 0x4c, 0x7d, 0xEC});
         IssuerActionCodeOnline sut = IssuerActionCodeOnline.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -160,10 +161,7 @@ public class IssuerActionCodeOnlineTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        IssuerActionCodeOnlineTestTlv testData = new(new byte[]
-        {
-            0x08, 0x32, 0x64, 0x73, 0x0F
-        });
+        IssuerActionCodeOnlineTestTlv testData = new(new byte[] {0x08, 0x32, 0x64, 0x73, 0x0F});
 
         IssuerActionCodeOnline sut = IssuerActionCodeOnline.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -179,7 +177,7 @@ public class IssuerActionCodeOnlineTests
         IssuerActionCodeOnline sut = IssuerActionCodeOnline.Decode(testData.EncodeValue().AsSpan());
 
         ulong expectedInput = PlayCodec.BinaryCodec.DecodeToUInt64(testData.EncodeValue().AsSpan());
-        ActionCodes expected = new ActionCodes(expectedInput);
+        ActionCodes expected = new(expectedInput);
         ActionCodes actionCodes = sut.AsActionCodes();
 
         Assert.Equal(expected, actionCodes);

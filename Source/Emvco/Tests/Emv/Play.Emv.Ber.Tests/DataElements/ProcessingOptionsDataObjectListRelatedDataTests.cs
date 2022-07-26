@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Testing.Emv.Ber.Primitive;
 
@@ -8,9 +9,10 @@ using Xunit;
 
 namespace Play.Emv.Ber.Tests.DataElements;
 
-
 public class ProcessingOptionsDataObjectListRelatedDataTests
 {
+    #region Instance Members
+
     /// <summary>
     ///     BerEncoding_DeserializingDataElement_CreatesPrimitiveValue
     /// </summary>
@@ -87,4 +89,6 @@ public class ProcessingOptionsDataObjectListRelatedDataTests
 
         Assert.Equal(expectedResult, testValue);
     }
+
+    #endregion
 }

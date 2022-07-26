@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Testing.Emv.Ber.Primitive;
 
@@ -128,7 +129,7 @@ public class IssuerScriptTemplate2Tests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        IssuerScriptTemplate2TestTlv testData = new(new byte[] { 33, 12, 56, 16 });
+        IssuerScriptTemplate2TestTlv testData = new(new byte[] {33, 12, 56, 16});
         IssuerScriptTemplate2 sut = IssuerScriptTemplate2.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -144,10 +145,7 @@ public class IssuerScriptTemplate2Tests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        IssuerScriptTemplate2TestTlv testData = new(new byte[]
-        {
-            16, 34, 33, 136
-        });
+        IssuerScriptTemplate2TestTlv testData = new(new byte[] {16, 34, 33, 136});
 
         IssuerScriptTemplate2 sut = IssuerScriptTemplate2.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();

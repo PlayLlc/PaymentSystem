@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Testing.Emv.Ber.Primitive;
 
@@ -128,7 +129,7 @@ public class IssuerPublicKeyCertificateTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        IssuerPublicKeyCertificateTestTlv testData = new(new byte[] { 33, 12, 56 });
+        IssuerPublicKeyCertificateTestTlv testData = new(new byte[] {33, 12, 56});
         IssuerPublicKeyCertificate sut = IssuerPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -144,10 +145,7 @@ public class IssuerPublicKeyCertificateTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        IssuerPublicKeyCertificateTestTlv testData = new(new byte[]
-        {
-            16, 34, 33
-        });
+        IssuerPublicKeyCertificateTestTlv testData = new(new byte[] {16, 34, 33});
 
         IssuerPublicKeyCertificate sut = IssuerPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();

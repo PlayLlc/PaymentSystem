@@ -1,4 +1,5 @@
-﻿using Play.Ber.Identifiers;
+﻿using Play.Ber.Exceptions;
+using Play.Ber.Identifiers;
 using Play.Ber.Identifiers.Long;
 using Play.Ber.Identifiers.Short;
 using Play.Core.Extensions;

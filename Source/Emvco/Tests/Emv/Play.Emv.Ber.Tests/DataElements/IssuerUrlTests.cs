@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Testing.Emv.Ber.Primitive;
 
@@ -130,9 +131,8 @@ public class IssuerUrlTests
     {
         IssuerUrlTestTlv testData = new(new byte[]
         {
-            (byte)'h', (byte)'t', (byte)'t', (byte)'p', (byte)'s', (byte)':',
-            (byte)'/', (byte)'/', (byte)'t', (byte)'e', (byte)'s', (byte)'t', (byte)'u', (byte)'r', (byte)'l', (byte)'.',
-            (byte)'c', (byte)'o', (byte)'m'
+            (byte) 'h', (byte) 't', (byte) 't', (byte) 'p', (byte) 's', (byte) ':', (byte) '/', (byte) '/', (byte) 't', (byte) 'e',
+            (byte) 's', (byte) 't', (byte) 'u', (byte) 'r', (byte) 'l', (byte) '.', (byte) 'c', (byte) 'o', (byte) 'm'
         });
 
         IssuerUrl sut = IssuerUrl.Decode(testData.EncodeValue().AsSpan());
@@ -152,9 +152,8 @@ public class IssuerUrlTests
     {
         IssuerUrlTestTlv testData = new(new byte[]
         {
-            (byte)'h', (byte)'t', (byte)'t', (byte)'p', (byte)'s', (byte)':',
-            (byte)'/', (byte)'/', (byte)'t', (byte)'e', (byte)'s', (byte)'t', (byte)'u', (byte)'r', (byte)'l', (byte)'.',
-            (byte)'c', (byte)'o', (byte)'m'
+            (byte) 'h', (byte) 't', (byte) 't', (byte) 'p', (byte) 's', (byte) ':', (byte) '/', (byte) '/', (byte) 't', (byte) 'e',
+            (byte) 's', (byte) 't', (byte) 'u', (byte) 'r', (byte) 'l', (byte) '.', (byte) 'c', (byte) 'o', (byte) 'm'
         });
 
         IssuerUrl sut = IssuerUrl.Decode(testData.EncodeValue().AsSpan());
