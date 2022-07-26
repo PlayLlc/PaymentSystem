@@ -4,8 +4,6 @@ using AutoFixture;
 
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
-using Play.Emv.Ber.Enums.Interchange;
-using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.Services.Selection;
