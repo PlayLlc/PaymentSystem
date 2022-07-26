@@ -166,7 +166,7 @@ public class CardholderVerificationMethodSelectorTests : TestBase
 
     [Fact]
     public void
-        CVMSelectorWithEnabledConfiguration_CVRuleIsUnderstoodCVMConditionCodeIsManualButRequiredDataNotPresentInDB_IsLastRule_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
+        CVMSelectorWithEnabledConfiguration_CVRuleIsUnderstoodCVMConditionCodeIsManualButRequiredDataNotPresentInDBIsLastRule_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
     {
         //Validating CM.10
         //Arrange
@@ -206,7 +206,7 @@ public class CardholderVerificationMethodSelectorTests : TestBase
 
     [Fact]
     public void
-        CVMSelectorWithEnabledConfiguration_CVRuleWithCVMCondition_AmountInApplicationCurrencyAndOverXValueCondition_ConditionNotSatisfied_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
+        CVMSelectorWithEnabledConfiguration_CVRuleWithCVMConditionAmountInApplicationCurrencyAndOverXValueConditionConditionNotSatisfied_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
     {
         //Validating CM.10
         //Arrange
@@ -246,7 +246,7 @@ public class CardholderVerificationMethodSelectorTests : TestBase
 
     [Fact]
     public void
-        CVMSelectorWithEnabledConfiguration_CVRuleWithCVMCondition_AmountInApplicationCurrencyAndOverYValueCondition_ConditionNotSatisfied_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
+        CVMSelectorWithEnabledConfiguration_CVRuleWithCVMConditionAmountInApplicationCurrencyAndOverYValueConditionConditionNotSatisfied_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
     {
         //Validating CM.10
         //Arrange
@@ -286,7 +286,7 @@ public class CardholderVerificationMethodSelectorTests : TestBase
 
     [Fact]
     public void
-        CVMSelectorWithEnabledConfiguration_CVRuleWithCVMCondition_AmountInApplicationCurrencyAndUnderXValueCondition_ConditionNotSatisfied_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
+        CVMSelectorWithEnabledConfiguration_CVRuleWithCVMConditionAmountInApplicationCurrencyAndUnderXValueConditionConditionNotSatisfied_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
     {
         //Validating CM.10
         //Arrange
@@ -326,7 +326,7 @@ public class CardholderVerificationMethodSelectorTests : TestBase
 
     [Fact]
     public void
-        CVMSelectorWithEnabledConfiguration_CVRuleWithCVMCondition_AmountInApplicationCurrencyAndUnderYValueCondition_ConditionNotSatisfied_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
+        CVMSelectorWithEnabledConfiguration_CVRuleWithCVMConditionAmountInApplicationCurrencyAndUnderYValueConditionConditionNotSatisfied_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
     {
         //Validating CM.10
         //Arrange
@@ -366,7 +366,7 @@ public class CardholderVerificationMethodSelectorTests : TestBase
 
     [Fact]
     public void
-        CVMSelectorWithEnabledConfiguration_CVRuleWithCVMCondition_ManualCash_ConditionNotSatisfied_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
+        CVMSelectorWithEnabledConfiguration_CVRuleWithCVMConditionManualCashConditionNotSatisfied_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
     {
         //Validating CM.10
         //Arrange
@@ -410,7 +410,7 @@ public class CardholderVerificationMethodSelectorTests : TestBase
     //NotUnattendedCashOrManualCashOrPurchaseWithCashback
     [Fact]
     public void
-        CVMSelectorWithEnabledConfiguration_CVRuleWithCVMCondition_NotUnattendedCashOrManualCashOrPurchaseWithCashback_ConditionNotSatisfied_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
+        CVMSelectorWithEnabledConfiguration_CVRuleWithCVMConditionNotUnattendedCashOrManualCashOrPurchaseWithCashbackConditionNotSatisfied_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
     {
         //Validating CM.10
         //Arrange
@@ -453,7 +453,7 @@ public class CardholderVerificationMethodSelectorTests : TestBase
 
     [Fact]
     public void
-        CVMSelectorWithEnabledConfiguration_CVRuleWithCVMCondition_PurchaseWithCashbackCondition_ConditionNotSatisfied_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
+        CVMSelectorWithEnabledConfiguration_CVRuleWithCVMConditionPurchaseWithCashbackConditionConditionNotSatisfied_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
     {
         //Arrange
         CardholderVerificationMethodSelectorConfigSetup.RegisterEnabledConfigurationCvmDefaults(_Fixture, _Database);
@@ -492,7 +492,7 @@ public class CardholderVerificationMethodSelectorTests : TestBase
 
     [Fact]
     public void
-        CVMSelectorWithEnabledConfiguration_CvRuleWithValidCvmConditionCode_CvmCodeIsNotRecognized_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
+        CVMSelectorWithEnabledConfiguration_CvRuleWithValidCvmConditionCodeCvmCodeIsNotRecognized_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
     {
         //Arrange
         CardholderVerificationMethodSelectorConfigSetup.RegisterEnabledConfigurationCvmDefaults(_Fixture, _Database);
@@ -536,7 +536,7 @@ public class CardholderVerificationMethodSelectorTests : TestBase
 
     [Fact]
     public void
-        CVMSelectorWithEnabledConfiguration_CvRuleWithValidCvmConditionCode_CvmCodeIsRecognized_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
+        CVMSelectorWithEnabledConfiguration_CvRuleWithValidCvmConditionCodeCvmCodeIsRecognized_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
     {
         //Arrange
         CardholderVerificationMethodSelectorConfigSetup.RegisterEnabledConfigurationCvmDefaults(_Fixture, _Database);
@@ -581,7 +581,7 @@ public class CardholderVerificationMethodSelectorTests : TestBase
 
     [Fact]
     public void
-        CVMSelectorWithEnabledConfiguration_CvRuleWithValidCvmConditionCode_CvmCodeIsRecognizedAndTerminalSupportsIt_SuccessfulOnlineEncipheredPinSelection()
+        CVMSelectorWithEnabledConfiguration_CvRuleWithValidCvmConditionCodeCvmCodeIsRecognizedAndTerminalSupportsIt_SuccessfulOnlineEncipheredPinSelection()
     {
         //Arrange
         CardholderVerificationMethodSelectorConfigSetup.RegisterEnabledConfigurationCvmDefaults(_Fixture, _Database);
@@ -625,7 +625,7 @@ public class CardholderVerificationMethodSelectorTests : TestBase
     }
 
     [Fact]
-    public void CVMSelectorWithEnabledConfiguration_CvRuleWithValidCvmConditionCode_CvmCodeIsRecognizedAndTerminalSupportsIt_SuccessfulSignatureSelection()
+    public void CVMSelectorWithEnabledConfiguration_CvRuleWithValidCvmConditionCodeCvmCodeIsRecognizedAndTerminalSupportsIt_SuccessfulSignatureSelection()
     {
         //Arrange
         CardholderVerificationMethodSelectorConfigSetup.RegisterEnabledConfigurationCvmDefaults(_Fixture, _Database);
@@ -663,7 +663,7 @@ public class CardholderVerificationMethodSelectorTests : TestBase
     }
 
     [Fact]
-    public void CVMSelectorWithEnabledConfiguration_CvRuleWithValidCvmConditionCode_CvmCodeIsRecognizedAndTerminalSupportsIt_SuccessfullNoCvmSelection()
+    public void CVMSelectorWithEnabledConfiguration_CvRuleWithValidCvmConditionCodeCvmCodeIsRecognizedAndTerminalSupportsIt_SuccessfullNoCvmSelection()
     {
         //Arrange
         CardholderVerificationMethodSelectorConfigSetup.RegisterEnabledConfigurationCvmDefaults(_Fixture, _Database);
@@ -701,7 +701,7 @@ public class CardholderVerificationMethodSelectorTests : TestBase
     }
 
     [Fact]
-    public void CVMSelectorWithEnabledConfiguration_CvRuleWithValidCvmConditionCode_CvmCodeIsRecognizedAndTerminalSupportsIt_SuccessfulProprietarySelection()
+    public void CVMSelectorWithEnabledConfiguration_CvRuleWithValidCvmConditionCodeCvmCodeIsRecognizedAndTerminalSupportsIt_SuccessfulProprietarySelection()
     {
         //Arrange
         CardholderVerificationMethodSelectorConfigSetup.RegisterEnabledConfigurationCvmDefaults(_Fixture, _Database);
@@ -740,7 +740,7 @@ public class CardholderVerificationMethodSelectorTests : TestBase
 
     //OfflinePlaintextPinAndSignature
     [Fact]
-    public void CVMSelectorWithEnabledConfiguration_CvRuleWithValidCvmConditionCode_CvmCodeIsOfflinePlaintextPinAndSignature_SuccessfulProprietarySelection()
+    public void CVMSelectorWithEnabledConfiguration_CvRuleWithValidCvmConditionCodeCvmCodeIsOfflinePlaintextPinAndSignature_SuccessfulProprietarySelection()
     {
         //Arrange
         CardholderVerificationMethodSelectorConfigSetup.RegisterEnabledConfigurationCvmDefaults(_Fixture, _Database);
@@ -778,7 +778,7 @@ public class CardholderVerificationMethodSelectorTests : TestBase
     }
 
     [Fact]
-    public void CVMSelectorWithEnabledConfiguration_CvRuleWithValidCvmConditionCode_CvmCodeIsOfflineEncipheredPinAndSignature_SuccessfulProprietarySelection()
+    public void CVMSelectorWithEnabledConfiguration_CvRuleWithValidCvmConditionCodeCvmCodeIsOfflineEncipheredPinAndSignature_SuccessfulProprietarySelection()
     {
         //Arrange
         CardholderVerificationMethodSelectorConfigSetup.RegisterEnabledConfigurationCvmDefaults(_Fixture, _Database);
@@ -816,7 +816,7 @@ public class CardholderVerificationMethodSelectorTests : TestBase
     }
 
     [Fact]
-    public void CVMSelectorWithEnabledConfiguration_CvRuleWithValidCvmConditionCode_CvmCodeIsFailCode_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
+    public void CVMSelectorWithEnabledConfiguration_CvRuleWithValidCvmConditionCodeCvmCodeIsFailCode_NoCvmAndCardholderVerificationWasNotSuccessfullSetInTvr()
     {
         //Arrange
         CardholderVerificationMethodSelectorConfigSetup.RegisterEnabledConfigurationCvmDefaults(_Fixture, _Database);
@@ -860,7 +860,7 @@ public class CardholderVerificationMethodSelectorTests : TestBase
     }
 
     [Fact]
-    public void CVMSelectorWithEnabledConfiguration_CvmListWithMultipleCvmRules_CvmConditionSupportSuccedingRuleIfUnsuccessfull_OneRuleIsSelected()
+    public void CVMSelectorWithEnabledConfiguration_CvmListWithMultipleCvmRulesCvmConditionSupportSuccedingRuleIfUnsuccessfull_OneRuleIsSelected()
     {
         //Arrange
         CardholderVerificationMethodSelectorConfigSetup.RegisterEnabledConfigurationCvmDefaults(_Fixture, _Database);
@@ -898,7 +898,7 @@ public class CardholderVerificationMethodSelectorTests : TestBase
     }
 
     [Fact]
-    public void CVMSelectorWithEnabledConfiguration_CvmListWithMultipleCvmRules_CvmConditionDoNotSupportSuccedingRuleIfUnsuccessfull_NoCVMIsSelected()
+    public void CVMSelectorWithEnabledConfiguration_CvmListWithMultipleCvmRulesCvmConditionDoNotSupportSuccedingRuleIfUnsuccessfull_NoCVMIsSelected()
     {
         //Arrange
         CardholderVerificationMethodSelectorConfigSetup.RegisterEnabledConfigurationCvmDefaults(_Fixture, _Database);

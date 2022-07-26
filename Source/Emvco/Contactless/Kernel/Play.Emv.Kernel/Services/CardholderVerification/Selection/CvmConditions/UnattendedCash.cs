@@ -7,6 +7,9 @@ using Play.Globalization.Currency;
 
 namespace Play.Emv.Kernel.Services.Selection.CvmConditions;
 
+/// <summary>
+/// Book 3 Table 40: CVM Condition Codes
+/// </summary>
 internal record class UnattendedCash : CvmCondition
 {
     #region Static Metadata
