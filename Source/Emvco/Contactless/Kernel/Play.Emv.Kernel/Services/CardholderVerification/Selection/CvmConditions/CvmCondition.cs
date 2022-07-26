@@ -32,15 +32,17 @@ internal abstract record CvmCondition
         AmountInApplicationCurrencyAndOverXValueCondition amountInApplicationCurrencyAndOverXValueCondition = new();
         AmountInApplicationCurrencyAndOverYValueCondition amountInApplicationCurrencyAndOverYValueCondition = new();
         AmountInApplicationCurrencyAndUnderXValueCondition amountInApplicationCurrencyAndUnderXValueCondition = new();
-        AmountInApplicationCurrencyAndUnderXValueCondition amountInApplicationCurrencyAndUnderYValueCondition = new();
+        AmountInApplicationCurrencyAndUnderYValueCondition amountInApplicationCurrencyAndUnderYValueCondition = new();
         ManualCashCondition manualCashCondition = new();
         NotUnattendedCashOrManualCashOrPurchaseWithCashback notUnattendedCashOrManualCashOrPurchaseWithCashback = new();
         PurchaseWithCashbackCondition purchaseWithCashbackCondition = new();
         SupportsCvmCondition supportsCvmCondition = new();
+        UnattendedCash unattendedCash = new();
 
         _Conditions = new Dictionary<CvmConditionCode, CvmCondition>
         {
             {alwaysCondition.GetConditionCode(), alwaysCondition},
+            {unattendedCash.GetConditionCode(), unattendedCash},
             {amountInApplicationCurrencyAndOverXValueCondition.GetConditionCode(), amountInApplicationCurrencyAndOverXValueCondition},
             {amountInApplicationCurrencyAndOverYValueCondition.GetConditionCode(), amountInApplicationCurrencyAndOverYValueCondition},
             {amountInApplicationCurrencyAndUnderXValueCondition.GetConditionCode(), amountInApplicationCurrencyAndUnderXValueCondition},
@@ -56,6 +58,7 @@ internal abstract record CvmCondition
 
     #region Instance Members
 
+    //CVM.10
     public static bool TryGet(CvmConditionCode code, out CvmCondition? result)
     {
         if (!Exists(code))
@@ -73,7 +76,7 @@ internal abstract record CvmCondition
     public static bool Exists(CvmConditionCode code) => _Conditions.ContainsKey(code);
 
     /// <summary>
-    ///     IsCvmSupported
+    ///     IsCvmSupported CVM.11
     /// </summary>
     /// <param name="database"></param>
     /// <param name="code"></param>
@@ -89,6 +92,7 @@ internal abstract record CvmCondition
         if (!_Conditions[code].IsRequiredDataPresent(database))
             return false;
 
+        //CVM.12
         if (!_Conditions[code].IsConditionSatisfied(database, xAmount, yAmount))
             return false;
 

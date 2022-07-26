@@ -74,11 +74,11 @@ public readonly record struct CvmPerformedOutcome
     /// <exception cref="TerminalDataException"></exception>
     public static CvmPerformedOutcome Get(byte value)
     {
-        const byte bitMask = 0b11111100;
+        const byte bitMask = 0b00001111;
 
-        if (!_ValueObjectMap.ContainsKey(value))
+        if (!_ValueObjectMap.ContainsKey(value.GetMaskedValue(bitMask)))
         {
-            throw new TerminalDataException( new ArgumentOutOfRangeException(nameof(value),
+            throw new TerminalDataException(new ArgumentOutOfRangeException(nameof(value),
                 $"No {nameof(CvmPerformedOutcome)} could be retrieved because the argument provided does not match a definition value"));
         }
 
@@ -106,7 +106,6 @@ public readonly record struct CvmPerformedOutcome
 
     public static bool operator ==(CvmPerformedOutcome left, byte right) => left._Value == right;
     public static bool operator ==(byte left, CvmPerformedOutcome right) => left == right._Value;
-    
     public static explicit operator ulong(CvmPerformedOutcome value) => value._Value;
     public static bool operator !=(CvmPerformedOutcome left, byte right) => !(left == right);
     public static bool operator !=(byte left, CvmPerformedOutcome right) => !(left == right);

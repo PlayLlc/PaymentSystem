@@ -43,7 +43,11 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
         }
 
         if (IsCvmListEmpty(database, out CvmList? cvmList))
+        {
             CreateIccDataMissingCvmResult(database);
+
+            return;
+        }
 
         Select(database, cvmList!, currencyCode);
     }
@@ -141,7 +145,8 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
 
     #region CVM.5
 
-    public static bool IsCardholderVerificationSupported(KernelDatabase database) => database.IsOnDeviceCardholderVerificationSupported();
+    public static bool IsCardholderVerificationSupported(KernelDatabase database) =>
+        database.Get<ApplicationInterchangeProfile>(ApplicationInterchangeProfile.Tag).IsOnDeviceCardholderVerificationSupported();
 
     #endregion
 
