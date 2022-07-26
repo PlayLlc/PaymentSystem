@@ -13,14 +13,14 @@ internal record AmountInApplicationCurrencyAndUnderXValueCondition : CvmConditio
 {
     #region Static Metadata
 
-    private static readonly Tag[] _RequiredTags = new[] { ApplicationCurrencyCode.Tag, TransactionCurrencyCode.Tag, AmountAuthorizedNumeric.Tag };
+    private static readonly Tag[] _RequiredTags = new[] {ApplicationCurrencyCode.Tag, TransactionCurrencyCode.Tag, AmountAuthorizedNumeric.Tag};
     public static readonly CvmConditionCode Code = new(6);
 
     #endregion
 
     #region Instance Values
 
-    protected override Tag[] RequiredData => _RequiredTags;
+    protected override Tag[] _RequiredData => _RequiredTags;
 
     #endregion
 

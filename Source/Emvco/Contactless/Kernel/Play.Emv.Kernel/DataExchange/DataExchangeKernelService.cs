@@ -28,8 +28,6 @@ public partial class DataExchangeKernelService : IQueryDek, IWriteToDek, IDekEnd
 
     #region Instance Members
 
-    #region Instance Members
-
     public void Clear()
     {
         lock (_Lock)
@@ -38,8 +36,6 @@ public partial class DataExchangeKernelService : IQueryDek, IWriteToDek, IDekEnd
             _Lock.Requests.Clear();
         }
     }
-
-    #endregion
 
     #endregion
 }

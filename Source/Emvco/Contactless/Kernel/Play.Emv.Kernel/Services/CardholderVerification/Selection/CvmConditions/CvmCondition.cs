@@ -20,7 +20,7 @@ internal abstract record CvmCondition
 
     #region Instance Values
 
-    protected abstract Tag[] RequiredData { get; }
+    protected abstract Tag[] _RequiredData { get; }
 
     #endregion
 
@@ -42,7 +42,7 @@ internal abstract record CvmCondition
         _Conditions = new Dictionary<CvmConditionCode, CvmCondition>
         {
             {alwaysCondition.GetConditionCode(), alwaysCondition},
-            {unattendedCash.GetConditionCode(), unattendedCash },
+            {unattendedCash.GetConditionCode(), unattendedCash},
             {amountInApplicationCurrencyAndOverXValueCondition.GetConditionCode(), amountInApplicationCurrencyAndOverXValueCondition},
             {amountInApplicationCurrencyAndOverYValueCondition.GetConditionCode(), amountInApplicationCurrencyAndOverYValueCondition},
             {amountInApplicationCurrencyAndUnderXValueCondition.GetConditionCode(), amountInApplicationCurrencyAndUnderXValueCondition},
@@ -50,7 +50,7 @@ internal abstract record CvmCondition
             {manualCashCondition.GetConditionCode(), manualCashCondition},
             {notUnattendedCashOrManualCashOrPurchaseWithCashback.GetConditionCode(), notUnattendedCashOrManualCashOrPurchaseWithCashback},
             {purchaseWithCashbackCondition.GetConditionCode(), purchaseWithCashbackCondition},
-            {supportsCvmCondition.GetConditionCode(), supportsCvmCondition},
+            {supportsCvmCondition.GetConditionCode(), supportsCvmCondition}
         };
     }
 
@@ -91,6 +91,7 @@ internal abstract record CvmCondition
 
         if (!_Conditions[code].IsRequiredDataPresent(database))
             return false;
+
         //CVM.12
         if (!_Conditions[code].IsConditionSatisfied(database, xAmount, yAmount))
             return false;
@@ -108,12 +109,12 @@ internal abstract record CvmCondition
     /// <exception cref="TerminalDataException"></exception>
     private bool IsRequiredDataPresent(IReadTlvDatabase database)
     {
-        if (RequiredData.Length == 0)
+        if (_RequiredData.Length == 0)
             return true;
 
-        for (int i = 0; i < RequiredData.Length; i++)
+        for (int i = 0; i < _RequiredData.Length; i++)
         {
-            if (!database.IsPresent(RequiredData[i]))
+            if (!database.IsPresent(_RequiredData[i]))
                 return false;
         }
 
