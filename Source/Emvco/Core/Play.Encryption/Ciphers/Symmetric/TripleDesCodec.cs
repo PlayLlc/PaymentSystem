@@ -19,6 +19,7 @@ public class TripleDesCodec : IBlockCipher
     private readonly KeySize _KeySize;
     private readonly BlockPaddingMode _PaddingMode;
     private readonly IPreprocessPlainText _Preprocessor;
+    private static readonly byte[] _InitializationVector = { 18, 114, 31, 64, 7, 18, 20, 11 };
 
     #endregion
 
@@ -62,14 +63,12 @@ public class TripleDesCodec : IBlockCipher
         TripleDESCryptoServiceProvider desCryptoServiceProvider = GetDesProvider(key);
 
         using MemoryStream memoryStream = new(encipherment.ToArray());
-        using CryptoStream cryptoStream = new(memoryStream, desCryptoServiceProvider.CreateEncryptor(), CryptoStreamMode.Read);
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(encipherment.Length);
+        using CryptoStream cryptoStream = new(memoryStream, desCryptoServiceProvider.CreateDecryptor(), CryptoStreamMode.Read);
 
-        byte[] result = new byte[encipherment.Length];
+        byte[] buffer = new byte[encipherment.Length];
+        cryptoStream.Read(buffer, 0, encipherment.Length);
 
-        cryptoStream.Read(result, 0, encipherment.Length);
-
-        return result;
+        return buffer;
     }
 
     public BlockCipherAlgorithm GetAlgorithm() => BlockCipherAlgorithm.Aes;
@@ -81,7 +80,8 @@ public class TripleDesCodec : IBlockCipher
             KeySize = _KeySize,
             Key = key.ToArray(),
             Mode = _CipherMode.AsCipherMode(),
-            Padding = _PaddingMode.AsPaddingMode()
+            Padding = _PaddingMode.AsPaddingMode(),
+            IV = _InitializationVector
         };
 
     public KeySize GetKeySize() => _KeySize;

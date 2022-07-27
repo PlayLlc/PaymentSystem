@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security.Cryptography;
 
 using AutoFixture;
 
@@ -19,7 +18,8 @@ public class Owhf2Tests
 
     private readonly IFixture _Fixture;
     private readonly ITlvReaderAndWriter _Database;
-    private readonly TripleDesCodec _DesCodec;
+    private static readonly TripleDesCodec _DesCodec = new TripleDesCodec(new BlockCipherConfiguration(BlockCipherMode.Cbc, BlockPaddingMode.None, KeySize._128, BlockSize._8,
+        new Iso7816PlainTextPreprocessor(BlockSize._8)));
 
     #endregion
 
@@ -29,8 +29,6 @@ public class Owhf2Tests
     {
         _Fixture = new ContactlessFixture().Create();
         _Database = ContactlessFixture.CreateDefaultDatabase(_Fixture);
-        _DesCodec = new TripleDesCodec(new BlockCipherConfiguration(BlockCipherMode.Cbc, BlockPaddingMode.None, KeySize._128, BlockSize._8,
-        new Iso7816PlainTextPreprocessor(BlockSize._8)));
     }
 
     #endregion
@@ -114,6 +112,34 @@ public class Owhf2Tests
         //Assert
         Assert.NotNull(encryptedResult);
         Assert.Equal(message.ToArray(), decryptedResult);
+    }
+
+    [Theory]
+    [MemberData(nameof(Owhf2TestFixtures.GetRandomMessages), 10, 3, 8, MemberType = typeof(Owhf2TestFixtures))]
+    public void RandomMessage_InvokingSign_ReturnsExpectedResult(byte[] message)
+    {
+        //Arrange
+        ReadOnlyMemory<byte> dataStorageIdInput = new byte[] { 11, 12, 33, 44, 55, 66, 77, 88 };
+        DataStorageId dataStorageId = DataStorageId.Decode(dataStorageIdInput);
+        _Database.Update(dataStorageId);
+
+        ReadOnlyMemory<byte> dataStorageRequestedOperatorIdInput = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 };
+        DataStorageRequestedOperatorId operatorId = DataStorageRequestedOperatorId.Decode(dataStorageRequestedOperatorIdInput);
+        _Database.Update(operatorId);
+
+        ReadOnlyMemory<byte> dataStorageOperatorDataSetInfo = new byte[] { 1 };
+        DataStorageOperatorDataSetInfo info = DataStorageOperatorDataSetInfo.Decode(dataStorageOperatorDataSetInfo);
+        _Database.Update(info);
+
+        byte[] expectedKey = { 22, 24, 42, 64, 74, 84, 5, 6, 24, 42, 64, 74, 84, 106, 0, 0 };
+
+        //Act
+        byte[] encryptedResult = Owhf2.Sign(_Database, message);
+        byte[] decryptedResult = _DesCodec.Decrypt(encryptedResult, expectedKey);
+
+        //Assert
+        Assert.NotNull(encryptedResult);
+        Assert.Equal(message, decryptedResult);
     }
 
     #endregion

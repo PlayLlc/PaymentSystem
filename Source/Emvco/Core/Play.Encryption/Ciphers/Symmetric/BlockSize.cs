@@ -83,5 +83,6 @@ public sealed record BlockSize : EnumObject<byte>, IEqualityComparer<byte>
     public int GetHashCode(BlockSize other) => other.GetHashCode();
     public override int GetHashCode() => unchecked(_Value.GetHashCode() * 31153);
 
+    public static implicit operator byte(BlockSize blockSize) => blockSize._Value;
     #endregion
 }
