@@ -41,17 +41,7 @@ public class Owhf2Tests
         //Arrange
         ReadOnlySpan<byte> message = stackalloc byte[] { 31, 18, 68, 78, 91, 102, 34, 63 };
 
-        ReadOnlyMemory<byte> dataStorageIdInput = new byte[] { 11, 12, 33, 44, 55, 66, 77, 88 };
-        DataStorageId dataStorageId = DataStorageId.Decode(dataStorageIdInput);
-        _Database.Update(dataStorageId);
-
-        ReadOnlyMemory<byte> dataStorageRequestedOperatorIdInput = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 };
-        DataStorageRequestedOperatorId operatorId = DataStorageRequestedOperatorId.Decode(dataStorageRequestedOperatorIdInput);
-        _Database.Update(operatorId);
-
-        ReadOnlyMemory<byte> dataStorageOperatorDataSetInfo = new byte[] { 1 };
-        DataStorageOperatorDataSetInfo info = DataStorageOperatorDataSetInfo.Decode(dataStorageOperatorDataSetInfo);
-        _Database.Update(info);
+        Owhf2TestsConfigurationSetup.RegisterDefaultConfiguration(_Database);
 
         //Act
         byte[] encryptedResult = Owhf2.Sign(_Database, message);
@@ -66,17 +56,7 @@ public class Owhf2Tests
         //Arrange
         ReadOnlySpan<byte> message = stackalloc byte[] { 31, 18, 68, 78, 91, 102, 34, 63, 32, 33 };
 
-        ReadOnlyMemory<byte> dataStorageIdInput = new byte[] { 11, 12, 33, 44, 55, 66, 77, 88 };
-        DataStorageId dataStorageId = DataStorageId.Decode(dataStorageIdInput);
-        _Database.Update(dataStorageId);
-
-        ReadOnlyMemory<byte> dataStorageRequestedOperatorIdInput = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 };
-        DataStorageRequestedOperatorId operatorId = DataStorageRequestedOperatorId.Decode(dataStorageRequestedOperatorIdInput);
-        _Database.Update(operatorId);
-
-        ReadOnlyMemory<byte> dataStorageOperatorDataSetInfo = new byte[] { 1 };
-        DataStorageOperatorDataSetInfo info = DataStorageOperatorDataSetInfo.Decode(dataStorageOperatorDataSetInfo);
-        _Database.Update(info);
+        Owhf2TestsConfigurationSetup.RegisterDefaultConfiguration(_Database);
 
         //Act
         byte[] encryptedResult = Owhf2.Sign(_Database, message);
@@ -91,17 +71,7 @@ public class Owhf2Tests
         //Arrange
         ReadOnlySpan<byte> message = stackalloc byte[] { 31, 18, 68, 78, 91, 102, 34, 63 };
 
-        ReadOnlyMemory<byte> dataStorageIdInput = new byte[] { 11, 12, 33, 44, 55, 66, 77, 88 };
-        DataStorageId dataStorageId = DataStorageId.Decode(dataStorageIdInput);
-        _Database.Update(dataStorageId);
-
-        ReadOnlyMemory<byte> dataStorageRequestedOperatorIdInput = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 };
-        DataStorageRequestedOperatorId operatorId = DataStorageRequestedOperatorId.Decode(dataStorageRequestedOperatorIdInput);
-        _Database.Update(operatorId);
-
-        ReadOnlyMemory<byte> dataStorageOperatorDataSetInfo = new byte[] { 1 };
-        DataStorageOperatorDataSetInfo info = DataStorageOperatorDataSetInfo.Decode(dataStorageOperatorDataSetInfo);
-        _Database.Update(info);
+        Owhf2TestsConfigurationSetup.RegisterDefaultConfiguration(_Database);
 
         byte[] expectedKey = { 22, 24, 42, 64, 74, 84, 5, 6, 24, 42, 64, 74, 84, 106, 0, 0 };
 
@@ -119,17 +89,7 @@ public class Owhf2Tests
     public void RandomMessage_InvokingSign_ReturnsExpectedResult(byte[] message)
     {
         //Arrange
-        ReadOnlyMemory<byte> dataStorageIdInput = new byte[] { 11, 12, 33, 44, 55, 66, 77, 88 };
-        DataStorageId dataStorageId = DataStorageId.Decode(dataStorageIdInput);
-        _Database.Update(dataStorageId);
-
-        ReadOnlyMemory<byte> dataStorageRequestedOperatorIdInput = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 };
-        DataStorageRequestedOperatorId operatorId = DataStorageRequestedOperatorId.Decode(dataStorageRequestedOperatorIdInput);
-        _Database.Update(operatorId);
-
-        ReadOnlyMemory<byte> dataStorageOperatorDataSetInfo = new byte[] { 1 };
-        DataStorageOperatorDataSetInfo info = DataStorageOperatorDataSetInfo.Decode(dataStorageOperatorDataSetInfo);
-        _Database.Update(info);
+        Owhf2TestsConfigurationSetup.RegisterDefaultConfiguration(_Database);
 
         byte[] expectedKey = { 22, 24, 42, 64, 74, 84, 5, 6, 24, 42, 64, 74, 84, 106, 0, 0 };
 

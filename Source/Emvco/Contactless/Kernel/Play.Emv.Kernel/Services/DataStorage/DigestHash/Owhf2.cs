@@ -53,23 +53,8 @@ public class Owhf2
     private static void ResolveObjectId(
         DataStorageRequestedOperatorId operatorId, DataStorageOperatorDataSetInfo info, DataStorageSlotManagementControl? control, Span<byte> buffer)
     {
-        if (control is null)
-        {
+        if (control is null || (!control?.IsPermanent() ?? false) || !info.IsVolatile())
             operatorId.EncodeValue().CopyTo(buffer);
-            return;
-        }
-
-        if (!control?.IsPermanent() ?? false)
-        {
-            operatorId.EncodeValue().CopyTo(buffer);
-            return;
-        }
-            
-        if (!info.IsVolatile())
-        {
-            operatorId.EncodeValue().CopyTo(buffer);
-            return;
-        }
     }
 
     /// <exception cref="PlayInternalException"></exception>
