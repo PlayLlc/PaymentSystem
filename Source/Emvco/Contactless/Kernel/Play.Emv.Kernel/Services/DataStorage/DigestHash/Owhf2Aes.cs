@@ -23,7 +23,7 @@ public class Owhf2Aes
 
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="PlayInternalException"></exception>
-    public static byte[] Sign(IReadTlvDatabase database, ReadOnlySpan<byte> inputC)
+    public static byte[] ComputeR(IReadTlvDatabase database, ReadOnlySpan<byte> inputC)
     {
         if (inputC.Length != 8)
             throw new TerminalDataException($"The argument {nameof(inputC)} must be 8 bytes in length");
@@ -84,7 +84,11 @@ public class Owhf2Aes
     {
         byte[] signedMessage = codec.Sign(message, key);
         signedMessage.CopyTo(buffer);
-        message.CopyTo(buffer[^message.Length..]);
+
+        for(int i = 0; i < buffer.Length; i++)
+        {
+            buffer[i] = checked((byte)(buffer[i] ^ message[i]));
+        }
     }
 
     /// <exception cref="PlayInternalException"></exception>
