@@ -722,6 +722,19 @@ public class NumericCodec : PlayCodec
         return resultBuffer;
     }
 
+    public int GetBigIntegerByteCount(BigInteger input)
+    {
+        int result = 0;
+
+        while(input != 0)
+        {
+            input = input / 100;
+            result++;
+        }
+
+        return result;
+    }
+
     public byte DecodeToByte(ReadOnlySpan<byte> value)
     {
         CheckCore.ForExactLength(value, 1, nameof(value));

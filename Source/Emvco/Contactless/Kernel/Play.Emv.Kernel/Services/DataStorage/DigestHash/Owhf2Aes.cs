@@ -76,27 +76,22 @@ public class Owhf2Aes
     private static void CreateKey(ReadOnlySpan<byte> y, ReadOnlySpan<byte> objectId, Span<byte> buffer)
     {
         y.CopyTo(buffer);
-        objectId[4..7].CopyTo(buffer[y.Length..]);
+        objectId[5..8].CopyTo(buffer[y.Length..]);
         buffer[14] = 0x3F;
     }
 
     private static void CreateT(AesCodec codec, ReadOnlySpan<byte> key, ReadOnlySpan<byte> message, Span<byte> buffer)
     {
-        codec.Sign(message, key).CopyTo(buffer);
+        byte[] signedMessage = codec.Sign(message, key);
+        signedMessage.CopyTo(buffer);
         message.CopyTo(buffer[^message.Length..]);
     }
 
     /// <exception cref="PlayInternalException"></exception>
-    public static void ResolveObjectId(
+    private static void ResolveObjectId(
         DataStorageRequestedOperatorId operatorId, DataStorageOperatorDataSetInfo info, DataStorageSlotManagementControl? control, Span<byte> buffer)
     {
-        if (control is not null)
-            operatorId.EncodeValue().CopyTo(buffer);
-
-        if (!control?.IsPermanent() ?? false)
-            operatorId.EncodeValue().CopyTo(buffer);
-
-        if (info.IsVolatile())
+        if (control is null || (!control?.IsPermanent() ?? false) || !info.IsVolatile())
             operatorId.EncodeValue().CopyTo(buffer);
     }
 
