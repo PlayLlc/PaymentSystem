@@ -51,7 +51,7 @@ public record IssuerScriptTemplate1 : DataElement<BigInteger>, IEqualityComparer
     /// <exception cref="CodecParsingException"></exception>
     public static IssuerScriptTemplate1 Decode(ReadOnlySpan<byte> value)
     {
-        BigInteger result = new(value, true);
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
         return new IssuerScriptTemplate1(result);
     }

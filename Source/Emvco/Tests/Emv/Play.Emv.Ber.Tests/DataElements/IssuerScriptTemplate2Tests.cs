@@ -145,11 +145,23 @@ public class IssuerScriptTemplate2Tests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        IssuerScriptTemplate2TestTlv testData = new(new byte[] {16, 34, 33, 136});
+        IssuerScriptTemplate2TestTlv testData = new(new byte[] {16, 34, 33, 130});
 
         IssuerScriptTemplate2 sut = IssuerScriptTemplate2.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
         ushort testResult = sut.GetTagLengthValueByteCount();
+
+        Assert.Equal(expectedResult, testResult);
+    }
+
+    [Fact]
+    public void CustomDataElement_InvokingEncodeValue_ReturnsExpectedResult()
+    {
+        IssuerScriptTemplate2TestTlv testData = new(new byte[] { 16, 34, 33, 131 });
+
+        IssuerScriptTemplate2 sut = IssuerScriptTemplate2.Decode(testData.EncodeValue().AsSpan());
+        byte[] expectedResult = testData.EncodeValue();
+        byte[] testResult = sut.EncodeValue();
 
         Assert.Equal(expectedResult, testResult);
     }

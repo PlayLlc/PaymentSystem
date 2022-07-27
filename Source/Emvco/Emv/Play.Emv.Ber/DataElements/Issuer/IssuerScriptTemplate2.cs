@@ -49,7 +49,7 @@ public record IssuerScriptTemplate2 : DataElement<BigInteger>, IEqualityComparer
     /// <exception cref="DataElementParsingException"></exception>
     public static IssuerScriptTemplate2 Decode(ReadOnlySpan<byte> value)
     {
-        BigInteger result = new(value, true);
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
         return new IssuerScriptTemplate2(result);
     }
