@@ -3,7 +3,7 @@
 using AutoFixture;
 
 using Play.Emv.Ber;
-using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Kernel.Services;
 using Play.Encryption.Ciphers.Symmetric;
 using Play.Testing.Emv.Contactless.AutoFixture;
@@ -36,7 +36,7 @@ public class Owhf2Tests
     #region Tests
 
     [Fact]
-    public void DesEncryptionService_InvokingSignOnValidBlockLengthMessage_IsNotNull()
+    public void DesEncryptionService_InvokingComputeROnValidBlockLengthMessage_IsNotNull()
     {
         //Arrange
         ReadOnlySpan<byte> message = stackalloc byte[] { 31, 18, 68, 78, 91, 102, 34, 63 };
@@ -44,39 +44,39 @@ public class Owhf2Tests
         Owhf2TestsConfigurationSetup.RegisterDefaultConfiguration(_Database);
 
         //Act
-        byte[] encryptedResult = Owhf2.Sign(_Database, message);
+        byte[] encryptedResult = Owhf2.ComputeR(_Database, message);
 
         //Assert
         Assert.NotNull(encryptedResult);
     }
 
     [Fact]
-    public void DesEncryptionService_InvokingSignOnInvalidBlockLengthMessage_PadsMissingBlockSizeAndEncryptsSuccesfully()
+    public void DesEncryptionService_InvokingComputeROnInvalidBlockLengthMessage_PadsMissingBlockSizeAndEncryptsSuccesfully()
     {
         //Arrange
-        ReadOnlySpan<byte> message = stackalloc byte[] { 31, 18, 68, 78, 91, 102, 34, 63, 32, 33 };
-
         Owhf2TestsConfigurationSetup.RegisterDefaultConfiguration(_Database);
 
-        //Act
-        byte[] encryptedResult = Owhf2.Sign(_Database, message);
+        //Act & Assert
+        Assert.Throws<TerminalDataException>(() =>
+        {
+            ReadOnlySpan<byte> message = stackalloc byte[] { 31, 18, 68, 78, 91, 102, 34, 63, 32, 33 };
 
-        //Assert
-        Assert.NotNull(encryptedResult);
+            byte[] encryptedResult = Owhf2.ComputeR(_Database, message);
+        });
     }
 
     [Fact]
-    public void DesEncryptionService_InvokingSign_ReturnsExpectedResult()
+    public void DesEncryptionService_InvokingComputeR_ReturnsExpectedResult()
     {
         //Arrange
         ReadOnlySpan<byte> message = stackalloc byte[] { 31, 18, 68, 78, 91, 102, 34, 63 };
 
         Owhf2TestsConfigurationSetup.RegisterDefaultConfiguration(_Database);
 
-        byte[] expectedKey = { 22, 24, 42, 64, 74, 84, 5, 6, 24, 42, 64, 74, 84, 106, 0, 0 };
+        byte[] expectedKey = { 22, 24, 42, 64, 74, 84, 5, 6, 24, 42, 64, 74, 84, 106, 7, 8 };
 
         //Act
-        byte[] encryptedResult = Owhf2.Sign(_Database, message);
+        byte[] encryptedResult = Owhf2.ComputeR(_Database, message);
         byte[] decryptedResult = _DesCodec.Decrypt(encryptedResult, expectedKey);
 
         //Assert
@@ -85,21 +85,21 @@ public class Owhf2Tests
     }
 
     [Theory]
-    [MemberData(nameof(Owhf2TestFixtures.GetRandomMessages), 10, 3, 8, MemberType = typeof(Owhf2TestFixtures))]
-    public void RandomMessage_InvokingSign_ReturnsExpectedResult(byte[] message)
+    [MemberData(nameof(Owhf2TestFixtures.GetRandomMessages), 10, 1, 8, MemberType = typeof(Owhf2TestFixtures))]
+    public void RandomMessage_InvokingComputeR_ReturnsExpectedResult(byte[] inputPD)
     {
         //Arrange
         Owhf2TestsConfigurationSetup.RegisterDefaultConfiguration(_Database);
 
-        byte[] expectedKey = { 22, 24, 42, 64, 74, 84, 5, 6, 24, 42, 64, 74, 84, 106, 0, 0 };
+        byte[] expectedKey = { 22, 24, 42, 64, 74, 84, 5, 6, 24, 42, 64, 74, 84, 106, 7, 8 };
 
         //Act
-        byte[] encryptedResult = Owhf2.Sign(_Database, message);
+        byte[] encryptedResult = Owhf2.ComputeR(_Database, inputPD);
         byte[] decryptedResult = _DesCodec.Decrypt(encryptedResult, expectedKey);
 
         //Assert
         Assert.NotNull(encryptedResult);
-        Assert.Equal(message, decryptedResult);
+        Assert.Equal(inputPD, decryptedResult);
     }
 
     #endregion

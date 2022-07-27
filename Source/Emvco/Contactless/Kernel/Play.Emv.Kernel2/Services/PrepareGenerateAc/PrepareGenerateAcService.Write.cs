@@ -88,7 +88,7 @@ public partial class PrepareGenerateAcService
             DataStorageInputTerminal input = _Database.Get<DataStorageInputTerminal>(DataStorageInputTerminal.Tag);
 
             if (applicationCapabilitiesInformation.GetDataStorageVersionNumber() == DataStorageVersionNumbers.Version1)
-                Owhf2.Sign(_Database, input.EncodeValue());
+                Owhf2.ComputeR(_Database, input.EncodeValue());
             else
                 Owhf2Aes.Sign(_Database, input.EncodeValue());
         }
