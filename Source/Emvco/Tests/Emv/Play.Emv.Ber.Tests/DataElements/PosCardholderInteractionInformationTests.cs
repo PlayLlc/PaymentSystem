@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.ValueTypes;
 using Play.Testing.BaseTestClasses;
@@ -12,11 +13,13 @@ namespace Play.Emv.Ber.Tests.DataElements;
 
 public class PosCardholderInteractionInformationTests : TestBase
 {
-    #region Instance Members
+    #region Static Metadata
 
-    private static readonly byte[] _DefaultContents = { 3, 5, 3 };
+    private static readonly byte[] _DefaultContents = {3, 5, 3};
 
     #endregion
+
+    #region Instance Members
 
     /// <summary>
     ///     BerEncoding_DeserializingDataElement_CreatesPrimitiveValue
@@ -106,7 +109,7 @@ public class PosCardholderInteractionInformationTests : TestBase
     {
         uint input = 0b0001_1010_0101_0001_1111_0110;
 
-        PosCardholderInteractionInformation sut = new PosCardholderInteractionInformation(input);
+        PosCardholderInteractionInformation sut = new(input);
 
         Assert.False(sut.IsSecondTapRequiredForWallet());
     }
@@ -116,7 +119,7 @@ public class PosCardholderInteractionInformationTests : TestBase
     {
         uint input = 0b0001_1010_0101_0001_1111_0110;
 
-        PosCardholderInteractionInformation sut = new PosCardholderInteractionInformation(input);
+        PosCardholderInteractionInformation sut = new(input);
 
         Assert.True(sut.IsOfflineDeviceCvmRequired());
     }
@@ -126,7 +129,7 @@ public class PosCardholderInteractionInformationTests : TestBase
     {
         uint input = 0b0001_1010_0101_0110_1111_0110;
 
-        PosCardholderInteractionInformation sut = new PosCardholderInteractionInformation(input);
+        PosCardholderInteractionInformation sut = new(input);
 
         Assert.False(sut.IsOfflineDeviceCvmRequired());
     }
@@ -136,7 +139,7 @@ public class PosCardholderInteractionInformationTests : TestBase
     {
         uint input = 0b0001_1010_0101_0110_1111_0110;
 
-        PosCardholderInteractionInformation sut = new PosCardholderInteractionInformation(input);
+        PosCardholderInteractionInformation sut = new(input);
 
         Assert.True(sut.IsAcknowledgementRequired());
     }
@@ -146,7 +149,7 @@ public class PosCardholderInteractionInformationTests : TestBase
     {
         uint input = 0b0001_1010_0101_1100_1111_0110;
 
-        PosCardholderInteractionInformation sut = new PosCardholderInteractionInformation(input);
+        PosCardholderInteractionInformation sut = new(input);
 
         Assert.False(sut.IsAcknowledgementRequired());
     }
@@ -154,7 +157,7 @@ public class PosCardholderInteractionInformationTests : TestBase
     [Fact]
     public void PosCarholderInteractionInformation_IsOfflinePinChangeRequired_ReturnsTrue()
     {
-        ReadOnlySpan<byte> encoded = stackalloc byte[] { 26, 92, 246 };
+        ReadOnlySpan<byte> encoded = stackalloc byte[] {26, 92, 246};
 
         PosCardholderInteractionInformation sut = PosCardholderInteractionInformation.Decode(encoded);
 
@@ -164,7 +167,7 @@ public class PosCardholderInteractionInformationTests : TestBase
     [Fact]
     public void PosCarholderInteractionInformation_IsOfflinePinChangeRequired_ReturnsFalse()
     {
-        ReadOnlySpan<byte> encoded = stackalloc byte[] { 26, 90, 246 };
+        ReadOnlySpan<byte> encoded = stackalloc byte[] {26, 90, 246};
 
         PosCardholderInteractionInformation sut = PosCardholderInteractionInformation.Decode(encoded);
 
@@ -174,7 +177,7 @@ public class PosCardholderInteractionInformationTests : TestBase
     [Fact]
     public void PosCarholderInteractionInformation_IsContextConflicting_ReturnsTrue()
     {
-        ReadOnlySpan<byte> encoded = stackalloc byte[] { 26, 90, 246 };
+        ReadOnlySpan<byte> encoded = stackalloc byte[] {26, 90, 246};
 
         PosCardholderInteractionInformation sut = PosCardholderInteractionInformation.Decode(encoded);
 
@@ -184,7 +187,7 @@ public class PosCardholderInteractionInformationTests : TestBase
     [Fact]
     public void PosCarholderInteractionInformation_IsContextConflicting_ReturnsFalse()
     {
-        ReadOnlySpan<byte> encoded = stackalloc byte[] { 26, 82, 246 };
+        ReadOnlySpan<byte> encoded = stackalloc byte[] {26, 82, 246};
 
         PosCardholderInteractionInformation sut = PosCardholderInteractionInformation.Decode(encoded);
 
@@ -196,7 +199,7 @@ public class PosCardholderInteractionInformationTests : TestBase
     {
         uint input = 0b0001_1010_0101_0001_1111_0110;
 
-        PosCardholderInteractionInformation sut = new PosCardholderInteractionInformation(input);
+        PosCardholderInteractionInformation sut = new(input);
 
         Assert.True(sut.IsOfflineDeviceCvmVerificationSuccessful());
     }
@@ -206,7 +209,7 @@ public class PosCardholderInteractionInformationTests : TestBase
     {
         uint input = 0b0001_1010_0101_0110_1111_0110;
 
-        PosCardholderInteractionInformation sut = new PosCardholderInteractionInformation(input);
+        PosCardholderInteractionInformation sut = new(input);
 
         Assert.False(sut.IsOfflineDeviceCvmVerificationSuccessful());
     }
@@ -214,7 +217,7 @@ public class PosCardholderInteractionInformationTests : TestBase
     [Fact]
     public void PosCarholderInteractionInformation_IsSecondTapNeeded_ReturnsTrue()
     {
-        ReadOnlySpan<byte> encoded = stackalloc byte[] { 26, 90, 246 };
+        ReadOnlySpan<byte> encoded = stackalloc byte[] {26, 90, 246};
 
         PosCardholderInteractionInformation sut = PosCardholderInteractionInformation.Decode(encoded);
 
@@ -226,7 +229,7 @@ public class PosCardholderInteractionInformationTests : TestBase
     {
         uint value = 0b0110_110011110000;
 
-        PosCardholderInteractionInformation sut = new PosCardholderInteractionInformation(value);
+        PosCardholderInteractionInformation sut = new(value);
 
         Assert.False(sut.IsSecondTapNeeded());
     }
@@ -234,13 +237,13 @@ public class PosCardholderInteractionInformationTests : TestBase
     [Fact]
     public void PosCarholderInteractionInformation_GetMaskedValueForMessageTableEntry_ReturnsExpectedResult()
     {
-        ReadOnlySpan<byte> encoded = stackalloc byte[] { 2, 4, 6 };
+        ReadOnlySpan<byte> encoded = stackalloc byte[] {2, 4, 6};
 
         PosCardholderInteractionInformation sut = PosCardholderInteractionInformation.Decode(encoded);
 
-        ReadOnlySpan<byte> messageTableInput = stackalloc byte[] { 1, 2, 3, 1, 2, 3, 4, 5};
+        ReadOnlySpan<byte> messageTableInput = stackalloc byte[] {1, 2, 3, 1, 2, 3, 4, 5};
 
-        MessageTableEntry tableEntryValue = new MessageTableEntry(messageTableInput);
+        MessageTableEntry tableEntryValue = new(messageTableInput);
 
         uint expected = 0b0010_0000_0100_0000_0100;
         uint actual = sut.GetMaskedValue(tableEntryValue);
@@ -256,8 +259,10 @@ public class PosCardholderInteractionInformationTests : TestBase
         PosCardholderInteractionInformation sut1 = PosCardholderInteractionInformation.Decode(testData.EncodeValue().AsSpan());
 
         uint input = 0b00000011_00000101_00000011;
-        PosCardholderInteractionInformation sut2 = new PosCardholderInteractionInformation(input);
+        PosCardholderInteractionInformation sut2 = new(input);
 
         Assert.True(PosCardholderInteractionInformation.EqualsStatic(sut1, sut2));
     }
+
+    #endregion
 }

@@ -35,7 +35,9 @@ public record IssuerAuthenticationData : DataElement<BigInteger>, IEqualityCompa
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => PlayCodec.BinaryCodec.GetByteCount(_Value);
+
+    public override ushort GetValueByteCount() => PlayCodec.BinaryCodec.GetByteCount(_Value);
 
     #endregion
 
@@ -45,23 +47,7 @@ public record IssuerAuthenticationData : DataElement<BigInteger>, IEqualityCompa
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static IssuerAuthenticationData Decode(ReadOnlySpan<byte> value, BerCodec codec)
-    {
-        const ushort minByteLength = 8;
-        const ushort maxByteLength = 16;
-
-        if (value.Length is < minByteLength and <= maxByteLength)
-        {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(IssuerAuthenticationData)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
-        }
-
-        DecodedResult<BigInteger> result = codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(IssuerAuthenticationData)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
-
-        return new IssuerAuthenticationData(result.Value);
-    }
+    public static IssuerAuthenticationData Decode(ReadOnlySpan<byte> value, BerCodec codec) => Decode(value);
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
@@ -80,6 +66,8 @@ public record IssuerAuthenticationData : DataElement<BigInteger>, IEqualityCompa
 
         return new IssuerAuthenticationData(result);
     }
+
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
 
     #endregion
 

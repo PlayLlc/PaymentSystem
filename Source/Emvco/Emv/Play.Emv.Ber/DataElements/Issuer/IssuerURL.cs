@@ -28,7 +28,10 @@ public record IssuerUrl : DataElement<char[]>, IEqualityComparer<IssuerUrl>
 
     #region Instance Members
 
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => (ushort)PlayCodec.AlphaNumericSpecialCodec.GetByteCount(_Value);
+
+    public override ushort GetValueByteCount() => (ushort) PlayCodec.AlphaNumericSpecialCodec.GetByteCount(_Value);
+
     public override Tag GetTag() => Tag;
     public override PlayEncodingId GetEncodingId() => EncodingId;
 
@@ -43,11 +46,9 @@ public record IssuerUrl : DataElement<char[]>, IEqualityComparer<IssuerUrl>
     /// <exception cref="BerParsingException"></exception>
     public static IssuerUrl Decode(ReadOnlySpan<byte> value)
     {
-        DecodedResult<char[]> result = _Codec.Decode(EncodingId, value) as DecodedResult<char[]>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(IssuerUrl)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
+        char[] result = PlayCodec.AlphaNumericSpecialCodec.DecodeToChars(value);
 
-        return new IssuerUrl(result.Value);
+        return new IssuerUrl(result);
     }
 
     #endregion
