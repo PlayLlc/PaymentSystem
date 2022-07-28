@@ -33,7 +33,8 @@ public record IssuerScriptTemplate1 : DataElement<BigInteger>, IEqualityComparer
 
     #region Instance Members
 
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => PlayCodec.BinaryCodec.GetByteCount(_Value);
+    public override ushort GetValueByteCount() => PlayCodec.BinaryCodec.GetByteCount(_Value);
     public override Tag GetTag() => Tag;
     public override PlayEncodingId GetEncodingId() => EncodingId;
 
@@ -51,10 +52,12 @@ public record IssuerScriptTemplate1 : DataElement<BigInteger>, IEqualityComparer
     /// <exception cref="CodecParsingException"></exception>
     public static IssuerScriptTemplate1 Decode(ReadOnlySpan<byte> value)
     {
-        BigInteger result = new(value, true);
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
         return new IssuerScriptTemplate1(result);
     }
+
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
 
     #endregion
 

@@ -37,6 +37,8 @@ public record IssuerAuthenticationData : DataElement<BigInteger>, IEqualityCompa
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => PlayCodec.BinaryCodec.GetByteCount(_Value);
 
+    public override ushort GetValueByteCount() => PlayCodec.BinaryCodec.GetByteCount(_Value);
+
     #endregion
 
     #region Serialization
@@ -60,10 +62,12 @@ public record IssuerAuthenticationData : DataElement<BigInteger>, IEqualityCompa
         Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        BigInteger result = new(value, true);
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
         return new IssuerAuthenticationData(result);
     }
+
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
 
     #endregion
 
