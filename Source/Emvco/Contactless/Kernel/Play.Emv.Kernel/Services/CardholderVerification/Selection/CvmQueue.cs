@@ -63,35 +63,48 @@ internal class CvmQueue
 
         for (; _Offset < _Rules.Count; _Offset++)
         {
-            if (!CvmCondition.TryGet(_Rules[_Offset].GetCvmConditionCode(), out CvmCondition? cvmCondition))
+            CvmRule currentCvmRule = _Rules[_Offset];
+
+            //CVM.10
+            if (!CvmCondition.TryGet(currentCvmRule.GetCvmConditionCode(), out CvmCondition? cvmCondition))
                 continue;
 
-            if (CvmCondition.IsCvmSupported(database, cvmCondition!.GetConditionCode(), _XAmount, _YAmount))
+            //CVM.11
+            if (!CvmCondition.IsCvmSupported(database, cvmCondition!.GetConditionCode(), _XAmount, _YAmount))
                 continue;
 
-            if (!_Rules[_Offset].GetCvmCode().IsRecognized())
+            //CVM.15
+            if (!currentCvmRule.GetCvmCode().IsRecognized())
             {
                 HandleUnrecognizedRule(database);
 
-                if (IsContinueOnFailureAllowed(_Rules[_Offset].GetCvmCode()))
+                if (IsContinueOnFailureAllowed(currentCvmRule.GetCvmCode()))
                     continue;
 
-                HandleInvalidRule(database, _Rules[_Offset].GetCvmCode(), _Rules[_Offset].GetCvmConditionCode());
+                HandleInvalidRule(database, currentCvmRule.GetCvmCode(), currentCvmRule.GetCvmConditionCode());
+
+                return false;
             }
 
-            if (!_Rules[_Offset].GetCvmCode().IsSupported(terminalCapabilities))
+            //CVM.17
+            if (!currentCvmRule.GetCvmCode().IsSupported(terminalCapabilities))
             {
                 //  Book 3 Section 10.5
-                if (IsPinRequiredButNotAvailable(_Rules[_Offset].GetCvmCode(), database))
+                if (IsPinRequiredButNotAvailable(currentCvmRule.GetCvmCode(), database))
                     SetPinRequiredButNotSupported(database);
 
-                continue;
+                //CVM.19
+                if (currentCvmRule.GetCvmCode().IsTryNextIfUnsuccessfulSet())
+                    continue;
+
+                //CVM.22
+                HandleInvalidRule(database, currentCvmRule.GetCvmCode(), currentCvmRule.GetCvmConditionCode());
+
+                return false;
             }
 
-            if (!_Rules[_Offset].GetCvmCode().IsTryNextIfUnsuccessfulSet())
-                continue;
-
-            HandleSuccessfulSelect(database, _Rules[_Offset++].GetCvmCode(), _Rules[_Offset++].GetCvmConditionCode());
+            //CVM.18
+            HandleSuccessfulSelect(database, currentCvmRule.GetCvmCode(), currentCvmRule.GetCvmConditionCode());
 
             return true;
         }
@@ -131,10 +144,10 @@ internal class CvmQueue
         SetCardholderVerificationWasNotSuccessful(database);
 
         // CVM.23
-        if (cvmCode.IsFailureControlSupported())
-            SetCvmProcessedToFailedCvm(database, cvmCode, cvmConditionCode);
-
-        SetCvmProcessedToNone(database);
+        if (!cvmCode.IsFailureControlSupported())
+            SetCvmProcessedToFailedCvm(database, cvmCode, cvmConditionCode); //24
+        else
+            SetCvmProcessedToNone(database); //25
     }
 
     #endregion

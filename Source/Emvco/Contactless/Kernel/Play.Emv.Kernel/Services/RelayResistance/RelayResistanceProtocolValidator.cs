@@ -50,7 +50,7 @@ public class RelayResistanceProtocolValidator : IValidateRelayResistanceProtocol
         if (transactionSessionId != _SessionId)
         {
             throw new TerminalDataException(
-                $"The {nameof(RelayResistanceProtocolValidator)} recieved a request with an invalid {nameof(TransactionSessionId)}. The expected {nameof(TransactionSessionId)} was: [{_SessionId}], but the value received was: [{transactionSessionId}]");
+                $"The {nameof(RelayResistanceProtocolValidator)} received a request with an invalid {nameof(TransactionSessionId)}. The expected {nameof(TransactionSessionId)} was: [{_SessionId}], but the value received was: [{transactionSessionId}]");
         }
 
         MeasuredRelayResistanceProcessingTime processingTime = CalculateMeasuredRrpTime(timeElapsed, tlvDatabase);

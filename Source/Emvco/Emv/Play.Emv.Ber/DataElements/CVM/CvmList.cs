@@ -45,7 +45,7 @@ public record CvmList : DataElement<BigInteger>, IResolveXAndYAmountForCvmSelect
     /// <exception cref="DataElementParsingException"></exception>
     public bool TryGetCardholderVerificationRules(out CvmRule[]? result)
     {
-        if ((_Value.GetByteCount() % 2) != 0)
+        if (!AreCardholderVerificationRulesPresent())
         {
             result = Array.Empty<CvmRule>();
 
@@ -53,11 +53,11 @@ public record CvmList : DataElement<BigInteger>, IResolveXAndYAmountForCvmSelect
         }
 
         const int offset = 8;
-        result = new CvmRule[((_Value.GetByteCount(true) - offset) / 2) - 1];
+        result = new CvmRule[(_Value.GetByteCount(true) - offset) / 2];
         Span<byte> valueBuffer = _Value.ToByteArray(true).AsSpan()[offset..];
 
-        for (int i = 2, j = 0; i < result.Length; j++)
-            result[j] = new CvmRule(valueBuffer[i++..i++]);
+        for (int i = 0, j = 0; j < result.Length; j++)
+            result[j] = new CvmRule(valueBuffer[i++..++i]);
 
         return true;
     }
