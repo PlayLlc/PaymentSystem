@@ -99,7 +99,8 @@ public class IssuerApplicationDataTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        IssuerApplicationDataTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
+        IssuerApplicationDataTestTlv testData = new(new byte[] { 18, 32, 34, 44, 67, 18, 114, 53, 109, 61, 28, 15, 209, 20, 18, 32, 34, 44, 67, 18, 114, 53, 109, 61, 28, 15, 209, 20 ,
+        18, 32, 34, 44, 67, 18, 114, 53, 109, 61, 28, 15, 209, 20});
 
         Assert.Throws<DataElementParsingException>(() => IssuerApplicationData.Decode(testData.EncodeValue().AsSpan()));
     }

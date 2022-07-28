@@ -36,7 +36,8 @@ public record IssuerPublicKeyCertificate : DataElement<BigInteger>, IEqualityCom
     public int GetByteCount() => _Value.GetByteCount();
     public ReadOnlySpan<byte> GetEncipherment() => _Value.ToByteArray().AsSpan();
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => PlayCodec.BinaryCodec.GetByteCount(_Value);
+    public override ushort GetValueByteCount() => PlayCodec.BinaryCodec.GetByteCount(_Value);
 
     #endregion
 
@@ -52,10 +53,12 @@ public record IssuerPublicKeyCertificate : DataElement<BigInteger>, IEqualityCom
     /// <exception cref="CodecParsingException"></exception>
     public static IssuerPublicKeyCertificate Decode(ReadOnlySpan<byte> value)
     {
-        BigInteger result = new(value);
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
         return new IssuerPublicKeyCertificate(result);
     }
+
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
 
     #endregion
 
