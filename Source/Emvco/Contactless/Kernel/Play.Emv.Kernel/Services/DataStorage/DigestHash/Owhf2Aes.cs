@@ -87,7 +87,10 @@ public class Owhf2Aes
 
         for(int i = 0; i < buffer.Length; i++)
         {
-            buffer[i] = checked((byte)(buffer[i] ^ message[i]));
+            unchecked
+            {
+                buffer[i] = ((byte)(buffer[i] ^ message[i]));
+            }
         }
     }
 
