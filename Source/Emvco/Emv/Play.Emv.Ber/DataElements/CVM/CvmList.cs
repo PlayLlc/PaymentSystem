@@ -40,7 +40,7 @@ public record CvmList : DataElement<BigInteger>, IResolveXAndYAmountForCvmSelect
     ///     odd number of bytes, is treated as if it is empty
     /// </summary>
     /// <remarks>EMV Book 3 Section 10.5</remarks>
-    public bool AreCardholderVerificationRulesPresent() => (_Value.GetByteCount() > 8) && ((_Value.GetByteCount() % 2) != 0);
+    public bool AreCardholderVerificationRulesPresent() => (_Value.GetByteCount() > 8) && ((_Value.GetByteCount() % 2) == 0);
 
     /// <exception cref="DataElementParsingException"></exception>
     public bool TryGetCardholderVerificationRules(out CvmRule[]? result)
@@ -86,10 +86,12 @@ public record CvmList : DataElement<BigInteger>, IResolveXAndYAmountForCvmSelect
         Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
+        BigInteger result = new(value);
 
         return new CvmList(result);
     }
+
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
 
     #endregion
 
