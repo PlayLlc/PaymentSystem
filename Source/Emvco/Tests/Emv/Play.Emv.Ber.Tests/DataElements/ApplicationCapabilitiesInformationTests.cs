@@ -1,7 +1,9 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.ValueTypes;
 using Play.Testing.Emv.Ber.Primitive;
 
@@ -92,7 +94,7 @@ public class ApplicationCapabilitiesInformationTests
     [Fact]
     public void ApplicationCapabilitiesInformation_CombinedDataAuthenticationIndicator_ReturnsTrue()
     {
-        ReadOnlySpan<byte> contentOctets = stackalloc byte[] { 13, 3, 17 };
+        ReadOnlySpan<byte> contentOctets = stackalloc byte[] {13, 3, 17};
         ApplicationCapabilitiesInformation sut = ApplicationCapabilitiesInformation.Decode(contentOctets);
 
         Assert.True(sut.CombinedDataAuthenticationIndicator());
@@ -101,7 +103,7 @@ public class ApplicationCapabilitiesInformationTests
     [Fact]
     public void ApplicationCapabilitiesInformation_CombinedDataAuthenticationIndicator_ReturnsFalse()
     {
-        ReadOnlySpan<byte> contentOctets = stackalloc byte[] { 0b1000_1000, 0b0001_1010, 0b01010_1110 };
+        ReadOnlySpan<byte> contentOctets = stackalloc byte[] {0b1000_1000, 0b0001_1010, 0b01010_1110};
         ApplicationCapabilitiesInformation sut = ApplicationCapabilitiesInformation.Decode(contentOctets);
 
         Assert.False(sut.CombinedDataAuthenticationIndicator());
@@ -113,14 +115,15 @@ public class ApplicationCapabilitiesInformationTests
         ReadOnlySpan<byte> contentOctets = stackalloc byte[]
         {
             13, 21,
+
             //undefined sds configuration
             0
         };
 
         ApplicationCapabilitiesInformation sut = ApplicationCapabilitiesInformation.Decode(contentOctets);
 
-        SdsSchemeIndicator expected = SdsSchemeIndicator.UndefinedSDSconfiguration;
-        SdsSchemeIndicator actual = sut.GetSdsSchemeIndicator();
+        SdsSchemeIndicators expected = SdsSchemeIndicators.UndefinedSDSconfiguration;
+        SdsSchemeIndicators actual = sut.GetSdsSchemeIndicator();
 
         Assert.Equal(expected, actual);
     }
@@ -130,19 +133,20 @@ public class ApplicationCapabilitiesInformationTests
     {
         ReadOnlySpan<byte> contentOctets = stackalloc byte[]
         {
-            13,
-            21,
+            13, 21,
+
             //undefined sds configuration
             5
         };
 
         ApplicationCapabilitiesInformation sut = ApplicationCapabilitiesInformation.Decode(contentOctets);
 
-        SdsSchemeIndicator expected = SdsSchemeIndicator.All10tags128bytes;
-        SdsSchemeIndicator actual = sut.GetSdsSchemeIndicator();
+        SdsSchemeIndicators expected = SdsSchemeIndicators.All10tags128bytes;
+        SdsSchemeIndicators actual = sut.GetSdsSchemeIndicator();
 
         Assert.Equal(expected, actual);
     }
+
     //all10tags160bytes
 
     [Fact]
@@ -150,16 +154,16 @@ public class ApplicationCapabilitiesInformationTests
     {
         ReadOnlySpan<byte> contentOctets = stackalloc byte[]
         {
-            13,
-            21,
+            13, 21,
+
             //undefined sds configuration
             6
         };
 
         ApplicationCapabilitiesInformation sut = ApplicationCapabilitiesInformation.Decode(contentOctets);
 
-        SdsSchemeIndicator expected = SdsSchemeIndicator.All10tags160bytes;
-        SdsSchemeIndicator actual = sut.GetSdsSchemeIndicator();
+        SdsSchemeIndicators expected = SdsSchemeIndicators.All10tags160bytes;
+        SdsSchemeIndicators actual = sut.GetSdsSchemeIndicator();
 
         Assert.Equal(expected, actual);
     }
@@ -170,16 +174,16 @@ public class ApplicationCapabilitiesInformationTests
     {
         ReadOnlySpan<byte> contentOctets = stackalloc byte[]
         {
-            13,
-            21,
+            13, 21,
+
             //undefined sds configuration
             7
         };
 
         ApplicationCapabilitiesInformation sut = ApplicationCapabilitiesInformation.Decode(contentOctets);
 
-        SdsSchemeIndicator expected = SdsSchemeIndicator.All10tags192bytes;
-        SdsSchemeIndicator actual = sut.GetSdsSchemeIndicator();
+        SdsSchemeIndicators expected = SdsSchemeIndicators.All10tags192bytes;
+        SdsSchemeIndicators actual = sut.GetSdsSchemeIndicator();
 
         Assert.Equal(expected, actual);
     }
@@ -190,16 +194,16 @@ public class ApplicationCapabilitiesInformationTests
     {
         ReadOnlySpan<byte> contentOctets = stackalloc byte[]
         {
-            13,
-            21,
+            13, 21,
+
             //undefined sds configuration
             1
         };
 
         ApplicationCapabilitiesInformation sut = ApplicationCapabilitiesInformation.Decode(contentOctets);
 
-        SdsSchemeIndicator expected = SdsSchemeIndicator.All10tags32bytes;
-        SdsSchemeIndicator actual = sut.GetSdsSchemeIndicator();
+        SdsSchemeIndicators expected = SdsSchemeIndicators.All10tags32bytes;
+        SdsSchemeIndicators actual = sut.GetSdsSchemeIndicator();
 
         Assert.Equal(expected, actual);
     }
@@ -210,16 +214,16 @@ public class ApplicationCapabilitiesInformationTests
     {
         ReadOnlySpan<byte> contentOctets = stackalloc byte[]
         {
-            13,
-            21,
+            13, 21,
+
             //undefined sds configuration
             2
         };
 
         ApplicationCapabilitiesInformation sut = ApplicationCapabilitiesInformation.Decode(contentOctets);
 
-        SdsSchemeIndicator expected = SdsSchemeIndicator.All10tags48bytes;
-        SdsSchemeIndicator actual = sut.GetSdsSchemeIndicator();
+        SdsSchemeIndicators expected = SdsSchemeIndicators.All10tags48bytes;
+        SdsSchemeIndicators actual = sut.GetSdsSchemeIndicator();
 
         Assert.Equal(expected, actual);
     }
@@ -230,16 +234,16 @@ public class ApplicationCapabilitiesInformationTests
     {
         ReadOnlySpan<byte> contentOctets = stackalloc byte[]
         {
-            13,
-            21,
+            13, 21,
+
             //undefined sds configuration
             3
         };
 
         ApplicationCapabilitiesInformation sut = ApplicationCapabilitiesInformation.Decode(contentOctets);
 
-        SdsSchemeIndicator expected = SdsSchemeIndicator.All10tags64bytes;
-        SdsSchemeIndicator actual = sut.GetSdsSchemeIndicator();
+        SdsSchemeIndicators expected = SdsSchemeIndicators.All10tags64bytes;
+        SdsSchemeIndicators actual = sut.GetSdsSchemeIndicator();
 
         Assert.Equal(expected, actual);
     }
@@ -250,16 +254,16 @@ public class ApplicationCapabilitiesInformationTests
     {
         ReadOnlySpan<byte> contentOctets = stackalloc byte[]
         {
-            13,
-            21,
+            13, 21,
+
             //undefined sds configuration
             4
         };
 
         ApplicationCapabilitiesInformation sut = ApplicationCapabilitiesInformation.Decode(contentOctets);
 
-        SdsSchemeIndicator expected = SdsSchemeIndicator.All10tags96bytes;
-        SdsSchemeIndicator actual = sut.GetSdsSchemeIndicator();
+        SdsSchemeIndicators expected = SdsSchemeIndicators.All10tags96bytes;
+        SdsSchemeIndicators actual = sut.GetSdsSchemeIndicator();
 
         Assert.Equal(expected, actual);
     }
@@ -270,35 +274,34 @@ public class ApplicationCapabilitiesInformationTests
     {
         ReadOnlySpan<byte> contentOctets = stackalloc byte[]
         {
-            13,
-            21,
+            13, 21,
+
             //undefined sds configuration
             8
         };
 
         ApplicationCapabilitiesInformation sut = ApplicationCapabilitiesInformation.Decode(contentOctets);
 
-        SdsSchemeIndicator expected = SdsSchemeIndicator.AllSdstags32bytesexcept;
-        SdsSchemeIndicator actual = sut.GetSdsSchemeIndicator();
+        SdsSchemeIndicators expected = SdsSchemeIndicators.AllSdstags32bytesexcept;
+        SdsSchemeIndicators actual = sut.GetSdsSchemeIndicator();
 
         Assert.Equal(expected, actual);
     }
-
 
     [Fact]
     public void ApplicationCapabilitiesInformation_GetDataStorageVersionNumberOtherValueRFU_ReturnsExpectedResult()
     {
         ReadOnlySpan<byte> contentOctets = stackalloc byte[]
         {
-            7,
-            21,
+            7, 21,
+
             //undefined sds configuration
             8
         };
 
         ApplicationCapabilitiesInformation sut = ApplicationCapabilitiesInformation.Decode(contentOctets);
 
-        DataStorageVersionNumber expected = new DataStorageVersionNumber(7);
+        DataStorageVersionNumber expected = new(7);
         DataStorageVersionNumber actual = sut.GetDataStorageVersionNumber();
 
         Assert.Equal(expected, actual);
@@ -309,8 +312,8 @@ public class ApplicationCapabilitiesInformationTests
     {
         ReadOnlySpan<byte> contentOctets = stackalloc byte[]
         {
-            192,
-            21,
+            192, 21,
+
             //undefined sds configuration
             8
         };
@@ -328,8 +331,8 @@ public class ApplicationCapabilitiesInformationTests
     {
         ReadOnlySpan<byte> contentOctets = stackalloc byte[]
         {
-            193,
-            21,
+            193, 21,
+
             //undefined sds configuration
             8
         };
@@ -347,8 +350,8 @@ public class ApplicationCapabilitiesInformationTests
     {
         ReadOnlySpan<byte> contentOctets = stackalloc byte[]
         {
-            194,
-            21,
+            194, 21,
+
             //undefined sds configuration
             8
         };

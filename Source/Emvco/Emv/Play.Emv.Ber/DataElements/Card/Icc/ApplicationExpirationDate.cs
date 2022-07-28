@@ -3,6 +3,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
+using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.ValueTypes;
 
@@ -30,19 +31,8 @@ public record ApplicationExpirationDate : DataElement<uint>, IEqualityComparer<A
 
     #region Instance Members
 
-    public bool CombinedDataAuthenticationIndicator() => _Value.IsBitSet(9);
     public override PlayEncodingId GetEncodingId() => EncodingId;
-
-    public SdsSchemeIndicator GetSdsSchemeIndicator()
-    {
-        const byte bitOffset = 1;
-
-        return SdsSchemeIndicator.Get((byte) (_Value >> bitOffset));
-    }
-
     public override Tag GetTag() => Tag;
-    public bool SupportForBalanceReading() => _Value.IsBitSet(10);
-    public bool SupportForFieldOffDetection() => _Value.IsBitSet(11);
 
     #endregion
 

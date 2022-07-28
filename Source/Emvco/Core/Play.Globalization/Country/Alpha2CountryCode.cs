@@ -2,7 +2,7 @@ using System;
 
 namespace Play.Globalization.Country;
 
-public readonly struct Alpha2CountryCode : IComparable<Alpha2CountryCode>
+public readonly record struct Alpha2CountryCode : IComparable<Alpha2CountryCode>
 {
     #region Instance Values
 
@@ -28,8 +28,6 @@ public readonly struct Alpha2CountryCode : IComparable<Alpha2CountryCode>
     #endregion
 
     #region Equality
-
-    public override bool Equals(object? obj) => obj is Alpha2CountryCode countryCodeAlpha2 && Equals(countryCodeAlpha2);
 
     public bool Equals(ReadOnlySpan<char> other)
     {
@@ -61,8 +59,6 @@ public readonly struct Alpha2CountryCode : IComparable<Alpha2CountryCode>
 
     #region Operator Overrides
 
-    public static bool operator ==(Alpha2CountryCode left, Alpha2CountryCode right) => left.Equals(right);
-
     public static explicit operator string(Alpha2CountryCode value)
     {
         Span<char> buffer = stackalloc char[2];
@@ -71,8 +67,6 @@ public readonly struct Alpha2CountryCode : IComparable<Alpha2CountryCode>
 
         return new string(buffer);
     }
-
-    public static bool operator !=(Alpha2CountryCode left, Alpha2CountryCode right) => !left.Equals(right);
 
     #endregion
 }

@@ -3,6 +3,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
+using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.ValueTypes;
 
@@ -33,12 +34,12 @@ public record ApplicationCapabilitiesInformation : DataElement<uint>, IEqualityC
     public bool CombinedDataAuthenticationIndicator() => _Value.IsBitSet(9);
     public override PlayEncodingId GetEncodingId() => EncodingId;
 
-    public SdsSchemeIndicator GetSdsSchemeIndicator()
+    public SdsSchemeIndicators GetSdsSchemeIndicator()
     {
         const uint sdsBitMask = 0b1111_1111_1111_1111_0000_0000;
-        byte input = (byte)_Value.GetMaskedValue(sdsBitMask);
+        byte input = (byte) _Value.GetMaskedValue(sdsBitMask);
 
-        return SdsSchemeIndicator.Get(input);
+        return SdsSchemeIndicators.Get(input);
     }
 
     public DataStorageVersionNumber GetDataStorageVersionNumber()
@@ -46,7 +47,7 @@ public record ApplicationCapabilitiesInformation : DataElement<uint>, IEqualityC
         const byte bitOffset = 16;
         const byte bitMask = 0b11110000;
 
-        byte input = (byte)(_Value >> bitOffset).GetMaskedValue(bitMask);
+        byte input = (byte) (_Value >> bitOffset).GetMaskedValue(bitMask);
 
         return new DataStorageVersionNumber(input);
     }
