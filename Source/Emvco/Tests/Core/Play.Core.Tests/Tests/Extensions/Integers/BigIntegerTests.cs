@@ -80,7 +80,7 @@ public class BigIntegerTests : TestBase
     [MemberData(nameof(IntFixture.ForBigInteger), 50, MemberType = typeof(IntFixture))]
     public void RandomBigInteger_AsSpan_ReturnsExpectedResult(BigInteger testData)
     {
-        Span<byte> buffer = stackalloc byte[testData.GetByteCount()];
+        Span<byte> buffer = stackalloc byte[testData.GetByteCount(true)];
         testData.AsSpan(buffer);
 
         Span<byte> expectedBuffer = testData.ToByteArray(true);
