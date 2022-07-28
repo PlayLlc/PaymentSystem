@@ -46,9 +46,9 @@ public record ReaderContactlessTransactionLimitWhenCvmIsOnDevice : ReaderContact
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = PlayCodec.NumericCodec.Decode(value).ToUInt64Result() ?? throw new DataElementParsingException(EncodingId);
+        ulong result = PlayCodec.NumericCodec.DecodeToUInt64(value);
 
-        return new ReaderContactlessTransactionLimitWhenCvmIsOnDevice(result.Value);
+        return new ReaderContactlessTransactionLimitWhenCvmIsOnDevice(result);
     }
 
     #endregion
