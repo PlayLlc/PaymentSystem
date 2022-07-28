@@ -15,7 +15,7 @@ namespace Play.Emv.Ber.DataElements;
 public record ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice : ReaderContactlessTransactionLimit
 {
     #region Static Metadata
-    
+
     public static readonly Tag Tag = 0xDF8124;
 
     #endregion
@@ -32,6 +32,7 @@ public record ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice : ReaderCont
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount() => _ByteLength;
     public override ushort GetValueByteCount(BerCodec codec) => _ByteLength;
+
     #endregion
 
     #region Serialization
@@ -46,9 +47,9 @@ public record ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice : ReaderCont
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = PlayCodec.NumericCodec.Decode(value).ToUInt64Result() ?? throw new DataElementParsingException(EncodingId);
+        ulong result = PlayCodec.NumericCodec.DecodeToUInt64(value);
 
-        return new ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice(result.Value);
+        return new ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice(result);
     }
 
     #endregion
