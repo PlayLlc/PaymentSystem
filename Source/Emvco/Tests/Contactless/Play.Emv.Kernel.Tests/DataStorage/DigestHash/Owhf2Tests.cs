@@ -3,6 +3,7 @@
 using AutoFixture;
 
 using Play.Emv.Ber;
+using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Kernel.Services;
 using Play.Encryption.Ciphers.Symmetric;
@@ -74,14 +75,16 @@ public class Owhf2Tests
         Owhf2TestsConfigurationSetup.RegisterDefaultConfiguration(_Database);
 
         byte[] expectedKey = { 22, 24, 42, 64, 74, 84, 5, 6, 24, 42, 64, 74, 84, 106, 7, 8 };
+        byte[] expectedMessage = ComputeExpectedMessage(message.ToArray(), _Database.Get<DataStorageRequestedOperatorId>(DataStorageRequestedOperatorId.Tag));
+        byte[] encryption = _DesCodec.Encrypt(expectedMessage, expectedKey);
+        byte[] expectedOwhf2Encryption = ComputeExpectedEncryptedResult(encryption, message.ToArray());
 
         //Act
         byte[] encryptedResult = Owhf2.ComputeR(_Database, message);
-        byte[] decryptedResult = _DesCodec.Decrypt(encryptedResult, expectedKey);
 
         //Assert
         Assert.NotNull(encryptedResult);
-        Assert.Equal(message.ToArray(), decryptedResult);
+        Assert.Equal(expectedOwhf2Encryption, encryptedResult);
     }
 
     [Theory]
@@ -92,14 +95,44 @@ public class Owhf2Tests
         Owhf2TestsConfigurationSetup.RegisterDefaultConfiguration(_Database);
 
         byte[] expectedKey = { 22, 24, 42, 64, 74, 84, 5, 6, 24, 42, 64, 74, 84, 106, 7, 8 };
+        byte[] expectedMessage = ComputeExpectedMessage(inputPD, _Database.Get<DataStorageRequestedOperatorId>(DataStorageRequestedOperatorId.Tag));
+        byte[] encryption = _DesCodec.Encrypt(expectedMessage, expectedKey);
+        byte[] expectedOwhf2Encryption = ComputeExpectedEncryptedResult(encryption, inputPD);
 
         //Act
         byte[] encryptedResult = Owhf2.ComputeR(_Database, inputPD);
-        byte[] decryptedResult = _DesCodec.Decrypt(encryptedResult, expectedKey);
 
         //Assert
         Assert.NotNull(encryptedResult);
-        Assert.Equal(inputPD, decryptedResult);
+        Assert.Equal(expectedOwhf2Encryption, encryptedResult);
+    }
+
+    #endregion
+
+    #region Private Members
+
+    private static byte[] ComputeExpectedMessage(byte[] inputPD, DataStorageRequestedOperatorId operatorId)
+    {
+        byte[] encodedObjectId = operatorId.EncodeValue();
+
+        if (encodedObjectId.Length != inputPD.Length)
+            throw new Exception("This should not happen");
+
+        for (int i = 0; i < encodedObjectId.Length; i++)
+            encodedObjectId[i] = (byte)(encodedObjectId[i] ^ inputPD[i]);
+
+        return encodedObjectId;
+    }
+
+    private static byte[] ComputeExpectedEncryptedResult(byte[] initialEncryption, byte[] inputPD)
+    {
+        if (initialEncryption.Length != inputPD.Length)
+            throw new Exception("This should not happen");
+
+        for (int i = 0; i < initialEncryption.Length; i++)
+            initialEncryption[i] = (byte)(initialEncryption[i] ^ inputPD[i]);
+
+        return initialEncryption;
     }
 
     #endregion

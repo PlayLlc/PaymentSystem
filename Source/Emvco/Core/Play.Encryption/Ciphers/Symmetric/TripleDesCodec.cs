@@ -32,7 +32,7 @@ public class TripleDesCodec : IBlockCipher
     public TripleDesCodec(BlockCipherConfiguration configuration)
     {
         if (configuration.GetKeySize() != KeySize._128)
-            throw new ArgumentOutOfRangeException(nameof(configuration), $"Valid {nameof(KeySize)} values for {nameof(TripleDesCodec)} are {KeySize._128}");
+            throw new ArgumentOutOfRangeException(nameof(configuration), $"Valid {nameof(KeySize)} values for {nameof(TripleDesCodec)} are {KeySize._64}");
 
         if (configuration.GetBlockSize() != BlockSize._8)
             throw new ArgumentOutOfRangeException(nameof(configuration), $"Valid {nameof(BlockSize)} values for {nameof(TripleDesCodec)} are {BlockSize._8}");
@@ -86,7 +86,7 @@ public class TripleDesCodec : IBlockCipher
 
     public KeySize GetKeySize() => _KeySize;
 
-    public byte[] Sign(ReadOnlySpan<byte> message, ReadOnlySpan<byte> key)
+    public byte[] Encrypt(ReadOnlySpan<byte> message, ReadOnlySpan<byte> key)
     {
         TripleDESCryptoServiceProvider desCryptoServiceProvider = GetDesProvider(key);
         byte[] result = _Preprocessor.Preprocess(message);

@@ -24,6 +24,16 @@ public class Owhf2
 
     #endregion
 
+    #region Constructor
+
+    static Owhf2()
+    {
+        _Codec = new TripleDesCodec(new BlockCipherConfiguration(BlockCipherMode.Cbc, BlockPaddingMode.None, KeySize._128, BlockSize._8,
+        new Iso7816PlainTextPreprocessor(BlockSize._8)));
+    }
+
+    #endregion
+
     #region Instance Members
 
     /// <exception cref="TerminalDataException"></exception>
@@ -42,28 +52,37 @@ public class Owhf2
 
         ResolveKey(database, objectId, key);
 
+        return EncryptTripleDes(inputPD, objectId, key);
+    }
+
+    #endregion
+
+    #region TripleDES
+
+    private static byte[] EncryptTripleDes(ReadOnlySpan<byte> inputPD, Span<byte> objectId, Span<byte> key)
+    {
         ////OID = OID ⊕ PD
-        //for (int i = 0; i < objectId.Length; i++)
-        //{
-        //    objectId[i] = (byte)(objectId[i] ^ inputPD[i]);
-        //}
+        for (int i = 0; i < objectId.Length; i++)
+        {
+            unchecked
+            {
+                objectId[i] = (byte)(objectId[i] ^ inputPD[i]);
+            }
+        }
 
-        ////DES(KL)[OID ⊕ PD]
-        //byte[] desKlOidPd = _Codec.Sign(objectId, key[..8]);
+        ////Triple DES(K)[OID ⊕ PD]
+        byte[] tripleDesEncryption = _Codec.Encrypt(objectId, key);
 
-        ////DES-1(KR)[DES(KL)[OID ⊕ PD]]
-        //byte[] desKrKlOidPd = _Codec.Sign(desKlOidPd, key[8..]);
+        ////R := DES(KL)[DES-1(KR)[DES(KL)[OID ⊕ PD]]] ⊕ PD
+        for (int i = 0; i < tripleDesEncryption.Length; i++)
+        {
+            unchecked
+            {
+                tripleDesEncryption[i] = (byte)(tripleDesEncryption[i] ^ inputPD[i]);
+            }
+        }
 
-        ////DES(KL)[DES-1(KR)[DES(KL)[OID ⊕ PD]]]
-        //byte[] finalEncryption = _Codec.Sign(desKrKlOidPd, key[..8]);
-
-        //for (int i = 0; i < finalEncryption.Length; i++)
-        //{
-        //    finalEncryption[i] = (byte)(finalEncryption[i] ^ inputPD[i]);
-        //}
-
-        //return finalEncryption;
-        return _Codec.Sign(inputPD, key);
+        return tripleDesEncryption;
     }
 
     #endregion

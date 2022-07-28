@@ -82,7 +82,7 @@ public class Owhf2Aes
 
     private static void CreateT(AesCodec codec, ReadOnlySpan<byte> key, ReadOnlySpan<byte> message, Span<byte> buffer)
     {
-        codec.Sign(message, key).CopyTo(buffer);
+        codec.Encrypt(message, key).CopyTo(buffer);
         message.CopyTo(buffer[^message.Length..]);
     }
 
