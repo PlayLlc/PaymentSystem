@@ -83,7 +83,7 @@ public class BigIntegerTests : TestBase
         Span<byte> buffer = stackalloc byte[testData.GetByteCount()];
         testData.AsSpan(buffer);
 
-        Span<byte> expectedBuffer = testData.ToByteArray();
+        Span<byte> expectedBuffer = testData.ToByteArray(true);
 
         Assert.Equal(expectedBuffer.ToArray(), buffer.ToArray());
     }

@@ -54,13 +54,13 @@ public record ApplicationDedicatedFileName : DataElement<BigInteger>, IEqualityC
 
     #region Instance Members
 
-    public byte[] AsByteArray() => _Value.ToByteArray();
-    public DedicatedFileName AsDedicatedFileName() => new(_Value.ToByteArray().AsSpan());
+    public byte[] AsByteArray() => _Value.ToByteArray(true);
+    public DedicatedFileName AsDedicatedFileName() => new(_Value.ToByteArray(true).AsSpan());
     public override PlayEncodingId GetEncodingId() => EncodingId;
-    public int GetByteCount() => _Value.GetByteCount();
+    public int GetByteCount() => _Value.GetByteCount(true);
 
     public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() =>
-        new(PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(_Value.ToByteArray()[..5]));
+        new(PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(_Value.ToByteArray(true)[..5]));
 
     public override Tag GetTag() => Tag;
     public bool IsFullMatch(ApplicationDedicatedFileName other) => Equals(other);
@@ -111,7 +111,7 @@ public record ApplicationDedicatedFileName : DataElement<BigInteger>, IEqualityC
     {
         int comparisonLength = GetByteCount() < other.GetByteCount() ? GetByteCount() : other.GetByteCount();
 
-        Span<byte> thisBuffer = _Value.ToByteArray();
+        Span<byte> thisBuffer = _Value.ToByteArray(true);
         Span<byte> otherBuffer = other.AsByteArray();
 
         for (int i = 0; i < comparisonLength; i++)
@@ -146,8 +146,8 @@ public record ApplicationDedicatedFileName : DataElement<BigInteger>, IEqualityC
         return new ApplicationDedicatedFileName(result);
     }
 
-    public override byte[] EncodeValue() => _Value.ToByteArray();
-    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode(_Value.ToByteArray(), length);
+    public override byte[] EncodeValue() => _Value.ToByteArray(true);
+    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode(_Value.ToByteArray(true), length);
 
     #endregion
 
@@ -170,7 +170,7 @@ public record ApplicationDedicatedFileName : DataElement<BigInteger>, IEqualityC
 
     #region Operator Overrides
 
-    public static implicit operator DedicatedFileName(ApplicationDedicatedFileName value) => new(value._Value.ToByteArray());
+    public static implicit operator DedicatedFileName(ApplicationDedicatedFileName value) => new(value._Value.ToByteArray(true));
 
     #endregion
 }

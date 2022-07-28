@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;

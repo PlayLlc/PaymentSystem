@@ -53,8 +53,8 @@ public record CvmList : DataElement<BigInteger>, IResolveXAndYAmountForCvmSelect
         }
 
         const int offset = 8;
-        result = new CvmRule[((_Value.GetByteCount() - offset) / 2) - 1];
-        Span<byte> valueBuffer = _Value.ToByteArray().AsSpan()[offset..];
+        result = new CvmRule[((_Value.GetByteCount(true) - offset) / 2) - 1];
+        Span<byte> valueBuffer = _Value.ToByteArray(true).AsSpan()[offset..];
 
         for (int i = 2, j = 0; i < result.Length; j++)
             result[j] = new CvmRule(valueBuffer[i++..i++]);
@@ -64,8 +64,12 @@ public record CvmList : DataElement<BigInteger>, IResolveXAndYAmountForCvmSelect
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
-    public Money GetXAmount(NumericCurrencyCode currencyCode) => new(PlayCodec.BinaryCodec.DecodeToUInt64(_Value.ToByteArray().AsSpan()[..4]), currencyCode);
-    public Money GetYAmount(NumericCurrencyCode currencyCode) => new(PlayCodec.BinaryCodec.DecodeToUInt64(_Value.ToByteArray().AsSpan()[4..8]), currencyCode);
+
+    public Money GetXAmount(NumericCurrencyCode currencyCode) =>
+        new(PlayCodec.BinaryCodec.DecodeToUInt64(_Value.ToByteArray(true).AsSpan()[..4]), currencyCode);
+
+    public Money GetYAmount(NumericCurrencyCode currencyCode) =>
+        new(PlayCodec.BinaryCodec.DecodeToUInt64(_Value.ToByteArray(true).AsSpan()[4..8]), currencyCode);
 
     #endregion
 
