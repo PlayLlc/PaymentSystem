@@ -31,12 +31,13 @@ public record IssuerPublicKeyCertificate : DataElement<BigInteger>, IEqualityCom
 
     #region Instance Members
 
-    public byte[] AsByteArray() => _Value.ToByteArray();
+    public byte[] AsByteArray() => _Value.ToByteArray(true);
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public int GetByteCount() => _Value.GetByteCount();
-    public ReadOnlySpan<byte> GetEncipherment() => _Value.ToByteArray().AsSpan();
+    public ReadOnlySpan<byte> GetEncipherment() => _Value.ToByteArray(true).AsSpan();
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => PlayCodec.BinaryCodec.GetByteCount(_Value);
+    public override ushort GetValueByteCount() => PlayCodec.BinaryCodec.GetByteCount(_Value);
 
     #endregion
 
@@ -56,6 +57,8 @@ public record IssuerPublicKeyCertificate : DataElement<BigInteger>, IEqualityCom
 
         return new IssuerPublicKeyCertificate(result);
     }
+
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
 
     #endregion
 

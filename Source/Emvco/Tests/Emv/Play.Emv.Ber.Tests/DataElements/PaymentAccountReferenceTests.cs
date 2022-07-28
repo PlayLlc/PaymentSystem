@@ -2,6 +2,7 @@
 
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Testing.BaseTestClasses;
 using Play.Testing.Emv.Ber.Primitive;
@@ -12,12 +13,13 @@ namespace Play.Emv.Ber.Tests.DataElements;
 
 public class PaymentAccountReferenceTests : TestBase
 {
+    #region Instance Values
 
-    #region Instance Members
-
-    private readonly BerCodec _BerCodec = new BerCodec(EmvCodec.Configuration);
+    private readonly BerCodec _BerCodec = new(EmvCodec.Configuration);
 
     #endregion
+
+    #region Instance Members
 
     /// <summary>
     ///     BerEncoding_DeserializingDataElement_CreatesPrimitiveValue
@@ -100,13 +102,19 @@ public class PaymentAccountReferenceTests : TestBase
     [Fact]
     public void PaymentAccountReference_InvokesImplicitCastOperator_ReturnsExpectedResult()
     {
-        char[] testData = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G',
-        'H', 'I', 'J', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+        char[] testData =
+        {
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+            '1', '2', '3', '4', '5', '6', '7', '8', '9'
+        };
 
-        PaymentAccountReference sut = new PaymentAccountReference(testData);
+        PaymentAccountReference sut = new(testData);
 
-        ReadOnlySpan<char> actual = ((ReadOnlySpan<char>)sut);
+        ReadOnlySpan<char> actual = (ReadOnlySpan<char>) sut;
 
         Assert.Equal(testData, actual.ToArray());
     }
+
+    #endregion
 }

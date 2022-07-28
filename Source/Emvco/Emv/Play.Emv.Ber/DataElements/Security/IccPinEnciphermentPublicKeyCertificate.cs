@@ -29,9 +29,9 @@ public record IccPinEnciphermentPublicKeyCertificate : DataElement<BigInteger>, 
 
     #region Instance Members
 
-    public byte[] AsByteArray() => _Value.ToByteArray();
+    public byte[] AsByteArray() => _Value.ToByteArray(true);
     public override PlayEncodingId GetEncodingId() => EncodingId;
-    public int GetByteCount() => _Value.GetByteCount();
+    public int GetByteCount() => _Value.GetByteCount(true);
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
