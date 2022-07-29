@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Testing.Emv.Ber.Primitive;
 
@@ -10,6 +11,8 @@ namespace Play.Emv.Ber.Tests.DataElements;
 
 public class ResponseMessageTemplateFormat1Tests
 {
+    #region Instance Members
+
     /// <summary>
     ///     BerEncoding_DeserializingDataElement_CreatesPrimitiveValue
     /// </summary>
@@ -86,4 +89,6 @@ public class ResponseMessageTemplateFormat1Tests
 
         Assert.Equal(testValue, expectedResult);
     }
+
+    #endregion
 }

@@ -55,7 +55,7 @@ public class CombinationCompositeKey : IEquatable<CombinationCompositeKey>, IEqu
 
     public bool Equals(CombinationCompositeKey? other)
     {
-        if (other == null)
+        if (other is null)
             return false;
 
         return (_DedicatedFileName == other._DedicatedFileName) && (_KernelIdTypes == other._KernelIdTypes) && (_TransactionType == other._TransactionType);

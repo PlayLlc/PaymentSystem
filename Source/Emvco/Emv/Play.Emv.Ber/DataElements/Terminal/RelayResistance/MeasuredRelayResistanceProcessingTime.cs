@@ -43,10 +43,10 @@ public record MeasuredRelayResistanceProcessingTime : DataElement<RelaySeconds>
         RelaySeconds timeElapsedInRelaySeconds = new(timeElapsed);
 
         RelaySeconds fastestExpectedTransmissionTime = terminalExpectedRapduTransmissionTime < (RelaySeconds) deviceEstimatedTransmissionTime
-            ? deviceEstimatedTransmissionTime
-            : terminalExpectedRapduTransmissionTime;
+            ? terminalExpectedRapduTransmissionTime
+            : deviceEstimatedTransmissionTime;
 
-        RelaySeconds expectedResponseTime = new(terminalExpectedCapduTransmissionTime - fastestExpectedTransmissionTime);
+        RelaySeconds expectedResponseTime = terminalExpectedCapduTransmissionTime - fastestExpectedTransmissionTime;
         RelaySeconds processingTime = timeElapsedInRelaySeconds - expectedResponseTime;
 
         return new MeasuredRelayResistanceProcessingTime(processingTime < RelaySeconds.Zero ? 0 : (ushort) processingTime);

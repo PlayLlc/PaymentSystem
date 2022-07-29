@@ -33,7 +33,7 @@ public class Record : IEqualityComparer<Record>, IEquatable<Record>
 
     #region Constructor
 
-    protected Record(RecordKey key, PrimitiveValue[] value)
+    public Record(RecordKey key, PrimitiveValue[] value)
     {
         _Key = key;
         _Value = value;
@@ -186,6 +186,7 @@ public class Record : IEqualityComparer<Record>, IEquatable<Record>
 
     #region Serialization
 
+    /// <exception cref="TerminalDataException"></exception>
     public static Record Decode(EmvCodec codec, ReadOnlyMemory<byte> value)
     {
         List<PrimitiveValue> buffer = new();

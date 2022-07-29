@@ -7,7 +7,7 @@ using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.ValueTypes;
 
-public readonly struct Track1
+public readonly record struct Track1
 {
     #region Static Metadata
 

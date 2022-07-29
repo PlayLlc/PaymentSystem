@@ -34,7 +34,9 @@ public record IssuerIdentificationNumber : DataElement<uint>, IEqualityComparer<
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => _ByteLength;
+
+    public override ushort GetValueByteCount() => _ByteLength;
 
     #endregion
 
