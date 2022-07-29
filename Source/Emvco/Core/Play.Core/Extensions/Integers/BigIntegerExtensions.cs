@@ -9,16 +9,15 @@ public static class BigIntegerExtensions
 {
     #region Instance Members
 
-    /// <param name="buffer"></param>
     /// <returns>The amount of bytes written to the buffer</returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     /// <exception cref="OverflowException"></exception>
-    public static int AsSpan(this BigInteger value, Span<byte> buffer)
+    public static int AsSpan(this BigInteger value, Span<byte> buffer, bool isUnsigned = true)
     {
-        if (buffer.Length < value.GetByteCount())
+        if (buffer.Length < value.GetByteCount(isUnsigned))
             throw new ArgumentOutOfRangeException(nameof(buffer));
 
-        value.TryWriteBytes(buffer, out int bytesWritten);
+        value.TryWriteBytes(buffer, out int bytesWritten, isUnsigned);
 
         return bytesWritten;
     }
