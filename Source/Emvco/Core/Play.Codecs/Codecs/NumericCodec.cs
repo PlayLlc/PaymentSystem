@@ -46,8 +46,18 @@ public class NumericCodec : PlayCodec
         throw new NotImplementedException();
     }
 
-    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
-    public override ushort GetByteCount<T>(T value) where T : struct => checked((ushort) Unsafe.SizeOf<T>());
+    public override ushort GetByteCount<T>(T value) where T : struct => throw new NotImplementedException();
+
+    public ushort GetByteCount(byte value) => (ushort)(value.GetNumberOfDigits() / 2 + value.GetNumberOfDigits() % 2);
+
+    public ushort GetByteCount(ushort value) => (ushort)(value.GetNumberOfDigits() / 2 + value.GetNumberOfDigits() % 2);
+
+    public ushort GetByteCount(uint value) => (ushort)(value.GetNumberOfDigits() / 2 + value.GetNumberOfDigits() % 2);
+
+    public ushort GetByteCount(ulong value) => (ushort)(value.GetNumberOfDigits() / 2 + value.GetNumberOfDigits() % 2);
+
+    public ushort GetByteCount(BigInteger value) => unchecked((ushort)(value.GetNumberOfDigits() / 2 + value.GetNumberOfDigits() % 2));
+
     public int GetMaxByteCount(int charCount) => charCount / 2;
 
     public int GetCharCount(ReadOnlySpan<byte> value)
