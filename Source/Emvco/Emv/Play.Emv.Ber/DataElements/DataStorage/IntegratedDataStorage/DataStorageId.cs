@@ -35,8 +35,8 @@ public record DataStorageId : DataElement<BigInteger>
 
     #region Instance Members
 
-    public new ushort GetTagLengthValueByteCount() => (ushort) new TagLength(Tag, _Value.ToByteArray()).GetTagLengthValueByteCount();
-    public new ushort GetValueByteCount() => (ushort) _Value.GetByteCount();
+    public new ushort GetTagLengthValueByteCount() => (ushort) new TagLength(Tag, _Value.ToByteArray(true)).GetTagLengthValueByteCount();
+    public new ushort GetValueByteCount() => (ushort) _Value.GetByteCount(true);
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
