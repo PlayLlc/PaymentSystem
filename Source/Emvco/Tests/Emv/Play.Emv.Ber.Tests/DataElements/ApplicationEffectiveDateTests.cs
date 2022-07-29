@@ -3,6 +3,7 @@
 using Play.Ber.DataObjects;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
+using Play.Globalization.Time;
 using Play.Testing.Emv.Ber.Primitive;
 
 using Xunit;
@@ -112,8 +113,8 @@ public class ApplicationEffectiveDateTests
 
         ApplicationEffectiveDate sut = ApplicationEffectiveDate.Decode(testData.EncodeValue().AsSpan());
 
-        uint expected = 220707;
-        Assert.Equal(expected, (uint)sut);
+        DateTimeUtc expected = new(22,07, 07);
+        Assert.Equal(expected, (DateTimeUtc)sut);
     }
 
     #endregion

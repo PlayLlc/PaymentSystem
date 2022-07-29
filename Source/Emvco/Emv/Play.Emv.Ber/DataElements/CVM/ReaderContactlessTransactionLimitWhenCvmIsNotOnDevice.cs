@@ -31,6 +31,8 @@ public record ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice : ReaderCont
 
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount() => _ByteLength;
+
+    public override ushort GetValueByteCount(BerCodec codec) => _ByteLength;
     #endregion
 
     #region Serialization

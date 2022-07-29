@@ -43,7 +43,7 @@ public record ApplicationDedicatedFileName : DataElement<BigInteger>, IEqualityC
     /// <exception cref="OverflowException"></exception>
     public ApplicationDedicatedFileName(BigInteger value) : base(value)
     {
-        if (value.GetByteCount() < RegisteredApplicationProviderIndicator.ByteCount)
+        if (value.GetByteCount(true) < RegisteredApplicationProviderIndicator.ByteCount)
         {
             throw new DataElementParsingException(
                 $"The {nameof(ApplicationDedicatedFileName)} requires a {nameof(RegisteredApplicationProviderIndicator)} but none could be found");
@@ -94,7 +94,7 @@ public record ApplicationDedicatedFileName : DataElement<BigInteger>, IEqualityC
     {
         int comparisonLength = GetByteCount() < other.GetByteCount() ? GetByteCount() : other.GetByteCount();
 
-        Span<byte> thisBuffer = stackalloc byte[_Value.GetByteCount()];
+        Span<byte> thisBuffer = stackalloc byte[_Value.GetByteCount(true)];
         _Value.AsSpan(thisBuffer);
         Span<byte> otherBuffer = other.AsByteArray();
 

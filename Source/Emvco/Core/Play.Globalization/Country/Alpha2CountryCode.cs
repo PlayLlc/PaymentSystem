@@ -2,7 +2,7 @@ using System;
 
 namespace Play.Globalization.Country;
 
-public readonly record struct Alpha2CountryCode : IComparable<Alpha2CountryCode>
+public readonly record struct Alpha2CountryCode
 {
     #region Instance Values
 
@@ -15,7 +15,7 @@ public readonly record struct Alpha2CountryCode : IComparable<Alpha2CountryCode>
     #region Constructor
 
     //add extra default parameter to avoid circular dependency.
-    public Alpha2CountryCode(ReadOnlySpan<char> value, bool validate = false)
+    public Alpha2CountryCode(ReadOnlySpan<char> value)
     {
         //Something not working right with the initialization of the repo
         //if (validate && !CountryCodeRepository.IsValid(value))
@@ -64,8 +64,6 @@ public readonly record struct Alpha2CountryCode : IComparable<Alpha2CountryCode>
 
         return unchecked((hash * _FirstChar.GetHashCode()) + (hash * _SecondChar.GetHashCode()));
     }
-
-    public int CompareTo(Alpha2CountryCode other) => (_FirstChar + _SecondChar).CompareTo(other._FirstChar + other._SecondChar);
 
     #endregion
 

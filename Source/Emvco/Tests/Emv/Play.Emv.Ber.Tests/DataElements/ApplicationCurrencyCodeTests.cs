@@ -35,16 +35,6 @@ public class ApplicationCurrencyCodeTests
         });
     }
 
-    [Fact]
-    public void BerEncoding_DeserializingDataElementFromInvalidCurrencyCode_ExceptionIsThrown()
-    {
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-        {
-            ReadOnlySpan<byte> input = stackalloc byte[] { 7, 12 };
-                ApplicationCurrencyCode testValue = ApplicationCurrencyCode.Decode(input);
-        });
-    }
-
     /// <summary>
     ///     BerEncoding_EncodingDataElement_SerializesExpectedValue
     /// </summary>

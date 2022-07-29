@@ -3,28 +3,28 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
-using Play.Emv.Ber.ValueTypes;
+using Play.Globalization.Time;
 
 namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Description: Lists a number of card features beyond regular payment.
 /// </summary>
-public record ApplicationExpirationDate : DataElement<uint>, IEqualityComparer<ApplicationExpirationDate>
+public record ApplicationExpirationDate : DataElement<DateTimeUtc>, IEqualityComparer<ApplicationExpirationDate>
 {
     #region Static Metadata
 
     public static readonly Tag Tag = 0x5F24;
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     private const byte _ByteLength = 3;
+    private const byte _CharLength = 6;
 
     #endregion
 
     #region Constructor
 
-    public ApplicationExpirationDate(uint value) : base(value)
+    public ApplicationExpirationDate(DateTimeUtc value) : base(value)
     { }
 
     #endregion
@@ -50,11 +50,15 @@ public record ApplicationExpirationDate : DataElement<uint>, IEqualityComparer<A
 
         uint result = PlayCodec.NumericCodec.DecodeToUInt32(value);
 
-        return new ApplicationExpirationDate(result);
+        nint charLength = result.GetNumberOfDigits();
+
+        Check.Primitive.ForCharLength(charLength, _CharLength, Tag);
+
+        return new ApplicationExpirationDate(new DateTimeUtc(value[0], value[1], value[2]));
     }
 
-    public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(_Value, length);
+    public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value.EncodeDate(), _ByteLength);
+    public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(_Value.EncodeDate(), length);
 
     #endregion
 
@@ -77,7 +81,7 @@ public record ApplicationExpirationDate : DataElement<uint>, IEqualityComparer<A
 
     #region Operator Overrides
 
-    public static explicit operator uint(ApplicationExpirationDate value) => value._Value;
+    public static explicit operator DateTimeUtc(ApplicationExpirationDate value) => value._Value;
 
     #endregion
 }

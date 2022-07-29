@@ -56,7 +56,7 @@ public static class CurrencyCodeRepository
         if (!formatMap.ContainsKey(alpha3CurrencyCode))
             return null;
 
-        return new Currency(new NumericCurrencyCode(numericCurrencyCode, false), new Alpha3CurrencyCode(alpha3CurrencyCode),
+        return new Currency(new NumericCurrencyCode(numericCurrencyCode), new Alpha3CurrencyCode(alpha3CurrencyCode),
             formatMap[alpha3CurrencyCode].CurrencySymbol, formatMap[alpha3CurrencyCode].CurrencyDecimalDigits);
     }
 

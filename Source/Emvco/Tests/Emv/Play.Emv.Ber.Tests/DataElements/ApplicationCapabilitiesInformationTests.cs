@@ -320,10 +320,11 @@ public class ApplicationCapabilitiesInformationTests
 
         ApplicationCapabilitiesInformation sut = ApplicationCapabilitiesInformation.Decode(contentOctets);
 
-        DataStorageVersionNumber expected = DataStorageVersionNumber.DataStorageNotSupported;
+        DataStorageVersionNumber expected = new(0);
         DataStorageVersionNumber actual = sut.GetDataStorageVersionNumber();
 
         Assert.Equal(expected, actual);
+        Assert.Equal((byte)expected, (byte)DataStorageVersionNumbers.NotSupported);
     }
 
     [Fact]
@@ -339,10 +340,11 @@ public class ApplicationCapabilitiesInformationTests
 
         ApplicationCapabilitiesInformation sut = ApplicationCapabilitiesInformation.Decode(contentOctets);
 
-        DataStorageVersionNumber expected = DataStorageVersionNumber.DataStorageVersion1;
+        DataStorageVersionNumber expected = new(0b1);
         DataStorageVersionNumber actual = sut.GetDataStorageVersionNumber();
 
         Assert.Equal(expected, actual);
+        Assert.Equal((byte)expected, (byte)DataStorageVersionNumbers.Version1);
     }
 
     [Fact]
@@ -358,10 +360,11 @@ public class ApplicationCapabilitiesInformationTests
 
         ApplicationCapabilitiesInformation sut = ApplicationCapabilitiesInformation.Decode(contentOctets);
 
-        DataStorageVersionNumber expected = DataStorageVersionNumber.DataStorageVersion2;
+        DataStorageVersionNumber expected = new(0b10);
         DataStorageVersionNumber actual = sut.GetDataStorageVersionNumber();
 
         Assert.Equal(expected, actual);
+        Assert.Equal((byte)expected, (byte)DataStorageVersionNumbers.Version2);
     }
 
     #endregion
