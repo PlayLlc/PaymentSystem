@@ -92,7 +92,7 @@ public class UnpredictableNumberDataObjectListTests
         UnpredictableNumberDataObjectListTestTlv testData = new();
         UnpredictableNumberDataObjectList sut = UnpredictableNumberDataObjectList.Decode(testData.EncodeValue().AsSpan());
         TagLengthValue? testValue = sut.AsTagLengthValue();
-        TagLengthValue expectedResult = new(DynamicDataAuthenticationDataObjectList.Tag, testData.EncodeValue());
+        TagLengthValue expectedResult = new(UnpredictableNumberDataObjectList.Tag, testData.EncodeValue());
         Assert.Equal(testValue, expectedResult);
     }
 
