@@ -26,13 +26,13 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
     #region Constructor
 
     private SelectionEndpoint(
-        ICreateEndpointClient messageRouter, IHandlePcdRequests pcdClient, IHandleDisplayRequests displayClient, TransactionProfile[] transactionProfiles,
+        ICreateEndpointClient messageBus, IHandlePcdRequests pcdClient, IHandleDisplayRequests displayClient, TransactionProfile[] transactionProfiles,
         PoiInformation poiInformation)
     {
         ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
         _SelectionProcess = new SelectionProcess(pcdClient, displayClient, transactionProfiles, poiInformation, this);
-        _EndpointClient = messageRouter.CreateEndpointClient(this);
-        _EndpointClient.Subscribe();
+        _EndpointClient = messageBus.CreateEndpointClient();
+        _EndpointClient.Subscribe(this);
     }
 
     #endregion
@@ -109,7 +109,7 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
 
     public void Dispose()
     {
-        _EndpointClient.Unsubscribe();
+        _EndpointClient.Unsubscribe(this);
     }
 
     #endregion

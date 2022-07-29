@@ -44,6 +44,7 @@ public class Outcome
 
     public Outcome(OutcomeParameterSet outcomeParameterSet)
     {
+        _ErrorIndication = new ErrorIndication();
         _OutcomeParameterSet = outcomeParameterSet;
         _TerminalVerificationResults = new TerminalVerificationResults(0);
     }
@@ -52,7 +53,7 @@ public class Outcome
     {
         _OutcomeParameterSet = outcomeParameterSet;
         _UserInterfaceRequestData = userInterfaceRequestData;
-
+        _ErrorIndication = new ErrorIndication();
         _TerminalVerificationResults = new TerminalVerificationResults(0);
     }
 
@@ -60,7 +61,7 @@ public class Outcome
     {
         _OutcomeParameterSet = outcomeParameterSet;
         _DiscretionaryData = discretionaryData;
-
+        _ErrorIndication = new ErrorIndication();
         _TerminalVerificationResults = new TerminalVerificationResults(0);
     }
 
@@ -69,7 +70,7 @@ public class Outcome
         _OutcomeParameterSet = outcomeParameterSet;
         _DiscretionaryData = discretionaryData;
         _DataRecord = dataRecord;
-
+        _ErrorIndication = new ErrorIndication();
         _TerminalVerificationResults = new TerminalVerificationResults(0);
     }
 
@@ -78,7 +79,7 @@ public class Outcome
         _OutcomeParameterSet = outcomeParameterSet;
         _DiscretionaryData = discretionaryData;
         _UserInterfaceRequestData = userInterfaceRequestData;
-
+        _ErrorIndication = new ErrorIndication();
         _TerminalVerificationResults = new TerminalVerificationResults(0);
     }
 

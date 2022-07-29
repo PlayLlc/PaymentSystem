@@ -32,14 +32,14 @@ public class MainEndpoint : IMessageChannel, IReaderEndpoint, IHandleResponsesTo
     #region Constructor
 
     private MainEndpoint(
-        ActivateReaderRequest activateReaderRequest, ICreateEndpointClient messageRouter, IHandleDisplayRequests displayEndpoint,
+        ActivateReaderRequest activateReaderRequest, ICreateEndpointClient messageBus, IHandleDisplayRequests displayEndpoint,
         IHandleSelectionRequests selectionEndpoint, KernelRetriever kernelRetriever)
     {
         ChannelIdentifier = new ChannelIdentifier(SelectionSessionId);
         _MainProcess = new MainProcess(activateReaderRequest, selectionEndpoint, displayEndpoint, this, kernelRetriever);
 
-        _EndpointClient = messageRouter.CreateEndpointClient(this);
-        _EndpointClient.Subscribe();
+        _EndpointClient = messageBus.CreateEndpointClient();
+        _EndpointClient.Subscribe(this);
     }
 
     #endregion
@@ -150,7 +150,7 @@ public class MainEndpoint : IMessageChannel, IReaderEndpoint, IHandleResponsesTo
 
     public void Dispose()
     {
-        _EndpointClient.Unsubscribe();
+        _EndpointClient.Unsubscribe(this);
     }
 
     #endregion

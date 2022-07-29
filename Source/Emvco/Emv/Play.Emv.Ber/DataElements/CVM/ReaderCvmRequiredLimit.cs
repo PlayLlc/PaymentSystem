@@ -34,6 +34,8 @@ public record ReaderCvmRequiredLimit : DataElement<ulong>, IEqualityComparer<Rea
     public override Tag GetTag() => Tag;
     public override PlayEncodingId GetEncodingId() => EncodingId;
 
+    public override ushort GetValueByteCount() => _ByteLength;
+
     #endregion
 
     #region Serialization
@@ -48,7 +50,7 @@ public record ReaderCvmRequiredLimit : DataElement<ulong>, IEqualityComparer<Rea
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        ushort result = PlayCodec.NumericCodec.DecodeToUInt16(value);
+        ulong result = PlayCodec.NumericCodec.DecodeToUInt64(value);
 
         return new ReaderCvmRequiredLimit(result);
     }

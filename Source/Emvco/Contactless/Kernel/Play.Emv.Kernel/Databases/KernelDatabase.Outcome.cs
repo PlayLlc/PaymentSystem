@@ -22,6 +22,7 @@ public partial class KernelDatabase
     protected TerminalVerificationResults.Builder _TerminalVerificationResultBuilder = TerminalVerificationResults.GetBuilder();
     protected TerminalCapabilities.Builder _TerminalCapabilitiesBuilder = TerminalCapabilities.GetBuilder();
     protected DataStorageSummaryStatus.Builder _DataStorageSummaryStatusBuilder = DataStorageSummaryStatus.GetBuilder();
+    protected TransactionStatusInformation.Builder _TransactionStatusInformationBuilder = TransactionStatusInformation.GetBuilder();
 
     #endregion
 
@@ -62,6 +63,14 @@ public partial class KernelDatabase
         }
 
         return (UserInterfaceRequestData) Get(UserInterfaceRequestData.Tag);
+    }
+
+    public TransactionStatusInformation GetTransactionStatusInformation()
+    {
+        if (IsPresentAndNotEmpty(TransactionStatusInformation.Tag))
+            return _TransactionStatusInformationBuilder.Complete();
+
+        return (TransactionStatusInformation) Get(TransactionStatusInformation.Tag);
     }
 
     /// <summary>
@@ -207,6 +216,29 @@ public partial class KernelDatabase
     }
 
     /// <exception cref="TerminalDataException"></exception>
+    public void Update(TransactionStatusInformationFlags value)
+    {
+        try
+        {
+            _TransactionStatusInformationBuilder.Reset(GetTransactionStatusInformation());
+            _TransactionStatusInformationBuilder.Set(value);
+            Update(_TransactionStatusInformationBuilder.Complete());
+        }
+        catch (DataElementParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}", exception);
+        }
+        catch (CodecParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}", exception);
+        }
+        catch (Exception exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}", exception);
+        }
+    }
+
+    /// <exception cref="TerminalDataException"></exception>
     public void Update(Statuses value)
     {
         try
@@ -253,7 +285,7 @@ public partial class KernelDatabase
     }
 
     /// <exception cref="TerminalDataException"></exception>
-    public void Set(TerminalVerificationResult value)
+    public void Update(TerminalVerificationResult value)
     {
         try
         {

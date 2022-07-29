@@ -19,6 +19,7 @@ internal readonly record struct PciiValue
 
     #region Constructor
 
+    /// <exception cref="PlayInternalException"></exception>
     public PciiValue(uint value)
     {
         if (value.AreAnyBitsSet(_UnrelatedBits))

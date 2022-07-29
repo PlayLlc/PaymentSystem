@@ -153,7 +153,7 @@ public class HexadecimalCodec : PlayCodec
     public byte[] Encode(ushort value) => UnsignedIntegerCodec.Encode(value);
     public byte[] Encode(uint value) => UnsignedIntegerCodec.Encode(value);
     public byte[] Encode(ulong value) => UnsignedIntegerCodec.Encode(value);
-    public byte[] Encode(BigInteger value) => value.ToByteArray();
+    public byte[] Encode(BigInteger value) => value.ToByteArray(true);
 
     // DEPRECATING: This method will eventually be deprecated in favor of a method that passes in a Span<T> buffer
     /// <exception cref="CodecParsingException"></exception>

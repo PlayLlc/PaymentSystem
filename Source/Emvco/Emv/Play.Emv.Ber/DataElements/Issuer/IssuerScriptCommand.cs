@@ -34,7 +34,8 @@ public record IssuerScriptCommand : DataElement<BigInteger>, IEqualityComparer<I
 
     #region Instance Members
 
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => PlayCodec.BinaryCodec.GetByteCount(_Value);
+    public override ushort GetValueByteCount() => PlayCodec.BinaryCodec.GetByteCount(_Value);
     public override Tag GetTag() => Tag;
     public override PlayEncodingId GetEncodingId() => EncodingId;
 

@@ -15,11 +15,6 @@ internal record ResponseMessageHeader : RequestMessageHeader
         _CorrelationId = correlationId;
     }
 
-    public ResponseMessageHeader(CorrelationId correlationId, MessagingConfiguration messagingConfiguration) : base(correlationId, messagingConfiguration)
-    {
-        _CorrelationId = correlationId;
-    }
-
     #endregion
 
     #region Instance Members

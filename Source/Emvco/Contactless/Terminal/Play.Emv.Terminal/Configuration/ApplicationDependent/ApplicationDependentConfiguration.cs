@@ -11,7 +11,7 @@ public class ApplicationDependentConfiguration
     private readonly MerchantInformation _MerchantInformation;
     private readonly SecurityConfiguration _SecurityConfiguration;
     private readonly TerminalActionAnalysisConfiguration _TerminalActionAnalysisConfiguration;
-    private readonly TerminalRiskConfiguration _TerminalRiskConfiguration;
+    private readonly TerminalRiskManagementConfiguration _TerminalRiskManagementConfiguration;
     private readonly TransactionConfiguration _TransactionConfiguration;
 
     #endregion
@@ -20,13 +20,13 @@ public class ApplicationDependentConfiguration
 
     public ApplicationDependentConfiguration(
         ApplicationInformation applicationInformation, MerchantInformation merchantInformation, SecurityConfiguration securityConfiguration,
-        TerminalRiskConfiguration terminalRiskConfiguration, TerminalActionAnalysisConfiguration terminalActionAnalysisConfiguration,
+        TerminalRiskManagementConfiguration terminalRiskManagementConfiguration, TerminalActionAnalysisConfiguration terminalActionAnalysisConfiguration,
         TransactionConfiguration transactionConfiguration)
     {
         _ApplicationInformation = applicationInformation;
         _MerchantInformation = merchantInformation;
         _SecurityConfiguration = securityConfiguration;
-        _TerminalRiskConfiguration = terminalRiskConfiguration;
+        _TerminalRiskManagementConfiguration = terminalRiskManagementConfiguration;
         _TerminalActionAnalysisConfiguration = terminalActionAnalysisConfiguration;
         _TransactionConfiguration = transactionConfiguration;
     }

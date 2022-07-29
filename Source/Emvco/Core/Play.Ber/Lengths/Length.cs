@@ -91,8 +91,8 @@ public readonly struct Length
 
         LongLength.Validate(berLength[..LongLength.GetByteCount(berLength)]);
 
-        var byteCount = LongLength.GetByteCount(berLength);
-        var hello = PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(berLength[1..byteCount]);
+        byte byteCount = LongLength.GetByteCount(berLength);
+        uint hello = PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(berLength[1..byteCount]);
 
         return new Length(hello);
     }

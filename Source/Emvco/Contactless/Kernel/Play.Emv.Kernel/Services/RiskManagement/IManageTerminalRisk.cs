@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
-
-using Play.Emv.Terminal.Contracts.Messages.Commands;
+﻿
+using Play.Emv.Ber;
+using Play.Emv.Configuration;
 
 namespace Play.Emv.Kernel.Services;
 
@@ -8,7 +8,7 @@ public interface IManageTerminalRisk
 {
     #region Instance Members
 
-    public Task<TerminalRiskManagementResponse> Process(TerminalRiskManagementCommand command);
+    public void Process(ITlvReaderAndWriter database, TerminalRiskManagementConfiguration configuration);
 
     #endregion
 }

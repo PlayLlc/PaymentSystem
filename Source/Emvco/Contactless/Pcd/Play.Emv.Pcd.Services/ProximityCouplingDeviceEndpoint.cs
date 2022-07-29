@@ -24,14 +24,13 @@ public class ProximityCouplingDeviceEndpoint : IMessageChannel, IHandlePcdReques
 
     #region Constructor
 
-    private ProximityCouplingDeviceEndpoint(
-        ICreateEndpointClient messageRouter, PcdProtocolConfiguration configuration, IProximityCouplingDeviceClient pcdClient)
+    private ProximityCouplingDeviceEndpoint(ICreateEndpointClient messageBus, PcdProtocolConfiguration configuration, IProximityCouplingDeviceClient pcdClient)
     {
         ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
 
         _ProximityCouplingDeviceProcess = new ProximityCouplingDeviceProcess(new CardClient(pcdClient), configuration, this);
-        _EndpointClient = messageRouter.CreateEndpointClient(this);
-        _EndpointClient.Subscribe();
+        _EndpointClient = messageBus.CreateEndpointClient();
+        _EndpointClient.Subscribe(this);
     }
 
     #endregion
@@ -116,7 +115,7 @@ public class ProximityCouplingDeviceEndpoint : IMessageChannel, IHandlePcdReques
 
     public void Dispose()
     {
-        _EndpointClient.Unsubscribe();
+        _EndpointClient.Unsubscribe(this);
     }
 
     #endregion

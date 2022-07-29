@@ -549,8 +549,8 @@ public class S456 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     private void HandleMandatoryCdaObjectsAreNotPresent()
     {
-        _Database.Set(TerminalVerificationResultCodes.IccDataMissing);
-        _Database.Set(TerminalVerificationResultCodes.CombinationDataAuthenticationFailed);
+        _Database.Update(TerminalVerificationResultCodes.IccDataMissing);
+        _Database.Update(TerminalVerificationResultCodes.CombinationDataAuthenticationFailed);
     }
 
     #endregion
@@ -561,7 +561,7 @@ public class S456 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     private void HandleCaPublicKeyNotPresent()
     {
-        _Database.Set(TerminalVerificationResultCodes.CombinationDataAuthenticationFailed);
+        _Database.Update(TerminalVerificationResultCodes.CombinationDataAuthenticationFailed);
     }
 
     #endregion
@@ -733,7 +733,7 @@ public class S456 : CommonProcessing
         TransactionCurrencyCode currency = _Database.Get<TransactionCurrencyCode>(TransactionCurrencyCode.Tag);
 
         if (authorizedAmount.AsMoney(currency) > transactionLimit.AsMoney(currency))
-            database.Set(TerminalVerificationResultCodes.TransactionExceedsFloorLimit);
+            database.Update(TerminalVerificationResultCodes.TransactionExceedsFloorLimit);
     }
 
     #endregion

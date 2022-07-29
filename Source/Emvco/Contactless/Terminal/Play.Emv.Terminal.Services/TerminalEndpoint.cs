@@ -29,12 +29,12 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
 
     #region Constructor
 
-    private TerminalEndpoint(ITerminalConfigurationRepository terminalConfigurationRepository, ICreateEndpointClient messageRouter)
+    private TerminalEndpoint(ITerminalConfigurationRepository terminalConfigurationRepository, ICreateEndpointClient messageBus)
     {
         ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
         _TerminalProcess = new TerminalProcess(terminalConfigurationRepository);
-        _EndpointClient = messageRouter.CreateEndpointClient(this);
-        _EndpointClient.Subscribe();
+        _EndpointClient = messageBus.CreateEndpointClient();
+        _EndpointClient.Subscribe(this);
     }
 
     #endregion
@@ -129,7 +129,7 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
 
     public void Dispose()
     {
-        _EndpointClient.Unsubscribe();
+        _EndpointClient.Unsubscribe(this);
     }
 
     #endregion

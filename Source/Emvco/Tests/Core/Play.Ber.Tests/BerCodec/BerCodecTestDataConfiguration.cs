@@ -2,19 +2,22 @@
 
 using Play.Codecs;
 
-namespace Play.Ber.Tests.BerCodec
+namespace Play.Ber.Tests.BerCodec;
+
+internal static class BerCodecTestDataConfiguration
 {
-    internal static class BerCodecTestDataConfiguration
+    #region Static Metadata
+
+    public static readonly BerConfiguration EmvBerCodecConfiguration = new(new Dictionary<PlayEncodingId, PlayCodec>
     {
-        public static readonly BerConfiguration EmvBerCodecConfiguration = new(new Dictionary<PlayEncodingId, PlayCodec>
-        {
-            {AlphabeticCodec.EncodingId, new AlphabeticCodec()},
-            {AlphaNumericCodec.EncodingId, new AlphaNumericCodec()},
-            {AlphaNumericSpecialCodec.EncodingId, new AlphaNumericSpecialCodec()},
-            {CompressedNumericCodec.EncodingId, new CompressedNumericCodec()},
-            {NumericCodec.EncodingId, new NumericCodec()},
-            {BinaryCodec.EncodingId, new BinaryCodec()},
-            {HexadecimalCodec.EncodingId, new HexadecimalCodec()}
-        });
-    }
+        {AlphabeticCodec.EncodingId, new AlphabeticCodec()},
+        {AlphaNumericCodec.EncodingId, new AlphaNumericCodec()},
+        {AlphaNumericSpecialCodec.EncodingId, new AlphaNumericSpecialCodec()},
+        {CompressedNumericCodec.EncodingId, new CompressedNumericCodec()},
+        {NumericCodec.EncodingId, new NumericCodec()},
+        {BinaryCodec.EncodingId, new BinaryCodec()},
+        {HexadecimalCodec.EncodingId, new HexadecimalCodec()}
+    });
+
+    #endregion
 }

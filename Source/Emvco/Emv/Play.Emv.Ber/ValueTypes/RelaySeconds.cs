@@ -3,9 +3,7 @@
 namespace Play.Emv.Ber.ValueTypes;
 
 /// <summary>
-///     A <see cref="RelaySeconds" /> is a unit of time equal to 100 microseconds. It's used along with the Relay
-///     Resistance
-///     Protocol to to help ensure that a 'Relay Attack' is not taking place
+///     A <see cref="RelaySeconds" /> is a unit of time equal to 100 microseconds. It's used along with the Relay Resistance Protocol to to help ensure that a 'Relay Attack' is not taking place
 /// </summary>
 public readonly record struct RelaySeconds
 {
@@ -15,7 +13,7 @@ public readonly record struct RelaySeconds
     public const int Precision = 10000;
 
     #endregion
-
+     
     #region Instance Values
 
     private readonly long _Value;

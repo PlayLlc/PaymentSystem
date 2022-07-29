@@ -1,4 +1,6 @@
-﻿using Play.Testing.Infrastructure.AutoFixture;
+﻿using Play.Testing.Emv.AutoFixture.Builders.DataElements;
+using Play.Testing.Emv.AutoFixture.Builders.Globalization;
+using Play.Testing.Infrastructure.AutoFixture;
 
 namespace Play.Testing.Emv;
 
@@ -23,6 +25,7 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
         DedicatedFileNameBuilder = new DedicatedFileNameBuilder();
         IssuerIdentificationNumberBuilder = new IssuerIdentificationNumberBuilder();
         KernelIdentifierBuilder = new KernelIdentifierBuilder();
+        LanguagePreferenceBuilder = new LanguagePreferenceBuilder();
         MerchantIdentifierBuilder = new MerchantIdentifierBuilder();
         MerchantNameAndLocationBuilder = new MerchantNameAndLocationBuilder();
         ProcessingOptionsDataObjectListBuilder = new ProcessingOptionsDataObjectListBuilder();
@@ -66,11 +69,33 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
             new TerminalCategoryCodeBuilder(),
             new TerminalVerificationResultCodesBuilder(),
             new ValueQualifierBuilder(),
+            new ApplicationPanBuilder(),
+            new NumericCountryCodeBuilder(),
+            new Alpha2CountryCodeBuilder(),
+            AmountAuthorizedNumericBuilder,
+            AmountOtherNumericBuilder,
+            ApplicationDedicatedFileNameBuilder,
+            ApplicationExpirationDateBuilder,
+            ApplicationFileLocatorBuilder,
+            ApplicationInterchangeProfileBuilder,
+            ApplicationLabelBuilder,
+            ApplicationPreferredNameBuilder,
+            ApplicationPriorityIndicatorBuilder,
+            CardholderNameBuilder,
+            CvmResultsBuilder,
+            DedicatedFileNameBuilder,
+            IssuerIdentificationNumberBuilder,
+            KernelIdentifierBuilder,
+            MerchantIdentifierBuilder,
+            MerchantNameAndLocationBuilder,
+            ProcessingOptionsDataObjectListBuilder,
+            TransactionDateBuilder,
             TransactionTypeBuilder,
             DirectoryEntryBuilder,
             FileControlInformationAdfBuilder,
-            ProcessingOptionsDataObjectListBuilder,
-            FileControlInformationIssuerDiscretionaryDataAdfBuilder
+            FileControlInformationIssuerDiscretionaryDataAdfBuilder,
+            FileControlInformationIssuerDiscretionaryPpseBuilder,
+            LanguagePreferenceBuilder
         });
 
         return currentModuleBuilders;
@@ -80,6 +105,7 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
 
     #region Primitive Values
 
+    public static readonly LanguagePreferenceBuilder LanguagePreferenceBuilder;
     public static readonly AmountAuthorizedNumericBuilder AmountAuthorizedNumericBuilder;
     public static readonly AmountOtherNumericBuilder AmountOtherNumericBuilder;
     public static readonly ApplicationDedicatedFileNameBuilder ApplicationDedicatedFileNameBuilder;
