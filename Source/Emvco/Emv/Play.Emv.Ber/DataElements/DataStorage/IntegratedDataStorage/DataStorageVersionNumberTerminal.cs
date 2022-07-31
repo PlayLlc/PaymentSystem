@@ -59,7 +59,5 @@ public record DataStorageVersionNumberTerminal : DataElement<BigInteger>
 
     public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
 
-    public override byte[] EncodeValue(BerCodec berCodec) => PlayCodec.BinaryCodec.Encode(_Value);
-
     #endregion
 }
