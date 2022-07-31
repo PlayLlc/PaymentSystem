@@ -20,12 +20,16 @@ public readonly struct Probability
     #region Constructor
 
     /// <param name="value">
-    ///     Must be a value between 0 and 99
+    ///     Must be a value between 0 and 100
     /// </param>
     public Probability(byte value)
     {
         if (value > _MaxValue)
+        {
             _Value = _MaxValue;
+
+            return;
+        }
 
         _Value = value;
     }

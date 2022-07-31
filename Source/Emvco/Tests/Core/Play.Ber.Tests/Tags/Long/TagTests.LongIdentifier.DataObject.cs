@@ -3,26 +3,25 @@ using Play.Ber.Identifiers.Long;
 
 using Xunit;
 
-namespace Play.Ber.Tests.Long
+namespace Play.Ber.Tests.Long;
+
+public partial class TagTests
 {
-    public partial class TagTests
+    #region Instance Members
+
+    [Fact]
+    public void ByteArray_WithPrivateConstructedLeadingOctet_CreatesTagWithDataObject()
     {
-        #region Instance Members
+        ClassTypes expectedClass = ClassTypes.Private;
+        DataObjectTypes dataObjectType = DataObjectTypes.Constructed;
 
-        [Fact]
-        public void ByteArray_WithPrivateConstructedLeadingOctet_CreatesTagWithDataObject()
-        {
-            ClassTypes expectedClass = ClassTypes.Private;
-            DataObjectTypes dataObjectType = DataObjectTypes.Constructed;
+        byte leadingOctet = (byte) ((byte) expectedClass | (byte) dataObjectType | LongIdentifier.LongIdentifierFlag);
+        byte[] testValue = {leadingOctet, 45};
 
-            byte leadingOctet = (byte) ((byte) expectedClass | (byte) dataObjectType | LongIdentifier.LongIdentifierFlag);
-            byte[] testValue = new byte[] {leadingOctet, 45};
+        Tag sut = new(testValue);
 
-            Tag sut = new(testValue);
-
-            Assert.Equal(sut.GetDataObject(), dataObjectType);
-        }
-
-        #endregion
+        Assert.Equal(sut.GetDataObject(), dataObjectType);
     }
+
+    #endregion
 }

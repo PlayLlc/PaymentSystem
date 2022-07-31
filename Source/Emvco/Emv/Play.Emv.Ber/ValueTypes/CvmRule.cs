@@ -22,12 +22,7 @@ public readonly record struct CvmRule
         _CvmCode = new CvmCode(value[0]);
         _CvmConditionCode = new CvmConditionCode(value[1]);
     }
-
-    private CvmRule(CvmCode cvmCode, CvmConditionCode cvmConditionCode)
-    {
-        _CvmCode = cvmCode;
-        _CvmConditionCode = cvmConditionCode;
-    }
+     
 
     #endregion
 

@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 
 using Play.Core.Extensions;
+using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.ValueTypes;
 
@@ -75,14 +76,15 @@ public readonly record struct SdsSchemeIndicator
 
     public static SdsSchemeIndicator[] GetAll() => _ValueObjectMap.Values.ToArray();
 
+    /// <exception cref="TerminalDataException"></exception>
     public static SdsSchemeIndicator Get(byte value)
     {
         const byte bitMask = 0b11111100;
 
         if (!_ValueObjectMap.ContainsKey(value))
         {
-            throw new ArgumentOutOfRangeException(nameof(value),
-                $"No {nameof(SdsSchemeIndicator)} could be retrieved because the argument provided does not match a definition value");
+            throw new TerminalDataException(new ArgumentOutOfRangeException(nameof(value),
+                $"No {nameof(SdsSchemeIndicator)} could be retrieved because the argument provided does not match a definition value"));
         }
 
         return _ValueObjectMap[value.GetMaskedValue(bitMask)];

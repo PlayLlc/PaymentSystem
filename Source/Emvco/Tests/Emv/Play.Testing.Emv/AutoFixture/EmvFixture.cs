@@ -8,6 +8,8 @@ using Play.Emv.Ber.Templates;
 using Play.Emv.Security;
 using Play.Encryption.Certificates;
 using Play.Encryption.Ciphers.Hashing;
+using Play.Testing.Emv.AutoFixture.Builders.DataElements;
+using Play.Testing.Emv.AutoFixture.Builders.Globalization;
 using Play.Testing.Emv.Ber.Constructed;
 using Play.Testing.Extensions;
 using Play.Testing.Infrastructure.AutoFixture;
@@ -34,11 +36,16 @@ public class EmvFixture : TestingFixture
         // Setup upstream builders
         base.SetupCustomBuilders(factory);
 
+        //Globalization
+        factory.Build(NumericCountryCodeBuilder.Id);
+        factory.Build(Alpha2CountryCodeBuilder.Id);
+
         // Setup custom builder specific to this module's context
         factory.Build(AlternateInterfacePreferenceOutcomeBuilder.Id);
         factory.Build(CertificateSerialNumberBuilder.Id);
         factory.Build(CvmPerformedOutcomeBuilder.Id);
         factory.Build(CvmRuleBuilder.Id);
+        factory.Build(DedicatedFileNameBuilder.Id);
         factory.Build(MessageOnErrorIdentifiersBuilder.Id);
         factory.Build(MessageTableEntryBuilder.Id);
         factory.Build(OnlineResponseOutcomeBuilder.Id);
@@ -55,6 +62,28 @@ public class EmvFixture : TestingFixture
         factory.Build(FileControlInformationAdfBuilder.Id);
         factory.Build(ProcessingOptionsDataObjectListBuilder.Id);
         factory.Build(FileControlInformationIssuerDiscretionaryDataAdfBuilder.Id);
+
+        //Add it here for now.
+        factory.Build(ApplicationPanBuilder.Id);
+
+
+        factory.Build(AmountAuthorizedNumericBuilder.Id);
+        factory.Build(AmountOtherNumericBuilder.Id);
+        factory.Build(ApplicationDedicatedFileNameBuilder.Id);
+        factory.Build(ApplicationExpirationDateBuilder.Id);
+        factory.Build(ApplicationFileLocatorBuilder.Id);
+        factory.Build(ApplicationInterchangeProfileBuilder.Id);
+        factory.Build(ApplicationLabelBuilder.Id);
+        factory.Build(ApplicationPreferredNameBuilder.Id);
+        factory.Build(ApplicationPriorityIndicatorBuilder.Id);
+        factory.Build(CardholderNameBuilder.Id);
+        factory.Build(CvmResultsBuilder.Id);
+        factory.Build(IssuerIdentificationNumberBuilder.Id);
+        factory.Build(KernelIdentifierBuilder.Id);
+        factory.Build(MerchantIdentifierBuilder.Id);
+        factory.Build(TransactionDateBuilder.Id);
+        factory.Build(FileControlInformationIssuerDiscretionaryPpseBuilder.Id);
+        factory.Build(LanguagePreferenceBuilder.Id);
     }
 
     #region Customize Fixture

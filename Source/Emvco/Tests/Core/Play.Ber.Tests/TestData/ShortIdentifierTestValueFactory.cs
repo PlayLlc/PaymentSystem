@@ -28,7 +28,7 @@ internal class ShortIdentifierTestValueFactory
         ((byte) random.Next(0, byte.MaxValue)).GetMaskedValue(LongIdentifier.LongIdentifierFlag)
         .SetBits((byte) random.Next(0, ShortIdentifier.TagNumber.MaxValue));
 
-    public static Tag Create(Random random) =>
+    public static Tag CreateTag(Random random) =>
         new(((byte) random.Next(0, byte.MaxValue)).GetMaskedValue(LongIdentifier.LongIdentifierFlag)
             .SetBits((byte) random.Next(0, ShortIdentifier.TagNumber.MaxValue)));
 

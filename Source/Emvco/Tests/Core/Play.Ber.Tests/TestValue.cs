@@ -1,35 +1,33 @@
-﻿namespace Play.Ber.Tests
-{
-    //public interface ITestValue
-    //{
-    //    #region Instance Members
+﻿namespace Play.Ber.Tests;
+//public interface ITestValue
+//{
+//    #region Instance Members
 
-    //    int GetInt();
+//    int GetInt();
 
-    //    #endregion
-    //}
+//    #endregion
+//}
 
-    //public class TestValue : ITestValue
-    //{
-    //    #region Instance Values
+//public class TestValue : ITestValue
+//{
+//    #region Instance Values
 
-    //    public byte[] Value;
+//    public byte[] Value;
 
-    //    #endregion
+//    #endregion
 
-    //    #region Constructor
+//    #region Constructor
 
-    //    public TestValue(byte[] value)
-    //    {
-    //        Value = value;
-    //    }
+//    public TestValue(byte[] value)
+//    {
+//        Value = value;
+//    }
 
-    //    #endregion
+//    #endregion
 
-    //    #region Instance Members
+//    #region Instance Members
 
-    //    public int GetInt() => Value.GetInt32();
+//    public int GetInt() => Value.GetInt32();
 
-    //    #endregion
-    //}
-}
+//    #endregion
+//}

@@ -20,6 +20,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
     private readonly IGetKernelState _KernelStateResolver;
     private readonly IHandlePcdRequests _PcdEndpoint;
+    private readonly IValidateRelayResistanceProtocol _ValidateRelayResistanceProtocol;
 
     #endregion
 
@@ -28,13 +29,14 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     public WaitingForExchangeRelayResistanceDataResponse(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
         IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint, IHandleDisplayRequests displayEndpoint,
-        S3R1 s3R1, IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionLog,
+        S3R1 s3R1, IGenerateUnpredictableNumber unpredictableNumberGenerator, IValidateRelayResistanceProtocol validateRelayResistanceProtocol) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionLog,
         kernelStateResolver, pcdEndpoint, displayEndpoint)
     {
         _S3R1 = s3R1;
         _UnpredictableNumberGenerator = unpredictableNumberGenerator;
         _KernelStateResolver = kernelStateResolver;
         _PcdEndpoint = pcdEndpoint;
+        _ValidateRelayResistanceProtocol = validateRelayResistanceProtocol;
     }
 
     #endregion

@@ -67,7 +67,7 @@ public class UnsignedIntegerCodec : PlayCodec
         return (ushort) value.Length;
     }
 
-    public int GetByteCount(char[] chars, int index, int count) => Encode(chars).Length;
+    public int GetByteCount(char[] chars) => Encode(chars).Length;
 
     // you're smarter than you think you are - this checks out
     public int GetMaxByteCount(int charCount)
@@ -85,7 +85,7 @@ public class UnsignedIntegerCodec : PlayCodec
 
         for (int i = 0; i < valueLength; i++)
         {
-            if ((value % 10) == 0)
+            if (value == 0)
                 return i;
 
             value /= 10;
@@ -100,7 +100,7 @@ public class UnsignedIntegerCodec : PlayCodec
 
         for (int i = 0; i < valueLength; i++)
         {
-            if ((value % 10) == 0)
+            if (value == 0)
                 return i;
 
             value /= 10;
@@ -115,7 +115,7 @@ public class UnsignedIntegerCodec : PlayCodec
 
         for (int i = 0; i < valueLength; i++)
         {
-            if ((value % 10) == 0)
+            if (value == 0)
                 return i;
 
             value /= 10;
@@ -130,7 +130,7 @@ public class UnsignedIntegerCodec : PlayCodec
 
         for (int i = 0; i < valueLength; i++)
         {
-            if ((value % 10) == 0)
+            if (value == 0)
                 return i;
 
             value /= 10;
@@ -250,7 +250,7 @@ public class UnsignedIntegerCodec : PlayCodec
     }
 
     // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
-    public byte[] Encode(BigInteger value) => value.ToByteArray();
+    public byte[] Encode(BigInteger value) => value.ToByteArray(true);
 
     // DEPRECATING: This method will eventually be deprecated in favor of using strongly typed arguments instead of generic constraints. We will also include a Span<byte> in the argument as a buffer as opposed to returning a new byte[]
     /// <exception cref="CodecParsingException"></exception>
@@ -407,7 +407,7 @@ public class UnsignedIntegerCodec : PlayCodec
         }
     }
 
-    public void Encode(BigInteger value, Span<byte> buffer) => value.ToByteArray().AsSpan().CopyTo(buffer);
+    public void Encode(BigInteger value, Span<byte> buffer) => value.ToByteArray(true).AsSpan().CopyTo(buffer);
 
     // DEPRECATING: This method will eventually be deprecated in favor of using strongly typed arguments instead of generic constraints. We will also include a Span<byte> in the argument as a buffer as opposed to returning a new byte[]
     /// <exception cref="CodecParsingException"></exception>
@@ -574,7 +574,7 @@ public class UnsignedIntegerCodec : PlayCodec
 
     #region Decode To Integers
 
-    public BigInteger DecodeToBigInteger(ReadOnlySpan<byte> value) => new(value);
+    public BigInteger DecodeToBigInteger(ReadOnlySpan<byte> value) => new(value, true);
 
     public byte DecodeToByte(ReadOnlySpan<byte> value)
     {

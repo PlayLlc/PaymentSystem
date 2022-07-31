@@ -47,9 +47,10 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         if (TryPersistingRapdu(session, (GetDataResponse) signal))
             return _KernelStateResolver.GetKernelState(StateId);
 
-        MeasuredRelayResistanceProcessingTime processingTime = CalculateMeasuredRrpTime(timeElapsed);
+        MeasuredRelayResistanceProcessingTime processingTime = _ValidateRelayResistanceProtocol.CalculateMeasuredRrpTime(timeElapsed, _Database);
 
-        if (IsRelayOutOfLowerBounds(processingTime))
+        //sr1.19
+        if (!_ValidateRelayResistanceProtocol.IsRelayResistanceWithinMinimumRange(processingTime, _Database))
         {
             HandleRelayResistanceProtocolFailed(session, signal);
 
@@ -201,10 +202,10 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     private bool IsRelayRetryNeeded(Kernel2Session session, MeasuredRelayResistanceProcessingTime relayTime)
     {
-        if (session.GetRelayResistanceProtocolCount() > 2)
+        if (_ValidateRelayResistanceProtocol.IsRetryThresholdHit(session.GetRelayResistanceProtocolCount()))
             return false;
 
-        return IsRelayOutOfUpperBounds(relayTime);
+        return !_ValidateRelayResistanceProtocol.IsRelayResistanceWithinMaximumRange(relayTime, _Database);
     }
 
     #endregion
@@ -273,7 +274,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private void SetRelayTimeLimitExceeded()
     {
-        _Database.Set(TerminalVerificationResultCodes.RelayResistanceTimeLimitsExceeded);
+        _Database.Update(TerminalVerificationResultCodes.RelayResistanceTimeLimitsExceeded);
     }
 
     #endregion
@@ -330,7 +331,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private void SetRelayResistanceThresholdExceeded()
     {
-        _Database.Set(TerminalVerificationResultCodes.RelayResistanceThresholdExceeded);
+        _Database.Update(TerminalVerificationResultCodes.RelayResistanceThresholdExceeded);
     }
 
     #endregion
@@ -341,7 +342,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private void SetRelayResistancePerformed()
     {
-        _Database.Set(TerminalVerificationResultCodes.RelayResistancePerformed);
+        _Database.Update(TerminalVerificationResultCodes.RelayResistancePerformed);
     }
 
     #endregion

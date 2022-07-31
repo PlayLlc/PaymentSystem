@@ -61,12 +61,7 @@ public readonly record struct OnlineResponseOutcome
 
     public static bool operator ==(OnlineResponseOutcome left, byte right) => left._Value == right;
     public static bool operator ==(byte left, OnlineResponseOutcome right) => left == right._Value;
-    public static explicit operator byte(OnlineResponseOutcome value) => value._Value;
-    public static explicit operator short(OnlineResponseOutcome value) => value._Value;
-    public static explicit operator ushort(OnlineResponseOutcome value) => value._Value;
-    public static explicit operator int(OnlineResponseOutcome value) => value._Value;
-    public static explicit operator uint(OnlineResponseOutcome value) => value._Value;
-    public static explicit operator long(OnlineResponseOutcome value) => value._Value;
+    
     public static explicit operator ulong(OnlineResponseOutcome value) => value._Value;
     public static bool operator !=(OnlineResponseOutcome left, byte right) => !(left == right);
     public static bool operator !=(byte left, OnlineResponseOutcome right) => !(left == right);
