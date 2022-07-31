@@ -34,11 +34,11 @@ public record ExtendedSelection : DataElement<BigInteger>, IEqualityComparer<Ext
 
     #region Instance Members
 
-    public byte[] AsByteArray() => _Value.ToByteArray();
+    public byte[] AsByteArray() => _Value.ToByteArray(true);
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-    public int GetValueByteCount() => _Value.GetByteCount();
+    public new int GetValueByteCount() => _Value.GetByteCount(true);
 
     #endregion
 
@@ -58,6 +58,8 @@ public record ExtendedSelection : DataElement<BigInteger>, IEqualityComparer<Ext
 
         return new ExtendedSelection(result);
     }
+
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
 
     #endregion
 

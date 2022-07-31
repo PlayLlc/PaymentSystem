@@ -1,4 +1,10 @@
-﻿namespace Play.Globalization.Currency;
+﻿using System;
+
+using Play.Codecs;
+using Play.Core.Exceptions;
+using Play.Core.Extensions;
+
+namespace Play.Globalization.Currency;
 
 public readonly record struct NumericCurrencyCode
 {
@@ -12,15 +18,16 @@ public readonly record struct NumericCurrencyCode
 
     public NumericCurrencyCode(ushort value)
     {
-        // HACK: This validation causes circular references. Let's try and create an EnumObject or something similar that allows some validation logic
-
-        //if (!CurrencyCodeRepository.IsValid(value))
-        //{
-        //    throw new ArgumentOutOfRangeException(nameof(value), $"The argument {nameof(value)} must be 3 digits or less according to ISO 4217");
-        //}
+        CheckCore.ForMaximumValue(value.GetNumberOfDigits(), 3, nameof(NumericCurrencyCode));
 
         _Value = value;
     }
+
+    #endregion
+
+    #region Serialization
+
+    public byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value);
 
     #endregion
 

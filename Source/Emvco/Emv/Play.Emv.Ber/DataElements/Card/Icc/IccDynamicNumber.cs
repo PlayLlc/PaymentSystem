@@ -46,7 +46,7 @@ public record IccDynamicNumber : DataElement<ulong>, IEqualityComparer<IccDynami
     /// <exception cref="CodecParsingException"></exception>
     public static IccDynamicNumber Decode(ReadOnlySpan<byte> value)
     {
-        Check.Primitive.ForMaximumLength(value, _MinByteLength, Tag);
+        Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
         ulong result = PlayCodec.BinaryCodec.DecodeToUInt64(value);
