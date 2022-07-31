@@ -1,5 +1,8 @@
 using System;
 
+using Play.Codecs;
+using Play.Core.Exceptions;
+
 namespace Play.Globalization.Country;
 
 public readonly record struct Alpha2CountryCode
@@ -17,25 +20,27 @@ public readonly record struct Alpha2CountryCode
     //add extra default parameter to avoid circular dependency.
     public Alpha2CountryCode(ReadOnlySpan<char> value)
     {
-        //Something not working right with the initialization of the repo
-        //if (validate && !CountryCodeRepository.IsValid(value))
-        //    throw new ArgumentOutOfRangeException(nameof(value), $"The argument {nameof(value)} must be ISO 3166 compliant");
+        CheckCore.ForExactLength(value, 2, nameof(value));
 
-        _FirstChar = (byte)value[0];
-        _SecondChar = (byte)value[1];
+        if (!PlayCodec.AlphabeticCodec.IsValid(value))
+        {
+            throw new PlayInternalException(new ArgumentOutOfRangeException(nameof(value),
+                $"The argument {nameof(value)} was expecting a decimal representation of an AsciiCodec alphabetic character"));
+        }
+
+        _FirstChar = (byte) value[0];
+        _SecondChar = (byte) value[1];
     }
 
     #endregion
 
     #region Instance Members
 
-    public char[] AsCharArray() => new[] { (char)_FirstChar, (char)_SecondChar };
+    public char[] AsCharArray() => new[] {(char) _FirstChar, (char) _SecondChar};
     public ReadOnlySpan<char> AsReadOnlySpan() => AsCharArray();
     public string AsString() => new(AsReadOnlySpan());
-
     public override string ToString() => AsString();
-
-    public byte[] Encode() => new byte[] { _FirstChar, _SecondChar };
+    public byte[] Encode() => new byte[] {_FirstChar, _SecondChar};
 
     #endregion
 
