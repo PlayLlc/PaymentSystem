@@ -56,7 +56,7 @@ public record AcquirerIdentifier : DataElement<ulong>, IEqualityComparer<Acquire
                 $"The Primitive Value {nameof(AcquirerIdentifier)} could not be initialized because the byte length provided was out of range. The byte length was {value.GetMostSignificantByte()} but must be {_ByteLength} bytes in length");
         }
 
-        if (value.GetNumberOfDigits() is < _MinCharLength and <= _MaxCharLength)
+        if (value.GetNumberOfDigits() is < _MinCharLength or > _MaxCharLength)
         {
             throw new DataElementParsingException(
                 $"The Primitive Value {nameof(AcquirerIdentifier)} could not be initialized because the decoded character length was out of range. The decoded character length was {value.GetNumberOfDigits()} but must be in the range of {_MinCharLength}-{_MaxCharLength}");

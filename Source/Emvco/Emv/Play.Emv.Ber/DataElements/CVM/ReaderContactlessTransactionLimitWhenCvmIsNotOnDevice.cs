@@ -15,7 +15,7 @@ namespace Play.Emv.Ber.DataElements;
 public record ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice : ReaderContactlessTransactionLimit
 {
     #region Static Metadata
-    
+
     public static readonly Tag Tag = 0xDF8124;
 
     #endregion
@@ -32,7 +32,6 @@ public record ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice : ReaderCont
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount() => _ByteLength;
 
-    public override ushort GetValueByteCount(BerCodec codec) => _ByteLength;
     #endregion
 
     #region Serialization
