@@ -55,9 +55,6 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
     {
         uint valueCopy = value;
 
-        if (valueCopy > byte.MaxValue)
-            return false;
-
         return valueCopy is >= _MinValue and <= _MaxValue;
     }
 
