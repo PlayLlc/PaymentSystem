@@ -31,7 +31,7 @@ public abstract record ReaderContactlessTransactionLimit : DataElement<ulong>
     public Money AsMoney(NumericCurrencyCode numericCurrencyCode) => new(_Value, numericCurrencyCode);
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public abstract override Tag GetTag();
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => _ByteLength;
 
     #endregion
 

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Numerics;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Codecs;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
@@ -100,7 +102,7 @@ public class CvmListTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        CvmListTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        CvmListTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => CvmList.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -145,7 +147,7 @@ public class CvmListTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        CvmListTestTlv testData = new(new byte[] { 0x32, 0x3D, 0x2c, 0x1a, 0x9, 0x58, 0x33, 0xF, 0x15, 0x25 });
+        CvmListTestTlv testData = new(new byte[] {0x32, 0x3D, 0x2c, 0x1a, 0x9, 0x58, 0x33, 0xF, 0x15, 0x25});
         CvmList sut = CvmList.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -163,7 +165,8 @@ public class CvmListTests
     {
         CvmListTestTlv testData = new(new byte[]
         {
-            0x32, 0x3D, 0x2c, 0x1a, 0x9, 0x58, 0x33, 0xF, 0x15, 0x25, 0x68, 0x89
+            0x32, 0x3D, 0x2c, 0x1a, 0x9, 0x58, 0x33, 0xF, 0x15, 0x25,
+            0x68, 0x89
         });
 
         CvmList sut = CvmList.Decode(testData.EncodeValue().AsSpan());
@@ -182,7 +185,7 @@ public class CvmListTests
     {
         Assert.Throws<DataElementParsingException>(() =>
         {
-            CvmList sut = new CvmList(new(new byte[] { 0x32, 0x3D, 0x2c, 0x1a, 0x9, 0x58 }));
+            CvmList sut = new(new BigInteger(new byte[] {0x32, 0x3D, 0x2c, 0x1a, 0x9, 0x58}));
 
             bool cvmRulesPresent = sut.AreCardholderVerificationRulesPresent();
         });
@@ -191,7 +194,11 @@ public class CvmListTests
     [Fact]
     public void InstantiatedCvmListWithOddNumberOfBytes_InvokingAreCardholderVerificationRulesPresent_ReturnsFalse()
     {
-        CvmList sut = new CvmList(new(new byte[] { 0x32, 0x3D, 0x2c, 0x1a, 0x9, 0x58, 0x17, 0x34, 0x10, 0x20, 0x30 }));
+        CvmList sut = new(new BigInteger(new byte[]
+        {
+            0x32, 0x3D, 0x2c, 0x1a, 0x9, 0x58, 0x17, 0x34, 0x10, 0x20,
+            0x30
+        }));
 
         bool cvmRulesPresent = sut.AreCardholderVerificationRulesPresent();
 
@@ -201,7 +208,7 @@ public class CvmListTests
     [Fact]
     public void InstantiatedCvmList_InvokingAreCardholderVerificationRulesPresent_ReturnsTrue()
     {
-        CvmList sut = new CvmList(new(new byte[] { 0x32, 0x3D, 0x2c, 0x1a, 0x9, 0x58, 0x17, 0x34, 0x10, 0x20 }));
+        CvmList sut = new(new BigInteger(new byte[] {0x32, 0x3D, 0x2c, 0x1a, 0x9, 0x58, 0x17, 0x34, 0x10, 0x20}));
 
         bool cvmRulesPresent = sut.AreCardholderVerificationRulesPresent();
 
@@ -211,7 +218,11 @@ public class CvmListTests
     [Fact]
     public void InvalidCvmList_InvokingTryGetCardholderVerificationRules_ReturnsFalseWithEmptyOutResult()
     {
-        CvmList sut = new CvmList(new(new byte[] { 0x32, 0x3D, 0x2c, 0x1a, 0x9, 0x58, 0x17, 0x34, 0x10, 0x20, 0x30 }));
+        CvmList sut = new(new BigInteger(new byte[]
+        {
+            0x32, 0x3D, 0x2c, 0x1a, 0x9, 0x58, 0x17, 0x34, 0x10, 0x20,
+            0x30
+        }));
 
         bool result = sut.TryGetCardholderVerificationRules(out CvmRule[]? output);
 
@@ -225,12 +236,11 @@ public class CvmListTests
         CvmListTestTlv testData = new();
         CvmList sut = CvmList.Decode(testData.EncodeValue().AsSpan());
 
-        CvmRule[] expected = { new(new byte[] { 0x34, 0x8F }), new(new byte[] { 0x45, 0x7C }) };
+        CvmRule[] expected = {new(new byte[] {0x34, 0x8F}), new(new byte[] {0x45, 0x7C})};
         bool result = sut.TryGetCardholderVerificationRules(out CvmRule[]? output);
 
         Assert.True(result);
         Assert.Equal(expected, output);
-
     }
 
     [Fact]
@@ -239,14 +249,14 @@ public class CvmListTests
         CvmListTestTlv testData = new();
         CvmList sut = CvmList.Decode(testData.EncodeValue().AsSpan());
 
-        NumericCurrencyCode currencyCode = new NumericCurrencyCode(840);
+        NumericCurrencyCode currencyCode = new(840);
 
-        ulong expectedAmount = PlayCodec.BinaryCodec.DecodeToUInt64(new byte[] { 0x08, 0x32, 0x3c, 0x4d });
-        Money expected = new Money(expectedAmount, currencyCode);
+        ulong expectedAmount = PlayCodec.BinaryCodec.DecodeToUInt64(new byte[] {0x08, 0x32, 0x3c, 0x4d});
+        Money expected = new(expectedAmount, currencyCode);
 
         Money xAmount = sut.GetXAmount(currencyCode);
 
-        Assert.Equal((ulong)expected, (ulong)xAmount);
+        Assert.Equal((ulong) expected, (ulong) xAmount);
     }
 
     [Fact]
@@ -255,14 +265,14 @@ public class CvmListTests
         CvmListTestTlv testData = new();
         CvmList sut = CvmList.Decode(testData.EncodeValue().AsSpan());
 
-        NumericCurrencyCode currencyCode = new NumericCurrencyCode(840);
+        NumericCurrencyCode currencyCode = new(840);
 
-        ulong expectedAmount = PlayCodec.BinaryCodec.DecodeToUInt64(new byte[] { 0x16, 0x10, 0x8, 0x2 });
-        Money expected = new Money(expectedAmount, currencyCode);
+        ulong expectedAmount = PlayCodec.BinaryCodec.DecodeToUInt64(new byte[] {0x16, 0x10, 0x8, 0x2});
+        Money expected = new(expectedAmount, currencyCode);
 
         Money yAmount = sut.GetYAmount(currencyCode);
 
-        Assert.Equal((ulong)expected, (ulong)yAmount);
+        Assert.Equal((ulong) expected, (ulong) yAmount);
     }
 
     #endregion

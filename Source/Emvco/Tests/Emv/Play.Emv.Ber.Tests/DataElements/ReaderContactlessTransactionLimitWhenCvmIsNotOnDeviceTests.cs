@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -22,7 +23,8 @@ public class ReaderContactlessTransactionLimitWhenCvmIsNotOnDeviceTests
     public void BerEncoding_DeserializingDataElement_CreatesPrimitiveValue()
     {
         ReaderContactlessTransactionLimitWhenCvmIsNotOnDeviceTestTlv testData = new();
-        ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice testValue = ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Decode(testData.EncodeValue().AsSpan());
+        ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice testValue =
+            ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Decode(testData.EncodeValue().AsSpan());
         Assert.NotNull(testValue);
     }
 
@@ -35,7 +37,8 @@ public class ReaderContactlessTransactionLimitWhenCvmIsNotOnDeviceTests
     public void BerEncoding_EncodingDataElement_SerializesExpectedValue()
     {
         ReaderContactlessTransactionLimitWhenCvmIsNotOnDeviceTestTlv testData = new();
-        ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice sut = ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Decode(testData.EncodeValue().AsSpan());
+        ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice sut =
+            ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Decode(testData.EncodeValue().AsSpan());
         byte[] expectedResult = testData.EncodeValue();
         byte[]? testValue = sut.EncodeValue();
 
@@ -51,7 +54,8 @@ public class ReaderContactlessTransactionLimitWhenCvmIsNotOnDeviceTests
     public void BerEncoding_EncodingDataElementTlv_SerializesExpectedValue()
     {
         ReaderContactlessTransactionLimitWhenCvmIsNotOnDeviceTestTlv testData = new();
-        ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice sut = ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Decode(testData.EncodeValue().AsSpan());
+        ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice sut =
+            ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Decode(testData.EncodeValue().AsSpan());
         byte[] expectedResult = testData.EncodeTagLengthValue();
         byte[]? testValue = sut.EncodeTagLengthValue();
 
@@ -67,7 +71,8 @@ public class ReaderContactlessTransactionLimitWhenCvmIsNotOnDeviceTests
     public void BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue()
     {
         ReaderContactlessTransactionLimitWhenCvmIsNotOnDeviceTestTlv testData = new();
-        ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice sut = ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Decode(testData.EncodeValue().AsSpan());
+        ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice sut =
+            ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Decode(testData.EncodeValue().AsSpan());
         TagLengthValue? testValue = sut.AsTagLengthValue();
         TagLengthValue expectedResult = new(ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Tag, testData.EncodeValue());
         Assert.Equal(testValue, expectedResult);
@@ -82,7 +87,8 @@ public class ReaderContactlessTransactionLimitWhenCvmIsNotOnDeviceTests
     public void TagLengthValue_SerializingToBer_ReturnsExpectedResult()
     {
         ReaderContactlessTransactionLimitWhenCvmIsNotOnDeviceTestTlv testData = new();
-        ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice sut = ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Decode(testData.EncodeValue().AsSpan());
+        ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice sut =
+            ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Decode(testData.EncodeValue().AsSpan());
 
         byte[] testValue = sut.AsTagLengthValue().EncodeTagLengthValue();
         byte[] expectedResult = testData.EncodeTagLengthValue();
@@ -97,7 +103,7 @@ public class ReaderContactlessTransactionLimitWhenCvmIsNotOnDeviceTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        ReaderContactlessTransactionLimitWhenCvmIsNotOnDeviceTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        ReaderContactlessTransactionLimitWhenCvmIsNotOnDeviceTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -111,7 +117,8 @@ public class ReaderContactlessTransactionLimitWhenCvmIsNotOnDeviceTests
     public void DataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
         ReaderContactlessTransactionLimitWhenCvmIsNotOnDeviceTestTlv testData = new();
-        ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice sut = ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Decode(testData.EncodeValue().AsSpan());
+        ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice sut =
+            ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
 
@@ -127,7 +134,8 @@ public class ReaderContactlessTransactionLimitWhenCvmIsNotOnDeviceTests
     public void DataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
         ReaderContactlessTransactionLimitWhenCvmIsNotOnDeviceTestTlv testData = new();
-        ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice sut = ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Decode(testData.EncodeValue().AsSpan());
+        ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice sut =
+            ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
         ushort testResult = sut.GetTagLengthValueByteCount();
 
@@ -142,8 +150,9 @@ public class ReaderContactlessTransactionLimitWhenCvmIsNotOnDeviceTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        ReaderContactlessTransactionLimitWhenCvmIsNotOnDeviceTestTlv testData = new(new byte[] { 31, 17, 12, 13, 14, 89 });
-        ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice sut = ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Decode(testData.EncodeValue().AsSpan());
+        ReaderContactlessTransactionLimitWhenCvmIsNotOnDeviceTestTlv testData = new(new byte[] {31, 17, 12, 13, 14, 89});
+        ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice sut =
+            ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
 
@@ -158,13 +167,13 @@ public class ReaderContactlessTransactionLimitWhenCvmIsNotOnDeviceTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        ReaderContactlessTransactionLimitWhenCvmIsNotOnDeviceTestTlv testData = new(new byte[]
-        {
-            31, 17, 12, 13, 14, 89
-        });
+        ReaderContactlessTransactionLimitWhenCvmIsNotOnDeviceTestTlv testData = new(new byte[] {31, 17, 12, 13, 14, 89});
 
-        ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice sut = ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Decode(testData.EncodeValue().AsSpan());
+        ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice sut =
+            ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Decode(testData.EncodeValue().AsSpan());
+        int hello = testData.GetValueByteCount();
         int expectedResult = testData.GetTagLengthValueByteCount();
+
         ushort testResult = sut.GetTagLengthValueByteCount();
 
         Assert.Equal(expectedResult, testResult);
