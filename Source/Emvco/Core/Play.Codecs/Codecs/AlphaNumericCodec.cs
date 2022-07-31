@@ -181,12 +181,13 @@ public class AlphaNumericCodec : PlayCodec
     /// <exception cref="CodecParsingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value)
     {
-        Validate(value);
-
         byte[] byteArray = new byte[value.Length];
 
         for (int i = 0; i < value.Length; i++)
         {
+            if (!IsValid(value[i]))
+                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+
             if (!_ByteMapper.ContainsKey(value[i]))
                 throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
 
@@ -201,12 +202,13 @@ public class AlphaNumericCodec : PlayCodec
         if (value.Length < length)
             throw new CodecParsingException("The code should not reach this point");
 
-        Validate(value);
-
         byte[] byteArray = new byte[value.Length];
 
         for (int i = 0; i < length; i++)
         {
+            if (!IsValid(value[i]))
+                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+
             if (!_ByteMapper.ContainsKey(value[i]))
                 throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
 
