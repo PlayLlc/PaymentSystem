@@ -185,11 +185,7 @@ public class AlphaNumericCodec : PlayCodec
 
         for (int i = 0; i < value.Length; i++)
         {
-            if (!IsValid(value[i]))
-                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
-
-            if (!_ByteMapper.ContainsKey(value[i]))
-                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+            Validate(value[i]);
 
             byteArray[i] = _ByteMapper[value[i]];
         }
@@ -206,11 +202,7 @@ public class AlphaNumericCodec : PlayCodec
 
         for (int i = 0; i < length; i++)
         {
-            if (!IsValid(value[i]))
-                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
-
-            if (!_ByteMapper.ContainsKey(value[i]))
-                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+            Validate(value[i]);
 
             byteArray[i] = _ByteMapper[value[i]];
         }
@@ -273,12 +265,9 @@ public class AlphaNumericCodec : PlayCodec
     /// <exception cref="CodecParsingException"></exception>
     public void Encode(ReadOnlySpan<char> value, Span<byte> buffer, ref int offset)
     {
-        Validate(value);
-
         for (int i = 0; i < value.Length; i++)
         {
-            if (!_ByteMapper.ContainsKey(value[i]))
-                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+            Validate(value[i]);
 
             buffer[offset++] = _ByteMapper[value[i]];
         }
@@ -296,6 +285,7 @@ public class AlphaNumericCodec : PlayCodec
         for (int i = 0; i < value.Length; i++)
         {
             Validate(value[i]);
+
             result[i] = _CharMapper[value[i]];
         }
 
@@ -317,23 +307,28 @@ public class AlphaNumericCodec : PlayCodec
     /// <exception cref="CodecParsingException"></exception>
     public string DecodeToString(ReadOnlySpan<byte> value)
     {
-        Validate(value);
-
         if (value.Length >= Specs.ByteArray.StackAllocateCeiling)
         {
             using SpanOwner<char> owner = SpanOwner<char>.Allocate(value.Length);
             Span<char> buffer = owner.Span;
 
             for (int i = 0; i <= (value.Length - 1); i++)
+            {
+                Validate(value[i]);
                 buffer[i] = _CharMapper[value[i]];
+            }
 
             return new string(buffer);
         }
         else
         {
             Span<char> buffer = stackalloc char[value.Length];
+
             for (int i = 0; i <= (value.Length - 1); i++)
+            {
+                Validate(value[i]);
                 buffer[i] = _CharMapper[value[i]];
+            }
 
             return new string(buffer);
         }
@@ -393,30 +388,6 @@ public class AlphaNumericCodec : PlayCodec
     {
         if (!IsValid(value))
             throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
-    }
-
-    /// <exception cref="CodecParsingException"></exception>
-    protected void Validate(ReadOnlySpan<byte> value)
-    {
-        CheckCore.ForEmptySequence(value, nameof(value));
-
-        for (int i = 0; i <= (value.Length - 1); i++)
-        {
-            if (!IsValid(value[i]))
-                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
-        }
-    }
-
-    /// <exception cref="CodecParsingException"></exception>
-    private void Validate(ReadOnlySpan<char> value)
-    {
-        CheckCore.ForEmptySequence(value, nameof(value));
-
-        for (int i = 0; i <= (value.Length - 1); i++)
-        {
-            if (!IsValid(value[i]))
-                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
-        }
     }
 
     public PlayEncodingId GetPlayEncodingId() => EncodingId;
