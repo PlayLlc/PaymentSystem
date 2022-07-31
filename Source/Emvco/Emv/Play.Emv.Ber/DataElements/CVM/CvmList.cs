@@ -86,7 +86,7 @@ public record CvmList : DataElement<BigInteger>, IResolveXAndYAmountForCvmSelect
         Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        BigInteger result = new(value);
+        BigInteger result = new(value, true);
 
         return new CvmList(result);
     }

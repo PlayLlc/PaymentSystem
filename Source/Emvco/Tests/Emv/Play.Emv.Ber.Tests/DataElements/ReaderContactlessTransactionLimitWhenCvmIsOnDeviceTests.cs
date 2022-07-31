@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -22,7 +23,8 @@ public class ReaderContactlessTransactionLimitWhenCvmIsOnDeviceTests
     public void BerEncoding_DeserializingDataElement_CreatesPrimitiveValue()
     {
         ReaderContactlessTransactionLimitWhenCvmIsOnDeviceTestTlv testData = new();
-        ReaderContactlessTransactionLimitWhenCvmIsOnDevice testValue = ReaderContactlessTransactionLimitWhenCvmIsOnDevice.Decode(testData.EncodeValue().AsSpan());
+        ReaderContactlessTransactionLimitWhenCvmIsOnDevice testValue =
+            ReaderContactlessTransactionLimitWhenCvmIsOnDevice.Decode(testData.EncodeValue().AsSpan());
         Assert.NotNull(testValue);
     }
 
@@ -97,7 +99,7 @@ public class ReaderContactlessTransactionLimitWhenCvmIsOnDeviceTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        ReaderContactlessTransactionLimitWhenCvmIsOnDeviceTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        ReaderContactlessTransactionLimitWhenCvmIsOnDeviceTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => ReaderContactlessTransactionLimitWhenCvmIsOnDevice.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -142,7 +144,7 @@ public class ReaderContactlessTransactionLimitWhenCvmIsOnDeviceTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        ReaderContactlessTransactionLimitWhenCvmIsOnDeviceTestTlv testData = new(new byte[] { 31, 17, 12, 13, 14, 89 });
+        ReaderContactlessTransactionLimitWhenCvmIsOnDeviceTestTlv testData = new(new byte[] {31, 17, 12, 13, 14, 89});
         ReaderContactlessTransactionLimitWhenCvmIsOnDevice sut = ReaderContactlessTransactionLimitWhenCvmIsOnDevice.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -158,10 +160,7 @@ public class ReaderContactlessTransactionLimitWhenCvmIsOnDeviceTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        ReaderContactlessTransactionLimitWhenCvmIsOnDeviceTestTlv testData = new(new byte[]
-        {
-            31, 17, 12, 13, 14, 89
-        });
+        ReaderContactlessTransactionLimitWhenCvmIsOnDeviceTestTlv testData = new(new byte[] {31, 17, 12, 13, 14, 89});
 
         ReaderContactlessTransactionLimitWhenCvmIsOnDevice sut = ReaderContactlessTransactionLimitWhenCvmIsOnDevice.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -171,5 +170,4 @@ public class ReaderContactlessTransactionLimitWhenCvmIsOnDeviceTests
     }
 
     #endregion
-
 }
