@@ -40,7 +40,9 @@ public record DynamicDataAuthenticationDataObjectList : DataObjectList, IEqualit
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => base.GetValueByteCount();
+
+    public override ushort GetValueByteCount() => base.GetValueByteCount();
 
     #endregion
 
