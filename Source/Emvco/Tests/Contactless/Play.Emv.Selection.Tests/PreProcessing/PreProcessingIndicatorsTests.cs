@@ -39,7 +39,7 @@ public class PreProcessingIndicatorsTests
     public void PreProcessingIndicators_InstantiateFromEmpty_IsNotNull()
     {
         //Act
-        PreProcessingIndicators sut = new PreProcessingIndicators(Array.Empty<TransactionProfile>());
+        PreProcessingIndicators sut = new(Array.Empty<TransactionProfile>());
 
         //Assert
         Assert.NotNull(sut);
@@ -49,7 +49,7 @@ public class PreProcessingIndicatorsTests
     public void PreProcessingIndicators_InstantiateFromEmpty_CountIsZero()
     {
         //Act
-        PreProcessingIndicators sut = new PreProcessingIndicators(Array.Empty<TransactionProfile>());
+        PreProcessingIndicators sut = new(Array.Empty<TransactionProfile>());
 
         //Assert
         Assert.Equal(0, sut.Count);
@@ -68,7 +68,7 @@ public class PreProcessingIndicatorsTests
         TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
 
         //Act
-        PreProcessingIndicators sut = new PreProcessingIndicators(new[] { transactionProfile });
+        PreProcessingIndicators sut = new(new[] {transactionProfile});
 
         //Assert
         Assert.Equal(1, sut.Count);
@@ -89,7 +89,7 @@ public class PreProcessingIndicatorsTests
         CombinationCompositeKey key = _Fixture.Create<CombinationCompositeKey>();
 
         //Act
-        PreProcessingIndicators sut = new PreProcessingIndicators(new[] { transactionProfile });
+        PreProcessingIndicators sut = new(new[] {transactionProfile});
 
         //Assert
         Assert.True(sut.ContainsKey(key));
@@ -109,7 +109,7 @@ public class PreProcessingIndicatorsTests
         CombinationCompositeKey key = _Fixture.Create<CombinationCompositeKey>();
 
         //Act
-        PreProcessingIndicators sut = new PreProcessingIndicators(new[] { transactionProfile });
+        PreProcessingIndicators sut = new(new[] {transactionProfile});
 
         //Assert
         Assert.False(sut.ContainsKey(key));
@@ -129,7 +129,7 @@ public class PreProcessingIndicatorsTests
         TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
         CombinationCompositeKey key = _Fixture.Create<CombinationCompositeKey>();
 
-        PreProcessingIndicators sut = new PreProcessingIndicators(new[] { transactionProfile });
+        PreProcessingIndicators sut = new(new[] {transactionProfile});
 
         //Act
         bool exists = sut.TryGetValue(key, out PreProcessingIndicator value);
@@ -152,7 +152,7 @@ public class PreProcessingIndicatorsTests
 
         TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
 
-        PreProcessingIndicators sut = new PreProcessingIndicators(new[] { transactionProfile });
+        PreProcessingIndicators sut = new(new[] {transactionProfile});
 
         //Act
         KernelId[] kernelIds = sut.GetKernelIds();
@@ -175,8 +175,8 @@ public class PreProcessingIndicatorsTests
 
         TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
 
-        PreProcessingIndicators sut = new PreProcessingIndicators(new[] { transactionProfile });
-        KernelIdentifier kernelIdentifier = new KernelIdentifier((byte)transactionProfile.GetKernelId());
+        PreProcessingIndicators sut = new(new[] {transactionProfile});
+        KernelIdentifier kernelIdentifier = new((byte) transactionProfile.GetKernelId());
 
         //Act
         bool isMatching = sut.IsMatchingKernel(kernelIdentifier);
@@ -199,7 +199,7 @@ public class PreProcessingIndicatorsTests
 
         TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
 
-        PreProcessingIndicators sut = new PreProcessingIndicators(new[] { transactionProfile });
+        PreProcessingIndicators sut = new(new[] {transactionProfile});
         DedicatedFileName applicationIdentifier = transactionProfile.GetApplicationIdentifier();
 
         //Act
@@ -222,8 +222,8 @@ public class PreProcessingIndicatorsTests
 
         TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
 
-        PreProcessingIndicators sut = new PreProcessingIndicators(new[] { transactionProfile });
-        DedicatedFileName applicationIdentifier = new DedicatedFileName(Randomize.Arrays.Bytes(Randomize.Integers.Int(5, 16)));
+        PreProcessingIndicators sut = new(new[] {transactionProfile});
+        DedicatedFileName applicationIdentifier = new(Randomize.Arrays.Bytes(Randomize.Integers.Int(5, 16)));
 
         //Act
         bool isMatching = sut.IsMatchingAid(applicationIdentifier);
@@ -246,15 +246,19 @@ public class PreProcessingIndicatorsTests
         TransactionProfile transactionProfile2 = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, true, false, true, false);
         TransactionProfile transactionProfile3 = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, false, true, false, true);
 
-        PreProcessingIndicators sut = new PreProcessingIndicators(new[] { transactionProfile, transactionProfile2, transactionProfile3 });
-        DedicatedFileName applicationIdentifier = new DedicatedFileName(Randomize.Arrays.Bytes(Randomize.Integers.Int(5, 16)));
+        PreProcessingIndicators sut = new(new[] {transactionProfile, transactionProfile2, transactionProfile3});
+        DedicatedFileName applicationIdentifier = new(Randomize.Arrays.Bytes(Randomize.Integers.Int(5, 16)));
 
         //Act
         sut.ResetPreprocessingIndicators();
 
         //Assert
-        Assert.True(sut.All(a => a.Value.ContactlessApplicationNotAllowed  == false && a.Value.ReaderContactlessFloorLimitExceeded == false &&
-        a.Value.ReaderCvmRequiredLimitExceeded == false && a.Value.StatusCheckRequested == false && a.Value.ZeroAmount == false));
+        Assert.True(sut.All(a =>
+            (a.Value.ContactlessApplicationNotAllowed == false)
+            && (a.Value.ReaderContactlessFloorLimitExceeded == false)
+            && (a.Value.ReaderCvmRequiredLimitExceeded == false)
+            && (a.Value.StatusCheckRequested == false)
+            && (a.Value.ZeroAmount == false)));
     }
 
     #endregion

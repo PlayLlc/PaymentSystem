@@ -11,6 +11,8 @@ namespace Play.Emv.Selection.Tests.PreProcessing;
 
 public static class PreProcessingIndicatorFixtureSetup
 {
+    #region Instance Members
+
     public static IFixture RegisterGlobalizationProperties(this IFixture fixture)
     {
         NumericCountryCode numericCountryCode = new(840);
@@ -36,29 +38,30 @@ public static class PreProcessingIndicatorFixtureSetup
 
     public static void RegisterTerminalTransactionQualifiers(this IFixture fixture, uint? ttqValue = null)
     {
-        TerminalTransactionQualifiers ttq = ttqValue.HasValue ? new TerminalTransactionQualifiers(ttqValue.Value) : fixture.Create<TerminalTransactionQualifiers>();
+        TerminalTransactionQualifiers ttq = ttqValue.HasValue
+            ? new TerminalTransactionQualifiers(ttqValue.Value)
+            : fixture.Create<TerminalTransactionQualifiers>();
 
         fixture.Register(() => ttq);
     }
 
     public static void RegisterReaderContactlessTransactionLimit(this IFixture fixture, ulong amount)
     {
-        ReaderContactlessTransactionLimitWhenCvmIsOnDevice readerContactlessTransactionLimit = new ReaderContactlessTransactionLimitWhenCvmIsOnDevice(amount);
+        ReaderContactlessTransactionLimitWhenCvmIsOnDevice readerContactlessTransactionLimit = new(amount);
 
-        fixture.Register<ReaderContactlessTransactionLimit>(() =>
-            readerContactlessTransactionLimit);
+        fixture.Register<ReaderContactlessTransactionLimit>(() => readerContactlessTransactionLimit);
     }
 
     public static void RegisterReaderCvmRequiredLimit(this IFixture fixture, ulong amount)
     {
-        ReaderCvmRequiredLimit readerCvmRequiredLimit = new ReaderCvmRequiredLimit(amount);
+        ReaderCvmRequiredLimit readerCvmRequiredLimit = new(amount);
 
         fixture.Register(() => readerCvmRequiredLimit);
     }
 
     public static void RegisterTerminalFloorLimit(this IFixture fixture, uint tFloorLimit)
     {
-        TerminalFloorLimit terminalFloorLimit = new TerminalFloorLimit(tFloorLimit);
+        TerminalFloorLimit terminalFloorLimit = new(tFloorLimit);
 
         fixture.Register(() => terminalFloorLimit);
     }
@@ -75,4 +78,6 @@ public static class PreProcessingIndicatorFixtureSetup
         CombinationCompositeKey combinationCompositeKey = fixture.Create<CombinationCompositeKey>();
         fixture.Freeze<CombinationCompositeKey>();
     }
+
+    #endregion
 }

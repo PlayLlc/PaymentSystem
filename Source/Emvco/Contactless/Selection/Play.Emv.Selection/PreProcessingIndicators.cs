@@ -66,8 +66,7 @@ public class PreProcessingIndicators : IReadOnlyDictionary<CombinationCompositeK
 
     public bool IsMatchingKernel(KernelIdentifier kernelIdentifier)
     {
-        return _Values.Values.Where(a => a.ContactlessApplicationNotAllowed == false).Any(a =>
-        a.GetKernelId().Equals(kernelIdentifier.AsKernelId()));
+        return _Values.Values.Where(a => a.ContactlessApplicationNotAllowed == false).Any(a => a.GetKernelId() == kernelIdentifier.AsKernelId());
     }
 
     /// <summary>

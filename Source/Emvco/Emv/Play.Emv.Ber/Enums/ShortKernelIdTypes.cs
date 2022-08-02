@@ -7,7 +7,7 @@ using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.Enums;
 
-public sealed record ShortKernelIdTypes : EnumObject<byte>, IEqualityComparer<byte>
+public sealed record ShortKernelIdTypes : EnumObject<byte>
 {
     #region Static Metadata
 
