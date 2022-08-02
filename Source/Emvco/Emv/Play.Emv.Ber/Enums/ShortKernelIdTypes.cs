@@ -110,6 +110,8 @@ public sealed record ShortKernelIdTypes : EnumObject<byte>, IEqualityComparer<by
 
     #region Equality
 
+    public bool Equals(KernelIdentifier kernelId) => kernelId.AsKernelId() == _Value;
+
     public bool Equals(ShortKernelIdTypes? x, ShortKernelIdTypes? y)
     {
         if (x == null)
