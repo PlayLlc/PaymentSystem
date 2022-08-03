@@ -249,7 +249,7 @@ public class UintTests : TestBase
         uint testData = 0b1000_0000_1110_0000_1000_0000_1110_0000;
         byte bitToSet = 15;
 
-        uint expectedOutput = 0b1000_0000_1110_0000_1000_0000_1110_0111;
+        uint expectedOutput = 0b1000_0000_1110_0000_1100_0000_1110_0000;
         Assertion(() => Assert.Equal(expectedOutput, testData.SetBit(bitToSet)));
     }
 
@@ -259,7 +259,7 @@ public class UintTests : TestBase
         uint testData = 0b1000_0000_1110_0000_1000_0000_1110_0000;
         byte bitToSet = 16;
 
-        uint expectedOutput = 0b1000_0000_1110_0000_1000_0000_1110_1000;
+        uint expectedOutput = 0b1000_0000_1110_0000_1000_0000_1110_0000;
         Assertion(() => Assert.Equal(expectedOutput, testData.SetBit(bitToSet)));
     }
 
@@ -269,7 +269,7 @@ public class UintTests : TestBase
         uint testData = 0b1000_0000_1110_0000_1000_0000_1110_0000;
         byte bitToSet = 9;
 
-        uint expectedOutput = 0b1000_0000_1110_0000_1000_0000_1110_0001;
+        uint expectedOutput = 0b1000_0000_1110_0000_1000_0001_1110_0000;
         Assertion(() => Assert.Equal(expectedOutput, testData.SetBit(bitToSet)));
     }
 
