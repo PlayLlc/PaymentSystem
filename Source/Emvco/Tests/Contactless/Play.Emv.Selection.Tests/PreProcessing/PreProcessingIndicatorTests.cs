@@ -116,7 +116,7 @@ public class PreProcessingIndicatorTests
 
         PreProcessingIndicator sut = new PreProcessingIndicator(transactionProfile);
 
-        AmountAuthorizedNumeric authorizedAmount = new AmountAuthorizedNumeric(200);
+        AmountAuthorizedNumeric authorizedAmount = new AmountAuthorizedNumeric(100);
         CultureProfile cultureProfile = _Fixture.Create<CultureProfile>();
 
         //Act
