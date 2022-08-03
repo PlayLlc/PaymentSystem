@@ -72,10 +72,7 @@ public record Money : IEqualityComparer<Money>
 
     public bool IsBaseAmount()
     {
-        if ((byte) _Currency.GetMinorUnitLength() > _Amount.GetNumberOfDigits())
-            return false;
-
-        if (((_Amount / Math.Pow(10, _Currency.GetMinorUnitLength())) / (byte) _Currency.GetMinorUnitLength()) == 1)
+        if ((_Amount / Math.Pow(10, _Currency.GetMinorUnitLength())) == 1)
             return true;
 
         return false;

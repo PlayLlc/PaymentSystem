@@ -3,6 +3,7 @@
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Identifiers;
+using Play.Globalization;
 using Play.Globalization.Country;
 using Play.Globalization.Currency;
 using Play.Globalization.Language;
@@ -74,5 +75,17 @@ public static class PreProcessingIndicatorFixtureSetup
     {
         CombinationCompositeKey combinationCompositeKey = fixture.Create<CombinationCompositeKey>();
         fixture.Freeze<CombinationCompositeKey>();
+    }
+
+    public static void RegisterAmmountAuthorizedNumeric(this IFixture fixture, ulong amount)
+    {
+        AmountAuthorizedNumeric amountAuthorizedNumeric = new AmountAuthorizedNumeric(amount);
+        fixture.Register(() => amountAuthorizedNumeric);
+    }
+
+    public static void RegisterCultureProfile(this IFixture fixture)
+    {
+        CultureProfile cultureProfile = fixture.Create<CultureProfile>();
+        fixture.Freeze<CultureProfile>();
     }
 }
