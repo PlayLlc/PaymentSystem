@@ -1,7 +1,5 @@
 ﻿using System.Security.Cryptography;
 
-using Microsoft.Toolkit.HighPerformance.Buffers;
-
 namespace Play.Encryption.Ciphers.Symmetric;
 
 /// <summary>

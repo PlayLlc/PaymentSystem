@@ -45,7 +45,7 @@ public class Owhf2Tests
         Owhf2TestsConfigurationSetup.RegisterDefaultConfiguration(_Database);
 
         //Act
-        byte[] encryptedResult = Owhf2.ComputeR(_Database, message);
+        byte[] encryptedResult = Owhf2.Hash(_Database, message);
 
         //Assert
         Assert.NotNull(encryptedResult);
@@ -62,7 +62,7 @@ public class Owhf2Tests
         {
             ReadOnlySpan<byte> message = stackalloc byte[] { 31, 18, 68, 78, 91, 102, 34, 63, 32, 33 };
 
-            byte[] encryptedResult = Owhf2.ComputeR(_Database, message);
+            byte[] encryptedResult = Owhf2.Hash(_Database, message);
         });
     }
 
@@ -80,7 +80,7 @@ public class Owhf2Tests
         byte[] expectedOwhf2Encryption = ComputeExpectedEncryptedResult(encryption, message.ToArray());
 
         //Act
-        byte[] encryptedResult = Owhf2.ComputeR(_Database, message);
+        byte[] encryptedResult = Owhf2.Hash(_Database, message);
 
         //Assert
         Assert.NotNull(encryptedResult);
@@ -100,7 +100,7 @@ public class Owhf2Tests
         byte[] expectedOwhf2Encryption = ComputeExpectedEncryptedResult(encryption, inputPD);
 
         //Act
-        byte[] encryptedResult = Owhf2.ComputeR(_Database, inputPD);
+        byte[] encryptedResult = Owhf2.Hash(_Database, inputPD);
 
         //Assert
         Assert.NotNull(encryptedResult);

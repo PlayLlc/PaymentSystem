@@ -39,10 +39,10 @@ public class Owhf2
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="OverflowException"></exception>
-    public static byte[] ComputeR(IReadTlvDatabase database, ReadOnlySpan<byte> inputPD)
+    public static byte[] Hash(IReadTlvDatabase database, ReadOnlySpan<byte> message)
     {
-        if (inputPD.Length != 8)
-            throw new TerminalDataException($"The argument {nameof(inputPD)} must be 8 bytes in length");
+        if (message.Length != 8)
+            throw new TerminalDataException($"The argument {nameof(message)} must be 8 bytes in length");
 
         using SpanOwner<byte> owner = SpanOwner<byte>.Allocate(24);
         Span<byte> buffer = owner.Span;
@@ -52,37 +52,36 @@ public class Owhf2
 
         ResolveKey(database, objectId, key);
 
-        return EncryptTripleDes(inputPD, objectId, key);
+        return EncryptTripleDes(message, objectId, key);
     }
 
     #endregion
 
     #region TripleDES
 
-    private static byte[] EncryptTripleDes(ReadOnlySpan<byte> inputPD, Span<byte> objectId, Span<byte> key)
+    private static byte[] EncryptTripleDes(ReadOnlySpan<byte> message, Span<byte> objectId, Span<byte> key)
     {
         ////OID = OID ⊕ PD
-        for (int i = 0; i < objectId.Length; i++)
-        {
-            unchecked
-            {
-                objectId[i] = (byte)(objectId[i] ^ inputPD[i]);
-            }
-        }
+        ResolveMessage(objectId, message);
 
         ////Triple DES(K)[OID ⊕ PD]
         byte[] tripleDesEncryption = _Codec.Encrypt(objectId, key);
 
         ////R := DES(KL)[DES-1(KR)[DES(KL)[OID ⊕ PD]]] ⊕ PD
-        for (int i = 0; i < tripleDesEncryption.Length; i++)
+        ResolveMessage(tripleDesEncryption, message);
+
+        return tripleDesEncryption;
+    }
+
+    private static void ResolveMessage(Span<byte> input, ReadOnlySpan<byte> message)
+    {
+        for (int i = 0; i < input.Length; i++)
         {
             unchecked
             {
-                tripleDesEncryption[i] = (byte)(tripleDesEncryption[i] ^ inputPD[i]);
+                input[i] = (byte)(input[i] ^ message[i]);
             }
         }
-
-        return tripleDesEncryption;
     }
 
     #endregion
