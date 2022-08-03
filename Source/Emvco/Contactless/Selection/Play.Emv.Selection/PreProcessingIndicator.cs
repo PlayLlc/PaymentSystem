@@ -62,15 +62,12 @@ public class PreProcessingIndicator
         ZeroAmount = false;
     }
 
-    public void ResetTerminalTransactionQualifiers() => TerminalTransactionQualifiers = _TransactionProfile.GetTerminalTransactionQualifiers().ResetForPreProcessingIndicator();
+    public void ResetTerminalTransactionQualifiers() =>
+        TerminalTransactionQualifiers = _TransactionProfile.GetTerminalTransactionQualifiers().ResetForPreProcessingIndicator();
 
     /// <summary>
     ///     This will set All fields in accordance to Start A Preprocessing
     /// </summary>
-    /// <param name="transactionSpecificDataElements">
-    ///     Represents transaction specific information that the chosen Kernel will need to process the transaction. Each
-    ///     Kernel will have their own concrete implementation
-    /// </param>
     /// <param name="amountAuthorizedNumeric"></param>
     /// <param name="cultureProfile"></param>
     /// <remarks>
@@ -89,16 +86,17 @@ public class PreProcessingIndicator
     /// </remarks>
     private void SetContactlessApplicationNotAllowed(ZeroAmountHasBeenSetEvent zeroAmountHasBeenSetEvent)
     {
-        if (zeroAmountHasBeenSetEvent.ZeroAmount)
-        {
-            if (TerminalTransactionQualifiers.IsReaderOnlineCapable())
-            {
-                TerminalTransactionQualifiers = TerminalTransactionQualifiers.SetOnlineCryptogramRequired();
-                return;
-            }
+        if (!zeroAmountHasBeenSetEvent.ZeroAmount)
+            return;
 
-            ContactlessApplicationNotAllowed = true;
-        }    
+        if (TerminalTransactionQualifiers.IsReaderOnlineCapable())
+        {
+            TerminalTransactionQualifiers = TerminalTransactionQualifiers.SetOnlineCryptogramRequired();
+
+            return;
+        }
+
+        ContactlessApplicationNotAllowed = true;
     }
 
     /// <remarks>
@@ -125,7 +123,6 @@ public class PreProcessingIndicator
             TerminalTransactionQualifiers = TerminalTransactionQualifiers.SetCvmRequired();
     }
 
-    // i think this is process A, anyone want to help me out here? i accept wage free indentured servs! 
     private void SetMutableFields(AmountAuthorizedNumeric amountAuthorizedNumeric, CultureProfile cultureProfile)
     {
         Money amountAuthorizedMoney = amountAuthorizedNumeric.AsMoney(cultureProfile.GetNumericCurrencyCode());
