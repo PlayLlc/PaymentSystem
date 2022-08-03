@@ -89,11 +89,9 @@ public class PreProcessingIndicatorTests
 
         TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
         TerminalTransactionQualifiers expectedTtq = transactionProfile.GetTerminalTransactionQualifiers().AsValueCopy();
+        expectedTtq = expectedTtq.ResetForPreProcessingIndicator();
 
         PreProcessingIndicator sut = new PreProcessingIndicator(transactionProfile);
-
-        sut.TerminalTransactionQualifiers.SetCvmRequired();
-        sut.TerminalTransactionQualifiers.SetOnlineCryptogramRequired();
 
         //Act
         sut.ResetTerminalTransactionQualifiers();
