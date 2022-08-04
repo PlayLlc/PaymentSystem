@@ -19,6 +19,9 @@ public class Owhf2Tests
 
     private readonly IFixture _Fixture;
     private readonly ITlvReaderAndWriter _Database;
+
+    private static readonly byte[] _InitializationVector = { 18, 114, 31, 64, 7, 18, 20, 11 };
+
     private static readonly TripleDesCodec _DesCodec = new TripleDesCodec(new BlockCipherConfiguration(BlockCipherMode.Cbc, BlockPaddingMode.None, KeySize._128, BlockSize._8,
         new Iso7816PlainTextPreprocessor(BlockSize._8)));
 
@@ -30,6 +33,10 @@ public class Owhf2Tests
     {
         _Fixture = new ContactlessFixture().Create();
         _Database = ContactlessFixture.CreateDefaultDatabase(_Fixture);
+
+        //This is only for testing.
+        Owhf2.UpdateInitializationVector(_InitializationVector);
+        _DesCodec.SetInitializationVector(_InitializationVector);
     }
 
     #endregion

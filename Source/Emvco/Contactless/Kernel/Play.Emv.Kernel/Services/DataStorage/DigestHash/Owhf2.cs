@@ -19,8 +19,7 @@ public class Owhf2
 {
     #region Static Metadata
 
-    private static readonly IBlockCipher _Codec = new TripleDesCodec(new BlockCipherConfiguration(BlockCipherMode.Cbc, BlockPaddingMode.None, KeySize._128, BlockSize._8,
-        new Iso7816PlainTextPreprocessor(BlockSize._8)));
+    private static readonly IBlockCipher _Codec;
 
     #endregion
 
@@ -53,6 +52,11 @@ public class Owhf2
         ResolveKey(database, objectId, key);
 
         return EncryptTripleDes(message, objectId, key);
+    }
+
+    public static void UpdateInitializationVector(byte[] initializationVector)
+    {
+        _Codec.SetInitializationVector(initializationVector);
     }
 
     #endregion

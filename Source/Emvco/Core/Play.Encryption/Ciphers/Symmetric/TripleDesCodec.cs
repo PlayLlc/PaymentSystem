@@ -17,7 +17,7 @@ public class TripleDesCodec : IBlockCipher
     private readonly KeySize _KeySize;
     private readonly BlockPaddingMode _PaddingMode;
     private readonly IPreprocessPlainText _Preprocessor;
-    private static readonly byte[] _InitializationVector = { 18, 114, 31, 64, 7, 18, 20, 11 };
+    private byte[] _InitializationVector;
 
     #endregion
 
@@ -46,6 +46,11 @@ public class TripleDesCodec : IBlockCipher
 
     #region Instance Members
 
+    public void SetInitializationVector(byte[] initializationVector)
+    {
+        this._InitializationVector = initializationVector;
+    }
+
     /// <summary>
     ///     Decrypt
     /// </summary>
@@ -71,17 +76,24 @@ public class TripleDesCodec : IBlockCipher
 
     public BlockCipherAlgorithm GetAlgorithm() => BlockCipherAlgorithm.Aes;
 
-    private TripleDESCryptoServiceProvider GetDesProvider(ReadOnlySpan<byte> key) =>
-        new()
+    private TripleDESCryptoServiceProvider GetDesProvider(ReadOnlySpan<byte> key)
+    {
+        TripleDESCryptoServiceProvider cryptoServiceProvider = new()
         {
             BlockSize = _BlockSize.GetBlockSize(),
             KeySize = _KeySize,
             Key = key.ToArray(),
             Mode = _CipherMode.AsCipherMode(),
             Padding = _PaddingMode.AsPaddingMode(),
-            IV = _InitializationVector
         };
 
+        //Only for testing. This will never be set in production since it is a one way hash.
+        if (_InitializationVector != null)
+            cryptoServiceProvider.IV = _InitializationVector;
+
+        return cryptoServiceProvider;
+    }
+        
     public KeySize GetKeySize() => _KeySize;
 
     public byte[] Encrypt(ReadOnlySpan<byte> message, ReadOnlySpan<byte> key)
