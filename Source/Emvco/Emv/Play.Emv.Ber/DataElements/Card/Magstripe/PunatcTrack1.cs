@@ -36,15 +36,17 @@ public record PunatcTrack1 : DataElement<ulong>
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
-    internal byte[] GetBitFlagIndex()
+    internal Nibble[] GetBitFlagIndex()
     {
-        byte[] result = new byte[_Value.GetSetBitCount()];
+        Nibble[] result = new Nibble[_Value.GetSetBitCount()];
         ulong bufferValue = _Value;
 
         for (byte i = 0, j = 0; i < Specs.Integer.Int64.BitCount; i++)
         {
-            if (bufferValue.IsBitSet(i))
-                result[j++] = i;
+            if (bufferValue.IsBitSet(Bits.One))
+                result[j++] = 1;
+
+            bufferValue >>= 1;
         }
 
         return result;
