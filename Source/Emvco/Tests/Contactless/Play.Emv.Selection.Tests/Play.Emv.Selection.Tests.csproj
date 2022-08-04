@@ -23,9 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Contactless\Display\Play.Emv.Display.Contracts\Play.Emv.Display.Contracts.csproj" />
-    <ProjectReference Include="..\..\..\Contactless\Pcd\Play.Emv.Pcd.Contracts\Play.Emv.Pcd.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\Contactless\Selection\Play.Emv.Selection.Contracts\Play.Emv.Selection.Contracts.csproj" />
     <ProjectReference Include="..\..\..\Contactless\Selection\Play.Emv.Selection\Play.Emv.Selection.csproj" />
+    <ProjectReference Include="..\..\..\Emv\Play.Emv.Ber\Play.Emv.Ber.csproj" />
     <ProjectReference Include="..\Play.Testing.Emv.Contactless\Play.Testing.Emv.Contactless.csproj" />
   </ItemGroup>
 

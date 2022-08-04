@@ -32,6 +32,7 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
         TransactionDateBuilder = new TransactionDateBuilder();
         TransactionTypeBuilder = new TransactionTypeBuilder();
 
+
         // Constructed Values
         DirectoryEntryBuilder = new DirectoryEntryBuilder();
         FileControlInformationAdfBuilder = new FileControlInformationAdfBuilder();
@@ -72,6 +73,9 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
             new ApplicationPanBuilder(),
             new NumericCountryCodeBuilder(),
             new Alpha2CountryCodeBuilder(),
+            new TerminalTransactionQualifiersBuilder(),
+            new TerminalIdentificationBuilder(),
+            new InterfaceDeviceSerialNumberBuilder(),
             AmountAuthorizedNumericBuilder,
             AmountOtherNumericBuilder,
             ApplicationDedicatedFileNameBuilder,
@@ -95,7 +99,7 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
             FileControlInformationAdfBuilder,
             FileControlInformationIssuerDiscretionaryDataAdfBuilder,
             FileControlInformationIssuerDiscretionaryPpseBuilder,
-            LanguagePreferenceBuilder
+            LanguagePreferenceBuilder,
         });
 
         return currentModuleBuilders;
