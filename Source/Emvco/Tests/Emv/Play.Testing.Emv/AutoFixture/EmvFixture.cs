@@ -66,7 +66,6 @@ public class EmvFixture : TestingFixture
         //Add it here for now.
         factory.Build(ApplicationPanBuilder.Id);
 
-
         factory.Build(AmountAuthorizedNumericBuilder.Id);
         factory.Build(AmountOtherNumericBuilder.Id);
         factory.Build(ApplicationDedicatedFileNameBuilder.Id);
@@ -84,6 +83,9 @@ public class EmvFixture : TestingFixture
         factory.Build(TransactionDateBuilder.Id);
         factory.Build(FileControlInformationIssuerDiscretionaryPpseBuilder.Id);
         factory.Build(LanguagePreferenceBuilder.Id);
+        factory.Build(InterfaceDeviceSerialNumberBuilder.Id);
+        factory.Build(TerminalIdentificationBuilder.Id);
+        factory.Build(TerminalTransactionQualifiersBuilder.Id);
     }
 
     #region Customize Fixture

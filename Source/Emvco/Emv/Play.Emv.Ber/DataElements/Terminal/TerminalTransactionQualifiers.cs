@@ -59,7 +59,7 @@ public record TerminalTransactionQualifiers : DataElement<uint>, IEqualityCompar
     /// </remarks>
     public TerminalTransactionQualifiers ResetForPreProcessingIndicator()
     {
-        const uint bitMask = (uint) 0b11000000 << 16;
+        const uint bitMask = (uint) 0b1100_0000 << 8;
 
         return new TerminalTransactionQualifiers(_Value.GetMaskedValue(bitMask));
     }
