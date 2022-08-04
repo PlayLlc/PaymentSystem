@@ -13,7 +13,7 @@ public class AesCodec : IBlockCipher
     private readonly KeySize _KeySize;
     private readonly BlockPaddingMode _PaddingMode;
     private readonly IPreprocessPlainText _PlainTextPreprocessor;
-    private static readonly byte[] _InitializationVector = { 18, 114, 31, 64, 7, 18, 20, 11, 18, 114, 31, 64, 7, 18, 20, 11 };
+    private byte[] _InitializationVector;
 
     #endregion
 
@@ -71,9 +71,24 @@ public class AesCodec : IBlockCipher
         return buffer.ToArray();
     }
 
-    private AesCryptoServiceProvider GetAesProvider(ReadOnlySpan<byte> key) =>
-        new() {BlockSize = _BlockSize.GetBlockSize(), KeySize = _KeySize, Key = key.ToArray(), Mode = _CipherMode.AsCipherMode(), Padding = _PaddingMode.AsPaddingMode(),
-        IV = _InitializationVector};
+    private AesCryptoServiceProvider GetAesProvider(ReadOnlySpan<byte> key)
+    {
+        AesCryptoServiceProvider cryptoServiceProvider = new()
+        {
+            BlockSize = _BlockSize.GetBlockSize(),
+            KeySize = _KeySize,
+            Key = key.ToArray(),
+            Mode = _CipherMode.AsCipherMode(),
+            Padding = _PaddingMode.AsPaddingMode(),
+            IV = _InitializationVector
+        };
+
+        if (_InitializationVector != null)
+            cryptoServiceProvider.IV = _InitializationVector;
+
+        return cryptoServiceProvider;
+    }
+        
 
     public BlockCipherAlgorithm GetAlgorithm() => BlockCipherAlgorithm.Aes;
     public KeySize GetKeySize() => _KeySize;
@@ -92,6 +107,7 @@ public class AesCodec : IBlockCipher
     }
 
     public BlockCipherMode GetCipherMode() => _CipherMode;
+    public void SetInitializationVector(byte[] initializationVector) => this._InitializationVector = initializationVector;
 
     #endregion
 }

@@ -9,5 +9,7 @@ public interface IBlockCipher
     public KeySize GetKeySize();
     public byte[] Sign(ReadOnlySpan<byte> message, ReadOnlySpan<byte> key);
 
+    public void SetInitializationVector(byte[] initializationVector);
+
     #endregion
 }

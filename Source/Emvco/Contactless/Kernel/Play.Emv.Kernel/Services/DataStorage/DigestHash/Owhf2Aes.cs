@@ -14,8 +14,17 @@ public class Owhf2Aes
 {
     #region Static Metadata
 
-    private static readonly AesCodec _Codec = new(new BlockCipherConfiguration(BlockCipherMode.Cbc, BlockPaddingMode.None, KeySize._128, BlockSize._16,
+    private static readonly IBlockCipher _Codec;
+
+    #endregion
+
+    #region Constructor
+
+    static Owhf2Aes()
+    {
+        _Codec = new AesCodec(new BlockCipherConfiguration(BlockCipherMode.Cbc, BlockPaddingMode.None, KeySize._128, BlockSize._16,
         new Iso7816PlainTextPreprocessor(BlockSize._16)));
+    }
 
     #endregion
 
@@ -23,12 +32,17 @@ public class Owhf2Aes
 
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="PlayInternalException"></exception>
-    public static byte[] ComputeR(IReadTlvDatabase database, ReadOnlySpan<byte> inputC)
+    public static byte[] Hash(IReadTlvDatabase database, ReadOnlySpan<byte> message)
     {
-        if (inputC.Length != 8)
-            throw new TerminalDataException($"The argument {nameof(inputC)} must be 8 bytes in length");
+        if (message.Length != 8)
+            throw new TerminalDataException($"The argument {nameof(message)} must be 8 bytes in length");
 
-        return CreateR(database, inputC);
+        return CreateR(database, message);
+    }
+
+    public static void SetInitializationVector(byte[] initializationVector)
+    {
+        _Codec.SetInitializationVector(initializationVector);
     }
 
     #endregion
@@ -80,7 +94,7 @@ public class Owhf2Aes
         buffer[14] = 0x3F;
     }
 
-    private static void CreateT(AesCodec codec, ReadOnlySpan<byte> key, ReadOnlySpan<byte> message, Span<byte> buffer)
+    private static void CreateT(IBlockCipher codec, ReadOnlySpan<byte> key, ReadOnlySpan<byte> message, Span<byte> buffer)
     {
         byte[] signedMessage = codec.Sign(message, key);
         signedMessage.CopyTo(buffer);

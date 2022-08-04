@@ -90,7 +90,7 @@ public partial class PrepareGenerateAcService
             if (applicationCapabilitiesInformation.GetDataStorageVersionNumber() == DataStorageVersionNumbers.Version1)
                 Owhf2.Sign(_Database, input.EncodeValue());
             else
-                Owhf2Aes.ComputeR(_Database, input.EncodeValue());
+                Owhf2Aes.Hash(_Database, input.EncodeValue());
         }
 
         #endregion
