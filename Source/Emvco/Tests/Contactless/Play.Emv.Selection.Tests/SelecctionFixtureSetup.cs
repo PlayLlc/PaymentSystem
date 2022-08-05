@@ -8,9 +8,9 @@ using Play.Globalization.Country;
 using Play.Globalization.Currency;
 using Play.Globalization.Language;
 
-namespace Play.Emv.Selection.Tests.PreProcessing;
+namespace Play.Emv.Selection.Tests;
 
-public static class PreProcessingIndicatorFixtureSetup
+public static class SelecctionFixtureSetup
 {
     #region Instance Members
 

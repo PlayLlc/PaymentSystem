@@ -49,7 +49,7 @@ public class PreprocessorTests
         _Fixture.RegisterAmmountAuthorizedNumeric(200);
         _Fixture.RegisterCultureProfile();
 
-        TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
+        TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
 
         PreProcessingIndicators preprocessingIndicators = new PreProcessingIndicators(new[] { transactionProfile });
 
@@ -83,7 +83,7 @@ public class PreprocessorTests
         _Fixture.RegisterAmmountAuthorizedNumeric(2000);
         _Fixture.RegisterCultureProfile();
 
-        TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, false, false, true, false);
+        TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, false, false, true, false);
 
         PreProcessingIndicators preprocessingIndicators = new PreProcessingIndicators(new[] { transactionProfile });
 
@@ -120,7 +120,7 @@ public class PreprocessorTests
         _Fixture.RegisterAmmountAuthorizedNumeric(0);
         _Fixture.RegisterCultureProfile();
 
-        TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, false, false, true, false);
+        TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, false, false, true, false);
 
         PreProcessingIndicators preprocessingIndicators = new PreProcessingIndicators(new[] { transactionProfile });
 

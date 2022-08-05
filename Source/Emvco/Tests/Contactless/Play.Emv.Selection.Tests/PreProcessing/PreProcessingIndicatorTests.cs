@@ -43,7 +43,7 @@ public class PreProcessingIndicatorTests
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
 
-        TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
+        TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
 
         //Act
         PreProcessingIndicator preprocessingIndicator = new PreProcessingIndicator(transactionProfile);
@@ -62,7 +62,7 @@ public class PreProcessingIndicatorTests
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
 
-        TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
+        TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
         PreProcessingIndicator sut = new PreProcessingIndicator(transactionProfile);
 
         //Act
@@ -87,7 +87,7 @@ public class PreProcessingIndicatorTests
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
 
-        TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
+        TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
         TerminalTransactionQualifiers expectedTtq = transactionProfile.GetTerminalTransactionQualifiers().AsValueCopy();
         expectedTtq = expectedTtq.ResetForPreProcessingIndicator();
 
@@ -110,7 +110,7 @@ public class PreProcessingIndicatorTests
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
 
-        TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, true, false, false, false);
+        TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, true, false, false, false);
 
         PreProcessingIndicator sut = new PreProcessingIndicator(transactionProfile);
 
@@ -135,7 +135,7 @@ public class PreProcessingIndicatorTests
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
 
-        TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, true, false, false, false);
+        TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, true, false, false, false);
 
         PreProcessingIndicator sut = new PreProcessingIndicator(transactionProfile);
 
@@ -160,7 +160,7 @@ public class PreProcessingIndicatorTests
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
         //ZeroAmountHasBeenSetEvent? zeroAmountHasBeenSet = SetZeroAmount(amountAuthorizedMoney, _TransactionProfile.IsZeroAmountAllowedForOffline());
-        TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, false, false, true, false);
+        TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, false, false, true, false);
 
         PreProcessingIndicator sut = new PreProcessingIndicator(transactionProfile);
 
@@ -185,7 +185,7 @@ public class PreProcessingIndicatorTests
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
         //ZeroAmountHasBeenSetEvent? zeroAmountHasBeenSet = SetZeroAmount(amountAuthorizedMoney, _TransactionProfile.IsZeroAmountAllowedForOffline());
-        TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, false, false, true, false);
+        TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, false, false, true, false);
 
         PreProcessingIndicator sut = new PreProcessingIndicator(transactionProfile);
 
@@ -209,7 +209,7 @@ public class PreProcessingIndicatorTests
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
         //ZeroAmountHasBeenSetEvent? zeroAmountHasBeenSet = SetZeroAmount(amountAuthorizedMoney, _TransactionProfile.IsZeroAmountAllowedForOffline());
-        TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, false, false, true, false);
+        TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, false, false, true, false);
 
         PreProcessingIndicator sut = new PreProcessingIndicator(transactionProfile);
 
@@ -233,7 +233,7 @@ public class PreProcessingIndicatorTests
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
         //ZeroAmountHasBeenSetEvent? zeroAmountHasBeenSet = SetZeroAmount(amountAuthorizedMoney, _TransactionProfile.IsZeroAmountAllowedForOffline());
-        TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, false, false, true, false);
+        TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, false, false, true, false);
 
         PreProcessingIndicator sut = new PreProcessingIndicator(transactionProfile);
 

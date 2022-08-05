@@ -4,7 +4,6 @@ using System.Linq;
 using AutoFixture;
 
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Identifiers;
 using Play.Emv.Selection.Contracts;
 using Play.Icc.FileSystem.DedicatedFiles;
@@ -65,7 +64,7 @@ public class PreProcessingIndicatorsTests
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
 
-        TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
+        TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
 
         //Act
         PreProcessingIndicators sut = new(new[] {transactionProfile});
@@ -85,7 +84,7 @@ public class PreProcessingIndicatorsTests
         _Fixture.RegisterTerminalCategoriesSupportedList();
         _Fixture.RegisterCombinationCompositeKey();
 
-        TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
+        TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
         CombinationCompositeKey key = _Fixture.Create<CombinationCompositeKey>();
 
         //Act
@@ -105,7 +104,7 @@ public class PreProcessingIndicatorsTests
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
 
-        TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
+        TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
         CombinationCompositeKey key = _Fixture.Create<CombinationCompositeKey>();
 
         //Act
@@ -126,7 +125,7 @@ public class PreProcessingIndicatorsTests
         _Fixture.RegisterTerminalCategoriesSupportedList();
         _Fixture.RegisterCombinationCompositeKey();
 
-        TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
+        TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
         CombinationCompositeKey key = _Fixture.Create<CombinationCompositeKey>();
 
         PreProcessingIndicators sut = new(new[] {transactionProfile});
@@ -150,7 +149,7 @@ public class PreProcessingIndicatorsTests
         _Fixture.RegisterTerminalCategoriesSupportedList();
         _Fixture.RegisterCombinationCompositeKey();
 
-        TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
+        TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
 
         PreProcessingIndicators sut = new(new[] {transactionProfile});
 
@@ -173,7 +172,7 @@ public class PreProcessingIndicatorsTests
         _Fixture.RegisterTerminalCategoriesSupportedList();
         _Fixture.RegisterCombinationCompositeKey();
 
-        TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
+        TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
 
         PreProcessingIndicators sut = new(new[] {transactionProfile});
         KernelIdentifier kernelIdentifier = new((byte) transactionProfile.GetKernelId());
@@ -197,7 +196,7 @@ public class PreProcessingIndicatorsTests
         _Fixture.RegisterTerminalCategoriesSupportedList();
         _Fixture.RegisterCombinationCompositeKey();
 
-        TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
+        TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
 
         PreProcessingIndicators sut = new(new[] {transactionProfile});
         DedicatedFileName applicationIdentifier = transactionProfile.GetApplicationIdentifier();
@@ -220,7 +219,7 @@ public class PreProcessingIndicatorsTests
         _Fixture.RegisterTerminalCategoriesSupportedList();
         _Fixture.RegisterCombinationCompositeKey();
 
-        TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
+        TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
 
         PreProcessingIndicators sut = new(new[] {transactionProfile});
         DedicatedFileName applicationIdentifier = new(Randomize.Arrays.Bytes(Randomize.Integers.Int(5, 16)));
@@ -242,9 +241,9 @@ public class PreProcessingIndicatorsTests
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
 
-        TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
-        TransactionProfile transactionProfile2 = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, true, false, true, false);
-        TransactionProfile transactionProfile3 = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, false, true, false, true);
+        TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
+        TransactionProfile transactionProfile2 = SelectionFactory.CreateTransactionProfile(_Fixture, true, false, true, false);
+        TransactionProfile transactionProfile3 = SelectionFactory.CreateTransactionProfile(_Fixture, false, true, false, true);
 
         PreProcessingIndicators sut = new(new[] {transactionProfile, transactionProfile2, transactionProfile3});
         DedicatedFileName applicationIdentifier = new(Randomize.Arrays.Bytes(Randomize.Integers.Int(5, 16)));

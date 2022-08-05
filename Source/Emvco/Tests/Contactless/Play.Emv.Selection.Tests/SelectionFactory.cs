@@ -4,9 +4,9 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Identifiers;
 using Play.Emv.Selection.Contracts;
 
-namespace Play.Emv.Selection.Tests.PreProcessing;
+namespace Play.Emv.Selection.Tests;
 
-public class PreProcessingIndicatorFactory
+public class SelectionFactory
 {
     public static TransactionProfile CreateTransactionProfile(IFixture fixture, bool isStatusCheckSupported, bool isZeroAmountAllowed,
     bool isZeroAmountAllowedForOffline, bool isExtendedSelectionSupported)

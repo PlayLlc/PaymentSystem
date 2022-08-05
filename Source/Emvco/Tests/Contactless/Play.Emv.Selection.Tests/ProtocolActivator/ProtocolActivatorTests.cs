@@ -1,4 +1,7 @@
-﻿using AutoFixture;
+﻿using System;
+using System.Linq;
+
+using AutoFixture;
 
 using Moq;
 
@@ -44,7 +47,7 @@ public class ProtocolActivatorTests
     #endregion
 
     [Fact]
-    public void OutcomeWithNoRestartNeeded_InvokingProtocolActivator_ProcessActivationIsNotARestart()
+    public void OutcomeWithNoRestartNeeded_InvokingProtocolActivator_EachCombinationEntryPointIsResetedProcessActivationIsNotARestart()
     {
         //Arrange
         TransactionSessionId transactionSessionId = _Fixture.Create<TransactionSessionId>();
@@ -56,10 +59,13 @@ public class ProtocolActivatorTests
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
 
-        DisplayMessageRequest expectedDisplayMessageRequest = GetExpectedReadyToReadDisplayMessage();
-        _DisplayProcess.Setup(m => m.Request(It.Is<DisplayMessageRequest>(x => x.Equals(expectedDisplayMessageRequest))));
+        UserInterfaceRequestData expectedUserInterfaceRequestData = GetExpectedReadyToReadDisplayMessage();
 
-        TransactionProfile preProcessingIndicator = ProtocolActivatorFactory.CreatePreProcessingIndicator(_Fixture);
+        _DisplayProcess.Setup(m => m.Request(It.Is<DisplayMessageRequest>(x => x.GetUserInterfaceRequestData().Equals(expectedUserInterfaceRequestData))));
+        _ProximityCouplingDeviceEndpoint.Setup(m => m.Request(It.Is<ActivatePcdRequest>(x => x.GetTransactionSessionId().Equals(transactionSessionId))));
+
+        TransactionProfile preProcessingIndicator = SelectionFactory.CreateTransactionProfile(_Fixture, _Fixture.Create<bool>(), _Fixture.Create<bool>(), _Fixture.Create<bool>(),
+            _Fixture.Create<bool>());
 
         TransactionProfile[] entryPointConfigurations = new[] { preProcessingIndicator };
 
@@ -71,15 +77,208 @@ public class ProtocolActivatorTests
         _SystemUnderTest.ActivateProtocol(transactionSessionId, outcome, preprocessingIndicators, candidateList);
 
         //Assert
-        _DisplayProcess.Verify(m => m.Request(It.Is<DisplayMessageRequest>(x => x.Equals(expectedDisplayMessageRequest))), Times.Once);
+        _DisplayProcess.Verify(m => m.Request(It.Is<DisplayMessageRequest>(x => x.GetUserInterfaceRequestData().Equals(expectedUserInterfaceRequestData))), Times.Once);
+        _ProximityCouplingDeviceEndpoint.Verify(m => m.Request(It.Is<ActivatePcdRequest>(x => x.GetTransactionSessionId().Equals(transactionSessionId))), Times.Once);
+
+        preprocessingIndicators.Values.All(x =>
+        {
+            Assert.False(x.ContactlessApplicationNotAllowed);
+            Assert.False(x.ReaderContactlessFloorLimitExceeded);
+            Assert.False(x.ReaderCvmRequiredLimitExceeded);
+            Assert.False(x.StatusCheckRequested);
+            Assert.False(x.ZeroAmount);
+
+            return true;
+        });
     }
 
-    private static DisplayMessageRequest GetExpectedReadyToReadDisplayMessage()
+    [Fact]
+    public void OutcomeWithNoRestartNeededButWithErrorPresent_InvokingProtocolActivator_CandidateListIsCleared()
+    {
+        //Arrange
+        TransactionSessionId transactionSessionId = _Fixture.Create<TransactionSessionId>();
+        Outcome outcome = Outcome.Default;
+        SetErrorIndicationPresent(outcome);
+
+        _Fixture.RegisterTerminalTransactionQualifiers();
+        _Fixture.RegisterReaderContactlessTransactionLimit(1234);
+        _Fixture.RegisterReaderCvmRequiredLimit(1234);
+        _Fixture.RegisterTerminalFloorLimit(123);
+        _Fixture.RegisterTerminalCategoriesSupportedList();
+
+        UserInterfaceRequestData expectedUserInterfaceRequestData = GetExpectedReadyToReadDisplayMessage();
+
+        _DisplayProcess.Setup(m => m.Request(It.Is<DisplayMessageRequest>(x => x.GetUserInterfaceRequestData().Equals(expectedUserInterfaceRequestData))));
+        _ProximityCouplingDeviceEndpoint.Setup(m => m.Request(It.Is<ActivatePcdRequest>(x => x.GetTransactionSessionId().Equals(transactionSessionId))));
+
+        TransactionProfile preProcessingIndicator = SelectionFactory.CreateTransactionProfile(_Fixture, _Fixture.Create<bool>(), _Fixture.Create<bool>(), _Fixture.Create<bool>(),
+            _Fixture.Create<bool>());
+
+        TransactionProfile[] entryPointConfigurations = new[] { preProcessingIndicator };
+
+        PreProcessingIndicators preprocessingIndicators = new(entryPointConfigurations);
+
+        CandidateList candidateList = new();
+
+        candidateList.Add(_Fixture.Create<Combination>());
+        candidateList.Add(_Fixture.Create<Combination>());
+        candidateList.Add(_Fixture.Create<Combination>());
+
+        //Act
+        _SystemUnderTest.ActivateProtocol(transactionSessionId, outcome, preprocessingIndicators, candidateList);
+
+        //Assert
+        Assert.Equal(0, candidateList.Count);
+    }
+
+    [Fact]
+    public void OutcomeWithRestartNeededWithUiRequestOnRestartPresentButMissingUserInterfaceData_InvokingProtocolActivator_ThrowsException()
+    {
+        //Arrange
+        TransactionSessionId transactionSessionId = _Fixture.Create<TransactionSessionId>();
+        Outcome outcome = new Outcome(BuildOutcomeParameterWithRestartRequired());
+
+        _Fixture.RegisterTerminalTransactionQualifiers();
+        _Fixture.RegisterReaderContactlessTransactionLimit(1234);
+        _Fixture.RegisterReaderCvmRequiredLimit(1234);
+        _Fixture.RegisterTerminalFloorLimit(123);
+        _Fixture.RegisterTerminalCategoriesSupportedList();
+
+        UserInterfaceRequestData expectedUserInterfaceRequestData = GetExpectedReadyToReadDisplayMessage();
+
+        _DisplayProcess.Setup(m => m.Request(It.Is<DisplayMessageRequest>(x => x.GetUserInterfaceRequestData().Equals(expectedUserInterfaceRequestData))));
+        _ProximityCouplingDeviceEndpoint.Setup(m => m.Request(It.Is<ActivatePcdRequest>(x => x.GetTransactionSessionId().Equals(transactionSessionId))));
+
+        TransactionProfile preProcessingIndicator = SelectionFactory.CreateTransactionProfile(_Fixture, _Fixture.Create<bool>(), _Fixture.Create<bool>(), _Fixture.Create<bool>(),
+            _Fixture.Create<bool>());
+
+        TransactionProfile[] entryPointConfigurations = new[] { preProcessingIndicator };
+
+        PreProcessingIndicators preprocessingIndicators = new(entryPointConfigurations);
+
+        CandidateList candidateList = new();
+
+        //Act & Assert
+
+        Assert.Throws<InvalidOperationException>(() =>
+        {
+            _SystemUnderTest.ActivateProtocol(transactionSessionId, outcome, preprocessingIndicators, candidateList);
+        });
+    }
+
+    [Fact]
+    public void OutcomeWithRestartNeededWithUiRequestOnRestartPresent_InvokingProtocolActivator_DisplayProcessRequestsExistingRequestData()
+    {
+        //Arrange
+        TransactionSessionId transactionSessionId = _Fixture.Create<TransactionSessionId>();
+        Outcome outcome = new Outcome(BuildOutcomeParameterWithRestartRequired());
+        SetUserInterfaceRequestData(outcome);
+
+        _Fixture.RegisterTerminalTransactionQualifiers();
+        _Fixture.RegisterReaderContactlessTransactionLimit(1234);
+        _Fixture.RegisterReaderCvmRequiredLimit(1234);
+        _Fixture.RegisterTerminalFloorLimit(123);
+        _Fixture.RegisterTerminalCategoriesSupportedList();
+
+        UserInterfaceRequestData expectedUserInterfaceRequestData = GetExpectedReadyToReadDisplayMessage();
+
+        _DisplayProcess.Setup(m => m.Request(It.Is<DisplayMessageRequest>(x => x.GetUserInterfaceRequestData().Equals(expectedUserInterfaceRequestData))));
+        _ProximityCouplingDeviceEndpoint.Setup(m => m.Request(It.Is<ActivatePcdRequest>(x => x.GetTransactionSessionId().Equals(transactionSessionId))));
+
+        TransactionProfile preProcessingIndicator = SelectionFactory.CreateTransactionProfile(_Fixture, _Fixture.Create<bool>(), _Fixture.Create<bool>(), _Fixture.Create<bool>(),
+            _Fixture.Create<bool>());
+
+        TransactionProfile[] entryPointConfigurations = new[] { preProcessingIndicator };
+
+        PreProcessingIndicators preprocessingIndicators = new(entryPointConfigurations);
+
+        CandidateList candidateList = new();
+
+        //Act
+        _SystemUnderTest.ActivateProtocol(transactionSessionId, outcome, preprocessingIndicators, candidateList);
+
+        //Assert
+        _DisplayProcess.Verify(m => m.Request(It.Is<DisplayMessageRequest>(x => x.GetUserInterfaceRequestData().Equals(expectedUserInterfaceRequestData))), Times.Once);
+        _ProximityCouplingDeviceEndpoint.Verify(m => m.Request(It.Is<ActivatePcdRequest>(x => x.GetTransactionSessionId().Equals(transactionSessionId))), Times.Once);
+    }
+
+    [Fact]
+    public void OutcomeWithRestartNeededWithUiRequestOnRestartPresent_InvokingProtocolActivator_DisplayProcessRequestsReadyToDisplayMessage()
+    {
+        //Arrange
+        TransactionSessionId transactionSessionId = _Fixture.Create<TransactionSessionId>();
+        Outcome outcome = new Outcome();
+
+        OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
+
+        builder.Set(StatusOutcomes.SelectNext);
+        builder.SetIsUiRequestOnRestartPresent(false);
+
+        outcome.Reset(builder.Complete());
+
+        _Fixture.RegisterTerminalTransactionQualifiers();
+        _Fixture.RegisterReaderContactlessTransactionLimit(1234);
+        _Fixture.RegisterReaderCvmRequiredLimit(1234);
+        _Fixture.RegisterTerminalFloorLimit(123);
+        _Fixture.RegisterTerminalCategoriesSupportedList();
+
+        UserInterfaceRequestData expectedUserInterfaceRequestData = GetExpectedReadyToReadDisplayMessage();
+
+        _DisplayProcess.Setup(m => m.Request(It.Is<DisplayMessageRequest>(x => x.GetUserInterfaceRequestData().Equals(expectedUserInterfaceRequestData))));
+        _ProximityCouplingDeviceEndpoint.Setup(m => m.Request(It.Is<ActivatePcdRequest>(x => x.GetTransactionSessionId().Equals(transactionSessionId))));
+
+        TransactionProfile preProcessingIndicator = SelectionFactory.CreateTransactionProfile(_Fixture, _Fixture.Create<bool>(), _Fixture.Create<bool>(), _Fixture.Create<bool>(),
+            _Fixture.Create<bool>());
+
+        TransactionProfile[] entryPointConfigurations = new[] { preProcessingIndicator };
+
+        PreProcessingIndicators preprocessingIndicators = new(entryPointConfigurations);
+
+        CandidateList candidateList = new();
+
+        //Act
+        _SystemUnderTest.ActivateProtocol(transactionSessionId, outcome, preprocessingIndicators, candidateList);
+
+        //Assert
+        _DisplayProcess.Verify(m => m.Request(It.Is<DisplayMessageRequest>(x => x.GetUserInterfaceRequestData().Equals(expectedUserInterfaceRequestData))), Times.Once);
+        _ProximityCouplingDeviceEndpoint.Verify(m => m.Request(It.Is<ActivatePcdRequest>(x => x.GetTransactionSessionId().Equals(transactionSessionId))), Times.Once);
+    }
+
+    private static UserInterfaceRequestData GetExpectedReadyToReadDisplayMessage()
     {
         UserInterfaceRequestData.Builder? builder = UserInterfaceRequestData.GetBuilder();
+
         builder.Set(MessageIdentifiers.PresentCard);
         builder.Set(Statuses.ReadyToRead);
 
-        return new DisplayMessageRequest(builder.Complete());
+        return builder.Complete();
+    }
+
+    private static void SetUserInterfaceRequestData(Outcome outcome)
+    {
+        UserInterfaceRequestData.Builder? builder = UserInterfaceRequestData.GetBuilder();
+
+        builder.Set(MessageIdentifiers.PresentCard);
+        builder.Set(Statuses.ReadyToRead);
+
+        outcome.Update(builder);
+    }
+
+    private static OutcomeParameterSet BuildOutcomeParameterWithRestartRequired()
+    {
+        OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
+
+        builder.Set(StatusOutcomes.TryAgain);
+
+        return builder.Complete();
+    }
+
+    private static void SetErrorIndicationPresent(Outcome outcome)
+    {
+        ErrorIndication.Builder builder = ErrorIndication.GetBuilder();
+
+        builder.Set(Level1Error.ProtocolError);
+
+        outcome.Reset(builder.Complete());
     }
 }

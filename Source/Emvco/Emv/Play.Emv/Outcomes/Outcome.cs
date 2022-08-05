@@ -156,6 +156,11 @@ public class Outcome
         _ErrorIndication = errorIndication;
     }
 
+    public void Reset(OutcomeParameterSet outcomeParameterSet)
+    {
+        _OutcomeParameterSet = outcomeParameterSet;
+    }
+
     public bool TryGetUserInterfaceRequestData(out UserInterfaceRequestData? result)
     {
         if (_UserInterfaceRequestData == null)
