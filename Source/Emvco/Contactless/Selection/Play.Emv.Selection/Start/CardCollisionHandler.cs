@@ -30,10 +30,10 @@ public class CardCollisionHandler
     /// <summary>
     ///     HandleCardCollisions
     /// </summary>
-    /// <param name="request"></param>
+    /// <param name="response"></param>
     /// <param name="outcome"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    public void HandleCardCollisions(ActivatePcdResponse request, Outcome outcome)
+    public void HandleCardCollisions(ActivatePcdResponse response, Outcome outcome)
     {
         if (!outcome.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData))
         {
@@ -44,7 +44,7 @@ public class CardCollisionHandler
         if (userInterfaceRequestData!.GetMessageIdentifier() != MessageIdentifiers.PleasePresentOneCardOnly)
             return;
 
-        if (request.IsCollisionDetected())
+        if (response.IsCollisionDetected())
             HandleCardCollision(outcome);
         else
             HandleCollisionHasBeenResolved(outcome);
