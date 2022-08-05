@@ -46,7 +46,8 @@ public class ProtocolActivator
     {
         if (!outcome.IsRestart())
             ProcessIfActivationIsNotARestart(outcome, preProcessingIndicators, candidateList);
-        else
+
+        if (outcome.IsRestart())
             ProcessIfActivationIsARestart(outcome);
 
         ActivateProximityCouplingDevice(transactionSessionId);
