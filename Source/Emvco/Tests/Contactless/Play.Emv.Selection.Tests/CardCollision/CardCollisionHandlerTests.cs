@@ -48,7 +48,7 @@ public class CardCollisionHandlerTests
     public void HandleCardCollision_CollisionIsDetectedButNoUserInterfaceRequestDataPresent_ExceptionIsThrown()
     {
         //Arrange
-        Outcome outcome = Outcome.Default;
+        Outcome outcome = new Outcome();
 
         TransactionSessionId transactionSessionId = _Fixture.Create<TransactionSessionId>();
         Level1Error error = Level1Error.Ok;
@@ -64,7 +64,7 @@ public class CardCollisionHandlerTests
     public void HandleCardCollision_CollisionIsDetectedWithUserInterfaceRequestDataPresentButWithDifferentMessageThanPleasePresentOneCardOnly_NoCollisionIsHandled()
     {
         //Arrange
-        Outcome outcome = Outcome.Default;
+        Outcome outcome = new Outcome();
 
         SetUserInterfaceRequestData(outcome, MessageIdentifiers.PresentCard);
 
@@ -85,7 +85,7 @@ public class CardCollisionHandlerTests
     public void HandleCardCollision_CollisionIsDetectedWithCorrectMessageIdentifier_CollisionIsHandled()
     {
         //Arrange
-        Outcome outcome = Outcome.Default;
+        Outcome outcome = new Outcome();
 
         SetUserInterfaceRequestData(outcome, MessageIdentifiers.PleasePresentOneCardOnly);
 
@@ -113,7 +113,7 @@ public class CardCollisionHandlerTests
     public void HandleCardCollision_NoCollisionDetected_CardCollisionHasBeenResolved()
     {
         //Arrange
-        Outcome outcome = Outcome.Default;
+        Outcome outcome = new Outcome();
 
         SetUserInterfaceRequestData(outcome, MessageIdentifiers.PleasePresentOneCardOnly);
 
@@ -133,30 +133,15 @@ public class CardCollisionHandlerTests
         _DisplayProcess.Verify(m => m.Request(It.IsAny<DisplayMessageRequest>()), Times.Once);
 
         Assert.NotNull(output);
-        Assert.Equal(MessageIdentifiers.PleasePresentOneCardOnly, output.GetMessageIdentifier());
         Assert.Equal(Statuses.ReadyToRead, output.GetStatus());
+        Assert.Equal(MessageIdentifiers.PleasePresentOneCardOnly, output.GetMessageIdentifier());
     }
 
-    private static void SetUserInterfaceRequestData(Outcome outcome, params MessageIdentifiers[] messageIdentifiers)
+    private static void SetUserInterfaceRequestData(Outcome outcome, MessageIdentifiers messageIdentifier)
     {
         UserInterfaceRequestData.Builder? builder = UserInterfaceRequestData.GetBuilder();
-
-        foreach (MessageIdentifiers messageIdentifier in messageIdentifiers)
-            builder.Set(messageIdentifier);
-
-        builder.Set(Statuses.ReadyToRead);
-
+        builder.Set(messageIdentifier);
         outcome.Update(builder);
-    }
-
-    private static UserInterfaceRequestData GetExpectedSetUserInterfaceRequestData()
-    {
-        UserInterfaceRequestData.Builder builder = UserInterfaceRequestData.GetBuilder();
-
-        builder.Set(MessageIdentifiers.PleasePresentOneCardOnly);
-        builder.Set(Statuses.ProcessingError);
-
-        return builder.Complete();
     }
 
     private static void RegisterFixtures(IFixture fixture)
