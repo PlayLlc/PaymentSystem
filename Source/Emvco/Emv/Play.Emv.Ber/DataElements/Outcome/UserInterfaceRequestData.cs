@@ -142,43 +142,43 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
 
         public void Set(MessageIdentifiers bitsToSet)
         {
-            _Value.ClearBits(byte.MaxValue << _MessageIdentifierOffset);
+            _Value = _Value.ClearBits(byte.MaxValue << _MessageIdentifierOffset);
             _Value |= (BigInteger) bitsToSet << _MessageIdentifierOffset;
         }
 
         public void Set(Statuses bitsToSet)
         {
-            _Value.ClearBits(byte.MaxValue << _StatusOffset);
+            _Value = _Value.ClearBits(byte.MaxValue << _StatusOffset);
             _Value |= (BigInteger) bitsToSet << _StatusOffset;
         }
 
         public void Set(MessageHoldTime bitsToSet)
         {
-            _Value.ClearBits(0xFFFFFF << _HoldTimeOffset);
+            _Value = _Value.ClearBits(0xFFFFFF << _HoldTimeOffset);
             _Value |= (BigInteger) ((long) bitsToSet.GetHoldTime()).GetMaskedValue(0xFF000000) << _HoldTimeOffset;
         }
 
         public void Set(LanguagePreference bitsToSet)
         {
-            _Value.ClearBits(ulong.MaxValue << _LanguagePreferenceOffset);
+            _Value = _Value.ClearBits(ulong.MaxValue << _LanguagePreferenceOffset);
             _Value |= new BigInteger(bitsToSet.EncodeValue()) << _LanguagePreferenceOffset;
         }
 
         public void Set(ValueQualifiers bitsToSet)
         {
-            _Value.ClearBits(byte.MaxValue << _ValueQualifierOffset);
+            _Value = _Value.ClearBits(byte.MaxValue << _ValueQualifierOffset);
             _Value |= (BigInteger) bitsToSet << _ValueQualifierOffset;
         }
 
         public void Set(Money bitsToSet)
         {
-            _Value.ClearBits(0xFFFFFFFFFFFF << _MoneyOffset);
+            _Value = _Value.ClearBits(0xFFFFFFFFFFFF << _MoneyOffset);
             _Value |= (BigInteger) (ulong) bitsToSet << _MoneyOffset;
         }
 
         public void Set(NumericCurrencyCode bitsToSet)
         {
-            _Value.ClearBits(ushort.MaxValue << _CurrencyCodeOffset);
+            _Value = _Value.ClearBits(ushort.MaxValue << _CurrencyCodeOffset);
             _Value |= (BigInteger) (ushort) bitsToSet << _CurrencyCodeOffset;
         }
 
