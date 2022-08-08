@@ -246,7 +246,6 @@ public class PreProcessingIndicatorsTests
         TransactionProfile transactionProfile3 = SelectionFactory.CreateTransactionProfile(_Fixture, false, true, false, true);
 
         PreProcessingIndicators sut = new(new[] {transactionProfile, transactionProfile2, transactionProfile3});
-        DedicatedFileName applicationIdentifier = new(Randomize.Arrays.Bytes(Randomize.Integers.Int(5, 16)));
 
         //Act
         sut.ResetPreprocessingIndicators();

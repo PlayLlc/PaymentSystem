@@ -40,7 +40,7 @@ public class PreprocessorTests
     public void Preprocessor_InvokingSetPreprocessingIndicatorsNoIndicatorWithContactlessApplicationNotAllowed_OutcomeParametersDoNotGetSet()
     {
         //Arrange
-        
+
         _Fixture.RegisterTerminalTransactionQualifiers();
         _Fixture.RegisterReaderContactlessTransactionLimit(1234);
         _Fixture.RegisterReaderCvmRequiredLimit(1234);
@@ -51,14 +51,16 @@ public class PreprocessorTests
 
         TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
 
-        PreProcessingIndicators preprocessingIndicators = new PreProcessingIndicators(new[] { transactionProfile });
+        PreProcessingIndicators preprocessingIndicators = new(new[] {transactionProfile});
 
         CultureProfile cultureProfile = _Fixture.Create<CultureProfile>();
 
         Transaction transaction = _Fixture.Create<Transaction>();
         OutcomeParameterSet expectedOutcomeParameterSet = transaction.GetOutcome().GetOutcomeParameterSet();
+
         //Act
-        _SystemUnderTest.SetPreprocessingIndicators(transaction.GetOutcome(), preprocessingIndicators, transaction.GetAmountAuthorizedNumeric(), cultureProfile);
+        _SystemUnderTest.SetPreprocessingIndicators(transaction.GetOutcome(), preprocessingIndicators, transaction.GetAmountAuthorizedNumeric(),
+            cultureProfile);
 
         //Assert
         Outcome outcome = transaction.GetOutcome();
@@ -85,7 +87,7 @@ public class PreprocessorTests
 
         TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, false, false, true, false);
 
-        PreProcessingIndicators preprocessingIndicators = new PreProcessingIndicators(new[] { transactionProfile });
+        PreProcessingIndicators preprocessingIndicators = new(new[] {transactionProfile});
 
         CultureProfile cultureProfile = _Fixture.Create<CultureProfile>();
 
@@ -94,7 +96,8 @@ public class PreprocessorTests
         UserInterfaceRequestData expectedUserInterfaceRequestData = SetUserInterfaceRequestData();
 
         //Act
-        _SystemUnderTest.SetPreprocessingIndicators(transaction.GetOutcome(), preprocessingIndicators, transaction.GetAmountAuthorizedNumeric(), cultureProfile);
+        _SystemUnderTest.SetPreprocessingIndicators(transaction.GetOutcome(), preprocessingIndicators, transaction.GetAmountAuthorizedNumeric(),
+            cultureProfile);
 
         Outcome outcome = transaction.GetOutcome();
 
@@ -109,7 +112,8 @@ public class PreprocessorTests
     }
 
     [Fact]
-    public void Preprocessor_InvokingSetPreprocessingIndicatorsWithAtLeastOneTransactionWithZeroAmmountAllowedForOfflineAndZeroAmountForAuthoriserd_OutcomeParametersAreSet()
+    public void
+        Preprocessor_InvokingSetPreprocessingIndicatorsWithAtLeastOneTransactionWithZeroAmmountAllowedForOfflineAndZeroAmountForAuthoriserd_OutcomeParametersAreSet()
     {
         //Arrange
         _Fixture.RegisterTerminalTransactionQualifiers(0b0010_1100_1010_1011);
@@ -122,7 +126,7 @@ public class PreprocessorTests
 
         TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, false, false, true, false);
 
-        PreProcessingIndicators preprocessingIndicators = new PreProcessingIndicators(new[] { transactionProfile });
+        PreProcessingIndicators preprocessingIndicators = new(new[] {transactionProfile});
 
         CultureProfile cultureProfile = _Fixture.Create<CultureProfile>();
 
@@ -131,7 +135,8 @@ public class PreprocessorTests
         UserInterfaceRequestData expectedUserInterfaceRequestData = SetUserInterfaceRequestData();
 
         //Act
-        _SystemUnderTest.SetPreprocessingIndicators(transaction.GetOutcome(), preprocessingIndicators, transaction.GetAmountAuthorizedNumeric(), cultureProfile);
+        _SystemUnderTest.SetPreprocessingIndicators(transaction.GetOutcome(), preprocessingIndicators, transaction.GetAmountAuthorizedNumeric(),
+            cultureProfile);
 
         Outcome outcome = transaction.GetOutcome();
 
@@ -149,6 +154,7 @@ public class PreprocessorTests
     {
         OutcomeParameterSet.Builder outcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
 
+        outcomeParameterSetBuilder.Reset(outcomeParameter);
         outcomeParameterSetBuilder.Set(StatusOutcomes.TryAnotherInterface);
         outcomeParameterSetBuilder.SetIsUiRequestOnOutcomePresent(true);
         outcomeParameterSetBuilder.SetIsUiRequestOnRestartPresent(false);
@@ -156,7 +162,7 @@ public class PreprocessorTests
         outcomeParameterSetBuilder.SetIsDiscretionaryDataPresent(false);
         outcomeParameterSetBuilder.Set(new Milliseconds(0));
 
-        return outcomeParameter |= outcomeParameterSetBuilder.Complete();
+        return outcomeParameterSetBuilder.Complete();
     }
 
     private UserInterfaceRequestData SetUserInterfaceRequestData()

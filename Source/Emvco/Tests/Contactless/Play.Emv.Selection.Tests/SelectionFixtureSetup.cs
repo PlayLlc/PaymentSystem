@@ -10,7 +10,7 @@ using Play.Globalization.Language;
 
 namespace Play.Emv.Selection.Tests;
 
-public static class SelecctionFixtureSetup
+public static class SelectionFixtureSetup
 {
     #region Instance Members
 
@@ -82,7 +82,7 @@ public static class SelecctionFixtureSetup
 
     public static void RegisterAmmountAuthorizedNumeric(this IFixture fixture, ulong amount)
     {
-        AmountAuthorizedNumeric amountAuthorizedNumeric = new AmountAuthorizedNumeric(amount);
+        AmountAuthorizedNumeric amountAuthorizedNumeric = new(amount);
         fixture.Register(() => amountAuthorizedNumeric);
     }
 
