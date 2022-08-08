@@ -44,11 +44,9 @@ public class ProtocolActivator
     public void ActivateProtocol(
         TransactionSessionId transactionSessionId, Outcome outcome, PreProcessingIndicators preProcessingIndicators, CandidateList candidateList)
     {
-        if (!outcome.IsRestart())
-            ProcessIfActivationIsNotARestart(outcome, preProcessingIndicators, candidateList);
+        ProcessIfActivationIsNotARestart(outcome, preProcessingIndicators, candidateList);
 
-        if (outcome.IsRestart())
-            ProcessIfActivationIsARestart(outcome);
+        ProcessIfActivationIsARestart(outcome);
 
         ActivateProximityCouplingDevice(transactionSessionId);
     }
@@ -75,6 +73,9 @@ public class ProtocolActivator
     /// <remarks>EMVco Book B Section 3.2.1.1</remarks>
     private void ProcessIfActivationIsNotARestart(Outcome outcome, PreProcessingIndicators preProcessingIndicators, CandidateList candidateList)
     {
+        if (outcome.IsRestart())
+            return;
+
         if (!outcome.IsErrorPresent())
         {
             preProcessingIndicators.ResetPreprocessingIndicators();
@@ -103,8 +104,11 @@ public class ProtocolActivator
     /// <remarks>EMVco Book B Section 3.2.1.2</remarks>
     private void ProcessIfActivationIsARestart(Outcome outcome)
     {
+        if (!outcome.IsRestart())
+            return;
+
         if (outcome.IsUiRequestOnRestartPresent())
-         {
+        {
             if (!outcome.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? requestData))
             {
                 throw new InvalidOperationException(
