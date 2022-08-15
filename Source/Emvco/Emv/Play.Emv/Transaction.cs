@@ -9,7 +9,6 @@ using Play.Globalization;
 
 namespace Play.Emv;
 
-// HACK: This is anemic as hell. Let's do something different here. Let's make this an aggregate root pattern instead
 public class Transaction
 {
     #region Instance Values
@@ -18,12 +17,17 @@ public class Transaction
     private readonly AmountAuthorizedNumeric _AmountAuthorizedNumeric;
     private readonly AmountOtherNumeric _AmountOtherNumeric;
     private readonly LanguagePreference _LanguagePreference;
-    private readonly TerminalCountryCode _TerminalCountryCode;
+
     private readonly Outcome _Outcome;
     private readonly TransactionDate _TransactionDate;
     private readonly TransactionTime _TransactionTime;
     private readonly TransactionSessionId _TransactionSessionId;
     private readonly TransactionType _TransactionType;
+
+
+
+    private readonly TerminalCountryCode _TerminalCountryCode;
+
     private readonly TransactionCurrencyCode _TransactionCurrencyCode;
     private readonly TransactionCurrencyExponent _TransactionCurrencyExponent;
 

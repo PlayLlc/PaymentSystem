@@ -32,8 +32,6 @@ public class ProtocolActivator
 
     #endregion
 
-    #region Instance Members
-
     #region 3.2.1
 
     /// <summary>
@@ -48,18 +46,6 @@ public class ProtocolActivator
         ProcessIfActivationIsARestart(outcome);
         ActivateProximityCouplingDevice(transactionSessionId);
     }
-
-    #endregion
-
-    #region 3.2.1.3
-
-    /// <remarks>EMVco Book B Section 3.2.1.3</remarks>
-    private void ActivateProximityCouplingDevice(TransactionSessionId transactionSessionId)
-    {
-        _ProximityCouplingDeviceEndpoint.Request(new ActivatePcdRequest(transactionSessionId));
-    }
-
-    #endregion
 
     #endregion
 
@@ -129,6 +115,16 @@ public class ProtocolActivator
         _ = outcome.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData);
 
         return new DisplayMessageRequest(userInterfaceRequestData!);
+    }
+
+    #endregion
+
+    #region 3.2.1.3
+
+    /// <remarks>EMVco Book B Section 3.2.1.3</remarks>
+    private void ActivateProximityCouplingDevice(TransactionSessionId transactionSessionId)
+    {
+        _ProximityCouplingDeviceEndpoint.Request(new ActivatePcdRequest(transactionSessionId));
     }
 
     #endregion

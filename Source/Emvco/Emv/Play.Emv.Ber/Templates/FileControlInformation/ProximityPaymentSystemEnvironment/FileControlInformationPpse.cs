@@ -35,46 +35,6 @@ public record FileControlInformationPpse : FileControlInformationTemplate
 
     #endregion
 
-    #region Instance Members
-
-    public override Tag[] GetChildTags() => ChildTags;
-
-    public CommandTemplate AsCommandTemplate(BerCodec codec, PoiInformation poiInformation, IReadTlvDatabase database) =>
-        _FileControlInformationProprietaryPpse.AsCommandTemplate(poiInformation, database);
-
-    public CommandTemplate AsCommandTemplate(IReadTlvDatabase database) => _FileControlInformationProprietaryPpse.AsCommandTemplate(database);
-    public ApplicationDedicatedFileName[] GetApplicationDedicatedFileNames() => _FileControlInformationProprietaryPpse.GetApplicationDedicatedFileNames();
-    public TagLength[] GetDataObjectsRequestedByCard() => _FileControlInformationProprietaryPpse.GetDataObjectsRequestedByCard();
-
-    public bool TryGetDedicatedFileName(out DedicatedFileName? result)
-    {
-        if (_DedicatedFileName is null)
-        {
-            result = null;
-
-            return false;
-        }
-
-        result = _DedicatedFileName;
-
-        return true;
-    }
-
-    public List<DirectoryEntry> GetDirectoryEntries() => _FileControlInformationProprietaryPpse.GetDirectoryEntries();
-    public override FileControlInformationProprietaryPpse GetFileControlInformationProprietary() => _FileControlInformationProprietaryPpse;
-    public override Tag GetTag() => Tag;
-    public bool IsDirectoryEntryListEmpty() => _FileControlInformationProprietaryPpse.IsDirectoryEntryListEmpty();
-
-    public bool IsPointOfInteractionApduCommandRequested() =>
-        _FileControlInformationProprietaryPpse.GetFileControlInformationIssuerDiscretionaryData().IsPointOfInteractionApduCommandRequested();
-
-    protected override IEncodeBerDataObjects?[] GetChildren()
-    {
-        return new IEncodeBerDataObjects?[] {_DedicatedFileName, _FileControlInformationProprietaryPpse};
-    }
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="InvalidOperationException"></exception>
@@ -122,6 +82,46 @@ public record FileControlInformationPpse : FileControlInformationTemplate
 
             return result;
         }
+    }
+
+    #endregion
+
+    #region Instance Members
+
+    public override Tag[] GetChildTags() => ChildTags;
+
+    public CommandTemplate AsCommandTemplate(PoiInformation poiInformation, IReadTlvDatabase database) =>
+        _FileControlInformationProprietaryPpse.AsCommandTemplate(poiInformation, database);
+
+    public CommandTemplate AsCommandTemplate(IReadTlvDatabase database) => _FileControlInformationProprietaryPpse.AsCommandTemplate(database);
+    public ApplicationDedicatedFileName[] GetApplicationDedicatedFileNames() => _FileControlInformationProprietaryPpse.GetApplicationDedicatedFileNames();
+    public TagLength[] GetDataObjectsRequestedByCard() => _FileControlInformationProprietaryPpse.GetDataObjectsRequestedByCard();
+
+    public bool TryGetDedicatedFileName(out DedicatedFileName? result)
+    {
+        if (_DedicatedFileName is null)
+        {
+            result = null;
+
+            return false;
+        }
+
+        result = _DedicatedFileName;
+
+        return true;
+    }
+
+    public List<DirectoryEntry> GetDirectoryEntries() => _FileControlInformationProprietaryPpse.GetDirectoryEntries();
+    public override FileControlInformationProprietaryPpse GetFileControlInformationProprietary() => _FileControlInformationProprietaryPpse;
+    public override Tag GetTag() => Tag;
+    public bool IsDirectoryEntryListEmpty() => _FileControlInformationProprietaryPpse.IsDirectoryEntryListEmpty();
+
+    public bool IsPointOfInteractionApduCommandRequested() =>
+        _FileControlInformationProprietaryPpse.GetFileControlInformationIssuerDiscretionaryData().IsPointOfInteractionApduCommandRequested();
+
+    protected override IEncodeBerDataObjects?[] GetChildren()
+    {
+        return new IEncodeBerDataObjects?[] {_DedicatedFileName, _FileControlInformationProprietaryPpse};
     }
 
     #endregion

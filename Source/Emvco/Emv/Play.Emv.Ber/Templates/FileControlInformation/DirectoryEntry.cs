@@ -50,6 +50,58 @@ public record DirectoryEntry : Template
 
     #endregion
 
+    #region Serialization
+
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="CardDataMissingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    public static DirectoryEntry Decode(ReadOnlyMemory<byte> value)
+    {
+        if (_Codec.DecodeFirstTag(value.Span) == Tag)
+            return Decode(_Codec.DecodeChildren(value));
+
+        return Decode(_Codec.DecodeSiblings(value));
+    }
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="CardDataMissingException"></exception>
+    public static DirectoryEntry Decode(EncodedTlvSiblings encodedTlvSiblings)
+    {
+        ApplicationLabel? applicationLabel = null;
+        KernelIdentifier? kernelIdentifier = null;
+        ExtendedSelection? extendedSelection = null;
+
+        ApplicationDedicatedFileName applicationDedicatedFileName =
+            encodedTlvSiblings.TryGetValueOctetsOfSibling(ApplicationDedicatedFileName.Tag, out ReadOnlyMemory<byte> rawApplicationDedicatedFileName)
+                ? ApplicationDedicatedFileName.Decode(rawApplicationDedicatedFileName)
+                : throw new CardDataMissingException(
+                    $"A problem occurred while decoding {nameof(DirectoryEntry)}. A {nameof(ApplicationDedicatedFileName)} was expected but could not be found");
+
+        ApplicationPriorityIndicator applicationPriorityIndicator =
+            encodedTlvSiblings.TryGetValueOctetsOfSibling(ApplicationPriorityIndicator.Tag, out ReadOnlyMemory<byte> rawApplicationPriorityIndicator)
+                ? ApplicationPriorityIndicator.Decode(rawApplicationPriorityIndicator)
+                : new ApplicationPriorityIndicator(0);
+
+        // Nullable values
+        if (encodedTlvSiblings.TryGetValueOctetsOfSibling(ApplicationLabel.Tag, out ReadOnlyMemory<byte> rawApplicationLabel))
+            applicationLabel = (ApplicationLabel?) ApplicationLabel.Decode(rawApplicationLabel);
+        if (encodedTlvSiblings.TryGetValueOctetsOfSibling(KernelIdentifier.Tag, out ReadOnlyMemory<byte> rawKernelIdentifier))
+            kernelIdentifier = (KernelIdentifier?) KernelIdentifier.Decode(rawKernelIdentifier);
+        if (encodedTlvSiblings.TryGetValueOctetsOfSibling(ExtendedSelection.Tag, out ReadOnlyMemory<byte> rawExtendedSelection))
+            extendedSelection = (ExtendedSelection?) ExtendedSelection.Decode(rawExtendedSelection);
+
+        // TryGetDefault
+        if ((kernelIdentifier == null) && TryGetDefaultKernelIdentifier(applicationDedicatedFileName, out KernelIdentifier kernelIdDefault))
+            kernelIdentifier = kernelIdDefault;
+
+        return new DirectoryEntry(applicationDedicatedFileName, applicationPriorityIndicator, applicationLabel, kernelIdentifier, extendedSelection);
+    }
+
+    #endregion
+
     #region Instance Members
 
     public override Tag[] GetChildTags() => ChildTags;
@@ -63,16 +115,23 @@ public record DirectoryEntry : Template
 
     public bool TryGetKernelIdentifier(out KernelIdentifier? result)
     {
-        if (_KernelIdentifier is null)
+        if (_KernelIdentifier is not null)
         {
-            result = null;
+            result = _KernelIdentifier;
 
-            return false;
+            return true;
         }
 
-        result = _KernelIdentifier;
+        if (ShortKernelIdTypes.Empty.TryGet(_ApplicationDedicatedFileName.GetRegisteredApplicationProviderIndicator(), out ShortKernelIdTypes? kernelType))
+        {
+            result = new KernelIdentifier(kernelType!);
 
-        return true;
+            return true;
+        }
+
+        result = null;
+
+        return false;
     }
 
     public override Tag GetTag() => Tag;
@@ -177,58 +236,6 @@ public record DirectoryEntry : Template
     private readonly KernelIdentifier? _KernelIdentifier;
              */ _ApplicationDedicatedFileName, _ApplicationLabel, _ApplicationPriorityIndicator, _ExtendedSelection, _KernelIdentifier
         };
-    }
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="CardDataMissingException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static DirectoryEntry Decode(ReadOnlyMemory<byte> value)
-    {
-        if (_Codec.DecodeFirstTag(value.Span) == Tag)
-            return Decode(_Codec.DecodeChildren(value));
-
-        return Decode(_Codec.DecodeSiblings(value));
-    }
-
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="CardDataMissingException"></exception>
-    public static DirectoryEntry Decode(EncodedTlvSiblings encodedTlvSiblings)
-    {
-        ApplicationLabel? applicationLabel = null;
-        KernelIdentifier? kernelIdentifier = null;
-        ExtendedSelection? extendedSelection = null;
-
-        ApplicationDedicatedFileName applicationDedicatedFileName =
-            encodedTlvSiblings.TryGetValueOctetsOfSibling(ApplicationDedicatedFileName.Tag, out ReadOnlyMemory<byte> rawApplicationDedicatedFileName)
-                ? ApplicationDedicatedFileName.Decode(rawApplicationDedicatedFileName)
-                : throw new CardDataMissingException(
-                    $"A problem occurred while decoding {nameof(DirectoryEntry)}. A {nameof(ApplicationDedicatedFileName)} was expected but could not be found");
-
-        ApplicationPriorityIndicator applicationPriorityIndicator =
-            encodedTlvSiblings.TryGetValueOctetsOfSibling(ApplicationPriorityIndicator.Tag, out ReadOnlyMemory<byte> rawApplicationPriorityIndicator)
-                ? ApplicationPriorityIndicator.Decode(rawApplicationPriorityIndicator)
-                : new ApplicationPriorityIndicator(0);
-
-        // Nullable values
-        if (encodedTlvSiblings.TryGetValueOctetsOfSibling(ApplicationLabel.Tag, out ReadOnlyMemory<byte> rawApplicationLabel))
-            applicationLabel = (ApplicationLabel?) ApplicationLabel.Decode(rawApplicationLabel);
-        if (encodedTlvSiblings.TryGetValueOctetsOfSibling(KernelIdentifier.Tag, out ReadOnlyMemory<byte> rawKernelIdentifier))
-            kernelIdentifier = (KernelIdentifier?) KernelIdentifier.Decode(rawKernelIdentifier);
-        if (encodedTlvSiblings.TryGetValueOctetsOfSibling(ExtendedSelection.Tag, out ReadOnlyMemory<byte> rawExtendedSelection))
-            extendedSelection = (ExtendedSelection?) ExtendedSelection.Decode(rawExtendedSelection);
-
-        // TryGetDefault
-        if ((kernelIdentifier == null) && TryGetDefaultKernelIdentifier(applicationDedicatedFileName, out KernelIdentifier kernelIdDefault))
-            kernelIdentifier = kernelIdDefault;
-
-        return new DirectoryEntry(applicationDedicatedFileName, applicationPriorityIndicator, applicationLabel, kernelIdentifier, extendedSelection);
     }
 
     #endregion

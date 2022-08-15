@@ -16,21 +16,23 @@ public abstract record TerminalConfiguration
     private readonly AcquirerIdentifier _AcquirerIdentifier;
     private readonly InterfaceDeviceSerialNumber _InterfaceDeviceSerialNumber;
     private readonly TerminalIdentification _TerminalIdentification;
-
-    // TLV
     private readonly MerchantCategoryCode _MerchantCategoryCode;
     private readonly MerchantNameAndLocation _MerchantNameAndLocation;
+    private readonly TerminalType _TerminalType;
     private readonly TerminalCapabilities _TerminalCapabilities;
     private readonly AdditionalTerminalCapabilities _AdditionalTerminalCapabilities;
-    private readonly TerminalType _TerminalType;
-    private readonly TerminalFloorLimit _TerminalFloorLimit;
+
+    // TLV
     private readonly TerminalCountryCode _TerminalCountryCode;
     private readonly LanguagePreference _LanguagePreference;
+    private readonly TransactionCurrencyCode _TransactionCurrencyCode;
+    private readonly TransactionCurrencyExponent _TransactionCurrencyExponent;
     private readonly TransactionReferenceCurrencyCode _TransactionReferenceCurrencyCode;
     private readonly TransactionReferenceCurrencyExponent _TransactionReferenceCurrencyExponent;
-    private readonly PoiInformation _PoiInformation;
     private readonly TerminalRiskManagementData _TerminalRiskManagementData;
     private readonly DataStorageRequestedOperatorId _DataStorageRequestedOperatorId;
+    private readonly TerminalFloorLimit _TerminalFloorLimit;
+    private readonly PoiInformation _PoiInformation;
 
     // BUG: TerminalRiskManagementData is transient per transaction. This should live with the transaction session, not the terminal configuration
     private readonly Probability _BiasedRandomSelectionProbability;
@@ -42,8 +44,6 @@ public abstract record TerminalConfiguration
     /// </summary>
     private readonly ulong _ThresholdValueForBiasedRandomSelection;
 
-    private readonly TransactionCurrencyCode _TransactionCurrencyCode;
-    private readonly TransactionCurrencyExponent _TransactionCurrencyExponent;
     private readonly List<TagLengthValue> _TagLengthValues = new();
 
     #endregion
