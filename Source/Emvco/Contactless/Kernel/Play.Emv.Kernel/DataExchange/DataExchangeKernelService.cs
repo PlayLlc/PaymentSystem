@@ -1,6 +1,7 @@
 ﻿using Play.Emv.Ber;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Terminal.Contracts;
+using Play.Messaging;
 
 namespace Play.Emv.Kernel.DataExchange;
 
@@ -10,23 +11,21 @@ public partial class DataExchangeKernelService : IQueryDek, IWriteToDek, IDekEnd
 
     protected readonly IReadTlvDatabase _TlvDatabase;
     private readonly ISendTerminalQueryResponse _KernelEndpoint;
-    private readonly IHandleTerminalRequests _TerminalEndpoint;
+    private readonly IEndpointClient _EndpointClient;
     private readonly DataExchangeKernelLock _Lock = new();
 
     #endregion
 
     #region Constructor
 
-    public DataExchangeKernelService(IHandleTerminalRequests terminalEndpoint, KernelDatabase kernelDatabase, ISendTerminalQueryResponse kernelEndpoint)
+    public DataExchangeKernelService(IEndpointClient endpointClient, KernelDatabase kernelDatabase, ISendTerminalQueryResponse kernelEndpoint)
     {
-        _TerminalEndpoint = terminalEndpoint;
+        _EndpointClient = endpointClient;
         _KernelEndpoint = kernelEndpoint;
         _TlvDatabase = kernelDatabase;
     }
 
     #endregion
-
-    #region Instance Members
 
     #region Instnace Members
 
@@ -38,8 +37,6 @@ public partial class DataExchangeKernelService : IQueryDek, IWriteToDek, IDekEnd
             _Lock.Requests.Clear();
         }
     }
-
-    #endregion
 
     #endregion
 }

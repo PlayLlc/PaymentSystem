@@ -30,7 +30,7 @@ public partial class DataExchangeKernelService
             QueryTerminalRequest queryKernelResponse = new(new DataExchangeKernelId(sessionId.GetKernelId(), sessionId),
                 (DataNeeded) _Lock.Requests[DekRequestType.DataNeeded]);
 
-            _TerminalEndpoint.Request(queryKernelResponse);
+            _EndpointClient.Send(queryKernelResponse);
             _Lock.Responses[DekRequestType.DataNeeded].Clear();
         }
     }
@@ -47,9 +47,7 @@ public partial class DataExchangeKernelService
         lock (_Lock.Requests)
         {
             if (!_Lock.Requests.ContainsKey(type))
-            {
                 throw new InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
-            }
 
             if (!_Lock.Requests.ContainsKey(type))
                 return true;
@@ -67,9 +65,7 @@ public partial class DataExchangeKernelService
         lock (_Lock.Requests)
         {
             if (!_Lock.Requests.ContainsKey(type))
-            {
                 throw new InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
-            }
 
             return _Lock.Requests[type].TryPeek(out result);
         }
@@ -91,9 +87,7 @@ public partial class DataExchangeKernelService
         lock (_Lock.Requests)
         {
             if (!_Lock.Requests.ContainsKey(type))
-            {
                 throw new TerminalDataException($"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
-            }
 
             _Lock.Requests[type].Enqueue(listItems);
         }
@@ -180,9 +174,7 @@ public partial class DataExchangeKernelService
     private static int ResolveDataNeeded(IReadTlvDatabase database, DataExchangeKernelLock dekLock)
     {
         if (!dekLock.Requests.ContainsKey(DekRequestType.DataNeeded))
-        {
             throw new TerminalDataException($"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
-        }
 
         DataNeeded dataNeeded = (DataNeeded) dekLock.Requests[DekRequestType.DataNeeded];
         int unresolvedObjectCount = dataNeeded.Resolve(database);
@@ -194,14 +186,10 @@ public partial class DataExchangeKernelService
     private static int ResolveTagsToReadYet(IReadTlvDatabase database, DataExchangeKernelLock dekLock)
     {
         if (!dekLock.Requests.ContainsKey(DekRequestType.TagsToRead))
-        {
             throw new TerminalDataException($"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
-        }
 
         if (!dekLock.Responses.ContainsKey(DekResponseType.DataToSend))
-        {
             throw new TerminalDataException($"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
-        }
 
         TagsToRead tagsToReadYet = (TagsToRead) dekLock.Requests[DekRequestType.TagsToRead];
         IEnumerable<PrimitiveValue> resolvedObjects = tagsToReadYet.Resolve(database);

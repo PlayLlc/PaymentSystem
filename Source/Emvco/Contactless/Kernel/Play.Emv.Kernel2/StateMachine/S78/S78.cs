@@ -32,9 +32,8 @@ public class S78 : CommonProcessing
     #region Constructor
 
     public S78(
-        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IKernelEndpoint kernelEndpoint, IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(database, dataExchangeKernelService,
-        kernelStateResolver, pcdEndpoint, kernelEndpoint)
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver, IEndpointClient endpointClient,
+        IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(database, dataExchangeKernelService, kernelStateResolver, endpointClient)
     {
         _UnpredictableNumberGenerator = unpredictableNumberGenerator;
     }
@@ -202,7 +201,7 @@ public class S78 : CommonProcessing
         }
         finally
         {
-            _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+            _EndpointClient.Send(new StopKernelRequest(sessionId));
         }
     }
 
@@ -256,7 +255,7 @@ public class S78 : CommonProcessing
         _Database.Update(Level2Error.MaxLimitExceeded);
         _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);
 
-        _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+        _EndpointClient.Send(new StopKernelRequest(sessionId));
     }
 
     #endregion
@@ -321,7 +320,7 @@ public class S78 : CommonProcessing
         // So even if the card doesn't return a UnpredictableNumberDataObjectList, we can use its default value
         UnpredictableNumberDataObjectList udol = _Database.Get<UnpredictableNumberDataObjectList>(UnpredictableNumberDataObjectList.Tag);
 
-        _PcdEndpoint.Request(ComputeCryptographicChecksumRequest.Create(sessionId, udol));
+        _EndpointClient.Send(ComputeCryptographicChecksumRequest.Create(sessionId, udol));
 
         return true;
     }
@@ -341,7 +340,7 @@ public class S78 : CommonProcessing
         UnpredictableNumberDataObjectList udol = _Database.Get<UnpredictableNumberDataObjectList>(UnpredictableNumberDataObjectList.Tag);
 
         // S78.22
-        _PcdEndpoint.Request(ComputeCryptographicChecksumRequest.Create(sessionId, udol));
+        _EndpointClient.Send(ComputeCryptographicChecksumRequest.Create(sessionId, udol));
     }
 
     #endregion

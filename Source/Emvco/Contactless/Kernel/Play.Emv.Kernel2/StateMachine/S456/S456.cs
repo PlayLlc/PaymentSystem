@@ -54,11 +54,11 @@ public class S456 : CommonProcessing
     #region Constructor
 
     public S456(
-        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IKernelEndpoint kernelEndpoint, IReadOfflineBalance offlineBalanceReader, IValidateCombinationCapability combinationCapabilityValidator,
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IEndpointClient endpointClient, IGetKernelState kernelStateResolver,
+        IReadOfflineBalance offlineBalanceReader, IValidateCombinationCapability combinationCapabilityValidator,
         IValidateCombinationCompatibility combinationCompatibilityValidator, ISelectCardholderVerificationMethod cardholderVerificationMethodSelector,
-        IPerformTerminalActionAnalysis terminalActionAnalyzer, IManageTornTransactions tornTransactionManager) : base(database, dataExchangeKernelService,
-        kernelStateResolver, pcdEndpoint, kernelEndpoint)
+        IPerformTerminalActionAnalysis terminalActionAnalyzer, IManageTornTransactions tornTransactionManager,
+        PrepareGenerateAcService prepareGenAcServiceService) : base(database, dataExchangeKernelService, kernelStateResolver, endpointClient)
     {
         _OfflineBalanceReader = offlineBalanceReader;
         _CombinationCapabilityValidator = combinationCapabilityValidator;
@@ -66,6 +66,7 @@ public class S456 : CommonProcessing
         _CardholderVerificationMethodSelector = cardholderVerificationMethodSelector;
         _TerminalActionAnalyzer = terminalActionAnalyzer;
         _TornTransactionManager = tornTransactionManager;
+        _PrepareGenAcServiceService = prepareGenAcServiceService;
     }
 
     #endregion
@@ -277,7 +278,7 @@ public class S456 : CommonProcessing
         _Database.Update(Level3Error.AmountNotPresent);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
-        _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+        _EndpointClient.Send(new StopKernelRequest(sessionId));
     }
 
     #endregion
@@ -330,7 +331,7 @@ public class S456 : CommonProcessing
         _Database.Update(Level2Error.MaxLimitExceeded);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
-        _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+        _EndpointClient.Send(new StopKernelRequest(sessionId));
     }
 
     #endregion
@@ -371,7 +372,7 @@ public class S456 : CommonProcessing
         _Database.SetUiRequestOnOutcomePresent(true);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
-        _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+        _EndpointClient.Send(new StopKernelRequest(sessionId));
 
         return true;
     }
@@ -431,7 +432,7 @@ public class S456 : CommonProcessing
         _Database.SetUiRequestOnOutcomePresent(true);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
-        _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+        _EndpointClient.Send(new StopKernelRequest(sessionId));
     }
 
     #endregion
@@ -621,7 +622,7 @@ public class S456 : CommonProcessing
         _Database.SetUiRequestOnOutcomePresent(true);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
-        _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+        _EndpointClient.Send(new StopKernelRequest(sessionId));
     }
 
     #endregion
@@ -774,7 +775,7 @@ public class S456 : CommonProcessing
     private void SendPutData(TransactionSessionId sessionId, PrimitiveValue tagToWrite)
     {
         PutDataRequest capdu = PutDataRequest.Create(sessionId, tagToWrite);
-        _PcdEndpoint.Request(capdu);
+        _EndpointClient.Send(capdu);
     }
 
     #endregion
@@ -805,7 +806,7 @@ public class S456 : CommonProcessing
             throw new TerminalDataException($"The {nameof(S456)} could not complete {nameof(TryRecoveringTornTransaction)} ");
 
         RecoverAcRequest capdu = RecoverAcRequest.Create(session.GetTransactionSessionId(), ddolRelatedData!);
-        _PcdEndpoint.Request(capdu);
+        _EndpointClient.Send(capdu);
 
         return true;
     }

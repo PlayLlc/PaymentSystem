@@ -26,7 +26,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
-        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
+        _EndpointClient.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
 
         Clear();
 

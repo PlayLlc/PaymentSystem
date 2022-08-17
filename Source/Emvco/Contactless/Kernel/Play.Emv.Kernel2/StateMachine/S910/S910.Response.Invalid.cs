@@ -9,7 +9,7 @@ using Play.Emv.Kernel.Contracts;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
-internal partial class S910
+public partial class S910
 {
     private partial class ResponseHandler
     {
@@ -111,7 +111,7 @@ internal partial class S910
             }
             finally
             {
-                _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+                _EndpointClient.Send(new StopKernelRequest(sessionId));
             }
         }
 
@@ -139,7 +139,7 @@ internal partial class S910
             }
             finally
             {
-                _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+                _EndpointClient.Request(new StopKernelRequest(sessionId));
             }
         }
 

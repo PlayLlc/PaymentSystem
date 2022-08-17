@@ -17,7 +17,7 @@ using Play.Icc.Exceptions;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
-internal partial class S910
+public partial class S910
 {
     private partial class ResponseHandler
     {
@@ -281,7 +281,7 @@ internal partial class S910
             _Database.Update(Statuses.ReadyToRead);
             _Database.Update(MessageHoldTime.MinimumValue);
 
-            _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
+            _EndpointClient.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
         }
 
         #endregion
@@ -296,7 +296,7 @@ internal partial class S910
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
             _Database.SetUiRequestOnOutcomePresent(true);
 
-            _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
+            _EndpointClient.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
         }
 
         #endregion
