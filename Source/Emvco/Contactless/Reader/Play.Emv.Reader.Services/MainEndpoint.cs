@@ -12,7 +12,7 @@ using Play.Messaging.Exceptions;
 
 namespace Play.Emv.Reader.Services;
 
-public class MainEndpoint : IMessageChannel, IReaderEndpoint, IHandleResponsesToReader, ISendReaderResponses, IDisposable
+public class MainEndpoint : IMessageChannel, IDisposable
 {
     #region Static Metadata
 
@@ -91,12 +91,12 @@ public class MainEndpoint : IMessageChannel, IReaderEndpoint, IHandleResponsesTo
         _EndpointClient.Send(message);
     }
 
-    void ISendReaderResponses.Send(QueryReaderResponse message)
+    private void Send(QueryReaderResponse message)
     {
         _EndpointClient.Send(message);
     }
 
-    void ISendReaderResponses.Send(StopReaderAcknowledgedResponse message)
+    private void Send(StopReaderAcknowledgedResponse message)
     {
         _EndpointClient.Send(message);
     }

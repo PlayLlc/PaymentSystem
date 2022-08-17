@@ -7,7 +7,7 @@ using Play.Messaging.Exceptions;
 
 namespace Play.Emv.Selection.Services;
 
-public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISendSelectionResponses, IDisposable
+public class SelectionEndpoint : IMessageChannel, IDisposable
 {
     #region Static Metadata
 
@@ -78,7 +78,7 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
 
     #region Responses
 
-    void ISendSelectionResponses.Send(OutSelectionResponse message)
+    private void Send(OutSelectionResponse message)
     {
         _EndpointClient.Send(message);
     }

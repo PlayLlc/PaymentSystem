@@ -8,7 +8,7 @@ using Play.Messaging.Exceptions;
 
 namespace Play.Emv.Kernel.Services;
 
-public class KernelEndpoint : IMessageChannel, IHandleKernelRequests, ISendKernelResponses, IHandleResponsesToKernel, IDisposable
+public class KernelEndpoint : IMessageChannel, IDisposable
 {
     #region Static Metadata
 

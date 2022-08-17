@@ -6,7 +6,7 @@ using Play.Messaging.Exceptions;
 
 namespace Play.Emv.Pcd.Services;
 
-public class ProximityCouplingDeviceEndpoint : IMessageChannel, IHandlePcdRequests, ISendPcdResponses, IDisposable
+public class ProximityCouplingDeviceEndpoint : IMessageChannel, IDisposable
 {
     #region Static Metadata
 
@@ -27,10 +27,9 @@ public class ProximityCouplingDeviceEndpoint : IMessageChannel, IHandlePcdReques
     private ProximityCouplingDeviceEndpoint(ICreateEndpointClient messageBus, PcdProtocolConfiguration configuration, IProximityCouplingDeviceClient pcdClient)
     {
         ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
-
-        _ProximityCouplingDeviceProcess = new ProximityCouplingDeviceProcess(new CardClient(pcdClient), configuration, this);
         _EndpointClient = messageBus.CreateEndpointClient();
         _EndpointClient.Subscribe(this);
+        _ProximityCouplingDeviceProcess = new ProximityCouplingDeviceProcess(new CardClient(pcdClient), configuration, _EndpointClient);
     }
 
     #endregion
@@ -78,17 +77,17 @@ public class ProximityCouplingDeviceEndpoint : IMessageChannel, IHandlePcdReques
 
     #region Responses
 
-    void ISendPcdResponses.Send(ActivatePcdResponse message)
+    private void Send(ActivatePcdResponse message)
     {
         _EndpointClient.Send(message);
     }
 
-    void ISendPcdResponses.Send(QueryPcdResponse message)
+    private void Send(QueryPcdResponse message)
     {
         _EndpointClient.Send(message);
     }
 
-    void ISendPcdResponses.Send(StopPcdAcknowledgedResponse message)
+    private void Send(StopPcdAcknowledgedResponse message)
     {
         _EndpointClient.Send(message);
     }
