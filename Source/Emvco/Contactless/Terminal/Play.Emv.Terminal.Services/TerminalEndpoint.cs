@@ -1,11 +1,14 @@
 ﻿using System;
 
+using Play.Emv.Configuration;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Reader.Contracts.SignalOut;
 using Play.Emv.Terminal.Configuration;
 using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalIn;
 using Play.Emv.Terminal.Contracts.SignalOut;
+using Play.Emv.Terminal.Session;
+using Play.Emv.Terminal.StateMachine;
 using Play.Messaging;
 using Play.Messaging.Exceptions;
 
@@ -29,10 +32,12 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
 
     #region Constructor
 
-    private TerminalEndpoint(ITerminalConfigurationRepository terminalConfigurationRepository, ICreateEndpointClient messageBus)
+    private TerminalEndpoint(
+        TerminalConfiguration terminalConfiguration, IGetTerminalState terminalStateResolver,
+        IGenerateSequenceTraceAuditNumbers sequenceTraceAuditNumberGenerator, ICreateEndpointClient messageBus)
     {
         ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
-        _TerminalProcess = new TerminalProcess(terminalConfigurationRepository);
+        _TerminalProcess = new TerminalProcess(terminalConfiguration, terminalStateResolver, sequenceTraceAuditNumberGenerator);
         _EndpointClient = messageBus.CreateEndpointClient();
         _EndpointClient.Subscribe(this);
     }
@@ -62,11 +67,6 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
     }
 
     public void Request(ActivateTerminalRequest message)
-    {
-        _TerminalProcess.Enqueue(message);
-    }
-
-    public void Request(InitiateSettlementRequest message)
     {
         _TerminalProcess.Enqueue(message);
     }
@@ -124,8 +124,10 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
 
     #endregion
 
-    public static TerminalEndpoint Create(ITerminalConfigurationRepository terminalConfigurationRepository, ICreateEndpointClient messageRouter) =>
-        new(terminalConfigurationRepository, messageRouter);
+    public static TerminalEndpoint Create(
+        TerminalConfiguration terminalConfiguration, IGetTerminalState terminalStateResolver,
+        IGenerateSequenceTraceAuditNumbers sequenceTraceAuditNumberGenerator, ICreateEndpointClient messageBus) =>
+        new(terminalConfiguration, terminalStateResolver, sequenceTraceAuditNumberGenerator, messageBus);
 
     public void Dispose()
     {
@@ -133,9 +135,4 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
     }
 
     #endregion
-
-    //void IHandleResponsesToTerminal.Handle(AcquirerResponseSignal message)
-    //{
-    //    _TerminalProcess.Enqueue(message);
-    //}
 }

@@ -38,11 +38,6 @@ internal class TerminalStateMachine
 
     #region Instance Members
 
-    // TODO: I'm not sure if this is the correct way to implement this. I'm not sure what form of communication the point of sale will have with the Terminal. Keeping this here for now
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="request"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public void Handle(ActivateTerminalRequest request)
     {
@@ -54,24 +49,10 @@ internal class TerminalStateMachine
                     $"The {nameof(ActivateTerminalRequest)} can't be processed because the {nameof(TerminalChannel.Id)} already has an active session in progress");
             }
 
-            Transaction transaction = new(new TransactionSessionId(request.GetTransactionType()), request.GetAccountType(),
-                request.GetAmountAuthorizedNumeric(), request.GetAmountOtherNumeric(), request.GetTransactionType(),
-                _TerminalConfiguration.GetLanguagePreference(), _TerminalConfiguration.GetTerminalCountryCode(), new TransactionDate(DateTimeUtc.Now),
-                new TransactionTime(DateTimeUtc.Now), _TerminalConfiguration.GetTransactionCurrencyExponent(),
-                _TerminalConfiguration.GetTransactionCurrencyCode());
-
-            _Lock.Session = new TerminalSession(_SequenceGenerator.Generate(), request.GetMessageTypeIndicator(), transaction);
+            _Lock.Session = new TerminalSession(new TransactionSessionId(request.GetTransactionType()));
             _Lock.State = _Lock.State.Handle(_Lock.Session, request);
         }
     }
-
-    //public void Handle(AcquirerResponseSignal request)
-    //{
-    //    lock (_Lock)
-    //    {
-    //        _Lock.State = _Lock.State.Handle(_Lock.Session, request);
-    //    }
-    //}
 
     public void Handle(OutReaderResponse response)
     {
@@ -81,10 +62,6 @@ internal class TerminalStateMachine
         }
     }
 
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="response"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public void Handle(QueryKernelResponse response)
     {
@@ -100,9 +77,6 @@ internal class TerminalStateMachine
         }
     }
 
-    /// <summary>
-    ///     Handle
-    /// </summary>
     /// <param name="response"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public void Handle(StopReaderAcknowledgedResponse response)
@@ -120,30 +94,7 @@ internal class TerminalStateMachine
         }
     }
 
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="response"></param>
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    public void Handle(InitiateSettlementRequest response)
-    {
-        lock (_Lock)
-        {
-            if (_Lock.Session != null)
-            {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(QueryKernelResponse)} can't be processed because the {nameof(TerminalStateMachine)} has an active session");
-            }
-
-            _Lock.State = _Lock.State.Handle(_Lock.Session!, response);
-        }
-    }
-
     // HACK: This should be handled on a separate process
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="request"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public void Handle(QueryTerminalRequest request)
     {

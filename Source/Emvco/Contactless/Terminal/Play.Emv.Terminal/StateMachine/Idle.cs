@@ -13,6 +13,8 @@ using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalIn;
 using Play.Emv.Terminal.DataExchange;
 using Play.Emv.Terminal.Session;
+using Play.Globalization.Time;
+using Play.Messaging;
 
 namespace Play.Emv.Terminal.StateMachine;
 
@@ -29,31 +31,18 @@ internal class Idle : TerminalState
 
     #region Instance Values
 
-    private readonly IHandleTerminalRequests _TerminalEndpoint;
-    private readonly IHandleReaderRequests _ReaderEndpoint;
     private readonly ISettlementReconciliationService _SettlementReconciliationService;
-    private readonly IGetTerminalState _TerminalStateResolver;
-    private readonly IGenerateSequenceTraceAuditNumbers _SequenceGenerator;
-    private readonly IHandleAcquirerRequests _AcquirerEndpoint;
-    private readonly TerminalConfiguration _TerminalConfiguration;
 
     #endregion
 
     #region Constructor
 
     public Idle(
-        DataExchangeTerminalService dataExchangeTerminalService, TerminalConfiguration terminalConfiguration, IGetTerminalState terminalStateResolver,
-        ISettlementReconciliationService settlementReconciliationService, IGenerateSequenceTraceAuditNumbers sequenceGenerator,
-        IHandleAcquirerRequests acquirerEndpoint, IHandleTerminalRequests terminalEndpoint, IHandleReaderRequests readerEndpoint) : base(
-        dataExchangeTerminalService)
+        TerminalConfiguration terminalConfiguration, DataExchangeTerminalService dataExchangeTerminalService, IEndpointClient endpointClient,
+        IGetTerminalState terminalStateResolver, ISettlementReconciliationService settlementReconciliationService) : base(dataExchangeTerminalService,
+        terminalConfiguration, endpointClient, terminalStateResolver)
     {
-        _TerminalConfiguration = terminalConfiguration;
-        _TerminalStateResolver = terminalStateResolver;
         _SettlementReconciliationService = settlementReconciliationService;
-        _SequenceGenerator = sequenceGenerator;
-        _AcquirerEndpoint = acquirerEndpoint;
-        _TerminalEndpoint = terminalEndpoint;
-        _ReaderEndpoint = readerEndpoint;
     }
 
     #endregion
@@ -62,25 +51,14 @@ internal class Idle : TerminalState
 
     public override StateId GetStateId() => StateId;
 
-    public override TerminalState Handle(TerminalSession? session, InitiateSettlementRequest signal)
-    {
-        AcquirerMessageFactory settlementRequestFactory = _AcquirerEndpoint.GetMessageFactory((ushort) ReconciliationRequestSignal.MessageTypeIndicator);
-
-        AcquirerRequestSignal settlementRequest =
-            _SettlementReconciliationService.CreateSettlementRequest(settlementRequestFactory, signal.SettlementRequestDateTimeUtc);
-
-        _AcquirerEndpoint.Request(settlementRequest);
-
-        return _TerminalStateResolver.GetKernelState(WaitingForSettlementResponse.StateId);
-    }
-
     public override TerminalState Handle(TerminalSession session, ActivateTerminalRequest signal)
     {
-        // HACK: Develop logic for passing TagsToRead and DataToSend along with the ACT signal below
+        Transaction transaction = new(new TransactionSessionId(signal.GetTransactionType()), signal.GetAccountType(), signal.GetAmountAuthorizedNumeric(),
+            signal.GetAmountOtherNumeric(), signal.GetTransactionType(), _TerminalConfiguration.GetLanguagePreference(),
+            _TerminalConfiguration.GetTerminalCountryCode(), new TransactionDate(DateTimeUtc.Now), new TransactionTime(DateTimeUtc.Now),
+            _TerminalConfiguration.GetTransactionCurrencyExponent(), _TerminalConfiguration.GetTransactionCurrencyCode());
 
-        DataToSend? dataToSend = new(signal.GetPosEntryMode());
-
-        _ReaderEndpoint.Request(new ActivateReaderRequest(session.Transaction, dataToSend));
+        _EndpointClient.Send(new ActivateReaderRequest(transaction));
 
         return _TerminalStateResolver.GetKernelState(WaitingForFinalOutcome.StateId);
     }

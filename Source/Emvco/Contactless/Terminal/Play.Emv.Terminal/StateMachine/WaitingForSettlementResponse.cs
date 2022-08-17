@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Emv.Acquirer.Contracts.SignalOut;
+using Play.Emv.Configuration;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
@@ -9,6 +10,7 @@ using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalIn;
 using Play.Emv.Terminal.DataExchange;
 using Play.Emv.Terminal.Session;
+using Play.Messaging;
 
 namespace Play.Emv.Terminal.StateMachine;
 
@@ -22,9 +24,6 @@ public class WaitingForSettlementResponse : TerminalState
 
     #region Instance Values
 
-    private readonly IHandleTerminalRequests _TerminalEndpoint;
-    private readonly ISettlementReconciliationService _SettlementReconciliationService;
-    private readonly IGetTerminalState _TerminalStateResolver;
     private readonly IGenerateSequenceTraceAuditNumbers _SequenceGenerator;
 
     #endregion
@@ -32,13 +31,10 @@ public class WaitingForSettlementResponse : TerminalState
     #region Constructor
 
     public WaitingForSettlementResponse(
-        DataExchangeTerminalService dataExchangeTerminalService, IHandleTerminalRequests terminalEndpoint,
-        ISettlementReconciliationService settlementReconciliationService, IGetTerminalState terminalStateResolver,
-        IGenerateSequenceTraceAuditNumbers sequenceGenerator) : base(dataExchangeTerminalService)
+        TerminalConfiguration terminalConfiguration, DataExchangeTerminalService dataExchangeTerminalService, IEndpointClient endpointClient,
+        IGetTerminalState terminalStateResolver, IGenerateSequenceTraceAuditNumbers sequenceGenerator) : base(dataExchangeTerminalService,
+        terminalConfiguration, endpointClient, terminalStateResolver)
     {
-        _TerminalEndpoint = terminalEndpoint;
-        _SettlementReconciliationService = settlementReconciliationService;
-        _TerminalStateResolver = terminalStateResolver;
         _SequenceGenerator = sequenceGenerator;
     }
 
@@ -47,11 +43,10 @@ public class WaitingForSettlementResponse : TerminalState
     #region Instance Members
 
     public override StateId GetStateId() => StateId;
-    public override TerminalState Handle(TerminalSession? session, InitiateSettlementRequest signal) => throw new NotImplementedException();
 
     public override TerminalState Handle(TerminalSession session, ActivateTerminalRequest signal)
     {
-        _TerminalEndpoint.Request(signal);
+        _EndpointClient.Send(signal);
 
         // BUG: There is not yet a timeout cancellation management set up yet in the terminal, so if the Acquirer never sends a response this will keep getting called indefinitely
         return _TerminalStateResolver.GetKernelState(Idle.StateId);

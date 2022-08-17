@@ -8,7 +8,6 @@ public interface IHandleTerminalRequests
 
     public void Request(QueryTerminalRequest message);
     public void Request(ActivateTerminalRequest message);
-    public void Request(InitiateSettlementRequest message);
 
     #endregion
 }

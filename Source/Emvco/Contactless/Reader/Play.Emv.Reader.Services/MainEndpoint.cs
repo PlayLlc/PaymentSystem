@@ -33,10 +33,9 @@ public class MainEndpoint : IMessageChannel, IReaderEndpoint, IHandleResponsesTo
     private MainEndpoint(ReaderDatabase database, ICreateEndpointClient messageBus, KernelRetriever kernelRetriever)
     {
         ChannelIdentifier = new ChannelIdentifier(SelectionSessionId);
-        _MainProcess = new MainProcess(database, selectionEndpoint, displayEndpoint, this, kernelRetriever);
-
         _EndpointClient = messageBus.CreateEndpointClient();
         _EndpointClient.Subscribe(this);
+        _MainProcess = new MainProcess(database, _EndpointClient, kernelRetriever);
     }
 
     #endregion

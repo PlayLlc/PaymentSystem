@@ -54,9 +54,9 @@ internal class MainStateMachine
                     $"The {nameof(ActivateReaderRequest)} can't be processed because the state of the {nameof(MainStateMachine)} is not in the {nameof(AwaitingTransaction)} state");
             }
 
-            state = new AwaitingSelection(request.GetTransaction().GetTransactionSessionId(), request.GetCorrelationId(), _Lock.State.ReaderDatabase);
-            state.ReaderDatabase.Activate(request.GetTransaction().GetTransactionSessionId());
-            state.ReaderDatabase.Update(request.GetTransaction().AsPrimitiveValues());
+            state = new AwaitingSelection(request.Transaction.GetTransactionSessionId(), request.GetCorrelationId(), _Lock.State.ReaderDatabase);
+            state.ReaderDatabase.Activate(request.Transaction.GetTransactionSessionId());
+            state.ReaderDatabase.Update(request.Transaction.AsPrimitiveValues());
             _EndpointClient.Send(new ActivateSelectionRequest(request.GetTransaction()));
         }
     }
