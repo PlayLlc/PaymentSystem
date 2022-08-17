@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
@@ -66,12 +67,8 @@ internal class MainStateMachine
         }
     }
 
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="request"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    public void Handle(OutSelectionResponse request)
+    public void Handle(OutSelectionResponse response)
     {
         lock (_Lock)
         {
@@ -83,23 +80,43 @@ internal class MainStateMachine
 
             _SelectionEndpoint.Request(new StopSelectionRequest(state.TransactionSessionId));
 
-            if (request.GetErrorIndication().IsErrorPresent())
+            if (response.GetErrorIndication().IsErrorPresent())
             {
-                _OutcomeProcessor.Process(state.CorrelationId!, state.TransactionSessionId, state.ReaderDatabase.GetTransaction());
+                ProcessOutcome(state, response.GetTransaction());
 
                 return;
             }
 
-            KernelSessionId kernelSessionId = new(request.GetKernelId()!, state.TransactionSessionId);
-
-            _Lock.State = new AwaitingKernel(kernelSessionId, state.TransactionSessionId, state.CorrelationId, state.ReaderDatabase);
-
-            ActivateKernelRequest activateKernelRequest = new(kernelSessionId, _Lock.State.ReaderDatabase.GetKernelValues(request.GetCombinationCompositeKey()),
-                request.GetApplicationFileInformationResponse()!);
-
-            // Entry Point D - Start Kernel
-            _KernelRetriever.Enqueue(activateKernelRequest);
+            _Lock.State = StartKernel(state, response);
         }
+    }
+
+    private void ProcessOutcome(AwaitingSelection state, Transaction transaction)
+    {
+        _OutcomeProcessor.Process(state.CorrelationId!, state.TransactionSessionId, state.ReaderDatabase.GetTransaction());
+    }
+
+    private AwaitingKernel StartKernel(AwaitingSelection state, OutSelectionResponse selectionResponse)
+    {
+        if (selectionResponse.GetCombinationCompositeKey() is null)
+        {
+            throw new TerminalException(
+                $"The {nameof(MainStateMachine)} attempted to start a kernel without a {nameof(CombinationCompositeKey)} in the {nameof(OutSelectionResponse)}");
+        }
+
+        if (selectionResponse.GetApplicationFileInformationResponse() is null)
+        {
+            throw new TerminalException(
+                $"The {nameof(MainStateMachine)} attempted to start a kernel without a {nameof(CombinationCompositeKey)} in the {nameof(OutSelectionResponse)}");
+        }
+
+        KernelSessionId kernelSessionId = new(selectionResponse.GetKernelId()!, state.TransactionSessionId);
+        ActivateKernelRequest activateKernelRequest = new(kernelSessionId,
+            state.ReaderDatabase.GetKernelValues(selectionResponse.GetCombinationCompositeKey()!), selectionResponse.GetApplicationFileInformationResponse()!);
+
+        _KernelRetriever.Enqueue(activateKernelRequest);
+
+        return new AwaitingKernel(kernelSessionId, state.TransactionSessionId, state.CorrelationId, state.ReaderDatabase);
     }
 
     /// <exception cref="RequestOutOfSyncException"></exception>

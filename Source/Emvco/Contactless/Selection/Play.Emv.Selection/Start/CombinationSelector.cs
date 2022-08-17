@@ -62,7 +62,7 @@ public class CombinationSelector
         }
 
         if (outcome.GetStartOutcome() == StartOutcomes.C)
-            ProcessStep3(transactionSessionId, candidateList, outcome);
+            ProcessStep3(transactionSessionId, candidateList);
     }
 
     #region Step 1
@@ -82,7 +82,7 @@ public class CombinationSelector
     /// <remarks>Emv Book B Section 3.3.2.3</remarks>
     /// <exception cref="DataElementParsingException"></exception>
     public void ProcessPpseResponse(
-        TransactionSessionId transactionSessionId, CandidateList candidateList, PreProcessingIndicators preProcessingIndicators, Outcome outcome,
+        TransactionSessionId transactionSessionId, CandidateList candidateList, PreProcessingIndicators preProcessingIndicators,
         TransactionType transactionType, SelectProximityPaymentSystemEnvironmentResponse response)
     {
         if (!response.TryGetFileControlInformation(out FileControlInformationPpse? ppseFileControlInformation))
@@ -91,12 +91,12 @@ public class CombinationSelector
             //if (ppseFileControlInformation!.IsPointOfInteractionApduCommandRequested())
             //    ProcessStep1A(transactionSessionId, ppseFileControlInformation);
 
-            ProcessStep2(transactionSessionId, candidateList, preProcessingIndicators, outcome, transactionType, ppseFileControlInformation);
+            ProcessStep2(transactionSessionId, candidateList, preProcessingIndicators, transactionType, ppseFileControlInformation);
 
             return;
         }
 
-        ProcessStep3(transactionSessionId, candidateList, outcome);
+        ProcessStep3(transactionSessionId, candidateList);
     }
 
     // HACK: We're skipping processing of Step 1A for now. We're not sending Send POI Information CAPDU. We need to refactor how we're retrieving the command template
@@ -116,13 +116,13 @@ public class CombinationSelector
     /// <remarks>Emv Book B Section 3.3.2.4 - 3.3.2.5</remarks>
     /// <exception cref="DataElementParsingException"></exception>
     private void ProcessStep2(
-        TransactionSessionId transactionSessionId, CandidateList candidateList, PreProcessingIndicators preProcessingIndicators, Outcome outcome,
+        TransactionSessionId transactionSessionId, CandidateList candidateList, PreProcessingIndicators preProcessingIndicators,
         TransactionType transactionType, FileControlInformationPpse fileControlInformationPpse)
     {
         // Emv Book B Section 3.3.2.4
         if (fileControlInformationPpse.IsDirectoryEntryListEmpty())
         {
-            ProcessStep3(transactionSessionId, candidateList, outcome);
+            ProcessStep3(transactionSessionId, candidateList);
 
             return;
         }
@@ -130,7 +130,7 @@ public class CombinationSelector
         // Emv Book B Section 3.3.2.5
         PopulateCandidateList(preProcessingIndicators, transactionType, fileControlInformationPpse);
 
-        ProcessStep3(transactionSessionId, candidateList, outcome);
+        ProcessStep3(transactionSessionId, candidateList);
     }
 
     /// <remarks>Emv Book B Section 3.3.2.5</remarks>
@@ -217,17 +217,17 @@ public class CombinationSelector
     ///     Extended Selection is encapsulated in the <see cref="Combination" /> factory method
     /// </summary>
     /// <returns></returns>
-    private void ProcessStep3(TransactionSessionId transactionSessionId, CandidateList candidateList, Outcome outcome)
+    private void ProcessStep3(TransactionSessionId transactionSessionId, CandidateList candidateList)
     {
         if (candidateList.Count == 0)
-            ProcessEmptyCandidateList(outcome);
+            ProcessEmptyCandidateList();
 
         Combination combination = SelectCombination(candidateList);
 
         SelectApplicationFileControlInformation(transactionSessionId, combination);
     }
 
-    private void ProcessEmptyCandidateList(Outcome outcome)
+    private void ProcessEmptyCandidateList()
     {
         UserInterfaceRequestData.Builder? userInterfaceRequestDataBuilder = UserInterfaceRequestData.GetBuilder();
         userInterfaceRequestDataBuilder.Set(MessageIdentifiers.ErrorUseAnotherCard);
@@ -237,8 +237,12 @@ public class CombinationSelector
         outcomeParameterSetBuilder.SetIsUiRequestOnOutcomePresent(true);
         outcomeParameterSetBuilder.Set(new Milliseconds(0));
 
-        outcome.Update(userInterfaceRequestDataBuilder);
-        outcome.Update(outcomeParameterSetBuilder);
+        ErrorIndication.Builder errorIndicationBuilder = ErrorIndication.GetBuilder();
+        errorIndicationBuilder.Set(Level2Error.EmptyCandidateList);
+
+        Outcome outcome = new(errorIndicationBuilder.Complete(), outcomeParameterSetBuilder.Complete());
+
+        // TODO: Send to Reader to process outcome 
     }
 
     /// <exception cref="InvalidOperationException">Ignore.</exception>
@@ -301,7 +305,7 @@ public class CombinationSelector
 
     public void ProcessInvalidAppletResponse(TransactionSessionId transactionSessionId, CandidateList candidateList, Outcome outcome)
     {
-        ProcessStep3(transactionSessionId, candidateList, outcome);
+        ProcessStep3(transactionSessionId, candidateList);
     }
 
     /// <summary>
@@ -320,11 +324,11 @@ public class CombinationSelector
     {
         if (sendPoiInformationResponse.GetStatusWords() == StatusWords._9000)
         {
-            ProcessStep2(transactionSessionId, candidateList, preProcessingIndicators, outcome, transactionType,
+            ProcessStep2(transactionSessionId, candidateList, preProcessingIndicators, transactionType,
                 FileControlInformationPpse.Decode(sendPoiInformationResponse.GetData()));
         }
         else
-            ProcessStep3(transactionSessionId, candidateList, outcome);
+            ProcessStep3(transactionSessionId, candidateList);
     }
 
     private bool IsMatchingInternationalKernelIdentifier(PreProcessingIndicators preProcessingIndicators, KernelIdentifier kernelIdentifier)
@@ -340,12 +344,12 @@ public class CombinationSelector
         FileControlInformationAdf fileControlInformationTemplate)
     {
         if (!fileControlInformationTemplate.IsNetworkOf(RegisteredApplicationProviderIndicators.VisaInternational))
-            ProcessStep3(transactionSessionId, candidateList, outcome);
+            ProcessStep3(transactionSessionId, candidateList);
 
         if (combination.GetCombinationCompositeKey().GetKernelId() != ShortKernelIdTypes.Kernel3)
-            ProcessStep3(transactionSessionId, candidateList, outcome);
+            ProcessStep3(transactionSessionId, candidateList);
 
         if (fileControlInformationTemplate.IsDataObjectRequested(TerminalTransactionQualifiers.Tag))
-            ProcessStep3(transactionSessionId, candidateList, outcome);
+            ProcessStep3(transactionSessionId, candidateList);
     }
 }

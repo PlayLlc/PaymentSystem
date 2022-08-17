@@ -22,8 +22,8 @@ public class Outcome
     private readonly DiscretionaryData? _DiscretionaryData;
     private readonly TerminalVerificationResults _TerminalVerificationResults;
     private readonly ErrorIndication _ErrorIndication;
-    private OutcomeParameterSet _OutcomeParameterSet;
-    private UserInterfaceRequestData? _UserInterfaceRequestData;
+    private readonly OutcomeParameterSet _OutcomeParameterSet;
+    private readonly UserInterfaceRequestData? _UserInterfaceRequestData;
 
     #endregion
 
@@ -84,8 +84,8 @@ public class Outcome
     }
 
     public Outcome(
-        ErrorIndication errorIndication, OutcomeParameterSet outcomeParameterSet, DataRecord? dataRecord = null, DiscretionaryData? discretionaryData = null,
-        UserInterfaceRequestData? userInterfaceRequestData = null)
+        ErrorIndication errorIndication, OutcomeParameterSet outcomeParameterSet, UserInterfaceRequestData? userInterfaceRequestData = null,
+        DataRecord? dataRecord = null, DiscretionaryData? discretionaryData = null)
     {
         _ErrorIndication = errorIndication;
         _OutcomeParameterSet = outcomeParameterSet;
@@ -165,23 +165,22 @@ public class Outcome
         return true;
     }
 
-    public void Update(OutcomeParameterSet.Builder outcomeParameterSet)
-    {
-        _OutcomeParameterSet |= outcomeParameterSet.Complete();
-    }
+    //public void Update(OutcomeParameterSet.Builder outcomeParameterSet)
+    //{
+    //    _OutcomeParameterSet |= outcomeParameterSet.Complete();
+    //}
 
-    public void Update(UserInterfaceRequestData.Builder userInterfaceRequestData)
-    {
-        if (_UserInterfaceRequestData == null)
-        {
-            _UserInterfaceRequestData = userInterfaceRequestData.Complete();
+    //public void Update(UserInterfaceRequestData.Builder userInterfaceRequestData)
+    //{
+    //    if (_UserInterfaceRequestData == null)
+    //    {
+    //        _UserInterfaceRequestData = userInterfaceRequestData.Complete();
 
-            return;
-        }
+    //        return;
+    //    }
 
-        _UserInterfaceRequestData = _UserInterfaceRequestData |= userInterfaceRequestData.Complete();
-    }
-
+    //    _UserInterfaceRequestData = _UserInterfaceRequestData |= userInterfaceRequestData.Complete();
+    //}
     public OutcomeParameterSet GetOutcomeParameterSet() => _OutcomeParameterSet;
     public DiscretionaryData? GetDiscretionaryData() => _DiscretionaryData;
 
