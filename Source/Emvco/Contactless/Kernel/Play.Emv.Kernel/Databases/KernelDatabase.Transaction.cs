@@ -24,7 +24,7 @@ public partial class KernelDatabase
     public MobileSupportIndicator GetMobileSupportIndicator()
     {
         if (TryGet(MobileSupportIndicator.Tag, out MobileSupportIndicator? mobileSupportIndicator))
-            return mobileSupportIndicator;
+            return mobileSupportIndicator!;
 
         MobileSupportIndicator? defaultMobileSupportIndicator = _MobileSupportIndicatorBuilder.Complete();
         Update(defaultMobileSupportIndicator);
@@ -136,16 +136,19 @@ public partial class KernelDatabase
     ///     A legacy transaction that was manually keyed by an attended where the cardholder receives cash at the end of the
     ///     transaction
     /// </summary>
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsManualCashTransaction() => IsCashTransaction() && IsManualTransaction();
 
     /// <summary>
     ///     A transaction at an unattended terminal where the cardholder receives cash, such as an ATM withdrawal
     /// </summary>
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsUnattendedCashTransaction() => GetTerminalType().IsEnvironmentType(TerminalType.EnvironmentType.Unattended) && IsCashTransaction();
 
     /// <summary>
     ///     A purchase transaction in which the cardholder receives cash from a self service kiosk or cashier
     /// </summary>
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsPurchaseTransactionWithCashback() => IsPurchaseTransaction() && IsCashbackTransaction();
 
     /// <summary>

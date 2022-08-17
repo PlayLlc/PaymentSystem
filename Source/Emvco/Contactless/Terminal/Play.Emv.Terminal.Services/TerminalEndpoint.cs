@@ -7,6 +7,7 @@ using Play.Emv.Terminal.Configuration;
 using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalIn;
 using Play.Emv.Terminal.Contracts.SignalOut;
+using Play.Emv.Terminal.DataExchange;
 using Play.Emv.Terminal.Session;
 using Play.Emv.Terminal.StateMachine;
 using Play.Messaging;
@@ -33,13 +34,15 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
     #region Constructor
 
     private TerminalEndpoint(
-        TerminalConfiguration terminalConfiguration, IGetTerminalState terminalStateResolver,
-        IGenerateSequenceTraceAuditNumbers sequenceTraceAuditNumberGenerator, ICreateEndpointClient messageBus)
+        TerminalConfiguration terminalConfiguration, SystemTraceAuditNumberConfiguration systemTraceAuditNumberConfiguration, ISettleTransactions settler,
+        ICreateEndpointClient messageBus)
     {
-        ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
-        _TerminalProcess = new TerminalProcess(terminalConfiguration, terminalStateResolver, sequenceTraceAuditNumberGenerator);
         _EndpointClient = messageBus.CreateEndpointClient();
         _EndpointClient.Subscribe(this);
+        ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
+        _TerminalProcess = new TerminalProcess(terminalConfiguration,
+            new TerminalStateResolver(terminalConfiguration, new DataExchangeTerminalService(_EndpointClient), _EndpointClient, settler),
+            new SystemTraceAuditNumberSequencer(systemTraceAuditNumberConfiguration, _EndpointClient));
     }
 
     #endregion
@@ -125,9 +128,9 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
     #endregion
 
     public static TerminalEndpoint Create(
-        TerminalConfiguration terminalConfiguration, IGetTerminalState terminalStateResolver,
-        IGenerateSequenceTraceAuditNumbers sequenceTraceAuditNumberGenerator, ICreateEndpointClient messageBus) =>
-        new(terminalConfiguration, terminalStateResolver, sequenceTraceAuditNumberGenerator, messageBus);
+        TerminalConfiguration terminalConfiguration, SystemTraceAuditNumberConfiguration systemTraceAuditNumberConfiguration, ISettleTransactions settler,
+        ICreateEndpointClient messageBus) =>
+        new(terminalConfiguration, systemTraceAuditNumberConfiguration, settler, messageBus);
 
     public void Dispose()
     {

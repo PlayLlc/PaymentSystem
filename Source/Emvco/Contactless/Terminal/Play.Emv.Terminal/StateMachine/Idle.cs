@@ -31,7 +31,7 @@ internal class Idle : TerminalState
 
     #region Instance Values
 
-    private readonly ISettlementReconciliationService _SettlementReconciliationService;
+    private readonly ISettleTransactions _SettleTransactions;
 
     #endregion
 
@@ -39,10 +39,10 @@ internal class Idle : TerminalState
 
     public Idle(
         TerminalConfiguration terminalConfiguration, DataExchangeTerminalService dataExchangeTerminalService, IEndpointClient endpointClient,
-        IGetTerminalState terminalStateResolver, ISettlementReconciliationService settlementReconciliationService) : base(dataExchangeTerminalService,
-        terminalConfiguration, endpointClient, terminalStateResolver)
+        IGetTerminalState terminalStateResolver, ISettleTransactions settleTransactions) : base(dataExchangeTerminalService, terminalConfiguration,
+        endpointClient, terminalStateResolver)
     {
-        _SettlementReconciliationService = settlementReconciliationService;
+        _SettleTransactions = settleTransactions;
     }
 
     #endregion
@@ -83,7 +83,7 @@ internal class Idle : TerminalState
     /// <param name="signal"></param>
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    public override TerminalState Handle(TerminalSession? session, AcquirerResponseSignal signal) =>
+    public override TerminalState Handle(TerminalSession? session, ReconciliationResponse signal) =>
         throw new RequestOutOfSyncException(signal, TerminalChannel.Id);
 
     /// <exception cref="RequestOutOfSyncException"></exception>

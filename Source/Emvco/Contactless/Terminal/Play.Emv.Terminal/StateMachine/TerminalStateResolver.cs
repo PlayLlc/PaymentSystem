@@ -20,23 +20,22 @@ namespace Play.Emv.Terminal.StateMachine
 
         #endregion
 
-        public TerminalState GetKernelState(StateId stateId) => _TerminalStateMap[stateId];
+        #region Constructor
 
-        public static TerminalStateResolver Create(
+        public TerminalStateResolver(
             TerminalConfiguration terminalConfiguration, DataExchangeTerminalService dataExchangeTerminalService, IEndpointClient endpointClient,
-            ISettlementReconciliationService settlementReconciliationService)
+            ISettleTransactions settleTransactions)
         {
-            TerminalStateResolver terminalStateResolver = new();
+            _TerminalStateMap = new Dictionary<StateId, TerminalState>();
 
-            TerminalState[] terminalStates =
-            {
-                new Idle(terminalConfiguration, dataExchangeTerminalService, endpointClient, terminalStateResolver, settlementReconciliationService)
-            };
+            TerminalState[] terminalStates = {new Idle(terminalConfiguration, dataExchangeTerminalService, endpointClient, this, settleTransactions)};
 
             foreach (TerminalState state in terminalStates)
-                terminalStateResolver._TerminalStateMap.Add(state.GetStateId(), state);
-
-            return terminalStateResolver;
+                _TerminalStateMap.Add(state.GetStateId(), state);
         }
+
+        #endregion
+
+        public TerminalState GetKernelState(StateId stateId) => _TerminalStateMap[stateId];
     }
 }

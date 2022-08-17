@@ -42,7 +42,7 @@ public abstract class TerminalState
     public abstract TerminalState Handle(TerminalSession session, OutReaderResponse signal);
     public abstract TerminalState Handle(TerminalSession session, QueryKernelResponse signal);
     public abstract TerminalState Handle(TerminalSession session, StopReaderAcknowledgedResponse signal);
-    public abstract TerminalState Handle(TerminalSession? session, AcquirerResponseSignal signal);
+    public abstract TerminalState Handle(TerminalSession? session, ReconciliationResponse signal);
     public abstract TerminalState Handle(TerminalSession session, QueryTerminalRequest signal);
 
     public void Clear()

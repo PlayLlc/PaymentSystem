@@ -4,7 +4,7 @@ using Play.Globalization.Time;
 
 namespace Play.Emv.Terminal.StateMachine;
 
-public interface ISettlementReconciliationService
+public interface ISettleTransactions
 {
     #region Instance Members
 

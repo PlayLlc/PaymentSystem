@@ -81,14 +81,8 @@ public class WaitingForSettlementResponse : TerminalState
     public override TerminalState Handle(TerminalSession session, StopReaderAcknowledgedResponse signal) =>
         throw new RequestOutOfSyncException(signal, TerminalChannel.Id);
 
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    public override TerminalState Handle(TerminalSession? session, AcquirerResponseSignal signal)
+    public override TerminalState Handle(TerminalSession? session, ReconciliationResponse signal)
     {
         if (session != null)
         {

@@ -2,9 +2,11 @@
 
 using Play.Emv.Acquirer.Contracts.SignalOut;
 using Play.Emv.Configuration;
+using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Reader.Contracts.SignalOut;
+using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalIn;
 using Play.Emv.Terminal.DataExchange;
 using Play.Emv.Terminal.Session;
@@ -39,7 +41,11 @@ public class WaitingForAuthorizationResponse : TerminalState
     public override TerminalState Handle(TerminalSession session, OutReaderResponse signal) => throw new NotImplementedException();
     public override TerminalState Handle(TerminalSession session, QueryKernelResponse signal) => throw new NotImplementedException();
     public override TerminalState Handle(TerminalSession session, StopReaderAcknowledgedResponse signal) => throw new NotImplementedException();
-    public override TerminalState Handle(TerminalSession? session, AcquirerResponseSignal signal) => throw new NotImplementedException();
+
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    public override TerminalState Handle(TerminalSession? session, ReconciliationResponse signal) =>
+        throw new RequestOutOfSyncException(signal, TerminalChannel.Id);
+
     public override TerminalState Handle(TerminalSession session, QueryTerminalRequest signal) => throw new NotImplementedException();
 
     #endregion
