@@ -427,7 +427,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         _Database.SetUiRequestOnRestartPresent(true);
 
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+        _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
     }
 
     #endregion
