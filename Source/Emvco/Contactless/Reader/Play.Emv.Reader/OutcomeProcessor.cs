@@ -38,39 +38,15 @@ public class OutcomeProcessor : IProcessOutcome
 
     // TODO: Check that the logic for handling errors from Entry Point Start processing is the same as handling an outcome from the kernel. If not, then we need to update the logic in the Process methods below
 
-    /// <param name="correlationId"></param>
-    /// <param name="sessionId"></param>
-    /// <param name="transaction"></param>
-    /// <returns></returns>
-    /// <remarks>Book B Section 3.5</remarks>
-    /// <exception cref="InvalidOperationException"></exception>
-    public virtual void Process(CorrelationId correlationId, KernelSessionId sessionId, Transaction transaction)
-    {
-        HandleFieldOffRequest(transaction.GetOutcome());
-        HandleUiRequestOnOutcome(transaction.GetOutcome());
-        HandleTryAgainStatus(transaction);
-
-        transaction.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData);
-        transaction.TryGetDiscretionaryData(out DiscretionaryData? discretionaryData);
-        transaction.TryGetDataRecord(out DataRecord? dataRecord);
-
-        _ReaderEndpoint.Send(new OutReaderResponse(correlationId,
-            new FinalOutcome(sessionId.GetTransactionSessionId(), sessionId, transaction.GetOutcomeParameterSet(), discretionaryData, userInterfaceRequestData,
-                dataRecord)));
-    }
-
-    /// <summary>
-    ///     Process
-    /// </summary>
-    /// <param name="correlationId"></param>
-    /// <param name="sessionId"></param>
-    /// <param name="transaction"></param>
     /// <exception cref="InvalidOperationException"></exception>
     public virtual void Process(CorrelationId correlationId, TransactionSessionId sessionId, Transaction transaction)
     {
         HandleFieldOffRequest(transaction.GetOutcome());
         HandleUiRequestOnOutcome(transaction.GetOutcome());
-        HandleTryAgainStatus(transaction);
+
+        // Book B Section 3.5 Try Again and Select Next are processed immediately by Entry Point which re-starts processing at the appropriate start
+        if (TryHandleTryAgainStatus(transaction))
+            return;
 
         transaction.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData);
         transaction.TryGetDiscretionaryData(out DiscretionaryData? discretionaryData);
@@ -94,10 +70,23 @@ public class OutcomeProcessor : IProcessOutcome
     /// <remarks>
     ///     Book B Section 3.5.1.3
     /// </remarks>
-    protected void HandleTryAgainStatus(Transaction transaction)
+    protected bool TryHandleTryAgainStatus(Transaction transaction)
     {
         if (transaction.GetOutcome().GetStatusOutcome() == StatusOutcomes.SelectNext)
+        {
             _SelectionEndpoint.Request(new ActivateSelectionRequest(transaction));
+
+            return true;
+        }
+
+        if (transaction.GetOutcome().GetStatusOutcome() == StatusOutcomes.TryAgain)
+        {
+            _SelectionEndpoint.Request(new ActivateSelectionRequest(transaction));
+
+            return true;
+        }
+
+        return false;
     }
 
     /// <remarks>

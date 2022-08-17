@@ -86,26 +86,22 @@ internal class MainStateMachine
             if (request.GetErrorIndication().IsErrorPresent())
             {
                 _OutcomeProcessor.Process(state.CorrelationId!, state.TransactionSessionId, state.ReaderDatabase.GetTransaction());
-                _SelectionEndpoint.Request(new StopSelectionRequest(state.TransactionSessionId));
 
-                // Return control back to the Terminal or Selection process after outcome processing
                 return;
             }
 
             KernelSessionId kernelSessionId = new(request.GetKernelId()!, state.TransactionSessionId);
 
             _Lock.State = new AwaitingKernel(kernelSessionId, state.TransactionSessionId, state.CorrelationId, state.ReaderDatabase);
+
             ActivateKernelRequest activateKernelRequest = new(kernelSessionId, _Lock.State.ReaderDatabase.GetKernelValues(request.GetCombinationCompositeKey()),
                 request.GetApplicationFileInformationResponse()!);
 
+            // Entry Point D - Start Kernel
             _KernelRetriever.Enqueue(activateKernelRequest);
         }
     }
 
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="request"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="Ber.Exceptions.TerminalException"></exception>
     /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
@@ -117,7 +113,7 @@ internal class MainStateMachine
                 throw new RequestOutOfSyncException($"The {nameof(OutSelectionResponse)} can't be processed because the transaction is no longer processing");
 
             _KernelRetriever.Enqueue(new StopKernelRequest(state.KernelSessionId));
-            _OutcomeProcessor.Process(state.CorrelationId!, request.GetKernelSessionId(), request.GetTransaction());
+            _OutcomeProcessor.Process(state.CorrelationId!, request.GetKernelSessionId().GetTransactionSessionId(), request.GetTransaction());
         }
     }
 

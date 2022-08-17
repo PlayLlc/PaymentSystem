@@ -178,8 +178,7 @@ internal class SelectionStateMachine
                     $"The {nameof(SelectApplicationDefinitionFileInfoResponse)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{response.GetTransactionSessionId()}] but the current {nameof(SelectionChannel.Id)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
             }
 
-            if (!_CombinationSelector.TrySelectApplet(response.GetTransactionSessionId(), _CandidateList, _Lock.Session.GetOutcome(),
-                _CandidateList.ElementAt(0), response, out CombinationOutcome? combinationOutcome))
+            if (!_CombinationSelector.TrySelectApplet(_CandidateList.ElementAt(0), response, out CombinationOutcome? combinationOutcome))
             {
                 _CombinationSelector.ProcessInvalidAppletResponse(response.GetTransactionSessionId(), _CandidateList, _Lock.Session.GetOutcome());
 
@@ -284,8 +283,7 @@ internal class SelectionStateMachine
 
     private void ProcessAtC(Transaction transaction)
     {
-        _CombinationSelector.Start(transaction.GetTransactionSessionId(), _CandidateList, _PreProcessingIndicators, transaction.GetOutcome(),
-            transaction.GetTransactionType());
+        _CombinationSelector.Start(transaction.GetTransactionSessionId(), _CandidateList, transaction.GetOutcome());
     }
 
     #endregion

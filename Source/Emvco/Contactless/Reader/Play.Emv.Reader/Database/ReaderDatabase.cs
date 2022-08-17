@@ -25,8 +25,6 @@ public partial class ReaderDatabase
     private readonly Dictionary<CombinationCompositeKey, PrimitiveValue[]> _TransactionProfiles;
     private readonly Dictionary<LanguagePreference, DisplayMessages> _DisplayMessages;
     private readonly Dictionary<KernelId, CertificateAuthorityDataset[]> _CertificateAuthorityDatasets;
-
-    // Process S - Should be list of CombinationCompositeKeys and TransactionType as key
     private readonly TransactionType[] _SupportedTransactionTypes;
     private readonly PcdProtocolConfiguration _PcdProtocolConfiguration;
     private readonly PrimitiveValue[] _ReaderConfiguration;
@@ -68,7 +66,9 @@ public partial class ReaderDatabase
         return result.ToArray();
     }
 
-    public TransactionType[] GetSupportedTransactionTypes() => _SupportedTransactionTypes;
+    public TransactionType[] GetSupportedTransactionTypes() =>
+        _SupportedTransactionTypes; // this should be on the terminal so the POS can list the transaction types
+
     public PrimitiveValue[] GetKernelConfiguration(KernelId kernelId) => _KernelConfigurations[kernelId];
     public CertificateAuthorityDataset[] GetCertificateAuthorityDatasets(KernelId kernelId) => _CertificateAuthorityDatasets[kernelId];
     public PcdProtocolConfiguration GetPcdProtocolConfiguration() => _PcdProtocolConfiguration;

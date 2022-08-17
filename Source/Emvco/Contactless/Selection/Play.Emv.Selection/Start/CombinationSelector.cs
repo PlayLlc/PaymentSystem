@@ -159,7 +159,7 @@ public class CombinationSelector
                 continue;
             }
 
-            if (!IsMatchingKernelIdentifier(preProcessingIndicators, directoryEntry))
+            if (!IsMatchingKernelIdentifier(preProcessingIndicators, directoryEntry, kernelIdentifier!))
             {
                 directoryEntries.Remove(directoryEntry);
 
@@ -190,15 +190,12 @@ public class CombinationSelector
     }
 
     /// <exception cref="DataElementParsingException"></exception>
-    private bool IsMatchingKernelIdentifier(PreProcessingIndicators preProcessingIndicators, DirectoryEntry directoryEntry)
+    private bool IsMatchingKernelIdentifier(PreProcessingIndicators preProcessingIndicators, DirectoryEntry directoryEntry, KernelIdentifier kernelIdentifier)
     {
-        if (!directoryEntry.TryGetKernelIdentifier(out KernelIdentifier? result))
-            return false;
+        if (kernelIdentifier!.IsDomesticKernel())
+            return IsMatchingDomesticKernelIdentifier(preProcessingIndicators, kernelIdentifier);
 
-        if (result!.IsDomesticKernel())
-            return IsMatchingDomesticKernelIdentifier(preProcessingIndicators, result);
-
-        return IsMatchingInternationalKernelIdentifier(preProcessingIndicators, result);
+        return IsMatchingInternationalKernelIdentifier(preProcessingIndicators, kernelIdentifier);
     }
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -255,7 +252,7 @@ public class CombinationSelector
 
     /// <remarks>
     ///     When the Proximity Coupling Device sends the <see cref="SelectApplicationDefinitionFileInfoResponse" />
-    ///     callback, the processing will continue at <see cref="ProcessAppletResponse" />
+    ///     callback, the processing will continue at <see cref="ProcessValidApplet" />
     /// </remarks>
     private void SelectApplicationFileControlInformation(TransactionSessionId transactionSessionId, Combination combination)
     {
@@ -264,10 +261,7 @@ public class CombinationSelector
 
     #endregion
 
-    /// <remarks>Emv Book B Section 3.3.2.3b</remarks>
-    public bool TrySelectApplet(
-        TransactionSessionId transactionSessionId, CandidateList candidateList, Outcome outcome, Combination combination,
-        SelectApplicationDefinitionFileInfoResponse applicationFciResponse, out CombinationOutcome? result)
+    public bool TrySelectApplet(Combination combination, SelectApplicationDefinitionFileInfoResponse applicationFciResponse, out CombinationOutcome? result)
     {
         if (applicationFciResponse.GetStatusWords() == StatusWords._9000)
         {

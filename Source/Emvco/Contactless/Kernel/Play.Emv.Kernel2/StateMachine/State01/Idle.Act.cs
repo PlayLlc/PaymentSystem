@@ -46,14 +46,10 @@ public partial class Idle : KernelState
             return _KernelStateResolver.GetKernelState(StateId);
 
         UpdateLanguagePreferences();
-
         HandleSupportForFieldOffDetection();
         InitializeEmvDataObjects();
-
         InitializeDataExchangeObjects();
-
         HandleProcessingOptionsDataObjectList(kernel2Session, signal.GetRapdu().GetFileControlInformation());
-
         InitializeAcPutData();
         UpdateIntegratedDataStorage();
         HandleDataStorageVersionNumberTerm(kernel2Session);
