@@ -15,7 +15,7 @@ using Play.Messaging.Exceptions;
 
 namespace Play.Emv.Terminal.Services;
 
-public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendTerminalResponses, IHandleResponsesToTerminal, IDisposable
+public class TerminalEndpoint : IMessageChannel, IDisposable
 {
     #region Static Metadata
 
@@ -110,17 +110,17 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
             throw new InvalidMessageRoutingException(message, this);
     }
 
-    void IHandleResponsesToTerminal.Handle(OutReaderResponse message)
+    private void Handle(OutReaderResponse message)
     {
         _TerminalProcess.Enqueue(message);
     }
 
-    void IHandleResponsesToTerminal.Handle(QueryKernelResponse message)
+    private void Handle(QueryKernelResponse message)
     {
         _TerminalProcess.Enqueue(message);
     }
 
-    void IHandleResponsesToTerminal.Handle(StopReaderAcknowledgedResponse message)
+    private void Handle(StopReaderAcknowledgedResponse message)
     {
         _TerminalProcess.Enqueue(message);
     }
