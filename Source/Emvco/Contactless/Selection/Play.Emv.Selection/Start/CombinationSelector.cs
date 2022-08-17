@@ -10,6 +10,7 @@ using Play.Emv.Identifiers;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Selection.Contracts;
+using Play.Emv.Selection.Contracts.SignalIn;
 using Play.Globalization.Time;
 using Play.Icc.FileSystem.DedicatedFiles;
 using Play.Icc.Messaging.Apdu;
@@ -26,7 +27,7 @@ public class CombinationSelector
 {
     #region Instance Values
 
-    private readonly IHandlePcdRequests _PcdEndpoint;
+    private readonly IEndpointClient _EndpointClient;
     private readonly EmvCodec _Codec;
     private readonly PoiInformation _PoiInformation;
     private readonly HashSet<Combination> _Combinations = new();
@@ -36,10 +37,10 @@ public class CombinationSelector
     #region Constructor
 
     // HACK: I don't think this should be injecting POI information directly into this service. Check the specifications and see how we're supposed to handle POI Information
-    public CombinationSelector(PoiInformation poiInformation, IHandlePcdRequests pcdEndpoint)
+    public CombinationSelector(PoiInformation poiInformation, IEndpointClient endpointClient)
     {
         _PoiInformation = poiInformation;
-        _PcdEndpoint = pcdEndpoint;
+        _EndpointClient = endpointClient;
         _Codec = EmvCodec.GetCodec();
     }
 
@@ -47,10 +48,10 @@ public class CombinationSelector
 
     /// <remarks>EMV Book B Section 3.3.2.1</remarks>
     public void Start(
-        TransactionSessionId transactionSessionId, CandidateList candidateList, Outcome outcome, IssuerAuthenticationData? issuerAuthenticationData = null,
+        Transaction transaction, CandidateList candidateList, IssuerAuthenticationData? issuerAuthenticationData = null,
         IssuerScriptTemplate1? issuerScriptTemplate1 = null)
     {
-        if (outcome.GetStartOutcome() == StartOutcomes.B)
+        if (transaction.GetOutcome().GetStartOutcome() == StartOutcomes.B)
         {
             if ((issuerAuthenticationData != null) || (issuerScriptTemplate1 != null))
             {
@@ -58,11 +59,11 @@ public class CombinationSelector
                 return;
             }
 
-            ProcessStep1(transactionSessionId);
+            ProcessStep1(transaction.GetTransactionSessionId());
         }
 
-        if (outcome.GetStartOutcome() == StartOutcomes.C)
-            ProcessStep3(transactionSessionId, candidateList);
+        if (transaction.GetOutcome().GetStartOutcome() == StartOutcomes.C)
+            ProcessStep3(transaction, candidateList);
     }
 
     #region Step 1
@@ -76,14 +77,14 @@ public class CombinationSelector
     /// <remarks>EMV Book B Section 3.3.2.2</remarks>
     private void SelectPpse(TransactionSessionId transactionSessionId)
     {
-        _PcdEndpoint.Request(SelectProximityPaymentSystemEnvironmentRequest.Create(transactionSessionId));
+        _EndpointClient.Send(SelectProximityPaymentSystemEnvironmentRequest.Create(transactionSessionId));
     }
 
     /// <remarks>Emv Book B Section 3.3.2.3</remarks>
     /// <exception cref="DataElementParsingException"></exception>
     public void ProcessPpseResponse(
-        TransactionSessionId transactionSessionId, CandidateList candidateList, PreProcessingIndicators preProcessingIndicators,
-        TransactionType transactionType, SelectProximityPaymentSystemEnvironmentResponse response)
+        Transaction transaction, CandidateList candidateList, PreProcessingIndicators preProcessingIndicators, TransactionType transactionType,
+        SelectProximityPaymentSystemEnvironmentResponse response)
     {
         if (!response.TryGetFileControlInformation(out FileControlInformationPpse? ppseFileControlInformation))
         {
@@ -91,12 +92,12 @@ public class CombinationSelector
             //if (ppseFileControlInformation!.IsPointOfInteractionApduCommandRequested())
             //    ProcessStep1A(transactionSessionId, ppseFileControlInformation);
 
-            ProcessStep2(transactionSessionId, candidateList, preProcessingIndicators, transactionType, ppseFileControlInformation);
+            ProcessStep2(transaction, candidateList, preProcessingIndicators, transactionType, ppseFileControlInformation);
 
             return;
         }
 
-        ProcessStep3(transactionSessionId, candidateList);
+        ProcessStep3(transaction, candidateList);
     }
 
     // HACK: We're skipping processing of Step 1A for now. We're not sending Send POI Information CAPDU. We need to refactor how we're retrieving the command template
@@ -106,7 +107,7 @@ public class CombinationSelector
         throw new NotImplementedException(
             $"The {nameof(CombinationSelector)} has not been implemented yet. The Kernel TLV Database has not been initialized at this point. Figure out how you're going to implement this section for the SEND POI information");
 
-        _PcdEndpoint.Request(SendPoiInformationRequest.Create(transactionSessionId, fileControlInformationTemplatePpse.AsCommandTemplate(null, null)));
+        _EndpointClient.Send(SendPoiInformationRequest.Create(transactionSessionId, fileControlInformationTemplatePpse.AsCommandTemplate(null, null)));
     }
 
     #endregion
@@ -116,13 +117,13 @@ public class CombinationSelector
     /// <remarks>Emv Book B Section 3.3.2.4 - 3.3.2.5</remarks>
     /// <exception cref="DataElementParsingException"></exception>
     private void ProcessStep2(
-        TransactionSessionId transactionSessionId, CandidateList candidateList, PreProcessingIndicators preProcessingIndicators,
-        TransactionType transactionType, FileControlInformationPpse fileControlInformationPpse)
+        Transaction transaction, CandidateList candidateList, PreProcessingIndicators preProcessingIndicators, TransactionType transactionType,
+        FileControlInformationPpse fileControlInformationPpse)
     {
         // Emv Book B Section 3.3.2.4
         if (fileControlInformationPpse.IsDirectoryEntryListEmpty())
         {
-            ProcessStep3(transactionSessionId, candidateList);
+            ProcessStep3(transaction, candidateList);
 
             return;
         }
@@ -130,7 +131,7 @@ public class CombinationSelector
         // Emv Book B Section 3.3.2.5
         PopulateCandidateList(preProcessingIndicators, transactionType, fileControlInformationPpse);
 
-        ProcessStep3(transactionSessionId, candidateList);
+        ProcessStep3(transaction, candidateList);
     }
 
     /// <remarks>Emv Book B Section 3.3.2.5</remarks>
@@ -217,32 +218,18 @@ public class CombinationSelector
     ///     Extended Selection is encapsulated in the <see cref="Combination" /> factory method
     /// </summary>
     /// <returns></returns>
-    private void ProcessStep3(TransactionSessionId transactionSessionId, CandidateList candidateList)
+    private void ProcessStep3(Transaction transaction, CandidateList candidateList)
     {
         if (candidateList.Count == 0)
-            ProcessEmptyCandidateList();
+        {
+            _EndpointClient.Send(new EmptyCombinationSelectionRequest(transaction.GetTransactionSessionId()));
+
+            return;
+        }
 
         Combination combination = SelectCombination(candidateList);
 
-        SelectApplicationFileControlInformation(transactionSessionId, combination);
-    }
-
-    private void ProcessEmptyCandidateList()
-    {
-        UserInterfaceRequestData.Builder? userInterfaceRequestDataBuilder = UserInterfaceRequestData.GetBuilder();
-        userInterfaceRequestDataBuilder.Set(MessageIdentifiers.ErrorUseAnotherCard);
-        userInterfaceRequestDataBuilder.Set(Statuses.ReadyToRead);
-
-        OutcomeParameterSet.Builder? outcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
-        outcomeParameterSetBuilder.SetIsUiRequestOnOutcomePresent(true);
-        outcomeParameterSetBuilder.Set(new Milliseconds(0));
-
-        ErrorIndication.Builder errorIndicationBuilder = ErrorIndication.GetBuilder();
-        errorIndicationBuilder.Set(Level2Error.EmptyCandidateList);
-
-        Outcome outcome = new(errorIndicationBuilder.Complete(), outcomeParameterSetBuilder.Complete());
-
-        // TODO: Send to Reader to process outcome 
+        SelectApplicationFileControlInformation(transaction.GetTransactionSessionId(), combination);
     }
 
     /// <exception cref="InvalidOperationException">Ignore.</exception>
@@ -260,7 +247,7 @@ public class CombinationSelector
     /// </remarks>
     private void SelectApplicationFileControlInformation(TransactionSessionId transactionSessionId, Combination combination)
     {
-        _PcdEndpoint.Request(SelectApplicationDefinitionFileInfoRequest.Create(transactionSessionId, combination.GetApplicationIdentifier()));
+        _EndpointClient.Send(SelectApplicationDefinitionFileInfoRequest.Create(transactionSessionId, combination.GetApplicationIdentifier()));
     }
 
     #endregion
@@ -293,42 +280,18 @@ public class CombinationSelector
         return false;
     }
 
-    public void ProcessValidApplet(
-        TransactionSessionId transactionSessionId, CorrelationId correlationId, Transaction transaction, CombinationOutcome combinationOutcome,
-        PreProcessingIndicatorResult preProcessingIndicatorResult, SelectApplicationDefinitionFileInfoResponse appletFci, Action<OutSelectionResponse> callback)
-    {
-        OutSelectionResponse outSelectionResponse = new(correlationId, transaction, combinationOutcome.Combination.GetCombinationCompositeKey(),
-            preProcessingIndicatorResult.GetTerminalTransactionQualifiers(), appletFci);
-
-        callback.Invoke(outSelectionResponse);
-    }
-
-    public void ProcessInvalidAppletResponse(TransactionSessionId transactionSessionId, CandidateList candidateList, Outcome outcome)
-    {
-        ProcessStep3(transactionSessionId, candidateList);
-    }
-
-    /// <summary>
-    ///     ProcessPointOfInteractionResponse
-    /// </summary>
-    /// <param name="transactionSessionId"></param>
-    /// <param name="candidateList"></param>
-    /// <param name="preProcessingIndicators"></param>
-    /// <param name="outcome"></param>
-    /// <param name="transactionType"></param>
-    /// <param name="sendPoiInformationResponse"></param>
     /// <exception cref="DataElementParsingException"></exception>
     public void ProcessPointOfInteractionResponse(
-        TransactionSessionId transactionSessionId, CandidateList candidateList, PreProcessingIndicators preProcessingIndicators, Outcome outcome,
-        TransactionType transactionType, SendPoiInformationResponse sendPoiInformationResponse)
+        Transaction transaction, CandidateList candidateList, PreProcessingIndicators preProcessingIndicators, Outcome outcome, TransactionType transactionType,
+        SendPoiInformationResponse sendPoiInformationResponse)
     {
         if (sendPoiInformationResponse.GetStatusWords() == StatusWords._9000)
         {
-            ProcessStep2(transactionSessionId, candidateList, preProcessingIndicators, transactionType,
+            ProcessStep2(transaction, candidateList, preProcessingIndicators, transactionType,
                 FileControlInformationPpse.Decode(sendPoiInformationResponse.GetData()));
         }
         else
-            ProcessStep3(transactionSessionId, candidateList);
+            ProcessStep3(transaction, candidateList);
     }
 
     private bool IsMatchingInternationalKernelIdentifier(PreProcessingIndicators preProcessingIndicators, KernelIdentifier kernelIdentifier)
@@ -340,16 +303,16 @@ public class CombinationSelector
     }
 
     private void ValidateVisaRequirement(
-        TransactionSessionId transactionSessionId, CandidateList candidateList, Outcome outcome, Combination combination,
+        Transaction transaction, CandidateList candidateList, Outcome outcome, Combination combination,
         FileControlInformationAdf fileControlInformationTemplate)
     {
         if (!fileControlInformationTemplate.IsNetworkOf(RegisteredApplicationProviderIndicators.VisaInternational))
-            ProcessStep3(transactionSessionId, candidateList);
+            ProcessStep3(transaction, candidateList);
 
         if (combination.GetCombinationCompositeKey().GetKernelId() != ShortKernelIdTypes.Kernel3)
-            ProcessStep3(transactionSessionId, candidateList);
+            ProcessStep3(transaction, candidateList);
 
         if (fileControlInformationTemplate.IsDataObjectRequested(TerminalTransactionQualifiers.Tag))
-            ProcessStep3(transactionSessionId, candidateList);
+            ProcessStep3(transaction, candidateList);
     }
 }

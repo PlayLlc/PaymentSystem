@@ -17,19 +17,14 @@ public class Transaction
     private readonly AmountAuthorizedNumeric _AmountAuthorizedNumeric;
     private readonly AmountOtherNumeric _AmountOtherNumeric;
     private readonly LanguagePreference _LanguagePreference;
-
-    private readonly Outcome _Outcome;
     private readonly TransactionDate _TransactionDate;
     private readonly TransactionTime _TransactionTime;
     private readonly TransactionSessionId _TransactionSessionId;
     private readonly TransactionType _TransactionType;
-
-
-
     private readonly TerminalCountryCode _TerminalCountryCode;
-
     private readonly TransactionCurrencyCode _TransactionCurrencyCode;
     private readonly TransactionCurrencyExponent _TransactionCurrencyExponent;
+    private Outcome _Outcome;
 
     #endregion
 
@@ -81,6 +76,7 @@ public class Transaction
 
     #region Instance Members
 
+    public Outcome Update(Outcome outcome) => _Outcome = outcome;
     public AccountType GetAccountType() => _AccountType;
     public TransactionTime GetTransactionTime() => _TransactionTime;
     public OutcomeParameterSet GetOutcomeParameterSet() => _Outcome.GetOutcomeParameterSet();

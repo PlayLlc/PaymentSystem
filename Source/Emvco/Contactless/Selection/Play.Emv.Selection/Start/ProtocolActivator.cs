@@ -4,6 +4,7 @@ using Play.Emv.Display.Contracts;
 using Play.Emv.Identifiers;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;
+using Play.Messaging;
 
 namespace Play.Emv.Selection.Start;
 
@@ -17,17 +18,15 @@ public class ProtocolActivator
 {
     #region Instance Values
 
-    private readonly IHandleDisplayRequests _DisplayProcess;
-    private readonly IHandlePcdRequests _ProximityCouplingDeviceEndpoint;
+    private readonly IEndpointClient _EndpointClient;
 
     #endregion
 
     #region Constructor
 
-    public ProtocolActivator(IHandlePcdRequests pcdClient, IHandleDisplayRequests displayClient)
+    public ProtocolActivator(IEndpointClient endpointClient)
     {
-        _ProximityCouplingDeviceEndpoint = pcdClient;
-        _DisplayProcess = displayClient;
+        _EndpointClient = endpointClient;
     }
 
     #endregion
@@ -124,7 +123,7 @@ public class ProtocolActivator
     /// <remarks>EMVco Book B Section 3.2.1.3</remarks>
     private void ActivateProximityCouplingDevice(TransactionSessionId transactionSessionId)
     {
-        _ProximityCouplingDeviceEndpoint.Request(new ActivatePcdRequest(transactionSessionId));
+        _EndpointClient.Request(new ActivatePcdRequest(transactionSessionId));
     }
 
     #endregion

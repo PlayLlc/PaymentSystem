@@ -3,6 +3,7 @@ using Play.Emv.Ber.Enums;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;
+using Play.Messaging;
 
 namespace Play.Emv.Selection.Start;
 
@@ -10,15 +11,15 @@ public class CardCollisionHandler
 {
     #region Instance Values
 
-    private readonly IHandleDisplayRequests _DisplayProcess;
+    private readonly IEndpointClient _EndpointClient;
 
     #endregion
 
     #region Constructor
 
-    public CardCollisionHandler(IHandleDisplayRequests displayProcess)
+    public CardCollisionHandler(IEndpointClient endpointClient)
     {
-        _DisplayProcess = displayProcess;
+        _EndpointClient = endpointClient;
     }
 
     #endregion
@@ -63,7 +64,7 @@ public class CardCollisionHandler
 
         _ = outcome.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData);
 
-        _DisplayProcess.Request(new DisplayMessageRequest(userInterfaceRequestData!));
+        _EndpointClient.Request(new DisplayMessageRequest(userInterfaceRequestData!));
     }
 
     #endregion
@@ -79,7 +80,7 @@ public class CardCollisionHandler
 
         _ = outcome.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData);
 
-        _DisplayProcess.Request(new DisplayMessageRequest(userInterfaceRequestData!));
+        _EndpointClient.Request(new DisplayMessageRequest(userInterfaceRequestData!));
     }
 
     #endregion
