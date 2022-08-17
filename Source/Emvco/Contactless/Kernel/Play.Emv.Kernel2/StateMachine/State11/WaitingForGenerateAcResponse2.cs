@@ -31,7 +31,7 @@ public partial class WaitingForGenerateAcResponse2 : KernelState
         IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IAuthenticateTransactionSession authenticationService,
         IReadOfflineBalance offlineBalanceReader) : base(database, dataExchangeKernelService, tornTransactionLog, kernelStateResolver, endpointClient)
     {
-        _ResponseHandler = new ResponseHandler(database, _DataExchangeKernelService, kernelEndpoint, pcdEndpoint, displayEndpoint);
+        _ResponseHandler = new ResponseHandler(database, _DataExchangeKernelService, endpointClient);
         _AuthHandler = new AuthHandler(database, _ResponseHandler, authenticationService);
         _BalanceReader = offlineBalanceReader;
     }

@@ -10,7 +10,6 @@ public partial class DataExchangeKernelService : IQueryDek, IWriteToDek, IDekEnd
     #region Instance Values
 
     protected readonly IReadTlvDatabase _TlvDatabase;
-    private readonly ISendTerminalQueryResponse _KernelEndpoint;
     private readonly IEndpointClient _EndpointClient;
     private readonly DataExchangeKernelLock _Lock = new();
 
@@ -18,10 +17,9 @@ public partial class DataExchangeKernelService : IQueryDek, IWriteToDek, IDekEnd
 
     #region Constructor
 
-    public DataExchangeKernelService(IEndpointClient endpointClient, KernelDatabase kernelDatabase, ISendTerminalQueryResponse kernelEndpoint)
+    public DataExchangeKernelService(IEndpointClient endpointClient, KernelDatabase kernelDatabase)
     {
         _EndpointClient = endpointClient;
-        _KernelEndpoint = kernelEndpoint;
         _TlvDatabase = kernelDatabase;
     }
 

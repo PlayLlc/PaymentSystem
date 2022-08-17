@@ -170,7 +170,7 @@ public partial class WaitingForGenerateAcResponse2
         }
         finally
         {
-            _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+            _EndpointClient.Send(new StopKernelRequest(sessionId));
         }
     }
 
@@ -363,7 +363,7 @@ public partial class WaitingForGenerateAcResponse2
         _Database.Update(MessageIdentifiers.ClearDisplay);
         _Database.Update(Statuses.CardReadSuccessful);
         _Database.Update(MessageHoldTime.MinimumValue);
-        _DisplayEndpoint.Request(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
+        _EndpointClient.Send(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
     }
 
     #endregion

@@ -121,7 +121,7 @@ public partial class WaitingForGenerateAcResponse2
             }
             finally
             {
-                _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+                _EndpointClient.Send(new StopKernelRequest(sessionId));
             }
 
             return true;
@@ -151,7 +151,7 @@ public partial class WaitingForGenerateAcResponse2
             }
             finally
             {
-                _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+                _EndpointClient.Send(new StopKernelRequest(sessionId));
             }
         }
 

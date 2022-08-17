@@ -102,7 +102,7 @@ public partial class WaitingForMagStripeReadRecordResponse
         }
         finally
         {
-            _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+            _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
         }
 
         return false;
@@ -142,7 +142,7 @@ public partial class WaitingForMagStripeReadRecordResponse
         }
         finally
         {
-            _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+            _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
         }
 
         return false;
@@ -232,7 +232,7 @@ public partial class WaitingForMagStripeReadRecordResponse
         }
         finally
         {
-            _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+            _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
         }
     }
 
@@ -262,7 +262,7 @@ public partial class WaitingForMagStripeReadRecordResponse
         if (!session.TryPeekActiveTag(out RecordRange recordRange))
             return false;
 
-        _PcdEndpoint.Request(ReadRecordRequest.Create(session.GetTransactionSessionId(), recordRange.GetShortFileIdentifier()));
+        _EndpointClient.Send(ReadRecordRequest.Create(session.GetTransactionSessionId(), recordRange.GetShortFileIdentifier()));
 
         return true;
     }
@@ -289,7 +289,7 @@ public partial class WaitingForMagStripeReadRecordResponse
             _Database.SetUiRequestOnOutcomePresent(true);
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
-            _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+            _EndpointClient.Send(new StopKernelRequest(sessionId));
 
             return true;
         }
@@ -299,7 +299,7 @@ public partial class WaitingForMagStripeReadRecordResponse
         }
         finally
         {
-            _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+            _EndpointClient.Send(new StopKernelRequest(sessionId));
         }
 
         return false;
@@ -383,7 +383,7 @@ public partial class WaitingForMagStripeReadRecordResponse
         }
         finally
         {
-            _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+            _EndpointClient.Send(new StopKernelRequest(sessionId));
         }
 
         return true;
@@ -413,7 +413,7 @@ public partial class WaitingForMagStripeReadRecordResponse
         }
         finally
         {
-            _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+            _EndpointClient.Send(new StopKernelRequest(sessionId));
         }
     }
 

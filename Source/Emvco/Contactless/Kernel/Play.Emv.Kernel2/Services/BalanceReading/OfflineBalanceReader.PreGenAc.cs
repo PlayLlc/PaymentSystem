@@ -37,8 +37,8 @@ internal partial class OfflineBalanceReader : CommonProcessing
         #region Constructor
 
         public PreGenAcBalanceReader(
-            KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-            IKernelEndpoint kernelEndpoint) : base(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
+            KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver, IEndpointClient endpointClient) :
+            base(database, dataExchangeKernelService, kernelStateResolver, endpointClient)
         { }
 
         #endregion
@@ -63,7 +63,7 @@ internal partial class OfflineBalanceReader : CommonProcessing
                 return currentStateIdRetriever.GetStateId();
 
             GetDataRequest capdu = GetDataRequest.Create(OfflineAccumulatorBalance.Tag, session.GetTransactionSessionId());
-            _PcdEndpoint.Request(capdu);
+            _EndpointClient.Send(capdu);
 
             return WaitingForPreGenAcBalance.StateId;
         }

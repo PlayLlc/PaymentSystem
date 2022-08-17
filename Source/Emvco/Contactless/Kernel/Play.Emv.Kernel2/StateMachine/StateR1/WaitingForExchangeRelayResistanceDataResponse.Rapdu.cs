@@ -87,7 +87,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         _Database.Update(MessageOnErrorIdentifiers.TryAgain);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+        _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
 
         return true;
     }
@@ -113,7 +113,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         _Database.SetUiRequestOnOutcomePresent(true);
 
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+        _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
 
         return true;
     }
@@ -187,7 +187,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         _Database.SetUiRequestOnOutcomePresent(true);
 
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+        _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
     }
 
     #endregion
@@ -238,7 +238,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         // BUG: We need to create a Timer in addition to the TimeoutManager we have
         session.Stopwatch.Start();
 
-        _PcdEndpoint.Request(capdu);
+        _EndpointClient.Send(capdu);
 
         return _KernelStateResolver.GetKernelState(StateId);
     }

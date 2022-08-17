@@ -84,7 +84,7 @@ public partial class Idle : KernelState
         _Database.Update(StatusOutcomes.SelectNext);
         _Database.Update(StartOutcomes.C);
 
-        _KernelEndpoint.Send(new OutKernelResponse(correlationId, kernelSessionId, _Database.GetTransaction()));
+        _EndpointClient.Send(new OutKernelResponse(correlationId, kernelSessionId, _Database.GetTransaction()));
     }
 
     /// <exception cref="InvalidOperationException"></exception>
@@ -283,7 +283,7 @@ public partial class Idle : KernelState
     /// <remarks>Book C-2 Section 6.3.3 S1.14</remarks>
     private void SendGetProcessingOptions(GetProcessingOptionsRequest command)
     {
-        _PcdEndpoint.Request(command);
+        _EndpointClient.Send(command);
     }
 
     #endregion
@@ -522,7 +522,7 @@ public partial class Idle : KernelState
     {
         TimeoutValue timeout = _Database.Get<TimeoutValue>(TimeoutValue.Tag);
 
-        session.Timer.Start((Milliseconds) timeout, () => _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId())));
+        session.Timer.Start((Milliseconds) timeout, () => _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId())));
     }
 
     #endregion

@@ -30,7 +30,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         _Database.Update(StatusOutcomes.EndApplication);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
-        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), signal.GetKernelSessionId(), _Database.GetTransaction()));
+        _EndpointClient.Send(new OutKernelResponse(session.GetCorrelationId(), signal.GetKernelSessionId(), _Database.GetTransaction()));
 
         Clear();
 

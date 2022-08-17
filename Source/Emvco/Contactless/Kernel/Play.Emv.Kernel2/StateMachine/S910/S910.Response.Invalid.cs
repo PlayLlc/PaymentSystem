@@ -139,7 +139,7 @@ public partial class S910
             }
             finally
             {
-                _EndpointClient.Request(new StopKernelRequest(sessionId));
+                _EndpointClient.Send(new StopKernelRequest(sessionId));
             }
         }
 

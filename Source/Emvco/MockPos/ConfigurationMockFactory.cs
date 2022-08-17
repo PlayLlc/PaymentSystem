@@ -12,13 +12,8 @@ namespace MockPos
 {
     public static class ConfigurationMockFactory
     {
-        public static SystemTraceAuditNumberConfiguration CreateSystemTraceAuditNumberConfiguration()
-        { }
-
-        public static TerminalConfiguration CreateTerminalConfiguration()
-        { }
-
-        public static ISettleTransactions CreateSettler()
-        { }
+        public static SystemTraceAuditNumberConfiguration CreateSystemTraceAuditNumberConfiguration() => throw new NotImplementedException();
+        public static TerminalConfiguration CreateTerminalConfiguration() => throw new NotImplementedException();
+        public static ISettleTransactions CreateSettler() => throw new NotImplementedException();
     }
 }

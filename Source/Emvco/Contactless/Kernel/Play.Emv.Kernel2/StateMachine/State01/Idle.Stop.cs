@@ -26,7 +26,7 @@ public partial class Idle : KernelState
 
         _Database.Update(StatusOutcomes.EndApplication);
 
-        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), signal.GetKernelSessionId(), _Database.GetTransaction()));
+        _EndpointClient.Send(new OutKernelResponse(session.GetCorrelationId(), signal.GetKernelSessionId(), _Database.GetTransaction()));
 
         // BUG: I think the book says to clear the database and session on stop but i think our implementation might still use DEK to grab the required data before sending it to the acquirer. Check the pattern in the book and your implementation
         Clear();

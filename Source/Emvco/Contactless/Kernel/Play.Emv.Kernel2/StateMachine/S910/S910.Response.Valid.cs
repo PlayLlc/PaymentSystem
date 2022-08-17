@@ -240,7 +240,7 @@ public partial class S910
                 return false;
 
             PutDataRequest capdu = PutDataRequest.Create(sessionId.GetTransactionSessionId(), tagToWrite!);
-            _PcdEndpoint.Request(capdu);
+            _EndpointClient.Send(capdu);
 
             return true;
         }
@@ -275,7 +275,7 @@ public partial class S910
         /// <exception cref="InvalidOperationException"></exception>
         private void HandleDisplayMessageForSecondTapNeeded(Kernel2Session session)
         {
-            _DisplayEndpoint.Request(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
+            _EndpointClient.Send(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
             _Database.SetUiRequestOnRestartPresent(true);
             _Database.Update(Statuses.ReadyToRead);
