@@ -27,7 +27,7 @@ namespace Play.Emv.Reader
             TryGet(DataRecord.Tag, out DataRecord? dataRecord);
             TryGet(UserInterfaceRequestData.Tag, out UserInterfaceRequestData? userInterfaceRequestData);
 
-            return new Outcome(errorIndication!, outcomeParameterSet!, dataRecord, discretionaryData, userInterfaceRequestData);
+            return new Outcome(errorIndication!, outcomeParameterSet!, userInterfaceRequestData, dataRecord, discretionaryData);
         }
 
         #endregion

@@ -101,7 +101,7 @@ public partial class KernelDatabase
     }
 
     /// <exception cref="TerminalDataException"></exception>
-    public Outcome GetOutcome() => new(GetErrorIndication(), GetOutcomeParameterSet(), GetDataRecord(), GetDiscretionaryData(), GetUserInterfaceRequestData());
+    public Outcome GetOutcome() => new(GetErrorIndication(), GetOutcomeParameterSet(), GetUserInterfaceRequestData(), GetDataRecord(), GetDiscretionaryData());
 
     #endregion
 

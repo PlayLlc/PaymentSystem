@@ -2,6 +2,7 @@
 using Play.Emv.Display.Contracts;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Selection.Contracts;
+using Play.Emv.Selection.Contracts.SignalIn;
 using Play.Messaging;
 using Play.Messaging.Exceptions;
 
@@ -25,14 +26,12 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
 
     #region Constructor
 
-    private SelectionEndpoint(
-        ICreateEndpointClient messageBus, IHandlePcdRequests pcdClient, IHandleDisplayRequests displayClient, TransactionProfile[] transactionProfiles,
-        PoiInformation poiInformation)
+    private SelectionEndpoint(ICreateEndpointClient messageBus, TransactionProfile[] transactionProfiles, PoiInformation poiInformation)
     {
-        ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
-        _SelectionProcess = new SelectionProcess(pcdClient, displayClient, transactionProfiles, poiInformation, this);
         _EndpointClient = messageBus.CreateEndpointClient();
         _EndpointClient.Subscribe(this);
+        ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
+        _SelectionProcess = new SelectionProcess(_EndpointClient, transactionProfiles, poiInformation);
     }
 
     #endregion
@@ -51,12 +50,12 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
     /// <exception cref="InvalidMessageRoutingException"></exception>
     public void Request(RequestMessage message)
     {
-        if (message is ActivatePcdRequest activatePcdRequest)
-            Request(activatePcdRequest);
-        else if (message is QueryPcdRequest queryPcdRequest)
-            Request(queryPcdRequest);
-        else if (message is StopPcdRequest stopPcdRequest)
-            Request(stopPcdRequest);
+        if (message is ActivateSelectionRequest activateSelectionRequest)
+            Request(activateSelectionRequest);
+        else if (message is EmptyCombinationSelectionRequest emptyCombinationSelectionRequest)
+            Request(emptyCombinationSelectionRequest);
+        else if (message is StopSelectionRequest stopSelectionRequest)
+            Request(stopSelectionRequest);
         else
             throw new InvalidMessageRoutingException(message, this);
     }
@@ -67,6 +66,11 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
     }
 
     public void Request(StopSelectionRequest message)
+    {
+        _SelectionProcess.Enqueue(message);
+    }
+
+    public void Request(EmptyCombinationSelectionRequest message)
     {
         _SelectionProcess.Enqueue(message);
     }
@@ -88,7 +92,7 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
     ///     Handle
     /// </summary>
     /// <param name="message"></param>
-    /// <exception cref="Play.Messaging.Exceptions.InvalidMessageRoutingException"></exception>
+    /// <exception cref="InvalidMessageRoutingException"></exception>
     public void Handle(ResponseMessage message)
     {
         if (message is SelectApplicationDefinitionFileInfoResponse appletFci)
@@ -102,10 +106,8 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
 
     #endregion
 
-    public static SelectionEndpoint Create(
-        ICreateEndpointClient messageRouter, IHandlePcdRequests pcdClient, IHandleDisplayRequests displayClient, TransactionProfile[] transactionProfiles,
-        PoiInformation poiInformation) =>
-        new(messageRouter, pcdClient, displayClient, transactionProfiles, poiInformation);
+    public static SelectionEndpoint Create(ICreateEndpointClient messageRouter, TransactionProfile[] transactionProfiles, PoiInformation poiInformation) =>
+        new(messageRouter, transactionProfiles, poiInformation);
 
     public void Dispose()
     {

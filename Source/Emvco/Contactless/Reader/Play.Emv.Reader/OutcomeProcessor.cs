@@ -17,19 +17,15 @@ public class OutcomeProcessor : IProcessOutcome
 {
     #region Instance Values
 
-    protected readonly IHandleSelectionRequests _SelectionEndpoint;
-    protected readonly IHandleDisplayRequests _DisplayEndpoint;
-    protected readonly IReaderEndpoint _ReaderEndpoint;
+    protected readonly IEndpointClient _EndpointClient;
 
     #endregion
 
     #region Constructor
 
-    public OutcomeProcessor(IHandleSelectionRequests selectionEndpoint, IHandleDisplayRequests displayEndpoint, IReaderEndpoint readerEndpoint)
+    public OutcomeProcessor(IEndpointClient endpointClient)
     {
-        _SelectionEndpoint = selectionEndpoint;
-        _DisplayEndpoint = displayEndpoint;
-        _ReaderEndpoint = readerEndpoint;
+        _EndpointClient = endpointClient;
     }
 
     #endregion
@@ -52,7 +48,7 @@ public class OutcomeProcessor : IProcessOutcome
         transaction.TryGetDiscretionaryData(out DiscretionaryData? discretionaryData);
         transaction.TryGetDataRecord(out DataRecord? dataRecord);
 
-        _ReaderEndpoint.Send(new OutReaderResponse(correlationId,
+        _EndpointClient.Send(new OutReaderResponse(correlationId,
             new FinalOutcome(sessionId, transaction.GetOutcomeParameterSet(), discretionaryData, userInterfaceRequestData, dataRecord)));
     }
 
@@ -74,14 +70,14 @@ public class OutcomeProcessor : IProcessOutcome
     {
         if (transaction.GetOutcome().GetStatusOutcome() == StatusOutcomes.SelectNext)
         {
-            _SelectionEndpoint.Request(new ActivateSelectionRequest(transaction));
+            _EndpointClient.Send(new ActivateSelectionRequest(transaction));
 
             return true;
         }
 
         if (transaction.GetOutcome().GetStatusOutcome() == StatusOutcomes.TryAgain)
         {
-            _SelectionEndpoint.Request(new ActivateSelectionRequest(transaction));
+            _EndpointClient.Send(new ActivateSelectionRequest(transaction));
 
             return true;
         }
@@ -102,7 +98,7 @@ public class OutcomeProcessor : IProcessOutcome
             if (result == null)
                 throw new InvalidOperationException($"The {nameof(OutcomeProcessor)} expected {nameof(UserInterfaceRequestData)} to be present but it was not");
 
-            _DisplayEndpoint.Request(new DisplayMessageRequest(result));
+            _EndpointClient.Send(new DisplayMessageRequest(result));
         }
     }
 

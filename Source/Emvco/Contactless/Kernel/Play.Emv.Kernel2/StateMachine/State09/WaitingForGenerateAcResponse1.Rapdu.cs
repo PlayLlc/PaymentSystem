@@ -33,7 +33,7 @@ public partial class WaitingForGenerateAcResponse1
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
@@ -67,7 +67,7 @@ public partial class WaitingForGenerateAcResponse1
     /// <remarks>Book C-2 Section S9.5 - S9.15 - L1RSP</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public bool TryHandleL1Error(KernelSessionId sessionId, QueryPcdResponse signal)
     {
         if (signal.IsLevel1ErrorPresent())
@@ -190,7 +190,7 @@ public partial class WaitingForGenerateAcResponse1
     /// <remarks>Book C-2 Section S9.11 - S9.15</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     private void HandleTornTransaction(KernelSessionId sessionId, QueryPcdResponse signal)
     {
         DataRecoveryDataObjectListRelatedData? drDol = _Database.Get<DataRecoveryDataObjectList>(DataRecoveryDataObjectList.Tag).AsRelatedData(_Database);

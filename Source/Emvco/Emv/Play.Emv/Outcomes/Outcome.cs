@@ -22,8 +22,8 @@ public class Outcome
     private readonly DiscretionaryData? _DiscretionaryData;
     private readonly TerminalVerificationResults _TerminalVerificationResults;
     private readonly ErrorIndication _ErrorIndication;
-    private readonly OutcomeParameterSet _OutcomeParameterSet;
-    private readonly UserInterfaceRequestData? _UserInterfaceRequestData;
+    private OutcomeParameterSet _OutcomeParameterSet;
+    private UserInterfaceRequestData? _UserInterfaceRequestData;
 
     #endregion
 
@@ -111,6 +111,17 @@ public class Outcome
             buffer.Add(_UserInterfaceRequestData!);
 
         return buffer.ToArray();
+    }
+
+    public void Update(OutcomeParameterSet.Builder outcomeParameterSet)
+    {
+        _OutcomeParameterSet |= outcomeParameterSet.Complete();
+    }
+
+    public void Update(UserInterfaceRequestData.Builder userInterfaceRequestData)
+    {
+        if (_UserInterfaceRequestData == null)
+            _UserInterfaceRequestData = userInterfaceRequestData.Complete();
     }
 
     public FieldOffRequestOutcome GetFieldOffRequestOutcome() => _OutcomeParameterSet.GetFieldOffRequestOutcome();

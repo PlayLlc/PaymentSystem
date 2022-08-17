@@ -67,7 +67,7 @@ public class ProtocolActivator
         else
             candidateList.Clear();
 
-        _DisplayProcess.Request(GetReadyToReadDisplayMessage());
+        _EndpointClient.Send(GetReadyToReadDisplayMessage());
     }
 
     private static DisplayMessageRequest GetReadyToReadDisplayMessage()
@@ -98,10 +98,10 @@ public class ProtocolActivator
                     $"The {nameof(Outcome)} indicated that UI Request on Restart is true but no {nameof(UserInterfaceRequestData)} could be found");
             }
 
-            _DisplayProcess.Request(new DisplayMessageRequest(requestData));
+            _EndpointClient.Send(new DisplayMessageRequest(requestData));
         }
         else
-            _DisplayProcess.Request(GetReadyToReadDisplayMessage(outcome));
+            _EndpointClient.Send(GetReadyToReadDisplayMessage(outcome));
     }
 
     private static DisplayMessageRequest GetReadyToReadDisplayMessage(Outcome outcome)
@@ -123,7 +123,7 @@ public class ProtocolActivator
     /// <remarks>EMVco Book B Section 3.2.1.3</remarks>
     private void ActivateProximityCouplingDevice(TransactionSessionId transactionSessionId)
     {
-        _EndpointClient.Request(new ActivatePcdRequest(transactionSessionId));
+        _EndpointClient.Send(new ActivatePcdRequest(transactionSessionId));
     }
 
     #endregion

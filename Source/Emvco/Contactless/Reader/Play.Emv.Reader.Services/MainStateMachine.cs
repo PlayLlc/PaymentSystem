@@ -13,6 +13,7 @@ using Play.Emv.Reader.Contracts.SignalIn;
 using Play.Emv.Reader.Database;
 using Play.Emv.Reader.Services.States;
 using Play.Emv.Selection.Contracts;
+using Play.Messaging;
 
 namespace Play.Emv.Reader.Services;
 
@@ -20,8 +21,7 @@ internal class MainStateMachine
 {
     #region Instance Values
 
-    private readonly IHandleSelectionRequests _SelectionEndpoint;
-    private readonly IReaderEndpoint _ReaderEndpoint;
+    private readonly IEndpointClient _EndpointClient;
     private readonly IProcessOutcome _OutcomeProcessor;
     private readonly KernelRetriever _KernelRetriever;
     private readonly MainSessionLock _Lock;
@@ -30,14 +30,11 @@ internal class MainStateMachine
 
     #region Constructor
 
-    public MainStateMachine(
-        ReaderDatabase readerDatabase, IHandleSelectionRequests selectionEndpoint, KernelRetriever kernelRetriever, IHandleDisplayRequests displayEndpoint,
-        IReaderEndpoint readerEndpoint)
+    public MainStateMachine(ReaderDatabase readerDatabase, IEndpointClient endpointClient, KernelRetriever kernelRetriever)
     {
-        _ReaderEndpoint = readerEndpoint;
-        _SelectionEndpoint = selectionEndpoint;
         _KernelRetriever = kernelRetriever;
-        _OutcomeProcessor = new OutcomeProcessor(selectionEndpoint, displayEndpoint, readerEndpoint);
+        _EndpointClient = endpointClient;
+        _OutcomeProcessor = new OutcomeProcessor(endpointClient);
         _Lock = new MainSessionLock(readerDatabase);
     }
 
@@ -63,7 +60,7 @@ internal class MainStateMachine
             state = new AwaitingSelection(request.GetTransaction().GetTransactionSessionId(), request.GetCorrelationId(), _Lock.State.ReaderDatabase);
             state.ReaderDatabase.Activate(request.GetTransaction().GetTransactionSessionId());
             state.ReaderDatabase.Update(request.GetTransaction().AsPrimitiveValues());
-            _SelectionEndpoint.Request(new ActivateSelectionRequest(request.GetTransaction()));
+            _EndpointClient.Send(new ActivateSelectionRequest(request.GetTransaction()));
         }
     }
 
@@ -78,7 +75,7 @@ internal class MainStateMachine
                     $"The {nameof(OutSelectionResponse)} can't be processed because the transaction is not in the {nameof(AwaitingSelection)} state");
             }
 
-            _SelectionEndpoint.Request(new StopSelectionRequest(state.TransactionSessionId));
+            _EndpointClient.Send(new StopSelectionRequest(state.TransactionSessionId));
 
             if (response.GetErrorIndication().IsErrorPresent())
             {
@@ -120,8 +117,8 @@ internal class MainStateMachine
     }
 
     /// <exception cref="RequestOutOfSyncException"></exception>
-    /// <exception cref="Ber.Exceptions.TerminalException"></exception>
-    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public void Handle(OutKernelResponse request)
     {
         lock (_Lock)
@@ -162,7 +159,7 @@ internal class MainStateMachine
             if (_Lock.State is AwaitingKernel kernelState)
                 _KernelRetriever.Enqueue(new StopKernelRequest(kernelState.KernelSessionId));
             else if (_Lock.State is AwaitingSelection selectionState)
-                _SelectionEndpoint.Request(new StopSelectionRequest(selectionState.TransactionSessionId));
+                _EndpointClient.Send(new StopSelectionRequest(selectionState.TransactionSessionId));
             else
             {
                 throw new RequestOutOfSyncException(

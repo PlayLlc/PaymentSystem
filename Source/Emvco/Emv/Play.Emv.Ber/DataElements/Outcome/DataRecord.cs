@@ -59,10 +59,10 @@ public record DataRecord : DataExchangeResponse, IEqualityComparer<DataRecord>
             yield return track2Data!;
     }
 
-    /// <exception cref="Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public static DataRecord CreateEmvDataRecord(IReadTlvDatabase database) => new(RetrieveEmvDataRecordObjects(database).ToArray());
 
-    /// <exception cref="Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public static IEnumerable<PrimitiveValue> RetrieveEmvDataRecordObjects(IReadTlvDatabase database)
     {
         if (database.TryGet(AmountAuthorizedNumeric.Tag, out AmountAuthorizedNumeric? amountAuthorizedNumeric))

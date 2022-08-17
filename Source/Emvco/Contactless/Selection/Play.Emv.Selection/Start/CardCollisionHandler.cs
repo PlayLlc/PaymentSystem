@@ -60,11 +60,8 @@ public class CardCollisionHandler
         UserInterfaceRequestData.Builder builder = UserInterfaceRequestData.GetBuilder();
         builder.Set(MessageIdentifiers.PleasePresentOneCardOnly);
         builder.Set(Statuses.ReadyToRead);
-        outcome.Update(builder);
 
-        _ = outcome.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData);
-
-        _EndpointClient.Request(new DisplayMessageRequest(userInterfaceRequestData!));
+        _EndpointClient.Send(new DisplayMessageRequest(builder.Complete()));
     }
 
     #endregion
@@ -76,11 +73,10 @@ public class CardCollisionHandler
         UserInterfaceRequestData.Builder builder = UserInterfaceRequestData.GetBuilder();
         builder.Set(MessageIdentifiers.PleasePresentOneCardOnly);
         builder.Set(Statuses.ProcessingError);
-        outcome.Update(builder);
 
         _ = outcome.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData);
 
-        _EndpointClient.Request(new DisplayMessageRequest(userInterfaceRequestData!));
+        _EndpointClient.Send(new DisplayMessageRequest(builder.Complete()));
     }
 
     #endregion

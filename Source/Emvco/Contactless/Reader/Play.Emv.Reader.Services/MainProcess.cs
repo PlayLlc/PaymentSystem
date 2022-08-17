@@ -9,6 +9,7 @@ using Play.Emv.Kernel.Services;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Reader.Contracts.SignalIn;
 using Play.Emv.Selection.Contracts;
+using Play.Messaging;
 
 namespace Play.Emv.Reader.Services;
 
@@ -22,12 +23,9 @@ internal class MainProcess : CommandProcessingQueue
 
     #region Constructor
 
-    public MainProcess(
-        ActivateReaderRequest activateReaderRequest, IHandleSelectionRequests selectionEndpoint, IHandleDisplayRequests displayEndpoint,
-        IReaderEndpoint readerEndpoint, KernelRetriever kernelRetriever) : base(new CancellationTokenSource())
+    public MainProcess(ReaderDatabase readerDatabase, IEndpointClient endpointClient, KernelRetriever kernelRetriever) : base(new CancellationTokenSource())
     {
-        _MainStateMachine = new MainStateMachine(selectionEndpoint, kernelRetriever, displayEndpoint, readerEndpoint);
-        Enqueue(activateReaderRequest);
+        _MainStateMachine = new MainStateMachine(readerDatabase, endpointClient, kernelRetriever);
     }
 
     #endregion

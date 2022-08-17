@@ -86,7 +86,7 @@ public class KernelEndpoint : IMessageChannel, IHandleKernelRequests, ISendKerne
     ///     Handle
     /// </summary>
     /// <param name="message"></param>
-    /// <exception cref="Play.Messaging.Exceptions.InvalidMessageRoutingException"></exception>
+    /// <exception cref="InvalidMessageRoutingException"></exception>
     public void Handle(ResponseMessage message)
     {
         if (message is QueryPcdResponse outSelectionResponse)

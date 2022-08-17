@@ -25,11 +25,11 @@ internal class KernelEndpointRetrieverFactory
     {
         KernelProcess[] kernels =
         {
-            Kernel2ProcessFactory.Create(tornTransactionCleaner, (Kernel2Configuration) readerDatabase.GetKernelConfiguration(ShortKernelIdTypes.Kernel2),
+            Kernel2ProcessFactory.Create(tornTransactionCleaner,
 
                 // HACK - We shouldn't need to use a concrete type to pull these values from the reader database
-                new Kernel2PersistentValues(readerDatabase.GetKernelValues((KernelId) ShortKernelIdTypes.Kernel2)), Kernel2KnownObjects.Empty, terminalEndpoint,
-                kernelEndpoint, pcdEndpoint, unpredictableNumberGenerator, tornTransactionsManager,
+                new Kernel2PersistentValues(readerDatabase.GetKernelConfiguration((KernelId) ShortKernelIdTypes.Kernel2)), Kernel2KnownObjects.Empty,
+                terminalEndpoint, kernelEndpoint, pcdEndpoint, unpredictableNumberGenerator, tornTransactionsManager,
                 readerDatabase.GetCertificateAuthorityDatasets(new KernelId(ShortKernelIdTypes.Kernel2)), displayEndpoint, scratchPad)
         };
 

@@ -114,7 +114,7 @@ public record TornRecord : DataExchangeResponse
 
     public TornEntry GetKey() => _Key;
 
-    /// <exception cref="Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public static TornRecord Create(ITlvReaderAndWriter database) => new(Record.Create(database));
 
     public override PlayEncodingId GetEncodingId() => EncodingId;

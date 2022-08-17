@@ -212,24 +212,6 @@ internal class SelectionStateMachine
         }
     }
 
-    private void ProcessEmptyCandidateList(CorrelationId correlationId, Transaction transaction)
-    {
-        UserInterfaceRequestData.Builder? userInterfaceRequestDataBuilder = UserInterfaceRequestData.GetBuilder();
-        userInterfaceRequestDataBuilder.Set(MessageIdentifiers.ErrorUseAnotherCard);
-        userInterfaceRequestDataBuilder.Set(Statuses.ReadyToRead);
-
-        OutcomeParameterSet.Builder? outcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
-        outcomeParameterSetBuilder.SetIsUiRequestOnOutcomePresent(true);
-        outcomeParameterSetBuilder.Set(new Milliseconds(0));
-
-        ErrorIndication.Builder errorIndicationBuilder = ErrorIndication.GetBuilder();
-        errorIndicationBuilder.Set(Level2Error.EmptyCandidateList);
-
-        transaction.Update(new Outcome(errorIndicationBuilder.Complete(), outcomeParameterSetBuilder.Complete()));
-
-        _EndpointClient.Send(new OutSelectionResponse(correlationId, transaction));
-    }
-
     #endregion
 
     #region Activate
@@ -323,6 +305,24 @@ internal class SelectionStateMachine
     private void ProcessAtC(Transaction transaction)
     {
         _CombinationSelector.Start(transaction, _CandidateList);
+    }
+
+    private void ProcessEmptyCandidateList(CorrelationId correlationId, Transaction transaction)
+    {
+        UserInterfaceRequestData.Builder? userInterfaceRequestDataBuilder = UserInterfaceRequestData.GetBuilder();
+        userInterfaceRequestDataBuilder.Set(MessageIdentifiers.ErrorUseAnotherCard);
+        userInterfaceRequestDataBuilder.Set(Statuses.ReadyToRead);
+
+        OutcomeParameterSet.Builder? outcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
+        outcomeParameterSetBuilder.SetIsUiRequestOnOutcomePresent(true);
+        outcomeParameterSetBuilder.Set(new Milliseconds(0));
+
+        ErrorIndication.Builder errorIndicationBuilder = ErrorIndication.GetBuilder();
+        errorIndicationBuilder.Set(Level2Error.EmptyCandidateList);
+
+        transaction.Update(new Outcome(errorIndicationBuilder.Complete(), outcomeParameterSetBuilder.Complete()));
+
+        _EndpointClient.Send(new OutSelectionResponse(correlationId, transaction));
     }
 
     #endregion

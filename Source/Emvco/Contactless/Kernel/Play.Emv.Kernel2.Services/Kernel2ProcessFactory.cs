@@ -17,8 +17,8 @@ public class Kernel2ProcessFactory
     #region Instance Members
 
     public static Kernel2Process Create(
-        ICleanTornTransactions tornTransactionCleaner, Kernel2Configuration kernel2Configuration, Kernel2PersistentValues kernel2PersistentValues,
-        Kernel2KnownObjects knownObjects, IHandleTerminalRequests terminalEndpoint, IKernelEndpoint kernelEndpoint, IHandlePcdRequests pcdEndpoint,
+        ICleanTornTransactions tornTransactionCleaner, Kernel2PersistentValues kernel2PersistentValues, Kernel2KnownObjects knownObjects,
+        IHandleTerminalRequests terminalEndpoint, IKernelEndpoint kernelEndpoint, IHandlePcdRequests pcdEndpoint,
         IGenerateUnpredictableNumber unpredictableNumberGenerator, IManageTornTransactions tornTransactionManager, CertificateAuthorityDataset[] certificates,
         IHandleDisplayRequests displayEndpoint, ScratchPad scratchPad)
     {
