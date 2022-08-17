@@ -1,6 +1,5 @@
 ﻿using System;
 
-using Play.Emv.Display.Contracts;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Pcd.Contracts;

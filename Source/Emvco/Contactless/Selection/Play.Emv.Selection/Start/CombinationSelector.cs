@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-using Play.Emv.Ber;
+﻿using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
 using Play.Emv.Ber.Enums;
@@ -9,7 +7,6 @@ using Play.Emv.Ber.Templates;
 using Play.Emv.Identifiers;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;
-using Play.Emv.Selection.Contracts;
 using Play.Emv.Selection.Contracts.SignalIn;
 using Play.Globalization.Time;
 using Play.Icc.FileSystem.DedicatedFiles;

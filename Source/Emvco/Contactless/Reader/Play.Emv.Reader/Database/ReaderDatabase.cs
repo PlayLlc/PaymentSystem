@@ -13,7 +13,6 @@ using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Reader.Database;
-using Play.Messaging;
 
 namespace Play.Emv.Reader;
 

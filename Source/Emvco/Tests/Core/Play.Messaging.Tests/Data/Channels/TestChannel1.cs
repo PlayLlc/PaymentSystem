@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Messaging.Exceptions;
+﻿using Play.Messaging.Exceptions;
 using Play.Messaging.Tests.Data.Messages;
 
 namespace Play.Messaging.Tests.Data.Channels;

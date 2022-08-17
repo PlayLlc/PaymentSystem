@@ -1,6 +1,4 @@
-﻿using System;
-
-using Play.Core;
+﻿using Play.Core;
 using Play.Core.Exceptions;
 using Play.Globalization.Time;
 using Play.Testing.BaseTestClasses;

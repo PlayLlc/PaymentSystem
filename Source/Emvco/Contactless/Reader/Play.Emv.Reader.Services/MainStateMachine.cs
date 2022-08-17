@@ -1,8 +1,6 @@
 ﻿using System;
 
-using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
-using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
@@ -10,7 +8,6 @@ using Play.Emv.Kernel.Services;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Reader.Contracts.SignalIn;
-using Play.Emv.Reader.Database;
 using Play.Emv.Reader.Services.States;
 using Play.Emv.Selection.Contracts;
 using Play.Messaging;

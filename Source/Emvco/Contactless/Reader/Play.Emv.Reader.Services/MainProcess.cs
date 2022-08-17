@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 
 using Play.Core;
-using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Services;

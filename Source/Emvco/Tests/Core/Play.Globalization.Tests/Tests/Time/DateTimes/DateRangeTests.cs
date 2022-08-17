@@ -1,6 +1,4 @@
-﻿using System;
-
-using Play.Globalization.Time;
+﻿using Play.Globalization.Time;
 using Play.Testing.BaseTestClasses;
 
 using Xunit;

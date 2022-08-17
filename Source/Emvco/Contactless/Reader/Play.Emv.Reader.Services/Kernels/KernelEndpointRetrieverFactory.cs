@@ -6,7 +6,6 @@ using Play.Emv.Display.Contracts;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.Services;
-using Play.Emv.Kernel2.Configuration;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Kernel2.Services;
 using Play.Emv.Pcd.Contracts;
