@@ -1,7 +1,8 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identif
-using Play.Ber.Tags;ing Play.Codecs.Exceptions;
+using Play.Ber.Tags;
+using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -25,12 +26,6 @@ public record ReaderContactlessTransactionLimitWhenCvmIsOnDevice : ReaderContact
 
     #endregion
 
-    #region Instance Members
-
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
     #region Serialization
 
     public static ReaderContactlessTransactionLimitWhenCvmIsOnDevice Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
@@ -47,6 +42,12 @@ public record ReaderContactlessTransactionLimitWhenCvmIsOnDevice : ReaderContact
 
         return new ReaderContactlessTransactionLimitWhenCvmIsOnDevice(result.Value);
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

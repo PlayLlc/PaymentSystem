@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Ber.InternalFactories;
 using Play.Ber.Tags;
 using Play.Core.Exceptions;
@@ -31,7 +32,7 @@ public class Kernel2DefaultValues : DefaultValues
     }
 
     /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="PlayInternalException"></exception>
     private static PrimitiveValue[] GetKernel2Defaults()

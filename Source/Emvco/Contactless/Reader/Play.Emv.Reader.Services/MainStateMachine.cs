@@ -1,5 +1,6 @@
 ﻿using System;
 
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
@@ -44,24 +45,28 @@ internal class MainStateMachine
     /// </summary>
     /// <param name="request"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="TerminalException"></exception>
     public void Handle(ActivateReaderRequest request)
     {
         lock (_Lock)
         {
-            if (_Lock.State is not AwaitingTransaction state)
+            if (_Lock.State is not AwaitingTransaction)
             {
                 throw new RequestOutOfSyncException(
                     $"The {nameof(ActivateReaderRequest)} can't be processed because the state of the {nameof(MainStateMachine)} is not in the {nameof(AwaitingTransaction)} state");
             }
 
-            state = new AwaitingSelection(request.Transaction.GetTransactionSessionId(), request.GetCorrelationId(), _Lock.State.ReaderDatabase);
-            state.ReaderDatabase.Activate(request.Transaction.GetTransactionSessionId());
-            state.ReaderDatabase.Update(request.Transaction.AsPrimitiveValues());
-            _EndpointClient.Send(new ActivateSelectionRequest(request.GetTransaction()));
+            _Lock.State = new AwaitingSelection(request.Transaction.GetTransactionSessionId(), request.GetCorrelationId(), _Lock.State.ReaderDatabase);
+            _Lock.State.ReaderDatabase.Activate(request.Transaction.GetTransactionSessionId());
+            _Lock.State.ReaderDatabase.Update(request.Transaction.AsPrimitiveValues());
+            _EndpointClient.Send(new ActivateSelectionRequest(request.Transaction));
         }
     }
 
     /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="TerminalException"></exception>
     public void Handle(OutSelectionResponse response)
     {
         lock (_Lock)
@@ -90,6 +95,7 @@ internal class MainStateMachine
         _OutcomeProcessor.Process(state.CorrelationId!, state.TransactionSessionId, state.ReaderDatabase.GetTransaction());
     }
 
+    /// <exception cref="TerminalException"></exception>
     private AwaitingKernel StartKernel(AwaitingSelection state, OutSelectionResponse selectionResponse)
     {
         if (selectionResponse.GetCombinationCompositeKey() is null)

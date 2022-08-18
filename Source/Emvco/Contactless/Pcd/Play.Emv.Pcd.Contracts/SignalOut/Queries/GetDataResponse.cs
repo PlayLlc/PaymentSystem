@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Ber.Tags;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
@@ -37,7 +38,7 @@ public record GetDataResponse : QueryPcdResponse
 
     #region Instance Members
 
-    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public TagLengthValue GetTagLengthValueResult() => EmvCodec.GetCodec().DecodeTagLengthValue(GetRApduSignal().GetData().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
