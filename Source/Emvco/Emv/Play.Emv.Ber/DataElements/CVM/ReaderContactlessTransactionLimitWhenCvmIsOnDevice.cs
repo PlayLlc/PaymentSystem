@@ -1,4 +1,5 @@
-﻿using Play.Ber.DataObjects;
+﻿using Play.Ber.Codecs;
+using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Tags;
 using Play.Codecs;
@@ -26,6 +27,13 @@ public record ReaderContactlessTransactionLimitWhenCvmIsOnDevice : ReaderContact
 
     #endregion
 
+    #region Instance Members
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount() => _ByteLength;
+    public override ushort GetValueByteCount(BerCodec codec) => _ByteLength;
+
+    #endregion
+
     #region Serialization
 
     public static ReaderContactlessTransactionLimitWhenCvmIsOnDevice Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
@@ -38,16 +46,10 @@ public record ReaderContactlessTransactionLimitWhenCvmIsOnDevice : ReaderContact
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result() ?? throw new DataElementParsingException(EncodingId);
+        ulong result = PlayCodec.NumericCodec.DecodeToUInt64(value);
 
-        return new ReaderContactlessTransactionLimitWhenCvmIsOnDevice(result.Value);
+        return new ReaderContactlessTransactionLimitWhenCvmIsOnDevice(result);
     }
-
-    #endregion
-
-    #region Instance Members
-
-    public override Tag GetTag() => Tag;
 
     #endregion
 }

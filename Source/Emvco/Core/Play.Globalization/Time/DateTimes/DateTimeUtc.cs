@@ -6,6 +6,14 @@ namespace Play.Globalization.Time;
 
 public readonly record struct DateTimeUtc
 {
+    #region Static Instance Values
+
+    private static readonly string _DateFormat = "yyMMdd";
+
+    private static readonly string _DateTimeFormat = "yyyyMMddHHmmss";
+
+    #endregion
+
     #region Instance Values
 
     private readonly DateTime _Value;
@@ -15,7 +23,7 @@ public readonly record struct DateTimeUtc
     public int Hour => _Value.Hour;
     public int Minute => _Value.Minute;
     public int Second => _Value.Second;
-    public static DateTimeUtc Now => new(DateTime.UtcNow.Date);
+    public static DateTimeUtc Now => new(DateTime.UtcNow);
     public static DateTimeUtc Today => new(DateTime.UtcNow);
 
     #endregion
@@ -58,13 +66,16 @@ public readonly record struct DateTimeUtc
         _Value = dateTimeValue;
     }
 
+    public uint EncodeDate() => uint.Parse(_Value.ToString(_DateFormat));
+
+    public ulong EncodeDateTime() => ulong.Parse(_Value.ToString(_DateTimeFormat));
+
     #endregion
 
     #region Equality
 
     public bool Equals(DateTime dateTime) => dateTime == _Value;
     public int CompareTo(DateTime other) => _Value.CompareTo(other);
-
     #endregion
 
     #region Operator Overrides

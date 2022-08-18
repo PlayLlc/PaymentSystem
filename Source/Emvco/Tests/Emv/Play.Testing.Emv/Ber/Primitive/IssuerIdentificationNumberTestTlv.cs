@@ -7,7 +7,7 @@ public class IssuerIdentificationNumberTestTlv : TestTlv
 {
     #region Static Metadata
 
-    private static readonly byte[] _DefaultContentOctets = {0x40, 0x81, 0x38};
+    private static readonly byte[] _DefaultContentOctets = { 40, 81, 38 };
 
     #endregion
 

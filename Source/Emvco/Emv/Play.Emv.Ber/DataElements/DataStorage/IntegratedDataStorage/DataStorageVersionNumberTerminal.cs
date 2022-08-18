@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 
+using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Tags;
 using Play.Codecs;
@@ -48,6 +49,8 @@ public record DataStorageVersionNumberTerminal : DataElement<BigInteger>
 
         return new DataStorageVersionNumberTerminal(result);
     }
+
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
 
     #endregion
 

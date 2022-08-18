@@ -31,6 +31,15 @@ public record IssuerScriptTemplate2 : DataElement<BigInteger>, IEqualityComparer
 
     #endregion
 
+    #region Instance Members
+
+    public override ushort GetValueByteCount(BerCodec codec) => PlayCodec.BinaryCodec.GetByteCount(_Value);
+    public override ushort GetValueByteCount() => PlayCodec.BinaryCodec.GetByteCount(_Value);
+    public override Tag GetTag() => Tag;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+
+    #endregion
+
     #region Serialization
 
     public static IssuerScriptTemplate2 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
@@ -41,13 +50,12 @@ public record IssuerScriptTemplate2 : DataElement<BigInteger>, IEqualityComparer
     /// <exception cref="DataElementParsingException"></exception>
     public static IssuerScriptTemplate2 Decode(ReadOnlySpan<byte> value)
     {
-        DecodedResult<BigInteger> result = _Codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(IssuerScriptTemplate2)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
-        return new IssuerScriptTemplate2(result.Value);
+        return new IssuerScriptTemplate2(result);
     }
 
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
     #endregion
 
     #region Equality
@@ -64,14 +72,6 @@ public record IssuerScriptTemplate2 : DataElement<BigInteger>, IEqualityComparer
     }
 
     public int GetHashCode(IssuerScriptTemplate2 obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-    public override Tag GetTag() => Tag;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 }

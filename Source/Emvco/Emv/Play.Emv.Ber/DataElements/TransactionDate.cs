@@ -56,6 +56,13 @@ public record TransactionDate : DataElement<uint>, IEqualityComparer<Transaction
     public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value, _ByteLength);
     public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(_Value, length);
 
+    public DateTimeUtc GetDateTimeUtc()
+    {
+        byte[] encodedValue = PlayCodec.NumericCodec.Encode(_Value, _ByteLength);
+
+        return new DateTimeUtc(encodedValue[0], encodedValue[1], encodedValue[2]);
+    }
+
     #endregion
 
     #region Equality

@@ -1,33 +1,52 @@
-﻿using Play.Ber.Tags;
+﻿using AutoFixture;
+
+using Moq;
+
+using Play.Ber.DataObjects;
+using Play.Ber.Identifiers;
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 
 namespace Play.Testing.Emv.Ber.Primitive;
 
 public class CardRiskManagementDataObjectList1TestTlv : TestTlv
 {
-    #region Static Metadata
+    private static readonly byte[] _DefaultContentOctets = { 12, 3, 14, 5, 23, 4, 30, 5 };
+    private static readonly Tag[] _DefaultContentTags = { new(12), new(14), new(23), new(30) };
 
-    private static readonly byte[] _DefaultContentOctets =
-    {
-        0x61, 0x62, 0x63, 0x64, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
-        0x20, 0x20, 0x20, 0x20, 0x20, 0x20
-    };
-
-    #endregion
-
-    #region Constructor
-
-    public CardRiskManagementDataObjectList1TestTlv() : base(_DefaultContentOctets)
-    { }
+    public CardRiskManagementDataObjectList1TestTlv() : base(_DefaultContentOctets) { }
 
     public CardRiskManagementDataObjectList1TestTlv(byte[] contentOctets) : base(contentOctets)
-    { }
-
-    #endregion
-
-    #region Instance Members
+    {
+    }
 
     public override Tag GetTag() => CardRiskManagementDataObjectList1.Tag;
 
-    #endregion
+    public Tag[] GetTags() => _DefaultContentTags;
+
+    public void SetupTlvTagsForGivenDb(Mock<ITlvReaderAndWriter> database)
+    {
+        for (byte i = 0; i < _DefaultContentTags.Length; i++)
+        {
+            database.Setup(m => m.IsKnown(_DefaultContentTags[i])).Returns(true);
+            database.Setup(m => m.IsPresent(_DefaultContentTags[i])).Returns(true);
+            database.Setup(m => m.IsPresentAndNotEmpty(_DefaultContentTags[i])).Returns(true);
+        }
+    }
+
+    public DataObjectListResult SetupValuesForTags(Mock<ITlvReaderAndWriter> database, IFixture fixture)
+    {
+        List<TagLengthValue> result = new List<TagLengthValue>();
+
+        foreach (Tag tag in _DefaultContentTags)
+        {
+            TestPrimitive primitive = fixture.Create<TestPrimitive>();
+
+            database.Setup(m => m.Get(tag)).Returns(primitive);
+
+            result.Add(new TagLengthValue(tag, primitive.EncodeValue()));
+        }
+
+        return new DataObjectListResult(result.ToArray());
+    }
 }

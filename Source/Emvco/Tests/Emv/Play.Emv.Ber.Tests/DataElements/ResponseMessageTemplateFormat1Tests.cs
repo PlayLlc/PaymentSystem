@@ -11,6 +11,8 @@ namespace Play.Emv.Ber.Tests.DataElements;
 
 public class ResponseMessageTemplateFormat1Tests
 {
+    #region Instance Members
+
     /// <summary>
     ///     BerEncoding_DeserializingDataElement_CreatesPrimitiveValue
     /// </summary>
@@ -87,4 +89,6 @@ public class ResponseMessageTemplateFormat1Tests
 
         Assert.Equal(testValue, expectedResult);
     }
+
+    #endregion
 }

@@ -31,6 +31,15 @@ public record IssuerScriptTemplate1 : DataElement<BigInteger>, IEqualityComparer
 
     #endregion
 
+    #region Instance Members
+
+    public override ushort GetValueByteCount(BerCodec codec) => PlayCodec.BinaryCodec.GetByteCount(_Value);
+    public override ushort GetValueByteCount() => PlayCodec.BinaryCodec.GetByteCount(_Value);
+    public override Tag GetTag() => Tag;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+
+    #endregion
+
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -48,6 +57,8 @@ public record IssuerScriptTemplate1 : DataElement<BigInteger>, IEqualityComparer
         return new IssuerScriptTemplate1(result);
     }
 
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
+
     #endregion
 
     #region Equality
@@ -64,14 +75,6 @@ public record IssuerScriptTemplate1 : DataElement<BigInteger>, IEqualityComparer
     }
 
     public int GetHashCode(IssuerScriptTemplate1 obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-    public override Tag GetTag() => Tag;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 }

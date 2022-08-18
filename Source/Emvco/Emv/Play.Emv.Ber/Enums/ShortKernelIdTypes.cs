@@ -8,7 +8,7 @@ using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Ber.Enums;
 
-public sealed record ShortKernelIdTypes : EnumObject<byte>, IEqualityComparer<byte>
+public sealed record ShortKernelIdTypes : EnumObject<byte>
 {
     #region Static Metadata
 
@@ -71,6 +71,8 @@ public sealed record ShortKernelIdTypes : EnumObject<byte>, IEqualityComparer<by
     #endregion
 
     #region Equality
+
+    public bool Equals(KernelIdentifier kernelId) => kernelId.AsKernelId() == _Value;
 
     public bool Equals(ShortKernelIdTypes? x, ShortKernelIdTypes? y)
     {

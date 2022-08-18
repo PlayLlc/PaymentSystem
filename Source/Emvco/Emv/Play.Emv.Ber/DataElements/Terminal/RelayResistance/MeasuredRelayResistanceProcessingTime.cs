@@ -29,6 +29,31 @@ public record MeasuredRelayResistanceProcessingTime : DataElement<RelaySeconds>
 
     #endregion
 
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+
+    /// <remarks>Creates the <see cref="MeasuredRelayResistanceProcessingTime" /> according to EMV Book C-2 Section SR1.18 </remarks>
+    public static MeasuredRelayResistanceProcessingTime Create(
+        Microseconds timeElapsed, TerminalExpectedTransmissionTimeForRelayResistanceCapdu terminalExpectedCapduTransmissionTime,
+        TerminalExpectedTransmissionTimeForRelayResistanceRapdu terminalExpectedRapduTransmissionTime,
+        DeviceEstimatedTransmissionTimeForRelayResistanceRapdu deviceEstimatedTransmissionTime)
+    {
+        RelaySeconds timeElapsedInRelaySeconds = new(timeElapsed);
+
+        RelaySeconds fastestExpectedTransmissionTime = terminalExpectedRapduTransmissionTime < (RelaySeconds) deviceEstimatedTransmissionTime
+            ? terminalExpectedRapduTransmissionTime
+            : deviceEstimatedTransmissionTime;
+
+        RelaySeconds expectedResponseTime = terminalExpectedCapduTransmissionTime - fastestExpectedTransmissionTime;
+        RelaySeconds processingTime = timeElapsedInRelaySeconds - expectedResponseTime;
+
+        return new MeasuredRelayResistanceProcessingTime(processingTime < RelaySeconds.Zero ? 0 : (ushort) processingTime);
+    }
+
+    #endregion
+
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -56,31 +81,6 @@ public record MeasuredRelayResistanceProcessingTime : DataElement<RelaySeconds>
     #region Operator Overrides
 
     public static implicit operator RelaySeconds(MeasuredRelayResistanceProcessingTime value) => value._Value;
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    /// <remarks>Creates the <see cref="MeasuredRelayResistanceProcessingTime" /> according to EMV Book C-2 Section SR1.18 </remarks>
-    public static MeasuredRelayResistanceProcessingTime Create(
-        Microseconds timeElapsed, TerminalExpectedTransmissionTimeForRelayResistanceCapdu terminalExpectedCapduTransmissionTime,
-        TerminalExpectedTransmissionTimeForRelayResistanceRapdu terminalExpectedRapduTransmissionTime,
-        DeviceEstimatedTransmissionTimeForRelayResistanceRapdu deviceEstimatedTransmissionTime)
-    {
-        RelaySeconds timeElapsedInRelaySeconds = new(timeElapsed);
-
-        RelaySeconds fastestExpectedTransmissionTime = terminalExpectedRapduTransmissionTime < (RelaySeconds) deviceEstimatedTransmissionTime
-            ? deviceEstimatedTransmissionTime
-            : terminalExpectedRapduTransmissionTime;
-
-        RelaySeconds expectedResponseTime = new(terminalExpectedCapduTransmissionTime - fastestExpectedTransmissionTime);
-        RelaySeconds processingTime = timeElapsedInRelaySeconds - expectedResponseTime;
-
-        return new MeasuredRelayResistanceProcessingTime(processingTime < RelaySeconds.Zero ? 0 : (ushort) processingTime);
-    }
 
     #endregion
 }

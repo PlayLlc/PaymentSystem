@@ -13,7 +13,7 @@ namespace Play.Emv.Ber.DataElements;
 /// <summary>
 ///     Data Storage EncodingId constructed as follows: Application PAN (without any 'F' padding) || Application PAN
 ///     Sequence Number If necessary, it is padded to the left with one hexadecimal zero  to ensure whole bytes. If
-///     necessary, it is padded to the left with hexadecimal zeroes to  ensure a minimum length of 8 bytes.
+///     necessary, it is padded to the left with hexadecimal zeros to  ensure a minimum length of 8 bytes.
 /// </summary>
 public record DataStorageId : DataElement<BigInteger>
 {
@@ -30,6 +30,28 @@ public record DataStorageId : DataElement<BigInteger>
 
     public DataStorageId(BigInteger value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public override ushort GetValueByteCount() => (ushort) PlayCodec.NumericCodec.GetByteCount(_Value);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+
+    /// <summary>
+    ///     Concatenate from left to right the Application PAN (without any 'F' padding) with the Application PAN Sequence
+    ///     Number (if the Application PAN Sequence Number is not present, then it is replaced by a '00' byte). The result, Y,
+    ///     must be padded to the left with a hexadecimal zero if necessary to ensure whole bytes. It must also be padded to
+    ///     the left with hexadecimal zeros if necessary to ensure a minimum length of 8 bytes.
+    /// </summary>
+    /// <remarks>Emv Book C-2 Section S456.19</remarks>
+    public bool IsDataStorageIdValid(ApplicationPan pan, ApplicationPanSequenceNumber? sequenceNumber)
+    {
+        DataStorageId other = pan.AsDataStorageId(sequenceNumber);
+
+        return _Value == other._Value;
+    }
 
     #endregion
 
@@ -60,29 +82,6 @@ public record DataStorageId : DataElement<BigInteger>
 
     public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value);
     public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(_Value, length);
-
-    #endregion
-
-    #region Instance Members
-
-    public new ushort GetTagLengthValueByteCount() => (ushort) new TagLength(Tag, _Value.ToByteArray()).GetTagLengthValueByteCount();
-    public new ushort GetValueByteCount() => (ushort) _Value.GetByteCount();
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    /// <summary>
-    ///     Concatenate from left to right the Application PAN (without any 'F' padding) with the Application PAN Sequence
-    ///     Number (if the Application PAN Sequence Number is not present, then it is replaced by a '00' byte). The result, Y,
-    ///     must be padded to the left with a hexadecimal zero if necessary to ensure whole bytes. It must also be padded to
-    ///     the left with hexadecimal zeroes if necessary to ensure a minimum length of 8 bytes.
-    /// </summary>
-    /// <remarks>Emv Book C-2 Section S456.19</remarks>
-    public bool IsDataStorageIdValid(ApplicationPan pan, ApplicationPanSequenceNumber? sequenceNumber)
-    {
-        DataStorageId other = pan.AsDataStorageId(sequenceNumber);
-
-        return _Value == other._Value;
-    }
 
     #endregion
 }

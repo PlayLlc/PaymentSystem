@@ -33,6 +33,27 @@ public record IssuerApplicationData : DataElement<BigInteger>, IEqualityComparer
 
     #endregion
 
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+
+    public override ushort GetValueByteCount() => PlayCodec.BinaryCodec.GetByteCount(_Value);
+
+    public static bool EqualsStatic(IssuerApplicationData? x, IssuerApplicationData? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
+    #endregion
+
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -52,31 +73,14 @@ public record IssuerApplicationData : DataElement<BigInteger>, IEqualityComparer
         return new IssuerApplicationData(result);
     }
 
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
+
     #endregion
 
     #region Equality
 
     public bool Equals(IssuerApplicationData? x, IssuerApplicationData? y) => EqualsStatic(x, y);
     public int GetHashCode(IssuerApplicationData obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    public static bool EqualsStatic(IssuerApplicationData? x, IssuerApplicationData? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
 
     #endregion
 }

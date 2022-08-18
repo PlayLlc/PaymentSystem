@@ -10,7 +10,7 @@ using Play.Testing.Emv.Contactless.AutoFixture;
 
 using Xunit;
 
-namespace Play.Emv.Kernel.Tests.TerminalActionAnalysisServiceTests;
+namespace Play.Emv.Kernel2.Tests.TerminalActionAnalysisServiceTests;
 
 [Trait("Type", "Unit")]
 public partial class TerminalActionAnalysisServiceTests : TestBase

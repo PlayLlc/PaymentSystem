@@ -23,7 +23,7 @@ public partial class WaitingForGenerateAcResponse2
         public void ProcessCamFailedResponse(KernelSessionId sessionId, TornRecord tempTornRecord)
         {
             _Database.Update(Level2Error.CryptographicAuthenticationMethodFailed);
-            _Database.Set(TerminalVerificationResultCodes.CombinationDataAuthenticationFailed);
+            _Database.Update(TerminalVerificationResultCodes.CombinationDataAuthenticationFailed);
 
             ProcessInvalidDataResponse(sessionId, tempTornRecord);
         }

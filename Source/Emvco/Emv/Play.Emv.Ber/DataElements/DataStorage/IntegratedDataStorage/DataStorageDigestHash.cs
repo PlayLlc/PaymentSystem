@@ -40,7 +40,7 @@ public record DataStorageDigestHash : DataElement<ulong>
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result() ?? throw new DataElementParsingException(EncodingId);
+        DecodedResult<ulong> result = PlayCodec.BinaryCodec.Decode(value).ToUInt64Result() ?? throw new DataElementParsingException(EncodingId);
 
         return new DataStorageDigestHash(result.Value);
     }

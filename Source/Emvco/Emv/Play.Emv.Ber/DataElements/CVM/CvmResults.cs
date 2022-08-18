@@ -33,6 +33,25 @@ public record CvmResults : DataElement<uint>, IEqualityComparer<CvmResults>
 
     #endregion
 
+    #region Instance Members
+
+    private static uint Create(CvmCode cvmCode, CvmConditionCode cvmConditionCode, CvmResultCodes cvmResultCode)
+    {
+        uint result = (uint) cvmCode << 16;
+        result |= (uint) cvmConditionCode << 8;
+        result |= (uint) cvmResultCode;
+
+        return result;
+    }
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => _ByteLength;
+    public new ushort GetValueByteCount() => _ByteLength;
+    public byte[] Encode() => PlayCodec.BinaryCodec.Encode(_Value, _ByteLength);
+
+    #endregion
+
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -52,8 +71,8 @@ public record CvmResults : DataElement<uint>, IEqualityComparer<CvmResults>
         return new CvmResults(result);
     }
 
-    public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => _Codec.EncodeValue(EncodingId, _Value, length);
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value, _ByteLength);
+    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode(_Value, length);
 
     #endregion
 
@@ -71,25 +90,6 @@ public record CvmResults : DataElement<uint>, IEqualityComparer<CvmResults>
     }
 
     public int GetHashCode(CvmResults obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    private static uint Create(CvmCode cvmCode, CvmConditionCode cvmConditionCode, CvmResultCodes cvmResultCode)
-    {
-        uint result = (uint) cvmCode << 16;
-        result |= (uint) cvmConditionCode << 8;
-        result |= (uint) cvmResultCode;
-
-        return result;
-    }
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => _ByteLength;
-    public new ushort GetValueByteCount() => _ByteLength;
-    public byte[] Encode() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
 
     #endregion
 }

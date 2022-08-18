@@ -347,7 +347,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="RequestOutOfSyncException"></exception>
     private KernelState HandleRelayResistanceProtocolNotSupported(Kernel2Session session, Message message)
     {
-        _Database.Set(TerminalVerificationResultCodes.RelayResistanceNotPerformed);
+        _Database.Update(TerminalVerificationResultCodes.RelayResistanceNotPerformed);
 
         return _KernelStateResolver.GetKernelState(_S3R1.Process(this, session, message));
     }

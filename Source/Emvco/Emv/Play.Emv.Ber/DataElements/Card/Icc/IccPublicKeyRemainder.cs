@@ -39,6 +39,8 @@ public record IccPublicKeyRemainder : DataElement<BigInteger>, IEqualityComparer
         return new IccPublicKeyRemainder(result);
     }
 
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
+
     public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
     public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
 

@@ -36,6 +36,16 @@ public record DynamicDataAuthenticationDataObjectList : DataObjectList, IEqualit
 
     #endregion
 
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => base.GetValueByteCount();
+
+    public override ushort GetValueByteCount() => base.GetValueByteCount();
+
+    #endregion
+
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -69,14 +79,6 @@ public record DynamicDataAuthenticationDataObjectList : DataObjectList, IEqualit
     }
 
     public int GetHashCode(DynamicDataAuthenticationDataObjectList obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

@@ -15,13 +15,11 @@ public class PaymentAccountReferenceTests : TestBase
 {
     #region Instance Values
 
-    #region Instance Members
-
     private readonly BerCodec _BerCodec = new(EmvCodec.Configuration);
 
     #endregion
 
-    #endregion
+    #region Instance Members
 
     /// <summary>
     ///     BerEncoding_DeserializingDataElement_CreatesPrimitiveValue
@@ -117,4 +115,6 @@ public class PaymentAccountReferenceTests : TestBase
 
         Assert.Equal(testData, actual.ToArray());
     }
+
+    #endregion
 }

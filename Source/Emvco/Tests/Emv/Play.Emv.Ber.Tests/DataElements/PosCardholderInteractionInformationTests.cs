@@ -15,13 +15,11 @@ public class PosCardholderInteractionInformationTests : TestBase
 {
     #region Static Metadata
 
-    #region Instance Members
-
     private static readonly byte[] _DefaultContents = {3, 5, 3};
 
     #endregion
 
-    #endregion
+    #region Instance Members
 
     /// <summary>
     ///     BerEncoding_DeserializingDataElement_CreatesPrimitiveValue
@@ -265,4 +263,6 @@ public class PosCardholderInteractionInformationTests : TestBase
 
         Assert.True(PosCardholderInteractionInformation.EqualsStatic(sut1, sut2));
     }
+
+    #endregion
 }

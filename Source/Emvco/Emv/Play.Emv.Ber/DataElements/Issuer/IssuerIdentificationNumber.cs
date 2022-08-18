@@ -30,6 +30,16 @@ public record IssuerIdentificationNumber : DataElement<uint>, IEqualityComparer<
 
     #endregion
 
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => _ByteLength;
+
+    public override ushort GetValueByteCount() => _ByteLength;
+
+    #endregion
+
     #region Serialization
 
     /// <exception cref="CodecParsingException"></exception>
@@ -74,14 +84,6 @@ public record IssuerIdentificationNumber : DataElement<uint>, IEqualityComparer<
     #region Operator Overrides
 
     public static explicit operator uint(IssuerIdentificationNumber value) => value._Value;
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

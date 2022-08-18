@@ -11,13 +11,14 @@ internal record NotUnattendedCashOrManualCashOrPurchaseWithCashback : CvmConditi
 {
     #region Static Metadata
 
+    private static readonly Tag[] _RequiredTags = new[] {TerminalType.Tag, TransactionType.Tag};
     public static readonly CvmConditionCode Code = new(2);
 
     #endregion
 
     #region Instance Values
 
-    protected override Tag[] _RequiredData => throw new NotImplementedException();
+    protected override Tag[] _RequiredData => _RequiredTags;
 
     #endregion
 
