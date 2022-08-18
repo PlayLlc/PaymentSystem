@@ -8,7 +8,6 @@ using Play.Emv.Identifiers;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Selection.Contracts;
-using Play.Emv.Selection.Contracts.SignalIn;
 using Play.Emv.Selection.Start;
 using Play.Globalization.Time;
 using Play.Messaging;

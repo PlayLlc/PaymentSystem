@@ -9,7 +9,7 @@ using Play.Emv.Kernel.Services;
 
 using Xunit;
 
-namespace Play.Emv.Kernel2.Tests.TerminalActionAnalysisServiceTests;
+namespace Play.Emv.Kernel.Tests.TerminalActionAnalysisServiceTests;
 
 public partial class TerminalActionAnalysisServiceTests
 {

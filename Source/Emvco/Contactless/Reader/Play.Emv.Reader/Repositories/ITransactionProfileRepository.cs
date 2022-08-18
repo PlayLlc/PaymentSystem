@@ -4,7 +4,7 @@ using Play.Ber.DataObjects;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Identifiers;
 
-namespace Play.Emv.Reader.Database;
+namespace Play.Emv.Reader;
 
 public interface ITransactionProfileRepository
 {

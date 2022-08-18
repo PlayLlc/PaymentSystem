@@ -1,8 +1,7 @@
-﻿using Play.Ber.Identifiers;
+﻿using Play.Ber.Tags;
 using Play.Emv.Ber.DataElements;
-using Play.Testing.Emv.Ber.Primitive;
 
-namespace Play.Testing.Emv.Ber.Primitivel;
+namespace Play.Testing.Emv.Ber.Primitive;
 
 public class CardRiskManagementDataObjectList1TestTlv : TestTlv
 {

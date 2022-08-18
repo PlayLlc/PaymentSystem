@@ -1,5 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
@@ -25,14 +25,6 @@ public record NumericApplicationTransactionCounterTrack1 : DataElement<ulong>
 
     public NumericApplicationTransactionCounterTrack1(ulong value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public int GetSetBitCount() => _Value.GetSetBitCount();
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 
@@ -63,6 +55,14 @@ public record NumericApplicationTransactionCounterTrack1 : DataElement<ulong>
     #region Operator Overrides
 
     public static implicit operator ulong(NumericApplicationTransactionCounterTrack1 value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public int GetSetBitCount() => _Value.GetSetBitCount();
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

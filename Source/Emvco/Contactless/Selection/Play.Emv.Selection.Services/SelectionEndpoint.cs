@@ -1,7 +1,6 @@
 ﻿using Play.Emv.Ber.DataElements;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Selection.Contracts;
-using Play.Emv.Selection.Contracts.SignalIn;
 using Play.Messaging;
 using Play.Messaging.Exceptions;
 

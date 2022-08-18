@@ -2,7 +2,7 @@
 using Play.Emv.Messaging;
 using Play.Messaging;
 
-namespace Play.Emv.Selection.Contracts.SignalIn
+namespace Play.Emv.Selection.Contracts
 {
     public record EmptyCombinationSelectionRequest : RequestSignal
     {

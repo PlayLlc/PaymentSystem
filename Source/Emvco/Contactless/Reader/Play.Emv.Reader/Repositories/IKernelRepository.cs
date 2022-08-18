@@ -3,7 +3,7 @@
 using Play.Ber.DataObjects;
 using Play.Emv.Ber.DataElements;
 
-namespace Play.Emv.Reader.Database;
+namespace Play.Emv.Reader;
 
 public interface IKernelRepository
 {

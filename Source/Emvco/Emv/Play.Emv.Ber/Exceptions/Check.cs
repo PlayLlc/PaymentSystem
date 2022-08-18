@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Core.Exceptions;
 
 namespace Play.Emv.Ber.Exceptions;

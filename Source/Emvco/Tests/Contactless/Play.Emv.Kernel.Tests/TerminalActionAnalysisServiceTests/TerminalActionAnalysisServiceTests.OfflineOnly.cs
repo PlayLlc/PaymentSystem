@@ -10,7 +10,7 @@ using Play.Testing.BaseTestClasses;
 
 using Xunit;
 
-namespace Play.Emv.Kernel2.Tests.TerminalActionAnalysisServiceTests;
+namespace Play.Emv.Kernel.Tests.TerminalActionAnalysisServiceTests;
 
 public partial class TerminalActionAnalysisServiceTests : TestBase
 {

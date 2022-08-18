@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Emv.Ber;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.ValueTypes;
@@ -51,6 +51,13 @@ internal abstract record CvmCondition
             {supportsCvmCondition.GetConditionCode(), supportsCvmCondition}
         };
     }
+
+    #endregion
+
+    #region Operator Overrides
+
+    public static implicit operator byte(CvmCondition value) => (byte) value.GetConditionCode();
+    public static implicit operator CvmConditionCode(CvmCondition value) => value.GetConditionCode();
 
     #endregion
 
@@ -118,13 +125,6 @@ internal abstract record CvmCondition
     }
 
     protected abstract bool IsConditionSatisfied(KernelDatabase database, Money xAmount, Money yAmount);
-
-    #endregion
-
-    #region Operator Overrides
-
-    public static implicit operator byte(CvmCondition value) => (byte) value.GetConditionCode();
-    public static implicit operator CvmConditionCode(CvmCondition value) => value.GetConditionCode();
 
     #endregion
 }

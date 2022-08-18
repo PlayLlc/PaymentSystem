@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.DataExchange;
 using Play.Emv.Identifiers;

@@ -5,13 +5,12 @@ using AutoFixture;
 using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Kernel.Databases;
+using Play.Testing.BaseTestClasses;
 using Play.Testing.Emv.Contactless.AutoFixture;
 
 using Xunit;
 
-using Play.Testing.BaseTestClasses;
-
-namespace Play.Emv.Kernel2.Tests.TerminalActionAnalysisServiceTests;
+namespace Play.Emv.Kernel.Tests.TerminalActionAnalysisServiceTests;
 
 [Trait("Type", "Unit")]
 public partial class TerminalActionAnalysisServiceTests : TestBase

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Core;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
@@ -217,35 +217,6 @@ public sealed record Kernel2KnownObjects : KnownObjects
 
     #endregion
 
-    #region Instance Members
-
-    public override Kernel2KnownObjects[] GetAll() => _ValueObjectMap.Values.ToArray();
-
-    public override bool TryGet(uint value, out EnumObject<uint>? result)
-    {
-        if (_ValueObjectMap.TryGetValue(value, out Kernel2KnownObjects? enumResult))
-        {
-            result = enumResult;
-
-            return true;
-        }
-
-        result = null;
-
-        return false;
-    }
-
-    public override bool Exists(Tag value) => _ValueObjectMap.ContainsKey(value);
-
-    public static IEnumerator<Tag> GetEnumerator()
-    {
-        return _ValueObjectMap.Values.Select(a => (Tag) a).GetEnumerator();
-    }
-
-    public static bool IsKnown(uint tag) => _ValueObjectMap.ContainsKey(tag);
-
-    #endregion
-
     #region Equality
 
     public bool Equals(Kernel2KnownObjects? other) => !(other is null) && (_Value == other._Value);
@@ -276,6 +247,35 @@ public sealed record Kernel2KnownObjects : KnownObjects
     #region Operator Overrides
 
     public static explicit operator Tag(Kernel2KnownObjects registeredApplicationProviderIndicators) => registeredApplicationProviderIndicators._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public override Kernel2KnownObjects[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(uint value, out EnumObject<uint>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out Kernel2KnownObjects? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
+
+    public override bool Exists(Tag value) => _ValueObjectMap.ContainsKey(value);
+
+    public static IEnumerator<Tag> GetEnumerator()
+    {
+        return _ValueObjectMap.Values.Select(a => (Tag) a).GetEnumerator();
+    }
+
+    public static bool IsKnown(uint tag) => _ValueObjectMap.ContainsKey(tag);
 
     #endregion
 }

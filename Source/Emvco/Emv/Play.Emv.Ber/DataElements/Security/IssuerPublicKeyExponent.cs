@@ -1,7 +1,7 @@
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
@@ -28,17 +28,6 @@ public record IssuerPublicKeyExponent : DataElement<uint>, IEqualityComparer<Iss
 
     public IssuerPublicKeyExponent(uint value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public byte[] AsByteArray() => PlayCodec.UnsignedIntegerCodec.Encode(_Value);
-    public PublicKeyExponent AsPublicKeyExponent() => PublicKeyExponent.Create(_Value);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public int GetByteCount() => _Value.GetMostSignificantBit();
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -82,6 +71,17 @@ public record IssuerPublicKeyExponent : DataElement<uint>, IEqualityComparer<Iss
     #region Operator Overrides
 
     public static implicit operator PublicKeyExponent(IssuerPublicKeyExponent value) => PublicKeyExponent.Create(value._Value);
+
+    #endregion
+
+    #region Instance Members
+
+    public byte[] AsByteArray() => PlayCodec.UnsignedIntegerCodec.Encode(_Value);
+    public PublicKeyExponent AsPublicKeyExponent() => PublicKeyExponent.Create(_Value);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public int GetByteCount() => _Value.GetMostSignificantBit();
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

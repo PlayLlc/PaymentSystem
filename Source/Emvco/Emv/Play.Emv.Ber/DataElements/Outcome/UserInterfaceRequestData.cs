@@ -2,7 +2,7 @@ using System.Numerics;
 
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core;
@@ -39,29 +39,6 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
 
     private UserInterfaceRequestData(BigInteger value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public ulong? GetAmount() => GetValueQualifier() == ValueQualifiers.None ? null : ((ulong) (_Value >> _MoneyOffset)).GetMaskedValue(0xFFFF000000000000);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public static Builder GetBuilder() => new();
-    public NumericCurrencyCode GetCurrencyCode() => new((ushort) (_Value >> _CurrencyCodeOffset));
-    public MessageHoldTime GetHoldTimeValue() => new(new Milliseconds((long) ((ulong) (_Value >> _HoldTimeOffset)).GetMaskedValue(0xFFFF000000000000)));
-    public LanguagePreference GetLanguagePreference() => new((ulong) (_Value >> _LanguagePreferenceOffset));
-    public MessageIdentifiers GetMessageIdentifier() => MessageIdentifiers.Get((byte) (_Value >> _MessageIdentifierOffset));
-    public Statuses GetStatus() => Statuses.Get((byte) (_Value >> _StatusOffset));
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    public ValueQualifiers GetValueQualifier()
-    {
-        if (ValueQualifiers.Empty.TryGet((byte) (_Value >> _ValueQualifierOffset), out EnumObject<byte>? result))
-            return (ValueQualifiers) result!;
-
-        return ValueQualifiers.None;
-    }
 
     #endregion
 
@@ -109,6 +86,29 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
     #region Operator Overrides
 
     public static UserInterfaceRequestData operator |(UserInterfaceRequestData left, UserInterfaceRequestData right) => new(left._Value | right._Value);
+
+    #endregion
+
+    #region Instance Members
+
+    public ulong? GetAmount() => GetValueQualifier() == ValueQualifiers.None ? null : ((ulong) (_Value >> _MoneyOffset)).GetMaskedValue(0xFFFF000000000000);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public static Builder GetBuilder() => new();
+    public NumericCurrencyCode GetCurrencyCode() => new((ushort) (_Value >> _CurrencyCodeOffset));
+    public MessageHoldTime GetHoldTimeValue() => new(new Milliseconds((long) ((ulong) (_Value >> _HoldTimeOffset)).GetMaskedValue(0xFFFF000000000000)));
+    public LanguagePreference GetLanguagePreference() => new((ulong) (_Value >> _LanguagePreferenceOffset));
+    public MessageIdentifiers GetMessageIdentifier() => MessageIdentifiers.Get((byte) (_Value >> _MessageIdentifierOffset));
+    public Statuses GetStatus() => Statuses.Get((byte) (_Value >> _StatusOffset));
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+
+    public ValueQualifiers GetValueQualifier()
+    {
+        if (ValueQualifiers.Empty.TryGet((byte) (_Value >> _ValueQualifierOffset), out EnumObject<byte>? result))
+            return (ValueQualifiers) result!;
+
+        return ValueQualifiers.None;
+    }
 
     #endregion
 

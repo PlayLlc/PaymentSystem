@@ -1,6 +1,6 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 
 namespace Play.Emv.Ber.DataElements;
@@ -29,13 +29,6 @@ public sealed record DataToSend : DataExchangeResponse, IEqualityComparer<DataTo
 
     public DataToSend(params PrimitiveValue[] value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 
@@ -70,6 +63,13 @@ public sealed record DataToSend : DataExchangeResponse, IEqualityComparer<DataTo
     }
 
     public int GetHashCode(DataToSend obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

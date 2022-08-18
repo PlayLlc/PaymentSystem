@@ -2,13 +2,31 @@
 
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
 using Play.Ber.Lengths;
+using Play.Ber.Tags;
 
 namespace Play.Ber.DataObjects;
 
 public abstract record ConstructedValue : IEncodeBerDataObjects, IRetrieveConstructedValueMetadata
 {
+    #region Serialization
+
+    /// <summary>
+    ///     Encodes the Value field of the constructed TLV this object represents
+    /// </summary>
+    /// <param name="codec"></param>
+    /// <returns></returns>
+    public abstract byte[] EncodeValue(BerCodec codec);
+
+    /// <summary>
+    ///     Encodes the Tag-Length-Value fields of the constructed TLV this object represents
+    /// </summary>
+    /// <param name="codec"></param>
+    /// <returns></returns>
+    public abstract byte[] EncodeTagLengthValue(BerCodec codec);
+
+    #endregion
+
     #region Instance Members
 
     public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
@@ -32,24 +50,6 @@ public abstract record ConstructedValue : IEncodeBerDataObjects, IRetrieveConstr
     /// </summary>
     /// <param name="codec"></param>
     public abstract ushort GetValueByteCount(BerCodec codec);
-
-    #endregion
-
-    #region Serialization
-
-    /// <summary>
-    ///     Encodes the Value field of the constructed TLV this object represents
-    /// </summary>
-    /// <param name="codec"></param>
-    /// <returns></returns>
-    public abstract byte[] EncodeValue(BerCodec codec);
-
-    /// <summary>
-    ///     Encodes the Tag-Length-Value fields of the constructed TLV this object represents
-    /// </summary>
-    /// <param name="codec"></param>
-    /// <returns></returns>
-    public abstract byte[] EncodeTagLengthValue(BerCodec codec);
 
     #endregion
 }

@@ -1,6 +1,6 @@
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
@@ -32,30 +32,6 @@ public record TransactionStatusInformation : DataElement<ushort>
 
     #endregion
 
-    #region Instance Members
-
-    public static TransactionStatusInformation Create() => new();
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    public TransactionStatusInformation Set(TransactionStatusInformationFlags transactionStatus)
-    {
-        if (transactionStatus == TransactionStatusInformationFlags.NotAvailable)
-            return this;
-
-        return new TransactionStatusInformation((ushort) (_Value | transactionStatus));
-    }
-
-    public bool CardholderVerificationWasPerformed() => _Value.IsBitSet(7);
-    public bool CardRiskManagementWasPerformed() => _Value.IsBitSet(6);
-    public bool IssuerAuthenticationWasPerformed() => _Value.IsBitSet(5);
-    public bool OfflineDataAuthenticationWasPerformed() => _Value.IsBitSet(8);
-    public bool ScriptProcessingWasPerformed() => _Value.IsBitSet(3);
-    public bool TerminalRiskManagementWasPerformed() => _Value.IsBitSet(4);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -77,6 +53,30 @@ public record TransactionStatusInformation : DataElement<ushort>
 
     public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
     public override byte[] EncodeValue(int length) => _Codec.EncodeValue(EncodingId, _Value, length);
+
+    #endregion
+
+    #region Instance Members
+
+    public static TransactionStatusInformation Create() => new();
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+
+    public TransactionStatusInformation Set(TransactionStatusInformationFlags transactionStatus)
+    {
+        if (transactionStatus == TransactionStatusInformationFlags.NotAvailable)
+            return this;
+
+        return new TransactionStatusInformation((ushort) (_Value | transactionStatus));
+    }
+
+    public bool CardholderVerificationWasPerformed() => _Value.IsBitSet(7);
+    public bool CardRiskManagementWasPerformed() => _Value.IsBitSet(6);
+    public bool IssuerAuthenticationWasPerformed() => _Value.IsBitSet(5);
+    public bool OfflineDataAuthenticationWasPerformed() => _Value.IsBitSet(8);
+    public bool ScriptProcessingWasPerformed() => _Value.IsBitSet(3);
+    public bool TerminalRiskManagementWasPerformed() => _Value.IsBitSet(4);
 
     #endregion
 }

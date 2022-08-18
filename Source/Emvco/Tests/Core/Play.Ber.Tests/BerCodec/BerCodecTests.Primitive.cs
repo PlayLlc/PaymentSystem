@@ -2,7 +2,7 @@
 using System.Numerics;
 
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Testing.BaseTestClasses;

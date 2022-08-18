@@ -4,7 +4,6 @@ using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Selection.Contracts;
-using Play.Emv.Selection.Contracts.SignalIn;
 using Play.Messaging;
 
 namespace Play.Emv.Selection.Services;

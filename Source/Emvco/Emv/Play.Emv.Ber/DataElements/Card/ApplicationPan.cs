@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core;
@@ -29,6 +29,50 @@ public record ApplicationPan : DataElement<TrackPrimaryAccountNumber>
 
     public ApplicationPan(TrackPrimaryAccountNumber value) : base(value)
     { }
+
+    #endregion
+
+    #region Serialization
+
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    public static ApplicationPan Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    public override ApplicationPan Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    public static ApplicationPan Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForMaximumLength(value, _MaxByteCount, Tag);
+
+        Nibble[] result = PlayCodec.CompressedNumericCodec.DecodeToNibbles(value);
+
+        Check.Primitive.ForMaxCharLength(result.Length, _MaxCharCount, Tag);
+
+        return new ApplicationPan(new TrackPrimaryAccountNumber(result));
+    }
+
+    public override byte[] EncodeValue() => _Value.Encode();
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(ApplicationPan? x, ApplicationPan? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
+    public int GetHashCode(ApplicationPan obj) => obj.GetHashCode();
 
     #endregion
 
@@ -69,7 +113,8 @@ public record ApplicationPan : DataElement<TrackPrimaryAccountNumber>
     }
 
     /// <summary>
-    ///     Checks whether the Issuer EncodingId provided in the argument matches the leftmost 5 - 8 (issuer exact length is 3 bytes) PAN digits (allowing for
+    ///     Checks whether the Issuer EncodingId provided in the argument matches the leftmost 5 - 8 (issuer exact length is 3
+    ///     bytes) PAN digits (allowing for
     ///     the possible padding of the Issuer EncodingId with hexadecimal 'F's)
     /// </summary>
     /// <param name="issuerIdentifier"></param>
@@ -97,50 +142,6 @@ public record ApplicationPan : DataElement<TrackPrimaryAccountNumber>
 
     /// <exception cref="OverflowException"></exception>
     private bool IsCheckSumValid() => _Value.IsCheckSumValid();
-
-    #endregion
-
-    #region Serialization
-
-    public override byte[] EncodeValue() => _Value.Encode();
-
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="OverflowException"></exception>
-    public static ApplicationPan Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="OverflowException"></exception>
-    public override ApplicationPan Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="OverflowException"></exception>
-    public static ApplicationPan Decode(ReadOnlySpan<byte> value)
-    {
-        Check.Primitive.ForMaximumLength(value, _MaxByteCount, Tag);
-
-        Nibble[] result = PlayCodec.CompressedNumericCodec.DecodeToNibbles(value);
-
-        Check.Primitive.ForMaxCharLength(result.Length, _MaxCharCount, Tag);
-
-        return new ApplicationPan(new TrackPrimaryAccountNumber(result));
-    }
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(ApplicationPan? x, ApplicationPan? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(ApplicationPan obj) => obj.GetHashCode();
 
     #endregion
 }

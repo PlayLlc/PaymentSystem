@@ -1,5 +1,5 @@
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -23,14 +23,6 @@ public record LastOnlineApplicationTransactionCounterRegister : DataElement<usho
 
     public LastOnlineApplicationTransactionCounterRegister(ushort value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public byte[] Encode() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
 
     #endregion
 
@@ -72,6 +64,14 @@ public record LastOnlineApplicationTransactionCounterRegister : DataElement<usho
     }
 
     public int GetHashCode(LastOnlineApplicationTransactionCounterRegister obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public byte[] Encode() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
 
     #endregion
 }

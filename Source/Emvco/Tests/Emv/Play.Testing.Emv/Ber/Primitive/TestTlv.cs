@@ -2,8 +2,8 @@
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Ber.Tags;
 
 namespace Play.Testing.Emv.Ber.Primitive;
 
@@ -32,6 +32,30 @@ public abstract class TestTlv : IDecodeDataElement
     {
         _ContentOctets = ParseChildren(childRank, children);
     }
+
+    #endregion
+
+    #region Serialization
+
+    public PrimitiveValue Decode(TagLengthValue value) => GetDefaultPrimitiveValue(GetType()).Decode(value);
+
+    /// <summary>
+    ///     EncodeTagLengthValue
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="BerParsingException"></exception>
+    public byte[] EncodeTagLengthValue()
+    {
+        TagLength tagLength = GetTagLength();
+        Span<byte> result = stackalloc byte[tagLength.GetTagLengthValueByteCount()];
+        tagLength.Encode().AsSpan().CopyTo(result);
+        byte[]? a = EncodeValue().AsSpan().ToArray();
+        a.CopyTo(result[tagLength.GetValueOffset()..]);
+
+        return result.ToArray();
+    }
+
+    public byte[] EncodeValue() => _ContentOctets;
 
     #endregion
 
@@ -71,30 +95,6 @@ public abstract class TestTlv : IDecodeDataElement
 
         return buffer.ToArray();
     }
-
-    #endregion
-
-    #region Serialization
-
-    public PrimitiveValue Decode(TagLengthValue value) => GetDefaultPrimitiveValue(GetType()).Decode(value);
-
-    /// <summary>
-    ///     EncodeTagLengthValue
-    /// </summary>
-    /// <returns></returns>
-    /// <exception cref="BerParsingException"></exception>
-    public byte[] EncodeTagLengthValue()
-    {
-        TagLength tagLength = GetTagLength();
-        Span<byte> result = stackalloc byte[tagLength.GetTagLengthValueByteCount()];
-        tagLength.Encode().AsSpan().CopyTo(result);
-        byte[]? a = EncodeValue().AsSpan().ToArray();
-        a.CopyTo(result[tagLength.GetValueOffset()..]);
-
-        return result.ToArray();
-    }
-
-    public byte[] EncodeValue() => _ContentOctets;
 
     #endregion
 }
