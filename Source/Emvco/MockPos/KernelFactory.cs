@@ -20,7 +20,7 @@ namespace MockPos
     internal class KernelFactory
     {
         private static KernelProcess[] CreateKernelProcesses(
-            TerminalConfiguration terminalConfiguration, ReaderConfiguration readerConfiguration, ICreateEndpointClient endpointClient)
+            TerminalConfiguration terminalConfiguration, ReaderConfiguration readerConfiguration, IEndpointClient endpointClient)
         {
             List<KernelProcess> kernelProcesses = new();
 
@@ -36,20 +36,21 @@ namespace MockPos
             ScratchPad scratchPad = new(terminalConfiguration.GetMaxNumberOfTornTransactionLogRecords(),
                 terminalConfiguration.GeMaxLifetimeOfTornTransactionLogRecords());
 
-            KernelProcess kernel2Process = Kernel2Process.Create(certificates, endpointClient.GetEndpointClient(), tornTransactionLog,
-                unpredictableNumberGenerator, combinationCompatibilityValidator, combinationCapabilityValidator, cardholderVerificationMethodSelector,
-                terminalActionAnalysisService, securityAuthenticationService, scratchPad);
+            KernelProcess kernel2Process = Kernel2Process.Create(certificates, endpointClient, tornTransactionLog, unpredictableNumberGenerator,
+                combinationCompatibilityValidator, combinationCapabilityValidator, cardholderVerificationMethodSelector, terminalActionAnalysisService,
+                securityAuthenticationService, scratchPad);
 
             kernelProcesses.Add(kernel2Process);
 
             return kernelProcesses.ToArray();
         }
 
-        public static KernelEndpoint Create(TerminalConfiguration terminalConfiguration, ReaderConfiguration readerConfiguration, MessageBus messageBus)
+        public static KernelEndpoint Create(
+            TerminalConfiguration terminalConfiguration, ReaderConfiguration readerConfiguration, IEndpointClient endpointClient)
         {
-            KernelProcess[] kernelProcesses = CreateKernelProcesses(terminalConfiguration, readerConfiguration, messageBus);
+            KernelProcess[] kernelProcesses = CreateKernelProcesses(terminalConfiguration, readerConfiguration, endpointClient);
 
-            return KernelEndpoint.Create(kernelProcesses, messageBus);
+            return KernelEndpoint.Create(kernelProcesses, endpointClient);
         }
     }
 }

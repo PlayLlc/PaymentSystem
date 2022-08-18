@@ -15,11 +15,12 @@ namespace MockPos
     internal class TerminalFactory
     {
         public static TerminalEndpoint Create(
-            TerminalConfiguration terminalConfiguration, SystemTraceAuditNumberConfiguration systemTraceAuditNumberConfiguration, MessageBus messageBus)
+            TerminalConfiguration terminalConfiguration, SystemTraceAuditNumberConfiguration systemTraceAuditNumberConfiguration,
+            IEndpointClient endpointClient)
         {
             ISettleTransactions settler = ConfigurationMockFactory.CreateSettler();
 
-            return TerminalEndpoint.Create(terminalConfiguration, systemTraceAuditNumberConfiguration, settler, messageBus);
+            return TerminalEndpoint.Create(terminalConfiguration, systemTraceAuditNumberConfiguration, settler, endpointClient);
         }
     }
 }

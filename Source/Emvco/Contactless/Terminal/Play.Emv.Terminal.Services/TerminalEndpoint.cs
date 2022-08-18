@@ -9,6 +9,7 @@ using Play.Emv.Terminal.Contracts.SignalIn;
 using Play.Emv.Terminal.Contracts.SignalOut;
 using Play.Emv.Terminal.DataExchange;
 using Play.Emv.Terminal.Session;
+using Play.Emv.Terminal.Settlement;
 using Play.Emv.Terminal.StateMachine;
 using Play.Messaging;
 using Play.Messaging.Exceptions;
@@ -35,13 +36,13 @@ public class TerminalEndpoint : IMessageChannel, IDisposable
 
     private TerminalEndpoint(
         TerminalConfiguration terminalConfiguration, SystemTraceAuditNumberConfiguration systemTraceAuditNumberConfiguration, ISettleTransactions settler,
-        ICreateEndpointClient messageBus)
+        IEndpointClient endpointClient)
     {
-        _EndpointClient = messageBus.GetEndpointClient();
+        _EndpointClient = endpointClient;
         _EndpointClient.Subscribe(this);
         ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
         _TerminalProcess = new TerminalProcess(terminalConfiguration,
-            new TerminalStateResolver(terminalConfiguration, new DataExchangeTerminalService(_EndpointClient), _EndpointClient, settler),
+            new TerminalStateResolver(terminalConfiguration, new DataExchangeTerminalService(_EndpointClient), _EndpointClient, new Settler()),
             new SystemTraceAuditNumberSequencer(systemTraceAuditNumberConfiguration, _EndpointClient));
     }
 
@@ -135,8 +136,8 @@ public class TerminalEndpoint : IMessageChannel, IDisposable
 
     public static TerminalEndpoint Create(
         TerminalConfiguration terminalConfiguration, SystemTraceAuditNumberConfiguration systemTraceAuditNumberConfiguration, ISettleTransactions settler,
-        ICreateEndpointClient messageBus) =>
-        new(terminalConfiguration, systemTraceAuditNumberConfiguration, settler, messageBus);
+        IEndpointClient endpointClient) =>
+        new(terminalConfiguration, systemTraceAuditNumberConfiguration, settler, endpointClient);
 
     public void Dispose()
     {

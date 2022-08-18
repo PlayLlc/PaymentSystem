@@ -5,7 +5,7 @@ using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Identifiers;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace Play.Emv.Selection.Contracts;
+namespace Play.Emv.Selection.Configuration;
 
 /// <summary>
 ///     Configuration values for a specific Transaction/Kernel/Application combination for Entry Point processing.
@@ -65,27 +65,6 @@ public class TransactionProfile : IEquatable<TransactionProfile>, IEqualityCompa
 
     #endregion
 
-    #region Instance Members
-
-    public KernelConfiguration GetKernelConfiguration() => _KernelConfiguration;
-    public ReaderContactlessFloorLimit GetReaderContactlessFloorLimit() => _ReaderContactlessFloorLimit;
-    public DedicatedFileName GetApplicationIdentifier() => _Key.GetApplicationId();
-    public ApplicationPriorityIndicator GetApplicationPriorityIndicator() => _ApplicationPriorityIndicator;
-    public ApplicationPriorityRank GetApplicationPriorityRank() => _ApplicationPriorityIndicator.GetApplicationPriorityRank();
-    public ShortKernelIdTypes GetKernelId() => _Key.GetKernelId();
-    public CombinationCompositeKey GetKey() => _Key;
-    public ReaderContactlessTransactionLimit GetReaderContactlessTransactionLimit() => _ReaderContactlessTransactionLimit;
-    public ReaderCvmRequiredLimit GetReaderCvmRequiredLimit() => _ReaderCvmRequiredLimit;
-    public TerminalFloorLimit GetTerminalFloorLimit() => _TerminalFloorLimit;
-    public TerminalTransactionQualifiers GetTerminalTransactionQualifiers() => _TerminalTransactionQualifiers;
-    public TransactionType GetTransactionType() => _Key.GetTransactionType();
-    public bool IsExtendedSelectionSupported() => _IsExtendedSelectionSupported;
-    public bool IsStatusCheckSupported() => _IsStatusCheckSupported;
-    public bool IsZeroAmountAllowed() => _IsZeroAmountAllowed;
-    public bool IsZeroAmountAllowedForOffline() => _IsZeroAmountAllowedForOffline;
-
-    #endregion
-
     #region Equality
 
     public bool Equals(TransactionProfile? other)
@@ -107,6 +86,27 @@ public class TransactionProfile : IEquatable<TransactionProfile>, IEqualityCompa
     public override bool Equals(object? obj) => obj is TransactionProfile transactionProfile && Equals(transactionProfile);
     public int GetHashCode(TransactionProfile obj) => obj.GetHashCode();
     public override int GetHashCode() => _Key.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public KernelConfiguration GetKernelConfiguration() => _KernelConfiguration;
+    public ReaderContactlessFloorLimit GetReaderContactlessFloorLimit() => _ReaderContactlessFloorLimit;
+    public DedicatedFileName GetApplicationIdentifier() => _Key.GetApplicationId();
+    public ApplicationPriorityIndicator GetApplicationPriorityIndicator() => _ApplicationPriorityIndicator;
+    public ApplicationPriorityRank GetApplicationPriorityRank() => _ApplicationPriorityIndicator.GetApplicationPriorityRank();
+    public ShortKernelIdTypes GetKernelId() => _Key.GetKernelId();
+    public CombinationCompositeKey GetKey() => _Key;
+    public ReaderContactlessTransactionLimit GetReaderContactlessTransactionLimit() => _ReaderContactlessTransactionLimit;
+    public ReaderCvmRequiredLimit GetReaderCvmRequiredLimit() => _ReaderCvmRequiredLimit;
+    public TerminalFloorLimit GetTerminalFloorLimit() => _TerminalFloorLimit;
+    public TerminalTransactionQualifiers GetTerminalTransactionQualifiers() => _TerminalTransactionQualifiers;
+    public TransactionType GetTransactionType() => _Key.GetTransactionType();
+    public bool IsExtendedSelectionSupported() => _IsExtendedSelectionSupported;
+    public bool IsStatusCheckSupported() => _IsStatusCheckSupported;
+    public bool IsZeroAmountAllowed() => _IsZeroAmountAllowed;
+    public bool IsZeroAmountAllowedForOffline() => _IsZeroAmountAllowedForOffline;
 
     #endregion
 

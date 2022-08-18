@@ -3,18 +3,18 @@ using Play.Messaging;
 
 namespace Play.Emv.Acquirer.Contracts.SignalIn;
 
-public record ReconciliationRequestSignal : AcquirerRequestSignal
+public record SettlementRequestSignal : AcquirerRequestSignal
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(ReconciliationRequestSignal));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(SettlementRequestSignal));
     public static readonly MessageTypeIndicator MessageTypeIndicator = MessageTypeIndicatorTypes.Reconciliation.ReconciliationRequest;
 
     #endregion
 
     #region Constructor
 
-    public ReconciliationRequestSignal(TagLengthValue[] tagLengthValues) : base(MessageTypeId, tagLengthValues)
+    public SettlementRequestSignal(TagLengthValue[] tagLengthValues) : base(MessageTypeId, tagLengthValues)
     { }
 
     #endregion

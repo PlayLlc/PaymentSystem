@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Contactless\Reader\Play.Emv.Reader.Services\Play.Emv.Reader.Services.csproj" />
+    <ProjectReference Include="..\Contactless\Selection\Play.Emv.Selection.Services\Play.Emv.Selection.Services.csproj" />
     <ProjectReference Include="..\Contactless\Terminal\Play.Emv.Terminal.Services\Play.Emv.Terminal.Services.csproj" />
   </ItemGroup>
 

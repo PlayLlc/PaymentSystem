@@ -6,6 +6,8 @@ using Play.Globalization;
 using Play.Globalization.Currency;
 using Play.Icc.FileSystem.DedicatedFiles;
 
+using TransactionProfile = Play.Emv.Selection.Configuration.TransactionProfile;
+
 namespace Play.Emv.Selection;
 
 /// <summary>

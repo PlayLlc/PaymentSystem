@@ -7,6 +7,7 @@ using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;
+using Play.Emv.Selection.Configuration;
 using Play.Emv.Selection.Contracts;
 using Play.Emv.Selection.Start;
 using Play.Globalization.Time;

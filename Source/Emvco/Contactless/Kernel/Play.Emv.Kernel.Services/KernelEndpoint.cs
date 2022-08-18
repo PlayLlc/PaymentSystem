@@ -26,11 +26,11 @@ public class KernelEndpoint : IMessageChannel, IDisposable
 
     #region Constructor
 
-    private KernelEndpoint(KernelRetriever kernelRetriever, ICreateEndpointClient messageBus)
+    private KernelEndpoint(KernelRetriever kernelRetriever, IEndpointClient endpointClient)
     {
         ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
         _KernelRetriever = kernelRetriever;
-        _EndpointClient = messageBus.GetEndpointClient();
+        _EndpointClient = endpointClient;
         _EndpointClient.Subscribe(this);
     }
 
@@ -94,8 +94,8 @@ public class KernelEndpoint : IMessageChannel, IDisposable
 
     #endregion
 
-    public static KernelEndpoint Create(KernelProcess[] kernelProcesses, ICreateEndpointClient messageRouter) =>
-        new(new KernelRetriever(kernelProcesses), messageRouter);
+    public static KernelEndpoint Create(KernelProcess[] kernelProcesses, IEndpointClient endpointClient) =>
+        new(new KernelRetriever(kernelProcesses), endpointClient);
 
     public void Dispose()
     {

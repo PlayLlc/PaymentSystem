@@ -30,10 +30,10 @@ public class MainEndpoint : IMessageChannel, IDisposable
 
     #region Constructor
 
-    private MainEndpoint(ReaderConfiguration configuration, ICreateEndpointClient messageBus)
+    private MainEndpoint(ReaderConfiguration configuration, IEndpointClient endpointClient)
     {
         ChannelIdentifier = new ChannelIdentifier(SelectionSessionId);
-        _EndpointClient = messageBus.GetEndpointClient();
+        _EndpointClient = endpointClient;
         _EndpointClient.Subscribe(this);
         _MainProcess = new MainProcess(configuration, _EndpointClient);
     }
@@ -131,7 +131,7 @@ public class MainEndpoint : IMessageChannel, IDisposable
 
     #endregion
 
-    public static MainEndpoint Create(ReaderConfiguration readerConfiguration, ICreateEndpointClient messageRouter) => new(readerConfiguration, messageRouter);
+    public static MainEndpoint Create(ReaderConfiguration readerConfiguration, IEndpointClient endpointClient) => new(readerConfiguration, endpointClient);
 
     public void Dispose()
     {

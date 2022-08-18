@@ -13,7 +13,7 @@ namespace MockPos
 {
     internal class ReaderFactory
     {
-        public static MainEndpoint Create(ReaderConfiguration readerConfiguration, MessageBus messageBus) =>
-            MainEndpoint.Create(readerConfiguration, messageBus);
+        public static MainEndpoint Create(ReaderConfiguration readerConfiguration, IEndpointClient endpointClient) =>
+            MainEndpoint.Create(readerConfiguration, endpointClient);
     }
 }

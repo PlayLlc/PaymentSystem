@@ -1,5 +1,6 @@
 ﻿using Play.Emv.Ber.DataElements;
 using Play.Emv.Pcd.Contracts;
+using Play.Emv.Selection.Configuration;
 using Play.Emv.Selection.Contracts;
 using Play.Messaging;
 using Play.Messaging.Exceptions;
@@ -24,12 +25,12 @@ public class SelectionEndpoint : IMessageChannel, IDisposable
 
     #region Constructor
 
-    private SelectionEndpoint(ICreateEndpointClient messageBus, TransactionProfile[] transactionProfiles, PoiInformation poiInformation)
+    private SelectionEndpoint(SelectionConfiguration selectionConfiguration, IEndpointClient endpointClient)
     {
-        _EndpointClient = messageBus.GetEndpointClient();
+        _EndpointClient = endpointClient;
         _EndpointClient.Subscribe(this);
         ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
-        _SelectionProcess = new SelectionProcess(_EndpointClient, transactionProfiles, poiInformation);
+        _SelectionProcess = new SelectionProcess(_EndpointClient, selectionConfiguration.TransactionProfiles, selectionConfiguration.PoiInformation);
     }
 
     #endregion
@@ -104,8 +105,8 @@ public class SelectionEndpoint : IMessageChannel, IDisposable
 
     #endregion
 
-    public static SelectionEndpoint Create(ICreateEndpointClient messageRouter, TransactionProfile[] transactionProfiles, PoiInformation poiInformation) =>
-        new(messageRouter, transactionProfiles, poiInformation);
+    public static SelectionEndpoint Create(SelectionConfiguration selectionConfiguration, IEndpointClient endpointClient) =>
+        new(selectionConfiguration, endpointClient);
 
     public void Dispose()
     {
