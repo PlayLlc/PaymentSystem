@@ -15,7 +15,7 @@ using Play.Emv.Pcd.Contracts;
 
 namespace Play.Emv.Reader;
 
-public partial class ReaderDatabase
+public partial class ReaderConfiguration
 {
     #region Instance Values
 
@@ -31,7 +31,7 @@ public partial class ReaderDatabase
 
     #region Constructor
 
-    public ReaderDatabase(
+    public ReaderConfiguration(
         IssuerIdentificationNumber issuerIdentificationNumber, MerchantIdentifier merchantIdentifier, TerminalIdentification terminalIdentification,
         LanguagePreference languagePreference, IReaderRepository readerRepository, ICertificateAuthorityDatasetRepository certificateAuthorityDatasetRepository,
         IDisplayMessageRepository displayMessageRepository, IPcdProtocolRepository pcdProtocolRepository, IKernelRepository kernelRepository,
@@ -95,7 +95,8 @@ public partial class ReaderDatabase
         if (IsActive())
         {
             throw new TerminalException(
-                new InvalidOperationException($"A command to initialize the Kernel Database was invoked but the {nameof(ReaderDatabase)} is already active"));
+                new InvalidOperationException(
+                    $"A command to initialize the Kernel Database was invoked but the {nameof(ReaderConfiguration)} is already active"));
         }
 
         _TransactionSessionId = kernelSessionId;

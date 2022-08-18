@@ -29,7 +29,7 @@ public class TestChannel1 : IMessageChannel
 
     public TestChannel1(ICreateEndpointClient messageRouter)
     {
-        _EndpointClient = messageRouter.CreateEndpointClient();
+        _EndpointClient = messageRouter.GetEndpointClient();
         _EndpointClient.Subscribe(this);
         ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
     }

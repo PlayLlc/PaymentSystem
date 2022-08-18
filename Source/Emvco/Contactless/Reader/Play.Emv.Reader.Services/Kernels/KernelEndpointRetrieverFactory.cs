@@ -23,22 +23,19 @@ internal class KernelEndpointRetrieverFactory
     #region Instance Members
 
     internal static KernelRetriever Create(
-        ReaderDatabase readerDatabase, IManageTornTransactions tornTransactionsManager, IEndpointClient endpointClient,
-        IManageTornTransactions tornTransactionLog, IGenerateUnpredictableNumber unpredictableNumberGenerator, ICleanTornTransactions tornTransactionCleaner,
-        IReadOfflineBalance balanceReader, IValidateCombinationCapability combinationCapabilityValidator,
+        ReaderConfiguration readerConfiguration, IEndpointClient endpointClient, IManageTornTransactions tornTransactionLog,
+        IGenerateUnpredictableNumber unpredictableNumberGenerator, IValidateCombinationCapability combinationCapabilityValidator,
         IValidateCombinationCompatibility combinationCompatibilityValidator, ISelectCardholderVerificationMethod cardholderVerificationMethodSelector,
         IPerformTerminalActionAnalysis terminalActionAnalyzer, IAuthenticateTransactionSession authenticationService, ScratchPad scratchPad)
     {
-        Kernel2PersistentValues persistentValues = new(readerDatabase.GetKernelConfiguration((KernelId) ShortKernelIdTypes.Kernel2));
-        CertificateAuthorityDataset[] certificates = readerDatabase.GetCertificateAuthorityDatasets((KernelId) ShortKernelIdTypes.Kernel2);
-        Kernel2KnownObjects kernel2KnownObjects = new();
-        Kernel2Process kernel2Process = Kernel2ProcessFactory.Create(persistentValues, kernel2KnownObjects, certificates, endpointClient, tornTransactionLog,
-            unpredictableNumberGenerator, tornTransactionCleaner, balanceReader, combinationCapabilityValidator, combinationCompatibilityValidator,
-            cardholderVerificationMethodSelector, terminalActionAnalyzer, authenticationService, scratchPad);
+        CertificateAuthorityDataset[] certificates = readerConfiguration.GetCertificateAuthorityDatasets((KernelId) ShortKernelIdTypes.Kernel2);
+        Kernel2Process kernel2Process = Kernel2Process.Create(certificates, endpointClient, tornTransactionLog, unpredictableNumberGenerator,
+            combinationCapabilityValidator, combinationCompatibilityValidator, cardholderVerificationMethodSelector, terminalActionAnalyzer,
+            authenticationService, scratchPad);
 
         KernelProcess[] kernels = {kernel2Process};
 
-        return new KernelRetriever(kernels.ToDictionary(a => a.GetKernelId(), b => b));
+        return new KernelRetriever(kernels);
     }
 
     #endregion

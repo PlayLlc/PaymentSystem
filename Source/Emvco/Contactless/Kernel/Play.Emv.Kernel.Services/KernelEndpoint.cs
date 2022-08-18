@@ -30,7 +30,7 @@ public class KernelEndpoint : IMessageChannel, IDisposable
     {
         ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
         _KernelRetriever = kernelRetriever;
-        _EndpointClient = messageBus.CreateEndpointClient();
+        _EndpointClient = messageBus.GetEndpointClient();
         _EndpointClient.Subscribe(this);
     }
 
@@ -50,10 +50,16 @@ public class KernelEndpoint : IMessageChannel, IDisposable
     /// <exception cref="InvalidMessageRoutingException"></exception>
     public void Request(RequestMessage message)
     {
-        if (message is ActivatePcdRequest activatePcdRequest)
-            Request(activatePcdRequest);
-        else if (message is QueryPcdRequest queryPcdRequest)
-            Request(queryPcdRequest);
+        if (message is ActivateKernelRequest activateKernelRequest)
+            Request(activateKernelRequest);
+        else if (message is CleanKernelRequest cleanKernelRequest)
+            Request(cleanKernelRequest);
+        else if (message is QueryKernelRequest queryKernelRequest)
+            Request(queryKernelRequest);
+        else if (message is StopKernelRequest stopKernelRequest)
+            Request(stopKernelRequest);
+        else if (message is UpdateKernelRequest updateKernelRequest)
+            Request(updateKernelRequest);
         else
             throw new InvalidMessageRoutingException(message, this);
     }
@@ -63,20 +69,6 @@ public class KernelEndpoint : IMessageChannel, IDisposable
     public void Request(QueryKernelRequest message) => _KernelRetriever.Enqueue(message);
     public void Request(StopKernelRequest message) => _KernelRetriever.Enqueue(message);
     public void Request(UpdateKernelRequest message) => _KernelRetriever.Enqueue(message);
-
-    #endregion
-
-    #region Responses
-
-    public void Send(OutKernelResponse message)
-    {
-        _EndpointClient.Send(message);
-    }
-
-    public void Send(QueryKernelResponse message)
-    {
-        _EndpointClient.Send(message);
-    }
 
     #endregion
 
@@ -102,7 +94,8 @@ public class KernelEndpoint : IMessageChannel, IDisposable
 
     #endregion
 
-    public static KernelEndpoint Create(KernelRetriever kernelRetriever, ICreateEndpointClient messageRouter) => new(kernelRetriever, messageRouter);
+    public static KernelEndpoint Create(KernelProcess[] kernelProcesses, ICreateEndpointClient messageRouter) =>
+        new(new KernelRetriever(kernelProcesses), messageRouter);
 
     public void Dispose()
     {

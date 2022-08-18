@@ -21,7 +21,7 @@ public partial class EndpointClientTests : TestBase
     public EndpointClientTests()
     {
         MessageBus bus = new();
-        _EndpointClient = bus.CreateEndpointClient();
+        _EndpointClient = bus.GetEndpointClient();
         _TestChannel1 = new TestChannel1(bus);
         _TestChannel2 = new TestChannel2(bus);
     }

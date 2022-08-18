@@ -30,12 +30,12 @@ public class MainEndpoint : IMessageChannel, IDisposable
 
     #region Constructor
 
-    private MainEndpoint(ReaderDatabase database, ICreateEndpointClient messageBus, KernelRetriever kernelRetriever)
+    private MainEndpoint(ReaderConfiguration configuration, ICreateEndpointClient messageBus)
     {
         ChannelIdentifier = new ChannelIdentifier(SelectionSessionId);
-        _EndpointClient = messageBus.CreateEndpointClient();
+        _EndpointClient = messageBus.GetEndpointClient();
         _EndpointClient.Subscribe(this);
-        _MainProcess = new MainProcess(database, _EndpointClient, kernelRetriever);
+        _MainProcess = new MainProcess(configuration, _EndpointClient);
     }
 
     #endregion
@@ -54,12 +54,18 @@ public class MainEndpoint : IMessageChannel, IDisposable
     /// <exception cref="InvalidMessageRoutingException"></exception>
     public void Request(RequestMessage message)
     {
-        throw new InvalidMessageRoutingException(message, this);
-    }
-
-    public void Request(AbortReaderRequest message)
-    {
-        _MainProcess.Enqueue(message);
+        if (message is ActivateReaderRequest activateReaderRequest)
+            Request(activateReaderRequest);
+        else if (message is QueryReaderRequest queryReaderRequest)
+            Request(queryReaderRequest);
+        else if (message is UpdateReaderRequest updateReaderRequest)
+            Request(updateReaderRequest);
+        else if (message is StopReaderRequest stopReaderRequest)
+            Request(stopReaderRequest);
+        else if (message is AbortReaderRequest abortReaderRequest)
+            Request(abortReaderRequest);
+        else
+            throw new InvalidMessageRoutingException(message, this);
     }
 
     public void Request(ActivateReaderRequest message)
@@ -72,33 +78,19 @@ public class MainEndpoint : IMessageChannel, IDisposable
         _MainProcess.Enqueue(message);
     }
 
-    public void Request(StopReaderRequest message)
-    {
-        _MainProcess.Enqueue(message);
-    }
-
     public void Request(UpdateReaderRequest message)
     {
         _MainProcess.Enqueue(message);
     }
 
-    #endregion
-
-    #region Responses
-
-    public void Send(OutReaderResponse message)
+    public void Request(StopReaderRequest message)
     {
-        _EndpointClient.Send(message);
+        _MainProcess.Enqueue(message);
     }
 
-    private void Send(QueryReaderResponse message)
+    public void Request(AbortReaderRequest message)
     {
-        _EndpointClient.Send(message);
-    }
-
-    private void Send(StopReaderAcknowledgedResponse message)
-    {
-        _EndpointClient.Send(message);
+        _MainProcess.Enqueue(message);
     }
 
     #endregion
@@ -139,8 +131,7 @@ public class MainEndpoint : IMessageChannel, IDisposable
 
     #endregion
 
-    internal static MainEndpoint Create(ReaderDatabase readerDatabase, ICreateEndpointClient messageRouter, KernelRetriever kernelRetriever) =>
-        new(readerDatabase, messageRouter, kernelRetriever);
+    public static MainEndpoint Create(ReaderConfiguration readerConfiguration, ICreateEndpointClient messageRouter) => new(readerConfiguration, messageRouter);
 
     public void Dispose()
     {

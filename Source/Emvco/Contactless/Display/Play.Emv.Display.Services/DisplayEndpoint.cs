@@ -28,7 +28,7 @@ public class DisplayEndpoint : IMessageChannel, IDisposable
         IDisplayMessages displayService, IDisplayLed ledDisplayService, IDisplayMessageRepository displayMessageRepository, ICreateEndpointClient messageBus)
     {
         _DisplayProcess = new DisplayProcess(displayService, ledDisplayService, displayMessageRepository);
-        _EndpointClient = messageBus.CreateEndpointClient();
+        _EndpointClient = messageBus.GetEndpointClient();
         _EndpointClient.Subscribe(this);
     }
 

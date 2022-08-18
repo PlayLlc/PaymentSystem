@@ -29,16 +29,17 @@ public class Kernel2StateResolver : IGetKernelState
 
     public Kernel2StateResolver(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IEndpointClient endpointClient,
-        IManageTornTransactions tornTransactionLog, IGenerateUnpredictableNumber unpredictableNumberGenerator, ICleanTornTransactions tornTransactionCleaner,
-        IReadOfflineBalance balanceReader, IValidateCombinationCapability combinationCapabilityValidator,
-        IValidateCombinationCompatibility combinationCompatibilityValidator, ISelectCardholderVerificationMethod cardholderVerificationMethodSelector,
-        IPerformTerminalActionAnalysis terminalActionAnalyzer, IAuthenticateTransactionSession authenticationService)
+        IManageTornTransactions tornTransactionLog, IGenerateUnpredictableNumber unpredictableNumberGenerator,
+        IValidateCombinationCapability combinationCapabilityValidator, IValidateCombinationCompatibility combinationCompatibilityValidator,
+        ISelectCardholderVerificationMethod cardholderVerificationMethodSelector, IPerformTerminalActionAnalysis terminalActionAnalyzer,
+        IAuthenticateTransactionSession authenticationService)
     {
         _KernelStateMap = new Dictionary<StateId, KernelState>();
         PrepareGenerateAcService applicationCryptogramGenerator = new(database, dataExchangeKernelService, this, endpointClient);
+        OfflineBalanceReader offlineBalanceReader = new(database, dataExchangeKernelService, this, endpointClient);
 
         S3R1 s3R1 = new(database, dataExchangeKernelService, this, endpointClient);
-        S456 s456 = new(database, dataExchangeKernelService, endpointClient, this, balanceReader, combinationCapabilityValidator,
+        S456 s456 = new(database, dataExchangeKernelService, endpointClient, this, offlineBalanceReader, combinationCapabilityValidator,
             combinationCompatibilityValidator, cardholderVerificationMethodSelector, terminalActionAnalyzer, tornTransactionLog,
             applicationCryptogramGenerator);
         S78 s78 = new(database, dataExchangeKernelService, this, endpointClient, unpredictableNumberGenerator);
@@ -56,7 +57,7 @@ public class Kernel2StateResolver : IGetKernelState
             new WaitingForGpoResponse(database, dataExchangeKernelService, endpointClient, tornTransactionLog, this, unpredictableNumberGenerator, s3R1),
 
             // State 4
-            new WaitingForEmvReadRecordResponse(database, dataExchangeKernelService, endpointClient, tornTransactionLog, this, tornTransactionCleaner, s456),
+            new WaitingForEmvReadRecordResponse(database, dataExchangeKernelService, endpointClient, tornTransactionLog, this, s456),
 
             // State 5
             new WaitingForGetDataResponse(database, dataExchangeKernelService, endpointClient, tornTransactionLog, this, s456),
@@ -71,15 +72,15 @@ public class Kernel2StateResolver : IGetKernelState
             new WaitingForMagstripeFirstWriteFlag(database, dataExchangeKernelService, endpointClient, tornTransactionLog, this, s78),
 
             // State 9
-            new WaitingForGenerateAcResponse1(database, dataExchangeKernelService, endpointClient, tornTransactionLog, this, balanceReader, s910),
+            new WaitingForGenerateAcResponse1(database, dataExchangeKernelService, endpointClient, tornTransactionLog, this, offlineBalanceReader, s910),
 
             // State 10
-            new WaitingForRecoverAcResponse(database, dataExchangeKernelService, endpointClient, tornTransactionLog, this, balanceReader,
+            new WaitingForRecoverAcResponse(database, dataExchangeKernelService, endpointClient, tornTransactionLog, this, offlineBalanceReader,
                 applicationCryptogramGenerator, s910),
 
             // State 11
             new WaitingForGenerateAcResponse2(database, dataExchangeKernelService, endpointClient, tornTransactionLog, this, authenticationService,
-                balanceReader),
+                offlineBalanceReader),
 
             // State 12
             new WaitingForPutDataResponseBeforeGenerateAc(database, dataExchangeKernelService, endpointClient, tornTransactionLog, this,
@@ -95,7 +96,7 @@ public class Kernel2StateResolver : IGetKernelState
             new WaitingForPutDataResponseAfterGenerateAc(database, dataExchangeKernelService, endpointClient, tornTransactionLog, this),
 
             // State 16
-            new WaitingForPreGenAcBalance(database, dataExchangeKernelService, endpointClient, tornTransactionLog, this, balanceReader),
+            new WaitingForPreGenAcBalance(database, dataExchangeKernelService, endpointClient, tornTransactionLog, this, offlineBalanceReader),
 
             // State 17
             new WaitingForPostGenAcBalance(database, dataExchangeKernelService, endpointClient, tornTransactionLog, this),

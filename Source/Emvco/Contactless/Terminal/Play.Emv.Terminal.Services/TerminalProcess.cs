@@ -39,6 +39,11 @@ internal class TerminalProcess : CommandProcessingQueue
         Enqueue((dynamic) request);
     }
 
+    internal void Enqueue(InitiateSettlementRequest request)
+    {
+        Enqueue((dynamic) request);
+    }
+
     internal void Enqueue(QueryTerminalRequest request)
     {
         Enqueue((dynamic) request);
@@ -61,6 +66,12 @@ internal class TerminalProcess : CommandProcessingQueue
 
     /// <exception cref="RequestOutOfSyncException"></exception>
     private async Task Handle(ActivateTerminalRequest request)
+    {
+        await Task.Run(() => { _TerminalStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
+    }
+
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    private async Task Handle(InitiateSettlementRequest request)
     {
         await Task.Run(() => { _TerminalStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
     }

@@ -1,10 +1,10 @@
 ﻿namespace Play.Emv.Reader.Services;
 
-public abstract record MainState(ReaderDatabase ReaderDatabase)
+public abstract record MainState(ReaderConfiguration ReaderConfiguration)
 {
     #region Instance Values
 
-    public readonly ReaderDatabase ReaderDatabase = ReaderDatabase;
+    public readonly ReaderConfiguration ReaderConfiguration = ReaderConfiguration;
 
     #endregion
 }

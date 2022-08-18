@@ -21,19 +21,17 @@ internal class MainStateMachine
 
     private readonly IEndpointClient _EndpointClient;
     private readonly IProcessOutcome _OutcomeProcessor;
-    private readonly KernelRetriever _KernelRetriever;
     private readonly MainSessionLock _Lock;
 
     #endregion
 
     #region Constructor
 
-    public MainStateMachine(ReaderDatabase readerDatabase, IEndpointClient endpointClient, KernelRetriever kernelRetriever)
+    public MainStateMachine(ReaderConfiguration readerConfiguration, IEndpointClient endpointClient)
     {
-        _KernelRetriever = kernelRetriever;
         _EndpointClient = endpointClient;
         _OutcomeProcessor = new OutcomeProcessor(endpointClient);
-        _Lock = new MainSessionLock(readerDatabase);
+        _Lock = new MainSessionLock(readerConfiguration);
     }
 
     #endregion
@@ -58,9 +56,9 @@ internal class MainStateMachine
                     $"The {nameof(ActivateReaderRequest)} can't be processed because the state of the {nameof(MainStateMachine)} is not in the {nameof(AwaitingTransaction)} state");
             }
 
-            _Lock.State = new AwaitingSelection(request.Transaction.GetTransactionSessionId(), request.GetCorrelationId(), _Lock.State.ReaderDatabase);
-            _Lock.State.ReaderDatabase.Activate(request.Transaction.GetTransactionSessionId());
-            _Lock.State.ReaderDatabase.Update(request.Transaction.AsPrimitiveValues());
+            _Lock.State = new AwaitingSelection(request.Transaction.GetTransactionSessionId(), request.GetCorrelationId(), _Lock.State.ReaderConfiguration);
+            _Lock.State.ReaderConfiguration.Activate(request.Transaction.GetTransactionSessionId());
+            _Lock.State.ReaderConfiguration.Update(request.Transaction.AsPrimitiveValues());
             _EndpointClient.Send(new ActivateSelectionRequest(request.Transaction));
         }
     }
@@ -92,7 +90,7 @@ internal class MainStateMachine
 
     private void ProcessOutcome(AwaitingSelection state, Transaction transaction)
     {
-        _OutcomeProcessor.Process(state.CorrelationId!, state.TransactionSessionId, state.ReaderDatabase.GetTransaction());
+        _OutcomeProcessor.Process(state.CorrelationId!, state.TransactionSessionId, state.ReaderConfiguration.GetTransaction());
     }
 
     /// <exception cref="TerminalException"></exception>
@@ -112,11 +110,12 @@ internal class MainStateMachine
 
         KernelSessionId kernelSessionId = new(selectionResponse.GetKernelId()!, state.TransactionSessionId);
         ActivateKernelRequest activateKernelRequest = new(kernelSessionId,
-            state.ReaderDatabase.GetKernelValues(selectionResponse.GetCombinationCompositeKey()!), selectionResponse.GetApplicationFileInformationResponse()!);
+            state.ReaderConfiguration.GetKernelValues(selectionResponse.GetCombinationCompositeKey()!),
+            selectionResponse.GetApplicationFileInformationResponse()!);
 
-        _KernelRetriever.Enqueue(activateKernelRequest);
+        _EndpointClient.Send(activateKernelRequest);
 
-        return new AwaitingKernel(kernelSessionId, state.TransactionSessionId, state.CorrelationId, state.ReaderDatabase);
+        return new AwaitingKernel(kernelSessionId, state.TransactionSessionId, state.CorrelationId, state.ReaderConfiguration);
     }
 
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -129,7 +128,7 @@ internal class MainStateMachine
             if (_Lock.State is not AwaitingKernel state)
                 throw new RequestOutOfSyncException($"The {nameof(OutSelectionResponse)} can't be processed because the transaction is no longer processing");
 
-            _KernelRetriever.Enqueue(new StopKernelRequest(state.KernelSessionId));
+            _EndpointClient.Send(new StopKernelRequest(state.KernelSessionId));
             _OutcomeProcessor.Process(state.CorrelationId!, request.GetKernelSessionId().GetTransactionSessionId(), request.GetTransaction());
         }
     }
@@ -160,7 +159,7 @@ internal class MainStateMachine
             //_PCD.Request(new StopPcdRequest(_MainSessionLock.Session.Transaction));
 
             if (_Lock.State is AwaitingKernel kernelState)
-                _KernelRetriever.Enqueue(new StopKernelRequest(kernelState.KernelSessionId));
+                _EndpointClient.Send(new StopKernelRequest(kernelState.KernelSessionId));
             else if (_Lock.State is AwaitingSelection selectionState)
                 _EndpointClient.Send(new StopSelectionRequest(selectionState.TransactionSessionId));
             else
@@ -169,7 +168,7 @@ internal class MainStateMachine
                     $"The {nameof(StopReaderRequest)} can't be processed because the {nameof(MainStateMachine)} is in an unknown state");
             }
 
-            _Lock.State = new AwaitingTransaction(_Lock.State.ReaderDatabase);
+            _Lock.State = new AwaitingTransaction(_Lock.State.ReaderConfiguration);
         }
     }
 
@@ -185,9 +184,9 @@ internal class MainStateMachine
 
         #region Constructor
 
-        public MainSessionLock(ReaderDatabase database)
+        public MainSessionLock(ReaderConfiguration configuration)
         {
-            State = new AwaitingTransaction(database);
+            State = new AwaitingTransaction(configuration);
         }
 
         #endregion

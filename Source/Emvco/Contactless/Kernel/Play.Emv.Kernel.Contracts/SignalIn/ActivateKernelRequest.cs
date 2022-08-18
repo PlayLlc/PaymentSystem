@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using Play.Ber.DataObjects;
+using Play.Emv.Ber.DataElements;
 using Play.Emv.Identifiers;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
@@ -96,6 +97,7 @@ public record ActivateKernelRequest : RequestSignal
 
     #region Instance Members
 
+    public KernelId GetKernelId() => _KernelSessionId.GetKernelId();
     public PrimitiveValue[] GetPrimitiveValues() => _TransactionValues.ToArray();
     public SelectApplicationDefinitionFileInfoResponse GetRapdu() => _Rapdu;
     public KernelSessionId GetKernelSessionId() => _KernelSessionId;

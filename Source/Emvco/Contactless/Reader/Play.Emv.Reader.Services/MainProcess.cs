@@ -22,9 +22,9 @@ internal class MainProcess : CommandProcessingQueue
 
     #region Constructor
 
-    public MainProcess(ReaderDatabase readerDatabase, IEndpointClient endpointClient, KernelRetriever kernelRetriever) : base(new CancellationTokenSource())
+    public MainProcess(ReaderConfiguration readerConfiguration, IEndpointClient endpointClient) : base(new CancellationTokenSource())
     {
-        _MainStateMachine = new MainStateMachine(readerDatabase, endpointClient, kernelRetriever);
+        _MainStateMachine = new MainStateMachine(readerConfiguration, endpointClient);
     }
 
     #endregion

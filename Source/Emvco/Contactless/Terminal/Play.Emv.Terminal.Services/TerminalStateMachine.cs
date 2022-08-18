@@ -1,4 +1,6 @@
-﻿using Play.Emv.Ber.DataElements;
+﻿using System;
+
+using Play.Emv.Ber.DataElements;
 using Play.Emv.Configuration;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
@@ -52,6 +54,11 @@ internal class TerminalStateMachine
             _Lock.Session = new TerminalSession(new TransactionSessionId(request.GetTransactionType()));
             _Lock.State = _Lock.State.Handle(_Lock.Session, request);
         }
+    }
+
+    public void Handle(InitiateSettlementRequest response)
+    {
+        throw new NotImplementedException();
     }
 
     public void Handle(OutReaderResponse response)

@@ -26,7 +26,7 @@ public class SelectionEndpoint : IMessageChannel, IDisposable
 
     private SelectionEndpoint(ICreateEndpointClient messageBus, TransactionProfile[] transactionProfiles, PoiInformation poiInformation)
     {
-        _EndpointClient = messageBus.CreateEndpointClient();
+        _EndpointClient = messageBus.GetEndpointClient();
         _EndpointClient.Subscribe(this);
         ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
         _SelectionProcess = new SelectionProcess(_EndpointClient, transactionProfiles, poiInformation);

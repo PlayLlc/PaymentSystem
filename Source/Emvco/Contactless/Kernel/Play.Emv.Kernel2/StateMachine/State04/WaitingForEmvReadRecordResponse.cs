@@ -26,10 +26,9 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     public WaitingForEmvReadRecordResponse(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IEndpointClient endpointClient,
-        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, ICleanTornTransactions kernelCleaner, S456 s456) : base(database,
-        dataExchangeKernelService, tornTransactionLog, kernelStateResolver, endpointClient)
+        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, S456 s456) : base(database, dataExchangeKernelService,
+        tornTransactionLog, kernelStateResolver, endpointClient)
     {
-        _KernelCleaner = kernelCleaner;
         _S456 = s456;
     }
 

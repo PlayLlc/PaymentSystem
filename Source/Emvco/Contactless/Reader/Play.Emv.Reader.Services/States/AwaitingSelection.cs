@@ -4,7 +4,7 @@ using Play.Messaging;
 namespace Play.Emv.Reader.Services.States;
 
 public record AwaitingSelection
-    (TransactionSessionId TransactionSessionId, CorrelationId CorrelationId, ReaderDatabase ReaderDatabase) : AwaitingTransaction(ReaderDatabase)
+    (TransactionSessionId TransactionSessionId, CorrelationId CorrelationId, ReaderConfiguration ReaderConfiguration) : AwaitingTransaction(ReaderConfiguration)
 {
     #region Instance Values
 

@@ -37,7 +37,7 @@ public class TerminalEndpoint : IMessageChannel, IDisposable
         TerminalConfiguration terminalConfiguration, SystemTraceAuditNumberConfiguration systemTraceAuditNumberConfiguration, ISettleTransactions settler,
         ICreateEndpointClient messageBus)
     {
-        _EndpointClient = messageBus.CreateEndpointClient();
+        _EndpointClient = messageBus.GetEndpointClient();
         _EndpointClient.Subscribe(this);
         ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
         _TerminalProcess = new TerminalProcess(terminalConfiguration,
@@ -65,6 +65,8 @@ public class TerminalEndpoint : IMessageChannel, IDisposable
             Request(activatePcdRequest);
         else if (message is QueryTerminalRequest queryPcdRequest)
             Request(queryPcdRequest);
+        else if (message is InitiateSettlementRequest initiateSettlementRequest)
+            Request(initiateSettlementRequest);
         else
             throw new InvalidMessageRoutingException(message, this);
     }
@@ -75,6 +77,11 @@ public class TerminalEndpoint : IMessageChannel, IDisposable
     }
 
     public void Request(QueryTerminalRequest message)
+    {
+        _TerminalProcess.Enqueue(message);
+    }
+
+    public void Request(InitiateSettlementRequest message)
     {
         _TerminalProcess.Enqueue(message);
     }
@@ -101,10 +108,9 @@ public class TerminalEndpoint : IMessageChannel, IDisposable
     {
         if (message is OutReaderResponse outReaderResponse)
             Handle(outReaderResponse);
-        if (message is QueryKernelResponse queryKernelResponse)
+        else if (message is QueryKernelResponse queryKernelResponse)
             Handle(queryKernelResponse);
-
-        if (message is StopReaderAcknowledgedResponse stopReaderAcknowledgedResponse)
+        else if (message is StopReaderAcknowledgedResponse stopReaderAcknowledgedResponse)
             Handle(stopReaderAcknowledgedResponse);
         else
             throw new InvalidMessageRoutingException(message, this);

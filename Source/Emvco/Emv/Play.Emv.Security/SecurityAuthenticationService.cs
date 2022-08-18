@@ -10,7 +10,7 @@ using Play.Encryption.Signing;
 
 namespace Play.Emv.Security;
 
-public class AuthenticationService : IAuthenticateTransactionSession
+public class SecurityAuthenticationService : IAuthenticateTransactionSession
 {
     #region Instance Values
 
@@ -22,7 +22,7 @@ public class AuthenticationService : IAuthenticateTransactionSession
 
     #region Constructor
 
-    internal AuthenticationService(
+    private SecurityAuthenticationService(
         StaticDataAuthenticator staticDataAuthenticator, DynamicDataAuthenticator dynamicDataAuthenticator, CombinedDataAuthenticator combinedDataAuthenticator)
     {
         _StaticDataAuthenticator = staticDataAuthenticator;
@@ -34,12 +34,12 @@ public class AuthenticationService : IAuthenticateTransactionSession
 
     #region Instance Members
 
-    public static AuthenticationService Create()
+    public static SecurityAuthenticationService Create()
     {
         SignatureService? signatureService = new();
         CertificateFactory certificateFactory = new();
 
-        return new AuthenticationService(new StaticDataAuthenticator(signatureService, certificateFactory),
+        return new SecurityAuthenticationService(new StaticDataAuthenticator(signatureService, certificateFactory),
             new DynamicDataAuthenticator(signatureService, certificateFactory),
             new CombinedDataAuthenticator(new HashAlgorithmProvider(), signatureService, certificateFactory));
     }

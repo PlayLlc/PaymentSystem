@@ -27,7 +27,7 @@ public class ProximityCouplingDeviceEndpoint : IMessageChannel, IDisposable
     private ProximityCouplingDeviceEndpoint(ICreateEndpointClient messageBus, PcdProtocolConfiguration configuration, IProximityCouplingDeviceClient pcdClient)
     {
         ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
-        _EndpointClient = messageBus.CreateEndpointClient();
+        _EndpointClient = messageBus.GetEndpointClient();
         _EndpointClient.Subscribe(this);
         _ProximityCouplingDeviceProcess = new ProximityCouplingDeviceProcess(new CardClient(pcdClient), configuration, _EndpointClient);
     }

@@ -21,6 +21,8 @@ public abstract record TerminalConfiguration
     private readonly TerminalType _TerminalType;
     private readonly TerminalCapabilities _TerminalCapabilities;
     private readonly AdditionalTerminalCapabilities _AdditionalTerminalCapabilities;
+    private readonly MaxLifetimeOfTornTransactionLogRecords _MaxLifetimeOfTornTransactionLogRecords;
+    private readonly MaxNumberOfTornTransactionLogRecords _MaxNumberOfTornTransactionLogRecords;
 
     // TLV
     private readonly TerminalCountryCode _TerminalCountryCode;
@@ -58,7 +60,9 @@ public abstract record TerminalConfiguration
         Probability randomSelectionTargetProbability, ulong thresholdValueForBiasedRandomSelection, PoiInformation poiInformation,
         AdditionalTerminalCapabilities additionalTerminalCapabilities, TransactionReferenceCurrencyCode transactionReferenceCurrencyCode,
         TransactionReferenceCurrencyExponent transactionReferenceCurrencyExponent, AcquirerIdentifier acquirerIdentifier,
-        DataStorageRequestedOperatorId dataStorageRequestedOperatorId, TransactionCurrencyExponent transactionCurrencyExponent)
+        DataStorageRequestedOperatorId dataStorageRequestedOperatorId, TransactionCurrencyExponent transactionCurrencyExponent,
+        MaxLifetimeOfTornTransactionLogRecords maxLifetimeOfTornTransactionLogRecords,
+        MaxNumberOfTornTransactionLogRecords maxNumberOfTornTransactionLogRecords)
     {
         _TerminalIdentification = terminalIdentification;
         _TransactionCurrencyCode = transactionCurrencyCode;
@@ -82,6 +86,8 @@ public abstract record TerminalConfiguration
         _AcquirerIdentifier = acquirerIdentifier;
         _DataStorageRequestedOperatorId = dataStorageRequestedOperatorId;
         _TransactionCurrencyExponent = transactionCurrencyExponent;
+        _MaxLifetimeOfTornTransactionLogRecords = maxLifetimeOfTornTransactionLogRecords;
+        _MaxNumberOfTornTransactionLogRecords = maxNumberOfTornTransactionLogRecords;
 
         _TagLengthValues.Add(_TerminalIdentification);
         _TagLengthValues.Add(_TransactionCurrencyCode);
@@ -107,6 +113,8 @@ public abstract record TerminalConfiguration
 
     #region Instance Members
 
+    public MaxNumberOfTornTransactionLogRecords GetMaxNumberOfTornTransactionLogRecords() => _MaxNumberOfTornTransactionLogRecords;
+    public MaxLifetimeOfTornTransactionLogRecords GeMaxLifetimeOfTornTransactionLogRecords() => _MaxLifetimeOfTornTransactionLogRecords;
     public TransactionCurrencyExponent GetTransactionCurrencyExponent() => _TransactionCurrencyExponent;
     public TerminalRiskManagementData GetTerminalRiskManagementData() => _TerminalRiskManagementData;
     public AcquirerIdentifier GetAcquirerIdentifier() => _AcquirerIdentifier;

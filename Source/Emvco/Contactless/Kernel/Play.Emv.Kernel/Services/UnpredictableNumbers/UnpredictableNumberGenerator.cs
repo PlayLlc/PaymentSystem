@@ -7,7 +7,7 @@ using Play.Randoms;
 
 namespace Play.Emv.Kernel.Services;
 
-internal class UnpredictableNumberGenerator : IGenerateUnpredictableNumber
+public class UnpredictableNumberGenerator : IGenerateUnpredictableNumber
 {
     #region Instance Members
 
