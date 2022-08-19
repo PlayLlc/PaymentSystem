@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.ValueTypes;
@@ -99,7 +98,7 @@ public class DataStorageApplicationCryptogramTypeTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        DataStorageApplicationCryptogramTypeTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
+        DataStorageApplicationCryptogramTypeTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
 
         Assert.Throws<DataElementParsingException>(() => DataStorageApplicationCryptogramType.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -144,7 +143,7 @@ public class DataStorageApplicationCryptogramTypeTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        DataStorageApplicationCryptogramTypeTestTlv testData = new(new byte[] {0x7d});
+        DataStorageApplicationCryptogramTypeTestTlv testData = new(new byte[] { 0x7d });
         DataStorageApplicationCryptogramType sut = DataStorageApplicationCryptogramType.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -160,7 +159,10 @@ public class DataStorageApplicationCryptogramTypeTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        DataStorageApplicationCryptogramTypeTestTlv testData = new(new byte[] {0x08});
+        DataStorageApplicationCryptogramTypeTestTlv testData = new(new byte[]
+        {
+            0x08
+        });
 
         DataStorageApplicationCryptogramType sut = DataStorageApplicationCryptogramType.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -179,6 +181,7 @@ public class DataStorageApplicationCryptogramTypeTests
         DataStorageApplicationCryptogramType sut = DataStorageApplicationCryptogramType.Decode(testData.EncodeValue().AsSpan());
         CryptogramType expectedType = new(0b0100_0000);
 
-        Assert.Equal(expectedType, (CryptogramType) sut);
+        Assert.Equal(expectedType, (CryptogramType)sut);
+
     }
 }

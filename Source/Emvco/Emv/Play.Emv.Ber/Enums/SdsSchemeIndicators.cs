@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 
 using Play.Core;
+using Play.Core.Extensions;
 
 namespace Play.Emv.Ber.Enums;
 
@@ -75,36 +76,6 @@ public record SdsSchemeIndicators : EnumObject<byte>
 
     #endregion
 
-    #region Equality
-
-    public bool Equals(SdsSchemeIndicators x, SdsSchemeIndicators y) => x.Equals(y);
-    public bool Equals(byte other) => _Value == other;
-
-    public override int GetHashCode()
-    {
-        const int hash = 281273;
-
-        return hash + _Value.GetHashCode();
-    }
-
-    #endregion
-
-    #region Operator Overrides
-
-    public static bool operator ==(SdsSchemeIndicators left, byte right) => left._Value == right;
-    public static bool operator ==(byte left, SdsSchemeIndicators right) => left == right._Value;
-    public static explicit operator byte(SdsSchemeIndicators value) => value._Value;
-    public static explicit operator short(SdsSchemeIndicators value) => value._Value;
-    public static explicit operator ushort(SdsSchemeIndicators value) => value._Value;
-    public static explicit operator int(SdsSchemeIndicators value) => value._Value;
-    public static explicit operator uint(SdsSchemeIndicators value) => value._Value;
-    public static explicit operator long(SdsSchemeIndicators value) => value._Value;
-    public static explicit operator ulong(SdsSchemeIndicators value) => value._Value;
-    public static bool operator !=(SdsSchemeIndicators left, byte right) => !(left == right);
-    public static bool operator !=(byte left, SdsSchemeIndicators right) => !(left == right);
-
-    #endregion
-
     #region Instance Members
 
     public override SdsSchemeIndicators[] GetAll() => _ValueObjectMap.Values.ToArray();
@@ -133,6 +104,36 @@ public record SdsSchemeIndicators : EnumObject<byte>
 
         return false;
     }
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(SdsSchemeIndicators x, SdsSchemeIndicators y) => x.Equals(y);
+    public bool Equals(byte other) => _Value == other;
+
+    public override int GetHashCode()
+    {
+        const int hash = 281273;
+
+        return hash + _Value.GetHashCode();
+    }
+
+    #endregion
+
+    #region Operator Overrides
+
+    public static bool operator ==(SdsSchemeIndicators left, byte right) => left._Value == right;
+    public static bool operator ==(byte left, SdsSchemeIndicators right) => left == right._Value;
+    public static explicit operator byte(SdsSchemeIndicators value) => value._Value;
+    public static explicit operator short(SdsSchemeIndicators value) => value._Value;
+    public static explicit operator ushort(SdsSchemeIndicators value) => value._Value;
+    public static explicit operator int(SdsSchemeIndicators value) => value._Value;
+    public static explicit operator uint(SdsSchemeIndicators value) => value._Value;
+    public static explicit operator long(SdsSchemeIndicators value) => value._Value;
+    public static explicit operator ulong(SdsSchemeIndicators value) => value._Value;
+    public static bool operator !=(SdsSchemeIndicators left, byte right) => !(left == right);
+    public static bool operator !=(byte left, SdsSchemeIndicators right) => !(left == right);
 
     #endregion
 }

@@ -1,4 +1,7 @@
-﻿using Play.Emv.Identifiers;
+﻿using Play.Emv.Acquirer.Contracts;
+using Play.Emv.Ber.ValueTypes;
+using Play.Emv.Identifiers;
+using Play.Emv.Outcomes;
 
 namespace Play.Emv.Terminal.Session;
 

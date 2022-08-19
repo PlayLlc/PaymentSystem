@@ -1,9 +1,12 @@
-﻿using Play.Emv.Acquirer.Contracts.SignalOut;
+﻿using Play.Emv.Acquirer.Contracts;
+using Play.Emv.Acquirer.Contracts.SignalIn;
+using Play.Emv.Acquirer.Contracts.SignalOut;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Configuration;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
+using Play.Emv.Reader.Contracts;
 using Play.Emv.Reader.Contracts.SignalIn;
 using Play.Emv.Reader.Contracts.SignalOut;
 using Play.Emv.Terminal.Contracts;

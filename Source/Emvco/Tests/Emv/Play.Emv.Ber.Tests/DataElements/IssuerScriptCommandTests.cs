@@ -3,6 +3,7 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
 
 using Xunit;

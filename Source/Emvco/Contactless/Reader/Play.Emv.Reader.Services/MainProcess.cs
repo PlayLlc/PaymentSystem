@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Play.Core;
 using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;
+using Play.Emv.Kernel.Services;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Reader.Contracts.SignalIn;
 using Play.Emv.Selection.Contracts;

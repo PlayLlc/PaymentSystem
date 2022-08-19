@@ -1,5 +1,6 @@
 ﻿using Play.Emv.Ber;
 using Play.Emv.Kernel.Databases;
+using Play.Emv.Terminal.Contracts;
 using Play.Messaging;
 
 namespace Play.Emv.Kernel.DataExchange;

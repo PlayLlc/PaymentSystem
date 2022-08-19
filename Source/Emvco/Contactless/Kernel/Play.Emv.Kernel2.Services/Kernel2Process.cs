@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Kernel.Contracts;
@@ -8,6 +9,7 @@ using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.Services.Selection;
 using Play.Emv.Kernel2.Databases;
+using Play.Emv.Kernel2.Services.BalanceReading;
 using Play.Emv.Kernel2.StateMachine;
 using Play.Emv.Security;
 using Play.Messaging;

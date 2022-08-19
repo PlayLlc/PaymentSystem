@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Play.Core;
+using Play.Core.Extensions;
 
 namespace Play.Globalization.Currency;
 
@@ -39,6 +40,84 @@ public record Money : IEqualityComparer<Money>
     {
         _Amount = amount;
         _Currency = currency;
+    }
+
+    #endregion
+
+    #region Instance Members
+
+    /// <summary>
+    ///     Add
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    public Money Add(Money value)
+    {
+        if (_Currency != value._Currency)
+        {
+            throw new InvalidOperationException(
+                $"The money could not be altered because the argument {nameof(value)} has a numeric currency code of: [{value._Currency}] which is different than: [{_Currency}]");
+        }
+
+        return new Money(_Amount + value._Amount, _Currency);
+    }
+
+    /// <summary>
+    ///     Formats the money value to string according to the local culture of this type
+    /// </summary>
+    public string AsLocalFormat(CultureProfile cultureProfile) => cultureProfile.GetFiatFormat(this);
+
+    public NumericCurrencyCode GetCurrencyCode(CultureProfile cultureProfile) => cultureProfile.GetNumericCurrencyCode();
+
+    /// <summary>
+    /// A single unit of currency has the value of 1 of 
+    /// the(major) unit of currency as defined in [ISO 4217]. As an
+    /// example a single unit of currency for Euro is 1.00
+    /// </summary>
+    /// <returns> </returns>
+    public bool IsBaseAmount()
+    {
+        if ((_Amount / Math.Pow(10, _Currency.GetMinorUnitLength())) == 1)
+            return true;
+
+        return false;
+    }
+
+    /// <summary>
+    ///     Returns true if the <see cref="Money" /> objects share a common currency between one another
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
+    public bool IsCommonCurrency(Money other) => _Currency == other._Currency;
+
+    public bool IsZeroAmount() => _Amount == 0;
+
+    /// <summary>
+    ///     Formats the money value to string according to the local culture of this type
+    /// </summary>
+    public override string ToString()
+    {
+        int precision = _Currency.GetMinorUnitLength();
+        string yourValue = $"{_Currency.GetCurrencySymbol()}{_Amount / Math.Pow(10, precision)}";
+
+        return yourValue;
+    }
+
+    public string ToString(CultureProfile profile) => profile.GetFiatFormat(this);
+
+    /// <summary>
+    ///     Splits currency amounts based on the percentage provided by the argument
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="probabilitySplit"></param>
+    /// <returns></returns>
+    public static (Money Remaining, Money Split) Split(Money value, Probability probabilitySplit)
+    {
+        ulong remaining = value._Amount / (byte) probabilitySplit;
+        ulong split = value._Amount - remaining;
+
+        return (Remaining: new Money(remaining, value._Currency), new Money(split, value._Currency));
     }
 
     #endregion
@@ -158,84 +237,6 @@ public record Money : IEqualityComparer<Money>
         }
 
         return new Money(left._Amount - right._Amount, left._Currency);
-    }
-
-    #endregion
-
-    #region Instance Members
-
-    /// <summary>
-    ///     Add
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    public Money Add(Money value)
-    {
-        if (_Currency != value._Currency)
-        {
-            throw new InvalidOperationException(
-                $"The money could not be altered because the argument {nameof(value)} has a numeric currency code of: [{value._Currency}] which is different than: [{_Currency}]");
-        }
-
-        return new Money(_Amount + value._Amount, _Currency);
-    }
-
-    /// <summary>
-    ///     Formats the money value to string according to the local culture of this type
-    /// </summary>
-    public string AsLocalFormat(CultureProfile cultureProfile) => cultureProfile.GetFiatFormat(this);
-
-    public NumericCurrencyCode GetCurrencyCode(CultureProfile cultureProfile) => cultureProfile.GetNumericCurrencyCode();
-
-    /// <summary>
-    ///     A single unit of currency has the value of 1 of
-    ///     the(major) unit of currency as defined in [ISO 4217]. As an
-    ///     example a single unit of currency for Euro is 1.00
-    /// </summary>
-    /// <returns> </returns>
-    public bool IsBaseAmount()
-    {
-        if ((_Amount / Math.Pow(10, _Currency.GetMinorUnitLength())) == 1)
-            return true;
-
-        return false;
-    }
-
-    /// <summary>
-    ///     Returns true if the <see cref="Money" /> objects share a common currency between one another
-    /// </summary>
-    /// <param name="other"></param>
-    /// <returns></returns>
-    public bool IsCommonCurrency(Money other) => _Currency == other._Currency;
-
-    public bool IsZeroAmount() => _Amount == 0;
-
-    /// <summary>
-    ///     Formats the money value to string according to the local culture of this type
-    /// </summary>
-    public override string ToString()
-    {
-        int precision = _Currency.GetMinorUnitLength();
-        string yourValue = $"{_Currency.GetCurrencySymbol()}{_Amount / Math.Pow(10, precision)}";
-
-        return yourValue;
-    }
-
-    public string ToString(CultureProfile profile) => profile.GetFiatFormat(this);
-
-    /// <summary>
-    ///     Splits currency amounts based on the percentage provided by the argument
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="probabilitySplit"></param>
-    /// <returns></returns>
-    public static (Money Remaining, Money Split) Split(Money value, Probability probabilitySplit)
-    {
-        ulong remaining = value._Amount / (byte) probabilitySplit;
-        ulong split = value._Amount - remaining;
-
-        return (Remaining: new Money(remaining, value._Currency), new Money(split, value._Currency));
     }
 
     #endregion

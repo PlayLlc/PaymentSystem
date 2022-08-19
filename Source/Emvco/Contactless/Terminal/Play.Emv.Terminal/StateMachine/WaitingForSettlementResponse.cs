@@ -1,4 +1,6 @@
-﻿using Play.Emv.Acquirer.Contracts.SignalOut;
+﻿using System;
+
+using Play.Emv.Acquirer.Contracts.SignalOut;
 using Play.Emv.Configuration;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;

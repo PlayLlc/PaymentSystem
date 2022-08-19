@@ -23,6 +23,8 @@ using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Icc.Messaging.Apdu;
 using Play.Messaging;
 
+using IHandleKernelStopRequests = Play.Emv.Kernel.IHandleKernelStopRequests;
+
 namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForEmvReadRecordResponse : KernelState

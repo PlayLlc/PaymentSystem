@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Globalization.Time;
@@ -31,10 +30,11 @@ public class ApplicationEffectiveDateTests
     {
         Assert.Throws<DataElementParsingException>(() =>
         {
-            ReadOnlySpan<byte> value = stackalloc byte[] {20, 11, 26, 13};
+            ReadOnlySpan<byte> value = stackalloc byte[] { 20, 11, 26, 13 };
             ApplicationEffectiveDate testValue = ApplicationEffectiveDate.Decode(value);
         });
     }
+
 
     /// <summary>
     ///     BerEncoding_EncodingDataElement_SerializesExpectedValue
@@ -113,8 +113,8 @@ public class ApplicationEffectiveDateTests
 
         ApplicationEffectiveDate sut = ApplicationEffectiveDate.Decode(testData.EncodeValue().AsSpan());
 
-        DateTimeUtc expected = new(22, 07, 07);
-        Assert.Equal(expected, (DateTimeUtc) sut);
+        DateTimeUtc expected = new(22,07, 07);
+        Assert.Equal(expected, (DateTimeUtc)sut);
     }
 
     #endregion

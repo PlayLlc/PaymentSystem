@@ -5,8 +5,7 @@ using AutoFixture;
 using Moq;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Exceptions;
-using Play.Ber.Tags;
+using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.Templates;
@@ -26,7 +25,7 @@ public class DefaultUnpredictableNumberDataObjectListTests
 
     #endregion
 
-    #region Constructor
+    #region Constructors
 
     public DefaultUnpredictableNumberDataObjectListTests()
     {
@@ -122,7 +121,7 @@ public class DefaultUnpredictableNumberDataObjectListTests
     [Fact]
     public void InvalidBerEncoding_DeserializingTagLengthsWithNoRequiredTagPresent_ThrowsDataElementParsingException()
     {
-        DefaultUnpredictableNumberDataObjectListTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
+        DefaultUnpredictableNumberDataObjectListTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
 
         Assert.Throws<DataElementParsingException>(() => DefaultUnpredictableNumberDataObjectList.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -167,7 +166,7 @@ public class DefaultUnpredictableNumberDataObjectListTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        DefaultUnpredictableNumberDataObjectListTestTlv testData = new(new byte[] {8, 23});
+        DefaultUnpredictableNumberDataObjectListTestTlv testData = new(new byte[] { 8, 23 });
         DataStorageDataObjectList sut = DataStorageDataObjectList.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -196,7 +195,7 @@ public class DefaultUnpredictableNumberDataObjectListTests
 
         DefaultUnpredictableNumberDataObjectList sut = DefaultUnpredictableNumberDataObjectList.Decode(testData.EncodeValue().AsSpan());
 
-        Tag expectedTag = new(37);
+        Tag expectedTag = new Tag(37);
 
         bool exists = sut.Exists(expectedTag);
 

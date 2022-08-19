@@ -1,6 +1,6 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Tags;
+using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -28,6 +28,13 @@ namespace Play.Emv.Ber.DataElements
 
         #endregion
 
+        #region Instance Members
+
+        public override PlayEncodingId GetEncodingId() => EncodingId;
+        public override Tag GetTag() => Tag;
+
+        #endregion
+
         #region Serialization
 
         public static LowerConsecutiveOfflineLimit Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
@@ -51,13 +58,6 @@ namespace Play.Emv.Ber.DataElements
         #region Operator Overrides
 
         public static implicit operator byte(LowerConsecutiveOfflineLimit value) => value._Value;
-
-        #endregion
-
-        #region Instance Members
-
-        public override PlayEncodingId GetEncodingId() => EncodingId;
-        public override Tag GetTag() => Tag;
 
         #endregion
     }

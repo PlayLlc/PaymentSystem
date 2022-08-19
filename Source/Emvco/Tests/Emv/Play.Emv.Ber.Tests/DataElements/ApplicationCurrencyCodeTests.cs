@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Globalization.Currency;
@@ -31,7 +30,7 @@ public class ApplicationCurrencyCodeTests
     {
         Assert.Throws<DataElementParsingException>(() =>
         {
-            ReadOnlySpan<byte> input = stackalloc byte[] {12, 14};
+            ReadOnlySpan<byte> input = stackalloc byte[] { 12, 14 };
             ApplicationCurrencyCode testValue = ApplicationCurrencyCode.Decode(input);
         });
     }
@@ -112,8 +111,8 @@ public class ApplicationCurrencyCodeTests
         ApplicationCurrencyCodeTestTlv testData = new();
         ApplicationCurrencyCode sut = ApplicationCurrencyCode.Decode(testData.EncodeValue().AsSpan());
 
-        NumericCurrencyCode expected = new(840);
-        NumericCurrencyCode actual = (NumericCurrencyCode) sut;
+        NumericCurrencyCode expected = new NumericCurrencyCode(840);
+        NumericCurrencyCode actual = (NumericCurrencyCode)(sut);
 
         Assert.Equal(expected, actual);
     }

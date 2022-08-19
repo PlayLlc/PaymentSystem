@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -98,7 +97,7 @@ public class IccDynamicNumberTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElementGreaterThenMaxLength_Throws()
     {
-        IccDynamicNumberTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01, 0x01, 0x01});
+        IccDynamicNumberTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01, 0x01, 0x01 });
 
         Assert.Throws<DataElementParsingException>(() => IccDynamicNumber.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -106,7 +105,7 @@ public class IccDynamicNumberTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElementSmallerThenMaxLength_Throws()
     {
-        IccDynamicNumberTestTlv testData = new(new byte[] {0x08});
+        IccDynamicNumberTestTlv testData = new(new byte[] { 0x08 });
 
         Assert.Throws<DataElementParsingException>(() => IccDynamicNumber.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -151,7 +150,7 @@ public class IccDynamicNumberTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        IccDynamicNumberTestTlv testData = new(new byte[] {0x08, 0x32});
+        IccDynamicNumberTestTlv testData = new(new byte[] { 0x08, 0x32 });
         IccDynamicNumber sut = IccDynamicNumber.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -167,7 +166,10 @@ public class IccDynamicNumberTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        IccDynamicNumberTestTlv testData = new(new byte[] {0x08, 0x32});
+        IccDynamicNumberTestTlv testData = new(new byte[]
+        {
+            0x08, 0x32
+        });
 
         IccDynamicNumber sut = IccDynamicNumber.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -178,3 +180,4 @@ public class IccDynamicNumberTests
 
     #endregion
 }
+

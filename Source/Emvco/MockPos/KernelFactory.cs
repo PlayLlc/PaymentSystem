@@ -1,4 +1,10 @@
-﻿using Play.Emv.Ber.Enums;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using Play.Emv.Ber.Enums;
 using Play.Emv.Configuration;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;

@@ -2,7 +2,6 @@
 using System.Linq;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -13,9 +12,9 @@ namespace Play.Emv.Ber.Tests.DataElements;
 
 public class DataStorageOperatorDataSetTerminalTests
 {
-    #region Static Metadata
+    #region Instance Values
 
-    private static readonly Random _Random = new();
+    private static readonly Random _Random = new Random();
 
     #endregion
 
@@ -105,8 +104,7 @@ public class DataStorageOperatorDataSetTerminalTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        DataStorageOperatorDataSetTerminalTestTlv testData =
-            new(Enumerable.Range(0, 170).Select(_ => (byte) _Random.Next(byte.MinValue, byte.MaxValue)).ToArray());
+        DataStorageOperatorDataSetTerminalTestTlv testData = new(Enumerable.Range(0, 170).Select(_ => (byte)_Random.Next(byte.MinValue, byte.MaxValue)).ToArray());
 
         Assert.Throws<DataElementParsingException>(() => DataStorageOperatorDataSetTerminal.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -151,7 +149,7 @@ public class DataStorageOperatorDataSetTerminalTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        DataStorageOperatorDataSetTerminalTestTlv testData = new(new byte[] {0x7d});
+        DataStorageOperatorDataSetTerminalTestTlv testData = new(new byte[] { 0x7d });
         DataStorageOperatorDataSetTerminal sut = DataStorageOperatorDataSetTerminal.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -167,7 +165,7 @@ public class DataStorageOperatorDataSetTerminalTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        DataStorageOperatorDataSetTerminalTestTlv testData = new(new byte[] {0xe});
+        DataStorageOperatorDataSetTerminalTestTlv testData = new(new byte[] { 0xe });
 
         DataStorageOperatorDataSetTerminal sut = DataStorageOperatorDataSetTerminal.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();

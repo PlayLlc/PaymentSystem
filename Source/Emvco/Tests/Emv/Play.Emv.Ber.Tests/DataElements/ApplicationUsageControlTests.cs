@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -98,7 +97,7 @@ public class ApplicationUsageControlTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        ApplicationUsageControlTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
+        ApplicationUsageControlTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
 
         Assert.Throws<DataElementParsingException>(() => ApplicationUsageControl.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -143,7 +142,7 @@ public class ApplicationUsageControlTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        ApplicationUsageControlTestTlv testData = new(new byte[] {0x08, 0x32});
+        ApplicationUsageControlTestTlv testData = new(new byte[] { 0x08, 0x32 });
         ApplicationUsageControl sut = ApplicationUsageControl.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -159,7 +158,10 @@ public class ApplicationUsageControlTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        ApplicationUsageControlTestTlv testData = new(new byte[] {0x08, 0x32});
+        ApplicationUsageControlTestTlv testData = new(new byte[]
+        {
+            0x08, 0x32
+        });
 
         ApplicationUsageControl sut = ApplicationUsageControl.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -175,7 +177,10 @@ public class ApplicationUsageControlTests
     [Fact]
     public void ApplicationUsageControlDataElement_IsValidForDomesticCashTransactions_ReturnsTrue()
     {
-        ApplicationUsageControlTestTlv testData = new(new byte[] {0b10000000, 0x08});
+        ApplicationUsageControlTestTlv testData = new(new byte[]
+        {
+            0b10000000, 0x08
+        });
 
         ApplicationUsageControl sut = ApplicationUsageControl.Decode(testData.EncodeValue().AsSpan());
         Assert.True(sut.IsValidForDomesticCashTransactions());
@@ -184,7 +189,10 @@ public class ApplicationUsageControlTests
     [Fact]
     public void ApplicationUsageControlDataElement_IsValidForInternationalCashTransactions_ReturnsTrue()
     {
-        ApplicationUsageControlTestTlv testData = new(new byte[] {0b11000000, 0x08});
+        ApplicationUsageControlTestTlv testData = new(new byte[]
+        {
+            0b11000000, 0x08
+        });
 
         ApplicationUsageControl sut = ApplicationUsageControl.Decode(testData.EncodeValue().AsSpan());
         Assert.True(sut.IsValidForInternationalCashTransactions());
@@ -193,7 +201,10 @@ public class ApplicationUsageControlTests
     [Fact]
     public void ApplicationUsageControlDataElement_IsValidForDomesticGoods_ReturnsTrue()
     {
-        ApplicationUsageControlTestTlv testData = new(new byte[] {0b11100000, 0x08});
+        ApplicationUsageControlTestTlv testData = new(new byte[]
+        {
+            0b11100000, 0x08
+        });
 
         ApplicationUsageControl sut = ApplicationUsageControl.Decode(testData.EncodeValue().AsSpan());
         Assert.True(sut.IsValidForDomesticGoods());
@@ -202,7 +213,10 @@ public class ApplicationUsageControlTests
     [Fact]
     public void ApplicationUsageControlDataElement_IsValidForInternationalGoods_ReturnsTrue()
     {
-        ApplicationUsageControlTestTlv testData = new(new byte[] {0b11110000, 0x08});
+        ApplicationUsageControlTestTlv testData = new(new byte[]
+        {
+            0b11110000, 0x08
+        });
 
         ApplicationUsageControl sut = ApplicationUsageControl.Decode(testData.EncodeValue().AsSpan());
         Assert.True(sut.IsValidForInternationalGoods());
@@ -211,7 +225,10 @@ public class ApplicationUsageControlTests
     [Fact]
     public void ApplicationUsageControlDataElement_IsValidForDomesticServices_ReturnsTrue()
     {
-        ApplicationUsageControlTestTlv testData = new(new byte[] {0b11111000, 0x08});
+        ApplicationUsageControlTestTlv testData = new(new byte[]
+        {
+            0b11111000, 0x08
+        });
 
         ApplicationUsageControl sut = ApplicationUsageControl.Decode(testData.EncodeValue().AsSpan());
         Assert.True(sut.IsValidForDomesticServices());
@@ -220,7 +237,10 @@ public class ApplicationUsageControlTests
     [Fact]
     public void ApplicationUsageControlDataElement_IsValidForInternationalServices_ReturnsTrue()
     {
-        ApplicationUsageControlTestTlv testData = new(new byte[] {0b11111100, 0x08});
+        ApplicationUsageControlTestTlv testData = new(new byte[]
+        {
+            0b11111100, 0x08
+        });
 
         ApplicationUsageControl sut = ApplicationUsageControl.Decode(testData.EncodeValue().AsSpan());
         Assert.True(sut.IsValidForInternationalServices());
@@ -229,7 +249,10 @@ public class ApplicationUsageControlTests
     [Fact]
     public void ApplicationUsageControlDataElement_IsValidAtAtms_ReturnsTrue()
     {
-        ApplicationUsageControlTestTlv testData = new(new byte[] {0b00111110, 0x08});
+        ApplicationUsageControlTestTlv testData = new(new byte[]
+        {
+            0b00111110, 0x08
+        });
 
         ApplicationUsageControl sut = ApplicationUsageControl.Decode(testData.EncodeValue().AsSpan());
         Assert.True(sut.IsValidAtAtms());
@@ -238,7 +261,10 @@ public class ApplicationUsageControlTests
     [Fact]
     public void ApplicationUsageControlDataElement_IsValidAtTerminalsOtherThanAtms_ReturnsTrue()
     {
-        ApplicationUsageControlTestTlv testData = new(new byte[] {0b00110011, 0x08});
+        ApplicationUsageControlTestTlv testData = new(new byte[]
+        {
+            0b00110011, 0x08
+        });
 
         ApplicationUsageControl sut = ApplicationUsageControl.Decode(testData.EncodeValue().AsSpan());
         Assert.True(sut.IsValidAtTerminalsOtherThanAtms());
@@ -251,7 +277,10 @@ public class ApplicationUsageControlTests
     [Fact]
     public void ApplicationUsageControlDataElement_IsDomesticCashbackAllowed_ReturnsTrue()
     {
-        ApplicationUsageControlTestTlv testData = new(new byte[] {0x08, 0b10110011});
+        ApplicationUsageControlTestTlv testData = new(new byte[]
+        {
+            0x08, 0b10110011
+        });
 
         ApplicationUsageControl sut = ApplicationUsageControl.Decode(testData.EncodeValue().AsSpan());
         Assert.True(sut.IsDomesticCashbackAllowed());
@@ -260,7 +289,10 @@ public class ApplicationUsageControlTests
     [Fact]
     public void ApplicationUsageControlDataElement_IsInternationalCashbackAllowed_ReturnsTrue()
     {
-        ApplicationUsageControlTestTlv testData = new(new byte[] {0x08, 0b01110011});
+        ApplicationUsageControlTestTlv testData = new(new byte[]
+        {
+            0x08, 0b01110011
+        });
 
         ApplicationUsageControl sut = ApplicationUsageControl.Decode(testData.EncodeValue().AsSpan());
         Assert.True(sut.IsInternationalCashbackAllowed());

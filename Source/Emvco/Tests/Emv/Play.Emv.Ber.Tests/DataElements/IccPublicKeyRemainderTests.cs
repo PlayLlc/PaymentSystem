@@ -1,8 +1,8 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Exceptions;
 using Play.Encryption.Certificates;
 using Play.Testing.Emv.Ber.Primitive;
 
@@ -130,7 +130,7 @@ public class IccPublicKeyRemainderTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        IccPublicKeyRemainderTestTlv testData = new(new byte[] {0x08, 0x32});
+        IccPublicKeyRemainderTestTlv testData = new(new byte[] { 0x08, 0x32 });
         IccPublicKeyRemainder sut = IccPublicKeyRemainder.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -146,7 +146,10 @@ public class IccPublicKeyRemainderTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        IccPublicKeyRemainderTestTlv testData = new(new byte[] {0x08, 0x32});
+        IccPublicKeyRemainderTestTlv testData = new(new byte[]
+        {
+            0x08, 0x32
+        });
 
         IccPublicKeyRemainder sut = IccPublicKeyRemainder.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();

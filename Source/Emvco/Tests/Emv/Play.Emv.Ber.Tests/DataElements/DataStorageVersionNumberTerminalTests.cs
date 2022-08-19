@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Testing.Emv.Ber.Primitive;
 
@@ -129,7 +128,7 @@ public class DataStorageVersionNumberTerminalTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        DataStorageVersionNumberTerminalTestTlv testData = new(new byte[] {0x22});
+        DataStorageVersionNumberTerminalTestTlv testData = new(new byte[] { 0x22 });
         DataStorageVersionNumberTerminal sut = DataStorageVersionNumberTerminal.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -145,7 +144,7 @@ public class DataStorageVersionNumberTerminalTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        DataStorageVersionNumberTerminalTestTlv testData = new(new byte[] {0x17});
+        DataStorageVersionNumberTerminalTestTlv testData = new(new byte[] { 0x17 });
 
         DataStorageVersionNumberTerminal sut = DataStorageVersionNumberTerminal.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -155,4 +154,5 @@ public class DataStorageVersionNumberTerminalTests
     }
 
     #endregion
+
 }

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 
+using Play.Emv.Display.Contracts;
 using Play.Emv.Identifiers;
+using Play.Emv.Kernel;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Services;
@@ -8,7 +10,9 @@ using Play.Emv.Kernel.Services.Selection;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Services.BalanceReading;
 using Play.Emv.Kernel2.Services.PrepareGenerateAc;
+using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;
+using Play.Emv.Terminal.Contracts;
 using Play.Messaging;
 
 namespace Play.Emv.Kernel2.StateMachine;

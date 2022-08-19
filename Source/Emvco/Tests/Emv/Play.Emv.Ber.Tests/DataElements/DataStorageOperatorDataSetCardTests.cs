@@ -2,7 +2,6 @@
 using System.Linq;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -13,9 +12,9 @@ namespace Play.Emv.Ber.Tests.DataElements;
 
 public class DataStorageOperatorDataSetCardTests
 {
-    #region Static Metadata
+    #region Instance Values
 
-    private static readonly Random _Random = new();
+    private static readonly Random _Random = new Random();
 
     #endregion
 
@@ -105,7 +104,7 @@ public class DataStorageOperatorDataSetCardTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        DataStorageOperatorDataSetCardTestTlv testData = new(Enumerable.Range(0, 170).Select(_ => (byte) _Random.Next(byte.MinValue, byte.MaxValue)).ToArray());
+        DataStorageOperatorDataSetCardTestTlv testData = new(Enumerable.Range(0, 170).Select(_ => (byte)_Random.Next(byte.MinValue, byte.MaxValue)).ToArray());
 
         Assert.Throws<DataElementParsingException>(() => DataStorageOperatorDataSetCard.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -150,7 +149,7 @@ public class DataStorageOperatorDataSetCardTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        DataStorageOperatorDataSetCardTestTlv testData = new(new byte[] {0x7d, 0x13, 0x06, 0x15, 0x98, 0x8c, 0xf, 0xe});
+        DataStorageOperatorDataSetCardTestTlv testData = new(new byte[] { 0x7d, 0x13, 0x06, 0x15, 0x98, 0x8c, 0xf, 0xe });
         DataStorageOperatorDataSetCard sut = DataStorageOperatorDataSetCard.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -166,7 +165,7 @@ public class DataStorageOperatorDataSetCardTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        DataStorageOperatorDataSetCardTestTlv testData = new(new byte[] {0x7d, 0x13, 0x06, 0x15, 0x98, 0x8c, 0xf, 0xe});
+        DataStorageOperatorDataSetCardTestTlv testData = new(new byte[] { 0x7d, 0x13, 0x06, 0x15, 0x98, 0x8c, 0xf, 0xe });
 
         DataStorageOperatorDataSetCard sut = DataStorageOperatorDataSetCard.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();

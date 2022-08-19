@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -98,11 +97,7 @@ public class DataStorageRequestedOperatorIdTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        DataStorageRequestedOperatorIdTestTlv testData = new(new byte[]
-        {
-            1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-            11
-        });
+        DataStorageRequestedOperatorIdTestTlv testData = new(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 });
 
         Assert.Throws<DataElementParsingException>(() => DataStorageRequestedOperatorId.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -147,7 +142,7 @@ public class DataStorageRequestedOperatorIdTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        DataStorageRequestedOperatorIdTestTlv testData = new(new byte[] {0x7d, 0x16, 0x23, 0x33, 0x98, 0x13, 0x8b, 0xFF});
+        DataStorageRequestedOperatorIdTestTlv testData = new(new byte[] { 0x7d, 0x16, 0x23, 0x33, 0x98, 0x13, 0x8b, 0xFF });
         DataStorageRequestedOperatorId sut = DataStorageRequestedOperatorId.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -163,7 +158,7 @@ public class DataStorageRequestedOperatorIdTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        DataStorageRequestedOperatorIdTestTlv testData = new(new byte[] {0x7d, 0x16, 0x23, 0x33, 0x98, 0x13, 0x8b, 0xFF});
+        DataStorageRequestedOperatorIdTestTlv testData = new(new byte[] { 0x7d, 0x16, 0x23, 0x33, 0x98, 0x13, 0x8b, 0xFF });
 
         DataStorageRequestedOperatorId sut = DataStorageRequestedOperatorId.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();

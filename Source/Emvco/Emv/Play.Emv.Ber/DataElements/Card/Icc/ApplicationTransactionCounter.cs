@@ -1,3 +1,4 @@
+using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Tags;
 using Play.Codecs;
@@ -70,13 +71,6 @@ public record ApplicationTransactionCounter : DataElement<ushort>, IEqualityComp
     #region Operator Overrides
 
     public static implicit operator ushort(ApplicationTransactionCounter value) => value._Value;
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 }

@@ -6,6 +6,7 @@ using Play.Emv.Configuration;
 using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Reader.Contracts.SignalOut;
+using Play.Emv.Terminal.Configuration;
 using Play.Emv.Terminal.Contracts.SignalIn;
 using Play.Emv.Terminal.Session;
 using Play.Emv.Terminal.StateMachine;

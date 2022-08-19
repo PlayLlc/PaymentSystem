@@ -29,6 +29,36 @@ public record ApplicationCapabilitiesInformation : DataElement<uint>, IEqualityC
 
     #endregion
 
+    #region Instance Members
+
+    public bool CombinedDataAuthenticationIndicator() => _Value.IsBitSet(9);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+
+    public SdsSchemeIndicators GetSdsSchemeIndicator()
+    {
+        const uint sdsBitMask = 0b1111_1111_1111_1111_0000_0000;
+        byte input = (byte) _Value.GetMaskedValue(sdsBitMask);
+
+        return SdsSchemeIndicators.Get(input);
+    }
+
+    public DataStorageVersionNumber GetDataStorageVersionNumber()
+    {
+        const byte bitOffset = 16;
+        const byte bitMask = 0b11110000;
+
+        byte input = (byte) (_Value >> bitOffset).GetMaskedValue(bitMask);
+
+        return new DataStorageVersionNumber(input);
+    }
+
+    public override Tag GetTag() => Tag;
+    public bool SupportForBalanceReading() => _Value.IsBitSet(10);
+    public bool IsSupportForFieldOffDetectionSet() => _Value.IsBitSet(11);
+    public byte[] Encode() => PlayCodec.BinaryCodec.Encode(_Value, _ByteLength);
+
+    #endregion
+
     #region Serialization
 
     /// <exception cref="CodecParsingException"></exception>
@@ -73,28 +103,25 @@ public record ApplicationCapabilitiesInformation : DataElement<uint>, IEqualityC
     public bool CombinedDataAuthenticationIndicator() => _Value.IsBitSet(9);
     public override PlayEncodingId GetEncodingId() => EncodingId;
 
-    public SdsSchemeIndicators GetSdsSchemeIndicator()
+    public SdsSchemeIndicator GetSdsSchemeIndicator()
     {
-        const uint sdsBitMask = 0b1111_1111_1111_1111_0000_0000;
-        byte input = (byte) _Value.GetMaskedValue(sdsBitMask);
+        const byte bitOffset = 1;
 
-        return SdsSchemeIndicators.Get(input);
+        return SdsSchemeIndicator.Get((byte) (_Value >> bitOffset));
     }
 
     public DataStorageVersionNumber GetDataStorageVersionNumber()
     {
         const byte bitOffset = 16;
-        const byte bitMask = 0b11110000;
+        const byte bitMask = 0b00111111;
 
-        byte input = (byte) (_Value >> bitOffset).GetMaskedValue(bitMask);
-
-        return new DataStorageVersionNumber(input);
+        return new DataStorageVersionNumber((byte) (_Value >> bitOffset).GetMaskedValue(bitMask));
     }
 
     public override Tag GetTag() => Tag;
     public bool SupportForBalanceReading() => _Value.IsBitSet(10);
     public bool IsSupportForFieldOffDetectionSet() => _Value.IsBitSet(11);
-    public byte[] Encode() => PlayCodec.BinaryCodec.Encode(_Value, _ByteLength);
+    public byte[] Encode() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
 
     #endregion
 }

@@ -5,8 +5,7 @@ using AutoFixture;
 using Moq;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Exceptions;
-using Play.Ber.Tags;
+using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
 using Play.Testing.Emv;
@@ -25,7 +24,7 @@ public class DataRecoveryDataObjectListTests
 
     #endregion
 
-    #region Constructor
+    #region Constructors
 
     public DataRecoveryDataObjectListTests()
     {
@@ -121,7 +120,7 @@ public class DataRecoveryDataObjectListTests
     [Fact]
     public void InvalidBerEncoding_DeserializingTagLengthWithOddNumberOfBytes_ThrowsIndexOutOfRangeException()
     {
-        DataRecoveryDataObjectListTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
+        DataRecoveryDataObjectListTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
 
         Assert.Throws<IndexOutOfRangeException>(() => DataRecoveryDataObjectList.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -166,7 +165,7 @@ public class DataRecoveryDataObjectListTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        DataRecoveryDataObjectListTestTlv testData = new(new byte[] {8, 23});
+        DataRecoveryDataObjectListTestTlv testData = new(new byte[] { 8, 23 });
         DataRecoveryDataObjectList sut = DataRecoveryDataObjectList.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -182,7 +181,10 @@ public class DataRecoveryDataObjectListTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        DataRecoveryDataObjectListTestTlv testData = new(new byte[] {8, 13});
+        DataRecoveryDataObjectListTestTlv testData = new(new byte[]
+        {
+            8, 13
+        });
 
         DataRecoveryDataObjectList sut = DataRecoveryDataObjectList.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -212,7 +214,7 @@ public class DataRecoveryDataObjectListTests
 
         DataRecoveryDataObjectList sut = DataRecoveryDataObjectList.Decode(testData.EncodeValue().AsSpan());
 
-        Tag expectedTag = new(37);
+        Tag expectedTag = new Tag(37);
 
         bool exists = sut.Exists(expectedTag);
 
@@ -238,7 +240,7 @@ public class DataRecoveryDataObjectListTests
     {
         DataRecoveryDataObjectListTestTlv testData = new();
 
-        ReadOnlySpan<byte> encoded = stackalloc byte[] {22, 8};
+        ReadOnlySpan<byte> encoded = stackalloc byte[] { 22, 8 };
         DataRecoveryDataObjectList sut = DataRecoveryDataObjectList.Decode(encoded);
 
         testData.SetupTlvTagsForGivenDb(_Database);

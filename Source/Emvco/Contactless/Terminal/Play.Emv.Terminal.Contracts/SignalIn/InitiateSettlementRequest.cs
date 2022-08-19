@@ -1,4 +1,11 @@
-﻿using Play.Emv.Messaging;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using Play.Emv.DataExchange;
+using Play.Emv.Messaging;
 using Play.Globalization.Time;
 using Play.Messaging;
 

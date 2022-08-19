@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Play.Ber.Tags;
+using Play.Ber.Identifiers;
 using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Kernel.Databases;
 using Play.Globalization.Currency;
@@ -8,7 +8,7 @@ using Play.Globalization.Currency;
 namespace Play.Emv.Kernel.Services.Selection.CvmConditions;
 
 /// <summary>
-///     Book 3 Table 40: CVM Condition Codes
+/// Book 3 Table 40: CVM Condition Codes
 /// </summary>
 internal record class UnattendedCash : CvmCondition
 {

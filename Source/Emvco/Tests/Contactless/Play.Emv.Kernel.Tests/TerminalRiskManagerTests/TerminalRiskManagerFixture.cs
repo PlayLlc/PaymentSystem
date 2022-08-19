@@ -2,6 +2,7 @@
 
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Kernel.Databases;
 using Play.Globalization.Country;
 using Play.Globalization.Currency;
 using Play.Globalization.Language;

@@ -3,7 +3,7 @@
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Outcomes;
-using Play.Emv.Selection.Configuration;
+using Play.Emv.Selection.Contracts;
 using Play.Emv.Selection.Start;
 using Play.Globalization;
 using Play.Globalization.Time;
@@ -40,7 +40,7 @@ public class PreprocessorTests
     public void Preprocessor_InvokingSetPreprocessingIndicatorsNoIndicatorWithContactlessApplicationNotAllowed_OutcomeParametersDoNotGetSet()
     {
         //Arrange
-
+        
         _Fixture.RegisterTerminalTransactionQualifiers();
         _Fixture.RegisterReaderContactlessTransactionLimit(1234);
         _Fixture.RegisterReaderCvmRequiredLimit(1234);
@@ -51,16 +51,14 @@ public class PreprocessorTests
 
         TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
 
-        PreProcessingIndicators preprocessingIndicators = new(new[] {transactionProfile});
+        PreProcessingIndicators preprocessingIndicators = new PreProcessingIndicators(new[] { transactionProfile });
 
         CultureProfile cultureProfile = _Fixture.Create<CultureProfile>();
 
         Transaction transaction = _Fixture.Create<Transaction>();
         OutcomeParameterSet expectedOutcomeParameterSet = transaction.GetOutcome().GetOutcomeParameterSet();
-
         //Act
-        _SystemUnderTest.SetPreprocessingIndicators(transaction.GetOutcome(), preprocessingIndicators, transaction.GetAmountAuthorizedNumeric(),
-            cultureProfile);
+        _SystemUnderTest.SetPreprocessingIndicators(transaction.GetOutcome(), preprocessingIndicators, transaction.GetAmountAuthorizedNumeric(), cultureProfile);
 
         //Assert
         Outcome outcome = transaction.GetOutcome();
@@ -87,7 +85,7 @@ public class PreprocessorTests
 
         TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, false, false, true, false);
 
-        PreProcessingIndicators preprocessingIndicators = new(new[] {transactionProfile});
+        PreProcessingIndicators preprocessingIndicators = new PreProcessingIndicators(new[] { transactionProfile });
 
         CultureProfile cultureProfile = _Fixture.Create<CultureProfile>();
 
@@ -96,8 +94,7 @@ public class PreprocessorTests
         UserInterfaceRequestData expectedUserInterfaceRequestData = SetUserInterfaceRequestData();
 
         //Act
-        _SystemUnderTest.SetPreprocessingIndicators(transaction.GetOutcome(), preprocessingIndicators, transaction.GetAmountAuthorizedNumeric(),
-            cultureProfile);
+        _SystemUnderTest.SetPreprocessingIndicators(transaction.GetOutcome(), preprocessingIndicators, transaction.GetAmountAuthorizedNumeric(), cultureProfile);
 
         Outcome outcome = transaction.GetOutcome();
 
@@ -112,8 +109,7 @@ public class PreprocessorTests
     }
 
     [Fact]
-    public void
-        Preprocessor_InvokingSetPreprocessingIndicatorsWithAtLeastOneTransactionWithZeroAmmountAllowedForOfflineAndZeroAmountForAuthoriserd_OutcomeParametersAreSet()
+    public void Preprocessor_InvokingSetPreprocessingIndicatorsWithAtLeastOneTransactionWithZeroAmmountAllowedForOfflineAndZeroAmountForAuthoriserd_OutcomeParametersAreSet()
     {
         //Arrange
         _Fixture.RegisterTerminalTransactionQualifiers(0b0010_1100_1010_1011);
@@ -126,7 +122,7 @@ public class PreprocessorTests
 
         TransactionProfile transactionProfile = PreProcessingIndicatorFactory.CreateTransactionProfile(_Fixture, false, false, true, false);
 
-        PreProcessingIndicators preprocessingIndicators = new(new[] {transactionProfile});
+        PreProcessingIndicators preprocessingIndicators = new PreProcessingIndicators(new[] { transactionProfile });
 
         CultureProfile cultureProfile = _Fixture.Create<CultureProfile>();
 
@@ -135,8 +131,7 @@ public class PreprocessorTests
         UserInterfaceRequestData expectedUserInterfaceRequestData = SetUserInterfaceRequestData();
 
         //Act
-        _SystemUnderTest.SetPreprocessingIndicators(transaction.GetOutcome(), preprocessingIndicators, transaction.GetAmountAuthorizedNumeric(),
-            cultureProfile);
+        _SystemUnderTest.SetPreprocessingIndicators(transaction.GetOutcome(), preprocessingIndicators, transaction.GetAmountAuthorizedNumeric(), cultureProfile);
 
         Outcome outcome = transaction.GetOutcome();
 
