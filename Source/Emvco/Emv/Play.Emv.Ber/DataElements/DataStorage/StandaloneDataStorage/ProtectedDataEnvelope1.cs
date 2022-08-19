@@ -50,6 +50,8 @@ public record ProtectedDataEnvelope1 : DataElement<BigInteger>, IEqualityCompare
         return new ProtectedDataEnvelope1(result);
     }
 
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
+
     #endregion
 
     #region Equality
@@ -71,7 +73,7 @@ public record ProtectedDataEnvelope1 : DataElement<BigInteger>, IEqualityCompare
 
     #region Instance Members
 
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => PlayCodec.BinaryCodec.GetByteCount(_Value);
     public override Tag GetTag() => Tag;
     public override PlayEncodingId GetEncodingId() => EncodingId;
 
