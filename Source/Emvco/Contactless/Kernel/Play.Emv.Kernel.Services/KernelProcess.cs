@@ -1,15 +1,16 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-using Play.Core;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;
+using Play.Messaging;
+using Play.Messaging.Threads;
 
 namespace Play.Emv.Kernel.Services;
 
-public abstract class KernelProcess : CommandProcessingQueue
+public abstract class KernelProcess : CommandProcessingQueue<Message>
 {
     #region Instance Values
 
@@ -28,13 +29,12 @@ public abstract class KernelProcess : CommandProcessingQueue
 
     #region Instance Members
 
+    public virtual void Enqueue(Message message)
+    {
+        base.Enqueue(message);
+    }
+
     public abstract KernelId GetKernelId();
-    public virtual void Enqueue(ActivateKernelRequest message) => Enqueue((dynamic) message);
-    public virtual void Enqueue(CleanKernelRequest message) => Enqueue((dynamic) message);
-    public virtual void Enqueue(QueryKernelRequest message) => Enqueue((dynamic) message);
-    public virtual void Enqueue(StopKernelRequest message) => Enqueue((dynamic) message);
-    public virtual void Enqueue(UpdateKernelRequest message) => Enqueue((dynamic) message);
-    public virtual void Enqueue(QueryPcdResponse message) => Enqueue((dynamic) message);
 
     protected async Task Handle(ActivateKernelRequest signal)
     {
@@ -71,8 +71,50 @@ public abstract class KernelProcess : CommandProcessingQueue
         await Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
     }
 
-    public virtual void Enqueue(QueryTerminalResponse message) => Enqueue((dynamic) message);
-    protected override async Task Handle(dynamic command) => await Handle(command).ConfigureAwait(false);
+    protected override async Task Handle(Message command)
+    {
+        if (command is ActivateKernelRequest activateKernelRequest)
+        {
+            await Handle(activateKernelRequest).ConfigureAwait(false);
+            return;
+        }
+
+        if (command is CleanKernelRequest cleanKernelRequest)
+        {
+            await Handle(cleanKernelRequest).ConfigureAwait(false);
+            return;
+        }
+
+        if (command is QueryKernelRequest queryKernelRequest)
+        {
+            await Handle(queryKernelRequest).ConfigureAwait(false);
+            return;
+        }
+
+        if (command is StopKernelRequest stopKernelRequest)
+        {
+            await Handle(stopKernelRequest).ConfigureAwait(false);
+            return;
+        }
+
+        if (command is UpdateKernelRequest updateKernelRequest)
+        {
+            await Handle(updateKernelRequest).ConfigureAwait(false);
+            return;
+        }
+
+        if (command is QueryPcdResponse queryPcdResponse)
+        {
+            await Handle(queryPcdResponse).ConfigureAwait(false);
+            return;
+        }
+
+        if (command is QueryTerminalResponse queryTerminalResponse)
+        {
+            await Handle(queryTerminalResponse).ConfigureAwait(false);
+            return;
+        }
+    }
 
     #endregion
 }

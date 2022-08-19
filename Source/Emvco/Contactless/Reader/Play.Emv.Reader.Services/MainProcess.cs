@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-using Play.Core;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;
@@ -9,10 +8,12 @@ using Play.Emv.Kernel.Services;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Reader.Contracts.SignalIn;
 using Play.Emv.Selection.Contracts;
+using Play.Messaging;
+using Play.Messaging.Threads;
 
 namespace Play.Emv.Reader.Services;
 
-internal class MainProcess : CommandProcessingQueue
+internal class MainProcess : CommandProcessingQueue<Message>
 {
     #region Instance Values
 
@@ -34,15 +35,38 @@ internal class MainProcess : CommandProcessingQueue
 
     #region Instance Members
 
-    internal void Enqueue(OutSelectionResponse message) => Enqueue((dynamic) message);
-    internal void Enqueue(OutKernelResponse message) => Enqueue((dynamic) message);
-    internal void Enqueue(AbortReaderRequest message) => Enqueue((dynamic) message);
-    internal void Enqueue(ActivateReaderRequest message) => Enqueue((dynamic) message);
-    internal void Enqueue(QueryReaderRequest message) => Enqueue((dynamic) message);
-    internal void Enqueue(StopReaderRequest message) => Enqueue((dynamic) message);
-    internal void Enqueue(UpdateReaderRequest message) => Enqueue((dynamic) message);
-    internal void Enqueue(StopPcdAcknowledgedResponse message) => Enqueue((dynamic) message);
-    protected override async Task Handle(dynamic command) => await Handle(command).ConfigureAwait(false);
+    protected override async Task Handle(Message command)
+    {
+        if (command is ActivateReaderRequest activateReaderRequest)
+        {
+            await Handle(activateReaderRequest).ConfigureAwait(false);
+            return;
+        }
+
+        if (command is OutSelectionResponse outSelectionResponse)
+        {
+            await Handle(outSelectionResponse).ConfigureAwait(false);
+            return;
+        }
+
+        if (command is OutKernelResponse outKernelResponse)
+        {
+            await Handle(outKernelResponse).ConfigureAwait(false);
+            return;
+        }
+
+        if (command is StopReaderRequest stopReaderRequest)
+        {
+            await Handle(stopReaderRequest).ConfigureAwait(false);
+            return;
+        }
+
+        if (command is StopPcdAcknowledgedResponse stopPcdAcknowledgedResponse)
+        {
+            await Handle(stopPcdAcknowledgedResponse).ConfigureAwait(false);
+            return;
+        }
+    }
 
     /// <summary>
     ///     Handle

@@ -1,13 +1,14 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-using Play.Core;
 using Play.Emv.Pcd.Contracts;
+using Play.Messaging;
+using Play.Messaging.Threads;
 
 namespace Play.Emv.Pcd.Services;
 
 // HACK: Implement Session and State Machine for this process.
-internal class ProximityCouplingDeviceProcess : CommandProcessingQueue
+internal class ProximityCouplingDeviceProcess : CommandProcessingQueue<Message>
 {
     #region Instance Values
 
@@ -27,10 +28,26 @@ internal class ProximityCouplingDeviceProcess : CommandProcessingQueue
 
     #region Instance Members
 
-    internal void Enqueue(ActivatePcdRequest request) => Enqueue((dynamic) request);
-    internal void Enqueue(QueryPcdRequest request) => Enqueue((dynamic) request);
-    internal void Enqueue(StopPcdRequest request) => Enqueue((dynamic) request);
-    protected override async Task Handle(dynamic command) => await Handle(command).ConfigureAwait(false);
+    protected override async Task Handle(Message command)
+    {
+        if (command is ActivatePcdRequest activatePcdRequest)
+        {
+            await Handle(activatePcdRequest).ConfigureAwait(false);
+            return;
+        }
+
+        if (command is QueryPcdRequest queryPcdRequest)
+        {
+            await Handle(queryPcdRequest).ConfigureAwait(false);
+            return;
+        }
+
+        if (command is StopPcdRequest stopPcdRequest)
+        {
+            await Handle(stopPcdRequest).ConfigureAwait(false);
+            return;
+        }
+    }
 
     /// <summary>
     ///     Handle

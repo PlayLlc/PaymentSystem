@@ -20,7 +20,7 @@ public class Kernel2Process : KernelProcess
 
     public override KernelId GetKernelId() => ShortKernelIdTypes.Kernel2;
 
-    public override void Enqueue(StopKernelRequest message)
+    public void Enqueue(StopKernelRequest message)
     {
         // BUG: Possible race condition between these 3 statements
         Clear();
