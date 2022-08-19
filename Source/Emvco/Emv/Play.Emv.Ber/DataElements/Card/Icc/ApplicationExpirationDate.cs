@@ -4,46 +4,27 @@ using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
-using Play.Globalization.Time;
+using Play.Emv.Ber.ValueTypes;
 
 namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Description: Lists a number of card features beyond regular payment.
 /// </summary>
-public record ApplicationExpirationDate : DataElement<DateTimeUtc>, IEqualityComparer<ApplicationExpirationDate>
+public record ApplicationExpirationDate : DataElement<uint>, IEqualityComparer<ApplicationExpirationDate>
 {
     #region Static Metadata
 
     public static readonly Tag Tag = 0x5F24;
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     private const byte _ByteLength = 3;
-    private const byte _CharLength = 6;
 
     #endregion
 
     #region Constructor
 
-    public ApplicationExpirationDate(DateTimeUtc value) : base(value)
+    public ApplicationExpirationDate(uint value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
-        const byte bitOffset = 1;
-
-        return SdsSchemeIndicator.Get((byte) (_Value >> bitOffset));
-    }
-
-    public override Tag GetTag() => Tag;
-    public bool SupportForBalanceReading() => _Value.IsBitSet(10);
-    public bool SupportForFieldOffDetection() => _Value.IsBitSet(11);
 
     #endregion
 
@@ -61,15 +42,11 @@ public record ApplicationExpirationDate : DataElement<DateTimeUtc>, IEqualityCom
 
         uint result = PlayCodec.NumericCodec.DecodeToUInt32(value);
 
-        nint charLength = result.GetNumberOfDigits();
-
-        Check.Primitive.ForCharLength(charLength, _CharLength, Tag);
-
-        return new ApplicationExpirationDate(new DateTimeUtc(value[0], value[1], value[2]));
+        return new ApplicationExpirationDate(result);
     }
 
-    public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value.EncodeDate(), _ByteLength);
-    public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(_Value.EncodeDate(), length);
+    public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value, _ByteLength);
+    public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(_Value, length);
 
     #endregion
 
@@ -92,7 +69,7 @@ public record ApplicationExpirationDate : DataElement<DateTimeUtc>, IEqualityCom
 
     #region Operator Overrides
 
-    public static explicit operator DateTimeUtc(ApplicationExpirationDate value) => value._Value;
+    public static explicit operator uint(ApplicationExpirationDate value) => value._Value;
 
     #endregion
 

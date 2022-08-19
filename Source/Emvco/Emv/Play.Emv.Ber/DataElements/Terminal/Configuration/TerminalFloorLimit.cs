@@ -29,17 +29,6 @@ public record TerminalFloorLimit : DataElement<uint>, IEqualityComparer<Terminal
 
     #endregion
 
-    #region Instance Members
-
-    public Money AsMoney(NumericCurrencyCode numericCurrencyCode) => new(_Value, numericCurrencyCode);
-    public Money AsMoney(CultureProfile cultureProfile) => new(_Value, cultureProfile.GetNumericCurrencyCode());
-    public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -94,6 +83,16 @@ public record TerminalFloorLimit : DataElement<uint>, IEqualityComparer<Terminal
     public static bool operator !=(ulong left, TerminalFloorLimit right) => !(left == right);
     public static bool operator !=(TerminalFloorLimit left, uint right) => !(left == right);
     public static bool operator !=(uint left, TerminalFloorLimit right) => !(left == right);
+
+    #endregion
+
+    #region Instance Members
+
+    public Money AsMoney(CultureProfile cultureProfile) => new(_Value, cultureProfile.GetNumericCurrencyCode());
+    public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

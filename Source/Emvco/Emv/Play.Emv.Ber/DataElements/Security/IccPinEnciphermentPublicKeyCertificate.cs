@@ -27,16 +27,6 @@ public record IccPinEnciphermentPublicKeyCertificate : DataElement<BigInteger>, 
 
     #endregion
 
-    #region Instance Members
-
-    public byte[] AsByteArray() => _Value.ToByteArray(true);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public int GetByteCount() => _Value.GetByteCount(true);
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="BerParsingException"></exception>
@@ -68,6 +58,16 @@ public record IccPinEnciphermentPublicKeyCertificate : DataElement<BigInteger>, 
     }
 
     public int GetHashCode(IccPinEnciphermentPublicKeyCertificate obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public byte[] AsByteArray() => _Value.ToByteArray();
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public int GetByteCount() => _Value.GetByteCount();
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

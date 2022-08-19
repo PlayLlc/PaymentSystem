@@ -64,12 +64,15 @@ public class PreProcessingIndicator
         ZeroAmount = false;
     }
 
-    public void ResetTerminalTransactionQualifiers() =>
-        TerminalTransactionQualifiers = _TransactionProfile.GetTerminalTransactionQualifiers().ResetForPreProcessingIndicator();
+    public void ResetTerminalTransactionQualifiers() => _TransactionProfile.GetTerminalTransactionQualifiers().AsValueCopy();
 
     /// <summary>
     ///     This will set All fields in accordance to Start A Preprocessing
     /// </summary>
+    /// <param name="transactionSpecificDataElements">
+    ///     Represents transaction specific information that the chosen Kernel will need to process the transaction. Each
+    ///     Kernel will have their own concrete implementation
+    /// </param>
     /// <param name="amountAuthorizedNumeric"></param>
     /// <param name="cultureProfile"></param>
     /// <remarks>
@@ -77,7 +80,6 @@ public class PreProcessingIndicator
     /// </remarks>
     public void Set(AmountAuthorizedNumeric amountAuthorizedNumeric, CultureProfile cultureProfile)
     {
-        //3.1.1.1
         ResetPreprocessingIndicators();
         ResetTerminalTransactionQualifiers();
         SetMutableFields(amountAuthorizedNumeric, cultureProfile);
@@ -88,17 +90,8 @@ public class PreProcessingIndicator
     /// </remarks>
     private void SetContactlessApplicationNotAllowed(ZeroAmountHasBeenSetEvent zeroAmountHasBeenSetEvent)
     {
-        if (!zeroAmountHasBeenSetEvent.ZeroAmount)
-            return;
-
-        if (TerminalTransactionQualifiers.IsReaderOnlineCapable())
-        {
-            TerminalTransactionQualifiers = TerminalTransactionQualifiers.SetOnlineCryptogramRequired();
-
-            return;
-        }
-
-        ContactlessApplicationNotAllowed = true;
+        if (zeroAmountHasBeenSetEvent.ZeroAmount && TerminalTransactionQualifiers.IsReaderOfflineOnly())
+            ContactlessApplicationNotAllowed = true;
     }
 
     /// <remarks>
@@ -122,9 +115,10 @@ public class PreProcessingIndicator
     private void SetCvmRequired(ReaderCvmRequiredLimitExceededHasBeenSetEvent readerCvmRequiredLimitExceededHasBeenSetEvent)
     {
         if (readerCvmRequiredLimitExceededHasBeenSetEvent.ReaderCvmRequiredLimitExceeded)
-            TerminalTransactionQualifiers = TerminalTransactionQualifiers.SetCvmRequired();
+            TerminalTransactionQualifiers.SetCvmRequired();
     }
 
+    // i think this is process A, anyone want to help me out here? i accept wage free indentured servs! 
     private void SetMutableFields(AmountAuthorizedNumeric amountAuthorizedNumeric, CultureProfile cultureProfile)
     {
         Money amountAuthorizedMoney = amountAuthorizedNumeric.AsMoney(cultureProfile.GetNumericCurrencyCode());
@@ -142,8 +136,20 @@ public class PreProcessingIndicator
             _TransactionProfile.GetReaderCvmRequiredLimit().AsMoney(cultureProfile.GetNumericCurrencyCode()));
         SetOnlineCryptogramRequired(readerContactlessFloorLimitExceededHasBeenSet);
         SetOnlineCryptogramRequired(statusCheckRequestedHasBeenSet);
+        SetOnlineCryptogramRequired(zeroAmountHasBeenSet);
         SetContactlessApplicationNotAllowed(zeroAmountHasBeenSet);
         SetCvmRequired(readerCvmRequiredLimitExceeded);
+    }
+
+    /// <remarks>
+    ///     Emv Book B Section 3.1.1.11
+    /// </remarks>
+    private void SetOnlineCryptogramRequired(ZeroAmountHasBeenSetEvent zeroAmountHasBeenSetEvent)
+    {
+        if (zeroAmountHasBeenSetEvent.ZeroAmount && TerminalTransactionQualifiers.IsReaderOnlineCapable())
+            TerminalTransactionQualifiers.SetOnlineCryptogramRequired();
+
+        // TODO SET Contactless App not allowed
     }
 
     /// <remarks>
@@ -152,7 +158,7 @@ public class PreProcessingIndicator
     private void SetOnlineCryptogramRequired(StatusCheckRequestedHasBeenSetEvent statusCheckRequestedHasBeenSetEvent)
     {
         if (statusCheckRequestedHasBeenSetEvent.StatusCheckRequested)
-            TerminalTransactionQualifiers = TerminalTransactionQualifiers.SetOnlineCryptogramRequired();
+            TerminalTransactionQualifiers.SetOnlineCryptogramRequired();
     }
 
     /// <remarks>
@@ -161,7 +167,7 @@ public class PreProcessingIndicator
     private void SetOnlineCryptogramRequired(ReaderContactlessFloorLimitExceededHasBeenSetEvent readerContactlessFloorLimitExceededHasBeenSetEvent)
     {
         if (readerContactlessFloorLimitExceededHasBeenSetEvent.ReaderContactlessFloorLimitExceeded)
-            TerminalTransactionQualifiers = TerminalTransactionQualifiers.SetOnlineCryptogramRequired();
+            TerminalTransactionQualifiers.SetOnlineCryptogramRequired();
     }
 
     // TODO: Disabled this section because of instead of making all configurable fields nullable I'm using default values and assuming that's okay. Keeping this here
@@ -192,7 +198,7 @@ public class PreProcessingIndicator
     /// </remarks>
     private ReaderCvmRequiredLimitExceededHasBeenSetEvent SetReaderCvmRequiredLimitExceeded(Money amountAuthorizedNumeric, Money readerCvmRequiredLimit)
     {
-        if (amountAuthorizedNumeric >= readerCvmRequiredLimit)
+        if (amountAuthorizedNumeric > readerCvmRequiredLimit)
             ReaderCvmRequiredLimitExceeded = true;
 
         return new ReaderCvmRequiredLimitExceededHasBeenSetEvent(ReaderCvmRequiredLimitExceeded);

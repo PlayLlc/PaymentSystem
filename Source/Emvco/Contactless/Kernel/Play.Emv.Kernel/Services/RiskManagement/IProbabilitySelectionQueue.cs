@@ -8,7 +8,7 @@ public interface IProbabilitySelectionQueue
 {
     #region Instance Members
 
-    public bool IsRandomSelection(Probability probability);
+    public Task<bool> IsRandomSelection(Probability probability);
 
     #endregion
 }

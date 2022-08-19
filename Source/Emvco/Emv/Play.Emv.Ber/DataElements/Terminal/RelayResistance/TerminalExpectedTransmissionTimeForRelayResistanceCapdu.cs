@@ -12,7 +12,7 @@ namespace Play.Emv.Ber.DataElements;
 ///     the Card. The Terminal Expected Transmission Time For Relay Resistance C-APDU is expressed in units of hundreds of
 ///     microseconds.
 /// </summary>
-public record TerminalExpectedTransmissionTimeForRelayResistanceCapdu : DataElement<RelaySeconds>
+public record TerminalExpectedTransmissionTimeForRelayResistanceCapdu : DataElement<ushort>
 {
     #region Static Metadata
 
@@ -24,7 +24,7 @@ public record TerminalExpectedTransmissionTimeForRelayResistanceCapdu : DataElem
 
     #region Constructor
 
-    public TerminalExpectedTransmissionTimeForRelayResistanceCapdu(RelaySeconds value) : base(value)
+    public TerminalExpectedTransmissionTimeForRelayResistanceCapdu(ushort value) : base(value)
     { }
 
     #endregion

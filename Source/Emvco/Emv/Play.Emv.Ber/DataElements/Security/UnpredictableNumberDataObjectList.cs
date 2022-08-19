@@ -34,16 +34,6 @@ public record UnpredictableNumberDataObjectList : DataObjectList
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => base.GetValueByteCount();
-
-    public override ushort GetValueByteCount() => base.GetValueByteCount();
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="BerParsingException"></exception>
@@ -54,6 +44,14 @@ public record UnpredictableNumberDataObjectList : DataObjectList
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public static UnpredictableNumberDataObjectList Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodeTagLengths(value.ToArray()));
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

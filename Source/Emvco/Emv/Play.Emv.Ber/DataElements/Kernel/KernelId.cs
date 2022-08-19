@@ -64,7 +64,7 @@ public record KernelId : DataElement<byte>, IEqualityComparer<KernelId>
         if (y is null)
             return false;
 
-        return x == y;
+        return x.Equals(y);
     }
 
     public int GetHashCode(KernelId obj) => obj.GetHashCode();

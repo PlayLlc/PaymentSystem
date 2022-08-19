@@ -40,16 +40,6 @@ public record DataStorageDataObjectList : DataObjectList
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => base.GetValueByteCount();
-
-    public override ushort GetValueByteCount() => base.GetValueByteCount();
-
-    #endregion
-
     #region Serialization
 
     public static DataStorageDataObjectList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
@@ -75,6 +65,14 @@ public record DataStorageDataObjectList : DataObjectList
     }
 
     public int GetHashCode(DataStorageDataObjectList obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

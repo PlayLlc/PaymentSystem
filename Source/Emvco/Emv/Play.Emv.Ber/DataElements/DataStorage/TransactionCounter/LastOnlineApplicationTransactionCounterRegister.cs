@@ -4,7 +4,7 @@ using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 
-namespace Play.Emv.Ber.DataElements.Terminal.RiskManagement;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     ATC value of the last transaction that went online
@@ -67,9 +67,11 @@ public record LastOnlineApplicationTransactionCounterRegister : DataElement<usho
 
     #endregion
 
-    #region Operator Overrides
+    #region Instance Members
 
-    public static implicit operator ushort(LastOnlineApplicationTransactionCounterRegister value) => value._Value;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public byte[] Encode() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
 
     #endregion
 }

@@ -11,14 +11,13 @@ internal record SupportsCvmCondition : CvmCondition
 {
     #region Static Metadata
 
-    private static readonly Tag[] _RequiredTags = new[] {TerminalCapabilities.Tag};
     public static readonly CvmConditionCode Code = new(3);
 
     #endregion
 
     #region Instance Values
 
-    protected override Tag[] _RequiredData => _RequiredTags;
+    protected override Tag[] _RequiredData => throw new NotImplementedException();
 
     #endregion
 

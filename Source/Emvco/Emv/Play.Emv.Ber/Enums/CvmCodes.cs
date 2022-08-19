@@ -83,7 +83,7 @@ public record CvmCodes : EnumObject<byte>
         OfflineEncipheredPin = new CvmCodes(0b00000100);
         OfflineEncipheredPinAndSignature = new CvmCodes(0b00000101);
         SignaturePaper = new CvmCodes(0b00011110);
-        None = new CvmCodes(0b00111111);
+        None = new CvmCodes(0b00011111);
 
         _ValueObjectMap = new Dictionary<byte, CvmCodes>
         {

@@ -34,23 +34,23 @@ public record DataStorageOperatorDataSetInfoForReader : DataElement<byte>
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    public static DataStorageOperatorDataSetInfoForReader Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public static DataStorageOperatorDataSetCard Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    public override DataStorageOperatorDataSetInfoForReader Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override DataStorageOperatorDataSetCard Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    public static DataStorageOperatorDataSetInfoForReader Decode(ReadOnlySpan<byte> value)
+    public static DataStorageOperatorDataSetCard Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
 
-        return new DataStorageOperatorDataSetInfoForReader(result);
+        return new DataStorageOperatorDataSetCard(result);
     }
 
-    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode(_Value, length);
+    public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public override byte[] EncodeValue(int length) => _Codec.EncodeValue(EncodingId, _Value, length);
 
     #endregion
 

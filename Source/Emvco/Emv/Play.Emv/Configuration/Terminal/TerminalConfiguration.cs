@@ -125,9 +125,9 @@ public abstract record TerminalConfiguration
     public PoiInformation GetPoiInformation() => _PoiInformation;
 
     // HACK: This is not implemented. Find how we're supposed to store the random and biased percentages and biased threshold value
-    public TerminalRiskManagementConfiguration GetTerminalRiskConfiguration(CultureProfile culture) =>
-        new(new Money(_ThresholdValueForBiasedRandomSelection, culture.GetNumericCurrencyCode()), _BiasedRandomSelectionProbability,
-            _RandomSelectionTargetProbability);
+    public TerminalRiskConfiguration GetTerminalRiskConfiguration(CultureProfile culture) =>
+        new(culture, _TerminalRiskManagementData, _BiasedRandomSelectionProbability,
+            new Money(_ThresholdValueForBiasedRandomSelection, culture.GetNumericCurrencyCode()), _RandomSelectionTargetProbability, _TerminalFloorLimit);
 
     public MerchantNameAndLocation GetMerchantNameAndLocation() => _MerchantNameAndLocation;
     public TagLengthValue[] AsTagLengthValues() => _TagLengthValues.ToArray();

@@ -310,7 +310,7 @@ public class S3R1 : CommonProcessing
     /// <exception cref="CodecParsingException"></exception>
     private void SetOfflineAuthNotPerformed()
     {
-        _Database.Update(TerminalVerificationResultCodes.OfflineDataAuthenticationWasNotPerformed);
+        _Database.Set(TerminalVerificationResultCodes.OfflineDataAuthenticationWasNotPerformed);
     }
 
     #endregion

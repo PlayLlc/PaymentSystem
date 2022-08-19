@@ -1,7 +1,6 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Tags;
 using Play.Emv.Ber.Exceptions;
-using Play.Emv.Ber.ValueTypes;
 
 namespace Play.Emv.Ber;
 
@@ -34,9 +33,6 @@ public interface IWriteTlvDatabase
     /// <param name="tag"></param>
     /// <exception cref="TerminalDataException"></exception>
     public void Initialize(Tag tag);
-
-    /// <exception cref="TerminalDataException"></exception>
-    void Update(TerminalVerificationResult value);
 
     /// <summary>
     ///     Initialize

@@ -47,8 +47,6 @@ public record DataStorageOperatorDataSetTerminal : DataElement<BigInteger>
         return new DataStorageOperatorDataSetTerminal(result);
     }
 
-    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
-
     #endregion
 
     #region Instance Members

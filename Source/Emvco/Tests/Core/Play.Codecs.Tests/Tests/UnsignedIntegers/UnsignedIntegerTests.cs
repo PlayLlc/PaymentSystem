@@ -33,7 +33,7 @@ public class UnsignedIntegerTests : TestBase
     [MemberData(nameof(UnsignedIntegerFixture.GetRandomBigInteger), 50, MemberType = typeof(UnsignedIntegerFixture))]
     public void BigInteger_Encode_ReturnsExpectedResult(BigInteger testData)
     {
-        byte[] expected = testData.ToByteArray(true);
+        byte[] expected = testData.ToByteArray();
         byte[] actual = _SystemUnderTest.Encode(testData);
 
         Assert.Equal(expected, actual);

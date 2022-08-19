@@ -44,28 +44,6 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public ushort GetByteCount() => 1;
-    public override Tag GetTag() => Tag;
-    public static bool IsValid(byte value) => value is >= _MinValue and <= _MaxValue;
-
-    public static bool IsValid(Tag value)
-    {
-        uint valueCopy = value;
-
-        return valueCopy is >= _MinValue and <= _MaxValue;
-    }
-
-    #endregion
-
-
-    #endregion
-
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -118,6 +96,25 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
     public static explicit operator ShortFileIdentifier(byte value) => new(value);
     public static implicit operator ShortFileId(ShortFileIdentifier value) => new(value._Value);
     public static bool operator !=(ShortFileIdentifier left, Tag right) => !left.Equals(right);
+    public static bool operator !=(Tag left, ShortFileIdentifier right) => !right.Equals(left);
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public ushort GetByteCount() => 1;
+    public override Tag GetTag() => Tag;
+    public static bool IsValid(byte value) => value is >= _MinValue and <= _MaxValue;
+
+    public static bool IsValid(Tag value)
+    {
+        uint valueCopy = value;
+
+        if (valueCopy > byte.MaxValue)
+            return false;
+
+        return valueCopy is >= _MinValue and <= _MaxValue;
     }
 
     #endregion

@@ -110,12 +110,6 @@ public class CheckCore
             throw new PlayInternalException(new ArgumentOutOfRangeException(name));
     }
 
-    public static void ForMaximumValue(int value, int maxValue, string name)
-    {
-        if (value > maxValue)
-            throw new ArgumentOutOfRangeException(name, $"The argument {name} was expected to have a maximum value of {maxValue} but did not");
-    }
-
     /// <summary>
     ///     Throws an exception if the sequence's length is greater than the maximum length allowed
     /// </summary>

@@ -6,7 +6,7 @@ using Play.Core;
 
 namespace Play.Emv.Kernel.Services;
 
-public class ProbabilitySelectionQueue : IProbabilitySelectionQueue
+internal class ProbabilitySelectionQueue : IProbabilitySelectionQueue
 {
     #region Static Metadata
 
@@ -58,24 +58,20 @@ public class ProbabilitySelectionQueue : IProbabilitySelectionQueue
 
     private static Probability GetRandomPercentage() => new((byte) _Random.Next(0, 99));
 
-    /*
-     The terminal shall generate a random
-     number in the range of 1 to 99. If this random number is less than or equal to the  ‘Target Percentage to be used for Random Selection’, the transaction shall be selected
-     */
-    public bool IsRandomSelection(Probability threshold)
+    public async Task<bool> IsRandomSelection(Probability threshold)
     {
         if (!_RandomNumberQueue.TryDequeue(out Probability result))
         {
             Probability randomProbability = GetRandomPercentage();
 
             if (_RandomNumberQueue.Count < _EnqueueFloor)
-                Task.WhenAny(UpdateQueue());
+                await UpdateQueue().ConfigureAwait(false);
 
             return randomProbability <= threshold;
         }
 
         if (_RandomNumberQueue.Count < _EnqueueFloor)
-            Task.WhenAny(UpdateQueue());
+            await UpdateQueue().ConfigureAwait(false);
 
         return result <= threshold;
     }

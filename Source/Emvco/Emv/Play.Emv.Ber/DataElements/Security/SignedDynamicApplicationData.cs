@@ -27,16 +27,6 @@ public record SignedDynamicApplicationData : DataElement<BigInteger>, IEqualityC
 
     #endregion
 
-    #region Instance Members
-
-    public byte[] AsByteArray() => _Value.ToByteArray(true);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public ushort GetByteCount() => (ushort) _Value.GetByteCount(true);
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="CodecParsingException"></exception>
@@ -68,6 +58,16 @@ public record SignedDynamicApplicationData : DataElement<BigInteger>, IEqualityC
     }
 
     public int GetHashCode(SignedDynamicApplicationData obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public byte[] AsByteArray() => _Value.ToByteArray();
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public ushort GetByteCount() => (ushort) _Value.GetByteCount();
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }
