@@ -16,11 +16,7 @@ namespace MockPos
     {
         public static TerminalEndpoint Create(
             TerminalConfiguration terminalConfiguration, SystemTraceAuditNumberConfiguration systemTraceAuditNumberConfiguration,
-            IEndpointClient endpointClient)
-        {
-            ISettleTransactions settler = ConfigurationMockFactory.CreateSettler();
-
-            return TerminalEndpoint.Create(terminalConfiguration, systemTraceAuditNumberConfiguration, settler, endpointClient);
-        }
+            IEndpointClient endpointClient) =>
+            TerminalEndpoint.Create(terminalConfiguration, systemTraceAuditNumberConfiguration, endpointClient);
     }
 }

@@ -35,8 +35,7 @@ public class TerminalEndpoint : IMessageChannel, IDisposable
     #region Constructor
 
     private TerminalEndpoint(
-        TerminalConfiguration terminalConfiguration, SystemTraceAuditNumberConfiguration systemTraceAuditNumberConfiguration, ISettleTransactions settler,
-        IEndpointClient endpointClient)
+        TerminalConfiguration terminalConfiguration, SystemTraceAuditNumberConfiguration systemTraceAuditNumberConfiguration, IEndpointClient endpointClient)
     {
         _EndpointClient = endpointClient;
         _EndpointClient.Subscribe(this);
@@ -135,9 +134,8 @@ public class TerminalEndpoint : IMessageChannel, IDisposable
     #endregion
 
     public static TerminalEndpoint Create(
-        TerminalConfiguration terminalConfiguration, SystemTraceAuditNumberConfiguration systemTraceAuditNumberConfiguration, ISettleTransactions settler,
-        IEndpointClient endpointClient) =>
-        new(terminalConfiguration, systemTraceAuditNumberConfiguration, settler, endpointClient);
+        TerminalConfiguration terminalConfiguration, SystemTraceAuditNumberConfiguration systemTraceAuditNumberConfiguration, IEndpointClient endpointClient) =>
+        new(terminalConfiguration, systemTraceAuditNumberConfiguration, endpointClient);
 
     public void Dispose()
     {
