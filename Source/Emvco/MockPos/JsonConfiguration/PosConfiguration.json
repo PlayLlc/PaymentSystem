@@ -1,0 +1,396 @@
+﻿{
+  "PosConfiguration": {
+    "TerminalConfiguration": {
+      "TerminalIdentification": "00000001",
+      "MerchantIdentifier": "000000000000001",
+      "MerchantCategoryCode": "5599", // Retail Outlet Services
+      "MerchantNameAndLocation": "Play LLC. Dallas, TX",
+      "AcquirerIdentifier": "000001",
+      "InterfaceDeviceSerialNumber": "AZ123456",
+      "TerminalType": 21,
+      "Capabilities": 8431816,
+      "AdditionalCapabilities": 0,
+      "CountryCode": 840,
+      "LanguagePreference": "EN",
+      "CurrencyCode": 840,
+      "CurrencyExponent": 2,
+      "ReferenceCurrencyCode": 840,
+      "ReferenceCurrencyExponent": 2,
+      "FloorLimit": 0,
+      "RiskManagementData": 0,
+      "DataStorageRequestedOperatorId": 1,
+      "BiasedRandomSelectionProbability": 0,
+      "RandomSelectionTargetProbability": 0,
+      "ThresholdValueForBiasedRandomSelection": 0,
+      "MaxNumberOfTornTransactionLogRecords": 1,
+      "MaxLifetimeOfTornTransactionLogRecords": 300,
+      "SequenceConfiguration": {
+        "Threshold": 999999,
+        "InitializationValue": 1
+      }
+    },
+    "Combinations": [
+      {
+        "KernelId": 2,
+        "ApplicationId": "A000000004",
+        "TransactionType": 0,
+        "ApplicationPriorityIndicator": 1,
+        "ContactlessTransactionLimit": 0,
+        "ContactlessFloorLimit": 0,
+        "CvmRequiredLimit": 0,
+        "KernelConfiguration": 112,
+        "TerminalTransactionQualifiers": 645939200,
+        "IsStatusCheckSupported": true,
+        "IsZeroAmountAllowed": false,
+        "IsZeroAmountAllowedForOffline": false,
+        "IsExtendedSelectionSupported": false
+      },
+      {
+        "KernelId": 2,
+        "ApplicationId": "A000000004",
+        "TransactionType": 9,
+        "ApplicationPriorityIndicator": 1,
+        "ContactlessTransactionLimit": 0,
+        "ContactlessFloorLimit": 0,
+        "CvmRequiredLimit": 0,
+        "KernelConfiguration": 112,
+        "TerminalTransactionQualifiers": 645939200,
+        "IsStatusCheckSupported": true,
+        "IsZeroAmountAllowed": false,
+        "IsZeroAmountAllowedForOffline": false,
+        "IsExtendedSelectionSupported": false
+      },
+
+      {
+        "KernelId": 2,
+        "ApplicationId": "A000000004",
+        "TransactionType": 32,
+        "ApplicationPriorityIndicator": 1,
+        "ContactlessTransactionLimit": 0,
+        "ContactlessFloorLimit": 0,
+        "CvmRequiredLimit": 0,
+        "KernelConfiguration": 112,
+        "TerminalTransactionQualifiers": 645939200,
+        "IsStatusCheckSupported": true,
+        "IsZeroAmountAllowed": false,
+        "IsZeroAmountAllowedForOffline": false,
+        "IsExtendedSelectionSupported": false
+      }
+
+    ],
+    "KernelConfiguration": {
+      "KernelId": 2,
+      "TagLengthValues": [
+        {
+          "Name": "ApplicationVersionNumberReader",
+          "Tag": "0x9F09",
+          "Value": "0x02"
+        },
+        {
+          "Name": "CardDataInputCapability",
+          "Tag": "0xDF8117",
+          "Value": "0x00"
+        },
+        {
+          "Name": "CvmCapabilityCvmRequired",
+          "Tag": "0xDF8118",
+          "Value": "0x00"
+        },
+        {
+          "Name": "CvmCapabilityNoCvmRequired",
+          "Tag": "0xDF8119",
+          "Value": "0x00"
+        },
+        {
+          "Name": "UnpredictableNumberDataObjectList",
+          "Tag": "0x9F69",
+          "Value": "0x9F6A04"
+        },
+        {
+          "Name": "HoldTimeValue",
+          "Tag": "0xDF8130",
+          "Value": "0x0B"
+        },
+        {
+          "Name": "MagstripeApplicationVersionNumberReader",
+          "Tag": "0x9F6D",
+          "Value": "0x01"
+        },
+        {
+          "Name": "MagstripeCvmCapabilityCvmRequired",
+          "Tag": "0xDF811E",
+          "Value": "0xF0"
+        },
+        {
+          "Name": "MagstripeCvmCapabilityNoCvmRequired",
+          "Tag": "0xDF812C",
+          "Value": "0xF0"
+        },
+        {
+          "Name": "MaxLifetimeOfTornTransactionLogRecords",
+          "Tag": "0xDF811C",
+          "Value": "0x012C"
+        },
+        {
+          "Name": "MaxNumberOfTornTransactionLogRecords",
+          "Tag": "0xDF811D",
+          "Value": "0x00"
+        },
+        {
+          "Name": "MessageHoldTime",
+          "Tag": "0xDF812D",
+          "Value": "0x13"
+        },
+        {
+          "Name": "CvmCapabilityNoCvmRequired",
+          "Tag": "0xDF8119",
+          "Value": "0x00"
+        },
+        {
+          "Name": "MaximumRelayResistanceGracePeriod",
+          "Tag": "0xDF8133",
+          "Value": "0x32"
+        },
+        {
+          "Name": "MinimumRelayResistanceGracePeriod",
+          "Tag": "0xDF8132",
+          "Value": "0x14"
+        },
+        {
+          "Name": "ReaderContactlessFloorLimit",
+          "Tag": "0xDF8123",
+          "Value": "0x00"
+        },
+        {
+          "Name": "ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice",
+          "Tag": "0xDF8124",
+          "Value": "0x00"
+        },
+        {
+          "Name": "ReaderContactlessTransactionLimitWhenCvmIsOnDevice",
+          "Tag": "0xDF8125",
+          "Value": "0x00"
+        },
+        {
+          "Name": "ReaderCvmRequiredLimit",
+          "Tag": "0xDF8126",
+          "Value": "0x00"
+        },
+        {
+          "Name": "RelayResistanceAccuracyThreshold",
+          "Tag": "0xDF8136",
+          "Value": "0x012C"
+        },
+        {
+          "Name": "RelayResistanceTransmissionTimeMismatchThreshold",
+          "Tag": "0xDF8137",
+          "Value": "0x32"
+        },
+        {
+          "Name": "TerminalActionCodeDefault",
+          "Tag": "0xDF8120",
+          "Value": "0x840000000C"
+        },
+        {
+          "Name": "TerminalActionCodeDenial",
+          "Tag": "0xDF8121",
+          "Value": "0x840000000C"
+        },
+        {
+          "Name": "TerminalActionCodeOnline",
+          "Tag": "0xDF8122",
+          "Value": "0x840000000C"
+        },
+        {
+          "Name": "TerminalExpectedTransmissionTimeForRelayResistanceCapdu",
+          "Tag": "0xDF8134",
+          "Value": "0x12"
+        },
+        {
+          "Name": "TimeoutValue",
+          "Tag": "0xDF8127",
+          "Value": "0x01F4"
+        },
+        {
+          "Name": "PhoneMessageTable",
+          "Tag": "0xDF8131",
+          "Value": "0x00080000080020000004000004002000000100000100200000020000020020000000000000000700"
+        }
+
+
+      ]
+    },
+
+
+    "DisplayConfiguration": {
+      "MessageHoldTime": 100,
+      "DisplayMessages": [
+        {
+          "LanguageCode": "EN",
+          "CountryCode": 840,
+          "Messages": [
+            {
+              "MessageIdentifier": "03",
+              "Message": "Approved"
+            },
+            {
+              "MessageIdentifier": "07",
+              "Message": "Not Authorized"
+            },
+            {
+              "MessageIdentifier": "09",
+              "Message": "Please enter your PIN"
+            },
+            {
+              "MessageIdentifier": "0F",
+              "Message": "Processing Error"
+            },
+            {
+              "MessageIdentifier": "10",
+              "Message": "Please remove card"
+            },
+            {
+              "MessageIdentifier": "14",
+              "Message": "Welcome"
+            },
+            {
+              "MessageIdentifier": "15",
+              "Message": "Present card"
+            },
+            {
+              "MessageIdentifier": "16",
+              "Message": "Processing"
+            },
+            {
+              "MessageIdentifier": "17",
+              "Message": "Card read OK Please remove card"
+            },
+            {
+              "MessageIdentifier": "18",
+              "Message": "Please insert or swipe card"
+            },
+            {
+              "MessageIdentifier": "19",
+              "Message": "Please present one card only"
+            },
+            {
+              "MessageIdentifier": "1A",
+              "Message": "Approved Please sign"
+            },
+            {
+              "MessageIdentifier": "1B",
+              "Message": "Authorizing Please wait"
+            },
+            {
+              "MessageIdentifier": "1C",
+              "Message": "Insert, swipe or try another card"
+            },
+            {
+              "MessageIdentifier": "1D",
+              "Message": "Please insert card"
+            },
+            {
+              "MessageIdentifier": "1E",
+              "Message": ""
+            },
+            {
+              "MessageIdentifier": "20",
+              "Message": "See Phone for instructions"
+            },
+            {
+              "MessageIdentifier": "21",
+              "Message": "Present card again"
+            },
+            {
+              "MessageIdentifier": "07",
+              "Message": "Not Authorized"
+            },
+            {
+              "MessageIdentifier": "07",
+              "Message": "Not Authorized"
+            },
+            {
+              "MessageIdentifier": "07",
+              "Message": "Not Authorized"
+            },
+            {
+              "MessageIdentifier": "07",
+              "Message": "Not Authorized"
+            },
+            {
+              "MessageIdentifier": "07",
+              "Message": "Not Authorized"
+            },
+            {
+              "MessageIdentifier": "07",
+              "Message": "Not Authorized"
+            },
+            {
+              "MessageIdentifier": "07",
+              "Message": "Not Authorized"
+            },
+            {
+              "MessageIdentifier": "07",
+              "Message": "Not Authorized"
+            },
+            {
+              "MessageIdentifier": "07",
+              "Message": "Not Authorized"
+            },
+            {
+              "MessageIdentifier": "07",
+              "Message": "Not Authorized"
+            },
+            {
+              "MessageIdentifier": "07",
+              "Message": "Not Authorized"
+            },
+            {
+              "MessageIdentifier": "07",
+              "Message": "Not Authorized"
+            },
+            {
+              "MessageIdentifier": "07",
+              "Message": "Not Authorized"
+            },
+            {
+              "MessageIdentifier": "07",
+              "Message": "Not Authorized"
+            },
+            {
+              "MessageIdentifier": "07",
+              "Message": "Not Authorized"
+            },
+            {
+              "MessageIdentifier": "07",
+              "Message": "Not Authorized"
+            }
+          ]
+        }
+      ]
+    },
+
+
+
+
+    "ProximityCouplingDeviceConfiguration": {
+      "TimeoutValue": 500
+    },
+    "CertificateAuthorityConfiguration": {
+      "KernelId": "hex",
+      "Certificate": [
+        {
+          "RegisteredApplicationProviderIndicator": "hex",
+          "PublicKeyIndex": "hex",
+          "SerialNumber": "hex",
+          "HashAlgorithmIndicator": "hex",
+          "PublicKeyAlgorithmIndicator": "hex",
+          "ActivationDate": "MMYY",
+          "ExpirationDate": "MMYY",
+          "Exponent": "hex",
+          "Modulus": "hex"
+        }
+      ]
+    }
+  }
+}

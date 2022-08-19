@@ -30,7 +30,6 @@ public class DisplayProcess : CommandProcessingQueue
 
     private readonly ImmutableSortedDictionary<Alpha2LanguageCode, DisplayMessages> _DisplayMessages;
     private readonly IFormatDisplayMessages _DisplayMessageFormatter;
-    private readonly NumericCountryCode _CountryCode;
     private readonly IDisplayLed _LedDisplayService;
     private readonly IDisplayMessages _MessageDisplayService;
 
@@ -47,7 +46,6 @@ public class DisplayProcess : CommandProcessingQueue
 
         _MessageDisplayService = messageDisplayService;
         _LedDisplayService = ledDisplayService;
-        _CountryCode = displayConfiguration.CountryCode;
     }
 
     #endregion
