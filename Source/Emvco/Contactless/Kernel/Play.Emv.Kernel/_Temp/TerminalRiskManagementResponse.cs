@@ -39,6 +39,7 @@ public class TerminalRiskManagementResponse
     #region Instance Members
 
     public TerminalVerificationResult GetTerminalVerificationResult() => _TerminalVerificationResult;
+    public TransactionStatusInformationFlags GetTransactionStatusInformationFlags() => _TransactionStatus;
 
     #endregion
 }
