@@ -1,6 +1,7 @@
 ﻿using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Configuration;
+using Play.Emv.Display.Services;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.Services;
@@ -21,6 +22,8 @@ namespace MockPos;
 
 internal class Program
 {
+    #region Instance Members
+
     private static void Main(string[] args)
     {
         TerminalConfiguration terminalConfiguration = ConfigurationMockFactory.CreateTerminalConfiguration();
@@ -34,5 +37,8 @@ internal class Program
         MainEndpoint mainEndpoint = ReaderFactory.Create(readerConfiguration, endpointClient);
         KernelEndpoint kernelEndpoint = KernelFactory.Create(terminalConfiguration, readerConfiguration, endpointClient);
         SelectionEndpoint selectionEndpoint = SelectionEndpoint.Create(selectionConfiguration, endpointClient);
+        DisplayEndpoint displayEndpoint = DisplayEndpoint.Create(null, null, null, null);
     }
+
+    #endregion
 }
