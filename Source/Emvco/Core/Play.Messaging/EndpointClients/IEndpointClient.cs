@@ -1,6 +1,4 @@
-﻿using Play.Globalization.Time;
-
-namespace Play.Messaging;
+﻿namespace Play.Messaging;
 
 public interface IEndpointClient
 {

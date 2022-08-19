@@ -42,8 +42,8 @@ public readonly struct PublicKeyModulus
     #region Instance Members
 
     public BigInteger AsBigInteger() => _Value;
-    public byte[] AsByteArray() => _Value.ToByteArray(true);
-    public int GetByteCount() => _Value.GetByteCount(true);
+    public byte[] AsByteArray() => _Value.ToByteArray();
+    public int GetByteCount() => _Value.GetByteCount();
 
     #endregion
 

@@ -64,7 +64,7 @@ public partial class WaitingForPutDataResponseAfterGenerateAc
     private void SendPutData(TransactionSessionId sessionId, PrimitiveValue tagToWrite)
     {
         PutDataRequest capdu = PutDataRequest.Create(sessionId, tagToWrite);
-        _PcdEndpoint.Request(capdu);
+        _EndpointClient.Send(capdu);
     }
 
     #endregion
@@ -98,11 +98,11 @@ public partial class WaitingForPutDataResponseAfterGenerateAc
     private void HandleDoubleTapRequiredResponse(KernelSession session)
     {
         _Database.Update(Statuses.CardReadSuccessful);
-        _DisplayEndpoint.Request(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
+        _EndpointClient.Send(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         _Database.Update(Statuses.ReadyToRead);
         _Database.Update(MessageHoldTime.MinimumValue);
-        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+        _EndpointClient.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
     }
 
     #endregion
@@ -117,11 +117,11 @@ public partial class WaitingForPutDataResponseAfterGenerateAc
         builder.Set(MessageIdentifiers.ClearDisplay);
         builder.Set(Statuses.CardReadSuccessful);
         builder.Set(MessageHoldTime.MinimumValue);
-        _DisplayEndpoint.Request(new DisplayMessageRequest(builder.Complete()));
+        _EndpointClient.Send(new DisplayMessageRequest(builder.Complete()));
 
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         _Database.SetUiRequestOnOutcomePresent(true);
-        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+        _EndpointClient.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
     }
 
     #endregion

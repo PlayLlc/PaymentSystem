@@ -3,7 +3,7 @@ using System.Linq;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
@@ -21,6 +21,7 @@ using Play.Emv.Pcd.Contracts;
 using Play.Icc.Exceptions;
 using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Icc.Messaging.Apdu;
+using Play.Messaging;
 
 using IHandleKernelStopRequests = Play.Emv.Kernel.IHandleKernelStopRequests;
 
@@ -94,7 +95,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         _Database.Update(MessageOnErrorIdentifiers.TryAgain);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+        _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
 
         return true;
     }
@@ -120,7 +121,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         _Database.SetUiRequestOnOutcomePresent(true);
 
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+        _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
 
         return true;
     }
@@ -166,7 +167,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         catch (BerParsingException)
         {
             // TODO: Logging
-            HandleBerParsingException(session, _DataExchangeKernelService, _Database, _KernelEndpoint);
+            HandleBerParsingException(session, _DataExchangeKernelService, _Database, _EndpointClient);
             resolvedRecords = Array.Empty<Tag>();
 
             return false;
@@ -174,7 +175,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         catch (CodecParsingException)
         {
             // TODO: Logging
-            HandleBerParsingException(session, _DataExchangeKernelService, _Database, _KernelEndpoint);
+            HandleBerParsingException(session, _DataExchangeKernelService, _Database, _EndpointClient);
             resolvedRecords = Array.Empty<Tag>();
 
             return false;
@@ -182,7 +183,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         catch (Exception)
         {
             // TODO: Logging
-            HandleBerParsingException(session, _DataExchangeKernelService, _Database, _KernelEndpoint);
+            HandleBerParsingException(session, _DataExchangeKernelService, _Database, _EndpointClient);
             resolvedRecords = Array.Empty<Tag>();
 
             return false;
@@ -199,7 +200,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private static void HandleBerParsingException(
-        KernelSession session, DataExchangeKernelService dataExchanger, KernelDatabase database, IHandleKernelStopRequests kernelEndpoint)
+        KernelSession session, DataExchangeKernelService dataExchanger, KernelDatabase database, IEndpointClient endpointClient)
     {
         database.Update(StatusOutcomes.EndApplication);
         database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
@@ -207,7 +208,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         database.CreateEmvDiscretionaryData(dataExchanger);
         database.SetUiRequestOnOutcomePresent(true);
 
-        kernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+        endpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
     }
 
     #endregion
@@ -449,7 +450,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         if (!_DataExchangeKernelService.TryPeek(DekRequestType.TagsToRead, out Tag tagToRead))
             return false;
 
-        _PcdEndpoint.Request(GetDataRequest.Create(tagToRead, sessionId));
+        _EndpointClient.Send(GetDataRequest.Create(tagToRead, sessionId));
 
         return true;
     }
@@ -464,7 +465,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         if (!session.TryPeekActiveTag(out RecordRange recordRange))
             return;
 
-        _PcdEndpoint.Request(ReadRecordRequest.Create(session.GetTransactionSessionId(), recordRange.GetShortFileIdentifier()));
+        _EndpointClient.Send(ReadRecordRequest.Create(session.GetTransactionSessionId(), recordRange.GetShortFileIdentifier()));
     }
 
     #endregion

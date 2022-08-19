@@ -1,8 +1,7 @@
 ﻿using Microsoft.Toolkit.HighPerformance.Buffers;
 
-using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Exceptions;
@@ -31,46 +30,6 @@ public record PhoneMessageTable : DataElement<MessageTableEntry[]>, IEqualityCom
 
     public PhoneMessageTable(MessageTableEntry[] value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount() => (ushort) _Value.Sum(a => a.GetByteCount());
-
-    // HACK: This is a technology specific implementation and should move to Kernel 2
-    /// <exception cref="PlayInternalException"></exception>
-    public static PhoneMessageTable CreateKernel2Default()
-    {
-        return new PhoneMessageTable(new MessageTableEntry[]
-        {
-            new(new PciiMask(0x000001), new PciiValue(000001), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions, Statuses.NotReady),
-            new(new PciiMask(0x000800), new PciiValue(000800), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions, Statuses.NotReady),
-            new(new PciiMask(0x000400), new PciiValue(000400), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions, Statuses.NotReady),
-            new(new PciiMask(0x000100), new PciiValue(000100), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions, Statuses.NotReady),
-            new(new PciiMask(0x000200), new PciiValue(000200), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions, Statuses.NotReady),
-            new(new PciiMask(0x000000), new PciiValue(000000), (MessageIdentifier) MessageIdentifiers.Declined, Statuses.NotReady)
-        });
-    }
-
-    public bool TryGetMatch(PosCardholderInteractionInformation pcii, out MessageTableEntry? messageTableEntry)
-    {
-        for (int i = 0; i < _Value.Length; i++)
-        {
-            if (_Value[i].IsMessageMatch(pcii))
-            {
-                messageTableEntry = _Value[i];
-
-                return true;
-            }
-        }
-
-        messageTableEntry = null;
-
-        return false;
-    }
 
     #endregion
 
@@ -122,6 +81,46 @@ public record PhoneMessageTable : DataElement<MessageTableEntry[]>, IEqualityCom
     }
 
     public int GetHashCode(PhoneMessageTable obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount() => (ushort) _Value.Sum(a => a.GetByteCount());
+
+    // HACK: This is a technology specific implementation and should move to Kernel 2
+    /// <exception cref="PlayInternalException"></exception>
+    public static PhoneMessageTable CreateKernel2Default()
+    {
+        return new PhoneMessageTable(new MessageTableEntry[]
+        {
+            new(new PciiMask(0x000001), new PciiValue(000001), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions, Statuses.NotReady),
+            new(new PciiMask(0x000800), new PciiValue(000800), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions, Statuses.NotReady),
+            new(new PciiMask(0x000400), new PciiValue(000400), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions, Statuses.NotReady),
+            new(new PciiMask(0x000100), new PciiValue(000100), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions, Statuses.NotReady),
+            new(new PciiMask(0x000200), new PciiValue(000200), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions, Statuses.NotReady),
+            new(new PciiMask(0x000000), new PciiValue(000000), (MessageIdentifier) MessageIdentifiers.Declined, Statuses.NotReady)
+        });
+    }
+
+    public bool TryGetMatch(PosCardholderInteractionInformation pcii, out MessageTableEntry? messageTableEntry)
+    {
+        for (int i = 0; i < _Value.Length; i++)
+        {
+            if (_Value[i].IsMessageMatch(pcii))
+            {
+                messageTableEntry = _Value[i];
+
+                return true;
+            }
+        }
+
+        messageTableEntry = null;
+
+        return false;
+    }
 
     #endregion
 }

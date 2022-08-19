@@ -4,6 +4,7 @@ using Play.Emv.Display.Contracts;
 using Play.Emv.Identifiers;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;
+using Play.Messaging;
 
 namespace Play.Emv.Selection.Start;
 
@@ -17,22 +18,18 @@ public class ProtocolActivator
 {
     #region Instance Values
 
-    private readonly IHandleDisplayRequests _DisplayProcess;
-    private readonly IHandlePcdRequests _ProximityCouplingDeviceEndpoint;
+    private readonly IEndpointClient _EndpointClient;
 
     #endregion
 
     #region Constructor
 
-    public ProtocolActivator(IHandlePcdRequests pcdClient, IHandleDisplayRequests displayClient)
+    public ProtocolActivator(IEndpointClient endpointClient)
     {
-        _ProximityCouplingDeviceEndpoint = pcdClient;
-        _DisplayProcess = displayClient;
+        _EndpointClient = endpointClient;
     }
 
     #endregion
-
-    #region Instance Members
 
     #region 3.2.1
 
@@ -48,18 +45,6 @@ public class ProtocolActivator
         ProcessIfActivationIsARestart(outcome);
         ActivateProximityCouplingDevice(transactionSessionId);
     }
-
-    #endregion
-
-    #region 3.2.1.3
-
-    /// <remarks>EMVco Book B Section 3.2.1.3</remarks>
-    private void ActivateProximityCouplingDevice(TransactionSessionId transactionSessionId)
-    {
-        _ProximityCouplingDeviceEndpoint.Request(new ActivatePcdRequest(transactionSessionId));
-    }
-
-    #endregion
 
     #endregion
 
@@ -82,7 +67,7 @@ public class ProtocolActivator
         else
             candidateList.Clear();
 
-        _DisplayProcess.Request(GetReadyToReadDisplayMessage());
+        _EndpointClient.Send(GetReadyToReadDisplayMessage());
     }
 
     private static DisplayMessageRequest GetReadyToReadDisplayMessage()
@@ -113,10 +98,10 @@ public class ProtocolActivator
                     $"The {nameof(Outcome)} indicated that UI Request on Restart is true but no {nameof(UserInterfaceRequestData)} could be found");
             }
 
-            _DisplayProcess.Request(new DisplayMessageRequest(requestData));
+            _EndpointClient.Send(new DisplayMessageRequest(requestData));
         }
         else
-            _DisplayProcess.Request(GetReadyToReadDisplayMessage(outcome));
+            _EndpointClient.Send(GetReadyToReadDisplayMessage(outcome));
     }
 
     private static DisplayMessageRequest GetReadyToReadDisplayMessage(Outcome outcome)
@@ -129,6 +114,16 @@ public class ProtocolActivator
         _ = outcome.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData);
 
         return new DisplayMessageRequest(userInterfaceRequestData!);
+    }
+
+    #endregion
+
+    #region 3.2.1.3
+
+    /// <remarks>EMVco Book B Section 3.2.1.3</remarks>
+    private void ActivateProximityCouplingDevice(TransactionSessionId transactionSessionId)
+    {
+        _EndpointClient.Send(new ActivatePcdRequest(transactionSessionId));
     }
 
     #endregion

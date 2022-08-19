@@ -1,6 +1,4 @@
-﻿using Play.Testing.Emv.AutoFixture.Builders.DataElements;
-using Play.Testing.Emv.AutoFixture.Builders.Globalization;
-using Play.Testing.Infrastructure.AutoFixture;
+﻿using Play.Testing.Infrastructure.AutoFixture;
 
 namespace Play.Testing.Emv;
 
@@ -31,7 +29,6 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
         ProcessingOptionsDataObjectListBuilder = new ProcessingOptionsDataObjectListBuilder();
         TransactionDateBuilder = new TransactionDateBuilder();
         TransactionTypeBuilder = new TransactionTypeBuilder();
-
 
         // Constructed Values
         DirectoryEntryBuilder = new DirectoryEntryBuilder();
@@ -70,12 +67,6 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
             new TerminalCategoryCodeBuilder(),
             new TerminalVerificationResultCodesBuilder(),
             new ValueQualifierBuilder(),
-            new ApplicationPanBuilder(),
-            new NumericCountryCodeBuilder(),
-            new Alpha2CountryCodeBuilder(),
-            new TerminalTransactionQualifiersBuilder(),
-            new TerminalIdentificationBuilder(),
-            new InterfaceDeviceSerialNumberBuilder(),
             AmountAuthorizedNumericBuilder,
             AmountOtherNumericBuilder,
             ApplicationDedicatedFileNameBuilder,
@@ -99,7 +90,7 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
             FileControlInformationAdfBuilder,
             FileControlInformationIssuerDiscretionaryDataAdfBuilder,
             FileControlInformationIssuerDiscretionaryPpseBuilder,
-            LanguagePreferenceBuilder,
+            LanguagePreferenceBuilder
         });
 
         return currentModuleBuilders;

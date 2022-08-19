@@ -135,7 +135,7 @@ public partial class WaitingForCccResponse2
         }
         finally
         {
-            _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+            _EndpointClient.Send(new StopKernelRequest(sessionId));
         }
     }
 
@@ -210,7 +210,7 @@ public partial class WaitingForCccResponse2
         _Database.Update(MessageIdentifiers.ClearDisplay);
         _Database.Update(Statuses.CardReadSuccessful);
         _Database.Update(MessageHoldTime.MinimumValue);
-        _DisplayEndpoint.Request(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
+        _EndpointClient.Send(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
     }
 
     #endregion
@@ -290,13 +290,13 @@ public partial class WaitingForCccResponse2
         {
             // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
             // HACK: This is in case there's an exception retrieving the OUT response from the database, but we should probably do something better here
-            _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+            _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
         }
         catch (Exception)
         {
             // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
             // HACK: This is in case there's an exception retrieving the OUT response from the database, but we should probably do something better here
-            _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+            _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
         }
 
         return false;
@@ -319,7 +319,7 @@ public partial class WaitingForCccResponse2
         _Database.Update(StartOutcomes.B);
         _Database.SetIsDataRecordPresent(true);
         _Database.CreateMagstripeDataRecord(_DataExchangeKernelService);
-        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+        _EndpointClient.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
     }
 
     #endregion
@@ -393,7 +393,7 @@ public partial class WaitingForCccResponse2
         _Database.CreateMagstripeDataRecord(_DataExchangeKernelService);
 
         _Database.Update(StartOutcomes.B);
-        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+        _EndpointClient.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
     }
 
     #endregion
@@ -512,7 +512,7 @@ public partial class WaitingForCccResponse2
         }
         finally
         {
-            _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+            _EndpointClient.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
         }
     }
 
@@ -530,7 +530,7 @@ public partial class WaitingForCccResponse2
         _Database.CreateMagstripeDataRecord(_DataExchangeKernelService);
         _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);
 
-        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+        _EndpointClient.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
     }
 
     #endregion
@@ -550,7 +550,7 @@ public partial class WaitingForCccResponse2
         _Database.CreateMagstripeDataRecord(_DataExchangeKernelService);
         _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);
 
-        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+        _EndpointClient.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
     }
 
     #endregion
@@ -573,7 +573,7 @@ public partial class WaitingForCccResponse2
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
         _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);
         _Database.SetUiRequestOnOutcomePresent(true);
-        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+        _EndpointClient.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
     }
 
     #endregion

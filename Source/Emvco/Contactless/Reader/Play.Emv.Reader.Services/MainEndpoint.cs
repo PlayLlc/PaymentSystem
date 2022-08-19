@@ -1,6 +1,5 @@
 ﻿using System;
 
-using Play.Emv.Display.Contracts;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Pcd.Contracts;
@@ -13,7 +12,7 @@ using Play.Messaging.Exceptions;
 
 namespace Play.Emv.Reader.Services;
 
-public class MainEndpoint : IMessageChannel, IReaderEndpoint, IHandleResponsesToReader, ISendReaderResponses, IDisposable
+public class MainEndpoint : IMessageChannel, IDisposable
 {
     #region Static Metadata
 
@@ -31,15 +30,12 @@ public class MainEndpoint : IMessageChannel, IReaderEndpoint, IHandleResponsesTo
 
     #region Constructor
 
-    private MainEndpoint(
-        ActivateReaderRequest activateReaderRequest, ICreateEndpointClient messageBus, IHandleDisplayRequests displayEndpoint,
-        IHandleSelectionRequests selectionEndpoint, KernelRetriever kernelRetriever)
+    private MainEndpoint(ReaderConfiguration configuration, IEndpointClient endpointClient)
     {
         ChannelIdentifier = new ChannelIdentifier(SelectionSessionId);
-        _MainProcess = new MainProcess(activateReaderRequest, selectionEndpoint, displayEndpoint, this, kernelRetriever);
-
-        _EndpointClient = messageBus.CreateEndpointClient();
+        _EndpointClient = endpointClient;
         _EndpointClient.Subscribe(this);
+        _MainProcess = new MainProcess(configuration, _EndpointClient);
     }
 
     #endregion
@@ -58,12 +54,18 @@ public class MainEndpoint : IMessageChannel, IReaderEndpoint, IHandleResponsesTo
     /// <exception cref="InvalidMessageRoutingException"></exception>
     public void Request(RequestMessage message)
     {
-        throw new InvalidMessageRoutingException(message, this);
-    }
-
-    public void Request(AbortReaderRequest message)
-    {
-        _MainProcess.Enqueue(message);
+        if (message is ActivateReaderRequest activateReaderRequest)
+            Request(activateReaderRequest);
+        else if (message is QueryReaderRequest queryReaderRequest)
+            Request(queryReaderRequest);
+        else if (message is UpdateReaderRequest updateReaderRequest)
+            Request(updateReaderRequest);
+        else if (message is StopReaderRequest stopReaderRequest)
+            Request(stopReaderRequest);
+        else if (message is AbortReaderRequest abortReaderRequest)
+            Request(abortReaderRequest);
+        else
+            throw new InvalidMessageRoutingException(message, this);
     }
 
     public void Request(ActivateReaderRequest message)
@@ -76,33 +78,19 @@ public class MainEndpoint : IMessageChannel, IReaderEndpoint, IHandleResponsesTo
         _MainProcess.Enqueue(message);
     }
 
-    public void Request(StopReaderRequest message)
-    {
-        _MainProcess.Enqueue(message);
-    }
-
     public void Request(UpdateReaderRequest message)
     {
         _MainProcess.Enqueue(message);
     }
 
-    #endregion
-
-    #region Responses
-
-    public void Send(OutReaderResponse message)
+    public void Request(StopReaderRequest message)
     {
-        _EndpointClient.Send(message);
+        _MainProcess.Enqueue(message);
     }
 
-    void ISendReaderResponses.Send(QueryReaderResponse message)
+    public void Request(AbortReaderRequest message)
     {
-        _EndpointClient.Send(message);
-    }
-
-    void ISendReaderResponses.Send(StopReaderAcknowledgedResponse message)
-    {
-        _EndpointClient.Send(message);
+        _MainProcess.Enqueue(message);
     }
 
     #endregion
@@ -143,10 +131,7 @@ public class MainEndpoint : IMessageChannel, IReaderEndpoint, IHandleResponsesTo
 
     #endregion
 
-    internal static MainEndpoint Create(
-        ActivateReaderRequest activateReaderRequest, ICreateEndpointClient messageRouter, IHandleDisplayRequests displayEndpoint,
-        IHandleSelectionRequests selectionEndpoint, KernelRetriever kernelRetriever) =>
-        new(activateReaderRequest, messageRouter, displayEndpoint, selectionEndpoint, kernelRetriever);
+    public static MainEndpoint Create(ReaderConfiguration readerConfiguration, IEndpointClient endpointClient) => new(readerConfiguration, endpointClient);
 
     public void Dispose()
     {

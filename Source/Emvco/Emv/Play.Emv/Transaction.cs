@@ -9,7 +9,6 @@ using Play.Globalization;
 
 namespace Play.Emv;
 
-// HACK: This is anemic as hell. Let's do something different here. Let's make this an aggregate root pattern instead
 public class Transaction
 {
     #region Instance Values
@@ -18,14 +17,14 @@ public class Transaction
     private readonly AmountAuthorizedNumeric _AmountAuthorizedNumeric;
     private readonly AmountOtherNumeric _AmountOtherNumeric;
     private readonly LanguagePreference _LanguagePreference;
-    private readonly TerminalCountryCode _TerminalCountryCode;
-    private readonly Outcome _Outcome;
     private readonly TransactionDate _TransactionDate;
     private readonly TransactionTime _TransactionTime;
     private readonly TransactionSessionId _TransactionSessionId;
     private readonly TransactionType _TransactionType;
+    private readonly TerminalCountryCode _TerminalCountryCode;
     private readonly TransactionCurrencyCode _TransactionCurrencyCode;
     private readonly TransactionCurrencyExponent _TransactionCurrencyExponent;
+    private Outcome _Outcome;
 
     #endregion
 
@@ -52,10 +51,32 @@ public class Transaction
         _Outcome = new Outcome();
     }
 
+    public Transaction(
+        TransactionSessionId transactionSessionId, AccountType accountType, AmountAuthorizedNumeric amountAuthorizedNumeric,
+        AmountOtherNumeric amountOtherNumeric, TransactionType transactionType, LanguagePreference languagePreference, TerminalCountryCode terminalCountryCode,
+        TransactionDate transactionDate, TransactionTime transactionTime, TransactionCurrencyExponent transactionCurrencyExponent,
+        TransactionCurrencyCode transactionCurrencyCode, Outcome outcome)
+    {
+        _AccountType = accountType;
+        _TransactionSessionId = transactionSessionId;
+        _AmountAuthorizedNumeric = amountAuthorizedNumeric;
+        _AmountOtherNumeric = amountOtherNumeric;
+        _TransactionType = transactionType;
+        _TransactionDate = transactionDate;
+        _TransactionTime = transactionTime;
+        _TerminalCountryCode = terminalCountryCode;
+        _TransactionCurrencyExponent = transactionCurrencyExponent;
+        _TransactionCurrencyCode = transactionCurrencyCode;
+        _LanguagePreference = languagePreference;
+
+        _Outcome = outcome;
+    }
+
     #endregion
 
     #region Instance Members
 
+    public Outcome Update(Outcome outcome) => _Outcome = outcome;
     public AccountType GetAccountType() => _AccountType;
     public TransactionTime GetTransactionTime() => _TransactionTime;
     public OutcomeParameterSet GetOutcomeParameterSet() => _Outcome.GetOutcomeParameterSet();

@@ -1,7 +1,8 @@
 ﻿using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
-using Play.Emv.Display.Contracts;
+using Play.Emv.Exceptions;
 using Play.Emv.Pcd.Contracts;
+using Play.Emv.Selection.Configuration;
 using Play.Emv.Selection.Contracts;
 using Play.Messaging;
 using Play.Messaging.Threads;
@@ -18,11 +19,10 @@ internal class SelectionProcess : CommandProcessingQueue<Message>
 
     #region Constructor
 
-    public SelectionProcess(
-        IHandlePcdRequests pcdClient, IHandleDisplayRequests displayClient, TransactionProfile[] transactionProfiles, PoiInformation poiInformation,
-        ISendSelectionResponses endpointClient) : base(new CancellationTokenSource())
+    public SelectionProcess(IEndpointClient endpointClient, TransactionProfile[] transactionProfiles, PoiInformation poiInformation) : base(
+        new CancellationTokenSource())
     {
-        _SelectionStateMachine = new SelectionStateMachine(pcdClient, displayClient, transactionProfiles, poiInformation, this, endpointClient);
+        _SelectionStateMachine = new SelectionStateMachine(endpointClient, transactionProfiles, poiInformation);
     }
 
     #endregion
@@ -75,24 +75,14 @@ internal class SelectionProcess : CommandProcessingQueue<Message>
         await Task.Run(() => { _SelectionStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
     }
 
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="request"></param>
-    /// <returns></returns>
-    /// <exception cref="Emv.Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     private async Task Handle(SelectProximityPaymentSystemEnvironmentResponse request)
     {
         await Task.Run(() => { _SelectionStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
     }
 
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="request"></param>
-    /// <returns></returns>
-    /// <exception cref="Emv.Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     private async Task Handle(SendPoiInformationResponse request)
     {

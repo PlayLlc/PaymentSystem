@@ -68,7 +68,7 @@ public partial class WaitingForMagstripeFirstWriteFlag
         }
         finally
         {
-            _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+            _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
         }
 
         return false;

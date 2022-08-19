@@ -22,7 +22,6 @@ public partial class KernelDatabase
     protected TerminalVerificationResults.Builder _TerminalVerificationResultBuilder = TerminalVerificationResults.GetBuilder();
     protected TerminalCapabilities.Builder _TerminalCapabilitiesBuilder = TerminalCapabilities.GetBuilder();
     protected DataStorageSummaryStatus.Builder _DataStorageSummaryStatusBuilder = DataStorageSummaryStatus.GetBuilder();
-    protected TransactionStatusInformation.Builder _TransactionStatusInformationBuilder = TransactionStatusInformation.GetBuilder();
 
     #endregion
 
@@ -65,14 +64,6 @@ public partial class KernelDatabase
         return (UserInterfaceRequestData) Get(UserInterfaceRequestData.Tag);
     }
 
-    public TransactionStatusInformation GetTransactionStatusInformation()
-    {
-        if (IsPresentAndNotEmpty(TransactionStatusInformation.Tag))
-            return _TransactionStatusInformationBuilder.Complete();
-
-        return (TransactionStatusInformation) Get(TransactionStatusInformation.Tag);
-    }
-
     /// <summary>
     ///     GetDataRecord
     /// </summary>
@@ -103,14 +94,14 @@ public partial class KernelDatabase
     /// <exception cref="TerminalDataException"></exception>
     private DiscretionaryData? GetDiscretionaryData()
     {
-        if (IsPresentAndNotEmpty(DiscretionaryData.Tag))
+        if (!IsPresentAndNotEmpty(DiscretionaryData.Tag))
             return null;
 
         return (DiscretionaryData) Get(DiscretionaryData.Tag);
     }
 
     /// <exception cref="TerminalDataException"></exception>
-    public Outcome GetOutcome() => new(GetErrorIndication(), GetOutcomeParameterSet(), GetDataRecord(), GetDiscretionaryData(), GetUserInterfaceRequestData());
+    public Outcome GetOutcome() => new(GetErrorIndication(), GetOutcomeParameterSet(), GetUserInterfaceRequestData(), GetDataRecord(), GetDiscretionaryData());
 
     #endregion
 
@@ -216,29 +207,6 @@ public partial class KernelDatabase
     }
 
     /// <exception cref="TerminalDataException"></exception>
-    public void Update(TransactionStatusInformationFlags value)
-    {
-        try
-        {
-            _TransactionStatusInformationBuilder.Reset(GetTransactionStatusInformation());
-            _TransactionStatusInformationBuilder.Set(value);
-            Update(_TransactionStatusInformationBuilder.Complete());
-        }
-        catch (DataElementParsingException exception)
-        {
-            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}", exception);
-        }
-        catch (CodecParsingException exception)
-        {
-            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}", exception);
-        }
-        catch (Exception exception)
-        {
-            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}", exception);
-        }
-    }
-
-    /// <exception cref="TerminalDataException"></exception>
     public void Update(Statuses value)
     {
         try
@@ -285,7 +253,7 @@ public partial class KernelDatabase
     }
 
     /// <exception cref="TerminalDataException"></exception>
-    public void Update(TerminalVerificationResult value)
+    public void Set(TerminalVerificationResult value)
     {
         try
         {

@@ -74,7 +74,7 @@ public partial class WaitingForPutDataResponseBeforeGenerateAc
         {
             // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
 
-            _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+            _EndpointClient.Send(new StopKernelRequest(sessionId));
 
             return true;
         }
@@ -82,7 +82,7 @@ public partial class WaitingForPutDataResponseBeforeGenerateAc
         {
             // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
 
-            _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+            _EndpointClient.Send(new StopKernelRequest(sessionId));
 
             return true;
         }
@@ -126,7 +126,7 @@ public partial class WaitingForPutDataResponseBeforeGenerateAc
         }
 
         PutDataRequest capdu = PutDataRequest.Create(sessionId, tagToWrite!);
-        _PcdEndpoint.Request(capdu);
+        _EndpointClient.Send(capdu);
     }
 
     #endregion
@@ -177,7 +177,7 @@ public partial class WaitingForPutDataResponseBeforeGenerateAc
             throw new TerminalDataException($"The {nameof(S456)} could not complete {nameof(TryRecoveringTornTransaction)} ");
 
         RecoverAcRequest capdu = RecoverAcRequest.Create(session.GetTransactionSessionId(), ddolRelatedData!);
-        _PcdEndpoint.Request(capdu);
+        _EndpointClient.Send(capdu);
 
         return true;
     }

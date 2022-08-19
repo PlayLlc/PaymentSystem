@@ -1,10 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;
-using Play.Emv.Kernel.Services;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Reader.Contracts.SignalIn;
 using Play.Emv.Selection.Contracts;
@@ -23,12 +21,9 @@ internal class MainProcess : CommandProcessingQueue<Message>
 
     #region Constructor
 
-    public MainProcess(
-        ActivateReaderRequest activateReaderRequest, IHandleSelectionRequests selectionEndpoint, IHandleDisplayRequests displayEndpoint,
-        IReaderEndpoint readerEndpoint, KernelRetriever kernelRetriever) : base(new CancellationTokenSource())
+    public MainProcess(ReaderConfiguration readerConfiguration, IEndpointClient endpointClient) : base(new CancellationTokenSource())
     {
-        _MainStateMachine = new MainStateMachine(selectionEndpoint, kernelRetriever, displayEndpoint, readerEndpoint);
-        Enqueue(activateReaderRequest);
+        _MainStateMachine = new MainStateMachine(readerConfiguration, endpointClient);
     }
 
     #endregion

@@ -23,7 +23,7 @@ public partial class WaitingForGenerateAcResponse2
         public void ProcessCamFailedResponse(KernelSessionId sessionId, TornRecord tempTornRecord)
         {
             _Database.Update(Level2Error.CryptographicAuthenticationMethodFailed);
-            _Database.Update(TerminalVerificationResultCodes.CombinationDataAuthenticationFailed);
+            _Database.Set(TerminalVerificationResultCodes.CombinationDataAuthenticationFailed);
 
             ProcessInvalidDataResponse(sessionId, tempTornRecord);
         }
@@ -121,7 +121,7 @@ public partial class WaitingForGenerateAcResponse2
             }
             finally
             {
-                _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+                _EndpointClient.Send(new StopKernelRequest(sessionId));
             }
 
             return true;
@@ -151,7 +151,7 @@ public partial class WaitingForGenerateAcResponse2
             }
             finally
             {
-                _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+                _EndpointClient.Send(new StopKernelRequest(sessionId));
             }
         }
 

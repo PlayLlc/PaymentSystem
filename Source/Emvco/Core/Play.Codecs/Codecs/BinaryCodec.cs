@@ -87,7 +87,7 @@ public class BinaryCodec : PlayCodec
         if (byteSize <= Specs.Integer.UInt64.ByteCount)
             return Unsafe.As<T, ulong>(ref value).GetMostSignificantByte();
 
-        return checked((ushort) Unsafe.As<T, BigInteger>(ref value).GetByteCount(true));
+        return checked((ushort) Unsafe.As<T, BigInteger>(ref value).GetByteCount());
     }
 
     public override ushort GetByteCount<T>(T[] value) where T : struct => checked((ushort) value.Length);

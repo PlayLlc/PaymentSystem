@@ -1,11 +1,4 @@
-﻿using System;
-
-using BenchmarkDotNet.Attributes;
-
-using Play.Codecs.Exceptions;
-using Play.Core.Extensions;
-
-namespace Play.Core.Tests.Benchmarks.Extensions.Spans;
+﻿namespace Play.Core.Tests.Benchmarks.Extensions.Spans;
 
 public partial class SpanExtensionBenchmarks
 {

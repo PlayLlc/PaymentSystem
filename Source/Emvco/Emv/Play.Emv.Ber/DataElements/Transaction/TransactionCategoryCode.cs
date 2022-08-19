@@ -1,5 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
 
@@ -28,13 +28,6 @@ public record TransactionCategoryCode : PlayProprietaryDataElement<char[]>
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
     #region Serialization
 
     public static TransactionCategoryCode Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
@@ -49,6 +42,13 @@ public record TransactionCategoryCode : PlayProprietaryDataElement<char[]>
 
         return new TransactionCategoryCode(result);
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

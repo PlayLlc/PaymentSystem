@@ -8,7 +8,7 @@ using Play.Messaging.Exceptions;
 
 namespace Play.Emv.Kernel.Services;
 
-public class KernelEndpoint : IMessageChannel, IHandleKernelRequests, ISendKernelResponses, IHandleResponsesToKernel, IDisposable
+public class KernelEndpoint : IMessageChannel, IDisposable
 {
     #region Static Metadata
 
@@ -26,11 +26,11 @@ public class KernelEndpoint : IMessageChannel, IHandleKernelRequests, ISendKerne
 
     #region Constructor
 
-    private KernelEndpoint(KernelRetriever kernelRetriever, ICreateEndpointClient messageBus)
+    private KernelEndpoint(KernelRetriever kernelRetriever, IEndpointClient endpointClient)
     {
         ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
         _KernelRetriever = kernelRetriever;
-        _EndpointClient = messageBus.CreateEndpointClient();
+        _EndpointClient = endpointClient;
         _EndpointClient.Subscribe(this);
     }
 
@@ -50,10 +50,16 @@ public class KernelEndpoint : IMessageChannel, IHandleKernelRequests, ISendKerne
     /// <exception cref="InvalidMessageRoutingException"></exception>
     public void Request(RequestMessage message)
     {
-        if (message is ActivatePcdRequest activatePcdRequest)
-            Request(activatePcdRequest);
-        else if (message is QueryPcdRequest queryPcdRequest)
-            Request(queryPcdRequest);
+        if (message is ActivateKernelRequest activateKernelRequest)
+            Request(activateKernelRequest);
+        else if (message is CleanKernelRequest cleanKernelRequest)
+            Request(cleanKernelRequest);
+        else if (message is QueryKernelRequest queryKernelRequest)
+            Request(queryKernelRequest);
+        else if (message is StopKernelRequest stopKernelRequest)
+            Request(stopKernelRequest);
+        else if (message is UpdateKernelRequest updateKernelRequest)
+            Request(updateKernelRequest);
         else
             throw new InvalidMessageRoutingException(message, this);
     }
@@ -66,27 +72,13 @@ public class KernelEndpoint : IMessageChannel, IHandleKernelRequests, ISendKerne
 
     #endregion
 
-    #region Responses
-
-    public void Send(OutKernelResponse message)
-    {
-        _EndpointClient.Send(message);
-    }
-
-    public void Send(QueryKernelResponse message)
-    {
-        _EndpointClient.Send(message);
-    }
-
-    #endregion
-
     #region Callbacks
 
     /// <summary>
     ///     Handle
     /// </summary>
     /// <param name="message"></param>
-    /// <exception cref="Play.Messaging.Exceptions.InvalidMessageRoutingException"></exception>
+    /// <exception cref="InvalidMessageRoutingException"></exception>
     public void Handle(ResponseMessage message)
     {
         if (message is QueryPcdResponse outSelectionResponse)
@@ -102,7 +94,8 @@ public class KernelEndpoint : IMessageChannel, IHandleKernelRequests, ISendKerne
 
     #endregion
 
-    public static KernelEndpoint Create(KernelRetriever kernelRetriever, ICreateEndpointClient messageRouter) => new(kernelRetriever, messageRouter);
+    public static KernelEndpoint Create(KernelProcess[] kernelProcesses, IEndpointClient endpointClient) =>
+        new(new KernelRetriever(kernelProcesses), endpointClient);
 
     public void Dispose()
     {

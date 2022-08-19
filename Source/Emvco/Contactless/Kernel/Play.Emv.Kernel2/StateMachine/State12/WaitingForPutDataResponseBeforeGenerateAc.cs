@@ -9,6 +9,7 @@ using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Services.PrepareGenerateAc;
 using Play.Emv.Pcd.Contracts;
+using Play.Messaging;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
@@ -23,10 +24,9 @@ public partial class WaitingForPutDataResponseBeforeGenerateAc : KernelState
     #region Constructor
 
     public WaitingForPutDataResponseBeforeGenerateAc(
-        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint, IHandleDisplayRequests displayEndpoint,
-        PrepareGenerateAcService prepareGenAcService) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionLog, kernelStateResolver,
-        pcdEndpoint, displayEndpoint)
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IEndpointClient endpointClient,
+        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, PrepareGenerateAcService prepareGenAcService) : base(database,
+        dataExchangeKernelService, tornTransactionLog, kernelStateResolver, endpointClient)
     {
         _PrepareGenAcService = prepareGenAcService;
     }

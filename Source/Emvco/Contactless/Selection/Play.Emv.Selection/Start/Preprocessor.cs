@@ -26,7 +26,7 @@ public class Preprocessor
     ///     Book B Section 3.1.1.13
     /// </remarks>
     /// <returns></returns>
-    private void GetPreprocessingOutcome(in Outcome outcome, in PreProcessingIndicators preProcessingIndicators)
+    private void GetPreprocessingOutcome(Outcome outcome, in PreProcessingIndicators preProcessingIndicators)
     {
         OutcomeParameterSet.Builder? outcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
         UserInterfaceRequestData.Builder userInterfaceSetter = UserInterfaceRequestData.GetBuilder();

@@ -17,19 +17,15 @@ public class OutcomeProcessor : IProcessOutcome
 {
     #region Instance Values
 
-    protected readonly IHandleSelectionRequests _SelectionEndpoint;
-    protected readonly IHandleDisplayRequests _DisplayEndpoint;
-    protected readonly IReaderEndpoint _ReaderEndpoint;
+    protected readonly IEndpointClient _EndpointClient;
 
     #endregion
 
     #region Constructor
 
-    public OutcomeProcessor(IHandleSelectionRequests selectionEndpoint, IHandleDisplayRequests displayEndpoint, IReaderEndpoint readerEndpoint)
+    public OutcomeProcessor(IEndpointClient endpointClient)
     {
-        _SelectionEndpoint = selectionEndpoint;
-        _DisplayEndpoint = displayEndpoint;
-        _ReaderEndpoint = readerEndpoint;
+        _EndpointClient = endpointClient;
     }
 
     #endregion
@@ -38,45 +34,21 @@ public class OutcomeProcessor : IProcessOutcome
 
     // TODO: Check that the logic for handling errors from Entry Point Start processing is the same as handling an outcome from the kernel. If not, then we need to update the logic in the Process methods below
 
-    /// <param name="correlationId"></param>
-    /// <param name="sessionId"></param>
-    /// <param name="transaction"></param>
-    /// <returns></returns>
-    /// <remarks>Book B Section 3.5</remarks>
-    /// <exception cref="InvalidOperationException"></exception>
-    public virtual void Process(CorrelationId correlationId, KernelSessionId sessionId, Transaction transaction)
-    {
-        HandleFieldOffRequest(transaction.GetOutcome());
-        HandleUiRequestOnOutcome(transaction.GetOutcome());
-        HandleTryAgainStatus(transaction);
-
-        transaction.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData);
-        transaction.TryGetDiscretionaryData(out DiscretionaryData? discretionaryData);
-        transaction.TryGetDataRecord(out DataRecord? dataRecord);
-
-        _ReaderEndpoint.Send(new OutReaderResponse(correlationId,
-            new FinalOutcome(sessionId.GetTransactionSessionId(), sessionId, transaction.GetOutcomeParameterSet(), discretionaryData, userInterfaceRequestData,
-                dataRecord)));
-    }
-
-    /// <summary>
-    ///     Process
-    /// </summary>
-    /// <param name="correlationId"></param>
-    /// <param name="sessionId"></param>
-    /// <param name="transaction"></param>
     /// <exception cref="InvalidOperationException"></exception>
     public virtual void Process(CorrelationId correlationId, TransactionSessionId sessionId, Transaction transaction)
     {
         HandleFieldOffRequest(transaction.GetOutcome());
         HandleUiRequestOnOutcome(transaction.GetOutcome());
-        HandleTryAgainStatus(transaction);
+
+        // Book B Section 3.5 Try Again and Select Next are processed immediately by Entry Point which re-starts processing at the appropriate start
+        if (TryHandleTryAgainStatus(transaction))
+            return;
 
         transaction.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData);
         transaction.TryGetDiscretionaryData(out DiscretionaryData? discretionaryData);
         transaction.TryGetDataRecord(out DataRecord? dataRecord);
 
-        _ReaderEndpoint.Send(new OutReaderResponse(correlationId,
+        _EndpointClient.Send(new OutReaderResponse(correlationId,
             new FinalOutcome(sessionId, transaction.GetOutcomeParameterSet(), discretionaryData, userInterfaceRequestData, dataRecord)));
     }
 
@@ -94,10 +66,23 @@ public class OutcomeProcessor : IProcessOutcome
     /// <remarks>
     ///     Book B Section 3.5.1.3
     /// </remarks>
-    protected void HandleTryAgainStatus(Transaction transaction)
+    protected bool TryHandleTryAgainStatus(Transaction transaction)
     {
         if (transaction.GetOutcome().GetStatusOutcome() == StatusOutcomes.SelectNext)
-            _SelectionEndpoint.Request(new ActivateSelectionRequest(transaction));
+        {
+            _EndpointClient.Send(new ActivateSelectionRequest(transaction));
+
+            return true;
+        }
+
+        if (transaction.GetOutcome().GetStatusOutcome() == StatusOutcomes.TryAgain)
+        {
+            _EndpointClient.Send(new ActivateSelectionRequest(transaction));
+
+            return true;
+        }
+
+        return false;
     }
 
     /// <remarks>
@@ -113,7 +98,7 @@ public class OutcomeProcessor : IProcessOutcome
             if (result == null)
                 throw new InvalidOperationException($"The {nameof(OutcomeProcessor)} expected {nameof(UserInterfaceRequestData)} to be present but it was not");
 
-            _DisplayEndpoint.Request(new DisplayMessageRequest(result));
+            _EndpointClient.Send(new DisplayMessageRequest(result));
         }
     }
 

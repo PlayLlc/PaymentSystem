@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
@@ -34,30 +34,6 @@ public record ThirdPartyData : DataElement<BigInteger>
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public Alpha2CountryCode GetCountryCode() => new(PlayCodec.AlphabeticCodec.DecodeToChars(_Value.ToByteArray(true)[..2].AsSpan()));
-    public ushort GetUniqueIdentifier() => PlayCodec.UnsignedIntegerCodec.DecodeToUInt16(_Value.ToByteArray(true)[2..4].AsSpan());
-    private bool IsDeviceTypePresent() => GetUniqueIdentifier().IsBitSet(16);
-
-    public bool TryGetDeviceType(out ushort? result)
-    {
-        if (!IsDeviceTypePresent())
-        {
-            result = null;
-
-            return false;
-        }
-
-        result = PlayCodec.UnsignedIntegerCodec.DecodeToUInt16(_Value.ToByteArray(true)[4..6]);
-
-        return true;
-    }
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -76,6 +52,30 @@ public record ThirdPartyData : DataElement<BigInteger>
         BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
         return new ThirdPartyData(result);
+    }
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public Alpha2CountryCode GetCountryCode() => new(PlayCodec.AlphabeticCodec.DecodeToChars(_Value.ToByteArray()[..2].AsSpan()));
+    public ushort GetUniqueIdentifier() => PlayCodec.UnsignedIntegerCodec.DecodeToUInt16(_Value.ToByteArray()[2..4].AsSpan());
+    private bool IsDeviceTypePresent() => GetUniqueIdentifier().IsBitSet(16);
+
+    public bool TryGetDeviceType(out ushort? result)
+    {
+        if (!IsDeviceTypePresent())
+        {
+            result = null;
+
+            return false;
+        }
+
+        result = PlayCodec.UnsignedIntegerCodec.DecodeToUInt16(_Value.ToByteArray()[4..6]);
+
+        return true;
     }
 
     #endregion

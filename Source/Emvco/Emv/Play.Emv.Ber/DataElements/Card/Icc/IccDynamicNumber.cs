@@ -1,5 +1,5 @@
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -27,13 +27,6 @@ public record IccDynamicNumber : DataElement<ulong>, IEqualityComparer<IccDynami
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -46,7 +39,7 @@ public record IccDynamicNumber : DataElement<ulong>, IEqualityComparer<IccDynami
     /// <exception cref="CodecParsingException"></exception>
     public static IccDynamicNumber Decode(ReadOnlySpan<byte> value)
     {
-        Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
+        Check.Primitive.ForMaximumLength(value, _MinByteLength, Tag);
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
         ulong result = PlayCodec.BinaryCodec.DecodeToUInt64(value);
@@ -70,6 +63,13 @@ public record IccDynamicNumber : DataElement<ulong>, IEqualityComparer<IccDynami
     }
 
     public int GetHashCode(IccDynamicNumber obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

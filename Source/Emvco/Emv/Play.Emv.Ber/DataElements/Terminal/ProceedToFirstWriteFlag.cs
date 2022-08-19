@@ -1,6 +1,6 @@
 ﻿using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -30,14 +30,6 @@ public record ProceedToFirstWriteFlag : DataElement<byte>, IEqualityComparer<Pro
 
     public ProceedToFirstWriteFlag(byte value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -85,6 +77,14 @@ public record ProceedToFirstWriteFlag : DataElement<byte>, IEqualityComparer<Pro
     #region Operator Overrides
 
     public static implicit operator byte(ProceedToFirstWriteFlag value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

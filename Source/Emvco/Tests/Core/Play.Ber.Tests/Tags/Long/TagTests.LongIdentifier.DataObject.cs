@@ -1,5 +1,5 @@
-﻿using Play.Ber.Identifiers;
-using Play.Ber.Identifiers.Long;
+﻿using Play.Ber.Tags;
+using Play.Ber.Tags.Long;
 
 using Xunit;
 

@@ -1,7 +1,7 @@
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
 
@@ -25,27 +25,6 @@ public record CardholderVerificationCode3Track1 : DataElement<ushort>, IEquality
 
     public CardholderVerificationCode3Track1(ushort value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public char[] AsCharArray() => PlayCodec.NumericCodec.DecodeToChars(EncodeValue());
-
-    public static bool EqualsStatic(CardholderVerificationCode3Track1? x, CardholderVerificationCode3Track1? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -89,6 +68,27 @@ public record CardholderVerificationCode3Track1 : DataElement<ushort>, IEquality
     #region Operator Overrides
 
     public static explicit operator ushort(CardholderVerificationCode3Track1 value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public char[] AsCharArray() => PlayCodec.NumericCodec.DecodeToChars(EncodeValue());
+
+    public static bool EqualsStatic(CardholderVerificationCode3Track1? x, CardholderVerificationCode3Track1? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

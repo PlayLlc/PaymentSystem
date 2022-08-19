@@ -79,7 +79,7 @@ public partial class WaitingForPreGenAcBalance
         }
         finally
         {
-            _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+            _EndpointClient.Send(new StopKernelRequest(sessionId));
         }
     }
 

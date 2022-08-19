@@ -1,7 +1,7 @@
 ﻿using System;
 
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Icc.Exceptions;
 
 namespace Play.Icc.Messaging.Apdu.GetData;

@@ -7,7 +7,7 @@ using Play.Ber.Exceptions;
 using Play.Core;
 using Play.Core.Extensions;
 
-namespace Play.Ber.Identifiers;
+namespace Play.Ber.Tags;
 
 public sealed record ClassTypes : EnumObject<byte>, IEqualityComparer<byte>
 {
@@ -57,30 +57,6 @@ public sealed record ClassTypes : EnumObject<byte>, IEqualityComparer<byte>
 
     private ClassTypes(byte value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override ClassTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
-
-    public override bool TryGet(byte value, out EnumObject<byte>? result)
-    {
-        if (_ValueObjectMap.TryGetValue(value, out ClassTypes? enumResult))
-        {
-            result = enumResult;
-
-            return true;
-        }
-
-        result = null;
-
-        return false;
-    }
-
-    public static bool IsUniversal(byte tag) => tag.GetMaskedValue(UnrelatedBits).AreAnyBitsSet(0xFF);
-    public static bool IsApplicationSpecific(byte tag) => tag.GetMaskedValue(UnrelatedBits) == _Application;
-    public static bool TryGet(byte value, out ClassTypes result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion
 
@@ -143,6 +119,30 @@ public sealed record ClassTypes : EnumObject<byte>, IEqualityComparer<byte>
 
     public static bool operator !=(ClassTypes left, byte right) => !(left == right);
     public static bool operator !=(byte left, ClassTypes right) => !(left == right);
+
+    #endregion
+
+    #region Instance Members
+
+    public override ClassTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out ClassTypes? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
+
+    public static bool IsUniversal(byte tag) => tag.GetMaskedValue(UnrelatedBits).AreAnyBitsSet(0xFF);
+    public static bool IsApplicationSpecific(byte tag) => tag.GetMaskedValue(UnrelatedBits) == _Application;
+    public static bool TryGet(byte value, out ClassTypes result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion
 }

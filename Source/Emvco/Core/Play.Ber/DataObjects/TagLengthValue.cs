@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
 using Play.Ber.Lengths;
+using Play.Ber.Tags;
 
 namespace Play.Ber.DataObjects;
 
@@ -24,23 +24,6 @@ public class TagLengthValue : IEncodeBerDataObjects, IEquatable<TagLengthValue>,
         _Tag = tag;
         _ContentOctets = contentOctets.ToArray();
     }
-
-    #endregion
-
-    #region Instance Members
-
-    /// <summary>
-    ///     The byte count of the Tag, Length and Value fields of this TLV object
-    /// </summary>
-    /// <returns></returns>
-    public uint GetTagLengthValueByteCount() => checked((uint) (_Tag.GetByteCount() + GetLength().GetByteCount() + _ContentOctets.Length));
-
-    public ushort GetValueByteCount() => checked((ushort) _ContentOctets.Length);
-    public Length GetLength() => new((ushort) _ContentOctets.Length);
-    public Tag GetTag() => _Tag;
-    public uint GetTagLengthValueByteCount(BerCodec codec) => GetTagLengthValueByteCount();
-    public ushort GetValueByteCount(BerCodec codec) => GetValueByteCount();
-    public TagLengthValue AsTagLengthValue(BerCodec codec) => this;
 
     #endregion
 
@@ -117,6 +100,23 @@ public class TagLengthValue : IEncodeBerDataObjects, IEquatable<TagLengthValue>,
 
     public static bool operator ==(TagLengthValue left, TagLengthValue right) => left.Equals(right);
     public static bool operator !=(TagLengthValue left, TagLengthValue right) => !left.Equals(right);
+
+    #endregion
+
+    #region Instance Members
+
+    /// <summary>
+    ///     The byte count of the Tag, Length and Value fields of this TLV object
+    /// </summary>
+    /// <returns></returns>
+    public uint GetTagLengthValueByteCount() => checked((uint) (_Tag.GetByteCount() + GetLength().GetByteCount() + _ContentOctets.Length));
+
+    public ushort GetValueByteCount() => checked((ushort) _ContentOctets.Length);
+    public Length GetLength() => new((ushort) _ContentOctets.Length);
+    public Tag GetTag() => _Tag;
+    public uint GetTagLengthValueByteCount(BerCodec codec) => GetTagLengthValueByteCount();
+    public ushort GetValueByteCount(BerCodec codec) => GetValueByteCount();
+    public TagLengthValue AsTagLengthValue(BerCodec codec) => this;
 
     #endregion
 }

@@ -23,27 +23,24 @@ public abstract class KernelState : IGetKernelStateId
 
     protected readonly KernelDatabase _Database;
     protected readonly DataExchangeKernelService _DataExchangeKernelService;
-    protected readonly IKernelEndpoint _KernelEndpoint;
+    protected readonly IEndpointClient _EndpointClient;
     protected readonly IManageTornTransactions _TornTransactionLog;
     protected readonly IGetKernelState _KernelStateResolver;
-    protected readonly IHandlePcdRequests _PcdEndpoint;
-    protected readonly IHandleDisplayRequests _DisplayEndpoint;
 
     #endregion
 
     #region Constructor
 
     protected KernelState(
-        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint, IHandleDisplayRequests displayEndpoint)
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IManageTornTransactions tornTransactionLog,
+        IGetKernelState kernelStateResolver, IEndpointClient endpointClient)
     {
         _Database = database;
         _DataExchangeKernelService = dataExchangeKernelService;
-        _KernelEndpoint = kernelEndpoint;
         _TornTransactionLog = tornTransactionLog;
         _KernelStateResolver = kernelStateResolver;
-        _PcdEndpoint = pcdEndpoint;
-        _DisplayEndpoint = displayEndpoint;
+        _EndpointClient = endpointClient;
+        _EndpointClient = endpointClient;
     }
 
     #endregion
@@ -83,7 +80,7 @@ public abstract class KernelState : IGetKernelStateId
         _Database.Update(StatusOutcomes.SelectNext);
         _Database.Update(StartOutcomes.C);
 
-        _KernelEndpoint.Send(new OutKernelResponse(correlationId, kernelSessionId, _Database.GetOutcome()));
+        _EndpointClient.Send(new OutKernelResponse(correlationId, kernelSessionId, _Database.GetTransaction()));
     }
 
     /// <param name="session"></param>

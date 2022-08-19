@@ -6,6 +6,8 @@ using Play.Emv.Selection.Contracts;
 using Play.Globalization;
 using Play.Icc.FileSystem.DedicatedFiles;
 
+using TransactionProfile = Play.Emv.Selection.Configuration.TransactionProfile;
+
 namespace Play.Emv.Selection;
 
 /// <remarks>
@@ -58,7 +60,7 @@ public class PreProcessingIndicators : IReadOnlyDictionary<CombinationCompositeK
         if (applicationIdentifiers.Any(a => a.IsFullMatch(applicationIdentifier)))
             return true;
 
-        if (applicationIdentifiers.Any(a => a.IsPartialMatch(applicationIdentifier)))
+        if (applicationIdentifiers.Any(a => a.IsPartialMatch(a)))
             return true;
 
         return false;
@@ -66,7 +68,7 @@ public class PreProcessingIndicators : IReadOnlyDictionary<CombinationCompositeK
 
     public bool IsMatchingKernel(KernelIdentifier kernelIdentifier)
     {
-        return _Values.Values.Where(a => a.ContactlessApplicationNotAllowed == false).Any(a => a.GetKernelId().Equals(kernelIdentifier.AsKernelId()));
+        return _Values.Values.Where(a => a.ContactlessApplicationNotAllowed == false).Any(a => a.GetKernelId().Equals(kernelIdentifier));
     }
 
     /// <summary>

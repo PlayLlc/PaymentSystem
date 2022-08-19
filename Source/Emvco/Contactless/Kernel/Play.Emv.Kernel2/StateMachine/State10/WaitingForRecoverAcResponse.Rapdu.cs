@@ -103,7 +103,7 @@ public partial class WaitingForRecoverAcResponse
         }
         finally
         {
-            _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+            _EndpointClient.Send(new StopKernelRequest(sessionId));
         }
     }
 
@@ -350,7 +350,7 @@ public partial class WaitingForRecoverAcResponse
             _Database.Update(MessageIdentifiers.ClearDisplay);
             _Database.Update(Statuses.CardReadSuccessful);
             _Database.Update(MessageHoldTime.MinimumValue);
-            _DisplayEndpoint.Request(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
+            _EndpointClient.Send(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
         }
 
         return _S910.Process(this, session, rapdu);

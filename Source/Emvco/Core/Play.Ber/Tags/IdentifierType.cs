@@ -4,7 +4,7 @@ using System.Linq;
 
 using Play.Core;
 
-namespace Play.Ber.Identifiers;
+namespace Play.Ber.Tags;
 
 public sealed record IdentifierType : EnumObject<byte>, IEqualityComparer<byte>
 {
@@ -37,28 +37,6 @@ public sealed record IdentifierType : EnumObject<byte>, IEqualityComparer<byte>
 
     #endregion
 
-    #region Instance Members
-
-    public override IdentifierType[] GetAll() => _ValueObjectMap.Values.ToArray();
-
-    public override bool TryGet(byte value, out EnumObject<byte>? result)
-    {
-        if (_ValueObjectMap.TryGetValue(value, out IdentifierType? enumResult))
-        {
-            result = enumResult;
-
-            return true;
-        }
-
-        result = null;
-
-        return false;
-    }
-
-    public static bool TryGet(byte value, out IdentifierType? result) => _ValueObjectMap.TryGetValue(value, out result);
-
-    #endregion
-
     #region Equality
 
     public bool Equals(IdentifierType? other) => other is not null && (_Value == other._Value);
@@ -88,6 +66,28 @@ public sealed record IdentifierType : EnumObject<byte>, IEqualityComparer<byte>
     #region Operator Overrides
 
     public static explicit operator byte(IdentifierType identifierType) => identifierType._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public override IdentifierType[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out IdentifierType? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
+
+    public static bool TryGet(byte value, out IdentifierType? result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion
 }

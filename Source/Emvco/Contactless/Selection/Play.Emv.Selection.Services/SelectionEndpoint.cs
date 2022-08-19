@@ -1,13 +1,13 @@
 ﻿using Play.Emv.Ber.DataElements;
-using Play.Emv.Display.Contracts;
 using Play.Emv.Pcd.Contracts;
+using Play.Emv.Selection.Configuration;
 using Play.Emv.Selection.Contracts;
 using Play.Messaging;
 using Play.Messaging.Exceptions;
 
 namespace Play.Emv.Selection.Services;
 
-public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISendSelectionResponses, IDisposable
+public class SelectionEndpoint : IMessageChannel, IDisposable
 {
     #region Static Metadata
 
@@ -25,14 +25,12 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
 
     #region Constructor
 
-    private SelectionEndpoint(
-        ICreateEndpointClient messageBus, IHandlePcdRequests pcdClient, IHandleDisplayRequests displayClient, TransactionProfile[] transactionProfiles,
-        PoiInformation poiInformation)
+    private SelectionEndpoint(SelectionConfiguration selectionConfiguration, IEndpointClient endpointClient)
     {
-        ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
-        _SelectionProcess = new SelectionProcess(pcdClient, displayClient, transactionProfiles, poiInformation, this);
-        _EndpointClient = messageBus.CreateEndpointClient();
+        _EndpointClient = endpointClient;
         _EndpointClient.Subscribe(this);
+        ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
+        _SelectionProcess = new SelectionProcess(_EndpointClient, selectionConfiguration.TransactionProfiles, selectionConfiguration.PoiInformation);
     }
 
     #endregion
@@ -51,12 +49,12 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
     /// <exception cref="InvalidMessageRoutingException"></exception>
     public void Request(RequestMessage message)
     {
-        if (message is ActivatePcdRequest activatePcdRequest)
-            Request(activatePcdRequest);
-        else if (message is QueryPcdRequest queryPcdRequest)
-            Request(queryPcdRequest);
-        else if (message is StopPcdRequest stopPcdRequest)
-            Request(stopPcdRequest);
+        if (message is ActivateSelectionRequest activateSelectionRequest)
+            Request(activateSelectionRequest);
+        else if (message is EmptyCombinationSelectionRequest emptyCombinationSelectionRequest)
+            Request(emptyCombinationSelectionRequest);
+        else if (message is StopSelectionRequest stopSelectionRequest)
+            Request(stopSelectionRequest);
         else
             throw new InvalidMessageRoutingException(message, this);
     }
@@ -71,11 +69,16 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
         _SelectionProcess.Enqueue(message);
     }
 
+    public void Request(EmptyCombinationSelectionRequest message)
+    {
+        _SelectionProcess.Enqueue(message);
+    }
+
     #endregion
 
     #region Responses
 
-    void ISendSelectionResponses.Send(OutSelectionResponse message)
+    private void Send(OutSelectionResponse message)
     {
         _EndpointClient.Send(message);
     }
@@ -88,7 +91,7 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
     ///     Handle
     /// </summary>
     /// <param name="message"></param>
-    /// <exception cref="Play.Messaging.Exceptions.InvalidMessageRoutingException"></exception>
+    /// <exception cref="InvalidMessageRoutingException"></exception>
     public void Handle(ResponseMessage message)
     {
         if (message is SelectApplicationDefinitionFileInfoResponse appletFci)
@@ -102,10 +105,8 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
 
     #endregion
 
-    public static SelectionEndpoint Create(
-        ICreateEndpointClient messageRouter, IHandlePcdRequests pcdClient, IHandleDisplayRequests displayClient, TransactionProfile[] transactionProfiles,
-        PoiInformation poiInformation) =>
-        new(messageRouter, pcdClient, displayClient, transactionProfiles, poiInformation);
+    public static SelectionEndpoint Create(SelectionConfiguration selectionConfiguration, IEndpointClient endpointClient) =>
+        new(selectionConfiguration, endpointClient);
 
     public void Dispose()
     {

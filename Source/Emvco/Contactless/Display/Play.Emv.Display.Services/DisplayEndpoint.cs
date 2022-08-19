@@ -6,7 +6,7 @@ using Play.Messaging.Exceptions;
 
 namespace Play.Emv.Display.Services;
 
-public class DisplayEndpoint : IMessageChannel, IHandleDisplayRequests, IDisposable
+public class DisplayEndpoint : IMessageChannel, IDisposable
 {
     #region Static Metadata
 
@@ -28,7 +28,7 @@ public class DisplayEndpoint : IMessageChannel, IHandleDisplayRequests, IDisposa
         IDisplayMessages displayService, IDisplayLed ledDisplayService, IDisplayMessageRepository displayMessageRepository, ICreateEndpointClient messageBus)
     {
         _DisplayProcess = new DisplayProcess(displayService, ledDisplayService, displayMessageRepository);
-        _EndpointClient = messageBus.CreateEndpointClient();
+        _EndpointClient = messageBus.GetEndpointClient();
         _EndpointClient.Subscribe(this);
     }
 

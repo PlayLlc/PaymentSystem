@@ -16,7 +16,7 @@ internal class PcdStateMachine
 
     private readonly PcdSessionLock _PcdSessionLock = new();
     private readonly CardClient _CardClient;
-    private readonly ISendPcdResponses _PcdEndpoint;
+    private readonly IEndpointClient _EndpointClient;
 
     // HACK: Figure out what you need to do with the PCD Protocol Configuration
     private readonly PcdProtocolConfiguration _Configuration;
@@ -25,11 +25,11 @@ internal class PcdStateMachine
 
     #region Constructor
 
-    public PcdStateMachine(CardClient cardClient, PcdProtocolConfiguration configuration, ISendPcdResponses pcdEndpoint)
+    public PcdStateMachine(CardClient cardClient, PcdProtocolConfiguration configuration, IEndpointClient endpointClient)
     {
         _CardClient = cardClient;
         _Configuration = configuration;
-        _PcdEndpoint = pcdEndpoint;
+        _EndpointClient = endpointClient;
     }
 
     #endregion
@@ -99,7 +99,7 @@ internal class PcdStateMachine
     private void CloseSessionCardCheck(CorrelationId correlationId, TransactionSessionId transactionSessionId)
     {
         _CardClient.CloseSessionCardCheck();
-        _PcdEndpoint.Send(new StopPcdAcknowledgedResponse(correlationId, transactionSessionId, Level1Error.Ok));
+        _EndpointClient.Send(new StopPcdAcknowledgedResponse(correlationId, transactionSessionId, Level1Error.Ok));
     }
 
     /// <summary>
@@ -112,7 +112,7 @@ internal class PcdStateMachine
     private void CloseSession(CorrelationId correlationId, TransactionSessionId transactionSessionId)
     {
         _CardClient.CloseSession();
-        _PcdEndpoint.Send(new StopPcdAcknowledgedResponse(correlationId, transactionSessionId, Level1Error.Ok));
+        _EndpointClient.Send(new StopPcdAcknowledgedResponse(correlationId, transactionSessionId, Level1Error.Ok));
     }
 
     /// <summary>
@@ -129,7 +129,7 @@ internal class PcdStateMachine
         _CardClient.Abort();
 
         // BUG: C-2 specification says to return 'Card Removed' for L1RSP. I can't find a 'Card Removed' anywhere in the specs
-        _PcdEndpoint.Send(new StopPcdAcknowledgedResponse(correlationId, transactionSessionId, Level1Error.ProtocolError));
+        _EndpointClient.Send(new StopPcdAcknowledgedResponse(correlationId, transactionSessionId, Level1Error.ProtocolError));
 
         throw new NotImplementedException();
     }
@@ -145,7 +145,7 @@ internal class PcdStateMachine
     {
         Task<dynamic> response = cardClient.Transceive(request);
         Task.WaitAny(response);
-        _PcdEndpoint.Send(response.Result);
+        _EndpointClient.Send(response.Result);
     }
 
     /// <summary>

@@ -1,7 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Ber.Tags;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
@@ -36,6 +36,68 @@ public record FileControlInformationProprietaryAdf : FileControlInformationPropr
         _LanguagePreference = languagePreference;
         _IssuerCodeTableIndex = issuerCodeTableIndex;
         _ApplicationPreferredName = applicationPreferredName;
+    }
+
+    #endregion
+
+    #region Serialization
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="CardDataMissingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static FileControlInformationProprietaryAdf Decode(ReadOnlyMemory<byte> value)
+    {
+        if (_Codec.DecodeFirstTag(value.Span) == Tag)
+            return Decode(_Codec.DecodeChildren(value));
+
+        return Decode(_Codec.DecodeSiblings(value));
+    }
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="CardDataMissingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static FileControlInformationProprietaryAdf Decode(EncodedTlvSiblings encodedChildren)
+    {
+        FileControlInformationIssuerDiscretionaryDataAdf fciProprietaryTemplate =
+            _Codec.AsConstructed(FileControlInformationIssuerDiscretionaryDataAdf.Decode, FileControlInformationIssuerDiscretionaryDataAdf.Tag, encodedChildren)
+            ?? throw new CardDataMissingException(
+                $"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataAdf)}. A {nameof(FileControlInformationIssuerDiscretionaryDataAdf)} was expected but could not be found");
+
+        ApplicationLabel? applicationLabel = null;
+        ApplicationPreferredName? applicationPreferredName = null;
+        IssuerCodeTableIndex? issuerCodeTableIndex = null;
+        LanguagePreference? languagePreference = null;
+        ApplicationPriorityIndicator? applicationPriorityIndicator =
+            _Codec.AsPrimitive(ApplicationPriorityIndicator.Decode, ApplicationPriorityIndicator.Tag, encodedChildren);
+        ProcessingOptionsDataObjectList? processingOptionsDataObjectList = _Codec.AsPrimitive(ProcessingOptionsDataObjectList.Decode,
+            ProcessingOptionsDataObjectList.Tag, encodedChildren);
+
+        // EMV Book 1 Section 12.2.4 tells us not to enforce encoding errors for the following data elements.
+        // Instead, we treat it as if it wasn't returned from the ICC at all
+        try
+        {
+            applicationLabel = _Codec.AsPrimitive(ApplicationLabel.Decode, ApplicationLabel.Tag, encodedChildren);
+            applicationPreferredName = _Codec.AsPrimitive(ApplicationPreferredName.Decode, ApplicationPreferredName.Tag, encodedChildren);
+            issuerCodeTableIndex = _Codec.AsPrimitive(IssuerCodeTableIndex.Decode, IssuerCodeTableIndex.Tag, encodedChildren);
+            languagePreference = _Codec.AsPrimitive(LanguagePreference.Decode, LanguagePreference.Tag, encodedChildren);
+        }
+        catch (BerParsingException)
+        {
+            // TODO: Logging
+        }
+        catch (CodecParsingException)
+        {
+            // TODO: Logging
+        }
+        catch (Exception)
+        {
+            // TODO: Logging
+        }
+
+        return new FileControlInformationProprietaryAdf(fciProprietaryTemplate, applicationLabel, applicationPriorityIndicator, processingOptionsDataObjectList,
+            languagePreference, issuerCodeTableIndex, applicationPreferredName);
     }
 
     #endregion
@@ -120,68 +182,6 @@ public record FileControlInformationProprietaryAdf : FileControlInformationPropr
             _ApplicationLabel, _ApplicationPreferredName, _ApplicationPriorityIndicator, _FileControlInformationIssuerDiscretionaryDataAdf,
             _IssuerCodeTableIndex, _LanguagePreference, _ProcessingOptionsDataObjectList
         };
-    }
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="CardDataMissingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    public static FileControlInformationProprietaryAdf Decode(ReadOnlyMemory<byte> value)
-    {
-        if (_Codec.DecodeFirstTag(value.Span) == Tag)
-            return Decode(_Codec.DecodeChildren(value));
-
-        return Decode(_Codec.DecodeSiblings(value));
-    }
-
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="CardDataMissingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    public static FileControlInformationProprietaryAdf Decode(EncodedTlvSiblings encodedChildren)
-    {
-        FileControlInformationIssuerDiscretionaryDataAdf fciProprietaryTemplate =
-            _Codec.AsConstructed(FileControlInformationIssuerDiscretionaryDataAdf.Decode, FileControlInformationIssuerDiscretionaryDataAdf.Tag, encodedChildren)
-            ?? throw new CardDataMissingException(
-                $"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataAdf)}. A {nameof(FileControlInformationIssuerDiscretionaryDataAdf)} was expected but could not be found");
-
-        ApplicationLabel? applicationLabel = null;
-        ApplicationPreferredName? applicationPreferredName = null;
-        IssuerCodeTableIndex? issuerCodeTableIndex = null;
-        LanguagePreference? languagePreference = null;
-        ApplicationPriorityIndicator? applicationPriorityIndicator =
-            _Codec.AsPrimitive(ApplicationPriorityIndicator.Decode, ApplicationPriorityIndicator.Tag, encodedChildren);
-        ProcessingOptionsDataObjectList? processingOptionsDataObjectList = _Codec.AsPrimitive(ProcessingOptionsDataObjectList.Decode,
-            ProcessingOptionsDataObjectList.Tag, encodedChildren);
-
-        // EMV Book 1 Section 12.2.4 tells us not to enforce encoding errors for the following data elements.
-        // Instead, we treat it as if it wasn't returned from the ICC at all
-        try
-        {
-            applicationLabel = _Codec.AsPrimitive(ApplicationLabel.Decode, ApplicationLabel.Tag, encodedChildren);
-            applicationPreferredName = _Codec.AsPrimitive(ApplicationPreferredName.Decode, ApplicationPreferredName.Tag, encodedChildren);
-            issuerCodeTableIndex = _Codec.AsPrimitive(IssuerCodeTableIndex.Decode, IssuerCodeTableIndex.Tag, encodedChildren);
-            languagePreference = _Codec.AsPrimitive(LanguagePreference.Decode, LanguagePreference.Tag, encodedChildren);
-        }
-        catch (BerParsingException)
-        {
-            // TODO: Logging
-        }
-        catch (CodecParsingException)
-        {
-            // TODO: Logging
-        }
-        catch (Exception)
-        {
-            // TODO: Logging
-        }
-
-        return new FileControlInformationProprietaryAdf(fciProprietaryTemplate, applicationLabel, applicationPriorityIndicator, processingOptionsDataObjectList,
-            languagePreference, issuerCodeTableIndex, applicationPreferredName);
     }
 
     #endregion

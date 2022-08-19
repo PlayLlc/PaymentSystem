@@ -3,7 +3,7 @@ using System.Numerics;
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Encryption.Certificates;
 
@@ -25,15 +25,6 @@ public record IssuerPublicKeyRemainder : DataElement<BigInteger>, IEqualityCompa
 
     public IssuerPublicKeyRemainder(BigInteger value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public PublicKeyRemainder AsPublicKeyRemainder() => new(_Value);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -75,6 +66,15 @@ public record IssuerPublicKeyRemainder : DataElement<BigInteger>, IEqualityCompa
     #region Operator Overrides
 
     public static implicit operator PublicKeyRemainder(IssuerPublicKeyRemainder value) => new(value._Value);
+
+    #endregion
+
+    #region Instance Members
+
+    public PublicKeyRemainder AsPublicKeyRemainder() => new(_Value);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

@@ -26,10 +26,9 @@ public class SplitPaymentLogItem : Record
 
     #region Constructor
 
-    public SplitPaymentLogItem(Record value, ApplicationCurrencyCode applicationCurrencyCode, AmountAuthorizedNumeric amountAuthorized) : base(value.GetKey(),
-        value.GetValues())
+    protected SplitPaymentLogItem(Record value, Money subtotal) : base(value.GetKey(), value.GetValues())
     {
-        _Subtotal = new Money(amountAuthorized, applicationCurrencyCode);
+        _Subtotal = subtotal;
     }
 
     #endregion
@@ -46,7 +45,7 @@ public class SplitPaymentLogItem : Record
         Money amount = amountAuthorizedNumeric.AsMoney(currency);
         Record newRecord = Create(database);
 
-        return new SplitPaymentLogItem(newRecord, currency, amountAuthorizedNumeric);
+        return new SplitPaymentLogItem(newRecord, _Subtotal.Add(amount));
     }
 
     public Money GetSubtotal() => _Subtotal;

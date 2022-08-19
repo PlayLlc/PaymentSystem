@@ -1,6 +1,6 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
 
@@ -29,6 +29,38 @@ public record TagsToRead : DataExchangeRequest
 
     public TagsToRead() : base(Array.Empty<Tag>())
     { }
+
+    #endregion
+
+    #region Serialization
+
+    public override TagsToRead Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <summary>
+    ///     Decode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    public static TagsToRead Decode(ReadOnlyMemory<byte> value)
+    {
+        if (value.IsEmpty)
+            return new TagsToRead();
+
+        return new TagsToRead(_Codec.DecodeTags(value.Span));
+    }
+
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    public static TagsToRead Decode(ReadOnlySpan<byte> value)
+    {
+        if (value.IsEmpty)
+            return new TagsToRead();
+
+        // This Value field is already BER encoded, which is what this object's _Value field requires
+        return new TagsToRead(_Codec.DecodeTags(value));
+    }
 
     #endregion
 
@@ -68,38 +100,6 @@ public record TagsToRead : DataExchangeRequest
     }
 
     public Tag[] GetTagsToReadYet() => _Value.ToArray();
-
-    #endregion
-
-    #region Serialization
-
-    public override TagsToRead Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <summary>
-    ///     Decode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    public static TagsToRead Decode(ReadOnlyMemory<byte> value)
-    {
-        if (value.IsEmpty)
-            return new TagsToRead();
-
-        return new TagsToRead(_Codec.DecodeTags(value.Span));
-    }
-
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static TagsToRead Decode(ReadOnlySpan<byte> value)
-    {
-        if (value.IsEmpty)
-            return new TagsToRead();
-
-        // This Value field is already BER encoded, which is what this object's _Value field requires
-        return new TagsToRead(_Codec.DecodeTags(value));
-    }
 
     #endregion
 }

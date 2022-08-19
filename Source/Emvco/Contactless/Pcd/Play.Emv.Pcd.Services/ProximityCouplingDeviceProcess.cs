@@ -18,10 +18,10 @@ internal class ProximityCouplingDeviceProcess : CommandProcessingQueue<Message>
 
     #region Constructor
 
-    public ProximityCouplingDeviceProcess(CardClient cardClient, PcdProtocolConfiguration configuration, ISendPcdResponses pcdEndpoint) : base(
+    public ProximityCouplingDeviceProcess(CardClient cardClient, PcdProtocolConfiguration configuration, IEndpointClient endpointClient) : base(
         new CancellationTokenSource())
     {
-        _PcdStateMachine = new PcdStateMachine(cardClient, configuration, pcdEndpoint);
+        _PcdStateMachine = new PcdStateMachine(cardClient, configuration, endpointClient);
     }
 
     #endregion

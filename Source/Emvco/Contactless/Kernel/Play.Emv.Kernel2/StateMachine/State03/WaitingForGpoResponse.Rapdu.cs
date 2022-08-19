@@ -83,7 +83,7 @@ public partial class WaitingForGpoResponse : KernelState
         _Database.Update(MessageOnErrorIdentifiers.TryAgain);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+        _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
 
         return true;
     }
@@ -109,7 +109,7 @@ public partial class WaitingForGpoResponse : KernelState
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         _Database.SetUiRequestOnRestartPresent(true);
 
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+        _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
 
         return true;
     }
@@ -198,7 +198,7 @@ public partial class WaitingForGpoResponse : KernelState
         _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, _Database.GetErrorIndication());
         _Database.SetUiRequestOnOutcomePresent(true);
 
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+        _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
     }
 
     #endregion
@@ -257,7 +257,7 @@ public partial class WaitingForGpoResponse : KernelState
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         _Database.SetUiRequestOnRestartPresent(true);
 
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+        _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
     }
 
     #endregion
@@ -347,7 +347,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="RequestOutOfSyncException"></exception>
     private KernelState HandleRelayResistanceProtocolNotSupported(Kernel2Session session, Message message)
     {
-        _Database.Update(TerminalVerificationResultCodes.RelayResistanceNotPerformed);
+        _Database.Set(TerminalVerificationResultCodes.RelayResistanceNotPerformed);
 
         return _KernelStateResolver.GetKernelState(_S3R1.Process(this, session, message));
     }
@@ -371,7 +371,7 @@ public partial class WaitingForGpoResponse : KernelState
         session.Stopwatch.Start();
 
         // S3.64
-        _PcdEndpoint.Request(capdu);
+        _EndpointClient.Send(capdu);
 
         return _KernelStateResolver.GetKernelState(WaitingForExchangeRelayResistanceDataResponse.StateId);
     }
@@ -475,7 +475,7 @@ public partial class WaitingForGpoResponse : KernelState
         if (!session.TryPeekActiveTag(out RecordRange recordRange))
             throw new TerminalDataException($"The {nameof(ApplicationFileLocator)} was correctly parsed but was unable to be retrieved");
 
-        _PcdEndpoint.Request(ReadRecordRequest.Create(session.GetTransactionSessionId(), recordRange.GetShortFileIdentifier()));
+        _EndpointClient.Send(ReadRecordRequest.Create(session.GetTransactionSessionId(), recordRange.GetShortFileIdentifier()));
     }
 
     #endregion

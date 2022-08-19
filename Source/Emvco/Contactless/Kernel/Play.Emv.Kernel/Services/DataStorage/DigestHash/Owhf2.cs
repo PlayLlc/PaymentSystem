@@ -110,6 +110,7 @@ public class Owhf2
         database.TryGet(DataStorageSlotManagementControl.Tag, out DataStorageSlotManagementControl? control);
 
         ResolveObjectId(operatorId, info, control, objectId);
+
         ResolveLeftKey(objectId, dataStorageId, buffer[..8]);
         ResolveRightKey(objectId, dataStorageId, buffer[8..]);
     }

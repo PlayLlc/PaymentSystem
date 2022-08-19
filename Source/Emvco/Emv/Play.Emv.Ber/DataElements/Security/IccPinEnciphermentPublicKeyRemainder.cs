@@ -3,7 +3,7 @@ using System.Numerics;
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 
 namespace Play.Emv.Ber.DataElements;
@@ -24,14 +24,6 @@ public record IccPinEnciphermentPublicKeyRemainder : DataElement<BigInteger>, IE
 
     public IccPinEnciphermentPublicKeyRemainder(BigInteger value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -71,6 +63,14 @@ public record IccPinEnciphermentPublicKeyRemainder : DataElement<BigInteger>, IE
     }
 
     public int GetHashCode(IccPinEnciphermentPublicKeyRemainder obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

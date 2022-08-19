@@ -1,7 +1,7 @@
 using System.Collections.Immutable;
 
 using Play.Core.Extensions;
-using Play.Emv.Ber.Exceptions;
+
 namespace Play.Emv.Ber.ValueTypes;
 
 public readonly record struct AlternateInterfacePreferenceOutcome
@@ -38,15 +38,14 @@ public readonly record struct AlternateInterfacePreferenceOutcome
 
     #region Instance Members
 
-    /// <exception cref="TerminalDataException"></exception>
     public static AlternateInterfacePreferenceOutcome Get(byte value)
     {
         const byte bitMask = 0b11110000;
 
         if (!_ValueObjectMap.ContainsKey(value))
         {
-            throw new TerminalDataException(new ArgumentOutOfRangeException(nameof(value),
-                $"No {nameof(AlternateInterfacePreferenceOutcome)} could be retrieved because the argument provided does not match a definition value"));
+            throw new ArgumentOutOfRangeException(nameof(value),
+                $"No {nameof(AlternateInterfacePreferenceOutcome)} could be retrieved because the argument provided does not match a definition value");
         }
 
         return _ValueObjectMap[value.GetMaskedValue(bitMask)];

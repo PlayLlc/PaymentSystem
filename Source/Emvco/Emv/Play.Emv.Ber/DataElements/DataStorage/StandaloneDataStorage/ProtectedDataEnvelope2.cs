@@ -1,7 +1,7 @@
 using System.Numerics;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -27,13 +27,6 @@ public record ProtectedDataEnvelope2 : DataElement<BigInteger>, IEqualityCompare
 
     public ProtectedDataEnvelope2(BigInteger value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override Tag GetTag() => Tag;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 
@@ -72,6 +65,13 @@ public record ProtectedDataEnvelope2 : DataElement<BigInteger>, IEqualityCompare
     }
 
     public int GetHashCode(ProtectedDataEnvelope2 obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override Tag GetTag() => Tag;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 }

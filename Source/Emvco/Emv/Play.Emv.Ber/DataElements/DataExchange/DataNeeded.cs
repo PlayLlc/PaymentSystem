@@ -1,6 +1,6 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
 
@@ -25,6 +25,41 @@ public record DataNeeded : DataExchangeRequest
 
     public DataNeeded(params Tag[] tags) : base(tags)
     { }
+
+    #endregion
+
+    #region Serialization
+
+    public static DataNeeded Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public override DataNeeded Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    public static DataNeeded Decode(ReadOnlySpan<byte> value)
+    {
+        if (value.IsEmpty)
+            return new DataNeeded(Array.Empty<Tag>());
+
+        // This Value field is already BER encoded, which is what this object's _Value field requires
+        return new DataNeeded(_Codec.DecodeTags(value.ToArray()));
+    }
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(DataNeeded? x, DataNeeded? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
+    public int GetHashCode(DataNeeded obj) => obj.GetHashCode();
 
     #endregion
 
@@ -63,41 +98,6 @@ public record DataNeeded : DataExchangeRequest
 
         return _Value.Count;
     }
-
-    #endregion
-
-    #region Serialization
-
-    public static DataNeeded Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-    public override DataNeeded Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static DataNeeded Decode(ReadOnlySpan<byte> value)
-    {
-        if (value.IsEmpty)
-            return new DataNeeded(Array.Empty<Tag>());
-
-        // This Value field is already BER encoded, which is what this object's _Value field requires
-        return new DataNeeded(_Codec.DecodeTags(value.ToArray()));
-    }
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(DataNeeded? x, DataNeeded? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(DataNeeded obj) => obj.GetHashCode();
 
     #endregion
 }

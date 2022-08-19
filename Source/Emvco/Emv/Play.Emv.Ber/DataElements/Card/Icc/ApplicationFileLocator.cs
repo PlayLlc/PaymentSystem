@@ -1,6 +1,6 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
 using Play.Icc.FileSystem.ElementaryFiles;
@@ -39,6 +39,43 @@ public record ApplicationFileLocator : DataElement<byte[]>, IEqualityComparer<Ap
     {
         Validate(value);
     }
+
+    #endregion
+
+    #region Serialization
+
+    public static ApplicationFileLocator Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public override ApplicationFileLocator Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    public static ApplicationFileLocator Decode(ReadOnlySpan<byte> value)
+    {
+        Validate(value);
+
+        return new ApplicationFileLocator(value);
+    }
+
+    public override byte[] EncodeValue() => _Value;
+    public override byte[] EncodeValue(int length) => PlayCodec.HexadecimalCodec.Encode(_Value, length);
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(ApplicationFileLocator? x, ApplicationFileLocator? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
+    public int GetHashCode(ApplicationFileLocator obj) => obj.GetHashCode();
 
     #endregion
 
@@ -116,43 +153,6 @@ public record ApplicationFileLocator : DataElement<byte[]>, IEqualityComparer<Ap
                 $"The Primitive Value {nameof(ApplicationFileLocator)} must be a multiple of {_ByteLengthMultiple} to be correctly decoded");
         }
     }
-
-    #endregion
-
-    #region Serialization
-
-    public static ApplicationFileLocator Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-    public override ApplicationFileLocator Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="DataElementParsingException"></exception>
-    public static ApplicationFileLocator Decode(ReadOnlySpan<byte> value)
-    {
-        Validate(value);
-
-        return new ApplicationFileLocator(value);
-    }
-
-    public override byte[] EncodeValue() => _Value;
-    public override byte[] EncodeValue(int length) => PlayCodec.HexadecimalCodec.Encode(_Value, length);
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(ApplicationFileLocator? x, ApplicationFileLocator? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(ApplicationFileLocator obj) => obj.GetHashCode();
 
     #endregion
 }

@@ -1,7 +1,7 @@
 ﻿using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
 
@@ -30,14 +30,6 @@ public record PaymentAccountReference : DataElement<char[]>, IEqualityComparer<P
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(EncodingId, _Value);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="BerParsingException"></exception>
@@ -56,7 +48,7 @@ public record PaymentAccountReference : DataElement<char[]>, IEqualityComparer<P
         return new PaymentAccountReference(result);
     }
 
-    public override byte[] EncodeValue() => PlayCodec.AlphaNumericCodec.Encode(_Value); 
+    public override byte[] EncodeValue() => PlayCodec.AlphaNumericCodec.Encode(_Value);
 
     #endregion
 
@@ -80,6 +72,14 @@ public record PaymentAccountReference : DataElement<char[]>, IEqualityComparer<P
     #region Operator Overrides
 
     public static explicit operator ReadOnlySpan<char>(PaymentAccountReference value) => value._Value.AsSpan();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(EncodingId, _Value);
 
     #endregion
 }

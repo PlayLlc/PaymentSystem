@@ -1,6 +1,6 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core;
@@ -28,6 +28,32 @@ public record Track1Data : DataElement<Track1>
 
     public Track1Data(Track1 value) : base(value)
     { }
+
+    #endregion
+
+    #region Serialization
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Exception"></exception>
+    public static Track1Data Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Exception"></exception>
+    public override Track1Data Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Exception"></exception>
+    public static Track1Data Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
+
+        if (!PlayCodec.AlphaNumericSpecialCodec.IsValid(value))
+            throw new DataElementParsingException($"The {nameof(Track1Data)} could not be parsed because it was in an incorrect format");
+
+        return new Track1Data(new Track1(value));
+    }
 
     #endregion
 
@@ -156,32 +182,6 @@ public record Track1Data : DataElement<Track1>
     private void UpdateDiscretionaryData(Span<char> discretionaryData, NumberOfNonZeroBits nun)
     {
         discretionaryData[^1] = PlayCodec.AlphaNumericCodec.DecodeToChar(nun);
-    }
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Exception"></exception>
-    public static Track1Data Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Exception"></exception>
-    public override Track1Data Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Exception"></exception>
-    public static Track1Data Decode(ReadOnlySpan<byte> value)
-    {
-        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
-
-        if (!PlayCodec.AlphaNumericSpecialCodec.IsValid(value))
-            throw new DataElementParsingException($"The {nameof(Track1Data)} could not be parsed because it was in an incorrect format");
-
-        return new Track1Data(new Track1(value));
     }
 
     #endregion

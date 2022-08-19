@@ -1,7 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Ber.Tags;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.Templates;
 
@@ -19,6 +19,57 @@ public abstract record DataObjectList : DataElement<TagLength[]>
     /// <exception cref="InvalidOperationException"></exception>
     protected DataObjectList(params TagLength[] value) : base(value)
     { }
+
+    #endregion
+
+    #region Serialization
+
+    public override byte[] EncodeValue()
+    {
+        return _Value.SelectMany(a => a.Encode()).ToArray();
+    }
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(DataObjectList? x, DataObjectList? y)
+    {
+        if (x is null)
+            return y is null;
+
+        return y is not null && x!.Equals(y);
+    }
+
+    public virtual bool Equals(DataObjectList? other)
+    {
+        if (other is null)
+            return false;
+
+        if (other._Value.Length != _Value.Length)
+            return false;
+
+        for (nint i = 0; i < _Value.Length; i++)
+        {
+            if (_Value[i] != other._Value[i])
+                return false;
+        }
+
+        return true;
+    }
+
+    public override int GetHashCode()
+    {
+        const int hash = 32363;
+        int result = (int) unchecked(GetTag() * hash);
+
+        for (nint i = 0; i < _Value.Length; i++)
+            result += _Value[i].GetHashCode() * hash;
+
+        return result;
+    }
+
+    public int GetHashCode(DataObjectList obj) => obj.GetHashCode();
 
     #endregion
 
@@ -42,7 +93,7 @@ public abstract record DataObjectList : DataElement<TagLength[]>
             if (!database.IsKnown(item.GetTag()))
                 return false;
 
-            if (!database.IsPresent(item.GetTag()))
+            if (database.IsPresent(item.GetTag()))
                 return false;
         }
 
@@ -57,7 +108,7 @@ public abstract record DataObjectList : DataElement<TagLength[]>
 
         foreach (TagLength item in _Value)
         {
-            if (database.IsPresentAndNotEmpty(item.GetTag()))
+            if (!database.IsPresentAndNotEmpty(item.GetTag()))
                 result.Add(item.GetTag());
         }
 
@@ -115,57 +166,6 @@ public abstract record DataObjectList : DataElement<TagLength[]>
     }
 
     public TagLength[] GetRequestedItems() => _Value;
-
-    #endregion
-
-    #region Serialization
-
-    public override byte[] EncodeValue()
-    {
-        return _Value.SelectMany(a => a.Encode()).ToArray();
-    }
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(DataObjectList? x, DataObjectList? y)
-    {
-        if (x is null)
-            return y is null;
-
-        return y is not null && x!.Equals(y);
-    }
-
-    public virtual bool Equals(DataObjectList? other)
-    {
-        if (other is null)
-            return false;
-
-        if (other._Value.Length != _Value.Length)
-            return false;
-
-        for (nint i = 0; i < _Value.Length; i++)
-        {
-            if (_Value[i] != other._Value[i])
-                return false;
-        }
-
-        return true;
-    }
-
-    public override int GetHashCode()
-    {
-        const int hash = 32363;
-        int result = (int) unchecked(GetTag() * hash);
-
-        for (nint i = 0; i < _Value.Length; i++)
-            result += _Value[i].GetHashCode() * hash;
-
-        return result;
-    }
-
-    public int GetHashCode(DataObjectList obj) => obj.GetHashCode();
 
     #endregion
 }

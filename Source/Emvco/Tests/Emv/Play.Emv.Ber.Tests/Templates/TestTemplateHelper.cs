@@ -4,7 +4,7 @@ using System.Linq;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Emv.Ber.Templates;
 
 namespace Play.Emv.Ber.Tests.Templates;

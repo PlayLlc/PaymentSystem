@@ -1,5 +1,5 @@
-﻿using Play.Ber.Identifiers;
-using Play.Ber.InternalFactories;
+﻿using Play.Ber.InternalFactories;
+using Play.Ber.Tags;
 using Play.Emv.Ber.DataElements;
 
 namespace Play.Testing.Emv.Ber.Primitive;
@@ -8,7 +8,7 @@ public class ApplicationExpirationDateTestTlv : TestTlv
 {
     #region Static Metadata
 
-    private static readonly byte[] _DefaultContentOctets = {21, 12, 22};
+    private static readonly byte[] _DefaultContentOctets = {0X12, 0X21, 0X22};
 
     #endregion
 
@@ -19,12 +19,6 @@ public class ApplicationExpirationDateTestTlv : TestTlv
 
     public ApplicationExpirationDateTestTlv(byte[] value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override Tag GetTag() => ApplicationExpirationDate.Tag;
 
     #endregion
 
@@ -40,6 +34,12 @@ public class ApplicationExpirationDateTestTlv : TestTlv
 
         return result.ToArray();
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public override Tag GetTag() => ApplicationExpirationDate.Tag;
 
     #endregion
 }

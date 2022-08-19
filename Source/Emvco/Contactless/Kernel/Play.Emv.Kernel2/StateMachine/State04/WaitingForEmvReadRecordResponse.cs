@@ -10,6 +10,7 @@ using Play.Emv.Kernel.State;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;
+using Play.Messaging;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
@@ -17,7 +18,6 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 {
     #region Instance Values
 
-    private readonly IHandleTerminalRequests _TerminalEndpoint;
     private readonly ICleanTornTransactions _KernelCleaner;
 
     #endregion
@@ -25,13 +25,10 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     #region Constructor
 
     public WaitingForEmvReadRecordResponse(
-        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint, IHandleDisplayRequests displayEndpoint,
-        IHandleTerminalRequests terminalEndpoint, ICleanTornTransactions kernelCleaner, S456 s456) : base(database, dataExchangeKernelService, kernelEndpoint,
-        tornTransactionLog, kernelStateResolver, pcdEndpoint, displayEndpoint)
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IEndpointClient endpointClient,
+        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, S456 s456) : base(database, dataExchangeKernelService,
+        tornTransactionLog, kernelStateResolver, endpointClient)
     {
-        _TerminalEndpoint = terminalEndpoint;
-        _KernelCleaner = kernelCleaner;
         _S456 = s456;
     }
 

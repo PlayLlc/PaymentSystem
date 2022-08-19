@@ -1,5 +1,5 @@
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -30,13 +30,6 @@ public record AccountType : DataElement<byte>, IEqualityComparer<AccountType>
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
     #region Serialization
 
     public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
@@ -56,11 +49,11 @@ public record AccountType : DataElement<byte>, IEqualityComparer<AccountType>
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        byte result = PlayCodec.NumericCodec.DecodeToByte(value);
+        PlayCodec.NumericCodec.DecodeToByte(value);
 
-        //DecodedResult<byte> result = _Codec.Decode(EncodingId, value).ToByteResult() ?? throw new DataElementParsingException(EncodingId);
+        DecodedResult<byte> result = _Codec.Decode(EncodingId, value).ToByteResult() ?? throw new DataElementParsingException(EncodingId);
 
-        return new AccountType(result);
+        return new AccountType(result.Value);
     }
 
     public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value, _ByteLength);
@@ -82,6 +75,13 @@ public record AccountType : DataElement<byte>, IEqualityComparer<AccountType>
     }
 
     public int GetHashCode(AccountType obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

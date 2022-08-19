@@ -2,7 +2,7 @@ using System.Numerics;
 
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Encryption.Certificates;
 
@@ -27,16 +27,6 @@ public record IccPublicKeyRemainder : DataElement<BigInteger>, IEqualityComparer
 
     #endregion
 
-    #region Instance Members
-
-    public PublicKeyRemainder AsPublicKeyRemainder() => new(_Value);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public ushort GetByteCount() => (ushort) _Value.GetByteCount();
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => GetByteCount();
-
-    #endregion
-
     #region Serialization
 
     public static IccPublicKeyRemainder Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
@@ -48,8 +38,6 @@ public record IccPublicKeyRemainder : DataElement<BigInteger>, IEqualityComparer
 
         return new IccPublicKeyRemainder(result);
     }
-
-    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
 
     public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
     public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
@@ -70,6 +58,16 @@ public record IccPublicKeyRemainder : DataElement<BigInteger>, IEqualityComparer
     }
 
     public int GetHashCode(IccPublicKeyRemainder obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public PublicKeyRemainder AsPublicKeyRemainder() => new(_Value);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public ushort GetByteCount() => (ushort) _Value.GetByteCount();
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => GetByteCount();
 
     #endregion
 }

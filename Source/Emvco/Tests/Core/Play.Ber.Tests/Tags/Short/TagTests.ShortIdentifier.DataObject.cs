@@ -1,4 +1,4 @@
-﻿using Play.Ber.Identifiers;
+﻿using Play.Ber.Tags;
 using Play.Core.Extensions;
 
 using Xunit;

@@ -1,5 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
@@ -33,14 +33,6 @@ public record PostGenAcPutDataStatus : DataElement<byte>, IEqualityComparer<Post
 
     public PostGenAcPutDataStatus(byte value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public bool IsCompleted() => _Value.IsBitSet(Bits.Eight);
 
     #endregion
 
@@ -82,6 +74,14 @@ public record PostGenAcPutDataStatus : DataElement<byte>, IEqualityComparer<Post
     }
 
     public int GetHashCode(PostGenAcPutDataStatus obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public bool IsCompleted() => _Value.IsBitSet(Bits.Eight);
 
     #endregion
 }

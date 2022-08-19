@@ -21,7 +21,7 @@ public class Outcome
     private readonly DataRecord? _DataRecord;
     private readonly DiscretionaryData? _DiscretionaryData;
     private readonly TerminalVerificationResults _TerminalVerificationResults;
-    private ErrorIndication _ErrorIndication;
+    private readonly ErrorIndication _ErrorIndication;
     private OutcomeParameterSet _OutcomeParameterSet;
     private UserInterfaceRequestData? _UserInterfaceRequestData;
 
@@ -84,8 +84,8 @@ public class Outcome
     }
 
     public Outcome(
-        ErrorIndication errorIndication, OutcomeParameterSet outcomeParameterSet, DataRecord? dataRecord = null, DiscretionaryData? discretionaryData = null,
-        UserInterfaceRequestData? userInterfaceRequestData = null)
+        ErrorIndication errorIndication, OutcomeParameterSet outcomeParameterSet, UserInterfaceRequestData? userInterfaceRequestData = null,
+        DataRecord? dataRecord = null, DiscretionaryData? discretionaryData = null)
     {
         _ErrorIndication = errorIndication;
         _OutcomeParameterSet = outcomeParameterSet;
@@ -111,6 +111,17 @@ public class Outcome
             buffer.Add(_UserInterfaceRequestData!);
 
         return buffer.ToArray();
+    }
+
+    public void Update(OutcomeParameterSet.Builder outcomeParameterSet)
+    {
+        _OutcomeParameterSet |= outcomeParameterSet.Complete();
+    }
+
+    public void Update(UserInterfaceRequestData.Builder userInterfaceRequestData)
+    {
+        if (_UserInterfaceRequestData == null)
+            _UserInterfaceRequestData = userInterfaceRequestData.Complete();
     }
 
     public FieldOffRequestOutcome GetFieldOffRequestOutcome() => _OutcomeParameterSet.GetFieldOffRequestOutcome();
@@ -151,11 +162,6 @@ public class Outcome
     public bool IsUiRequestOnOutcomePresent() => _OutcomeParameterSet.IsUiRequestOnOutcomePresent();
     public bool IsUiRequestOnRestartPresent() => _OutcomeParameterSet.IsUiRequestOnRestartPresent();
 
-    public void Reset(ErrorIndication errorIndication)
-    {
-        _ErrorIndication = errorIndication;
-    }
-
     public bool TryGetUserInterfaceRequestData(out UserInterfaceRequestData? result)
     {
         if (_UserInterfaceRequestData == null)
@@ -170,23 +176,22 @@ public class Outcome
         return true;
     }
 
-    public void Update(OutcomeParameterSet.Builder outcomeParameterSet)
-    {
-        _OutcomeParameterSet |= outcomeParameterSet.Complete();
-    }
+    //public void Update(OutcomeParameterSet.Builder outcomeParameterSet)
+    //{
+    //    _OutcomeParameterSet |= outcomeParameterSet.Complete();
+    //}
 
-    public void Update(UserInterfaceRequestData.Builder userInterfaceRequestData)
-    {
-        if (_UserInterfaceRequestData == null)
-        {
-            _UserInterfaceRequestData = userInterfaceRequestData.Complete();
+    //public void Update(UserInterfaceRequestData.Builder userInterfaceRequestData)
+    //{
+    //    if (_UserInterfaceRequestData == null)
+    //    {
+    //        _UserInterfaceRequestData = userInterfaceRequestData.Complete();
 
-            return;
-        }
+    //        return;
+    //    }
 
-        _UserInterfaceRequestData = _UserInterfaceRequestData |= userInterfaceRequestData.Complete();
-    }
-
+    //    _UserInterfaceRequestData = _UserInterfaceRequestData |= userInterfaceRequestData.Complete();
+    //}
     public OutcomeParameterSet GetOutcomeParameterSet() => _OutcomeParameterSet;
     public DiscretionaryData? GetDiscretionaryData() => _DiscretionaryData;
 

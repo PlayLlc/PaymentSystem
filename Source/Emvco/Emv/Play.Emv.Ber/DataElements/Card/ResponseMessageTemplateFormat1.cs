@@ -1,6 +1,6 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
 
@@ -25,19 +25,6 @@ public record ResponseMessageTemplateFormat1 : DataElement<byte[]>, IEqualityCom
 
     #endregion
 
-    #region Instance Members
-
-    /// <summary>
-    ///     Gets the sequence of <see cref="TagLengthValue" /> objects in this object's Value field
-    /// </summary>
-    /// <returns></returns>
-    public TagLengthValue[] DecodeValue() => _Codec.DecodeSiblings(_Value).AsTagLengthValues();
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
     #region Serialization
 
     public static ResponseMessageTemplateFormat1 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
@@ -46,10 +33,7 @@ public record ResponseMessageTemplateFormat1 : DataElement<byte[]>, IEqualityCom
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    public static ResponseMessageTemplateFormat1 Decode(ReadOnlySpan<byte> value)
-    {
-        return new ResponseMessageTemplateFormat1(value.ToArray());
-    }
+    public static ResponseMessageTemplateFormat1 Decode(ReadOnlySpan<byte> value) => new ResponseMessageTemplateFormat1(value.ToArray());
 
     #endregion
 
@@ -67,6 +51,19 @@ public record ResponseMessageTemplateFormat1 : DataElement<byte[]>, IEqualityCom
     }
 
     public int GetHashCode(ResponseMessageTemplateFormat1 obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    /// <summary>
+    ///     Gets the sequence of <see cref="TagLengthValue" /> objects in this object's Value field
+    /// </summary>
+    /// <returns></returns>
+    public TagLengthValue[] DecodeValue() => _Codec.DecodeSiblings(_Value).AsTagLengthValues();
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

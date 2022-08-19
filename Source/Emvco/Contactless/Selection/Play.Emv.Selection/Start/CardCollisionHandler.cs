@@ -3,6 +3,7 @@ using Play.Emv.Ber.Enums;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;
+using Play.Messaging;
 
 namespace Play.Emv.Selection.Start;
 
@@ -10,15 +11,15 @@ public class CardCollisionHandler
 {
     #region Instance Values
 
-    private readonly IHandleDisplayRequests _DisplayProcess;
+    private readonly IEndpointClient _EndpointClient;
 
     #endregion
 
     #region Constructor
 
-    public CardCollisionHandler(IHandleDisplayRequests displayProcess)
+    public CardCollisionHandler(IEndpointClient endpointClient)
     {
-        _DisplayProcess = displayProcess;
+        _EndpointClient = endpointClient;
     }
 
     #endregion
@@ -59,11 +60,8 @@ public class CardCollisionHandler
         UserInterfaceRequestData.Builder builder = UserInterfaceRequestData.GetBuilder();
         builder.Set(MessageIdentifiers.PleasePresentOneCardOnly);
         builder.Set(Statuses.ReadyToRead);
-        outcome.Update(builder);
 
-        _ = outcome.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData);
-
-        _DisplayProcess.Request(new DisplayMessageRequest(userInterfaceRequestData!));
+        _EndpointClient.Send(new DisplayMessageRequest(builder.Complete()));
     }
 
     #endregion
@@ -75,11 +73,10 @@ public class CardCollisionHandler
         UserInterfaceRequestData.Builder builder = UserInterfaceRequestData.GetBuilder();
         builder.Set(MessageIdentifiers.PleasePresentOneCardOnly);
         builder.Set(Statuses.ProcessingError);
-        outcome.Update(builder);
 
         _ = outcome.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData);
 
-        _DisplayProcess.Request(new DisplayMessageRequest(userInterfaceRequestData!));
+        _EndpointClient.Send(new DisplayMessageRequest(builder.Complete()));
     }
 
     #endregion

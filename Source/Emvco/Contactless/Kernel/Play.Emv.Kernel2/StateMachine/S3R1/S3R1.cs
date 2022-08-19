@@ -2,7 +2,7 @@
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
@@ -36,8 +36,8 @@ public class S3R1 : CommonProcessing
     #region Constructor
 
     public S3R1(
-        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IKernelEndpoint kernelEndpoint) : base(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver, IEndpointClient endpointClient) :
+        base(database, dataExchangeKernelService, kernelStateResolver, endpointClient)
     { }
 
     #endregion
@@ -136,7 +136,7 @@ public class S3R1 : CommonProcessing
         if (!_DataExchangeKernelService.TryPeek(DekRequestType.TagsToRead, out Tag tagToRead))
             return false;
 
-        _PcdEndpoint.Request(GetDataRequest.Create(tagToRead, sessionId));
+        _EndpointClient.Send(GetDataRequest.Create(tagToRead, sessionId));
 
         return true;
     }
@@ -168,7 +168,7 @@ public class S3R1 : CommonProcessing
         if (!session.TryPeekActiveTag(out RecordRange recordRange))
             return false;
 
-        _PcdEndpoint.Request(ReadRecordRequest.Create(session.GetTransactionSessionId(), recordRange.GetShortFileIdentifier()));
+        _EndpointClient.Send(ReadRecordRequest.Create(session.GetTransactionSessionId(), recordRange.GetShortFileIdentifier()));
 
         return true;
     }
@@ -310,7 +310,7 @@ public class S3R1 : CommonProcessing
     /// <exception cref="CodecParsingException"></exception>
     private void SetOfflineAuthNotPerformed()
     {
-        _Database.Update(TerminalVerificationResultCodes.OfflineDataAuthenticationWasNotPerformed);
+        _Database.Set(TerminalVerificationResultCodes.OfflineDataAuthenticationWasNotPerformed);
     }
 
     #endregion

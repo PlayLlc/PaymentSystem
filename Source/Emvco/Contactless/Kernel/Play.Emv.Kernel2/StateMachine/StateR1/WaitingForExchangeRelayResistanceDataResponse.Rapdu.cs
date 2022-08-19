@@ -47,10 +47,9 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         if (TryPersistingRapdu(session, (GetDataResponse) signal))
             return _KernelStateResolver.GetKernelState(StateId);
 
-        MeasuredRelayResistanceProcessingTime processingTime = _ValidateRelayResistanceProtocol.CalculateMeasuredRrpTime(timeElapsed, _Database);
+        MeasuredRelayResistanceProcessingTime processingTime = CalculateMeasuredRrpTime(timeElapsed);
 
-        //sr1.19
-        if (!_ValidateRelayResistanceProtocol.IsRelayResistanceWithinMinimumRange(processingTime, _Database))
+        if (IsRelayOutOfLowerBounds(processingTime))
         {
             HandleRelayResistanceProtocolFailed(session, signal);
 
@@ -88,7 +87,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         _Database.Update(MessageOnErrorIdentifiers.TryAgain);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+        _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
 
         return true;
     }
@@ -114,7 +113,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         _Database.SetUiRequestOnOutcomePresent(true);
 
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+        _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
 
         return true;
     }
@@ -188,7 +187,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         _Database.SetUiRequestOnOutcomePresent(true);
 
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+        _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
     }
 
     #endregion
@@ -202,10 +201,10 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     private bool IsRelayRetryNeeded(Kernel2Session session, MeasuredRelayResistanceProcessingTime relayTime)
     {
-        if (_ValidateRelayResistanceProtocol.IsRetryThresholdHit(session.GetRelayResistanceProtocolCount()))
+        if (session.GetRelayResistanceProtocolCount() > 2)
             return false;
 
-        return !_ValidateRelayResistanceProtocol.IsRelayResistanceWithinMaximumRange(relayTime, _Database);
+        return IsRelayOutOfUpperBounds(relayTime);
     }
 
     #endregion
@@ -239,7 +238,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         // BUG: We need to create a Timer in addition to the TimeoutManager we have
         session.Stopwatch.Start();
 
-        _PcdEndpoint.Request(capdu);
+        _EndpointClient.Send(capdu);
 
         return _KernelStateResolver.GetKernelState(StateId);
     }
@@ -274,7 +273,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private void SetRelayTimeLimitExceeded()
     {
-        _Database.Update(TerminalVerificationResultCodes.RelayResistanceTimeLimitsExceeded);
+        _Database.Set(TerminalVerificationResultCodes.RelayResistanceTimeLimitsExceeded);
     }
 
     #endregion
@@ -331,7 +330,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private void SetRelayResistanceThresholdExceeded()
     {
-        _Database.Update(TerminalVerificationResultCodes.RelayResistanceThresholdExceeded);
+        _Database.Set(TerminalVerificationResultCodes.RelayResistanceThresholdExceeded);
     }
 
     #endregion
@@ -342,7 +341,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private void SetRelayResistancePerformed()
     {
-        _Database.Update(TerminalVerificationResultCodes.RelayResistancePerformed);
+        _Database.Set(TerminalVerificationResultCodes.RelayResistancePerformed);
     }
 
     #endregion
@@ -428,7 +427,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         _Database.SetUiRequestOnRestartPresent(true);
 
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+        _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
     }
 
     #endregion
