@@ -49,6 +49,39 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
 
     #endregion
 
+    #region Instance Members
+
+    //private static ulong BuildErrorIndication(Level1Error[] level1Errors, Level2Error[] level2Errors, Level3Error[] level3Errors)
+    //{
+    //    ulong result = 0;
+
+    //    for (nint i = 0; i < level1Errors?.Length; i++)
+    //        result |= SetLevel1Error(level1Errors![i]);
+
+    //    for (nint i = 0; i < level2Errors?.Length; i++)
+    //        result |= SetLevel2Error(level2Errors![i]);
+
+    //    for (nint i = 0; i < level3Errors?.Length; i++)
+    //        result |= SetLevel3Error(level3Errors![i]);
+
+    //    return result;
+    //}
+    public static Builder GetBuilder() => new();
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public Level1Error GetL1() => !Level1Error.Empty.TryGet((byte) (_Value >> 40), out EnumObject<byte>? result) ? Level1Error.Ok : (Level1Error) result!;
+    public Level2Error GetL2() => !Level2Error.Empty.TryGet((byte) (_Value >> 40), out EnumObject<byte>? result) ? Level2Error.Ok : (Level2Error) result!;
+    public Level3Error GetL3() => !Level3Error.Empty.TryGet((byte) (_Value >> 40), out EnumObject<byte>? result) ? Level3Error.Ok : (Level3Error) result!;
+    public DisplayMessageOnErrorIdentifiers GetMessageIdentifier() => (DisplayMessageOnErrorIdentifiers) DisplayMessageOnErrorIdentifiers.Get((byte) _Value);
+    public StatusWords GetStatusWords() => new(new StatusWord((byte) (_Value >> 16)), new StatusWord((byte) (_Value >> 8)));
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public bool IsErrorPresent() => (GetL1() != Level1Error.Ok) || (GetL2() != Level2Error.Ok) || (GetL3() != Level3Error.Ok);
+    public bool IsErrorPresent(Level1Error value) => ((byte) (_Value >> 40)).AreBitsSet(value);
+    public bool IsErrorPresent(Level2Error value) => ((byte) (_Value >> 40)).AreBitsSet(value);
+    public bool IsErrorPresent(Level3Error value) => ((byte) (_Value >> 40)).AreBitsSet(value);
+
+    #endregion
+
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -93,39 +126,6 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
     #region Operator Overrides
 
     public static implicit operator ulong(ErrorIndication value) => value._Value;
-
-    #endregion
-
-    #region Instance Members
-
-    //private static ulong BuildErrorIndication(Level1Error[] level1Errors, Level2Error[] level2Errors, Level3Error[] level3Errors)
-    //{
-    //    ulong result = 0;
-
-    //    for (nint i = 0; i < level1Errors?.Length; i++)
-    //        result |= SetLevel1Error(level1Errors![i]);
-
-    //    for (nint i = 0; i < level2Errors?.Length; i++)
-    //        result |= SetLevel2Error(level2Errors![i]);
-
-    //    for (nint i = 0; i < level3Errors?.Length; i++)
-    //        result |= SetLevel3Error(level3Errors![i]);
-
-    //    return result;
-    //}
-    public static Builder GetBuilder() => new();
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public Level1Error GetL1() => !Level1Error.Empty.TryGet((byte) (_Value >> 40), out EnumObject<byte>? result) ? Level1Error.Ok : (Level1Error) result!;
-    public Level2Error GetL2() => !Level2Error.Empty.TryGet((byte) (_Value >> 40), out EnumObject<byte>? result) ? Level2Error.Ok : (Level2Error) result!;
-    public Level3Error GetL3() => !Level3Error.Empty.TryGet((byte) (_Value >> 40), out EnumObject<byte>? result) ? Level3Error.Ok : (Level3Error) result!;
-    public MessageOnErrorIdentifiers GetMessageIdentifier() => (MessageOnErrorIdentifiers) MessageOnErrorIdentifiers.Get((byte) _Value);
-    public StatusWords GetStatusWords() => new(new StatusWord((byte) (_Value >> 16)), new StatusWord((byte) (_Value >> 8)));
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-    public bool IsErrorPresent() => (GetL1() != Level1Error.Ok) || (GetL2() != Level2Error.Ok) || (GetL3() != Level3Error.Ok);
-    public bool IsErrorPresent(Level1Error value) => ((byte) (_Value >> 40)).AreBitsSet(value);
-    public bool IsErrorPresent(Level2Error value) => ((byte) (_Value >> 40)).AreBitsSet(value);
-    public bool IsErrorPresent(Level3Error value) => ((byte) (_Value >> 40)).AreBitsSet(value);
 
     #endregion
 
@@ -188,7 +188,7 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
             _Value |= (ulong) statusWords >> offset;
         }
 
-        public void Set(MessageOnErrorIdentifiers value)
+        public void Set(DisplayMessageOnErrorIdentifiers value)
         {
             _Value.ClearBits(byte.MaxValue);
             _Value |= (ulong) value;

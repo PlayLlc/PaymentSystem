@@ -5,7 +5,7 @@
 ///     the Message EncodingId is not recognized, the reader should ignore it and the message currently displayed should
 ///     not be changed as a result of the User Interface Request.
 /// </summary>
-public readonly record struct MessageIdentifier
+public readonly record struct DisplayMessageIdentifier
 {
     #region Instance Values
 
@@ -15,7 +15,7 @@ public readonly record struct MessageIdentifier
 
     #region Constructor
 
-    internal MessageIdentifier(byte value)
+    internal DisplayMessageIdentifier(byte value)
     {
         _Value = value;
     }
@@ -33,11 +33,11 @@ public readonly record struct MessageIdentifier
 
     #region Operator Overrides
 
-    public static explicit operator byte(MessageIdentifier value) => value._Value;
-    public static bool operator ==(MessageIdentifier left, byte right) => left._Value == right;
-    public static bool operator !=(MessageIdentifier left, byte right) => left._Value != right;
-    public static bool operator ==(byte left, MessageIdentifier right) => left == right._Value;
-    public static bool operator !=(byte left, MessageIdentifier right) => left != right._Value;
+    public static explicit operator byte(DisplayMessageIdentifier value) => value._Value;
+    public static bool operator ==(DisplayMessageIdentifier left, byte right) => left._Value == right;
+    public static bool operator !=(DisplayMessageIdentifier left, byte right) => left._Value != right;
+    public static bool operator ==(byte left, DisplayMessageIdentifier right) => left == right._Value;
+    public static bool operator !=(byte left, DisplayMessageIdentifier right) => left != right._Value;
 
     #endregion
 }

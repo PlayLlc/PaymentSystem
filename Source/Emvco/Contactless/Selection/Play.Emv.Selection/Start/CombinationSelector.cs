@@ -43,6 +43,8 @@ public class CombinationSelector
 
     #endregion
 
+    #region Instance Members
+
     /// <remarks>EMV Book B Section 3.3.2.1</remarks>
     public void Start(
         Transaction transaction, CandidateList candidateList, IssuerAuthenticationData? issuerAuthenticationData = null,
@@ -62,6 +64,72 @@ public class CombinationSelector
         if (transaction.GetOutcome().GetStartOutcome() == StartOutcomes.C)
             ProcessStep3(transaction, candidateList);
     }
+
+    public bool TrySelectApplet(Combination combination, SelectApplicationDefinitionFileInfoResponse applicationFciResponse, out CombinationOutcome? result)
+    {
+        if (applicationFciResponse.GetStatusWords() == StatusWords._9000)
+        {
+            result = new CombinationOutcome(applicationFciResponse, combination);
+
+            return true;
+        }
+
+        // BUG: It looks like I added this here because part of the Issuer Script processing wasn't yet implemented. Check the specification and correct this part of the flow
+        if (1 == 2) // if(IssuerAuthenticationData is present || IssuerScript is present)
+        {
+            OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
+            UserInterfaceRequestData.Builder? userInterfaceRequestDataBuilder = UserInterfaceRequestData.GetBuilder();
+
+            builder.Set(StatusOutcomes.EndApplication);
+            builder.SetIsUiRequestOnOutcomePresent(true);
+
+            userInterfaceRequestDataBuilder.Set(DisplayMessageIdentifiers.ErrorUseAnotherCard);
+            userInterfaceRequestDataBuilder.Set(DisplayStatuses.ReadyToRead);
+            userInterfaceRequestDataBuilder.Set(new MessageHoldTime(Milliseconds.Zero));
+        }
+
+        result = null;
+
+        return false;
+    }
+
+    /// <exception cref="DataElementParsingException"></exception>
+    public void ProcessPointOfInteractionResponse(
+        Transaction transaction, CandidateList candidateList, PreProcessingIndicators preProcessingIndicators, Outcome outcome, TransactionType transactionType,
+        SendPoiInformationResponse sendPoiInformationResponse)
+    {
+        if (sendPoiInformationResponse.GetStatusWords() == StatusWords._9000)
+        {
+            ProcessStep2(transaction, candidateList, preProcessingIndicators, transactionType,
+                FileControlInformationPpse.Decode(sendPoiInformationResponse.GetData()));
+        }
+        else
+            ProcessStep3(transaction, candidateList);
+    }
+
+    private bool IsMatchingInternationalKernelIdentifier(PreProcessingIndicators preProcessingIndicators, KernelIdentifier kernelIdentifier)
+    {
+        if (kernelIdentifier.GetValueByteCount(_Codec) < 3)
+            return false;
+
+        return preProcessingIndicators.IsMatchingKernel(kernelIdentifier);
+    }
+
+    private void ValidateVisaRequirement(
+        Transaction transaction, CandidateList candidateList, Outcome outcome, Combination combination,
+        FileControlInformationAdf fileControlInformationTemplate)
+    {
+        if (!fileControlInformationTemplate.IsNetworkOf(RegisteredApplicationProviderIndicators.VisaInternational))
+            ProcessStep3(transaction, candidateList);
+
+        if (combination.GetCombinationCompositeKey().GetKernelId() != ShortKernelIdTypes.Kernel3)
+            ProcessStep3(transaction, candidateList);
+
+        if (fileControlInformationTemplate.IsDataObjectRequested(TerminalTransactionQualifiers.Tag))
+            ProcessStep3(transaction, candidateList);
+    }
+
+    #endregion
 
     #region Step 1
 
@@ -248,68 +316,4 @@ public class CombinationSelector
     }
 
     #endregion
-
-    public bool TrySelectApplet(Combination combination, SelectApplicationDefinitionFileInfoResponse applicationFciResponse, out CombinationOutcome? result)
-    {
-        if (applicationFciResponse.GetStatusWords() == StatusWords._9000)
-        {
-            result = new CombinationOutcome(applicationFciResponse, combination);
-
-            return true;
-        }
-
-        // BUG: It looks like I added this here because part of the Issuer Script processing wasn't yet implemented. Check the specification and correct this part of the flow
-        if (1 == 2) // if(IssuerAuthenticationData is present || IssuerScript is present)
-        {
-            OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
-            UserInterfaceRequestData.Builder? userInterfaceRequestDataBuilder = UserInterfaceRequestData.GetBuilder();
-
-            builder.Set(StatusOutcomes.EndApplication);
-            builder.SetIsUiRequestOnOutcomePresent(true);
-
-            userInterfaceRequestDataBuilder.Set(MessageIdentifiers.ErrorUseAnotherCard);
-            userInterfaceRequestDataBuilder.Set(Statuses.ReadyToRead);
-            userInterfaceRequestDataBuilder.Set(new MessageHoldTime(Milliseconds.Zero));
-        }
-
-        result = null;
-
-        return false;
-    }
-
-    /// <exception cref="DataElementParsingException"></exception>
-    public void ProcessPointOfInteractionResponse(
-        Transaction transaction, CandidateList candidateList, PreProcessingIndicators preProcessingIndicators, Outcome outcome, TransactionType transactionType,
-        SendPoiInformationResponse sendPoiInformationResponse)
-    {
-        if (sendPoiInformationResponse.GetStatusWords() == StatusWords._9000)
-        {
-            ProcessStep2(transaction, candidateList, preProcessingIndicators, transactionType,
-                FileControlInformationPpse.Decode(sendPoiInformationResponse.GetData()));
-        }
-        else
-            ProcessStep3(transaction, candidateList);
-    }
-
-    private bool IsMatchingInternationalKernelIdentifier(PreProcessingIndicators preProcessingIndicators, KernelIdentifier kernelIdentifier)
-    {
-        if (kernelIdentifier.GetValueByteCount(_Codec) < 3)
-            return false;
-
-        return preProcessingIndicators.IsMatchingKernel(kernelIdentifier);
-    }
-
-    private void ValidateVisaRequirement(
-        Transaction transaction, CandidateList candidateList, Outcome outcome, Combination combination,
-        FileControlInformationAdf fileControlInformationTemplate)
-    {
-        if (!fileControlInformationTemplate.IsNetworkOf(RegisteredApplicationProviderIndicators.VisaInternational))
-            ProcessStep3(transaction, candidateList);
-
-        if (combination.GetCombinationCompositeKey().GetKernelId() != ShortKernelIdTypes.Kernel3)
-            ProcessStep3(transaction, candidateList);
-
-        if (fileControlInformationTemplate.IsDataObjectRequested(TerminalTransactionQualifiers.Tag))
-            ProcessStep3(transaction, candidateList);
-    }
 }

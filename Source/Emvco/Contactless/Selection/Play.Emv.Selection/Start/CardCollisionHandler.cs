@@ -42,7 +42,7 @@ public class CardCollisionHandler
                 $"There is supposed to be a {nameof(UserInterfaceRequestData)} at this stage of the transaction but none could be found");
         }
 
-        if (userInterfaceRequestData!.GetMessageIdentifier() != MessageIdentifiers.PleasePresentOneCardOnly)
+        if (userInterfaceRequestData!.GetMessageIdentifier() != DisplayMessageIdentifiers.PleasePresentOneCardOnly)
             return;
 
         if (request.IsCollisionDetected())
@@ -58,8 +58,8 @@ public class CardCollisionHandler
     private void HandleCollisionHasBeenResolved(Outcome outcome)
     {
         UserInterfaceRequestData.Builder builder = UserInterfaceRequestData.GetBuilder();
-        builder.Set(MessageIdentifiers.PleasePresentOneCardOnly);
-        builder.Set(Statuses.ReadyToRead);
+        builder.Set(DisplayMessageIdentifiers.PleasePresentOneCardOnly);
+        builder.Set(DisplayStatuses.ReadyToRead);
 
         _EndpointClient.Send(new DisplayMessageRequest(builder.Complete()));
     }
@@ -71,8 +71,8 @@ public class CardCollisionHandler
     private void HandleCardCollision(Outcome outcome)
     {
         UserInterfaceRequestData.Builder builder = UserInterfaceRequestData.GetBuilder();
-        builder.Set(MessageIdentifiers.PleasePresentOneCardOnly);
-        builder.Set(Statuses.ProcessingError);
+        builder.Set(DisplayMessageIdentifiers.PleasePresentOneCardOnly);
+        builder.Set(DisplayStatuses.ProcessingError);
 
         _ = outcome.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData);
 

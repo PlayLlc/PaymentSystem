@@ -97,10 +97,10 @@ public partial class WaitingForPutDataResponseAfterGenerateAc
     /// <exception cref="TerminalDataException"></exception>
     private void HandleDoubleTapRequiredResponse(KernelSession session)
     {
-        _Database.Update(Statuses.CardReadSuccessful);
+        _Database.Update(DisplayStatuses.CardReadSuccessful);
         _EndpointClient.Send(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-        _Database.Update(Statuses.ReadyToRead);
+        _Database.Update(DisplayStatuses.ReadyToRead);
         _Database.Update(MessageHoldTime.MinimumValue);
         _EndpointClient.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
     }
@@ -114,8 +114,8 @@ public partial class WaitingForPutDataResponseAfterGenerateAc
     private void HandleDoubleTapNotRequiredResponse(KernelSession session)
     {
         UserInterfaceRequestData.Builder builder = UserInterfaceRequestData.GetBuilder();
-        builder.Set(MessageIdentifiers.ClearDisplay);
-        builder.Set(Statuses.CardReadSuccessful);
+        builder.Set(DisplayMessageIdentifiers.ClearDisplay);
+        builder.Set(DisplayStatuses.CardReadSuccessful);
         builder.Set(MessageHoldTime.MinimumValue);
         _EndpointClient.Send(new DisplayMessageRequest(builder.Complete()));
 

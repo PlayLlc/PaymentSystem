@@ -138,7 +138,7 @@ public partial class KernelDatabase
     }
 
     /// <exception cref="TerminalDataException"></exception>
-    public void Update(MessageOnErrorIdentifiers value)
+    public void Update(DisplayMessageOnErrorIdentifiers value)
     {
         try
         {
@@ -161,7 +161,7 @@ public partial class KernelDatabase
     }
 
     /// <exception cref="TerminalDataException"></exception>
-    public void Update(MessageIdentifiers value)
+    public void Update(DisplayMessageIdentifiers value)
     {
         try
         {
@@ -207,7 +207,7 @@ public partial class KernelDatabase
     }
 
     /// <exception cref="TerminalDataException"></exception>
-    public void Update(Statuses value)
+    public void Update(DisplayStatuses value)
     {
         try
         {

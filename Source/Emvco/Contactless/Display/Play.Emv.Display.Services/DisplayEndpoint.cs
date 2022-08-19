@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
+using Play.Emv.Display.Configuration;
 using Play.Emv.Display.Contracts;
 using Play.Messaging;
 using Play.Messaging.Exceptions;
@@ -25,9 +27,10 @@ public class DisplayEndpoint : IMessageChannel, IDisposable
     #region Constructor
 
     private DisplayEndpoint(
-        IDisplayMessages displayService, IDisplayLed ledDisplayService, IDisplayMessageRepository displayMessageRepository, ICreateEndpointClient messageBus)
+        DisplayConfiguration displayConfiguration, IDisplayMessages displayService, IDisplayLed ledDisplayService, IFormatDisplayMessages messageFormatter,
+        ICreateEndpointClient messageBus)
     {
-        _DisplayProcess = new DisplayProcess(displayService, ledDisplayService, displayMessageRepository);
+        _DisplayProcess = new DisplayProcess(displayConfiguration, messageFormatter, displayService, ledDisplayService);
         _EndpointClient = messageBus.GetEndpointClient();
         _EndpointClient.Subscribe(this);
     }
@@ -74,7 +77,7 @@ public class DisplayEndpoint : IMessageChannel, IDisposable
     ///     Handle
     /// </summary>
     /// <param name="message"></param>
-    /// <exception cref="Play.Messaging.Exceptions.InvalidMessageRoutingException"></exception>
+    /// <exception cref="InvalidMessageRoutingException"></exception>
     public void Handle(ResponseMessage message)
     {
         throw new InvalidMessageRoutingException(message, this);
@@ -83,9 +86,12 @@ public class DisplayEndpoint : IMessageChannel, IDisposable
     #endregion
 
     public static DisplayEndpoint Create(
-        IDisplayMessages displayService, IDisplayLed ledDisplayService, IDisplayMessageRepository displayMessageRepository,
-        ICreateEndpointClient messageRouter) =>
-        new(displayService, ledDisplayService, displayMessageRepository, messageRouter);
+        DisplayConfiguration displayConfiguration, IDisplayMessages displayService, IDisplayLed ledDisplayService, ICreateEndpointClient messageRouter)
+    {
+        DisplayFormatter formatter = new(displayConfiguration);
+
+        return new DisplayEndpoint(displayConfiguration, displayService, ledDisplayService, formatter, messageRouter);
+    }
 
     public void Dispose()
     {

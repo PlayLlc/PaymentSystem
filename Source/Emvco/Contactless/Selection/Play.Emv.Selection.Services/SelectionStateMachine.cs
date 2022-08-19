@@ -309,8 +309,8 @@ internal class SelectionStateMachine
     private void ProcessEmptyCandidateList(CorrelationId correlationId, Transaction transaction)
     {
         UserInterfaceRequestData.Builder? userInterfaceRequestDataBuilder = UserInterfaceRequestData.GetBuilder();
-        userInterfaceRequestDataBuilder.Set(MessageIdentifiers.ErrorUseAnotherCard);
-        userInterfaceRequestDataBuilder.Set(Statuses.ReadyToRead);
+        userInterfaceRequestDataBuilder.Set(DisplayMessageIdentifiers.ErrorUseAnotherCard);
+        userInterfaceRequestDataBuilder.Set(DisplayStatuses.ReadyToRead);
 
         OutcomeParameterSet.Builder? outcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
         outcomeParameterSetBuilder.SetIsUiRequestOnOutcomePresent(true);

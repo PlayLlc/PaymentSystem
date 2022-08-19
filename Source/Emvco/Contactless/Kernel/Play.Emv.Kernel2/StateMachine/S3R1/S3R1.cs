@@ -116,10 +116,10 @@ public class S3R1 : CommonProcessing
     private bool HandleCardDataError(KernelSession session)
     {
         _Database.Update(Level2Error.CardDataError);
-        _Database.Update(MessageIdentifiers.CardError);
-        _Database.Update(Statuses.NotReady);
+        _Database.Update(DisplayMessageIdentifiers.CardError);
+        _Database.Update(DisplayStatuses.NotReady);
         _Database.Update(StatusOutcomes.EndApplication);
-        _Database.Update(MessageOnErrorIdentifiers.TryAgain);
+        _Database.Update(DisplayMessageOnErrorIdentifiers.TryAgain);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, _Database.GetErrorIndication());
         _Database.SetUiRequestOnRestartPresent(true);

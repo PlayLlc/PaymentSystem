@@ -8,6 +8,7 @@ using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.Services.Selection;
 using Play.Emv.Kernel2.Services;
 using Play.Emv.Kernel2.Services.BalanceReading;
+using Play.Emv.Pcd.Services;
 using Play.Emv.Reader;
 using Play.Emv.Reader.Services;
 using Play.Emv.Security;
@@ -37,7 +38,9 @@ internal class Program
         MainEndpoint mainEndpoint = ReaderFactory.Create(readerConfiguration, endpointClient);
         KernelEndpoint kernelEndpoint = KernelFactory.Create(terminalConfiguration, readerConfiguration, endpointClient);
         SelectionEndpoint selectionEndpoint = SelectionEndpoint.Create(selectionConfiguration, endpointClient);
+
         DisplayEndpoint displayEndpoint = DisplayEndpoint.Create(null, null, null, null);
+        ProximityCouplingDeviceEndpoint pcdEndpoint = ProximityCouplingDeviceEndpoint.Create(null, null, null);
     }
 
     #endregion

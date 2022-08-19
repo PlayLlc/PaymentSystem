@@ -364,10 +364,10 @@ public class S456 : CommonProcessing
         if (!AreMandatoryDataObjectsPresent())
             return false;
 
-        _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-        _Database.Update(Statuses.NotReady);
+        _Database.Update(DisplayMessageIdentifiers.ErrorUseAnotherCard);
+        _Database.Update(DisplayStatuses.NotReady);
         _Database.Update(StatusOutcomes.EndApplication);
-        _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
+        _Database.Update(DisplayMessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.CardDataMissing);
         _Database.SetUiRequestOnOutcomePresent(true);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
@@ -424,10 +424,10 @@ public class S456 : CommonProcessing
     /// <exception cref="InvalidOperationException"></exception>
     private void HandleIntegratedDataStorageError(KernelSessionId sessionId)
     {
-        _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-        _Database.Update(Statuses.NotReady);
+        _Database.Update(DisplayMessageIdentifiers.ErrorUseAnotherCard);
+        _Database.Update(DisplayStatuses.NotReady);
         _Database.Update(StatusOutcomes.EndApplication);
-        _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
+        _Database.Update(DisplayMessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.CardDataError);
         _Database.SetUiRequestOnOutcomePresent(true);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
@@ -614,10 +614,10 @@ public class S456 : CommonProcessing
     /// <exception cref="InvalidOperationException"></exception>
     private void HandleStaticDataAuthenticationError(KernelSessionId sessionId)
     {
-        _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-        _Database.Update(Statuses.NotReady);
+        _Database.Update(DisplayMessageIdentifiers.ErrorUseAnotherCard);
+        _Database.Update(DisplayStatuses.NotReady);
         _Database.Update(StatusOutcomes.EndApplication);
-        _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
+        _Database.Update(DisplayMessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.CardDataError);
         _Database.SetUiRequestOnOutcomePresent(true);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);

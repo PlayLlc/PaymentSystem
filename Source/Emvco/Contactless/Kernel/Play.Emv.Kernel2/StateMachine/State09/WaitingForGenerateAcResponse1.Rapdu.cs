@@ -123,10 +123,10 @@ public partial class WaitingForGenerateAcResponse1
     {
         try
         {
-            _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-            _Database.Update(Statuses.NotReady);
+            _Database.Update(DisplayMessageIdentifiers.ErrorUseAnotherCard);
+            _Database.Update(DisplayStatuses.NotReady);
             _Database.Update(StatusOutcomes.EndApplication);
-            _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
+            _Database.Update(DisplayMessageOnErrorIdentifiers.ErrorUseAnotherCard);
             _Database.Update(signal.GetLevel1Error());
             _Database.SetIsDataRecordPresent(true);
             _Database.CreateEmvDataRecord(_DataExchangeKernelService);
@@ -158,15 +158,15 @@ public partial class WaitingForGenerateAcResponse1
         try
         {
             // HACK: Move exception handling to a single exception handler
-            _Database.Update(MessageIdentifiers.TryAgain);
-            _Database.Update(Statuses.ReadyToRead);
+            _Database.Update(DisplayMessageIdentifiers.TryAgain);
+            _Database.Update(DisplayStatuses.ReadyToRead);
             _Database.Update(MessageHoldTime.MinimumValue);
 
             _Database.Update(StatusOutcomes.EndApplication);
             _Database.Update(StartOutcomes.B);
             _Database.SetUiRequestOnOutcomePresent(true);
             _Database.Update(signal.GetLevel1Error());
-            _Database.Update(MessageOnErrorIdentifiers.TryAgain);
+            _Database.Update(DisplayMessageOnErrorIdentifiers.TryAgain);
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         }
         catch (TerminalDataException)
@@ -424,8 +424,8 @@ public partial class WaitingForGenerateAcResponse1
     /// <exception cref="TerminalDataException"></exception>
     private void SetDisplayMessage()
     {
-        _Database.Update(MessageIdentifiers.ClearDisplay);
-        _Database.Update(Statuses.CardReadSuccessful);
+        _Database.Update(DisplayMessageIdentifiers.ClearDisplay);
+        _Database.Update(DisplayStatuses.CardReadSuccessful);
         _Database.Update(MessageHoldTime.MinimumValue);
 
         _EndpointClient.Send(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));

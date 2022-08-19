@@ -40,8 +40,8 @@ public class Preprocessor
         outcomeParameterSetBuilder.SetIsDataRecordPresent(false);
         outcomeParameterSetBuilder.SetIsDiscretionaryDataPresent(false);
         outcomeParameterSetBuilder.Set(new Milliseconds(0));
-        userInterfaceSetter.Set(MessageIdentifiers.PleaseInsertOrSwipeCard);
-        userInterfaceSetter.Set(Statuses.ProcessingError);
+        userInterfaceSetter.Set(DisplayMessageIdentifiers.PleaseInsertOrSwipeCard);
+        userInterfaceSetter.Set(DisplayStatuses.ProcessingError);
 
         outcome.Update(outcomeParameterSetBuilder);
         outcome.Update(userInterfaceSetter);

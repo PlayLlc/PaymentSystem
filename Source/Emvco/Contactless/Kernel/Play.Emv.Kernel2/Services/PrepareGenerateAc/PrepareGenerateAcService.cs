@@ -292,10 +292,10 @@ public partial class PrepareGenerateAcService : CommonProcessing
         {
             result = currentStateIdRetriever.GetStateId();
             _Database.Update(Level2Error.IdsNoMatchingAc);
-            _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-            _Database.Update(Statuses.NotReady);
+            _Database.Update(DisplayMessageIdentifiers.ErrorUseAnotherCard);
+            _Database.Update(DisplayStatuses.NotReady);
             _Database.Update(StatusOutcomes.EndApplication);
-            _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
+            _Database.Update(DisplayMessageOnErrorIdentifiers.ErrorUseAnotherCard);
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
             _Database.SetUiRequestOnRestartPresent(true);
         }
