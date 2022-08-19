@@ -3,7 +3,7 @@
 using Moq;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 
@@ -11,17 +11,24 @@ namespace Play.Testing.Emv.Ber.Primitive;
 
 public class DataStorageDataObjectListTestTlv : TestTlv
 {
-    private static readonly byte[] _DefaultContentOctets = { 12, 3, 14, 5, 23, 4, 30, 5 };
-    private static readonly Tag[] _DefaultContentTags = { new(12), new(14), new(23), new(30) };
+    #region Static Metadata
 
-    public DataStorageDataObjectListTestTlv() : base(_DefaultContentOctets) { }
+    private static readonly byte[] _DefaultContentOctets = {12, 3, 14, 5, 23, 4, 30, 5};
+    private static readonly Tag[] _DefaultContentTags = {new(12), new(14), new(23), new(30)};
+
+    #endregion
+
+    #region Constructor
+
+    public DataStorageDataObjectListTestTlv() : base(_DefaultContentOctets)
+    { }
 
     public DataStorageDataObjectListTestTlv(byte[] contentOctets) : base(contentOctets)
-    {
-    }
+    { }
+
+    #endregion
 
     public override Tag GetTag() => DataStorageDataObjectList.Tag;
-
     public Tag[] GetTags() => _DefaultContentTags;
 
     public void SetupTlvTagsForGivenDb(Mock<ITlvReaderAndWriter> database)
@@ -36,7 +43,7 @@ public class DataStorageDataObjectListTestTlv : TestTlv
 
     public DataObjectListResult SetupValuesForTags(Mock<ITlvReaderAndWriter> database, IFixture fixture)
     {
-        List<TagLengthValue> result = new List<TagLengthValue>();
+        List<TagLengthValue> result = new();
 
         foreach (Tag tag in _DefaultContentTags)
         {

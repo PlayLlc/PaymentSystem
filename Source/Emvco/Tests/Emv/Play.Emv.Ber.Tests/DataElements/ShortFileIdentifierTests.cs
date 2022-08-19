@@ -1,7 +1,8 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Exceptions;
+using Play.Ber.Tags;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -98,7 +99,7 @@ public class ShortFileIdentifierTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElementInvalidByteLength_Throws()
     {
-        ShortFileIdentifierTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        ShortFileIdentifierTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => ShortFileIdentifier.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -106,7 +107,7 @@ public class ShortFileIdentifierTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElementInvalidValue_Throws()
     {
-        ShortFileIdentifierTestTlv testData = new(new byte[] { 0x22 });
+        ShortFileIdentifierTestTlv testData = new(new byte[] {0x22});
 
         Assert.Throws<DataElementParsingException>(() => ShortFileIdentifier.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -151,7 +152,7 @@ public class ShortFileIdentifierTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        ShortFileIdentifierTestTlv testData = new(new byte[] { 22 });
+        ShortFileIdentifierTestTlv testData = new(new byte[] {22});
         ShortFileIdentifier sut = ShortFileIdentifier.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -167,10 +168,7 @@ public class ShortFileIdentifierTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        ShortFileIdentifierTestTlv testData = new(new byte[]
-        {
-            0x08
-        });
+        ShortFileIdentifierTestTlv testData = new(new byte[] {0x08});
 
         ShortFileIdentifier sut = ShortFileIdentifier.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -184,9 +182,9 @@ public class ShortFileIdentifierTests
     {
         byte input = 13;
 
-        ShortFileIdentifier sut = new ShortFileIdentifier(input);
+        ShortFileIdentifier sut = new(input);
 
-        Assert.Equal(input, (byte)sut);
+        Assert.Equal(input, (byte) sut);
     }
 
     [Fact]
@@ -196,7 +194,7 @@ public class ShortFileIdentifierTests
 
         ShortFileIdentifier sut = ShortFileIdentifier.Decode(testData.EncodeValue().AsSpan());
 
-        Assert.True(ShortFileIdentifier.IsValid((byte)sut));
+        Assert.True(ShortFileIdentifier.IsValid((byte) sut));
     }
 
     [Fact]

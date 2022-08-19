@@ -1,17 +1,25 @@
-﻿using Play.Ber.Identifiers;
+﻿using Play.Ber.Tags;
 using Play.Emv.Ber.DataElements;
 
 namespace Play.Testing.Emv.Ber.Primitive;
 
 public class DataStorageApplicationCryptogramTypeTestTlv : TestTlv
 {
-    private readonly static byte[] _DefaultContentOctets = { 0b0100_0000 };
+    #region Static Metadata
 
-    public DataStorageApplicationCryptogramTypeTestTlv() : base(_DefaultContentOctets) { }
+    private static readonly byte[] _DefaultContentOctets = {0b0100_0000};
+
+    #endregion
+
+    #region Constructor
+
+    public DataStorageApplicationCryptogramTypeTestTlv() : base(_DefaultContentOctets)
+    { }
 
     public DataStorageApplicationCryptogramTypeTestTlv(byte[] contentOctets) : base(contentOctets)
-    {
-    }
+    { }
+
+    #endregion
 
     public override Tag GetTag() => DataStorageApplicationCryptogramType.Tag;
 }

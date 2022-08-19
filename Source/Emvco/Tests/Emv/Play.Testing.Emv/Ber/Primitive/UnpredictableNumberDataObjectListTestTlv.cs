@@ -3,7 +3,7 @@
 using Moq;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 
@@ -11,17 +11,24 @@ namespace Play.Testing.Emv.Ber.Primitive;
 
 public class UnpredictableNumberDataObjectListTestTlv : TestTlv
 {
-    private static readonly byte[] _DefaultContentOctets = { 14, 5, 23, 4, 30, 5, 0x9F, 0x37, 3 };
-    private static readonly Tag[] _DefaultContentTags = { new(14), new(23), new(30), UnpredictableNumber.Tag };
+    #region Static Metadata
 
-    public UnpredictableNumberDataObjectListTestTlv() : base(_DefaultContentOctets) { }
+    private static readonly byte[] _DefaultContentOctets = {14, 5, 23, 4, 30, 5, 0x9F, 0x37, 3};
+    private static readonly Tag[] _DefaultContentTags = {new(14), new(23), new(30), UnpredictableNumber.Tag};
+
+    #endregion
+
+    #region Constructor
+
+    public UnpredictableNumberDataObjectListTestTlv() : base(_DefaultContentOctets)
+    { }
 
     public UnpredictableNumberDataObjectListTestTlv(byte[] contentOctets) : base(contentOctets)
-    {
-    }
+    { }
+
+    #endregion
 
     public override Tag GetTag() => UnpredictableNumberDataObjectList.Tag;
-
     public Tag[] GetTags() => _DefaultContentTags;
 
     public void SetupTlvTagsForGivenDb(Mock<ITlvReaderAndWriter> database)
@@ -36,7 +43,7 @@ public class UnpredictableNumberDataObjectListTestTlv : TestTlv
 
     public DataObjectListResult SetupValuesForTags(Mock<ITlvReaderAndWriter> database, IFixture fixture)
     {
-        List<TagLengthValue> result = new List<TagLengthValue>();
+        List<TagLengthValue> result = new();
 
         foreach (Tag tag in _DefaultContentTags)
         {

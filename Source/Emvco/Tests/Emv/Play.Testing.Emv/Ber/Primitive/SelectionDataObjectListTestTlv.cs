@@ -3,7 +3,7 @@
 using Moq;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 
@@ -11,17 +11,29 @@ namespace Play.Testing.Emv.Ber.Primitive;
 
 public class SelectionDataObjectListTestTlv : TestTlv
 {
-    private static readonly byte[] _DefaultContentOctets = { 0x9F, 0x02, 3, 0x8B, 5, 0x9F, 0x1A, 4, 0x5F, 0x2A, 5 };
-    private static readonly Tag[] _DefaultContentTags = { AmountAuthorizedNumeric.Tag, PoiInformation.Tag, TerminalCountryCode.Tag, TransactionCurrencyCode.Tag };
+    #region Static Metadata
 
-    public SelectionDataObjectListTestTlv() : base(_DefaultContentOctets) { }
+    private static readonly byte[] _DefaultContentOctets =
+    {
+        0x9F, 0x02, 3, 0x8B, 5, 0x9F, 0x1A, 4, 0x5F, 0x2A,
+        5
+    };
+
+    private static readonly Tag[] _DefaultContentTags = {AmountAuthorizedNumeric.Tag, PoiInformation.Tag, TerminalCountryCode.Tag, TransactionCurrencyCode.Tag};
+
+    #endregion
+
+    #region Constructor
+
+    public SelectionDataObjectListTestTlv() : base(_DefaultContentOctets)
+    { }
 
     public SelectionDataObjectListTestTlv(byte[] contentOctets) : base(contentOctets)
-    {
-    }
+    { }
+
+    #endregion
 
     public override Tag GetTag() => SelectionDataObjectList.Tag;
-
     public Tag[] GetTags() => _DefaultContentTags;
 
     public void SetupTlvTagsForGivenDb(Mock<ITlvReaderAndWriter> database)
@@ -36,7 +48,7 @@ public class SelectionDataObjectListTestTlv : TestTlv
 
     public DataObjectListResult SetupValuesForTags(Mock<ITlvReaderAndWriter> database, IFixture fixture)
     {
-        List<TagLengthValue> result = new List<TagLengthValue>();
+        List<TagLengthValue> result = new();
 
         foreach (Tag tag in _DefaultContentTags)
         {

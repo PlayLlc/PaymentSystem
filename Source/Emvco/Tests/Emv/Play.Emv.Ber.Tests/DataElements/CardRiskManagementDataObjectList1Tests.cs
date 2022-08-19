@@ -5,7 +5,8 @@ using AutoFixture;
 using Moq;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Exceptions;
+using Play.Ber.Tags;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
 using Play.Testing.Emv;
@@ -24,7 +25,7 @@ public class CardRiskManagementDataObjectList1Tests
 
     #endregion
 
-    #region Constructors
+    #region Constructor
 
     public CardRiskManagementDataObjectList1Tests()
     {
@@ -120,7 +121,7 @@ public class CardRiskManagementDataObjectList1Tests
     [Fact]
     public void InvalidBerEncoding_DeserializingTagLengthWithOddNumberOfBytes_ThrowsIndexOutOfRangeException()
     {
-        CardRiskManagementDataObjectList1TestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        CardRiskManagementDataObjectList1TestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<IndexOutOfRangeException>(() => CardRiskManagementDataObjectList1.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -165,7 +166,7 @@ public class CardRiskManagementDataObjectList1Tests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        CardRiskManagementDataObjectList1TestTlv testData = new(new byte[] { 8, 23 });
+        CardRiskManagementDataObjectList1TestTlv testData = new(new byte[] {8, 23});
         CardRiskManagementDataObjectList1 sut = CardRiskManagementDataObjectList1.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -181,10 +182,7 @@ public class CardRiskManagementDataObjectList1Tests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        CardRiskManagementDataObjectList1TestTlv testData = new(new byte[]
-        {
-            8, 13
-        });
+        CardRiskManagementDataObjectList1TestTlv testData = new(new byte[] {8, 13});
 
         CardRiskManagementDataObjectList1 sut = CardRiskManagementDataObjectList1.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -214,7 +212,7 @@ public class CardRiskManagementDataObjectList1Tests
 
         CardRiskManagementDataObjectList1 sut = CardRiskManagementDataObjectList1.Decode(testData.EncodeValue().AsSpan());
 
-        Tag expectedTag = new Tag(37);
+        Tag expectedTag = new(37);
 
         bool exists = sut.Exists(expectedTag);
 
@@ -240,7 +238,7 @@ public class CardRiskManagementDataObjectList1Tests
     {
         CardRiskManagementDataObjectList1TestTlv testData = new();
 
-        ReadOnlySpan<byte> encoded = stackalloc byte[] { 22, 8 };
+        ReadOnlySpan<byte> encoded = stackalloc byte[] {22, 8};
         CardRiskManagementDataObjectList1 sut = CardRiskManagementDataObjectList1.Decode(encoded);
 
         testData.SetupTlvTagsForGivenDb(_Database);

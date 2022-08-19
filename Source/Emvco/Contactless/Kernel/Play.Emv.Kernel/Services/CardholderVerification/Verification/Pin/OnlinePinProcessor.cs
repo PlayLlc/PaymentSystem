@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Play.Emv.Ber;
-using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.ValueTypes;
@@ -11,7 +10,6 @@ namespace Play.Emv.Kernel.Services.Verification;
 // TODO: Book 3 Section 10.5.2 Offline PIN Processing
 internal class OnlinePinProcessor : IVerifyCardholderPinOnline
 {
-
     #region Instance Members
 
     /*  TODO: The following was specified in EMV Book 3 Section 10.5.2, but I read online this is contact specific
@@ -30,9 +28,7 @@ internal class OnlinePinProcessor : IVerifyCardholderPinOnline
     public CvmCode Process(ITlvReaderAndWriter database)
     {
         try
-        {
-
-        }
+        { }
         catch (Exception exception)
         {
             // EMV Book 3 Section 10.5.2

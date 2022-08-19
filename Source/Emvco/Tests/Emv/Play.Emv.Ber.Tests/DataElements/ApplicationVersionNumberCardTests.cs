@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -97,7 +98,7 @@ public class ApplicationVersionNumberCardTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        ApplicationVersionNumberCardTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        ApplicationVersionNumberCardTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => ApplicationVersionNumberCard.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -142,7 +143,7 @@ public class ApplicationVersionNumberCardTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        ApplicationVersionNumberCardTestTlv testData = new(new byte[] { 0x08, 0x32 });
+        ApplicationVersionNumberCardTestTlv testData = new(new byte[] {0x08, 0x32});
         ApplicationVersionNumberCard sut = ApplicationVersionNumberCard.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -158,10 +159,7 @@ public class ApplicationVersionNumberCardTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        ApplicationVersionNumberCardTestTlv testData = new(new byte[]
-        {
-            0x08, 0x32
-        });
+        ApplicationVersionNumberCardTestTlv testData = new(new byte[] {0x08, 0x32});
 
         ApplicationVersionNumberCard sut = ApplicationVersionNumberCard.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -179,9 +177,9 @@ public class ApplicationVersionNumberCardTests
     {
         ushort input = 12;
 
-        ApplicationVersionNumberCard sut = new ApplicationVersionNumberCard(input);
+        ApplicationVersionNumberCard sut = new(input);
 
-        Assert.Equal(input, (ushort)sut);
+        Assert.Equal(input, (ushort) sut);
     }
 
     #endregion

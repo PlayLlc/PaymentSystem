@@ -1,17 +1,25 @@
-﻿using Play.Ber.Identifiers;
+﻿using Play.Ber.Tags;
 using Play.Emv.Ber.DataElements;
 
 namespace Play.Testing.Emv.Ber.Primitive;
 
 public class ReaderContactlessTransactionLimitWhenCvmIsOnDeviceTestTlv : TestTlv
 {
-    private readonly static byte[] _DefaultContentOctets = { 12, 24, 48, 19, 07, 20 };
+    #region Static Metadata
 
-    public ReaderContactlessTransactionLimitWhenCvmIsOnDeviceTestTlv() : base(_DefaultContentOctets) { }
+    private static readonly byte[] _DefaultContentOctets = {12, 24, 48, 19, 07, 20};
+
+    #endregion
+
+    #region Constructor
+
+    public ReaderContactlessTransactionLimitWhenCvmIsOnDeviceTestTlv() : base(_DefaultContentOctets)
+    { }
 
     public ReaderContactlessTransactionLimitWhenCvmIsOnDeviceTestTlv(byte[] contentOctets) : base(contentOctets)
-    {
-    }
+    { }
+
+    #endregion
 
     public override Tag GetTag() => ReaderContactlessTransactionLimitWhenCvmIsOnDevice.Tag;
 }

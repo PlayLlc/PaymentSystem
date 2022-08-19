@@ -5,7 +5,8 @@ using AutoFixture;
 using Moq;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Exceptions;
+using Play.Ber.Tags;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
 using Play.Testing.Emv;
@@ -24,11 +25,15 @@ public class SelectionDataObjectListTests
 
     #endregion
 
+    #region Constructor
+
     public SelectionDataObjectListTests()
     {
         _Fixture = new EmvFixture().Create();
         _Database = new Mock<ITlvReaderAndWriter>();
     }
+
+    #endregion
 
     #region Instance Members
 
@@ -116,7 +121,7 @@ public class SelectionDataObjectListTests
     [Fact]
     public void InvalidBerEncoding_DeserializingTagLengthWithOddNumberOfBytes_ThrowsIndexOutOfRangeException()
     {
-        SelectionDataObjectListTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        SelectionDataObjectListTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<IndexOutOfRangeException>(() => SelectionDataObjectList.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -161,7 +166,7 @@ public class SelectionDataObjectListTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        SelectionDataObjectListTestTlv testData = new(new byte[] { 8, 23 });
+        SelectionDataObjectListTestTlv testData = new(new byte[] {8, 23});
         SelectionDataObjectList sut = SelectionDataObjectList.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -177,10 +182,7 @@ public class SelectionDataObjectListTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        SelectionDataObjectListTestTlv testData = new(new byte[]
-        {
-            8, 13
-        });
+        SelectionDataObjectListTestTlv testData = new(new byte[] {8, 13});
 
         SelectionDataObjectList sut = SelectionDataObjectList.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -210,7 +212,7 @@ public class SelectionDataObjectListTests
 
         SelectionDataObjectList sut = SelectionDataObjectList.Decode(testData.EncodeValue().AsSpan());
 
-        Tag expectedTag = new Tag(37);
+        Tag expectedTag = new(37);
 
         bool exists = sut.Exists(expectedTag);
 
@@ -236,7 +238,7 @@ public class SelectionDataObjectListTests
     {
         SelectionDataObjectListTestTlv testData = new();
 
-        ReadOnlySpan<byte> encoded = stackalloc byte[] { 22, 8 };
+        ReadOnlySpan<byte> encoded = stackalloc byte[] {22, 8};
         SelectionDataObjectList sut = SelectionDataObjectList.Decode(encoded);
 
         testData.SetupTlvTagsForGivenDb(_Database);

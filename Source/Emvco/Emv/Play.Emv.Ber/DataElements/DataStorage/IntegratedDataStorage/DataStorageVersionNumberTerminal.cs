@@ -1,6 +1,5 @@
 ﻿using System.Numerics;
 
-using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Tags;
 using Play.Codecs;

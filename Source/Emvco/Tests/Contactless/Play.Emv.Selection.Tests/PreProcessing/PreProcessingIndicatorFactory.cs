@@ -2,14 +2,14 @@
 
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Identifiers;
-using Play.Emv.Selection.Contracts;
+using Play.Emv.Selection.Configuration;
 
 namespace Play.Emv.Selection.Tests.PreProcessing;
 
 public class PreProcessingIndicatorFactory
 {
-    public static TransactionProfile CreateTransactionProfile(IFixture fixture, bool isStatusCheckSupported, bool isZeroAmountAllowed,
-    bool isZeroAmountAllowedForOffline, bool isExtendedSelectionSupported)
+    public static TransactionProfile CreateTransactionProfile(
+        IFixture fixture, bool isStatusCheckSupported, bool isZeroAmountAllowed, bool isZeroAmountAllowedForOffline, bool isExtendedSelectionSupported)
     {
         MerchantIdentifier merchantIdentifier = fixture.Create<MerchantIdentifier>();
         TerminalIdentification terminalIdentification = fixture.Create<TerminalIdentification>();
@@ -21,10 +21,11 @@ public class PreProcessingIndicatorFactory
         TerminalFloorLimit terminalFloorLimit = fixture.Create<TerminalFloorLimit>();
         TerminalTransactionQualifiers ttq = fixture.Create<TerminalTransactionQualifiers>();
         TerminalCategoriesSupportedList terminalCategoriesSupportedList = fixture.Create<TerminalCategoriesSupportedList>();
-
-        TransactionProfile transactionProfile = new(merchantIdentifier, terminalIdentification, interfaceDeviceSerialNumber,
-            combinationCompositeKey, applicationPriorityIndicator, readerContactlessTransactionLimit, readerCvmRequiredLimit, terminalFloorLimit,
-            ttq, terminalCategoriesSupportedList, isStatusCheckSupported, isZeroAmountAllowed, isZeroAmountAllowedForOffline, isExtendedSelectionSupported);
+        ReaderContactlessFloorLimit readerContactlessFloorLimit = fixture.Create<ReaderContactlessFloorLimit>();
+        KernelConfiguration kernelConfiguration = fixture.Create<KernelConfiguration>();
+        TransactionProfile transactionProfile = new(combinationCompositeKey, applicationPriorityIndicator, readerContactlessTransactionLimit,
+            readerContactlessFloorLimit, terminalFloorLimit, readerCvmRequiredLimit, ttq, kernelConfiguration, isStatusCheckSupported, isZeroAmountAllowed,
+            isZeroAmountAllowedForOffline, isExtendedSelectionSupported);
 
         return transactionProfile;
     }

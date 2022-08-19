@@ -11,7 +11,7 @@ namespace Play.Emv.Ber.DataElements;
 /// <summary>
 ///     Description: Lists a number of card features beyond regular payment.
 /// </summary>
-public record ApplicationExpirationDate : DataElement<DateTimeUtc>, IEqualityComparer<ApplicationExpirationDate>
+public record ApplicationExpirationDate : DataElement<DateTimeUtc>
 {
     #region Static Metadata
 
@@ -26,24 +26,6 @@ public record ApplicationExpirationDate : DataElement<DateTimeUtc>, IEqualityCom
 
     public ApplicationExpirationDate(DateTimeUtc value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
-        const byte bitOffset = 1;
-
-        return SdsSchemeIndicator.Get((byte) (_Value >> bitOffset));
-    }
-
-    public override Tag GetTag() => Tag;
-    public bool SupportForBalanceReading() => _Value.IsBitSet(10);
-    public bool SupportForFieldOffDetection() => _Value.IsBitSet(11);
 
     #endregion
 
@@ -73,23 +55,6 @@ public record ApplicationExpirationDate : DataElement<DateTimeUtc>, IEqualityCom
 
     #endregion
 
-    #region Equality
-
-    public bool Equals(ApplicationExpirationDate? x, ApplicationExpirationDate? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(ApplicationExpirationDate obj) => obj.GetHashCode();
-
-    #endregion
-
     #region Operator Overrides
 
     public static explicit operator DateTimeUtc(ApplicationExpirationDate value) => value._Value;
@@ -98,19 +63,8 @@ public record ApplicationExpirationDate : DataElement<DateTimeUtc>, IEqualityCom
 
     #region Instance Members
 
-    public bool CombinedDataAuthenticationIndicator() => _Value.IsBitSet(9);
     public override PlayEncodingId GetEncodingId() => EncodingId;
-
-    public SdsSchemeIndicator GetSdsSchemeIndicator()
-    {
-        const byte bitOffset = 1;
-
-        return SdsSchemeIndicator.Get((byte) (_Value >> bitOffset));
-    }
-
     public override Tag GetTag() => Tag;
-    public bool SupportForBalanceReading() => _Value.IsBitSet(10);
-    public bool SupportForFieldOffDetection() => _Value.IsBitSet(11);
 
     #endregion
 }

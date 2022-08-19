@@ -4,8 +4,6 @@ using AutoFixture;
 
 using Play.Ber.DataObjects;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Extensions.Arrays;
-using Play.Emv.Ber.ValueTypes.DataStorage;
 
 namespace Play.Emv.Kernel.Tests.TornTransactionsTests;
 
@@ -20,7 +18,7 @@ internal class TornTransactionLogFactory
         buffer[1] = panSequenceNumber;
         primitiveValues.CopyTo(buffer, 2);
 
-        TornRecord tornRecord = new TornRecord(buffer);
+        TornRecord tornRecord = new(buffer);
 
         return tornRecord;
     }
@@ -30,17 +28,17 @@ internal class TornTransactionLogFactory
         ApplicationPan pan = fixture.Create<ApplicationPan>();
         ApplicationPanSequenceNumber panSequenceNumber = fixture.Create<ApplicationPanSequenceNumber>();
 
-        TornRecord record = new TornRecord(pan, panSequenceNumber);
+        TornRecord record = new(pan, panSequenceNumber);
 
         return record;
     }
-    
+
     public static TornRecord CreateDefaultTornRecordFromEncodedValues(byte[] encodedPan, byte[] encodedPanSequenceNumberss)
     {
         ApplicationPan pan = ApplicationPan.Decode(encodedPan.AsSpan());
         ApplicationPanSequenceNumber panSequenceNumber = ApplicationPanSequenceNumber.Decode(encodedPanSequenceNumberss.AsSpan());
 
-        TornRecord record = new TornRecord(pan, panSequenceNumber);
+        TornRecord record = new(pan, panSequenceNumber);
 
         return record;
     }

@@ -4,9 +4,8 @@ using System.Linq;
 using AutoFixture;
 
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Identifiers;
-using Play.Emv.Selection.Contracts;
+using Play.Emv.Selection.Configuration;
 using Play.Icc.FileSystem.DedicatedFiles;
 using Play.Randoms;
 using Play.Testing.Emv.Contactless.AutoFixture;

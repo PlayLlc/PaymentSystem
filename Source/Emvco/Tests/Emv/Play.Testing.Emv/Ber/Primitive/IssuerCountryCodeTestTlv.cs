@@ -1,17 +1,25 @@
-﻿using Play.Ber.Identifiers;
+﻿using Play.Ber.Tags;
 using Play.Emv.Ber.DataElements;
 
 namespace Play.Testing.Emv.Ber.Primitive;
 
 public class IssuerCountryCodeTestTlv : TestTlv
 {
-    private static readonly byte[] _DefaultContentOctets = { 8, 40 };
+    #region Static Metadata
 
-    public IssuerCountryCodeTestTlv() : base(_DefaultContentOctets) { }
+    private static readonly byte[] _DefaultContentOctets = {8, 40};
+
+    #endregion
+
+    #region Constructor
+
+    public IssuerCountryCodeTestTlv() : base(_DefaultContentOctets)
+    { }
 
     public IssuerCountryCodeTestTlv(byte[] contentOctets) : base(contentOctets)
-    {
-    }
+    { }
+
+    #endregion
 
     public override Tag GetTag() => IssuerCountryCode.Tag;
 }

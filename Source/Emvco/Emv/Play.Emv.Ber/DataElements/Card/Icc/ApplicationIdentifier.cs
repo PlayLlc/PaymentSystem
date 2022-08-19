@@ -30,34 +30,6 @@ public record ApplicationIdentifier : DataElement<BigInteger>, IEqualityComparer
 
     #endregion
 
-    #region Instance Members
-
-    public byte[] AsByteArray() => _Value.ToByteArray(true);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-
-    public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() =>
-        new(PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(_Value.ToByteArray(true)[..5]));
-
-    public override Tag GetTag() => Tag;
-
-    public bool IsPartialMatch(ApplicationIdentifier other)
-    {
-        int comparisonLength = GetValueByteCount() < other.GetValueByteCount() ? GetValueByteCount() : other.GetValueByteCount();
-
-        Span<byte> thisBuffer = _Value.ToByteArray(true);
-        Span<byte> otherBuffer = other.AsByteArray();
-
-        for (int i = 0; i < comparisonLength; i++)
-        {
-            if (thisBuffer[i] != otherBuffer[i])
-                return false;
-        }
-
-        return true;
-    }
-
-    #endregion
-
     #region Serialization
 
     public static ApplicationIdentifier Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
@@ -110,11 +82,11 @@ public record ApplicationIdentifier : DataElement<BigInteger>, IEqualityComparer
 
     #region Instance Members
 
-    public byte[] AsByteArray() => _Value.ToByteArray();
+    public byte[] AsByteArray() => _Value.ToByteArray(true);
     public override PlayEncodingId GetEncodingId() => EncodingId;
 
     public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() =>
-        new(PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(_Value.ToByteArray()[..5]));
+        new(PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(_Value.ToByteArray(true)[..5]));
 
     public override Tag GetTag() => Tag;
 
@@ -122,7 +94,7 @@ public record ApplicationIdentifier : DataElement<BigInteger>, IEqualityComparer
     {
         int comparisonLength = GetValueByteCount() < other.GetValueByteCount() ? GetValueByteCount() : other.GetValueByteCount();
 
-        Span<byte> thisBuffer = _Value.ToByteArray();
+        Span<byte> thisBuffer = _Value.ToByteArray(true);
         Span<byte> otherBuffer = other.AsByteArray();
 
         for (int i = 0; i < comparisonLength; i++)

@@ -3,7 +3,6 @@
 using Play.Emv.Configuration;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Reader.Contracts.SignalOut;
-using Play.Emv.Terminal.Configuration;
 using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalIn;
 using Play.Emv.Terminal.Contracts.SignalOut;
@@ -35,8 +34,7 @@ public class TerminalEndpoint : IMessageChannel, IDisposable
     #region Constructor
 
     private TerminalEndpoint(
-        TerminalConfiguration terminalConfiguration, SystemTraceAuditNumberConfiguration systemTraceAuditNumberConfiguration, ISettleTransactions settler,
-        IEndpointClient endpointClient)
+        TerminalConfiguration terminalConfiguration, SystemTraceAuditNumberConfiguration systemTraceAuditNumberConfiguration, IEndpointClient endpointClient)
     {
         _EndpointClient = endpointClient;
         _EndpointClient.Subscribe(this);
@@ -135,9 +133,8 @@ public class TerminalEndpoint : IMessageChannel, IDisposable
     #endregion
 
     public static TerminalEndpoint Create(
-        TerminalConfiguration terminalConfiguration, SystemTraceAuditNumberConfiguration systemTraceAuditNumberConfiguration, ISettleTransactions settler,
-        IEndpointClient endpointClient) =>
-        new(terminalConfiguration, systemTraceAuditNumberConfiguration, settler, endpointClient);
+        TerminalConfiguration terminalConfiguration, SystemTraceAuditNumberConfiguration systemTraceAuditNumberConfiguration, IEndpointClient endpointClient) =>
+        new(terminalConfiguration, systemTraceAuditNumberConfiguration, endpointClient);
 
     public void Dispose()
     {

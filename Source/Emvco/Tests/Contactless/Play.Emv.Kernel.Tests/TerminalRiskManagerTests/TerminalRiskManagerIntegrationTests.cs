@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-using AutoFixture;
+﻿using AutoFixture;
 
 using Moq;
 
@@ -9,10 +7,8 @@ using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Configuration;
-using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.Services._TempLogShit;
-using Play.Emv.Terminal.Contracts.Messages.Commands;
 using Play.Globalization.Currency;
 using Play.Testing.Emv.Contactless.AutoFixture;
 

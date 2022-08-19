@@ -4,7 +4,6 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
-using Play.Emv.Ber.ValueTypes;
 using Play.Testing.Emv.Ber.Primitive;
 
 using Xunit;
@@ -99,8 +98,14 @@ public class IssuerApplicationDataTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        IssuerApplicationDataTestTlv testData = new(new byte[] { 18, 32, 34, 44, 67, 18, 114, 53, 109, 61, 28, 15, 209, 20, 18, 32, 34, 44, 67, 18, 114, 53, 109, 61, 28, 15, 209, 20 ,
-        18, 32, 34, 44, 67, 18, 114, 53, 109, 61, 28, 15, 209, 20});
+        IssuerApplicationDataTestTlv testData = new(new byte[]
+        {
+            18, 32, 34, 44, 67, 18, 114, 53, 109, 61,
+            28, 15, 209, 20, 18, 32, 34, 44, 67, 18,
+            114, 53, 109, 61, 28, 15, 209, 20, 18, 32,
+            34, 44, 67, 18, 114, 53, 109, 61, 28, 15,
+            209, 20
+        });
 
         Assert.Throws<DataElementParsingException>(() => IssuerApplicationData.Decode(testData.EncodeValue().AsSpan()));
     }

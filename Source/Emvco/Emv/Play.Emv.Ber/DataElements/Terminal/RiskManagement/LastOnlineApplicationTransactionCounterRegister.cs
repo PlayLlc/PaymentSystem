@@ -9,7 +9,7 @@ namespace Play.Emv.Ber.DataElements.Terminal.RiskManagement;
 /// <summary>
 ///     ATC value of the last transaction that went online
 /// </summary>
-public record LastOnlineApplicationTransactionCounterRegister : DataElement<ushort>, IEqualityComparer<LastOnlineApplicationTransactionCounterRegister>
+public record LastOnlineApplicationTransactionCounterRegister : DataElement<ushort>
 {
     #region Static Metadata
 
@@ -72,4 +72,7 @@ public record LastOnlineApplicationTransactionCounterRegister : DataElement<usho
     public static implicit operator ushort(LastOnlineApplicationTransactionCounterRegister value) => value._Value;
 
     #endregion
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 }
