@@ -6,11 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Messages\Commands\" />
-    <Folder Include="Messages\Events\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\..\Acquirer\Acquirer\Play.Emv.Acquirer.Contracts\Play.Emv.Acquirer.Contracts.csproj" />
     <ProjectReference Include="..\..\..\Emv\Play.Emv\Play.Emv.csproj" />
   </ItemGroup>

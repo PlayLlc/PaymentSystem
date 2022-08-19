@@ -14,22 +14,10 @@ internal class ProbabilitySelectionQueue : IProbabilitySelectionQueue
 
     #endregion
 
-    #region Instance Values
-
-    private readonly ushort _EnqueueCeiling;
-    private readonly ushort _EnqueueFloor;
-    private readonly ConcurrentQueue<Probability> _RandomNumberQueue;
-
-    #endregion
-
     #region Constructor
 
     public ProbabilitySelectionQueue()
-    {
-        _RandomNumberQueue = new ConcurrentQueue<Probability>();
-        _EnqueueFloor = 10;
-        _EnqueueCeiling = 100;
-    }
+    { }
 
     /// <summary>
     ///     ctor
@@ -41,49 +29,14 @@ internal class ProbabilitySelectionQueue : IProbabilitySelectionQueue
     {
         if (enqueueFloor >= enqueueCeiling)
             throw new InvalidOperationException($"The argument {nameof(enqueueCeiling)} must be greater than {nameof(enqueueFloor)}");
-
-        _RandomNumberQueue = new ConcurrentQueue<Probability>();
-        _EnqueueFloor = enqueueFloor;
-        _EnqueueCeiling = enqueueCeiling;
     }
 
     #endregion
 
     #region Instance Members
 
-    private void EnqueueRandomPercentage()
-    {
-        _RandomNumberQueue.Enqueue(GetRandomPercentage());
-    }
-
     private static Probability GetRandomPercentage() => new((byte) _Random.Next(0, 99));
-
-    public async Task<bool> IsRandomSelection(Probability threshold)
-    {
-        if (!_RandomNumberQueue.TryDequeue(out Probability result))
-        {
-            Probability randomProbability = GetRandomPercentage();
-
-            if (_RandomNumberQueue.Count < _EnqueueFloor)
-                await UpdateQueue().ConfigureAwait(false);
-
-            return randomProbability <= threshold;
-        }
-
-        if (_RandomNumberQueue.Count < _EnqueueFloor)
-            await UpdateQueue().ConfigureAwait(false);
-
-        return result <= threshold;
-    }
-
-    private async Task UpdateQueue()
-    {
-        await Task.Run(() =>
-        {
-            for (; _RandomNumberQueue.Count < _EnqueueCeiling;)
-                EnqueueRandomPercentage();
-        }).ConfigureAwait(false);
-    }
+    public bool IsRandomSelection(Probability threshold) => GetRandomPercentage() <= threshold;
 
     #endregion
 }

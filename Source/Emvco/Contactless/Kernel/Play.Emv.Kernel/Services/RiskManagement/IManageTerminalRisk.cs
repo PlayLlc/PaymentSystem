@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 
 using Play.Emv.Ber;
-using Play.Emv.Terminal.Contracts.Messages.Commands;
 
 namespace Play.Emv.Kernel.Services;
 

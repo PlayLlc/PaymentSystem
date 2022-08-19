@@ -7,7 +7,6 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Kernel.Services._TempLogShit;
-using Play.Emv.Terminal.Contracts.Messages.Commands;
 using Play.Globalization.Currency;
 
 namespace Play.Emv.Kernel.Services;
