@@ -1,29 +1,29 @@
 ﻿{
   "PosConfiguration": {
     "TerminalConfiguration": {
-      "TerminalIdentification": "00000001",
-      "MerchantIdentifier": "000000000000001",
-      "MerchantCategoryCode": "5599", // Retail Outlet Services
-      "MerchantNameAndLocation": "Play LLC. Dallas, TX",
-      "AcquirerIdentifier": "000001",
-      "InterfaceDeviceSerialNumber": "AZ123456",
-      "TerminalType": 21,
-      "Capabilities": 8431816,
-      "AdditionalCapabilities": 0,
-      "CountryCode": 840,
-      "LanguagePreference": "EN",
-      "CurrencyCode": 840,
-      "CurrencyExponent": 2,
-      "ReferenceCurrencyCode": 840,
-      "ReferenceCurrencyExponent": 2,
-      "FloorLimit": 0,
-      "RiskManagementData": 0,
+      "TerminalIdentification": "0x0000000000000001",
+      "MerchantIdentifier": "0x000000000000000000000000000001",
+      "MerchantCategoryCode": "0x15DF", // Retail Outlet Services
+      "MerchantNameAndLocation": "0x506C6179204C4C432E2044616C6C61732C205458", // Play LLC. Dallas, TX
+      "AcquirerIdentifier": "0x000000000001",
+      "InterfaceDeviceSerialNumber": "0x0000000000000001",
+      "TerminalType": "0x15",
+      "Capabilities": "0x80A8C8",
+      "AdditionalCapabilities": "0x00",
+      "CountryCode": "0x0348", // US
+      "LanguagePreference": "0x454E", // EN
+      "CurrencyCode": "0x0348", // USD
+      "CurrencyExponent": "0x02",
+      "ReferenceCurrencyCode": "0x0348", // US
+      "ReferenceCurrencyExponent": "0x02", 
+      "FloorLimit": "0x00",
+      "RiskManagementData": "0x00",
       "DataStorageRequestedOperatorId": 1,
-      "BiasedRandomSelectionProbability": 0,
-      "RandomSelectionTargetProbability": 0,
-      "ThresholdValueForBiasedRandomSelection": 0,
-      "MaxNumberOfTornTransactionLogRecords": 1,
-      "MaxLifetimeOfTornTransactionLogRecords": 300,
+      "BiasedRandomSelectionProbability": "0x00",
+      "RandomSelectionTargetProbability": "0x00",
+      "ThresholdValueForBiasedRandomSelection": "0x00",
+      "MaxNumberOfTornTransactionLogRecords": "0x01",
+      "MaxLifetimeOfTornTransactionLogRecords": "0x012C",
       "SequenceConfiguration": {
         "Threshold": 999999,
         "InitializationValue": 1
@@ -223,11 +223,11 @@
 
 
     "DisplayConfiguration": {
-      "MessageHoldTime": 100,
+      "MessageHoldTime": "0x64",
       "DisplayMessages": [
         {
           "LanguageCode": "EN",
-          "CountryCode": 840,
+          "CountryCode": "0x0348",
           "Messages": [
             {
               "MessageIdentifier": "03",
@@ -385,8 +385,8 @@
           "SerialNumber": "hex",
           "HashAlgorithmIndicator": "hex",
           "PublicKeyAlgorithmIndicator": "hex",
-          "ActivationDate": "MMYY",
-          "ExpirationDate": "MMYY",
+          "ActivationDate": "0820",
+          "ExpirationDate": "0830",
           "Exponent": "hex",
           "Modulus": "hex"
         }
