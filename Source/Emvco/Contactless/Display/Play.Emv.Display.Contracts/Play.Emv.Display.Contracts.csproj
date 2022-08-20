@@ -8,8 +8,4 @@
     <ProjectReference Include="..\..\..\Emv\Play.Emv\Play.Emv.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Configuration\" />
-  </ItemGroup>
-
 </Project>
