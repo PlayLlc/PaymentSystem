@@ -8,8 +8,6 @@ using Play.Core;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Display.Configuration;
 using Play.Emv.Display.Contracts;
-using Play.Globalization.Country;
-using Play.Globalization.Currency;
 using Play.Globalization.Language;
 using Play.Globalization.Time;
 
@@ -17,8 +15,7 @@ namespace Play.Emv.Display.Services;
 
 /// <summary>
 ///     a MSG DataExchangeSignal is used as a carrier of the User Interface Request Data.Process D may receive MSG Signals
-///     from
-///     any other Process.
+///     from any other Process.
 ///     • default language
 ///     • the currency symbol to display for each currency code and the number of minor units for that currency code
 ///     • a number of message strings in the default language and potentially other languages

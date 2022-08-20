@@ -2,7 +2,6 @@
 
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Display.Configuration;
-using Play.Emv.Display.Contracts;
 
 namespace Play.Emv.Reader;
 

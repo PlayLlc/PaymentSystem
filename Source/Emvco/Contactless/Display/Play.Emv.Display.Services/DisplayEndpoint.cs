@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 using Play.Emv.Display.Configuration;
 using Play.Emv.Display.Contracts;
