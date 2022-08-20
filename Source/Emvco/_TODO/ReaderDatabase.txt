@@ -1,7 +1,0 @@
- 
-1) Selection Datasets
-	Refactor the Combination Selection so that the Selection Process uses a database
-	style retrieval rather than configuration type retrieval. The 'Transactioni Profiles'
-	will be injected into the Selection Process Database and live there in memory
-	for the duration of the Application Lifecycle
-
