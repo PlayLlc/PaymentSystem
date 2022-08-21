@@ -21,7 +21,7 @@ public class Outcome
     private readonly DataRecord? _DataRecord;
     private readonly DiscretionaryData? _DiscretionaryData;
     private readonly TerminalVerificationResults _TerminalVerificationResults;
-    private readonly ErrorIndication _ErrorIndication;
+    private ErrorIndication _ErrorIndication;
     private OutcomeParameterSet _OutcomeParameterSet;
     private UserInterfaceRequestData? _UserInterfaceRequestData;
 

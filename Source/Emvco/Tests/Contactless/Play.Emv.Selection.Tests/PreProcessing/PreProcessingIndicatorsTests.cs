@@ -5,6 +5,7 @@ using AutoFixture;
 
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Identifiers;
+using Play.Emv.Selection.Configuration;
 using Play.Emv.Selection.Contracts;
 using Play.Icc.FileSystem.DedicatedFiles;
 using Play.Randoms;

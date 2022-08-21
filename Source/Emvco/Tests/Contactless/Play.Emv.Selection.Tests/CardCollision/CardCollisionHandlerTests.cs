@@ -23,8 +23,7 @@ public class CardCollisionHandlerTests
     #region Instance Values
 
     private readonly IFixture _Fixture;
-
-    private readonly Mock<IHandleDisplayRequests> _DisplayProcess;
+    private readonly Mock<IEndpointClient> _DisplayProcess;
     private readonly CardCollisionHandler _SystemUnderTest;
 
     #endregion
@@ -36,7 +35,7 @@ public class CardCollisionHandlerTests
         _Fixture = new ContactlessFixture().Create();
         RegisterFixtures(_Fixture);
 
-        _DisplayProcess = new Mock<IHandleDisplayRequests>(MockBehavior.Strict);
+        _DisplayProcess = new Mock<IEndpointClient>(MockBehavior.Strict);
         _SystemUnderTest = new CardCollisionHandler(_DisplayProcess.Object);
     }
 
@@ -48,96 +47,97 @@ public class CardCollisionHandlerTests
     public void HandleCardCollision_CollisionIsDetectedButNoUserInterfaceRequestDataPresent_ExceptionIsThrown()
     {
         //Arrange
-        Outcome outcome = new Outcome();
+        Outcome outcome = new();
 
         TransactionSessionId transactionSessionId = _Fixture.Create<TransactionSessionId>();
         Level1Error error = Level1Error.Ok;
         CorrelationId correlationId = _Fixture.Create<CorrelationId>();
 
-        ActivatePcdResponse response = new ActivatePcdResponse(correlationId, false, error, transactionSessionId);
+        ActivatePcdResponse response = new(correlationId, false, error, transactionSessionId);
 
         //Act & Assert
         Assert.Throws<InvalidOperationException>(() => _SystemUnderTest.HandleCardCollisions(response, outcome));
     }
 
     [Fact]
-    public void HandleCardCollision_CollisionIsDetectedWithUserInterfaceRequestDataPresentButWithDifferentMessageThanPleasePresentOneCardOnly_NoCollisionIsHandled()
+    public void
+        HandleCardCollision_CollisionIsDetectedWithUserInterfaceRequestDataPresentButWithDifferentMessageThanPleasePresentOneCardOnly_NoCollisionIsHandled()
     {
         //Arrange
-        Outcome outcome = new Outcome();
+        Outcome outcome = new();
 
-        SetUserInterfaceRequestData(outcome, MessageIdentifiers.PresentCard);
+        SetUserInterfaceRequestData(outcome, DisplayMessageIdentifiers.PresentCard);
 
         TransactionSessionId transactionSessionId = _Fixture.Create<TransactionSessionId>();
         Level1Error error = Level1Error.Ok;
         CorrelationId correlationId = _Fixture.Create<CorrelationId>();
 
-        ActivatePcdResponse response = new ActivatePcdResponse(correlationId, false, error, transactionSessionId);
+        ActivatePcdResponse response = new(correlationId, false, error, transactionSessionId);
 
         //Act
         _SystemUnderTest.HandleCardCollisions(response, outcome);
 
         //Assert
-        _DisplayProcess.Verify(m => m.Request(It.IsAny<DisplayMessageRequest>()), Times.Never);
+        _DisplayProcess.Verify(m => m.Send(It.IsAny<DisplayMessageRequest>()), Times.Never);
     }
 
     [Fact]
     public void HandleCardCollision_CollisionIsDetectedWithCorrectMessageIdentifier_CollisionIsHandled()
     {
         //Arrange
-        Outcome outcome = new Outcome();
+        Outcome outcome = new();
 
-        SetUserInterfaceRequestData(outcome, MessageIdentifiers.PleasePresentOneCardOnly);
+        SetUserInterfaceRequestData(outcome, DisplayMessageIdentifiers.PleasePresentOneCardOnly);
 
         TransactionSessionId transactionSessionId = _Fixture.Create<TransactionSessionId>();
         Level1Error error = Level1Error.Ok;
         CorrelationId correlationId = _Fixture.Create<CorrelationId>();
 
-        ActivatePcdResponse response = new ActivatePcdResponse(correlationId, true, error, transactionSessionId);
+        ActivatePcdResponse response = new(correlationId, true, error, transactionSessionId);
 
-        _DisplayProcess.Setup(m => m.Request(It.IsAny<DisplayMessageRequest>()));
+        _DisplayProcess.Setup(m => m.Send(It.IsAny<DisplayMessageRequest>()));
 
         //Act
         _SystemUnderTest.HandleCardCollisions(response, outcome);
         outcome.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? output);
 
         //Assert
-        _DisplayProcess.Verify(m => m.Request(It.IsAny<DisplayMessageRequest>()), Times.Once);
+        _DisplayProcess.Verify(m => m.Send(It.IsAny<DisplayMessageRequest>()), Times.Once);
 
         Assert.NotNull(output);
-        Assert.Equal(MessageIdentifiers.PleasePresentOneCardOnly, output.GetMessageIdentifier());
-        Assert.Equal(Statuses.ProcessingError, output.GetStatus());
+        Assert.Equal(DisplayMessageIdentifiers.PleasePresentOneCardOnly, output.GetMessageIdentifier());
+        Assert.Equal(DisplayStatuses.ProcessingError, output.GetStatus());
     }
 
     [Fact]
     public void HandleCardCollision_NoCollisionDetected_CardCollisionHasBeenResolved()
     {
         //Arrange
-        Outcome outcome = new Outcome();
+        Outcome outcome = new();
 
-        SetUserInterfaceRequestData(outcome, MessageIdentifiers.PleasePresentOneCardOnly);
+        SetUserInterfaceRequestData(outcome, DisplayMessageIdentifiers.PleasePresentOneCardOnly);
 
         TransactionSessionId transactionSessionId = _Fixture.Create<TransactionSessionId>();
         Level1Error error = Level1Error.Ok;
         CorrelationId correlationId = _Fixture.Create<CorrelationId>();
 
-        ActivatePcdResponse response = new ActivatePcdResponse(correlationId, false, error, transactionSessionId);
+        ActivatePcdResponse response = new(correlationId, false, error, transactionSessionId);
 
-        _DisplayProcess.Setup(m => m.Request(It.IsAny<DisplayMessageRequest>()));
+        _DisplayProcess.Setup(m => m.Send(It.IsAny<DisplayMessageRequest>()));
 
         //Act
         _SystemUnderTest.HandleCardCollisions(response, outcome);
         outcome.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? output);
 
         //Assert
-        _DisplayProcess.Verify(m => m.Request(It.IsAny<DisplayMessageRequest>()), Times.Once);
+        _DisplayProcess.Verify(m => m.Send(It.IsAny<DisplayMessageRequest>()), Times.Once);
 
         Assert.NotNull(output);
-        Assert.Equal(Statuses.ReadyToRead, output.GetStatus());
-        Assert.Equal(MessageIdentifiers.PleasePresentOneCardOnly, output.GetMessageIdentifier());
+        Assert.Equal(DisplayStatuses.ReadyToRead, output.GetStatus());
+        Assert.Equal(DisplayMessageIdentifiers.PleasePresentOneCardOnly, output.GetMessageIdentifier());
     }
 
-    private static void SetUserInterfaceRequestData(Outcome outcome, MessageIdentifiers messageIdentifier)
+    private static void SetUserInterfaceRequestData(Outcome outcome, DisplayMessageIdentifiers messageIdentifier)
     {
         UserInterfaceRequestData.Builder? builder = UserInterfaceRequestData.GetBuilder();
         builder.Set(messageIdentifier);
