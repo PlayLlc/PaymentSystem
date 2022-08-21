@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Testing.Emv.Ber.Primitive;
 
@@ -128,7 +129,7 @@ public class ProtectedDataEnvelope3Tests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        ProtectedDataEnvelope3TestTlv testData = new(new byte[] { 8, 23 });
+        ProtectedDataEnvelope3TestTlv testData = new(new byte[] {8, 23});
         ProtectedDataEnvelope3 sut = ProtectedDataEnvelope3.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -144,10 +145,7 @@ public class ProtectedDataEnvelope3Tests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        ProtectedDataEnvelope3TestTlv testData = new(new byte[]
-        {
-            8, 13
-        });
+        ProtectedDataEnvelope3TestTlv testData = new(new byte[] {8, 13});
 
         ProtectedDataEnvelope3 sut = ProtectedDataEnvelope3.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();

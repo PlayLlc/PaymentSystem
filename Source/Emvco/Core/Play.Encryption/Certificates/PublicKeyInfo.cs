@@ -4,7 +4,7 @@ public class PublicKeyInfo
 {
     #region Instance Values
 
-    private readonly PublicKeyExponent _PublicKeyExponent;
+    private readonly PublicKeyExponents _PublicKeyExponents;
     private readonly PublicKeyModulus _PublicKeyModulus;
     private readonly PublicKeyRemainder? _PublicKeyRemainder;
 
@@ -12,11 +12,15 @@ public class PublicKeyInfo
 
     #region Constructor
 
-    public PublicKeyInfo(PublicKeyModulus publicKeyModulus, PublicKeyExponent publicKeyExponent, PublicKeyRemainder? publicKeyRemainder = null)
+    public PublicKeyInfo(PublicKeyModulus publicKeyModulus, PublicKeyExponents publicKeyExponents)
     {
         _PublicKeyModulus = publicKeyModulus;
-        _PublicKeyExponent = publicKeyExponent;
-        _PublicKeyRemainder = publicKeyRemainder;
+        _PublicKeyExponents = publicKeyExponents;
+
+        if (publicKeyModulus.GetByteCount() > 36)
+            _PublicKeyRemainder = new PublicKeyRemainder(publicKeyModulus.AsByteArray()[35..]);
+        else
+            _PublicKeyRemainder = new PublicKeyRemainder(0);
     }
 
     #endregion
@@ -24,7 +28,7 @@ public class PublicKeyInfo
     #region Instance Members
 
     public bool IsPublicKeySplit() => _PublicKeyRemainder != null;
-    public PublicKeyExponent GetPublicKeyExponent() => _PublicKeyExponent;
+    public PublicKeyExponents GetPublicKeyExponent() => _PublicKeyExponents;
     public PublicKeyModulus GetPublicKeyModulus() => _PublicKeyModulus;
 
     public bool TryGetPublicKeyRemainder(out PublicKeyRemainder? result)

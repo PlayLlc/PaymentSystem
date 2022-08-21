@@ -12,8 +12,8 @@ internal class DecodedSignedStaticApplicationData : DecodedSignature
 {
     #region Instance Values
 
-    private readonly HashAlgorithmIndicator _HashAlgorithmIndicator;
-    private readonly PublicKeyAlgorithmIndicator _PublicKeyAlgorithmIndicator;
+    private readonly HashAlgorithmIndicators _HashAlgorithmIndicators;
+    private readonly PublicKeyAlgorithmIndicators _PublicKeyAlgorithmIndicators;
 
     #endregion
 
@@ -49,10 +49,10 @@ internal class DecodedSignedStaticApplicationData : DecodedSignature
 
     public DataAuthenticationCode GetDataAuthenticationCode() => new(PlayCodec.UnsignedIntegerCodec.DecodeToUInt16(_Message1.AsByteArray()[3..4]));
 
-    public HashAlgorithmIndicator GetHashAlgorithmIndicator()
+    public HashAlgorithmIndicators GetHashAlgorithmIndicator()
     {
-        if (!HashAlgorithmIndicator.TryGet(_Message1[16], out HashAlgorithmIndicator? result))
-            return HashAlgorithmIndicator.NotAvailable;
+        if (!HashAlgorithmIndicators.TryGet(_Message1[16], out HashAlgorithmIndicators? result))
+            return HashAlgorithmIndicators.NotAvailable;
 
         return result!;
     }

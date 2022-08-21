@@ -16,10 +16,10 @@ internal class DecodedSignedDynamicApplicationDataCda : DecodedSignature
 
     #region Instance Members
 
-    public HashAlgorithmIndicator GetHashAlgorithmIndicator()
+    public HashAlgorithmIndicators GetHashAlgorithmIndicator()
     {
-        if (!HashAlgorithmIndicator.TryGet(_Message1[1], out HashAlgorithmIndicator? result))
-            return HashAlgorithmIndicator.NotAvailable;
+        if (!HashAlgorithmIndicators.TryGet(_Message1[1], out HashAlgorithmIndicators? result))
+            return HashAlgorithmIndicators.NotAvailable;
 
         return result;
     }

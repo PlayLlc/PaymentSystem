@@ -22,9 +22,9 @@ internal class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
     #region Constructor
 
     public DecodedIssuerPublicKeyCertificate(
-        CertificateSerialNumber certificateSerialNumber, HashAlgorithmIndicator hashAlgorithmIndicator, PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator,
-        DateRange validityPeriod, PublicKeyInfo publicKeyInfo) : base(certificateSerialNumber, hashAlgorithmIndicator, publicKeyAlgorithmIndicator,
-        validityPeriod, publicKeyInfo)
+        CertificateSerialNumber certificateSerialNumber, HashAlgorithmIndicators hashAlgorithmIndicators,
+        PublicKeyAlgorithmIndicators publicKeyAlgorithmIndicators, DateRange validityPeriod, PublicKeyInfo publicKeyInfo) : base(certificateSerialNumber,
+        hashAlgorithmIndicators, publicKeyAlgorithmIndicators, validityPeriod, publicKeyInfo)
     { }
 
     #endregion
@@ -36,30 +36,30 @@ internal class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
     /// <exception cref="CodecParsingException"></exception>
     internal static DecodedIssuerPublicKeyCertificate Create(
         CaPublicKeyCertificate caPublicKeyCertificate, IssuerPublicKeyRemainder issuerRemainder, IssuerPublicKeyExponent issuerExponent,
-        DecodedSignature decodedSignature, HashAlgorithmIndicator hashAlgorithm)
+        DecodedSignature decodedSignature, HashAlgorithmIndicators hashAlgorithm)
     {
         CertificateSerialNumber serialNumber = GetCertificateSerialNumber(decodedSignature.GetMessage1());
-        PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator = GetPublicKeyAlgorithmIndicator(decodedSignature.GetMessage1());
+        PublicKeyAlgorithmIndicators publicKeyAlgorithmIndicators = GetPublicKeyAlgorithmIndicator(decodedSignature.GetMessage1());
         DateRange validityPeriod = new(ShortDate.Min, GetCertificateExpirationDate(decodedSignature.GetMessage1()));
 
         PublicKeyModulus publicKeyModulus = GetPublicKeyModulus(caPublicKeyCertificate, decodedSignature, issuerRemainder);
         PublicKeyInfo publicKeyInfo = new(publicKeyModulus, issuerExponent.AsPublicKeyExponent());
 
-        return new DecodedIssuerPublicKeyCertificate(serialNumber, hashAlgorithm, publicKeyAlgorithmIndicator, validityPeriod, publicKeyInfo);
+        return new DecodedIssuerPublicKeyCertificate(serialNumber, hashAlgorithm, publicKeyAlgorithmIndicators, validityPeriod, publicKeyInfo);
     }
 
-    internal static HashAlgorithmIndicator GetHashAlgorithmIndicator(Message1 message1) => HashAlgorithmIndicator.Get(message1[11]);
+    internal static HashAlgorithmIndicators GetHashAlgorithmIndicator(Message1 message1) => HashAlgorithmIndicators.Get(message1[11]);
     private static CertificateSerialNumber GetCertificateSerialNumber(Message1 message1) => new(message1[new Range(7, 10)]);
 
-    internal static PublicKeyAlgorithmIndicator GetPublicKeyAlgorithmIndicator(Message1 message1)
+    internal static PublicKeyAlgorithmIndicators GetPublicKeyAlgorithmIndicator(Message1 message1)
     {
-        if (!PublicKeyAlgorithmIndicator.Empty.TryGet(message1[12], out EnumObject<byte>? result))
+        if (!PublicKeyAlgorithmIndicators.Empty.TryGet(message1[12], out EnumObject<byte>? result))
         {
             throw new TerminalDataException(
-                $"The {nameof(DecodedIssuerPublicKeyCertificate)} could not execute: [{nameof(GetPublicKeyAlgorithmIndicator)}] because the {nameof(PublicKeyAlgorithmIndicator)} could not be resolved");
+                $"The {nameof(DecodedIssuerPublicKeyCertificate)} could not execute: [{nameof(GetPublicKeyAlgorithmIndicator)}] because the {nameof(PublicKeyAlgorithmIndicators)} could not be resolved");
         }
 
-        return (PublicKeyAlgorithmIndicator) result!;
+        return (PublicKeyAlgorithmIndicators) result!;
     }
 
     /// <exception cref="CodecParsingException"></exception>

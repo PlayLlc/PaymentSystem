@@ -36,8 +36,8 @@ public class SignatureService
         return new DecodedSignature(decipheredSignature);
     }
 
-    private bool IsHashValid(HashAlgorithmIndicator hashAlgorithmIndicator, DecodedSignature decodedSignature, ReadOnlySpan<byte> message) =>
-        decodedSignature.GetHash() == _HashAlgorithmProvider.Generate(message, hashAlgorithmIndicator);
+    private bool IsHashValid(HashAlgorithmIndicators hashAlgorithmIndicators, DecodedSignature decodedSignature, ReadOnlySpan<byte> message) =>
+        decodedSignature.GetHash() == _HashAlgorithmProvider.Generate(message, hashAlgorithmIndicators);
 
     private bool IsLeadingByteValid(DecodedSignature decodedSignature) => decodedSignature.GetLeadingByte() == SignatureSpecifications.LeadingByte;
 
@@ -54,10 +54,10 @@ public class SignatureService
         return true;
     }
 
-    public bool IsSignatureValid(HashAlgorithmIndicator hashAlgorithmIndicator, ReadOnlySpan<byte> message, DecodedSignature signature) =>
+    public bool IsSignatureValid(HashAlgorithmIndicators hashAlgorithmIndicators, ReadOnlySpan<byte> message, DecodedSignature signature) =>
         IsLeadingByteValid(signature)
         && IsMessage1Valid(signature, message)
-        && IsHashValid(hashAlgorithmIndicator, signature, message)
+        && IsHashValid(hashAlgorithmIndicators, signature, message)
         && IsTrailingByteValid(signature);
 
     private bool IsTrailingByteValid(DecodedSignature signature) => signature.GetTrailingByte() == SignatureSpecifications.TrailingByte;

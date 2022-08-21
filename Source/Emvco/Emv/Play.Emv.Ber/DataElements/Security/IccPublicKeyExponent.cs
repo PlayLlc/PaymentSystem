@@ -27,8 +27,17 @@ public record IccPublicKeyExponent : DataElement<uint>
     public IccPublicKeyExponent(uint value) : base(value)
     { }
 
-    public IccPublicKeyExponent(PublicKeyExponent value) : base((uint) value)
+    public IccPublicKeyExponent(PublicKeyExponents value) : base((uint) value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public PublicKeyExponents AsPublicKeyExponent() => PublicKeyExponents.Create(_Value);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(EncodingId, _Value);
 
     #endregion
 
@@ -53,15 +62,6 @@ public record IccPublicKeyExponent : DataElement<uint>
     }
 
     public new byte[] EncodeValue(int length) => EncodeValue();
-
-    #endregion
-
-    #region Instance Members
-
-    public PublicKeyExponent AsPublicKeyExponent() => PublicKeyExponent.Create(_Value);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(EncodingId, _Value);
 
     #endregion
 }
