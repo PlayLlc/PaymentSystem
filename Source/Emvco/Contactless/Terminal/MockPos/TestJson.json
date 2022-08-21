@@ -24,7 +24,7 @@
     "TerminalRiskManagementData": "0x00",
     "DataStorageRequestedOperatorId": "0x01",
     "BiasedRandomSelectionProbability": "0x00",
-    "RandomSelectionTargetProbability": "0x00",
+    "BiasedRandomSelectionTargetProbability": "0x00",
     "ThresholdValueForBiasedRandomSelection": "0x00",
     "MaxNumberOfTornTransactionLogRecords": "0x01",
     "MaxLifetimeOfTornTransactionLogRecords": "0x012C",

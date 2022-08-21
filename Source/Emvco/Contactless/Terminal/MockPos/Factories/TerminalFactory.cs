@@ -10,9 +10,8 @@ namespace MockPos.Factories
         #region Instance Members
 
         public static TerminalEndpoint Create(
-            TerminalConfiguration terminalConfiguration, SystemTraceAuditNumberConfiguration systemTraceAuditNumberConfiguration,
-            IEndpointClient endpointClient) =>
-            TerminalEndpoint.Create(terminalConfiguration, systemTraceAuditNumberConfiguration, endpointClient);
+            TerminalConfiguration terminalConfiguration, SequenceConfiguration sequenceConfiguration, IEndpointClient endpointClient) =>
+            TerminalEndpoint.Create(terminalConfiguration, sequenceConfiguration, endpointClient);
 
         #endregion
     }

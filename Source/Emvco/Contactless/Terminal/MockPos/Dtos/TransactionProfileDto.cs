@@ -1,4 +1,6 @@
-﻿namespace MockPos.Configuration;
+﻿using Play.Emv.Selection.Configuration;
+
+namespace MockPos.Configuration;
 
 public class TransactionProfileDto
 {
@@ -17,6 +19,13 @@ public class TransactionProfileDto
     public bool IsZeroAmountAllowed { get; set; }
     public bool IsZeroAmountAllowedForOffline { get; set; }
     public bool IsExtendedSelectionSupported { get; set; }
+
+    #endregion
+
+    #region Serialization
+
+    public TransactionProfile Decode()
+    { }
 
     #endregion
 }

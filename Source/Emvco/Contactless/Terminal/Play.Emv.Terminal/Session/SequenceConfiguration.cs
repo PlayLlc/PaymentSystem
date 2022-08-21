@@ -2,7 +2,7 @@
 
 namespace Play.Emv.Terminal.Session;
 
-public class SystemTraceAuditNumberConfiguration
+public class SequenceConfiguration
 {
     #region Instance Values
 
@@ -10,12 +10,22 @@ public class SystemTraceAuditNumberConfiguration
     ///     This value determines the maximum value that the <see cref="SystemTraceAuditNumber" /> can reach before sending a
     ///     Settlement request to the Acquirer
     /// </summary>
-    public uint Threshold;
+    public readonly uint Threshold;
 
     /// <summary>
     ///     This is the value of the last <see cref="SystemTraceAuditNumber" /> the Terminal held before shutting down
     /// </summary>
-    public uint SystemTraceAuditNumberInitializationValue;
+    public readonly uint InitializationValue;
+
+    #endregion
+
+    #region Constructor
+
+    public SequenceConfiguration(uint threshold, uint initializationValue)
+    {
+        Threshold = threshold;
+        InitializationValue = initializationValue;
+    }
 
     #endregion
 }

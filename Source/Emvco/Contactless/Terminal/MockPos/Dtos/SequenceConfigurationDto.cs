@@ -4,8 +4,8 @@ public class SequenceConfigurationDto
 {
     #region Instance Values
 
-    public int Threshold { get; set; }
-    public int InitializationValue { get; set; }
+    public uint Threshold { get; set; }
+    public uint InitializationValue { get; set; }
 
     #endregion
 }

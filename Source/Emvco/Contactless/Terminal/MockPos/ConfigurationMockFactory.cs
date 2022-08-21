@@ -11,7 +11,7 @@ namespace MockPos
     {
         #region Instance Members
 
-        public static SystemTraceAuditNumberConfiguration CreateSystemTraceAuditNumberConfiguration() => throw new NotImplementedException();
+        public static SequenceConfiguration CreateSystemTraceAuditNumberConfiguration() => throw new NotImplementedException();
         public static TerminalConfiguration CreateTerminalConfiguration() => throw new NotImplementedException();
         public static SelectionConfiguration CreateSelectionConfiguration() => throw new NotImplementedException();
         public static ReaderConfiguration CreateReaderConfiguration() => throw new NotImplementedException();

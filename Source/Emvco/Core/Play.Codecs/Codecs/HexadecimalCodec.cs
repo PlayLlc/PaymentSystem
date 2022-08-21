@@ -549,6 +549,7 @@ public class HexadecimalCodec : PlayCodec
     #region Decode To Integers
 
     public BigInteger DecodeToBigInteger(ReadOnlySpan<char> value) => UnsignedIntegerCodec.DecodeToBigInteger(Encode(value));
+    public byte DecodeToByte(ReadOnlySpan<char> value) => UnsignedIntegerCodec.DecodeToByte(Encode(value));
 
     /// <summary>
     ///     Returns an unsigned integer from the Hexadecimal string provided
