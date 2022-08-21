@@ -27,10 +27,10 @@ public class DisplayEndpoint : IMessageChannel, IDisposable
 
     private DisplayEndpoint(
         DisplayConfiguration displayConfiguration, IDisplayMessages displayService, IDisplayLed ledDisplayService, IFormatDisplayMessages messageFormatter,
-        ICreateEndpointClient messageBus)
+        IEndpointClient endpointClient)
     {
         _DisplayProcess = new DisplayProcess(displayConfiguration, messageFormatter, displayService, ledDisplayService);
-        _EndpointClient = messageBus.GetEndpointClient();
+        _EndpointClient = endpointClient;
         _EndpointClient.Subscribe(this);
     }
 
@@ -85,11 +85,11 @@ public class DisplayEndpoint : IMessageChannel, IDisposable
     #endregion
 
     public static DisplayEndpoint Create(
-        DisplayConfiguration displayConfiguration, IDisplayMessages displayService, IDisplayLed ledDisplayService, ICreateEndpointClient messageRouter)
+        DisplayConfiguration displayConfiguration, IDisplayMessages displayService, IDisplayLed ledDisplayService, IEndpointClient endpointClient)
     {
         DisplayFormatter formatter = new(displayConfiguration);
 
-        return new DisplayEndpoint(displayConfiguration, displayService, ledDisplayService, formatter, messageRouter);
+        return new DisplayEndpoint(displayConfiguration, displayService, ledDisplayService, formatter, endpointClient);
     }
 
     public void Dispose()

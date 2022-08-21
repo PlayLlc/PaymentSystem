@@ -1,4 +1,6 @@
 ﻿using Play.Emv.Configuration;
+using Play.Emv.Display.Configuration;
+using Play.Emv.Pcd.Contracts;
 using Play.Emv.Reader;
 using Play.Emv.Selection.Configuration;
 using Play.Emv.Terminal.Session;
@@ -13,6 +15,8 @@ namespace MockPos
         public static TerminalConfiguration CreateTerminalConfiguration() => throw new NotImplementedException();
         public static SelectionConfiguration CreateSelectionConfiguration() => throw new NotImplementedException();
         public static ReaderConfiguration CreateReaderConfiguration() => throw new NotImplementedException();
+        public static DisplayConfiguration CreateDisplayConfiguration() => throw new NotImplementedException();
+        public static PcdConfiguration CreatePcdProtocolConfiguration() => throw new NotImplementedException();
 
         #endregion
     }

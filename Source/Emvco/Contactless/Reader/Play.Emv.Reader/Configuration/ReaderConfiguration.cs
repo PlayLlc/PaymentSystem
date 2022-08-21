@@ -24,7 +24,7 @@ public partial class ReaderConfiguration
     private readonly Dictionary<LanguagePreference, DisplayMessages> _DisplayMessages;
     private readonly Dictionary<KernelId, CertificateAuthorityDataset[]> _CertificateAuthorityDatasets;
     private readonly TransactionType[] _SupportedTransactionTypes;
-    private readonly PcdProtocolConfiguration _PcdProtocolConfiguration;
+    private readonly PcdConfiguration _PcdConfiguration;
     private readonly PrimitiveValue[] _ReaderConfiguration;
 
     #endregion
@@ -43,7 +43,7 @@ public partial class ReaderConfiguration
         _KernelConfigurations = kernelRepository.GetKernelConfigurations(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
         _CertificateAuthorityDatasets =
             certificateAuthorityDatasetRepository.GetCertificateAuthorityDatasets(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
-        _PcdProtocolConfiguration = pcdProtocolRepository.Get(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
+        _PcdConfiguration = pcdProtocolRepository.Get(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
         _TransactionProfiles = transactionProfileRepository.GetTransactionProfiles(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
         _SupportedTransactionTypes = _TransactionProfiles.Keys.Select(a => a.GetTransactionType()).Distinct().ToArray();
         _DisplayMessages =
@@ -69,7 +69,7 @@ public partial class ReaderConfiguration
 
     public PrimitiveValue[] GetKernelConfiguration(KernelId kernelId) => _KernelConfigurations[kernelId];
     public CertificateAuthorityDataset[] GetCertificateAuthorityDatasets(KernelId kernelId) => _CertificateAuthorityDatasets[kernelId];
-    public PcdProtocolConfiguration GetPcdProtocolConfiguration() => _PcdProtocolConfiguration;
+    public PcdConfiguration GetPcdProtocolConfiguration() => _PcdConfiguration;
     public PrimitiveValue[] GetTransactionProfile(CombinationCompositeKey key) => _TransactionProfiles[key];
     public DisplayMessages GetDisplayMessages(LanguagePreference languagePreference) => _DisplayMessages[languagePreference];
 
