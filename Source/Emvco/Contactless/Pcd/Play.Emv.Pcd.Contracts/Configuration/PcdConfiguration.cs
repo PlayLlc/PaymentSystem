@@ -1,11 +1,11 @@
 ﻿namespace Play.Emv.Pcd.Contracts;
 
-public class PcdProtocolConfiguration
+public class PcdConfiguration
 {
     #region Constructor
 
     // Modulation Type - Type A, Type B (ICC)
-    public PcdProtocolConfiguration()
+    public PcdConfiguration()
     { }
 
     #endregion
