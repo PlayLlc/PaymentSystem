@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
@@ -34,6 +34,28 @@ public record ThirdPartyData : DataElement<BigInteger>
 
     #endregion
 
+    #region Serialization
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static ThirdPartyData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    public override ThirdPartyData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static ThirdPartyData Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
+
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
+
+        return new ThirdPartyData(result);
+    }
+
+    #endregion
+
     #region Instance Members
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
@@ -54,28 +76,6 @@ public record ThirdPartyData : DataElement<BigInteger>
         result = PlayCodec.UnsignedIntegerCodec.DecodeToUInt16(_Value.ToByteArray()[4..6]);
 
         return true;
-    }
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    public static ThirdPartyData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    public override ThirdPartyData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    public static ThirdPartyData Decode(ReadOnlySpan<byte> value)
-    {
-        Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
-        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
-
-        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
-
-        return new ThirdPartyData(result);
     }
 
     #endregion

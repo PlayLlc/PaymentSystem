@@ -1,15 +1,12 @@
-﻿using Play.Emv.Display.Contracts;
-using Play.Emv.Exceptions;
+﻿using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
-using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Services.BalanceReading;
-using Play.Emv.Pcd.Contracts;
-using Play.Emv.Security;
+using Play.Messaging;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
@@ -18,20 +15,19 @@ public partial class WaitingForGenerateAcResponse1 : KernelState
     #region Instance Values
 
     private readonly S910 _S910;
-    private readonly OfflineBalanceReader _BalanceReader;
+    private readonly IReadOfflineBalance _BalanceReader;
 
     #endregion
 
     #region Constructor
 
     public WaitingForGenerateAcResponse1(
-        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint, IHandleDisplayRequests displayEndpoint,
-        IAuthenticateTransactionSession transactionAuthenticator) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionLog,
-        kernelStateResolver, pcdEndpoint, displayEndpoint)
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IEndpointClient endpointClient,
+        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IReadOfflineBalance balanceReader, S910 s910) : base(database,
+        dataExchangeKernelService, tornTransactionLog, kernelStateResolver, endpointClient)
     {
-        _S910 = new S910(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint, transactionAuthenticator, displayEndpoint);
-        _BalanceReader = new OfflineBalanceReader(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint);
+        _S910 = s910;
+        _BalanceReader = balanceReader;
     }
 
     #endregion

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using Play.Core;
 using Play.Emv.Pcd.Contracts;
+using Play.Messaging;
 
 namespace Play.Emv.Pcd.Services;
 
@@ -17,10 +18,10 @@ internal class ProximityCouplingDeviceProcess : CommandProcessingQueue
 
     #region Constructor
 
-    public ProximityCouplingDeviceProcess(CardClient cardClient, PcdProtocolConfiguration configuration, ISendPcdResponses pcdEndpoint) : base(
+    public ProximityCouplingDeviceProcess(CardClient cardClient, PcdProtocolConfiguration configuration, IEndpointClient endpointClient) : base(
         new CancellationTokenSource())
     {
-        _PcdStateMachine = new PcdStateMachine(cardClient, configuration, pcdEndpoint);
+        _PcdStateMachine = new PcdStateMachine(cardClient, configuration, endpointClient);
     }
 
     #endregion

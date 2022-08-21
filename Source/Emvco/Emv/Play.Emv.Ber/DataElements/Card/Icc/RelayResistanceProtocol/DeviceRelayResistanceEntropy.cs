@@ -1,5 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -27,14 +27,6 @@ public record DeviceRelayResistanceEntropy : DataElement<RelaySeconds>
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount() => PlayCodec.BinaryCodec.GetByteCount((uint)_Value);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -54,14 +46,22 @@ public record DeviceRelayResistanceEntropy : DataElement<RelaySeconds>
         return new DeviceRelayResistanceEntropy(new RelaySeconds(result));
     }
 
-    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode((uint)_Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode((uint)_Value, length);
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode((uint) _Value, _ByteLength);
+    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode((uint) _Value, length);
 
     #endregion
 
     #region Operator Overrides
 
     public static explicit operator RelaySeconds(DeviceRelayResistanceEntropy value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount() => PlayCodec.BinaryCodec.GetByteCount((uint) _Value);
 
     #endregion
 }

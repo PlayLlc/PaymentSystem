@@ -1,11 +1,9 @@
-﻿using System;
-
-using Play.Globalization.Time;
+﻿using Play.Globalization.Time;
 using Play.Testing.BaseTestClasses;
 
 using Xunit;
 
-namespace Play.Globalization.Tests.Tests.Time;
+namespace Play.Globalization.Tests.Tests.Time.DateTimes;
 
 public class DateRangeTests : TestBase
 {

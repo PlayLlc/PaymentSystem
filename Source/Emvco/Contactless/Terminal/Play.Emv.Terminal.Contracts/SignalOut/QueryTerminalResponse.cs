@@ -37,6 +37,7 @@ public record QueryTerminalResponse : ResponseSignal, IExchangeDataWithTheKernel
 
     #region Instance Members
 
+    public KernelId GetKernelId() => _DataExchangeKernelId.GetShortKernelId();
     public DataToSend GetDataToSend() => _DataToSend;
     public DataExchangeKernelId GetDataExchangeKernelId() => _DataExchangeKernelId;
     public KernelSessionId GetKernelSessionId() => _DataExchangeKernelId.GetKernelSessionId();

@@ -28,7 +28,7 @@ public partial class WaitingForMagstripeFirstWriteFlag
 
         // HACK: This is being called twice when a STOP signal is requested by the Kernel State itself
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+        _EndpointClient.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
 
         // BUG: I think the book says to clear the database and session on stop but i think our implementation might still use DEK to grab the required data before sending it to the acquirer. Check the pattern in the book and your implementation
         Clear();

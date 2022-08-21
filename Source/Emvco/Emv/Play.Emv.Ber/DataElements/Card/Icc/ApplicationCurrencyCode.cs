@@ -1,5 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -24,13 +24,6 @@ public record ApplicationCurrencyCode : DataElement<NumericCurrencyCode>
 
     public ApplicationCurrencyCode(NumericCurrencyCode value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 
@@ -59,6 +52,13 @@ public record ApplicationCurrencyCode : DataElement<NumericCurrencyCode>
     #region Operator Overrides
 
     public static implicit operator NumericCurrencyCode(ApplicationCurrencyCode value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

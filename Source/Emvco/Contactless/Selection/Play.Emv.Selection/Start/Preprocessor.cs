@@ -26,7 +26,7 @@ public class Preprocessor
     ///     Book B Section 3.1.1.13
     /// </remarks>
     /// <returns></returns>
-    private void GetPreprocessingOutcome(in Outcome outcome, in PreProcessingIndicators preProcessingIndicators)
+    private void GetPreprocessingOutcome(Outcome outcome, in PreProcessingIndicators preProcessingIndicators)
     {
         OutcomeParameterSet.Builder? outcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
         UserInterfaceRequestData.Builder userInterfaceSetter = UserInterfaceRequestData.GetBuilder();
@@ -40,8 +40,8 @@ public class Preprocessor
         outcomeParameterSetBuilder.SetIsDataRecordPresent(false);
         outcomeParameterSetBuilder.SetIsDiscretionaryDataPresent(false);
         outcomeParameterSetBuilder.Set(new Milliseconds(0));
-        userInterfaceSetter.Set(MessageIdentifiers.PleaseInsertOrSwipeCard);
-        userInterfaceSetter.Set(Statuses.ProcessingError);
+        userInterfaceSetter.Set(DisplayMessageIdentifiers.PleaseInsertOrSwipeCard);
+        userInterfaceSetter.Set(DisplayStatuses.ProcessingError);
 
         outcome.Update(outcomeParameterSetBuilder);
         outcome.Update(userInterfaceSetter);

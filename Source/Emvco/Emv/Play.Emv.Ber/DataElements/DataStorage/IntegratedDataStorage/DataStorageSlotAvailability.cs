@@ -1,6 +1,6 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
@@ -28,15 +28,6 @@ public record DataStorageSlotAvailability : DataElement<byte>
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public bool IsPermanentSlotTypeSet() => _Value.IsBitSet(Bits.Eight);
-    public bool IsVolatileSlotTypeSet() => _Value.IsBitSet(Bits.Seven);
-
-    #endregion
-
     #region Serialization
 
     public static DataStorageSlotAvailability Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
@@ -52,6 +43,15 @@ public record DataStorageSlotAvailability : DataElement<byte>
 
         return new DataStorageSlotAvailability(result);
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public bool IsPermanentSlotTypeSet() => _Value.IsBitSet(Bits.Eight);
+    public bool IsVolatileSlotTypeSet() => _Value.IsBitSet(Bits.Seven);
 
     #endregion
 }

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Play.Ber.Identifiers;
-using Play.Ber.Identifiers.Long;
-using Play.Ber.Identifiers.Short;
+using Play.Ber.Tags;
+using Play.Ber.Tags.Long;
+using Play.Ber.Tags.Short;
 using Play.Core.Extensions;
 
 namespace Play.Ber.Tests.TestData;

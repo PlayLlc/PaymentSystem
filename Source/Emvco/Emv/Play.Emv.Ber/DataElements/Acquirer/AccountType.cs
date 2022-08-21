@@ -1,5 +1,5 @@
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -27,13 +27,6 @@ public record AccountType : DataElement<byte>, IEqualityComparer<AccountType>
 
     public AccountType(byte value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 
@@ -82,6 +75,13 @@ public record AccountType : DataElement<byte>, IEqualityComparer<AccountType>
     }
 
     public int GetHashCode(AccountType obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

@@ -3,13 +3,11 @@
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
-using Play.Emv.Kernel;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Kernel2.StateMachine;
-using Play.Emv.Pcd.Contracts;
 using Play.Messaging;
 
 namespace Play.Emv.Kernel2.Services.BalanceReading;
@@ -41,11 +39,11 @@ internal partial class OfflineBalanceReader : CommonProcessing, IReadOfflineBala
     #region Constructor
 
     public OfflineBalanceReader(
-        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IKernelEndpoint kernelEndpoint) : base(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver, IEndpointClient endpointClient) :
+        base(database, dataExchangeKernelService, kernelStateResolver, endpointClient)
     {
-        _PreGenAcBalanceReader = new PreGenAcBalanceReader(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint);
-        _PostGenAcBalanceReader = new PostGenAcBalanceReader(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint);
+        _PreGenAcBalanceReader = new PreGenAcBalanceReader(database, dataExchangeKernelService, kernelStateResolver, endpointClient);
+        _PostGenAcBalanceReader = new PostGenAcBalanceReader(database, dataExchangeKernelService, kernelStateResolver, endpointClient);
     }
 
     #endregion

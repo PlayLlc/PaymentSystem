@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Messaging.Tests.Data.Channels;
+﻿using Play.Messaging.Tests.Data.Channels;
 using Play.Messaging.Tests.Data.Messages;
 using Play.Testing.BaseTestClasses;
 
 using Xunit;
-using Xunit.Sdk;
 
 namespace Play.Messaging.Tests.Endpoints;
 
@@ -28,7 +21,7 @@ public partial class EndpointClientTests : TestBase
     public EndpointClientTests()
     {
         MessageBus bus = new();
-        _EndpointClient = bus.CreateEndpointClient();
+        _EndpointClient = bus.GetEndpointClient();
         _TestChannel1 = new TestChannel1(bus);
         _TestChannel2 = new TestChannel2(bus);
     }

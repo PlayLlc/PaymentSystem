@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -97,7 +98,7 @@ public class MaxTimeForProcessingRelayResistanceApduTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        MaxTimeForProcessingRelayResistanceApduTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        MaxTimeForProcessingRelayResistanceApduTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => MaxTimeForProcessingRelayResistanceApdu.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -142,7 +143,7 @@ public class MaxTimeForProcessingRelayResistanceApduTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        MaxTimeForProcessingRelayResistanceApduTestTlv testData = new(new byte[] { 0x08, 0x32 });
+        MaxTimeForProcessingRelayResistanceApduTestTlv testData = new(new byte[] {0x08, 0x32});
         MaxTimeForProcessingRelayResistanceApdu sut = MaxTimeForProcessingRelayResistanceApdu.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -158,10 +159,7 @@ public class MaxTimeForProcessingRelayResistanceApduTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        MaxTimeForProcessingRelayResistanceApduTestTlv testData = new(new byte[]
-        {
-            0x79, 0xEF
-        });
+        MaxTimeForProcessingRelayResistanceApduTestTlv testData = new(new byte[] {0x79, 0xEF});
 
         MaxTimeForProcessingRelayResistanceApdu sut = MaxTimeForProcessingRelayResistanceApdu.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();

@@ -2,9 +2,10 @@
 
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Identifiers;
-using Play.Emv.Selection.Contracts;
 using Play.Globalization;
 using Play.Icc.FileSystem.DedicatedFiles;
+
+using TransactionProfile = Play.Emv.Selection.Configuration.TransactionProfile;
 
 namespace Play.Emv.Selection;
 

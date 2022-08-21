@@ -20,16 +20,16 @@ public partial class PrepareGenerateAcService
         #region Instance Values
 
         private readonly KernelDatabase _Database;
-        private readonly IHandlePcdRequests _PcdEndpoint;
+        private readonly IEndpointClient _EndpointClient;
 
         #endregion
 
         #region Constructor
 
-        public ReadIntegratedDataStorage(KernelDatabase database, IHandlePcdRequests pcdEndpoint)
+        public ReadIntegratedDataStorage(KernelDatabase database, IEndpointClient endpointClient)
         {
             _Database = database;
-            _PcdEndpoint = pcdEndpoint;
+            _EndpointClient = endpointClient;
         }
 
         #endregion
@@ -50,7 +50,7 @@ public partial class PrepareGenerateAcService
                 _Database.Get<CardRiskManagementDataObjectList1>(CardRiskManagementDataObjectList1.Tag);
             CardRiskManagementDataObjectList1RelatedData? cdol1RelatedData = new(cardRiskManagementDataObjectList1.AsDataObjectListResult(_Database));
 
-            _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(session.GetTransactionSessionId(), referenceControlParam, cdol1RelatedData));
+            _EndpointClient.Send(GenerateApplicationCryptogramRequest.Create(session.GetTransactionSessionId(), referenceControlParam, cdol1RelatedData));
 
             return currentStateIdRetriever.GetStateId();
         }

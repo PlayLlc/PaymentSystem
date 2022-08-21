@@ -14,7 +14,7 @@ using Play.Icc.Exceptions;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
-internal partial class S910
+public partial class S910
 {
     private partial class AuthHandler
     {

@@ -1,7 +1,7 @@
 using System.Numerics;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
@@ -49,6 +49,55 @@ public record ApplicationDedicatedFileName : DataElement<BigInteger>, IEqualityC
                 $"The {nameof(ApplicationDedicatedFileName)} requires a {nameof(RegisteredApplicationProviderIndicator)} but none could be found");
         }
     }
+
+    #endregion
+
+    #region Serialization
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static ApplicationDedicatedFileName Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    public override ApplicationDedicatedFileName Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    public static ApplicationDedicatedFileName Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
+
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
+
+        return new ApplicationDedicatedFileName(result);
+    }
+
+    public override byte[] EncodeValue() => _Value.ToByteArray();
+    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode(_Value.ToByteArray(), length);
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(ApplicationDedicatedFileName? x, ApplicationDedicatedFileName? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
+    public int GetHashCode(ApplicationDedicatedFileName obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Operator Overrides
+
+    public static implicit operator DedicatedFileName(ApplicationDedicatedFileName value) => new(value._Value.ToByteArray());
 
     #endregion
 
@@ -122,55 +171,6 @@ public record ApplicationDedicatedFileName : DataElement<BigInteger>, IEqualityC
 
         return true;
     }
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    public static ApplicationDedicatedFileName Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    public override ApplicationDedicatedFileName Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="OverflowException"></exception>
-    public static ApplicationDedicatedFileName Decode(ReadOnlySpan<byte> value)
-    {
-        Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
-        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
-
-        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
-
-        return new ApplicationDedicatedFileName(result);
-    }
-
-    public override byte[] EncodeValue() => _Value.ToByteArray();
-    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode(_Value.ToByteArray(), length);
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(ApplicationDedicatedFileName? x, ApplicationDedicatedFileName? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(ApplicationDedicatedFileName obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Operator Overrides
-
-    public static implicit operator DedicatedFileName(ApplicationDedicatedFileName value) => new(value._Value.ToByteArray());
 
     #endregion
 }

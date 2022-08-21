@@ -3,7 +3,7 @@ using System.Numerics;
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 
 namespace Play.Emv.Ber.DataElements;
@@ -26,14 +26,6 @@ public record SignedStaticApplicationData : DataElement<BigInteger>, IEqualityCo
 
     public SignedStaticApplicationData(BigInteger value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -65,6 +57,14 @@ public record SignedStaticApplicationData : DataElement<BigInteger>, IEqualityCo
     }
 
     public int GetHashCode(SignedStaticApplicationData obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

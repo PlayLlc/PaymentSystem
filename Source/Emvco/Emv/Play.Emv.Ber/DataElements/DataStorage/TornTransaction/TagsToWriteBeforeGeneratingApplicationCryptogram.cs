@@ -1,6 +1,6 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 
@@ -24,6 +24,37 @@ public record TagsToWriteBeforeGeneratingApplicationCryptogram : DataExchangeRes
 
     public TagsToWriteBeforeGeneratingApplicationCryptogram(params PrimitiveValue[] value) : base(value)
     { }
+
+    #endregion
+
+    #region Serialization
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static TagsToWriteAfterGeneratingApplicationCryptogram Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    public override TagsToWriteAfterGeneratingApplicationCryptogram Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static TagsToWriteAfterGeneratingApplicationCryptogram Decode(ReadOnlySpan<byte> value) => new(ResolveTagsToWrite(value).ToArray());
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(TagsToWriteBeforeGeneratingApplicationCryptogram? x, TagsToWriteBeforeGeneratingApplicationCryptogram? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
+    public int GetHashCode(TagsToWriteBeforeGeneratingApplicationCryptogram obj) => obj.GetHashCode();
 
     #endregion
 
@@ -60,37 +91,6 @@ public record TagsToWriteBeforeGeneratingApplicationCryptogram : DataExchangeRes
 
         return result;
     }
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    public static TagsToWriteAfterGeneratingApplicationCryptogram Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    public override TagsToWriteAfterGeneratingApplicationCryptogram Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    public static TagsToWriteAfterGeneratingApplicationCryptogram Decode(ReadOnlySpan<byte> value) => new(ResolveTagsToWrite(value).ToArray());
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(TagsToWriteBeforeGeneratingApplicationCryptogram? x, TagsToWriteBeforeGeneratingApplicationCryptogram? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(TagsToWriteBeforeGeneratingApplicationCryptogram obj) => obj.GetHashCode();
 
     #endregion
 }

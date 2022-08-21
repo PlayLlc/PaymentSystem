@@ -61,29 +61,6 @@ public sealed record RegisteredApplicationProviderIndicators : EnumObject<Regist
 
     #endregion
 
-    #region Instance Members
-
-    public override RegisteredApplicationProviderIndicators[] GetAll() => _ValueObjectMap.Values.ToArray();
-
-    public override bool TryGet(RegisteredApplicationProviderIndicator value, out EnumObject<RegisteredApplicationProviderIndicator>? result)
-    {
-        if (_ValueObjectMap.TryGetValue(value, out RegisteredApplicationProviderIndicators? enumResult))
-        {
-            result = enumResult;
-
-            return true;
-        }
-
-        result = null;
-
-        return false;
-    }
-
-    public static bool TryGet(RegisteredApplicationProviderIndicator value, out RegisteredApplicationProviderIndicators? result) =>
-        _ValueObjectMap.TryGetValue(value, out result);
-
-    #endregion
-
     #region Equality
 
     public bool Equals(RegisteredApplicationProviderIndicators? other) => !(other is null) && (_Value == other._Value);
@@ -133,6 +110,29 @@ public sealed record RegisteredApplicationProviderIndicators : EnumObject<Regist
 
     public static bool operator !=(RegisteredApplicationProviderIndicator left, RegisteredApplicationProviderIndicators right) => !right.Equals(left);
     public static bool operator !=(RegisteredApplicationProviderIndicators left, RegisteredApplicationProviderIndicator right) => !(left == right);
+
+    #endregion
+
+    #region Instance Members
+
+    public override RegisteredApplicationProviderIndicators[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(RegisteredApplicationProviderIndicator value, out EnumObject<RegisteredApplicationProviderIndicator>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out RegisteredApplicationProviderIndicators? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
+
+    public static bool TryGet(RegisteredApplicationProviderIndicator value, out RegisteredApplicationProviderIndicators? result) =>
+        _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion
 }

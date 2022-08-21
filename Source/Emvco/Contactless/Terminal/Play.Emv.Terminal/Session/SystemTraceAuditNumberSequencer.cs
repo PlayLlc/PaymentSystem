@@ -2,14 +2,15 @@
 
 using Play.Emv.Acquirer.Contracts;
 using Play.Emv.Acquirer.Contracts.SignalOut;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.ValueTypes;
-using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalIn;
 using Play.Globalization.Time;
+using Play.Messaging;
 
 namespace Play.Emv.Terminal.Session;
 
-internal class SystemTraceAuditNumberSequencer : IGenerateSequenceTraceAuditNumbers
+public class SystemTraceAuditNumberSequencer : IGenerateSequenceTraceAuditNumbers
 {
     #region Static Metadata
 
@@ -20,24 +21,25 @@ internal class SystemTraceAuditNumberSequencer : IGenerateSequenceTraceAuditNumb
     #region Instance Values
 
     private readonly uint _Threshold;
-    private readonly IHandleTerminalRequests _TerminalEndpoint;
+    private readonly IEndpointClient _EndpointClient;
     private uint _Stan;
 
     #endregion
 
     #region Constructor
 
-    public SystemTraceAuditNumberSequencer(SystemTraceAuditNumberConfiguration configuration, IHandleTerminalRequests terminalEndpoint)
+    public SystemTraceAuditNumberSequencer(SystemTraceAuditNumberConfiguration configuration, IEndpointClient endpointClient)
     {
         _Threshold = configuration.Threshold;
         _Stan = configuration.SystemTraceAuditNumberInitializationValue;
-        _TerminalEndpoint = terminalEndpoint;
+        _EndpointClient = endpointClient;
     }
 
     #endregion
 
     #region Instance Members
 
+    /// <exception cref="DataElementParsingException"></exception>
     public SystemTraceAuditNumber Generate()
     {
         if (_Stan >= _Threshold)
@@ -48,10 +50,6 @@ internal class SystemTraceAuditNumberSequencer : IGenerateSequenceTraceAuditNumb
         return new SystemTraceAuditNumber(_Stan);
     }
 
-    /// <summary>
-    ///     Reset
-    /// </summary>
-    /// <param name="settlementAcknowledgement"></param>
     /// <exception cref="InvalidOperationException"></exception>
     public void Reset(AcquirerResponseSignal settlementAcknowledgement)
     {
@@ -67,7 +65,7 @@ internal class SystemTraceAuditNumberSequencer : IGenerateSequenceTraceAuditNumb
     // BUG: We're probably going to want to enqueue a signal in the Terminal Process, or maybe run this as a separate process that communicates independently with the Acquirer when the STAN reaches a threshold
     private void SendReconciliationMessage()
     {
-        _TerminalEndpoint.Request(new InitiateSettlementRequest(DateTimeUtc.Now));
+        _EndpointClient.Send(new InitiateSettlementRequest(DateTimeUtc.Now));
     }
 
     #endregion

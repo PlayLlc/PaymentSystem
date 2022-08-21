@@ -50,7 +50,7 @@ public partial class WaitingForPdolData : KernelState
         GetProcessingOptionsRequest capdu = CreateGetProcessingOptionsCapdu(session, pdol);
         StopTimer(kernel2Session);
 
-        _PcdEndpoint.Request(capdu);
+        _EndpointClient.Send(capdu);
 
         return _KernelStateResolver.GetKernelState(StateId);
     }
@@ -73,7 +73,7 @@ public partial class WaitingForPdolData : KernelState
         _DataExchangeKernelService.Initialize(DekResponseType.DiscretionaryData);
         _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, _Database.GetErrorIndication());
 
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+        _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
 
         return true;
     }

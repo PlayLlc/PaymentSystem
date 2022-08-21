@@ -1,4 +1,4 @@
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 
 namespace Play.Icc.FileSystem.ElementaryFiles;
 
@@ -54,27 +54,6 @@ public readonly struct RecordRange
 
     #endregion
 
-    #region Instance Members
-
-    public byte GetFirstRecordOrdinal() => _FirstRecordOrdinal;
-    public byte GetLastRecordOrdinal() => _LastRecordOrdinal;
-    public byte GetOfflineDataAuthenticationLength() => _OfflineDataAuthenticationLength;
-    public byte GetRecordCount() => (byte) ((GetLastRecordOrdinal() - GetFirstRecordOrdinal()) + 1);
-
-    public RecordNumber[] GetRecords()
-    {
-        RecordNumber[] result = new RecordNumber[GetRecordCount()];
-        for (byte i = 0, j = _FirstRecordOrdinal; i < GetRecordCount(); i++, j++)
-            result[i] = new RecordNumber(j);
-
-        return result;
-    }
-
-    public ShortFileId GetShortFileIdentifier() => new(_ShortFileIdentifier);
-    public bool IsElementaryFile(Tag tag) => _ShortFileIdentifier == tag;
-
-    #endregion
-
     #region Equality
 
     public override bool Equals(object? obj) => obj is RecordRange recordRange && Equals(recordRange);
@@ -109,6 +88,27 @@ public readonly struct RecordRange
 
     public static bool operator ==(RecordRange left, RecordRange right) => left.Equals(right);
     public static bool operator !=(RecordRange left, RecordRange right) => !left.Equals(right);
+
+    #endregion
+
+    #region Instance Members
+
+    public byte GetFirstRecordOrdinal() => _FirstRecordOrdinal;
+    public byte GetLastRecordOrdinal() => _LastRecordOrdinal;
+    public byte GetOfflineDataAuthenticationLength() => _OfflineDataAuthenticationLength;
+    public byte GetRecordCount() => (byte) ((GetLastRecordOrdinal() - GetFirstRecordOrdinal()) + 1);
+
+    public RecordNumber[] GetRecords()
+    {
+        RecordNumber[] result = new RecordNumber[GetRecordCount()];
+        for (byte i = 0, j = _FirstRecordOrdinal; i < GetRecordCount(); i++, j++)
+            result[i] = new RecordNumber(j);
+
+        return result;
+    }
+
+    public ShortFileId GetShortFileIdentifier() => new(_ShortFileIdentifier);
+    public bool IsElementaryFile(Tag tag) => _ShortFileIdentifier == tag;
 
     #endregion
 }

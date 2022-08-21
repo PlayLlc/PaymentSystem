@@ -37,6 +37,7 @@ public record QueryKernelRequest : RequestSignal, IExchangeDataWithTheTerminal
 
     #region Instance Members
 
+    public KernelId GetKernelId() => _DataExchangeTerminalId.GetKernelId();
     public DataExchangeTerminalId GetDataExchangeTerminalId() => _DataExchangeTerminalId;
     public TagsToRead GetTagsToRead() => _TagsToRead;
     public TransactionSessionId GetTransactionSessionId() => _DataExchangeTerminalId.GetTransactionSessionId();

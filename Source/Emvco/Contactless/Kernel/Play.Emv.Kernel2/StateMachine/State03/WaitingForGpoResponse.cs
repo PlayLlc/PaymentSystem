@@ -1,13 +1,11 @@
-﻿using Play.Emv.Display.Contracts;
-using Play.Emv.Exceptions;
+﻿using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
-using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
-using Play.Emv.Pcd.Contracts;
+using Play.Messaging;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
@@ -23,10 +21,9 @@ public partial class WaitingForGpoResponse : KernelState
     #region Constructor
 
     public WaitingForGpoResponse(
-        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint, IHandleDisplayRequests displayEndpoint,
-        S3R1 s3R1, IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionLog,
-        kernelStateResolver, pcdEndpoint, displayEndpoint)
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IEndpointClient endpointClient,
+        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IGenerateUnpredictableNumber unpredictableNumberGenerator, S3R1 s3R1) :
+        base(database, dataExchangeKernelService, tornTransactionLog, kernelStateResolver, endpointClient)
     {
         _S3R1 = s3R1;
         _UnpredictableNumberGenerator = unpredictableNumberGenerator;

@@ -4,7 +4,7 @@ using Play.Ber.Exceptions;
 using Play.Core.Exceptions;
 using Play.Core.Extensions;
 
-namespace Play.Ber.Identifiers.Long;
+namespace Play.Ber.Tags.Long;
 
 /// <summary>
 ///     For tags with a number greater than or equal to 31, the identifier shall comprise

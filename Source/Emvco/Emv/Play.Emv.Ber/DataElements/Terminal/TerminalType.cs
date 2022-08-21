@@ -1,6 +1,6 @@
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -31,6 +31,53 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
     public TerminalType(EnvironmentType environmentType, CommunicationType communicationType, TerminalOperatorType terminalOperatorType) : base(
         (byte) (environmentType + communicationType + terminalOperatorType))
     { }
+
+    #endregion
+
+    #region Serialization
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static TerminalType Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    public override TerminalType Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static TerminalType Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
+
+        byte result = PlayCodec.NumericCodec.DecodeToByte(value);
+
+        return new TerminalType(result);
+    }
+
+    public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value, _ByteLength);
+    public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(_Value, length);
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(TerminalType? x, TerminalType? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
+    public int GetHashCode(TerminalType obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Operator Overrides
+
+    public static implicit operator byte(TerminalType value) => value._Value;
 
     #endregion
 
@@ -85,53 +132,6 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
     public bool IsCommunicationType(CommunicationType communicationType) => CommunicationType.IsCommunicationType(_Value, communicationType);
     public bool IsEnvironmentType(EnvironmentType operatorType) => EnvironmentType.IsEnvironmentType(_Value, operatorType);
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    public static TerminalType Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    public override TerminalType Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    public static TerminalType Decode(ReadOnlySpan<byte> value)
-    {
-        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
-
-        byte result = PlayCodec.NumericCodec.DecodeToByte(value);
-
-        return new TerminalType(result);
-    }
-
-    public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(_Value, length);
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(TerminalType? x, TerminalType? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(TerminalType obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Operator Overrides
-
-    public static implicit operator byte(TerminalType value) => value._Value;
 
     #endregion
 }

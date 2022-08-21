@@ -3,7 +3,7 @@
 using Play.Ber.Exceptions;
 using Play.Core.Extensions;
 
-namespace Play.Ber.Identifiers.Short;
+namespace Play.Ber.Tags.Short;
 
 /// <summary>
 ///     The Short Identifier is a Tag with a number ranging from 0 to 30. Short	Identifiers

@@ -6,6 +6,7 @@ public class MessageBus : IRouteMessages
 
     private readonly EventRouter _EventRouter;
     private readonly MessageRouter _MessageRouter;
+    private readonly IEndpointClient _EndpointClient;
 
     #endregion
 
@@ -15,6 +16,7 @@ public class MessageBus : IRouteMessages
     {
         _EventRouter = new EventRouter();
         _MessageRouter = new MessageRouter();
+        _EndpointClient = new EndpointClient(this);
     }
 
     #endregion
@@ -59,7 +61,7 @@ public class MessageBus : IRouteMessages
 
     #endregion
 
-    public IEndpointClient CreateEndpointClient() => new EndpointClient(this);
+    public IEndpointClient GetEndpointClient() => _EndpointClient;
 
     #region Replies
 
