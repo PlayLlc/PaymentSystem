@@ -7,12 +7,12 @@ namespace Play.Globalization.Country;
 
 // TODO: Inherit from EnumObject<CountryCode> so the user can specifically pick a country.  Maybe turn
 // TODO: CountryCode into a struct
-internal static class CountryCodeRepository
+internal class CountryCodeRepository
 {
     #region Static Metadata
 
-    private static readonly ImmutableDictionary<Alpha2CountryCode, CountryCodes> _Alpha3CountryMap;
-    private static readonly ImmutableDictionary<NumericCountryCode, CountryCodes> _NumericCountryMap;
+    private static readonly ImmutableSortedDictionary<Alpha2CountryCode, CountryCodes> _Alpha3CountryMap;
+    private static readonly ImmutableSortedDictionary<NumericCountryCode, CountryCodes> _NumericCountryMap;
     private static readonly char[] _Buffer = new char[2];
 
     #endregion
@@ -21,8 +21,8 @@ internal static class CountryCodeRepository
 
     static CountryCodeRepository()
     {
-        _NumericCountryMap = GetCurrencyCodes().ToImmutableDictionary(a => a.GetNumericCode(), b => b);
-        _Alpha3CountryMap = GetCurrencyCodes().ToImmutableDictionary(a => a.GetAlpha2Code(), b => b);
+        _NumericCountryMap = GetCurrencyCodes().ToImmutableSortedDictionary(a => a.GetNumericCode(), b => b);
+        _Alpha3CountryMap = GetCurrencyCodes().ToImmutableSortedDictionary(a => a.GetAlpha2Code(), b => b);
     }
 
     #endregion

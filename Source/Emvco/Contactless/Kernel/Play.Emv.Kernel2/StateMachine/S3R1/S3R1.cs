@@ -2,14 +2,13 @@
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
-using Play.Emv.Kernel;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
@@ -36,8 +35,8 @@ public class S3R1 : CommonProcessing
     #region Constructor
 
     public S3R1(
-        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IKernelEndpoint kernelEndpoint) : base(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver, IEndpointClient endpointClient) :
+        base(database, dataExchangeKernelService, kernelStateResolver, endpointClient)
     { }
 
     #endregion
@@ -116,10 +115,10 @@ public class S3R1 : CommonProcessing
     private bool HandleCardDataError(KernelSession session)
     {
         _Database.Update(Level2Error.CardDataError);
-        _Database.Update(MessageIdentifiers.CardError);
-        _Database.Update(Statuses.NotReady);
+        _Database.Update(DisplayMessageIdentifiers.CardError);
+        _Database.Update(DisplayStatuses.NotReady);
         _Database.Update(StatusOutcomes.EndApplication);
-        _Database.Update(MessageOnErrorIdentifiers.TryAgain);
+        _Database.Update(DisplayMessageOnErrorIdentifiers.TryAgain);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, _Database.GetErrorIndication());
         _Database.SetUiRequestOnRestartPresent(true);
@@ -136,7 +135,7 @@ public class S3R1 : CommonProcessing
         if (!_DataExchangeKernelService.TryPeek(DekRequestType.TagsToRead, out Tag tagToRead))
             return false;
 
-        _PcdEndpoint.Request(GetDataRequest.Create(tagToRead, sessionId));
+        _EndpointClient.Send(GetDataRequest.Create(tagToRead, sessionId));
 
         return true;
     }
@@ -168,7 +167,7 @@ public class S3R1 : CommonProcessing
         if (!session.TryPeekActiveTag(out RecordRange recordRange))
             return false;
 
-        _PcdEndpoint.Request(ReadRecordRequest.Create(session.GetTransactionSessionId(), recordRange.GetShortFileIdentifier()));
+        _EndpointClient.Send(ReadRecordRequest.Create(session.GetTransactionSessionId(), recordRange.GetShortFileIdentifier()));
 
         return true;
     }
@@ -310,7 +309,7 @@ public class S3R1 : CommonProcessing
     /// <exception cref="CodecParsingException"></exception>
     private void SetOfflineAuthNotPerformed()
     {
-        _Database.Update(TerminalVerificationResultCodes.OfflineDataAuthenticationWasNotPerformed);
+        _Database.Set(TerminalVerificationResultCodes.OfflineDataAuthenticationWasNotPerformed);
     }
 
     #endregion

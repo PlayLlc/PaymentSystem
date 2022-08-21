@@ -1,5 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -21,13 +21,6 @@ public record MaxLifetimeOfTornTransactionLogRecords : DataElement<Seconds>
 
     public MaxLifetimeOfTornTransactionLogRecords(Seconds value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 
@@ -75,6 +68,13 @@ public record MaxLifetimeOfTornTransactionLogRecords : DataElement<Seconds>
     #region Operator Overrides
 
     public static implicit operator Seconds(MaxLifetimeOfTornTransactionLogRecords value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

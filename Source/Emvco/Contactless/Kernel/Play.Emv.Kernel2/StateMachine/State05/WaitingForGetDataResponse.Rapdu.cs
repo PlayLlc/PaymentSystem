@@ -2,7 +2,7 @@
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements.Display;
 using Play.Emv.Ber.Enums;
@@ -56,8 +56,8 @@ public partial class WaitingForGetDataResponse : KernelState
         if (!signal.IsLevel1ErrorPresent())
             return false;
 
-        _Database.Update(MessageIdentifiers.TryAgain);
-        _Database.Update(Statuses.ReadyToRead);
+        _Database.Update(DisplayMessageIdentifiers.TryAgain);
+        _Database.Update(DisplayStatuses.ReadyToRead);
         _Database.Update(new MessageHoldTime(0));
 
         _Database.Update(StatusOutcomes.EndApplication);
@@ -65,10 +65,10 @@ public partial class WaitingForGetDataResponse : KernelState
         _Database.Update(StartOutcomes.B);
         _Database.SetUiRequestOnRestartPresent(true);
         _Database.Update(signal.GetLevel1Error());
-        _Database.Update(MessageOnErrorIdentifiers.TryAgain);
+        _Database.Update(DisplayMessageOnErrorIdentifiers.TryAgain);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+        _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
 
         return true;
     }
@@ -90,7 +90,7 @@ public partial class WaitingForGetDataResponse : KernelState
         if (!_DataExchangeKernelService.TryPeek(DekRequestType.TagsToRead, out Tag tagToRead))
             return false;
 
-        _PcdEndpoint.Request(GetDataRequest.Create(tagToRead, sessionId));
+        _EndpointClient.Send(GetDataRequest.Create(tagToRead, sessionId));
 
         return true;
     }
@@ -105,7 +105,7 @@ public partial class WaitingForGetDataResponse : KernelState
         if (!session.TryPeekActiveTag(out RecordRange recordRange))
             return;
 
-        _PcdEndpoint.Request(ReadRecordRequest.Create(session.GetTransactionSessionId(), recordRange.GetShortFileIdentifier()));
+        _EndpointClient.Send(ReadRecordRequest.Create(session.GetTransactionSessionId(), recordRange.GetShortFileIdentifier()));
     }
 
     #endregion

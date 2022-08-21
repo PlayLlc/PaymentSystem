@@ -38,7 +38,7 @@ public partial class DataExchangeKernelService
             QueryKernelResponse queryKernelResponse = new(correlationId, (DataToSend) _Lock.Responses[DekResponseType.DataToSend],
                 new DataExchangeTerminalId(sessionId.GetKernelId(), sessionId.GetTransactionSessionId()));
 
-            _KernelEndpoint.Send(queryKernelResponse);
+            _EndpointClient.Send(queryKernelResponse);
             _Lock.Responses[DekResponseType.DataToSend].Clear();
         }
     }
@@ -55,9 +55,7 @@ public partial class DataExchangeKernelService
         lock (_Lock.Responses)
         {
             if (!_Lock.Responses.ContainsKey(type))
-            {
                 throw new TerminalDataException($"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
-            }
 
             return _Lock.Responses[type].Count() == 0;
         }
@@ -69,9 +67,7 @@ public partial class DataExchangeKernelService
         lock (_Lock.Responses)
         {
             if (!_Lock.Responses.ContainsKey(type))
-            {
                 throw new TerminalDataException($"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
-            }
 
             return _Lock.Responses[type].TryPeek(out result);
         }
@@ -148,9 +144,7 @@ public partial class DataExchangeKernelService
         lock (_Lock.Responses)
         {
             if (!_Lock.Responses.TryGetValue(type, out DataExchangeResponse? dekResponseList))
-            {
                 throw new TerminalDataException($"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
-            }
 
             dekResponseList!.Enqueue(listItems);
         }

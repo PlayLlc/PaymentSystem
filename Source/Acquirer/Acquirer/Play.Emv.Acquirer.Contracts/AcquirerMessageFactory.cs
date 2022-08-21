@@ -1,5 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Emv.Acquirer.Contracts.SignalIn;
 
 namespace Play.Emv.Acquirer.Contracts;

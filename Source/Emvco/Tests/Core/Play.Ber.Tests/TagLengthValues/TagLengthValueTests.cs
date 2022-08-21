@@ -1,6 +1,5 @@
 ﻿using System;
 
-using Play.Ber.Identifiers;
 using Play.Testing.BaseTestClasses;
 
 using TagLengthValue = Play.Ber.DataObjects.TagLengthValue;
@@ -12,6 +11,7 @@ using Play.Ber.Tests.TestData;
 using System.Linq;
 
 using Play.Ber.Lengths;
+using Play.Ber.Tags;
 
 namespace Play.Ber.Tests.TagLengthValues;
 

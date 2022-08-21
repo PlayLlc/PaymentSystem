@@ -1,4 +1,5 @@
 ﻿using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 
 namespace Play.Testing.Emv;
 
@@ -14,7 +15,7 @@ public class DefaultPrimitiveValueSpecimen<_T> : DefaultSpecimen<_T> where _T : 
 
     #region Constructor
 
-    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public DefaultPrimitiveValueSpecimen(_T value, byte[] contentOctets)
     {
         _Default = value;

@@ -4,6 +4,7 @@ using Play.Core;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
+using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Ber.Enums;
 
@@ -69,45 +70,6 @@ public sealed record ShortKernelIdTypes : EnumObject<byte>, IEqualityComparer<by
 
     #endregion
 
-    #region Instance Members
-
-    public override ShortKernelIdTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
-
-    public override bool TryGet(byte value, out EnumObject<byte>? result)
-    {
-        if (_ValueObjectMap.TryGetValue(value, out ShortKernelIdTypes? enumResult))
-        {
-            result = enumResult;
-
-            return true;
-        }
-
-        result = null;
-
-        return false;
-    }
-
-    /// <summary>
-    ///     Get
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="DataElementParsingException"></exception>
-    public static ShortKernelIdTypes Get(byte value)
-    {
-        const byte bitMask = 0b11000000;
-
-        if (!_ValueObjectMap.ContainsKey(value))
-        {
-            throw new DataElementParsingException(new ArgumentOutOfRangeException(nameof(value),
-                $"No {nameof(ShortKernelIdTypes)} could be retrieved because the argument provided does not match a definition value"));
-        }
-
-        return _ValueObjectMap[value.GetMaskedValue(bitMask)];
-    }
-
-    #endregion
-
     #region Equality
 
     public bool Equals(ShortKernelIdTypes? x, ShortKernelIdTypes? y)
@@ -134,6 +96,89 @@ public sealed record ShortKernelIdTypes : EnumObject<byte>, IEqualityComparer<by
     public static implicit operator KernelId(ShortKernelIdTypes value) => new(value._Value);
     public static bool operator !=(ShortKernelIdTypes left, byte right) => !(left == right);
     public static bool operator !=(byte left, ShortKernelIdTypes right) => !(left == right);
+
+    #endregion
+
+    #region Instance Members
+
+    public override ShortKernelIdTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out ShortKernelIdTypes? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
+
+    public bool TryGet(RegisteredApplicationProviderIndicator rid, out ShortKernelIdTypes? result)
+    {
+        if (rid == RegisteredApplicationProviderIndicators.AmericanExpress)
+        {
+            result = Kernel4;
+
+            return true;
+        }
+
+        if (rid == RegisteredApplicationProviderIndicators.Discover)
+        {
+            result = Kernel6;
+
+            return true;
+        }
+
+        if (rid == RegisteredApplicationProviderIndicators.Jcb)
+        {
+            result = Kernel5;
+
+            return true;
+        }
+
+        if (rid == RegisteredApplicationProviderIndicators.MasterCard)
+        {
+            result = Kernel2;
+
+            return true;
+        }
+
+        if (rid == RegisteredApplicationProviderIndicators.ChinaUnionPay)
+        {
+            result = Kernel7;
+
+            return true;
+        }
+
+        if (rid == RegisteredApplicationProviderIndicators.VisaInternational)
+        {
+            result = Kernel3;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
+
+    /// <exception cref="DataElementParsingException"></exception>
+    public static ShortKernelIdTypes Get(byte value)
+    {
+        const byte bitMask = 0b11000000;
+
+        if (!_ValueObjectMap.ContainsKey(value))
+        {
+            throw new DataElementParsingException(new ArgumentOutOfRangeException(nameof(value),
+                $"No {nameof(ShortKernelIdTypes)} could be retrieved because the argument provided does not match a definition value"));
+        }
+
+        return _ValueObjectMap[value.GetMaskedValue(bitMask)];
+    }
 
     #endregion
 }

@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Core;
 using Play.Emv.Ber.Exceptions;
@@ -54,6 +54,30 @@ public record TornRecord : DataExchangeResponse
         _Key = tornEntry;
         _CommitTimeStamp = DateTimeUtc.Now;
     }
+
+    #endregion
+
+    #region Serialization
+
+    public override TornRecord Decode(TagLengthValue value) => new(Record.Decode(_Codec, value.EncodeValue(_Codec)));
+    public static TornRecord Decode(ReadOnlyMemory<byte> value) => new(Record.Decode(_Codec, value));
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(TornRecord? x, TornRecord? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
+    public int GetHashCode(TornRecord obj) => obj.GetHashCode();
 
     #endregion
 
@@ -114,7 +138,7 @@ public record TornRecord : DataExchangeResponse
 
     public TornEntry GetKey() => _Key;
 
-    /// <exception cref="Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public static TornRecord Create(ITlvReaderAndWriter database) => new(Record.Create(database));
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
@@ -126,30 +150,6 @@ public record TornRecord : DataExchangeResponse
 
         return result is null;
     }
-
-    #endregion
-
-    #region Serialization
-
-    public override TornRecord Decode(TagLengthValue value) => new(Record.Decode(_Codec, value.EncodeValue(_Codec)));
-    public static TornRecord Decode(ReadOnlyMemory<byte> value) => new(Record.Decode(_Codec, value));
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(TornRecord? x, TornRecord? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(TornRecord obj) => obj.GetHashCode();
 
     #endregion
 }

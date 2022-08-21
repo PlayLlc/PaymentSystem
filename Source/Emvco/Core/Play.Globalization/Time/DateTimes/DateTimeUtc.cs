@@ -15,7 +15,7 @@ public readonly record struct DateTimeUtc
     public int Hour => _Value.Hour;
     public int Minute => _Value.Minute;
     public int Second => _Value.Second;
-    public static DateTimeUtc Now => new(DateTime.UtcNow);
+    public static DateTimeUtc Now => new(DateTime.UtcNow.Date);
     public static DateTimeUtc Today => new(DateTime.UtcNow);
 
     #endregion

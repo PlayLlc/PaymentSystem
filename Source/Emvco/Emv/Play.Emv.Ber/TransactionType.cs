@@ -1,6 +1,6 @@
 ﻿using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
@@ -39,14 +39,6 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
     {
         Check.Primitive.ForMaxCharLength(value.GetNumberOfDigits(), _CharLength, Tag);
     }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -104,6 +96,14 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
     public static bool operator !=(TransactionType left, TransactionTypes right) => left._Value != (byte) right;
     public static bool operator ==(TransactionTypes left, TransactionType right) => right._Value == (byte) left;
     public static bool operator !=(TransactionTypes left, TransactionType right) => right._Value != (byte) left;
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

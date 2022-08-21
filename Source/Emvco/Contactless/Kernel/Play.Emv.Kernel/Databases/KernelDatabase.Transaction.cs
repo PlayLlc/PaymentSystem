@@ -6,6 +6,7 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Enums.Interchange;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Outcomes;
 
 namespace Play.Emv.Kernel.Databases;
 
@@ -23,7 +24,7 @@ public partial class KernelDatabase
     public MobileSupportIndicator GetMobileSupportIndicator()
     {
         if (TryGet(MobileSupportIndicator.Tag, out MobileSupportIndicator? mobileSupportIndicator))
-            return mobileSupportIndicator;
+            return mobileSupportIndicator!;
 
         MobileSupportIndicator? defaultMobileSupportIndicator = _MobileSupportIndicatorBuilder.Complete();
         Update(defaultMobileSupportIndicator);
@@ -135,16 +136,19 @@ public partial class KernelDatabase
     ///     A legacy transaction that was manually keyed by an attended where the cardholder receives cash at the end of the
     ///     transaction
     /// </summary>
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsManualCashTransaction() => IsCashTransaction() && IsManualTransaction();
 
     /// <summary>
     ///     A transaction at an unattended terminal where the cardholder receives cash, such as an ATM withdrawal
     /// </summary>
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsUnattendedCashTransaction() => GetTerminalType().IsEnvironmentType(TerminalType.EnvironmentType.Unattended) && IsCashTransaction();
 
     /// <summary>
     ///     A purchase transaction in which the cardholder receives cash from a self service kiosk or cashier
     /// </summary>
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsPurchaseTransactionWithCashback() => IsPurchaseTransaction() && IsCashbackTransaction();
 
     /// <summary>
@@ -180,6 +184,31 @@ public partial class KernelDatabase
             return true;
 
         return false;
+    }
+
+    public Transaction GetTransaction()
+    {
+        if (!IsActive())
+        {
+            throw new TerminalException(
+                new InvalidOperationException($"A command to initialize the Kernel Database was invoked but the {nameof(KernelDatabase)} is already active"));
+        }
+
+        TryGet(AccountType.Tag, out AccountType? accountType);
+        TryGet(AmountAuthorizedNumeric.Tag, out AmountAuthorizedNumeric? amountAuthorizedNumeric);
+        TryGet(AmountOtherNumeric.Tag, out AmountOtherNumeric? amountOtherNumeric);
+        TryGet(LanguagePreference.Tag, out LanguagePreference? languagePreference);
+        TryGet(TerminalCountryCode.Tag, out TerminalCountryCode? terminalCountryCode);
+        TryGet(TransactionDate.Tag, out TransactionDate? transactionDate);
+        TryGet(TransactionTime.Tag, out TransactionTime? transactionTime);
+        TryGet(TransactionType.Tag, out TransactionType? transactionType);
+        TryGet(TransactionCurrencyCode.Tag, out TransactionCurrencyCode? transactionCurrencyCode);
+        TryGet(TransactionCurrencyExponent.Tag, out TransactionCurrencyExponent? transactionCurrencyExponent);
+
+        Outcome outcome = GetOutcome();
+
+        return new Transaction(_KernelSessionId!.Value.GetTransactionSessionId(), accountType!, amountAuthorizedNumeric!, amountOtherNumeric!, transactionType!,
+            languagePreference!, terminalCountryCode!, transactionDate!, transactionTime!, transactionCurrencyExponent!, transactionCurrencyCode!, outcome);
     }
 
     #endregion

@@ -1,5 +1,5 @@
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -24,13 +24,6 @@ public record IccDynamicNumber : DataElement<ulong>, IEqualityComparer<IccDynami
 
     public IccDynamicNumber(ulong value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 
@@ -70,6 +63,13 @@ public record IccDynamicNumber : DataElement<ulong>, IEqualityComparer<IccDynami
     }
 
     public int GetHashCode(IccDynamicNumber obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

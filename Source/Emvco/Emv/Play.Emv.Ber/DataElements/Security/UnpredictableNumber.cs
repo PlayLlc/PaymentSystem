@@ -1,5 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core;
@@ -25,29 +25,6 @@ public record UnpredictableNumber : DataElement<uint>, IEqualityComparer<Unpredi
 
     public UnpredictableNumber(uint value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    internal Nibble[] GetDigits()
-    {
-        byte digitsToCopy = (byte) GetSetBitCount();
-        Nibble[] result = new Nibble[3];
-
-        for (int i = result.Length - 1; i > 0; i--)
-        {
-            result[i] = (byte) (digitsToCopy % 10);
-            digitsToCopy /= 10;
-        }
-
-        return result;
-    }
-
-    public ushort GetByteCount() => _ByteLength;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public int GetSetBitCount() => _Value.GetSetBitCount();
 
     #endregion
 
@@ -95,6 +72,29 @@ public record UnpredictableNumber : DataElement<uint>, IEqualityComparer<Unpredi
     #region Operator Overrides
 
     public static explicit operator uint(UnpredictableNumber value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    internal Nibble[] GetDigits()
+    {
+        byte digitsToCopy = (byte) GetSetBitCount();
+        Nibble[] result = new Nibble[3];
+
+        for (int i = result.Length - 1; i > 0; i--)
+        {
+            result[i] = (byte) (digitsToCopy % 10);
+            digitsToCopy /= 10;
+        }
+
+        return result;
+    }
+
+    public ushort GetByteCount() => _ByteLength;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public int GetSetBitCount() => _Value.GetSetBitCount();
 
     #endregion
 }

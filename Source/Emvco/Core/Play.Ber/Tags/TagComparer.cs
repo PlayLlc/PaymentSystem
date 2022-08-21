@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Play.Ber.Identifiers;
+namespace Play.Ber.Tags;
 
 public class TagComparer : IComparer<Tag>
 {

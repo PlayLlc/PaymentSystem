@@ -1,12 +1,36 @@
 ﻿using Play.Ber.Codecs;
-using Play.Ber.Identifiers;
 using Play.Ber.Lengths;
+using Play.Ber.Tags;
 using Play.Codecs;
 
 namespace Play.Ber.DataObjects;
 
 public abstract record PrimitiveValue : IEncodeBerDataObjects, IRetrievePrimitiveValueMetadata, IDecodeDataElement
 {
+    #region Serialization
+
+    public abstract PrimitiveValue Decode(TagLengthValue value);
+
+    /// <summary>
+    ///     Encodes this object as a Tag-Length-Value
+    /// </summary>
+    /// <param name="codec"></param>
+    /// <returns></returns>
+    public virtual byte[] EncodeTagLengthValue(BerCodec codec) => codec.EncodeTagLengthValue(this);
+
+    /// <summary>
+    ///     Encodes this object as a Tag-Length-Value
+    /// </summary>
+    /// <param name="codec"></param>
+    /// <param name="length">This parameter determines the length of the TLV Value field</param>
+    /// <returns></returns>
+    public virtual byte[] EncodeTagLengthValue(BerCodec codec, int length) => codec.EncodeTagLengthValue(this, length);
+
+    public abstract byte[] EncodeValue(BerCodec codec);
+    public abstract byte[] EncodeValue(BerCodec codec, int length);
+
+    #endregion
+
     #region Instance Members
 
     public TagLengthValue AsTagLengthValue(BerCodec codec)
@@ -32,30 +56,6 @@ public abstract record PrimitiveValue : IEncodeBerDataObjects, IRetrievePrimitiv
         checked((uint) Tag.GetByteCount(this) + Length.GetByteCount(this, codec) + GetValueByteCount(codec));
 
     public abstract ushort GetValueByteCount(BerCodec codec);
-
-    #endregion
-
-    #region Serialization
-
-    public abstract PrimitiveValue Decode(TagLengthValue value);
-
-    /// <summary>
-    ///     Encodes this object as a Tag-Length-Value
-    /// </summary>
-    /// <param name="codec"></param>
-    /// <returns></returns>
-    public virtual byte[] EncodeTagLengthValue(BerCodec codec) => codec.EncodeTagLengthValue(this);
-
-    /// <summary>
-    ///     Encodes this object as a Tag-Length-Value
-    /// </summary>
-    /// <param name="codec"></param>
-    /// <param name="length">This parameter determines the length of the TLV Value field</param>
-    /// <returns></returns>
-    public virtual byte[] EncodeTagLengthValue(BerCodec codec, int length) => codec.EncodeTagLengthValue(this, length);
-
-    public abstract byte[] EncodeValue(BerCodec codec);
-    public abstract byte[] EncodeValue(BerCodec codec, int length);
 
     #endregion
 }

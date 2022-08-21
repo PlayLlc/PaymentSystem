@@ -2,12 +2,12 @@
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers.Long;
-using Play.Ber.Identifiers.Short;
+using Play.Ber.Tags.Long;
+using Play.Ber.Tags.Short;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 
-namespace Play.Ber.Identifiers;
+namespace Play.Ber.Tags;
 
 public readonly record struct Tag
 {
@@ -49,6 +49,46 @@ public readonly record struct Tag
         LongIdentifier.Validate(value);
         _Value = value;
     }
+
+    #endregion
+
+    #region Serialization
+
+    /// <exception cref="BerParsingException"></exception>
+    public byte[] Serialize() => PlayCodec.UnsignedIntegerCodec.Encode(_Value, true);
+
+    /// <exception cref="BerParsingException"></exception>
+    public void Serialize(Span<byte> buffer, ref int offset)
+    {
+        PlayCodec.UnsignedIntegerCodec.Encode(_Value, buffer, ref offset);
+    }
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(Tag other) => other._Value == _Value;
+    public override int GetHashCode() => GetHashCode(this);
+
+    public int GetHashCode(Tag obj)
+    {
+        const int largePrime = 486187739;
+
+        unchecked // overflow is fine, just wraps
+        {
+            return largePrime * _Value.GetHashCode();
+        }
+    }
+
+    public int CompareTo(Tag other) => _Value.CompareTo(other._Value);
+    public int CompareTo(uint other) => _Value.CompareTo(other);
+
+    #endregion
+
+    #region Operator Overrides
+
+    public static implicit operator uint(Tag tag) => tag._Value;
+    public static implicit operator Tag(uint tag) => new(tag);
 
     #endregion
 
@@ -162,46 +202,6 @@ public readonly record struct Tag
     public static bool IsValid(uint value) => ShortIdentifier.IsValid(value) || LongIdentifier.IsValid(value);
 
     public static bool IsValid(ReadOnlySpan<byte> value) => ShortIdentifier.IsValid(value) || LongIdentifier.IsValid(value);
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="BerParsingException"></exception>
-    public byte[] Serialize() => PlayCodec.UnsignedIntegerCodec.Encode(_Value, true);
-
-    /// <exception cref="BerParsingException"></exception>
-    public void Serialize(Span<byte> buffer, ref int offset)
-    {
-        PlayCodec.UnsignedIntegerCodec.Encode(_Value, buffer, ref offset);
-    }
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(Tag other) => other._Value == _Value;
-    public override int GetHashCode() => GetHashCode(this);
-
-    public int GetHashCode(Tag obj)
-    {
-        const int largePrime = 486187739;
-
-        unchecked // overflow is fine, just wraps
-        {
-            return largePrime * _Value.GetHashCode();
-        }
-    }
-
-    public int CompareTo(Tag other) => _Value.CompareTo(other._Value);
-    public int CompareTo(uint other) => _Value.CompareTo(other);
-
-    #endregion
-
-    #region Operator Overrides
-
-    public static implicit operator uint(Tag tag) => tag._Value;
-    public static implicit operator Tag(uint tag) => new(tag);
 
     #endregion
 }

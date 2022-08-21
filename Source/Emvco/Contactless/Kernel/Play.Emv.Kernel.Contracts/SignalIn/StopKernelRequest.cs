@@ -1,4 +1,5 @@
-﻿using Play.Emv.Identifiers;
+﻿using Play.Emv.Ber.DataElements;
+using Play.Emv.Identifiers;
 using Play.Emv.Messaging;
 using Play.Messaging;
 
@@ -30,6 +31,7 @@ public record StopKernelRequest : RequestSignal
 
     #region Instance Members
 
+    public KernelId GetKernelId() => _KernelSessionId.GetKernelId();
     public KernelSessionId GetKernelSessionId() => _KernelSessionId;
     public TransactionSessionId GetTransactionSessionId() => _KernelSessionId.GetTransactionSessionId();
 

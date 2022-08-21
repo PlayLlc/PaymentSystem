@@ -1,7 +1,6 @@
-using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Ber.Tags;
 using Play.Codecs;
 
 namespace Play.Emv.Ber.DataElements;
@@ -23,14 +22,6 @@ public record DiscretionaryData : DataExchangeResponse, IEqualityComparer<Discre
 
     public DiscretionaryData(params PrimitiveValue[] value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount() => GetByteCount();
 
     #endregion
 
@@ -89,6 +80,14 @@ public record DiscretionaryData : DataExchangeResponse, IEqualityComparer<Discre
     }
 
     public int GetHashCode(DiscretionaryData obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount() => GetByteCount();
 
     #endregion
 }

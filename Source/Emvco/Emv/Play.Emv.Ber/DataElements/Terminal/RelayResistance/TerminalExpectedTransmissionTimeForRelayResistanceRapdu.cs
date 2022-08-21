@@ -1,5 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -26,13 +26,6 @@ public record TerminalExpectedTransmissionTimeForRelayResistanceRapdu : DataElem
 
     public TerminalExpectedTransmissionTimeForRelayResistanceRapdu(RelaySeconds value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 
@@ -63,6 +56,13 @@ public record TerminalExpectedTransmissionTimeForRelayResistanceRapdu : DataElem
     #region Operator Overrides
 
     public static implicit operator RelaySeconds(TerminalExpectedTransmissionTimeForRelayResistanceRapdu value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

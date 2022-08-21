@@ -1,6 +1,6 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 
 namespace Play.Emv.Ber.DataElements;
 
@@ -19,27 +19,6 @@ public abstract record DataExchangeResponse : DataExchangeList<PrimitiveValue>
 
     protected DataExchangeResponse(PrimitiveValue[] value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public void Enqueue(DataExchangeResponse item)
-    {
-        Enqueue(item._Value.ToArray());
-    }
-
-    public PrimitiveValue[] AsPrimitiveValues() => _Value.ToArray();
-    public bool TryPeek(out PrimitiveValue? result) => _Value.TryPeek(out result);
-
-    public bool TryGet(Tag tag, out PrimitiveValue? result)
-    {
-        result = _Value.FirstOrDefault(a => a.GetTag() == tag);
-
-        return result is null;
-    }
-
-    public ushort GetByteCount() => (ushort) _Value.Sum(a => a.GetTagLengthValueByteCount(_Codec));
 
     #endregion
 
@@ -70,6 +49,27 @@ public abstract record DataExchangeResponse : DataExchangeList<PrimitiveValue>
 
         return result.ToArray();
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public void Enqueue(DataExchangeResponse item)
+    {
+        Enqueue(item._Value.ToArray());
+    }
+
+    public PrimitiveValue[] AsPrimitiveValues() => _Value.ToArray();
+    public bool TryPeek(out PrimitiveValue? result) => _Value.TryPeek(out result);
+
+    public bool TryGet(Tag tag, out PrimitiveValue? result)
+    {
+        result = _Value.FirstOrDefault(a => a.GetTag() == tag);
+
+        return result is null;
+    }
+
+    public ushort GetByteCount() => (ushort) _Value.Sum(a => a.GetTagLengthValueByteCount(_Codec));
 
     #endregion
 }

@@ -5,10 +5,8 @@ using Play.Core.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
-using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
-using Play.Emv.Kernel;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
@@ -20,13 +18,12 @@ using Play.Messaging;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
-internal partial class S910 : CommonProcessing
+public partial class S910 : CommonProcessing
 {
     #region Instance Values
 
     private readonly ResponseHandler _ResponseHandler;
     private readonly AuthHandler _AuthHandler;
-    private readonly IHandleDisplayRequests _DisplayEndpoint;
     protected override StateId[] _ValidStateIds { get; } = {WaitingForGenerateAcResponse1.StateId, WaitingForRecoverAcResponse.StateId};
 
     #endregion
@@ -34,12 +31,10 @@ internal partial class S910 : CommonProcessing
     #region Constructor
 
     public S910(
-        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IKernelEndpoint kernelEndpoint, IAuthenticateTransactionSession authenticationService, IHandleDisplayRequests displayEndpoint) : base(database,
-        dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver, IEndpointClient endpointClient,
+        IAuthenticateTransactionSession authenticationService) : base(database, dataExchangeKernelService, kernelStateResolver, endpointClient)
     {
-        _DisplayEndpoint = displayEndpoint;
-        _ResponseHandler = new ResponseHandler(database, dataExchangeKernelService, kernelEndpoint, pcdEndpoint, displayEndpoint);
+        _ResponseHandler = new ResponseHandler(database, dataExchangeKernelService, endpointClient);
         _AuthHandler = new AuthHandler(database, _ResponseHandler, authenticationService);
     }
 

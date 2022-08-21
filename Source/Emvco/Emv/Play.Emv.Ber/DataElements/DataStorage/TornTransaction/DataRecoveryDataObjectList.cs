@@ -1,8 +1,8 @@
 ﻿using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -34,6 +34,19 @@ public record DataRecoveryDataObjectList : DataObjectList
 
     #endregion
 
+    #region Serialization
+
+    /// <exception cref="BerParsingException"></exception>
+    public static DataRecoveryDataObjectList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    public override DataRecoveryDataObjectList Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    public static DataRecoveryDataObjectList Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodeTagLengths(value.ToArray()));
+
+    #endregion
+
     #region Instance Members
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -46,19 +59,6 @@ public record DataRecoveryDataObjectList : DataObjectList
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="BerParsingException"></exception>
-    public static DataRecoveryDataObjectList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    public override DataRecoveryDataObjectList Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static DataRecoveryDataObjectList Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodeTagLengths(value.ToArray()));
 
     #endregion
 }

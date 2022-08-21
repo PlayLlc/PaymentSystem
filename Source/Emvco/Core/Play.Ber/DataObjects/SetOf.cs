@@ -5,7 +5,7 @@ using System.Linq;
 
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Core.Exceptions;
 
 namespace Play.Ber.DataObjects;
@@ -27,19 +27,19 @@ public abstract class SetOf : IEncodeBerDataObjects
 
     #endregion
 
+    #region Serialization
+
+    public abstract byte[] EncodeValue(BerCodec codec);
+    public abstract byte[] EncodeTagLengthValue(BerCodec codec);
+
+    #endregion
+
     #region Instance Members
 
     public Tag GetTag() => _Tag;
     public abstract uint GetTagLengthValueByteCount(BerCodec codec);
     public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
     public ushort GetValueByteCount(BerCodec codec) => AsTagLengthValue(codec).GetValueByteCount();
-
-    #endregion
-
-    #region Serialization
-
-    public abstract byte[] EncodeValue(BerCodec codec);
-    public abstract byte[] EncodeTagLengthValue(BerCodec codec);
 
     #endregion
 }
@@ -70,15 +70,6 @@ public class SetOf<T> : SetOf, IReadOnlyList<T> where T : IEncodeBerDataObjects,
 
     #endregion
 
-    #region Instance Members
-
-    public T[] AsArray() => _Values;
-    public IEnumerator<T> GetEnumerator() => _Values.ToList().GetEnumerator();
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-    public override uint GetTagLengthValueByteCount(BerCodec codec) => (uint) _Values.Sum(a => a.GetTagLengthValueByteCount(codec));
-
-    #endregion
-
     #region Serialization
 
     public override byte[] EncodeValue(BerCodec codec) => _Values.SelectMany(a => a.EncodeTagLengthValue(codec)).ToArray();
@@ -97,6 +88,15 @@ public class SetOf<T> : SetOf, IReadOnlyList<T> where T : IEncodeBerDataObjects,
 
         return result.ToArray();
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public T[] AsArray() => _Values;
+    public IEnumerator<T> GetEnumerator() => _Values.ToList().GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    public override uint GetTagLengthValueByteCount(BerCodec codec) => (uint) _Values.Sum(a => a.GetTagLengthValueByteCount(codec));
 
     #endregion
 

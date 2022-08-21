@@ -1,5 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -22,14 +22,6 @@ public record ReaderContactlessFloorLimit : DataElement<ulong>, IEqualityCompare
 
     public ReaderContactlessFloorLimit(ulong value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public Money AsMoney(NumericCurrencyCode numericCurrencyCode) => new(_Value, numericCurrencyCode);
 
     #endregion
 
@@ -76,6 +68,14 @@ public record ReaderContactlessFloorLimit : DataElement<ulong>, IEqualityCompare
     }
 
     public int GetHashCode(ReaderContactlessFloorLimit obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public Money AsMoney(NumericCurrencyCode numericCurrencyCode) => new(_Value, numericCurrencyCode);
 
     #endregion
 }

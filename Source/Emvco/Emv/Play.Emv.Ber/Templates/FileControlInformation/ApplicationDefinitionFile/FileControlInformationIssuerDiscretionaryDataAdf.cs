@@ -1,7 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Ber.Tags;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
@@ -29,36 +29,6 @@ public record FileControlInformationIssuerDiscretionaryDataAdf : FileControlInfo
     {
         _LogEntry = logEntry;
         _ThirdPartyData = thirdPartyData;
-    }
-
-    #endregion
-
-    #region Instance Members
-
-    public override Tag GetTag() => Tag;
-
-    public override Tag[] GetChildTags()
-    {
-        return new[] {LogEntry.Tag, ApplicationCapabilitiesInformation.Tag};
-    }
-
-    protected override IEncodeBerDataObjects?[] GetChildren()
-    {
-        return new IEncodeBerDataObjects?[] {_LogEntry, _ThirdPartyData};
-    }
-
-    public bool TryGetApplicationCapabilitiesInformation(out ApplicationCapabilitiesInformation? result)
-    {
-        if (_ThirdPartyData == null)
-        {
-            result = default;
-
-            return false;
-        }
-
-        result = _ThirdPartyData!;
-
-        return true;
     }
 
     #endregion
@@ -91,6 +61,36 @@ public record FileControlInformationIssuerDiscretionaryDataAdf : FileControlInfo
             encodedTlvSiblings);
 
         return new FileControlInformationIssuerDiscretionaryDataAdf(logEntry, aci);
+    }
+
+    #endregion
+
+    #region Instance Members
+
+    public override Tag GetTag() => Tag;
+
+    public override Tag[] GetChildTags()
+    {
+        return new[] {LogEntry.Tag, ApplicationCapabilitiesInformation.Tag};
+    }
+
+    protected override IEncodeBerDataObjects?[] GetChildren()
+    {
+        return new IEncodeBerDataObjects?[] {_LogEntry, _ThirdPartyData};
+    }
+
+    public bool TryGetApplicationCapabilitiesInformation(out ApplicationCapabilitiesInformation? result)
+    {
+        if (_ThirdPartyData == null)
+        {
+            result = default;
+
+            return false;
+        }
+
+        result = _ThirdPartyData!;
+
+        return true;
     }
 
     #endregion

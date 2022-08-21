@@ -1,4 +1,4 @@
-﻿using Play.Ber.Identifiers;
+﻿using Play.Ber.Tags;
 using Play.Ber.Tests.TestData;
 using Play.Core.Extensions;
 

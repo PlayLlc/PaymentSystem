@@ -1,5 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -28,14 +28,6 @@ public record DeviceEstimatedTransmissionTimeForRelayResistanceRapdu : DataEleme
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount() => PlayCodec.BinaryCodec.GetByteCount((ushort)_Value);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -55,14 +47,22 @@ public record DeviceEstimatedTransmissionTimeForRelayResistanceRapdu : DataEleme
         return new DeviceEstimatedTransmissionTimeForRelayResistanceRapdu(result);
     }
 
-    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode((ushort)_Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode((ushort)_Value, length);
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode((ushort) _Value, _ByteLength);
+    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode((ushort) _Value, length);
 
     #endregion
 
     #region Operator Overrides
 
     public static implicit operator RelaySeconds(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount() => PlayCodec.BinaryCodec.GetByteCount((ushort) _Value);
 
     #endregion
 }

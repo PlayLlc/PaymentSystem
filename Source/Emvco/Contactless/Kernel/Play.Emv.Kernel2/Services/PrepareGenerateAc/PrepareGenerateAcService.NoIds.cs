@@ -20,7 +20,7 @@ public partial class PrepareGenerateAcService
         #region Instance Values
 
         private readonly KernelDatabase _Database;
-        private readonly IHandlePcdRequests _PcdEndpoint;
+        private readonly IEndpointClient _EndpointClient;
         private readonly ReadIntegratedDataStorage _ReadIntegratedDataStorage;
         private readonly CdaFailure _CdaFailure;
 
@@ -29,10 +29,10 @@ public partial class PrepareGenerateAcService
         #region Constructor
 
         public NoIntegratedDataStorage(
-            KernelDatabase database, IHandlePcdRequests pcdEndpoint, ReadIntegratedDataStorage readIntegratedDataStorage, CdaFailure cdaFailure)
+            KernelDatabase database, IEndpointClient endpointClient, ReadIntegratedDataStorage readIntegratedDataStorage, CdaFailure cdaFailure)
         {
             _Database = database;
-            _PcdEndpoint = pcdEndpoint;
+            _EndpointClient = endpointClient;
             _ReadIntegratedDataStorage = readIntegratedDataStorage;
             _CdaFailure = cdaFailure;
         }
@@ -106,7 +106,7 @@ public partial class PrepareGenerateAcService
             CardRiskManagementDataObjectList1RelatedData cdol1RelatedData =
                 _Database.Get<CardRiskManagementDataObjectList1RelatedData>(CardRiskManagementDataObjectList1RelatedData.Tag);
 
-            _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(session.GetTransactionSessionId(),
+            _EndpointClient.Send(GenerateApplicationCryptogramRequest.Create(session.GetTransactionSessionId(),
                 _Database.Get<ReferenceControlParameter>(ReferenceControlParameter.Tag), cdol1RelatedData));
         }
 

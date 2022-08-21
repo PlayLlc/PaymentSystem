@@ -1,13 +1,11 @@
-﻿using System;
-
-using Play.Core;
+﻿using Play.Core;
 using Play.Core.Exceptions;
 using Play.Globalization.Time;
 using Play.Testing.BaseTestClasses;
 
 using Xunit;
 
-namespace Play.Globalization.Tests.Tests.Time;
+namespace Play.Globalization.Tests.Tests.Time.DateTimes;
 
 public class ShortDateTests : TestBase
 {

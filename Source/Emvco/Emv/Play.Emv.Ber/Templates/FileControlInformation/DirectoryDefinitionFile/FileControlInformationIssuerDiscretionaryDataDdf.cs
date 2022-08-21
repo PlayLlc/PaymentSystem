@@ -1,7 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Ber.Tags;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
@@ -28,6 +28,28 @@ public record FileControlInformationIssuerDiscretionaryDataDdf : FileControlInfo
     {
         _ApplicationCapabilitiesInformation = applicationCapabilitiesInformation;
     }
+
+    #endregion
+
+    #region Serialization
+
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="CardDataMissingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    public static FileControlInformationIssuerDiscretionaryDataDdf Decode(ReadOnlyMemory<byte> value)
+    {
+        if (_Codec.DecodeFirstTag(value.Span) == Tag)
+            return Decode(_Codec.DecodeChildren(value));
+
+        return Decode(_Codec.DecodeSiblings(value));
+    }
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
+    public static FileControlInformationIssuerDiscretionaryDataDdf Decode(EncodedTlvSiblings encodedChildren) =>
+        new(_Codec.AsPrimitive(ApplicationCapabilitiesInformation.Decode, ApplicationCapabilitiesInformation.Tag, encodedChildren));
 
     #endregion
 
@@ -58,28 +80,6 @@ public record FileControlInformationIssuerDiscretionaryDataDdf : FileControlInfo
 
         return true;
     }
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="CardDataMissingException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static FileControlInformationIssuerDiscretionaryDataDdf Decode(ReadOnlyMemory<byte> value)
-    {
-        if (_Codec.DecodeFirstTag(value.Span) == Tag)
-            return Decode(_Codec.DecodeChildren(value));
-
-        return Decode(_Codec.DecodeSiblings(value));
-    }
-
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
-    public static FileControlInformationIssuerDiscretionaryDataDdf Decode(EncodedTlvSiblings encodedChildren) =>
-        new(_Codec.AsPrimitive(ApplicationCapabilitiesInformation.Decode, ApplicationCapabilitiesInformation.Tag, encodedChildren));
 
     #endregion
 }

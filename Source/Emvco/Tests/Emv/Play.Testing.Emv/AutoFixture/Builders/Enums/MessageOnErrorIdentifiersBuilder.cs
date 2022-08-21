@@ -24,12 +24,12 @@ public class MessageOnErrorIdentifiersBuilder : SpecimenBuilder
         if (type == null)
             return new NoSpecimen();
 
-        if (type != typeof(MessageOnErrorIdentifiers))
+        if (type != typeof(DisplayMessageOnErrorIdentifiers))
             return new NoSpecimen();
 
-        MessageIdentifiers[] all = MessageIdentifiers.Empty.GetAll();
+        DisplayMessageIdentifiers[] all = DisplayMessageIdentifiers.Empty.GetAll();
 
-        return (MessageOnErrorIdentifiers) all[new Random().Next(0, all.Length - 1)];
+        return (DisplayMessageOnErrorIdentifiers) all[new Random().Next(0, all.Length - 1)];
     }
 
     #endregion

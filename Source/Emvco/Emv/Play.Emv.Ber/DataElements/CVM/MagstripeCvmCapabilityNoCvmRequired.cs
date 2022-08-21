@@ -1,5 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -20,13 +20,6 @@ public record MagstripeCvmCapabilityNoCvmRequired : DataElement<byte>
 
     public MagstripeCvmCapabilityNoCvmRequired(byte value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 
@@ -57,6 +50,13 @@ public record MagstripeCvmCapabilityNoCvmRequired : DataElement<byte>
     #region Operator Overrides
 
     public static implicit operator byte(MagstripeCvmCapabilityNoCvmRequired value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

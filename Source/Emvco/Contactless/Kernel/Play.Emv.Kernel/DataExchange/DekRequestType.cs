@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Core;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
@@ -43,6 +43,12 @@ public record DekRequestType : EnumObject<Tag>
 
     #endregion
 
+    #region Operator Overrides
+
+    public static explicit operator Tag(DekRequestType dekRequestType) => dekRequestType._Value;
+
+    #endregion
+
     #region Instance Members
 
     public override DekRequestType[] GetAll() => _ValueObjectMap.Values.ToArray();
@@ -71,12 +77,6 @@ public record DekRequestType : EnumObject<Tag>
 
         return _ValueObjectMap[tag];
     }
-
-    #endregion
-
-    #region Operator Overrides
-
-    public static explicit operator Tag(DekRequestType dekRequestType) => dekRequestType._Value;
 
     #endregion
 }
