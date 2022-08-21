@@ -8,7 +8,7 @@ using Play.Emv.Kernel.Contracts;
 
 namespace Play.Emv.Kernel2.Databases;
 
-public class Kernel2PersistentValues : PersistentValues
+public class Kernel2KernelPersistentConfiguration : KernelPersistentConfiguration
 {
     #region Instance Values
 
@@ -18,7 +18,7 @@ public class Kernel2PersistentValues : PersistentValues
 
     #region Constructor
 
-    public Kernel2PersistentValues(params PrimitiveValue[] values)
+    public Kernel2KernelPersistentConfiguration(params PrimitiveValue[] values)
     {
         Kernel2KnownObjects knownObjects = Kernel2KnownObjects.Empty;
         EmvBook3DefaultValues book3Defaults = new();

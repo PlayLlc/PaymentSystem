@@ -17,8 +17,8 @@ namespace MockPos.Dtos
         [JsonPropertyName(nameof(TransactionProfiles))]
         public List<TransactionProfileDto> TransactionProfiles { get; set; } = new();
 
-        [JsonPropertyName(nameof(KernelConfigurations))]
-        public List<KernelConfigurationDto> KernelConfigurations { get; set; } = new();
+        [JsonPropertyName(nameof(KernelPersistentConfigurations))]
+        public List<KernelPersistentConfigurationDto> KernelPersistentConfigurations { get; set; } = new();
 
         [JsonPropertyName(nameof(DisplayConfiguration))]
         public DisplayConfigurationDto DisplayConfiguration { get; set; } = new();

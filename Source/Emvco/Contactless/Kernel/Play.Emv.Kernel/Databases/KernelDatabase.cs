@@ -25,11 +25,12 @@ public partial class KernelDatabase : IManageKernelDatabaseLifetime
     #region Constructor
 
     public KernelDatabase(
-        CertificateAuthorityDataset[] certificateAuthorityDataset, PersistentValues persistentValues, KnownObjects knownObjects, ScratchPad scratchPad)
+        CertificateAuthorityDataset[] certificateAuthorityDataset, KernelPersistentConfiguration kernelPersistentConfiguration, KnownObjects knownObjects,
+        ScratchPad scratchPad)
     {
         _ScratchPad = scratchPad;
         _Certificates = certificateAuthorityDataset.ToImmutableDictionary(a => a.GetRid(), b => b);
-        _PersistentValues = persistentValues;
+        _KernelPersistentConfiguration = kernelPersistentConfiguration;
         _KnownObjects = knownObjects;
         _Database = new SortedDictionary<Tag, PrimitiveValue?>(new TagComparer());
         FailedMagstripeCounter = new SequenceCounterThreshold(0, int.MaxValue, 1);

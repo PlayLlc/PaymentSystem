@@ -82,7 +82,7 @@
     }
 
   ],
-  "KernelConfigurations": [
+  "KernelPersistentConfigurations": [
     {
 
       "KernelId": 2,

@@ -34,7 +34,7 @@ public partial class ContactlessFixture
     {
         fixture.Freeze<TransactionSessionId>();
         fixture.Freeze<KernelSessionId>();
-        fixture.Register<PersistentValues>(() => new Kernel2PersistentValues());
+        fixture.Register<KernelPersistentConfiguration>(() => new Kernel2KernelPersistentConfiguration());
         fixture.Register<KnownObjects>(fixture.Create<Kernel2KnownObjects>);
         fixture.Register(() => new SequenceCounterThreshold(0, int.MaxValue, 1));
         KernelDatabase database = fixture.Create<KernelDatabase>();

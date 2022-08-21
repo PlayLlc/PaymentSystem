@@ -31,7 +31,7 @@ public class Kernel2Process : KernelProcess
         IValidateCombinationCompatibility combinationCompatibilityValidator, ISelectCardholderVerificationMethod cardholderVerificationMethodSelector,
         IPerformTerminalActionAnalysis terminalActionAnalyzer, IAuthenticateTransactionSession authenticationService, ScratchPad scratchPad)
     {
-        KernelDatabase database = new(certificates, new Kernel2PersistentValues(), new Kernel2KnownObjects(), scratchPad);
+        KernelDatabase database = new(certificates, new Kernel2KernelPersistentConfiguration(), new Kernel2KnownObjects(), scratchPad);
         DataExchangeKernelService dataExchangeKernelService = new(endpointClient, database);
         Kernel2StateResolver kernel2StateResolver = new(database, dataExchangeKernelService, endpointClient, tornTransactionLog, unpredictableNumberGenerator,
             combinationCapabilityValidator, combinationCompatibilityValidator, cardholderVerificationMethodSelector, terminalActionAnalyzer,
