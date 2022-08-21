@@ -1,7 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Ber.Tags;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
@@ -27,34 +27,6 @@ public record FileControlInformationProprietaryPpse : FileControlInformationProp
     public FileControlInformationProprietaryPpse(FileControlInformationIssuerDiscretionaryDataPpse fileControlInformationProprietaryDataPpse)
     {
         _FileControlInformationIssuerDiscretionaryDataPpse = fileControlInformationProprietaryDataPpse;
-    }
-
-    #endregion
-
-    #region Instance Members
-
-    public override Tag[] GetChildTags() => ChildTags;
-
-    public CommandTemplate AsCommandTemplate(PoiInformation poiInformation, IReadTlvDatabase database) =>
-        _FileControlInformationIssuerDiscretionaryDataPpse.AsCommandTemplate(_Codec, poiInformation, database);
-
-    public CommandTemplate AsCommandTemplate(IReadTlvDatabase database) => _FileControlInformationIssuerDiscretionaryDataPpse.AsCommandTemplate(database);
-
-    public ApplicationDedicatedFileName[] GetApplicationDedicatedFileNames() =>
-        _FileControlInformationIssuerDiscretionaryDataPpse.GetApplicationDedicatedFileNames();
-
-    public TagLength[] GetDataObjectsRequestedByCard() => _FileControlInformationIssuerDiscretionaryDataPpse.GetRequestedSdolItems();
-    public List<DirectoryEntry> GetDirectoryEntries() => _FileControlInformationIssuerDiscretionaryDataPpse.GetDirectoryEntries();
-
-    public override FileControlInformationIssuerDiscretionaryDataPpse GetFileControlInformationIssuerDiscretionaryData() =>
-        _FileControlInformationIssuerDiscretionaryDataPpse;
-
-    public override Tag GetTag() => 0xA5;
-    public bool IsDirectoryEntryListEmpty() => _FileControlInformationIssuerDiscretionaryDataPpse.IsDirectoryEntryListEmpty();
-
-    protected override IEncodeBerDataObjects?[] GetChildren()
-    {
-        return new IEncodeBerDataObjects?[] {_FileControlInformationIssuerDiscretionaryDataPpse};
     }
 
     #endregion
@@ -86,6 +58,34 @@ public record FileControlInformationProprietaryPpse : FileControlInformationProp
                 $"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataPpse)}. A {nameof(FileControlInformationIssuerDiscretionaryDataPpse)} was expected but could not be found");
 
         return new FileControlInformationProprietaryPpse(fciProprietary);
+    }
+
+    #endregion
+
+    #region Instance Members
+
+    public override Tag[] GetChildTags() => ChildTags;
+
+    public CommandTemplate AsCommandTemplate(PoiInformation poiInformation, IReadTlvDatabase database) =>
+        _FileControlInformationIssuerDiscretionaryDataPpse.AsCommandTemplate(_Codec, poiInformation, database);
+
+    public CommandTemplate AsCommandTemplate(IReadTlvDatabase database) => _FileControlInformationIssuerDiscretionaryDataPpse.AsCommandTemplate(database);
+
+    public ApplicationDedicatedFileName[] GetApplicationDedicatedFileNames() =>
+        _FileControlInformationIssuerDiscretionaryDataPpse.GetApplicationDedicatedFileNames();
+
+    public TagLength[] GetDataObjectsRequestedByCard() => _FileControlInformationIssuerDiscretionaryDataPpse.GetRequestedSdolItems();
+    public List<DirectoryEntry> GetDirectoryEntries() => _FileControlInformationIssuerDiscretionaryDataPpse.GetDirectoryEntries();
+
+    public override FileControlInformationIssuerDiscretionaryDataPpse GetFileControlInformationIssuerDiscretionaryData() =>
+        _FileControlInformationIssuerDiscretionaryDataPpse;
+
+    public override Tag GetTag() => 0xA5;
+    public bool IsDirectoryEntryListEmpty() => _FileControlInformationIssuerDiscretionaryDataPpse.IsDirectoryEntryListEmpty();
+
+    protected override IEncodeBerDataObjects?[] GetChildren()
+    {
+        return new IEncodeBerDataObjects?[] {_FileControlInformationIssuerDiscretionaryDataPpse};
     }
 
     #endregion

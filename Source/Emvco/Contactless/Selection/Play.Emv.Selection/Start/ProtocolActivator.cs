@@ -4,6 +4,7 @@ using Play.Emv.Display.Contracts;
 using Play.Emv.Identifiers;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;
+using Play.Messaging;
 
 namespace Play.Emv.Selection.Start;
 
@@ -17,17 +18,15 @@ public class ProtocolActivator
 {
     #region Instance Values
 
-    private readonly IHandleDisplayRequests _DisplayProcess;
-    private readonly IHandlePcdRequests _ProximityCouplingDeviceEndpoint;
+    private readonly IEndpointClient _EndpointClient;
 
     #endregion
 
     #region Constructor
 
-    public ProtocolActivator(IHandlePcdRequests pcdClient, IHandleDisplayRequests displayClient)
+    public ProtocolActivator(IEndpointClient endpointClient)
     {
-        _ProximityCouplingDeviceEndpoint = pcdClient;
-        _DisplayProcess = displayClient;
+        _EndpointClient = endpointClient;
     }
 
     #endregion
@@ -56,7 +55,7 @@ public class ProtocolActivator
     /// <remarks>EMVco Book B Section 3.2.1.3</remarks>
     private void ActivateProximityCouplingDevice(TransactionSessionId transactionSessionId)
     {
-        _ProximityCouplingDeviceEndpoint.Request(new ActivatePcdRequest(transactionSessionId));
+        _EndpointClient.Send(new ActivatePcdRequest(transactionSessionId));
     }
 
     #endregion
@@ -82,14 +81,14 @@ public class ProtocolActivator
         else
             candidateList.Clear();
 
-        _DisplayProcess.Request(GetReadyToReadDisplayMessage());
+        _EndpointClient.Send(GetReadyToReadDisplayMessage());
     }
 
     private static DisplayMessageRequest GetReadyToReadDisplayMessage()
     {
         UserInterfaceRequestData.Builder? builder = UserInterfaceRequestData.GetBuilder();
-        builder.Set(MessageIdentifiers.PresentCard);
-        builder.Set(Statuses.ReadyToRead);
+        builder.Set(DisplayMessageIdentifiers.PresentCard);
+        builder.Set(DisplayStatuses.ReadyToRead);
 
         return new DisplayMessageRequest(builder.Complete());
     }
@@ -113,17 +112,17 @@ public class ProtocolActivator
                     $"The {nameof(Outcome)} indicated that UI Request on Restart is true but no {nameof(UserInterfaceRequestData)} could be found");
             }
 
-            _DisplayProcess.Request(new DisplayMessageRequest(requestData));
+            _EndpointClient.Send(new DisplayMessageRequest(requestData));
         }
         else
-            _DisplayProcess.Request(GetReadyToReadDisplayMessage(outcome));
+            _EndpointClient.Send(GetReadyToReadDisplayMessage(outcome));
     }
 
     private static DisplayMessageRequest GetReadyToReadDisplayMessage(Outcome outcome)
     {
         UserInterfaceRequestData.Builder? builder = UserInterfaceRequestData.GetBuilder();
-        builder.Set(MessageIdentifiers.PresentCard);
-        builder.Set(Statuses.ReadyToRead);
+        builder.Set(DisplayMessageIdentifiers.PresentCard);
+        builder.Set(DisplayStatuses.ReadyToRead);
         outcome.Update(builder);
 
         _ = outcome.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData);

@@ -27,7 +27,7 @@ internal class StaticDataAuthenticator
     }
 
     #endregion
-                        
+
     #region Instance Members
 
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>

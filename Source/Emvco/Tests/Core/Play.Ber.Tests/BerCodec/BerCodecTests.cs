@@ -1,13 +1,11 @@
 ﻿using System;
 
-using Microsoft.Toolkit.HighPerformance.Buffers;
-
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
-using Play.Ber.Identifiers.Long;
 using Play.Ber.InternalFactories;
 using Play.Ber.Lengths;
+using Play.Ber.Tags;
+using Play.Ber.Tags.Long;
 using Play.Testing.BaseTestClasses;
 
 using Xunit;

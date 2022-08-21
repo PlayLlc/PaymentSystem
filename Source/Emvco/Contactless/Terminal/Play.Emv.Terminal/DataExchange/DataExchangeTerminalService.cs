@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.DataExchange;
 using Play.Emv.Identifiers;
@@ -17,18 +17,16 @@ public class DataExchangeTerminalService
 {
     #region Instance Values
 
-    private readonly ISendTerminalQueryResponse _TerminalEndpoint;
-    private readonly IHandleKernelRequests _KernelEndpoint;
+    private readonly IEndpointClient _EndpointClient;
     private readonly DataExchangeTerminalLock _Lock = new();
 
     #endregion
 
     #region Constructor
 
-    public DataExchangeTerminalService(ISendTerminalQueryResponse terminalEndpoint, IHandleKernelRequests kernelEndpoint)
+    public DataExchangeTerminalService(IEndpointClient endpointClient)
     {
-        _TerminalEndpoint = terminalEndpoint;
-        _KernelEndpoint = kernelEndpoint;
+        _EndpointClient = endpointClient;
     }
 
     #endregion
@@ -77,7 +75,7 @@ public class DataExchangeTerminalService
 
             QueryTerminalResponse queryKernelResponse = new(correlationId, new DataToSend(_Lock.Responses[type].GetDataObjects()), dataExchangeKernelId);
 
-            _TerminalEndpoint.Send(queryKernelResponse);
+            _EndpointClient.Send(queryKernelResponse);
             _Lock.Responses[type].Clear();
         }
     }
@@ -196,7 +194,7 @@ public class DataExchangeTerminalService
             QueryKernelRequest queryKernelRequest = new(new DataExchangeTerminalId(kernelId, transactionSessionId),
                 (TagsToRead) _Lock.Requests[DetRequestType.TagsToRead]);
 
-            _KernelEndpoint.Request(queryKernelRequest);
+            _EndpointClient.Send(queryKernelRequest);
             _Lock.Responses[DetRequestType.TagsToRead].Clear();
         }
     }

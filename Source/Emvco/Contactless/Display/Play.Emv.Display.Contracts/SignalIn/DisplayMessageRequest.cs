@@ -1,6 +1,8 @@
 ﻿using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.DataElements.Display;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Messaging;
+using Play.Globalization.Currency;
 using Play.Messaging;
 
 namespace Play.Emv.Display.Contracts;
@@ -34,10 +36,13 @@ public record DisplayMessageRequest : RequestSignal
 
     #region Instance Members
 
+    public bool IsValueQualifierPresent() => _UserInterfaceRequestData.IsValueQualifierPresent();
+    public Money? GetAmount() => _UserInterfaceRequestData.GetAmount();
     public LanguagePreference GetLanguagePreference() => _UserInterfaceRequestData.GetLanguagePreference();
-    public MessageIdentifiers GetMessageIdentifier() => _UserInterfaceRequestData.GetMessageIdentifier();
+    public DisplayMessageIdentifiers GetMessageIdentifier() => _UserInterfaceRequestData.GetMessageIdentifier();
     public UserInterfaceRequestData GetUserInterfaceRequestData() => _UserInterfaceRequestData;
-    public Statuses GetStatus() => _UserInterfaceRequestData.GetStatus();
+    public DisplayStatuses GetStatus() => _UserInterfaceRequestData.GetStatus();
+    public MessageHoldTime GetHoldTime() => _UserInterfaceRequestData.GetHoldTimeValue();
 
     #endregion
 }

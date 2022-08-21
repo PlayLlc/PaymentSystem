@@ -1,5 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
@@ -30,13 +30,6 @@ public record TransactionCurrencyCode : DataElement<NumericCurrencyCode>, IEqual
 
     public TransactionCurrencyCode(CultureProfile cultureProfile) : base(cultureProfile.GetNumericCurrencyCode())
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 
@@ -86,6 +79,13 @@ public record TransactionCurrencyCode : DataElement<NumericCurrencyCode>, IEqual
     #region Operator Overrides
 
     public static implicit operator NumericCurrencyCode(TransactionCurrencyCode value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

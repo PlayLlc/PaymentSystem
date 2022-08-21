@@ -84,6 +84,7 @@ public class AmountAuthorizedNumericTests : TestBase
         TagLengthValue expected = new(AmountAuthorizedNumeric.Tag, testData.EncodeValue());
         TagLengthValue? actual = sut.AsTagLengthValue();
         Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
+        ;
     }
 
     // TODO: WARNING - this test is failing indeterminately. There is a bug here

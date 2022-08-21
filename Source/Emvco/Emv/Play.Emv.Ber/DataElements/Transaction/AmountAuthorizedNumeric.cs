@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -26,14 +26,6 @@ public record AmountAuthorizedNumeric : DataElement<ulong>, IEqualityComparer<Am
 
     public AmountAuthorizedNumeric(ulong value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public Money AsMoney(NumericCurrencyCode numericCurrencyCode) => new(_Value, numericCurrencyCode);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 
@@ -86,6 +78,14 @@ public record AmountAuthorizedNumeric : DataElement<ulong>, IEqualityComparer<Am
     public static implicit operator ulong(AmountAuthorizedNumeric value) => value._Value;
     public static bool operator !=(AmountAuthorizedNumeric left, ulong right) => !(left == right);
     public static bool operator !=(ulong left, AmountAuthorizedNumeric right) => !(left == right);
+
+    #endregion
+
+    #region Instance Members
+
+    public Money AsMoney(NumericCurrencyCode numericCurrencyCode) => new(_Value, numericCurrencyCode);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

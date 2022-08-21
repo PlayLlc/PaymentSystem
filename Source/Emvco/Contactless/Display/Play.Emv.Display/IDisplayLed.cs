@@ -8,7 +8,7 @@ public interface IDisplayLed
 {
     #region Instance Members
 
-    public Task Display(Statuses statuses);
+    public Task Display(DisplayStatuses displayStatuses);
 
     #endregion
 }

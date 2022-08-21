@@ -1,5 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Enums;
@@ -32,13 +32,6 @@ public record DataStorageApplicationCryptogramType : DataElement<byte>, IEqualit
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -54,9 +47,6 @@ public record DataStorageApplicationCryptogramType : DataElement<byte>, IEqualit
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
-
-        if (!CryptogramTypes.IsValid(result))
-            throw new CardDataException($"The argument {nameof(value)} was not recognized as a valid {nameof(CryptogramTypes)}");
 
         return new DataStorageApplicationCryptogramType(result);
     }
@@ -86,6 +76,13 @@ public record DataStorageApplicationCryptogramType : DataElement<byte>, IEqualit
     #region Operator Overrides
 
     public static implicit operator CryptogramType(DataStorageApplicationCryptogramType cryptogramTypes) => new(cryptogramTypes._Value);
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

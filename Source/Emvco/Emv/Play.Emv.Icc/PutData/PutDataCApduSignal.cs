@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Core;
 using Play.Emv.Ber;
 using Play.Icc.Exceptions;

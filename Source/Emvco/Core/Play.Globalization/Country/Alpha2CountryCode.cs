@@ -1,11 +1,8 @@
 using System;
 
-using Play.Codecs;
-using Play.Core.Exceptions;
-
 namespace Play.Globalization.Country;
 
-public readonly record struct Alpha2CountryCode
+public readonly struct Alpha2CountryCode
 {
     #region Instance Values
 
@@ -17,16 +14,10 @@ public readonly record struct Alpha2CountryCode
 
     #region Constructor
 
-    //add extra default parameter to avoid circular dependency.
     public Alpha2CountryCode(ReadOnlySpan<char> value)
     {
-        CheckCore.ForExactLength(value, 2, nameof(value));
-
-        if (!PlayCodec.AlphabeticCodec.IsValid(value))
-        {
-            throw new PlayInternalException(new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} was expecting a decimal representation of an AsciiCodec alphabetic character"));
-        }
+        if (!CountryCodeRepository.IsValid(value))
+            throw new ArgumentOutOfRangeException(nameof(value), $"The argument {nameof(value)} must be ISO 3166 compliant");
 
         _FirstChar = (byte) value[0];
         _SecondChar = (byte) value[1];
@@ -34,17 +25,9 @@ public readonly record struct Alpha2CountryCode
 
     #endregion
 
-    #region Instance Members
-
-    public char[] AsCharArray() => new[] {(char) _FirstChar, (char) _SecondChar};
-    public ReadOnlySpan<char> AsReadOnlySpan() => AsCharArray();
-    public string AsString() => new(AsReadOnlySpan());
-    public override string ToString() => AsString();
-    public byte[] Encode() => new byte[] {_FirstChar, _SecondChar};
-
-    #endregion
-
     #region Equality
+
+    public override bool Equals(object? obj) => obj is Alpha2CountryCode countryCodeAlpha2 && Equals(countryCodeAlpha2);
 
     public bool Equals(ReadOnlySpan<char> other)
     {
@@ -74,6 +57,8 @@ public readonly record struct Alpha2CountryCode
 
     #region Operator Overrides
 
+    public static bool operator ==(Alpha2CountryCode left, Alpha2CountryCode right) => left.Equals(right);
+
     public static explicit operator string(Alpha2CountryCode value)
     {
         Span<char> buffer = stackalloc char[2];
@@ -82,6 +67,8 @@ public readonly record struct Alpha2CountryCode
 
         return new string(buffer);
     }
+
+    public static bool operator !=(Alpha2CountryCode left, Alpha2CountryCode right) => !left.Equals(right);
 
     #endregion
 }

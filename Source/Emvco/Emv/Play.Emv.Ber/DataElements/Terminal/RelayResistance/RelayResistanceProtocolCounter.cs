@@ -1,5 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -20,13 +20,6 @@ public record RelayResistanceProtocolCounter : DataElement<byte>
 
     public RelayResistanceProtocolCounter(byte value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 
@@ -58,6 +51,13 @@ public record RelayResistanceProtocolCounter : DataElement<byte>
 
     public static explicit operator byte(RelayResistanceProtocolCounter value) => value._Value;
     public static explicit operator RelayResistanceProtocolCounter(byte value) => new(value);
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

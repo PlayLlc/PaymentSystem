@@ -63,48 +63,35 @@ internal class CvmQueue
 
         for (; _Offset < _Rules.Count; _Offset++)
         {
-            CvmRule currentCvmRule = _Rules[_Offset];
-
-            //CVM.10
-            if (!CvmCondition.TryGet(currentCvmRule.GetCvmConditionCode(), out CvmCondition? cvmCondition))
+            if (!CvmCondition.TryGet(_Rules[_Offset].GetCvmConditionCode(), out CvmCondition? cvmCondition))
                 continue;
 
-            //CVM.11
-            if (!CvmCondition.IsCvmSupported(database, cvmCondition!.GetConditionCode(), _XAmount, _YAmount))
+            if (CvmCondition.IsCvmSupported(database, cvmCondition!.GetConditionCode(), _XAmount, _YAmount))
                 continue;
 
-            //CVM.15
-            if (!currentCvmRule.GetCvmCode().IsRecognized())
+            if (!_Rules[_Offset].GetCvmCode().IsRecognized())
             {
                 HandleUnrecognizedRule(database);
 
-                if (IsContinueOnFailureAllowed(currentCvmRule.GetCvmCode()))
+                if (IsContinueOnFailureAllowed(_Rules[_Offset].GetCvmCode()))
                     continue;
 
-                HandleInvalidRule(database, currentCvmRule.GetCvmCode(), currentCvmRule.GetCvmConditionCode());
-
-                return false;
+                HandleInvalidRule(database, _Rules[_Offset].GetCvmCode(), _Rules[_Offset].GetCvmConditionCode());
             }
 
-            //CVM.17
-            if (!currentCvmRule.GetCvmCode().IsSupported(terminalCapabilities))
+            if (!_Rules[_Offset].GetCvmCode().IsSupported(terminalCapabilities))
             {
                 //  Book 3 Section 10.5
-                if (IsPinRequiredButNotAvailable(currentCvmRule.GetCvmCode(), database))
+                if (IsPinRequiredButNotAvailable(_Rules[_Offset].GetCvmCode(), database))
                     SetPinRequiredButNotSupported(database);
 
-                //CVM.19
-                if (currentCvmRule.GetCvmCode().IsTryNextIfUnsuccessfulSet())
-                    continue;
-
-                //CVM.22
-                HandleInvalidRule(database, currentCvmRule.GetCvmCode(), currentCvmRule.GetCvmConditionCode());
-
-                return false;
+                continue;
             }
 
-            //CVM.18
-            HandleSuccessfulSelect(database, currentCvmRule.GetCvmCode(), currentCvmRule.GetCvmConditionCode());
+            if (!_Rules[_Offset].GetCvmCode().IsTryNextIfUnsuccessfulSet())
+                continue;
+
+            HandleSuccessfulSelect(database, _Rules[_Offset++].GetCvmCode(), _Rules[_Offset++].GetCvmConditionCode());
 
             return true;
         }
@@ -119,7 +106,7 @@ internal class CvmQueue
     /// <exception cref="TerminalDataException"></exception>
     public void HandleUnrecognizedRule(KernelDatabase database)
     {
-        database.Update(TerminalVerificationResultCodes.UnrecognizedCvm);
+        database.Set(TerminalVerificationResultCodes.UnrecognizedCvm);
     }
 
     #endregion
@@ -144,10 +131,10 @@ internal class CvmQueue
         SetCardholderVerificationWasNotSuccessful(database);
 
         // CVM.23
-        if (!cvmCode.IsFailureControlSupported())
-            SetCvmProcessedToFailedCvm(database, cvmCode, cvmConditionCode); //24
-        else
-            SetCvmProcessedToNone(database); //25
+        if (cvmCode.IsFailureControlSupported())
+            SetCvmProcessedToFailedCvm(database, cvmCode, cvmConditionCode);
+
+        SetCvmProcessedToNone(database);
     }
 
     #endregion
@@ -161,7 +148,7 @@ internal class CvmQueue
     /// <exception cref="TerminalDataException"></exception>
     public void SetCardholderVerificationWasNotSuccessful(KernelDatabase database)
     {
-        database.Update(TerminalVerificationResultCodes.CardholderVerificationWasNotSuccessful);
+        database.Set(TerminalVerificationResultCodes.CardholderVerificationWasNotSuccessful);
     }
 
     #endregion
@@ -239,7 +226,7 @@ internal class CvmQueue
     /// <exception cref="TerminalDataException"></exception>
     private void SetPinRequiredButNotSupported(KernelDatabase database)
     {
-        database.Update(TerminalVerificationResultCodes.PinEntryRequiredAndPinPadNotPresentOrNotWorking);
+        database.Set(TerminalVerificationResultCodes.PinEntryRequiredAndPinPadNotPresentOrNotWorking);
     }
 
     #endregion
@@ -290,7 +277,7 @@ internal class CvmQueue
     private void HandleSuccessfulOnlineEncipheredPinSelection(KernelDatabase database, CvmCode cvmCode)
     {
         CvmResults results = new(cvmCode, new CvmConditionCode(0), CvmResultCodes.Unknown);
-        database.Update(TerminalVerificationResultCodes.OnlinePinEntered);
+        database.Set(TerminalVerificationResultCodes.OnlinePinEntered);
         database.Update(results);
         database.Update(CvmPerformedOutcome.OnlinePin);
     }

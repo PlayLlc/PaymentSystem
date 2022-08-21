@@ -150,14 +150,14 @@ public partial class WaitingForGenerateAcResponse2
     {
         try
         {
-            _Database.Update(MessageIdentifiers.TryAgain);
-            _Database.Update(Statuses.ReadyToRead);
+            _Database.Update(DisplayMessageIdentifiers.TryAgain);
+            _Database.Update(DisplayStatuses.ReadyToRead);
             _Database.Update(MessageHoldTime.MinimumValue);
             _Database.Update(StatusOutcomes.EndApplication);
             _Database.Update(StartOutcomes.B);
             _Database.SetUiRequestOnRestartPresent(true);
             _Database.Update(rapdu.GetLevel1Error());
-            _Database.Update(MessageOnErrorIdentifiers.TryAgain);
+            _Database.Update(DisplayMessageOnErrorIdentifiers.TryAgain);
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         }
         catch (TerminalDataException)
@@ -170,7 +170,7 @@ public partial class WaitingForGenerateAcResponse2
         }
         finally
         {
-            _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+            _EndpointClient.Send(new StopKernelRequest(sessionId));
         }
     }
 
@@ -360,10 +360,10 @@ public partial class WaitingForGenerateAcResponse2
     /// <exception cref="TerminalDataException"></exception>
     private void SetDisplayMessage()
     {
-        _Database.Update(MessageIdentifiers.ClearDisplay);
-        _Database.Update(Statuses.CardReadSuccessful);
+        _Database.Update(DisplayMessageIdentifiers.ClearDisplay);
+        _Database.Update(DisplayStatuses.CardReadSuccessful);
         _Database.Update(MessageHoldTime.MinimumValue);
-        _DisplayEndpoint.Request(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
+        _EndpointClient.Send(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
     }
 
     #endregion

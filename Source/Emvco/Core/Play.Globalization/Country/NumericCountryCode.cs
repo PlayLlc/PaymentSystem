@@ -1,9 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-using Play.Core.Exceptions;
-using Play.Core.Extensions;
-using Play.Globalization.Currency;
-
 namespace Play.Globalization.Country;
 
 public readonly struct NumericCountryCode
@@ -18,7 +14,10 @@ public readonly struct NumericCountryCode
 
     public NumericCountryCode(ushort value)
     {
-        CheckCore.ForMaximumValue(value.GetNumberOfDigits(), 3, nameof(NumericCurrencyCode));
+        //if (!CountryCodeRepository.IsValid(value))
+        //{
+        //    throw new ArgumentOutOfRangeException(nameof(value), $"The argument {nameof(value)} must be ISO 3166 compliant");
+        //}
 
         _Value = value;
     }

@@ -41,8 +41,8 @@ public record ComputeCryptographicChecksumResponse : QueryPcdResponse
     /// </summary>
     /// <param name="values"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Emv.Ber.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private IEnumerable<PrimitiveValue> DecodePrimitiveValues(TagLengthValue[] values)
     {

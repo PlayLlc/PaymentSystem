@@ -1,5 +1,5 @@
 ﻿using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Icc.Exceptions;
 using Play.Icc.Messaging.Apdu;
 using Play.Icc.Messaging.Apdu.GetData;

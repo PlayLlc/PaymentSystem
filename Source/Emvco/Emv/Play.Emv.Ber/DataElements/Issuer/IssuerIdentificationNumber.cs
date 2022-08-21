@@ -1,6 +1,6 @@
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
@@ -27,16 +27,6 @@ public record IssuerIdentificationNumber : DataElement<uint>, IEqualityComparer<
 
     public IssuerIdentificationNumber(uint value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => _ByteLength;
-
-    public override ushort GetValueByteCount() => _ByteLength;
 
     #endregion
 
@@ -84,6 +74,14 @@ public record IssuerIdentificationNumber : DataElement<uint>, IEqualityComparer<
     #region Operator Overrides
 
     public static explicit operator uint(IssuerIdentificationNumber value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

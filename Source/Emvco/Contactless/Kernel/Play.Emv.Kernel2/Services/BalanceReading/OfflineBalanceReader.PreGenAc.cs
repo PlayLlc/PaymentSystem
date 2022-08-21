@@ -3,7 +3,6 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
-using Play.Emv.Kernel;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
@@ -37,8 +36,8 @@ internal partial class OfflineBalanceReader : CommonProcessing
         #region Constructor
 
         public PreGenAcBalanceReader(
-            KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-            IKernelEndpoint kernelEndpoint) : base(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
+            KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver, IEndpointClient endpointClient) :
+            base(database, dataExchangeKernelService, kernelStateResolver, endpointClient)
         { }
 
         #endregion
@@ -63,7 +62,7 @@ internal partial class OfflineBalanceReader : CommonProcessing
                 return currentStateIdRetriever.GetStateId();
 
             GetDataRequest capdu = GetDataRequest.Create(OfflineAccumulatorBalance.Tag, session.GetTransactionSessionId());
-            _PcdEndpoint.Request(capdu);
+            _EndpointClient.Send(capdu);
 
             return WaitingForPreGenAcBalance.StateId;
         }

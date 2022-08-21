@@ -43,11 +43,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
         }
 
         if (IsCvmListEmpty(database, out CvmList? cvmList))
-        {
             CreateIccDataMissingCvmResult(database);
-
-            return;
-        }
 
         Select(database, cvmList!, currencyCode);
     }
@@ -105,7 +101,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
         KernelDatabase database, NumericCurrencyCode currencyCode, AmountAuthorizedNumeric transactionAmount, ReaderCvmRequiredLimit readerCvmThreshold)
     {
         if (!database!.IsPlaintextPinForIccVerificationSupported())
-            database.Update(TerminalVerificationResultCodes.PinEntryRequiredAndPinPadNotPresentOrNotWorking);
+            database.Set(TerminalVerificationResultCodes.PinEntryRequiredAndPinPadNotPresentOrNotWorking);
 
         if (transactionAmount.AsMoney(currencyCode) > readerCvmThreshold.AsMoney(currencyCode))
         {
@@ -145,8 +141,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
 
     #region CVM.5
 
-    public static bool IsCardholderVerificationSupported(KernelDatabase database) =>
-        database.Get<ApplicationInterchangeProfile>(ApplicationInterchangeProfile.Tag).IsOnDeviceCardholderVerificationSupported();
+    public static bool IsCardholderVerificationSupported(KernelDatabase database) => database.IsOnDeviceCardholderVerificationSupported();
 
     #endregion
 
@@ -194,7 +189,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
         database.Update(CvmPerformedOutcome.NoCvm);
         CvmResults results = new(CvmCodes.None, new CvmConditionCode(0), CvmResultCodes.Unknown);
         database.Update(results);
-        database.Update(TerminalVerificationResultCodes.IccDataMissing);
+        database.Set(TerminalVerificationResultCodes.IccDataMissing);
     }
 
     #endregion

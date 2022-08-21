@@ -8,14 +8,12 @@ using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
-using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Kernel2.StateMachine;
-using Play.Emv.Pcd.Contracts;
 using Play.Messaging;
 
 namespace Play.Emv.Kernel2.Services.PrepareGenerateAc;
@@ -45,13 +43,13 @@ public partial class PrepareGenerateAcService : CommonProcessing
     #region Constructor
 
     public PrepareGenerateAcService(
-        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IKernelEndpoint kernelEndpoint) : base(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver, IEndpointClient endpointClient) :
+        base(database, dataExchangeKernelService, kernelStateResolver, endpointClient)
     {
-        _CdaFailure = new CdaFailure(database, pcdEndpoint);
-        _ReadIds = new ReadIntegratedDataStorage(database, pcdEndpoint);
-        _WriteIds = new WriteIntegratedDataStorage(database, pcdEndpoint);
-        _NoIds = new NoIntegratedDataStorage(database, pcdEndpoint, _ReadIds, _CdaFailure);
+        _CdaFailure = new CdaFailure(database, endpointClient);
+        _ReadIds = new ReadIntegratedDataStorage(database, endpointClient);
+        _WriteIds = new WriteIntegratedDataStorage(database, endpointClient);
+        _NoIds = new NoIntegratedDataStorage(database, endpointClient, _ReadIds, _CdaFailure);
     }
 
     #endregion
@@ -292,10 +290,10 @@ public partial class PrepareGenerateAcService : CommonProcessing
         {
             result = currentStateIdRetriever.GetStateId();
             _Database.Update(Level2Error.IdsNoMatchingAc);
-            _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-            _Database.Update(Statuses.NotReady);
+            _Database.Update(DisplayMessageIdentifiers.ErrorUseAnotherCard);
+            _Database.Update(DisplayStatuses.NotReady);
             _Database.Update(StatusOutcomes.EndApplication);
-            _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
+            _Database.Update(DisplayMessageOnErrorIdentifiers.ErrorUseAnotherCard);
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
             _Database.SetUiRequestOnRestartPresent(true);
         }
@@ -309,7 +307,7 @@ public partial class PrepareGenerateAcService : CommonProcessing
         }
         finally
         {
-            _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+            _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
         }
 
         result = null;

@@ -23,7 +23,7 @@ public readonly record struct CvmCode
     #endregion
 
     #region Instance Members
-    //CVM.15
+
     public bool IsRecognized() => CvmCodes.Exists(_Value);
 
     /// <remarks>EMV Book C-2 Section CVM.17</remarks>
@@ -33,7 +33,6 @@ public readonly record struct CvmCode
     /// <remarks>EMV Book C-2 Section CVM.17</remarks>
     public bool IsSupported(TerminalCapabilities terminalCapabilities)
     {
-        //((CVM Code AND '3F') ≠ '00')]
         if (IsFailureControlSupported())
             return false;
 

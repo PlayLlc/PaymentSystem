@@ -1,6 +1,6 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
@@ -22,6 +22,25 @@ public record Track2EquivalentData : DataElement<Track2>
 
     public Track2EquivalentData(Track2 value) : base(value)
     { }
+
+    #endregion
+
+    #region Serialization
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Exception"></exception>
+    public static Track2EquivalentData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    public override Track2EquivalentData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    public static Track2EquivalentData Decode(ReadOnlySpan<byte> value) => new(new Track2(value.AsNibbleArray()));
+
+    public override byte[] EncodeValue() => _Value.Encode();
+    public override byte[] EncodeValue(int length) => _Value.Encode()[..length];
 
     #endregion
 
@@ -53,25 +72,6 @@ public record Track2EquivalentData : DataElement<Track2>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Exception"></exception>
     public Track2EquivalentData UpdateDiscretionaryData(TrackDiscretionaryData discretionaryData) => new(_Value.CreateUpdate(discretionaryData));
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Exception"></exception>
-    public static Track2EquivalentData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="OverflowException"></exception>
-    public override Track2EquivalentData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="OverflowException"></exception>
-    public static Track2EquivalentData Decode(ReadOnlySpan<byte> value) => new(new Track2(value.AsNibbleArray()));
-
-    public override byte[] EncodeValue() => _Value.Encode();
-    public override byte[] EncodeValue(int length) => _Value.Encode()[..length];
 
     #endregion
 }

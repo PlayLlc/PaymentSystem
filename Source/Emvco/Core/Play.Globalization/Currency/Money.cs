@@ -70,15 +70,12 @@ public record Money : IEqualityComparer<Money>
 
     public NumericCurrencyCode GetCurrencyCode(CultureProfile cultureProfile) => cultureProfile.GetNumericCurrencyCode();
 
-    /// <summary>
-    /// A single unit of currency has the value of 1 of 
-    /// the(major) unit of currency as defined in [ISO 4217]. As an
-    /// example a single unit of currency for Euro is 1.00
-    /// </summary>
-    /// <returns> </returns>
     public bool IsBaseAmount()
     {
-        if ((_Amount / Math.Pow(10, _Currency.GetMinorUnitLength())) == 1)
+        if ((byte) _Currency.GetMinorUnitLength() != _Amount.GetNumberOfDigits())
+            return false;
+
+        if ((_Amount / (byte) _Currency.GetMinorUnitLength()) == 1)
             return true;
 
         return false;
