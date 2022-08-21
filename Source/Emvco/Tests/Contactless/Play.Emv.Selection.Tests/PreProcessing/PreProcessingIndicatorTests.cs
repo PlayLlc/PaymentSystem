@@ -2,6 +2,7 @@
 
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Selection.Configuration;
 using Play.Emv.Selection.Contracts;
 using Play.Globalization;
 using Play.Testing.Emv.Contactless.AutoFixture;
@@ -46,7 +47,7 @@ public class PreProcessingIndicatorTests
         TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
 
         //Act
-        PreProcessingIndicator preprocessingIndicator = new PreProcessingIndicator(transactionProfile);
+        PreProcessingIndicator preprocessingIndicator = new(transactionProfile);
 
         //Assert
         Assert.NotNull(preprocessingIndicator);
@@ -63,7 +64,7 @@ public class PreProcessingIndicatorTests
         _Fixture.RegisterTerminalCategoriesSupportedList();
 
         TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, true, true, true, true);
-        PreProcessingIndicator sut = new PreProcessingIndicator(transactionProfile);
+        PreProcessingIndicator sut = new(transactionProfile);
 
         //Act
         sut.ResetPreprocessingIndicators();
@@ -91,7 +92,7 @@ public class PreProcessingIndicatorTests
         TerminalTransactionQualifiers expectedTtq = transactionProfile.GetTerminalTransactionQualifiers().AsValueCopy();
         expectedTtq = expectedTtq.ResetForPreProcessingIndicator();
 
-        PreProcessingIndicator sut = new PreProcessingIndicator(transactionProfile);
+        PreProcessingIndicator sut = new(transactionProfile);
 
         //Act
         sut.ResetTerminalTransactionQualifiers();
@@ -112,9 +113,9 @@ public class PreProcessingIndicatorTests
 
         TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, true, false, false, false);
 
-        PreProcessingIndicator sut = new PreProcessingIndicator(transactionProfile);
+        PreProcessingIndicator sut = new(transactionProfile);
 
-        AmountAuthorizedNumeric authorizedAmount = new AmountAuthorizedNumeric(100);
+        AmountAuthorizedNumeric authorizedAmount = new(100);
         CultureProfile cultureProfile = _Fixture.Create<CultureProfile>();
 
         //Act
@@ -137,9 +138,9 @@ public class PreProcessingIndicatorTests
 
         TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, true, false, false, false);
 
-        PreProcessingIndicator sut = new PreProcessingIndicator(transactionProfile);
+        PreProcessingIndicator sut = new(transactionProfile);
 
-        AmountAuthorizedNumeric authorizedAmount = new AmountAuthorizedNumeric(2200);
+        AmountAuthorizedNumeric authorizedAmount = new(2200);
         CultureProfile cultureProfile = _Fixture.Create<CultureProfile>();
 
         //Act
@@ -159,12 +160,13 @@ public class PreProcessingIndicatorTests
         _Fixture.RegisterReaderCvmRequiredLimit(1234);
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
+
         //ZeroAmountHasBeenSetEvent? zeroAmountHasBeenSet = SetZeroAmount(amountAuthorizedMoney, _TransactionProfile.IsZeroAmountAllowedForOffline());
         TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, false, false, true, false);
 
-        PreProcessingIndicator sut = new PreProcessingIndicator(transactionProfile);
+        PreProcessingIndicator sut = new(transactionProfile);
 
-        AmountAuthorizedNumeric authorizedAmount = new AmountAuthorizedNumeric(0);
+        AmountAuthorizedNumeric authorizedAmount = new(0);
         CultureProfile cultureProfile = _Fixture.Create<CultureProfile>();
 
         //Act
@@ -184,12 +186,13 @@ public class PreProcessingIndicatorTests
         _Fixture.RegisterReaderCvmRequiredLimit(1234);
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
+
         //ZeroAmountHasBeenSetEvent? zeroAmountHasBeenSet = SetZeroAmount(amountAuthorizedMoney, _TransactionProfile.IsZeroAmountAllowedForOffline());
         TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, false, false, true, false);
 
-        PreProcessingIndicator sut = new PreProcessingIndicator(transactionProfile);
+        PreProcessingIndicator sut = new(transactionProfile);
 
-        AmountAuthorizedNumeric authorizedAmount = new AmountAuthorizedNumeric(0);
+        AmountAuthorizedNumeric authorizedAmount = new(0);
         CultureProfile cultureProfile = _Fixture.Create<CultureProfile>();
 
         //Act
@@ -200,7 +203,8 @@ public class PreProcessingIndicatorTests
     }
 
     [Fact]
-    public void PreProcessingIndicator_SetMutableFieldsAmountAuthorizedNumericIsGreaterThanReaderContactlessTransactionLimit_ContactlessApplicationNotAllowedIsSet()
+    public void
+        PreProcessingIndicator_SetMutableFieldsAmountAuthorizedNumericIsGreaterThanReaderContactlessTransactionLimit_ContactlessApplicationNotAllowedIsSet()
     {
         //Arrange
         _Fixture.RegisterTerminalTransactionQualifiers(0b0010_1100_1010_1011); //IsBitSet(4);
@@ -208,12 +212,13 @@ public class PreProcessingIndicatorTests
         _Fixture.RegisterReaderCvmRequiredLimit(1234);
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
+
         //ZeroAmountHasBeenSetEvent? zeroAmountHasBeenSet = SetZeroAmount(amountAuthorizedMoney, _TransactionProfile.IsZeroAmountAllowedForOffline());
         TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, false, false, true, false);
 
-        PreProcessingIndicator sut = new PreProcessingIndicator(transactionProfile);
+        PreProcessingIndicator sut = new(transactionProfile);
 
-        AmountAuthorizedNumeric authorizedAmount = new AmountAuthorizedNumeric(1456);
+        AmountAuthorizedNumeric authorizedAmount = new(1456);
         CultureProfile cultureProfile = _Fixture.Create<CultureProfile>();
 
         //Act
@@ -232,12 +237,13 @@ public class PreProcessingIndicatorTests
         _Fixture.RegisterReaderCvmRequiredLimit(1234);
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
+
         //ZeroAmountHasBeenSetEvent? zeroAmountHasBeenSet = SetZeroAmount(amountAuthorizedMoney, _TransactionProfile.IsZeroAmountAllowedForOffline());
         TransactionProfile transactionProfile = SelectionFactory.CreateTransactionProfile(_Fixture, false, false, true, false);
 
-        PreProcessingIndicator sut = new PreProcessingIndicator(transactionProfile);
+        PreProcessingIndicator sut = new(transactionProfile);
 
-        AmountAuthorizedNumeric authorizedAmount = new AmountAuthorizedNumeric(1456);
+        AmountAuthorizedNumeric authorizedAmount = new(1456);
         CultureProfile cultureProfile = _Fixture.Create<CultureProfile>();
 
         //Act

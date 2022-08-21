@@ -3,6 +3,7 @@
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Outcomes;
+using Play.Emv.Selection.Configuration;
 using Play.Emv.Selection.Contracts;
 using Play.Emv.Selection.Start;
 using Play.Globalization;
@@ -169,8 +170,8 @@ public class PreprocessorTests
     {
         UserInterfaceRequestData.Builder userInterfaceSetter = UserInterfaceRequestData.GetBuilder();
 
-        userInterfaceSetter.Set(MessageIdentifiers.PleaseInsertOrSwipeCard);
-        userInterfaceSetter.Set(Statuses.ProcessingError);
+        userInterfaceSetter.Set(DisplayMessageIdentifiers.PleaseInsertOrSwipeCard);
+        userInterfaceSetter.Set(DisplayStatuses.ProcessingError);
 
         return userInterfaceSetter.Complete();
     }

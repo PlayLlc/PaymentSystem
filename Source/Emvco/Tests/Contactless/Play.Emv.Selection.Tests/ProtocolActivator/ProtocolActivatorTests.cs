@@ -11,7 +11,9 @@ using Play.Emv.Display.Contracts;
 using Play.Emv.Identifiers;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;
+using Play.Emv.Selection.Configuration;
 using Play.Emv.Selection.Contracts;
+using Play.Messaging;
 using Play.Testing.Emv.Contactless.AutoFixture;
 
 using Xunit;
@@ -23,10 +25,7 @@ public class ProtocolActivatorTests
     #region Instance Values
 
     private readonly IFixture _Fixture;
-
-    private readonly Mock<IHandleDisplayRequests> _DisplayProcess;
-    private readonly Mock<IHandlePcdRequests> _ProximityCouplingDeviceEndpoint;
-
+    private readonly Mock<IEndpointClient> _Endpoint;
     private readonly Start.ProtocolActivator _SystemUnderTest;
 
     #endregion
@@ -38,13 +37,14 @@ public class ProtocolActivatorTests
         _Fixture = new ContactlessFixture().Create();
         _Fixture.RegisterGlobalizationProperties();
 
-        _DisplayProcess = new Mock<IHandleDisplayRequests>(MockBehavior.Strict);
-        _ProximityCouplingDeviceEndpoint = new Mock<IHandlePcdRequests>(MockBehavior.Strict);
+        _Endpoint = new Mock<IEndpointClient>(MockBehavior.Strict);
 
-        _SystemUnderTest = new Start.ProtocolActivator(_ProximityCouplingDeviceEndpoint.Object, _DisplayProcess.Object);
+        _SystemUnderTest = new Start.ProtocolActivator(_Endpoint.Object);
     }
 
     #endregion
+
+    #region Instance Members
 
     [Fact]
     public void OutcomeWithNoRestartNeeded_InvokingProtocolActivator_EachCombinationEntryPointIsResetedProcessActivationIsNotARestart()
@@ -61,13 +61,13 @@ public class ProtocolActivatorTests
 
         UserInterfaceRequestData expectedUserInterfaceRequestData = GetExpectedReadyToReadDisplayMessage();
 
-        _DisplayProcess.Setup(m => m.Request(It.Is<DisplayMessageRequest>(x => x.GetUserInterfaceRequestData().Equals(expectedUserInterfaceRequestData))));
-        _ProximityCouplingDeviceEndpoint.Setup(m => m.Request(It.Is<ActivatePcdRequest>(x => x.GetTransactionSessionId().Equals(transactionSessionId))));
+        _Endpoint.Setup(m => m.Send(It.Is<DisplayMessageRequest>(x => x.GetUserInterfaceRequestData().Equals(expectedUserInterfaceRequestData))));
+        _Endpoint.Setup(m => m.Send(It.Is<ActivatePcdRequest>(x => x.GetTransactionSessionId().Equals(transactionSessionId))));
 
-        TransactionProfile preProcessingIndicator = SelectionFactory.CreateTransactionProfile(_Fixture, _Fixture.Create<bool>(), _Fixture.Create<bool>(), _Fixture.Create<bool>(),
-            _Fixture.Create<bool>());
+        TransactionProfile preProcessingIndicator = SelectionFactory.CreateTransactionProfile(_Fixture, _Fixture.Create<bool>(), _Fixture.Create<bool>(),
+            _Fixture.Create<bool>(), _Fixture.Create<bool>());
 
-        TransactionProfile[] entryPointConfigurations = new[] { preProcessingIndicator };
+        TransactionProfile[] entryPointConfigurations = new[] {preProcessingIndicator};
 
         PreProcessingIndicators preprocessingIndicators = new(entryPointConfigurations);
 
@@ -77,8 +77,8 @@ public class ProtocolActivatorTests
         _SystemUnderTest.ActivateProtocol(transactionSessionId, outcome, preprocessingIndicators, candidateList);
 
         //Assert
-        _DisplayProcess.Verify(m => m.Request(It.Is<DisplayMessageRequest>(x => x.GetUserInterfaceRequestData().Equals(expectedUserInterfaceRequestData))), Times.Once);
-        _ProximityCouplingDeviceEndpoint.Verify(m => m.Request(It.Is<ActivatePcdRequest>(x => x.GetTransactionSessionId().Equals(transactionSessionId))), Times.Once);
+        _Endpoint.Verify(m => m.Send(It.Is<DisplayMessageRequest>(x => x.GetUserInterfaceRequestData().Equals(expectedUserInterfaceRequestData))), Times.Once);
+        _Endpoint.Verify(m => m.Send(It.Is<ActivatePcdRequest>(x => x.GetTransactionSessionId().Equals(transactionSessionId))), Times.Once);
 
         preprocessingIndicators.Values.All(x =>
         {
@@ -108,13 +108,13 @@ public class ProtocolActivatorTests
 
         UserInterfaceRequestData expectedUserInterfaceRequestData = GetExpectedReadyToReadDisplayMessage();
 
-        _DisplayProcess.Setup(m => m.Request(It.Is<DisplayMessageRequest>(x => x.GetUserInterfaceRequestData().Equals(expectedUserInterfaceRequestData))));
-        _ProximityCouplingDeviceEndpoint.Setup(m => m.Request(It.Is<ActivatePcdRequest>(x => x.GetTransactionSessionId().Equals(transactionSessionId))));
+        _Endpoint.Setup(m => m.Send(It.Is<DisplayMessageRequest>(x => x.GetUserInterfaceRequestData().Equals(expectedUserInterfaceRequestData))));
+        _Endpoint.Setup(m => m.Send(It.Is<ActivatePcdRequest>(x => x.GetTransactionSessionId().Equals(transactionSessionId))));
 
-        TransactionProfile preProcessingIndicator = SelectionFactory.CreateTransactionProfile(_Fixture, _Fixture.Create<bool>(), _Fixture.Create<bool>(), _Fixture.Create<bool>(),
-            _Fixture.Create<bool>());
+        TransactionProfile preProcessingIndicator = SelectionFactory.CreateTransactionProfile(_Fixture, _Fixture.Create<bool>(), _Fixture.Create<bool>(),
+            _Fixture.Create<bool>(), _Fixture.Create<bool>());
 
-        TransactionProfile[] entryPointConfigurations = new[] { preProcessingIndicator };
+        TransactionProfile[] entryPointConfigurations = new[] {preProcessingIndicator};
 
         PreProcessingIndicators preprocessingIndicators = new(entryPointConfigurations);
 
@@ -136,7 +136,7 @@ public class ProtocolActivatorTests
     {
         //Arrange
         TransactionSessionId transactionSessionId = _Fixture.Create<TransactionSessionId>();
-        Outcome outcome = new Outcome(BuildOutcomeParameterWithRestartRequired());
+        Outcome outcome = new(BuildOutcomeParameterWithRestartRequired());
 
         _Fixture.RegisterTerminalTransactionQualifiers();
         _Fixture.RegisterReaderContactlessTransactionLimit(1234);
@@ -146,13 +146,13 @@ public class ProtocolActivatorTests
 
         UserInterfaceRequestData expectedUserInterfaceRequestData = GetExpectedReadyToReadDisplayMessage();
 
-        _DisplayProcess.Setup(m => m.Request(It.Is<DisplayMessageRequest>(x => x.GetUserInterfaceRequestData().Equals(expectedUserInterfaceRequestData))));
-        _ProximityCouplingDeviceEndpoint.Setup(m => m.Request(It.Is<ActivatePcdRequest>(x => x.GetTransactionSessionId().Equals(transactionSessionId))));
+        _Endpoint.Setup(m => m.Send(It.Is<DisplayMessageRequest>(x => x.GetUserInterfaceRequestData().Equals(expectedUserInterfaceRequestData))));
+        _Endpoint.Setup(m => m.Send(It.Is<ActivatePcdRequest>(x => x.GetTransactionSessionId().Equals(transactionSessionId))));
 
-        TransactionProfile preProcessingIndicator = SelectionFactory.CreateTransactionProfile(_Fixture, _Fixture.Create<bool>(), _Fixture.Create<bool>(), _Fixture.Create<bool>(),
-            _Fixture.Create<bool>());
+        TransactionProfile preProcessingIndicator = SelectionFactory.CreateTransactionProfile(_Fixture, _Fixture.Create<bool>(), _Fixture.Create<bool>(),
+            _Fixture.Create<bool>(), _Fixture.Create<bool>());
 
-        TransactionProfile[] entryPointConfigurations = new[] { preProcessingIndicator };
+        TransactionProfile[] entryPointConfigurations = new[] {preProcessingIndicator};
 
         PreProcessingIndicators preprocessingIndicators = new(entryPointConfigurations);
 
@@ -171,7 +171,7 @@ public class ProtocolActivatorTests
     {
         //Arrange
         TransactionSessionId transactionSessionId = _Fixture.Create<TransactionSessionId>();
-        Outcome outcome = new Outcome(BuildOutcomeParameterWithRestartRequired());
+        Outcome outcome = new(BuildOutcomeParameterWithRestartRequired());
         SetUserInterfaceRequestData(outcome);
 
         _Fixture.RegisterTerminalTransactionQualifiers();
@@ -182,13 +182,13 @@ public class ProtocolActivatorTests
 
         UserInterfaceRequestData expectedUserInterfaceRequestData = GetExpectedReadyToReadDisplayMessage();
 
-        _DisplayProcess.Setup(m => m.Request(It.Is<DisplayMessageRequest>(x => x.GetUserInterfaceRequestData().Equals(expectedUserInterfaceRequestData))));
-        _ProximityCouplingDeviceEndpoint.Setup(m => m.Request(It.Is<ActivatePcdRequest>(x => x.GetTransactionSessionId().Equals(transactionSessionId))));
+        _Endpoint.Setup(m => m.Send(It.Is<DisplayMessageRequest>(x => x.GetUserInterfaceRequestData().Equals(expectedUserInterfaceRequestData))));
+        _Endpoint.Setup(m => m.Send(It.Is<ActivatePcdRequest>(x => x.GetTransactionSessionId().Equals(transactionSessionId))));
 
-        TransactionProfile preProcessingIndicator = SelectionFactory.CreateTransactionProfile(_Fixture, _Fixture.Create<bool>(), _Fixture.Create<bool>(), _Fixture.Create<bool>(),
-            _Fixture.Create<bool>());
+        TransactionProfile preProcessingIndicator = SelectionFactory.CreateTransactionProfile(_Fixture, _Fixture.Create<bool>(), _Fixture.Create<bool>(),
+            _Fixture.Create<bool>(), _Fixture.Create<bool>());
 
-        TransactionProfile[] entryPointConfigurations = new[] { preProcessingIndicator };
+        TransactionProfile[] entryPointConfigurations = new[] {preProcessingIndicator};
 
         PreProcessingIndicators preprocessingIndicators = new(entryPointConfigurations);
 
@@ -198,8 +198,8 @@ public class ProtocolActivatorTests
         _SystemUnderTest.ActivateProtocol(transactionSessionId, outcome, preprocessingIndicators, candidateList);
 
         //Assert
-        _DisplayProcess.Verify(m => m.Request(It.Is<DisplayMessageRequest>(x => x.GetUserInterfaceRequestData().Equals(expectedUserInterfaceRequestData))), Times.Once);
-        _ProximityCouplingDeviceEndpoint.Verify(m => m.Request(It.Is<ActivatePcdRequest>(x => x.GetTransactionSessionId().Equals(transactionSessionId))), Times.Once);
+        _Endpoint.Verify(m => m.Send(It.Is<DisplayMessageRequest>(x => x.GetUserInterfaceRequestData().Equals(expectedUserInterfaceRequestData))), Times.Once);
+        _Endpoint.Verify(m => m.Send(It.Is<ActivatePcdRequest>(x => x.GetTransactionSessionId().Equals(transactionSessionId))), Times.Once);
     }
 
     [Fact]
@@ -207,7 +207,7 @@ public class ProtocolActivatorTests
     {
         //Arrange
         TransactionSessionId transactionSessionId = _Fixture.Create<TransactionSessionId>();
-        Outcome outcome = new Outcome();
+        Outcome outcome = new();
 
         OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
 
@@ -224,13 +224,13 @@ public class ProtocolActivatorTests
 
         UserInterfaceRequestData expectedUserInterfaceRequestData = GetExpectedReadyToReadDisplayMessage();
 
-        _DisplayProcess.Setup(m => m.Request(It.Is<DisplayMessageRequest>(x => x.GetUserInterfaceRequestData().Equals(expectedUserInterfaceRequestData))));
-        _ProximityCouplingDeviceEndpoint.Setup(m => m.Request(It.Is<ActivatePcdRequest>(x => x.GetTransactionSessionId().Equals(transactionSessionId))));
+        _Endpoint.Setup(m => m.Send(It.Is<DisplayMessageRequest>(x => x.GetUserInterfaceRequestData().Equals(expectedUserInterfaceRequestData))));
+        _Endpoint.Setup(m => m.Send(It.Is<ActivatePcdRequest>(x => x.GetTransactionSessionId().Equals(transactionSessionId))));
 
-        TransactionProfile preProcessingIndicator = SelectionFactory.CreateTransactionProfile(_Fixture, _Fixture.Create<bool>(), _Fixture.Create<bool>(), _Fixture.Create<bool>(),
-            _Fixture.Create<bool>());
+        TransactionProfile preProcessingIndicator = SelectionFactory.CreateTransactionProfile(_Fixture, _Fixture.Create<bool>(), _Fixture.Create<bool>(),
+            _Fixture.Create<bool>(), _Fixture.Create<bool>());
 
-        TransactionProfile[] entryPointConfigurations = new[] { preProcessingIndicator };
+        TransactionProfile[] entryPointConfigurations = new[] {preProcessingIndicator};
 
         PreProcessingIndicators preprocessingIndicators = new(entryPointConfigurations);
 
@@ -240,16 +240,16 @@ public class ProtocolActivatorTests
         _SystemUnderTest.ActivateProtocol(transactionSessionId, outcome, preprocessingIndicators, candidateList);
 
         //Assert
-        _DisplayProcess.Verify(m => m.Request(It.Is<DisplayMessageRequest>(x => x.GetUserInterfaceRequestData().Equals(expectedUserInterfaceRequestData))), Times.Once);
-        _ProximityCouplingDeviceEndpoint.Verify(m => m.Request(It.Is<ActivatePcdRequest>(x => x.GetTransactionSessionId().Equals(transactionSessionId))), Times.Once);
+        _Endpoint.Verify(m => m.Send(It.Is<DisplayMessageRequest>(x => x.GetUserInterfaceRequestData().Equals(expectedUserInterfaceRequestData))), Times.Once);
+        _Endpoint.Verify(m => m.Send(It.Is<ActivatePcdRequest>(x => x.GetTransactionSessionId().Equals(transactionSessionId))), Times.Once);
     }
 
     private static UserInterfaceRequestData GetExpectedReadyToReadDisplayMessage()
     {
         UserInterfaceRequestData.Builder? builder = UserInterfaceRequestData.GetBuilder();
 
-        builder.Set(MessageIdentifiers.PresentCard);
-        builder.Set(Statuses.ReadyToRead);
+        builder.Set(DisplayMessageIdentifiers.PresentCard);
+        builder.Set(DisplayStatuses.ReadyToRead);
 
         return builder.Complete();
     }
@@ -258,8 +258,8 @@ public class ProtocolActivatorTests
     {
         UserInterfaceRequestData.Builder? builder = UserInterfaceRequestData.GetBuilder();
 
-        builder.Set(MessageIdentifiers.PresentCard);
-        builder.Set(Statuses.ReadyToRead);
+        builder.Set(DisplayMessageIdentifiers.PresentCard);
+        builder.Set(DisplayStatuses.ReadyToRead);
 
         outcome.Update(builder);
     }
@@ -281,4 +281,6 @@ public class ProtocolActivatorTests
 
         outcome.Reset(builder.Complete());
     }
+
+    #endregion
 }
