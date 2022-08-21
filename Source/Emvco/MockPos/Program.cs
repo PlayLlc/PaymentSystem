@@ -29,7 +29,6 @@ internal class Program
         MainEndpoint mainEndpoint = ReaderFactory.Create(readerConfiguration, endpointClient);
         KernelEndpoint kernelEndpoint = KernelFactory.Create(terminalConfiguration, readerConfiguration, endpointClient);
         SelectionEndpoint selectionEndpoint = SelectionEndpoint.Create(selectionConfiguration, endpointClient);
-
         DisplayEndpoint displayEndpoint = DisplayEndpoint.Create(null, null, null, null);
         ProximityCouplingDeviceEndpoint pcdEndpoint = ProximityCouplingDeviceEndpoint.Create(null, null, null);
     }

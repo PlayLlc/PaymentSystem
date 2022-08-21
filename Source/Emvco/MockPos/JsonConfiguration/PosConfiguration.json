@@ -1,7 +1,8 @@
 ﻿{
   "PosConfiguration": {
     "CompanyId": 1,
-    "MerchantId":  1, 
+    "MerchantId": 1,
+    "StoreId":  1, 
     "TerminalId":  1, 
     "TerminalConfiguration": {
       "TerminalIdentification": "0x0000000000000001",
