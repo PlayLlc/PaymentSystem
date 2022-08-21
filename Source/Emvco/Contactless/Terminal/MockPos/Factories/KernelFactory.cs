@@ -9,7 +9,7 @@ using Play.Emv.Reader;
 using Play.Emv.Security;
 using Play.Messaging;
 
-namespace MockPos
+namespace MockPos.Factories
 {
     internal class KernelFactory
     {

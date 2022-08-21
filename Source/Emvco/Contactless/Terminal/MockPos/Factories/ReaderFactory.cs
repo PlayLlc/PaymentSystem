@@ -2,7 +2,7 @@
 using Play.Emv.Reader.Services;
 using Play.Messaging;
 
-namespace MockPos
+namespace MockPos.Factories
 {
     internal class ReaderFactory
     {

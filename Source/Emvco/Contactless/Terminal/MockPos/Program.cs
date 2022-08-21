@@ -55,7 +55,7 @@ internal class Program
     {
         PosConfigurationDto? a =
             JsonSerializer.Deserialize<PosConfigurationDto>(
-                File.ReadAllText(@"C:\Source\PaymentSystem\Source\Emvco\Contactless\Terminal\MockPos\Configuration\PosConfiguration.json"));
+                File.ReadAllText(@"C:\Source\PaymentSystem\Source\Emvco\Contactless\Terminal\MockPos\TestJson.json"));
 
         Console.WriteLine(a);
         Console.ReadKey();

@@ -3,7 +3,7 @@ using Play.Emv.Terminal.Services;
 using Play.Emv.Terminal.Session;
 using Play.Messaging;
 
-namespace MockPos
+namespace MockPos.Factories
 {
     internal class TerminalFactory
     {
