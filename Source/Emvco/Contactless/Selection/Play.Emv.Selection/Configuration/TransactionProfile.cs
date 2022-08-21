@@ -18,9 +18,11 @@ public class TransactionProfile : IEquatable<TransactionProfile>, IEqualityCompa
 
     private readonly CombinationCompositeKey _Key;
     private readonly ApplicationPriorityIndicator _ApplicationPriorityIndicator;
-    private readonly ReaderContactlessTransactionLimit _ReaderContactlessTransactionLimit;
+    private readonly ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice _ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice;
+    private readonly ReaderContactlessTransactionLimitWhenCvmIsOnDevice _ReaderContactlessTransactionLimitWhenCvmIsOnDevice;
+
+    // BUG: We should have both of the derived ReaderContactlessTransactionLimit types in the TransactionProfileDto
     private readonly ReaderContactlessFloorLimit _ReaderContactlessFloorLimit;
-    private readonly TerminalFloorLimit _TerminalFloorLimit;
     private readonly ReaderCvmRequiredLimit _ReaderCvmRequiredLimit;
     private readonly KernelConfiguration _KernelConfiguration;
     private readonly TerminalTransactionQualifiers _TerminalTransactionQualifiers;
@@ -42,10 +44,11 @@ public class TransactionProfile : IEquatable<TransactionProfile>, IEqualityCompa
 
     public TransactionProfile(
         CombinationCompositeKey key, ApplicationPriorityIndicator applicationPriorityIndicator,
-        ReaderContactlessTransactionLimit readerContactlessTransactionLimit, ReaderContactlessFloorLimit readerContactlessFloorLimit,
-        TerminalFloorLimit terminalFloorLimit, ReaderCvmRequiredLimit readerCvmRequiredLimit, TerminalTransactionQualifiers terminalTransactionQualifiers,
-        KernelConfiguration kernelConfiguration, bool isStatusCheckSupported, bool isZeroAmountAllowed, bool isZeroAmountAllowedForOffline,
-        bool isExtendedSelectionSupported)
+        ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice readerContactlessTransactionLimitWhenCvmIsNotOnDevice,
+        ReaderContactlessTransactionLimitWhenCvmIsOnDevice readerContactlessTransactionLimitWhenCvmIsOnDevice,
+        ReaderContactlessFloorLimit readerContactlessFloorLimit, ReaderCvmRequiredLimit readerCvmRequiredLimit,
+        TerminalTransactionQualifiers terminalTransactionQualifiers, KernelConfiguration kernelConfiguration, bool isStatusCheckSupported,
+        bool isZeroAmountAllowed, bool isZeroAmountAllowedForOffline, bool isExtendedSelectionSupported)
     {
         _Key = key;
         _ReaderContactlessFloorLimit = readerContactlessFloorLimit;
@@ -53,15 +56,41 @@ public class TransactionProfile : IEquatable<TransactionProfile>, IEqualityCompa
         _KernelConfiguration = kernelConfiguration;
 
         _ApplicationPriorityIndicator = applicationPriorityIndicator;
-        _ReaderContactlessTransactionLimit = readerContactlessTransactionLimit;
+        _ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice = readerContactlessTransactionLimitWhenCvmIsNotOnDevice;
+        _ReaderContactlessTransactionLimitWhenCvmIsOnDevice = readerContactlessTransactionLimitWhenCvmIsOnDevice;
         _ReaderCvmRequiredLimit = readerCvmRequiredLimit;
-        _TerminalFloorLimit = terminalFloorLimit;
         _IsStatusCheckSupported = isStatusCheckSupported;
         _IsZeroAmountAllowed = isZeroAmountAllowed;
         _IsZeroAmountAllowedForOffline = isZeroAmountAllowedForOffline;
         _IsExtendedSelectionSupported = isExtendedSelectionSupported;
         _TerminalTransactionQualifiers = terminalTransactionQualifiers;
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public KernelConfiguration GetKernelConfiguration() => _KernelConfiguration;
+    public ReaderContactlessFloorLimit GetReaderContactlessFloorLimit() => _ReaderContactlessFloorLimit;
+    public DedicatedFileName GetApplicationIdentifier() => _Key.GetApplicationId();
+    public ApplicationPriorityIndicator GetApplicationPriorityIndicator() => _ApplicationPriorityIndicator;
+    public ApplicationPriorityRank GetApplicationPriorityRank() => _ApplicationPriorityIndicator.GetApplicationPriorityRank();
+    public ShortKernelIdTypes GetKernelId() => _Key.GetKernelId();
+    public CombinationCompositeKey GetKey() => _Key;
+
+    public ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice GetReaderContactlessTransactionLimitWhenCvmIsNotOnDevice() =>
+        _ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice;
+
+    public ReaderContactlessTransactionLimitWhenCvmIsOnDevice GetReaderContactlessTransactionLimitWhenCvmIsOnDevice() =>
+        _ReaderContactlessTransactionLimitWhenCvmIsOnDevice;
+
+    public ReaderCvmRequiredLimit GetReaderCvmRequiredLimit() => _ReaderCvmRequiredLimit;
+    public TerminalTransactionQualifiers GetTerminalTransactionQualifiers() => _TerminalTransactionQualifiers;
+    public TransactionType GetTransactionType() => _Key.GetTransactionType();
+    public bool IsExtendedSelectionSupported() => _IsExtendedSelectionSupported;
+    public bool IsStatusCheckSupported() => _IsStatusCheckSupported;
+    public bool IsZeroAmountAllowed() => _IsZeroAmountAllowed;
+    public bool IsZeroAmountAllowedForOffline() => _IsZeroAmountAllowedForOffline;
 
     #endregion
 
@@ -86,27 +115,6 @@ public class TransactionProfile : IEquatable<TransactionProfile>, IEqualityCompa
     public override bool Equals(object? obj) => obj is TransactionProfile transactionProfile && Equals(transactionProfile);
     public int GetHashCode(TransactionProfile obj) => obj.GetHashCode();
     public override int GetHashCode() => _Key.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public KernelConfiguration GetKernelConfiguration() => _KernelConfiguration;
-    public ReaderContactlessFloorLimit GetReaderContactlessFloorLimit() => _ReaderContactlessFloorLimit;
-    public DedicatedFileName GetApplicationIdentifier() => _Key.GetApplicationId();
-    public ApplicationPriorityIndicator GetApplicationPriorityIndicator() => _ApplicationPriorityIndicator;
-    public ApplicationPriorityRank GetApplicationPriorityRank() => _ApplicationPriorityIndicator.GetApplicationPriorityRank();
-    public ShortKernelIdTypes GetKernelId() => _Key.GetKernelId();
-    public CombinationCompositeKey GetKey() => _Key;
-    public ReaderContactlessTransactionLimit GetReaderContactlessTransactionLimit() => _ReaderContactlessTransactionLimit;
-    public ReaderCvmRequiredLimit GetReaderCvmRequiredLimit() => _ReaderCvmRequiredLimit;
-    public TerminalFloorLimit GetTerminalFloorLimit() => _TerminalFloorLimit;
-    public TerminalTransactionQualifiers GetTerminalTransactionQualifiers() => _TerminalTransactionQualifiers;
-    public TransactionType GetTransactionType() => _Key.GetTransactionType();
-    public bool IsExtendedSelectionSupported() => _IsExtendedSelectionSupported;
-    public bool IsStatusCheckSupported() => _IsStatusCheckSupported;
-    public bool IsZeroAmountAllowed() => _IsZeroAmountAllowed;
-    public bool IsZeroAmountAllowedForOffline() => _IsZeroAmountAllowedForOffline;
 
     #endregion
 

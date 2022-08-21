@@ -30,6 +30,34 @@ public record ApplicationIdentifier : DataElement<BigInteger>, IEqualityComparer
 
     #endregion
 
+    #region Instance Members
+
+    public byte[] AsByteArray() => _Value.ToByteArray();
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+
+    public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() =>
+        new(PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(_Value.ToByteArray()[..5]));
+
+    public override Tag GetTag() => Tag;
+
+    public bool IsPartialMatch(ApplicationIdentifier other)
+    {
+        int comparisonLength = GetValueByteCount() < other.GetValueByteCount() ? GetValueByteCount() : other.GetValueByteCount();
+
+        Span<byte> thisBuffer = _Value.ToByteArray();
+        Span<byte> otherBuffer = other.AsByteArray();
+
+        for (int i = 0; i < comparisonLength; i++)
+        {
+            if (thisBuffer[i] != otherBuffer[i])
+                return false;
+        }
+
+        return true;
+    }
+
+    #endregion
+
     #region Serialization
 
     public static ApplicationIdentifier Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
@@ -75,34 +103,7 @@ public record ApplicationIdentifier : DataElement<BigInteger>, IEqualityComparer
     public static bool operator ==(byte left, ApplicationIdentifier right) => left == right._Value;
     public static bool operator !=(ApplicationIdentifier left, byte right) => !(left == right);
     public static bool operator !=(byte left, ApplicationIdentifier right) => !(left == right);
-
-    #endregion
-
-    #region Instance Members
-
-    public byte[] AsByteArray() => _Value.ToByteArray();
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-
-    public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() =>
-        new(PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(_Value.ToByteArray()[..5]));
-
-    public override Tag GetTag() => Tag;
-
-    public bool IsPartialMatch(ApplicationIdentifier other)
-    {
-        int comparisonLength = GetValueByteCount() < other.GetValueByteCount() ? GetValueByteCount() : other.GetValueByteCount();
-
-        Span<byte> thisBuffer = _Value.ToByteArray();
-        Span<byte> otherBuffer = other.AsByteArray();
-
-        for (int i = 0; i < comparisonLength; i++)
-        {
-            if (thisBuffer[i] != otherBuffer[i])
-                return false;
-        }
-
-        return true;
-    }
+    public static implicit operator DedicatedFileName(ApplicationIdentifier value) => new(value._Value.ToByteArray(true));
 
     #endregion
 }
