@@ -1,6 +1,6 @@
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -25,15 +25,6 @@ public record IssuerActionCodeOnline : DataElement<ulong>, IEqualityComparer<Iss
 
     public IssuerActionCodeOnline(ulong value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public ActionCodes AsActionCodes() => new(_Value);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -75,6 +66,15 @@ public record IssuerActionCodeOnline : DataElement<ulong>, IEqualityComparer<Iss
     }
 
     public int GetHashCode(IssuerActionCodeOnline obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public ActionCodes AsActionCodes() => new(_Value);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

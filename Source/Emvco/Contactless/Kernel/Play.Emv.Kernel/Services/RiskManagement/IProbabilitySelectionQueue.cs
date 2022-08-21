@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-using Play.Core;
+﻿using Play.Core;
 
 namespace Play.Emv.Kernel.Services;
 

@@ -1,6 +1,6 @@
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core;
@@ -71,7 +71,7 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
     public Level1Error GetL1() => !Level1Error.Empty.TryGet((byte) (_Value >> 40), out EnumObject<byte>? result) ? Level1Error.Ok : (Level1Error) result!;
     public Level2Error GetL2() => !Level2Error.Empty.TryGet((byte) (_Value >> 40), out EnumObject<byte>? result) ? Level2Error.Ok : (Level2Error) result!;
     public Level3Error GetL3() => !Level3Error.Empty.TryGet((byte) (_Value >> 40), out EnumObject<byte>? result) ? Level3Error.Ok : (Level3Error) result!;
-    public MessageOnErrorIdentifiers GetMessageIdentifier() => (MessageOnErrorIdentifiers) MessageOnErrorIdentifiers.Get((byte) _Value);
+    public DisplayMessageOnErrorIdentifiers GetMessageIdentifier() => (DisplayMessageOnErrorIdentifiers) DisplayMessageOnErrorIdentifiers.Get((byte) _Value);
     public StatusWords GetStatusWords() => new(new StatusWord((byte) (_Value >> 16)), new StatusWord((byte) (_Value >> 8)));
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
@@ -188,7 +188,7 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
             _Value |= (ulong) statusWords << offset;
         }
 
-        public void Set(MessageOnErrorIdentifiers value)
+        public void Set(DisplayMessageOnErrorIdentifiers value)
         {
             _Value.ClearBits(byte.MaxValue);
             _Value |= (ulong) value;

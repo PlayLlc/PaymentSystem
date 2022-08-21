@@ -1,6 +1,6 @@
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -30,14 +30,6 @@ public record IssuerScriptIdentifier : DataElement<uint>, IEqualityComparer<Issu
 
     #endregion
 
-    #region Instance Members
-
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-    public override Tag GetTag() => Tag;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -57,8 +49,8 @@ public record IssuerScriptIdentifier : DataElement<uint>, IEqualityComparer<Issu
         return new IssuerScriptIdentifier(result);
     }
 
-    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode(_Value, length);
+    public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public override byte[] EncodeValue(int length) => _Codec.EncodeValue(EncodingId, _Value, length);
 
     #endregion
 
@@ -76,6 +68,14 @@ public record IssuerScriptIdentifier : DataElement<uint>, IEqualityComparer<Issu
     }
 
     public int GetHashCode(IssuerScriptIdentifier obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override Tag GetTag() => Tag;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 }

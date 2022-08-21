@@ -1,6 +1,6 @@
 ﻿using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -24,14 +24,6 @@ public record ApplicationCryptogram : DataElement<ulong>, IEqualityComparer<Appl
 
     public ApplicationCryptogram(ulong value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -79,6 +71,14 @@ public record ApplicationCryptogram : DataElement<ulong>, IEqualityComparer<Appl
     #region Operator Overrides
 
     public static explicit operator ApplicationCryptogram(byte value) => new(value);
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

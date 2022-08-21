@@ -7,7 +7,7 @@ using Play.Randoms;
 
 namespace Play.Emv.Kernel.Services;
 
-internal class UnpredictableNumberGenerator : IGenerateUnpredictableNumber
+public class UnpredictableNumberGenerator : IGenerateUnpredictableNumber
 {
     #region Instance Members
 
@@ -20,8 +20,8 @@ internal class UnpredictableNumberGenerator : IGenerateUnpredictableNumber
     /// </summary>
     /// <param name="nun"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Emv.Ber.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public UnpredictableNumber GenerateUnpredictableNumber(NumberOfNonZeroBits nun)
     {
         UnpredictableNumber offset = GenerateUnpredictableNumber();

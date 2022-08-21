@@ -1,6 +1,6 @@
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Enums;
@@ -52,6 +52,45 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
 
     public KernelIdentifier(ulong value) : base(value)
     { }
+
+    #endregion
+
+    #region Serialization
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static KernelIdentifier Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    public override KernelIdentifier Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static KernelIdentifier Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
+
+        ulong result = PlayCodec.BinaryCodec.DecodeToUInt64(value);
+
+        return new KernelIdentifier(result);
+    }
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(KernelIdentifier? x, KernelIdentifier? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
+    public int GetHashCode(KernelIdentifier obj) => obj.GetHashCode();
 
     #endregion
 
@@ -198,45 +237,6 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
     /// </summary>
     /// <remarks>Book B Section 3.3.2.5 C</remarks>
     private bool IsShortKernelIdFlagSet() => IsInternationalKernel() || IsReservedForFutureUseFlagSet();
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    public static KernelIdentifier Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    public override KernelIdentifier Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    public static KernelIdentifier Decode(ReadOnlySpan<byte> value)
-    {
-        Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
-        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
-
-        ulong result = PlayCodec.BinaryCodec.DecodeToUInt64(value);
-
-        return new KernelIdentifier(result);
-    }
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(KernelIdentifier? x, KernelIdentifier? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(KernelIdentifier obj) => obj.GetHashCode();
 
     #endregion
 }

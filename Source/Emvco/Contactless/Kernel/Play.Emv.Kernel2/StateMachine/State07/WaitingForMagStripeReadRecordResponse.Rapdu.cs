@@ -80,14 +80,14 @@ public partial class WaitingForMagStripeReadRecordResponse
         try
         {
             // HACK: Move exception handling to a single exception handler
-            _Database.Update(MessageIdentifiers.TryAgain);
-            _Database.Update(Statuses.ReadyToRead);
+            _Database.Update(DisplayMessageIdentifiers.TryAgain);
+            _Database.Update(DisplayStatuses.ReadyToRead);
             _Database.Update(new MessageHoldTime(0));
             _Database.Update(StatusOutcomes.EndApplication);
             _Database.Update(StartOutcomes.B);
             _Database.SetUiRequestOnRestartPresent(true);
             _Database.Update(signal.GetLevel1Error());
-            _Database.Update(MessageOnErrorIdentifiers.TryAgain);
+            _Database.Update(DisplayMessageOnErrorIdentifiers.TryAgain);
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
             return true;
@@ -102,7 +102,7 @@ public partial class WaitingForMagStripeReadRecordResponse
         }
         finally
         {
-            _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+            _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
         }
 
         return false;
@@ -121,10 +121,10 @@ public partial class WaitingForMagStripeReadRecordResponse
         try
         {
             // HACK: Move exception handling to a single exception handler
-            _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-            _Database.Update(Statuses.NotReady);
+            _Database.Update(DisplayMessageIdentifiers.ErrorUseAnotherCard);
+            _Database.Update(DisplayStatuses.NotReady);
             _Database.Update(StatusOutcomes.EndApplication);
-            _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
+            _Database.Update(DisplayMessageOnErrorIdentifiers.ErrorUseAnotherCard);
             _Database.Update(Level2Error.StatusBytes);
             _Database.Update(signal.GetStatusWords());
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
@@ -142,7 +142,7 @@ public partial class WaitingForMagStripeReadRecordResponse
         }
         finally
         {
-            _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+            _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
         }
 
         return false;
@@ -218,10 +218,10 @@ public partial class WaitingForMagStripeReadRecordResponse
         try
         {
             // HACK: Move exception handling to a single exception handler
-            _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-            _Database.Update(Statuses.NotReady);
+            _Database.Update(DisplayMessageIdentifiers.ErrorUseAnotherCard);
+            _Database.Update(DisplayStatuses.NotReady);
             _Database.Update(StatusOutcomes.EndApplication);
-            _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
+            _Database.Update(DisplayMessageOnErrorIdentifiers.ErrorUseAnotherCard);
             _Database.Update(Level2Error.ParsingError);
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
             _Database.SetUiRequestOnOutcomePresent(true);
@@ -232,7 +232,7 @@ public partial class WaitingForMagStripeReadRecordResponse
         }
         finally
         {
-            _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+            _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
         }
     }
 
@@ -262,7 +262,7 @@ public partial class WaitingForMagStripeReadRecordResponse
         if (!session.TryPeekActiveTag(out RecordRange recordRange))
             return false;
 
-        _PcdEndpoint.Request(ReadRecordRequest.Create(session.GetTransactionSessionId(), recordRange.GetShortFileIdentifier()));
+        _EndpointClient.Send(ReadRecordRequest.Create(session.GetTransactionSessionId(), recordRange.GetShortFileIdentifier()));
 
         return true;
     }
@@ -281,15 +281,15 @@ public partial class WaitingForMagStripeReadRecordResponse
                 return false;
 
             // HACK: Move exception handling to a single exception handler
-            _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-            _Database.Update(Statuses.NotReady);
+            _Database.Update(DisplayMessageIdentifiers.ErrorUseAnotherCard);
+            _Database.Update(DisplayStatuses.NotReady);
             _Database.Update(StatusOutcomes.EndApplication);
-            _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
+            _Database.Update(DisplayMessageOnErrorIdentifiers.ErrorUseAnotherCard);
             _Database.Update(Level2Error.CardDataMissing);
             _Database.SetUiRequestOnOutcomePresent(true);
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
-            _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+            _EndpointClient.Send(new StopKernelRequest(sessionId));
 
             return true;
         }
@@ -299,7 +299,7 @@ public partial class WaitingForMagStripeReadRecordResponse
         }
         finally
         {
-            _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+            _EndpointClient.Send(new StopKernelRequest(sessionId));
         }
 
         return false;
@@ -383,7 +383,7 @@ public partial class WaitingForMagStripeReadRecordResponse
         }
         finally
         {
-            _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+            _EndpointClient.Send(new StopKernelRequest(sessionId));
         }
 
         return true;
@@ -399,10 +399,10 @@ public partial class WaitingForMagStripeReadRecordResponse
     {
         try
         {
-            _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-            _Database.Update(Statuses.NotReady);
+            _Database.Update(DisplayMessageIdentifiers.ErrorUseAnotherCard);
+            _Database.Update(DisplayStatuses.NotReady);
             _Database.Update(StatusOutcomes.EndApplication);
-            _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
+            _Database.Update(DisplayMessageOnErrorIdentifiers.ErrorUseAnotherCard);
             _Database.Update(Level2Error.CardDataMissing);
             _Database.SetUiRequestOnOutcomePresent(true);
             _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);
@@ -413,7 +413,7 @@ public partial class WaitingForMagStripeReadRecordResponse
         }
         finally
         {
-            _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+            _EndpointClient.Send(new StopKernelRequest(sessionId));
         }
     }
 

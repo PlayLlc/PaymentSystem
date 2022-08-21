@@ -1,7 +1,7 @@
 ﻿using System;
 
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
@@ -56,7 +56,7 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
         _Database.Update(Level3Error.TimeOut);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+        _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
 
         return true;
     }
@@ -90,7 +90,7 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
         if (!_DataExchangeKernelService.TryPeek(DekRequestType.TagsToRead, out Tag tagToRead))
             return false;
 
-        _PcdEndpoint.Request(GetDataRequest.Create(tagToRead, sessionId));
+        _EndpointClient.Send(GetDataRequest.Create(tagToRead, sessionId));
 
         return true;
     }

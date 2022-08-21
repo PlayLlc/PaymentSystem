@@ -1,7 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Ber.Tags;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
@@ -42,18 +42,6 @@ public record ProcessingOptions : ResponseMessageTemplate
         _ApplicationFileLocator = ApplicationFileLocator.Decode(values.First(a => a.GetTag() == ApplicationFileLocator.Tag).EncodeValue().AsMemory());
         _ApplicationInterchangeProfile =
             ApplicationInterchangeProfile.Decode(values.First(a => a.GetTag() == ApplicationInterchangeProfile.Tag).EncodeValue().AsMemory());
-    }
-
-    #endregion
-
-    #region Instance Members
-
-    public override Tag GetTag() => Tag;
-    public override Tag[] GetChildTags() => ChildTags;
-
-    protected override IEncodeBerDataObjects[] GetChildren()
-    {
-        return new IEncodeBerDataObjects[] {_ApplicationFileLocator, _ApplicationInterchangeProfile};
     }
 
     #endregion
@@ -102,6 +90,18 @@ public record ProcessingOptions : ResponseMessageTemplate
         {
             return _ApplicationFileLocator.GetHashCode() + _ApplicationInterchangeProfile.GetHashCode();
         }
+    }
+
+    #endregion
+
+    #region Instance Members
+
+    public override Tag GetTag() => Tag;
+    public override Tag[] GetChildTags() => ChildTags;
+
+    protected override IEncodeBerDataObjects[] GetChildren()
+    {
+        return new IEncodeBerDataObjects[] {_ApplicationFileLocator, _ApplicationInterchangeProfile};
     }
 
     #endregion

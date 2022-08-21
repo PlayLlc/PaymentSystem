@@ -6,7 +6,7 @@ using Play.Messaging.Exceptions;
 
 namespace Play.Emv.Pcd.Services;
 
-public class ProximityCouplingDeviceEndpoint : IMessageChannel, IHandlePcdRequests, ISendPcdResponses, IDisposable
+public class ProximityCouplingDeviceEndpoint : IMessageChannel, IDisposable
 {
     #region Static Metadata
 
@@ -24,13 +24,12 @@ public class ProximityCouplingDeviceEndpoint : IMessageChannel, IHandlePcdReques
 
     #region Constructor
 
-    private ProximityCouplingDeviceEndpoint(ICreateEndpointClient messageBus, PcdProtocolConfiguration configuration, IProximityCouplingDeviceClient pcdClient)
+    private ProximityCouplingDeviceEndpoint(PcdProtocolConfiguration configuration, IProximityCouplingDeviceClient pcdClient, IEndpointClient endpointClient)
     {
         ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
-
-        _ProximityCouplingDeviceProcess = new ProximityCouplingDeviceProcess(new CardClient(pcdClient), configuration, this);
-        _EndpointClient = messageBus.CreateEndpointClient();
+        _EndpointClient = endpointClient;
         _EndpointClient.Subscribe(this);
+        _ProximityCouplingDeviceProcess = new ProximityCouplingDeviceProcess(new CardClient(pcdClient), configuration, _EndpointClient);
     }
 
     #endregion
@@ -76,32 +75,13 @@ public class ProximityCouplingDeviceEndpoint : IMessageChannel, IHandlePcdReques
 
     #endregion
 
-    #region Responses
-
-    void ISendPcdResponses.Send(ActivatePcdResponse message)
-    {
-        _EndpointClient.Send(message);
-    }
-
-    void ISendPcdResponses.Send(QueryPcdResponse message)
-    {
-        _EndpointClient.Send(message);
-    }
-
-    void ISendPcdResponses.Send(StopPcdAcknowledgedResponse message)
-    {
-        _EndpointClient.Send(message);
-    }
-
-    #endregion
-
     #region Callbacks
 
     /// <summary>
     ///     Handle
     /// </summary>
     /// <param name="message"></param>
-    /// <exception cref="Play.Messaging.Exceptions.InvalidMessageRoutingException"></exception>
+    /// <exception cref="InvalidMessageRoutingException"></exception>
     public void Handle(ResponseMessage message)
     {
         throw new InvalidMessageRoutingException(message, this);
@@ -110,8 +90,8 @@ public class ProximityCouplingDeviceEndpoint : IMessageChannel, IHandlePcdReques
     #endregion
 
     public static ProximityCouplingDeviceEndpoint Create(
-        ICreateEndpointClient messageRouter, PcdProtocolConfiguration configuration, IProximityCouplingDeviceClient pcdClient) =>
-        new(messageRouter, configuration, pcdClient);
+        PcdProtocolConfiguration configuration, IProximityCouplingDeviceClient pcdClient, IEndpointClient endpointClient) =>
+        new(configuration, pcdClient, endpointClient);
 
     public void Dispose()
     {

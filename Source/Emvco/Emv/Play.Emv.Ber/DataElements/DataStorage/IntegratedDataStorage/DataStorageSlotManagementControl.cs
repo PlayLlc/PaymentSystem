@@ -1,5 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
@@ -28,18 +28,6 @@ public record DataStorageSlotManagementControl : DataElement<byte>
 
     #endregion
 
-    #region Instance Members
-
-    public bool IsPermanent() => _Value.IsBitSet(Bits.Eight);
-    public bool IsVolatile() => _Value.IsBitSet(Bits.Seven);
-    public bool IsLowVolatility() => _Value.IsBitSet(Bits.Six);
-    public bool IsLocked() => _Value.IsBitSet(Bits.Five);
-    public bool IsDeactivated() => _Value.IsBitSet(Bits.One);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -59,8 +47,20 @@ public record DataStorageSlotManagementControl : DataElement<byte>
         return new DataStorageSlotManagementControl(result);
     }
 
-    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode(_Value, length);
+    public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public override byte[] EncodeValue(int length) => _Codec.EncodeValue(EncodingId, _Value, length);
+
+    #endregion
+
+    #region Instance Members
+
+    public bool IsPermanent() => _Value.IsBitSet(Bits.Eight);
+    public bool IsVolatile() => _Value.IsBitSet(Bits.Seven);
+    public bool IsLowVolatility() => _Value.IsBitSet(Bits.Six);
+    public bool IsLocked() => _Value.IsBitSet(Bits.Five);
+    public bool IsDeactivated() => _Value.IsBitSet(Bits.One);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

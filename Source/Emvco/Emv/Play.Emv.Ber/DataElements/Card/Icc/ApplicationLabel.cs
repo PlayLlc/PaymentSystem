@@ -1,7 +1,7 @@
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
 
@@ -25,15 +25,6 @@ public record ApplicationLabel : DataElement<char[]>
 
     public ApplicationLabel(ReadOnlySpan<char> value) : base(value.ToArray())
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override string ToString() => new(_Value);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -65,6 +56,15 @@ public record ApplicationLabel : DataElement<char[]>
     #region Operator Overrides
 
     public static implicit operator ReadOnlySpan<char>(ApplicationLabel value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public override string ToString() => new(_Value);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

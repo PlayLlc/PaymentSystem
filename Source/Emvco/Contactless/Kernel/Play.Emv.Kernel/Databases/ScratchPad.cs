@@ -1,7 +1,8 @@
-﻿using System.Collections.Immutable;
+﻿using System.Collections.Generic;
 
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.ValueTypes.DataStorage;
 using Play.Emv.Kernel.Services;
 
@@ -11,7 +12,7 @@ public class ScratchPad
 {
     #region Instance Values
 
-    private readonly ImmutableSortedDictionary<ApplicationIdentifier, TornTransactionLog> _TornTransactionLogs;
+    private readonly Dictionary<ApplicationIdentifier, TornTransactionLog> _TornTransactionLogs;
     private readonly MaxNumberOfTornTransactionLogRecords _MaxNumberOfTornTransactionLogRecords;
     private readonly MaxLifetimeOfTornTransactionLogRecords _MaxLifetimeOfTornTransactionLogRecords;
 
@@ -20,11 +21,10 @@ public class ScratchPad
     #region Constructor
 
     public ScratchPad(
-        ImmutableSortedDictionary<ApplicationIdentifier, TornTransactionLog> tornTransactionLogs,
         MaxNumberOfTornTransactionLogRecords maxNumberOfTornTransactionLogRecords,
         MaxLifetimeOfTornTransactionLogRecords maxLifetimeOfTornTransactionLogRecords)
     {
-        _TornTransactionLogs = tornTransactionLogs;
+        _TornTransactionLogs = new Dictionary<ApplicationIdentifier, TornTransactionLog>();
         _MaxNumberOfTornTransactionLogRecords = maxNumberOfTornTransactionLogRecords;
         _MaxLifetimeOfTornTransactionLogRecords = maxLifetimeOfTornTransactionLogRecords;
     }
@@ -35,14 +35,20 @@ public class ScratchPad
 
     public TornTransactionLog GetTornTransactionLog(ApplicationIdentifier applicationId)
     {
-        if (!_TornTransactionLogs.TryGetValue(applicationId, out TornTransactionLog? tornTransactionLog))
+        if (!_TornTransactionLogs.ContainsKey(applicationId))
             _TornTransactionLogs.Add(applicationId, new TornTransactionLog(_MaxNumberOfTornTransactionLogRecords, _MaxLifetimeOfTornTransactionLogRecords));
 
-        return tornTransactionLog!;
+        return _TornTransactionLogs[applicationId]!;
     }
 
-    public void Add(ITlvReaderAndWriter database, ApplicationIdentifier applicationId, TornRecord tornRecord) =>
+    /// <exception cref="TerminalDataException"></exception>
+    public void Add(ITlvReaderAndWriter database, ApplicationIdentifier applicationId, TornRecord tornRecord)
+    {
+        if (!_TornTransactionLogs.ContainsKey(applicationId))
+            _TornTransactionLogs.Add(applicationId, new TornTransactionLog(_MaxNumberOfTornTransactionLogRecords, _MaxLifetimeOfTornTransactionLogRecords));
+
         _TornTransactionLogs[applicationId].Add(tornRecord, database);
+    }
 
     public bool TryGet(ApplicationIdentifier applicationId, TornEntry tornEntry, out TornRecord? result) =>
         _TornTransactionLogs[applicationId].TryGet(tornEntry, out result);

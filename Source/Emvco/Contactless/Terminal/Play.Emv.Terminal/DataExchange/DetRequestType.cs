@@ -2,7 +2,7 @@
 using System.Collections.Immutable;
 using System.Linq;
 
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Core;
 
 namespace Play.Emv.Terminal.DataExchange;
@@ -33,6 +33,12 @@ public record DetRequestType : EnumObject<Tag>
 
     #endregion
 
+    #region Operator Overrides
+
+    public static explicit operator Tag(DetRequestType detRequestType) => detRequestType._Value;
+
+    #endregion
+
     #region Instance Members
 
     public override DetRequestType[] GetAll() => _ValueObjectMap.Values.ToArray();
@@ -50,12 +56,6 @@ public record DetRequestType : EnumObject<Tag>
 
         return false;
     }
-
-    #endregion
-
-    #region Operator Overrides
-
-    public static explicit operator Tag(DetRequestType detRequestType) => detRequestType._Value;
 
     #endregion
 }

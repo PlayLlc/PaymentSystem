@@ -1,11 +1,7 @@
-﻿using System;
+﻿using AutoFixture;
 
-using AutoFixture;
-
-using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
-using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
@@ -13,7 +9,7 @@ using Play.Emv.Kernel.Services;
 
 using Xunit;
 
-namespace Play.Emv.Kernel2.Tests.TerminalActionAnalysisServiceTests;
+namespace Play.Emv.Kernel.Tests.TerminalActionAnalysisServiceTests;
 
 public partial class TerminalActionAnalysisServiceTests
 {

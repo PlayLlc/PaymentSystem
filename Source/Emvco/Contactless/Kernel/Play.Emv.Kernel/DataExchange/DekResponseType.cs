@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Core;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
@@ -55,6 +55,12 @@ public record DekResponseType : EnumObject<Tag>
 
     #endregion
 
+    #region Operator Overrides
+
+    public static explicit operator Tag(DekResponseType dekResponseType) => dekResponseType._Value;
+
+    #endregion
+
     #region Instance Members
 
     public override DekResponseType[] GetAll() => _ValueObjectMap.Values.ToArray();
@@ -83,12 +89,6 @@ public record DekResponseType : EnumObject<Tag>
     }
 
     public static DataExchangeResponse GetDefaultList(DekResponseType listType) => _DefaultMap[listType].Invoke();
-
-    #endregion
-
-    #region Operator Overrides
-
-    public static explicit operator Tag(DekResponseType dekResponseType) => dekResponseType._Value;
 
     #endregion
 }

@@ -1,5 +1,5 @@
 ﻿using Play.Ber.Codecs;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Globalization.Currency;
 
@@ -15,7 +15,7 @@ public abstract record ReaderContactlessTransactionLimit : DataElement<ulong>
     #region Static Metadata
 
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
-    protected const byte _ByteLength = 6;
+    protected const byte _ByteLength = 12;
 
     #endregion
 
@@ -23,15 +23,6 @@ public abstract record ReaderContactlessTransactionLimit : DataElement<ulong>
 
     protected ReaderContactlessTransactionLimit(ulong value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public Money AsMoney(NumericCurrencyCode numericCurrencyCode) => new(_Value, numericCurrencyCode);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public abstract override Tag GetTag();
-    public override ushort GetValueByteCount(BerCodec codec) => _ByteLength;
 
     #endregion
 
@@ -56,6 +47,15 @@ public abstract record ReaderContactlessTransactionLimit : DataElement<ulong>
     }
 
     public int GetHashCode(ReaderContactlessTransactionLimit obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public Money AsMoney(NumericCurrencyCode numericCurrencyCode) => new(_Value, numericCurrencyCode);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public abstract override Tag GetTag();
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

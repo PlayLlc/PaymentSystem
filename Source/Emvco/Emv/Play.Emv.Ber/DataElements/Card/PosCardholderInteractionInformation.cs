@@ -1,6 +1,6 @@
 ﻿using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
@@ -23,6 +23,46 @@ public record PosCardholderInteractionInformation : DataElement<uint>, IEquality
 
     public PosCardholderInteractionInformation(uint value) : base(value)
     { }
+
+    #endregion
+
+    #region Serialization
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static PosCardholderInteractionInformation Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    public override PosCardholderInteractionInformation Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static PosCardholderInteractionInformation Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
+
+        uint result = PlayCodec.BinaryCodec.DecodeToUInt32(value);
+
+        return new PosCardholderInteractionInformation(result);
+    }
+
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(PosCardholderInteractionInformation? x, PosCardholderInteractionInformation? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
+    public int GetHashCode(PosCardholderInteractionInformation obj) => obj.GetHashCode();
 
     #endregion
 
@@ -50,45 +90,6 @@ public record PosCardholderInteractionInformation : DataElement<uint>, IEquality
 
         return x.Equals(y);
     }
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    public static PosCardholderInteractionInformation Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    public override PosCardholderInteractionInformation Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    public static PosCardholderInteractionInformation Decode(ReadOnlySpan<byte> value)
-    {
-        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
-
-        uint result = PlayCodec.BinaryCodec.DecodeToUInt32(value);
-
-        return new PosCardholderInteractionInformation(result);
-    }
-
-    #endregion
-    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
-
-    #region Equality
-
-    public bool Equals(PosCardholderInteractionInformation? x, PosCardholderInteractionInformation? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(PosCardholderInteractionInformation obj) => obj.GetHashCode();
 
     #endregion
 }

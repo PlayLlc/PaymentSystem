@@ -1,6 +1,6 @@
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -25,14 +25,6 @@ public record CaPublicKeyIndex : DataElement<byte>, IEqualityComparer<CaPublicKe
 
     public CaPublicKeyIndex(byte value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -81,6 +73,14 @@ public record CaPublicKeyIndex : DataElement<byte>, IEqualityComparer<CaPublicKe
 
     public static explicit operator byte(CaPublicKeyIndex value) => value._Value;
     public static explicit operator CaPublicKeyIndex(byte value) => new(value);
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

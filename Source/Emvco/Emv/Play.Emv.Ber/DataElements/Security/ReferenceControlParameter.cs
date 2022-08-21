@@ -1,6 +1,6 @@
 ﻿using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
@@ -39,33 +39,6 @@ public record ReferenceControlParameter : DataElement<byte>, IEqualityComparer<R
         if (!CryptogramTypes.IsValid((byte) cryptogramType))
             throw new CardDataException($"The argument {nameof(cryptogramType)} was not recognized as a valid {nameof(CryptogramTypes)}");
     }
-
-    #endregion
-
-    #region Instance Members
-
-    private static byte Create(CryptogramType cryptogramTypes, bool isCdaSignatureRequested)
-    {
-        if (isCdaSignatureRequested)
-            return (byte) ((byte) cryptogramTypes | _CdaRequestedFlag);
-
-        return (byte) cryptogramTypes;
-    }
-
-    public bool IsCdaSignatureRequested() => _Value.IsBitSet(_CdaRequestedFlag);
-
-    /// <exception cref="DataElementParsingException"></exception>
-    public CryptogramTypes GetCryptogramType()
-    {
-        if (!CryptogramTypes.TryGet(_Value, out CryptogramTypes? result))
-            throw new DataElementParsingException($"The {nameof(CryptogramInformationData)} expected a {nameof(CryptogramTypes)} but none could be found");
-
-        return result!;
-    }
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -118,6 +91,33 @@ public record ReferenceControlParameter : DataElement<byte>, IEqualityComparer<R
     #region Operator Overrides
 
     public static explicit operator byte(ReferenceControlParameter value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    private static byte Create(CryptogramType cryptogramTypes, bool isCdaSignatureRequested)
+    {
+        if (isCdaSignatureRequested)
+            return (byte) ((byte) cryptogramTypes | _CdaRequestedFlag);
+
+        return (byte) cryptogramTypes;
+    }
+
+    public bool IsCdaSignatureRequested() => _Value.IsBitSet(_CdaRequestedFlag);
+
+    /// <exception cref="DataElementParsingException"></exception>
+    public CryptogramTypes GetCryptogramType()
+    {
+        if (!CryptogramTypes.TryGet(_Value, out CryptogramTypes? result))
+            throw new DataElementParsingException($"The {nameof(CryptogramInformationData)} expected a {nameof(CryptogramTypes)} but none could be found");
+
+        return result!;
+    }
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

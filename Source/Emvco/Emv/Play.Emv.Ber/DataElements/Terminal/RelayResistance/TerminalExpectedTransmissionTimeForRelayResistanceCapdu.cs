@@ -1,5 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -12,7 +12,7 @@ namespace Play.Emv.Ber.DataElements;
 ///     the Card. The Terminal Expected Transmission Time For Relay Resistance C-APDU is expressed in units of hundreds of
 ///     microseconds.
 /// </summary>
-public record TerminalExpectedTransmissionTimeForRelayResistanceCapdu : DataElement<RelaySeconds>
+public record TerminalExpectedTransmissionTimeForRelayResistanceCapdu : DataElement<ushort>
 {
     #region Static Metadata
 
@@ -24,15 +24,8 @@ public record TerminalExpectedTransmissionTimeForRelayResistanceCapdu : DataElem
 
     #region Constructor
 
-    public TerminalExpectedTransmissionTimeForRelayResistanceCapdu(RelaySeconds value) : base(value)
+    public TerminalExpectedTransmissionTimeForRelayResistanceCapdu(ushort value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 
@@ -63,6 +56,13 @@ public record TerminalExpectedTransmissionTimeForRelayResistanceCapdu : DataElem
     #region Operator Overrides
 
     public static implicit operator RelaySeconds(TerminalExpectedTransmissionTimeForRelayResistanceCapdu value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

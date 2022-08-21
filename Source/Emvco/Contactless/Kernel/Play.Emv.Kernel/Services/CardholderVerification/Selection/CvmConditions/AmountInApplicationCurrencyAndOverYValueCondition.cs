@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.ValueTypes;
@@ -13,14 +13,13 @@ internal record AmountInApplicationCurrencyAndOverYValueCondition : CvmCondition
 {
     #region Static Metadata
 
-    private static readonly Tag[] _RequiredTags = new[] {ApplicationCurrencyCode.Tag, TransactionCurrencyCode.Tag, AmountAuthorizedNumeric.Tag};
     public static readonly CvmConditionCode Code = new(9);
 
     #endregion
 
     #region Instance Values
 
-    protected override Tag[] _RequiredData => _RequiredTags;
+    protected override Tag[] _RequiredData => throw new NotImplementedException();
 
     #endregion
 

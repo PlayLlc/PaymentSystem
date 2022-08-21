@@ -2,7 +2,7 @@ using System.Numerics;
 
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core;
@@ -44,14 +44,20 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
 
     #region Instance Members
 
-    public ulong? GetAmount() => GetValueQualifier() == ValueQualifiers.None ? null : ((ulong) (_Value >> _MoneyOffset)).GetMaskedValue(0xFFFF000000000000);
+    public bool IsValueQualifierPresent() => GetValueQualifier() != ValueQualifiers.None;
+
+    public Money? GetAmount() =>
+        GetValueQualifier() == ValueQualifiers.None
+            ? null
+            : new Money(((ulong) (_Value >> _MoneyOffset)).GetMaskedValue(0xFFFF000000000000), GetCurrencyCode());
+
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public static Builder GetBuilder() => new();
     public NumericCurrencyCode GetCurrencyCode() => new((ushort) (_Value >> _CurrencyCodeOffset));
     public MessageHoldTime GetHoldTimeValue() => new(new Milliseconds((long) ((ulong) (_Value >> _HoldTimeOffset)).GetMaskedValue(0xFFFF000000000000)));
     public LanguagePreference GetLanguagePreference() => new((ulong) (_Value >> _LanguagePreferenceOffset));
-    public MessageIdentifiers GetMessageIdentifier() => MessageIdentifiers.Get((byte) (_Value >> _MessageIdentifierOffset));
-    public Statuses GetStatus() => Statuses.Get((byte) (_Value >> _StatusOffset));
+    public DisplayMessageIdentifiers GetMessageIdentifier() => DisplayMessageIdentifiers.Get((byte) (_Value >> _MessageIdentifierOffset));
+    public DisplayStatuses GetStatus() => DisplayStatuses.Get((byte) (_Value >> _StatusOffset));
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
@@ -123,8 +129,8 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
 
         internal Builder()
         {
-            Set(MessageIdentifiers.NotAvailable);
-            Set(Statuses.NotAvailable);
+            Set(DisplayMessageIdentifiers.NotAvailable);
+            Set(DisplayStatuses.NotAvailable);
             Set(MessageHoldTime.MinimumValue);
 
             //Set(LanguagePreference);
@@ -140,45 +146,45 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
             _Value = value._Value;
         }
 
-        public void Set(MessageIdentifiers bitsToSet)
+        public void Set(DisplayMessageIdentifiers bitsToSet)
         {
-            _Value.ClearBits(byte.MaxValue << _MessageIdentifierOffset);
+            _Value = _Value.ClearBits(byte.MaxValue << _MessageIdentifierOffset);
             _Value |= (BigInteger) bitsToSet << _MessageIdentifierOffset;
         }
 
-        public void Set(Statuses bitsToSet)
+        public void Set(DisplayStatuses bitsToSet)
         {
-            _Value.ClearBits(byte.MaxValue << _StatusOffset);
+            _Value = _Value.ClearBits(byte.MaxValue << _StatusOffset);
             _Value |= (BigInteger) bitsToSet << _StatusOffset;
         }
 
         public void Set(MessageHoldTime bitsToSet)
         {
-            _Value.ClearBits(0xFFFFFF << _HoldTimeOffset);
+            _Value = _Value.ClearBits(0xFFFFFF << _HoldTimeOffset);
             _Value |= (BigInteger) ((long) bitsToSet.GetHoldTime()).GetMaskedValue(0xFF000000) << _HoldTimeOffset;
         }
 
         public void Set(LanguagePreference bitsToSet)
         {
-            _Value.ClearBits(ulong.MaxValue << _LanguagePreferenceOffset);
+            _Value = _Value.ClearBits(ulong.MaxValue << _LanguagePreferenceOffset);
             _Value |= new BigInteger(bitsToSet.EncodeValue()) << _LanguagePreferenceOffset;
         }
 
         public void Set(ValueQualifiers bitsToSet)
         {
-            _Value.ClearBits(byte.MaxValue << _ValueQualifierOffset);
+            _Value = _Value.ClearBits(byte.MaxValue << _ValueQualifierOffset);
             _Value |= (BigInteger) bitsToSet << _ValueQualifierOffset;
         }
 
         public void Set(Money bitsToSet)
         {
-            _Value.ClearBits(0xFFFFFFFFFFFF << _MoneyOffset);
+            _Value = _Value.ClearBits(0xFFFFFFFFFFFF << _MoneyOffset);
             _Value |= (BigInteger) (ulong) bitsToSet << _MoneyOffset;
         }
 
         public void Set(NumericCurrencyCode bitsToSet)
         {
-            _Value.ClearBits(ushort.MaxValue << _CurrencyCodeOffset);
+            _Value = _Value.ClearBits(ushort.MaxValue << _CurrencyCodeOffset);
             _Value |= (BigInteger) (ushort) bitsToSet << _CurrencyCodeOffset;
         }
 

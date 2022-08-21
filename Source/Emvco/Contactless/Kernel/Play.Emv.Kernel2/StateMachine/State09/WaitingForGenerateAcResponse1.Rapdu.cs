@@ -33,7 +33,7 @@ public partial class WaitingForGenerateAcResponse1
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
@@ -67,7 +67,7 @@ public partial class WaitingForGenerateAcResponse1
     /// <remarks>Book C-2 Section S9.5 - S9.15 - L1RSP</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public bool TryHandleL1Error(KernelSessionId sessionId, QueryPcdResponse signal)
     {
         if (signal.IsLevel1ErrorPresent())
@@ -123,10 +123,10 @@ public partial class WaitingForGenerateAcResponse1
     {
         try
         {
-            _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-            _Database.Update(Statuses.NotReady);
+            _Database.Update(DisplayMessageIdentifiers.ErrorUseAnotherCard);
+            _Database.Update(DisplayStatuses.NotReady);
             _Database.Update(StatusOutcomes.EndApplication);
-            _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
+            _Database.Update(DisplayMessageOnErrorIdentifiers.ErrorUseAnotherCard);
             _Database.Update(signal.GetLevel1Error());
             _Database.SetIsDataRecordPresent(true);
             _Database.CreateEmvDataRecord(_DataExchangeKernelService);
@@ -143,7 +143,7 @@ public partial class WaitingForGenerateAcResponse1
         }
         finally
         {
-            _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+            _EndpointClient.Send(new StopKernelRequest(sessionId));
         }
     }
 
@@ -158,15 +158,15 @@ public partial class WaitingForGenerateAcResponse1
         try
         {
             // HACK: Move exception handling to a single exception handler
-            _Database.Update(MessageIdentifiers.TryAgain);
-            _Database.Update(Statuses.ReadyToRead);
+            _Database.Update(DisplayMessageIdentifiers.TryAgain);
+            _Database.Update(DisplayStatuses.ReadyToRead);
             _Database.Update(MessageHoldTime.MinimumValue);
 
             _Database.Update(StatusOutcomes.EndApplication);
             _Database.Update(StartOutcomes.B);
             _Database.SetUiRequestOnOutcomePresent(true);
             _Database.Update(signal.GetLevel1Error());
-            _Database.Update(MessageOnErrorIdentifiers.TryAgain);
+            _Database.Update(DisplayMessageOnErrorIdentifiers.TryAgain);
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         }
         catch (TerminalDataException)
@@ -179,7 +179,7 @@ public partial class WaitingForGenerateAcResponse1
         }
         finally
         {
-            _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+            _EndpointClient.Send(new StopKernelRequest(sessionId));
         }
     }
 
@@ -190,7 +190,7 @@ public partial class WaitingForGenerateAcResponse1
     /// <remarks>Book C-2 Section S9.11 - S9.15</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     private void HandleTornTransaction(KernelSessionId sessionId, QueryPcdResponse signal)
     {
         DataRecoveryDataObjectListRelatedData? drDol = _Database.Get<DataRecoveryDataObjectList>(DataRecoveryDataObjectList.Tag).AsRelatedData(_Database);
@@ -424,11 +424,11 @@ public partial class WaitingForGenerateAcResponse1
     /// <exception cref="TerminalDataException"></exception>
     private void SetDisplayMessage()
     {
-        _Database.Update(MessageIdentifiers.ClearDisplay);
-        _Database.Update(Statuses.CardReadSuccessful);
+        _Database.Update(DisplayMessageIdentifiers.ClearDisplay);
+        _Database.Update(DisplayStatuses.CardReadSuccessful);
         _Database.Update(MessageHoldTime.MinimumValue);
 
-        _DisplayEndpoint.Request(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
+        _EndpointClient.Send(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
     }
 
     #endregion

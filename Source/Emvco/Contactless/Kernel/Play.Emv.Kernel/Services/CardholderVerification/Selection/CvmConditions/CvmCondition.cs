@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Emv.Ber;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.ValueTypes;
@@ -32,17 +32,15 @@ internal abstract record CvmCondition
         AmountInApplicationCurrencyAndOverXValueCondition amountInApplicationCurrencyAndOverXValueCondition = new();
         AmountInApplicationCurrencyAndOverYValueCondition amountInApplicationCurrencyAndOverYValueCondition = new();
         AmountInApplicationCurrencyAndUnderXValueCondition amountInApplicationCurrencyAndUnderXValueCondition = new();
-        AmountInApplicationCurrencyAndUnderYValueCondition amountInApplicationCurrencyAndUnderYValueCondition = new();
+        AmountInApplicationCurrencyAndUnderXValueCondition amountInApplicationCurrencyAndUnderYValueCondition = new();
         ManualCashCondition manualCashCondition = new();
         NotUnattendedCashOrManualCashOrPurchaseWithCashback notUnattendedCashOrManualCashOrPurchaseWithCashback = new();
         PurchaseWithCashbackCondition purchaseWithCashbackCondition = new();
         SupportsCvmCondition supportsCvmCondition = new();
-        UnattendedCash unattendedCash = new();
 
         _Conditions = new Dictionary<CvmConditionCode, CvmCondition>
         {
             {alwaysCondition.GetConditionCode(), alwaysCondition},
-            {unattendedCash.GetConditionCode(), unattendedCash},
             {amountInApplicationCurrencyAndOverXValueCondition.GetConditionCode(), amountInApplicationCurrencyAndOverXValueCondition},
             {amountInApplicationCurrencyAndOverYValueCondition.GetConditionCode(), amountInApplicationCurrencyAndOverYValueCondition},
             {amountInApplicationCurrencyAndUnderXValueCondition.GetConditionCode(), amountInApplicationCurrencyAndUnderXValueCondition},
@@ -56,9 +54,15 @@ internal abstract record CvmCondition
 
     #endregion
 
+    #region Operator Overrides
+
+    public static implicit operator byte(CvmCondition value) => (byte) value.GetConditionCode();
+    public static implicit operator CvmConditionCode(CvmCondition value) => value.GetConditionCode();
+
+    #endregion
+
     #region Instance Members
 
-    //CVM.10
     public static bool TryGet(CvmConditionCode code, out CvmCondition? result)
     {
         if (!Exists(code))
@@ -76,7 +80,7 @@ internal abstract record CvmCondition
     public static bool Exists(CvmConditionCode code) => _Conditions.ContainsKey(code);
 
     /// <summary>
-    ///     IsCvmSupported CVM.11
+    ///     IsCvmSupported
     /// </summary>
     /// <param name="database"></param>
     /// <param name="code"></param>
@@ -92,7 +96,6 @@ internal abstract record CvmCondition
         if (!_Conditions[code].IsRequiredDataPresent(database))
             return false;
 
-        //CVM.12
         if (!_Conditions[code].IsConditionSatisfied(database, xAmount, yAmount))
             return false;
 
@@ -122,13 +125,6 @@ internal abstract record CvmCondition
     }
 
     protected abstract bool IsConditionSatisfied(KernelDatabase database, Money xAmount, Money yAmount);
-
-    #endregion
-
-    #region Operator Overrides
-
-    public static implicit operator byte(CvmCondition value) => (byte) value.GetConditionCode();
-    public static implicit operator CvmConditionCode(CvmCondition value) => value.GetConditionCode();
 
     #endregion
 }

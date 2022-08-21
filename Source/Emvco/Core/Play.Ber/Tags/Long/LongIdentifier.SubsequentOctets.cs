@@ -1,11 +1,11 @@
 ﻿using System;
 
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers.Short;
+using Play.Ber.Tags.Short;
 using Play.Core.Exceptions;
 using Play.Core.Extensions;
 
-namespace Play.Ber.Identifiers.Long;
+namespace Play.Ber.Tags.Long;
 
 internal static partial class LongIdentifier
 {

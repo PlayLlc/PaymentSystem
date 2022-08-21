@@ -4,7 +4,7 @@ public interface ICreateEndpointClient
 {
     #region Instance Members
 
-    public IEndpointClient CreateEndpointClient();
+    public IEndpointClient GetEndpointClient();
 
     #endregion
 }
