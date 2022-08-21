@@ -8,7 +8,7 @@ using Play.Globalization.Time;
 using Play.Icc.Exceptions;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace MockPos.Configuration;
+namespace MockPos.Dtos;
 
 public class CertificateDto
 {
@@ -39,7 +39,7 @@ public class CertificateDto
         PublicKeyModulus modulus = new(PlayCodec.HexadecimalCodec.Encode(Modulus));
         CertificateSerialNumber serialNumber = new(PlayCodec.HexadecimalCodec.Encode(CertificateSerialNumber));
         ushort activationDate = ushort.Parse(ActivationDate!);
-        ushort expirationDate = ushort.Parse(ActivationDate!);
+        ushort expirationDate = ushort.Parse(ExpirationDate!);
         DateRange validityPeriod = new(new ShortDate(activationDate), new ShortDate(expirationDate));
 
         PublicKeyExponents.Empty.TryGet(Exponent, out EnumObject<uint>? publicKeyExponentResult);

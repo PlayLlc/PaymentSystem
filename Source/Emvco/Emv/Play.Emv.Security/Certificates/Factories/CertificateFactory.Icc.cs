@@ -54,7 +54,8 @@ internal partial class CertificateFactory
             recoveredPan = ApplicationPan.Decode(decodedSignature.GetMessage1()[1..11]);
             expirationDate = new ShortDate(PlayCodec.NumericCodec.DecodeToUInt16(decodedSignature.GetMessage1()[new Range(11, 13)]));
             serialNumber = new CertificateSerialNumber(decodedSignature.GetMessage1()[13..16]);
-            hashAlgorithmIndicators = HashAlgorithmIndicators.Get(decodedSignature.GetMessage1()[16]);
+            HashAlgorithmIndicators.Empty.TryGet(decodedSignature.GetMessage1()[16], out EnumObject<byte>? hashAlgorithmIndicatorResult);
+            hashAlgorithmIndicators = (HashAlgorithmIndicators) hashAlgorithmIndicatorResult!;
 
             iccModulusLength = decodedSignature.GetMessage1()[18];
             byte iccExponentLength = decodedSignature.GetMessage1()[19];

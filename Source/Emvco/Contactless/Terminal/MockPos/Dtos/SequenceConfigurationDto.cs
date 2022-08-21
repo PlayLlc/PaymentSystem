@@ -1,4 +1,4 @@
-﻿namespace MockPos.Configuration;
+﻿namespace MockPos.Dtos;
 
 public class SequenceConfigurationDto
 {

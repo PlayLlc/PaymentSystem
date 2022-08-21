@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-using MockPos.Configuration;
+using MockPos.Dtos;
 using MockPos.Services;
 
 using Play.Emv.Configuration;

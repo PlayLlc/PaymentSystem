@@ -1,6 +1,6 @@
 ﻿using Play.Emv.Selection.Configuration;
 
-namespace MockPos.Configuration;
+namespace MockPos.Dtos;
 
 public class TransactionProfileDto
 {

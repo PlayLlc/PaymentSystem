@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace MockPos.Configuration;
+namespace MockPos.Dtos;
 
 public class CertificateAuthorityConfigurationDto
 {

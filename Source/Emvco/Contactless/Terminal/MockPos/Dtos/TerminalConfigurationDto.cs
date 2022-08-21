@@ -4,7 +4,7 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Configuration;
 using Play.Emv.Terminal.Session;
 
-namespace MockPos.Configuration;
+namespace MockPos.Dtos;
 
 public class TerminalConfigurationDto
 {

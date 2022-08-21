@@ -2,7 +2,7 @@
 using Play.Ber.Tags;
 using Play.Codecs;
 
-namespace MockPos.Configuration;
+namespace MockPos.Dtos;
 
 public class TagLengthValueDto
 {

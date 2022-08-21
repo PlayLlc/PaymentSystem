@@ -23,6 +23,13 @@ public class PublicKeyInfo
             _PublicKeyRemainder = new PublicKeyRemainder(0);
     }
 
+    public PublicKeyInfo(PublicKeyModulus publicKeyModulus, PublicKeyExponents publicKeyExponents, PublicKeyRemainder? publicKeyRemainder = null)
+    {
+        _PublicKeyModulus = publicKeyModulus;
+        _PublicKeyExponents = publicKeyExponents;
+        _PublicKeyRemainder = publicKeyRemainder;
+    }
+
     #endregion
 
     #region Instance Members
