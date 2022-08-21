@@ -31,10 +31,10 @@ public class CardCollisionHandler
     /// <summary>
     ///     HandleCardCollisions
     /// </summary>
-    /// <param name="request"></param>
+    /// <param name="response"></param>
     /// <param name="outcome"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    public void HandleCardCollisions(ActivatePcdResponse request, Outcome outcome)
+    public void HandleCardCollisions(ActivatePcdResponse response, Outcome outcome)
     {
         if (!outcome.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData))
         {
@@ -42,10 +42,10 @@ public class CardCollisionHandler
                 $"There is supposed to be a {nameof(UserInterfaceRequestData)} at this stage of the transaction but none could be found");
         }
 
-        if (userInterfaceRequestData!.GetMessageIdentifier() != MessageIdentifiers.PleasePresentOneCardOnly)
+        if (userInterfaceRequestData!.GetMessageIdentifier() != DisplayMessageIdentifiers.PleasePresentOneCardOnly)
             return;
 
-        if (request.IsCollisionDetected())
+        if (response.IsCollisionDetected())
             HandleCardCollision(outcome);
         else
             HandleCollisionHasBeenResolved(outcome);
@@ -58,8 +58,8 @@ public class CardCollisionHandler
     private void HandleCollisionHasBeenResolved(Outcome outcome)
     {
         UserInterfaceRequestData.Builder builder = UserInterfaceRequestData.GetBuilder();
-        builder.Set(MessageIdentifiers.PleasePresentOneCardOnly);
-        builder.Set(Statuses.ReadyToRead);
+        builder.Set(DisplayMessageIdentifiers.PleasePresentOneCardOnly);
+        builder.Set(DisplayStatuses.ReadyToRead);
 
         _EndpointClient.Send(new DisplayMessageRequest(builder.Complete()));
     }
@@ -71,8 +71,8 @@ public class CardCollisionHandler
     private void HandleCardCollision(Outcome outcome)
     {
         UserInterfaceRequestData.Builder builder = UserInterfaceRequestData.GetBuilder();
-        builder.Set(MessageIdentifiers.PleasePresentOneCardOnly);
-        builder.Set(Statuses.ProcessingError);
+        builder.Set(DisplayMessageIdentifiers.PleasePresentOneCardOnly);
+        builder.Set(DisplayStatuses.ProcessingError);
 
         _ = outcome.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData);
 

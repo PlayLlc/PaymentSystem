@@ -114,14 +114,14 @@ public partial class WaitingForCccResponse1
     {
         try
         {
-            _Database.Update(MessageIdentifiers.TryAgain);
-            _Database.Update(Statuses.ReadyToRead);
+            _Database.Update(DisplayMessageIdentifiers.TryAgain);
+            _Database.Update(DisplayStatuses.ReadyToRead);
             _Database.Update(MessageHoldTime.MinimumValue);
             _Database.Update(StatusOutcomes.EndApplication);
             _Database.Update(StartOutcomes.B);
             _Database.SetUiRequestOnRestartPresent(true);
             _Database.Update(rapdu.GetLevel1Error());
-            _Database.Update(MessageOnErrorIdentifiers.TryAgain);
+            _Database.Update(DisplayMessageOnErrorIdentifiers.TryAgain);
             _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);
         }
         catch (TerminalDataException)
@@ -194,8 +194,8 @@ public partial class WaitingForCccResponse1
     /// <exception cref="TerminalDataException"></exception>
     private void SetDisplayMessage()
     {
-        _Database.Update(MessageIdentifiers.ClearDisplay);
-        _Database.Update(Statuses.CardReadSuccessful);
+        _Database.Update(DisplayMessageIdentifiers.ClearDisplay);
+        _Database.Update(DisplayStatuses.CardReadSuccessful);
         _Database.Update(MessageHoldTime.MinimumValue);
         _EndpointClient.Send(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
     }
@@ -488,12 +488,12 @@ public partial class WaitingForCccResponse1
         // S13.31
         _Database.FailedMagstripeCounter.Increment();
 
-        _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-        _Database.Update(Statuses.NotReady);
+        _Database.Update(DisplayMessageIdentifiers.ErrorUseAnotherCard);
+        _Database.Update(DisplayStatuses.NotReady);
         _Database.Update(_Database.Get<MessageHoldTime>(MessageHoldTime.Tag));
         _Database.Update(StatusOutcomes.EndApplication);
         _Database.Update(StartOutcomes.B);
-        _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
+        _Database.Update(DisplayMessageIdentifiers.ErrorUseAnotherCard);
         _Database.SetUiRequestOnOutcomePresent(true);
         _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);
         _EndpointClient.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
@@ -512,7 +512,7 @@ public partial class WaitingForCccResponse1
         _Database.FailedMagstripeCounter.Increment();
 
         _Database.Update(MessageHoldTime.MinimumValue);
-        _Database.Update(Statuses.ReadyToRead);
+        _Database.Update(DisplayStatuses.ReadyToRead);
         _Database.SetUiRequestOnRestartPresent(true);
         _Database.Update(StatusOutcomes.EndApplication);
         _Database.Update(StartOutcomes.B);
@@ -535,7 +535,7 @@ public partial class WaitingForCccResponse1
         if (!phoneMessageTable.TryGetMatch(pcii, out MessageTableEntry? messageTableEntry))
             return;
 
-        _Database.Update(MessageIdentifiers.Get(messageTableEntry!.GetMessageIdentifier()));
+        _Database.Update(DisplayMessageIdentifiers.Get(messageTableEntry!.GetMessageIdentifier()));
         _Database.Update(messageTableEntry.GetStatus());
     }
 
@@ -552,8 +552,8 @@ public partial class WaitingForCccResponse1
         _Database.FailedMagstripeCounter.Increment();
 
         _Database.Update(_Database.Get<MessageHoldTime>(MessageHoldTime.Tag));
-        _Database.Update(MessageIdentifiers.Declined);
-        _Database.Update(Statuses.NotReady);
+        _Database.Update(DisplayMessageIdentifiers.Declined);
+        _Database.Update(DisplayStatuses.NotReady);
         _Database.Update(StatusOutcomes.Declined);
         _Database.SetIsDataRecordPresent(true);
         _Database.SetUiRequestOnOutcomePresent(true);

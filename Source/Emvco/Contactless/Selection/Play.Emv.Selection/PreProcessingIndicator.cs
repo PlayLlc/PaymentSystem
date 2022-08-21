@@ -1,7 +1,6 @@
 ﻿#nullable enable
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Identifiers;
-using Play.Emv.Selection.Contracts;
 using Play.Globalization;
 using Play.Globalization.Currency;
 using Play.Icc.FileSystem.DedicatedFiles;
@@ -95,16 +94,24 @@ public class PreProcessingIndicator
     }
 
     /// <remarks>
-    ///     Emv Book B Section 3.1.1.4 and 3.1.1.5
+    ///     Emv Book B Section 3.1.1.4
     /// </remarks>
-    private void SetContactlessApplicationNotAllowed(Money amountAuthorizedNumeric, Money readerContactlessTransactionLimit, bool isZeroAmountAllowedForOffline)
+    private void ProcessZeroAmountCondition(Money amountAuthorizedNumeric, bool isZeroAmountAllowedForOffline)
     {
-        if (amountAuthorizedNumeric.IsZeroAmount())
+        if (!amountAuthorizedNumeric.IsZeroAmount())
             return;
 
-        if (!isZeroAmountAllowedForOffline)
+        if (isZeroAmountAllowedForOffline)
             return;
 
+        ContactlessApplicationNotAllowed = true;
+    }
+
+    /// <remarks>
+    ///     Emv Book B Section 3.1.1.5
+    /// </remarks>
+    public void ProcessReaderContactlessTransactionLimit(Money amountAuthorizedNumeric, Money readerContactlessTransactionLimit)
+    {
         if (amountAuthorizedNumeric >= readerContactlessTransactionLimit)
             ContactlessApplicationNotAllowed = true;
     }
@@ -126,9 +133,10 @@ public class PreProcessingIndicator
         StatusCheckRequestedHasBeenSetEvent? statusCheckRequestedHasBeenSet =
             SetStatusCheckRequested(_TransactionProfile.IsStatusCheckSupported(), amountAuthorizedMoney);
         ZeroAmountHasBeenSetEvent? zeroAmountHasBeenSet = SetZeroAmount(amountAuthorizedMoney, _TransactionProfile.IsZeroAmountAllowedForOffline());
-        SetContactlessApplicationNotAllowed(amountAuthorizedMoney,
-            _TransactionProfile.GetReaderContactlessTransactionLimit().AsMoney(cultureProfile.GetNumericCurrencyCode()),
-            _TransactionProfile.IsZeroAmountAllowedForOffline());
+        ProcessZeroAmountCondition(amountAuthorizedMoney, _TransactionProfile.IsZeroAmountAllowedForOffline());
+        ProcessReaderContactlessTransactionLimit(amountAuthorizedMoney,
+            _TransactionProfile.GetReaderContactlessTransactionLimit().AsMoney(cultureProfile.GetNumericCurrencyCode()));
+
         ReaderContactlessFloorLimitExceededHasBeenSetEvent? readerContactlessFloorLimitExceededHasBeenSet =
             SetReaderContactlessFloorLimitExceeded(amountAuthorizedMoney,
                 _TransactionProfile.GetReaderContactlessTransactionLimit().AsMoney(cultureProfile.GetNumericCurrencyCode()));

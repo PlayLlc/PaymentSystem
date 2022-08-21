@@ -162,6 +162,16 @@ public class Outcome
     public bool IsUiRequestOnOutcomePresent() => _OutcomeParameterSet.IsUiRequestOnOutcomePresent();
     public bool IsUiRequestOnRestartPresent() => _OutcomeParameterSet.IsUiRequestOnRestartPresent();
 
+    public void Reset(ErrorIndication errorIndication)
+    {
+        _ErrorIndication = errorIndication;
+    }
+
+    public void Reset(OutcomeParameterSet outcomeParameterSet)
+    {
+        _OutcomeParameterSet = outcomeParameterSet;
+    }
+
     public bool TryGetUserInterfaceRequestData(out UserInterfaceRequestData? result)
     {
         if (_UserInterfaceRequestData == null)

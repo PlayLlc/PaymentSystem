@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 using Play.Emv.Configuration;
 using Play.Emv.Identifiers;
@@ -36,6 +31,10 @@ namespace Play.Emv.Terminal.StateMachine
 
         #endregion
 
+        #region Instance Members
+
         public TerminalState GetKernelState(StateId stateId) => _TerminalStateMap[stateId];
+
+        #endregion
     }
 }

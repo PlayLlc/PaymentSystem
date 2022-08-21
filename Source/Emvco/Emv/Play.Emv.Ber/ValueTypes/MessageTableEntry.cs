@@ -18,8 +18,8 @@ public record MessageTableEntry
 
     private readonly PciiMask _Mask;
     private readonly PciiValue _Value;
-    private readonly MessageIdentifier _MessageIdentifier;
-    private readonly Statuses _Statuses;
+    private readonly DisplayMessageIdentifier _DisplayMessageIdentifier;
+    private readonly DisplayStatuses _DisplayStatuses;
 
     #endregion
 
@@ -33,16 +33,16 @@ public record MessageTableEntry
 
         _Mask = new PciiMask(PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(value[..3]));
         _Value = new PciiValue(PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(value[3..6]));
-        _MessageIdentifier = new MessageIdentifier(value[6]);
-        _Statuses = new Statuses(value[7]);
+        _DisplayMessageIdentifier = new DisplayMessageIdentifier(value[6]);
+        _DisplayStatuses = new DisplayStatuses(value[7]);
     }
 
-    internal MessageTableEntry(PciiMask mask, PciiValue value, MessageIdentifier messageIdentifier, Statuses statuses)
+    internal MessageTableEntry(PciiMask mask, PciiValue value, DisplayMessageIdentifier displayMessageIdentifier, DisplayStatuses displayStatuses)
     {
         _Mask = mask;
         _Value = value;
-        _MessageIdentifier = messageIdentifier;
-        _Statuses = statuses;
+        _DisplayMessageIdentifier = displayMessageIdentifier;
+        _DisplayStatuses = displayStatuses;
     }
 
     #endregion
@@ -55,14 +55,14 @@ public record MessageTableEntry
     {
         _Mask.Decode(buffer, ref offset);
         _Value.Decode(buffer, ref offset);
-        _MessageIdentifier.Decode(buffer, ref offset);
-        _Statuses.Decode(buffer, ref offset);
+        _DisplayMessageIdentifier.Decode(buffer, ref offset);
+        _DisplayStatuses.Decode(buffer, ref offset);
     }
 
     public bool IsMessageMatch(PosCardholderInteractionInformation pcii) => pcii.GetMaskedValue(this) == _Value;
     internal PciiMask GetPciiMask() => _Mask;
-    public MessageIdentifier GetMessageIdentifier() => _MessageIdentifier;
-    public Statuses GetStatus() => _Statuses;
+    public DisplayMessageIdentifier GetMessageIdentifier() => _DisplayMessageIdentifier;
+    public DisplayStatuses GetStatus() => _DisplayStatuses;
 
     #endregion
 

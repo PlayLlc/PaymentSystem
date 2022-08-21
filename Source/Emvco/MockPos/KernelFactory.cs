@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Emv.Ber.Enums;
+﻿using Play.Emv.Ber.Enums;
 using Play.Emv.Configuration;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
@@ -19,6 +13,8 @@ namespace MockPos
 {
     internal class KernelFactory
     {
+        #region Instance Members
+
         private static KernelProcess[] CreateKernelProcesses(
             TerminalConfiguration terminalConfiguration, ReaderConfiguration readerConfiguration, IEndpointClient endpointClient)
         {
@@ -52,5 +48,7 @@ namespace MockPos
 
             return KernelEndpoint.Create(kernelProcesses, endpointClient);
         }
+
+        #endregion
     }
 }

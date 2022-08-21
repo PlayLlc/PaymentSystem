@@ -23,10 +23,10 @@ public class StatusBuilder : SpecimenBuilder
         if (type == null)
             return new NoSpecimen();
 
-        if (type != typeof(Statuses))
+        if (type != typeof(DisplayStatuses))
             return new NoSpecimen();
 
-        Statuses[] all = Statuses.Empty.GetAll();
+        DisplayStatuses[] all = DisplayStatuses.Empty.GetAll();
 
         return all[new Random().Next(0, all.Length - 1)];
     }

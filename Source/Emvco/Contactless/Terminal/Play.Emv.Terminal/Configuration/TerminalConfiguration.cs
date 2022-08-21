@@ -3,8 +3,6 @@
 using Play.Ber.DataObjects;
 using Play.Core;
 using Play.Emv.Ber.DataElements;
-using Play.Globalization;
-using Play.Globalization.Currency;
 
 namespace Play.Emv.Configuration;
 

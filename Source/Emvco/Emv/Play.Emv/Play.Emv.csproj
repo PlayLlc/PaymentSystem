@@ -6,9 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Configuration\Reader\**" />
-    <EmbeddedResource Remove="Configuration\Reader\**" />
-    <None Remove="Configuration\Reader\**" />
+    <Compile Remove="Security\Reader\**" />
+    <EmbeddedResource Remove="Security\Reader\**" />
+    <None Remove="Security\Reader\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Configuration\Terminal\" />
+    <Folder Include="Security\" />
   </ItemGroup>
 
 </Project>
