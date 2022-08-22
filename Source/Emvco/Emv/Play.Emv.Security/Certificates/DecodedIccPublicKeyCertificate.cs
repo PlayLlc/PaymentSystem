@@ -13,9 +13,9 @@ internal class DecodedIccPublicKeyCertificate : PublicKeyCertificate
     #region Constructor
 
     public DecodedIccPublicKeyCertificate(
-        DateRange validityPeriod, CertificateSerialNumber certificateSerialNumber, HashAlgorithmIndicator hashAlgorithmIndicator,
-        PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator, PublicKeyInfo publicKeyInfo) : base(certificateSerialNumber, hashAlgorithmIndicator,
-        publicKeyAlgorithmIndicator, validityPeriod, publicKeyInfo)
+        DateRange validityPeriod, CertificateSerialNumber certificateSerialNumber, HashAlgorithmIndicators hashAlgorithmIndicators,
+        PublicKeyAlgorithmIndicators publicKeyAlgorithmIndicators, PublicKeyInfo publicKeyInfo) : base(certificateSerialNumber, hashAlgorithmIndicators,
+        publicKeyAlgorithmIndicators, validityPeriod, publicKeyInfo)
     { }
 
     #endregion

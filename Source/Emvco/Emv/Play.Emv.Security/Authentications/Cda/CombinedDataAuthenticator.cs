@@ -219,8 +219,8 @@ internal class CombinedDataAuthenticator
     #region 6.6.2 Step 8
 
     /// <remarks>EMV Book 2 Section 6.6.2 Step 8</remarks>
-    private Hash ProduceHashResultForDynamicData(HashAlgorithmIndicator hashAlgorithmIndicator, ReadOnlySpan<byte> transactionDataHashCodeInput) =>
-        _HashAlgorithmProvider.Generate(transactionDataHashCodeInput, hashAlgorithmIndicator);
+    private Hash ProduceHashResultForDynamicData(HashAlgorithmIndicators hashAlgorithmIndicators, ReadOnlySpan<byte> transactionDataHashCodeInput) =>
+        _HashAlgorithmProvider.Generate(transactionDataHashCodeInput, hashAlgorithmIndicators);
 
     #endregion
 
@@ -308,8 +308,8 @@ internal class CombinedDataAuthenticator
     #region 6.6.2 Step 11
 
     /// <remarks>EMV Book 2 Section 6.6.2 Step 11</remarks>
-    private Hash ProduceTransactionDataHashCode(HashAlgorithmIndicator hashAlgorithmIndicator, ReadOnlySpan<byte> transactionDataHashCodeInput) =>
-        _HashAlgorithmProvider.Generate(transactionDataHashCodeInput, hashAlgorithmIndicator);
+    private Hash ProduceTransactionDataHashCode(HashAlgorithmIndicators hashAlgorithmIndicators, ReadOnlySpan<byte> transactionDataHashCodeInput) =>
+        _HashAlgorithmProvider.Generate(transactionDataHashCodeInput, hashAlgorithmIndicators);
 
     #endregion
 

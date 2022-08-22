@@ -6,7 +6,7 @@ using Play.Emv.Ber.DataElements;
 
 namespace Play.Emv.Configuration;
 
-public abstract record TerminalConfiguration
+public record TerminalConfiguration
 {
     #region Instance Values
 
@@ -50,7 +50,7 @@ public abstract record TerminalConfiguration
 
     #region Constructor
 
-    protected TerminalConfiguration(
+    public TerminalConfiguration(
         TerminalIdentification terminalIdentification, MerchantIdentifier merchantIdentifier, InterfaceDeviceSerialNumber interfaceDeviceSerialNumber,
         TransactionCurrencyCode transactionCurrencyCode, TerminalCapabilities terminalCapabilities, TerminalFloorLimit terminalFloorLimit,
         TerminalType terminalType, TerminalCountryCode terminalCountryCode, MerchantCategoryCode merchantCategoryCode, LanguagePreference languagePreference,

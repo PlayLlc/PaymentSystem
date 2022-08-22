@@ -28,10 +28,10 @@ public class SystemTraceAuditNumberSequencer : IGenerateSequenceTraceAuditNumber
 
     #region Constructor
 
-    public SystemTraceAuditNumberSequencer(SystemTraceAuditNumberConfiguration configuration, IEndpointClient endpointClient)
+    public SystemTraceAuditNumberSequencer(SequenceConfiguration configuration, IEndpointClient endpointClient)
     {
         _Threshold = configuration.Threshold;
-        _Stan = configuration.SystemTraceAuditNumberInitializationValue;
+        _Stan = configuration.InitializationValue;
         _EndpointClient = endpointClient;
     }
 

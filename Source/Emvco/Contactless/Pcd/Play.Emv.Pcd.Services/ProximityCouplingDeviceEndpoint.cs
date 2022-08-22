@@ -24,7 +24,7 @@ public class ProximityCouplingDeviceEndpoint : IMessageChannel, IDisposable
 
     #region Constructor
 
-    private ProximityCouplingDeviceEndpoint(PcdProtocolConfiguration configuration, IProximityCouplingDeviceClient pcdClient, IEndpointClient endpointClient)
+    private ProximityCouplingDeviceEndpoint(PcdConfiguration configuration, IProximityCouplingDeviceClient pcdClient, IEndpointClient endpointClient)
     {
         ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
         _EndpointClient = endpointClient;
@@ -90,7 +90,7 @@ public class ProximityCouplingDeviceEndpoint : IMessageChannel, IDisposable
     #endregion
 
     public static ProximityCouplingDeviceEndpoint Create(
-        PcdProtocolConfiguration configuration, IProximityCouplingDeviceClient pcdClient, IEndpointClient endpointClient) =>
+        PcdConfiguration configuration, IProximityCouplingDeviceClient pcdClient, IEndpointClient endpointClient) =>
         new(configuration, pcdClient, endpointClient);
 
     public void Dispose()

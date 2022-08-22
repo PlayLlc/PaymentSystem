@@ -161,8 +161,8 @@ public class EmvFixture : TestingFixture
 
     protected static void CustomizeEnumObjects(IFixture fixture)
     {
-        fixture.Register(() => HashAlgorithmIndicator.Sha1);
-        fixture.Register(() => PublicKeyAlgorithmIndicator.Rsa);
+        fixture.Register(() => HashAlgorithmIndicators.Sha1);
+        fixture.Register(() => PublicKeyAlgorithmIndicators.Rsa);
     }
 
     #endregion

@@ -10,7 +10,7 @@ public class PublicKeyExponentBuilder : SpecimenBuilder
 {
     #region Static Metadata
 
-    private static readonly PublicKeyExponent[] _Values = PublicKeyExponent.Empty.GetAll();
+    private static readonly PublicKeyExponents[] _Values = PublicKeyExponents.Empty.GetAll();
     public static readonly SpecimenBuilderId Id = new(nameof(PublicKeyExponentBuilder));
 
     #endregion
@@ -28,7 +28,7 @@ public class PublicKeyExponentBuilder : SpecimenBuilder
         if (type == null)
             return new NoSpecimen();
 
-        if (type != typeof(PublicKeyExponent))
+        if (type != typeof(PublicKeyExponents))
             return new NoSpecimen();
 
         return _Values[_Random.Next(0, _Values.Length - 1)];

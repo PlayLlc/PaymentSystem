@@ -48,10 +48,10 @@ internal partial class CertificateFactory
             byte[] concatenatedValues = GetConcatenatedValuesForHash(caPublicKey, decodedSignature, issuerRemainder, issuerExponent);
 
             // Step 6
-            HashAlgorithmIndicator hashAlgorithmIndicator = DecodedIssuerPublicKeyCertificate.GetHashAlgorithmIndicator(decodedSignature.GetMessage1());
+            HashAlgorithmIndicators hashAlgorithmIndicators = DecodedIssuerPublicKeyCertificate.GetHashAlgorithmIndicator(decodedSignature.GetMessage1());
 
             // Step 7
-            ValidateHashedResult(hashAlgorithmIndicator, concatenatedValues, decodedSignature);
+            ValidateHashedResult(hashAlgorithmIndicators, concatenatedValues, decodedSignature);
 
             // Step 8
             ValidateIssuerIdentifier(tlvDatabase, decodedSignature);
@@ -65,7 +65,7 @@ internal partial class CertificateFactory
             // Step 11
             ValidateIssuerPublicKeyAlgorithmIndicator(decodedSignature.GetMessage1());
 
-            return DecodedIssuerPublicKeyCertificate.Create(caPublicKey, issuerRemainder, issuerExponent, decodedSignature, hashAlgorithmIndicator);
+            return DecodedIssuerPublicKeyCertificate.Create(caPublicKey, issuerRemainder, issuerExponent, decodedSignature, hashAlgorithmIndicators);
         }
         catch (TerminalDataException exception)
         {
@@ -130,7 +130,7 @@ internal partial class CertificateFactory
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
     private static byte[] GetConcatenatedValuesForHash(
         CaPublicKeyCertificate caPublicKeyCertificate, DecodedSignature decodedSignature, IssuerPublicKeyRemainder publicKeyRemainder,
-        PublicKeyExponent publicKeyExponent)
+        PublicKeyExponents publicKeyExponents)
     {
         byte issuerPublicKeyLength = DecodedIssuerPublicKeyCertificate.GetIssuerPublicKeyLength(decodedSignature.GetMessage1());
         byte issuerExponentLength = DecodedIssuerPublicKeyCertificate.GetIssuerPublicKeyExponentLength(decodedSignature.GetMessage1());
@@ -141,7 +141,7 @@ internal partial class CertificateFactory
         decodedSignature.GetMessage1()[2..(2 + 14)].ToArray().AsSpan().CopyTo(buffer);
         DecodedIssuerPublicKeyCertificate.GetPublicKeyModulus(caPublicKeyCertificate, decodedSignature, publicKeyRemainder).AsByteArray().AsSpan()
             .CopyTo(buffer[17..]);
-        publicKeyExponent.Encode().AsSpan().CopyTo(buffer[^publicKeyExponent.GetByteCount()..]);
+        publicKeyExponents.Encode().AsSpan().CopyTo(buffer[^publicKeyExponents.GetByteCount()..]);
 
         return buffer.ToArray();
     }
@@ -150,7 +150,17 @@ internal partial class CertificateFactory
 
     #region 6.3 Step 6
 
-    internal HashAlgorithmIndicator GetHashAlgorithmIndicator(Message1 message1) => HashAlgorithmIndicator.Get(message1[11]);
+    /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
+    internal HashAlgorithmIndicators GetHashAlgorithmIndicator(Message1 message1)
+    {
+        if (!HashAlgorithmIndicators.Empty.TryGet(message1[11], out EnumObject<byte>? result))
+        {
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"The {nameof(HashAlgorithmIndicators)} with the value: [{message1[11]}] does not exist.");
+        }
+
+        return (HashAlgorithmIndicators) result!;
+    }
 
     #endregion
 
@@ -162,9 +172,9 @@ internal partial class CertificateFactory
     /// </summary>
     /// <remarks>EMV Book 2 Section 6.3 Step 2, 3, 5 - 7 </remarks>
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
-    private void ValidateHashedResult(HashAlgorithmIndicator hashAlgorithmIndicator, ReadOnlySpan<byte> concatenatedValues, DecodedSignature decodedSignature)
+    private void ValidateHashedResult(HashAlgorithmIndicators hashAlgorithmIndicators, ReadOnlySpan<byte> concatenatedValues, DecodedSignature decodedSignature)
     {
-        if (!_SignatureService.IsSignatureValid(hashAlgorithmIndicator, concatenatedValues, decodedSignature))
+        if (!_SignatureService.IsSignatureValid(hashAlgorithmIndicators, concatenatedValues, decodedSignature))
         {
             throw new CryptographicAuthenticationMethodFailedException(
                 $"Authentication failed because the {nameof(ValidateHashedResult)} constraint was invalid while trying to recover the signed {nameof(IssuerPublicKeyCertificate)}");
@@ -251,7 +261,7 @@ internal partial class CertificateFactory
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
     private static void ValidateIssuerPublicKeyAlgorithmIndicator(Message1 message1)
     {
-        if (!PublicKeyAlgorithmIndicator.Empty.TryGet(message1[12], out EnumObject<byte>? result))
+        if (!PublicKeyAlgorithmIndicators.Empty.TryGet(message1[12], out EnumObject<byte>? result))
         {
             throw new CryptographicAuthenticationMethodFailedException(
                 $"Authentication failed because the {nameof(ValidateIssuerPublicKeyAlgorithmIndicator)} constraint was invalid while trying to recover the signed {nameof(IssuerPublicKeyCertificate)}");

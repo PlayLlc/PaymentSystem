@@ -1,4 +1,5 @@
 ﻿using Play.Emv.Ber.DataElements;
+using Play.Emv.Selection.Contracts;
 
 namespace Play.Emv.Selection.Configuration
 {

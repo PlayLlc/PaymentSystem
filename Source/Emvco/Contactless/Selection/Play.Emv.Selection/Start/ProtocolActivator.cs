@@ -44,7 +44,9 @@ public class ProtocolActivator
         TransactionSessionId transactionSessionId, Outcome outcome, PreProcessingIndicators preProcessingIndicators, CandidateList candidateList)
     {
         ProcessIfActivationIsNotARestart(outcome, preProcessingIndicators, candidateList);
+
         ProcessIfActivationIsARestart(outcome);
+
         ActivateProximityCouplingDevice(transactionSessionId);
     }
 

@@ -1,6 +1,7 @@
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Codecs;
+using Play.Core;
 using Play.Emv.Ber.DataElements;
 using Play.Encryption.Certificates;
 using Play.Encryption.Ciphers.Hashing;
@@ -12,8 +13,8 @@ internal class DecodedSignedStaticApplicationData : DecodedSignature
 {
     #region Instance Values
 
-    private readonly HashAlgorithmIndicator _HashAlgorithmIndicator;
-    private readonly PublicKeyAlgorithmIndicator _PublicKeyAlgorithmIndicator;
+    private readonly HashAlgorithmIndicators _HashAlgorithmIndicators;
+    private readonly PublicKeyAlgorithmIndicators _PublicKeyAlgorithmIndicators;
 
     #endregion
 
@@ -49,12 +50,12 @@ internal class DecodedSignedStaticApplicationData : DecodedSignature
 
     public DataAuthenticationCode GetDataAuthenticationCode() => new(PlayCodec.UnsignedIntegerCodec.DecodeToUInt16(_Message1.AsByteArray()[3..4]));
 
-    public HashAlgorithmIndicator GetHashAlgorithmIndicator()
+    public HashAlgorithmIndicators GetHashAlgorithmIndicator()
     {
-        if (!HashAlgorithmIndicator.TryGet(_Message1[16], out HashAlgorithmIndicator? result))
-            return HashAlgorithmIndicator.NotAvailable;
+        if (!HashAlgorithmIndicators.Empty.TryGet(_Message1[16], out EnumObject<byte>? result))
+            return HashAlgorithmIndicators.NotAvailable;
 
-        return result!;
+        return (HashAlgorithmIndicators) result!;
     }
 
     public byte[] GetPadPattern() => _Message1.AsByteArray()[5..(GetByteCount() - 26)];

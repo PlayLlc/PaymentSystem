@@ -7,7 +7,7 @@ public interface IPcdProtocolRepository
 {
     #region Instance Members
 
-    public PcdProtocolConfiguration Get(
+    public PcdConfiguration Get(
         IssuerIdentificationNumber issuerIdentificationNumber, MerchantIdentifier merchantIdentifier, TerminalIdentification terminalIdentification);
 
     #endregion

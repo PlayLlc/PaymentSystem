@@ -19,13 +19,13 @@ internal class PcdStateMachine
     private readonly IEndpointClient _EndpointClient;
 
     // HACK: Figure out what you need to do with the PCD Protocol Configuration
-    private readonly PcdProtocolConfiguration _Configuration;
+    private readonly PcdConfiguration _Configuration;
 
     #endregion
 
     #region Constructor
 
-    public PcdStateMachine(CardClient cardClient, PcdProtocolConfiguration configuration, IEndpointClient endpointClient)
+    public PcdStateMachine(CardClient cardClient, PcdConfiguration configuration, IEndpointClient endpointClient)
     {
         _CardClient = cardClient;
         _Configuration = configuration;
