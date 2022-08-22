@@ -12,18 +12,15 @@ public class DisplayMessages
     #region Instance Values
 
     private readonly Alpha2LanguageCode _LanguageCode;
-    private readonly NumericCountryCode _CountryCode;
     private readonly ImmutableSortedDictionary<DisplayMessageIdentifier, DisplayMessage> _DisplayMessages;
 
     #endregion
 
     #region Constructor
 
-    public DisplayMessages(
-        Alpha2LanguageCode languageCode, NumericCountryCode countryCode, Dictionary<DisplayMessageIdentifier, DisplayMessage> displayMessages)
+    public DisplayMessages(Alpha2LanguageCode languageCode, Dictionary<DisplayMessageIdentifier, DisplayMessage> displayMessages)
     {
         _LanguageCode = languageCode;
-        _CountryCode = countryCode;
         _DisplayMessages = displayMessages.ToImmutableSortedDictionary();
     }
 

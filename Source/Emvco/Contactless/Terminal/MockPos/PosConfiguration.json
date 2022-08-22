@@ -239,10 +239,10 @@
   ],
   "DisplayConfiguration": {
     "MessageHoldTime": "0x64",
+    "CountryCode":  "0x0348", 
     "DisplayMessageSets": [
       {
-        "LanguageCode": "EN",
-        "CountryCode": "0x0348",
+        "LanguageCode": "EN", 
         "DisplayMessages": [
           {
             "MessageIdentifier": "03",

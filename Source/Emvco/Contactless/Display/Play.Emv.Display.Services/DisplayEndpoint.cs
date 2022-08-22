@@ -2,6 +2,7 @@
 
 using Play.Emv.Display.Configuration;
 using Play.Emv.Display.Contracts;
+using Play.Emv.Reader.Configuration;
 using Play.Messaging;
 using Play.Messaging.Exceptions;
 
@@ -26,7 +27,7 @@ public class DisplayEndpoint : IMessageChannel, IDisposable
     #region Constructor
 
     private DisplayEndpoint(
-        DisplayConfiguration displayConfiguration, IDisplayMessages displayService, IDisplayLed ledDisplayService, IFormatDisplayMessages messageFormatter,
+        DisplayConfigurations displayConfiguration, IDisplayMessages displayService, IDisplayLed ledDisplayService, IFormatDisplayMessages messageFormatter,
         IEndpointClient endpointClient)
     {
         _DisplayProcess = new DisplayProcess(displayConfiguration, messageFormatter, displayService, ledDisplayService);
@@ -85,7 +86,7 @@ public class DisplayEndpoint : IMessageChannel, IDisposable
     #endregion
 
     public static DisplayEndpoint Create(
-        DisplayConfiguration displayConfiguration, IDisplayMessages displayService, IDisplayLed ledDisplayService, IEndpointClient endpointClient)
+        DisplayConfigurations displayConfiguration, IDisplayMessages displayService, IDisplayLed ledDisplayService, IEndpointClient endpointClient)
     {
         DisplayFormatter formatter = new(displayConfiguration);
 

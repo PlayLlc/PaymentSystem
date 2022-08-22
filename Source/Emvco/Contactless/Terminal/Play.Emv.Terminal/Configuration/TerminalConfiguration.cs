@@ -114,6 +114,7 @@ public record TerminalConfiguration
 
     #region Instance Members
 
+    public SequenceConfiguration GetSequenceConfiguration() => _SequenceConfiguration;
     public MaxNumberOfTornTransactionLogRecords GetMaxNumberOfTornTransactionLogRecords() => _MaxNumberOfTornTransactionLogRecords;
     public MaxLifetimeOfTornTransactionLogRecords GeMaxLifetimeOfTornTransactionLogRecords() => _MaxLifetimeOfTornTransactionLogRecords;
     public TransactionCurrencyExponent GetTransactionCurrencyExponent() => _TransactionCurrencyExponent;

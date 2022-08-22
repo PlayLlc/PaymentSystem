@@ -33,16 +33,13 @@ public partial class ReaderDatabase
 
     public ReaderDatabase(
         KernelPersistentConfigurations kernelPersistentConfigurations, TransactionProfiles transactionProfiles,
-        CertificateAuthorityDatasets certificateAuthorityDatasets, ReaderPersistentConfiguration readerConfiguration,
-        Dictionary<Tag, PrimitiveValue?> transactionDatabase, TransactionSessionId? transactionSessionId)
+        CertificateAuthorityDatasets certificateAuthorityDatasets, ReaderPersistentConfiguration readerConfiguration)
     {
         _TransactionDatabase = new Dictionary<Tag, PrimitiveValue?>();
         _KernelPersistentConfigurations = kernelPersistentConfigurations;
         _TransactionProfiles = transactionProfiles;
         _CertificateAuthorityDatasets = certificateAuthorityDatasets;
         _ReaderConfiguration = readerConfiguration;
-        _TransactionDatabase = transactionDatabase;
-        _TransactionSessionId = transactionSessionId;
     }
 
     #endregion

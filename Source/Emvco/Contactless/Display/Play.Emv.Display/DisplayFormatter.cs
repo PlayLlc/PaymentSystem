@@ -2,6 +2,7 @@
 
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Display.Configuration;
+using Play.Emv.Reader.Configuration;
 using Play.Globalization;
 using Play.Globalization.Country;
 using Play.Globalization.Currency;
@@ -20,10 +21,10 @@ namespace Play.Emv.Display
 
         #region Constructor
 
-        public DisplayFormatter(DisplayConfiguration displayConfiguration)
+        public DisplayFormatter(DisplayConfigurations displayConfiguration)
         {
-            _DisplayMessages = displayConfiguration.DisplayMessages.ToImmutableSortedDictionary(a => a.GetLanguageCode(), b => b);
-            _CountryCode = displayConfiguration.CountryCode;
+            _DisplayMessages = displayConfiguration.GetDisplayMessages().ToImmutableSortedDictionary(a => a.GetLanguageCode(), b => b);
+            _CountryCode = displayConfiguration.GetNumericCountryCode();
         }
 
         #endregion

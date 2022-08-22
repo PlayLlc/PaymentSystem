@@ -8,6 +8,7 @@ using Play.Core;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Display.Configuration;
 using Play.Emv.Display.Contracts;
+using Play.Emv.Reader.Configuration;
 using Play.Globalization.Language;
 using Play.Globalization.Time;
 
@@ -35,10 +36,10 @@ public class DisplayProcess : CommandProcessingQueue
     #region Constructor
 
     public DisplayProcess(
-        DisplayConfiguration displayConfiguration, IFormatDisplayMessages messageFormatter, IDisplayMessages messageDisplayService,
+        DisplayConfigurations displayConfiguration, IFormatDisplayMessages messageFormatter, IDisplayMessages messageDisplayService,
         IDisplayLed ledDisplayService) : base(new CancellationTokenSource())
     {
-        _DisplayMessages = displayConfiguration.DisplayMessages.ToImmutableSortedDictionary(a => a.GetLanguageCode(), b => b);
+        _DisplayMessages = displayConfiguration.GetDisplayMessages().ToImmutableSortedDictionary(a => a.GetLanguageCode(), b => b);
         _DisplayMessageFormatter = messageFormatter;
 
         _MessageDisplayService = messageDisplayService;

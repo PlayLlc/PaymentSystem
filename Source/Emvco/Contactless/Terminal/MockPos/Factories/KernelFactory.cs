@@ -16,7 +16,7 @@ namespace MockPos.Factories
     {
         #region Instance Members
 
-        private static KernelProcess[] CreateKernelProcesses(
+        public static KernelProcess[] CreateKernelProcesses(
             TerminalConfiguration terminalConfiguration, ReaderDatabase readerDatabase, IEndpointClient endpointClient)
         {
             List<KernelProcess> kernelProcesses = new();

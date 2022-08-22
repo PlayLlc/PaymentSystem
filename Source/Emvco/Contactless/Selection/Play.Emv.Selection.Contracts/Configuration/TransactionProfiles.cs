@@ -35,6 +35,9 @@ namespace Play.Emv.Reader.Configuration
 
         #region Instance Members
 
+        public TransactionProfile[] GetTransactionProfiles() => _TransactionProfiles.Values.ToArray();
+        public int Count() => _TransactionProfiles.Count;
+
         public TransactionProfile? GetTransactionProfile(CombinationCompositeKey value)
         {
             _TransactionProfiles.TryGetValue(value, out TransactionProfile? result);

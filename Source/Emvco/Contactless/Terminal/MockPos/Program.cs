@@ -4,6 +4,8 @@ using MockPos.Dtos;
 using MockPos.Factories;
 using MockPos.Services;
 
+using Play.Codecs.Exceptions;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Configuration;
 using Play.Emv.Display.Configuration;
 using Play.Emv.Display.Services;
@@ -26,20 +28,24 @@ internal class Program
 {
     #region Instance Members
 
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private static void Main(string[] args)
     {
         // Configuration
 
-        PosConfigurationDto posConfigurationDto = GetDto(); 
+        PosConfigurationDto posConfigurationDto = GetDto();
+        EmvRuntimeCodec emvRuntimeCodec = new();
 
         TerminalConfiguration terminalConfiguration = posConfigurationDto.GetTerminalConfiguration();
         TransactionProfiles transactionProfiles = posConfigurationDto.GetTransactionProfiles();
         SelectionConfiguration selectionConfiguration = new(transactionProfiles, null);
         CertificateAuthorityDatasets certificateAuthorityDatasets = posConfigurationDto.GetCertificateAuthorityDatasets();
-        KernelPersistentConfigurations kernelPersistentConfigurations = posConfigurationDto.GetKernelPersistent(new EmvRuntimeCodec());
-        ReaderPersistentConfiguration readerPersistentConfiguration = posConfigurationDto.
-        ReaderDatabase readerConfiguration = new ReaderDatabase(kernelPersistentConfigurations, selectionConfiguration.TransactionProfiles, certificateAuthorityDatasets, new ReaderPersistentConfiguration())
-        DisplayConfiguration displayConfiguration = posConfigurationDto.GetDisplayConfiguration();
+        KernelPersistentConfigurations kernelPersistentConfigurations = posConfigurationDto.GetKernelPersistent(emvRuntimeCodec);
+        ReaderPersistentConfiguration readerPersistentConfiguration = posConfigurationDto.GetReaderPersistentConfiguration(emvRuntimeCodec);
+        ReaderDatabase readerDatabase = new(kernelPersistentConfigurations, selectionConfiguration.TransactionProfiles, certificateAuthorityDatasets,
+            readerPersistentConfiguration);
+        DisplayConfigurations displayConfiguration = posConfigurationDto.GetDisplayConfiguration();
         PcdConfiguration pcdConfiguration = posConfigurationDto.GetPcdConfiguration();
 
         // Services
@@ -49,28 +55,19 @@ internal class Program
         PcdServiceMock pcdServiceMock = new();
 
         // Endpoint Processes
-        TerminalEndpoint terminalEndpoint = TerminalFactory.Create(terminalConfiguration, systemTraceAuditNumberConfiguration, endpointClient);
-        MainEndpoint mainEndpoint = ReaderFactory.Create(readerConfiguration, endpointClient);
-        KernelEndpoint kernelEndpoint = KernelFactory.Create(terminalConfiguration, readerConfiguration, endpointClient);
+        TerminalEndpoint terminalEndpoint = TerminalEndpoint.Create(terminalConfiguration, endpointClient);
+        MainEndpoint mainEndpoint = ReaderFactory.Create(readerDatabase, endpointClient);
+        KernelEndpoint kernelEndpoint = KernelFactory.Create(terminalConfiguration, readerDatabase, endpointClient);
         SelectionEndpoint selectionEndpoint = SelectionEndpoint.Create(selectionConfiguration, endpointClient);
 
         DisplayEndpoint displayEndpoint = DisplayEndpoint.Create(displayConfiguration, displayServiceMock, displayServiceMock, endpointClient);
         ProximityCouplingDeviceEndpoint pcdEndpoint = ProximityCouplingDeviceEndpoint.Create(pcdConfiguration, pcdServiceMock, endpointClient);
-
-
-
-
-
-        GetDto();
-        Console.WriteLine("HI");
     }
 
-    private static PosConfigurationDto GetDto()
-    {
-        return
-            JsonSerializer.Deserialize<PosConfigurationDto>(
-                File.ReadAllText(@"C:\Source\PaymentSystem\Source\Emvco\Contactless\Terminal\MockPos\TestJson.json"))!; 
-    }
+    /// <exception cref="JsonException"></exception>
+    /// <exception cref="NotSupportedException"></exception>
+    private static PosConfigurationDto GetDto() =>
+        JsonSerializer.Deserialize<PosConfigurationDto>(File.ReadAllText(@"C:\Source\PaymentSystem\Source\Emvco\Contactless\Terminal\MockPos\TestJson.json"))!;
 
     #endregion
 }
