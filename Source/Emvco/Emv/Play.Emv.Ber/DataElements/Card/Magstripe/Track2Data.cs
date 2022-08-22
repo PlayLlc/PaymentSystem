@@ -51,7 +51,12 @@ public record Track2Data : DataElement<Track2>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="OverflowException"></exception>
-    public static Track2Data Decode(ReadOnlySpan<byte> value) => new(new Track2(value.AsNibbleArray()));
+    public static Track2Data Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
+
+        return new(new Track2(value.AsNibbleArray()));
+    }
 
     public override byte[] EncodeValue() => _Value.Encode();
     public override byte[] EncodeValue(int length) => _Value.Encode()[..length];
