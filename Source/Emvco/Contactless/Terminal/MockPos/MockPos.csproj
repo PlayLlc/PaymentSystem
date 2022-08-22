@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Display\Play.Emv.Display.Services\Play.Emv.Display.Services.csproj" />
     <ProjectReference Include="..\..\Pcd\Play.Emv.Pcd.Services\Play.Emv.Pcd.Services.csproj" />
     <ProjectReference Include="..\..\Reader\Play.Emv.Reader.Services\Play.Emv.Reader.Services.csproj" />
     <ProjectReference Include="..\..\Selection\Play.Emv.Selection.Services\Play.Emv.Selection.Services.csproj" />

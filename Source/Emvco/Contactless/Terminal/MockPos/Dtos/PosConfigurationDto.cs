@@ -9,6 +9,9 @@ using Play.Emv.Configuration;
 using Play.Emv.Display.Configuration;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Pcd.Contracts;
+using Play.Emv.Reader;
+using Play.Emv.Reader.Configuration;
+using Play.Emv.Selection.Configuration;
 
 namespace MockPos.Dtos
 {
@@ -39,6 +42,9 @@ namespace MockPos.Dtos
         [JsonPropertyName(nameof(CertificateAuthorityConfiguration))]
         public CertificateAuthorityConfigurationDto? CertificateAuthorityConfiguration { get; set; }
 
+        [JsonPropertyName(nameof(ReaderPersistentConfiguration))]
+        public ReaderPersistentConfigurationDto? ReaderPersistentConfiguration { get; set; }
+
         #endregion
 
         #region Instance Members
@@ -47,14 +53,22 @@ namespace MockPos.Dtos
         /// <exception cref="CodecParsingException"></exception>
         public TerminalConfiguration GetTerminalConfiguration() => TerminalConfiguration!.Decode();
 
-        public KernelPersistentConfiguration[] GetKernelPersistent(IResolveKnownObjectsAtRuntime runtimeCodec)
+        public KernelPersistentConfigurations GetKernelPersistent(IResolveKnownObjectsAtRuntime runtimeCodec)
         {
-            return KernelPersistentConfigurations.Select(a => a.Decode(runtimeCodec)).ToArray();
+            return new KernelPersistentConfigurations(KernelPersistentConfigurations.Select(a => a.Decode(runtimeCodec)).ToArray());
         }
 
-        public DisplayConfiguration GetDisplayConfiguration() => DisplayConfiguration!.Decode();
+        public ReaderPersistentConfiguration GetReaderPersistentConfiguration(IResolveKnownObjectsAtRuntime runtimeCodec) =>
+            ReaderPersistentConfiguration!.Decode(runtimeCodec);
+
+        public DisplayConfigurations GetDisplayConfiguration() => DisplayConfiguration!.Decode();
         public PcdConfiguration GetPcdConfiguration() => ProximityCouplingDeviceConfiguration!.Decode();
-        public CertificateAuthorityDataset[] GetCertificateAuthorityDatasets() => CertificateAuthorityConfiguration!.Decode();
+        public CertificateAuthorityDatasets GetCertificateAuthorityDatasets() => new(CertificateAuthorityConfiguration!.Decode());
+
+        public TransactionProfiles GetTransactionProfiles()
+        {
+            return new TransactionProfiles(TransactionProfiles.Select(a => a.Decode()).ToArray());
+        }
 
         #endregion
     }

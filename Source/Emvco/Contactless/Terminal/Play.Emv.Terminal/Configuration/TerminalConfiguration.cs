@@ -3,6 +3,7 @@
 using Play.Ber.DataObjects;
 using Play.Core;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Terminal.Session;
 
 namespace Play.Emv.Configuration;
 
@@ -33,6 +34,7 @@ public record TerminalConfiguration
     private readonly DataStorageRequestedOperatorId _DataStorageRequestedOperatorId;
     private readonly TerminalFloorLimit _TerminalFloorLimit;
     private readonly PoiInformation _PoiInformation;
+    private readonly SequenceConfiguration _SequenceConfiguration;
 
     // BUG: TerminalRiskManagementData is transient per transaction. This should live with the transaction session, not the terminal configuration
     private readonly Probability _BiasedRandomSelectionProbability;
@@ -60,7 +62,7 @@ public record TerminalConfiguration
         TransactionReferenceCurrencyExponent transactionReferenceCurrencyExponent, AcquirerIdentifier acquirerIdentifier,
         DataStorageRequestedOperatorId dataStorageRequestedOperatorId, TransactionCurrencyExponent transactionCurrencyExponent,
         MaxLifetimeOfTornTransactionLogRecords maxLifetimeOfTornTransactionLogRecords,
-        MaxNumberOfTornTransactionLogRecords maxNumberOfTornTransactionLogRecords)
+        MaxNumberOfTornTransactionLogRecords maxNumberOfTornTransactionLogRecords, SequenceConfiguration sequenceConfiguration)
     {
         _TerminalIdentification = terminalIdentification;
         _TransactionCurrencyCode = transactionCurrencyCode;
@@ -86,6 +88,7 @@ public record TerminalConfiguration
         _TransactionCurrencyExponent = transactionCurrencyExponent;
         _MaxLifetimeOfTornTransactionLogRecords = maxLifetimeOfTornTransactionLogRecords;
         _MaxNumberOfTornTransactionLogRecords = maxNumberOfTornTransactionLogRecords;
+        _SequenceConfiguration = sequenceConfiguration;
 
         _TagLengthValues.Add(_TerminalIdentification);
         _TagLengthValues.Add(_TransactionCurrencyCode);

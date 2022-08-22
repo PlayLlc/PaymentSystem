@@ -22,11 +22,11 @@ namespace Play.Emv.Reader.Configuration
 
         #region Constructor
 
-        public ReaderPersistentConfiguration(IResolveKnownObjectsAtRuntime runtimeCodec, TagLengthValue[] values)
+        public ReaderPersistentConfiguration(PrimitiveValue[] values)
         {
             _Configurations = new Dictionary<Tag, PrimitiveValue>();
 
-            foreach (var value in DecodeTagLengthValues(runtimeCodec, values))
+            foreach (var value in values)
                 _Configurations.Add(value.GetTag(), value);
         }
 

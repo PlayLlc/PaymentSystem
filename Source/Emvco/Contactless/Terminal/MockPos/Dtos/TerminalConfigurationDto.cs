@@ -98,7 +98,8 @@ public class TerminalConfigurationDto
             terminalFloorLimit, terminalType, terminalCountryCode, merchantCategoryCode, languagePreference, merchantNameAndLocation,
             terminalRiskManagementData, biasedRandomSelectionProbability, biasedRandomSelectionTargetProbability, thresholdValueForBiasedRandomSelection,
             poiInformation, additionalTerminalCapabilities, transactionReferenceCurrencyCode, transactionReferenceCurrencyExponent, acquirerIdentifier,
-            dataStorageRequestedOperatorId, transactionCurrencyExponent, maxLifetimeOfTornTransactionLogRecords, maxNumberOfTornTransactionLogRecords);
+            dataStorageRequestedOperatorId, transactionCurrencyExponent, maxLifetimeOfTornTransactionLogRecords, maxNumberOfTornTransactionLogRecords,
+            sequenceConfiguration);
     }
 
     #endregion

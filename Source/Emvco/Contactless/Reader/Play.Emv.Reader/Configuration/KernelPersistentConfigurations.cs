@@ -19,7 +19,7 @@ namespace Play.Emv.Reader
 
         #region Constructor
 
-        public KernelPersistentConfigurations(IResolveKnownObjectsAtRuntime runtimeCodec, KernelPersistentConfiguration[] values)
+        public KernelPersistentConfigurations(KernelPersistentConfiguration[] values)
         {
             _Configurations = values.ToDictionary(a => a.GetKernelId(), b => b);
         }

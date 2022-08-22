@@ -3,6 +3,7 @@
 using Play.Codecs;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Display.Configuration;
+using Play.Emv.Reader.Configuration;
 using Play.Globalization.Time;
 
 namespace MockPos.Dtos;
@@ -20,7 +21,7 @@ public class DisplayConfigurationDto
 
     #region Serialization
 
-    public DisplayConfiguration Decode()
+    public DisplayConfigurations Decode()
     {
         HoldTimeValue holdTimeValue = HoldTimeValue.Decode(PlayCodec.HexadecimalCodec.Encode(MessageHoldTime).AsSpan());
         List<DisplayMessages> displayMessages = new();
@@ -28,7 +29,7 @@ public class DisplayConfigurationDto
         foreach (DisplayMessageSetDto set in DisplayMessageSets)
             displayMessages.Add(set.Decode());
 
-        return new DisplayConfiguration(displayMessages.ToArray(), holdTimeValue);
+        return new DisplayConfigurations(displayMessages.ToArray(), holdTimeValue);
     }
 
     #endregion

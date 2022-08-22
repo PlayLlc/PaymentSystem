@@ -85,6 +85,15 @@
     }
 
   ],
+  "ReaderPersistentConfigurations": {
+    "TagLengthValues": [
+      {
+        "Name": "ApplicationVersionNumberReader",
+        "Tag": "0x9F09",
+        "Value": "0x02"
+      }
+    ]
+  },
   "KernelPersistentConfigurations": [
     {
 
