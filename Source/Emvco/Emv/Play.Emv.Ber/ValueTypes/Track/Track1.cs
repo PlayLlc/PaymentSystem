@@ -45,6 +45,8 @@ public readonly struct Track1
 
     public byte[] Encode() => _Value.CopyValue();
 
+    public ushort GetByteCount() => (ushort)_Value.Length;
+
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="OverflowException"></exception>
     public TrackPrimaryAccountNumber GetPrimaryAccountNumber()
@@ -52,50 +54,50 @@ public readonly struct Track1
         if (_Value[0] == _StartSentinel)
             return new TrackPrimaryAccountNumber(_Value[GetFirstFieldSeparatorOffset(_Value)..1].AsNibbleArray()[1..]);
 
-        return new TrackPrimaryAccountNumber(_Value[GetFirstFieldSeparatorOffset(_Value)..1].AsNibbleArray());
+        return new TrackPrimaryAccountNumber(_Value[1..(GetFirstFieldSeparatorOffset(_Value)-1)].AsNibbleArray());
     }
 
     /// <exception cref="BerParsingException"></exception>
     private int GetFirstFieldSeparatorOffset(ReadOnlySpan<byte> value)
     {
         int offset = 0;
-
-        for (int j = 0; j < 1; offset++)
+        int j;
+        for (j = 0; j < 1; offset++)
         {
             if (value[offset] == _FieldSeparator1)
                 j++;
         }
 
-        if (offset != 1)
+        if (j != 1)
             throw new BerParsingException($"The {nameof(Track1Data)} could not find the 2nd field separator");
 
         return offset;
     }
 
     /// <exception cref="BerParsingException"></exception>
-    private int GetExpiryDateOffset(ReadOnlySpan<byte> value) => GetSecondFieldSeparatorOffset(value) + 1;
+    private int GetExpiryDateOffset(ReadOnlySpan<byte> value) => GetSecondFieldSeparatorOffset(value);
 
     /// <exception cref="BerParsingException"></exception>
     private int GetServiceCodeOffset(ReadOnlySpan<byte> value) => GetExpiryDateOffset(value) + 4;
 
     /// <exception cref="BerParsingException"></exception>
-    private int GetDiscretionaryDataOffset(ReadOnlySpan<byte> value) => GetExpiryDateOffset(value) + 3;
+    private int GetDiscretionaryDataOffset(ReadOnlySpan<byte> value) => GetServiceCodeOffset(value) + 3;
 
     /// <exception cref="BerParsingException"></exception>
     private int GetSecondFieldSeparatorOffset(ReadOnlySpan<byte> value)
     {
         int offset = 0;
-
-        for (int j = 0; j < 2; offset++)
+        int j;
+        for (j = 0; j < value.Length && offset != 2; j++)
         {
-            if (value[offset] == _FieldSeparator1)
-                j++;
+            if (value[j] == _FieldSeparator1)
+                offset++;
         }
 
         if (offset != 2)
             throw new BerParsingException($"The {nameof(Track1Data)} could not find the 2nd field separator");
 
-        return offset;
+        return j;
     }
 
     /// <exception cref="BerParsingException"></exception>
