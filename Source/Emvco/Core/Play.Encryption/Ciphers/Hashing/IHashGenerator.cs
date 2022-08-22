@@ -5,7 +5,7 @@ internal interface IHashGenerator
     #region Instance Members
 
     public Hash Generate(ReadOnlySpan<byte> clearText);
-    public HashAlgorithmIndicator GetHashAlgorithmIndicator();
+    public HashAlgorithmIndicators GetHashAlgorithmIndicator();
 
     #endregion
 }

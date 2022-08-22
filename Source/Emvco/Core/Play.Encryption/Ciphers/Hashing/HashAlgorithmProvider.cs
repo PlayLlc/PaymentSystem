@@ -6,7 +6,7 @@ public class HashAlgorithmProvider
 {
     #region Instance Values
 
-    private readonly ImmutableSortedDictionary<HashAlgorithmIndicator, IHashGenerator> _HashAlgorithmMap;
+    private readonly ImmutableSortedDictionary<HashAlgorithmIndicators, IHashGenerator> _HashAlgorithmMap;
 
     #endregion
 
@@ -21,18 +21,18 @@ public class HashAlgorithmProvider
 
     #region Instance Members
 
-    private ImmutableSortedDictionary<HashAlgorithmIndicator, IHashGenerator> CreateHashAlgorithmMap() =>
-        new Dictionary<HashAlgorithmIndicator, IHashGenerator>
+    private ImmutableSortedDictionary<HashAlgorithmIndicators, IHashGenerator> CreateHashAlgorithmMap() =>
+        new Dictionary<HashAlgorithmIndicators, IHashGenerator>
         {
-            {HashAlgorithmIndicator.Sha1, new Sha1HashGenerator()}, {HashAlgorithmIndicator.Sha1, new Sha1HashGenerator()}
+            {HashAlgorithmIndicators.Sha1, new Sha1HashGenerator()}, {HashAlgorithmIndicators.Sha1, new Sha1HashGenerator()}
         }.ToImmutableSortedDictionary();
 
-    public Hash Generate(ReadOnlySpan<byte> clearText, HashAlgorithmIndicator hashAlgorithmIndicator)
+    public Hash Generate(ReadOnlySpan<byte> clearText, HashAlgorithmIndicators hashAlgorithmIndicators)
     {
-        if (!_HashAlgorithmMap.TryGetValue(hashAlgorithmIndicator, out IHashGenerator? hashGenerator))
+        if (!_HashAlgorithmMap.TryGetValue(hashAlgorithmIndicators, out IHashGenerator? hashGenerator))
         {
-            throw new ArgumentOutOfRangeException(nameof(hashAlgorithmIndicator),
-                $"There was no {nameof(IHashGenerator)} available for the argument {nameof(hashAlgorithmIndicator)} with value {hashAlgorithmIndicator}");
+            throw new ArgumentOutOfRangeException(nameof(hashAlgorithmIndicators),
+                $"There was no {nameof(IHashGenerator)} available for the argument {nameof(hashAlgorithmIndicators)} with value {hashAlgorithmIndicators}");
         }
 
         return hashGenerator.Generate(clearText);

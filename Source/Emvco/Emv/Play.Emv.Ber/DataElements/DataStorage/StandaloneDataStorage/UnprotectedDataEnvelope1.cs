@@ -20,7 +20,7 @@ public record UnprotectedDataEnvelope1 : DataElement<BigInteger>, IEqualityCompa
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F75;
-    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     private const byte _MaxByteLength = 192;
 
     #endregion
@@ -44,13 +44,13 @@ public record UnprotectedDataEnvelope1 : DataElement<BigInteger>, IEqualityCompa
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        BigInteger result = PlayCodec.NumericCodec.DecodeToBigInteger(value);
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
         return new UnprotectedDataEnvelope1(result);
     }
 
-    public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value);
-    public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(_Value, length);
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
+    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode(_Value, length);
 
     #endregion
 

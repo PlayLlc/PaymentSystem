@@ -93,7 +93,7 @@ public class AesCodec : IBlockCipher
     public BlockCipherAlgorithm GetAlgorithm() => BlockCipherAlgorithm.Aes;
     public KeySize GetKeySize() => _KeySize;
 
-    public byte[] Sign(ReadOnlySpan<byte> message, ReadOnlySpan<byte> key)
+    public byte[] Encrypt(ReadOnlySpan<byte> message, ReadOnlySpan<byte> key)
     {
         AesCryptoServiceProvider provider = GetAesProvider(key);
         byte[] result = _PlainTextPreprocessor.Preprocess(message);

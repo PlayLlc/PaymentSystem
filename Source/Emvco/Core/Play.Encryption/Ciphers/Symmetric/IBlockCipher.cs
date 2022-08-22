@@ -7,7 +7,9 @@ public interface IBlockCipher
     public BlockCipherAlgorithm GetAlgorithm();
     public BlockCipherMode GetCipherMode();
     public KeySize GetKeySize();
-    public byte[] Sign(ReadOnlySpan<byte> message, ReadOnlySpan<byte> key);
+    public byte[] Encrypt(ReadOnlySpan<byte> message, ReadOnlySpan<byte> key);
+
+    public byte[] Decrypt(ReadOnlySpan<byte> encipherment, ReadOnlySpan<byte> key);
 
     public void SetInitializationVector(byte[] initializationVector);
 

@@ -15,8 +15,7 @@ public class Preprocessor
     ///     Entry Point is initiated at Pre-Processing for a new transaction with a variable amount.
     /// </summary>
     public void SetPreprocessingIndicators(
-        in Outcome outcome, in PreProcessingIndicators preProcessingIndicators, in AmountAuthorizedNumeric amountAuthorizedNumeric,
-        in CultureProfile cultureProfile)
+        Outcome outcome, PreProcessingIndicators preProcessingIndicators, AmountAuthorizedNumeric amountAuthorizedNumeric, CultureProfile cultureProfile)
     {
         preProcessingIndicators.Set(amountAuthorizedNumeric, cultureProfile);
         GetPreprocessingOutcome(outcome, preProcessingIndicators);
@@ -26,7 +25,7 @@ public class Preprocessor
     ///     Book B Section 3.1.1.13
     /// </remarks>
     /// <returns></returns>
-    private void GetPreprocessingOutcome(Outcome outcome, in PreProcessingIndicators preProcessingIndicators)
+    private void GetPreprocessingOutcome(Outcome outcome, PreProcessingIndicators preProcessingIndicators)
     {
         OutcomeParameterSet.Builder? outcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
         UserInterfaceRequestData.Builder userInterfaceSetter = UserInterfaceRequestData.GetBuilder();

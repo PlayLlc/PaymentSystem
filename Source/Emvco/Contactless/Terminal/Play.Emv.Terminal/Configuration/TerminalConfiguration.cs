@@ -3,10 +3,11 @@
 using Play.Ber.DataObjects;
 using Play.Core;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Terminal.Session;
 
 namespace Play.Emv.Configuration;
 
-public abstract record TerminalConfiguration
+public record TerminalConfiguration
 {
     #region Instance Values
 
@@ -33,6 +34,7 @@ public abstract record TerminalConfiguration
     private readonly DataStorageRequestedOperatorId _DataStorageRequestedOperatorId;
     private readonly TerminalFloorLimit _TerminalFloorLimit;
     private readonly PoiInformation _PoiInformation;
+    private readonly SequenceConfiguration _SequenceConfiguration;
 
     // BUG: TerminalRiskManagementData is transient per transaction. This should live with the transaction session, not the terminal configuration
     private readonly Probability _BiasedRandomSelectionProbability;
@@ -50,7 +52,7 @@ public abstract record TerminalConfiguration
 
     #region Constructor
 
-    protected TerminalConfiguration(
+    public TerminalConfiguration(
         TerminalIdentification terminalIdentification, MerchantIdentifier merchantIdentifier, InterfaceDeviceSerialNumber interfaceDeviceSerialNumber,
         TransactionCurrencyCode transactionCurrencyCode, TerminalCapabilities terminalCapabilities, TerminalFloorLimit terminalFloorLimit,
         TerminalType terminalType, TerminalCountryCode terminalCountryCode, MerchantCategoryCode merchantCategoryCode, LanguagePreference languagePreference,
@@ -60,7 +62,7 @@ public abstract record TerminalConfiguration
         TransactionReferenceCurrencyExponent transactionReferenceCurrencyExponent, AcquirerIdentifier acquirerIdentifier,
         DataStorageRequestedOperatorId dataStorageRequestedOperatorId, TransactionCurrencyExponent transactionCurrencyExponent,
         MaxLifetimeOfTornTransactionLogRecords maxLifetimeOfTornTransactionLogRecords,
-        MaxNumberOfTornTransactionLogRecords maxNumberOfTornTransactionLogRecords)
+        MaxNumberOfTornTransactionLogRecords maxNumberOfTornTransactionLogRecords, SequenceConfiguration sequenceConfiguration)
     {
         _TerminalIdentification = terminalIdentification;
         _TransactionCurrencyCode = transactionCurrencyCode;
@@ -86,6 +88,7 @@ public abstract record TerminalConfiguration
         _TransactionCurrencyExponent = transactionCurrencyExponent;
         _MaxLifetimeOfTornTransactionLogRecords = maxLifetimeOfTornTransactionLogRecords;
         _MaxNumberOfTornTransactionLogRecords = maxNumberOfTornTransactionLogRecords;
+        _SequenceConfiguration = sequenceConfiguration;
 
         _TagLengthValues.Add(_TerminalIdentification);
         _TagLengthValues.Add(_TransactionCurrencyCode);
@@ -111,6 +114,7 @@ public abstract record TerminalConfiguration
 
     #region Instance Members
 
+    public SequenceConfiguration GetSequenceConfiguration() => _SequenceConfiguration;
     public MaxNumberOfTornTransactionLogRecords GetMaxNumberOfTornTransactionLogRecords() => _MaxNumberOfTornTransactionLogRecords;
     public MaxLifetimeOfTornTransactionLogRecords GeMaxLifetimeOfTornTransactionLogRecords() => _MaxLifetimeOfTornTransactionLogRecords;
     public TransactionCurrencyExponent GetTransactionCurrencyExponent() => _TransactionCurrencyExponent;

@@ -18,8 +18,7 @@ public class DisplayMessages
 
     #region Constructor
 
-    public DisplayMessages(
-        Alpha2LanguageCode languageCode, NumericCountryCode countryCode, Dictionary<DisplayMessageIdentifier, DisplayMessage> displayMessages)
+    public DisplayMessages(Alpha2LanguageCode languageCode, Dictionary<DisplayMessageIdentifier, DisplayMessage> displayMessages)
     {
         _LanguageCode = languageCode;
         _DisplayMessages = displayMessages.ToImmutableSortedDictionary();

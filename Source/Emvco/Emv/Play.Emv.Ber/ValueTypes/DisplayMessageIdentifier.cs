@@ -15,7 +15,7 @@ public readonly record struct DisplayMessageIdentifier
 
     #region Constructor
 
-    internal DisplayMessageIdentifier(byte value)
+    public DisplayMessageIdentifier(byte value)
     {
         _Value = value;
     }
