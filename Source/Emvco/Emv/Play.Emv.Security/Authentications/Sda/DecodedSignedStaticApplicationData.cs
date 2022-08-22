@@ -1,6 +1,7 @@
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Codecs;
+using Play.Core;
 using Play.Emv.Ber.DataElements;
 using Play.Encryption.Certificates;
 using Play.Encryption.Ciphers.Hashing;
@@ -51,10 +52,10 @@ internal class DecodedSignedStaticApplicationData : DecodedSignature
 
     public HashAlgorithmIndicators GetHashAlgorithmIndicator()
     {
-        if (!HashAlgorithmIndicators.TryGet(_Message1[16], out HashAlgorithmIndicators? result))
+        if (!HashAlgorithmIndicators.Empty.TryGet(_Message1[16], out EnumObject<byte>? result))
             return HashAlgorithmIndicators.NotAvailable;
 
-        return result!;
+        return (HashAlgorithmIndicators) result!;
     }
 
     public byte[] GetPadPattern() => _Message1.AsByteArray()[5..(GetByteCount() - 26)];

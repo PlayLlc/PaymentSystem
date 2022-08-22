@@ -25,7 +25,7 @@ public partial class KernelDatabase : IManageKernelDatabaseLifetime
     #region Constructor
 
     public KernelDatabase(
-        CertificateAuthorityDataset[] certificateAuthorityDataset, KernelPersistentConfiguration kernelPersistentConfiguration, KnownObjects knownObjects,
+        CertificateAuthorityDataset[] certificateAuthorityDataset, PrimitiveValue[] kernelPersistentConfiguration, KnownObjects knownObjects,
         ScratchPad scratchPad)
     {
         _ScratchPad = scratchPad;

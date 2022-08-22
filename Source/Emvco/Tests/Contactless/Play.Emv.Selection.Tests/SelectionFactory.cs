@@ -18,16 +18,19 @@ public class SelectionFactory
     {
         CombinationCompositeKey combinationCompositeKey = fixture.Create<CombinationCompositeKey>();
         ApplicationPriorityIndicator applicationPriorityIndicator = fixture.Create<ApplicationPriorityIndicator>();
-        ReaderContactlessTransactionLimit readerContactlessTransactionLimit = fixture.Create<ReaderContactlessTransactionLimit>();
+        ReaderContactlessTransactionLimitWhenCvmIsOnDevice readerContactlessTransactionLimitWhenCvmIsOnDevice =
+            fixture.Create<ReaderContactlessTransactionLimitWhenCvmIsOnDevice>();
+        ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice readerContactlessTransactionLimitWhenCvmIsNotOnDevice =
+            fixture.Create<ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice>();
         ReaderContactlessFloorLimit readerContactlessFloorLimit = fixture.Create<ReaderContactlessFloorLimit>();
         ReaderCvmRequiredLimit readerCvmRequiredLimit = fixture.Create<ReaderCvmRequiredLimit>();
-        TerminalFloorLimit terminalFloorLimit = fixture.Create<TerminalFloorLimit>();
         TerminalTransactionQualifiers ttq = fixture.Create<TerminalTransactionQualifiers>();
         KernelConfiguration kernelConfiguration = fixture.Create<KernelConfiguration>();
 
-        TransactionProfile transactionProfile = new(combinationCompositeKey, applicationPriorityIndicator, readerContactlessTransactionLimit,
-            readerContactlessFloorLimit, terminalFloorLimit, readerCvmRequiredLimit, ttq, kernelConfiguration, isStatusCheckSupported, isZeroAmountAllowed,
-            isZeroAmountAllowedForOffline, isExtendedSelectionSupported);
+        TransactionProfile transactionProfile = new(combinationCompositeKey, applicationPriorityIndicator,
+            readerContactlessTransactionLimitWhenCvmIsNotOnDevice, readerContactlessTransactionLimitWhenCvmIsOnDevice, readerContactlessFloorLimit,
+            readerCvmRequiredLimit, ttq, kernelConfiguration, isStatusCheckSupported, isZeroAmountAllowed, isZeroAmountAllowedForOffline,
+            isExtendedSelectionSupported);
 
         return transactionProfile;
     }

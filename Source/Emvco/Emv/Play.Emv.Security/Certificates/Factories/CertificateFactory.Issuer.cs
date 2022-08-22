@@ -150,7 +150,17 @@ internal partial class CertificateFactory
 
     #region 6.3 Step 6
 
-    internal HashAlgorithmIndicators GetHashAlgorithmIndicator(Message1 message1) => HashAlgorithmIndicators.Get(message1[11]);
+    /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
+    internal HashAlgorithmIndicators GetHashAlgorithmIndicator(Message1 message1)
+    {
+        if (!HashAlgorithmIndicators.Empty.TryGet(message1[11], out EnumObject<byte>? result))
+        {
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"The {nameof(HashAlgorithmIndicators)} with the value: [{message1[11]}] does not exist.");
+        }
+
+        return (HashAlgorithmIndicators) result!;
+    }
 
     #endregion
 

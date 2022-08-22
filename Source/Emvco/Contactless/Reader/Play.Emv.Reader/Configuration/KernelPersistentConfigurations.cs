@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Play.Ber.DataObjects;
 using Play.Emv.Ber;
@@ -12,7 +13,7 @@ namespace Play.Emv.Reader
     {
         #region Instance Values
 
-        private readonly Dictionary<KernelId, PrimitiveValue[]> _Configurations;
+        private readonly Dictionary<KernelId, KernelPersistentConfiguration> _Configurations;
 
         #endregion
 
@@ -20,37 +21,19 @@ namespace Play.Emv.Reader
 
         public KernelPersistentConfigurations(IResolveKnownObjectsAtRuntime runtimeCodec, KernelPersistentConfiguration[] values)
         {
-            _Configurations = new Dictionary<KernelId, PrimitiveValue[]>();
-
-            foreach (var value in values)
-                _Configurations.Add(value.GetKernelId(), DecodeTagLengthValues(runtimeCodec, value.GetPersistentValues()));
+            _Configurations = values.ToDictionary(a => a.GetKernelId(), b => b);
         }
 
         #endregion
 
         #region Instance Members
 
-        private static PrimitiveValue[] DecodeTagLengthValues(IResolveKnownObjectsAtRuntime runtimeCodec, TagLengthValue[] values)
+        public IEnumerable<PrimitiveValue> Get(KernelId kernelId)
         {
-            List<PrimitiveValue> result = new();
-
-            foreach (var tlv in values)
-            {
-                if (!runtimeCodec.TryDecodingAtRuntime(tlv.GetTag(), tlv.EncodeValue(), out PrimitiveValue? primitiveValueResult))
-                    continue;
-
-                result.Add(primitiveValueResult!);
-            }
-
-            return result.ToArray();
-        }
-
-        public PrimitiveValue[] Get(KernelId kernelId)
-        {
-            if (!_Configurations.TryGetValue(kernelId, out PrimitiveValue[]? primitiveValueResult))
+            if (!_Configurations.TryGetValue(kernelId, out KernelPersistentConfiguration? primitiveValueResult))
                 return Array.Empty<PrimitiveValue>();
 
-            return primitiveValueResult;
+            return primitiveValueResult.GetPersistentValues();
         }
 
         #endregion

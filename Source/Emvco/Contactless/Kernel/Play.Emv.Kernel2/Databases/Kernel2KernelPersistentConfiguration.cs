@@ -4,52 +4,26 @@ using System.Linq;
 using Play.Ber.DataObjects;
 using Play.Ber.Tags;
 using Play.Emv.Ber;
+using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Enums;
 using Play.Emv.Kernel.Contracts;
 
 namespace Play.Emv.Kernel2.Databases;
 
 public class Kernel2KernelPersistentConfiguration : KernelPersistentConfiguration
 {
-    #region Instance Values
-
-    private readonly PrimitiveValue[] _PersistentValues;
-
-    #endregion
-
     #region Constructor
 
-    public Kernel2KernelPersistentConfiguration(params PrimitiveValue[] values)
+    public Kernel2KernelPersistentConfiguration(PrimitiveValue[] persistentValues, IResolveKnownObjectsAtRuntime runtimeCodec) : base(
+        ShortKernelIdTypes.Kernel2, persistentValues)
     {
         Kernel2KnownObjects knownObjects = Kernel2KnownObjects.Empty;
         EmvBook3DefaultValues book3Defaults = new();
         Kernel2DefaultValues kernel2Defaults = new();
 
-        Dictionary<Tag, PrimitiveValue> persistentValues = new();
-        book3Defaults.AddDefaults(knownObjects, persistentValues);
-        kernel2Defaults.AddDefaults(knownObjects, persistentValues);
-        UpdatePersistentConfiguration(knownObjects, persistentValues, values);
-
-        _PersistentValues = persistentValues.Values.ToArray();
+        _PersistentValues.AddRange(book3Defaults.GetDefaults(knownObjects));
+        _PersistentValues.AddRange(kernel2Defaults.GetDefaults(knownObjects));
     }
-
-    #endregion
-
-    #region Instance Members
-
-    protected static void UpdatePersistentConfiguration(
-        Kernel2KnownObjects knownObjects, Dictionary<Tag, PrimitiveValue> persistentValues, PrimitiveValue[] configurationValues)
-    {
-        foreach (PrimitiveValue value in configurationValues)
-        {
-            // If there is a value that is not a persistent value we will ignore it
-            if (!knownObjects.Exists(value.GetTag()))
-                continue;
-
-            persistentValues[value.GetTag()] = value;
-        }
-    }
-
-    public override IReadOnlyCollection<PrimitiveValue> GetPersistentValues() => _PersistentValues;
 
     #endregion
 }

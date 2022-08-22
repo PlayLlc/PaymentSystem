@@ -48,7 +48,18 @@ internal class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
         return new DecodedIssuerPublicKeyCertificate(serialNumber, hashAlgorithm, publicKeyAlgorithmIndicators, validityPeriod, publicKeyInfo);
     }
 
-    internal static HashAlgorithmIndicators GetHashAlgorithmIndicator(Message1 message1) => HashAlgorithmIndicators.Get(message1[11]);
+    /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
+    internal static HashAlgorithmIndicators GetHashAlgorithmIndicator(Message1 message1)
+    {
+        if (HashAlgorithmIndicators.Empty.TryGet(message1[11], out EnumObject<byte>? result))
+        {
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"The {nameof(HashAlgorithmIndicators)} with a value of: [{message1[11]}] does not exist");
+        }
+
+        return (HashAlgorithmIndicators) result!;
+    }
+
     private static CertificateSerialNumber GetCertificateSerialNumber(Message1 message1) => new(message1[new Range(7, 10)]);
 
     internal static PublicKeyAlgorithmIndicators GetPublicKeyAlgorithmIndicator(Message1 message1)

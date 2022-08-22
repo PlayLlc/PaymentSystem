@@ -20,7 +20,7 @@ namespace MockPos.Factories
         {
             List<KernelProcess> kernelProcesses = new();
 
-            CertificateAuthorityDataset[] certificates = readerDatabase.GetCertificateAuthorityDatasets(ShortKernelIdTypes.Kernel2);
+            CertificateAuthorityDataset[] certificates = readerDatabase.GetCertificateAuthorityDatasets();
             TornTransactionLog tornTransactionLog = new(terminalConfiguration.GetMaxNumberOfTornTransactionLogRecords(),
                 terminalConfiguration.GeMaxLifetimeOfTornTransactionLogRecords());
             UnpredictableNumberGenerator unpredictableNumberGenerator = new();

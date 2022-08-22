@@ -65,17 +65,7 @@ public class PreProcessingIndicator
 
     public void ResetTerminalTransactionQualifiers() => _TransactionProfile.GetTerminalTransactionQualifiers().AsValueCopy();
 
-    /// <summary>
-    ///     This will set All fields in accordance to Start A Preprocessing
-    /// </summary>
-    /// <param name="transactionSpecificDataElements">
-    ///     Represents transaction specific information that the chosen Kernel will need to process the transaction. Each
-    ///     Kernel will have their own concrete implementation
-    /// </param>
-    /// <param name="amountAuthorizedNumeric"></param>
-    /// <param name="cultureProfile"></param>
-    /// <remarks>
-    ///     Emv Book B Section 3.1.1.2
+    /// Emv Book B Section 3.1.1.2
     /// </remarks>
     public void Set(AmountAuthorizedNumeric amountAuthorizedNumeric, CultureProfile cultureProfile)
     {
@@ -129,17 +119,19 @@ public class PreProcessingIndicator
     private void SetMutableFields(AmountAuthorizedNumeric amountAuthorizedNumeric, CultureProfile cultureProfile)
     {
         Money amountAuthorizedMoney = amountAuthorizedNumeric.AsMoney(cultureProfile.GetNumericCurrencyCode());
+        Money readerContactlessTransactionLimit = _TransactionProfile.GetKernelConfiguration().IsOnDeviceCardholderVerificationSupported()
+            ? _TransactionProfile.GetReaderContactlessTransactionLimitWhenCvmIsOnDevice().AsMoney(cultureProfile.GetNumericCurrencyCode())
+            : _TransactionProfile.GetReaderContactlessTransactionLimitWhenCvmIsNotOnDevice().AsMoney(cultureProfile.GetNumericCurrencyCode());
 
         StatusCheckRequestedHasBeenSetEvent? statusCheckRequestedHasBeenSet =
             SetStatusCheckRequested(_TransactionProfile.IsStatusCheckSupported(), amountAuthorizedMoney);
         ZeroAmountHasBeenSetEvent? zeroAmountHasBeenSet = SetZeroAmount(amountAuthorizedMoney, _TransactionProfile.IsZeroAmountAllowedForOffline());
         ProcessZeroAmountCondition(amountAuthorizedMoney, _TransactionProfile.IsZeroAmountAllowedForOffline());
-        ProcessReaderContactlessTransactionLimit(amountAuthorizedMoney,
-            _TransactionProfile.GetReaderContactlessTransactionLimit().AsMoney(cultureProfile.GetNumericCurrencyCode()));
+
+        ProcessReaderContactlessTransactionLimit(amountAuthorizedMoney, readerContactlessTransactionLimit);
 
         ReaderContactlessFloorLimitExceededHasBeenSetEvent? readerContactlessFloorLimitExceededHasBeenSet =
-            SetReaderContactlessFloorLimitExceeded(amountAuthorizedMoney,
-                _TransactionProfile.GetReaderContactlessTransactionLimit().AsMoney(cultureProfile.GetNumericCurrencyCode()));
+            SetReaderContactlessFloorLimitExceeded(amountAuthorizedMoney, readerContactlessTransactionLimit);
         ReaderCvmRequiredLimitExceededHasBeenSetEvent? readerCvmRequiredLimitExceeded = SetReaderCvmRequiredLimitExceeded(amountAuthorizedMoney,
             _TransactionProfile.GetReaderCvmRequiredLimit().AsMoney(cultureProfile.GetNumericCurrencyCode()));
         SetOnlineCryptogramRequired(readerContactlessFloorLimitExceededHasBeenSet);

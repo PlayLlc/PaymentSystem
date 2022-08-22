@@ -14,7 +14,7 @@ public partial class KernelDatabase : ITlvReaderAndWriter
     #region Instance Values
 
     private readonly SortedDictionary<Tag, PrimitiveValue?> _Database;
-    private readonly KernelPersistentConfiguration _KernelPersistentConfiguration;
+    private readonly PrimitiveValue[] _KernelPersistentConfiguration;
     private readonly KnownObjects _KnownObjects;
 
     #endregion
@@ -31,7 +31,7 @@ public partial class KernelDatabase : ITlvReaderAndWriter
 
     private void SeedDatabase()
     {
-        foreach (PrimitiveValue persistentValue in _KernelPersistentConfiguration.GetPersistentValues())
+        foreach (PrimitiveValue persistentValue in _KernelPersistentConfiguration)
             _Database.Add(persistentValue.GetTag(), persistentValue);
     }
 

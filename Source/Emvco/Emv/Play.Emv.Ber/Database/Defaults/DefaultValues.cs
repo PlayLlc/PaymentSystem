@@ -11,7 +11,7 @@ public abstract class DefaultValues
 {
     #region Instance Members
 
-    public abstract void AddDefaults(KnownObjects knownObjects, Dictionary<Tag, PrimitiveValue> defaultValueMap);
+    public abstract IEnumerable<PrimitiveValue> GetDefaults(KnownObjects knownObjects);
 
     #endregion
 }
