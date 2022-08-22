@@ -62,7 +62,7 @@ public partial class ReaderDatabase
 
     public TransactionType[] GetSupportedTransactionTypes() => _TransactionProfiles.GetSupportedTransactionTypes();
     public bool IsTransactionSupported(TransactionType transactionType) => _TransactionProfiles.IsTransactionSupported(transactionType);
-    public PrimitiveValue[] GetKernelConfiguration(KernelId kernelId) => _KernelPersistentConfigurations.Get(kernelId);
+    public PrimitiveValue[] GetKernelConfiguration(KernelId kernelId) => _KernelPersistentConfigurations.Get(kernelId).ToArray();
     public CertificateAuthorityDataset[] GetCertificateAuthorityDatasets() => _CertificateAuthorityDatasets.GetCertificateAuthorityDatasets();
     public void PurgeRevokedCertificates() => _CertificateAuthorityDatasets.PurgeRevokedCertificates();
     public void PurgeRevokedCertificates(RegisteredApplicationProviderIndicator rid) => _CertificateAuthorityDatasets.PurgeRevokedCertificates();

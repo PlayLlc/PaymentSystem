@@ -2,6 +2,7 @@
 
 using Play.Ber.DataObjects;
 using Play.Codecs.Exceptions;
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Configuration;
@@ -46,9 +47,9 @@ namespace MockPos.Dtos
         /// <exception cref="CodecParsingException"></exception>
         public TerminalConfiguration GetTerminalConfiguration() => TerminalConfiguration!.Decode();
 
-        public KernelPersistentConfiguration[] GetKernelPersistent()
+        public KernelPersistentConfiguration[] GetKernelPersistent(IResolveKnownObjectsAtRuntime runtimeCodec)
         {
-            return KernelPersistentConfigurations.Select(a => a.Decode()).ToArray();
+            return KernelPersistentConfigurations.Select(a => a.Decode(runtimeCodec)).ToArray();
         }
 
         public DisplayConfiguration GetDisplayConfiguration() => DisplayConfiguration!.Decode();

@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 
+using Play.Ber.DataObjects;
 using Play.Core;
 using Play.Emv;
 using Play.Emv.Ber;
@@ -10,6 +11,7 @@ using Play.Emv.Icc;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
+using Play.Emv.Kernel2;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;
@@ -34,7 +36,7 @@ public partial class ContactlessFixture
     {
         fixture.Freeze<TransactionSessionId>();
         fixture.Freeze<KernelSessionId>();
-        fixture.Register<KernelPersistentConfiguration>(() => new Kernel2KernelPersistentConfiguration());
+        fixture.Register<KernelPersistentConfiguration>(() => new Kernel2KernelPersistentConfiguration(Array.Empty<PrimitiveValue>(), new EmvRuntimeCodec()));
         fixture.Register<KnownObjects>(fixture.Create<Kernel2KnownObjects>);
         fixture.Register(() => new SequenceCounterThreshold(0, int.MaxValue, 1));
         KernelDatabase database = fixture.Create<KernelDatabase>();

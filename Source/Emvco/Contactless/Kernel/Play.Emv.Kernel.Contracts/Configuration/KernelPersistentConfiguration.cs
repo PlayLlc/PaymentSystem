@@ -27,21 +27,6 @@ public class KernelPersistentConfiguration
 
     #region Instance Members
 
-    private static PrimitiveValue[] DecodeTagLengthValues(IResolveKnownObjectsAtRuntime runtimeCodec, TagLengthValue[] values)
-    {
-        List<PrimitiveValue> result = new();
-
-        foreach (var tlv in values)
-        {
-            if (!runtimeCodec.TryDecodingAtRuntime(tlv.GetTag(), tlv.EncodeValue(), out PrimitiveValue? primitiveValueResult))
-                continue;
-
-            result.Add(primitiveValueResult!);
-        }
-
-        return result.ToArray();
-    }
-
     public KernelId GetKernelId() => _KernelId;
     public IEnumerable<PrimitiveValue> GetPersistentValues() => _PersistentValues;
 

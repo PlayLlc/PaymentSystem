@@ -1,4 +1,5 @@
-﻿using Play.Emv.Ber.Enums;
+﻿using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Enums;
 using Play.Emv.Configuration;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
@@ -32,9 +33,9 @@ namespace MockPos.Factories
             ScratchPad scratchPad = new(terminalConfiguration.GetMaxNumberOfTornTransactionLogRecords(),
                 terminalConfiguration.GeMaxLifetimeOfTornTransactionLogRecords());
 
-            KernelProcess kernel2Process = Kernel2Process.Create(certificates, endpointClient, tornTransactionLog, unpredictableNumberGenerator,
-                combinationCompatibilityValidator, combinationCapabilityValidator, cardholderVerificationMethodSelector, terminalActionAnalysisService,
-                securityAuthenticationService, scratchPad);
+            KernelProcess kernel2Process = Kernel2Process.Create(certificates, readerDatabase.GetKernelConfiguration(ShortKernelIdTypes.Kernel2),
+                endpointClient, tornTransactionLog, unpredictableNumberGenerator, combinationCompatibilityValidator, combinationCapabilityValidator,
+                cardholderVerificationMethodSelector, terminalActionAnalysisService, securityAuthenticationService, scratchPad);
 
             kernelProcesses.Add(kernel2Process);
 

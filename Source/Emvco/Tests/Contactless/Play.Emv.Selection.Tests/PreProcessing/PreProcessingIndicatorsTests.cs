@@ -159,7 +159,7 @@ public class PreProcessingIndicatorsTests
 
         //Assert
         Assert.Equal(1, kernelIds.Length);
-        Assert.Equal(transactionProfile.GetKernelId(), kernelIds[0]);
+        Assert.Equal((KernelId) transactionProfile.GetKernelId(), kernelIds[0]);
     }
 
     [Fact]
