@@ -7,7 +7,7 @@ using Play.Emv.Outcomes;
 
 namespace Play.Emv.Reader
 {
-    public partial class ReaderConfiguration
+    public partial class ReaderDatabase
     {
         #region Instance Members
 
@@ -19,7 +19,7 @@ namespace Play.Emv.Reader
             {
                 throw new TerminalException(
                     new InvalidOperationException(
-                        $"A command to initialize the Kernel Database was invoked but the {nameof(ReaderConfiguration)} is already active"));
+                        $"A command to initialize the Kernel Database was invoked but the {nameof(ReaderDatabase)} is already active"));
             }
 
             TryGet(AccountType.Tag, out AccountType? accountType);

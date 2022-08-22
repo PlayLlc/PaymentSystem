@@ -8,7 +8,7 @@ using Play.Emv.Identifiers;
 
 namespace Play.Emv.Reader
 {
-    public partial class ReaderConfiguration : ITlvReaderAndWriter
+    public partial class ReaderDatabase : ITlvReaderAndWriter
     {
         #region Instance Values
 
@@ -33,7 +33,7 @@ namespace Play.Emv.Reader
         public void Initialize(Tag tag)
         {
             if (!IsActive())
-                throw new TerminalDataException($"The method {nameof(Initialize)} cannot be accessed because the {nameof(ReaderConfiguration)} is not active");
+                throw new TerminalDataException($"The method {nameof(Initialize)} cannot be accessed because the {nameof(ReaderDatabase)} is not active");
 
             if (!IsKnown(tag))
                 return;
@@ -62,7 +62,7 @@ namespace Play.Emv.Reader
         public void Update(PrimitiveValue value)
         {
             if (!IsActive())
-                throw new TerminalDataException($"The method {nameof(Update)} cannot be accessed because the {nameof(ReaderConfiguration)} is not active");
+                throw new TerminalDataException($"The method {nameof(Update)} cannot be accessed because the {nameof(ReaderDatabase)} is not active");
 
             if (_TransactionDatabase.ContainsKey(value.GetTag()))
                 _TransactionDatabase[value.GetTag()] = value;
@@ -80,7 +80,7 @@ namespace Play.Emv.Reader
         public void Update(PrimitiveValue[] values)
         {
             if (!IsActive())
-                throw new TerminalDataException($"The method {nameof(Update)} cannot be accessed because the {nameof(ReaderConfiguration)} is not active");
+                throw new TerminalDataException($"The method {nameof(Update)} cannot be accessed because the {nameof(ReaderDatabase)} is not active");
 
             for (int i = 0; i < values.Length; i++)
                 Update(values[i]);
@@ -111,7 +111,7 @@ namespace Play.Emv.Reader
         public bool IsPresent(Tag tag)
         {
             if (!IsActive())
-                throw new TerminalDataException($"The method {nameof(IsPresent)} cannot be accessed because {nameof(ReaderConfiguration)} is not active");
+                throw new TerminalDataException($"The method {nameof(IsPresent)} cannot be accessed because {nameof(ReaderDatabase)} is not active");
 
             return _TransactionDatabase.ContainsKey(tag);
         }
@@ -126,10 +126,10 @@ namespace Play.Emv.Reader
         public T Get<T>(Tag tag) where T : PrimitiveValue
         {
             if (!IsActive())
-                throw new TerminalDataException($"The method {nameof(Get)} cannot be accessed because {nameof(ReaderConfiguration)} is not active");
+                throw new TerminalDataException($"The method {nameof(Get)} cannot be accessed because {nameof(ReaderDatabase)} is not active");
 
             if (!_TransactionDatabase.TryGetValue(tag, out PrimitiveValue? result))
-                throw new TerminalDataException($"The argument {nameof(tag)} provided does not exist in {nameof(ReaderConfiguration)}");
+                throw new TerminalDataException($"The argument {nameof(tag)} provided does not exist in {nameof(ReaderDatabase)}");
 
             return (T) result!;
         }
@@ -146,10 +146,10 @@ namespace Play.Emv.Reader
         public PrimitiveValue Get(Tag tag)
         {
             if (!IsActive())
-                throw new TerminalDataException($"The method {nameof(Get)} cannot be accessed because {nameof(ReaderConfiguration)} is not active");
+                throw new TerminalDataException($"The method {nameof(Get)} cannot be accessed because {nameof(ReaderDatabase)} is not active");
 
             if (!_TransactionDatabase.TryGetValue(tag, out PrimitiveValue? result))
-                throw new TerminalDataException($"The argument {nameof(tag)} with the value: [{tag}] provided does not exist in {nameof(ReaderConfiguration)}");
+                throw new TerminalDataException($"The argument {nameof(tag)} with the value: [{tag}] provided does not exist in {nameof(ReaderDatabase)}");
 
             return result!;
         }
@@ -164,7 +164,7 @@ namespace Play.Emv.Reader
         public bool TryGet(Tag tag, out PrimitiveValue? result)
         {
             if (!IsActive())
-                throw new TerminalDataException($"The method {nameof(TryGet)} cannot be accessed because the {nameof(ReaderConfiguration)} is not active");
+                throw new TerminalDataException($"The method {nameof(TryGet)} cannot be accessed because the {nameof(ReaderDatabase)} is not active");
 
             if (!_TransactionDatabase.TryGetValue(tag, out PrimitiveValue? databaseValue))
             {
@@ -188,7 +188,7 @@ namespace Play.Emv.Reader
         public bool TryGet<T>(Tag tag, out T? result) where T : PrimitiveValue
         {
             if (!IsActive())
-                throw new TerminalDataException($"The method {nameof(TryGet)} cannot be accessed because the {nameof(ReaderConfiguration)} is not active");
+                throw new TerminalDataException($"The method {nameof(TryGet)} cannot be accessed because the {nameof(ReaderDatabase)} is not active");
 
             if (!_TransactionDatabase.TryGetValue(tag, out PrimitiveValue? databaseValue))
             {
@@ -205,8 +205,9 @@ namespace Play.Emv.Reader
         public bool IsPresentAndNotEmpty(Tag tag)
         {
             if (!IsActive())
-                throw new TerminalDataException(
-                    $"The method {nameof(IsPresentAndNotEmpty)} cannot be accessed because {nameof(ReaderConfiguration)} is not active");
+            {
+                throw new TerminalDataException($"The method {nameof(IsPresentAndNotEmpty)} cannot be accessed because {nameof(ReaderDatabase)} is not active");
+            }
 
             return IsPresent(tag) && (_TransactionDatabase[tag] != null);
         }

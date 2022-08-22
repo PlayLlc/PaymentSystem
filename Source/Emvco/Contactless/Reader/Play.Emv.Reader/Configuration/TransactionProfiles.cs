@@ -10,7 +10,7 @@ using Play.Emv.Selection.Contracts;
 
 namespace Play.Emv.Reader.Configuration
 {
-    internal class TransactionProfileConfigurations
+    public class TransactionProfiles
     {
         #region Instance Values
 
@@ -21,7 +21,7 @@ namespace Play.Emv.Reader.Configuration
 
         #region Constructor
 
-        public TransactionProfileConfigurations(TransactionProfile[] values)
+        public TransactionProfiles(TransactionProfile[] values)
         {
             _TransactionProfiles = new Dictionary<CombinationCompositeKey, TransactionProfile>();
             List<CombinationCompositeKey> keys = values.Select(a => a.GetCombinationCompositeKey()).Distinct().ToList();

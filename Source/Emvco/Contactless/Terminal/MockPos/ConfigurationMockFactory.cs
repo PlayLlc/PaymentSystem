@@ -14,7 +14,7 @@ namespace MockPos
         public static SequenceConfiguration CreateSystemTraceAuditNumberConfiguration() => throw new NotImplementedException();
         public static TerminalConfiguration CreateTerminalConfiguration() => throw new NotImplementedException();
         public static SelectionConfiguration CreateSelectionConfiguration() => throw new NotImplementedException();
-        public static ReaderConfiguration CreateReaderConfiguration() => throw new NotImplementedException();
+        public static ReaderDatabase CreateReaderConfiguration() => throw new NotImplementedException();
         public static DisplayConfiguration CreateDisplayConfiguration() => throw new NotImplementedException();
         public static PcdConfiguration CreatePcdProtocolConfiguration() => throw new NotImplementedException();
 

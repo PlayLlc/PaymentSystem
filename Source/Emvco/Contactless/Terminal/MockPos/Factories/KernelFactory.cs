@@ -16,11 +16,11 @@ namespace MockPos.Factories
         #region Instance Members
 
         private static KernelProcess[] CreateKernelProcesses(
-            TerminalConfiguration terminalConfiguration, ReaderConfiguration readerConfiguration, IEndpointClient endpointClient)
+            TerminalConfiguration terminalConfiguration, ReaderDatabase readerDatabase, IEndpointClient endpointClient)
         {
             List<KernelProcess> kernelProcesses = new();
 
-            CertificateAuthorityDataset[] certificates = readerConfiguration.GetCertificateAuthorityDatasets(ShortKernelIdTypes.Kernel2);
+            CertificateAuthorityDataset[] certificates = readerDatabase.GetCertificateAuthorityDatasets(ShortKernelIdTypes.Kernel2);
             TornTransactionLog tornTransactionLog = new(terminalConfiguration.GetMaxNumberOfTornTransactionLogRecords(),
                 terminalConfiguration.GeMaxLifetimeOfTornTransactionLogRecords());
             UnpredictableNumberGenerator unpredictableNumberGenerator = new();
@@ -41,10 +41,9 @@ namespace MockPos.Factories
             return kernelProcesses.ToArray();
         }
 
-        public static KernelEndpoint Create(
-            TerminalConfiguration terminalConfiguration, ReaderConfiguration readerConfiguration, IEndpointClient endpointClient)
+        public static KernelEndpoint Create(TerminalConfiguration terminalConfiguration, ReaderDatabase readerDatabase, IEndpointClient endpointClient)
         {
-            KernelProcess[] kernelProcesses = CreateKernelProcesses(terminalConfiguration, readerConfiguration, endpointClient);
+            KernelProcess[] kernelProcesses = CreateKernelProcesses(terminalConfiguration, readerDatabase, endpointClient);
 
             return KernelEndpoint.Create(kernelProcesses, endpointClient);
         }

@@ -8,8 +8,7 @@ namespace MockPos.Factories
     {
         #region Instance Members
 
-        public static MainEndpoint Create(ReaderConfiguration readerConfiguration, IEndpointClient endpointClient) =>
-            MainEndpoint.Create(readerConfiguration, endpointClient);
+        public static MainEndpoint Create(ReaderDatabase readerDatabase, IEndpointClient endpointClient) => MainEndpoint.Create(readerDatabase, endpointClient);
 
         #endregion
     }

@@ -1,29 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Tags;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Kernel.Contracts;
 
-namespace Play.Emv.Reader
+namespace Play.Emv.Reader.Configuration
 {
-    public class KernelConfigurations
+    public class ReaderPersistentConfiguration
     {
         #region Instance Values
 
-        private readonly Dictionary<KernelId, PrimitiveValue[]> _Configurations;
+        private readonly Dictionary<Tag, PrimitiveValue> _Configurations;
 
         #endregion
 
         #region Constructor
 
-        public KernelConfigurations(IResolveKnownObjectsAtRuntime runtimeCodec, KernelPersistentConfiguration[] values)
+        public ReaderPersistentConfiguration(IResolveKnownObjectsAtRuntime runtimeCodec, TagLengthValue[] values)
         {
-            _Configurations = new Dictionary<KernelId, PrimitiveValue[]>();
+            _Configurations = new Dictionary<Tag, PrimitiveValue>();
 
-            foreach (var value in values)
-                _Configurations.Add(value.GetKernelId(), DecodeTagLengthValues(runtimeCodec, value.GetPersistentValues()));
+            foreach (var value in DecodeTagLengthValues(runtimeCodec, values))
+                _Configurations.Add(value.GetTag(), value);
         }
 
         #endregion
@@ -45,13 +49,7 @@ namespace Play.Emv.Reader
             return result.ToArray();
         }
 
-        public PrimitiveValue[] Get(KernelId kernelId)
-        {
-            if (!_Configurations.TryGetValue(kernelId, out PrimitiveValue[]? primitiveValueResult))
-                return Array.Empty<PrimitiveValue>();
-
-            return primitiveValueResult;
-        }
+        public PrimitiveValue[] GetPersistentConfigurations() => _Configurations.Values.ToArray();
 
         #endregion
     }
