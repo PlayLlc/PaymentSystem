@@ -25,6 +25,7 @@ public record Track2Data : DataElement<Track2>
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F6B;
+    private const byte _MaxByteLength = 19;
 
     #endregion
 
@@ -50,7 +51,12 @@ public record Track2Data : DataElement<Track2>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="OverflowException"></exception>
-    public static Track2Data Decode(ReadOnlySpan<byte> value) => new(new Track2(value.AsNibbleArray()));
+    public static Track2Data Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
+
+        return new(new Track2(value.AsNibbleArray()));
+    }
 
     public override byte[] EncodeValue() => _Value.Encode();
     public override byte[] EncodeValue(int length) => _Value.Encode()[..length];
@@ -205,6 +211,8 @@ public record Track2Data : DataElement<Track2>
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
+
+    public override ushort GetValueByteCount() => (ushort) _Value.GetByteCount();
 
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="BerParsingException"></exception>

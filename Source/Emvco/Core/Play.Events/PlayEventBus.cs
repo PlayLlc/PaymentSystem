@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Play.Core;
+using Play.Messaging.Threads;
 
 namespace Play.Events;
 
-public class PlayEventBus : CommandProcessingQueue, IPlayEventBus
+public class PlayEventBus : CommandProcessingQueue<EventBase>, IPlayEventBus
 {
     #region Instance Values
 
@@ -26,12 +26,12 @@ public class PlayEventBus : CommandProcessingQueue, IPlayEventBus
 
     #region Instance Members
 
-    protected override async Task Handle(dynamic @event)
+    protected override void Handle(EventBase @event)
     {
         if (!_HandlerMap.TryGetValue(@event.GetEventTypeId(), out Dictionary<EventHandlerId, Action<EventBase>> handlers))
             return;
 
-        await Task.Run(() =>
+        Task.Run(() =>
         {
             foreach (Action<EventBase> handler in handlers.Values!)
                 handler.Invoke(@event);
@@ -40,7 +40,7 @@ public class PlayEventBus : CommandProcessingQueue, IPlayEventBus
 
     public void Publish<T>(T @event) where T : EventBase
     {
-        Enqueue(@event);
+        base.Enqueue(@event);
     }
 
     public void Subscribe<T>(EventHandlerBase<T> eventHandlerBase) where T : EventBase

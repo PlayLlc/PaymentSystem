@@ -4,13 +4,14 @@ using System.Net.NetworkInformation;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Play.Core;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Display.Configuration;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Reader.Configuration;
 using Play.Globalization.Language;
 using Play.Globalization.Time;
+using Play.Messaging;
+using Play.Messaging.Threads;
 
 namespace Play.Emv.Display.Services;
 
@@ -22,7 +23,7 @@ namespace Play.Emv.Display.Services;
 ///     • a number of message strings in the default language and potentially other languages
 ///     • a number of status identifiers(and the corresponding audio and LED Signals)
 /// </summary>
-public class DisplayProcess : CommandProcessingQueue
+public class DisplayProcess : CommandProcessingQueue<Message>
 {
     #region Instance Values
 
@@ -50,9 +51,21 @@ public class DisplayProcess : CommandProcessingQueue
 
     #region Instance Members
 
-    public void Enqueue(DisplayMessageRequest request) => Enqueue((dynamic) request);
-    public void Enqueue(StopDisplayRequest request) => Enqueue((dynamic) request);
-    protected override async Task Handle(dynamic command) => await Handle(command).ConfigureAwait(false);
+    protected override void Handle(Message command)
+    {
+        if (command is DisplayMessageRequest displayMessageRequestCommand)
+        {
+            Handle(displayMessageRequestCommand).ConfigureAwait(false);
+            return;
+        }
+
+        if (command is StopDisplayRequest stopDisplayRequestCommand)
+        {
+            Handle(stopDisplayRequestCommand).ConfigureAwait(false);
+            return;
+        }
+            
+    }
 
     /// <summary>
     ///     Handle
@@ -60,7 +73,7 @@ public class DisplayProcess : CommandProcessingQueue
     /// <param name="request"></param>
     /// <returns></returns>
     /// <exception cref="NetworkInformationException"></exception>
-    public async Task Handle(DisplayMessageRequest request)
+    private async Task Handle(DisplayMessageRequest request)
     {
         await _LedDisplayService.Display(request.GetStatus()).ConfigureAwait(false);
         await _MessageDisplayService.Display(_DisplayMessageFormatter.Display(request.GetUserInterfaceRequestData())).ConfigureAwait(false);

@@ -8,7 +8,7 @@ public readonly record struct TrackDiscretionaryData
 {
     #region Static Metadata
 
-    private const byte _MaxNibbleLength = 11;
+    private const byte _MaxNibbleLength = 22;
 
     #endregion
 

@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-using Play.Core;
 using Play.Emv.Configuration;
 using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;
@@ -9,10 +8,12 @@ using Play.Emv.Reader.Contracts.SignalOut;
 using Play.Emv.Terminal.Contracts.SignalIn;
 using Play.Emv.Terminal.Session;
 using Play.Emv.Terminal.StateMachine;
+using Play.Messaging;
+using Play.Messaging.Threads;
 
 namespace Play.Emv.Terminal.Services;
 
-internal class TerminalProcess : CommandProcessingQueue
+internal class TerminalProcess : CommandProcessingQueue<Message>
 {
     #region Instance Values
 
@@ -33,36 +34,11 @@ internal class TerminalProcess : CommandProcessingQueue
 
     #region Instance Members
 
-    internal void Enqueue(ActivateTerminalRequest request)
-    {
-        Enqueue((dynamic) request);
-    }
-
-    internal void Enqueue(InitiateSettlementRequest request)
-    {
-        Enqueue((dynamic) request);
-    }
-
-    internal void Enqueue(QueryTerminalRequest request)
-    {
-        Enqueue((dynamic) request);
-    }
-
-    internal void Enqueue(OutReaderResponse request)
-    {
-        Enqueue((dynamic) request);
-    }
-
-    internal void Enqueue(QueryKernelResponse request)
-    {
-        Enqueue((dynamic) request);
-    }
-
-    internal void Enqueue(StopReaderAcknowledgedResponse request)
-    {
-        Enqueue((dynamic) request);
-    }
-
+    /// <summary>
+    ///     Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     private async Task Handle(ActivateTerminalRequest request)
     {
@@ -98,7 +74,44 @@ internal class TerminalProcess : CommandProcessingQueue
         await Task.Run(() => { _TerminalStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
     }
 
-    protected override Task Handle(dynamic command) => Handle(command);
+    protected override void Handle(Message command)
+    {
+        if (command is StopReaderAcknowledgedResponse stopReaderAcknowledgedResponse)
+        {
+            Handle(stopReaderAcknowledgedResponse).ConfigureAwait(false);
+            return;
+        }
+
+        if (command is QueryKernelResponse queryKernelResponse)
+        {
+            Handle(queryKernelResponse).ConfigureAwait(false);
+            return;
+        }
+
+        if (command is OutReaderResponse outReaderResponse)
+        {
+            Handle(outReaderResponse).ConfigureAwait(false);
+            return;
+        }
+
+        if (command is QueryTerminalRequest queryTerminalRequest)
+        {
+            Handle(queryTerminalRequest).ConfigureAwait(false);
+            return;
+        }
+
+        if (command is ActivateTerminalRequest activateTerminalRequest)
+        {
+            Handle(activateTerminalRequest).ConfigureAwait(false);
+            return;
+        }
+
+        if (command is InitiateSettlementRequest initiateSettlementRequest)
+        {
+            Handle(initiateSettlementRequest).ConfigureAwait(false);
+            return;
+        }
+    }
 
     #endregion
 }

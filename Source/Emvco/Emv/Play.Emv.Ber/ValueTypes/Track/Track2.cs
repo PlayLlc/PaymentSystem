@@ -50,6 +50,8 @@ public readonly struct Track2
 
     public byte[] Encode() => _Value.AsByteArray();
 
+    public int GetByteCount() => _Value.AsByteArray().Length;
+
     #endregion
 
     #endregion
@@ -62,6 +64,7 @@ public readonly struct Track2
     /// <exception cref="InvalidOperationException"></exception>
     public TrackPrimaryAccountNumber GetPrimaryAccountNumber()
     {
+        //This needs to be checked. Comparing the nibble with a byte creates an implicit cast which for _StartSentinel2 throws an exception.
         if ((_Value[0] == _StartSentinel1) || (_Value[0] == _StartSentinel2))
             return new TrackPrimaryAccountNumber(_Value[1..GetPrimaryAccountNumberNibbleOffset(_Value)]);
 
