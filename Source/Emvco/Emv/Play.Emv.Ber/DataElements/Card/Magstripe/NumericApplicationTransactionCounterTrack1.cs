@@ -54,7 +54,7 @@ public record NumericApplicationTransactionCounterTrack1 : DataElement<byte>
 
     #region Operator Overrides
 
-    public static implicit operator short(NumericApplicationTransactionCounterTrack1 value) => value._Value;
+    public static implicit operator byte(NumericApplicationTransactionCounterTrack1 value) => value._Value;
 
     #endregion
 
