@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Emv.Ber.DataElements;
+﻿using Play.Emv.Ber.DataElements;
+using Play.Emv.Reader.Configuration;
 using Play.Emv.Selection.Contracts;
 
 namespace Play.Emv.Selection.Configuration
@@ -13,14 +8,14 @@ namespace Play.Emv.Selection.Configuration
     {
         #region Instance Values
 
-        public readonly TransactionProfile[] TransactionProfiles;
+        public readonly TransactionProfiles TransactionProfiles;
         public readonly PoiInformation PoiInformation;
 
         #endregion
 
         #region Constructor
 
-        public SelectionConfiguration(TransactionProfile[] transactionProfiles, PoiInformation poiInformation)
+        public SelectionConfiguration(TransactionProfiles transactionProfiles, PoiInformation poiInformation)
         {
             TransactionProfiles = transactionProfiles;
             PoiInformation = poiInformation;

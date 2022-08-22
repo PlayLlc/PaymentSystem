@@ -23,8 +23,6 @@ using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Icc.Messaging.Apdu;
 using Play.Messaging;
 
-using IHandleKernelStopRequests = Play.Emv.Kernel.IHandleKernelStopRequests;
-
 namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForEmvReadRecordResponse : KernelState
@@ -85,14 +83,14 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         if (!signal.IsLevel1ErrorPresent())
             return false;
 
-        _Database.Update(MessageIdentifiers.TryAgain);
-        _Database.Update(Statuses.ReadyToRead);
+        _Database.Update(DisplayMessageIdentifiers.TryAgain);
+        _Database.Update(DisplayStatuses.ReadyToRead);
         _Database.Update(new MessageHoldTime(0));
         _Database.Update(StatusOutcomes.EndApplication);
         _Database.Update(StartOutcomes.B);
         _Database.SetUiRequestOnRestartPresent(true);
         _Database.Update(signal.GetLevel1Error());
-        _Database.Update(MessageOnErrorIdentifiers.TryAgain);
+        _Database.Update(DisplayMessageOnErrorIdentifiers.TryAgain);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
         _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
@@ -112,10 +110,10 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         if (signal.GetStatusWords() == StatusWords._9000)
             return false;
 
-        _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-        _Database.Update(Statuses.NotReady);
+        _Database.Update(DisplayMessageIdentifiers.ErrorUseAnotherCard);
+        _Database.Update(DisplayStatuses.NotReady);
         _Database.Update(StatusOutcomes.EndApplication);
-        _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
+        _Database.Update(DisplayMessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.StatusBytes);
         _Database.Update(signal.GetStatusWords());
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
@@ -203,7 +201,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         KernelSession session, DataExchangeKernelService dataExchanger, KernelDatabase database, IEndpointClient endpointClient)
     {
         database.Update(StatusOutcomes.EndApplication);
-        database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
+        database.Update(DisplayMessageOnErrorIdentifiers.ErrorUseAnotherCard);
         database.Update(Level2Error.ParsingError);
         database.CreateEmvDiscretionaryData(dataExchanger);
         database.SetUiRequestOnOutcomePresent(true);

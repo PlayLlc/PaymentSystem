@@ -1,7 +1,5 @@
-﻿using Play.Emv.Display.Contracts;
-using Play.Emv.Exceptions;
+﻿using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
-using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;

@@ -30,6 +30,15 @@ public record KernelId : DataElement<byte>, IEqualityComparer<KernelId>
 
     #endregion
 
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public ShortKernelIdTypes GetShortKernelId() => ShortKernelIdTypes.Get(_Value);
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+
+    #endregion
+
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -73,20 +82,12 @@ public record KernelId : DataElement<byte>, IEqualityComparer<KernelId>
 
     #region Operator Overrides
 
+    public static implicit operator ShortKernelIdTypes(KernelId value) => ShortKernelIdTypes.Get(value._Value);
     public static bool operator ==(ShortKernelIdTypes left, KernelId right) => left.Equals(right);
     public static bool operator ==(KernelId left, ShortKernelIdTypes right) => right.Equals(left);
     public static explicit operator byte(KernelId value) => value._Value;
     public static bool operator !=(ShortKernelIdTypes left, KernelId right) => !left.Equals(right);
     public static bool operator !=(KernelId left, ShortKernelIdTypes right) => !right.Equals(left);
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public ShortKernelIdTypes GetShortKernelId() => ShortKernelIdTypes.Get(_Value);
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

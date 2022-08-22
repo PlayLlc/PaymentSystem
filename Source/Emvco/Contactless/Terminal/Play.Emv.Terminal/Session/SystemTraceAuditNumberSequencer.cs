@@ -4,7 +4,6 @@ using Play.Emv.Acquirer.Contracts;
 using Play.Emv.Acquirer.Contracts.SignalOut;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.ValueTypes;
-using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalIn;
 using Play.Globalization.Time;
 using Play.Messaging;
@@ -29,10 +28,10 @@ public class SystemTraceAuditNumberSequencer : IGenerateSequenceTraceAuditNumber
 
     #region Constructor
 
-    public SystemTraceAuditNumberSequencer(SystemTraceAuditNumberConfiguration configuration, IEndpointClient endpointClient)
+    public SystemTraceAuditNumberSequencer(SequenceConfiguration configuration, IEndpointClient endpointClient)
     {
         _Threshold = configuration.Threshold;
-        _Stan = configuration.SystemTraceAuditNumberInitializationValue;
+        _Stan = configuration.InitializationValue;
         _EndpointClient = endpointClient;
     }
 

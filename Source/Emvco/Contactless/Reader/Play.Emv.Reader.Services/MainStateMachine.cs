@@ -5,7 +5,6 @@ using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
-using Play.Emv.Kernel.Services;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Reader.Contracts.SignalIn;
@@ -27,11 +26,11 @@ internal class MainStateMachine
 
     #region Constructor
 
-    public MainStateMachine(ReaderConfiguration readerConfiguration, IEndpointClient endpointClient)
+    public MainStateMachine(ReaderDatabase readerDatabase, IEndpointClient endpointClient)
     {
         _EndpointClient = endpointClient;
         _OutcomeProcessor = new OutcomeProcessor(endpointClient);
-        _Lock = new MainSessionLock(readerConfiguration);
+        _Lock = new MainSessionLock(readerDatabase);
     }
 
     #endregion
@@ -56,9 +55,9 @@ internal class MainStateMachine
                     $"The {nameof(ActivateReaderRequest)} can't be processed because the state of the {nameof(MainStateMachine)} is not in the {nameof(AwaitingTransaction)} state");
             }
 
-            _Lock.State = new AwaitingSelection(request.Transaction.GetTransactionSessionId(), request.GetCorrelationId(), _Lock.State.ReaderConfiguration);
-            _Lock.State.ReaderConfiguration.Activate(request.Transaction.GetTransactionSessionId());
-            _Lock.State.ReaderConfiguration.Update(request.Transaction.AsPrimitiveValues());
+            _Lock.State = new AwaitingSelection(request.Transaction.GetTransactionSessionId(), request.GetCorrelationId(), _Lock.State.ReaderDatabase);
+            _Lock.State.ReaderDatabase.Activate(request.Transaction.GetTransactionSessionId());
+            _Lock.State.ReaderDatabase.Update(request.Transaction.AsPrimitiveValues());
             _EndpointClient.Send(new ActivateSelectionRequest(request.Transaction));
         }
     }
@@ -90,7 +89,7 @@ internal class MainStateMachine
 
     private void ProcessOutcome(AwaitingSelection state, Transaction transaction)
     {
-        _OutcomeProcessor.Process(state.CorrelationId!, state.TransactionSessionId, state.ReaderConfiguration.GetTransaction());
+        _OutcomeProcessor.Process(state.CorrelationId!, state.TransactionSessionId, state.ReaderDatabase.GetTransaction());
     }
 
     /// <exception cref="TerminalException"></exception>
@@ -110,12 +109,11 @@ internal class MainStateMachine
 
         KernelSessionId kernelSessionId = new(selectionResponse.GetKernelId()!, state.TransactionSessionId);
         ActivateKernelRequest activateKernelRequest = new(kernelSessionId,
-            state.ReaderConfiguration.GetKernelValues(selectionResponse.GetCombinationCompositeKey()!),
-            selectionResponse.GetApplicationFileInformationResponse()!);
+            state.ReaderDatabase.GetKernelValues(selectionResponse.GetCombinationCompositeKey()!), selectionResponse.GetApplicationFileInformationResponse()!);
 
         _EndpointClient.Send(activateKernelRequest);
 
-        return new AwaitingKernel(kernelSessionId, state.TransactionSessionId, state.CorrelationId, state.ReaderConfiguration);
+        return new AwaitingKernel(kernelSessionId, state.TransactionSessionId, state.CorrelationId, state.ReaderDatabase);
     }
 
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -168,7 +166,7 @@ internal class MainStateMachine
                     $"The {nameof(StopReaderRequest)} can't be processed because the {nameof(MainStateMachine)} is in an unknown state");
             }
 
-            _Lock.State = new AwaitingTransaction(_Lock.State.ReaderConfiguration);
+            _Lock.State = new AwaitingTransaction(_Lock.State.ReaderDatabase);
         }
     }
 
@@ -184,9 +182,9 @@ internal class MainStateMachine
 
         #region Constructor
 
-        public MainSessionLock(ReaderConfiguration configuration)
+        public MainSessionLock(ReaderDatabase database)
         {
-            State = new AwaitingTransaction(configuration);
+            State = new AwaitingTransaction(database);
         }
 
         #endregion

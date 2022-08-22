@@ -33,15 +33,14 @@ public class TerminalEndpoint : IMessageChannel, IDisposable
 
     #region Constructor
 
-    private TerminalEndpoint(
-        TerminalConfiguration terminalConfiguration, SystemTraceAuditNumberConfiguration systemTraceAuditNumberConfiguration, IEndpointClient endpointClient)
+    private TerminalEndpoint(TerminalConfiguration terminalConfiguration, IEndpointClient endpointClient)
     {
         _EndpointClient = endpointClient;
         _EndpointClient.Subscribe(this);
         ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
         _TerminalProcess = new TerminalProcess(terminalConfiguration,
             new TerminalStateResolver(terminalConfiguration, new DataExchangeTerminalService(_EndpointClient), _EndpointClient, new Settler()),
-            new SystemTraceAuditNumberSequencer(systemTraceAuditNumberConfiguration, _EndpointClient));
+            new SystemTraceAuditNumberSequencer(terminalConfiguration.GetSequenceConfiguration(), _EndpointClient));
     }
 
     #endregion
@@ -132,9 +131,8 @@ public class TerminalEndpoint : IMessageChannel, IDisposable
 
     #endregion
 
-    public static TerminalEndpoint Create(
-        TerminalConfiguration terminalConfiguration, SystemTraceAuditNumberConfiguration systemTraceAuditNumberConfiguration, IEndpointClient endpointClient) =>
-        new(terminalConfiguration, systemTraceAuditNumberConfiguration, endpointClient);
+    public static TerminalEndpoint Create(TerminalConfiguration terminalConfiguration, IEndpointClient endpointClient) =>
+        new(terminalConfiguration, endpointClient);
 
     public void Dispose()
     {

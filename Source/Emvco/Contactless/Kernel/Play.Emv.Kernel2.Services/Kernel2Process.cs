@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 
-using Play.Emv.Ber;
+using Play.Ber.DataObjects;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Kernel.Contracts;
@@ -9,7 +9,6 @@ using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.Services.Selection;
 using Play.Emv.Kernel2.Databases;
-using Play.Emv.Kernel2.Services.BalanceReading;
 using Play.Emv.Kernel2.StateMachine;
 using Play.Emv.Security;
 using Play.Messaging;
@@ -25,13 +24,16 @@ public class Kernel2Process : KernelProcess
 
     #endregion
 
+    #region Instance Members
+
     public static Kernel2Process Create(
-        CertificateAuthorityDataset[] certificates, IEndpointClient endpointClient, IManageTornTransactions tornTransactionLog,
-        IGenerateUnpredictableNumber unpredictableNumberGenerator, IValidateCombinationCapability combinationCapabilityValidator,
-        IValidateCombinationCompatibility combinationCompatibilityValidator, ISelectCardholderVerificationMethod cardholderVerificationMethodSelector,
-        IPerformTerminalActionAnalysis terminalActionAnalyzer, IAuthenticateTransactionSession authenticationService, ScratchPad scratchPad)
+        CertificateAuthorityDataset[] certificates, PrimitiveValue[] kernelPersistentConfiguration, IEndpointClient endpointClient,
+        IManageTornTransactions tornTransactionLog, IGenerateUnpredictableNumber unpredictableNumberGenerator,
+        IValidateCombinationCapability combinationCapabilityValidator, IValidateCombinationCompatibility combinationCompatibilityValidator,
+        ISelectCardholderVerificationMethod cardholderVerificationMethodSelector, IPerformTerminalActionAnalysis terminalActionAnalyzer,
+        IAuthenticateTransactionSession authenticationService, ScratchPad scratchPad)
     {
-        KernelDatabase database = new(certificates, new Kernel2PersistentValues(), new Kernel2KnownObjects(), scratchPad);
+        KernelDatabase database = new(certificates, kernelPersistentConfiguration, new Kernel2KnownObjects(), scratchPad);
         DataExchangeKernelService dataExchangeKernelService = new(endpointClient, database);
         Kernel2StateResolver kernel2StateResolver = new(database, dataExchangeKernelService, endpointClient, tornTransactionLog, unpredictableNumberGenerator,
             combinationCapabilityValidator, combinationCompatibilityValidator, cardholderVerificationMethodSelector, terminalActionAnalyzer,
@@ -40,8 +42,6 @@ public class Kernel2Process : KernelProcess
 
         return new Kernel2Process(stateMachine);
     }
-
-    #region Instance Members
 
     public override KernelId GetKernelId() => ShortKernelIdTypes.Kernel2;
 

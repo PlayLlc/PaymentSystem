@@ -24,10 +24,10 @@ public class ProximityCouplingDeviceEndpoint : IMessageChannel, IDisposable
 
     #region Constructor
 
-    private ProximityCouplingDeviceEndpoint(ICreateEndpointClient messageBus, PcdProtocolConfiguration configuration, IProximityCouplingDeviceClient pcdClient)
+    private ProximityCouplingDeviceEndpoint(PcdConfiguration configuration, IProximityCouplingDeviceClient pcdClient, IEndpointClient endpointClient)
     {
         ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
-        _EndpointClient = messageBus.GetEndpointClient();
+        _EndpointClient = endpointClient;
         _EndpointClient.Subscribe(this);
         _ProximityCouplingDeviceProcess = new ProximityCouplingDeviceProcess(new CardClient(pcdClient), configuration, _EndpointClient);
     }
@@ -75,32 +75,13 @@ public class ProximityCouplingDeviceEndpoint : IMessageChannel, IDisposable
 
     #endregion
 
-    #region Responses
-
-    private void Send(ActivatePcdResponse message)
-    {
-        _EndpointClient.Send(message);
-    }
-
-    private void Send(QueryPcdResponse message)
-    {
-        _EndpointClient.Send(message);
-    }
-
-    private void Send(StopPcdAcknowledgedResponse message)
-    {
-        _EndpointClient.Send(message);
-    }
-
-    #endregion
-
     #region Callbacks
 
     /// <summary>
     ///     Handle
     /// </summary>
     /// <param name="message"></param>
-    /// <exception cref="Play.Messaging.Exceptions.InvalidMessageRoutingException"></exception>
+    /// <exception cref="InvalidMessageRoutingException"></exception>
     public void Handle(ResponseMessage message)
     {
         throw new InvalidMessageRoutingException(message, this);
@@ -109,8 +90,8 @@ public class ProximityCouplingDeviceEndpoint : IMessageChannel, IDisposable
     #endregion
 
     public static ProximityCouplingDeviceEndpoint Create(
-        ICreateEndpointClient messageRouter, PcdProtocolConfiguration configuration, IProximityCouplingDeviceClient pcdClient) =>
-        new(messageRouter, configuration, pcdClient);
+        PcdConfiguration configuration, IProximityCouplingDeviceClient pcdClient, IEndpointClient endpointClient) =>
+        new(configuration, pcdClient, endpointClient);
 
     public void Dispose()
     {

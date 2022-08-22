@@ -59,14 +59,14 @@ public partial class WaitingForPreGenAcBalance
     {
         try
         {
-            _Database.Update(MessageIdentifiers.TryAgain);
-            _Database.Update(Statuses.ReadyToRead);
+            _Database.Update(DisplayMessageIdentifiers.TryAgain);
+            _Database.Update(DisplayStatuses.ReadyToRead);
             _Database.Update(MessageHoldTime.MinimumValue);
             _Database.Update(StatusOutcomes.EndApplication);
             _Database.Update(StartOutcomes.B);
             _Database.SetUiRequestOnRestartPresent(true);
             _Database.Update(rapdu.GetLevel1Error());
-            _Database.Update(MessageOnErrorIdentifiers.TryAgain);
+            _Database.Update(DisplayMessageOnErrorIdentifiers.TryAgain);
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         }
         catch (TerminalDataException)

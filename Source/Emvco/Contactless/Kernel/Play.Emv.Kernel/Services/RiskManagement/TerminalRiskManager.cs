@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 
 using Play.Core;
 using Play.Emv.Ber;

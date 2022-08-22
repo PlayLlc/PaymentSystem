@@ -22,12 +22,12 @@ public class Kernel2DefaultValues : DefaultValues
     /// <summary>
     ///     Initializes default values that are specified in EMVco Book 3
     /// </summary>
-    public override void AddDefaults(KnownObjects knownObjects, Dictionary<Tag, PrimitiveValue> defaultValueMap)
+    public override IEnumerable<PrimitiveValue> GetDefaults(KnownObjects knownObjects)
     {
         foreach (PrimitiveValue? prim in GetKernel2Defaults())
         {
             if (knownObjects.Exists(prim.GetTag()))
-                defaultValueMap.TryAdd(prim.GetTag(), prim);
+                yield return prim;
         }
     }
 

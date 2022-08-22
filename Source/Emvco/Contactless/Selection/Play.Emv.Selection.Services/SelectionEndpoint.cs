@@ -1,5 +1,4 @@
-﻿using Play.Emv.Ber.DataElements;
-using Play.Emv.Pcd.Contracts;
+﻿using Play.Emv.Pcd.Contracts;
 using Play.Emv.Selection.Configuration;
 using Play.Emv.Selection.Contracts;
 using Play.Messaging;

@@ -16,12 +16,12 @@ public class PublicKeyCertificate
     /// <summary>
     ///     The symmetric algorithm used to create the hash in the signature
     /// </summary>
-    protected readonly HashAlgorithmIndicator _HashAlgorithmIndicator;
+    protected readonly HashAlgorithmIndicators _HashAlgorithmIndicators;
 
     /// <summary>
     ///     The Algorithm used to create the signature for this certificate
     /// </summary>
-    protected readonly PublicKeyAlgorithmIndicator _PublicKeyAlgorithmIndicator;
+    protected readonly PublicKeyAlgorithmIndicators _PublicKeyAlgorithmIndicators;
 
     /// <summary>
     ///     Information about the Public Key this certificate is for
@@ -38,12 +38,12 @@ public class PublicKeyCertificate
     #region Constructor
 
     public PublicKeyCertificate(
-        CertificateSerialNumber certificateSerialNumber, HashAlgorithmIndicator hashAlgorithmIndicator, PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator,
-        DateRange validityPeriod, PublicKeyInfo publicKeyInfo)
+        CertificateSerialNumber certificateSerialNumber, HashAlgorithmIndicators hashAlgorithmIndicators,
+        PublicKeyAlgorithmIndicators publicKeyAlgorithmIndicators, DateRange validityPeriod, PublicKeyInfo publicKeyInfo)
     {
         _CertificateSerialNumber = certificateSerialNumber;
-        _HashAlgorithmIndicator = hashAlgorithmIndicator;
-        _PublicKeyAlgorithmIndicator = publicKeyAlgorithmIndicator;
+        _HashAlgorithmIndicators = hashAlgorithmIndicators;
+        _PublicKeyAlgorithmIndicators = publicKeyAlgorithmIndicators;
         _ValidityPeriod = validityPeriod;
         _PublicKeyInfo = publicKeyInfo;
     }
@@ -53,9 +53,9 @@ public class PublicKeyCertificate
     #region Instance Members
 
     public bool IsPublicKeySplit() => _PublicKeyInfo.IsPublicKeySplit();
-    public HashAlgorithmIndicator GetHashAlgorithmIndicator() => _HashAlgorithmIndicator;
-    public PublicKeyAlgorithmIndicator GetPublicKeyAlgorithmIndicator() => _PublicKeyAlgorithmIndicator;
-    public PublicKeyExponent GetPublicKeyExponent() => _PublicKeyInfo.GetPublicKeyExponent();
+    public HashAlgorithmIndicators GetHashAlgorithmIndicator() => _HashAlgorithmIndicators;
+    public PublicKeyAlgorithmIndicators GetPublicKeyAlgorithmIndicator() => _PublicKeyAlgorithmIndicators;
+    public PublicKeyExponents GetPublicKeyExponent() => _PublicKeyInfo.GetPublicKeyExponent();
     public PublicKeyInfo GetPublicKeyInfo() => _PublicKeyInfo;
     public PublicKeyModulus GetPublicKeyModulus() => _PublicKeyInfo.GetPublicKeyModulus();
     public CertificateSerialNumber GetPublicKeySerialNumber() => _CertificateSerialNumber;

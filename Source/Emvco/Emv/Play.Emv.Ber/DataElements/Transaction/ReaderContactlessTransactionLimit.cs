@@ -26,6 +26,15 @@ public abstract record ReaderContactlessTransactionLimit : DataElement<ulong>
 
     #endregion
 
+    #region Instance Members
+
+    public Money AsMoney(NumericCurrencyCode numericCurrencyCode) => new(_Value, numericCurrencyCode);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public abstract override Tag GetTag();
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+
+    #endregion
+
     #region Serialization
 
     public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value, _ByteLength);
@@ -47,15 +56,6 @@ public abstract record ReaderContactlessTransactionLimit : DataElement<ulong>
     }
 
     public int GetHashCode(ReaderContactlessTransactionLimit obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public Money AsMoney(NumericCurrencyCode numericCurrencyCode) => new(_Value, numericCurrencyCode);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public abstract override Tag GetTag();
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

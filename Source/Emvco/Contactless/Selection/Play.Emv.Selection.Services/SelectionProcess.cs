@@ -2,6 +2,7 @@
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Pcd.Contracts;
+using Play.Emv.Reader.Configuration;
 using Play.Emv.Selection.Configuration;
 using Play.Emv.Selection.Contracts;
 using Play.Messaging;
@@ -19,7 +20,7 @@ internal class SelectionProcess : CommandProcessingQueue<Message>
 
     #region Constructor
 
-    public SelectionProcess(IEndpointClient endpointClient, TransactionProfile[] transactionProfiles, PoiInformation poiInformation) : base(
+    public SelectionProcess(IEndpointClient endpointClient, TransactionProfiles transactionProfiles, PoiInformation poiInformation) : base(
         new CancellationTokenSource())
     {
         _SelectionStateMachine = new SelectionStateMachine(endpointClient, transactionProfiles, poiInformation);

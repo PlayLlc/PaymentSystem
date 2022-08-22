@@ -7,6 +7,7 @@ using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;
+using Play.Emv.Reader.Configuration;
 using Play.Emv.Selection.Configuration;
 using Play.Emv.Selection.Contracts;
 using Play.Emv.Selection.Start;
@@ -32,11 +33,11 @@ internal class SelectionStateMachine
 
     #region Constructor
 
-    public SelectionStateMachine(IEndpointClient endpointClient, TransactionProfile[] transactionProfiles, PoiInformation poiInformation)
+    public SelectionStateMachine(IEndpointClient endpointClient, TransactionProfiles transactionProfiles, PoiInformation poiInformation)
     {
         _EndpointClient = endpointClient;
 
-        _PreProcessingIndicators = new PreProcessingIndicators(transactionProfiles);
+        _PreProcessingIndicators = new PreProcessingIndicators(transactionProfiles.GetTransactionProfiles());
         _CandidateList = new CandidateList();
         _Preprocessor = new Preprocessor();
         _ProtocolActivator = new ProtocolActivator(endpointClient);
@@ -309,8 +310,8 @@ internal class SelectionStateMachine
     private void ProcessEmptyCandidateList(CorrelationId correlationId, Transaction transaction)
     {
         UserInterfaceRequestData.Builder? userInterfaceRequestDataBuilder = UserInterfaceRequestData.GetBuilder();
-        userInterfaceRequestDataBuilder.Set(MessageIdentifiers.ErrorUseAnotherCard);
-        userInterfaceRequestDataBuilder.Set(Statuses.ReadyToRead);
+        userInterfaceRequestDataBuilder.Set(DisplayMessageIdentifiers.ErrorUseAnotherCard);
+        userInterfaceRequestDataBuilder.Set(DisplayStatuses.ReadyToRead);
 
         OutcomeParameterSet.Builder? outcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
         outcomeParameterSetBuilder.SetIsUiRequestOnOutcomePresent(true);

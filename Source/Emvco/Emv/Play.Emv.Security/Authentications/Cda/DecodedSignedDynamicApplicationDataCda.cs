@@ -1,4 +1,5 @@
-﻿using Play.Emv.Ber.DataElements;
+﻿using Play.Core;
+using Play.Emv.Ber.DataElements;
 using Play.Encryption.Ciphers.Hashing;
 using Play.Encryption.Signing;
 
@@ -16,12 +17,12 @@ internal class DecodedSignedDynamicApplicationDataCda : DecodedSignature
 
     #region Instance Members
 
-    public HashAlgorithmIndicator GetHashAlgorithmIndicator()
+    public HashAlgorithmIndicators GetHashAlgorithmIndicator()
     {
-        if (!HashAlgorithmIndicator.TryGet(_Message1[1], out HashAlgorithmIndicator? result))
-            return HashAlgorithmIndicator.NotAvailable;
+        if (!HashAlgorithmIndicators.Empty.TryGet(_Message1[1], out EnumObject<byte>? result))
+            return HashAlgorithmIndicators.NotAvailable;
 
-        return result;
+        return (HashAlgorithmIndicators) result!;
     }
 
     public IccDynamicData GetIccDynamicData() => new(_Message1[2..GetIccDynamicDataLength()].ToArray());

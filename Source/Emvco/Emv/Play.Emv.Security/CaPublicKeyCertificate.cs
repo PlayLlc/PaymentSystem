@@ -23,9 +23,9 @@ public class CaPublicKeyCertificate : PublicKeyCertificate
     #region Constructor
 
     public CaPublicKeyCertificate(
-        CaPublicKeyCertificateIdentifier id, bool isRevoked, CertificateSerialNumber certificateSerialNumber, HashAlgorithmIndicator hashAlgorithmIndicator,
-        PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator, DateRange validityPeriod, PublicKeyInfo publicKeyInfo) : base(certificateSerialNumber,
-        hashAlgorithmIndicator, publicKeyAlgorithmIndicator, validityPeriod, publicKeyInfo)
+        CaPublicKeyCertificateIdentifier id, bool isRevoked, CertificateSerialNumber certificateSerialNumber, HashAlgorithmIndicators hashAlgorithmIndicators,
+        PublicKeyAlgorithmIndicators publicKeyAlgorithmIndicators, DateRange validityPeriod, PublicKeyInfo publicKeyInfo) : base(certificateSerialNumber,
+        hashAlgorithmIndicators, publicKeyAlgorithmIndicators, validityPeriod, publicKeyInfo)
     {
         _Id = id;
         _IsRevoked = isRevoked;
@@ -41,15 +41,15 @@ public class CaPublicKeyCertificate : PublicKeyCertificate
     /// </summary>
     /// <param name="key"></param>
     /// <param name="modulus"></param>
-    /// <param name="exponent"></param>
-    private static BigInteger CalculateChecksum(CaPublicKeyCertificateIdentifier key, PublicKeyModulus modulus, PublicKeyExponent exponent)
+    /// <param name="exponents"></param>
+    private static BigInteger CalculateChecksum(CaPublicKeyCertificateIdentifier key, PublicKeyModulus modulus, PublicKeyExponents exponents)
     {
         using SpanOwner<byte> owner = SpanOwner<byte>.Allocate(20);
         Span<byte> buffer = owner.Span;
         key.GetRegisteredApplicationProviderIndicator().AsByteArray().AsSpan().CopyTo(buffer[..5]);
         buffer[5] = (byte) key.GetCaPublicKeyIndex();
         modulus.AsByteArray().AsSpan().CopyTo(buffer[6..(modulus.GetByteCount() + 6)]);
-        exponent.Encode().AsSpan().CopyTo(buffer[(modulus.GetByteCount() + 6)..]);
+        exponents.Encode().AsSpan().CopyTo(buffer[(modulus.GetByteCount() + 6)..]);
 
         return new BigInteger(SHA1.HashData(buffer));
     }

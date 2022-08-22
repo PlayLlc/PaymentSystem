@@ -10,4 +10,8 @@
     <ProjectReference Include="..\Play.Emv.Display.Contracts\Play.Emv.Display.Contracts.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Configuration\" />
+  </ItemGroup>
+
 </Project>

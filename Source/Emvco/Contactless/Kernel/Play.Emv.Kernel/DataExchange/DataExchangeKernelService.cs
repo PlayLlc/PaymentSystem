@@ -1,6 +1,5 @@
 ﻿using Play.Emv.Ber;
 using Play.Emv.Kernel.Databases;
-using Play.Emv.Terminal.Contracts;
 using Play.Messaging;
 
 namespace Play.Emv.Kernel.DataExchange;
@@ -25,6 +24,8 @@ public partial class DataExchangeKernelService : IQueryDek, IWriteToDek, IDekEnd
 
     #endregion
 
+    #region Instance Members
+
     #region Instnace Members
 
     public void Clear()
@@ -35,6 +36,8 @@ public partial class DataExchangeKernelService : IQueryDek, IWriteToDek, IDekEnd
             _Lock.Requests.Clear();
         }
     }
+
+    #endregion
 
     #endregion
 }

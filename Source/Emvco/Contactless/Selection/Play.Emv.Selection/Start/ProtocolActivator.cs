@@ -31,6 +31,8 @@ public class ProtocolActivator
 
     #endregion
 
+    #region Instance Members
+
     #region 3.2.1
 
     /// <summary>
@@ -42,9 +44,23 @@ public class ProtocolActivator
         TransactionSessionId transactionSessionId, Outcome outcome, PreProcessingIndicators preProcessingIndicators, CandidateList candidateList)
     {
         ProcessIfActivationIsNotARestart(outcome, preProcessingIndicators, candidateList);
+
         ProcessIfActivationIsARestart(outcome);
+
         ActivateProximityCouplingDevice(transactionSessionId);
     }
+
+    #endregion
+
+    #region 3.2.1.3
+
+    /// <remarks>EMVco Book B Section 3.2.1.3</remarks>
+    private void ActivateProximityCouplingDevice(TransactionSessionId transactionSessionId)
+    {
+        _EndpointClient.Send(new ActivatePcdRequest(transactionSessionId));
+    }
+
+    #endregion
 
     #endregion
 
@@ -73,8 +89,8 @@ public class ProtocolActivator
     private static DisplayMessageRequest GetReadyToReadDisplayMessage()
     {
         UserInterfaceRequestData.Builder? builder = UserInterfaceRequestData.GetBuilder();
-        builder.Set(MessageIdentifiers.PresentCard);
-        builder.Set(Statuses.ReadyToRead);
+        builder.Set(DisplayMessageIdentifiers.PresentCard);
+        builder.Set(DisplayStatuses.ReadyToRead);
 
         return new DisplayMessageRequest(builder.Complete());
     }
@@ -107,23 +123,13 @@ public class ProtocolActivator
     private static DisplayMessageRequest GetReadyToReadDisplayMessage(Outcome outcome)
     {
         UserInterfaceRequestData.Builder? builder = UserInterfaceRequestData.GetBuilder();
-        builder.Set(MessageIdentifiers.PresentCard);
-        builder.Set(Statuses.ReadyToRead);
+        builder.Set(DisplayMessageIdentifiers.PresentCard);
+        builder.Set(DisplayStatuses.ReadyToRead);
         outcome.Update(builder);
 
         _ = outcome.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData);
 
         return new DisplayMessageRequest(userInterfaceRequestData!);
-    }
-
-    #endregion
-
-    #region 3.2.1.3
-
-    /// <remarks>EMVco Book B Section 3.2.1.3</remarks>
-    private void ActivateProximityCouplingDevice(TransactionSessionId transactionSessionId)
-    {
-        _EndpointClient.Send(new ActivatePcdRequest(transactionSessionId));
     }
 
     #endregion

@@ -23,10 +23,10 @@ internal class RsaCodec : IAsymmetricCodec
     }
 
     /// <exception cref="CryptographicException"></exception>
-    private static RSACryptoServiceProvider GetRsaProvider(PublicKeyExponent exponent, PublicKeyModulus modulus)
+    private static RSACryptoServiceProvider GetRsaProvider(PublicKeyExponents exponents, PublicKeyModulus modulus)
     {
         RSACryptoServiceProvider? rsaProvider = new();
-        RSAParameters rsaConfig = new() {Exponent = exponent.Encode(), Modulus = modulus.AsByteArray()};
+        RSAParameters rsaConfig = new() {Exponent = exponents.Encode(), Modulus = modulus.AsByteArray()};
 
         rsaProvider.ImportParameters(rsaConfig);
 

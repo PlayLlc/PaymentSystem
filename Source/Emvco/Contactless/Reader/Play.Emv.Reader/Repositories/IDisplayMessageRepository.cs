@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Display.Contracts;
+using Play.Emv.Display.Configuration;
 
 namespace Play.Emv.Reader;
 

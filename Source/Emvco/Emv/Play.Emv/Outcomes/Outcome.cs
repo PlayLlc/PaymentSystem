@@ -21,7 +21,7 @@ public class Outcome
     private readonly DataRecord? _DataRecord;
     private readonly DiscretionaryData? _DiscretionaryData;
     private readonly TerminalVerificationResults _TerminalVerificationResults;
-    private readonly ErrorIndication _ErrorIndication;
+    private ErrorIndication _ErrorIndication;
     private OutcomeParameterSet _OutcomeParameterSet;
     private UserInterfaceRequestData? _UserInterfaceRequestData;
 
@@ -161,6 +161,16 @@ public class Outcome
     public bool IsTryAgain() => GetStatusOutcome() == StatusOutcomes.TryAgain;
     public bool IsUiRequestOnOutcomePresent() => _OutcomeParameterSet.IsUiRequestOnOutcomePresent();
     public bool IsUiRequestOnRestartPresent() => _OutcomeParameterSet.IsUiRequestOnRestartPresent();
+
+    public void Reset(ErrorIndication errorIndication)
+    {
+        _ErrorIndication = errorIndication;
+    }
+
+    public void Reset(OutcomeParameterSet outcomeParameterSet)
+    {
+        _OutcomeParameterSet = outcomeParameterSet;
+    }
 
     public bool TryGetUserInterfaceRequestData(out UserInterfaceRequestData? result)
     {

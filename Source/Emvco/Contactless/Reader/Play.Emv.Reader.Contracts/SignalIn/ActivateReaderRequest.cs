@@ -1,5 +1,4 @@
-﻿using Play.Emv.Ber.DataElements;
-using Play.Emv.Messaging;
+﻿using Play.Emv.Messaging;
 using Play.Messaging;
 
 namespace Play.Emv.Reader.Contracts.SignalIn;

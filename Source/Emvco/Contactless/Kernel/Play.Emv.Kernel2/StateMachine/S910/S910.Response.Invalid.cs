@@ -80,8 +80,8 @@ public partial class S910
         /// <exception cref="TerminalDataException"></exception>
         private void SetDisplayMessage()
         {
-            _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-            _Database.Update(Statuses.NotReady);
+            _Database.Update(DisplayMessageIdentifiers.ErrorUseAnotherCard);
+            _Database.Update(DisplayStatuses.NotReady);
             _Database.Update(_Database.Get<MessageHoldTime>(MessageHoldTime.Tag));
         }
 
@@ -95,7 +95,7 @@ public partial class S910
             try
             {
                 _Database.Update(StatusOutcomes.EndApplication);
-                _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
+                _Database.Update(DisplayMessageOnErrorIdentifiers.ErrorUseAnotherCard);
                 _Database.SetIsDataRecordPresent(true);
                 _Database.CreateEmvDataRecord(_DataExchangeKernelService);
                 _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
@@ -125,7 +125,7 @@ public partial class S910
             try
             {
                 _Database.Update(StatusOutcomes.EndApplication);
-                _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
+                _Database.Update(DisplayMessageOnErrorIdentifiers.ErrorUseAnotherCard);
                 _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
                 _Database.SetUiRequestOnOutcomePresent(true);
             }
