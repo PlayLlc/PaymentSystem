@@ -20,10 +20,9 @@ public class Owhf2Tests
     private readonly IFixture _Fixture;
     private readonly ITlvReaderAndWriter _Database;
 
-    private static readonly byte[] _InitializationVector = { 18, 114, 31, 64, 7, 18, 20, 11 };
+    private readonly TripleDesCodec _DesCodec;
 
-    private static readonly TripleDesCodec _DesCodec = new TripleDesCodec(new BlockCipherConfiguration(BlockCipherMode.Cbc, BlockPaddingMode.None, KeySize._128, BlockSize._8,
-        new Iso7816PlainTextPreprocessor(BlockSize._8)));
+    private readonly Owhf2 _SystemUnderTest;
 
     #endregion
 
@@ -34,9 +33,13 @@ public class Owhf2Tests
         _Fixture = new ContactlessFixture().Create();
         _Database = ContactlessFixture.CreateDefaultDatabase(_Fixture);
 
-        //This is only for testing.
-        Owhf2.UpdateInitializationVector(_InitializationVector);
-        _DesCodec.SetInitializationVector(_InitializationVector);
+        Owhf2TestFixtures.RegisterDefaultBlockCypherConfiguration(_Fixture);
+
+        //Fixture register BlockCypherConfiguration.
+        BlockCipherConfiguration configuration = _Fixture.Create<BlockCipherConfiguration>();
+
+        _DesCodec = new TripleDesCodec(configuration);
+        _SystemUnderTest = new Owhf2(configuration);
     }
 
     #endregion
@@ -52,7 +55,7 @@ public class Owhf2Tests
         Owhf2TestsConfigurationSetup.RegisterDefaultConfiguration(_Database);
 
         //Act
-        byte[] encryptedResult = Owhf2.Hash(_Database, message);
+        byte[] encryptedResult = _SystemUnderTest.Hash(_Database, message);
 
         //Assert
         Assert.NotNull(encryptedResult);
@@ -69,7 +72,7 @@ public class Owhf2Tests
         {
             ReadOnlySpan<byte> message = stackalloc byte[] { 31, 18, 68, 78, 91, 102, 34, 63, 32, 33 };
 
-            byte[] encryptedResult = Owhf2.Hash(_Database, message);
+            byte[] encryptedResult = _SystemUnderTest.Hash(_Database, message);
         });
     }
 
@@ -87,7 +90,7 @@ public class Owhf2Tests
         byte[] expectedOwhf2Encryption = ComputeExpectedEncryptedResult(encryption, message.ToArray());
 
         //Act
-        byte[] encryptedResult = Owhf2.Hash(_Database, message);
+        byte[] encryptedResult = _SystemUnderTest.Hash(_Database, message);
 
         //Assert
         Assert.NotNull(encryptedResult);
@@ -107,7 +110,7 @@ public class Owhf2Tests
         byte[] expectedOwhf2Encryption = ComputeExpectedEncryptedResult(encryption, inputPD);
 
         //Act
-        byte[] encryptedResult = Owhf2.Hash(_Database, inputPD);
+        byte[] encryptedResult = _SystemUnderTest.Hash(_Database, inputPD);
 
         //Assert
         Assert.NotNull(encryptedResult);

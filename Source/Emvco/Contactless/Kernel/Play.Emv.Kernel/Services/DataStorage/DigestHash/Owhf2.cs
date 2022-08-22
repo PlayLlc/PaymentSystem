@@ -19,16 +19,21 @@ public class Owhf2
 {
     #region Static Metadata
 
-    private static readonly IBlockCipher _Codec;
+    private  readonly IBlockCipher _Codec;
 
     #endregion
 
     #region Constructor
 
-    static Owhf2()
+    public Owhf2()
     {
         _Codec = new TripleDesCodec(new BlockCipherConfiguration(BlockCipherMode.Cbc, BlockPaddingMode.None, KeySize._128, BlockSize._8,
-        new Iso7816PlainTextPreprocessor(BlockSize._8)));
+            new Iso7816PlainTextPreprocessor(BlockSize._8), null));
+    }
+
+    public Owhf2(BlockCipherConfiguration configuration)
+    {
+        _Codec = new TripleDesCodec(configuration);
     }
 
     #endregion
@@ -38,7 +43,7 @@ public class Owhf2
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="OverflowException"></exception>
-    public static byte[] Hash(IReadTlvDatabase database, ReadOnlySpan<byte> message)
+    public byte[] Hash(IReadTlvDatabase database, ReadOnlySpan<byte> message)
     {
         if (message.Length != 8)
             throw new TerminalDataException($"The argument {nameof(message)} must be 8 bytes in length");
@@ -54,16 +59,11 @@ public class Owhf2
         return EncryptTripleDes(message, objectId, key);
     }
 
-    public static void UpdateInitializationVector(byte[] initializationVector)
-    {
-        _Codec.SetInitializationVector(initializationVector);
-    }
-
     #endregion
 
     #region TripleDES
 
-    private static byte[] EncryptTripleDes(ReadOnlySpan<byte> message, Span<byte> objectId, Span<byte> key)
+    private byte[] EncryptTripleDes(ReadOnlySpan<byte> message, Span<byte> objectId, Span<byte> key)
     {
         ////OID = OID ⊕ PD
         ResolveMessage(objectId, message);

@@ -11,7 +11,5 @@ public interface IBlockCipher
 
     public byte[] Decrypt(ReadOnlySpan<byte> encipherment, ReadOnlySpan<byte> key);
 
-    public void SetInitializationVector(byte[] initializationVector);
-
     #endregion
 }

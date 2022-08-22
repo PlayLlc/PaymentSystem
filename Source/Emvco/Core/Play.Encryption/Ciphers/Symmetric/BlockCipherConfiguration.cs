@@ -4,6 +4,7 @@ public class BlockCipherConfiguration
 {
     #region Instance Values
 
+    private readonly byte[] _InitializationVector;
     private readonly BlockSize _BlockSize;
     private readonly BlockCipherMode _CipherMode;
     private readonly KeySize _KeySize;
@@ -15,13 +16,14 @@ public class BlockCipherConfiguration
     #region Constructor
 
     public BlockCipherConfiguration(
-        BlockCipherMode cipherMode, BlockPaddingMode paddingMode, KeySize keySize, BlockSize blockSize, IPreprocessPlainText? preprocessor)
+        BlockCipherMode cipherMode, BlockPaddingMode paddingMode, KeySize keySize, BlockSize blockSize, IPreprocessPlainText? preprocessor, byte[] InitializationVector)
     {
         _CipherMode = cipherMode;
         _PaddingMode = paddingMode;
         _KeySize = keySize;
         _BlockSize = blockSize;
         _Preprocessor = preprocessor;
+        _InitializationVector = InitializationVector;
     }
 
     #endregion
@@ -32,6 +34,7 @@ public class BlockCipherConfiguration
     public BlockPaddingMode GetBlockPaddingMode() => _PaddingMode;
     public BlockSize GetBlockSize() => _BlockSize;
     public KeySize GetKeySize() => _KeySize;
+    public byte[] GetInitializationVector() => _InitializationVector;
     public IPreprocessPlainText GetPreprocessor() => _Preprocessor ?? new DefaultPlainTextPreprocessor();
 
     #endregion

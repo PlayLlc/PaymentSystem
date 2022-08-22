@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using AutoFixture;
+
+using Play.Encryption.Ciphers.Symmetric;
+
 namespace Play.Emv.Kernel.Tests.DataStorage.DigestHash;
 
 public static class Owhf2TestFixtures
@@ -10,6 +14,16 @@ public static class Owhf2TestFixtures
     private static readonly Random _Random = new();
 
     #endregion
+
+    public static void RegisterDefaultBlockCypherConfiguration(IFixture fixture)
+    {
+        byte[] initializationVector = GetRandomArray(8);
+
+        BlockCipherConfiguration configuration = new(BlockCipherMode.Cbc, BlockPaddingMode.None, KeySize._128, BlockSize._8,
+            new Iso7816PlainTextPreprocessor(BlockSize._8), initializationVector);
+
+        fixture.Register(() => configuration);
+    }
 
     public static IEnumerable<object[]> GetRandomMessages(int count, int nrOfBlocks, int blockSize)
     {

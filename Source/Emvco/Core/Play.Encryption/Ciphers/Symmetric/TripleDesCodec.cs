@@ -40,16 +40,12 @@ public class TripleDesCodec : IBlockCipher
         _PaddingMode = configuration.GetBlockPaddingMode();
         _KeySize = configuration.GetKeySize();
         _BlockSize = configuration.GetBlockSize();
+        _InitializationVector = configuration.GetInitializationVector();
     }
 
     #endregion
 
     #region Instance Members
-
-    public void SetInitializationVector(byte[] initializationVector)
-    {
-        this._InitializationVector = initializationVector;
-    }
 
     /// <summary>
     ///     Decrypt
@@ -63,15 +59,31 @@ public class TripleDesCodec : IBlockCipher
         if ((encipherment.Length % _BlockSize) != 0)
             throw new InvalidOperationException($"the argument {nameof(encipherment)} was not padded using {_BlockSize} bytes");
 
-        TripleDESCryptoServiceProvider desCryptoServiceProvider = GetDesProvider(key);
+        try
+        {
+            TripleDESCryptoServiceProvider desCryptoServiceProvider = GetDesProvider(key);
 
-        using MemoryStream memoryStream = new(encipherment.ToArray());
-        using CryptoStream cryptoStream = new(memoryStream, desCryptoServiceProvider.CreateDecryptor(), CryptoStreamMode.Read);
+            using MemoryStream memoryStream = new(encipherment.ToArray());
+            using CryptoStream cryptoStream = new(memoryStream, desCryptoServiceProvider.CreateDecryptor(), CryptoStreamMode.Read);
 
-        byte[] buffer = new byte[encipherment.Length];
-        cryptoStream.Read(buffer, 0, encipherment.Length);
+            byte[] buffer = new byte[encipherment.Length];
 
-        return buffer;
+            cryptoStream.Read(buffer, 0, encipherment.Length);
+
+            return buffer;
+        }
+        catch(NotSupportedException e)
+        {
+            throw new InvalidOperationException($"The read from the encrypted stream is not supported, please check the configuration values for the instantiated {nameof(TripleDESCryptoServiceProvider)}");
+        }
+        catch(ArgumentOutOfRangeException e)
+        {
+            throw new InvalidOperationException($"The buffer has an invalid length, smaller then the encrypted stream, please check the message");
+        }
+        catch(ArgumentException e)
+        {
+            throw new InvalidOperationException($"There is an error encrypting the message, please check the configuration values for the instantiated {nameof(TripleDESCryptoServiceProvider)}");
+        }
     }
 
     public BlockCipherAlgorithm GetAlgorithm() => BlockCipherAlgorithm.Aes;
@@ -87,7 +99,6 @@ public class TripleDesCodec : IBlockCipher
             Padding = _PaddingMode.AsPaddingMode(),
         };
 
-        //Only for testing. This will never be set in production since it is a one way hash.
         if (_InitializationVector != null)
             cryptoServiceProvider.IV = _InitializationVector;
 
