@@ -54,7 +54,8 @@ public class CombinationSelector
         {
             if ((issuerAuthenticationData != null) || (issuerScriptTemplate1 != null))
             {
-                // Continue at 3.3.3.3 Final Combination Selection with the combination that was selected during the previous Final Combination Selection
+                ProcessStep3(transaction, candidateList);
+
                 return;
             }
 
@@ -282,6 +283,7 @@ public class CombinationSelector
     /// <summary>
     ///     Extended Selection is encapsulated in the <see cref="Combination" /> factory method
     /// </summary>
+    /// <remarks>Emv Book B Section 3.3.3.3</remarks>
     /// <returns></returns>
     private void ProcessStep3(Transaction transaction, CandidateList candidateList)
     {
@@ -308,7 +310,7 @@ public class CombinationSelector
 
     /// <remarks>
     ///     When the Proximity Coupling Device sends the <see cref="SelectApplicationDefinitionFileInfoResponse" />
-    ///     callback, the processing will continue at <see cref="ProcessValidApplet" />
+    ///     callback
     /// </remarks>
     private void SelectApplicationFileControlInformation(TransactionSessionId transactionSessionId, Combination combination)
     {
