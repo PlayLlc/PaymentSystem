@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Tags;
+using Play.Emv.Ber;
 using Play.Emv.Ber.Exceptions;
 
-namespace Play.Emv.Ber.Database._Temp
+namespace Play.Emv.Database
 {
     public abstract partial class TlvDatabase : ITlvReaderAndWriter
     {

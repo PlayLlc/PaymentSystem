@@ -9,7 +9,7 @@ using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Outcomes;
 using Play.Icc.Messaging.Apdu;
 
-namespace Play.Emv.Ber.Database._Temp;
+namespace Play.Emv.Database;
 
 public abstract partial class TlvDatabase
 {

@@ -6,8 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Configuration\**" />
     <Compile Remove="Services\SequenceNumberManagement\**" />
+    <EmbeddedResource Remove="Configuration\**" />
     <EmbeddedResource Remove="Services\SequenceNumberManagement\**" />
+    <None Remove="Configuration\**" />
     <None Remove="Services\SequenceNumberManagement\**" />
   </ItemGroup>
 
@@ -19,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Configuration\" />
     <Folder Include="Services\PrepareGenAc\" />
   </ItemGroup>
 

@@ -43,10 +43,11 @@ public partial class ContactlessFixture
         fixture.Freeze<KernelDatabase>();
     }
 
+    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     private static KernelDatabase SetupDatabase(IFixture fixture)
     {
         KernelDatabase database = fixture.Create<KernelDatabase>();
-        database.Activate(fixture.Create<KernelSessionId>());
+        database.Activate(fixture.Create<TransactionSessionId>());
         TagsToRead tagsToRead = new();
         TerminalTransactionQualifiers ttq = fixture.Create<TerminalTransactionQualifiers>();
         SelectApplicationDefinitionFileInfoResponse rapdu = CreateSelectApplicationDefinitionFileInfoResponse(fixture);

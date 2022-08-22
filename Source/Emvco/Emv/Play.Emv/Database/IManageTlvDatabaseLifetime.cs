@@ -1,6 +1,6 @@
 ﻿using Play.Emv.Identifiers;
 
-namespace Play.Emv.Kernel.Databases;
+namespace Play.Emv.Database;
 
 public interface IManageTlvDatabaseLifetime
 {

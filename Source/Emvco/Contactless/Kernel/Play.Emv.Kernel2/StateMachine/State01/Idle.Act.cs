@@ -150,7 +150,7 @@ public partial class Idle : KernelState
     {
         try
         {
-            _Database.Activate(kernelSessionId);
+            _Database.Activate(kernelSessionId.GetTransactionSessionId());
 
             OutcomeParameterSet.Builder outcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
             UserInterfaceRequestData.Builder userInterfaceBuilder = UserInterfaceRequestData.GetBuilder();
