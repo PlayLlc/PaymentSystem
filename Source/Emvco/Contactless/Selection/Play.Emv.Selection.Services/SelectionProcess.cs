@@ -1,5 +1,4 @@
-﻿using Play.Core;
-using Play.Emv.Ber.DataElements;
+﻿using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Pcd.Contracts;
@@ -7,10 +6,11 @@ using Play.Emv.Reader.Configuration;
 using Play.Emv.Selection.Configuration;
 using Play.Emv.Selection.Contracts;
 using Play.Messaging;
+using Play.Messaging.Threads;
 
 namespace Play.Emv.Selection.Services;
 
-internal class SelectionProcess : CommandProcessingQueue
+internal class SelectionProcess : CommandProcessingQueue<Message>
 {
     #region Instance Values
 
@@ -30,52 +30,104 @@ internal class SelectionProcess : CommandProcessingQueue
 
     #region Instance Members
 
-    internal void Enqueue(ActivateSelectionRequest request) => Enqueue((dynamic) request);
-    internal void Enqueue(EmptyCombinationSelectionRequest request) => Enqueue((dynamic) request);
-    internal void Enqueue(StopSelectionRequest request) => Enqueue((dynamic) request);
-    internal void Enqueue(SelectApplicationDefinitionFileInfoResponse request) => Enqueue((dynamic) request);
-    internal void Enqueue(SelectProximityPaymentSystemEnvironmentResponse request) => Enqueue((dynamic) request);
-    internal void Enqueue(SendPoiInformationResponse request) => Enqueue((dynamic) request);
-
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    /// <exception cref="InvalidSignalRequest"></exception>
-    public async Task Handle(ActivateSelectionRequest request)
+    /// <summary>
+    ///     Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    /// <exception cref="Emv.Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="Emv.Exceptions.InvalidSignalRequest"></exception>
+    private async Task Handle(ActivateSelectionRequest request)
     {
         await Task.Run(() => { _SelectionStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
     }
 
-    public async Task Handle(EmptyCombinationSelectionRequest request)
+    /// <summary>
+    ///     Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    /// <exception cref="Emv.Exceptions.RequestOutOfSyncException"></exception>
+    private async Task Handle(StopSelectionRequest request)
     {
         await Task.Run(() => { _SelectionStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
     }
 
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    public async Task Handle(StopSelectionRequest request)
+    /// <summary>
+    ///     Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    /// <exception cref="Emv.Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    private async Task Handle(ActivatePcdResponse request)
     {
         await Task.Run(() => { _SelectionStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
     }
 
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    public async Task Handle(SelectApplicationDefinitionFileInfoResponse request)
+    /// <summary>
+    ///     Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    /// <exception cref="Emv.Exceptions.RequestOutOfSyncException"></exception>
+    private async Task Handle(SelectApplicationDefinitionFileInfoResponse request)
     {
         await Task.Run(() => { _SelectionStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
     }
 
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    public async Task Handle(SelectProximityPaymentSystemEnvironmentResponse request)
+    private async Task Handle(SelectProximityPaymentSystemEnvironmentResponse request)
     {
         await Task.Run(() => { _SelectionStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
     }
 
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    public async Task Handle(SendPoiInformationResponse request)
+    private async Task Handle(SendPoiInformationResponse request)
     {
         await Task.Run(() => { _SelectionStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
     }
 
-    protected override async Task Handle(dynamic command) => await Handle(command).ConfigureAwait(false);
+    protected override void Handle(Message command)
+    {
+        if (command is ActivateSelectionRequest activateSelectionRequest)
+        {
+            Handle(activateSelectionRequest).ConfigureAwait(false);
+            return;
+        }
+
+        if (command is StopSelectionRequest stopSelectionRequest)
+        {
+            Handle(stopSelectionRequest).ConfigureAwait(false);
+            return;
+        }
+
+        if (command is ActivatePcdResponse activatePcdResponse)
+        {
+            Handle(activatePcdResponse).ConfigureAwait(false);
+            return;
+        }
+
+        if (command is SelectApplicationDefinitionFileInfoResponse selectApplicationDefinitionFileInfoResponse)
+        {
+            Handle(selectApplicationDefinitionFileInfoResponse).ConfigureAwait(false);
+            return;
+        }
+
+        if (command is SelectProximityPaymentSystemEnvironmentResponse selectProximityPaymentSystemEnvironmentResponse)
+        {
+            Handle(selectProximityPaymentSystemEnvironmentResponse).ConfigureAwait(false);
+            return;
+        }
+
+        if (command is SendPoiInformationResponse sendPoiInformationResponse)
+        {
+            Handle(sendPoiInformationResponse).ConfigureAwait(false);
+            return;
+        }
+    }
 
     #endregion
 }
