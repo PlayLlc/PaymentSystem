@@ -24,6 +24,7 @@ public partial class PrepareGenerateAcService
         private readonly KernelDatabase _Database;
         private readonly IEndpointClient _EndpointClient;
         private readonly Owhf2 _Owhf2;
+        private readonly Owhf2Aes _Owhf2Aes;
 
         #endregion
 
@@ -34,13 +35,15 @@ public partial class PrepareGenerateAcService
             _Database = database;
             _EndpointClient = endpointClient;
             _Owhf2 = new Owhf2(); // TODO: this will be singleton.
+            _Owhf2Aes = new Owhf2Aes();
         }
 
-        public WriteIntegratedDataStorage(KernelDatabase database, IEndpointClient endpointClient, Owhf2 owhf2)
+        public WriteIntegratedDataStorage(KernelDatabase database, IEndpointClient endpointClient, Owhf2 owhf2, Owhf2Aes owhf2Aes)
         {
             _Database = database;
             _EndpointClient = endpointClient;
             _Owhf2 = owhf2; // TODO: this will be singleton.
+            _Owhf2Aes = owhf2Aes;
         }
 
         #endregion
@@ -99,7 +102,7 @@ public partial class PrepareGenerateAcService
             if (applicationCapabilitiesInformation.GetDataStorageVersionNumber() == DataStorageVersionNumbers.Version1)
                 _Owhf2.Hash(_Database, input.EncodeValue());
             else
-                Owhf2Aes.Sign(_Database, input.EncodeValue());
+                _Owhf2Aes.Hash(_Database, input.EncodeValue());
         }
 
         #endregion

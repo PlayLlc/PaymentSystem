@@ -121,6 +121,7 @@ public class TripleDesCodec : IBlockCipher
     }
 
     public BlockCipherMode GetCipherMode() => _CipherMode;
+    public void SetInitializationVector(byte[] initializationVector) => throw new NotImplementedException();
 
     #endregion
 }

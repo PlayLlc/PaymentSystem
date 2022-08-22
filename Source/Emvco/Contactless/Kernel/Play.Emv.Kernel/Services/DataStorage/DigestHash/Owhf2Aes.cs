@@ -14,8 +14,22 @@ public class Owhf2Aes
 {
     #region Static Metadata
 
-    private static readonly AesCodec _Codec = new(new BlockCipherConfiguration(BlockCipherMode.Cbc, BlockPaddingMode.None, KeySize._128, BlockSize._16,
+    private readonly IBlockCipher _Codec;
+
+    #endregion
+
+    #region Constructor
+
+    public Owhf2Aes(BlockCipherConfiguration configuration)
+    {
+        _Codec = new AesCodec(configuration);
+    }
+
+    public Owhf2Aes()
+    {
+        _Codec = new AesCodec(new BlockCipherConfiguration(BlockCipherMode.Cbc, BlockPaddingMode.None, KeySize._128, BlockSize._16,
         new Iso7816PlainTextPreprocessor(BlockSize._16), null));
+    }
 
     #endregion
 
@@ -23,12 +37,12 @@ public class Owhf2Aes
 
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="PlayInternalException"></exception>
-    public static byte[] Sign(IReadTlvDatabase database, ReadOnlySpan<byte> inputC)
+    public byte[] Hash(IReadTlvDatabase database, ReadOnlySpan<byte> message)
     {
-        if (inputC.Length != 8)
-            throw new TerminalDataException($"The argument {nameof(inputC)} must be 8 bytes in length");
+        if (message.Length != 8)
+            throw new TerminalDataException($"The argument {nameof(message)} must be 8 bytes in length");
 
-        return CreateR(database, inputC);
+        return CreateR(database, message);
     }
 
     #endregion
@@ -37,7 +51,7 @@ public class Owhf2Aes
 
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="PlayInternalException"></exception>
-    private static byte[] CreateR(IReadTlvDatabase database, ReadOnlySpan<byte> inputC)
+    private byte[] CreateR(IReadTlvDatabase database, ReadOnlySpan<byte> inputC)
     {
         DataStorageId dataStorageId = database.Get<DataStorageId>(DataStorageId.Tag);
         DataStorageRequestedOperatorId operatorId = database.Get<DataStorageRequestedOperatorId>(DataStorageRequestedOperatorId.Tag);
@@ -57,7 +71,7 @@ public class Owhf2Aes
         CreateMessage(objectId, inputC, message);
         CreateY(dataStorageId, y);
         CreateKey(y, objectId, key);
-        CreateT(_Codec, key, message, t);
+        CreateT(key, message, t);
 
         return t[^8..].ToArray();
     }
@@ -76,27 +90,29 @@ public class Owhf2Aes
     private static void CreateKey(ReadOnlySpan<byte> y, ReadOnlySpan<byte> objectId, Span<byte> buffer)
     {
         y.CopyTo(buffer);
-        objectId[4..7].CopyTo(buffer[y.Length..]);
+        objectId[5..8].CopyTo(buffer[y.Length..]);
         buffer[14] = 0x3F;
     }
 
-    private static void CreateT(AesCodec codec, ReadOnlySpan<byte> key, ReadOnlySpan<byte> message, Span<byte> buffer)
+    private void CreateT(ReadOnlySpan<byte> key, ReadOnlySpan<byte> message, Span<byte> buffer)
     {
-        codec.Encrypt(message, key).CopyTo(buffer);
-        message.CopyTo(buffer[^message.Length..]);
+        byte[] signedMessage = _Codec.Encrypt(message, key);
+        signedMessage.CopyTo(buffer);
+
+        for(int i = 0; i < buffer.Length; i++)
+        {
+            unchecked
+            {
+                buffer[i] = ((byte)(buffer[i] ^ message[i]));
+            }
+        }
     }
 
     /// <exception cref="PlayInternalException"></exception>
-    public static void ResolveObjectId(
+    private static void ResolveObjectId(
         DataStorageRequestedOperatorId operatorId, DataStorageOperatorDataSetInfo info, DataStorageSlotManagementControl? control, Span<byte> buffer)
     {
-        if (control is not null)
-            operatorId.EncodeValue().CopyTo(buffer);
-
-        if (!control?.IsPermanent() ?? false)
-            operatorId.EncodeValue().CopyTo(buffer);
-
-        if (info.IsVolatile())
+        if (control is null || (!control?.IsPermanent() ?? false) || !info.IsVolatile())
             operatorId.EncodeValue().CopyTo(buffer);
     }
 

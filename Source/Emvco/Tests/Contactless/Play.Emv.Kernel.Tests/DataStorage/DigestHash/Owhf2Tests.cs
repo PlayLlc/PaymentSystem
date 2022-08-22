@@ -35,7 +35,6 @@ public class Owhf2Tests
 
         Owhf2TestFixtures.RegisterDefaultBlockCypherConfiguration(_Fixture);
 
-        //Fixture register BlockCypherConfiguration.
         BlockCipherConfiguration configuration = _Fixture.Create<BlockCipherConfiguration>();
 
         _DesCodec = new TripleDesCodec(configuration);
