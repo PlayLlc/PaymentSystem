@@ -14,16 +14,21 @@ public class Owhf2Aes
 {
     #region Static Metadata
 
-    private static readonly IBlockCipher _Codec;
+    private readonly IBlockCipher _Codec;
 
     #endregion
 
     #region Constructor
 
-    static Owhf2Aes()
+    public Owhf2Aes(BlockCipherConfiguration configuration)
+    {
+        _Codec = new AesCodec(configuration);
+    }
+
+    public Owhf2Aes()
     {
         _Codec = new AesCodec(new BlockCipherConfiguration(BlockCipherMode.Cbc, BlockPaddingMode.None, KeySize._128, BlockSize._16,
-        new Iso7816PlainTextPreprocessor(BlockSize._16)));
+        new Iso7816PlainTextPreprocessor(BlockSize._16), null));
     }
 
     #endregion
@@ -32,17 +37,12 @@ public class Owhf2Aes
 
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="PlayInternalException"></exception>
-    public static byte[] Hash(IReadTlvDatabase database, ReadOnlySpan<byte> message)
+    public byte[] Hash(IReadTlvDatabase database, ReadOnlySpan<byte> message)
     {
         if (message.Length != 8)
             throw new TerminalDataException($"The argument {nameof(message)} must be 8 bytes in length");
 
         return CreateR(database, message);
-    }
-
-    public static void SetInitializationVector(byte[] initializationVector)
-    {
-        _Codec.SetInitializationVector(initializationVector);
     }
 
     #endregion
@@ -51,7 +51,7 @@ public class Owhf2Aes
 
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="PlayInternalException"></exception>
-    private static byte[] CreateR(IReadTlvDatabase database, ReadOnlySpan<byte> inputC)
+    private byte[] CreateR(IReadTlvDatabase database, ReadOnlySpan<byte> inputC)
     {
         DataStorageId dataStorageId = database.Get<DataStorageId>(DataStorageId.Tag);
         DataStorageRequestedOperatorId operatorId = database.Get<DataStorageRequestedOperatorId>(DataStorageRequestedOperatorId.Tag);
@@ -71,7 +71,7 @@ public class Owhf2Aes
         CreateMessage(objectId, inputC, message);
         CreateY(dataStorageId, y);
         CreateKey(y, objectId, key);
-        CreateT(_Codec, key, message, t);
+        CreateT(key, message, t);
 
         return t[^8..].ToArray();
     }
@@ -94,9 +94,9 @@ public class Owhf2Aes
         buffer[14] = 0x3F;
     }
 
-    private static void CreateT(IBlockCipher codec, ReadOnlySpan<byte> key, ReadOnlySpan<byte> message, Span<byte> buffer)
+    private void CreateT(ReadOnlySpan<byte> key, ReadOnlySpan<byte> message, Span<byte> buffer)
     {
-        byte[] signedMessage = codec.Sign(message, key);
+        byte[] signedMessage = _Codec.Encrypt(message, key);
         signedMessage.CopyTo(buffer);
 
         for(int i = 0; i < buffer.Length; i++)

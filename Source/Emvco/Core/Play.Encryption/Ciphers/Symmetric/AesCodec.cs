@@ -80,7 +80,6 @@ public class AesCodec : IBlockCipher
             Key = key.ToArray(),
             Mode = _CipherMode.AsCipherMode(),
             Padding = _PaddingMode.AsPaddingMode(),
-            IV = _InitializationVector
         };
 
         if (_InitializationVector != null)
@@ -107,7 +106,6 @@ public class AesCodec : IBlockCipher
     }
 
     public BlockCipherMode GetCipherMode() => _CipherMode;
-    public void SetInitializationVector(byte[] initializationVector) => this._InitializationVector = initializationVector;
 
     #endregion
 }

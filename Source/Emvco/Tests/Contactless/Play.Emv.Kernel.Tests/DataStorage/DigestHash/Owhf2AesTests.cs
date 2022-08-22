@@ -20,9 +20,8 @@ public class Owhf2AesTests
     private readonly IFixture _Fixture;
     private readonly ITlvReaderAndWriter _Database;
 
-    private static  readonly byte[] _InitializationVector = { 18, 114, 31, 64, 7, 18, 20, 11, 18, 114, 31, 64, 7, 18, 20, 11 };
-    private static readonly AesCodec _AesCodec = new(new BlockCipherConfiguration(BlockCipherMode.Cbc, BlockPaddingMode.None, KeySize._128, BlockSize._16,
-        new Iso7816PlainTextPreprocessor(BlockSize._16)));
+    private readonly AesCodec _AesCodec;
+    private readonly Owhf2Aes _SystemUnderTest;
 
     #endregion
 
@@ -33,8 +32,13 @@ public class Owhf2AesTests
         _Fixture = new ContactlessFixture().Create();
         _Database = ContactlessFixture.CreateDefaultDatabase(_Fixture);
 
-        Owhf2Aes.SetInitializationVector(_InitializationVector);
-        _AesCodec.SetInitializationVector(_InitializationVector);
+        Owhf2AesTestsFixtures.RegisterDefaultBlockCypherConfiguration(_Fixture);
+
+        BlockCipherConfiguration configuration = _Fixture.Create<BlockCipherConfiguration>();
+        _AesCodec = new AesCodec(configuration);
+
+        _SystemUnderTest = new Owhf2Aes(configuration);
+
     }
 
     #endregion
@@ -50,7 +54,7 @@ public class Owhf2AesTests
         RegisterDefaultConfiguration(_Database);
 
         //Act
-        byte[] encryptedResult = Owhf2Aes.Hash(_Database, message);
+        byte[] encryptedResult = _SystemUnderTest.Hash(_Database, message);
 
         //Assert
         Assert.NotNull(encryptedResult);
@@ -68,7 +72,7 @@ public class Owhf2AesTests
         {
             ReadOnlySpan<byte> message = stackalloc byte[] { 31, 18, 68, 78, 91, 102, 34, 63, 32, 33 };
 
-            byte[] encryptedResult = Owhf2Aes.Hash(_Database, message);
+            byte[] encryptedResult = _SystemUnderTest.Hash(_Database, message);
         });
     }
 
@@ -84,9 +88,9 @@ public class Owhf2AesTests
         byte[] expectedMessage = CreateExpectedAesMessage(inputC, _Database.Get<DataStorageRequestedOperatorId>(DataStorageRequestedOperatorId.Tag));
 
         //Act
-        byte[] encryptedResult = Owhf2Aes.Hash(_Database, inputC);
+        byte[] encryptedResult = _SystemUnderTest.Hash(_Database, inputC);
 
-        byte[] expectedEncryptedResult = _AesCodec.Sign(expectedMessage, expectedKey);
+        byte[] expectedEncryptedResult = _AesCodec.Encrypt(expectedMessage, expectedKey);
         Span<byte> result = stackalloc byte[expectedEncryptedResult.Length];
 
         ComputeXor(expectedEncryptedResult, expectedMessage, result);
@@ -106,9 +110,9 @@ public class Owhf2AesTests
         byte[] expectedMessage = CreateExpectedAesMessage(inputC, _Database.Get<DataStorageRequestedOperatorId>(DataStorageRequestedOperatorId.Tag));
 
         //Act
-        byte[] encryptedResult = Owhf2Aes.Hash(_Database, inputC);
+        byte[] encryptedResult = _SystemUnderTest.Hash(_Database, inputC);
 
-        byte[] expectedEncryptedResult = _AesCodec.Sign(expectedMessage, expectedKey);
+        byte[] expectedEncryptedResult = _AesCodec.Encrypt(expectedMessage, expectedKey);
         Span<byte> result = stackalloc byte[expectedEncryptedResult.Length];
 
         ComputeXor(expectedEncryptedResult, expectedMessage, result);
