@@ -29,46 +29,41 @@ public abstract class KernelProcess : CommandProcessingQueue<Message>
 
     #region Instance Members
 
-    public virtual void Enqueue(Message message)
-    {
-        base.Enqueue(message);
-    }
-
     public abstract KernelId GetKernelId();
 
     protected async Task Handle(ActivateKernelRequest signal)
     {
-        Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
+        await Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
     }
 
     protected async Task Handle(CleanKernelRequest signal)
     {
-        Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
+        await Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
     }
 
     protected async Task Handle(QueryKernelRequest signal)
     {
-        Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
+        await Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
     }
 
     protected async Task Handle(StopKernelRequest signal)
     {
-        Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
+        await Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
     }
 
     protected async Task Handle(UpdateKernelRequest signal)
     {
-        Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
+        await Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
     }
 
     protected async Task Handle(QueryPcdResponse signal)
     {
-        Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
+        await Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
     }
 
     protected async Task Handle(QueryTerminalResponse signal)
     {
-        Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
+        await Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
     }
 
     protected override void Handle(Message command)
