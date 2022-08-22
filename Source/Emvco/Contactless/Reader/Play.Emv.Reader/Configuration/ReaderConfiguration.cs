@@ -12,6 +12,8 @@ using Play.Emv.Display.Configuration;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Pcd.Contracts;
+using Play.Emv.Reader.Configuration;
+using Play.Emv.Selection.Contracts;
 
 namespace Play.Emv.Reader;
 
@@ -19,36 +21,10 @@ public partial class ReaderConfiguration
 {
     #region Instance Values
 
-    private readonly Dictionary<KernelId, PrimitiveValue[]> _KernelConfigurations;
-    private readonly Dictionary<CombinationCompositeKey, PrimitiveValue[]> _TransactionProfiles;
-    private readonly Dictionary<LanguagePreference, DisplayMessages> _DisplayMessages;
+    private readonly KernelConfigurations _KernelConfigurations;
+    private readonly TransactionProfileConfigurations _TransactionProfileConfigurations;
     private readonly Dictionary<KernelId, CertificateAuthorityDataset[]> _CertificateAuthorityDatasets;
-    private readonly TransactionType[] _SupportedTransactionTypes;
-    private readonly PcdConfiguration _PcdConfiguration;
     private readonly PrimitiveValue[] _ReaderConfiguration;
-
-    #endregion
-
-    #region Constructor
-
-    public ReaderConfiguration(
-        IssuerIdentificationNumber issuerIdentificationNumber, MerchantIdentifier merchantIdentifier, TerminalIdentification terminalIdentification,
-        LanguagePreference languagePreference, IReaderRepository readerRepository, ICertificateAuthorityDatasetRepository certificateAuthorityDatasetRepository,
-        IDisplayMessageRepository displayMessageRepository, IPcdProtocolRepository pcdProtocolRepository, IKernelRepository kernelRepository,
-        ITransactionProfileRepository transactionProfileRepository)
-    {
-        _TransactionDatabase = new Dictionary<Tag, PrimitiveValue?>();
-        _ReaderConfiguration = readerRepository.GetReaderConfiguration(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
-
-        _KernelConfigurations = kernelRepository.GetKernelConfigurations(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
-        _CertificateAuthorityDatasets =
-            certificateAuthorityDatasetRepository.GetCertificateAuthorityDatasets(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
-        _PcdConfiguration = pcdProtocolRepository.Get(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
-        _TransactionProfiles = transactionProfileRepository.GetTransactionProfiles(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
-        _SupportedTransactionTypes = _TransactionProfiles.Keys.Select(a => a.GetTransactionType()).Distinct().ToArray();
-        _DisplayMessages =
-            displayMessageRepository.GetDisplayMessages(issuerIdentificationNumber, merchantIdentifier, terminalIdentification, languagePreference);
-    }
 
     #endregion
 
@@ -57,21 +33,19 @@ public partial class ReaderConfiguration
     public PrimitiveValue[] GetKernelValues(CombinationCompositeKey key)
     {
         List<PrimitiveValue> result = new();
+        result.AddRange(_ReaderConfiguration);
         result.AddRange(_TransactionDatabase.Values.OfType<PrimitiveValue>());
-        result.AddRange(_KernelConfigurations[key.GetKernelId()]);
-        result.AddRange(_TransactionProfiles[key]);
+        result.AddRange(GetKernelConfiguration(key.GetKernelId()));
+        result.AddRange(_TransactionProfileConfigurations.GetTransactionProfile(key)!.AsPrimitiveValues());
 
         return result.ToArray();
     }
 
-    public TransactionType[] GetSupportedTransactionTypes() =>
-        _SupportedTransactionTypes; // this should be on the terminal so the POS can list the transaction types
-
-    public PrimitiveValue[] GetKernelConfiguration(KernelId kernelId) => _KernelConfigurations[kernelId];
+    public TransactionType[] GetSupportedTransactionTypes() => _TransactionProfileConfigurations.GetSupportedTransactionTypes();
+    public bool IsTransactionSupported(TransactionType transactionType) => _TransactionProfileConfigurations.IsTransactionSupported(transactionType);
+    public PrimitiveValue[] GetKernelConfiguration(KernelId kernelId) => _KernelConfigurations.Get(kernelId);
     public CertificateAuthorityDataset[] GetCertificateAuthorityDatasets(KernelId kernelId) => _CertificateAuthorityDatasets[kernelId];
-    public PcdConfiguration GetPcdProtocolConfiguration() => _PcdConfiguration;
-    public PrimitiveValue[] GetTransactionProfile(CombinationCompositeKey key) => _TransactionProfiles[key];
-    public DisplayMessages GetDisplayMessages(LanguagePreference languagePreference) => _DisplayMessages[languagePreference];
+    public TransactionProfile? GetTransactionProfile(CombinationCompositeKey key) => _TransactionProfileConfigurations.GetTransactionProfile(key);
 
     #endregion
 

@@ -20,7 +20,7 @@ public class KernelPersistentConfigurationDto
     {
         List<TagLengthValue> tagLengthValues = new();
 
-        foreach (var tlv in TagLengthValues)
+        foreach (TagLengthValueDto? tlv in TagLengthValues)
             tagLengthValues.Add(tlv.Decode());
 
         return new KernelPersistentConfiguration(new KernelId(KernelId), tagLengthValues.ToArray());

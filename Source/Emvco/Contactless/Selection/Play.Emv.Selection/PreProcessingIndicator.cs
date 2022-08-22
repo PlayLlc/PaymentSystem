@@ -5,7 +5,7 @@ using Play.Globalization;
 using Play.Globalization.Currency;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-using TransactionProfile = Play.Emv.Selection.Configuration.TransactionProfile;
+using TransactionProfile = Play.Emv.Selection.Contracts.TransactionProfile;
 
 namespace Play.Emv.Selection;
 
@@ -36,7 +36,7 @@ public class PreProcessingIndicator
     public PreProcessingIndicator(TransactionProfile transactionProfile)
     {
         _TransactionProfile = transactionProfile;
-        _CombinationCompositeKey = transactionProfile.GetKey();
+        _CombinationCompositeKey = transactionProfile.GetCombinationCompositeKey();
         TerminalTransactionQualifiers = _TransactionProfile.GetTerminalTransactionQualifiers().AsValueCopy();
     }
 

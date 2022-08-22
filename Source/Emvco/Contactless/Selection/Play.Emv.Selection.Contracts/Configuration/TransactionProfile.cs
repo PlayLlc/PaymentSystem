@@ -1,11 +1,12 @@
-﻿using Play.Emv.Ber;
+﻿using Play.Ber.DataObjects;
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Identifiers;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace Play.Emv.Selection.Configuration;
+namespace Play.Emv.Selection.Contracts;
 
 /// <summary>
 ///     Configuration values for a specific Transaction/Kernel/Application combination for Entry Point processing.
@@ -70,13 +71,30 @@ public class TransactionProfile : IEquatable<TransactionProfile>, IEqualityCompa
 
     #region Instance Members
 
+    public PrimitiveValue[] AsPrimitiveValues()
+    {
+        List<PrimitiveValue> result = new();
+        result.AddRange(_Key.AsPrimitiveValues());
+        result.Add(_ApplicationPriorityIndicator);
+        result.Add(_ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice);
+        result.Add(_ReaderContactlessTransactionLimitWhenCvmIsOnDevice);
+        result.Add(_ReaderContactlessFloorLimit);
+        result.Add(_ReaderCvmRequiredLimit);
+        result.Add(_KernelConfiguration);
+        result.Add(_TerminalTransactionQualifiers);
+
+        return result.ToArray();
+
+        ;
+    }
+
     public KernelConfiguration GetKernelConfiguration() => _KernelConfiguration;
     public ReaderContactlessFloorLimit GetReaderContactlessFloorLimit() => _ReaderContactlessFloorLimit;
     public DedicatedFileName GetApplicationIdentifier() => _Key.GetApplicationId();
     public ApplicationPriorityIndicator GetApplicationPriorityIndicator() => _ApplicationPriorityIndicator;
     public ApplicationPriorityRank GetApplicationPriorityRank() => _ApplicationPriorityIndicator.GetApplicationPriorityRank();
     public ShortKernelIdTypes GetKernelId() => _Key.GetKernelId();
-    public CombinationCompositeKey GetKey() => _Key;
+    public CombinationCompositeKey GetCombinationCompositeKey() => _Key;
 
     public ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice GetReaderContactlessTransactionLimitWhenCvmIsNotOnDevice() =>
         _ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice;

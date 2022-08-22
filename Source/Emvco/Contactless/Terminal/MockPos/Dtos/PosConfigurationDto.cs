@@ -1,5 +1,12 @@
 ﻿using System.Text.Json.Serialization;
 
+using Play.Ber.DataObjects;
+using Play.Emv.Ber.DataElements;
+using Play.Emv.Configuration;
+using Play.Emv.Display.Configuration;
+using Play.Emv.Kernel.Contracts;
+using Play.Emv.Pcd.Contracts;
+
 namespace MockPos.Dtos
 {
     internal class PosConfigurationDto
@@ -30,5 +37,21 @@ namespace MockPos.Dtos
         public CertificateAuthorityConfigurationDto? CertificateAuthorityConfiguration { get; set; }
 
         #endregion
+
+        /// <exception cref="Play.Emv.Ber.Exceptions.DataElementParsingException"></exception>
+        public TerminalConfiguration GetTerminalConfiguration()
+        {
+            return TerminalConfiguration!.Decode();
+        }
+
+        public KernelPersistentConfiguration[] GetKernelPersistent()
+        {
+
+            return KernelPersistentConfigurations.Select(a => a.Decode()).ToArray();
+        }
+
+        public DisplayConfiguration GetDisplayConfiguration() => DisplayConfiguration!.Decode();
+        public PcdConfiguration GetPcdConfiguration() => ProximityCouplingDeviceConfiguration.Decode();
+        public CertificateAuthorityDataset[] GetCertificateAuthorityDatasets() => CertificateAuthorityConfiguration.Certificates
     }
 }

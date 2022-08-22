@@ -1,8 +1,10 @@
-﻿using Play.Codecs;
+﻿using Play.Ber.Exceptions;
+using Play.Codecs;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Identifiers;
 using Play.Emv.Selection.Configuration;
+using Play.Emv.Selection.Contracts;
 
 namespace MockPos.Dtos;
 
@@ -29,7 +31,7 @@ public class TransactionProfileDto
 
     #region Serialization
 
-    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public TransactionProfile Decode()
     {
         KernelId kernelId = new(KernelId);
