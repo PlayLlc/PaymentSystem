@@ -20,26 +20,7 @@ public partial class KernelDatabase
         return (ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice) Get(ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Tag);
     }
 
-    #region Get Configuration Objects
-
-    /// <exception cref="TerminalDataException"></exception>
-    private TerminalCapabilities GetTerminalCapabilities() => Get<TerminalCapabilities>(TerminalCapabilities.Tag);
-
-    /// <exception cref="TerminalDataException"></exception>
-    private TransactionType GetTransactionType() => (TransactionType) Get(TransactionType.Tag);
-
-    /// <exception cref="TerminalDataException"></exception>
-    private IntegratedDataStorageStatus GetIntegratedDataStorageStatus() => Get<IntegratedDataStorageStatus>(IntegratedDataStorageStatus.Tag);
-
-    /// <exception cref="TerminalDataException"></exception>
-    private TerminalType GetTerminalType() => Get<TerminalType>(TerminalType.Tag);
-
-    /// <exception cref="TerminalDataException"></exception>
-    private PosEntryMode GetPosEntryMode() => Get<PosEntryMode>(PosEntryMode.Tag);
-
-    #endregion
-
-    #region Terminal Type
+    #region Terminal Configuration
 
     /// <exception cref="TerminalDataException"></exception>
     public bool IsTerminalType(TerminalType.EnvironmentType environment) => GetTerminalType().IsEnvironmentType(environment);
@@ -50,11 +31,11 @@ public partial class KernelDatabase
     /// <exception cref="TerminalDataException"></exception>
     public bool IsTerminalType(TerminalType.TerminalOperatorType operatorType) => GetTerminalType().IsOperatorType(operatorType);
 
-    #endregion
+    /// <exception cref="TerminalDataException"></exception>
+    private TerminalType GetTerminalType() => Get<TerminalType>(TerminalType.Tag);
 
-    #region Terminal Capabilities
-
-    #region Read
+    /// <exception cref="TerminalDataException"></exception>
+    private TerminalCapabilities GetTerminalCapabilities() => Get<TerminalCapabilities>(TerminalCapabilities.Tag);
 
     /// <exception cref="TerminalDataException"></exception>
     public bool IsCardCaptureSupported() => GetTerminalCapabilities().IsCardCaptureSupported();
@@ -92,10 +73,6 @@ public partial class KernelDatabase
     /// <exception cref="TerminalDataException"></exception>
     public bool IsStaticDataAuthenticationSupported() => GetTerminalCapabilities().IsStaticDataAuthenticationSupported();
 
-    #endregion
-
-    #region Write
-
     /// <exception cref="TerminalDataException"></exception>
     public void SetCardVerificationMethodNotRequired(bool value)
     {
@@ -121,9 +98,32 @@ public partial class KernelDatabase
 
     #endregion
 
+    #region Kernel Configuration
+
+    /// <exception cref="TerminalDataException"></exception>
+    public KernelConfiguration GetKernelConfiguration() => Get<KernelConfiguration>(KernelConfiguration.Tag);
+
+    /// <exception cref="TerminalDataException"></exception>
+    public bool IsEmvModeSupported() => GetKernelConfiguration().IsEmvModeSupported();
+
+    /// <exception cref="TerminalDataException"></exception>
+    public bool IsMagstripeModeSupported() => GetKernelConfiguration().IsMagstripeModeSupported();
+
+    /// <exception cref="TerminalDataException"></exception>
+    public bool IsOnDeviceCardholderVerificationSupported() => GetKernelConfiguration().IsOnDeviceCardholderVerificationSupported();
+
+    /// <exception cref="TerminalDataException"></exception>
+    public bool IsRelayResistanceProtocolSupported() => GetKernelConfiguration().IsRelayResistanceProtocolSupported();
+
+    /// <exception cref="TerminalDataException"></exception>
+    public bool IsReadAllRecordsActivated() => GetKernelConfiguration().IsReadAllRecordsActivated();
+
     #endregion
 
-    #region Data Storage Flags
+    #region Data Storage Configuration
+
+    /// <exception cref="TerminalDataException"></exception>
+    private IntegratedDataStorageStatus GetIntegratedDataStorageStatus() => Get<IntegratedDataStorageStatus>(IntegratedDataStorageStatus.Tag);
 
     /// <exception cref="TerminalDataException"></exception>
     public bool IsIntegratedDataStorageReadFlagSet() => GetIntegratedDataStorageStatus().IsReadSet();
@@ -162,22 +162,13 @@ public partial class KernelDatabase
 
     #endregion
 
-    #region Kernel Configuration
+    #region Transaction
 
     /// <exception cref="TerminalDataException"></exception>
-    public bool IsEmvModeSupported() => GetKernelConfiguration().IsEmvModeSupported();
+    private PosEntryMode GetPosEntryMode() => Get<PosEntryMode>(PosEntryMode.Tag);
 
     /// <exception cref="TerminalDataException"></exception>
-    public bool IsMagstripeModeSupported() => GetKernelConfiguration().IsMagstripeModeSupported();
-
-    /// <exception cref="TerminalDataException"></exception>
-    public bool IsOnDeviceCardholderVerificationSupported() => GetKernelConfiguration().IsOnDeviceCardholderVerificationSupported();
-
-    /// <exception cref="TerminalDataException"></exception>
-    public bool IsRelayResistanceProtocolSupported() => GetKernelConfiguration().IsRelayResistanceProtocolSupported();
-
-    /// <exception cref="TerminalDataException"></exception>
-    public bool IsReadAllRecordsActivated() => GetKernelConfiguration().IsReadAllRecordsActivated();
+    private TransactionType GetTransactionType() => (TransactionType) Get(TransactionType.Tag);
 
     #endregion
 

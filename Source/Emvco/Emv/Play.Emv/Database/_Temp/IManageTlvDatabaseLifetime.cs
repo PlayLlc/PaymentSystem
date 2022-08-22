@@ -2,11 +2,11 @@
 
 namespace Play.Emv.Kernel.Databases;
 
-public interface IManageKernelDatabaseLifetime
+public interface IManageTlvDatabaseLifetime
 {
     #region Instance Members
 
-    public void Activate(KernelSessionId kernelSessionId);
+    public void Activate(TransactionSessionId kernelSessionId);
     public void Deactivate();
 
     #endregion

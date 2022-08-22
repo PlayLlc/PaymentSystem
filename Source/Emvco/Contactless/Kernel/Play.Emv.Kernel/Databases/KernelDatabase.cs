@@ -7,6 +7,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Tags;
 using Play.Core;
 using Play.Emv.Ber;
+using Play.Emv.Ber.Database._Temp;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Identifiers;
@@ -14,63 +15,32 @@ using Play.Emv.Kernel.Contracts;
 
 namespace Play.Emv.Kernel.Databases;
 
-public partial class KernelDatabase : IManageKernelDatabaseLifetime
+public partial class KernelDatabase : TlvDatabase
 {
-    #region Instance Values
-
-    protected KernelSessionId? _KernelSessionId;
-
-    #endregion
-
     #region Constructor
 
     public KernelDatabase(
         CertificateAuthorityDataset[] certificateAuthorityDataset, PrimitiveValue[] kernelPersistentConfiguration, KnownObjects knownObjects,
-        ScratchPad scratchPad)
+        ScratchPad scratchPad) : base(kernelPersistentConfiguration, knownObjects)
     {
         _ScratchPad = scratchPad;
         _Certificates = certificateAuthorityDataset.ToImmutableDictionary(a => a.GetRid(), b => b);
-        _KernelPersistentConfiguration = kernelPersistentConfiguration;
-        _KnownObjects = knownObjects;
-        _Database = new SortedDictionary<Tag, PrimitiveValue?>(new TagComparer());
         FailedMagstripeCounter = new SequenceCounterThreshold(0, int.MaxValue, 1);
-        SeedDatabase();
     }
 
     #endregion
 
     #region Instance Members
 
-    /// <exception cref="TerminalDataException"></exception>
-    public KernelConfiguration GetKernelConfiguration() => Get<KernelConfiguration>(KernelConfiguration.Tag);
-
-    /// <summary>
-    ///     Activate
-    /// </summary>
-    /// <param name="kernelSessionId"></param>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="TerminalDataException"></exception>
-    public virtual void Activate(KernelSessionId kernelSessionId)
-    {
-        if (IsActive())
-            throw new InvalidOperationException($"A command to initialize the Kernel Database was invoked but the {nameof(KernelDatabase)} is already active");
-
-        _KernelSessionId = kernelSessionId;
-    }
-
     /// <summary>
     ///     Resets the transient values in the database to their default values. The persistent values
     ///     will remain unchanged during the database lifetime
     /// </summary>
-    public virtual void Deactivate()
+    public override void Deactivate()
     {
         Clear();
         PurgeRevokedCertificates();
     }
-
-    protected bool IsActive() => _KernelSessionId != null;
-    public KernelSessionId? GetKernelSessionId() => _KernelSessionId;
 
     #endregion
 }
