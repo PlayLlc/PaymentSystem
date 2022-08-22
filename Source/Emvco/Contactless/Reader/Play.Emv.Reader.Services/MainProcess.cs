@@ -30,35 +30,35 @@ internal class MainProcess : CommandProcessingQueue<Message>
 
     #region Instance Members
 
-    protected override async Task Handle(Message command)
+    protected override void Handle(Message command)
     {
         if (command is ActivateReaderRequest activateReaderRequest)
         {
-            await Handle(activateReaderRequest).ConfigureAwait(false);
+            Handle(activateReaderRequest).ConfigureAwait(false);
             return;
         }
 
         if (command is OutSelectionResponse outSelectionResponse)
         {
-            await Handle(outSelectionResponse).ConfigureAwait(false);
+            Handle(outSelectionResponse).ConfigureAwait(false);
             return;
         }
 
         if (command is OutKernelResponse outKernelResponse)
         {
-            await Handle(outKernelResponse).ConfigureAwait(false);
+            Handle(outKernelResponse).ConfigureAwait(false);
             return;
         }
 
         if (command is StopReaderRequest stopReaderRequest)
         {
-            await Handle(stopReaderRequest).ConfigureAwait(false);
+            Handle(stopReaderRequest).ConfigureAwait(false);
             return;
         }
 
         if (command is StopPcdAcknowledgedResponse stopPcdAcknowledgedResponse)
         {
-            await Handle(stopPcdAcknowledgedResponse).ConfigureAwait(false);
+            Handle(stopPcdAcknowledgedResponse).ConfigureAwait(false);
             return;
         }
     }

@@ -26,12 +26,12 @@ public class PlayEventBus : CommandProcessingQueue<EventBase>, IPlayEventBus
 
     #region Instance Members
 
-    protected override async Task Handle(EventBase @event)
+    protected override void Handle(EventBase @event)
     {
         if (!_HandlerMap.TryGetValue(@event.GetEventTypeId(), out Dictionary<EventHandlerId, Action<EventBase>> handlers))
             return;
 
-        await Task.Run(() =>
+        Task.Run(() =>
         {
             foreach (Action<EventBase> handler in handlers.Values!)
                 handler.Invoke(@event);

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Concurrent;
 
+using Microsoft.Extensions.Logging;
+
 namespace Play.Messaging.Threads;
 
 /// <summary>
@@ -11,9 +13,13 @@ public abstract class CommandProcessingQueue<T>
 {
     #region Instance Values
 
+    private readonly ILogger _Logger;
+
     protected readonly CancellationTokenSource _CancellationTokenSource;
     private readonly ConcurrentQueue<T> _Queue;
     private readonly SignalSwitch _SignalSwitch;
+
+    private static readonly object _SyncLock = new object();
 
     #endregion
 
@@ -51,7 +57,7 @@ public abstract class CommandProcessingQueue<T>
         _Queue.Enqueue(command);
 
         if (!_SignalSwitch.IsActive())
-            Task.Run(() => { Process().ConfigureAwait(false); }, _CancellationTokenSource.Token).ConfigureAwait(false);
+            Task.Run(() => { Process(); }, _CancellationTokenSource.Token).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -60,33 +66,29 @@ public abstract class CommandProcessingQueue<T>
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
-    protected abstract Task Handle(T command);
+    protected abstract void Handle(T command);
 
-    private async Task Process()
+    private void Process()
     {
         try
         {
-            Switch();
+            lock (_SyncLock)
+            {
+                _SignalSwitch.Switch();
 
-            while (TryDequeue(out T? command))
-                await Handle(command).ConfigureAwait(false);
+                while (TryDequeue(out T? command))
+                {
+                    _Logger.LogInformation("Processing command :" + command.ToString());
 
-        }
-        catch
-        {
-            // log - considered here as an handled exception => finally gets hit.
-        }
-        finally
-        {
-            Switch();
-        }
-    }
+                    Handle(command);
+                }
 
-    private void Switch()
-    {
-        lock (_SignalSwitch)
+                _SignalSwitch.Switch();
+            }
+        }
+        catch(Exception e)
         {
-            _SignalSwitch.Switch();
+            _Logger.LogError(e, "Processing command exception");
         }
     }
 

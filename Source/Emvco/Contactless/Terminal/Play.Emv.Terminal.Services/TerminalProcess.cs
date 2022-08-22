@@ -74,41 +74,41 @@ internal class TerminalProcess : CommandProcessingQueue<Message>
         await Task.Run(() => { _TerminalStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
     }
 
-    protected override async Task Handle(Message command)
+    protected override void Handle(Message command)
     {
         if (command is StopReaderAcknowledgedResponse stopReaderAcknowledgedResponse)
         {
-            await Handle(stopReaderAcknowledgedResponse).ConfigureAwait(false);
+            Handle(stopReaderAcknowledgedResponse).ConfigureAwait(false);
             return;
         }
 
         if (command is QueryKernelResponse queryKernelResponse)
         {
-            await Handle(queryKernelResponse).ConfigureAwait(false);
+            Handle(queryKernelResponse).ConfigureAwait(false);
             return;
         }
 
         if (command is OutReaderResponse outReaderResponse)
         {
-            await Handle(outReaderResponse).ConfigureAwait(false);
+            Handle(outReaderResponse).ConfigureAwait(false);
             return;
         }
 
         if (command is QueryTerminalRequest queryTerminalRequest)
         {
-            await Handle(queryTerminalRequest).ConfigureAwait(false);
+            Handle(queryTerminalRequest).ConfigureAwait(false);
             return;
         }
 
         if (command is ActivateTerminalRequest activateTerminalRequest)
         {
-            await Handle(activateTerminalRequest).ConfigureAwait(false);
+            Handle(activateTerminalRequest).ConfigureAwait(false);
             return;
         }
 
         if (command is InitiateSettlementRequest initiateSettlementRequest)
         {
-            await Handle(initiateSettlementRequest).ConfigureAwait(false);
+            Handle(initiateSettlementRequest).ConfigureAwait(false);
             return;
         }
     }

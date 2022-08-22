@@ -28,23 +28,23 @@ internal class ProximityCouplingDeviceProcess : CommandProcessingQueue<Message>
 
     #region Instance Members
 
-    protected override async Task Handle(Message command)
+    protected override void Handle(Message command)
     {
         if (command is ActivatePcdRequest activatePcdRequest)
         {
-            await Handle(activatePcdRequest).ConfigureAwait(false);
+            Handle(activatePcdRequest).ConfigureAwait(false);
             return;
         }
 
         if (command is QueryPcdRequest queryPcdRequest)
         {
-            await Handle(queryPcdRequest).ConfigureAwait(false);
+            Handle(queryPcdRequest).ConfigureAwait(false);
             return;
         }
 
         if (command is StopPcdRequest stopPcdRequest)
         {
-            await Handle(stopPcdRequest).ConfigureAwait(false);
+            Handle(stopPcdRequest).ConfigureAwait(false);
             return;
         }
     }

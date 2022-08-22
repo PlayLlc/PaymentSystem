@@ -90,41 +90,41 @@ internal class SelectionProcess : CommandProcessingQueue<Message>
         await Task.Run(() => { _SelectionStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
     }
 
-    protected override async Task Handle(Message command)
+    protected override void Handle(Message command)
     {
         if (command is ActivateSelectionRequest activateSelectionRequest)
         {
-            await Handle(activateSelectionRequest).ConfigureAwait(false);
+            Handle(activateSelectionRequest).ConfigureAwait(false);
             return;
         }
 
         if (command is StopSelectionRequest stopSelectionRequest)
         {
-            await Handle(stopSelectionRequest).ConfigureAwait(false);
+            Handle(stopSelectionRequest).ConfigureAwait(false);
             return;
         }
 
         if (command is ActivatePcdResponse activatePcdResponse)
         {
-            await Handle(activatePcdResponse).ConfigureAwait(false);
+            Handle(activatePcdResponse).ConfigureAwait(false);
             return;
         }
 
         if (command is SelectApplicationDefinitionFileInfoResponse selectApplicationDefinitionFileInfoResponse)
         {
-            await Handle(selectApplicationDefinitionFileInfoResponse).ConfigureAwait(false);
+            Handle(selectApplicationDefinitionFileInfoResponse).ConfigureAwait(false);
             return;
         }
 
         if (command is SelectProximityPaymentSystemEnvironmentResponse selectProximityPaymentSystemEnvironmentResponse)
         {
-            await Handle(selectProximityPaymentSystemEnvironmentResponse).ConfigureAwait(false);
+            Handle(selectProximityPaymentSystemEnvironmentResponse).ConfigureAwait(false);
             return;
         }
 
         if (command is SendPoiInformationResponse sendPoiInformationResponse)
         {
-            await Handle(sendPoiInformationResponse).ConfigureAwait(false);
+            Handle(sendPoiInformationResponse).ConfigureAwait(false);
             return;
         }
     }

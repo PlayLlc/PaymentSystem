@@ -4,7 +4,12 @@ using System.Net.NetworkInformation;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Play.Emv.Ber.Enums;
+using Play.Emv.Display.Configuration;
 using Play.Emv.Display.Contracts;
+using Play.Emv.Reader.Configuration;
+using Play.Globalization.Language;
+using Play.Globalization.Time;
 using Play.Messaging;
 using Play.Messaging.Threads;
 
@@ -46,17 +51,17 @@ public class DisplayProcess : CommandProcessingQueue<Message>
 
     #region Instance Members
 
-    protected override async Task Handle(Message command)
+    protected override void Handle(Message command)
     {
         if (command is DisplayMessageRequest displayMessageRequestCommand)
         {
-            await Handle(displayMessageRequestCommand).ConfigureAwait(false);
+            Handle(displayMessageRequestCommand).ConfigureAwait(false);
             return;
         }
 
         if (command is StopDisplayRequest stopDisplayRequestCommand)
         {
-            await Handle(stopDisplayRequestCommand).ConfigureAwait(false);
+            Handle(stopDisplayRequestCommand).ConfigureAwait(false);
             return;
         }
             
