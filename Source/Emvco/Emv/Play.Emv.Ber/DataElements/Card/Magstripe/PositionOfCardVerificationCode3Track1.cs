@@ -1,5 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core;
@@ -30,31 +30,6 @@ public record PositionOfCardVerificationCode3Track1 : DataElement<ulong>
 
     #endregion
 
-    #region Instance Members
-
-    public int GetSetBitCount() => _Value.GetSetBitCount();
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    //not sure what this needs to do (comment left for tracking on pr.)
-    internal Nibble[] GetBitFlagIndex()
-    {
-        Nibble[] result = new Nibble[_Value.GetSetBitCount()];
-        ulong bufferValue = _Value;
-
-        for (byte i = 0, j = 0; i < Specs.Integer.Int64.BitCount; i++)
-        {
-            if (bufferValue.IsBitSet(Bits.One))
-                result[j++] = 1;
-
-            bufferValue >>= 1;
-        }
-
-        return result;
-    }
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -76,6 +51,28 @@ public record PositionOfCardVerificationCode3Track1 : DataElement<ulong>
 
     public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
     public override byte[] EncodeValue(int length) => _Codec.EncodeValue(EncodingId, _Value, length);
+
+    #endregion
+
+    #region Instance Members
+
+    public int GetSetBitCount() => _Value.GetSetBitCount();
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+
+    internal Nibble[] GetBitFlagIndex()
+    {
+        Nibble[] result = new Nibble[_Value.GetSetBitCount()];
+        ulong bufferValue = _Value;
+
+        for (byte i = 0, j = 0; i < Specs.Integer.Int64.BitCount; i++)
+        {
+            if (bufferValue.IsBitSet(Bits.One))
+                result[j++] = i;
+        }
+
+        return result;
+    }
 
     #endregion
 }

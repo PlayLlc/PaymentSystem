@@ -2,7 +2,7 @@ using System.Numerics;
 
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -31,14 +31,6 @@ public record ProtectedDataEnvelope1 : DataElement<BigInteger>, IEqualityCompare
 
     #endregion
 
-    #region Instance Members
-
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-    public override Tag GetTag() => Tag;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -58,6 +50,8 @@ public record ProtectedDataEnvelope1 : DataElement<BigInteger>, IEqualityCompare
         return new ProtectedDataEnvelope1(result);
     }
 
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
+
     #endregion
 
     #region Equality
@@ -74,6 +68,14 @@ public record ProtectedDataEnvelope1 : DataElement<BigInteger>, IEqualityCompare
     }
 
     public int GetHashCode(ProtectedDataEnvelope1 obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override ushort GetValueByteCount(BerCodec codec) => PlayCodec.BinaryCodec.GetByteCount(_Value);
+    public override Tag GetTag() => Tag;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 }

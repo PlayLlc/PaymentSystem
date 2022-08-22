@@ -1,6 +1,6 @@
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
@@ -30,27 +30,6 @@ public record ApplicationPriorityIndicator : DataElement<byte>
 
     #endregion
 
-    #region Instance Members
-
-    public bool ApplicationCannotBeSelectedWithoutConfirmationByTheCardholder() => _Value.IsBitSet(Bits.Eight);
-    public ApplicationPriorityRank GetApplicationPriorityRank() => new(ApplicationPriorityRankTypes.Get(_Value));
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    public static bool StaticEquals(ApplicationPriorityIndicator? x, ApplicationPriorityIndicator? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -72,6 +51,27 @@ public record ApplicationPriorityIndicator : DataElement<byte>
 
     public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
     public override byte[] EncodeValue(int length) => _Codec.EncodeValue(EncodingId, _Value, length);
+
+    #endregion
+
+    #region Instance Members
+
+    public bool ApplicationCannotBeSelectedWithoutConfirmationByTheCardholder() => _Value.IsBitSet(Bits.Eight);
+    public ApplicationPriorityRank GetApplicationPriorityRank() => new(ApplicationPriorityRankTypes.Get(_Value));
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+
+    public static bool StaticEquals(ApplicationPriorityIndicator? x, ApplicationPriorityIndicator? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
 
     #endregion
 }

@@ -1,7 +1,7 @@
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
 
@@ -25,19 +25,6 @@ public record DataAuthenticationCode : DataElement<ushort>, IEqualityComparer<Da
 
     public DataAuthenticationCode(ushort value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public byte[] AsBytes()
-    {
-        return new[] {(byte) (_Value >> 8), (byte) _Value};
-    }
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -78,6 +65,19 @@ public record DataAuthenticationCode : DataElement<ushort>, IEqualityComparer<Da
     }
 
     public int GetHashCode(DataAuthenticationCode obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public byte[] AsBytes()
+    {
+        return new[] {(byte) (_Value >> 8), (byte) _Value};
+    }
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

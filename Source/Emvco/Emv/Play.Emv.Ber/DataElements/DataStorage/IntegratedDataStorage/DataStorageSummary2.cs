@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -28,13 +28,6 @@ public record DataStorageSummary2 : DataElement<BigInteger>
 
     public DataStorageSummary2(BigInteger value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 
@@ -67,6 +60,13 @@ public record DataStorageSummary2 : DataElement<BigInteger>
     public static bool operator !=(DataStorageSummary1 left, DataStorageSummary2 right) => (BigInteger) left != right._Value;
     public static bool operator ==(DataStorageSummary2 left, DataStorageSummary1 right) => left._Value == (BigInteger) right;
     public static bool operator !=(DataStorageSummary2 left, DataStorageSummary1 right) => left._Value != (BigInteger) right;
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

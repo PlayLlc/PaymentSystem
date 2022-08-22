@@ -5,7 +5,7 @@ using Play.Codecs;
 using Play.Core.Exceptions;
 using Play.Core.Extensions;
 
-namespace Play.Ber.Identifiers.Long;
+namespace Play.Ber.Tags.Long;
 
 internal static partial class LongIdentifier
 {

@@ -2,7 +2,7 @@ using System.Numerics;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
 using Play.Icc.FileSystem.DedicatedFiles;
@@ -32,11 +32,11 @@ public record ApplicationIdentifier : DataElement<BigInteger>, IEqualityComparer
 
     #region Instance Members
 
-    public byte[] AsByteArray() => _Value.ToByteArray(true);
+    public byte[] AsByteArray() => _Value.ToByteArray();
     public override PlayEncodingId GetEncodingId() => EncodingId;
 
     public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() =>
-        new(PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(_Value.ToByteArray(true)[..5]));
+        new(PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(_Value.ToByteArray()[..5]));
 
     public override Tag GetTag() => Tag;
 
@@ -44,7 +44,7 @@ public record ApplicationIdentifier : DataElement<BigInteger>, IEqualityComparer
     {
         int comparisonLength = GetValueByteCount() < other.GetValueByteCount() ? GetValueByteCount() : other.GetValueByteCount();
 
-        Span<byte> thisBuffer = _Value.ToByteArray(true);
+        Span<byte> thisBuffer = _Value.ToByteArray();
         Span<byte> otherBuffer = other.AsByteArray();
 
         for (int i = 0; i < comparisonLength; i++)
@@ -103,6 +103,7 @@ public record ApplicationIdentifier : DataElement<BigInteger>, IEqualityComparer
     public static bool operator ==(byte left, ApplicationIdentifier right) => left == right._Value;
     public static bool operator !=(ApplicationIdentifier left, byte right) => !(left == right);
     public static bool operator !=(byte left, ApplicationIdentifier right) => !(left == right);
+    public static implicit operator DedicatedFileName(ApplicationIdentifier value) => new(value._Value.ToByteArray(true));
 
     #endregion
 }

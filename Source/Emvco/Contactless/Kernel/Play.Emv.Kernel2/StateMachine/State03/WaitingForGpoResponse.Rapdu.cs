@@ -73,17 +73,17 @@ public partial class WaitingForGpoResponse : KernelState
         if (!signal.IsLevel1ErrorPresent())
             return false;
 
-        _Database.Update(MessageIdentifiers.TryAgain);
-        _Database.Update(Statuses.ReadyToRead);
+        _Database.Update(DisplayMessageIdentifiers.TryAgain);
+        _Database.Update(DisplayStatuses.ReadyToRead);
         _Database.Update(new MessageHoldTime(0));
         _Database.Update(StatusOutcomes.EndApplication);
         _Database.Update(StartOutcomes.B);
         _Database.SetUiRequestOnRestartPresent(true);
         _Database.Update(signal.GetLevel1Error());
-        _Database.Update(MessageOnErrorIdentifiers.TryAgain);
+        _Database.Update(DisplayMessageOnErrorIdentifiers.TryAgain);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+        _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
 
         return true;
     }
@@ -100,16 +100,16 @@ public partial class WaitingForGpoResponse : KernelState
         if (signal.GetStatusWords() == StatusWords._9000)
             return false;
 
-        _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-        _Database.Update(Statuses.NotReady);
+        _Database.Update(DisplayMessageIdentifiers.ErrorUseAnotherCard);
+        _Database.Update(DisplayStatuses.NotReady);
         _Database.Update(StatusOutcomes.EndApplication);
-        _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
+        _Database.Update(DisplayMessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.StatusBytes);
         _Database.Update(signal.GetStatusWords());
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         _Database.SetUiRequestOnRestartPresent(true);
 
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+        _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
 
         return true;
     }
@@ -190,15 +190,15 @@ public partial class WaitingForGpoResponse : KernelState
     private void HandleInvalidResponse(KernelSession session, Level2Error level2Error)
     {
         _Database.Update(level2Error);
-        _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-        _Database.Update(Statuses.NotReady);
+        _Database.Update(DisplayMessageIdentifiers.ErrorUseAnotherCard);
+        _Database.Update(DisplayStatuses.NotReady);
         _Database.Update(StatusOutcomes.EndApplication);
-        _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
+        _Database.Update(DisplayMessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, _Database.GetErrorIndication());
         _Database.SetUiRequestOnOutcomePresent(true);
 
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+        _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
     }
 
     #endregion
@@ -249,15 +249,15 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     private void HandleBerParsingException(KernelSession session)
     {
-        _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-        _Database.Update(Statuses.NotReady);
+        _Database.Update(DisplayMessageIdentifiers.ErrorUseAnotherCard);
+        _Database.Update(DisplayStatuses.NotReady);
         _Database.Update(StatusOutcomes.EndApplication);
-        _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
+        _Database.Update(DisplayMessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.ParsingError);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         _Database.SetUiRequestOnRestartPresent(true);
 
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+        _EndpointClient.Send(new StopKernelRequest(session.GetKernelSessionId()));
     }
 
     #endregion
@@ -347,7 +347,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="RequestOutOfSyncException"></exception>
     private KernelState HandleRelayResistanceProtocolNotSupported(Kernel2Session session, Message message)
     {
-        _Database.Update(TerminalVerificationResultCodes.RelayResistanceNotPerformed);
+        _Database.Set(TerminalVerificationResultCodes.RelayResistanceNotPerformed);
 
         return _KernelStateResolver.GetKernelState(_S3R1.Process(this, session, message));
     }
@@ -371,7 +371,7 @@ public partial class WaitingForGpoResponse : KernelState
         session.Stopwatch.Start();
 
         // S3.64
-        _PcdEndpoint.Request(capdu);
+        _EndpointClient.Send(capdu);
 
         return _KernelStateResolver.GetKernelState(WaitingForExchangeRelayResistanceDataResponse.StateId);
     }
@@ -475,7 +475,7 @@ public partial class WaitingForGpoResponse : KernelState
         if (!session.TryPeekActiveTag(out RecordRange recordRange))
             throw new TerminalDataException($"The {nameof(ApplicationFileLocator)} was correctly parsed but was unable to be retrieved");
 
-        _PcdEndpoint.Request(ReadRecordRequest.Create(session.GetTransactionSessionId(), recordRange.GetShortFileIdentifier()));
+        _EndpointClient.Send(ReadRecordRequest.Create(session.GetTransactionSessionId(), recordRange.GetShortFileIdentifier()));
     }
 
     #endregion

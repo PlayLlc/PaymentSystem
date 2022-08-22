@@ -153,7 +153,7 @@ public class HexadecimalCodec : PlayCodec
     public byte[] Encode(ushort value) => UnsignedIntegerCodec.Encode(value);
     public byte[] Encode(uint value) => UnsignedIntegerCodec.Encode(value);
     public byte[] Encode(ulong value) => UnsignedIntegerCodec.Encode(value);
-    public byte[] Encode(BigInteger value) => value.ToByteArray(true);
+    public byte[] Encode(BigInteger value) => value.ToByteArray();
 
     // DEPRECATING: This method will eventually be deprecated in favor of a method that passes in a Span<T> buffer
     /// <exception cref="CodecParsingException"></exception>
@@ -549,6 +549,7 @@ public class HexadecimalCodec : PlayCodec
     #region Decode To Integers
 
     public BigInteger DecodeToBigInteger(ReadOnlySpan<char> value) => UnsignedIntegerCodec.DecodeToBigInteger(Encode(value));
+    public byte DecodeToByte(ReadOnlySpan<char> value) => UnsignedIntegerCodec.DecodeToByte(Encode(value));
 
     /// <summary>
     ///     Returns an unsigned integer from the Hexadecimal string provided

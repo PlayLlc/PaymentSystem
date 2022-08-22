@@ -1,6 +1,6 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core;
@@ -28,6 +28,34 @@ public record Track1Data : DataElement<Track1>
 
     public Track1Data(Track1 value) : base(value)
     { }
+
+    #endregion
+
+    #region Serialization
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Exception"></exception>
+    public static Track1Data Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Exception"></exception>
+    public override Track1Data Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Exception"></exception>
+    public static Track1Data Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
+
+        if (!PlayCodec.AlphaNumericSpecialCodec.IsValid(value))
+            throw new DataElementParsingException($"The {nameof(Track1Data)} could not be parsed because it was in an incorrect format");
+
+        return new Track1Data(new Track1(value));
+    }
+
+    public override byte[] EncodeValue() => _Value.Encode();
 
     #endregion
 
@@ -89,7 +117,7 @@ public record Track1Data : DataElement<Track1>
         Span<char> discretionaryData,
         int qNumberOfDigits,
         CardholderVerificationCode3Track1 cvc3,
-        ReadOnlySpan<byte> pcvcIndexArray)
+        ReadOnlySpan<Nibble> pcvcIndexArray)
     {
         ReadOnlySpan<char> digitsToCopy = cvc3.AsCharArray()[^qNumberOfDigits..];
 
@@ -119,7 +147,7 @@ public record Track1Data : DataElement<Track1>
     private void UpdateDiscretionaryData(
         Span<char> discretionaryData,
         UnpredictableNumberNumeric unpredictableNumber,
-        ReadOnlySpan<byte> punatcIndexArray)
+        ReadOnlySpan<Nibble> punatcIndexArray)
     {
         ReadOnlySpan<char> digitsToCopy = unpredictableNumber.AsCharArray()[^punatcIndexArray.Length..];
 
@@ -147,7 +175,7 @@ public record Track1Data : DataElement<Track1>
         Span<char> discretionaryData,
         NumericApplicationTransactionCounterTrack1 natc,
         ApplicationTransactionCounter atc,
-        ReadOnlySpan<byte> punatcIndexArray)
+        ReadOnlySpan<Nibble> punatcIndexArray)
     {
         if ((byte) natc == 0)
             return;
@@ -169,34 +197,6 @@ public record Track1Data : DataElement<Track1>
     {
         discretionaryData[^1] = PlayCodec.AlphaNumericCodec.DecodeToChar(nun);
     }
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Exception"></exception>
-    public static Track1Data Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Exception"></exception>
-    public override Track1Data Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Exception"></exception>
-    public static Track1Data Decode(ReadOnlySpan<byte> value)
-    {
-        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
-
-        if (!PlayCodec.AlphaNumericSpecialCodec.IsValid(value))
-            throw new DataElementParsingException($"The {nameof(Track1Data)} could not be parsed because it was in an incorrect format");
-
-        return new Track1Data(new Track1(value));
-    }
-
-    public override byte[] EncodeValue() => _Value.Encode();
 
     #endregion
 }

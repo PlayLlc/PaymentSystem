@@ -17,7 +17,7 @@ using Play.Icc.Exceptions;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
-internal partial class S910
+public partial class S910
 {
     private partial class ResponseHandler
     {
@@ -176,9 +176,9 @@ internal partial class S910
             }
 
             if (_Database.GetOutcomeParameterSet().GetCvmPerformed() == CvmPerformedOutcome.ObtainSignature)
-                _Database.Update(MessageIdentifiers.ApprovedPleaseSign);
+                _Database.Update(DisplayMessageIdentifiers.ApprovedPleaseSign);
             else
-                _Database.Update(MessageIdentifiers.Approved);
+                _Database.Update(DisplayMessageIdentifiers.Approved);
         }
 
         #endregion
@@ -195,9 +195,9 @@ internal partial class S910
                 _Database.Update(_Database.Get<MessageHoldTime>(MessageHoldTime.Tag));
 
             if (IsDeclined())
-                _Database.Update(MessageIdentifiers.Declined);
+                _Database.Update(DisplayMessageIdentifiers.Declined);
             else
-                _Database.Update(MessageIdentifiers.PleaseInsertOrSwipeCard);
+                _Database.Update(DisplayMessageIdentifiers.PleaseInsertOrSwipeCard);
         }
 
         #endregion
@@ -209,7 +209,7 @@ internal partial class S910
         private void PrepareOutcomeForApplicationAuthenticationCryptogram()
         {
             _Database.Update(MessageHoldTime.MinimumValue);
-            _Database.Update(MessageIdentifiers.ClearDisplay);
+            _Database.Update(DisplayMessageIdentifiers.ClearDisplay);
 
             if (!_Database.IsPurchaseTransaction() && !_Database.IsCashTransaction())
             {
@@ -240,7 +240,7 @@ internal partial class S910
                 return false;
 
             PutDataRequest capdu = PutDataRequest.Create(sessionId.GetTransactionSessionId(), tagToWrite!);
-            _PcdEndpoint.Request(capdu);
+            _EndpointClient.Send(capdu);
 
             return true;
         }
@@ -275,13 +275,13 @@ internal partial class S910
         /// <exception cref="InvalidOperationException"></exception>
         private void HandleDisplayMessageForSecondTapNeeded(Kernel2Session session)
         {
-            _DisplayEndpoint.Request(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
+            _EndpointClient.Send(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
             _Database.SetUiRequestOnRestartPresent(true);
-            _Database.Update(Statuses.ReadyToRead);
+            _Database.Update(DisplayStatuses.ReadyToRead);
             _Database.Update(MessageHoldTime.MinimumValue);
 
-            _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+            _EndpointClient.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
         }
 
         #endregion
@@ -296,7 +296,7 @@ internal partial class S910
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
             _Database.SetUiRequestOnOutcomePresent(true);
 
-            _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+            _EndpointClient.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
         }
 
         #endregion

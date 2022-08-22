@@ -7,7 +7,7 @@ using Play.Ber.Exceptions;
 using Play.Core;
 using Play.Core.Extensions;
 
-namespace Play.Ber.Identifiers;
+namespace Play.Ber.Tags;
 
 public sealed record DataObjectTypes : EnumObject<byte>, IEqualityComparer<byte>
 {
@@ -38,29 +38,6 @@ public sealed record DataObjectTypes : EnumObject<byte>, IEqualityComparer<byte>
 
     private DataObjectTypes(byte value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override DataObjectTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
-
-    public override bool TryGet(byte value, out EnumObject<byte>? result)
-    {
-        if (_ValueObjectMap.TryGetValue(value, out DataObjectTypes? enumResult))
-        {
-            result = enumResult;
-
-            return true;
-        }
-
-        result = null;
-
-        return false;
-    }
-
-    public bool IsPrimitive() => _Value == _Primitive;
-    public static bool TryGet(byte value, out DataObjectTypes? result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion
 
@@ -123,6 +100,29 @@ public sealed record DataObjectTypes : EnumObject<byte>, IEqualityComparer<byte>
 
     public static bool operator !=(DataObjectTypes left, byte right) => !(left == right);
     public static bool operator !=(byte left, DataObjectTypes right) => !(left == right);
+
+    #endregion
+
+    #region Instance Members
+
+    public override DataObjectTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out DataObjectTypes? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
+
+    public bool IsPrimitive() => _Value == _Primitive;
+    public static bool TryGet(byte value, out DataObjectTypes? result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion
 }

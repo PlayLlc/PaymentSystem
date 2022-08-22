@@ -1,17 +1,21 @@
 ﻿using System;
 
+using Play.Emv.Configuration;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Reader.Contracts.SignalOut;
-using Play.Emv.Terminal.Configuration;
 using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalIn;
 using Play.Emv.Terminal.Contracts.SignalOut;
+using Play.Emv.Terminal.DataExchange;
+using Play.Emv.Terminal.Session;
+using Play.Emv.Terminal.Settlement;
+using Play.Emv.Terminal.StateMachine;
 using Play.Messaging;
 using Play.Messaging.Exceptions;
 
 namespace Play.Emv.Terminal.Services;
 
-public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendTerminalResponses, IHandleResponsesToTerminal, IDisposable
+public class TerminalEndpoint : IMessageChannel, IDisposable
 {
     #region Static Metadata
 
@@ -29,12 +33,14 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
 
     #region Constructor
 
-    private TerminalEndpoint(ITerminalConfigurationRepository terminalConfigurationRepository, ICreateEndpointClient messageBus)
+    private TerminalEndpoint(TerminalConfiguration terminalConfiguration, IEndpointClient endpointClient)
     {
-        ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
-        _TerminalProcess = new TerminalProcess(terminalConfigurationRepository);
-        _EndpointClient = messageBus.CreateEndpointClient();
+        _EndpointClient = endpointClient;
         _EndpointClient.Subscribe(this);
+        ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
+        _TerminalProcess = new TerminalProcess(terminalConfiguration,
+            new TerminalStateResolver(terminalConfiguration, new DataExchangeTerminalService(_EndpointClient), _EndpointClient, new Settler()),
+            new SystemTraceAuditNumberSequencer(terminalConfiguration.GetSequenceConfiguration(), _EndpointClient));
     }
 
     #endregion
@@ -57,6 +63,8 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
             Request(activatePcdRequest);
         else if (message is QueryTerminalRequest queryPcdRequest)
             Request(queryPcdRequest);
+        else if (message is InitiateSettlementRequest initiateSettlementRequest)
+            Request(initiateSettlementRequest);
         else
             throw new InvalidMessageRoutingException(message, this);
     }
@@ -66,12 +74,12 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
         _TerminalProcess.Enqueue(message);
     }
 
-    public void Request(InitiateSettlementRequest message)
+    public void Request(QueryTerminalRequest message)
     {
         _TerminalProcess.Enqueue(message);
     }
 
-    public void Request(QueryTerminalRequest message)
+    public void Request(InitiateSettlementRequest message)
     {
         _TerminalProcess.Enqueue(message);
     }
@@ -98,34 +106,33 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
     {
         if (message is OutReaderResponse outReaderResponse)
             Handle(outReaderResponse);
-        if (message is QueryKernelResponse queryKernelResponse)
+        else if (message is QueryKernelResponse queryKernelResponse)
             Handle(queryKernelResponse);
-
-        if (message is StopReaderAcknowledgedResponse stopReaderAcknowledgedResponse)
+        else if (message is StopReaderAcknowledgedResponse stopReaderAcknowledgedResponse)
             Handle(stopReaderAcknowledgedResponse);
         else
             throw new InvalidMessageRoutingException(message, this);
     }
 
-    void IHandleResponsesToTerminal.Handle(OutReaderResponse message)
+    private void Handle(OutReaderResponse message)
     {
         _TerminalProcess.Enqueue(message);
     }
 
-    void IHandleResponsesToTerminal.Handle(QueryKernelResponse message)
+    private void Handle(QueryKernelResponse message)
     {
         _TerminalProcess.Enqueue(message);
     }
 
-    void IHandleResponsesToTerminal.Handle(StopReaderAcknowledgedResponse message)
+    private void Handle(StopReaderAcknowledgedResponse message)
     {
         _TerminalProcess.Enqueue(message);
     }
 
     #endregion
 
-    public static TerminalEndpoint Create(ITerminalConfigurationRepository terminalConfigurationRepository, ICreateEndpointClient messageRouter) =>
-        new(terminalConfigurationRepository, messageRouter);
+    public static TerminalEndpoint Create(TerminalConfiguration terminalConfiguration, IEndpointClient endpointClient) =>
+        new(terminalConfiguration, endpointClient);
 
     public void Dispose()
     {
@@ -133,9 +140,4 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
     }
 
     #endregion
-
-    //void IHandleResponsesToTerminal.Handle(AcquirerResponseSignal message)
-    //{
-    //    _TerminalProcess.Enqueue(message);
-    //}
 }

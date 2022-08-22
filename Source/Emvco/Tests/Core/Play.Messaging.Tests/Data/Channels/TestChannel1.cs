@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Messaging.Exceptions;
+﻿using Play.Messaging.Exceptions;
 using Play.Messaging.Tests.Data.Messages;
 
 namespace Play.Messaging.Tests.Data.Channels;
@@ -35,7 +29,7 @@ public class TestChannel1 : IMessageChannel
 
     public TestChannel1(ICreateEndpointClient messageRouter)
     {
-        _EndpointClient = messageRouter.CreateEndpointClient();
+        _EndpointClient = messageRouter.GetEndpointClient();
         _EndpointClient.Subscribe(this);
         ChannelIdentifier = new ChannelIdentifier(ChannelTypeId);
     }

@@ -1,5 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Emv.Icc;
 using Play.Emv.Identifiers;
 using Play.Icc.Exceptions;

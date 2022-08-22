@@ -1,6 +1,6 @@
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
@@ -30,6 +30,47 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
     public CryptogramInformationData(CryptogramTypes cryptogramTypes, bool isCombinedDataAuthenticationSupported) : base(Create(cryptogramTypes,
         isCombinedDataAuthenticationSupported))
     { }
+
+    #endregion
+
+    #region Serialization
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static CryptogramInformationData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    public override CryptogramInformationData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static CryptogramInformationData Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
+
+        byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
+
+        return new CryptogramInformationData(result);
+    }
+
+    public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public override byte[] EncodeValue(int length) => _Codec.EncodeValue(EncodingId, _Value, length);
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(CryptogramInformationData? x, CryptogramInformationData? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
+    public int GetHashCode(CryptogramInformationData obj) => obj.GetHashCode();
 
     #endregion
 
@@ -89,47 +130,6 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
     /// </summary>
     /// <returns></returns>
     public bool IsCdaSignatureRequested() => _Value.IsBitSet(Bits.Five);
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    public static CryptogramInformationData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    public override CryptogramInformationData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    public static CryptogramInformationData Decode(ReadOnlySpan<byte> value)
-    {
-        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
-
-        byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
-
-        return new CryptogramInformationData(result);
-    }
-
-    public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => _Codec.EncodeValue(EncodingId, _Value, length);
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(CryptogramInformationData? x, CryptogramInformationData? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(CryptogramInformationData obj) => obj.GetHashCode();
 
     #endregion
 }

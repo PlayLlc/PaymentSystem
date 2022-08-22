@@ -9,7 +9,7 @@ using Play.Emv.Kernel.Contracts;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
-internal partial class S910
+public partial class S910
 {
     private partial class ResponseHandler
     {
@@ -22,7 +22,7 @@ internal partial class S910
         public void ProcessCamFailedResponse(KernelSessionId sessionId)
         {
             _Database.Update(Level2Error.CryptographicAuthenticationMethodFailed);
-            _Database.Update(TerminalVerificationResultCodes.CombinationDataAuthenticationFailed);
+            _Database.Set(TerminalVerificationResultCodes.CombinationDataAuthenticationFailed);
 
             ProcessInvalidDataResponse(sessionId);
         }
@@ -80,8 +80,8 @@ internal partial class S910
         /// <exception cref="TerminalDataException"></exception>
         private void SetDisplayMessage()
         {
-            _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-            _Database.Update(Statuses.NotReady);
+            _Database.Update(DisplayMessageIdentifiers.ErrorUseAnotherCard);
+            _Database.Update(DisplayStatuses.NotReady);
             _Database.Update(_Database.Get<MessageHoldTime>(MessageHoldTime.Tag));
         }
 
@@ -95,7 +95,7 @@ internal partial class S910
             try
             {
                 _Database.Update(StatusOutcomes.EndApplication);
-                _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
+                _Database.Update(DisplayMessageOnErrorIdentifiers.ErrorUseAnotherCard);
                 _Database.SetIsDataRecordPresent(true);
                 _Database.CreateEmvDataRecord(_DataExchangeKernelService);
                 _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
@@ -111,7 +111,7 @@ internal partial class S910
             }
             finally
             {
-                _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+                _EndpointClient.Send(new StopKernelRequest(sessionId));
             }
         }
 
@@ -125,7 +125,7 @@ internal partial class S910
             try
             {
                 _Database.Update(StatusOutcomes.EndApplication);
-                _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
+                _Database.Update(DisplayMessageOnErrorIdentifiers.ErrorUseAnotherCard);
                 _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
                 _Database.SetUiRequestOnOutcomePresent(true);
             }
@@ -139,7 +139,7 @@ internal partial class S910
             }
             finally
             {
-                _KernelEndpoint.Request(new StopKernelRequest(sessionId));
+                _EndpointClient.Send(new StopKernelRequest(sessionId));
             }
         }
 

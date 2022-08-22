@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.ValueTypes;
@@ -33,46 +33,6 @@ public record CvmList : DataElement<BigInteger>, IResolveXAndYAmountForCvmSelect
 
     #endregion
 
-    #region Instance Members
-
-    /// <summary>
-    ///     Checks if there are any CVM Rules present. In addition, <see cref="CvmList" /> with invalid encoding, such as an
-    ///     odd number of bytes, is treated as if it is empty
-    /// </summary>
-    /// <remarks>EMV Book 3 Section 10.5</remarks>
-    public bool AreCardholderVerificationRulesPresent() => (_Value.GetByteCount() > 8) && ((_Value.GetByteCount() % 2) == 0);
-
-    /// <exception cref="DataElementParsingException"></exception>
-    public bool TryGetCardholderVerificationRules(out CvmRule[]? result)
-    {
-        if (!AreCardholderVerificationRulesPresent())
-        {
-            result = Array.Empty<CvmRule>();
-
-            return false;
-        }
-
-        const int offset = 8;
-        result = new CvmRule[(_Value.GetByteCount(true) - offset) / 2];
-        Span<byte> valueBuffer = _Value.ToByteArray(true).AsSpan()[offset..];
-
-        for (int i = 0, j = 0; j < result.Length; j++)
-            result[j] = new CvmRule(valueBuffer[i++..++i]);
-
-        return true;
-    }
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    public Money GetXAmount(NumericCurrencyCode currencyCode) =>
-        new(PlayCodec.BinaryCodec.DecodeToUInt64(_Value.ToByteArray(true).AsSpan()[..4]), currencyCode);
-
-    public Money GetYAmount(NumericCurrencyCode currencyCode) =>
-        new(PlayCodec.BinaryCodec.DecodeToUInt64(_Value.ToByteArray(true).AsSpan()[4..8]), currencyCode);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -86,12 +46,10 @@ public record CvmList : DataElement<BigInteger>, IResolveXAndYAmountForCvmSelect
         Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        BigInteger result = new(value);
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
         return new CvmList(result);
     }
-
-    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
 
     #endregion
 
@@ -109,6 +67,42 @@ public record CvmList : DataElement<BigInteger>, IResolveXAndYAmountForCvmSelect
     }
 
     public int GetHashCode(CardholderName obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    /// <summary>
+    ///     Checks if there are any CVM Rules present. In addition, <see cref="CvmList" /> with invalid encoding, such as an
+    ///     odd number of bytes, is treated as if it is empty
+    /// </summary>
+    /// <remarks>EMV Book 3 Section 10.5</remarks>
+    public bool AreCardholderVerificationRulesPresent() => (_Value.GetByteCount() > 8) && ((_Value.GetByteCount() % 2) != 0);
+
+    /// <exception cref="DataElementParsingException"></exception>
+    public bool TryGetCardholderVerificationRules(out CvmRule[]? result)
+    {
+        if ((_Value.GetByteCount() % 2) != 0)
+        {
+            result = Array.Empty<CvmRule>();
+
+            return false;
+        }
+
+        const int offset = 8;
+        result = new CvmRule[((_Value.GetByteCount() - offset) / 2) - 1];
+        Span<byte> valueBuffer = _Value.ToByteArray().AsSpan()[offset..];
+
+        for (int i = 2, j = 0; i < result.Length; j++)
+            result[j] = new CvmRule(valueBuffer[i++..i++]);
+
+        return true;
+    }
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public Money GetXAmount(NumericCurrencyCode currencyCode) => new(PlayCodec.BinaryCodec.DecodeToUInt64(_Value.ToByteArray().AsSpan()[..4]), currencyCode);
+    public Money GetYAmount(NumericCurrencyCode currencyCode) => new(PlayCodec.BinaryCodec.DecodeToUInt64(_Value.ToByteArray().AsSpan()[4..8]), currencyCode);
 
     #endregion
 }

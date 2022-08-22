@@ -3,9 +3,8 @@
 using Play.Core;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.DataElements.Terminal.RiskManagement;
 using Play.Emv.Ber.Enums;
-using Play.Emv.Configuration;
+using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Kernel.Services._TempLogShit;
 using Play.Globalization.Currency;
 
@@ -27,113 +26,145 @@ namespace Play.Emv.Kernel.Services;
 /// </summary>
 
 // DEPRECATING: We're refactoring Terminal Risk Management a bit. No commands sent. We'll add kernel DB interfaces as method injection
-public class TerminalRiskManager : IManageTerminalRisk
+internal class TerminalRiskManager : IManageTerminalRisk
 {
     #region Instance Values
 
     private readonly IProbabilitySelectionQueue _ProbabilitySelectionQueue;
     private readonly ICoordinateSplitPayments _SplitPaymentCoordinator;
 
+    /// <summary>
+    ///     This is a threshold amount, simply referred to as the threshold value, which can be zero or a positive number
+    ///     smaller than the Terminal Floor Limit
+    /// </summary>
+    private readonly Money _BiasedRandomSelectionThreshold;
+
+    private readonly Money _TerminalFloorLimit;
+    private readonly Probability _BiasedRandomSelectionMaximumProbability;
+    private readonly Probability _RandomSelectionTargetProbability;
+    private readonly byte _LowerConsecutiveOfflineLimit;
+    private readonly byte _UpperConsecutiveOfflineLimit;
+
     #endregion
 
     #region Constructor
 
-    public TerminalRiskManager(ICoordinateSplitPayments splitPaymentCoordinator, IProbabilitySelectionQueue probabilitySelectionQueue)
+    public TerminalRiskManager(
+        ICoordinateSplitPayments splitPaymentCoordinator, IProbabilitySelectionQueue probabilitySelectionQueue,
+        Probability biasedRandomSelectionMaximumProbability, Probability randomSelectionTargetProbability, Money terminalFloorLimit,
+        Money biasedRandomSelectionThreshold, byte lowerConsecutiveOfflineLimit, byte upperConsecutiveOfflineLimit)
     {
         _SplitPaymentCoordinator = splitPaymentCoordinator;
         _ProbabilitySelectionQueue = probabilitySelectionQueue;
+        _BiasedRandomSelectionMaximumProbability = biasedRandomSelectionMaximumProbability;
+        _RandomSelectionTargetProbability = randomSelectionTargetProbability;
+        _TerminalFloorLimit = terminalFloorLimit;
+        _LowerConsecutiveOfflineLimit = lowerConsecutiveOfflineLimit;
+        _UpperConsecutiveOfflineLimit = upperConsecutiveOfflineLimit;
+        _BiasedRandomSelectionThreshold = biasedRandomSelectionThreshold;
     }
 
     #endregion
 
     #region Instance Members
 
-    /// <exception cref="InvalidOperationException"></exception>
-    public void Process(ITlvReaderAndWriter database, TerminalRiskManagementConfiguration configuration)
+    public bool IsVelocityCheckSupported() => (_UpperConsecutiveOfflineLimit != null) && (_LowerConsecutiveOfflineLimit != null);
+
+    private static void CreateFloorLimitExceededResponse(ITlvReaderAndWriter database)
     {
-        ApplicationPan pan = database.Get<ApplicationPan>(ApplicationPan.Tag);
-        ApplicationCurrencyCode currencyCode = database.Get<ApplicationCurrencyCode>(ApplicationCurrencyCode.Tag);
-        Money amountAuthorizedNumeric = database.Get<AmountAuthorizedNumeric>(AmountAuthorizedNumeric.Tag).AsMoney(currencyCode);
-        Money terminalFloorLimit = database.Get<TerminalFloorLimit>(TerminalFloorLimit.Tag).AsMoney(currencyCode);
+        TerminalVerificationResults tvr = database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
+        TransactionStatusInformation tsi = database.Get<TransactionStatusInformation>(TransactionStatusInformation.Tag);
 
-        database.TryGet(LowerConsecutiveOfflineLimit.Tag, out LowerConsecutiveOfflineLimit? lowerConsecutiveOfflineLimit);
-        database.TryGet(UpperConsecutiveOfflineLimit.Tag, out UpperConsecutiveOfflineLimit? upperConsecutiveOfflineLimit);
-        database.TryGet(ApplicationTransactionCounter.Tag, out ApplicationTransactionCounter? applicationTransactionCount);
-        database.TryGet(LastOnlineApplicationTransactionCounterRegister.Tag, out LastOnlineApplicationTransactionCounterRegister? lastOnlineApplicationTransactionCount);
+        TerminalVerificationResults.Builder builder = TerminalVerificationResults.GetBuilder();
+        TerminalVerificationResult tvrBit = TerminalVerificationResult.Create();
+        tvrBit.SetTransactionExceedsFloorLimit();
 
-        if (IsFloorLimitExceeded(pan, amountAuthorizedNumeric, terminalFloorLimit))
-        {
-            database.Update(TerminalVerificationResultCodes.TransactionExceedsFloorLimit);
+        builder.Reset(tvr);
+        builder.Set(tvrBit);
 
-            return;
-        }
-
-        if (IsRandomSelection(amountAuthorizedNumeric, configuration.BiasedRandomSelectionThreshold, configuration.BiasedRandomSelectionTargetPercentage))
-        {
-            database.Update(TerminalVerificationResultCodes.TransactionSelectedRandomlyForOnlineProcessing);
-
-            return;
-        }
-
-        if (IsBiasedRandomSelection(amountAuthorizedNumeric, configuration.BiasedRandomSelectionThreshold, terminalFloorLimit,
-            configuration.BiasedRandomSelectionMaximumPercentage, configuration.BiasedRandomSelectionTargetPercentage))
-        {
-            database.Update(TerminalVerificationResultCodes.TransactionSelectedRandomlyForOnlineProcessing);
-
-            return;
-        }
-
-        if (!IsVelocityCheckSupported(upperConsecutiveOfflineLimit, lowerConsecutiveOfflineLimit))
-            return;
-
-        if (!DoesVelocityCheckHaveRequiredItems(applicationTransactionCount, lastOnlineApplicationTransactionCount))
-        {
-            database.Update(TerminalVerificationResultCodes.UpperConsecutiveOfflineLimitExceeded);
-            database.Update(TerminalVerificationResultCodes.LowerConsecutiveOfflineLimitExceeded);
-
-            return;
-        }
-
-        if (IsLowerVelocityThresholdExceeded(lowerConsecutiveOfflineLimit!, applicationTransactionCount!, lastOnlineApplicationTransactionCount!))
-            database.Update(TerminalVerificationResultCodes.LowerConsecutiveOfflineLimitExceeded);
-
-        if (IsUpperVelocityThresholdExceeded(upperConsecutiveOfflineLimit!, applicationTransactionCount!, lastOnlineApplicationTransactionCount!))
-            database.Update(TerminalVerificationResultCodes.UpperConsecutiveOfflineLimitExceeded);
-
-        if (IsLastAtcZero(lastOnlineApplicationTransactionCount!))
-            database.Update(TerminalVerificationResultCodes.NewCard);
+        database.Update(tsi.Set(TransactionStatusInformationFlags.TerminalRiskManagementPerformed));
+        database.Update(builder.Complete());
     }
 
-    #region Book 3 Section 10.6.1
-
-    /// <summary>
-    ///     During terminal risk management floor limit checking, the terminal checks the transaction log (if available) to
-    ///     determine if there is a log entry with the same Application PAN, and, optionally, the same Application PAN Sequence
-    ///     Number. If there are several log entries with the same PAN, the terminal selects the most recent entry. The
-    ///     terminal adds the Amount, Authorized for the current transaction to the amount stored in the log for that PAN to
-    ///     determine if the sum exceeds the Terminal Floor Limit. If the sum is greater than or equal to the Terminal Floor
-    ///     Limit, the terminal shall set the ‘Transaction exceeds floor limit’ bit in the TVR to 1.
-    /// </summary>
-    /// <param name="primaryAccountNumber"></param>
-    /// <param name="amountAuthorizedNumeric"></param>
-    /// <param name="terminalFloorLimit"></param>
-    /// <remarks>
-    ///     Book 3 Section 10.6.1
-    /// </remarks>
-    /// <exception cref="InvalidOperationException"></exception>
-    private bool IsFloorLimitExceeded(ApplicationPan primaryAccountNumber, Money amountAuthorizedNumeric, Money terminalFloorLimit)
+    private static void CreateRandomlySelectedForOnlineProcessResponse(ITlvReaderAndWriter database)
     {
-        if (!_SplitPaymentCoordinator.TryGetSplitPaymentLogItem(primaryAccountNumber, out SplitPaymentLogItem result))
-            return amountAuthorizedNumeric > terminalFloorLimit;
+        TerminalVerificationResults tvr = database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
+        TransactionStatusInformation tsi = database.Get<TransactionStatusInformation>(TransactionStatusInformation.Tag);
 
-        return amountAuthorizedNumeric.Add(result.GetSubtotal()) > terminalFloorLimit;
+        TerminalVerificationResults.Builder builder = TerminalVerificationResults.GetBuilder();
+        TerminalVerificationResult tvrBit = TerminalVerificationResult.Create();
+        tvrBit.SetTransactionSelectedRandomlyForOnlineProcessing();
+        builder.Reset(tvr);
+        builder.Set(tvrBit);
+        database.Update(tsi.Set(TransactionStatusInformationFlags.TerminalRiskManagementPerformed));
+        database.Update(builder.Complete());
     }
 
-    #endregion
+    private static void CreateVelocityCheckDoesNotHaveRequiredItemsResponse(ITlvReaderAndWriter database)
+    {
+        TerminalVerificationResults tvr = database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
+        TransactionStatusInformation tsi = database.Get<TransactionStatusInformation>(TransactionStatusInformation.Tag);
 
-    #endregion
+        TerminalVerificationResults.Builder builder = TerminalVerificationResults.GetBuilder();
+        TerminalVerificationResult tvrBit = TerminalVerificationResult.Create();
+        tvrBit.SetUpperConsecutiveOfflineLimitExceeded();
+        tvrBit.SetLowerConsecutiveOfflineLimitExceeded();
+        builder.Reset(tvr);
+        builder.Set(tvrBit);
+        database.Update(tsi.Set(TransactionStatusInformationFlags.TerminalRiskManagementPerformed));
+        database.Update(builder.Complete());
+    }
 
-    #region Book 3 Section 10.6.2
+    private static void CreateVelocityLowerThresholdExceededResponse(ITlvReaderAndWriter database)
+    {
+        TerminalVerificationResults tvr = database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
+        TransactionStatusInformation tsi = database.Get<TransactionStatusInformation>(TransactionStatusInformation.Tag);
+
+        TerminalVerificationResults.Builder builder = TerminalVerificationResults.GetBuilder();
+        TerminalVerificationResult tvrBit = TerminalVerificationResult.Create();
+        tvrBit.SetLowerConsecutiveOfflineLimitExceeded();
+        builder.Reset(tvr);
+        builder.Set(tvrBit);
+        database.Update(tsi.Set(TransactionStatusInformationFlags.TerminalRiskManagementPerformed));
+        database.Update(builder.Complete());
+    }
+
+    private static void CreateVelocityUpperThresholdExceededResponse(ITlvReaderAndWriter database)
+    {
+        TerminalVerificationResults tvr = database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
+        TransactionStatusInformation tsi = database.Get<TransactionStatusInformation>(TransactionStatusInformation.Tag);
+
+        TerminalVerificationResults.Builder builder = TerminalVerificationResults.GetBuilder();
+        TerminalVerificationResult tvrBit = TerminalVerificationResult.Create();
+        tvrBit.SetUpperConsecutiveOfflineLimitExceeded();
+        builder.Reset(tvr);
+        builder.Set(tvrBit);
+        database.Update(tsi.Set(TransactionStatusInformationFlags.TerminalRiskManagementPerformed));
+        database.Update(builder.Complete());
+    }
+
+    private static bool DoesVelocityCheckHaveRequiredItems(ushort? applicationTransactionCount, ushort? lastOnlineApplicationTransactionCount)
+    {
+        if (applicationTransactionCount is null)
+            return false;
+        if (lastOnlineApplicationTransactionCount is null)
+            return false;
+
+        return true;
+    }
+
+    private static Probability GetTransactionTargetPercentage(
+        Money amountAuthorized, Money terminalFloorLimit, Money biasedRandomSelectionThreshold, Probability biasedRandomSelectionMaximumTargetProbability,
+        Probability randomSelectionTargetProbability)
+    {
+        ulong interpolationFactor = (ulong) ((amountAuthorized - biasedRandomSelectionThreshold) / (terminalFloorLimit - biasedRandomSelectionThreshold));
+
+        int transactionTargetPercent =
+            (((byte) biasedRandomSelectionMaximumTargetProbability - (byte) randomSelectionTargetProbability) * (byte) interpolationFactor)
+            + (byte) randomSelectionTargetProbability;
+
+        return new Probability((byte) transactionTargetPercent);
+    }
 
     /// <summary>
     ///     Any transaction with a transaction amount less than the Threshold Value for Biased Random Selection will be subject
@@ -153,48 +184,28 @@ public class TerminalRiskManager : IManageTerminalRisk
         if (amountAuthorizedNumeric > terminalFloorLimit)
             return false;
 
-        if (!_ProbabilitySelectionQueue.IsRandomSelection(GetTransactionTargetPercentage(amountAuthorizedNumeric, terminalFloorLimit,
-            biasedRandomSelectionThreshold, biasedRandomSelectionMaximumTargetProbability, randomSelectionTargetProbability)))
-            return false;
-
-        return true;
+        return _ProbabilitySelectionQueue.IsRandomSelection(GetTransactionTargetPercentage(amountAuthorizedNumeric, terminalFloorLimit,
+            biasedRandomSelectionThreshold, biasedRandomSelectionMaximumTargetProbability, randomSelectionTargetProbability));
     }
 
-    /// <remarks>
-    ///     Book 3 Section 10.6.2
-    /// </remarks>
-    private static Probability GetTransactionTargetPercentage(
-        Money amountAuthorized, Money terminalFloorLimit, Money biasedRandomSelectionThreshold, Probability biasedRandomSelectionMaximumTargetProbability,
-        Probability randomSelectionTargetProbability)
-    {
-        ulong interpolationFactor = (ulong) ((amountAuthorized - biasedRandomSelectionThreshold) / (terminalFloorLimit - biasedRandomSelectionThreshold));
-
-        int transactionTargetPercent =
-            (((byte) biasedRandomSelectionMaximumTargetProbability - (byte) randomSelectionTargetProbability) * (byte) interpolationFactor)
-            + (byte) randomSelectionTargetProbability;
-
-        return new Probability((byte) transactionTargetPercent);
-    }
-
+    // TODO: Not sure if we're supposed to be looking at sequence number here 
     /// <summary>
-    ///     Any transaction with a transaction amount less than the Threshold Value for Biased Random Selection
-    ///     will be subject to selection at random .‘Target Percentage to be Used for Random Selection’ (in the range of 0 to
-    ///     99)
+    ///     IsFloorLimitExceeded
     /// </summary>
-    /// <remarks>
-    ///     Book 3 Section 10.6.2
-    /// </remarks>
-    private bool IsRandomSelection(Money amountAuthorizedNumeric, Money biasedRandomSelectionThreshold, Probability randomSelectionTargetProbability)
+    /// <param name="primaryAccountNumber"></param>
+    /// <param name="amountAuthorizedNumeric"></param>
+    /// <param name="terminalFloorLimit"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    private bool IsFloorLimitExceeded(
+        ApplicationPan primaryAccountNumber, /*uint sequenceNumber,*/
+        Money amountAuthorizedNumeric, Money terminalFloorLimit)
     {
-        if (amountAuthorizedNumeric >= biasedRandomSelectionThreshold)
-            return false;
+        if (!_SplitPaymentCoordinator.TryGetSplitPaymentLogItem(primaryAccountNumber, out SplitPaymentLogItem result))
+            return terminalFloorLimit > amountAuthorizedNumeric;
 
-        return _ProbabilitySelectionQueue.IsRandomSelection(randomSelectionTargetProbability);
+        return terminalFloorLimit > amountAuthorizedNumeric.Add(result.GetSubtotal());
     }
-
-    #endregion
-
-    #region Book 3 Section 10.6.3
 
     /// <summary>
     ///     Checks the Issuer supplied values indicating if this transaction should be authorized online
@@ -205,8 +216,25 @@ public class TerminalRiskManager : IManageTerminalRisk
     private static bool IsLowerVelocityThresholdExceeded(
         byte lowerConsecutiveOfflineLimit, ushort applicationTransactionCount, ushort lastOnlineApplicationTransactionCount)
     {
+        if (applicationTransactionCount <= lastOnlineApplicationTransactionCount)
+            return true;
+
         if ((applicationTransactionCount - lastOnlineApplicationTransactionCount) > lowerConsecutiveOfflineLimit)
             return true;
+
+        return false;
+    }
+
+    /// <summary>
+    ///     ‘Target Percentage to be Used for Random Selection’ (in the range of 0 to 99)
+    /// </summary>
+    /// <remarks>
+    ///     Book 3 Section 10.6.2
+    /// </remarks>
+    private bool IsRandomSelection(Money amountAuthorizedNumeric, Money biasedRandomSelectionThreshold, Probability randomSelectionTargetProbability)
+    {
+        if (amountAuthorizedNumeric < biasedRandomSelectionThreshold)
+            return _ProbabilitySelectionQueue.IsRandomSelection(randomSelectionTargetProbability);
 
         return false;
     }
@@ -220,43 +248,79 @@ public class TerminalRiskManager : IManageTerminalRisk
     private static bool IsUpperVelocityThresholdExceeded(
         byte upperConsecutiveOfflineLimit, ushort applicationTransactionCount, ushort lastOnlineApplicationTransactionCount)
     {
+        if (applicationTransactionCount <= lastOnlineApplicationTransactionCount)
+            return true;
+
         if ((applicationTransactionCount - lastOnlineApplicationTransactionCount) > upperConsecutiveOfflineLimit)
             return true;
 
         return false;
     }
 
-    /// <remarks>
-    ///     Book 3 Section 10.6.3
-    /// </remarks>
-    private bool IsVelocityCheckSupported(
-        UpperConsecutiveOfflineLimit? upperConsecutiveOfflineLimit, LowerConsecutiveOfflineLimit? lowerConsecutiveOfflineLimit)
+    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    public void Process(ITlvReaderAndWriter database, ushort applicationTransactionCount, ushort lastOnlineApplicationTransactionCount)
     {
-        if ((upperConsecutiveOfflineLimit == null) || (lowerConsecutiveOfflineLimit == null))
-            return false;
+        ApplicationPan applicationPan = database.Get<ApplicationPan>(ApplicationPan.Tag);
+        TransactionCurrencyCode transactionCurrencyCode = database.Get<TransactionCurrencyCode>(TransactionCurrencyCode.Tag);
+        Money amountAuthorizedNumeric = database.Get<AmountAuthorizedNumeric>(AmountAuthorizedNumeric.Tag).AsMoney(transactionCurrencyCode);
+        TerminalVerificationResults tvr = database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
+        TransactionStatusInformation tsi = database.Get<TransactionStatusInformation>(TransactionStatusInformation.Tag);
+        TerminalVerificationResults.Builder builder = TerminalVerificationResults.GetBuilder();
+        builder.Reset(tvr);
 
-        return true;
+        if (IsFloorLimitExceeded(applicationPan, amountAuthorizedNumeric, _TerminalFloorLimit))
+        {
+            CreateFloorLimitExceededResponse(database);
+
+            return;
+        }
+
+        if (IsRandomSelection(amountAuthorizedNumeric, _TerminalFloorLimit, _RandomSelectionTargetProbability))
+        {
+            CreateRandomlySelectedForOnlineProcessResponse(database);
+
+            return;
+        }
+
+        if (IsBiasedRandomSelection(amountAuthorizedNumeric, _BiasedRandomSelectionThreshold, _TerminalFloorLimit, _BiasedRandomSelectionMaximumProbability,
+            _RandomSelectionTargetProbability))
+        {
+            CreateRandomlySelectedForOnlineProcessResponse(database);
+
+            return;
+        }
+
+        if (!IsVelocityCheckSupported())
+        {
+            database.Update(tsi.Set(TransactionStatusInformationFlags.NotAvailable));
+
+            return;
+        }
+
+        if (!DoesVelocityCheckHaveRequiredItems(applicationTransactionCount, lastOnlineApplicationTransactionCount))
+        {
+            CreateVelocityCheckDoesNotHaveRequiredItemsResponse(database);
+
+            return;
+        }
+
+        if (IsLowerVelocityThresholdExceeded(_LowerConsecutiveOfflineLimit, applicationTransactionCount, lastOnlineApplicationTransactionCount))
+        {
+            CreateVelocityLowerThresholdExceededResponse(database);
+
+            return;
+        }
+
+        if (IsUpperVelocityThresholdExceeded(_UpperConsecutiveOfflineLimit, applicationTransactionCount, lastOnlineApplicationTransactionCount))
+        {
+            CreateVelocityUpperThresholdExceededResponse(database);
+
+            return;
+        }
+
+        database.Update(tsi.Set(TransactionStatusInformationFlags.NotAvailable));
     }
-
-    /// <remarks>
-    ///     Book 3 Section 10.6.3
-    /// </remarks>
-    private static bool DoesVelocityCheckHaveRequiredItems(
-        ApplicationTransactionCounter? applicationTransactionCount, LastOnlineApplicationTransactionCounterRegister? lastOnlineApplicationTransactionCount)
-    {
-        if (applicationTransactionCount == null)
-            return false;
-
-        if (lastOnlineApplicationTransactionCount == null)
-            return false;
-
-        if ((ushort) applicationTransactionCount! <= (ushort) lastOnlineApplicationTransactionCount!)
-            return false;
-
-        return true;
-    }
-
-    private static bool IsLastAtcZero(ushort lastOnlineApplicationTransactionCount) => lastOnlineApplicationTransactionCount == 0;
 
     #endregion
 }

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Exceptions;
 using Play.Ber.InternalFactories;
+using Play.Ber.Tags;
 using Play.Core.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
@@ -21,17 +22,17 @@ public class Kernel2DefaultValues : DefaultValues
     /// <summary>
     ///     Initializes default values that are specified in EMVco Book 3
     /// </summary>
-    public override void AddDefaults(KnownObjects knownObjects, Dictionary<Tag, PrimitiveValue> defaultValueMap)
+    public override IEnumerable<PrimitiveValue> GetDefaults(KnownObjects knownObjects)
     {
         foreach (PrimitiveValue? prim in GetKernel2Defaults())
         {
             if (knownObjects.Exists(prim.GetTag()))
-                defaultValueMap.TryAdd(prim.GetTag(), prim);
+                yield return prim;
         }
     }
 
     /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="PlayInternalException"></exception>
     private static PrimitiveValue[] GetKernel2Defaults()

@@ -41,7 +41,7 @@ public record UpdateKernelRequest : RequestSignal, IExchangeDataWithTheTerminal
     public DataToSend GetDataToSend() => _DataToSend;
     public DataExchangeTerminalId GetDataExchangeTerminalId() => _DataExchangeTerminalId;
     public TransactionSessionId GetTransactionSessionId() => _DataExchangeTerminalId.GetTransactionSessionId();
-    public KernelId GetShortKernelId() => _DataExchangeTerminalId.GetKernelId();
+    public KernelId GetKernelId() => _DataExchangeTerminalId.GetKernelId();
 
     #endregion
 }

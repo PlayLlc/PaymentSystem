@@ -1,6 +1,6 @@
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
@@ -32,31 +32,6 @@ public record TransactionStatusInformation : DataElement<ushort>
 
     #endregion
 
-    #region Instance Members
-
-    public static TransactionStatusInformation Create() => new();
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    public TransactionStatusInformation Set(TransactionStatusInformationFlags transactionStatus)
-    {
-        if (transactionStatus == TransactionStatusInformationFlags.NotAvailable)
-            return this;
-
-        return new TransactionStatusInformation((ushort) (_Value | transactionStatus));
-    }
-
-    public bool CardholderVerificationWasPerformed() => _Value.IsBitSet(7);
-    public bool CardRiskManagementWasPerformed() => _Value.IsBitSet(6);
-    public bool IssuerAuthenticationWasPerformed() => _Value.IsBitSet(5);
-    public bool OfflineDataAuthenticationWasPerformed() => _Value.IsBitSet(8);
-    public bool ScriptProcessingWasPerformed() => _Value.IsBitSet(3);
-    public bool TerminalRiskManagementWasPerformed() => _Value.IsBitSet(4);
-    public static Builder GetBuilder() => new();
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -81,39 +56,27 @@ public record TransactionStatusInformation : DataElement<ushort>
 
     #endregion
 
-    public class Builder : PrimitiveValueBuilder<ushort>
+    #region Instance Members
+
+    public static TransactionStatusInformation Create() => new();
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+
+    public TransactionStatusInformation Set(TransactionStatusInformationFlags transactionStatus)
     {
-        #region Constructor
+        if (transactionStatus == TransactionStatusInformationFlags.NotAvailable)
+            return this;
 
-        internal Builder(TransactionStatusInformation outcomeParameterSet)
-        {
-            _Value = outcomeParameterSet._Value;
-        }
-
-        internal Builder()
-        { }
-
-        #endregion
-
-        #region Instance Members
-
-        public void Reset(TransactionStatusInformation value)
-        {
-            _Value = value._Value;
-        }
-
-        public override TransactionStatusInformation Complete() => new(_Value);
-
-        public void Set(TransactionStatusInformationFlags value)
-        {
-            _Value |= value;
-        }
-
-        protected override void Set(ushort bitsToSet)
-        {
-            _Value |= bitsToSet;
-        }
-
-        #endregion
+        return new TransactionStatusInformation((ushort) (_Value | transactionStatus));
     }
+
+    public bool CardholderVerificationWasPerformed() => _Value.IsBitSet(7);
+    public bool CardRiskManagementWasPerformed() => _Value.IsBitSet(6);
+    public bool IssuerAuthenticationWasPerformed() => _Value.IsBitSet(5);
+    public bool OfflineDataAuthenticationWasPerformed() => _Value.IsBitSet(8);
+    public bool ScriptProcessingWasPerformed() => _Value.IsBitSet(3);
+    public bool TerminalRiskManagementWasPerformed() => _Value.IsBitSet(4);
+
+    #endregion
 }

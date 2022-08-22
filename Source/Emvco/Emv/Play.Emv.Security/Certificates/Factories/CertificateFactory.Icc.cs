@@ -43,7 +43,7 @@ internal partial class CertificateFactory
         ApplicationPan recoveredPan;
         ShortDate expirationDate;
         CertificateSerialNumber serialNumber;
-        HashAlgorithmIndicator hashAlgorithmIndicator;
+        HashAlgorithmIndicators hashAlgorithmIndicators;
         byte iccModulusLength;
         IccPublicKeyExponent exponent;
 
@@ -54,11 +54,12 @@ internal partial class CertificateFactory
             recoveredPan = ApplicationPan.Decode(decodedSignature.GetMessage1()[1..11]);
             expirationDate = new ShortDate(PlayCodec.NumericCodec.DecodeToUInt16(decodedSignature.GetMessage1()[new Range(11, 13)]));
             serialNumber = new CertificateSerialNumber(decodedSignature.GetMessage1()[13..16]);
-            hashAlgorithmIndicator = HashAlgorithmIndicator.Get(decodedSignature.GetMessage1()[16]);
+            HashAlgorithmIndicators.Empty.TryGet(decodedSignature.GetMessage1()[16], out EnumObject<byte>? hashAlgorithmIndicatorResult);
+            hashAlgorithmIndicators = (HashAlgorithmIndicators) hashAlgorithmIndicatorResult!;
 
             iccModulusLength = decodedSignature.GetMessage1()[18];
             byte iccExponentLength = decodedSignature.GetMessage1()[19];
-            exponent = iccExponentLength > 1 ? new IccPublicKeyExponent(PublicKeyExponent._65537) : new IccPublicKeyExponent(PublicKeyExponent._3);
+            exponent = iccExponentLength > 1 ? new IccPublicKeyExponent(PublicKeyExponents._65537) : new IccPublicKeyExponent(PublicKeyExponents._3);
         }
         catch (CodecParsingException exception)
         {
@@ -83,7 +84,7 @@ internal partial class CertificateFactory
             staticDataToBeAuthenticated, iccPublicKeyRemainder);
 
         // Step 3, 4, 6, 7, 
-        if (!_SignatureService.IsSignatureValid(hashAlgorithmIndicator, hashSeed, decodedSignature))
+        if (!_SignatureService.IsSignatureValid(hashAlgorithmIndicators, hashSeed, decodedSignature))
         {
             throw new CryptographicAuthenticationMethodFailedException(
                 $"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the hash validation failed");
@@ -104,17 +105,17 @@ internal partial class CertificateFactory
         }
 
         // Step 10
-        if (!PublicKeyAlgorithmIndicator.Empty.TryGet(decodedSignature.GetMessage1()[17], out EnumObject<byte>? publicKeyAlgorithmIndicator))
+        if (!PublicKeyAlgorithmIndicators.Empty.TryGet(decodedSignature.GetMessage1()[17], out EnumObject<byte>? publicKeyAlgorithmIndicator))
         {
             throw new CryptographicAuthenticationMethodFailedException(
-                $"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the {nameof(PublicKeyAlgorithmIndicator)} value: [{decodedSignature.GetMessage1()[17]}] could not be recognized");
+                $"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the {nameof(PublicKeyAlgorithmIndicators)} value: [{decodedSignature.GetMessage1()[17]}] could not be recognized");
         }
 
         PublicKeyModulus publicKeyModulus = DecodedIccPublicKeyCertificate.ResolvePublicKeyModulus(iccModulusLength, issuerCertificate,
             decodedSignature.GetMessage1(), iccPublicKeyRemainder?.AsPublicKeyRemainder());
 
-        return new DecodedIccPublicKeyCertificate(new DateRange(ShortDate.Min, expirationDate), serialNumber, hashAlgorithmIndicator,
-            (PublicKeyAlgorithmIndicator) publicKeyAlgorithmIndicator!,
+        return new DecodedIccPublicKeyCertificate(new DateRange(ShortDate.Min, expirationDate), serialNumber, hashAlgorithmIndicators,
+            (PublicKeyAlgorithmIndicators) publicKeyAlgorithmIndicator!,
             new PublicKeyInfo(publicKeyModulus, exponent.AsPublicKeyExponent(), iccPublicKeyRemainder?.AsPublicKeyRemainder()));
     }
 

@@ -7,7 +7,7 @@ public readonly record struct DataExchangeTerminalId
 {
     #region Instance Values
 
-    private readonly KernelId KernelId;
+    private readonly KernelId _KernelId;
     private readonly TransactionSessionId _TransactionSessionId;
 
     #endregion
@@ -16,7 +16,7 @@ public readonly record struct DataExchangeTerminalId
 
     public DataExchangeTerminalId(KernelId kernelId, TransactionSessionId transactionSessionId)
     {
-        KernelId = kernelId;
+        _KernelId = kernelId;
         _TransactionSessionId = transactionSessionId;
     }
 
@@ -24,7 +24,7 @@ public readonly record struct DataExchangeTerminalId
 
     #region Instance Members
 
-    public KernelId GetKernelId() => KernelId;
+    public KernelId GetKernelId() => _KernelId;
     public TransactionSessionId GetTransactionSessionId() => _TransactionSessionId;
 
     #endregion

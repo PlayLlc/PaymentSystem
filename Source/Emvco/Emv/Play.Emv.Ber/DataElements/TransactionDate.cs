@@ -1,5 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
@@ -29,24 +29,6 @@ public record TransactionDate : DataElement<uint>, IEqualityComparer<Transaction
 
     public TransactionDate(DateTimeUtc dateTime) : base(GetNumeric(dateTime))
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    private static uint GetNumeric(DateTimeUtc value)
-    {
-        int result = value.Year;
-        result *= 100;
-        result += value.Month;
-        result *= 100;
-        result += value.Day;
-
-        return (uint) result;
-    }
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 
@@ -96,6 +78,24 @@ public record TransactionDate : DataElement<uint>, IEqualityComparer<Transaction
     #region Operator Overrides
 
     public static explicit operator uint(TransactionDate value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    private static uint GetNumeric(DateTimeUtc value)
+    {
+        int result = value.Year;
+        result *= 100;
+        result += value.Month;
+        result *= 100;
+        result += value.Day;
+
+        return (uint) result;
+    }
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

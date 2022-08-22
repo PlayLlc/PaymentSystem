@@ -1,7 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Ber.Tags;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 using Play.Icc.FileSystem.DedicatedFiles;
@@ -23,24 +23,6 @@ public record FileControlInformationDdf : FileControlInformationTemplate
     {
         _DedicatedFileName = dedicatedFileName;
         _FileControlInformationProprietary = fileControlInformationProprietary;
-    }
-
-    #endregion
-
-    #region Instance Members
-
-    public DedicatedFileName GetDedicatedFileName() => _DedicatedFileName;
-    public override FileControlInformationProprietaryDdf GetFileControlInformationProprietary() => _FileControlInformationProprietary;
-    public override Tag GetTag() => Tag;
-
-    public override Tag[] GetChildTags()
-    {
-        return new[] {DedicatedFileName.Tag, FileControlInformationProprietaryTemplate.Tag};
-    }
-
-    protected override IEncodeBerDataObjects?[] GetChildren()
-    {
-        return new IEncodeBerDataObjects?[] {_DedicatedFileName, _FileControlInformationProprietary};
     }
 
     #endregion
@@ -95,6 +77,24 @@ public record FileControlInformationDdf : FileControlInformationTemplate
 
             return result;
         }
+    }
+
+    #endregion
+
+    #region Instance Members
+
+    public DedicatedFileName GetDedicatedFileName() => _DedicatedFileName;
+    public override FileControlInformationProprietaryDdf GetFileControlInformationProprietary() => _FileControlInformationProprietary;
+    public override Tag GetTag() => Tag;
+
+    public override Tag[] GetChildTags()
+    {
+        return new[] {DedicatedFileName.Tag, FileControlInformationProprietaryTemplate.Tag};
+    }
+
+    protected override IEncodeBerDataObjects?[] GetChildren()
+    {
+        return new IEncodeBerDataObjects?[] {_DedicatedFileName, _FileControlInformationProprietary};
     }
 
     #endregion

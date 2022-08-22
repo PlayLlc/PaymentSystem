@@ -1,7 +1,5 @@
-﻿using Play.Emv.Display.Contracts;
-using Play.Emv.Exceptions;
+﻿using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
-using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
@@ -9,8 +7,7 @@ using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Services.BalanceReading;
 using Play.Emv.Kernel2.Services.PrepareGenerateAc;
-using Play.Emv.Pcd.Contracts;
-using Play.Emv.Security;
+using Play.Messaging;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
@@ -20,23 +17,21 @@ public partial class WaitingForRecoverAcResponse : KernelState
 
     private readonly S910 _S910;
     private readonly PrepareGenerateAcService _PrepareApplicationCryptogramService;
-    private readonly OfflineBalanceReader _OfflineBalanceReader;
+    private readonly IReadOfflineBalance _OfflineBalanceReader;
 
     #endregion
 
     #region Constructor
 
     public WaitingForRecoverAcResponse(
-        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint, IHandleDisplayRequests displayEndpoint,
-        IAuthenticateTransactionSession transactionAuthenticator) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionLog,
-        kernelStateResolver, pcdEndpoint, displayEndpoint)
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IEndpointClient endpointClient,
+        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IReadOfflineBalance balanceReader,
+        PrepareGenerateAcService prepareApplicationCryptogramService, S910 s910) : base(database, dataExchangeKernelService, tornTransactionLog,
+        kernelStateResolver, endpointClient)
     {
-        _S910 = new S910(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint, transactionAuthenticator, displayEndpoint);
-        _OfflineBalanceReader = new OfflineBalanceReader(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint);
-
-        _PrepareApplicationCryptogramService =
-            new PrepareGenerateAcService(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint);
+        _S910 = s910;
+        _OfflineBalanceReader = balanceReader;
+        _PrepareApplicationCryptogramService = prepareApplicationCryptogramService;
     }
 
     #endregion

@@ -147,9 +147,9 @@ public partial class WaitingForGenerateAcResponse2
             }
 
             if (_Database.GetOutcomeParameterSet().GetCvmPerformed() == CvmPerformedOutcome.ObtainSignature)
-                _Database.Update(MessageIdentifiers.ApprovedPleaseSign);
+                _Database.Update(DisplayMessageIdentifiers.ApprovedPleaseSign);
             else
-                _Database.Update(MessageIdentifiers.Approved);
+                _Database.Update(DisplayMessageIdentifiers.Approved);
         }
 
         #endregion
@@ -162,7 +162,7 @@ public partial class WaitingForGenerateAcResponse2
         {
             _Database.Update(StatusOutcomes.OnlineRequest);
             _Database.Update(MessageHoldTime.MinimumValue);
-            _Database.Update(MessageIdentifiers.AuthorizingPleaseWait);
+            _Database.Update(DisplayMessageIdentifiers.AuthorizingPleaseWait);
         }
 
         #endregion
@@ -176,7 +176,7 @@ public partial class WaitingForGenerateAcResponse2
             if (!_Database.IsPurchaseTransaction() && !_Database.IsCashTransaction())
             {
                 _Database.Update(MessageHoldTime.MinimumValue);
-                _Database.Update(MessageIdentifiers.ClearDisplay);
+                _Database.Update(DisplayMessageIdentifiers.ClearDisplay);
 
                 return;
             }
@@ -237,7 +237,7 @@ public partial class WaitingForGenerateAcResponse2
                 return false;
 
             PutDataRequest capdu = PutDataRequest.Create(sessionId.GetTransactionSessionId(), tagToWrite!);
-            _PcdEndpoint.Request(capdu);
+            _EndpointClient.Send(capdu);
 
             return true;
         }
@@ -280,7 +280,7 @@ public partial class WaitingForGenerateAcResponse2
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
             _Database.SetUiRequestOnRestartPresent(true);
 
-            _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+            _EndpointClient.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
         }
 
         #endregion
@@ -292,13 +292,13 @@ public partial class WaitingForGenerateAcResponse2
         /// <exception cref="InvalidOperationException"></exception>
         private void HandleDisplayMessageForSecondTapNeeded(Kernel2Session session)
         {
-            _DisplayEndpoint.Request(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
+            _EndpointClient.Send(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
             _Database.SetUiRequestOnOutcomePresent(true);
-            _Database.Update(Statuses.ReadyToRead);
+            _Database.Update(DisplayStatuses.ReadyToRead);
             _Database.Update(MessageHoldTime.MinimumValue);
 
-            _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+            _EndpointClient.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetTransaction()));
         }
 
         #endregion

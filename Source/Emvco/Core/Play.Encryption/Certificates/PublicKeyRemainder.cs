@@ -31,8 +31,8 @@ public record PublicKeyRemainder
 
     #region Instance Members
 
-    public Span<byte> AsSpan() => _Value.ToByteArray(true).AsSpan();
-    public int GetByteCount() => _Value.GetByteCount(true);
+    public Span<byte> AsSpan() => _Value.ToByteArray().AsSpan();
+    public int GetByteCount() => _Value.GetByteCount();
     public bool IsEmpty() => _Value == 0;
 
     #endregion

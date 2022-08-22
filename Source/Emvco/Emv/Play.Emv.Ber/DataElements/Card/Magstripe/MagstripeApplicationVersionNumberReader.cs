@@ -1,5 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -24,13 +24,6 @@ public record MagstripeApplicationVersionNumberReader : DataElement<ushort>
 
     public MagstripeApplicationVersionNumberReader(ushort value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 
@@ -61,6 +54,13 @@ public record MagstripeApplicationVersionNumberReader : DataElement<ushort>
     #region Operator Overrides
 
     public static implicit operator ushort(MagstripeApplicationVersionNumberReader value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

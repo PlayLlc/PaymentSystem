@@ -8,7 +8,7 @@ using Play.Globalization.Time;
 
 namespace Play.Emv.Ber.ValueTypes;
 
-public readonly record struct Track2
+public readonly struct Track2
 {
     #region Static Metadata
 

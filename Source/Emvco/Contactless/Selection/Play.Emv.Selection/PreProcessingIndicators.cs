@@ -2,9 +2,10 @@
 
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Identifiers;
-using Play.Emv.Selection.Contracts;
 using Play.Globalization;
 using Play.Icc.FileSystem.DedicatedFiles;
+
+using TransactionProfile = Play.Emv.Selection.Contracts.TransactionProfile;
 
 namespace Play.Emv.Selection;
 
@@ -29,7 +30,7 @@ public class PreProcessingIndicators : IReadOnlyDictionary<CombinationCompositeK
         if (!entryPointConfiguration.Any())
             _Values = new Dictionary<CombinationCompositeKey, PreProcessingIndicator>();
 
-        _Values = entryPointConfiguration.ToDictionary(a => a.GetKey(), b => new PreProcessingIndicator(b));
+        _Values = entryPointConfiguration.ToDictionary(a => a.GetCombinationCompositeKey(), b => new PreProcessingIndicator(b));
     }
 
     #endregion

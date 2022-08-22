@@ -1,12 +1,14 @@
 ﻿using System;
 
+using Play.Emv.Display.Configuration;
 using Play.Emv.Display.Contracts;
+using Play.Emv.Reader.Configuration;
 using Play.Messaging;
 using Play.Messaging.Exceptions;
 
 namespace Play.Emv.Display.Services;
 
-public class DisplayEndpoint : IMessageChannel, IHandleDisplayRequests, IDisposable
+public class DisplayEndpoint : IMessageChannel, IDisposable
 {
     #region Static Metadata
 
@@ -25,10 +27,11 @@ public class DisplayEndpoint : IMessageChannel, IHandleDisplayRequests, IDisposa
     #region Constructor
 
     private DisplayEndpoint(
-        IDisplayMessages displayService, IDisplayLed ledDisplayService, IDisplayMessageRepository displayMessageRepository, ICreateEndpointClient messageBus)
+        DisplayConfigurations displayConfiguration, IDisplayMessages displayService, IDisplayLed ledDisplayService, IFormatDisplayMessages messageFormatter,
+        IEndpointClient endpointClient)
     {
-        _DisplayProcess = new DisplayProcess(displayService, ledDisplayService, displayMessageRepository);
-        _EndpointClient = messageBus.CreateEndpointClient();
+        _DisplayProcess = new DisplayProcess(displayConfiguration, messageFormatter, displayService, ledDisplayService);
+        _EndpointClient = endpointClient;
         _EndpointClient.Subscribe(this);
     }
 
@@ -74,7 +77,7 @@ public class DisplayEndpoint : IMessageChannel, IHandleDisplayRequests, IDisposa
     ///     Handle
     /// </summary>
     /// <param name="message"></param>
-    /// <exception cref="Play.Messaging.Exceptions.InvalidMessageRoutingException"></exception>
+    /// <exception cref="InvalidMessageRoutingException"></exception>
     public void Handle(ResponseMessage message)
     {
         throw new InvalidMessageRoutingException(message, this);
@@ -83,9 +86,12 @@ public class DisplayEndpoint : IMessageChannel, IHandleDisplayRequests, IDisposa
     #endregion
 
     public static DisplayEndpoint Create(
-        IDisplayMessages displayService, IDisplayLed ledDisplayService, IDisplayMessageRepository displayMessageRepository,
-        ICreateEndpointClient messageRouter) =>
-        new(displayService, ledDisplayService, displayMessageRepository, messageRouter);
+        DisplayConfigurations displayConfiguration, IDisplayMessages displayService, IDisplayLed ledDisplayService, IEndpointClient endpointClient)
+    {
+        DisplayFormatter formatter = new(displayConfiguration);
+
+        return new DisplayEndpoint(displayConfiguration, displayService, ledDisplayService, formatter, endpointClient);
+    }
 
     public void Dispose()
     {

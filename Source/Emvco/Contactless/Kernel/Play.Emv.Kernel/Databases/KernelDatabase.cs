@@ -4,7 +4,7 @@ using System.Collections.Immutable;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Core;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
@@ -25,11 +25,12 @@ public partial class KernelDatabase : IManageKernelDatabaseLifetime
     #region Constructor
 
     public KernelDatabase(
-        CertificateAuthorityDataset[] certificateAuthorityDataset, PersistentValues persistentValues, KnownObjects knownObjects, ScratchPad scratchPad)
+        CertificateAuthorityDataset[] certificateAuthorityDataset, PrimitiveValue[] kernelPersistentConfiguration, KnownObjects knownObjects,
+        ScratchPad scratchPad)
     {
         _ScratchPad = scratchPad;
         _Certificates = certificateAuthorityDataset.ToImmutableDictionary(a => a.GetRid(), b => b);
-        _PersistentValues = persistentValues;
+        _KernelPersistentConfiguration = kernelPersistentConfiguration;
         _KnownObjects = knownObjects;
         _Database = new SortedDictionary<Tag, PrimitiveValue?>(new TagComparer());
         FailedMagstripeCounter = new SequenceCounterThreshold(0, int.MaxValue, 1);

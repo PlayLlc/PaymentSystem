@@ -1,5 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Exceptions;
@@ -28,25 +28,6 @@ public record DataStorageOperatorDataSetInfo : DataElement<byte>
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    /// <exception cref="PlayInternalException"></exception>
-    public bool IsPermanent() => _Value.IsBitSet(Bits.Eight);
-
-    /// <exception cref="PlayInternalException"></exception>
-    public bool IsVolatile() => _Value.IsBitSet(Bits.Seven);
-
-    /// <exception cref="PlayInternalException"></exception>
-    public bool IsLowVolatility() => _Value.IsBitSet(Bits.Six);
-
-    /// <exception cref="PlayInternalException"></exception>
-    public bool IsDeclineOnDataStorageErrorSet() => _Value.IsBitSet(Bits.Four);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -68,6 +49,25 @@ public record DataStorageOperatorDataSetInfo : DataElement<byte>
 
     public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
     public override byte[] EncodeValue(int length) => _Codec.EncodeValue(EncodingId, _Value, length);
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+
+    /// <exception cref="PlayInternalException"></exception>
+    public bool IsPermanent() => _Value.IsBitSet(Bits.Eight);
+
+    /// <exception cref="PlayInternalException"></exception>
+    public bool IsVolatile() => _Value.IsBitSet(Bits.Seven);
+
+    /// <exception cref="PlayInternalException"></exception>
+    public bool IsLowVolatility() => _Value.IsBitSet(Bits.Six);
+
+    /// <exception cref="PlayInternalException"></exception>
+    public bool IsDeclineOnDataStorageErrorSet() => _Value.IsBitSet(Bits.Four);
 
     #endregion
 }

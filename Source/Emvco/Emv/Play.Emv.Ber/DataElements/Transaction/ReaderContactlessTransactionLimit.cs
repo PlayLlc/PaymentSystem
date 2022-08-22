@@ -1,5 +1,5 @@
 ﻿using Play.Ber.Codecs;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Globalization.Currency;
 
@@ -15,7 +15,7 @@ public abstract record ReaderContactlessTransactionLimit : DataElement<ulong>
     #region Static Metadata
 
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
-    protected const byte _ByteLength = 6;
+    protected const byte _ByteLength = 12;
 
     #endregion
 

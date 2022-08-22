@@ -22,16 +22,28 @@ public partial class PrepareGenerateAcService
         #region Instance Values
 
         private readonly KernelDatabase _Database;
-        private readonly IHandlePcdRequests _PcdEndpoint;
+        private readonly IEndpointClient _EndpointClient;
+        private readonly Owhf2 _Owhf2;
+        private readonly Owhf2Aes _Owhf2Aes;
 
         #endregion
 
         #region Constructor
 
-        public WriteIntegratedDataStorage(KernelDatabase database, IHandlePcdRequests pcdEndpoint)
+        public WriteIntegratedDataStorage(KernelDatabase database, IEndpointClient endpointClient)
         {
             _Database = database;
-            _PcdEndpoint = pcdEndpoint;
+            _EndpointClient = endpointClient;
+            _Owhf2 = new Owhf2(); // TODO: this will be singleton.
+            _Owhf2Aes = new Owhf2Aes();
+        }
+
+        public WriteIntegratedDataStorage(KernelDatabase database, IEndpointClient endpointClient, Owhf2 owhf2, Owhf2Aes owhf2Aes)
+        {
+            _Database = database;
+            _EndpointClient = endpointClient;
+            _Owhf2 = owhf2; // TODO: this will be singleton.
+            _Owhf2Aes = owhf2Aes;
         }
 
         #endregion
@@ -88,9 +100,9 @@ public partial class PrepareGenerateAcService
             DataStorageInputTerminal input = _Database.Get<DataStorageInputTerminal>(DataStorageInputTerminal.Tag);
 
             if (applicationCapabilitiesInformation.GetDataStorageVersionNumber() == DataStorageVersionNumbers.Version1)
-                Owhf2.Sign(_Database, input.EncodeValue());
+                _Owhf2.Hash(_Database, input.EncodeValue());
             else
-                Owhf2Aes.Sign(_Database, input.EncodeValue());
+                _Owhf2Aes.Hash(_Database, input.EncodeValue());
         }
 
         #endregion
@@ -116,7 +128,7 @@ public partial class PrepareGenerateAcService
             GenerateApplicationCryptogramRequest? capdu = GenerateApplicationCryptogramRequest.Create(session.GetTransactionSessionId(), referenceControlParam,
                 cdol1RelatedData, dsDol.AsDataObjectListResult(_Database));
 
-            _PcdEndpoint.Request(capdu);
+            _EndpointClient.Send(capdu);
         }
 
         #endregion

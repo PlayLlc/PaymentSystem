@@ -1,6 +1,6 @@
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Enums;
@@ -82,6 +82,7 @@ public record KernelId : DataElement<byte>, IEqualityComparer<KernelId>
 
     #region Operator Overrides
 
+    public static implicit operator ShortKernelIdTypes(KernelId value) => ShortKernelIdTypes.Get(value._Value);
     public static bool operator ==(ShortKernelIdTypes left, KernelId right) => left.Equals(right);
     public static bool operator ==(KernelId left, ShortKernelIdTypes right) => right.Equals(left);
     public static explicit operator byte(KernelId value) => value._Value;

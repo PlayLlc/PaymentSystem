@@ -1,8 +1,7 @@
 ﻿using Microsoft.Toolkit.HighPerformance.Buffers;
 
-using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Exceptions;
@@ -46,12 +45,17 @@ public record PhoneMessageTable : DataElement<MessageTableEntry[]>, IEqualityCom
     {
         return new PhoneMessageTable(new MessageTableEntry[]
         {
-            new(new PciiMask(0x000001), new PciiValue(000001), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions, Statuses.NotReady),
-            new(new PciiMask(0x000800), new PciiValue(000800), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions, Statuses.NotReady),
-            new(new PciiMask(0x000400), new PciiValue(000400), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions, Statuses.NotReady),
-            new(new PciiMask(0x000100), new PciiValue(000100), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions, Statuses.NotReady),
-            new(new PciiMask(0x000200), new PciiValue(000200), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions, Statuses.NotReady),
-            new(new PciiMask(0x000000), new PciiValue(000000), (MessageIdentifier) MessageIdentifiers.Declined, Statuses.NotReady)
+            new(new PciiMask(0x000001), new PciiValue(000001), (DisplayMessageIdentifier) DisplayMessageIdentifiers.SeePhoneForInstructions,
+                DisplayStatuses.NotReady),
+            new(new PciiMask(0x000800), new PciiValue(000800), (DisplayMessageIdentifier) DisplayMessageIdentifiers.SeePhoneForInstructions,
+                DisplayStatuses.NotReady),
+            new(new PciiMask(0x000400), new PciiValue(000400), (DisplayMessageIdentifier) DisplayMessageIdentifiers.SeePhoneForInstructions,
+                DisplayStatuses.NotReady),
+            new(new PciiMask(0x000100), new PciiValue(000100), (DisplayMessageIdentifier) DisplayMessageIdentifiers.SeePhoneForInstructions,
+                DisplayStatuses.NotReady),
+            new(new PciiMask(0x000200), new PciiValue(000200), (DisplayMessageIdentifier) DisplayMessageIdentifiers.SeePhoneForInstructions,
+                DisplayStatuses.NotReady),
+            new(new PciiMask(0x000000), new PciiValue(000000), (DisplayMessageIdentifier) DisplayMessageIdentifiers.Declined, DisplayStatuses.NotReady)
         });
     }
 

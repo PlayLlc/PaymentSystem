@@ -1,7 +1,7 @@
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
 
@@ -25,14 +25,6 @@ public record InterfaceDeviceSerialNumber : DataElement<char[]>, IEqualityCompar
 
     public InterfaceDeviceSerialNumber(char[] value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(EncodingId, _Value);
 
     #endregion
 
@@ -77,6 +69,14 @@ public record InterfaceDeviceSerialNumber : DataElement<char[]>, IEqualityCompar
     #region Operator Overrides
 
     public static explicit operator ReadOnlySpan<char>(InterfaceDeviceSerialNumber value) => value._Value.AsSpan();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(EncodingId, _Value);
 
     #endregion
 }

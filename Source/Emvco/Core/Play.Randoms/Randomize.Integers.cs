@@ -134,7 +134,7 @@ public partial class Randomize
             byte[] a = new byte[_Random.Next(minByteCount, maxByteCount)];
             _Random.NextBytes(a);
 
-            return new BigInteger(a, true);
+            return new BigInteger(a);
         }
 
         public static BigInteger BigInteger()
@@ -142,7 +142,7 @@ public partial class Randomize
             byte[] a = new byte[_Random.Next(1, 50)];
             _Random.NextBytes(a);
 
-            return new BigInteger(a, true);
+            return new BigInteger(a);
         }
 
         private static long GetRandomFromHash(long min, long max, long hash)

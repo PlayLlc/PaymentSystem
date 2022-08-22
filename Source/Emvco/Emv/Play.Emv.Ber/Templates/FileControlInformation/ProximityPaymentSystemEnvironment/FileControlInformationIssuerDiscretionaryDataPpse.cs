@@ -2,8 +2,8 @@
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
@@ -57,6 +57,84 @@ public record FileControlInformationIssuerDiscretionaryDataPpse : FileControlInf
         _DirectoryEntry = directoryEntries;
         _TerminalCategoriesSupportedList = terminalCategoriesSupportedList;
         _SelectionDataObjectList = selectionDataObjectList;
+    }
+
+    #endregion
+
+    #region Serialization
+
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="CardDataMissingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    public static FileControlInformationIssuerDiscretionaryDataPpse Decode(ReadOnlyMemory<byte> value)
+    {
+        if (_Codec.DecodeFirstTag(value.Span) == Tag)
+            return Decode(_Codec.DecodeChildren(value));
+
+        return Decode(_Codec.DecodeSiblings(value));
+    }
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="CardDataMissingException"></exception>
+    public static FileControlInformationIssuerDiscretionaryDataPpse Decode(EncodedTlvSiblings encodedTlvSiblings)
+    {
+        TerminalCategoriesSupportedList? terminalCategoriesSupportedList = default;
+        SelectionDataObjectList? selectionDataObjectList = default;
+
+        if (!encodedTlvSiblings.TryGetRawSetOf(DirectoryEntry.Tag, out Span<ReadOnlyMemory<byte>> sequenceOfResult))
+        {
+            throw new CardDataMissingException(
+                $"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataDdf)}. A Set of {nameof(DirectoryEntry)} objects were expected but could not be found");
+        }
+
+        SetOf<DirectoryEntry> directoryEntry = new(sequenceOfResult.ToArray().Select(DirectoryEntry.Decode).ToArray());
+
+        if (encodedTlvSiblings.TryGetValueOctetsOfSibling(TerminalCategoriesSupportedList.Tag, out ReadOnlyMemory<byte> rawTerminalCategoriesSupportedList))
+        {
+            terminalCategoriesSupportedList =
+                (_Codec.Decode(TerminalCategoriesSupportedList.EncodingId, rawTerminalCategoriesSupportedList.Span) as
+                    DecodedResult<TerminalCategoriesSupportedList>)!.Value;
+        }
+
+        if (encodedTlvSiblings.TryGetValueOctetsOfSibling(SelectionDataObjectList.Tag, out ReadOnlyMemory<byte> rawSelectionDataObjectList))
+        {
+            selectionDataObjectList =
+                ((DecodedResult<SelectionDataObjectList>) _Codec.Decode(SelectionDataObjectList.EncodingId, rawSelectionDataObjectList.Span)).Value;
+        }
+
+        return new FileControlInformationIssuerDiscretionaryDataPpse(directoryEntry, terminalCategoriesSupportedList, selectionDataObjectList);
+    }
+
+    #endregion
+
+    #region Equality
+
+    public static bool Equals(FileControlInformationIssuerDiscretionaryDataPpse? x, FileControlInformationIssuerDiscretionaryDataPpse? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
+    public override int GetHashCode()
+    {
+        const int hash = 738459837;
+
+        unchecked
+        {
+            int result = hash;
+            result += 13 * Tag.GetHashCode();
+            result += _TerminalCategoriesSupportedList?.GetHashCode() ?? 0;
+            result += _DirectoryEntry.Aggregate(0, (total, next) => next.GetHashCode() + total);
+
+            return result;
+        }
     }
 
     #endregion
@@ -145,84 +223,6 @@ public record FileControlInformationIssuerDiscretionaryDataPpse : FileControlInf
     protected override IEncodeBerDataObjects?[] GetChildren()
     {
         return new IEncodeBerDataObjects?[] {_DirectoryEntry, _TerminalCategoriesSupportedList, _SelectionDataObjectList};
-    }
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="CardDataMissingException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static FileControlInformationIssuerDiscretionaryDataPpse Decode(ReadOnlyMemory<byte> value)
-    {
-        if (_Codec.DecodeFirstTag(value.Span) == Tag)
-            return Decode(_Codec.DecodeChildren(value));
-
-        return Decode(_Codec.DecodeSiblings(value));
-    }
-
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="CardDataMissingException"></exception>
-    public static FileControlInformationIssuerDiscretionaryDataPpse Decode(EncodedTlvSiblings encodedTlvSiblings)
-    {
-        TerminalCategoriesSupportedList? terminalCategoriesSupportedList = default;
-        SelectionDataObjectList? selectionDataObjectList = default;
-
-        if (!encodedTlvSiblings.TryGetRawSetOf(DirectoryEntry.Tag, out Span<ReadOnlyMemory<byte>> sequenceOfResult))
-        {
-            throw new CardDataMissingException(
-                $"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataDdf)}. A Set of {nameof(DirectoryEntry)} objects were expected but could not be found");
-        }
-
-        SetOf<DirectoryEntry> directoryEntry = new(sequenceOfResult.ToArray().Select(DirectoryEntry.Decode).ToArray());
-
-        if (encodedTlvSiblings.TryGetValueOctetsOfSibling(TerminalCategoriesSupportedList.Tag, out ReadOnlyMemory<byte> rawTerminalCategoriesSupportedList))
-        {
-            terminalCategoriesSupportedList =
-                (_Codec.Decode(TerminalCategoriesSupportedList.EncodingId, rawTerminalCategoriesSupportedList.Span) as
-                    DecodedResult<TerminalCategoriesSupportedList>)!.Value;
-        }
-
-        if (encodedTlvSiblings.TryGetValueOctetsOfSibling(SelectionDataObjectList.Tag, out ReadOnlyMemory<byte> rawSelectionDataObjectList))
-        {
-            selectionDataObjectList =
-                ((DecodedResult<SelectionDataObjectList>) _Codec.Decode(SelectionDataObjectList.EncodingId, rawSelectionDataObjectList.Span)).Value;
-        }
-
-        return new FileControlInformationIssuerDiscretionaryDataPpse(directoryEntry, terminalCategoriesSupportedList, selectionDataObjectList);
-    }
-
-    #endregion
-
-    #region Equality
-
-    public static bool Equals(FileControlInformationIssuerDiscretionaryDataPpse? x, FileControlInformationIssuerDiscretionaryDataPpse? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public override int GetHashCode()
-    {
-        const int hash = 738459837;
-
-        unchecked
-        {
-            int result = hash;
-            result += 13 * Tag.GetHashCode();
-            result += _TerminalCategoriesSupportedList?.GetHashCode() ?? 0;
-            result += _DirectoryEntry.Aggregate(0, (total, next) => next.GetHashCode() + total);
-
-            return result;
-        }
     }
 
     #endregion

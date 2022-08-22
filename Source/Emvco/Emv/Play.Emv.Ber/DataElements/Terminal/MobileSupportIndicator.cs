@@ -1,6 +1,6 @@
 ﻿using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
@@ -29,17 +29,6 @@ public record MobileSupportIndicator : DataElement<byte>, IEqualityComparer<Mobi
 
     public MobileSupportIndicator(byte value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public static Builder GetBuilder() => new();
-    public bool IsOnDeviceCvmRequired() => _Value.IsBitSet(Bits.Two);
-    public bool IsMobileSupported() => _Value.IsBitSet(Bits.One);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -78,6 +67,17 @@ public record MobileSupportIndicator : DataElement<byte>, IEqualityComparer<Mobi
     }
 
     public int GetHashCode(MobileSupportIndicator obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public static Builder GetBuilder() => new();
+    public bool IsOnDeviceCvmRequired() => _Value.IsBitSet(Bits.Two);
+    public bool IsMobileSupported() => _Value.IsBitSet(Bits.One);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 

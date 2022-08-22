@@ -1,5 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.ValueTypes;
@@ -28,15 +28,6 @@ public record Track2DiscretionaryData : DataElement<TrackDiscretionaryData>
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    public override ushort GetValueByteCount() => (ushort)_Value.GetByteCount();
-
-    #endregion
-
     #region Serialization
 
     public static Track2DiscretionaryData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
@@ -59,6 +50,15 @@ public record Track2DiscretionaryData : DataElement<TrackDiscretionaryData>
     }
 
     public override byte[] EncodeValue() => _Value.Encode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+
+    public override ushort GetValueByteCount() => (ushort)_Value.GetByteCount();
 
     #endregion
 }

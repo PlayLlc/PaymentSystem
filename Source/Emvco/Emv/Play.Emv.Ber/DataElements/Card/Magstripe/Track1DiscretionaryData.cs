@@ -1,6 +1,6 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
@@ -29,14 +29,6 @@ public record Track1DiscretionaryData : DataElement<char[]>
 
     #endregion
 
-    #region Instance Members
-
-    public char[] AsCharArray() => _Value.CopyValue();
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="InvalidOperationException"></exception>
@@ -62,6 +54,14 @@ public record Track1DiscretionaryData : DataElement<char[]>
 
         return new Track1DiscretionaryData(result.Value);
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public char[] AsCharArray() => _Value.CopyValue();
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

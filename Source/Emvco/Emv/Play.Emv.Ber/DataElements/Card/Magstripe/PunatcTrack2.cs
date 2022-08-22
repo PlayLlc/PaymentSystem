@@ -1,5 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core;
@@ -31,28 +31,6 @@ public record PunatcTrack2 : DataElement<ushort>
 
     #endregion
 
-    #region Instance Members
-
-    public int GetSetBitCount() => _Value.GetSetBitCount();
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    internal Nibble[] GetBitFlagIndex()
-    {
-        Nibble[] result = new Nibble[_Value.GetSetBitCount()];
-        ushort bufferValue = _Value;
-
-        for (byte i = 0, j = 0; i < Specs.Integer.Int16.BitCount; i++)
-        {
-            if (bufferValue.IsBitSet(Bits.One))
-                result[j++] = i;
-        }
-
-        return result;
-    }
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -74,6 +52,28 @@ public record PunatcTrack2 : DataElement<ushort>
 
     public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value, _ByteLength);
     public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode(_Value, length);
+
+    #endregion
+
+    #region Instance Members
+
+    public int GetSetBitCount() => _Value.GetSetBitCount();
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+
+    internal Nibble[] GetBitFlagIndex()
+    {
+        Nibble[] result = new Nibble[_Value.GetSetBitCount()];
+        ushort bufferValue = _Value;
+
+        for (byte i = 0, j = 0; i < Specs.Integer.Int16.BitCount; i++)
+        {
+            if (bufferValue.IsBitSet(Bits.One))
+                result[j++] = i;
+        }
+
+        return result;
+    }
 
     #endregion
 }

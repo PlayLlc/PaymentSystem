@@ -6,9 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Configuration\Reader\**" />
-    <EmbeddedResource Remove="Configuration\Reader\**" />
-    <None Remove="Configuration\Reader\**" />
+    <Compile Remove="Security\Reader\**" />
+    <EmbeddedResource Remove="Security\Reader\**" />
+    <None Remove="Security\Reader\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,6 +16,10 @@
     <ProjectReference Include="..\..\Core\Play.Globalization\Play.Globalization.csproj" />
     <ProjectReference Include="..\..\Core\Play.Messaging\Play.Messaging.csproj" />
     <ProjectReference Include="..\Play.Emv.Icc\Play.Emv.Icc.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Security\" />
   </ItemGroup>
 
 </Project>

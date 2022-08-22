@@ -213,31 +213,31 @@ public class Track1DataTests
         Assert.Equal(expectedPrimaryAccountNumberDecodedData.ToArray(), actual.Encode());
     }
 
-    [Fact]
-    public void Track1Data_UpdateDiscretionaryData_ReturnsExpectedResult()
-    {
-        NumberOfNonZeroBits nun = new NumberOfNonZeroBits(5);
+    //[Fact]
+    //public void Track1Data_UpdateDiscretionaryData_ReturnsExpectedResult()
+    //{
+    //    NumberOfNonZeroBits nun = new NumberOfNonZeroBits(5);
 
-        ReadOnlyMemory<byte> cvc3Bytes = new ReadOnlyMemory<byte>(new byte[] { 34, 48 });
-        CardholderVerificationCode3Track1 cvc3 = CardholderVerificationCode3Track1.Decode(cvc3Bytes);
+    //    ReadOnlyMemory<byte> cvc3Bytes = new ReadOnlyMemory<byte>(new byte[] { 34, 48 });
+    //    CardholderVerificationCode3Track1 cvc3 = CardholderVerificationCode3Track1.Decode(cvc3Bytes);
 
-        ReadOnlySpan<byte> pcvc3Bytes = stackalloc byte[] { 12, 43, 31, 6, 7, 9 };
-        PositionOfCardVerificationCode3Track1 pcvc3 = PositionOfCardVerificationCode3Track1.Decode(pcvc3Bytes);
+    //    ReadOnlySpan<byte> pcvc3Bytes = stackalloc byte[] { 12, 43, 31, 6, 7, 9 };
+    //    PositionOfCardVerificationCode3Track1 pcvc3 = PositionOfCardVerificationCode3Track1.Decode(pcvc3Bytes);
 
-        ReadOnlySpan<byte> punatcBytes = stackalloc byte[] { 11, 28, 33, 13, 6, 9 };
-        PunatcTrack1 punatc = PunatcTrack1.Decode(punatcBytes);
+    //    ReadOnlySpan<byte> punatcBytes = stackalloc byte[] { 11, 28, 33, 13, 6, 9 };
+    //    PunatcTrack1 punatc = PunatcTrack1.Decode(punatcBytes);
 
-        UnpredictableNumberNumeric unpredictableNumber = new UnpredictableNumberNumeric(1234);
+    //    UnpredictableNumberNumeric unpredictableNumber = new UnpredictableNumberNumeric(1234);
 
-        NumericApplicationTransactionCounterTrack1 natc = new NumericApplicationTransactionCounterTrack1(64);
+    //    NumericApplicationTransactionCounterTrack1 natc = new NumericApplicationTransactionCounterTrack1(64);
 
-        ApplicationTransactionCounter atc = new ApplicationTransactionCounter(18);
+    //    ApplicationTransactionCounter atc = new ApplicationTransactionCounter(18);
 
-        Track1DataTestTlv testData = new();
-        Track1Data sut = Track1Data.Decode(testData.EncodeValue().AsSpan());
+    //    Track1DataTestTlv testData = new();
+    //    Track1Data sut = Track1Data.Decode(testData.EncodeValue().AsSpan());
 
-        Track1Data actual = sut.UpdateDiscretionaryData(nun, cvc3, pcvc3, punatc, unpredictableNumber, natc, atc);
-    }
+    //    Track1Data actual = sut.UpdateDiscretionaryData(nun, cvc3, pcvc3, punatc, unpredictableNumber, natc, atc);
+    //}
 
     #endregion
 }

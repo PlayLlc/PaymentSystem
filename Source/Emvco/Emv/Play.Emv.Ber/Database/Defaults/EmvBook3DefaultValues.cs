@@ -1,5 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Emv.Ber.DataElements;
 
 namespace Play.Emv.Ber;
@@ -11,12 +11,12 @@ public class EmvBook3DefaultValues : DefaultValues
     /// <summary>
     ///     Initializes default values that are specified in EMVco Book 3
     /// </summary>
-    public override void AddDefaults(KnownObjects knownObjects, Dictionary<Tag, PrimitiveValue> defaultValueMap)
+    public override IEnumerable<PrimitiveValue> GetDefaults(KnownObjects knownObjects)
     {
         foreach (PrimitiveValue? prim in GetActionCodeDefaults())
         {
             if (knownObjects.Exists(prim.GetTag()))
-                defaultValueMap.TryAdd(prim.GetTag(), prim);
+                yield return prim;
         }
     }
 

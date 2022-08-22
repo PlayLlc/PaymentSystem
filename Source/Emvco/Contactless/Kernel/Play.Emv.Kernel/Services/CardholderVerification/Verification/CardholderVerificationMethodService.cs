@@ -1,18 +1,15 @@
-﻿using Play.Emv.Ber;
-using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
+﻿using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.ValueTypes;
+using Play.Emv.Kernel.Databases;
 
 namespace Play.Emv.Kernel.Services.Verification;
 
-public class CardholderVerificationMethodService : IVerifyCardholder
+public class CardholderVerificationMethodService
 {
     #region Instance Values
 
     private readonly IVerifyCardholderPinOffline _OfflinePinAuthentication;
     private readonly IVerifyCardholderPinOnline _OnlinePinAuthentication;
-
-    //not implemented
     private readonly IVerifyCardholderSignature _CardholderSignatureVerification;
 
     #endregion
@@ -32,7 +29,7 @@ public class CardholderVerificationMethodService : IVerifyCardholder
 
     #region Instance Members
 
-    public CvmCode Process(ITlvReaderAndWriter database, params CardholderVerificationMethods[] cardholderVerificationMethods)
+    public CvmCode Process(KernelDatabase database, params CardholderVerificationMethods[] cardholderVerificationMethods)
     {
         CvmCode result = new(0);
 
@@ -42,14 +39,13 @@ public class CardholderVerificationMethodService : IVerifyCardholder
                 return result;
 
             if (cardholderVerificationMethods[i] == CardholderVerificationMethods.OfflinePlaintextPin)
-                return _OfflinePinAuthentication.Process(database);
+                _OfflinePinAuthentication.Process(database);
             if (cardholderVerificationMethods[i] == CardholderVerificationMethods.OfflineEncipheredPin)
-                return _OfflinePinAuthentication.Process(database);
+                _OfflinePinAuthentication.Process(database);
             if (cardholderVerificationMethods[i] == CardholderVerificationMethods.OnlineEncipheredPin)
-                return _OnlinePinAuthentication.Process(database);
-
+                _OnlinePinAuthentication.Process(database);
             if (cardholderVerificationMethods[i] == CardholderVerificationMethods.SignaturePaper)
-                _CardholderSignatureVerification.Process(database);
+                _CardholderSignatureVerification.Process();
         }
 
         return result;

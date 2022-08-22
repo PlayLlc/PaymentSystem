@@ -1,7 +1,7 @@
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
 
@@ -25,14 +25,6 @@ public record IccPinEnciphermentPublicKeyExponent : DataElement<uint>, IEquality
 
     public IccPinEnciphermentPublicKeyExponent(uint value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -75,6 +67,14 @@ public record IccPinEnciphermentPublicKeyExponent : DataElement<uint>, IEquality
     }
 
     public int GetHashCode(IccPinEnciphermentPublicKeyExponent obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

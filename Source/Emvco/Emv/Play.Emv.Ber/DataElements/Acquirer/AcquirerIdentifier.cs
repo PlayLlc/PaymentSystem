@@ -1,7 +1,7 @@
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
@@ -33,34 +33,6 @@ public record AcquirerIdentifier : DataElement<ulong>, IEqualityComparer<Acquire
     public AcquirerIdentifier(ulong value) : base(value)
     {
         Validate(value);
-    }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    /// <summary>
-    ///     Validate
-    /// </summary>
-    /// <param name="value"></param>
-    /// <exception cref="DataElementParsingException"></exception>
-    public void Validate(ulong value)
-    {
-        if (value.GetMostSignificantByte() > _ByteLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(AcquirerIdentifier)} could not be initialized because the byte length provided was out of range. The byte length was {value.GetMostSignificantByte()} but must be {_ByteLength} bytes in length");
-        }
-
-        if (value.GetNumberOfDigits() is < _MinCharLength and <= _MaxCharLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(AcquirerIdentifier)} could not be initialized because the decoded character length was out of range. The decoded character length was {value.GetNumberOfDigits()} but must be in the range of {_MinCharLength}-{_MaxCharLength}");
-        }
     }
 
     #endregion
@@ -101,6 +73,34 @@ public record AcquirerIdentifier : DataElement<ulong>, IEqualityComparer<Acquire
     }
 
     public int GetHashCode(AcquirerIdentifier obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+
+    /// <summary>
+    ///     Validate
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="DataElementParsingException"></exception>
+    public void Validate(ulong value)
+    {
+        if (value.GetMostSignificantByte() > _ByteLength)
+        {
+            throw new DataElementParsingException(
+                $"The Primitive Value {nameof(AcquirerIdentifier)} could not be initialized because the byte length provided was out of range. The byte length was {value.GetMostSignificantByte()} but must be {_ByteLength} bytes in length");
+        }
+
+        if (value.GetNumberOfDigits() is < _MinCharLength and <= _MaxCharLength)
+        {
+            throw new DataElementParsingException(
+                $"The Primitive Value {nameof(AcquirerIdentifier)} could not be initialized because the decoded character length was out of range. The decoded character length was {value.GetNumberOfDigits()} but must be in the range of {_MinCharLength}-{_MaxCharLength}");
+        }
+    }
 
     #endregion
 }
