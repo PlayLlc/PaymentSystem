@@ -168,6 +168,7 @@ public class CombinationSelector
 
     // HACK: We're skipping processing of Step 1A for now. We're not sending Send POI Information CAPDU. We need to refactor how we're retrieving the command template
     /// <remarks>Emv Book B Section 3.3.2.3a</remarks>
+    /// <exception cref="NotImplementedException"></exception>
     private void ProcessStep1A(TransactionSessionId transactionSessionId, FileControlInformationPpse fileControlInformationTemplatePpse)
     {
         throw new NotImplementedException(
