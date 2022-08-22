@@ -42,6 +42,8 @@ public sealed record BlockSize : EnumObject<byte>, IEqualityComparer<byte>
 
     #region Instance Members
 
+    public byte GetBlockSize() => (byte)(_Value * 8);
+
     public override BlockSize[] GetAll() => _ValueObjectMap.Values.ToArray();
 
     public override bool TryGet(byte value, out EnumObject<byte>? result)

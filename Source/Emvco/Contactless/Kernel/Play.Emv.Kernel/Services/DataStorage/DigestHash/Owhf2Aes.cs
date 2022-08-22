@@ -15,7 +15,7 @@ public class Owhf2Aes
     #region Static Metadata
 
     private static readonly AesCodec _Codec = new(new BlockCipherConfiguration(BlockCipherMode.Cbc, BlockPaddingMode.None, KeySize._128, BlockSize._16,
-        new Iso7816PlainTextPreprocessor(BlockSize._16)));
+        new Iso7816PlainTextPreprocessor(BlockSize._16), null));
 
     #endregion
 
@@ -82,7 +82,7 @@ public class Owhf2Aes
 
     private static void CreateT(AesCodec codec, ReadOnlySpan<byte> key, ReadOnlySpan<byte> message, Span<byte> buffer)
     {
-        codec.Sign(message, key).CopyTo(buffer);
+        codec.Encrypt(message, key).CopyTo(buffer);
         message.CopyTo(buffer[^message.Length..]);
     }
 

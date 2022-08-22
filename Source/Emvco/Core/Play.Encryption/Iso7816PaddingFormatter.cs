@@ -26,10 +26,14 @@ public class Iso7816PaddingFormatter : IFormatPlainText
         if (IsPaddingValid(plainText))
             return plainText.ToArray();
 
-        Span<byte> buffer = stackalloc byte[plainText.Length + (plainText.Length % _BlockSize)];
+        int numberOfBlocks = (plainText.Length / _BlockSize) + 1;
+        Span<byte> buffer = stackalloc byte[numberOfBlocks * _BlockSize];
 
         plainText.CopyTo(buffer);
-        buffer[plainText.Length + 1] = 0x80;
+        Span<byte> filler = buffer[^(buffer.Length - plainText.Length)..];
+
+        for (int i = 0; i < filler.Length; i++)
+            filler[i] = 0x80;
 
         return buffer.ToArray();
     }

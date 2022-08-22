@@ -1,11 +1,12 @@
 ﻿using System.Security.Cryptography;
 
-using Microsoft.Toolkit.HighPerformance.Buffers;
-
 namespace Play.Encryption.Ciphers.Symmetric;
 
 /// <summary>
 ///     An 8 block cypher that applies the DES algorithm three times to each block
+///     The block size is the basic unit of data that can be encrypted or decrypted in one operation.
+///     Messages longer than the block size are handled as successive blocks;
+///     messages shorter than the block size must be padded with extra bits to reach the size of a block. Valid block sizes are determined by the symmetric algorithm used.
 /// </summary>
 public class TripleDesCodec : IBlockCipher
 {
@@ -16,6 +17,7 @@ public class TripleDesCodec : IBlockCipher
     private readonly KeySize _KeySize;
     private readonly BlockPaddingMode _PaddingMode;
     private readonly IPreprocessPlainText _Preprocessor;
+    private byte[] _InitializationVector;
 
     #endregion
 
@@ -28,7 +30,7 @@ public class TripleDesCodec : IBlockCipher
     public TripleDesCodec(BlockCipherConfiguration configuration)
     {
         if (configuration.GetKeySize() != KeySize._128)
-            throw new ArgumentOutOfRangeException(nameof(configuration), $"Valid {nameof(KeySize)} values for {nameof(TripleDesCodec)} are {KeySize._128}");
+            throw new ArgumentOutOfRangeException(nameof(configuration), $"Valid {nameof(KeySize)} values for {nameof(TripleDesCodec)} are {KeySize._64}");
 
         if (configuration.GetBlockSize() != BlockSize._8)
             throw new ArgumentOutOfRangeException(nameof(configuration), $"Valid {nameof(BlockSize)} values for {nameof(TripleDesCodec)} are {BlockSize._8}");
@@ -38,6 +40,7 @@ public class TripleDesCodec : IBlockCipher
         _PaddingMode = configuration.GetBlockPaddingMode();
         _KeySize = configuration.GetKeySize();
         _BlockSize = configuration.GetBlockSize();
+        _InitializationVector = configuration.GetInitializationVector();
     }
 
     #endregion
@@ -56,27 +59,55 @@ public class TripleDesCodec : IBlockCipher
         if ((encipherment.Length % _BlockSize) != 0)
             throw new InvalidOperationException($"the argument {nameof(encipherment)} was not padded using {_BlockSize} bytes");
 
-        TripleDESCryptoServiceProvider desCryptoServiceProvider = GetDesProvider(key);
+        try
+        {
+            TripleDESCryptoServiceProvider desCryptoServiceProvider = GetDesProvider(key);
 
-        using MemoryStream memoryStream = new(encipherment.ToArray());
-        using CryptoStream cryptoStream = new(memoryStream, desCryptoServiceProvider.CreateEncryptor(), CryptoStreamMode.Read);
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(encipherment.Length);
+            using MemoryStream memoryStream = new(encipherment.ToArray());
+            using CryptoStream cryptoStream = new(memoryStream, desCryptoServiceProvider.CreateDecryptor(), CryptoStreamMode.Read);
 
-        Span<byte> buffer = spanOwner.Span;
-        encipherment.CopyTo(buffer);
-        cryptoStream.Read(buffer);
+            byte[] buffer = new byte[encipherment.Length];
 
-        return buffer.ToArray();
+            cryptoStream.Read(buffer, 0, encipherment.Length);
+
+            return buffer;
+        }
+        catch(NotSupportedException e)
+        {
+            throw new InvalidOperationException($"The read from the encrypted stream is not supported, please check the configuration values for the instantiated {nameof(TripleDESCryptoServiceProvider)}");
+        }
+        catch(ArgumentOutOfRangeException e)
+        {
+            throw new InvalidOperationException($"The buffer has an invalid length, smaller then the encrypted stream, please check the message");
+        }
+        catch(ArgumentException e)
+        {
+            throw new InvalidOperationException($"There is an error encrypting the message, please check the configuration values for the instantiated {nameof(TripleDESCryptoServiceProvider)}");
+        }
     }
 
     public BlockCipherAlgorithm GetAlgorithm() => BlockCipherAlgorithm.Aes;
 
-    private TripleDESCryptoServiceProvider GetDesProvider(ReadOnlySpan<byte> key) =>
-        new() {BlockSize = _BlockSize, KeySize = _KeySize, Key = key.ToArray(), Mode = _CipherMode.AsCipherMode(), Padding = _PaddingMode.AsPaddingMode()};
+    private TripleDESCryptoServiceProvider GetDesProvider(ReadOnlySpan<byte> key)
+    {
+        TripleDESCryptoServiceProvider cryptoServiceProvider = new()
+        {
+            BlockSize = _BlockSize.GetBlockSize(),
+            KeySize = _KeySize,
+            Key = key.ToArray(),
+            Mode = _CipherMode.AsCipherMode(),
+            Padding = _PaddingMode.AsPaddingMode(),
+        };
 
+        if (_InitializationVector != null)
+            cryptoServiceProvider.IV = _InitializationVector;
+
+        return cryptoServiceProvider;
+    }
+        
     public KeySize GetKeySize() => _KeySize;
 
-    public byte[] Sign(ReadOnlySpan<byte> message, ReadOnlySpan<byte> key)
+    public byte[] Encrypt(ReadOnlySpan<byte> message, ReadOnlySpan<byte> key)
     {
         TripleDESCryptoServiceProvider desCryptoServiceProvider = GetDesProvider(key);
         byte[] result = _Preprocessor.Preprocess(message);
