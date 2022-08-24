@@ -7,10 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTO\" />
-    <Folder Include="Services\Merchants\" />
-    <Folder Include="Services\Terminals\" />
-    <Folder Include="Services\Stores\" />
+    <ProjectReference Include="..\MerchantPortal.Core\MerchantPortal.Core.csproj" />
   </ItemGroup>
 
 </Project>

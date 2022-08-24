@@ -1,9 +1,7 @@
-﻿using System.Security.Claims;
-
-using MerchantPortal.Security.Contracts;
+﻿using MerchantPortal.Security.Contracts;
 using MerchantPortal.Security.Contracts.Authentication;
-
 using Microsoft.Extensions.Configuration;
+using System.Security.Claims;
 
 namespace MerchantPortal.Security.Services.Authentication;
 

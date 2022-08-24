@@ -1,6 +1,6 @@
-﻿namespace MerchantPortal.Core.Entities;
+﻿namespace MerchantPortal.Application.DTO;
 
-public class MerchantEntity : BaseEntity
+public class MerchantDto
 {
     public string AcquirerId { get; set; }
 
@@ -19,6 +19,4 @@ public class MerchantEntity : BaseEntity
     public string State { get; set; }
 
     public string Country { get; set; }
-
-    public CompanyEntity Company { get; set; }
 }

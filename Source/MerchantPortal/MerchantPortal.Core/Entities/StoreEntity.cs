@@ -2,5 +2,5 @@
 
 public class StoreEntity : BaseEntity
 {
-
+    public string Name { get; set; }
 }
