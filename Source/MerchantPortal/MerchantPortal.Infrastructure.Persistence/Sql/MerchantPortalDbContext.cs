@@ -11,5 +11,4 @@ internal class MerchantPortalDbContext : DbContext
     public DbSet<MerchantEntity> Merchants { get; init; }
     public DbSet<StoreEntity> Stores { get; init; }
     public DbSet<TerminalEntity> Terminals { get; init; }
-
 }
