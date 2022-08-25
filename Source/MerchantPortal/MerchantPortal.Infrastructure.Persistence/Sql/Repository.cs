@@ -1,7 +1,7 @@
 ﻿using MerchantPortal.Application.Contracts.Persistence;
 using MerchantPortal.Core.Entities;
 
-namespace MerchantPortal.Infrastructure.Persistence.Repositories
+namespace MerchantPortal.Infrastructure.Persistence.Sql
 {
     internal class Repository<T> : IRepository<T> where T : BaseEntity
     {

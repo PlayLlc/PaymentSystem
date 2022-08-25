@@ -1,7 +1,7 @@
 ﻿using MerchantPortal.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace MerchantPortal.Infrastructure.Persistence;
+namespace MerchantPortal.Infrastructure.Persistence.Sql;
 
 internal class MerchantPortalDbContext : DbContext
 {

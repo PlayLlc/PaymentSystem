@@ -6,35 +6,35 @@ namespace MerchantPortal.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TerminalController : ControllerBase
+    public class StoresController : ControllerBase
     {
-        // GET: api/<TerminalController>
+        // GET: api/<StoreController>
         [HttpGet]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
         }
 
-        // GET api/<TerminalController>/5
+        // GET api/<StoreController>/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST api/<TerminalController>
+        // POST api/<StoreController>
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT api/<TerminalController>/5
+        // PUT api/<StoreController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<TerminalController>/5
+        // DELETE api/<StoreController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

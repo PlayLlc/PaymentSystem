@@ -6,11 +6,11 @@ namespace MerchantPortal.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MerchantController : ControllerBase
+    public class MerchantsController : ControllerBase
     {
         private readonly IMerchantConfigurationService _MerchantConfigurationService;
 
-        public MerchantController(IMerchantConfigurationService merchantConfigurationService)
+        public MerchantsController(IMerchantConfigurationService merchantConfigurationService)
         {
             _MerchantConfigurationService = merchantConfigurationService;
         }
