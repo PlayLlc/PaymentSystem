@@ -21,4 +21,6 @@ public class MerchantEntity : BaseEntity
     public string Country { get; set; }
 
     public CompanyEntity Company { get; set; }
+
+    public ICollection<StoreEntity> Stores { get; set; }
 }

@@ -7,7 +7,6 @@ internal class TerminalEntityConfiguration : BaseEntityConfiguration<TerminalEnt
 {
     public override void Configure(EntityTypeBuilder<TerminalEntity> builder)
     {
-        builder.HasOne<MerchantEntity>();
         builder.HasOne<StoreEntity>();
 
         base.Configure(builder);

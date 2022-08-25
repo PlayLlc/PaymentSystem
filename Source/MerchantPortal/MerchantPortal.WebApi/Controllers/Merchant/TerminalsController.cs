@@ -2,39 +2,39 @@
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace MerchantPortal.WebApi.Controllers
+namespace MerchantPortal.WebApi.Controllers.Merchant
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StoresController : ControllerBase
+    public class TerminalsController : ControllerBase
     {
-        // GET: api/<StoreController>
+        // GET: api/<TerminalController>
         [HttpGet]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
         }
 
-        // GET api/<StoreController>/5
+        // GET api/<TerminalController>/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST api/<StoreController>
+        // POST api/<TerminalController>
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT api/<StoreController>/5
+        // PUT api/<TerminalController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<StoreController>/5
+        // DELETE api/<TerminalController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
