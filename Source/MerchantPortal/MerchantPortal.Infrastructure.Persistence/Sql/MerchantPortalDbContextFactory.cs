@@ -20,7 +20,7 @@ internal class MerchantPortalDbContextFactory : IDesignTimeDbContextFactory<Merc
 
         var builder = new DbContextOptionsBuilder<MerchantPortalDbContext>();
 
-        var connectionString = configuration.GetConnectionString("MerchantPortal");
+        var connectionString = configuration.GetConnectionString("sql");
 
         builder.UseSqlServer(connectionString);
 

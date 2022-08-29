@@ -1,7 +1,9 @@
 ﻿namespace MerchantPortal.Application.DTO;
 
-public class MerchantDto
+public record MerchantDto
 {
+    public long Id { get; set; }
+
     public string AcquirerId { get; set; }
 
     public string MerchantIdentifier { get; set; }
@@ -19,4 +21,6 @@ public class MerchantDto
     public string State { get; set; }
 
     public string Country { get; set; }
+
+    public long CompanyId { get; set; }
 }

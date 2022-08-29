@@ -6,7 +6,12 @@ namespace MerchantPortal.Infrastructure.Persistence.Repositories;
 
 internal class TerminalsRepository : Repository<TerminalEntity>, ITerminalsRepository
 {
-    internal TerminalsRepository(MerchantPortalDbContext dbContext) : base(dbContext)
+    public TerminalsRepository(MerchantPortalDbContext dbContext) : base(dbContext)
     {
+    }
+
+    public IEnumerable<TerminalEntity> SelectTerminalsByStore(long storeId)
+    {
+        return _dbContext.Terminals.Where(x => x.StoreId == storeId);
     }
 }

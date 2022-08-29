@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using MerchantPortal.Application.Contracts.Services;
+using MerchantPortal.Application.DTO;
+using MerchantPortal.WebApi.Models;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -6,38 +10,54 @@ namespace MerchantPortal.WebApi.Controllers.Merchant
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StoresController : ControllerBase
+    public class StoresController : BaseController
     {
-        // GET: api/<StoreController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly IStoreConfigurationService _storeConfigurationService;
+
+        public StoresController(IStoreConfigurationService storeConfigurationService, IMapper mapper) : base(mapper)
         {
-            return new string[] { "value1", "value2" };
+            _storeConfigurationService = storeConfigurationService;
+        }
+
+        // GET: api/<StoreController>/merchantStores/{merchantId}
+        [HttpGet("merchantStores/{merchantId}")]
+        public async Task<IEnumerable<StoreHeaderDto>> GetMerchantStores(long merchantId)
+        {
+            return await _storeConfigurationService.GetMerchantStoresAsync(merchantId);
         }
 
         // GET api/<StoreController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<StoreDto> Get(long id)
         {
-            return "value";
+            return await _storeConfigurationService.GetStoreAsync(id);
         }
 
         // POST api/<StoreController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult> Post([FromBody] StoreDetails value)
         {
+            var created = await _storeConfigurationService.InsertStoreAsync(_mapper.Map<StoreDto>(value));
+
+            return Created(created.ToString(), null);
         }
 
         // PUT api/<StoreController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult> Put(long id, [FromBody] StoreDetails value)
         {
+            await _storeConfigurationService.UpdateStoreAsync(id, _mapper.Map<StoreDto>(value));
+
+            return Ok();
         }
 
         // DELETE api/<StoreController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete(long id)
         {
+            await _storeConfigurationService.DeleteStoreAsync(id);
+
+            return NoContent();
         }
     }
 }

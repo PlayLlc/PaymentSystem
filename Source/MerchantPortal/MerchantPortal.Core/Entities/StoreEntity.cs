@@ -6,6 +6,7 @@ public class StoreEntity : BaseEntity
 
     public string Address { get; set; }
 
+    public long MerchantId { get; set; }
     public MerchantEntity Merchant { get; set; }
 
     public ICollection<TerminalEntity> Terminals { get; set; }

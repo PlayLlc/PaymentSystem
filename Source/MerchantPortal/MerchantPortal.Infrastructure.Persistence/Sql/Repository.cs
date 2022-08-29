@@ -5,28 +5,28 @@ namespace MerchantPortal.Infrastructure.Persistence.Sql
 {
     internal class Repository<T> : IRepository<T> where T : BaseEntity
     {
-        protected readonly MerchantPortalDbContext _DbContext;
+        protected readonly MerchantPortalDbContext _dbContext;
 
         internal Repository(MerchantPortalDbContext dbContext)
         {
-            _DbContext = dbContext;
+            _dbContext = dbContext;
         }
 
-        public IQueryable<T> Query => _DbContext.Set<T>();
+        public IQueryable<T> Query => _dbContext.Set<T>();
 
         public T AddEntity(T entity)
         {
-            return _DbContext.Set<T>().Add(entity).Entity;
+            return _dbContext.Set<T>().Add(entity).Entity;
         }
 
         public void DeleteEntity(T entity)
         {
-            _DbContext.Set<T>().Remove(entity);
+            _dbContext.Set<T>().Remove(entity);
         }
 
-        public async Task SaveChanges()
+        public async Task SaveChangesAsync()
         {
-            var result = await _DbContext.SaveChangesAsync();
+            var result = await _dbContext.SaveChangesAsync();
         }
     }
 }

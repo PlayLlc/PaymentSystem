@@ -1,6 +1,8 @@
 ﻿namespace MerchantPortal.Application.DTO;
 
-public class CompanyDto
+public record CompanyDto
 {
+    public long Id { get; set; }
+
     public string Name { get; set; }
 }

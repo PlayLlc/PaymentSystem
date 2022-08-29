@@ -6,5 +6,7 @@ public interface IMerchantConfigurationService
 {
     Task<MerchantDto> GetMerchantAsync(long id);
 
-    Task InsertMerchantAsync(MerchantDto merchant);
+    Task<long> InsertMerchantAsync(MerchantDto merchant);
+
+    Task UpdateMerchantAsync(long id, MerchantDto merchant);
 }

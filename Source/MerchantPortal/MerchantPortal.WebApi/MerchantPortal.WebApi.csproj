@@ -9,10 +9,12 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MerchantPortal.Application\MerchantPortal.Application.csproj" />
     <ProjectReference Include="..\MerchantPortal.Infrastructure.Persistence\MerchantPortal.Infrastructure.Persistence.csproj" />
   </ItemGroup>
 

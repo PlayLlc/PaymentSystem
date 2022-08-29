@@ -6,7 +6,12 @@ namespace MerchantPortal.Infrastructure.Persistence.Repositories;
 
 internal class StoresRepository : Repository<StoreEntity>, IStoresRepository
 {
-    internal StoresRepository(MerchantPortalDbContext dbContext) : base(dbContext)
+    public StoresRepository(MerchantPortalDbContext dbContext) : base(dbContext)
     {
+    }
+
+    public IEnumerable<StoreEntity> SelectStoresByMerchant(long merchantId)
+    {
+        return _dbContext.Stores.Where(x => x.MerchantId == merchantId).AsEnumerable();
     }
 }

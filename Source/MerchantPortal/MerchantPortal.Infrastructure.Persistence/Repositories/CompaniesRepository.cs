@@ -6,7 +6,7 @@ namespace MerchantPortal.Infrastructure.Persistence.Repositories;
 
 internal class CompaniesRepository : Repository<CompanyEntity>, ICompaniesRepository
 {
-    internal CompaniesRepository(MerchantPortalDbContext dbContext) : base(dbContext)
+    public CompaniesRepository(MerchantPortalDbContext dbContext) : base(dbContext)
     {
     }
 }

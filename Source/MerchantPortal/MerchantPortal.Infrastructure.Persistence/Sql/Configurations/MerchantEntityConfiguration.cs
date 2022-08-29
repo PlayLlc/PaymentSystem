@@ -7,17 +7,43 @@ namespace MerchantPortal.Infrastructure.Persistence.Configurations
     {
         public override void Configure(EntityTypeBuilder<MerchantEntity> builder)
         {
-            //builder.Property(x => x.AcquirerId).IsRequired();
-            //builder.Property(x => x.MerchantIdentifier).IsRequired();
-            //builder.Property(x => x.MerchantCategoryCode).IsRequired();
-            builder.Property(x => x.Name).IsRequired();
-            builder.Property(x => x.StreetAddress).IsRequired();
-            builder.Property(x => x.City).IsRequired();
-            builder.Property(x => x.ZipCode).IsRequired();
-            builder.Property(x => x.State).IsRequired();
-            builder.Property(x => x.Country).IsRequired();
+            builder.Property(x => x.AcquirerId)
+                .HasMaxLength(11)
+                .IsRequired();
 
-            builder.HasOne<CompanyEntity>();
+            builder.Property(x => x.MerchantIdentifier)
+                .HasMaxLength(15)
+                .IsRequired();
+
+            builder.Property(x => x.MerchantCategoryCode)
+                .IsRequired();
+
+            builder.Property(x => x.Name)
+                .HasMaxLength(250)
+                .IsRequired();
+
+            builder.Property(x => x.StreetAddress)
+                .HasMaxLength(250)
+                .IsRequired();
+
+            builder.Property(x => x.City)
+                .HasMaxLength(50)
+                .IsRequired();
+
+            builder.Property(x => x.ZipCode)
+                .HasMaxLength(10)
+                .IsRequired();
+
+            builder.Property(x => x.State)
+                .HasMaxLength(50)
+                .IsRequired();
+
+            builder.Property(x => x.Country)
+                .HasMaxLength(50)
+                .IsRequired();
+
+            //builder.HasOne<CompanyEntity>();
+
             builder.HasMany<StoreEntity>();
 
             base.Configure(builder);

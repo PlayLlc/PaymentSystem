@@ -26,7 +26,7 @@ internal class MongoDBHelper : IMongoDBHelper
 
     public MongoDBHelper(IConfiguration configuration)
     {
-        _ConectionString = configuration.GetConnectionString("MerchantPortal");
+        _ConectionString = configuration.GetConnectionString("mongo");
 
     }
 

@@ -1,6 +1,8 @@
+using MerchantPortal.Application;
 using MerchantPortal.Infrastructure.Persistence;
+using MerchantPortal.WebApi.Models;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
@@ -9,9 +11,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddAutoMapper(typeof(PersistenceMapperProfile));
+var connectionString = builder.Configuration.GetConnectionString("sql");
 
-var app = builder.Build();
+builder.Services.AddApplicationServices();
+builder.Services.AddPersistenceServices(connectionString);
+
+builder.Services.AddAutoMapper(typeof(PersistenceMapperProfile));
+builder.Services.AddAutoMapper(typeof(ProfileModelMapper));
+
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

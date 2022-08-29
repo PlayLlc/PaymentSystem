@@ -4,21 +4,20 @@ using MerchantPortal.Infrastructure.Persistence.Mongo.MongoDBHelper;
 
 namespace MerchantPortal.Infrastructure.Persistence.Repositories;
 
-internal class CertificatesRepository : ICertificatesRepository
+internal class PointOfSaleConfigurationRepository : IPointOfSaleConfigurationRepository
 {
     private readonly IMongoDBHelper _MongoDBHelper;
-    private static readonly string _CollectionName = "MerchantPortal_Certificates";
+    private static readonly string _CollectionName = "MerchantPortal_Pos";
 
-    public CertificatesRepository(IMongoDBHelper mongoDBHelper)
+    public PointOfSaleConfigurationRepository(IMongoDBHelper mongoDBHelper)
     {
         _MongoDBHelper = mongoDBHelper;
     }
 
-    public IQueryable<CertificateEntity> Query => 
+    public IEnumerable<CertificateEntity> Query => 
         _MongoDBHelper
         .SelectAsync<CertificateEntity>(_CollectionName)
-        .Result
-        .AsQueryable();
+        .Result;
 
     public CertificateEntity AddEntity(CertificateEntity entity)
     {
@@ -32,7 +31,7 @@ internal class CertificatesRepository : ICertificatesRepository
         throw new NotImplementedException();
     }
 
-    public Task SaveChanges()
+    public Task SaveChangesAsync()
     {
         throw new NotImplementedException();
     }

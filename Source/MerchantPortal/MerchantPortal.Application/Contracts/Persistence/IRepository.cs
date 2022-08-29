@@ -4,7 +4,7 @@ namespace MerchantPortal.Application.Contracts.Persistence;
 
 public interface IRepository
 {
-    Task SaveChanges();
+    Task SaveChangesAsync();
 }
 
 public interface IRepository<T> : IRepository

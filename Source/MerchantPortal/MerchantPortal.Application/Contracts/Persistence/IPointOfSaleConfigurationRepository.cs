@@ -2,7 +2,7 @@
 
 namespace MerchantPortal.Application.Contracts.Persistence;
 
-public interface ICertificatesRepository : IRepository<CertificateEntity>
+public interface IPointOfSaleConfigurationRepository
 {
 
 }
