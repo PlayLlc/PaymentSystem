@@ -12,7 +12,8 @@ public class ApiFilterExceptionAttribute : ExceptionFilterAttribute
     {
         _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>()
         {
-            { typeof(NotFoundException), HandleNotFoundException }
+            { typeof(NotFoundException), HandleNotFoundException },
+            { typeof(ValidationException), HandleValidationException }
         };
     }
 
@@ -70,7 +71,12 @@ public class ApiFilterExceptionAttribute : ExceptionFilterAttribute
     {
         var exception = (ValidationException)context.Exception;
 
-        //
+        var problemDetails = new ValidationProblemDetails(exception.Errors)
+        {
+            Type = "https://www.rfc-editor.org/rfc/rfc7231#section-6.5.1"
+        };
+
+        context.Result = new BadRequestObjectResult(problemDetails);
 
         context.ExceptionHandled = true;
     }

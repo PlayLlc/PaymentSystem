@@ -1,4 +1,6 @@
-﻿namespace MerchantPortal.WebApi.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MerchantPortal.WebApi.Models;
 
 public class MerchantBaseRequest
 {
@@ -23,6 +25,7 @@ public class MerchantBaseRequest
 
 public class MerchantInsertRequest : MerchantBaseRequest
 {
+    [Required]
     public long CompanyId { get; set; }
 }
 
