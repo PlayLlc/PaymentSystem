@@ -16,5 +16,11 @@ public interface IPoSRepository
 
     Task<PoSConfiguration> FindByTerminalId(long terminalId);
 
-    Task UpdateGivenFields(long terminalId, List<(Expression<Func<PoSConfiguration, object>>, object)> updatedValues);
+    Task<PoSConfiguration> FindById(Guid id);
+
+    Task UpdateGivenFields(Guid id, List<(Expression<Func<PoSConfiguration, object>>, object)> updatedValues);
+
+    Task AddCombinationConfiguration(Guid id, Combination combination);
+
+    Task AddCertificateConfiguration(Guid id, CertificateConfiguration configuration);
 }

@@ -1,6 +1,8 @@
-﻿using MerchantPortal.Application.Contracts.Persistence;
+﻿using AutoMapper;
+using MerchantPortal.Application.Contracts.Persistence;
 using MerchantPortal.Application.Contracts.Services;
 using MerchantPortal.Application.DTO;
+using MerchantPortal.Application.DTO.PointOfSale;
 using MerchantPortal.Core.Entities.PointOfSale;
 
 namespace MerchantPortal.Application.Services.PoS;
@@ -8,13 +10,15 @@ namespace MerchantPortal.Application.Services.PoS;
 internal class PoSConfigurationService : IPoSConfigurationService
 {
     private readonly IPoSRepository _posRepository;
+    private readonly IMapper _mapper;
 
-    public PoSConfigurationService(IPoSRepository posRepository)
+    public PoSConfigurationService(IPoSRepository posRepository, IMapper mapper)
     {
         _posRepository = posRepository;
+        _mapper = mapper;
     }
 
-    public Task CreateNewPosConfiguration(CreatePosConfigurationDto initialConfiguration)
+    public async Task CreateNewPosConfiguration(CreatePosConfigurationDto initialConfiguration)
     {
         var entity = new PosConfigurationHeader()
         {
@@ -24,36 +28,89 @@ internal class PoSConfigurationService : IPoSConfigurationService
             TerminalId = initialConfiguration.TerminalId
         };
 
-        _posRepository.Insert
+        await _posRepository.InsertPosConfigurationHeader(entity);
     }
 
-    public Task UpdateCertificateConfiguration()
+    public async Task UpdateCertificateConfiguration(Guid id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration)
     {
-        throw new NotImplementedException();
+        var entity = _mapper.Map<CertificateAuthorityConfiguration>(certificateAuthorityConfiguration);
+
+        await _posRepository.UpdateGivenFields(id,
+            new List<(System.Linq.Expressions.Expression<Func<PoSConfiguration, object>>, object)>
+            {
+                (item => item.CertificateAuthorityConfiguration, entity)
+            });
     }
 
-    public Task UpdatePosCombinationConfiguration()
+    public async Task AddPosCombinationConfiguration(Guid id, CombinationDto combination)
     {
-        throw new NotImplementedException();
+        var entity = _mapper.Map<Combination>(combination);
+
+        await _posRepository.AddCombinationConfiguration(id, entity);
     }
 
-    public Task UpdatePosDisplayConfiguration()
+    public async Task UpdatePosDisplayConfiguration(Guid id, DisplayConfigurationDto displayConfiguration)
     {
-        throw new NotImplementedException();
+        var entity = _mapper.Map<DisplayConfiguration>(displayConfiguration);
+
+        await _posRepository.UpdateGivenFields(id,
+            new List<(System.Linq.Expressions.Expression<Func<PoSConfiguration, object>>, object)>
+            {
+                (item => item.DisplayConfiguration, entity)
+            });
     }
 
-    public Task UpdatePosKernelConfiguration()
+    public async Task UpdatePosKernelConfiguration(Guid id, KernelConfigurationDto kernelConfiguration)
     {
-        throw new NotImplementedException();
+        var entity = _mapper.Map<KernelConfiguration>(kernelConfiguration);
+
+        await _posRepository.UpdateGivenFields(id,
+            new List<(System.Linq.Expressions.Expression<Func<PoSConfiguration, object>>, object)>
+            {
+                (item => item.KernelConfiguration, entity)
+            });
     }
 
-    public Task UpdatePosTerminalConfiguration(long terminalId)
+    public async Task UpdatePosTerminalConfiguration(Guid id, TerminalConfigurationDto terminalConfiguration)
     {
-        throw new NotImplementedException();
+        var entity = _mapper.Map<TerminalConfiguration>(terminalConfiguration);
+
+        await _posRepository.UpdateGivenFields(id,
+            new List<(System.Linq.Expressions.Expression<Func<PoSConfiguration, object>>, object)>
+            {
+                (item => item.TerminalConfiguration, entity)
+            });
     }
 
-    public Task UpdateProximityCouplingDeviceConfiguration()
+    public async Task UpdateProximityCouplingDeviceConfiguration(Guid id, ProximityCouplingDeviceConfigurationDto proximityCouplingDeviceConfiguration)
     {
-        throw new NotImplementedException();
+        var entity = _mapper.Map<ProximityCouplingDeviceConfiguration>(proximityCouplingDeviceConfiguration);
+
+        await _posRepository.UpdateGivenFields(id,
+            new List<(System.Linq.Expressions.Expression<Func<PoSConfiguration, object>>, object)>
+            {
+                (item => item.ProximityCouplingDeviceConfiguration, entity)
+            });
+    }
+
+    public async Task AddCertificateConfiguration(Guid id, CertificateConfigurationDto certificateConfiguration)
+    {
+        var entity = _mapper.Map<CertificateConfiguration>(certificateConfiguration);
+
+        await _posRepository.AddCertificateConfiguration(id, entity);
+    }
+
+    public async Task<PoSConfigurationDto> GetTerminalPoSConfiguration(long terminalId)
+    {
+        PoSConfiguration configuration = await _posRepository.FindByTerminalId(terminalId);
+
+        return _mapper.Map<PoSConfigurationDto>(configuration);
+    }
+
+    public async Task<PoSConfigurationDto> GetPoSConfiguration(Guid id)
+    {
+        PoSConfiguration configuration = await _posRepository.FindById(id);
+
+        return _mapper.Map<PoSConfigurationDto>(configuration);
     }
 }

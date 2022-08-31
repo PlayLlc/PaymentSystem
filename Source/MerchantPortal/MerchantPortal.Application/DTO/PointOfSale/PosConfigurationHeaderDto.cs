@@ -1,10 +1,7 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿namespace MerchantPortal.Application.DTO.PointOfSale;
 
-namespace MerchantPortal.Core.Entities.PointOfSale;
-
-public class PosConfigurationHeader
+public class PosConfigurationHeaderDto
 {
-    [BsonId]
     public Guid Id { get; set; }
 
     public long TerminalId { get; set; }

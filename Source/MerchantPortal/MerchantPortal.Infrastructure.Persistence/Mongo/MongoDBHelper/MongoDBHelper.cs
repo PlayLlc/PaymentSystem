@@ -19,6 +19,8 @@ public interface IMongoDBHelper
     Task ClearCollectionAsync<T>(string collectionName);
 
     Task DeleteOneAsync<T>(string collectionName, Expression<Func<T, bool>> filter);
+
+    Task AddToSetAsync<T, Titem>(string collectionName, Expression<Func<T, bool>> filter, AddFieldConfig<T, Titem> fieldToAdd);
 }
 
 internal class MongoDBHelper : IMongoDBHelper
@@ -80,6 +82,16 @@ internal class MongoDBHelper : IMongoDBHelper
         await GetCollection<T>(collectionName).DeleteOneAsync(filter);
     }
 
+    public async Task AddToSetAsync<T, TItem>(string collectionName, Expression<Func<T, bool>> filter, AddFieldConfig<T, TItem> fieldToAdd)
+    {
+        await GetCollection<T>(collectionName).FindOneAndUpdateAsync(
+            filter,
+            Builders<T>.Update.Push(fieldToAdd.FieldDefinition, fieldToAdd.Field),
+            new FindOneAndUpdateOptions<T, T>
+            {
+                IsUpsert = true,
+            });
+    }
 
     private IMongoCollection<T> GetCollection<T>(string collectionName)
     {
@@ -95,6 +107,13 @@ public class UpdateFieldConfig<T>
     public object Value { get; set; }
 
     public Expression<Func<T, object>> Field { get; set; }
+}
+
+public class AddFieldConfig<T, Titem>
+{
+    public Titem Field { get; set; }
+
+    public Expression<Func<T, IEnumerable<Titem>>> FieldDefinition { get; set; }
 }
 
 public class SortConfig<T>

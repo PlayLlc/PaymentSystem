@@ -14,4 +14,8 @@
     <ProjectReference Include="..\MerchantPortal.Core\MerchantPortal.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\PoS\Validators\" />
+  </ItemGroup>
+
 </Project>

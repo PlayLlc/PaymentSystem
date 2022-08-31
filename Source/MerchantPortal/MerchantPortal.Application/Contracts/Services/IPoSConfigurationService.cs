@@ -1,4 +1,5 @@
 ﻿using MerchantPortal.Application.DTO;
+using MerchantPortal.Application.DTO.PointOfSale;
 
 namespace MerchantPortal.Application.Contracts.Services;
 
@@ -6,15 +7,21 @@ public interface IPoSConfigurationService
 {
     Task CreateNewPosConfiguration(CreatePosConfigurationDto initialConfiguration);
 
-    Task UpdatePosTerminalConfiguration(long terminalId);
+    Task<PoSConfigurationDto> GetTerminalPoSConfiguration(long terminalId);
 
-    Task UpdatePosCombinationConfiguration();
+    Task<PoSConfigurationDto> GetPoSConfiguration(Guid id);
 
-    Task UpdatePosKernelConfiguration();
+    Task UpdatePosTerminalConfiguration(Guid id, TerminalConfigurationDto terminalConfiguration);
 
-    Task UpdatePosDisplayConfiguration();
+    Task AddPosCombinationConfiguration(Guid id, CombinationDto combination);
 
-    Task UpdateProximityCouplingDeviceConfiguration();
+    Task UpdatePosKernelConfiguration(Guid id, KernelConfigurationDto kernelConfiguration);
 
-    Task UpdateCertificateConfiguration();
+    Task UpdatePosDisplayConfiguration(Guid id, DisplayConfigurationDto displayConfiguration);
+
+    Task UpdateProximityCouplingDeviceConfiguration(Guid id, ProximityCouplingDeviceConfigurationDto proximityCouplingDeviceConfiguration);
+
+    Task UpdateCertificateConfiguration(Guid id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration);
+
+    Task AddCertificateConfiguration(Guid id, CertificateConfigurationDto certificateConfiguration);
 }
