@@ -8,6 +8,8 @@ public interface IMongoDBHelper
 {
     Task<IEnumerable<T>> SelectAsync<T>(string collectionName);
 
+    Task<IEnumerable<T>> SelectAsync<T>(string collectionName, Expression<Func<T, bool>> filter);
+
     Task<T> SelectFirstOrDefaultAsync<T>(string collectionName, SortConfig<T> sortConfig = null, params string[] projections);
 
     Task<T> FindBeforeUpdateAsync<T>(string collectionName, Expression<Func<T, bool>> filter, params UpdateFieldConfig<T>[] setConfigs);
@@ -33,6 +35,11 @@ internal class MongoDBHelper : IMongoDBHelper
     public async Task<IEnumerable<T>> SelectAsync<T>(string collectionName)
     {
         return await (await GetCollection<T>(collectionName).FindAsync(Builders<T>.Filter.Empty)).ToListAsync();
+    }
+
+    public async Task<IEnumerable<T>> SelectAsync<T>(string collectionName, Expression<Func<T, bool>> filter)
+    {
+        return await (await GetCollection<T>(collectionName).FindAsync(filter)).ToListAsync();
     }
 
     public async Task<T> SelectFirstOrDefaultAsync<T>(string collectionName, SortConfig<T> sortConfig = null, params string[] projections)

@@ -24,10 +24,10 @@ namespace MerchantPortal.WebApi.Controllers.Merchant
             return merchant;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] MerchantDetails merchantDetails)
-        {
+        //[HttpPost]
+        //public async Task<IActionResult> Post([FromBody] MerchantDetails merchantDetails)
+        //{
 
-        }
+        //}
     }
 }
