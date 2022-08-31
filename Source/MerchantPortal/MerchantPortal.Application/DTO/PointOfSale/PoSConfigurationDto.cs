@@ -10,5 +10,5 @@ public class PoSConfigurationDto : PosConfigurationHeaderDto
 
     public DisplayConfigurationDto DisplayConfiguration { get; set; }
 
-    public IEnumerable<CertificateAuthorityConfigurationDto> CertificateAuthorityConfigurations { get; set; }
+    public CertificateAuthorityConfigurationDto CertificateAuthorityConfiguration { get; set; }
 }

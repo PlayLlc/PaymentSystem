@@ -11,12 +11,10 @@ namespace MerchantPortal.WebApi.Controllers.PointOfSale
     public class PoSController : ControllerBase
     {
         private readonly IPoSConfigurationService _posConfigurationService;
-        private readonly IDefaultPoSConfigurationService _defaultPoSConfigurationService;
 
-        public PoSController(IPoSConfigurationService posConfigurationService, IDefaultPoSConfigurationService defaultPoSConfigurationService)
+        public PoSController(IPoSConfigurationService posConfigurationService)
         {
             _posConfigurationService = posConfigurationService;
-            _defaultPoSConfigurationService = defaultPoSConfigurationService;
         }
 
         // GET: api/<PointsOfSaleController>
@@ -35,7 +33,7 @@ namespace MerchantPortal.WebApi.Controllers.PointOfSale
 
         // POST api/<PointsOfSaleController>
         [HttpPost]
-        public void Post([FromBody] Create value)
+        public void Post([FromBody] string value)
         {
         }
 

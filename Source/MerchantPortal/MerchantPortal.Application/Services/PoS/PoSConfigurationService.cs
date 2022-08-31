@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using MerchantPortal.Application.Contracts.Persistence;
 using MerchantPortal.Application.Contracts.Services;
 using MerchantPortal.Application.DTO;
@@ -11,11 +12,13 @@ internal class PoSConfigurationService : IPoSConfigurationService
 {
     private readonly IPoSRepository _posRepository;
     private readonly IMapper _mapper;
+    private readonly IValidator<PoSConfigurationDto> _validator;
 
-    public PoSConfigurationService(IPoSRepository posRepository, IMapper mapper)
+    public PoSConfigurationService(IPoSRepository posRepository, IMapper mapper, IValidator<PoSConfigurationDto> validator)
     {
         _posRepository = posRepository;
         _mapper = mapper;
+        _validator = validator;
     }
 
     public async Task CreateNewPosConfiguration(CreatePosConfigurationDto initialConfiguration)
