@@ -18,6 +18,8 @@ public interface IPoSRepository
 
     Task<PoSConfiguration> FindById(long id);
 
+    Task<bool> Exists(long id);
+
     Task UpdateGivenFields(long id, List<(Expression<Func<PoSConfiguration, object>>, object)> updatedValues);
 
     Task AddCombinationConfiguration(long id, Combination combination);

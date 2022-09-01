@@ -4,19 +4,19 @@ public class DisplayConfigurationDto
 {
     public string MessageHoldTime { get; set; }
 
-    public IEnumerable<DisplayMessageSet> DisplayMessages { get; set; }
+    public IEnumerable<DisplayMessageSetDto> DisplayMessages { get; set; }
 }
 
-public class DisplayMessageSet
+public class DisplayMessageSetDto
 {
     public string LanguageCode { get; set; }
 
     public string CountryCode { get; set; }
 
-    public IEnumerable<DisplayMessage> Messages { get; set; }
+    public IEnumerable<DisplayMessageDto> Messages { get; set; }
 }
 
-public class DisplayMessage
+public class DisplayMessageDto
 {
     public string MessageIdentifier { get; set; }
     public string Message { get; set; }

@@ -9,7 +9,7 @@ namespace MerchantPortal.Infrastructure.Persistence.Repositories;
 internal class PoSRepository : IPoSRepository
 {
     private readonly IMongoDBHelper _mongoDBHelper;
-    private const string _collectionName = "PoSConfigurations";
+    private const string _collectionName = "PosConfigurations";
 
     public PoSRepository(IMongoDBHelper mongoDBHelper)
     {
@@ -31,6 +31,11 @@ internal class PoSRepository : IPoSRepository
     public async Task<PoSConfiguration> FindById(long id)
     {
         return (await _mongoDBHelper.SelectAsync<PoSConfiguration>(_collectionName, filter => filter.Id == id)).SingleOrDefault();
+    }
+
+    public async Task<bool> Exists(long id)
+    {
+        return (await _mongoDBHelper.CountAsync<PoSConfiguration>(_collectionName, filter => filter.Id == id)) > 0;
     }
 
     public async Task<IEnumerable<PoSConfiguration>> SelectByCompanyId(long companyId)

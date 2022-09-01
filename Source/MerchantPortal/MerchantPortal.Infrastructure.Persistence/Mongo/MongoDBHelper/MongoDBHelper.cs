@@ -10,6 +10,8 @@ public interface IMongoDBHelper
 
     Task<IEnumerable<T>> SelectAsync<T>(string collectionName, Expression<Func<T, bool>> filter);
 
+    Task<long> CountAsync<T>(string collectionName, Expression<Func<T, bool>> filter);
+
     Task<T> SelectFirstOrDefaultAsync<T>(string collectionName, SortConfig<T> sortConfig = null, params string[] projections);
 
     Task<T> FindBeforeUpdateAsync<T>(string collectionName, Expression<Func<T, bool>> filter, params UpdateFieldConfig<T>[] setConfigs);
@@ -30,7 +32,7 @@ internal class MongoDBHelper : IMongoDBHelper
 
     public MongoDBHelper(IConfiguration configuration)
     {
-        _ConectionString = configuration.GetConnectionString("MerchantPortal");
+        _ConectionString = configuration.GetConnectionString("Mongo.MerchantPortal");
 
     }
 
@@ -42,6 +44,11 @@ internal class MongoDBHelper : IMongoDBHelper
     public async Task<IEnumerable<T>> SelectAsync<T>(string collectionName, Expression<Func<T, bool>> filter)
     {
         return await (await GetCollection<T>(collectionName).FindAsync(filter)).ToListAsync();
+    }
+
+    public async Task<long> CountAsync<T>(string collectionName, Expression<Func<T, bool>> filter)
+    {
+        return await GetCollection<T>(collectionName).CountDocumentsAsync(filter);
     }
 
     public async Task<T> SelectFirstOrDefaultAsync<T>(string collectionName, SortConfig<T> sortConfig = null, params string[] projections)
@@ -59,11 +66,10 @@ internal class MongoDBHelper : IMongoDBHelper
     {
         return await GetCollection<T>(collectionName).FindOneAndUpdateAsync(
             filter,
-            Builders<T>.Update.Combine(updateFieldsConfig.Select(x => Builders<T>.Update.SetOnInsert(x.Field, x.Value)).ToList()),
+            Builders<T>.Update.Combine(updateFieldsConfig.Select(x => Builders<T>.Update.Set(x.Field, x.Value)).ToList()),
             new FindOneAndUpdateOptions<T, T>
             {
                 IsUpsert = true,
-                ReturnDocument = ReturnDocument.Before
             });
     }
 

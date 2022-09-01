@@ -1,3 +1,4 @@
+using MerchantPortal.Application;
 using MerchantPortal.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(typeof(PersistenceMapperProfile));
+
+builder.Services.AddApplicationServices();
+builder.Services.AddPersistenceServices();
 
 var app = builder.Build();
 

@@ -115,7 +115,7 @@ internal class PoSConfigurationService : IPoSConfigurationService
     }
 
     public async Task UpdateCertificateAuthorityConfiguration(long id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration)
-    {
+    {   
         var entity = _mapper.Map<CertificateAuthorityConfiguration>(certificateAuthorityConfiguration);
 
         await _posRepository.UpdateGivenFields(id,
