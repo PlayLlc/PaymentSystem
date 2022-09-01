@@ -1,12 +1,17 @@
 using MerchantPortal.Application;
 using MerchantPortal.Infrastructure.Persistence;
+using MerchantPortal.WebApi.Filters;
 using MerchantPortal.WebApi.Models;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ApiFilterExceptionAttribute>();
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
