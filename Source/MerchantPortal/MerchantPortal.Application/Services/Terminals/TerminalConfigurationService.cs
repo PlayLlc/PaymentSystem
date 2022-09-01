@@ -32,7 +32,9 @@ internal class TerminalConfigurationService : ITerminalConfigurationService
 
     public async Task<TerminalDto> GetTerminalAsync(long id)
     {
-        return await Task.FromResult(_mapper.Map<TerminalDto>(_terminalsRepository.Query.FirstOrDefault(x => x.Id == id)));
+        TerminalEntity entity = await _terminalsRepository.SelectById(id);
+
+        return _mapper.Map<TerminalDto>(entity);
     }
 
     public async Task<long> InsertTerminalAsync(TerminalDto terminalDto)
