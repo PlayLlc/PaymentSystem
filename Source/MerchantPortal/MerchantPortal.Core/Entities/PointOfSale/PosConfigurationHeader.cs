@@ -5,7 +5,7 @@ namespace MerchantPortal.Core.Entities.PointOfSale;
 public class PosConfigurationHeader
 {
     [BsonId]
-    public Guid Id { get; set; }
+    public long Id { get; set; }
 
     public long TerminalId { get; set; }
 

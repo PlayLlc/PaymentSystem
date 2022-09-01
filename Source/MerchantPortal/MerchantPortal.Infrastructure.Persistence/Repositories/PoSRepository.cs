@@ -28,7 +28,7 @@ internal class PoSRepository : IPoSRepository
         return result.SingleOrDefault();
     }
 
-    public async Task<PoSConfiguration> FindById(Guid id)
+    public async Task<PoSConfiguration> FindById(long id)
     {
         return (await _mongoDBHelper.SelectAsync<PoSConfiguration>(_collectionName, filter => filter.Id == id)).SingleOrDefault();
     }
@@ -48,7 +48,7 @@ internal class PoSRepository : IPoSRepository
         return await _mongoDBHelper.SelectAsync<PoSConfiguration>(_collectionName, filter => filter.StoreId == storeId);
     }
 
-    public async Task UpdateGivenFields(Guid id, List<(Expression<Func<PoSConfiguration, object>>, object)> updatedValues)
+    public async Task UpdateGivenFields(long id, List<(Expression<Func<PoSConfiguration, object>>, object)> updatedValues)
     {
         await _mongoDBHelper.FindBeforeUpdateAsync<PoSConfiguration>(
             _collectionName,
@@ -56,7 +56,7 @@ internal class PoSRepository : IPoSRepository
             updatedValues.Select(x => new UpdateFieldConfig<PoSConfiguration> { Field = x.Item1, Value = x.Item2 }).ToArray());
     }
 
-    public async Task AddCombinationConfiguration(Guid id, Combination combination)
+    public async Task AddCombinationConfiguration(long id, Combination combination)
     {
         await _mongoDBHelper.AddToSetAsync<PoSConfiguration, Combination>(
             _collectionName,
@@ -68,7 +68,7 @@ internal class PoSRepository : IPoSRepository
             });
     }
 
-    public async Task AddCertificateConfiguration(Guid id, CertificateConfiguration configuration)
+    public async Task AddCertificateConfiguration(long id, CertificateConfiguration configuration)
     {
         await _mongoDBHelper.AddToSetAsync<PoSConfiguration, CertificateConfiguration>(
             _collectionName,

@@ -26,7 +26,7 @@ namespace MerchantPortal.WebApi.Controllers.PointOfSale
 
         // GET api/<PointsOfSaleController>/5
         [HttpGet("{id}")]
-        public async Task<PoSConfigurationDto> Get(Guid id)
+        public async Task<PoSConfigurationDto> Get(long id)
         {
             return await _posConfigurationService.GetPoSConfiguration(id);
         }

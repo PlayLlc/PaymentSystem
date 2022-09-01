@@ -34,7 +34,7 @@ internal class PoSConfigurationService : IPoSConfigurationService
         await _posRepository.InsertPosConfigurationHeader(entity);
     }
 
-    public async Task UpdateCertificateConfiguration(Guid id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration)
+    public async Task UpdateCertificateConfiguration(long id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration)
     {
         var entity = _mapper.Map<CertificateAuthorityConfiguration>(certificateAuthorityConfiguration);
 
@@ -45,14 +45,14 @@ internal class PoSConfigurationService : IPoSConfigurationService
             });
     }
 
-    public async Task AddPosCombinationConfiguration(Guid id, CombinationDto combination)
+    public async Task AddPosCombinationConfiguration(long id, CombinationDto combination)
     {
         var entity = _mapper.Map<Combination>(combination);
 
         await _posRepository.AddCombinationConfiguration(id, entity);
     }
 
-    public async Task UpdatePosDisplayConfiguration(Guid id, DisplayConfigurationDto displayConfiguration)
+    public async Task UpdatePosDisplayConfiguration(long id, DisplayConfigurationDto displayConfiguration)
     {
         var entity = _mapper.Map<DisplayConfiguration>(displayConfiguration);
 
@@ -63,7 +63,7 @@ internal class PoSConfigurationService : IPoSConfigurationService
             });
     }
 
-    public async Task UpdatePosKernelConfiguration(Guid id, KernelConfigurationDto kernelConfiguration)
+    public async Task UpdatePosKernelConfiguration(long id, KernelConfigurationDto kernelConfiguration)
     {
         var entity = _mapper.Map<KernelConfiguration>(kernelConfiguration);
 
@@ -74,7 +74,7 @@ internal class PoSConfigurationService : IPoSConfigurationService
             });
     }
 
-    public async Task UpdatePosTerminalConfiguration(Guid id, TerminalConfigurationDto terminalConfiguration)
+    public async Task UpdatePosTerminalConfiguration(long id, TerminalConfigurationDto terminalConfiguration)
     {
         var entity = _mapper.Map<TerminalConfiguration>(terminalConfiguration);
 
@@ -85,7 +85,7 @@ internal class PoSConfigurationService : IPoSConfigurationService
             });
     }
 
-    public async Task UpdateProximityCouplingDeviceConfiguration(Guid id, ProximityCouplingDeviceConfigurationDto proximityCouplingDeviceConfiguration)
+    public async Task UpdateProximityCouplingDeviceConfiguration(long id, ProximityCouplingDeviceConfigurationDto proximityCouplingDeviceConfiguration)
     {
         var entity = _mapper.Map<ProximityCouplingDeviceConfiguration>(proximityCouplingDeviceConfiguration);
 
@@ -96,7 +96,7 @@ internal class PoSConfigurationService : IPoSConfigurationService
             });
     }
 
-    public async Task AddCertificateConfiguration(Guid id, CertificateConfigurationDto certificateConfiguration)
+    public async Task AddCertificateConfiguration(long id, CertificateConfigurationDto certificateConfiguration)
     {
         var entity = _mapper.Map<CertificateConfiguration>(certificateConfiguration);
 
@@ -110,7 +110,7 @@ internal class PoSConfigurationService : IPoSConfigurationService
         return _mapper.Map<PoSConfigurationDto>(configuration);
     }
 
-    public async Task<PoSConfigurationDto> GetPoSConfiguration(Guid id)
+    public async Task<PoSConfigurationDto> GetPoSConfiguration(long id)
     {
         PoSConfiguration configuration = await _posRepository.FindById(id);
 

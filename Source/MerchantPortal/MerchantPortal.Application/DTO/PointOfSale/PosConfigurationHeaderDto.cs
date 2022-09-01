@@ -2,7 +2,7 @@
 
 public class PosConfigurationHeaderDto
 {
-    public Guid Id { get; set; }
+    public long Id { get; set; }
 
     public long TerminalId { get; set; }
 

@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using MerchantPortal.Application.DTO.PointOfSale;
 
-namespace MerchantPortal.Application.Services.PoS;
+namespace MerchantPortal.Application.Services.PoS.Validators;
 
 public class PoSValidator : AbstractValidator<PoSConfigurationDto>
 {

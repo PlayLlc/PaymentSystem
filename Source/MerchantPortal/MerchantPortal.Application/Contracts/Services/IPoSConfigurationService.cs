@@ -9,19 +9,19 @@ public interface IPoSConfigurationService
 
     Task<PoSConfigurationDto> GetTerminalPoSConfiguration(long terminalId);
 
-    Task<PoSConfigurationDto> GetPoSConfiguration(Guid id);
+    Task<PoSConfigurationDto> GetPoSConfiguration(long id);
 
-    Task UpdatePosTerminalConfiguration(Guid id, TerminalConfigurationDto terminalConfiguration);
+    Task UpdatePosTerminalConfiguration(long id, TerminalConfigurationDto terminalConfiguration);
 
-    Task AddPosCombinationConfiguration(Guid id, CombinationDto combination);
+    Task AddPosCombinationConfiguration(long id, CombinationDto combination);
 
-    Task UpdatePosKernelConfiguration(Guid id, KernelConfigurationDto kernelConfiguration);
+    Task UpdatePosKernelConfiguration(long id, KernelConfigurationDto kernelConfiguration);
 
-    Task UpdatePosDisplayConfiguration(Guid id, DisplayConfigurationDto displayConfiguration);
+    Task UpdatePosDisplayConfiguration(long id, DisplayConfigurationDto displayConfiguration);
 
-    Task UpdateProximityCouplingDeviceConfiguration(Guid id, ProximityCouplingDeviceConfigurationDto proximityCouplingDeviceConfiguration);
+    Task UpdateProximityCouplingDeviceConfiguration(long id, ProximityCouplingDeviceConfigurationDto proximityCouplingDeviceConfiguration);
 
-    Task UpdateCertificateConfiguration(Guid id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration);
+    Task UpdateCertificateConfiguration(long id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration);
 
-    Task AddCertificateConfiguration(Guid id, CertificateConfigurationDto certificateConfiguration);
+    Task AddCertificateConfiguration(long id, CertificateConfigurationDto certificateConfiguration);
 }
