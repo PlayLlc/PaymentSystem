@@ -1,7 +1,7 @@
 using MerchantPortal.Application;
 using MerchantPortal.Infrastructure.Persistence;
 using MerchantPortal.WebApi.Filters;
-using MerchantPortal.WebApi.Models;
+using MerchantPortal.WebApi.Mapping;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 

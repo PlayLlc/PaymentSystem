@@ -11,7 +11,6 @@ public class PersistenceMapperProfile : Profile
         CreateMap<CompanyEntity, CompanyDto>();
         CreateMap<MerchantEntity, MerchantDto>();
         CreateMap<StoreEntity, StoreDto>();
-        CreateMap<StoreEntity, StoreHeaderDto>();
         CreateMap<TerminalEntity, TerminalDto>();
 
         CreateMap<CompanyDto, CompanyEntity>();

@@ -25,9 +25,9 @@ internal class StoreConfigurationService : IStoreConfigurationService
         await _storesRepository.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<StoreHeaderDto>> GetMerchantStoresAsync(long merchantId)
+    public async Task<IEnumerable<StoreDto>> GetMerchantStoresAsync(long merchantId)
     {
-        return await Task.FromResult(_mapper.Map<IEnumerable<StoreHeaderDto>>(_storesRepository.SelectStoresByMerchant(merchantId)));
+        return await Task.FromResult(_mapper.Map<IEnumerable<StoreDto>>(_storesRepository.SelectStoresByMerchant(merchantId)));
     }
 
     public async Task<StoreDto> GetStoreAsync(long id)

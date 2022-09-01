@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using MerchantPortal.Application.DTO;
+using MerchantPortal.WebApi.Models;
 
-namespace MerchantPortal.WebApi.Models;
+namespace MerchantPortal.WebApi.Mapping;
 
 public class ProfileModelMapper : Profile
 {

@@ -6,7 +6,7 @@ using MerchantPortal.Application.Contracts.Persistence;
 using MerchantPortal.Application.Contracts.Services;
 using MerchantPortal.Application.DTO;
 using MerchantPortal.Core.Entities;
-using ValidationException = MerchantPortal.Application.Common.Exceptions.ValidationException;
+using ValidationException = MerchantPortal.Application.Common.Exceptions.ModelValidationException;
 
 namespace MerchantPortal.Application.Services.Merchants;
 

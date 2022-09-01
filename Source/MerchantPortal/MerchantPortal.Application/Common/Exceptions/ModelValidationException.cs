@@ -2,15 +2,10 @@
 
 namespace MerchantPortal.Application.Common.Exceptions;
 
-public class ValidationException : Exception
+public class ModelValidationException : Exception
 {
-    public ValidationException() : base("One or more validation error occurred")
-    {
-
-    }
-
-    public ValidationException(IEnumerable<ValidationFailure> failures)
-        : this()
+    public ModelValidationException(IEnumerable<ValidationFailure> failures)
+        : base("One or more validation error occurred")
     {
         Errors = failures
             .GroupBy(e => e.PropertyName, e => e.ErrorMessage)

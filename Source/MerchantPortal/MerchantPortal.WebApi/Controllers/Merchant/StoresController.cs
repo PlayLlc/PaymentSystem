@@ -21,7 +21,7 @@ namespace MerchantPortal.WebApi.Controllers.Merchant
 
         // GET: api/<StoreController>/merchantStores/{merchantId}
         [HttpGet("merchantStores/{merchantId}")]
-        public async Task<IEnumerable<StoreHeaderDto>> GetMerchantStores(long merchantId)
+        public async Task<IEnumerable<StoreDto>> GetMerchantStores(long merchantId)
         {
             return await _storeConfigurationService.GetMerchantStoresAsync(merchantId);
         }

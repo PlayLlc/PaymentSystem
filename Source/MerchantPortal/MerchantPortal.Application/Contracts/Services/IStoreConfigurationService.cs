@@ -4,7 +4,7 @@ namespace MerchantPortal.Application.Contracts.Services;
 
 public interface IStoreConfigurationService
 {
-    Task<IEnumerable<StoreHeaderDto>> GetMerchantStoresAsync(long merchantId);
+    Task<IEnumerable<StoreDto>> GetMerchantStoresAsync(long merchantId);
 
     Task<StoreDto> GetStoreAsync(long id);
 
