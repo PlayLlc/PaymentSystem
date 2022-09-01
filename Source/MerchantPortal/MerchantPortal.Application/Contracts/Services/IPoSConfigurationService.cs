@@ -11,9 +11,15 @@ public interface IPoSConfigurationService
 
     Task<PoSConfigurationDto> GetPoSConfiguration(long id);
 
+    Task<IEnumerable<PoSConfigurationDto>> GetStorePoSConfigurations(long storeId);
+
+    Task<IEnumerable<PoSConfigurationDto>> GetMerchantPoSConfigurations(long merchantId);
+
     Task UpdatePosTerminalConfiguration(long id, TerminalConfigurationDto terminalConfiguration);
 
     Task AddPosCombinationConfiguration(long id, CombinationDto combination);
+
+    Task UpdatePosCombinationsConfiguration(long id, IEnumerable<CombinationDto> combinations);
 
     Task UpdatePosKernelConfiguration(long id, KernelConfigurationDto kernelConfiguration);
 
@@ -24,4 +30,6 @@ public interface IPoSConfigurationService
     Task UpdateCertificateConfiguration(long id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration);
 
     Task AddCertificateConfiguration(long id, CertificateConfigurationDto certificateConfiguration);
+
+    Task UpdateCertificateAuthorityConfiguration(long id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration);
 }

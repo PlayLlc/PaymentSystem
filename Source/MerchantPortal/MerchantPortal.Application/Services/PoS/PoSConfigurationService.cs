@@ -52,6 +52,17 @@ internal class PoSConfigurationService : IPoSConfigurationService
         await _posRepository.AddCombinationConfiguration(id, entity);
     }
 
+    public async Task UpdatePosCombinationsConfiguration(long id, IEnumerable<CombinationDto> combinations)
+    {
+        var collection = _mapper.Map<IEnumerable<Combination>>(combinations);
+
+        await _posRepository.UpdateGivenFields(id,
+            new List<(System.Linq.Expressions.Expression<Func<PoSConfiguration, object>>, object)>
+            {
+                (item => item.Combinations, collection)
+            });
+    }
+
     public async Task UpdatePosDisplayConfiguration(long id, DisplayConfigurationDto displayConfiguration)
     {
         var entity = _mapper.Map<DisplayConfiguration>(displayConfiguration);
@@ -103,6 +114,17 @@ internal class PoSConfigurationService : IPoSConfigurationService
         await _posRepository.AddCertificateConfiguration(id, entity);
     }
 
+    public async Task UpdateCertificateAuthorityConfiguration(long id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration)
+    {
+        var entity = _mapper.Map<CertificateAuthorityConfiguration>(certificateAuthorityConfiguration);
+
+        await _posRepository.UpdateGivenFields(id,
+            new List<(System.Linq.Expressions.Expression<Func<PoSConfiguration, object>>, object)>
+            {
+                (item => item.CertificateAuthorityConfiguration, entity)
+            });
+    }
+
     public async Task<PoSConfigurationDto> GetTerminalPoSConfiguration(long terminalId)
     {
         PoSConfiguration configuration = await _posRepository.FindByTerminalId(terminalId);
@@ -115,5 +137,19 @@ internal class PoSConfigurationService : IPoSConfigurationService
         PoSConfiguration configuration = await _posRepository.FindById(id);
 
         return _mapper.Map<PoSConfigurationDto>(configuration);
+    }
+
+    public async Task<IEnumerable<PoSConfigurationDto>> GetStorePoSConfigurations(long storeId)
+    {
+        IEnumerable<PoSConfiguration> result = await _posRepository.SelectPosConfigurationsByStoreId(storeId);
+
+        return _mapper.Map<IEnumerable<PoSConfigurationDto>>(result);
+    }
+
+    public async Task<IEnumerable<PoSConfigurationDto>> GetMerchantPoSConfigurations(long merchantId)
+    {
+        IEnumerable<PoSConfiguration> result = await _posRepository.SelectPoSConfigurationsByMerchantId(merchantId);
+
+        return _mapper.Map<IEnumerable<PoSConfigurationDto>>(result);
     }
 }

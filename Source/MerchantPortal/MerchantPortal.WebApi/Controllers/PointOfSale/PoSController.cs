@@ -1,4 +1,5 @@
 ﻿using MerchantPortal.Application.Contracts.Services;
+using MerchantPortal.Application.DTO;
 using MerchantPortal.Application.DTO.PointOfSale;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,36 +18,67 @@ namespace MerchantPortal.WebApi.Controllers.PointOfSale
             _posConfigurationService = posConfigurationService;
         }
 
-        // GET: api/<PointsOfSaleController>
-        [HttpGet("terminalConfiguration/{terminalId}")]
+        // GET: api/<PointsOfSaleController>/terminal/{terminalId}
+        [HttpGet("terminal/{terminalId}")]
         public async Task<PoSConfigurationDto> GetByTerminal(long terminalId)
         {
             return await _posConfigurationService.GetTerminalPoSConfiguration(terminalId);
         }
 
-        // GET api/<PointsOfSaleController>/5
-        [HttpGet("{id}")]
-        public async Task<PoSConfigurationDto> Get(long id)
+        // GET api/<PointsOfSaleController>/store/{storeId}
+        [HttpGet("store/{storeId}")]
+        public async Task<IEnumerable<PoSConfigurationDto>> GetByStore(long storeId)
         {
-            return await _posConfigurationService.GetPoSConfiguration(id);
+            return await _posConfigurationService.GetStorePoSConfigurations(storeId);
         }
 
-        // POST api/<PointsOfSaleController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] CreatePosConfigurationDto posConfigurationHeader)
         {
+            await _posConfigurationService.CreateNewPosConfiguration(posConfigurationHeader);
+
+            return Ok();
         }
 
         // PUT api/<PointsOfSaleController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("terminalconfiguration/{id}")]
+        public async Task<IActionResult> UpdatePoSTerminalConfiguration(long id, [FromBody] TerminalConfigurationDto terminalConfiguration)
         {
+            await _posConfigurationService.UpdatePosTerminalConfiguration(id, terminalConfiguration);
+
+            return Ok();
         }
 
-        // DELETE api/<PointsOfSaleController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpPut("kernelconfiguration/{id}")]
+        public async Task<IActionResult> UpdatePoSKernelConfiguration(long id, [FromBody] KernelConfigurationDto kernelConfiguration)
         {
+            await _posConfigurationService.UpdatePosKernelConfiguration(id, kernelConfiguration);
+
+            return Ok();
+        }
+
+        [HttpPut("displayconfiguration/{id}")]
+        public async Task<IActionResult> UpdateDisplayConfiguration(long id, [FromBody] DisplayConfigurationDto displayConfiguration)
+        {
+            await _posConfigurationService.UpdatePosDisplayConfiguration(id, displayConfiguration);
+
+            return Ok();
+        }
+
+        [HttpPut("combinationconfiguration/{id}")]
+        public async Task<IActionResult> UpdateCombinationsConfiguration(long id, [FromBody] IEnumerable<CombinationDto> combinations)
+        {
+            await _posConfigurationService.UpdatePosCombinationsConfiguration(id, combinations);
+
+            return Ok();
+        }
+
+        [HttpPut("certificateconfiguration/{id}")]
+        public async Task<IActionResult> UpdateCertificateAuthorityConfiguration(long id, [FromBody] CertificateAuthorityConfigurationDto certificateAuthorityConfiguration)
+        {
+            await _posConfigurationService.UpdateCertificateAuthorityConfiguration(id, certificateAuthorityConfiguration);
+
+            return Ok();
         }
     }
 }
