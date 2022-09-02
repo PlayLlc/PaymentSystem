@@ -9,8 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{2783FC5B-7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{18D55F78-BC4E-466B-AB5A-0641B11D54BC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Security", "Security", "{5F3B2580-429C-4A97-9BBE-C17B7A327607}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApi", "WebApi", "{CB735B4C-219F-4231-AACE-6F94A103E99A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MerchantPortal.Application", "MerchantPortal.Application\MerchantPortal.Application.csproj", "{68667444-A9C5-4B56-9CD8-83C302D4D0F0}"
@@ -23,9 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MerchantPortal.Infrastructu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MerchantPortal.Infrastructure.Persistence", "MerchantPortal.Infrastructure.Persistence\MerchantPortal.Infrastructure.Persistence.csproj", "{C94A82F3-7181-4A11-9F7E-E1950082F3DA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MerchantPortal.Security", "MerchantPortal.Security\MerchantPortal.Security.csproj", "{E0E78E10-A9F5-4E80-8CEC-24C682D8BDFB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MerchantPortal.WebApi", "MerchantPortal.WebApi\MerchantPortal.WebApi.csproj", "{CF52FD21-6A95-461B-9480-6B20DA0DF3CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MerchantPortal.WebApi", "MerchantPortal.WebApi\MerchantPortal.WebApi.csproj", "{CF52FD21-6A95-461B-9480-6B20DA0DF3CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,10 +49,6 @@ Global
 		{C94A82F3-7181-4A11-9F7E-E1950082F3DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C94A82F3-7181-4A11-9F7E-E1950082F3DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C94A82F3-7181-4A11-9F7E-E1950082F3DA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E0E78E10-A9F5-4E80-8CEC-24C682D8BDFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E0E78E10-A9F5-4E80-8CEC-24C682D8BDFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E0E78E10-A9F5-4E80-8CEC-24C682D8BDFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E0E78E10-A9F5-4E80-8CEC-24C682D8BDFB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CF52FD21-6A95-461B-9480-6B20DA0DF3CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CF52FD21-6A95-461B-9480-6B20DA0DF3CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF52FD21-6A95-461B-9480-6B20DA0DF3CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -71,7 +63,6 @@ Global
 		{27A35C90-BEC2-4960-A552-6C8D2E87156B} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
 		{93BDB869-B9A0-4ADB-B1A0-3EE69143D513} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
 		{C94A82F3-7181-4A11-9F7E-E1950082F3DA} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
-		{E0E78E10-A9F5-4E80-8CEC-24C682D8BDFB} = {5F3B2580-429C-4A97-9BBE-C17B7A327607}
 		{CF52FD21-6A95-461B-9480-6B20DA0DF3CA} = {CB735B4C-219F-4231-AACE-6F94A103E99A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
