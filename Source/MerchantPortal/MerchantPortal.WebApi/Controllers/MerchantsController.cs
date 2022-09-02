@@ -4,7 +4,7 @@ using MerchantPortal.Application.DTO;
 using MerchantPortal.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MerchantPortal.WebApi.Controllers.Merchant
+namespace MerchantPortal.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -26,7 +26,7 @@ namespace MerchantPortal.WebApi.Controllers.Merchant
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] MerchantInsertRequest value)
+        public async Task<IActionResult> Post([FromBody] InsertMerchantRequest value)
         {
             long created = await _merchantConfigurationService.InsertMerchantAsync(_mapper.Map<MerchantDto>(value));
 
@@ -34,9 +34,9 @@ namespace MerchantPortal.WebApi.Controllers.Merchant
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(long id, [FromBody] MerchantUpdateRequest value)
+        public async Task<IActionResult> Put([FromBody] UpdateMerchantRequest value)
         {
-            await _merchantConfigurationService.UpdateMerchantAsync(id, _mapper.Map<MerchantDto>(value));
+            await _merchantConfigurationService.UpdateMerchantAsync(_mapper.Map<MerchantDto>(value));
 
             return Ok();
         }

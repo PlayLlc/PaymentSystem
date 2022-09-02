@@ -50,13 +50,13 @@ internal class TerminalConfigurationService : ITerminalConfigurationService
         return entity.Id;
     }
 
-    public async Task UpdateTerminalAsync(long id, TerminalDto terminalDto)
+    public async Task UpdateTerminalAsync(TerminalDto terminalDto)
     {
-        var entity = _terminalsRepository.Query.FirstOrDefault(x => x.Id == id);
+        var entity = _terminalsRepository.Query.FirstOrDefault(x => x.Id == terminalDto.Id);
 
         if (entity == null)
         {
-            throw new NotFoundException(nameof(TerminalEntity), id);
+            throw new NotFoundException(nameof(TerminalEntity), terminalDto.Id);
         }
 
         UpdateEntity(entity, terminalDto);

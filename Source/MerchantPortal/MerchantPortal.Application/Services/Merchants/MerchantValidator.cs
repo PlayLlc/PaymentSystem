@@ -3,7 +3,7 @@ using MerchantPortal.Application.DTO;
 
 namespace MerchantPortal.Application.Services.Merchants;
 
-public class MerchantValidator : AbstractValidator<MerchantDto>
+internal class MerchantValidator : AbstractValidator<MerchantDto>
 {
     public MerchantValidator()
     {

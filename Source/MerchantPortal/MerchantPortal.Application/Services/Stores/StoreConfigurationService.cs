@@ -48,13 +48,13 @@ internal class StoreConfigurationService : IStoreConfigurationService
         return entity.Id;
     }
 
-    public async Task UpdateStoreAsync(long id, StoreDto storeDto)
+    public async Task UpdateStoreAsync(StoreDto storeDto)
     {
-        var entity = _storesRepository.Query.FirstOrDefault(x => x.Id == id);
+        var entity = _storesRepository.Query.FirstOrDefault(x => x.Id == storeDto.Id);
 
         if (entity == null)
         {
-            throw new NotFoundException(nameof(StoreEntity), id);
+            throw new NotFoundException(nameof(StoreEntity), storeDto.Id);
         }
 
         UpdateStoreEntity(entity, storeDto);

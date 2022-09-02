@@ -10,7 +10,7 @@ public interface IStoreConfigurationService
 
     Task<long> InsertStoreAsync(StoreDto storeDto);
 
-    Task UpdateStoreAsync(long id, StoreDto storeDto);
+    Task UpdateStoreAsync(StoreDto storeDto);
 
     Task DeleteStoreAsync(long id);
 }

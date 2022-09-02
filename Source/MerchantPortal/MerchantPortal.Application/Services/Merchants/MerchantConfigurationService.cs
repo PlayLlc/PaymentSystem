@@ -48,13 +48,13 @@ internal class MerchantConfigurationService : IMerchantConfigurationService
         return entity.Id;
     }
 
-    public async Task UpdateMerchantAsync(long id, MerchantDto merchant)
+    public async Task UpdateMerchantAsync(MerchantDto merchant)
     {
-        var entity = _merchantsRepository.Query.FirstOrDefault(x => x.Id == id);
+        var entity = _merchantsRepository.Query.FirstOrDefault(x => x.Id == merchant.Id);
 
         if (entity == null)
         {
-            throw new NotFoundException(nameof(MerchantEntity), id);
+            throw new NotFoundException(nameof(MerchantEntity), merchant.Id);
         }
 
         ValidationResult validationResult = await _validator.ValidateAsync(merchant);

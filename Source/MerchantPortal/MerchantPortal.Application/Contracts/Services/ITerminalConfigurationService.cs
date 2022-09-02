@@ -10,7 +10,7 @@ public interface ITerminalConfigurationService
 
     Task<long> InsertTerminalAsync(TerminalDto terminalDto);
 
-    Task UpdateTerminalAsync(long id, TerminalDto terminalDto);
+    Task UpdateTerminalAsync(TerminalDto terminalDto);
 
     Task DeleteTerminalAsync(long id);
 

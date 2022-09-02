@@ -2,7 +2,7 @@
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace MerchantPortal.WebApi.Controllers.PointOfSale
+namespace MerchantPortal.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

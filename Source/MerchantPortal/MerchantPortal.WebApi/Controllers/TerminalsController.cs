@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace MerchantPortal.WebApi.Controllers.Merchant
+namespace MerchantPortal.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -34,7 +34,7 @@ namespace MerchantPortal.WebApi.Controllers.Merchant
 
         // POST api/<TerminalController>
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] TerminalDetails value)
+        public async Task<ActionResult> Post([FromBody] TerminalRequest value)
         {
             var created = await _terminalConfigurationService.InsertTerminalAsync(_mapper.Map<TerminalDto>(value));
 
@@ -43,9 +43,9 @@ namespace MerchantPortal.WebApi.Controllers.Merchant
 
         // PUT api/<TerminalController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, [FromBody] TerminalDetails value)
+        public async Task<ActionResult> Put([FromBody] TerminalRequest value)
         {
-            await _terminalConfigurationService.UpdateTerminalAsync(id, _mapper.Map<TerminalDto>(value));
+            await _terminalConfigurationService.UpdateTerminalAsync(_mapper.Map<TerminalDto>(value));
 
             return Ok();
         }

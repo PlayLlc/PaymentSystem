@@ -23,10 +23,10 @@ public class MerchantBaseRequest
     public string? Country { get; set; }
 }
 
-public class MerchantInsertRequest : MerchantBaseRequest
+public class InsertMerchantRequest : MerchantBaseRequest
 {
     [Required]
     public long CompanyId { get; set; }
 }
 
-public class MerchantUpdateRequest : MerchantBaseRequest { }
+public class UpdateMerchantRequest : MerchantBaseRequest { }
