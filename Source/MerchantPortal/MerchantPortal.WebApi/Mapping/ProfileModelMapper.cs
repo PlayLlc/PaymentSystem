@@ -10,7 +10,7 @@ public class ProfileModelMapper : Profile
     {
         CreateMap<UpdateMerchantRequest, MerchantDto>();
         CreateMap<InsertMerchantRequest, MerchantDto>();
-        CreateMap<StoreRequest, StoreDto>();
-        CreateMap<TerminalRequest, TerminalDto>();
+        CreateMap<StoreDetailsRequest, StoreDto>();
+        CreateMap<TerminalDetailsRequest, TerminalDto>();
     }
 }

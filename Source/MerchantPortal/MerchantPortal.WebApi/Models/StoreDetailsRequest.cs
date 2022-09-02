@@ -1,6 +1,6 @@
 ﻿namespace MerchantPortal.WebApi.Models;
 
-public class StoreRequest
+public class StoreDetailsRequest
 {
     public long Id { get; set; }
 

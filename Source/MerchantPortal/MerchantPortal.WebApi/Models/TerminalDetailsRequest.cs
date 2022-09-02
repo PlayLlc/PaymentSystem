@@ -1,6 +1,6 @@
 ﻿namespace MerchantPortal.WebApi.Models;
 
-public class TerminalRequest
+public class TerminalDetailsRequest
 {
     public long Id { get; set; }
 

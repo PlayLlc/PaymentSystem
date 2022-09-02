@@ -34,7 +34,7 @@ namespace MerchantPortal.WebApi.Controllers
 
         // POST api/<TerminalController>
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] TerminalRequest value)
+        public async Task<ActionResult> Post([FromBody] TerminalDetailsRequest value)
         {
             var created = await _terminalConfigurationService.InsertTerminalAsync(_mapper.Map<TerminalDto>(value));
 
@@ -43,7 +43,7 @@ namespace MerchantPortal.WebApi.Controllers
 
         // PUT api/<TerminalController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put([FromBody] TerminalRequest value)
+        public async Task<ActionResult> Put([FromBody] TerminalDetailsRequest value)
         {
             await _terminalConfigurationService.UpdateTerminalAsync(_mapper.Map<TerminalDto>(value));
 

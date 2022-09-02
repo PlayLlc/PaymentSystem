@@ -35,7 +35,7 @@ namespace MerchantPortal.WebApi.Controllers
 
         // POST api/<StoreController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] StoreRequest value)
+        public async Task<IActionResult> Post([FromBody] StoreDetailsRequest value)
         {
             var created = await _storeConfigurationService.InsertStoreAsync(_mapper.Map<StoreDto>(value));
 
@@ -44,7 +44,7 @@ namespace MerchantPortal.WebApi.Controllers
 
         // PUT api/<StoreController>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody] StoreRequest value)
+        public async Task<IActionResult> Put([FromBody] StoreDetailsRequest value)
         {
             await _storeConfigurationService.UpdateStoreAsync(_mapper.Map<StoreDto>(value));
 
