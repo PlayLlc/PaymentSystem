@@ -25,7 +25,7 @@ internal class MerchantConfigurationService : IMerchantConfigurationService
 
     public async Task<MerchantDto> GetMerchantAsync(long id)
     {
-        MerchantEntity entity = await _merchantsRepository.SelectById(id);
+        MerchantEntity? entity = await _merchantsRepository.SelectById(id);
 
         return _mapper.Map<MerchantDto>(entity);
     }

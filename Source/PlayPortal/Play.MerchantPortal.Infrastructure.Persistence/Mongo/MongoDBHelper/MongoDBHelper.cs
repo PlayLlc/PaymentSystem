@@ -8,7 +8,7 @@ public interface IMongoDBHelper
 {
     Task<IEnumerable<T>> SelectAsync<T>(string collectionName);
 
-    Task<T> SelectFirstOrDefaultAsync<T>(string collectionName, SortConfig<T> sortConfig = null, params string[] projections);
+    Task<T> SelectFirstOrDefaultAsync<T>(string collectionName, SortConfig<T>? sortConfig = null, params string[] projections);
 
     Task<T> FindBeforeUpdateAsync<T>(string collectionName, Expression<Func<T, bool>> filter, params UpdateFieldConfig<T>[] setConfigs);
 
@@ -35,9 +35,9 @@ internal class MongoDBHelper : IMongoDBHelper
         return await (await GetCollection<T>(collectionName).FindAsync(Builders<T>.Filter.Empty)).ToListAsync();
     }
 
-    public async Task<T> SelectFirstOrDefaultAsync<T>(string collectionName, SortConfig<T> sortConfig = null, params string[] projections)
+    public async Task<T> SelectFirstOrDefaultAsync<T>(string collectionName, SortConfig<T>? sortConfig = null, params string[] projections)
     {
-        FindOptions<T, T> findOptions = new FindOptions<T, T>
+        FindOptions<T, T> findOptions = new()
         {
             Projection = projections.Any() ? Builders<T>.Projection.Combine(projections.Select(x => Builders<T>.Projection.Include(x)).ToList()) : null,
             Sort = sortConfig != null ? (sortConfig.SortOrder == SortOrder.Ascending ? Builders<T>.Sort.Ascending(sortConfig.SortBy) : Builders<T>.Sort.Descending(sortConfig.SortBy)) : null
@@ -76,7 +76,7 @@ internal class MongoDBHelper : IMongoDBHelper
 
     private IMongoCollection<T> GetCollection<T>(string collectionName)
     {
-        MongoClient client = new MongoClient(_ConectionString);
+        MongoClient client = new(_ConectionString);
         IMongoDatabase database = client.GetDatabase(_DatabaseName);
 
         return database.GetCollection<T>(collectionName);
@@ -85,16 +85,16 @@ internal class MongoDBHelper : IMongoDBHelper
 
 public class UpdateFieldConfig<T>
 {
-    public object Value { get; set; }
+    public object? Value { get; set; }
 
-    public Expression<Func<T, object>> Field { get; set; }
+    public Expression<Func<T, object?>>? Field { get; set; }
 }
 
 public class SortConfig<T>
 {
     public SortOrder SortOrder { get; set; }
 
-    public Expression<Func<T, object>> SortBy { get; set; }
+    public Expression<Func<T, object>>? SortBy { get; set; }
 }
 
 public enum SortOrder

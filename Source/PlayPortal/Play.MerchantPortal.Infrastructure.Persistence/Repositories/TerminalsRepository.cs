@@ -11,9 +11,9 @@ internal class TerminalsRepository : Repository<TerminalEntity>, ITerminalsRepos
     {
     }
 
-    public async Task<TerminalEntity> SelectById(long terminalId)
+    public async Task<TerminalEntity?> SelectById(long terminalId)
     {
-        return await _dbContext.Terminals.AsNoTracking().FirstAsync(x => x.Id == terminalId);
+        return await _dbContext.Terminals.AsNoTracking().FirstOrDefaultAsync(x => x.Id == terminalId);
     }
 
     public IEnumerable<TerminalEntity> SelectTerminalsByStore(long storeId)

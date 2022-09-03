@@ -1,7 +1,9 @@
+using FluentValidation;
 using MerchantPortal.Infrastructure.Persistence;
 using MerchantPortal.WebApi.Filters;
 using MerchantPortal.WebApi.Mapping;
 using Play.MerchantPortal.Application;
+using System.Reflection;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -18,8 +20,8 @@ builder.Services.AddSwaggerGen();
 
 var connectionString = builder.Configuration.GetConnectionString("sql");
 
-builder.Services.AddApplicationServices();
 builder.Services.AddPersistenceServices(connectionString);
+builder.Services.AddApplicationServices();
 
 builder.Services.AddAutoMapper(typeof(ProfileModelMapper));
 

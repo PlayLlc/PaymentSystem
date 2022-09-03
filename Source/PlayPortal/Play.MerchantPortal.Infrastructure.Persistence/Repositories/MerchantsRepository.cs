@@ -11,8 +11,8 @@ internal class MerchantsRepository : Repository<MerchantEntity>, IMerchantsRepos
     {
     }
 
-    public async Task<MerchantEntity> SelectById(long id)
+    public async Task<MerchantEntity?> SelectById(long id)
     {
-        return await _dbContext.Merchants.AsNoTracking().FirstAsync(x => x.Id == id);
+        return await _dbContext.Merchants.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
     }
 }

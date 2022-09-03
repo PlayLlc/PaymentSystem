@@ -32,7 +32,7 @@ internal class StoreConfigurationService : IStoreConfigurationService
 
     public async Task<StoreDto> GetStoreAsync(long id)
     {
-        StoreEntity entity = await _storesRepository.SelectById(id);
+        StoreEntity? entity = await _storesRepository.SelectById(id);
 
         return _mapper.Map<StoreDto>(entity);
     }

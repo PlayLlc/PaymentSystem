@@ -11,9 +11,9 @@ internal class StoresRepository : Repository<StoreEntity>, IStoresRepository
     {
     }
 
-    public async Task<StoreEntity> SelectById(long id)
+    public async Task<StoreEntity?> SelectById(long id)
     {
-        return await _dbContext.Stores.AsNoTracking().FirstAsync(x => x.Id == id);
+        return await _dbContext.Stores.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public IEnumerable<StoreEntity> SelectStoresByMerchant(long merchantId)

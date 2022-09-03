@@ -9,8 +9,8 @@ internal class MerchantPortalDbContextDataSeed
         _dbContext = dbContext;
     }
 
-    public async Task SeedInitialData()
+    public Task SeedInitialData()
     {
-
+        throw new NotImplementedException();
     }
 }
