@@ -250,7 +250,7 @@ public class UnsignedIntegerCodec : PlayCodec
     }
 
     // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
-    public byte[] Encode(BigInteger value) => value.ToByteArray();
+    public byte[] Encode(BigInteger value) => value.ToByteArray(true);
 
     // DEPRECATING: This method will eventually be deprecated in favor of using strongly typed arguments instead of generic constraints. We will also include a Span<byte> in the argument as a buffer as opposed to returning a new byte[]
     /// <exception cref="CodecParsingException"></exception>
