@@ -40,19 +40,6 @@ public abstract record DataExchangeResponse : DataExchangeList<PrimitiveValue>
     /// <exception cref="OverflowException"></exception>
     public override byte[] EncodeTagLengthValue()
     {
-        byte[] contentOctetsTagLengthValues = EncodePrimitiveListTagLengthValues();
-        TagLength tagLength = new(GetTag(), contentOctetsTagLengthValues);
-
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(tagLength.GetTagLengthValueByteCount());
-        Span<byte> buffer = spanOwner.Span;
-        tagLength.Encode().CopyTo(buffer);
-        contentOctetsTagLengthValues.CopyTo(buffer[tagLength.GetValueOffset()..]);
-
-        return buffer.ToArray();
-    }
-
-    private byte[] EncodePrimitiveListTagLengthValues()
-    {
         int byteCount = (int)_Value.Sum(a => a.GetTagLengthValueByteCount(_Codec));
 
         Span<byte> result = stackalloc byte[byteCount];
@@ -63,7 +50,14 @@ public abstract record DataExchangeResponse : DataExchangeList<PrimitiveValue>
             j += (int)_Value.ElementAt(i).GetTagLengthValueByteCount(_Codec);
         }
 
-        return result.ToArray();
+        TagLength tagLength = new(GetTag(), result);
+
+        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(tagLength.GetTagLengthValueByteCount());
+        Span<byte> buffer = spanOwner.Span;
+        tagLength.Encode().CopyTo(buffer);
+        result.CopyTo(buffer[tagLength.GetValueOffset()..]);
+
+        return buffer.ToArray();
     }
 
     #endregion
