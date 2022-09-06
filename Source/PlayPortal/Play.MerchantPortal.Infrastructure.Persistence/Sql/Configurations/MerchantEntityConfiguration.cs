@@ -7,7 +7,7 @@ namespace Play.MerchantPortal.Infrastructure.Persistence.Sql.Configurations
     internal class MerchantEntityConfiguration : BaseEntityConfiguration<MerchantEntity>
     {
         #region Instance Members
-
+         
         public override void Configure(EntityTypeBuilder<MerchantEntity> builder)
         {
             builder.Property(x => x.AcquirerId).HasMaxLength(11).IsRequired();
@@ -22,7 +22,7 @@ namespace Play.MerchantPortal.Infrastructure.Persistence.Sql.Configurations
 
             builder.Property(x => x.City).HasMaxLength(50).IsRequired();
 
-            builder.Property(x => x.ZipCode).HasMaxLength(10).IsRequired();
+            builder.Property(x => x.ZipCode).HasMaxLength(5).IsRequired();
 
             builder.Property(x => x.State).HasMaxLength(50).IsRequired();
 

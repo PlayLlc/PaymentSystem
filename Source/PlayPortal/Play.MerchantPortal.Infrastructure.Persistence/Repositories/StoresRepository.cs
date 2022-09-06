@@ -23,9 +23,9 @@ internal class StoresRepository : Repository<StoreEntity>, IStoresRepository
         return await _DbContext.Stores.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(false);
     }
 
-    public IEnumerable<StoreEntity> SelectStoresByMerchant(long merchantId)
+    public async Task<IEnumerable<StoreEntity>> SelectStoresByMerchant(long merchantId)
     {
-        return _DbContext.Stores.Where(x => x.MerchantId == merchantId).AsEnumerable();
+        return await Task.FromResult(_DbContext.Stores.Where(x => x.MerchantId == merchantId).AsEnumerable()).ConfigureAwait(false);
     }
 
     #endregion

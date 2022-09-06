@@ -1,5 +1,5 @@
-using MerchantPortal.Infrastructure.Persistence;
-
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
+using Microsoft.OpenApi.Models;
 using Play.MerchantPortal.Api.Filters;
 using Play.MerchantPortal.Api.Mapping;
 using Play.MerchantPortal.Application;
@@ -34,14 +34,17 @@ try
 
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
 
     var connectionString = builder.Configuration.GetConnectionString("sql");
 
     builder.Services.AddPersistenceServices(connectionString);
     builder.Services.AddApplicationServices();
-
     builder.Services.AddAutoMapper(typeof(ProfileModelMapper));
+
+    builder.Services.AddSwaggerGen(c =>
+    {
+        c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+    });
 
     WebApplication app = builder.Build();
 

@@ -5,6 +5,7 @@ using Play.MerchantPortal.Application.Contracts.Persistence;
 using Play.MerchantPortal.Contracts.Services;
 using Play.MerchantPortal.Contracts.DTO;
 using Play.MerchantPortal.Domain.Entities;
+using FluentValidation;
 
 namespace Play.MerchantPortal.Application.Services.Terminals;
 
@@ -14,15 +15,17 @@ internal class TerminalConfigurationService : ITerminalConfigurationService
 
     private readonly ITerminalsRepository _TerminalsRepository;
     private readonly IMapper _Mapper;
+    private readonly IValidator<TerminalDto> _Validator;
 
     #endregion
 
     #region Constructor
 
-    public TerminalConfigurationService(ITerminalsRepository terminalsRepository, IMapper mapper)
+    public TerminalConfigurationService(ITerminalsRepository terminalsRepository, IMapper mapper, IValidator<TerminalDto> validator)
     {
         _TerminalsRepository = terminalsRepository;
         _Mapper = mapper;
+        _Validator = validator;
     }
 
     #endregion
@@ -38,7 +41,9 @@ internal class TerminalConfigurationService : ITerminalConfigurationService
 
     public async Task<IEnumerable<TerminalDto>> GetStoreTerminalsAsync(long storeId)
     {
-        return await Task.FromResult(_Mapper.Map<IEnumerable<TerminalDto>>(_TerminalsRepository.SelectTerminalsByStore(storeId)));
+        var result = await _TerminalsRepository.SelectTerminalsByStore(storeId);
+
+        return _Mapper.Map<IEnumerable<TerminalDto>>(result);
     }
 
     public async Task<TerminalDto> GetTerminalAsync(long id)
@@ -69,13 +74,8 @@ internal class TerminalConfigurationService : ITerminalConfigurationService
         if (entity == null)
             throw new NotFoundException(nameof(TerminalEntity), terminalDto.Id);
 
-        UpdateEntity(entity, terminalDto);
-
         await _TerminalsRepository.SaveChangesAsync();
     }
-
-    private void UpdateEntity(TerminalEntity entity, TerminalDto terminalDto)
-    { }
 
     #endregion
 }

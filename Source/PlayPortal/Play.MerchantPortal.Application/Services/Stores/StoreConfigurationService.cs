@@ -5,6 +5,7 @@ using Play.MerchantPortal.Application.Contracts.Persistence;
 using Play.MerchantPortal.Contracts.Services;
 using Play.MerchantPortal.Contracts.DTO;
 using Play.MerchantPortal.Domain.Entities;
+using FluentValidation;
 
 namespace Play.MerchantPortal.Application.Services.Stores;
 
@@ -14,15 +15,17 @@ internal class StoreConfigurationService : IStoreConfigurationService
 
     private readonly IStoresRepository _StoresRepository;
     private readonly IMapper _Mapper;
+    private readonly IValidator<StoreDto> _Validator;
 
     #endregion
 
     #region Constructor
 
-    public StoreConfigurationService(IStoresRepository storesRepository, IMapper mapper)
+    public StoreConfigurationService(IStoresRepository storesRepository, IMapper mapper, IValidator<StoreDto> validator)
     {
         _StoresRepository = storesRepository;
         _Mapper = mapper;
+        _Validator = validator;
     }
 
     #endregion
@@ -38,7 +41,9 @@ internal class StoreConfigurationService : IStoreConfigurationService
 
     public async Task<IEnumerable<StoreDto>> GetMerchantStoresAsync(long merchantId)
     {
-        return await Task.FromResult(_Mapper.Map<IEnumerable<StoreDto>>(_StoresRepository.SelectStoresByMerchant(merchantId)));
+        var result = await _StoresRepository.SelectStoresByMerchant(merchantId);
+
+        return _Mapper.Map<IEnumerable<StoreDto>>(result);
     }
 
     public async Task<StoreDto> GetStoreAsync(long id)

@@ -8,7 +8,7 @@ public interface IStoresRepository : IRepository<StoreEntity>
 
     Task<StoreEntity?> SelectById(long id);
 
-    IEnumerable<StoreEntity> SelectStoresByMerchant(long merchantId);
+    Task<IEnumerable<StoreEntity>> SelectStoresByMerchant(long merchantId);
 
     #endregion
 }
