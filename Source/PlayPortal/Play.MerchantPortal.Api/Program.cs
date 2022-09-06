@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.OpenApi.Models;
 using Play.MerchantPortal.Api.Filters;
@@ -32,6 +33,11 @@ try
         options.Filters.Add<ApiFilterExceptionAttribute>();
     });
 
+    builder.Services
+        .AddFluentValidationAutoValidation(x => x.DisableDataAnnotationsValidation = true)
+        .AddFluentValidationClientsideAdapters()
+        .AddFluentValidationRulesToSwagger();
+
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
 
@@ -43,7 +49,7 @@ try
 
     builder.Services.AddSwaggerGen(c =>
     {
-        c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+        c.SwaggerDoc("v1", new OpenApiInfo { Title = "Merchant Portal", Version = "v1" });
     });
 
     WebApplication app = builder.Build();

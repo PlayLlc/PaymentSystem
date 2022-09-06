@@ -3,7 +3,7 @@ using Play.MerchantPortal.Contracts.DTO;
 
 namespace Play.MerchantPortal.Application.Services.Merchants;
 
-internal class MerchantValidator : AbstractValidator<MerchantDto>
+public class MerchantValidator : AbstractValidator<MerchantDto>
 {
     private const string _AlphabeticOnlyRegex = @"^[a-zA-Z]+$";
     private const string _DigitsOnlyRegex = @"^[0-9]+$";

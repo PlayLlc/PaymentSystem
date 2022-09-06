@@ -3,7 +3,7 @@ using Play.MerchantPortal.Contracts.DTO;
 
 namespace Play.MerchantPortal.Application.Services.Stores;
 
-internal class StoreValidator : AbstractValidator<StoreDto>
+public class StoreValidator : AbstractValidator<StoreDto>
 {
     public StoreValidator()
     {

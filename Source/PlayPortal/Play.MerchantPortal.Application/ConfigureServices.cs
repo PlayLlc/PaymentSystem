@@ -6,6 +6,7 @@ using Play.MerchantPortal.Application.Services.Merchants;
 using Play.MerchantPortal.Application.Services.Stores;
 using Play.MerchantPortal.Application.Services.Terminals;
 using Play.MerchantPortal.Contracts.Services;
+using System.Reflection;
 
 namespace Play.MerchantPortal.Application;
 
@@ -15,13 +16,7 @@ public static class ConfigureServices
     {
         services.AddAutoMapper(typeof(PersistenceMapperProfile));
 
-        //services.AddScoped<IValidator<MerchantDto>, MerchantValidator>();
-        //services.AddScoped<IValidator<StoreDto>, StoreValidator>();
-        //services.AddScoped<IValidator<TerminalDto>, TerminalValidator>();
-
-        services.AddValidatorsFromAssemblyContaining<MerchantValidator>();
-
-        services.AddFluentValidationRulesToSwagger();
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         services.AddScoped<ITerminalConfigurationService, TerminalConfigurationService>();
         services.AddScoped<IStoreConfigurationService, StoreConfigurationService>();
