@@ -9,7 +9,7 @@ using Play.MerchantPortal.Contracts.DTO;
 using Play.MerchantPortal.Contracts.Services;
 using Play.MerchantPortal.Domain.Entities;
 
-using ValidationException = Play.MerchantPortal.Application.Common.Exceptions.ModelValidationException;
+using ModelValidationException = Play.MerchantPortal.Application.Common.Exceptions.ModelValidationException;
 
 namespace Play.MerchantPortal.Application.Services.Merchants;
 
@@ -48,7 +48,7 @@ internal class MerchantConfigurationService : IMerchantConfigurationService
         ValidationResult validationResult = await _Validator.ValidateAsync(merchant);
 
         if (validationResult.Errors.Any())
-            throw new ValidationException(validationResult.Errors);
+            throw new ModelValidationException(validationResult.Errors);
 
         var entity = _Mapper.Map<MerchantEntity>(merchant);
 
@@ -69,7 +69,7 @@ internal class MerchantConfigurationService : IMerchantConfigurationService
         ValidationResult validationResult = await _Validator.ValidateAsync(merchant);
 
         if (validationResult.Errors.Any())
-            throw new ValidationException(validationResult.Errors);
+            throw new ModelValidationException(validationResult.Errors);
 
         UpdateEntity(entity, merchant);
 
