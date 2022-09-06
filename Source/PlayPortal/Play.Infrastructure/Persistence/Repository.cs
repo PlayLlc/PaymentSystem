@@ -2,12 +2,14 @@
 
 namespace MerchantPortal.Infrastructure.Persistence;
 
-public class Repository<T> where T : BaseEntity
+public class Repository<_> where _ : BaseEntity
 {
+    #region Constructor
+
     //Db Context
 
     public Repository()
-    {
+    { }
 
-    }
+    #endregion
 }

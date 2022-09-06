@@ -1,21 +1,31 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+
 using Play.MerchantPortal.Application.Common.Exceptions;
 
 namespace MerchantPortal.WebApi.Filters;
 
 public class ApiFilterExceptionAttribute : ExceptionFilterAttribute
 {
-    private readonly IDictionary<Type, Action<ExceptionContext>> _exceptionHandlers;
+    #region Instance Values
+
+    private readonly IDictionary<Type, Action<ExceptionContext>> _ExceptionHandlers;
+
+    #endregion
+
+    #region Constructor
 
     public ApiFilterExceptionAttribute()
     {
-        _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>()
+        _ExceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>()
         {
-            { typeof(NotFoundException), HandleNotFoundException },
-            { typeof(ModelValidationException), HandleValidationException }
+            {typeof(NotFoundException), HandleNotFoundException}, {typeof(ModelValidationException), HandleValidationException}
         };
     }
+
+    #endregion
+
+    #region Instance Members
 
     public override void OnException(ExceptionContext context)
     {
@@ -27,25 +37,25 @@ public class ApiFilterExceptionAttribute : ExceptionFilterAttribute
     private void HandleException(ExceptionContext context)
     {
         Type type = context.Exception.GetType();
-        if (_exceptionHandlers.ContainsKey(type))
+
+        if (_ExceptionHandlers.ContainsKey(type))
         {
-            _exceptionHandlers[type].Invoke(context);
+            _ExceptionHandlers[type].Invoke(context);
+
             return;
         }
 
         if (!context.ModelState.IsValid)
         {
             HandleInvalidModelStateException(context);
+
             return;
         }
     }
 
     private void HandleInvalidModelStateException(ExceptionContext context)
     {
-        var details = new ValidationProblemDetails(context.ModelState)
-        {
-            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
-        };
+        var details = new ValidationProblemDetails(context.ModelState) {Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"};
 
         context.Result = new BadRequestObjectResult(details);
 
@@ -54,13 +64,9 @@ public class ApiFilterExceptionAttribute : ExceptionFilterAttribute
 
     private void HandleNotFoundException(ExceptionContext context)
     {
-        var exception = (NotFoundException)context.Exception;
+        var exception = (NotFoundException) context.Exception;
 
-        var details = new HttpValidationProblemDetails()
-        {
-            Title = "The specified resource was not found.",
-            Detail = exception.Message
-        };
+        var details = new HttpValidationProblemDetails() {Title = "The specified resource was not found.", Detail = exception.Message};
 
         context.Result = new NotFoundObjectResult(details);
 
@@ -69,16 +75,14 @@ public class ApiFilterExceptionAttribute : ExceptionFilterAttribute
 
     private void HandleValidationException(ExceptionContext context)
     {
-        var exception = (ModelValidationException)context.Exception;
+        var exception = (ModelValidationException) context.Exception;
 
-        var problemDetails = new ValidationProblemDetails(exception.Errors)
-        {
-            Type = "https://www.rfc-editor.org/rfc/rfc7231#section-6.5.1"
-        };
+        var problemDetails = new ValidationProblemDetails(exception.Errors) {Type = "https://www.rfc-editor.org/rfc/rfc7231#section-6.5.1"};
 
         context.Result = new BadRequestObjectResult(problemDetails);
 
         context.ExceptionHandled = true;
     }
 
+    #endregion
 }

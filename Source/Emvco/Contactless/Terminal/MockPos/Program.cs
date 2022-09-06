@@ -24,15 +24,34 @@ using Play.Messaging;
 
 namespace MockPos;
 
+public class TestClassz
+{
+    #region Instance Values
+
+    public List<string> MyStringProperty { get; set; }
+
+    #endregion
+}
+
 internal class Program
 {
     #region Instance Members
+
+    private static int Test(List<string> hello)
+    {
+        var a = hello.FirstOrDefault();
+
+        return hello.Count;
+    }
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     private static void Main(string[] args)
     {
+        var b = new TestClassz();
+
         // Configuration
+        Test(b.MyStringProperty);
 
         PosConfigurationDto posConfigurationDto = GetDto();
         EmvRuntimeCodec emvRuntimeCodec = new();
@@ -70,4 +89,13 @@ internal class Program
         JsonSerializer.Deserialize<PosConfigurationDto>(File.ReadAllText(@"C:\Source\PaymentSystem\Source\Emvco\Contactless\Terminal\MockPos\TestJson.json"))!;
 
     #endregion
+
+    public class TestClass
+    {
+        #region Instance Values
+
+        public string TestProperty { get; set; }
+
+        #endregion
+    }
 }

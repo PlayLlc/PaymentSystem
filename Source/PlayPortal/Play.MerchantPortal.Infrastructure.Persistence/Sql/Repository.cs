@@ -1,32 +1,45 @@
 ﻿using MerchantPortal.Core.Entities;
+
 using Play.MerchantPortal.Application.Contracts.Persistence;
 
 namespace MerchantPortal.Infrastructure.Persistence.Sql
 {
-    internal class Repository<T> : IRepository<T> where T : BaseEntity
+    internal class Repository<_> : IRepository<_> where _ : BaseEntity
     {
-        protected readonly MerchantPortalDbContext _dbContext;
+        #region Instance Values
+
+        protected readonly MerchantPortalDbContext _DbContext;
+
+        public IQueryable<_> Query => _DbContext.Set<_>();
+
+        #endregion
+
+        #region Constructor
 
         internal Repository(MerchantPortalDbContext dbContext)
         {
-            _dbContext = dbContext;
+            _DbContext = dbContext;
         }
 
-        public IQueryable<T> Query => _dbContext.Set<T>();
+        #endregion
 
-        public T AddEntity(T entity)
+        #region Instance Members
+
+        public _ AddEntity(_ entity)
         {
-            return _dbContext.Set<T>().Add(entity).Entity;
+            return _DbContext.Set<_>().Add(entity).Entity;
         }
 
-        public void DeleteEntity(T entity)
+        public void DeleteEntity(_ entity)
         {
-            _dbContext.Set<T>().Remove(entity);
+            _DbContext.Set<_>().Remove(entity);
         }
 
         public async Task SaveChangesAsync()
         {
-            var result = await _dbContext.SaveChangesAsync();
+            var result = await _DbContext.SaveChangesAsync();
         }
+
+        #endregion
     }
 }

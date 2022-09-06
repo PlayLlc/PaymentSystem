@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace MerchantPortal.WebApi.Controllers
@@ -8,11 +9,19 @@ namespace MerchantPortal.WebApi.Controllers
     [Produces("application/json")]
     public class BaseController : ControllerBase
     {
-        protected readonly IMapper _mapper;
+        #region Instance Values
+
+        protected readonly IMapper _Mapper;
+
+        #endregion
+
+        #region Constructor
 
         public BaseController(IMapper mapper)
         {
-            _mapper = mapper;
+            _Mapper = mapper;
         }
+
+        #endregion
     }
 }

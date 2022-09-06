@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+
 using Play.MerchantPortal.Contracts.Services;
 using Play.MerchantPortal.Contracts.DTO;
+
 using MerchantPortal.WebApi.Models;
+
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -12,32 +15,42 @@ namespace MerchantPortal.WebApi.Controllers
     [ApiController]
     public class StoresController : BaseController
     {
-        private readonly IStoreConfigurationService _storeConfigurationService;
+        #region Instance Values
+
+        private readonly IStoreConfigurationService _StoreConfigurationService;
+
+        #endregion
+
+        #region Constructor
 
         public StoresController(IStoreConfigurationService storeConfigurationService, IMapper mapper) : base(mapper)
         {
-            _storeConfigurationService = storeConfigurationService;
+            _StoreConfigurationService = storeConfigurationService;
         }
+
+        #endregion
+
+        #region Instance Members
 
         // GET: api/<StoreController>/merchantStores/{merchantId}
         [HttpGet("merchantStores/{merchantId}")]
         public async Task<IEnumerable<StoreDto>> GetMerchantStores(long merchantId)
         {
-            return await _storeConfigurationService.GetMerchantStoresAsync(merchantId);
+            return await _StoreConfigurationService.GetMerchantStoresAsync(merchantId);
         }
 
         // GET api/<StoreController>/5
         [HttpGet("{id}")]
         public async Task<StoreDto> Get(long id)
         {
-            return await _storeConfigurationService.GetStoreAsync(id);
+            return await _StoreConfigurationService.GetStoreAsync(id);
         }
 
         // POST api/<StoreController>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] StoreDetailsRequest value)
         {
-            var created = await _storeConfigurationService.InsertStoreAsync(_mapper.Map<StoreDto>(value));
+            var created = await _StoreConfigurationService.InsertStoreAsync(_Mapper.Map<StoreDto>(value));
 
             return Created(created.ToString(), null);
         }
@@ -46,7 +59,7 @@ namespace MerchantPortal.WebApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put([FromBody] StoreDetailsRequest value)
         {
-            await _storeConfigurationService.UpdateStoreAsync(_mapper.Map<StoreDto>(value));
+            await _StoreConfigurationService.UpdateStoreAsync(_Mapper.Map<StoreDto>(value));
 
             return Ok();
         }
@@ -55,9 +68,11 @@ namespace MerchantPortal.WebApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(long id)
         {
-            await _storeConfigurationService.DeleteStoreAsync(id);
+            await _StoreConfigurationService.DeleteStoreAsync(id);
 
             return NoContent();
         }
+
+        #endregion
     }
 }

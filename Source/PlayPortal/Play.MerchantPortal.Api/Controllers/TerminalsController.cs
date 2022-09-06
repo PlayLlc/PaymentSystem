@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+
 using Play.MerchantPortal.Contracts.Services;
 using Play.MerchantPortal.Contracts.DTO;
+
 using MerchantPortal.WebApi.Models;
+
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -12,31 +15,41 @@ namespace MerchantPortal.WebApi.Controllers
     [ApiController]
     public class TerminalsController : BaseController
     {
-        private readonly ITerminalConfigurationService _terminalConfigurationService;
+        #region Instance Values
+
+        private readonly ITerminalConfigurationService _TerminalConfigurationService;
+
+        #endregion
+
+        #region Constructor
 
         public TerminalsController(ITerminalConfigurationService terminalConfigurationService, IMapper mapper) : base(mapper)
         {
-            _terminalConfigurationService = terminalConfigurationService;
+            _TerminalConfigurationService = terminalConfigurationService;
         }
+
+        #endregion
+
+        #region Instance Members
 
         [HttpGet("storeTerminals/{storeId}")]
         public async Task<IEnumerable<TerminalDto>> GetStoreTerminals(long storeId)
         {
-            return await _terminalConfigurationService.GetStoreTerminalsAsync(storeId);
+            return await _TerminalConfigurationService.GetStoreTerminalsAsync(storeId);
         }
 
         // GET: api/<TerminalController>
         [HttpGet("{id}")]
         public async Task<TerminalDto> Get(long id)
         {
-            return await _terminalConfigurationService.GetTerminalAsync(id);
+            return await _TerminalConfigurationService.GetTerminalAsync(id);
         }
 
         // POST api/<TerminalController>
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] TerminalDetailsRequest value)
         {
-            var created = await _terminalConfigurationService.InsertTerminalAsync(_mapper.Map<TerminalDto>(value));
+            var created = await _TerminalConfigurationService.InsertTerminalAsync(_Mapper.Map<TerminalDto>(value));
 
             return Created(created.ToString(), null);
         }
@@ -45,7 +58,7 @@ namespace MerchantPortal.WebApi.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> Put([FromBody] TerminalDetailsRequest value)
         {
-            await _terminalConfigurationService.UpdateTerminalAsync(_mapper.Map<TerminalDto>(value));
+            await _TerminalConfigurationService.UpdateTerminalAsync(_Mapper.Map<TerminalDto>(value));
 
             return Ok();
         }
@@ -54,9 +67,11 @@ namespace MerchantPortal.WebApi.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(long id)
         {
-            await _terminalConfigurationService.DeleteTerminalAsync(id);
+            await _TerminalConfigurationService.DeleteTerminalAsync(id);
 
             return NoContent();
         }
+
+        #endregion
     }
 }

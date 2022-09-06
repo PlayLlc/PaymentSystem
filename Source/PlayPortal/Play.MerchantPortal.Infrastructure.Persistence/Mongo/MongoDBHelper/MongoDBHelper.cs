@@ -1,100 +1,129 @@
 ﻿using Microsoft.Extensions.Configuration;
+
 using MongoDB.Driver;
+
 using System.Linq.Expressions;
 
 namespace MerchantPortal.Infrastructure.Persistence.Mongo.MongoDBHelper;
 
-public interface IMongoDBHelper
+public interface IMongoDbHelper
 {
-    Task<IEnumerable<T>> SelectAsync<T>(string collectionName);
+    #region Instance Members
 
-    Task<T> SelectFirstOrDefaultAsync<T>(string collectionName, SortConfig<T>? sortConfig = null, params string[] projections);
+    Task<IEnumerable<_>> SelectAsync<_>(string collectionName);
 
-    Task<T> FindBeforeUpdateAsync<T>(string collectionName, Expression<Func<T, bool>> filter, params UpdateFieldConfig<T>[] setConfigs);
+    Task<_> SelectFirstOrDefaultAsync<_>(string collectionName, SortConfig<_>? sortConfig = null, params string[] projections);
 
-    Task InsertAsync<T>(string collectionName, T item);
+    Task<_> FindBeforeUpdateAsync<_>(string collectionName, Expression<Func<_, bool>> filter, params UpdateFieldConfig<_>[] setConfigs);
 
-    Task ClearCollectionAsync<T>(string collectionName);
+    Task InsertAsync<_>(string collectionName, _ item);
 
-    Task DeleteOneAsync<T>(string collectionName, Expression<Func<T, bool>> filter);
+    Task ClearCollectionAsync<_>(string collectionName);
+
+    Task DeleteOneAsync<_>(string collectionName, Expression<Func<_, bool>> filter);
+
+    #endregion
 }
 
-internal class MongoDBHelper : IMongoDBHelper
+internal class MongoDbHelper : IMongoDbHelper
 {
-    private readonly string _ConectionString;
+    #region Static Metadata
+
     private static readonly string _DatabaseName = "MerchantPortal";
 
-    public MongoDBHelper(IConfiguration configuration)
+    #endregion
+
+    #region Instance Values
+
+    private readonly string _ConectionString;
+
+    #endregion
+
+    #region Constructor
+
+    public MongoDbHelper(IConfiguration configuration)
     {
         _ConectionString = configuration.GetConnectionString("mongo");
-
     }
 
-    public async Task<IEnumerable<T>> SelectAsync<T>(string collectionName)
+    #endregion
+
+    #region Instance Members
+
+    public async Task<IEnumerable<_>> SelectAsync<_>(string collectionName)
     {
-        return await (await GetCollection<T>(collectionName).FindAsync(Builders<T>.Filter.Empty)).ToListAsync();
+        return await (await GetCollection<_>(collectionName).FindAsync(Builders<_>.Filter.Empty)).ToListAsync();
     }
 
-    public async Task<T> SelectFirstOrDefaultAsync<T>(string collectionName, SortConfig<T>? sortConfig = null, params string[] projections)
+    public async Task<_> SelectFirstOrDefaultAsync<_>(string collectionName, SortConfig<_>? sortConfig = null, params string[] projections)
     {
-        FindOptions<T, T> findOptions = new()
+        FindOptions<_, _> findOptions = new()
         {
-            Projection = projections.Any() ? Builders<T>.Projection.Combine(projections.Select(x => Builders<T>.Projection.Include(x)).ToList()) : null,
-            Sort = sortConfig != null ? (sortConfig.SortOrder == SortOrder.Ascending ? Builders<T>.Sort.Ascending(sortConfig.SortBy) : Builders<T>.Sort.Descending(sortConfig.SortBy)) : null
+            Projection = projections.Any() ? Builders<_>.Projection.Combine(projections.Select(x => Builders<_>.Projection.Include(x)).ToList()) : null,
+            Sort = sortConfig != null
+                ? sortConfig.SortOrder == SortOrder.Ascending
+                    ? Builders<_>.Sort.Ascending(sortConfig.SortBy)
+                    : Builders<_>.Sort.Descending(sortConfig.SortBy)
+                : null
         };
 
-        return await (await GetCollection<T>(collectionName).FindAsync(Builders<T>.Filter.Empty, findOptions)).FirstOrDefaultAsync();
+        return await (await GetCollection<_>(collectionName).FindAsync(Builders<_>.Filter.Empty, findOptions)).FirstOrDefaultAsync();
     }
 
-    public async Task<T> FindBeforeUpdateAsync<T>(string collectionName, Expression<Func<T, bool>> filter, params UpdateFieldConfig<T>[] updateFieldsConfig)
+    public async Task<_> FindBeforeUpdateAsync<_>(string collectionName, Expression<Func<_, bool>> filter, params UpdateFieldConfig<_>[] updateFieldsConfig)
     {
-        return await GetCollection<T>(collectionName).FindOneAndUpdateAsync(
-            filter,
-            Builders<T>.Update.Combine(updateFieldsConfig.Select(x => Builders<T>.Update.SetOnInsert(x.Field, x.Value)).ToList()),
-            new FindOneAndUpdateOptions<T, T>
-            {
-                IsUpsert = true,
-                ReturnDocument = ReturnDocument.Before
-            });
+        return await GetCollection<_>(collectionName)
+            .FindOneAndUpdateAsync(filter,
+                Builders<_>.Update.Combine(updateFieldsConfig.Select(x => Builders<_>.Update.SetOnInsert(x.Field, x.Value)).ToList()),
+                new FindOneAndUpdateOptions<_, _> {IsUpsert = true, ReturnDocument = ReturnDocument.Before});
     }
 
-    public async Task InsertAsync<T>(string collectionName, T item)
+    public async Task InsertAsync<_>(string collectionName, _ item)
     {
-        await GetCollection<T>(collectionName).InsertOneAsync(item);
+        await GetCollection<_>(collectionName).InsertOneAsync(item);
     }
 
-    public async Task ClearCollectionAsync<T>(string collectionName)
+    public async Task ClearCollectionAsync<_>(string collectionName)
     {
-        await GetCollection<T>(collectionName).DeleteManyAsync(Builders<T>.Filter.Empty);
+        await GetCollection<_>(collectionName).DeleteManyAsync(Builders<_>.Filter.Empty);
     }
 
-    public async Task DeleteOneAsync<T>(string collectionName, Expression<Func<T, bool>> filter)
+    public async Task DeleteOneAsync<_>(string collectionName, Expression<Func<_, bool>> filter)
     {
-        await GetCollection<T>(collectionName).DeleteOneAsync(filter);
+        await GetCollection<_>(collectionName).DeleteOneAsync(filter);
     }
 
-
-    private IMongoCollection<T> GetCollection<T>(string collectionName)
+    private IMongoCollection<_> GetCollection<_>(string collectionName)
     {
         MongoClient client = new(_ConectionString);
         IMongoDatabase database = client.GetDatabase(_DatabaseName);
 
-        return database.GetCollection<T>(collectionName);
+        return database.GetCollection<_>(collectionName);
     }
+
+    #endregion
 }
 
-public class UpdateFieldConfig<T>
+public class UpdateFieldConfig<_>
 {
+    #region Instance Values
+
     public object? Value { get; set; }
 
-    public Expression<Func<T, object?>>? Field { get; set; }
+    public Expression<Func<_, object?>>? Field { get; set; }
+
+    #endregion
 }
 
-public class SortConfig<T>
+public class SortConfig<_>
 {
+    #region Instance Values
+
     public SortOrder SortOrder { get; set; }
 
-    public Expression<Func<T, object>>? SortBy { get; set; }
+    public Expression<Func<_, object>>? SortBy { get; set; }
+
+    #endregion
 }
 
 public enum SortOrder

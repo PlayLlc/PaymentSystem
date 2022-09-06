@@ -2,15 +2,27 @@
 
 internal class MerchantPortalDbContextDataSeed
 {
-    private readonly MerchantPortalDbContext _dbContext;
+    #region Instance Values
+
+    private readonly MerchantPortalDbContext _DbContext;
+
+    #endregion
+
+    #region Constructor
 
     public MerchantPortalDbContextDataSeed(MerchantPortalDbContext dbContext)
     {
-        _dbContext = dbContext;
+        _DbContext = dbContext;
     }
+
+    #endregion
+
+    #region Instance Members
 
     public Task SeedInitialData()
     {
         throw new NotImplementedException();
     }
+
+    #endregion
 }
