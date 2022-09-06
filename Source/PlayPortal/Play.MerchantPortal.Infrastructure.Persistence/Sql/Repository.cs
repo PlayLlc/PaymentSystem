@@ -1,8 +1,7 @@
-﻿using MerchantPortal.Core.Entities;
+﻿using Play.MerchantPortal.Application.Contracts.Persistence;
+using Play.MerchantPortal.Domain.Entities;
 
-using Play.MerchantPortal.Application.Contracts.Persistence;
-
-namespace MerchantPortal.Infrastructure.Persistence.Sql
+namespace Play.MerchantPortal.Infrastructure.Persistence.Sql
 {
     internal class Repository<_> : IRepository<_> where _ : BaseEntity
     {

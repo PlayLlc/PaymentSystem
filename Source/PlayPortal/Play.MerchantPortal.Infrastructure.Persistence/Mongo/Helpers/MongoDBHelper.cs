@@ -1,29 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Linq.Expressions;
+
+using Microsoft.Extensions.Configuration;
 
 using MongoDB.Driver;
 
-using System.Linq.Expressions;
-
-namespace MerchantPortal.Infrastructure.Persistence.Mongo.MongoDBHelper;
-
-public interface IMongoDbHelper
-{
-    #region Instance Members
-
-    Task<IEnumerable<_>> SelectAsync<_>(string collectionName);
-
-    Task<_> SelectFirstOrDefaultAsync<_>(string collectionName, SortConfig<_>? sortConfig = null, params string[] projections);
-
-    Task<_> FindBeforeUpdateAsync<_>(string collectionName, Expression<Func<_, bool>> filter, params UpdateFieldConfig<_>[] setConfigs);
-
-    Task InsertAsync<_>(string collectionName, _ item);
-
-    Task ClearCollectionAsync<_>(string collectionName);
-
-    Task DeleteOneAsync<_>(string collectionName, Expression<Func<_, bool>> filter);
-
-    #endregion
-}
+namespace Play.MerchantPortal.Infrastructure.Persistence.Mongo;
 
 internal class MongoDbHelper : IMongoDbHelper
 {
@@ -35,7 +16,7 @@ internal class MongoDbHelper : IMongoDbHelper
 
     #region Instance Values
 
-    private readonly string _ConectionString;
+    private readonly string _ConnectionString;
 
     #endregion
 
@@ -43,7 +24,7 @@ internal class MongoDbHelper : IMongoDbHelper
 
     public MongoDbHelper(IConfiguration configuration)
     {
-        _ConectionString = configuration.GetConnectionString("mongo");
+        _ConnectionString = configuration.GetConnectionString("mongo");
     }
 
     #endregion
@@ -95,39 +76,11 @@ internal class MongoDbHelper : IMongoDbHelper
 
     private IMongoCollection<_> GetCollection<_>(string collectionName)
     {
-        MongoClient client = new(_ConectionString);
+        MongoClient client = new(_ConnectionString);
         IMongoDatabase database = client.GetDatabase(_DatabaseName);
 
         return database.GetCollection<_>(collectionName);
     }
 
     #endregion
-}
-
-public class UpdateFieldConfig<_>
-{
-    #region Instance Values
-
-    public object? Value { get; set; }
-
-    public Expression<Func<_, object?>>? Field { get; set; }
-
-    #endregion
-}
-
-public class SortConfig<_>
-{
-    #region Instance Values
-
-    public SortOrder SortOrder { get; set; }
-
-    public Expression<Func<_, object>>? SortBy { get; set; }
-
-    #endregion
-}
-
-public enum SortOrder
-{
-    Ascending = 0,
-    Descending = 1
 }

@@ -1,9 +1,8 @@
-﻿using MerchantPortal.Core.Entities;
-using MerchantPortal.Infrastructure.Persistence.Mongo.MongoDBHelper;
+﻿using Play.MerchantPortal.Application.Contracts.Persistence;
+using Play.MerchantPortal.Domain.Entities;
+using Play.MerchantPortal.Infrastructure.Persistence.Mongo;
 
-using Play.MerchantPortal.Application.Contracts.Persistence;
-
-namespace MerchantPortal.Infrastructure.Persistence.Repositories;
+namespace Play.MerchantPortal.Infrastructure.Persistence.Repositories;
 
 internal class PointOfSaleConfigurationRepository : IPointOfSaleConfigurationRepository
 {
@@ -16,8 +15,6 @@ internal class PointOfSaleConfigurationRepository : IPointOfSaleConfigurationRep
     #region Instance Values
 
     private readonly IMongoDbHelper _MongoDbHelper;
-
-    public IEnumerable<CertificateEntity> Query => _MongoDbHelper.SelectAsync<CertificateEntity>(_CollectionName).Result;
 
     #endregion
 
@@ -32,11 +29,9 @@ internal class PointOfSaleConfigurationRepository : IPointOfSaleConfigurationRep
 
     #region Instance Members
 
-    public CertificateEntity AddEntity(CertificateEntity entity)
+    public async Task AddEntity(CertificateEntity entity)
     {
-        _MongoDbHelper.InsertAsync(_CollectionName, entity).Wait();
-
-        return entity;
+        await _MongoDbHelper.InsertAsync(_CollectionName, entity).ConfigureAwait(false);
     }
 
     public void DeleteEntity(CertificateEntity entity)

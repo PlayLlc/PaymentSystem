@@ -1,6 +1,6 @@
-﻿using MerchantPortal.Core.Entities;
+﻿using Play.MerchantPortal.Domain.Entities;
 
-namespace MerchantPortal.Infrastructure.Persistence;
+namespace Play.Infrastructure.Persistence;
 
 public class Repository<_> where _ : BaseEntity
 {

@@ -1,11 +1,10 @@
-﻿using MerchantPortal.Core.Entities;
-using MerchantPortal.Infrastructure.Persistence.Sql;
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 using Play.MerchantPortal.Application.Contracts.Persistence;
+using Play.MerchantPortal.Domain.Entities;
+using Play.MerchantPortal.Infrastructure.Persistence.Sql;
 
-namespace MerchantPortal.Infrastructure.Persistence.Repositories;
+namespace Play.MerchantPortal.Infrastructure.Persistence.Repositories;
 
 internal class TerminalsRepository : Repository<TerminalEntity>, ITerminalsRepository
 {
@@ -18,9 +17,10 @@ internal class TerminalsRepository : Repository<TerminalEntity>, ITerminalsRepos
 
     #region Instance Members
 
+    /// <exception cref="OperationCanceledException"></exception>
     public async Task<TerminalEntity?> SelectById(long terminalId)
     {
-        return await _DbContext.Terminals.AsNoTracking().FirstOrDefaultAsync(x => x.Id == terminalId);
+        return await _DbContext.Terminals.AsNoTracking().FirstOrDefaultAsync(x => x.Id == terminalId).ConfigureAwait(false);
     }
 
     public IEnumerable<TerminalEntity> SelectTerminalsByStore(long storeId)

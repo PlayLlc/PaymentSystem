@@ -1,10 +1,13 @@
-﻿using MerchantPortal.Core.Entities;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace MerchantPortal.Infrastructure.Persistence.Configurations;
+using Play.MerchantPortal.Domain.Entities;
+
+namespace Play.MerchantPortal.Infrastructure.Persistence.Sql.Configurations;
 
 internal class CompanyEntityConfiguration : BaseEntityConfiguration<CompanyEntity>
 {
+    #region Instance Members
+
     public override void Configure(EntityTypeBuilder<CompanyEntity> builder)
     {
         builder.Property(e => e.Id).IsRequired();
@@ -12,4 +15,6 @@ internal class CompanyEntityConfiguration : BaseEntityConfiguration<CompanyEntit
 
         base.Configure(builder);
     }
+
+    #endregion
 }

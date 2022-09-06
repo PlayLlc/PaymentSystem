@@ -1,9 +1,9 @@
-﻿using MerchantPortal.Core.Entities;
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace MerchantPortal.Infrastructure.Persistence.Configurations;
+using Play.MerchantPortal.Domain.Entities;
+
+namespace Play.MerchantPortal.Infrastructure.Persistence.Sql.Configurations;
 
 internal class BaseEntityConfiguration<_Entity> : IEntityTypeConfiguration<_Entity> where _Entity : BaseEntity
 {

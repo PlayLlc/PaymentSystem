@@ -1,7 +1,9 @@
-﻿namespace MerchantPortal.Core.Entities;
+﻿namespace Play.MerchantPortal.Domain.Entities;
 
 public class StoreEntity : BaseEntity
 {
+    #region Instance Values
+
     public string Name { get; set; } = string.Empty;
 
     public string Address { get; set; } = string.Empty;
@@ -11,4 +13,6 @@ public class StoreEntity : BaseEntity
     public MerchantEntity Merchant { get; set; } = default!;
 
     public ICollection<TerminalEntity>? Terminals { get; set; }
+
+    #endregion
 }

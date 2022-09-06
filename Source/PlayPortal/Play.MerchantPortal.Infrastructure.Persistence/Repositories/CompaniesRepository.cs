@@ -1,12 +1,15 @@
-﻿using MerchantPortal.Core.Entities;
-using MerchantPortal.Infrastructure.Persistence.Sql;
-using Play.MerchantPortal.Application.Contracts.Persistence;
+﻿using Play.MerchantPortal.Application.Contracts.Persistence;
+using Play.MerchantPortal.Domain.Entities;
+using Play.MerchantPortal.Infrastructure.Persistence.Sql;
 
-namespace MerchantPortal.Infrastructure.Persistence.Repositories;
+namespace Play.MerchantPortal.Infrastructure.Persistence.Repositories;
 
 internal class CompaniesRepository : Repository<CompanyEntity>, ICompaniesRepository
 {
+    #region Constructor
+
     public CompaniesRepository(MerchantPortalDbContext dbContext) : base(dbContext)
-    {
-    }
+    { }
+
+    #endregion
 }

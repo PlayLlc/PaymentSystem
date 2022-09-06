@@ -1,4 +1,4 @@
-﻿namespace MerchantPortal.Infrastructure.Persistence.Sql.DataSeed;
+﻿namespace Play.MerchantPortal.Infrastructure.Persistence.Sql.DataSeed;
 
 internal class MerchantPortalDbContextDataSeed
 {

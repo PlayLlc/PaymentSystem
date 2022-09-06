@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 
-using Play.MerchantPortal.Contracts.Services;
-using Play.MerchantPortal.Contracts.DTO;
-
-using MerchantPortal.WebApi.Models;
-
 using Microsoft.AspNetCore.Mvc;
 
-namespace MerchantPortal.WebApi.Controllers
+using Play.MerchantPortal.Api.Models;
+using Play.MerchantPortal.Contracts.DTO;
+using Play.MerchantPortal.Contracts.Services;
+
+namespace Play.MerchantPortal.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

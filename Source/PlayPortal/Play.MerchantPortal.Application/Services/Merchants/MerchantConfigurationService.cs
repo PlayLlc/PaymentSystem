@@ -3,12 +3,11 @@
 using FluentValidation;
 using FluentValidation.Results;
 
-using MerchantPortal.Core.Entities;
-
 using Play.MerchantPortal.Application.Common.Exceptions;
 using Play.MerchantPortal.Application.Contracts.Persistence;
 using Play.MerchantPortal.Contracts.DTO;
 using Play.MerchantPortal.Contracts.Services;
+using Play.MerchantPortal.Domain.Entities;
 
 using ValidationException = Play.MerchantPortal.Application.Common.Exceptions.ModelValidationException;
 

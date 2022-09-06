@@ -1,14 +1,13 @@
-﻿using Play.MerchantPortal.Application.Contracts.Persistence;
-
-using MerchantPortal.Infrastructure.Persistence.Mongo.MongoDBHelper;
-using MerchantPortal.Infrastructure.Persistence.Repositories;
-using MerchantPortal.Infrastructure.Persistence.Sql;
-using MerchantPortal.Infrastructure.Persistence.Sql.DataSeed;
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MerchantPortal.Infrastructure.Persistence;
+using Play.MerchantPortal.Application.Contracts.Persistence;
+using Play.MerchantPortal.Infrastructure.Persistence.Mongo;
+using Play.MerchantPortal.Infrastructure.Persistence.Repositories;
+using Play.MerchantPortal.Infrastructure.Persistence.Sql;
+using Play.MerchantPortal.Infrastructure.Persistence.Sql.DataSeed;
+
+namespace Play.MerchantPortal.Infrastructure.Persistence;
 
 public static class ConfigureServices
 {

@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
-using Play.MerchantPortal.Contracts.DTO;
-using MerchantPortal.WebApi.Models;
 
-namespace MerchantPortal.WebApi.Mapping;
+using Play.MerchantPortal.Api.Models;
+using Play.MerchantPortal.Contracts.DTO;
+
+namespace Play.MerchantPortal.Api.Mapping;
 
 public class ProfileModelMapper : Profile
 {
+    #region Constructor
+
     public ProfileModelMapper()
     {
         CreateMap<UpdateMerchantRequest, MerchantDto>();
@@ -13,4 +16,6 @@ public class ProfileModelMapper : Profile
         CreateMap<StoreDetailsRequest, StoreDto>();
         CreateMap<TerminalDetailsRequest, TerminalDto>();
     }
+
+    #endregion
 }

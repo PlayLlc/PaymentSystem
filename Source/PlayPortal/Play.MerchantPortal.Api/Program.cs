@@ -1,12 +1,13 @@
 using MerchantPortal.Infrastructure.Persistence;
-using MerchantPortal.WebApi.Filters;
-using MerchantPortal.WebApi.Mapping;
+
+using Play.MerchantPortal.Api.Filters;
+using Play.MerchantPortal.Api.Mapping;
 using Play.MerchantPortal.Application;
+using Play.MerchantPortal.Infrastructure.Persistence;
+
 using Serilog;
 
-Log.Logger = new LoggerConfiguration()
-    .WriteTo.Console()
-    .CreateBootstrapLogger();
+Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateBootstrapLogger();
 
 Log.Information("Starting {MerchantPortal} up", "MerchantPortal");
 

@@ -2,21 +2,20 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace MerchantPortal.Infrastructure.Persistence.Sql;
+namespace Play.MerchantPortal.Infrastructure.Persistence.Sql;
 
 internal class MerchantPortalDbContextFactory : IDesignTimeDbContextFactory<MerchantPortalDbContext>
 {
+    #region Instance Members
+
     /// <summary>
-    ///  Used to generate migrations
+    ///     Used to generate migrations
     /// </summary>
     /// <param name="args"></param>
     /// <returns></returns>
     public MerchantPortalDbContext CreateDbContext(string[] args)
     {
-        IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
+        IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
 
         var builder = new DbContextOptionsBuilder<MerchantPortalDbContext>();
 
@@ -25,6 +24,7 @@ internal class MerchantPortalDbContextFactory : IDesignTimeDbContextFactory<Merc
         builder.UseSqlServer(connectionString);
 
         return new MerchantPortalDbContext(builder.Options);
-
     }
+
+    #endregion
 }

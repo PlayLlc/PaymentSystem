@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
+
 using Play.MerchantPortal.Contracts.DTO;
-using MerchantPortal.Core.Entities;
+using Play.MerchantPortal.Domain.Entities;
 
 namespace Play.MerchantPortal.Application.Mapping;
 
 public class PersistenceMapperProfile : Profile
 {
+    #region Constructor
+
     public PersistenceMapperProfile()
     {
         CreateMap<CompanyEntity, CompanyDto>();
@@ -18,4 +21,6 @@ public class PersistenceMapperProfile : Profile
         CreateMap<StoreDto, StoreEntity>();
         CreateMap<TerminalDto, TerminalEntity>();
     }
+
+    #endregion
 }

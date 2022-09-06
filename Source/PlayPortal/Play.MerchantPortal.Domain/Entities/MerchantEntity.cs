@@ -1,7 +1,9 @@
-﻿namespace MerchantPortal.Core.Entities;
+﻿namespace Play.MerchantPortal.Domain.Entities;
 
 public class MerchantEntity : BaseEntity
 {
+    #region Instance Values
+
     public string AcquirerId { get; set; } = string.Empty;
 
     public string MerchantIdentifier { get; set; } = string.Empty;
@@ -24,4 +26,6 @@ public class MerchantEntity : BaseEntity
     public CompanyEntity Company { get; set; } = default!;
 
     public ICollection<StoreEntity>? Stores { get; set; }
+
+    #endregion
 }

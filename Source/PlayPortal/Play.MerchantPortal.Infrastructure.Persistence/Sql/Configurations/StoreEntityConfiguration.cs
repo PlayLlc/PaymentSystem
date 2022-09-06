@@ -1,10 +1,13 @@
-﻿using MerchantPortal.Core.Entities;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace MerchantPortal.Infrastructure.Persistence.Configurations;
+using Play.MerchantPortal.Domain.Entities;
+
+namespace Play.MerchantPortal.Infrastructure.Persistence.Sql.Configurations;
 
 internal class StoreEntityConfiguration : BaseEntityConfiguration<StoreEntity>
 {
+    #region Instance Members
+
     public override void Configure(EntityTypeBuilder<StoreEntity> builder)
     {
         builder.HasOne<MerchantEntity>();
@@ -12,4 +15,6 @@ internal class StoreEntityConfiguration : BaseEntityConfiguration<StoreEntity>
 
         base.Configure(builder);
     }
+
+    #endregion
 }

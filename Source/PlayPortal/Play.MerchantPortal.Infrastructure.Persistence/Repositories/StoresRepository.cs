@@ -1,11 +1,10 @@
-﻿using Play.MerchantPortal.Application.Contracts.Persistence;
+﻿using Microsoft.EntityFrameworkCore;
 
-using MerchantPortal.Core.Entities;
-using MerchantPortal.Infrastructure.Persistence.Sql;
+using Play.MerchantPortal.Application.Contracts.Persistence;
+using Play.MerchantPortal.Domain.Entities;
+using Play.MerchantPortal.Infrastructure.Persistence.Sql;
 
-using Microsoft.EntityFrameworkCore;
-
-namespace MerchantPortal.Infrastructure.Persistence.Repositories;
+namespace Play.MerchantPortal.Infrastructure.Persistence.Repositories;
 
 internal class StoresRepository : Repository<StoreEntity>, IStoresRepository
 {
@@ -18,9 +17,10 @@ internal class StoresRepository : Repository<StoreEntity>, IStoresRepository
 
     #region Instance Members
 
+    /// <exception cref="OperationCanceledException"></exception>
     public async Task<StoreEntity?> SelectById(long id)
     {
-        return await _DbContext.Stores.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+        return await _DbContext.Stores.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(false);
     }
 
     public IEnumerable<StoreEntity> SelectStoresByMerchant(long merchantId)

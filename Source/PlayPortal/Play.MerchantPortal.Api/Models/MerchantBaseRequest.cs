@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace MerchantPortal.WebApi.Models;
+﻿namespace Play.MerchantPortal.Api.Models;
 
 public class MerchantBaseRequest
 {
+    #region Instance Values
+
     public string? AcquirerId { get; set; }
 
     public string? MerchantIdentifier { get; set; }
@@ -21,12 +21,6 @@ public class MerchantBaseRequest
     public string? State { get; set; }
 
     public string? Country { get; set; }
-}
 
-public class InsertMerchantRequest : MerchantBaseRequest
-{
-    [Required]
-    public long CompanyId { get; set; }
+    #endregion
 }
-
-public class UpdateMerchantRequest : MerchantBaseRequest { }

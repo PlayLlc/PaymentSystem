@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 using Play.MerchantPortal.Application.Common.Exceptions;
 
-namespace MerchantPortal.WebApi.Filters;
+namespace Play.MerchantPortal.Api.Filters;
 
 public class ApiFilterExceptionAttribute : ExceptionFilterAttribute
 {
