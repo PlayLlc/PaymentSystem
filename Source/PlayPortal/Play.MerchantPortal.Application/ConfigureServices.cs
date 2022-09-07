@@ -14,7 +14,7 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        services.AddAutoMapper(typeof(PersistenceMapperProfile));
+        services.AddAutoMapper(typeof(MerchantConfigurationMapperProfile));
         services.AddAutoMapper(typeof(PoSConfigurationProfileMapper));
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());

@@ -5,11 +5,11 @@ using Play.MerchantPortal.Domain.Entities;
 
 namespace Play.MerchantPortal.Application.Mapping;
 
-public class PersistenceMapperProfile : Profile
+public class MerchantConfigurationMapperProfile : Profile
 {
     #region Constructor
 
-    public PersistenceMapperProfile()
+    public MerchantConfigurationMapperProfile()
     {
         CreateMap<CompanyEntity, CompanyDto>();
         CreateMap<MerchantEntity, MerchantDto>();
