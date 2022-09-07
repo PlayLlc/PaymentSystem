@@ -126,18 +126,12 @@ internal class PoSConfigurationService : IPoSConfigurationService
     {
         PoSConfiguration? configuration = await _posRepository.FindByTerminalIdAsync(terminalId);
 
-        if (configuration is null)
-            throw new NotFoundException($"{nameof(PoSConfiguration)} for terminal {terminalId} could not be found");
-
         return _mapper.Map<PoSConfigurationDto>(configuration);
     }
 
     public async Task<PoSConfigurationDto> GetPoSConfigurationAsync(long id)
     {
         PoSConfiguration? configuration = await _posRepository.FindByIdAsync(id);
-
-        if (configuration is null)
-            throw new NotFoundException(nameof(PoSConfiguration), id);
 
         return _mapper.Map<PoSConfigurationDto>(configuration);
     }
