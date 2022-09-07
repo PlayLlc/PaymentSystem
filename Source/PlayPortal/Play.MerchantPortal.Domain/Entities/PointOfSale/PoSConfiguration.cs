@@ -1,16 +1,29 @@
-﻿namespace MerchantPortal.Core.Entities.PointOfSale;
+﻿using MongoDB.Bson.Serialization.Attributes;
 
-public class PoSConfiguration : PosConfigurationHeader
+namespace Play.MerchantPortal.Domain.Entities.PointOfSale;
+
+public class PoSConfiguration
 {
-    public TerminalConfiguration TerminalConfiguration { get; set; }
+    [BsonId]
+    public long Id { get; set; }
 
-    public IEnumerable<Combination> Combinations { get; set; }
+    public long TerminalId { get; set; }
 
-    public KernelConfiguration KernelConfiguration { get; set; }
+    public long StoreId { get; set; }
 
-    public DisplayConfiguration DisplayConfiguration { get; set; }
+    public long MerchantId { get; set; }
 
-    public ProximityCouplingDeviceConfiguration ProximityCouplingDeviceConfiguration { get; set; }
+    public long CompanyId { get; set; }
 
-    public CertificateAuthorityConfiguration CertificateAuthorityConfiguration { get; set; }
+    public TerminalConfiguration TerminalConfiguration { get; set; } = default!;
+
+    public IEnumerable<Combination> Combinations { get; set; } = Enumerable.Empty<Combination>();
+
+    public KernelConfiguration KernelConfiguration { get; set; } = default!;
+
+    public DisplayConfiguration DisplayConfiguration { get; set; } = default!;
+
+    public ProximityCouplingDeviceConfiguration ProximityCouplingDeviceConfiguration { get; set; } = default!;
+
+    public CertificateAuthorityConfiguration CertificateAuthorityConfiguration { get; set; } = default!;
 }

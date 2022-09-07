@@ -5,7 +5,7 @@ using Play.MerchantPortal.Api.Filters;
 using Play.MerchantPortal.Api.Mapping;
 using Play.MerchantPortal.Application;
 using Play.MerchantPortal.Infrastructure.Persistence;
-
+using Play.MerchantPortal.Infrastructure.Persistence.Mongo;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateBootstrapLogger();
@@ -16,10 +16,7 @@ try
 {
     WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-    // Add services to the container.
-
     //Add Logging. (Serilog)
-    //Currently default sink is console. Will change to other provider probably.
     builder.Host.UseSerilog((context, loggerConfiguration) =>
     {
         if (context.HostingEnvironment.IsDevelopment())
@@ -33,6 +30,7 @@ try
         options.Filters.Add<ApiFilterExceptionAttribute>();
     });
 
+    // Add services to the container.
     builder.Services
         .AddFluentValidationAutoValidation(x => x.DisableDataAnnotationsValidation = true)
         .AddFluentValidationClientsideAdapters()
@@ -43,9 +41,9 @@ try
 
     var connectionString = builder.Configuration.GetConnectionString("sql");
 
-    builder.Services.AddPersistenceServices(connectionString);
+    builder.Services.AddMongoPersistenceServices();
+    builder.Services.AddSqlPersistenceServices(connectionString);
     builder.Services.AddApplicationServices();
-    builder.Services.AddAutoMapper(typeof(ProfileModelMapper));
 
     builder.Services.AddSwaggerGen(c =>
     {

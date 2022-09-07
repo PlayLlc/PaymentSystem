@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
 using Play.MerchantPortal.Application.Contracts.Persistence;
-using Play.MerchantPortal.Infrastructure.Persistence.Mongo;
 using Play.MerchantPortal.Infrastructure.Persistence.Repositories;
 using Play.MerchantPortal.Infrastructure.Persistence.Sql;
 using Play.MerchantPortal.Infrastructure.Persistence.Sql.DataSeed;
@@ -13,7 +12,7 @@ public static class ConfigureServices
 {
     #region Instance Members
 
-    public static IServiceCollection AddPersistenceServices(this IServiceCollection services, string connectionString)
+    public static IServiceCollection AddSqlPersistenceServices(this IServiceCollection services, string connectionString)
     {
         services.AddDbContext<MerchantPortalDbContext>(options =>
         {
@@ -21,8 +20,6 @@ public static class ConfigureServices
         });
 
         services.AddTransient<MerchantPortalDbContextDataSeed>();
-
-        services.AddSingleton<IMongoDbHelper, MongoDbHelper>();
 
         services.AddScoped<IMerchantsRepository, MerchantsRepository>();
         services.AddScoped<IStoresRepository, StoresRepository>();

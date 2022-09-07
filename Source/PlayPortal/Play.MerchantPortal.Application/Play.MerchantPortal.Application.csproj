@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\PointsOfSale\" />
+    <Folder Include="Services\PointsOfSale\Validators\" />
   </ItemGroup>
 
 </Project>

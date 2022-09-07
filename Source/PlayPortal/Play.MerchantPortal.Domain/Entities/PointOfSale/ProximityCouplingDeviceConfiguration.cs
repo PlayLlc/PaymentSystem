@@ -1,4 +1,4 @@
-﻿namespace MerchantPortal.Core.Entities.PointOfSale;
+﻿namespace Play.MerchantPortal.Domain.Entities.PointOfSale;
 
 public class ProximityCouplingDeviceConfiguration
 {

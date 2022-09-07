@@ -18,7 +18,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Play.MerchantPortal.Application\Play.MerchantPortal.Application.csproj" />
     <ProjectReference Include="..\Play.MerchantPortal.Contracts\Play.MerchantPortal.Contracts.csproj" />
-    <ProjectReference Include="..\Play.MerchantPortal.Infrastructure.Persistence\Play.MerchantPortal.Infrastructure.Persistence.csproj" />
+    <ProjectReference Include="..\Play.MerchantPortal.Infrastructure.Persistence.Mongo\Play.MerchantPortal.Infrastructure.Persistence.Mongo.csproj" />
+    <ProjectReference Include="..\Play.MerchantPortal.Infrastructure.Persistence\Play.MerchantPortal.Infrastructure.Persistence.Sql.csproj" />
   </ItemGroup>
 
 </Project>

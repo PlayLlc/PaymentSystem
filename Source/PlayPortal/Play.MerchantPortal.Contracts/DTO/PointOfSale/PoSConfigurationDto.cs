@@ -1,0 +1,24 @@
+﻿namespace Play.MerchantPortal.Contracts.DTO.PointOfSale;
+
+public class PoSConfigurationDto
+{
+    public long Id { get; set; }
+
+    public long TerminalId { get; set; }
+
+    public long StoreId { get; set; }
+
+    public long MerchantId { get; set; }
+
+    public long CompanyId { get; set; }
+
+    public TerminalConfigurationDto TerminalConfiguration { get; set; } = default!;
+
+    public IEnumerable<CombinationDto> Combinations { get; set; } = Enumerable.Empty<CombinationDto>();
+
+    public KernelConfigurationDto KernelConfiguration { get; set; } = default!;
+
+    public DisplayConfigurationDto DisplayConfiguration { get; set; } = default!;
+
+    public CertificateAuthorityConfigurationDto CertificateAuthorityConfiguration { get; set; } = default!;
+}

@@ -16,4 +16,8 @@
     <Folder Include="Entities\PointOfSale\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Bson" Version="2.17.1" />
+  </ItemGroup>
+
 </Project>

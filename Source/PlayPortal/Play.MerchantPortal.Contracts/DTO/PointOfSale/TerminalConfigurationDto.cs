@@ -1,6 +1,6 @@
-﻿namespace Play.MerchantPortal.Domain.Entities.PointOfSale;
+﻿namespace Play.MerchantPortal.Contracts.DTO.PointOfSale;
 
-public class TerminalConfiguration
+public class TerminalConfigurationDto
 {
     public string TerminalIdentification { get; set; } = string.Empty;
     public string MerchantIdentifier { get; set; } = string.Empty;
@@ -25,5 +25,5 @@ public class TerminalConfiguration
     public string ThresholdValueForBiasedRandomSelection { get; set; } = string.Empty;
     public string MaxNumberOfTornTransactionLogRecords { get; set; } = string.Empty;
     public string MaxLifetimeOfTornTransactionLogRecords { get; set; } = string.Empty;
-    public SequenceConfiguration SequenceConfiguration { get; set; } = default!;
+    public SequenceConfigurationDto SequenceConfiguration { get; set; } = default!;
 }

@@ -1,32 +1,34 @@
-﻿namespace Play.MerchantPortal.Contracts.Services;
+﻿using Play.MerchantPortal.Contracts.DTO.PointOfSale;
+
+namespace Play.MerchantPortal.Contracts.Services;
 
 public interface IPoSConfigurationService
 {
-    Task CreateNewPosConfiguration(CreatePosConfigurationDto initialConfiguration);
+    Task CreateNewPosConfiguratioAsync(CreatePosConfigurationDto initialConfiguration);
 
-    Task<PoSConfigurationDto> GetTerminalPoSConfiguration(long terminalId);
+    Task<PoSConfigurationDto> GetTerminalPoSConfigurationAsync(long terminalId);
 
-    Task<PoSConfigurationDto> GetPoSConfiguration(long id);
+    Task<PoSConfigurationDto> GetPoSConfigurationAsync(long id);
 
-    Task<IEnumerable<PoSConfigurationDto>> GetStorePoSConfigurations(long storeId);
+    Task<IEnumerable<PoSConfigurationDto>> GetStorePoSConfigurationsAsync(long storeId);
 
-    Task<IEnumerable<PoSConfigurationDto>> GetMerchantPoSConfigurations(long merchantId);
+    Task<IEnumerable<PoSConfigurationDto>> GetMerchantPoSConfigurationsAsync(long merchantId);
 
-    Task UpdatePosTerminalConfiguration(long id, TerminalConfigurationDto terminalConfiguration);
+    Task UpdatePosTerminalConfigurationAsync(long id, TerminalConfigurationDto terminalConfiguration);
 
-    Task AddPosCombinationConfiguration(long id, CombinationDto combination);
+    Task AddPosCombinationConfigurationAsync(long id, CombinationDto combination);
 
-    Task UpdatePosCombinationsConfiguration(long id, IEnumerable<CombinationDto> combinations);
+    Task UpdatePosCombinationsConfigurationAsync(long id, IEnumerable<CombinationDto> combinations);
 
-    Task UpdatePosKernelConfiguration(long id, KernelConfigurationDto kernelConfiguration);
+    Task UpdatePosKernelConfigurationAsync(long id, KernelConfigurationDto kernelConfiguration);
 
-    Task UpdatePosDisplayConfiguration(long id, DisplayConfigurationDto displayConfiguration);
+    Task UpdatePosDisplayConfigurationAsync(long id, DisplayConfigurationDto displayConfiguration);
 
-    Task UpdateProximityCouplingDeviceConfiguration(long id, ProximityCouplingDeviceConfigurationDto proximityCouplingDeviceConfiguration);
+    Task UpdateProximityCouplingDeviceConfigurationAsync(long id, ProximityCouplingDeviceConfigurationDto proximityCouplingDeviceConfiguration);
 
-    Task UpdateCertificateConfiguration(long id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration);
+    Task UpdateCertificateConfigurationAsync(long id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration);
 
-    Task AddCertificateConfiguration(long id, CertificateConfigurationDto certificateConfiguration);
+    Task AddCertificateConfigurationAsync(long id, CertificateConfigurationDto certificateConfiguration);
 
-    Task UpdateCertificateAuthorityConfiguration(long id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration);
+    Task UpdateCertificateAuthorityConfigurationAsync(long id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration);
 }

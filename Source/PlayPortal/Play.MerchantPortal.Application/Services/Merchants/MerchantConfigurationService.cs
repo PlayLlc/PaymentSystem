@@ -76,7 +76,7 @@ internal class MerchantConfigurationService : IMerchantConfigurationService
         await _MerchantsRepository.SaveChangesAsync();
     }
 
-    private void UpdateEntity(MerchantEntity entity, MerchantDto merchantDto)
+    private static void UpdateEntity(MerchantEntity entity, MerchantDto merchantDto)
     {
         entity.Name = merchantDto.Name;
         entity.StreetAddress = merchantDto.StreetAddress;
