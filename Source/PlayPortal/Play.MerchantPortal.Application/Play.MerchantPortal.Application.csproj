@@ -19,8 +19,4 @@
     <ProjectReference Include="..\Play.MerchantPortal.Domain\Play.MerchantPortal.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\PointsOfSale\Validators\" />
-  </ItemGroup>
-
 </Project>

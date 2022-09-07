@@ -14,21 +14,17 @@ public interface IPoSConfigurationService
 
     Task<IEnumerable<PoSConfigurationDto>> GetMerchantPoSConfigurationsAsync(long merchantId);
 
-    Task UpdatePosTerminalConfigurationAsync(long id, TerminalConfigurationDto terminalConfiguration);
+    Task UpdateTerminalConfigurationAsync(long id, TerminalConfigurationDto terminalConfiguration);
 
-    Task AddPosCombinationConfigurationAsync(long id, CombinationDto combination);
+    Task UpdateCombinationsConfigurationAsync(long id, IEnumerable<CombinationDto> combinations);
 
-    Task UpdatePosCombinationsConfigurationAsync(long id, IEnumerable<CombinationDto> combinations);
+    Task UpdateKernelConfigurationAsync(long id, KernelConfigurationDto kernelConfiguration);
 
-    Task UpdatePosKernelConfigurationAsync(long id, KernelConfigurationDto kernelConfiguration);
-
-    Task UpdatePosDisplayConfigurationAsync(long id, DisplayConfigurationDto displayConfiguration);
+    Task UpdateDisplayConfigurationAsync(long id, DisplayConfigurationDto displayConfiguration);
 
     Task UpdateProximityCouplingDeviceConfigurationAsync(long id, ProximityCouplingDeviceConfigurationDto proximityCouplingDeviceConfiguration);
 
     Task UpdateCertificateConfigurationAsync(long id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration);
-
-    Task AddCertificateConfigurationAsync(long id, CertificateConfigurationDto certificateConfiguration);
 
     Task UpdateCertificateAuthorityConfigurationAsync(long id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration);
 }

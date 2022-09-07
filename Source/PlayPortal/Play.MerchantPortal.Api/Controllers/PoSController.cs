@@ -53,7 +53,7 @@ namespace Play.MerchantPortal.Api.Controllers
         [HttpPut("terminalconfiguration/{id}")]
         public async Task<IActionResult> UpdatePoSTerminalConfiguration(long id, [FromBody] TerminalConfigurationDto terminalConfiguration)
         {
-            await _posConfigurationService.UpdatePosTerminalConfigurationAsync(id, terminalConfiguration);
+            await _posConfigurationService.UpdateTerminalConfigurationAsync(id, terminalConfiguration);
 
             return Ok();
         }
@@ -61,7 +61,7 @@ namespace Play.MerchantPortal.Api.Controllers
         [HttpPut("kernelconfiguration/{id}")]
         public async Task<IActionResult> UpdatePoSKernelConfiguration(long id, [FromBody] KernelConfigurationDto kernelConfiguration)
         {
-            await _posConfigurationService.UpdatePosKernelConfigurationAsync(id, kernelConfiguration);
+            await _posConfigurationService.UpdateKernelConfigurationAsync(id, kernelConfiguration);
 
             return Ok();
         }
@@ -69,7 +69,7 @@ namespace Play.MerchantPortal.Api.Controllers
         [HttpPut("displayconfiguration/{id}")]
         public async Task<IActionResult> UpdateDisplayConfiguration(long id, [FromBody] DisplayConfigurationDto displayConfiguration)
         {
-            await _posConfigurationService.UpdatePosDisplayConfigurationAsync(id, displayConfiguration);
+            await _posConfigurationService.UpdateDisplayConfigurationAsync(id, displayConfiguration);
 
             return Ok();
         }
@@ -77,7 +77,7 @@ namespace Play.MerchantPortal.Api.Controllers
         [HttpPut("combinationconfiguration/{id}")]
         public async Task<IActionResult> UpdateCombinationsConfiguration(long id, [FromBody] IEnumerable<CombinationDto> combinations)
         {
-            await _posConfigurationService.UpdatePosCombinationsConfigurationAsync(id, combinations);
+            await _posConfigurationService.UpdateCombinationsConfigurationAsync(id, combinations);
 
             return Ok();
         }
