@@ -27,14 +27,12 @@ namespace Play.MerchantPortal.Api.Controllers
 
         #region Instance Members
 
-        // GET: api/<PointsOfSaleController>/terminal/{terminalId}
         [HttpGet("terminal/{terminalId}")]
         public async Task<PosConfigurationDto> GetByTerminal(long terminalId)
         {
             return await _posConfigurationService.GetTerminalPoSConfigurationAsync(terminalId);
         }
 
-        // GET api/<PointsOfSaleController>/store/{storeId}
         [HttpGet("store/{storeId}")]
         public async Task<IEnumerable<PosConfigurationDto>> GetByStore(long storeId)
         {
@@ -55,7 +53,6 @@ namespace Play.MerchantPortal.Api.Controllers
             return Ok();
         }
 
-        // PUT api/<PointsOfSaleController>/5
         [HttpPut("terminalconfiguration/{id}")]
         public async Task<IActionResult> UpdatePoSTerminalConfiguration(Guid id, [FromBody] TerminalConfigurationDto terminalConfiguration)
         {
