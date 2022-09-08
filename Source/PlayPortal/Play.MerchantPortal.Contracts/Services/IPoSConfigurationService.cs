@@ -24,7 +24,5 @@ public interface IPosConfigurationService
 
     Task UpdateProximityCouplingDeviceConfigurationAsync(Guid id, ProximityCouplingDeviceConfigurationDto proximityCouplingDeviceConfiguration);
 
-    Task UpdateCertificateConfigurationAsync(Guid id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration);
-
     Task UpdateCertificateAuthorityConfigurationAsync(Guid id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration);
 }

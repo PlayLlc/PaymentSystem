@@ -10,6 +10,8 @@ namespace Play.MerchantPortal.Application.Services.PointsOfSale;
 
 internal class PosConfigurationService : IPosConfigurationService
 {
+    #region Instance Values
+
     private readonly IPosRepository _PosRepository;
     private readonly IMapper _Mapper;
 
@@ -19,6 +21,10 @@ internal class PosConfigurationService : IPosConfigurationService
     private readonly IValidator<DisplayConfigurationDto> _DisplayConfigurationValidator;
     private readonly IValidator<KernelConfigurationDto> _KernelConfigurationValidator;
     private readonly IValidator<CombinationConfigurationDto> _CombinationConfigurationValidator;
+
+    #endregion
+
+    #region Constructor
 
     public PosConfigurationService(
         IPosRepository posRepository,
@@ -40,6 +46,10 @@ internal class PosConfigurationService : IPosConfigurationService
         _CombinationConfigurationValidator = combinationConfigurationValidator;
     }
 
+    #endregion
+
+    #region Instance Members
+
     public async Task CreateNewPosConfiguratioAsync(CreatePosConfigurationDto initialConfiguration)
     {
         var entity = new PosConfiguration()
@@ -51,22 +61,6 @@ internal class PosConfigurationService : IPosConfigurationService
         };
 
         await _PosRepository.InsertNewPosConfigurationAsync(entity);
-    }
-
-    public async Task UpdateCertificateConfigurationAsync(Guid id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration)
-    {
-        bool exists = await _PosRepository.ExistsAsync(id);
-
-        if (!exists)
-            throw new NotFoundException(nameof(PosConfiguration), id);
-        
-        var entity = _Mapper.Map<CertificateAuthorityConfiguration>(certificateAuthorityConfiguration);
-
-        await _PosRepository.UpdateGivenFieldsAsync(id,
-            new List<(System.Linq.Expressions.Expression<Func<PosConfiguration, object>>, object)>
-            {
-                (item => item.CertificateAuthorityConfiguration, entity)
-            });
     }
 
     public async Task UpdateCombinationsConfigurationAsync(Guid id, IEnumerable<CombinationConfigurationDto> combinations)
@@ -222,4 +216,6 @@ internal class PosConfigurationService : IPosConfigurationService
 
         return _Mapper.Map<IEnumerable<PosConfigurationDto>>(result);
     }
+
+    #endregion
 }
