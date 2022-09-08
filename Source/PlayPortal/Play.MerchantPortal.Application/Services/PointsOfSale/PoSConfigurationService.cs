@@ -72,10 +72,10 @@ internal class PosConfigurationService : IPosConfigurationService
 
         var collection = _Mapper.Map<IEnumerable<CombinationConfiguration>>(combinations);
 
-        var validationResult = combinations.SelectMany(combination => _CombinationConfigurationValidator.Validate(combination).Errors);
+        var validationErrors = combinations.SelectMany(combination => _CombinationConfigurationValidator.Validate(combination).Errors);
 
-        if (validationResult.Any())
-            throw new ModelValidationException(validationResult);
+        if (validationErrors.Any())
+            throw new ModelValidationException(validationErrors);
 
         await _PosRepository.UpdateGivenFieldsAsync(id,
             new List<(System.Linq.Expressions.Expression<Func<PosConfiguration, object>>, object)>
@@ -133,10 +133,10 @@ internal class PosConfigurationService : IPosConfigurationService
         if (!exists)
             throw new NotFoundException(nameof(PosConfiguration), id);
 
-        var validationErrors = await _TerminalConfigurationValidator.ValidateAsync(terminalConfiguration);
+        var validationResult = await _TerminalConfigurationValidator.ValidateAsync(terminalConfiguration);
 
-        if (validationErrors.Errors.Any())
-            throw new ModelValidationException(validationErrors.Errors);
+        if (validationResult.Errors.Any())
+            throw new ModelValidationException(validationResult.Errors);
 
         var entity = _Mapper.Map<TerminalConfiguration>(terminalConfiguration);
 
