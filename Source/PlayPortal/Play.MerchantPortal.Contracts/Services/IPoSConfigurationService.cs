@@ -2,29 +2,29 @@
 
 namespace Play.MerchantPortal.Contracts.Services;
 
-public interface IPoSConfigurationService
+public interface IPosConfigurationService
 {
     Task CreateNewPosConfiguratioAsync(CreatePosConfigurationDto initialConfiguration);
 
-    Task<PoSConfigurationDto> GetTerminalPoSConfigurationAsync(long terminalId);
+    Task<PosConfigurationDto> GetTerminalPoSConfigurationAsync(long terminalId);
 
-    Task<PoSConfigurationDto> GetPoSConfigurationAsync(long id);
+    Task<PosConfigurationDto> GetPoSConfigurationAsync(Guid id);
 
-    Task<IEnumerable<PoSConfigurationDto>> GetStorePoSConfigurationsAsync(long storeId);
+    Task<IEnumerable<PosConfigurationDto>> GetStorePoSConfigurationsAsync(long storeId);
 
-    Task<IEnumerable<PoSConfigurationDto>> GetMerchantPoSConfigurationsAsync(long merchantId);
+    Task<IEnumerable<PosConfigurationDto>> GetMerchantPoSConfigurationsAsync(long merchantId);
 
-    Task UpdateTerminalConfigurationAsync(long id, TerminalConfigurationDto terminalConfiguration);
+    Task UpdateTerminalConfigurationAsync(Guid id, TerminalConfigurationDto terminalConfiguration);
 
-    Task UpdateCombinationsConfigurationAsync(long id, IEnumerable<CombinationDto> combinations);
+    Task UpdateCombinationsConfigurationAsync(Guid id, IEnumerable<CombinationConfigurationDto> combinations);
 
-    Task UpdateKernelConfigurationAsync(long id, KernelConfigurationDto kernelConfiguration);
+    Task UpdateKernelConfigurationAsync(Guid id, KernelConfigurationDto kernelConfiguration);
 
-    Task UpdateDisplayConfigurationAsync(long id, DisplayConfigurationDto displayConfiguration);
+    Task UpdateDisplayConfigurationAsync(Guid id, DisplayConfigurationDto displayConfiguration);
 
-    Task UpdateProximityCouplingDeviceConfigurationAsync(long id, ProximityCouplingDeviceConfigurationDto proximityCouplingDeviceConfiguration);
+    Task UpdateProximityCouplingDeviceConfigurationAsync(Guid id, ProximityCouplingDeviceConfigurationDto proximityCouplingDeviceConfiguration);
 
-    Task UpdateCertificateConfigurationAsync(long id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration);
+    Task UpdateCertificateConfigurationAsync(Guid id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration);
 
-    Task UpdateCertificateAuthorityConfigurationAsync(long id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration);
+    Task UpdateCertificateAuthorityConfigurationAsync(Guid id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration);
 }

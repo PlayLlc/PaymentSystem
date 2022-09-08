@@ -4,14 +4,14 @@ using Play.MerchantPortal.Domain.Entities.PointOfSale;
 
 namespace Play.MerchantPortal.Application.Mapping;
 
-public class PoSConfigurationProfileMapper : Profile
+public class PosConfigurationProfileMapper : Profile
 {
-    public PoSConfigurationProfileMapper()
+    public PosConfigurationProfileMapper()
     {
-        CreateMap<PoSConfiguration, PoSConfigurationDto>();
+        CreateMap<PosConfiguration, PosConfigurationDto>();
         CreateMap<CertificateAuthorityConfiguration, CertificateAuthorityConfigurationDto>();
         CreateMap<CertificateConfiguration, CertificateConfigurationDto>();
-        CreateMap<Combination, CombinationDto>();
+        CreateMap<CombinationConfiguration, CombinationConfigurationDto>();
         CreateMap<DisplayConfiguration, DisplayConfigurationDto>();
         CreateMap<DisplayMessageSet, DisplayMessageSetDto>();
         CreateMap<DisplayMessage, DisplayMessageDto>();
@@ -21,10 +21,10 @@ public class PoSConfigurationProfileMapper : Profile
         CreateMap<TagLengthValue, TagLengthValueDto>();
         CreateMap<TerminalConfiguration, TerminalConfigurationDto>();
 
-        CreateMap<PoSConfigurationDto, PoSConfiguration>();
+        CreateMap<PosConfigurationDto, PosConfiguration>();
         CreateMap<CertificateAuthorityConfigurationDto, CertificateAuthorityConfiguration>();
         CreateMap<CertificateConfigurationDto, CertificateConfiguration>();
-        CreateMap<CombinationDto, Combination>();
+        CreateMap<CombinationConfigurationDto, CombinationConfiguration>();
         CreateMap<DisplayConfigurationDto, DisplayConfiguration>();
         CreateMap<DisplayMessageSetDto, DisplayMessageSet>();
         CreateMap<DisplayMessageDto, DisplayMessage>();

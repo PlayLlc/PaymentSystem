@@ -15,14 +15,14 @@ public static class ConfigureServices
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddAutoMapper(typeof(MerchantConfigurationMapperProfile));
-        services.AddAutoMapper(typeof(PoSConfigurationProfileMapper));
+        services.AddAutoMapper(typeof(PosConfigurationProfileMapper));
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         services.AddScoped<ITerminalConfigurationService, TerminalConfigurationService>();
         services.AddScoped<IStoreConfigurationService, StoreConfigurationService>();
         services.AddScoped<IMerchantConfigurationService, MerchantConfigurationService>();
-        services.AddScoped<IPoSConfigurationService, PoSConfigurationService>();
+        services.AddScoped<IPosConfigurationService, PosConfigurationService>();
 
         return services;
     }

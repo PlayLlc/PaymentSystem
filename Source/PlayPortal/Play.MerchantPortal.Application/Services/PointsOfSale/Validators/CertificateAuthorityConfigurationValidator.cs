@@ -10,9 +10,10 @@ public class CertificateAuthorityConfigurationValidator : AbstractValidator<Cert
         RuleFor(x => x.Certificates)
             .NotNull()
             .NotEmpty();
-
+        RuleFor(x => x.Certificates).NotEmpty();
         RuleForEach(x => x.Certificates)
             .NotNull()
+            .NotEmpty()
             .ChildRules(certificate =>
             {
                 certificate.RuleFor(x => x.RegisteredApplicationProviderIndicator).NotEmpty();

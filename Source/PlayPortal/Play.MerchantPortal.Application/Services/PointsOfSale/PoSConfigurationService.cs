@@ -8,9 +8,9 @@ using Play.MerchantPortal.Domain.Entities.PointOfSale;
 
 namespace Play.MerchantPortal.Application.Services.PointsOfSale;
 
-internal class PoSConfigurationService : IPoSConfigurationService
+internal class PosConfigurationService : IPosConfigurationService
 {
-    private readonly IPoSRepository _PosRepository;
+    private readonly IPosRepository _PosRepository;
     private readonly IMapper _Mapper;
 
     private readonly IValidator<TerminalConfigurationDto> _TerminalConfigurationValidator;
@@ -18,15 +18,17 @@ internal class PoSConfigurationService : IPoSConfigurationService
     private readonly IValidator<CertificateAuthorityConfigurationDto> _CertificateAuthorityConfigurationValidator;
     private readonly IValidator<DisplayConfigurationDto> _DisplayConfigurationValidator;
     private readonly IValidator<KernelConfigurationDto> _KernelConfigurationValidator;
+    private readonly IValidator<CombinationConfigurationDto> _CombinationConfigurationValidator;
 
-    public PoSConfigurationService(
-        IPoSRepository posRepository,
+    public PosConfigurationService(
+        IPosRepository posRepository,
         IMapper mapper,
         IValidator<TerminalConfigurationDto> terminalConfigurationValidator,
         IValidator<ProximityCouplingDeviceConfigurationDto> proximityCouplingDeviceValidator,
         IValidator<CertificateAuthorityConfigurationDto> certificateAuthorityConfigurationValidator,
         IValidator<DisplayConfigurationDto> displayConfigurationValidator,
-        IValidator<KernelConfigurationDto> kernelConfigurationValidator)
+        IValidator<KernelConfigurationDto> kernelConfigurationValidator,
+        IValidator<CombinationConfigurationDto> combinationConfigurationValidator)
     {
         _PosRepository = posRepository;
         _Mapper = mapper;
@@ -35,11 +37,12 @@ internal class PoSConfigurationService : IPoSConfigurationService
         _CertificateAuthorityConfigurationValidator = certificateAuthorityConfigurationValidator;
         _DisplayConfigurationValidator = displayConfigurationValidator;
         _KernelConfigurationValidator = kernelConfigurationValidator;
+        _CombinationConfigurationValidator = combinationConfigurationValidator;
     }
 
     public async Task CreateNewPosConfiguratioAsync(CreatePosConfigurationDto initialConfiguration)
     {
-        var entity = new PoSConfiguration()
+        var entity = new PosConfiguration()
         {
             CompanyId = initialConfiguration.CompanyId,
             MerchantId = initialConfiguration.MerchantId,
@@ -50,44 +53,49 @@ internal class PoSConfigurationService : IPoSConfigurationService
         await _PosRepository.InsertNewPosConfigurationAsync(entity);
     }
 
-    public async Task UpdateCertificateConfigurationAsync(long id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration)
+    public async Task UpdateCertificateConfigurationAsync(Guid id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration)
     {
         bool exists = await _PosRepository.ExistsAsync(id);
 
         if (!exists)
-            throw new NotFoundException(nameof(PoSConfiguration), id);
+            throw new NotFoundException(nameof(PosConfiguration), id);
         
         var entity = _Mapper.Map<CertificateAuthorityConfiguration>(certificateAuthorityConfiguration);
 
         await _PosRepository.UpdateGivenFieldsAsync(id,
-            new List<(System.Linq.Expressions.Expression<Func<PoSConfiguration, object>>, object)>
+            new List<(System.Linq.Expressions.Expression<Func<PosConfiguration, object>>, object)>
             {
                 (item => item.CertificateAuthorityConfiguration, entity)
             });
     }
 
-    public async Task UpdateCombinationsConfigurationAsync(long id, IEnumerable<CombinationDto> combinations)
+    public async Task UpdateCombinationsConfigurationAsync(Guid id, IEnumerable<CombinationConfigurationDto> combinations)
     {
         bool exists = await _PosRepository.ExistsAsync(id);
 
         if (!exists)
-            throw new NotFoundException(nameof(PoSConfiguration), id);
+            throw new NotFoundException(nameof(PosConfiguration), id);
 
-        var collection = _Mapper.Map<IEnumerable<Combination>>(combinations);
+        var collection = _Mapper.Map<IEnumerable<CombinationConfiguration>>(combinations);
+
+        var validationResult = combinations.SelectMany(combination => _CombinationConfigurationValidator.Validate(combination).Errors);
+
+        if (validationResult.Any())
+            throw new ModelValidationException(validationResult);
 
         await _PosRepository.UpdateGivenFieldsAsync(id,
-            new List<(System.Linq.Expressions.Expression<Func<PoSConfiguration, object>>, object)>
+            new List<(System.Linq.Expressions.Expression<Func<PosConfiguration, object>>, object)>
             {
                 (item => item.Combinations, collection)
             });
     }
 
-    public async Task UpdateDisplayConfigurationAsync(long id, DisplayConfigurationDto displayConfiguration)
+    public async Task UpdateDisplayConfigurationAsync(Guid id, DisplayConfigurationDto displayConfiguration)
     {
         bool exists = await _PosRepository.ExistsAsync(id);
 
         if (!exists)
-            throw new NotFoundException(nameof(PoSConfiguration), id);
+            throw new NotFoundException(nameof(PosConfiguration), id);
 
         var validationResult = await _DisplayConfigurationValidator.ValidateAsync(displayConfiguration);
 
@@ -97,18 +105,18 @@ internal class PoSConfigurationService : IPoSConfigurationService
         var entity = _Mapper.Map<DisplayConfiguration>(displayConfiguration);
 
         await _PosRepository.UpdateGivenFieldsAsync(id,
-            new List<(System.Linq.Expressions.Expression<Func<PoSConfiguration, object>>, object)>
+            new List<(System.Linq.Expressions.Expression<Func<PosConfiguration, object>>, object)>
             {
                 (item => item.DisplayConfiguration, entity)
             });
     }
 
-    public async Task UpdateKernelConfigurationAsync(long id, KernelConfigurationDto kernelConfiguration)
+    public async Task UpdateKernelConfigurationAsync(Guid id, KernelConfigurationDto kernelConfiguration)
     {
         bool exists = await _PosRepository.ExistsAsync(id);
 
         if (!exists)
-            throw new NotFoundException(nameof(PoSConfiguration), id);
+            throw new NotFoundException(nameof(PosConfiguration), id);
 
         var validationResult = await _KernelConfigurationValidator.ValidateAsync(kernelConfiguration);
 
@@ -118,18 +126,18 @@ internal class PoSConfigurationService : IPoSConfigurationService
         var entity = _Mapper.Map<KernelConfiguration>(kernelConfiguration);
 
         await _PosRepository.UpdateGivenFieldsAsync(id,
-            new List<(System.Linq.Expressions.Expression<Func<PoSConfiguration, object>>, object)>
+            new List<(System.Linq.Expressions.Expression<Func<PosConfiguration, object>>, object)>
             {
                 (item => item.KernelConfiguration, entity)
             });
     }
 
-    public async Task UpdateTerminalConfigurationAsync(long id, TerminalConfigurationDto terminalConfiguration)
+    public async Task UpdateTerminalConfigurationAsync(Guid id, TerminalConfigurationDto terminalConfiguration)
     {
         bool exists = await _PosRepository.ExistsAsync(id);
 
         if (!exists)
-            throw new NotFoundException(nameof(PoSConfiguration), id);
+            throw new NotFoundException(nameof(PosConfiguration), id);
 
         var validationErrors = await _TerminalConfigurationValidator.ValidateAsync(terminalConfiguration);
 
@@ -139,18 +147,18 @@ internal class PoSConfigurationService : IPoSConfigurationService
         var entity = _Mapper.Map<TerminalConfiguration>(terminalConfiguration);
 
         await _PosRepository.UpdateGivenFieldsAsync(id,
-            new List<(System.Linq.Expressions.Expression<Func<PoSConfiguration, object>>, object)>
+            new List<(System.Linq.Expressions.Expression<Func<PosConfiguration, object>>, object)>
             {
                 (item => item.TerminalConfiguration, entity)
             });
     }
 
-    public async Task UpdateProximityCouplingDeviceConfigurationAsync(long id, ProximityCouplingDeviceConfigurationDto proximityCouplingDeviceConfiguration)
+    public async Task UpdateProximityCouplingDeviceConfigurationAsync(Guid id, ProximityCouplingDeviceConfigurationDto proximityCouplingDeviceConfiguration)
     {
         bool exists = await _PosRepository.ExistsAsync(id);
 
         if (!exists)
-            throw new NotFoundException(nameof(PoSConfiguration), id);
+            throw new NotFoundException(nameof(PosConfiguration), id);
 
         var validationResult = await _ProximityCouplingDeviceValidator.ValidateAsync(proximityCouplingDeviceConfiguration);
 
@@ -160,18 +168,18 @@ internal class PoSConfigurationService : IPoSConfigurationService
         var entity = _Mapper.Map<ProximityCouplingDeviceConfiguration>(proximityCouplingDeviceConfiguration);
 
         await _PosRepository.UpdateGivenFieldsAsync(id,
-            new List<(System.Linq.Expressions.Expression<Func<PoSConfiguration, object>>, object)>
+            new List<(System.Linq.Expressions.Expression<Func<PosConfiguration, object>>, object)>
             {
                 (item => item.ProximityCouplingDeviceConfiguration, entity)
             });
     }
 
-    public async Task UpdateCertificateAuthorityConfigurationAsync(long id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration)
+    public async Task UpdateCertificateAuthorityConfigurationAsync(Guid id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration)
     {
         bool exists = await _PosRepository.ExistsAsync(id);
 
         if (!exists)
-            throw new NotFoundException(nameof(PoSConfiguration), id);
+            throw new NotFoundException(nameof(PosConfiguration), id);
 
         var validationResult = await _CertificateAuthorityConfigurationValidator.ValidateAsync(certificateAuthorityConfiguration);
 
@@ -181,37 +189,37 @@ internal class PoSConfigurationService : IPoSConfigurationService
         var entity = _Mapper.Map<CertificateAuthorityConfiguration>(certificateAuthorityConfiguration);
 
         await _PosRepository.UpdateGivenFieldsAsync(id,
-            new List<(System.Linq.Expressions.Expression<Func<PoSConfiguration, object>>, object)>
+            new List<(System.Linq.Expressions.Expression<Func<PosConfiguration, object>>, object)>
             {
                 (item => item.CertificateAuthorityConfiguration, entity)
             });
     }
 
-    public async Task<PoSConfigurationDto> GetTerminalPoSConfigurationAsync(long terminalId)
+    public async Task<PosConfigurationDto> GetTerminalPoSConfigurationAsync(long terminalId)
     {
-        PoSConfiguration? configuration = await _PosRepository.FindByTerminalIdAsync(terminalId);
+        PosConfiguration? configuration = await _PosRepository.FindByTerminalIdAsync(terminalId);
 
-        return _Mapper.Map<PoSConfigurationDto>(configuration);
+        return _Mapper.Map<PosConfigurationDto>(configuration);
     }
 
-    public async Task<PoSConfigurationDto> GetPoSConfigurationAsync(long id)
+    public async Task<PosConfigurationDto> GetPoSConfigurationAsync(Guid id)
     {
-        PoSConfiguration? configuration = await _PosRepository.FindByIdAsync(id);
+        PosConfiguration? configuration = await _PosRepository.FindByIdAsync(id);
 
-        return _Mapper.Map<PoSConfigurationDto>(configuration);
+        return _Mapper.Map<PosConfigurationDto>(configuration);
     }
 
-    public async Task<IEnumerable<PoSConfigurationDto>> GetStorePoSConfigurationsAsync(long storeId)
+    public async Task<IEnumerable<PosConfigurationDto>> GetStorePoSConfigurationsAsync(long storeId)
     {
-        IEnumerable<PoSConfiguration> result = await _PosRepository.SelectPosConfigurationsByStoreIdAsync(storeId);
+        IEnumerable<PosConfiguration> result = await _PosRepository.SelectPosConfigurationsByStoreIdAsync(storeId);
 
-        return _Mapper.Map<IEnumerable<PoSConfigurationDto>>(result);
+        return _Mapper.Map<IEnumerable<PosConfigurationDto>>(result);
     }
 
-    public async Task<IEnumerable<PoSConfigurationDto>> GetMerchantPoSConfigurationsAsync(long merchantId)
+    public async Task<IEnumerable<PosConfigurationDto>> GetMerchantPoSConfigurationsAsync(long merchantId)
     {
-        IEnumerable<PoSConfiguration> result = await _PosRepository.SelectPoSConfigurationsByMerchantIdAsync(merchantId);
+        IEnumerable<PosConfiguration> result = await _PosRepository.SelectPoSConfigurationsByMerchantIdAsync(merchantId);
 
-        return _Mapper.Map<IEnumerable<PoSConfigurationDto>>(result);
+        return _Mapper.Map<IEnumerable<PosConfigurationDto>>(result);
     }
 }

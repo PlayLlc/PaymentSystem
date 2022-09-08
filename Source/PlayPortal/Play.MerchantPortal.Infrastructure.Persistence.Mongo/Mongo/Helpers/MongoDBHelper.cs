@@ -65,9 +65,10 @@ internal class MongoDbHelper : IMongoDbHelper
     public async Task<_> FindOneAndUpdateAsync<_>(string collectionName, Expression<Func<_, bool>> filter, params UpdateFieldConfig<_>[] updateFieldsConfig)
     {
         return await GetCollection<_>(collectionName)
-            .FindOneAndUpdateAsync(filter,
-                Builders<_>.Update.Combine(updateFieldsConfig.Select(x => Builders<_>.Update.SetOnInsert(x.Field, x.Value)).ToList()),
-                new FindOneAndUpdateOptions<_, _> {IsUpsert = true, ReturnDocument = ReturnDocument.Before}).ConfigureAwait(false);
+            .FindOneAndUpdateAsync(
+                filter,
+                Builders<_>.Update.Combine(updateFieldsConfig.Select(x => Builders<_>.Update.Set(x.Field, x.Value)).ToList()))
+                .ConfigureAwait(false);
     }
 
     public async Task InsertAsync<_>(string collectionName, _ item)

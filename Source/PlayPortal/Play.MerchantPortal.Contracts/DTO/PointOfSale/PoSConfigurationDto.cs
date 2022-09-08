@@ -1,8 +1,8 @@
 ﻿namespace Play.MerchantPortal.Contracts.DTO.PointOfSale;
 
-public class PoSConfigurationDto
+public class PosConfigurationDto
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
 
     public long TerminalId { get; set; }
 
@@ -14,7 +14,7 @@ public class PoSConfigurationDto
 
     public TerminalConfigurationDto TerminalConfiguration { get; set; } = default!;
 
-    public IEnumerable<CombinationDto> Combinations { get; set; } = Enumerable.Empty<CombinationDto>();
+    public IEnumerable<CombinationConfigurationDto> Combinations { get; set; } = Enumerable.Empty<CombinationConfigurationDto>();
 
     public KernelConfigurationDto KernelConfiguration { get; set; } = default!;
 

@@ -2,10 +2,10 @@
 
 namespace Play.MerchantPortal.Domain.Entities.PointOfSale;
 
-public class PoSConfiguration
+public class PosConfiguration
 {
     [BsonId]
-    public long Id { get; set; }
+    public Guid Id { get; set; }
 
     public long TerminalId { get; set; }
 
@@ -17,7 +17,7 @@ public class PoSConfiguration
 
     public TerminalConfiguration TerminalConfiguration { get; set; } = default!;
 
-    public IEnumerable<Combination> Combinations { get; set; } = Enumerable.Empty<Combination>();
+    public IEnumerable<CombinationConfiguration> Combinations { get; set; } = Enumerable.Empty<CombinationConfiguration>();
 
     public KernelConfiguration KernelConfiguration { get; set; } = default!;
 

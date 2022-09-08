@@ -8,7 +8,7 @@ public class KernelConfigurationValidator : AbstractValidator<KernelConfiguratio
     public KernelConfigurationValidator()
     {
         RuleFor(x => x.KernelId).NotEmpty().Must(id => id > 0);
-
+        RuleFor(x => x.TagLengthValues).NotEmpty();
         RuleForEach(x => x.TagLengthValues).ChildRules(tlv =>
         {
             tlv.RuleFor(x => x.Tag).NotEmpty();

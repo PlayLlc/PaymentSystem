@@ -8,7 +8,7 @@ public class DisplayConfigurationValidator : AbstractValidator<DisplayConfigurat
     public DisplayConfigurationValidator()
     {
         RuleFor(x => x.MessageHoldTime).NotEmpty();
-
+        RuleFor(x => x.DisplayMessages).NotEmpty();
         RuleForEach(x => x.DisplayMessages)
             .ChildRules(displayMessageSet =>
             {

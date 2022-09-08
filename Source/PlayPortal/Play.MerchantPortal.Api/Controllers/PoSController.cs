@@ -8,17 +8,17 @@ namespace Play.MerchantPortal.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PoSController : ControllerBase
+    public class PosController : ControllerBase
     {
         #region Instance Values
 
-        private readonly IPoSConfigurationService _posConfigurationService;
+        private readonly IPosConfigurationService _posConfigurationService;
 
         #endregion
 
         #region Constructors
 
-        public PoSController(IPoSConfigurationService posConfigurationService)
+        public PosController(IPosConfigurationService posConfigurationService)
         {
             _posConfigurationService = posConfigurationService;
         }
@@ -29,16 +29,22 @@ namespace Play.MerchantPortal.Api.Controllers
 
         // GET: api/<PointsOfSaleController>/terminal/{terminalId}
         [HttpGet("terminal/{terminalId}")]
-        public async Task<PoSConfigurationDto> GetByTerminal(long terminalId)
+        public async Task<PosConfigurationDto> GetByTerminal(long terminalId)
         {
             return await _posConfigurationService.GetTerminalPoSConfigurationAsync(terminalId);
         }
 
         // GET api/<PointsOfSaleController>/store/{storeId}
         [HttpGet("store/{storeId}")]
-        public async Task<IEnumerable<PoSConfigurationDto>> GetByStore(long storeId)
+        public async Task<IEnumerable<PosConfigurationDto>> GetByStore(long storeId)
         {
             return await _posConfigurationService.GetStorePoSConfigurationsAsync(storeId);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<PosConfigurationDto> Get(Guid id)
+        {
+            return await _posConfigurationService.GetPoSConfigurationAsync(id);
         }
 
         [HttpPost]
@@ -51,7 +57,7 @@ namespace Play.MerchantPortal.Api.Controllers
 
         // PUT api/<PointsOfSaleController>/5
         [HttpPut("terminalconfiguration/{id}")]
-        public async Task<IActionResult> UpdatePoSTerminalConfiguration(long id, [FromBody] TerminalConfigurationDto terminalConfiguration)
+        public async Task<IActionResult> UpdatePoSTerminalConfiguration(Guid id, [FromBody] TerminalConfigurationDto terminalConfiguration)
         {
             await _posConfigurationService.UpdateTerminalConfigurationAsync(id, terminalConfiguration);
 
@@ -59,7 +65,7 @@ namespace Play.MerchantPortal.Api.Controllers
         }
 
         [HttpPut("kernelconfiguration/{id}")]
-        public async Task<IActionResult> UpdatePoSKernelConfiguration(long id, [FromBody] KernelConfigurationDto kernelConfiguration)
+        public async Task<IActionResult> UpdatePoSKernelConfiguration(Guid id, [FromBody] KernelConfigurationDto kernelConfiguration)
         {
             await _posConfigurationService.UpdateKernelConfigurationAsync(id, kernelConfiguration);
 
@@ -67,7 +73,7 @@ namespace Play.MerchantPortal.Api.Controllers
         }
 
         [HttpPut("displayconfiguration/{id}")]
-        public async Task<IActionResult> UpdateDisplayConfiguration(long id, [FromBody] DisplayConfigurationDto displayConfiguration)
+        public async Task<IActionResult> UpdateDisplayConfiguration(Guid id, [FromBody] DisplayConfigurationDto displayConfiguration)
         {
             await _posConfigurationService.UpdateDisplayConfigurationAsync(id, displayConfiguration);
 
@@ -75,7 +81,7 @@ namespace Play.MerchantPortal.Api.Controllers
         }
 
         [HttpPut("combinationconfiguration/{id}")]
-        public async Task<IActionResult> UpdateCombinationsConfiguration(long id, [FromBody] IEnumerable<CombinationDto> combinations)
+        public async Task<IActionResult> UpdateCombinationsConfiguration(Guid id, [FromBody] IEnumerable<CombinationConfigurationDto> combinations)
         {
             await _posConfigurationService.UpdateCombinationsConfigurationAsync(id, combinations);
 
@@ -83,7 +89,7 @@ namespace Play.MerchantPortal.Api.Controllers
         }
 
         [HttpPut("certificateconfiguration/{id}")]
-        public async Task<IActionResult> UpdateCertificateAuthorityConfiguration(long id, [FromBody] CertificateAuthorityConfigurationDto certificateAuthorityConfiguration)
+        public async Task<IActionResult> UpdateCertificateAuthorityConfiguration(Guid id, [FromBody] CertificateAuthorityConfigurationDto certificateAuthorityConfiguration)
         {
             await _posConfigurationService.UpdateCertificateAuthorityConfigurationAsync(id, certificateAuthorityConfiguration);
 
