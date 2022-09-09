@@ -18,16 +18,16 @@ jobs:
         include-prerelease: true  
     - name: Restore Emv dependencies
       run: dotnet restore
-      working-directory: _Emv
+      working-directory: Emv
     - name: Build Emv
       run: dotnet build --no-restore
-      working-directory: _Emv 
+      working-directory: Emv 
     - name: Restore Test dependencies
       run: dotnet restore 
-      working-directory: _Tests 
+      working-directory: Tests 
     - name: Build Test
       run: dotnet build --no-restore
-      working-directory: _Tests
+      working-directory: Tests
     - name: Test
       run: dotnet test --no-build --verbosity normal
-      working-directory: _Tests
+      working-directory: Tests

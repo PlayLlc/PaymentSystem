@@ -20,5 +20,7 @@ public class PosConfigurationDto
 
     public DisplayConfigurationDto DisplayConfiguration { get; set; } = default!;
 
+    public ProximityCouplingDeviceConfigurationDto ProximityCouplingDeviceConfiguration { get; set; } = default!;
+
     public CertificateAuthorityConfigurationDto CertificateAuthorityConfiguration { get; set; } = default!;
 }
