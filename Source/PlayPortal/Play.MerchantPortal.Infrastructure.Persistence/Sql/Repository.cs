@@ -1,5 +1,5 @@
-﻿using Play.MerchantPortal.Application.Contracts.Persistence;
-using Play.MerchantPortal.Domain.Entities;
+﻿using Play.MerchantPortal.Domain.Entities;
+using Play.MerchantPortal.Domain.Persistence;
 
 namespace Play.MerchantPortal.Infrastructure.Persistence.Sql
 {

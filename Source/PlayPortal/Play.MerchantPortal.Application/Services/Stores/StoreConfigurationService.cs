@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-
-using Play.MerchantPortal.Application.Common.Exceptions;
-using Play.MerchantPortal.Application.Contracts.Persistence;
-using Play.MerchantPortal.Contracts.Services;
-using Play.MerchantPortal.Contracts.DTO;
-using Play.MerchantPortal.Domain.Entities;
 using FluentValidation;
+using Play.MerchantPortal.Application.Common.Exceptions;
+using Play.MerchantPortal.Contracts.DTO;
+using Play.MerchantPortal.Contracts.Services;
+using Play.MerchantPortal.Domain.Entities;
+using Play.MerchantPortal.Domain.Persistence;
 
 namespace Play.MerchantPortal.Application.Services.Stores;
 
@@ -76,7 +75,7 @@ internal class StoreConfigurationService : IStoreConfigurationService
         await _StoresRepository.SaveChangesAsync();
     }
 
-    private void UpdateStoreEntity(StoreEntity entity, StoreDto storeDto)
+    private static void UpdateStoreEntity(StoreEntity entity, StoreDto storeDto)
     {
         entity.Name = storeDto.Name;
         entity.Address = storeDto.Address;

@@ -20,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Play.MerchantPortal.Application\Play.MerchantPortal.Application.csproj" />
     <ProjectReference Include="..\Play.MerchantPortal.Domain\Play.MerchantPortal.Domain.csproj" />
   </ItemGroup>
 

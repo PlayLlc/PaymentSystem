@@ -1,6 +1,5 @@
-﻿using MongoDB.Bson.Serialization.IdGenerators;
-using Play.MerchantPortal.Application.Contracts.Persistence;
-using Play.MerchantPortal.Domain.Entities.PointOfSale;
+﻿using Play.MerchantPortal.Domain.Entities.PointOfSale;
+using Play.MerchantPortal.Domain.Persistence;
 using Play.MerchantPortal.Infrastructure.Persistence.Mongo.Mongo.Helpers;
 using System.Linq.Expressions;
 

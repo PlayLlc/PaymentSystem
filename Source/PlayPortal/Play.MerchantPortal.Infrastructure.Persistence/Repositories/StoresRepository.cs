@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-
-using Play.MerchantPortal.Application.Contracts.Persistence;
 using Play.MerchantPortal.Domain.Entities;
+using Play.MerchantPortal.Domain.Persistence;
 using Play.MerchantPortal.Infrastructure.Persistence.Sql;
 
 namespace Play.MerchantPortal.Infrastructure.Persistence.Repositories;

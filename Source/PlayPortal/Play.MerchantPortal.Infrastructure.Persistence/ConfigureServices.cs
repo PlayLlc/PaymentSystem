@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-
-using Play.MerchantPortal.Application.Contracts.Persistence;
+using Play.MerchantPortal.Domain.Persistence;
 using Play.MerchantPortal.Infrastructure.Persistence.Repositories;
 using Play.MerchantPortal.Infrastructure.Persistence.Sql;
 using Play.MerchantPortal.Infrastructure.Persistence.Sql.DataSeed;

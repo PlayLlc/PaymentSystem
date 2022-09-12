@@ -1,7 +1,7 @@
 ﻿using Play.MerchantPortal.Domain.Entities.PointOfSale;
 using System.Linq.Expressions;
 
-namespace Play.MerchantPortal.Application.Contracts.Persistence;
+namespace Play.MerchantPortal.Domain.Persistence;
 
 public interface IPosRepository
 {
