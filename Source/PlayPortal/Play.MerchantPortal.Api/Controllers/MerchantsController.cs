@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Play.MerchantPortal.Api.Models;
@@ -30,6 +30,7 @@ namespace Play.MerchantPortal.Api.Controllers
         #region Instance Members
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<MerchantDto> Get(long id)
         {
             var merchant = await _MerchantConfigurationService.GetMerchantAsync(id);
