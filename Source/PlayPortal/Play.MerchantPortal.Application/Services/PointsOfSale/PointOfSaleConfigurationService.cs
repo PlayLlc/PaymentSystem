@@ -8,11 +8,11 @@ using Play.MerchantPortal.Domain.Persistence;
 
 namespace Play.MerchantPortal.Application.Services.PointsOfSale;
 
-internal class PosConfigurationService : IPosConfigurationService
+internal class PointOfSaleConfigurationService : IPointOfSaleConfigurationService
 {
     #region Instance Values
 
-    private readonly IPosRepository _PosRepository;
+    private readonly IPointOfSaleRepository _PosRepository;
     private readonly IMapper _Mapper;
 
     private readonly IValidator<TerminalConfigurationDto> _TerminalConfigurationValidator;
@@ -26,8 +26,8 @@ internal class PosConfigurationService : IPosConfigurationService
 
     #region Constructor
 
-    public PosConfigurationService(
-        IPosRepository posRepository,
+    public PointOfSaleConfigurationService(
+        IPointOfSaleRepository posRepository,
         IMapper mapper,
         IValidator<TerminalConfigurationDto> terminalConfigurationValidator,
         IValidator<ProximityCouplingDeviceConfigurationDto> proximityCouplingDeviceValidator,
@@ -52,7 +52,7 @@ internal class PosConfigurationService : IPosConfigurationService
 
     public async Task CreateNewPosConfiguratioAsync(CreatePosConfigurationDto initialConfiguration)
     {
-        var entity = new PosConfiguration()
+        var entity = new PointOfSaleConfiguration()
         {
             CompanyId = initialConfiguration.CompanyId,
             MerchantId = initialConfiguration.MerchantId,
@@ -68,7 +68,7 @@ internal class PosConfigurationService : IPosConfigurationService
         bool exists = await _PosRepository.ExistsAsync(id);
 
         if (!exists)
-            throw new NotFoundException(nameof(PosConfiguration), id);
+            throw new NotFoundException(nameof(PointOfSaleConfiguration), id);
 
         var collection = _Mapper.Map<IEnumerable<CombinationConfiguration>>(combinations);
 
@@ -78,7 +78,7 @@ internal class PosConfigurationService : IPosConfigurationService
             throw new ModelValidationException(validationErrors);
 
         await _PosRepository.UpdateGivenFieldsAsync(id,
-            new List<(System.Linq.Expressions.Expression<Func<PosConfiguration, object>>, object)>
+            new List<(System.Linq.Expressions.Expression<Func<PointOfSaleConfiguration, object>>, object)>
             {
                 (item => item.Combinations, collection)
             });
@@ -89,7 +89,7 @@ internal class PosConfigurationService : IPosConfigurationService
         bool exists = await _PosRepository.ExistsAsync(id);
 
         if (!exists)
-            throw new NotFoundException(nameof(PosConfiguration), id);
+            throw new NotFoundException(nameof(PointOfSaleConfiguration), id);
 
         var validationResult = await _DisplayConfigurationValidator.ValidateAsync(displayConfiguration);
 
@@ -99,7 +99,7 @@ internal class PosConfigurationService : IPosConfigurationService
         var entity = _Mapper.Map<DisplayConfiguration>(displayConfiguration);
 
         await _PosRepository.UpdateGivenFieldsAsync(id,
-            new List<(System.Linq.Expressions.Expression<Func<PosConfiguration, object>>, object)>
+            new List<(System.Linq.Expressions.Expression<Func<PointOfSaleConfiguration, object>>, object)>
             {
                 (item => item.DisplayConfiguration, entity)
             });
@@ -110,7 +110,7 @@ internal class PosConfigurationService : IPosConfigurationService
         bool exists = await _PosRepository.ExistsAsync(id);
 
         if (!exists)
-            throw new NotFoundException(nameof(PosConfiguration), id);
+            throw new NotFoundException(nameof(PointOfSaleConfiguration), id);
 
         var validationResult = await _KernelConfigurationValidator.ValidateAsync(kernelConfiguration);
 
@@ -120,7 +120,7 @@ internal class PosConfigurationService : IPosConfigurationService
         var entity = _Mapper.Map<KernelConfiguration>(kernelConfiguration);
 
         await _PosRepository.UpdateGivenFieldsAsync(id,
-            new List<(System.Linq.Expressions.Expression<Func<PosConfiguration, object>>, object)>
+            new List<(System.Linq.Expressions.Expression<Func<PointOfSaleConfiguration, object>>, object)>
             {
                 (item => item.KernelConfiguration, entity)
             });
@@ -131,7 +131,7 @@ internal class PosConfigurationService : IPosConfigurationService
         bool exists = await _PosRepository.ExistsAsync(id);
 
         if (!exists)
-            throw new NotFoundException(nameof(PosConfiguration), id);
+            throw new NotFoundException(nameof(PointOfSaleConfiguration), id);
 
         var validationResult = await _TerminalConfigurationValidator.ValidateAsync(terminalConfiguration);
 
@@ -141,7 +141,7 @@ internal class PosConfigurationService : IPosConfigurationService
         var entity = _Mapper.Map<TerminalConfiguration>(terminalConfiguration);
 
         await _PosRepository.UpdateGivenFieldsAsync(id,
-            new List<(System.Linq.Expressions.Expression<Func<PosConfiguration, object>>, object)>
+            new List<(System.Linq.Expressions.Expression<Func<PointOfSaleConfiguration, object>>, object)>
             {
                 (item => item.TerminalConfiguration, entity)
             });
@@ -152,7 +152,7 @@ internal class PosConfigurationService : IPosConfigurationService
         bool exists = await _PosRepository.ExistsAsync(id);
 
         if (!exists)
-            throw new NotFoundException(nameof(PosConfiguration), id);
+            throw new NotFoundException(nameof(PointOfSaleConfiguration), id);
 
         var validationResult = await _ProximityCouplingDeviceValidator.ValidateAsync(proximityCouplingDeviceConfiguration);
 
@@ -162,7 +162,7 @@ internal class PosConfigurationService : IPosConfigurationService
         var entity = _Mapper.Map<ProximityCouplingDeviceConfiguration>(proximityCouplingDeviceConfiguration);
 
         await _PosRepository.UpdateGivenFieldsAsync(id,
-            new List<(System.Linq.Expressions.Expression<Func<PosConfiguration, object>>, object)>
+            new List<(System.Linq.Expressions.Expression<Func<PointOfSaleConfiguration, object>>, object)>
             {
                 (item => item.ProximityCouplingDeviceConfiguration, entity)
             });
@@ -173,7 +173,7 @@ internal class PosConfigurationService : IPosConfigurationService
         bool exists = await _PosRepository.ExistsAsync(id);
 
         if (!exists)
-            throw new NotFoundException(nameof(PosConfiguration), id);
+            throw new NotFoundException(nameof(PointOfSaleConfiguration), id);
 
         var validationResult = await _CertificateAuthorityConfigurationValidator.ValidateAsync(certificateAuthorityConfiguration);
 
@@ -183,38 +183,38 @@ internal class PosConfigurationService : IPosConfigurationService
         var entity = _Mapper.Map<CertificateAuthorityConfiguration>(certificateAuthorityConfiguration);
 
         await _PosRepository.UpdateGivenFieldsAsync(id,
-            new List<(System.Linq.Expressions.Expression<Func<PosConfiguration, object>>, object)>
+            new List<(System.Linq.Expressions.Expression<Func<PointOfSaleConfiguration, object>>, object)>
             {
                 (item => item.CertificateAuthorityConfiguration, entity)
             });
     }
 
-    public async Task<PosConfigurationDto> GetTerminalPoSConfigurationAsync(long terminalId)
+    public async Task<PointOfSaleConfigurationDto> GetTerminalPoSConfigurationAsync(long terminalId)
     {
-        PosConfiguration? configuration = await _PosRepository.FindByTerminalIdAsync(terminalId);
+        PointOfSaleConfiguration? configuration = await _PosRepository.FindByTerminalIdAsync(terminalId);
 
-        return _Mapper.Map<PosConfigurationDto>(configuration);
+        return _Mapper.Map<PointOfSaleConfigurationDto>(configuration);
     }
 
-    public async Task<PosConfigurationDto> GetPoSConfigurationAsync(Guid id)
+    public async Task<PointOfSaleConfigurationDto> GetPoSConfigurationAsync(Guid id)
     {
-        PosConfiguration? configuration = await _PosRepository.FindByIdAsync(id);
+        PointOfSaleConfiguration? configuration = await _PosRepository.FindByIdAsync(id);
 
-        return _Mapper.Map<PosConfigurationDto>(configuration);
+        return _Mapper.Map<PointOfSaleConfigurationDto>(configuration);
     }
 
-    public async Task<IEnumerable<PosConfigurationDto>> GetStorePoSConfigurationsAsync(long storeId)
+    public async Task<IEnumerable<PointOfSaleConfigurationDto>> GetStorePoSConfigurationsAsync(long storeId)
     {
-        IEnumerable<PosConfiguration> result = await _PosRepository.SelectPosConfigurationsByStoreIdAsync(storeId);
+        IEnumerable<PointOfSaleConfiguration> result = await _PosRepository.SelectPosConfigurationsByStoreIdAsync(storeId);
 
-        return _Mapper.Map<IEnumerable<PosConfigurationDto>>(result);
+        return _Mapper.Map<IEnumerable<PointOfSaleConfigurationDto>>(result);
     }
 
-    public async Task<IEnumerable<PosConfigurationDto>> GetMerchantPoSConfigurationsAsync(long merchantId)
+    public async Task<IEnumerable<PointOfSaleConfigurationDto>> GetMerchantPoSConfigurationsAsync(long merchantId)
     {
-        IEnumerable<PosConfiguration> result = await _PosRepository.SelectPoSConfigurationsByMerchantIdAsync(merchantId);
+        IEnumerable<PointOfSaleConfiguration> result = await _PosRepository.SelectPoSConfigurationsByMerchantIdAsync(merchantId);
 
-        return _Mapper.Map<IEnumerable<PosConfigurationDto>>(result);
+        return _Mapper.Map<IEnumerable<PointOfSaleConfigurationDto>>(result);
     }
 
     #endregion

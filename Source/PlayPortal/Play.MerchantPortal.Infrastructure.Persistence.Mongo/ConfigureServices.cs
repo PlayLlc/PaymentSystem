@@ -19,6 +19,6 @@ public static class ConfigureServices
         BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
 
         services.AddSingleton<IMongoDbHelper, MongoDbHelper>();
-        services.AddScoped<IPosRepository, PosRepository>();
+        services.AddScoped<IPointOfSaleRepository, PointOfSaleRepository>();
     }
 }

@@ -8,17 +8,17 @@ namespace Play.MerchantPortal.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PosController : ControllerBase
+    public class PointOfSaleController : ControllerBase
     {
         #region Instance Values
 
-        private readonly IPosConfigurationService _posConfigurationService;
+        private readonly IPointOfSaleConfigurationService _posConfigurationService;
 
         #endregion
 
         #region Constructors
 
-        public PosController(IPosConfigurationService posConfigurationService)
+        public PointOfSaleController(IPointOfSaleConfigurationService posConfigurationService)
         {
             _posConfigurationService = posConfigurationService;
         }
@@ -27,20 +27,30 @@ namespace Play.MerchantPortal.Api.Controllers
 
         #region Instance Members
 
+        #region Terminal
+
         [HttpGet("terminal/{terminalId}")]
-        public async Task<PosConfigurationDto> GetByTerminal(long terminalId)
+        public async Task<PointOfSaleConfigurationDto> GetByTerminal(long terminalId)
         {
             return await _posConfigurationService.GetTerminalPoSConfigurationAsync(terminalId);
         }
 
+        #endregion
+
+        #region Store
+
         [HttpGet("store/{storeId}")]
-        public async Task<IEnumerable<PosConfigurationDto>> GetByStore(long storeId)
+        public async Task<IEnumerable<PointOfSaleConfigurationDto>> GetByStore(long storeId)
         {
             return await _posConfigurationService.GetStorePoSConfigurationsAsync(storeId);
         }
 
+        #endregion
+
+        #region PointOfSale
+
         [HttpGet("{id}")]
-        public async Task<PosConfigurationDto> Get(Guid id)
+        public async Task<PointOfSaleConfigurationDto> Get(Guid id)
         {
             return await _posConfigurationService.GetPoSConfigurationAsync(id);
         }
@@ -92,6 +102,8 @@ namespace Play.MerchantPortal.Api.Controllers
 
             return Ok();
         }
+
+        #endregion
 
         #endregion
     }

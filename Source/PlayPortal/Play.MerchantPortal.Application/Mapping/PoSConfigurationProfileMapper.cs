@@ -8,7 +8,7 @@ public class PosConfigurationProfileMapper : Profile
 {
     public PosConfigurationProfileMapper()
     {
-        CreateMap<PosConfiguration, PosConfigurationDto>();
+        CreateMap<PointOfSaleConfiguration, PointOfSaleConfigurationDto>();
         CreateMap<CertificateAuthorityConfiguration, CertificateAuthorityConfigurationDto>();
         CreateMap<CertificateConfiguration, CertificateConfigurationDto>();
         CreateMap<CombinationConfiguration, CombinationConfigurationDto>();
@@ -21,7 +21,7 @@ public class PosConfigurationProfileMapper : Profile
         CreateMap<TagLengthValue, TagLengthValueDto>();
         CreateMap<TerminalConfiguration, TerminalConfigurationDto>();
 
-        CreateMap<PosConfigurationDto, PosConfiguration>();
+        CreateMap<PointOfSaleConfigurationDto, PointOfSaleConfiguration>();
         CreateMap<CertificateAuthorityConfigurationDto, CertificateAuthorityConfiguration>();
         CreateMap<CertificateConfigurationDto, CertificateConfiguration>();
         CreateMap<CombinationConfigurationDto, CombinationConfiguration>();

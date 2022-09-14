@@ -1,6 +1,6 @@
 ﻿namespace Play.MerchantPortal.Contracts.DTO.PointOfSale;
 
-public class PosConfigurationDto
+public class PointOfSaleConfigurationDto
 {
     public Guid Id { get; set; }
 

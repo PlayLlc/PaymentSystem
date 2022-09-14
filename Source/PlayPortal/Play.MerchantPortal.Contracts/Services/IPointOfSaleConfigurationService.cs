@@ -2,17 +2,17 @@
 
 namespace Play.MerchantPortal.Contracts.Services;
 
-public interface IPosConfigurationService
+public interface IPointOfSaleConfigurationService
 {
     Task CreateNewPosConfiguratioAsync(CreatePosConfigurationDto initialConfiguration);
 
-    Task<PosConfigurationDto> GetTerminalPoSConfigurationAsync(long terminalId);
+    Task<PointOfSaleConfigurationDto> GetTerminalPoSConfigurationAsync(long terminalId);
 
-    Task<PosConfigurationDto> GetPoSConfigurationAsync(Guid id);
+    Task<PointOfSaleConfigurationDto> GetPoSConfigurationAsync(Guid id);
 
-    Task<IEnumerable<PosConfigurationDto>> GetStorePoSConfigurationsAsync(long storeId);
+    Task<IEnumerable<PointOfSaleConfigurationDto>> GetStorePoSConfigurationsAsync(long storeId);
 
-    Task<IEnumerable<PosConfigurationDto>> GetMerchantPoSConfigurationsAsync(long merchantId);
+    Task<IEnumerable<PointOfSaleConfigurationDto>> GetMerchantPoSConfigurationsAsync(long merchantId);
 
     Task UpdateTerminalConfigurationAsync(Guid id, TerminalConfigurationDto terminalConfiguration);
 

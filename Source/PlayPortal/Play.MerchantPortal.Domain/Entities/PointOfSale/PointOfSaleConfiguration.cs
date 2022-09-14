@@ -2,7 +2,7 @@
 
 namespace Play.MerchantPortal.Domain.Entities.PointOfSale;
 
-public class PosConfiguration
+public class PointOfSaleConfiguration
 {
     [BsonId]
     public Guid Id { get; set; }

@@ -22,7 +22,7 @@ public static class ConfigureServices
         services.AddScoped<ITerminalConfigurationService, TerminalConfigurationService>();
         services.AddScoped<IStoreConfigurationService, StoreConfigurationService>();
         services.AddScoped<IMerchantConfigurationService, MerchantConfigurationService>();
-        services.AddScoped<IPosConfigurationService, PosConfigurationService>();
+        services.AddScoped<IPointOfSaleConfigurationService, PointOfSaleConfigurationService>();
 
         return services;
     }
