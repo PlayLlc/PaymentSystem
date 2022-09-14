@@ -19,7 +19,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly OutcomeParameterSet Default;
     public static readonly Tag Tag = 0xDF8129;
     private const byte _StatusOutcomeOffset = 56;
@@ -43,7 +43,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
         Default = builder.Complete();
     }
 
-    private OutcomeParameterSet(ulong value) : base(value)
+    public OutcomeParameterSet(ulong value) : base(value)
     { }
 
     #endregion
@@ -60,13 +60,13 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        ulong result = PlayCodec.NumericCodec.DecodeToUInt64(value);
+        ulong result = PlayCodec.BinaryCodec.DecodeToUInt64(value);
 
         return new OutcomeParameterSet(result);
     }
 
-    public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(_Value, length);
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value, _ByteLength);
+    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode(_Value, length);
 
     #endregion
 

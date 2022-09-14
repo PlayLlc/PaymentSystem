@@ -72,9 +72,9 @@ public readonly record struct CvmPerformedOutcome
 
     public static CvmPerformedOutcome Get(byte value)
     {
-        const byte bitMask = 0b11111100;
+        const byte bitMask = 0b00000011;
 
-        if (!_ValueObjectMap.ContainsKey(value))
+        if (!_ValueObjectMap.ContainsKey(value.GetMaskedValue(bitMask)))
         {
             throw new ArgumentOutOfRangeException(nameof(value),
                 $"No {nameof(CvmPerformedOutcome)} could be retrieved because the argument provided does not match a definition value");
