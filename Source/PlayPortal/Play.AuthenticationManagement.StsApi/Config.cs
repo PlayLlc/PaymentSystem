@@ -4,7 +4,7 @@ using IdentityServer4.Models;
 using IdentityServer4.Test;
 using System.Security.Claims;
 
-namespace Play.AuthenticationManagement.StsApi;
+namespace Play.AuthenticationManagement.IdentityServer;
 
 public static class Config
 {
@@ -12,14 +12,13 @@ public static class Config
         new List<IdentityResource>
         {
             new IdentityResources.OpenId(),
-            new IdentityResources.Profile()
+            new IdentityResources.Profile(),
         };
 
     public static IEnumerable<ApiScope> ApiScopes =>
         new List<ApiScope>
         {
-            new ApiScope("merchantportal", "Merchant Portal", new List<string> { JwtClaimTypes.Name, JwtClaimTypes.Id, JwtClaimTypes.Subject, JwtClaimTypes.Email }),
-            new ApiScope("iamapiportal", "Identity Authentication Management Portal")
+            new ApiScope("merchantportal", "Merchant Portal", new List<string> { JwtClaimTypes.Name, JwtClaimTypes.Role, JwtClaimTypes.Email }),
         };
 
     public static IEnumerable<Client> Clients =>
@@ -27,39 +26,26 @@ public static class Config
         {
             new Client
             {
-                ClientId = "merchantportaluserclient",
-
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
+                ClientId = "merchantportal_client",
+                ClientName = "Merchant Portal Client",
+                AllowedGrantTypes = GrantTypes.Code,
 
                 //secret for authentication
                 ClientSecrets =
                 {
-                    new Secret("merchantportalsecret".Sha256())
+                    new Secret("cb17c97c-0910-41c0-aafb-2b77a5838852".Sha256())
                 },
+                RedirectUris = { "https://localhost:7133/signin-oidc" },
+                RequirePkce = true,
+                AllowPlainTextPkce = false,
+                AllowOfflineAccess = true,
 
                 //Scopes that the client has access to: this scope defines access to the MerchantPortalApi
                 AllowedScopes = {
-                    "merchantportal",
                     IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile,
+                    "merchantportal",
                 }
-            },
-            new Client
-            {
-                ClientId = "identityServerLocalApi",
-
-                AllowedGrantTypes = GrantTypes.Hybrid,
-
-                ClientSecrets =
-                {
-                    new Secret("iamsecret".Sha256())
-                },
-
-                RequireClientSecret = false,
-                //most likely to be used this way from the MerchantPortal API.
-                AllowAccessTokensViaBrowser = true,
-                //Scopes that the client has access to: this scope defines access to the Authentication APIs which are part of the IdentityServer for now.
-                AllowedScopes = { "iamapiportal", "openid" }
             }
         };
 
@@ -74,8 +60,8 @@ public static class Config
                 IsActive = true,
                 Claims = new List<Claim>
                 {
-                    new Claim(JwtClaimTypes.Name, "Test"),
-                    new Claim(JwtClaimTypes.GivenName, "User"),
+                    new Claim(JwtClaimTypes.Name, "Test2"),
+                    new Claim(JwtClaimTypes.GivenName, "User2"),
                     new Claim(JwtClaimTypes.Role, "Merchant")
                 }
             },
@@ -89,9 +75,9 @@ public static class Config
                 {
                     new Claim(JwtClaimTypes.Name, "Test"),
                     new Claim(JwtClaimTypes.GivenName, "User"),
-                    new Claim(JwtClaimTypes.Role, "Admin")
+                    new Claim(JwtClaimTypes.Role, "Admin"),
+                    new Claim(JwtClaimTypes.Email, "testemail@notused.com")
                 }
             },
         };
-
 }

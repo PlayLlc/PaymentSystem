@@ -1,13 +1,14 @@
-using Play.AuthenticationManagement.StsApi;
+using Play.AuthenticationManagement.IdentityServer;
+using Play.AuthenticationManagement.IdentityServer.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
+builder.Services.AddMvc(options =>
+{
+    options.EnableEndpointRouting = false;
+});
 
 builder.Services.AddIdentityServer()
     .AddDeveloperSigningCredential()
@@ -15,6 +16,8 @@ builder.Services.AddIdentityServer()
     .AddInMemoryApiScopes(Config.ApiScopes)
     .AddInMemoryClients(Config.Clients)
     .AddTestUsers(Config.TestUsers);
+
+builder.Services.AddAutoMapper(typeof(IdentityServerMapper));
 
 var app = builder.Build();
 
@@ -30,6 +33,6 @@ app.UseHttpsRedirection();
 app.UseIdentityServer();
 app.UseAuthorization();
 
-app.MapControllers();
+app.UseMvcWithDefaultRoute();
 
 app.Run();

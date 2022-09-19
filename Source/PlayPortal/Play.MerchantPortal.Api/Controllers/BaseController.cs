@@ -6,7 +6,7 @@ namespace Play.MerchantPortal.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize("MerchantPortalApiScope")]
     [Produces("application/json")]
     public class BaseController : ControllerBase
     {

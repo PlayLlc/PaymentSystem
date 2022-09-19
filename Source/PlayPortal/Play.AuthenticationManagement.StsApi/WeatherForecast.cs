@@ -1,4 +1,4 @@
-namespace Play.AuthenticationManagement.StsApi
+namespace Play.AuthenticationManagement.IdentityServer
 {
     public class WeatherForecast
     {

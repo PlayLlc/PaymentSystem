@@ -1,8 +1,12 @@
 using FluentValidation.AspNetCore;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
+using Play.MerchantPortal.Api.AuthorizationHandlers;
 using Play.MerchantPortal.Api.Filters;
 using Play.MerchantPortal.Api.Mapping;
+using Play.MerchantPortal.Api.Requirements;
 using Play.MerchantPortal.Application;
 using Play.MerchantPortal.Infrastructure.Persistence;
 
@@ -39,16 +43,34 @@ try
         .AddFluentValidationRulesToSwagger();
 
     builder.Services
-        .AddAuthentication("Bearer")
-        .AddJwtBearer("Bearer", options =>
+        .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
         {
             options.Authority = "https://localhost:7191";
 
             options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
             {
-                ValidateAudience = false
+                ValidateAudience = false,
+                //ValidateIssuerSigningKey = true,
+                //ValidateIssuer = true,
+                //ValidIssuer = "http://localhost:5000/",
+                //IssuerSigningKey = new X509SecurityKey(new X509Certificate2(certLocation)), //we will probably use RSA to sign our access tokens.
             };
         });
+
+    builder.Services.AddSingleton<IAuthorizationHandler, ApiScopeAuthorizationHandler>();
+
+    builder.Services.AddAuthorization(options =>
+    {
+        options.AddPolicy("MerchantPortalApiScope", policy =>
+        {
+            policy.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
+
+            policy.RequireAuthenticatedUser();
+
+            policy.Requirements.Add(new ApiScopeRequirement());
+        });
+    });
 
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();

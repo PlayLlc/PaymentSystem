@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Play.AuthenticationManagement.StsApi.Controllers
+namespace Play.AuthenticationManagement.IdentityServer.Controllers
 {
     [ApiController]
     [Route("[controller]")]
