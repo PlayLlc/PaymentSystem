@@ -10,7 +10,8 @@ public class LoginViewModel
     [Required]
     public string Password { get; set; } = string.Empty;
 
+    [Required]
     public string ReturnUrl { get; set; } = string.Empty;
 
-    public bool RememberLogin { get; set; } = true;
+    public bool RememberLogin { get; set; }
 }
