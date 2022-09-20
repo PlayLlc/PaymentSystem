@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Play.MerchantPortal.Client.Models;
+using Play.MerchantPortal.Client.Models.Home;
 using System.Diagnostics;
 
 namespace Play.MerchantPortal.Client.Controllers
@@ -24,6 +25,12 @@ namespace Play.MerchantPortal.Client.Controllers
             var httpClient = httpClientFactory.CreateClient("MerchantPortalClient");
             var accessToken = await HttpContext.GetTokenAsync("access_token");
 
+            IndexViewModel vm = new IndexViewModel
+            {
+                GivenName = User.Claims.SingleOrDefault(c => c.Type == "given_name")!.Value,
+                AccessToken = accessToken
+            };
+
             //TokenResponse response = await httpClient.RequestAuthorizationCodeTokenAsync(new AuthorizationCodeTokenRequest
             //{
             //    Address = "https://localhost:7191/connect/token",
@@ -34,18 +41,13 @@ namespace Play.MerchantPortal.Client.Controllers
             //    Code = User.Claims.FirstOrDefault(c => c.Type == IdentityModel.JwtClaimTypes.StateHash)?.Value,
             //});
 
-            return View();
+            return View(vm);
         }
 
-        public IActionResult Privacy()
+        [Authorize]
+        public IActionResult Logout()
         {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return SignOut("cookie", "oidc");
         }
     }
 }

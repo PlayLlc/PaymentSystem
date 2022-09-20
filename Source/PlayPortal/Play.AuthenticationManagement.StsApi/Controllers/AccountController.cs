@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
-using IdentityServer4;
 using IdentityServer4.Events;
+using IdentityServer4.Extensions;
+using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
-using IdentityServer4.Test;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Play.AuthenticationManagement.Identity.Services;
 using Play.AuthenticationManagement.IdentityServer.Filters;
 using Play.AuthenticationManagement.IdentityServer.Models.Account;
 
@@ -17,7 +16,7 @@ namespace Play.AuthenticationManagement.IdentityServer.Controllers;
 [AllowAnonymous]
 public class AccountController : Controller
 {
-    private readonly TestUserStore _UserStore;
+    private readonly IIdentityService _IdentityService;
     private readonly IIdentityServerInteractionService _InteractionService;
     private readonly IClientStore _ClientStore;
     private readonly IEventService _EventService;
@@ -27,18 +26,18 @@ public class AccountController : Controller
         IEventService eventService,
         IClientStore clientStore,
         IIdentityServerInteractionService interactionService,
-        TestUserStore userStore,
+        IIdentityService identityService,
         IMapper mapper)
     {
         _EventService = eventService;
         _ClientStore = clientStore;
         _InteractionService = interactionService;
-        _UserStore = userStore;
+        _IdentityService = identityService;
         _Mapper = mapper;
     }
 
     [HttpGet]
-    public async Task<IActionResult> Login(string returnUrl)
+    public IActionResult Login(string returnUrl)
     {
         LoginViewModel viewModel = new LoginViewModel();
 
@@ -58,33 +57,16 @@ public class AccountController : Controller
 
             if (context != null)
             {
-                if (_UserStore.ValidateCredentials(model.Username, model.Password))
+                var signInResult = await _IdentityService.SignInUserAsync(model.Username, model.Password, model.RememberLogin);
+
+                if (signInResult.ChangePassword)
+                    RedirectToAction("ChangePassword", new { UserId = signInResult.User.Id });
+
+                if (signInResult.Succeeded)
                 {
-                    TestUser user = _UserStore.FindByUsername(model.Username);
+                    var user = signInResult.User;
 
-                    await _EventService.RaiseAsync(new UserLoginSuccessEvent(user.Username, user.SubjectId, user.Username));
-
-                    //this section applies only for persistent sessions( remember me set to true). we don`t have this for now.
-                    //AuthenticationProperties props = null;
-                    //if (AccountOptions.AllowRememberLogin && model.RememberLogin)
-                    //{
-                    //    props = new AuthenticationProperties
-                    //    {
-                    //        IsPersistent = true,
-                    //        ExpiresUtc = DateTimeOffset.UtcNow.Add(AccountOptions.RememberMeLoginDuration)
-                    //    };
-                    //};
-
-                    //we issue an authentication cookie with subject ID and username
-
-                    IdentityServerUser serverUser = _Mapper.Map<IdentityServerUser>(user);
-
-                    serverUser.IdentityProvider = "identity";
-                    serverUser.AuthenticationTime = DateTime.UtcNow;
-                    serverUser.DisplayName = user.Username;
-                    serverUser.AdditionalClaims = user.Claims;
-
-                    await HttpContext.SignInAsync(serverUser);
+                    await _EventService.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.UserName));
 
                     var client = await _ClientStore.FindEnabledClientByIdAsync(context.Client.ClientId);
 
@@ -99,9 +81,89 @@ public class AccountController : Controller
                     return Redirect(model.ReturnUrl);
                 }
             }
+
+            await _EventService.RaiseAsync(new UserLoginFailureEvent(model.Username, "Invalid credentials", clientId: context?.Client.ClientId));
+            ModelState.AddModelError(string.Empty, "Invalid credentials");
         }
 
-        await _EventService.RaiseAsync(new UserLoginFailureEvent(model.Username, "Invalid credentials"));
         return View(model);
+    }
+
+    [HttpGet]
+    public IActionResult Register(string returnUrl)
+    {
+        if (string.IsNullOrEmpty(returnUrl))
+            return BadRequest("Invalid authorization context. We don`t know where you are coming from");
+
+        RegisterViewModel vm = new RegisterViewModel()
+        {
+            ReturnUrl = returnUrl
+        };
+
+        return View(vm);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Register(RegisterViewModel vm)
+    {
+        if (ModelState.IsValid)
+        {
+            CreateUserInput createUser = _Mapper.Map<CreateUserInput>(vm);
+
+            var result = await _IdentityService.RegisterUserAsync(createUser);
+
+            if (result.Succeeded)
+                return RedirectToAction("Login", "Account", new { returnUrl = vm.ReturnUrl });
+
+            for(int i = 0; i < result.Errors.Length; i++)
+            {
+                ModelState.AddModelError(i.ToString(), result.Errors[i]);
+            }
+        }
+
+        return View(vm);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Logout(string logoutId)
+    {
+        if (User?.Identity?.IsAuthenticated != true)
+        {
+            //if the user is not authenticated then just show the logout page as we do not have a context for this request.
+            return View();
+        }
+
+        var context = await _InteractionService.GetLogoutContextAsync(logoutId);
+
+        if (context?.ShowSignoutPrompt == false)
+        {
+            //the request for logout was properly authenticated from Identity server
+            // we don't need to show the prompt and can just log the user out directly.
+            return await Logout(context, logoutId);
+        }
+
+        return View();
+    }
+
+    private async Task<IActionResult> Logout(LogoutRequest logout, string logoutId)
+    {
+        if (User?.Identity?.IsAuthenticated == true)
+        {
+            // delete local authentication cookie
+            await _IdentityService.SignOutAsync();
+
+            // raise the logout event
+            await _EventService.RaiseAsync(new UserLogoutSuccessEvent(User.GetSubjectId(), User.GetDisplayName()));
+        }
+
+        LoggedOutViewModel vm = new LoggedOutViewModel
+        {
+            PostLogoutRedirectUri = logout?.PostLogoutRedirectUri,
+            ClientName = string.IsNullOrEmpty(logout?.ClientName) ? logout?.ClientId : logout?.ClientName,
+            LogoutId = logoutId
+        };
+
+        return View("LoggedOut", vm);
     }
 }

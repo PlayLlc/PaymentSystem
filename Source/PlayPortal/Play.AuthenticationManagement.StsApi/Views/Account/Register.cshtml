@@ -1,0 +1,25 @@
+﻿@model Play.AuthenticationManagement.IdentityServer.Models.Account.RegisterViewModel
+
+<div style="display: block;">
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post)){
+    @Html.HiddenFor(model => model.ReturnUrl);
+
+    @Html.LabelFor(model => model.FirstName);
+    @Html.TextBoxFor(model => model.FirstName);
+
+    @Html.LabelFor(model => model.LastName);
+    @Html.TextBoxFor(model => model.LastName);
+
+    @Html.LabelFor(model => model.Email);
+    @Html.TextBoxFor(model => model.Email);
+
+    @Html.LabelFor(model => model.UserName);
+    @Html.TextBoxFor(model => model.UserName);
+
+    @Html.LabelFor(model => model.Password);
+    @Html.PasswordFor(model => model.Password);
+
+    <input type="submit" value="Register" />
+}
+</div>
+

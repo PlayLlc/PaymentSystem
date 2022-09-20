@@ -36,6 +36,7 @@ public static class Config
                     new Secret("cb17c97c-0910-41c0-aafb-2b77a5838852".Sha256())
                 },
                 RedirectUris = { "https://localhost:7133/signin-oidc" },
+                PostLogoutRedirectUris = { "https://localhost:7133/signout-callback-oidc" },
                 RequirePkce = true,
                 AllowPlainTextPkce = false,
                 AllowOfflineAccess = true,
@@ -60,9 +61,9 @@ public static class Config
                 IsActive = true,
                 Claims = new List<Claim>
                 {
-                    new Claim(JwtClaimTypes.Name, "Test2"),
-                    new Claim(JwtClaimTypes.GivenName, "User2"),
-                    new Claim(JwtClaimTypes.Role, "Merchant")
+                    new Claim(ClaimTypes.Name, "Test2"),
+                    new Claim(ClaimTypes.GivenName, "User2"),
+                    new Claim(ClaimTypes.Role, "Merchant")
                 }
             },
             new TestUser
@@ -73,10 +74,10 @@ public static class Config
                 IsActive = true,
                 Claims = new List<Claim>
                 {
-                    new Claim(JwtClaimTypes.Name, "Test"),
-                    new Claim(JwtClaimTypes.GivenName, "User"),
-                    new Claim(JwtClaimTypes.Role, "Admin"),
-                    new Claim(JwtClaimTypes.Email, "testemail@notused.com")
+                    new Claim(ClaimTypes.Name, "Test"),
+                    new Claim(ClaimTypes.GivenName, "User"),
+                    new Claim(ClaimTypes.Role, "Admin"),
+                    new Claim(ClaimTypes.Email, "testemail@notused.com")
                 }
             },
         };

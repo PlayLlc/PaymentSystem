@@ -10,7 +10,10 @@ builder.Services.AddAuthentication(options =>
     options.DefaultSignInScheme = "cookie";
     options.DefaultChallengeScheme = "oidc";
 })
-.AddCookie("cookie")
+.AddCookie("cookie", options =>
+{
+    options.SlidingExpiration = true;
+})
 .AddOpenIdConnect("oidc", options =>
 {
     options.Authority = "https://localhost:7191";
@@ -20,9 +23,8 @@ builder.Services.AddAuthentication(options =>
     options.ResponseMode = "form_post"; //we take advatange of Id server tls guarding (extra security).
     options.CallbackPath = "/signin-oidc";
     options.SaveTokens = true;
+    options.GetClaimsFromUserInfoEndpoint = true;
 
-    options.Scope.Add("openid");
-    options.Scope.Add("profile");
     options.Scope.Add("merchantportal");
 
     //Enable PKCE(authorization code flow only) . We use it for nonce transaction behaviour thus disabling replays.
