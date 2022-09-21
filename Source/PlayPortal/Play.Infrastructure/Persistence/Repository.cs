@@ -2,7 +2,7 @@
 
 namespace Play.Infrastructure.Persistence;
 
-public class Repository<_> where _ : BaseEntity
+public class Repository<_> where _ : BaseEntity 
 {
     #region Constructor
 
