@@ -37,7 +37,7 @@ internal class MerchantConfigurationService : IMerchantConfigurationService
 
     public async Task<MerchantDto> GetMerchantAsync(long id)
     {
-        MerchantEntity? entity = await _MerchantsRepository.SelectById(id);
+        Merchant? entity = await _MerchantsRepository.SelectById(id);
 
         return _Mapper.Map<MerchantDto>(entity);
     }
@@ -49,7 +49,7 @@ internal class MerchantConfigurationService : IMerchantConfigurationService
         if (validationResult.Errors.Any())
             throw new ModelValidationException(validationResult.Errors);
 
-        var entity = _Mapper.Map<MerchantEntity>(merchant);
+        var entity = _Mapper.Map<Merchant>(merchant);
 
         _MerchantsRepository.AddEntity(entity);
 
@@ -63,7 +63,7 @@ internal class MerchantConfigurationService : IMerchantConfigurationService
         var entity = _MerchantsRepository.Query.FirstOrDefault(x => x.Id == merchant.Id);
 
         if (entity == null)
-            throw new NotFoundException(nameof(MerchantEntity), merchant.Id);
+            throw new NotFoundException(nameof(Merchant), merchant.Id);
 
         ValidationResult validationResult = await _Validator.ValidateAsync(merchant);
 
@@ -75,7 +75,7 @@ internal class MerchantConfigurationService : IMerchantConfigurationService
         await _MerchantsRepository.SaveChangesAsync();
     }
 
-    private static void UpdateEntity(MerchantEntity entity, MerchantDto merchantDto)
+    private static void UpdateEntity(Merchant entity, MerchantDto merchantDto)
     {
         entity.Name = merchantDto.Name;
         entity.StreetAddress = merchantDto.StreetAddress;

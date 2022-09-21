@@ -21,7 +21,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.MerchantPortal.Domain"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.MerchantPortal.Application", "Play.MerchantPortal.Application\Play.MerchantPortal.Application.csproj", "{8DD36758-DB13-4F66-9D83-19814A7660C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.MerchantPortal.Infrastructure.Persistence.Mongo", "Play.MerchantPortal.Infrastructure.Persistence.Mongo\Play.MerchantPortal.Infrastructure.Persistence.Mongo.csproj", "{145A47A5-742F-4EC8-B9D2-1264AA05A315}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.MerchantPortal.Infrastructure.Persistence.Mongo", "Play.MerchantPortal.Infrastructure.Persistence.Mongo\Play.MerchantPortal.Infrastructure.Persistence.Mongo.csproj", "{145A47A5-742F-4EC8-B9D2-1264AA05A315}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Infrastructure.Domain", "Play.Infrastructure.Domain\Play.Infrastructure.Domain.csproj", "{669ABD7A-9F01-4439-8E52-91F229B8FB65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Infrastructure.Persistence.Mongo", "Play.Infrastructure.Mongo\Play.Infrastructure.Persistence.Mongo.csproj", "{E94395E7-53F6-4059-9C7E-F63213B9670F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +65,14 @@ Global
 		{145A47A5-742F-4EC8-B9D2-1264AA05A315}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{145A47A5-742F-4EC8-B9D2-1264AA05A315}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{145A47A5-742F-4EC8-B9D2-1264AA05A315}.Release|Any CPU.Build.0 = Release|Any CPU
+		{669ABD7A-9F01-4439-8E52-91F229B8FB65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{669ABD7A-9F01-4439-8E52-91F229B8FB65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{669ABD7A-9F01-4439-8E52-91F229B8FB65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{669ABD7A-9F01-4439-8E52-91F229B8FB65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E94395E7-53F6-4059-9C7E-F63213B9670F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E94395E7-53F6-4059-9C7E-F63213B9670F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E94395E7-53F6-4059-9C7E-F63213B9670F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E94395E7-53F6-4059-9C7E-F63213B9670F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +86,8 @@ Global
 		{A29BBD5A-EF7A-4EE1-92ED-01409487A2E4} = {F0303A7F-5533-46D9-91DE-C1ABCC42D562}
 		{8DD36758-DB13-4F66-9D83-19814A7660C4} = {F0303A7F-5533-46D9-91DE-C1ABCC42D562}
 		{145A47A5-742F-4EC8-B9D2-1264AA05A315} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
+		{669ABD7A-9F01-4439-8E52-91F229B8FB65} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
+		{E94395E7-53F6-4059-9C7E-F63213B9670F} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6833603-DD22-4624-AB4A-235C51671F62}

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Play.MerchantPortal.Contracts.DTO.PointOfSale;
+using Play.MerchantPortal.Contracts.Messages.PointOfSale;
 using Play.MerchantPortal.Contracts.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860

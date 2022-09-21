@@ -1,6 +1,6 @@
-﻿namespace Play.MerchantPortal.Contracts.DTO.PointOfSale;
+﻿namespace Play.MerchantPortal.Contracts.Messages.PointOfSale;
 
-public class TagLengthValueDto
+public record TagLengthValueDto
 {
     public string Name { get; set; } = string.Empty;
 

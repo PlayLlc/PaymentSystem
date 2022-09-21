@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using Play.MerchantPortal.Application.Common.Exceptions;
-using Play.MerchantPortal.Contracts.DTO.PointOfSale;
+using Play.MerchantPortal.Contracts.Messages.PointOfSale;
 using Play.MerchantPortal.Contracts.Services;
 using Play.MerchantPortal.Domain.Entities.PointOfSale;
 using Play.MerchantPortal.Domain.Persistence;

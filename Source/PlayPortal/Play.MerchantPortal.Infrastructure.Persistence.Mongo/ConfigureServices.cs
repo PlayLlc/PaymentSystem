@@ -2,6 +2,7 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
+using Play.Infrastructure.Persistence.Mongo;
 using Play.MerchantPortal.Domain.Persistence;
 
 namespace Play.MerchantPortal.Infrastructure.Persistence.Mongo;

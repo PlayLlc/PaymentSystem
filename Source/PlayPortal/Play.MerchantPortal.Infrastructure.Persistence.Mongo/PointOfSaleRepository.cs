@@ -1,6 +1,6 @@
-﻿using Play.MerchantPortal.Domain.Entities.PointOfSale;
+﻿using Play.Infrastructure.Persistence.Mongo;
+using Play.MerchantPortal.Domain.Entities.PointOfSale;
 using Play.MerchantPortal.Domain.Persistence;
-using Play.MerchantPortal.Infrastructure.Persistence.Mongo.Mongo.Helpers;
 using System.Linq.Expressions;
 
 namespace Play.MerchantPortal.Infrastructure.Persistence.Mongo;

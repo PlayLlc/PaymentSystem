@@ -1,11 +1,6 @@
-﻿namespace Play.MerchantPortal.Contracts.DTO.PointOfSale;
+﻿namespace Play.MerchantPortal.Contracts.Messages.PointOfSale;
 
-public class CertificateAuthorityConfigurationDto
-{
-    public IEnumerable<CertificateConfigurationDto> Certificates { get; set; } = Enumerable.Empty<CertificateConfigurationDto>();
-}
-
-public class CertificateConfigurationDto
+public record CertificateConfigurationDto
 {
     public string RegisteredApplicationProviderIndicator { get; set; } = string.Empty;
     public string PublicKeyIndex { get; set; } = string.Empty;

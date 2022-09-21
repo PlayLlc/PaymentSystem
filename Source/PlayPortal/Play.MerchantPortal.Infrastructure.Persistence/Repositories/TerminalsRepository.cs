@@ -5,7 +5,7 @@ using Play.MerchantPortal.Infrastructure.Persistence.Sql;
 
 namespace Play.MerchantPortal.Infrastructure.Persistence.Repositories;
 
-internal class TerminalsRepository : Repository<TerminalEntity>, ITerminalsRepository
+internal class TerminalsRepository : Repository<Terminal>, ITerminalsRepository
 {
     #region Constructor
 
@@ -17,12 +17,12 @@ internal class TerminalsRepository : Repository<TerminalEntity>, ITerminalsRepos
     #region Instance Members
 
     /// <exception cref="OperationCanceledException"></exception>
-    public async Task<TerminalEntity?> SelectById(long terminalId)
+    public async Task<Terminal?> SelectById(long terminalId)
     {
         return await _DbContext.Terminals.AsNoTracking().FirstOrDefaultAsync(x => x.Id == terminalId).ConfigureAwait(false);
     }
 
-    public async Task<IEnumerable<TerminalEntity>> SelectTerminalsByStore(long storeId)
+    public async Task<IEnumerable<Terminal>> SelectTerminalsByStore(long storeId)
     {
         return await Task.FromResult(_DbContext.Terminals.AsNoTracking().Where(x => x.StoreId == storeId)).ConfigureAwait(false);
     }

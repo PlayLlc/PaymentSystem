@@ -2,5 +2,5 @@
 
 namespace Play.MerchantPortal.Domain.Persistence;
 
-public interface ICompaniesRepository : IRepository<CompanyEntity>
+public interface ICompaniesRepository : IRepository<Company>
 { }

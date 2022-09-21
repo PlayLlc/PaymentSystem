@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace Play.MerchantPortal.Infrastructure.Persistence.Mongo;
+namespace Play.Infrastructure.Persistence.Mongo;
 
 public class UpdateFieldConfig<_>
 {

@@ -4,7 +4,7 @@ using Play.MerchantPortal.Infrastructure.Persistence.Sql;
 
 namespace Play.MerchantPortal.Infrastructure.Persistence.Repositories;
 
-internal class CompaniesRepository : Repository<CompanyEntity>, ICompaniesRepository
+internal class CompaniesRepository : Repository<Company>, ICompaniesRepository
 {
     #region Constructor
 

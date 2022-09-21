@@ -1,7 +1,6 @@
-﻿using Play.MerchantPortal.Infrastructure.Persistence.Mongo.Mongo.Helpers;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
-namespace Play.MerchantPortal.Infrastructure.Persistence.Mongo;
+namespace Play.Infrastructure.Persistence.Mongo;
 
 public interface IMongoDbHelper
 {

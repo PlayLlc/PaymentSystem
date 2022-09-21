@@ -8,10 +8,10 @@ internal class MerchantPortalDbContext : DbContext
 {
     #region Instance Values
 
-    public DbSet<CompanyEntity> Companies { get; init; }
-    public DbSet<MerchantEntity> Merchants { get; init; }
-    public DbSet<StoreEntity> Stores { get; init; }
-    public DbSet<TerminalEntity> Terminals { get; init; }
+    public DbSet<Company> Companies { get; init; }
+    public DbSet<Merchant> Merchants { get; init; }
+    public DbSet<Store> Stores { get; init; }
+    public DbSet<Terminal> Terminals { get; init; }
 
     #endregion
 

@@ -1,6 +1,8 @@
-﻿namespace Play.MerchantPortal.Domain.Entities;
+﻿using Play.Infrastructure.Domain.Entities;
 
-public class MerchantEntity : BaseEntity
+namespace Play.MerchantPortal.Domain.Entities;
+
+public class Merchant : BaseEntity
 {
     #region Instance Values
 
@@ -23,9 +25,9 @@ public class MerchantEntity : BaseEntity
     public string Country { get; set; } = string.Empty;
 
     public long CompanyId { get; set; }
-    public CompanyEntity Company { get; set; } = default!;
+    public Company Company { get; set; } = default!;
 
-    public ICollection<StoreEntity>? Stores { get; set; }
+    public ICollection<Store>? Stores { get; set; }
 
     #endregion
 }

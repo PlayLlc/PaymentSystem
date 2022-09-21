@@ -2,13 +2,13 @@
 
 namespace Play.MerchantPortal.Domain.Persistence;
 
-public interface ITerminalsRepository : IRepository<TerminalEntity>
+public interface ITerminalsRepository : IRepository<Terminal>
 {
     #region Instance Members
 
-    Task<TerminalEntity?> SelectById(long terminalId);
+    Task<Terminal?> SelectById(long terminalId);
 
-    Task<IEnumerable<TerminalEntity>> SelectTerminalsByStore(long storeId);
+    Task<IEnumerable<Terminal>> SelectTerminalsByStore(long storeId);
 
     #endregion
 }

@@ -1,6 +1,6 @@
-﻿namespace Play.MerchantPortal.Contracts.DTO.PointOfSale;
+﻿namespace Play.MerchantPortal.Contracts.Messages.PointOfSale;
 
-public class CombinationConfigurationDto
+public record CombinationConfigurationDto
 {
     public int KernelId { get; set; }
 

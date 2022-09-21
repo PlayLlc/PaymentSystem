@@ -1,4 +1,4 @@
-﻿using Play.MerchantPortal.Contracts.DTO.PointOfSale;
+﻿using Play.MerchantPortal.Contracts.Messages.PointOfSale;
 
 namespace Play.MerchantPortal.Contracts.Services;
 

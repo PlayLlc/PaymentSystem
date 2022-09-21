@@ -1,4 +1,4 @@
-﻿namespace Play.MerchantPortal.Domain.Entities;
+﻿namespace Play.Infrastructure.Domain.Entities;
 
 public class BaseEntity
 {

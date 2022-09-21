@@ -1,6 +1,6 @@
-﻿namespace Play.MerchantPortal.Contracts.DTO.PointOfSale;
+﻿namespace Play.MerchantPortal.Contracts.Messages.PointOfSale;
 
-public class TerminalConfigurationDto
+public record TerminalConfigurationDto
 {
     public string TerminalIdentification { get; set; } = string.Empty;
     public string MerchantIdentifier { get; set; } = string.Empty;

@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Play.MerchantPortal.Contracts.DTO.PointOfSale;
+using Play.MerchantPortal.Contracts.Messages.PointOfSale;
 
 namespace Play.MerchantPortal.Application.Services.PointsOfSale.Validators;
 

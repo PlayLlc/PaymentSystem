@@ -1,4 +1,4 @@
-﻿using Play.MerchantPortal.Domain.Entities;
+﻿using Play.Infrastructure.Domain.Entities;
 
 namespace Play.MerchantPortal.Domain.Persistence;
 

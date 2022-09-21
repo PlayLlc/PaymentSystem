@@ -1,6 +1,6 @@
-﻿namespace Play.MerchantPortal.Contracts.DTO.PointOfSale;
+﻿namespace Play.MerchantPortal.Contracts.Messages.PointOfSale;
 
-public class CreatePosConfigurationDto
+public record CreatePosConfigurationDto
 {
     public long CompanyId { get; set; }
 

@@ -33,7 +33,7 @@ internal class StoreConfigurationService : IStoreConfigurationService
 
     public async Task DeleteStoreAsync(long id)
     {
-        _StoresRepository.DeleteEntity(new StoreEntity {Id = id});
+        _StoresRepository.DeleteEntity(new Store {Id = id});
 
         await _StoresRepository.SaveChangesAsync();
     }
@@ -47,14 +47,14 @@ internal class StoreConfigurationService : IStoreConfigurationService
 
     public async Task<StoreDto> GetStoreAsync(long id)
     {
-        StoreEntity? entity = await _StoresRepository.SelectById(id);
+        Store? entity = await _StoresRepository.SelectById(id);
 
         return _Mapper.Map<StoreDto>(entity);
     }
 
     public async Task<long> InsertStoreAsync(StoreDto storeDto)
     {
-        var entity = _Mapper.Map<StoreEntity>(storeDto);
+        var entity = _Mapper.Map<Store>(storeDto);
 
         _StoresRepository.AddEntity(entity);
 
@@ -68,14 +68,14 @@ internal class StoreConfigurationService : IStoreConfigurationService
         var entity = _StoresRepository.Query.FirstOrDefault(x => x.Id == storeDto.Id);
 
         if (entity == null)
-            throw new NotFoundException(nameof(StoreEntity), storeDto.Id);
+            throw new NotFoundException(nameof(Store), storeDto.Id);
 
         UpdateStoreEntity(entity, storeDto);
 
         await _StoresRepository.SaveChangesAsync();
     }
 
-    private static void UpdateStoreEntity(StoreEntity entity, StoreDto storeDto)
+    private static void UpdateStoreEntity(Store entity, StoreDto storeDto)
     {
         entity.Name = storeDto.Name;
         entity.Address = storeDto.Address;

@@ -11,15 +11,15 @@ public class MerchantConfigurationMapperProfile : Profile
 
     public MerchantConfigurationMapperProfile()
     {
-        CreateMap<CompanyEntity, CompanyDto>();
-        CreateMap<MerchantEntity, MerchantDto>();
-        CreateMap<StoreEntity, StoreDto>();
-        CreateMap<TerminalEntity, TerminalDto>();
+        CreateMap<Company, CompanyDto>();
+        CreateMap<Merchant, MerchantDto>();
+        CreateMap<Store, StoreDto>();
+        CreateMap<Terminal, TerminalDto>();
 
-        CreateMap<CompanyDto, CompanyEntity>();
-        CreateMap<MerchantDto, MerchantEntity>();
-        CreateMap<StoreDto, StoreEntity>();
-        CreateMap<TerminalDto, TerminalEntity>();
+        CreateMap<CompanyDto, Company>();
+        CreateMap<MerchantDto, Merchant>();
+        CreateMap<StoreDto, Store>();
+        CreateMap<TerminalDto, Terminal>();
     }
 
     #endregion

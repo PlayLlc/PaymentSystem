@@ -1,6 +1,6 @@
-﻿namespace Play.MerchantPortal.Contracts.DTO.PointOfSale;
+﻿namespace Play.MerchantPortal.Contracts.Messages.PointOfSale;
 
-public class KernelConfigurationDto
+public record KernelConfigurationDto
 {
     public byte KernelId { get; set; }
 

@@ -2,13 +2,13 @@
 
 namespace Play.MerchantPortal.Domain.Persistence;
 
-public interface IStoresRepository : IRepository<StoreEntity>
+public interface IStoresRepository : IRepository<Store>
 {
     #region Instance Members
 
-    Task<StoreEntity?> SelectById(long id);
+    Task<Store?> SelectById(long id);
 
-    Task<IEnumerable<StoreEntity>> SelectStoresByMerchant(long merchantId);
+    Task<IEnumerable<Store>> SelectStoresByMerchant(long merchantId);
 
     #endregion
 }

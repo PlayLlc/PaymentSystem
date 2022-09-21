@@ -4,13 +4,13 @@ using Play.MerchantPortal.Domain.Entities;
 
 namespace Play.MerchantPortal.Infrastructure.Persistence.Sql.Configurations;
 
-internal class TerminalEntityConfiguration : BaseEntityConfiguration<TerminalEntity>
+internal class TerminalEntityConfiguration : BaseEntityConfiguration<Terminal>
 {
     #region Instance Members
 
-    public override void Configure(EntityTypeBuilder<TerminalEntity> builder)
+    public override void Configure(EntityTypeBuilder<Terminal> builder)
     {
-        builder.HasOne<StoreEntity>();
+        builder.HasOne<Store>();
 
         base.Configure(builder);
     }

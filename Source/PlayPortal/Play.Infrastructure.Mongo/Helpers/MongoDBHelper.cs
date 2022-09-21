@@ -1,13 +1,10 @@
-﻿using System.Linq.Expressions;
-
-using Microsoft.Extensions.Configuration;
-
+﻿using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
-using Play.MerchantPortal.Infrastructure.Persistence.Mongo.Mongo.Helpers;
+using System.Linq.Expressions;
 
-namespace Play.MerchantPortal.Infrastructure.Persistence.Mongo;
+namespace Play.Infrastructure.Persistence.Mongo;
 
-internal class MongoDbHelper : IMongoDbHelper
+public class MongoDbHelper : IMongoDbHelper
 {
     #region Static Metadata
 

@@ -2,11 +2,11 @@
 
 namespace Play.MerchantPortal.Domain.Persistence;
 
-public interface IMerchantsRepository : IRepository<MerchantEntity>
+public interface IMerchantsRepository : IRepository<Merchant>
 {
     #region Instance Members
 
-    Task<MerchantEntity?> SelectById(long id);
+    Task<Merchant?> SelectById(long id);
 
     #endregion
 }

@@ -33,7 +33,7 @@ internal class TerminalConfigurationService : ITerminalConfigurationService
 
     public async Task DeleteTerminalAsync(long id)
     {
-        _TerminalsRepository.DeleteEntity(new TerminalEntity {Id = id});
+        _TerminalsRepository.DeleteEntity(new Terminal {Id = id});
 
         await _TerminalsRepository.SaveChangesAsync();
     }
@@ -47,14 +47,14 @@ internal class TerminalConfigurationService : ITerminalConfigurationService
 
     public async Task<TerminalDto> GetTerminalAsync(long id)
     {
-        TerminalEntity? entity = await _TerminalsRepository.SelectById(id);
+        Terminal? entity = await _TerminalsRepository.SelectById(id);
 
         return _Mapper.Map<TerminalDto>(entity);
     }
 
     public async Task<long> InsertTerminalAsync(TerminalDto terminalDto)
     {
-        var entity = _Mapper.Map<TerminalEntity>(terminalDto);
+        var entity = _Mapper.Map<Terminal>(terminalDto);
 
         _TerminalsRepository.AddEntity(entity);
 
@@ -71,7 +71,7 @@ internal class TerminalConfigurationService : ITerminalConfigurationService
         var entity = _TerminalsRepository.Query.FirstOrDefault(x => x.Id == terminalDto.Id);
 
         if (entity == null)
-            throw new NotFoundException(nameof(TerminalEntity), terminalDto.Id);
+            throw new NotFoundException(nameof(Terminal), terminalDto.Id);
 
         await _TerminalsRepository.SaveChangesAsync();
     }
