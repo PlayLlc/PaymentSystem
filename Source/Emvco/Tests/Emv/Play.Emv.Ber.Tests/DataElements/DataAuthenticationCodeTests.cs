@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Play.Emv.Ber.Tests.DataElements;
 
-public class UserInterfaceRequestDataTests
+public class DataAuthenticationCodeTests
 {
     #region Instance Members
 
@@ -21,8 +21,8 @@ public class UserInterfaceRequestDataTests
     [Fact]
     public void BerEncoding_DeserializingDataElement_CreatesPrimitiveValue()
     {
-        UserInterfaceRequestDataTestTlv testData = new();
-        UserInterfaceRequestData testValue = UserInterfaceRequestData.Decode(testData.EncodeValue().AsSpan());
+        DataAuthenticationCodeTestTlv testData = new();
+        DataAuthenticationCode testValue = DataAuthenticationCode.Decode(testData.EncodeValue().AsSpan());
         Assert.NotNull(testValue);
     }
 
@@ -34,8 +34,8 @@ public class UserInterfaceRequestDataTests
     [Fact]
     public void BerEncoding_EncodingDataElement_SerializesExpectedValue()
     {
-        UserInterfaceRequestDataTestTlv testData = new();
-        UserInterfaceRequestData sut = UserInterfaceRequestData.Decode(testData.EncodeValue().AsSpan());
+        DataAuthenticationCodeTestTlv testData = new();
+        DataAuthenticationCode sut = DataAuthenticationCode.Decode(testData.EncodeValue().AsSpan());
         byte[] expectedResult = testData.EncodeValue();
         byte[]? testValue = sut.EncodeValue();
 
@@ -50,8 +50,8 @@ public class UserInterfaceRequestDataTests
     [Fact]
     public void BerEncoding_EncodingDataElementTlv_SerializesExpectedValue()
     {
-        UserInterfaceRequestDataTestTlv testData = new();
-        UserInterfaceRequestData sut = UserInterfaceRequestData.Decode(testData.EncodeValue().AsSpan());
+        DataAuthenticationCodeTestTlv testData = new();
+        DataAuthenticationCode sut = DataAuthenticationCode.Decode(testData.EncodeValue().AsSpan());
         byte[] expectedResult = testData.EncodeTagLengthValue();
         byte[]? testValue = sut.EncodeTagLengthValue();
 
@@ -66,10 +66,10 @@ public class UserInterfaceRequestDataTests
     [Fact]
     public void BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue()
     {
-        UserInterfaceRequestDataTestTlv testData = new();
-        UserInterfaceRequestData sut = UserInterfaceRequestData.Decode(testData.EncodeValue().AsSpan());
+        DataAuthenticationCodeTestTlv testData = new();
+        DataAuthenticationCode sut = DataAuthenticationCode.Decode(testData.EncodeValue().AsSpan());
         TagLengthValue? testValue = sut.AsTagLengthValue();
-        TagLengthValue expectedResult = new(UserInterfaceRequestData.Tag, testData.EncodeValue());
+        TagLengthValue expectedResult = new(DataAuthenticationCode.Tag, testData.EncodeValue());
         Assert.Equal(testValue, expectedResult);
     }
 
@@ -81,8 +81,8 @@ public class UserInterfaceRequestDataTests
     [Fact]
     public void TagLengthValue_SerializingToBer_ReturnsExpectedResult()
     {
-        UserInterfaceRequestDataTestTlv testData = new();
-        UserInterfaceRequestData sut = UserInterfaceRequestData.Decode(testData.EncodeValue().AsSpan());
+        DataAuthenticationCodeTestTlv testData = new();
+        DataAuthenticationCode sut = DataAuthenticationCode.Decode(testData.EncodeValue().AsSpan());
 
         byte[] testValue = sut.AsTagLengthValue().EncodeTagLengthValue();
         byte[] expectedResult = testData.EncodeTagLengthValue();
@@ -97,9 +97,9 @@ public class UserInterfaceRequestDataTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        UserInterfaceRequestDataTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        DataAuthenticationCodeTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
 
-        Assert.Throws<DataElementParsingException>(() => UserInterfaceRequestData.Decode(testData.EncodeValue().AsSpan()));
+        Assert.Throws<DataElementParsingException>(() => DataAuthenticationCode.Decode(testData.EncodeValue().AsSpan()));
     }
 
     /// <summary>
@@ -110,8 +110,8 @@ public class UserInterfaceRequestDataTests
     [Fact]
     public void DataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        UserInterfaceRequestDataTestTlv testData = new();
-        UserInterfaceRequestData sut = UserInterfaceRequestData.Decode(testData.EncodeValue().AsSpan());
+        DataAuthenticationCodeTestTlv testData = new();
+        DataAuthenticationCode sut = DataAuthenticationCode.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
 
@@ -126,8 +126,44 @@ public class UserInterfaceRequestDataTests
     [Fact]
     public void DataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        UserInterfaceRequestDataTestTlv testData = new();
-        UserInterfaceRequestData sut = UserInterfaceRequestData.Decode(testData.EncodeValue().AsSpan());
+        DataAuthenticationCodeTestTlv testData = new();
+        DataAuthenticationCode sut = DataAuthenticationCode.Decode(testData.EncodeValue().AsSpan());
+        int expectedResult = testData.GetTagLengthValueByteCount();
+        ushort testResult = sut.GetTagLengthValueByteCount();
+
+        Assert.Equal(expectedResult, testResult);
+    }
+
+    /// <summary>
+    ///     CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    [Fact]
+    public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
+    {
+        DataAuthenticationCodeTestTlv testData = new(new byte[] { 0xe3, 0x8f });
+        DataAuthenticationCode sut = DataAuthenticationCode.Decode(testData.EncodeValue().AsSpan());
+        int expectedResult = testData.GetValueByteCount();
+        ushort testResult = sut.GetValueByteCount();
+
+        Assert.Equal(expectedResult, testResult);
+    }
+
+    /// <summary>
+    ///     CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    [Fact]
+    public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
+    {
+        DataAuthenticationCodeTestTlv testData = new(new byte[]
+        {
+            0x4d, 0x2c
+        });
+
+        DataAuthenticationCode sut = DataAuthenticationCode.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
         ushort testResult = sut.GetTagLengthValueByteCount();
 
@@ -136,24 +172,15 @@ public class UserInterfaceRequestDataTests
 
     #endregion
 
-    #region UserInterfaceRequestData
+    #region DataAuthenticationCode
 
     [Fact]
-    public void UserInterfaceRequestData_IsValueQualifierPresent_ReturnsFalse()
+    public void DataAuthenticationCode_AsBytes_ReturnsExpectedResult()
     {
-        UserInterfaceRequestDataTestTlv testData = new();
-        UserInterfaceRequestData sut = UserInterfaceRequestData.Decode(testData.EncodeValue().AsSpan());
+        DataAuthenticationCodeTestTlv testData = new();
+        DataAuthenticationCode sut = DataAuthenticationCode.Decode(testData.EncodeValue().AsSpan());
 
-        Assert.False(sut.IsValueQualifierPresent());
-    }
-
-    [Fact]
-    public void UserInterfaceRequestData_IsValueQualifierPresent_ReturnsTrue()
-    {
-        UserInterfaceRequestDataTestTlv testData = new();
-        UserInterfaceRequestData sut = UserInterfaceRequestData.Decode(testData.EncodeValue().AsSpan());
-
-        Assert.False(sut.IsValueQualifierPresent());
+        Assert.Equal(testData.EncodeValue(), sut.AsBytes());
     }
 
     #endregion

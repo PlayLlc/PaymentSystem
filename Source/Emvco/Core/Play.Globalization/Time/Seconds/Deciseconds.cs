@@ -75,6 +75,8 @@ public readonly record struct Deciseconds
     public Ticks AsTicks() => new(this);
     public Seconds AsSeconds() => new(this);
 
+    public Milliseconds AsMilliseconds() => new(this);
+
     #endregion
 
     #region Equality
