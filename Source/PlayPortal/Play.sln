@@ -23,11 +23,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.MerchantPortal.Applica
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication Management", "Authentication Management", "{1CB01C08-AA43-4CFB-907B-6EAF53315EC6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.AuthenticationManagement.IdentityServer", "Play.AuthenticationManagement.StsApi\Play.AuthenticationManagement.IdentityServer.csproj", "{7A2F0C10-DF74-40B9-93AA-5C19F7FEA218}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.MerchantPortal.Client", "Play.MerchantPortal.Client\Play.MerchantPortal.Client.csproj", "{B6E3EC36-C9ED-4A1E-B07B-E72EC4A757EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.AuthenticationManagement.Identity", "Play.AuthenticationManagement.Identity\Play.AuthenticationManagement.Identity.csproj", "{61C42C47-DE35-4DE6-983D-ABAAED169CDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.AuthenticationManagement.Identity", "Play.AuthenticationManagement.Identity\Play.AuthenticationManagement.Identity.csproj", "{61C42C47-DE35-4DE6-983D-ABAAED169CDF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.AuthenticationManagement.IdentityServer", "Play.AuthenticationManagement.IdentityServer\Play.AuthenticationManagement.IdentityServer.csproj", "{D6741CA1-7107-4764-BE38-229013E2C9D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,10 +63,6 @@ Global
 		{8DD36758-DB13-4F66-9D83-19814A7660C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DD36758-DB13-4F66-9D83-19814A7660C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DD36758-DB13-4F66-9D83-19814A7660C4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7A2F0C10-DF74-40B9-93AA-5C19F7FEA218}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7A2F0C10-DF74-40B9-93AA-5C19F7FEA218}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7A2F0C10-DF74-40B9-93AA-5C19F7FEA218}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7A2F0C10-DF74-40B9-93AA-5C19F7FEA218}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B6E3EC36-C9ED-4A1E-B07B-E72EC4A757EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B6E3EC36-C9ED-4A1E-B07B-E72EC4A757EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6E3EC36-C9ED-4A1E-B07B-E72EC4A757EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -75,6 +71,10 @@ Global
 		{61C42C47-DE35-4DE6-983D-ABAAED169CDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61C42C47-DE35-4DE6-983D-ABAAED169CDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61C42C47-DE35-4DE6-983D-ABAAED169CDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6741CA1-7107-4764-BE38-229013E2C9D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6741CA1-7107-4764-BE38-229013E2C9D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6741CA1-7107-4764-BE38-229013E2C9D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6741CA1-7107-4764-BE38-229013E2C9D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,9 +87,9 @@ Global
 		{126899BD-AB96-45E4-9A29-A316BF8D510D} = {F0303A7F-5533-46D9-91DE-C1ABCC42D562}
 		{A29BBD5A-EF7A-4EE1-92ED-01409487A2E4} = {F0303A7F-5533-46D9-91DE-C1ABCC42D562}
 		{8DD36758-DB13-4F66-9D83-19814A7660C4} = {F0303A7F-5533-46D9-91DE-C1ABCC42D562}
-		{7A2F0C10-DF74-40B9-93AA-5C19F7FEA218} = {1CB01C08-AA43-4CFB-907B-6EAF53315EC6}
 		{B6E3EC36-C9ED-4A1E-B07B-E72EC4A757EF} = {F0303A7F-5533-46D9-91DE-C1ABCC42D562}
 		{61C42C47-DE35-4DE6-983D-ABAAED169CDF} = {1CB01C08-AA43-4CFB-907B-6EAF53315EC6}
+		{D6741CA1-7107-4764-BE38-229013E2C9D7} = {1CB01C08-AA43-4CFB-907B-6EAF53315EC6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6833603-DD22-4624-AB4A-235C51671F62}

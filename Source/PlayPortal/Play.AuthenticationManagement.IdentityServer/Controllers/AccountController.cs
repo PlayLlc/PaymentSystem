@@ -159,8 +159,8 @@ public class AccountController : Controller
 
         LoggedOutViewModel vm = new LoggedOutViewModel
         {
-            PostLogoutRedirectUri = logout?.PostLogoutRedirectUri,
-            ClientName = string.IsNullOrEmpty(logout?.ClientName) ? logout?.ClientId : logout?.ClientName,
+            PostLogoutRedirectUri = logout.PostLogoutRedirectUri,
+            ClientName = string.IsNullOrEmpty(logout.ClientName) ? logout.ClientId : logout.ClientName,
             LogoutId = logoutId
         };
 
