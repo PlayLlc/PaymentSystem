@@ -81,7 +81,7 @@ public record PreGenAcPutDataStatus : DataElement<byte>, IEqualityComparer<PreGe
     public static PreGenAcPutDataStatus GetDefaultCompletedPreGenAcPutDataStatus() => _DefaultComplete;
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
-    public bool IsComplete() => _Value.IsBitSet(Bits.Eight);
+    public bool IsCompleted() => _Value.IsBitSet(Bits.Eight);
 
     #endregion
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 using Play.Ber.DataObjects;
 using Play.Emv.Ber.DataElements;
@@ -9,8 +10,14 @@ using Xunit;
 
 namespace Play.Emv.Ber.Tests.DataElements;
 
-public class IccPinEnciphermentPublicKeyCertificateTests
+public class IccPublicKeyCertificateTests
 {
+    #region Instance Values
+
+    private static readonly Random _Random = new Random();
+
+    #endregion
+
     #region Instance Members
 
     /// <summary>
@@ -21,8 +28,8 @@ public class IccPinEnciphermentPublicKeyCertificateTests
     [Fact]
     public void BerEncoding_DeserializingDataElement_CreatesPrimitiveValue()
     {
-        IccPinEnciphermentPublicKeyCertificateTestTlv testData = new();
-        IccPinEnciphermentPublicKeyCertificate testValue = IccPinEnciphermentPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
+        IccPublicKeyCertificateTestTlv testData = new();
+        IccPublicKeyCertificate testValue = IccPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
         Assert.NotNull(testValue);
     }
 
@@ -34,12 +41,12 @@ public class IccPinEnciphermentPublicKeyCertificateTests
     [Fact]
     public void BerEncoding_EncodingDataElement_SerializesExpectedValue()
     {
-        IccPinEnciphermentPublicKeyCertificateTestTlv testData = new();
-        IccPinEnciphermentPublicKeyCertificate sut = IccPinEnciphermentPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
+        IccPublicKeyCertificateTestTlv testData = new();
+        IccPublicKeyCertificate sut = IccPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
         byte[] expectedResult = testData.EncodeValue();
         byte[]? testValue = sut.EncodeValue();
 
-        Assert.Equal(testValue, expectedResult);
+        Assert.Equal(expectedResult, testValue);
     }
 
     /// <summary>
@@ -50,8 +57,8 @@ public class IccPinEnciphermentPublicKeyCertificateTests
     [Fact]
     public void BerEncoding_EncodingDataElementTlv_SerializesExpectedValue()
     {
-        IccPinEnciphermentPublicKeyCertificateTestTlv testData = new();
-        IccPinEnciphermentPublicKeyCertificate sut = IccPinEnciphermentPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
+        IccPublicKeyCertificateTestTlv testData = new();
+        IccPublicKeyCertificate sut = IccPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
         byte[] expectedResult = testData.EncodeTagLengthValue();
         byte[]? testValue = sut.EncodeTagLengthValue();
 
@@ -66,10 +73,10 @@ public class IccPinEnciphermentPublicKeyCertificateTests
     [Fact]
     public void BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue()
     {
-        IccPinEnciphermentPublicKeyCertificateTestTlv testData = new();
-        IccPinEnciphermentPublicKeyCertificate sut = IccPinEnciphermentPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
+        IccPublicKeyCertificateTestTlv testData = new();
+        IccPublicKeyCertificate sut = IccPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
         TagLengthValue? testValue = sut.AsTagLengthValue();
-        TagLengthValue expectedResult = new(IccPinEnciphermentPublicKeyCertificate.Tag, testData.EncodeValue());
+        TagLengthValue expectedResult = new(IccPublicKeyCertificate.Tag, testData.EncodeValue());
         Assert.Equal(testValue, expectedResult);
     }
 
@@ -81,8 +88,8 @@ public class IccPinEnciphermentPublicKeyCertificateTests
     [Fact]
     public void TagLengthValue_SerializingToBer_ReturnsExpectedResult()
     {
-        IccPinEnciphermentPublicKeyCertificateTestTlv testData = new();
-        IccPinEnciphermentPublicKeyCertificate sut = IccPinEnciphermentPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
+        IccPublicKeyCertificateTestTlv testData = new();
+        IccPublicKeyCertificate sut = IccPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
 
         byte[] testValue = sut.AsTagLengthValue().EncodeTagLengthValue();
         byte[] expectedResult = testData.EncodeTagLengthValue();
@@ -97,8 +104,8 @@ public class IccPinEnciphermentPublicKeyCertificateTests
     [Fact]
     public void DataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        IccPinEnciphermentPublicKeyCertificateTestTlv testData = new();
-        IccPinEnciphermentPublicKeyCertificate sut = IccPinEnciphermentPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
+        IccPublicKeyCertificateTestTlv testData = new();
+        IccPublicKeyCertificate sut = IccPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
 
@@ -113,8 +120,8 @@ public class IccPinEnciphermentPublicKeyCertificateTests
     [Fact]
     public void DataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        IccPinEnciphermentPublicKeyCertificateTestTlv testData = new();
-        IccPinEnciphermentPublicKeyCertificate sut = IccPinEnciphermentPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
+        IccPublicKeyCertificateTestTlv testData = new();
+        IccPublicKeyCertificate sut = IccPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
         ushort testResult = sut.GetTagLengthValueByteCount();
 
@@ -129,8 +136,8 @@ public class IccPinEnciphermentPublicKeyCertificateTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        IccPinEnciphermentPublicKeyCertificateTestTlv testData = new(new byte[] { 0x32, 0x8e });
-        IccPinEnciphermentPublicKeyCertificate sut = IccPinEnciphermentPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
+        IccPublicKeyCertificateTestTlv testData = new(new byte[] { 0xe3, 0x8f });
+        IccPublicKeyCertificate sut = IccPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
 
@@ -145,12 +152,12 @@ public class IccPinEnciphermentPublicKeyCertificateTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        IccPinEnciphermentPublicKeyCertificateTestTlv testData = new(new byte[]
+        IccPublicKeyCertificateTestTlv testData = new(new byte[]
         {
-            0x08, 0x13,
+            0x4d, 0x2c
         });
 
-        IccPinEnciphermentPublicKeyCertificate sut = IccPinEnciphermentPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
+        IccPublicKeyCertificate sut = IccPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
         ushort testResult = sut.GetTagLengthValueByteCount();
 
@@ -158,12 +165,11 @@ public class IccPinEnciphermentPublicKeyCertificateTests
     }
 
     [Fact]
-    public void DataElement_AsByteArray_ReturnsExpectedResult()
+    public void InvalidBerEncoding_Decoding_ThrowsException()
     {
-        IccPinEnciphermentPublicKeyCertificateTestTlv testData = new();
-        IccPinEnciphermentPublicKeyCertificate sut = IccPinEnciphermentPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
+        IccPublicKeyCertificateTestTlv testData = new(Enumerable.Range(0,250).Select(_ => (byte)_Random.Next(0, byte.MaxValue)).ToArray());
 
-        Assert.Equal(testData.EncodeValue(), sut.AsByteArray());
+        Assert.Throws<DataElementParsingException>(() => IccPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan()));
     }
 
     #endregion

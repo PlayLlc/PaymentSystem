@@ -2,6 +2,7 @@
 
 using Play.Ber.DataObjects;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
 
@@ -9,7 +10,7 @@ using Xunit;
 
 namespace Play.Emv.Ber.Tests.DataElements;
 
-public class IccPinEnciphermentPublicKeyCertificateTests
+public class ReferenceControlParameterTests
 {
     #region Instance Members
 
@@ -21,8 +22,8 @@ public class IccPinEnciphermentPublicKeyCertificateTests
     [Fact]
     public void BerEncoding_DeserializingDataElement_CreatesPrimitiveValue()
     {
-        IccPinEnciphermentPublicKeyCertificateTestTlv testData = new();
-        IccPinEnciphermentPublicKeyCertificate testValue = IccPinEnciphermentPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
+        ReferenceControlParameterTestTlv testData = new();
+        ReferenceControlParameter testValue = ReferenceControlParameter.Decode(testData.EncodeValue().AsSpan());
         Assert.NotNull(testValue);
     }
 
@@ -34,12 +35,12 @@ public class IccPinEnciphermentPublicKeyCertificateTests
     [Fact]
     public void BerEncoding_EncodingDataElement_SerializesExpectedValue()
     {
-        IccPinEnciphermentPublicKeyCertificateTestTlv testData = new();
-        IccPinEnciphermentPublicKeyCertificate sut = IccPinEnciphermentPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
+        ReferenceControlParameterTestTlv testData = new();
+        ReferenceControlParameter sut = ReferenceControlParameter.Decode(testData.EncodeValue().AsSpan());
         byte[] expectedResult = testData.EncodeValue();
         byte[]? testValue = sut.EncodeValue();
 
-        Assert.Equal(testValue, expectedResult);
+        Assert.Equal(expectedResult, testValue);
     }
 
     /// <summary>
@@ -50,8 +51,8 @@ public class IccPinEnciphermentPublicKeyCertificateTests
     [Fact]
     public void BerEncoding_EncodingDataElementTlv_SerializesExpectedValue()
     {
-        IccPinEnciphermentPublicKeyCertificateTestTlv testData = new();
-        IccPinEnciphermentPublicKeyCertificate sut = IccPinEnciphermentPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
+        ReferenceControlParameterTestTlv testData = new();
+        ReferenceControlParameter sut = ReferenceControlParameter.Decode(testData.EncodeValue().AsSpan());
         byte[] expectedResult = testData.EncodeTagLengthValue();
         byte[]? testValue = sut.EncodeTagLengthValue();
 
@@ -66,10 +67,10 @@ public class IccPinEnciphermentPublicKeyCertificateTests
     [Fact]
     public void BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue()
     {
-        IccPinEnciphermentPublicKeyCertificateTestTlv testData = new();
-        IccPinEnciphermentPublicKeyCertificate sut = IccPinEnciphermentPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
+        ReferenceControlParameterTestTlv testData = new();
+        ReferenceControlParameter sut = ReferenceControlParameter.Decode(testData.EncodeValue().AsSpan());
         TagLengthValue? testValue = sut.AsTagLengthValue();
-        TagLengthValue expectedResult = new(IccPinEnciphermentPublicKeyCertificate.Tag, testData.EncodeValue());
+        TagLengthValue expectedResult = new(ReferenceControlParameter.Tag, testData.EncodeValue());
         Assert.Equal(testValue, expectedResult);
     }
 
@@ -81,8 +82,8 @@ public class IccPinEnciphermentPublicKeyCertificateTests
     [Fact]
     public void TagLengthValue_SerializingToBer_ReturnsExpectedResult()
     {
-        IccPinEnciphermentPublicKeyCertificateTestTlv testData = new();
-        IccPinEnciphermentPublicKeyCertificate sut = IccPinEnciphermentPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
+        ReferenceControlParameterTestTlv testData = new();
+        ReferenceControlParameter sut = ReferenceControlParameter.Decode(testData.EncodeValue().AsSpan());
 
         byte[] testValue = sut.AsTagLengthValue().EncodeTagLengthValue();
         byte[] expectedResult = testData.EncodeTagLengthValue();
@@ -97,8 +98,8 @@ public class IccPinEnciphermentPublicKeyCertificateTests
     [Fact]
     public void DataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        IccPinEnciphermentPublicKeyCertificateTestTlv testData = new();
-        IccPinEnciphermentPublicKeyCertificate sut = IccPinEnciphermentPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
+        ReferenceControlParameterTestTlv testData = new();
+        ReferenceControlParameter sut = ReferenceControlParameter.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
 
@@ -113,8 +114,8 @@ public class IccPinEnciphermentPublicKeyCertificateTests
     [Fact]
     public void DataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        IccPinEnciphermentPublicKeyCertificateTestTlv testData = new();
-        IccPinEnciphermentPublicKeyCertificate sut = IccPinEnciphermentPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
+        ReferenceControlParameterTestTlv testData = new();
+        ReferenceControlParameter sut = ReferenceControlParameter.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
         ushort testResult = sut.GetTagLengthValueByteCount();
 
@@ -129,8 +130,8 @@ public class IccPinEnciphermentPublicKeyCertificateTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        IccPinEnciphermentPublicKeyCertificateTestTlv testData = new(new byte[] { 0x32, 0x8e });
-        IccPinEnciphermentPublicKeyCertificate sut = IccPinEnciphermentPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
+        ReferenceControlParameterTestTlv testData = new(new byte[] { 0x8f });
+        ReferenceControlParameter sut = ReferenceControlParameter.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
 
@@ -145,12 +146,12 @@ public class IccPinEnciphermentPublicKeyCertificateTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        IccPinEnciphermentPublicKeyCertificateTestTlv testData = new(new byte[]
+        ReferenceControlParameterTestTlv testData = new(new byte[]
         {
-            0x08, 0x13,
+            0x4d
         });
 
-        IccPinEnciphermentPublicKeyCertificate sut = IccPinEnciphermentPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
+        ReferenceControlParameter sut = ReferenceControlParameter.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
         ushort testResult = sut.GetTagLengthValueByteCount();
 
@@ -158,12 +159,57 @@ public class IccPinEnciphermentPublicKeyCertificateTests
     }
 
     [Fact]
-    public void DataElement_AsByteArray_ReturnsExpectedResult()
+    public void InvalidBerEncoding_EncodingDataElement_ThrowsException()
     {
-        IccPinEnciphermentPublicKeyCertificateTestTlv testData = new();
-        IccPinEnciphermentPublicKeyCertificate sut = IccPinEnciphermentPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
+        ReferenceControlParameterTestTlv testData = new(new byte[]
+        {
+            0x4d, 0x7A
+        });
 
-        Assert.Equal(testData.EncodeValue(), sut.AsByteArray());
+        Assert.Throws<DataElementParsingException>(() => ReferenceControlParameter.Decode(testData.EncodeValue().AsSpan()));
+    }
+
+    #endregion
+
+    #region ReferenceControlParameter
+
+    [Fact]
+    public void ReferenceControlParameter_IsCdaSignatureRequested_ReturnsTrue()
+    {
+        ReferenceControlParameterTestTlv testData = new(new byte[]
+        {
+            0b1001_1001
+        });
+
+        ReferenceControlParameter sut = ReferenceControlParameter.Decode(testData.EncodeValue().AsSpan());
+
+        Assert.True(sut.IsCdaSignatureRequested());
+    }
+
+    [Fact]
+    public void ReferenceControlParameter_IsCdaSignatureRequested_ReturnsFalse()
+    {
+        ReferenceControlParameterTestTlv testData = new(new byte[]
+        {
+            0b1010_1001
+        });
+
+        ReferenceControlParameter sut = ReferenceControlParameter.Decode(testData.EncodeValue().AsSpan());
+
+        Assert.False(sut.IsCdaSignatureRequested());
+    }
+
+    [Fact]
+    public void ReferenceControlParameter_GetCryptogramType_ReturnsExpectedResult()
+    {
+        ReferenceControlParameterTestTlv testData = new(new byte[]
+        {
+            0x80
+        });
+
+        ReferenceControlParameter sut = ReferenceControlParameter.Decode(testData.EncodeValue().AsSpan());
+
+        Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, sut.GetCryptogramType());
     }
 
     #endregion
