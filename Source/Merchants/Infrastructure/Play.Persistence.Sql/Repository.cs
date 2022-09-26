@@ -1,13 +1,14 @@
-﻿using Play.Domain.Entitities;
-using Play.Merchants.Domain.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+
+using Play.Domain;
 
 namespace Play.Merchants.Persistence.Sql.Sql
 {
-    internal class Repository<_> : IRepository<_> where _ : BaseEntity
+    public class Repository<_> : IRepository<_> where _ : BaseEntity
     {
         #region Instance Values
 
-        protected readonly MerchantPortalDbContext _DbContext;
+        protected readonly DbContext _DbContext;
 
         public IQueryable<_> Query => _DbContext.Set<_>();
 
@@ -15,7 +16,7 @@ namespace Play.Merchants.Persistence.Sql.Sql
 
         #region Constructor
 
-        internal Repository(MerchantPortalDbContext dbContext)
+        public Repository(DbContext dbContext)
         {
             _DbContext = dbContext;
         }

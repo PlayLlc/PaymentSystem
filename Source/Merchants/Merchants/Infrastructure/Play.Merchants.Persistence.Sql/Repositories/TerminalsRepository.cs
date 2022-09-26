@@ -20,12 +20,12 @@ internal class TerminalsRepository : Repository<Terminal>, ITerminalsRepository
     /// <exception cref="OperationCanceledException"></exception>
     public async Task<Terminal?> SelectById(long terminalId)
     {
-        return await _DbContext.Terminals.AsNoTracking().FirstOrDefaultAsync(x => x.Id == terminalId).ConfigureAwait(false);
+        return await ((MerchantPortalDbContext) _DbContext).Terminals.AsNoTracking().FirstOrDefaultAsync(x => x.Id == terminalId).ConfigureAwait(false);
     }
 
     public async Task<IEnumerable<Terminal>> SelectTerminalsByStore(long storeId)
     {
-        return await Task.FromResult(_DbContext.Terminals.AsNoTracking().Where(x => x.StoreId == storeId)).ConfigureAwait(false);
+        return await Task.FromResult(((MerchantPortalDbContext) _DbContext).Terminals.AsNoTracking().Where(x => x.StoreId == storeId)).ConfigureAwait(false);
     }
 
     #endregion

@@ -1,4 +1,4 @@
-﻿namespace Play.Domain.Entitities;
+﻿namespace Play.Domain;
 
 public class BaseEntity
 {

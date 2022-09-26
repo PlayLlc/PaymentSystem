@@ -20,7 +20,7 @@ internal class MerchantsRepository : Repository<Merchant>, IMerchantsRepository
     /// <exception cref="OperationCanceledException"></exception>
     public async Task<Merchant?> SelectById(long id)
     {
-        return await _DbContext.Merchants.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(false);
+        return await ((MerchantPortalDbContext) _DbContext).Merchants.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(false);
     }
 
     #endregion

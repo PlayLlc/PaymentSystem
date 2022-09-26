@@ -1,4 +1,4 @@
-﻿using Play.Domain.Entitities;
+﻿using Play.Domain;
 
 namespace Play.Merchants.Domain.Entities;
 
