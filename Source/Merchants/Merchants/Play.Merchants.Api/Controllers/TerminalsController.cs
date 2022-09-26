@@ -48,7 +48,7 @@ namespace Play.Merchants.Api.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] TerminalDetailsRequest value)
         {
-            var created = await _TerminalConfigurationService.InsertTerminalAsync(_Mapper.Map<TerminalDto>(value));
+            long created = await _TerminalConfigurationService.InsertTerminalAsync(_Mapper.Map<TerminalDto>(value));
 
             return Created(created.ToString(), null);
         }

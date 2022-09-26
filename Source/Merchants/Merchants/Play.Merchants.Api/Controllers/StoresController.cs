@@ -49,7 +49,7 @@ namespace Play.Merchants.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] StoreDetailsRequest value)
         {
-            var created = await _StoreConfigurationService.InsertStoreAsync(_Mapper.Map<StoreDto>(value));
+            long created = await _StoreConfigurationService.InsertStoreAsync(_Mapper.Map<StoreDto>(value));
 
             return Created(created.ToString(), null);
         }

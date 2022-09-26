@@ -3,6 +3,7 @@
 using AutoMapper;
 
 using FluentValidation;
+using FluentValidation.Results;
 
 using Play.Merchants.Application.Common.Exceptions;
 using Play.Merchants.Contracts.Messages;
@@ -54,7 +55,7 @@ internal class PointOfSaleConfigurationService : IPointOfSaleConfigurationServic
 
     public async Task CreatePosConfigurationAsync(CreatePosConfigurationDto initialConfiguration)
     {
-        var entity = new PointOfSaleConfiguration()
+        PointOfSaleConfiguration entity = new PointOfSaleConfiguration()
         {
             CompanyId = initialConfiguration.CompanyId, MerchantId = initialConfiguration.MerchantId, StoreId = initialConfiguration.StoreId,
             TerminalId = initialConfiguration.TerminalId
@@ -70,9 +71,10 @@ internal class PointOfSaleConfigurationService : IPointOfSaleConfigurationServic
         if (!exists)
             throw new NotFoundException(nameof(PointOfSaleConfiguration), id);
 
-        var collection = _Mapper.Map<IEnumerable<CombinationConfiguration>>(combinations);
+        IEnumerable<CombinationConfiguration>? collection = _Mapper.Map<IEnumerable<CombinationConfiguration>>(combinations);
 
-        var validationErrors = combinations.SelectMany(combination => _CombinationConfigurationValidator.Validate(combination).Errors);
+        IEnumerable<ValidationFailure> validationErrors =
+            combinations.SelectMany(combination => _CombinationConfigurationValidator.Validate(combination).Errors);
 
         if (validationErrors.Any())
             throw new ModelValidationException(validationErrors);
@@ -88,12 +90,12 @@ internal class PointOfSaleConfigurationService : IPointOfSaleConfigurationServic
         if (!exists)
             throw new NotFoundException(nameof(PointOfSaleConfiguration), id);
 
-        var validationResult = await _DisplayConfigurationValidator.ValidateAsync(displayConfiguration);
+        ValidationResult? validationResult = await _DisplayConfigurationValidator.ValidateAsync(displayConfiguration);
 
         if (validationResult.Errors.Any())
             throw new ModelValidationException(validationResult.Errors);
 
-        var entity = _Mapper.Map<DisplayConfiguration>(displayConfiguration);
+        DisplayConfiguration? entity = _Mapper.Map<DisplayConfiguration>(displayConfiguration);
 
         await _PosRepository.UpdateGivenFieldsAsync(id,
             new List<(Expression<Func<PointOfSaleConfiguration, object>>, object)> {(item => item.DisplayConfiguration, entity)});
@@ -106,12 +108,12 @@ internal class PointOfSaleConfigurationService : IPointOfSaleConfigurationServic
         if (!exists)
             throw new NotFoundException(nameof(PointOfSaleConfiguration), id);
 
-        var validationResult = await _KernelConfigurationValidator.ValidateAsync(kernelConfiguration);
+        ValidationResult? validationResult = await _KernelConfigurationValidator.ValidateAsync(kernelConfiguration);
 
         if (validationResult.Errors.Any())
             throw new ModelValidationException(validationResult.Errors);
 
-        var entity = _Mapper.Map<KernelConfiguration>(kernelConfiguration);
+        KernelConfiguration? entity = _Mapper.Map<KernelConfiguration>(kernelConfiguration);
 
         await _PosRepository.UpdateGivenFieldsAsync(id,
             new List<(Expression<Func<PointOfSaleConfiguration, object>>, object)> {(item => item.KernelConfiguration, entity)});
@@ -124,12 +126,12 @@ internal class PointOfSaleConfigurationService : IPointOfSaleConfigurationServic
         if (!exists)
             throw new NotFoundException(nameof(PointOfSaleConfiguration), id);
 
-        var validationResult = await _TerminalConfigurationValidator.ValidateAsync(terminalConfiguration);
+        ValidationResult? validationResult = await _TerminalConfigurationValidator.ValidateAsync(terminalConfiguration);
 
         if (validationResult.Errors.Any())
             throw new ModelValidationException(validationResult.Errors);
 
-        var entity = _Mapper.Map<TerminalConfiguration>(terminalConfiguration);
+        TerminalConfiguration? entity = _Mapper.Map<TerminalConfiguration>(terminalConfiguration);
 
         await _PosRepository.UpdateGivenFieldsAsync(id,
             new List<(Expression<Func<PointOfSaleConfiguration, object>>, object)> {(item => item.TerminalConfiguration, entity)});
@@ -142,12 +144,12 @@ internal class PointOfSaleConfigurationService : IPointOfSaleConfigurationServic
         if (!exists)
             throw new NotFoundException(nameof(PointOfSaleConfiguration), id);
 
-        var validationResult = await _ProximityCouplingDeviceValidator.ValidateAsync(proximityCouplingDeviceConfiguration);
+        ValidationResult? validationResult = await _ProximityCouplingDeviceValidator.ValidateAsync(proximityCouplingDeviceConfiguration);
 
         if (validationResult.Errors.Any())
             throw new ModelValidationException(validationResult.Errors);
 
-        var entity = _Mapper.Map<ProximityCouplingDeviceConfiguration>(proximityCouplingDeviceConfiguration);
+        ProximityCouplingDeviceConfiguration? entity = _Mapper.Map<ProximityCouplingDeviceConfiguration>(proximityCouplingDeviceConfiguration);
 
         await _PosRepository.UpdateGivenFieldsAsync(id,
             new List<(Expression<Func<PointOfSaleConfiguration, object>>, object)> {(item => item.ProximityCouplingDeviceConfiguration, entity)});
@@ -160,12 +162,12 @@ internal class PointOfSaleConfigurationService : IPointOfSaleConfigurationServic
         if (!exists)
             throw new NotFoundException(nameof(PointOfSaleConfiguration), id);
 
-        var validationResult = await _CertificateAuthorityConfigurationValidator.ValidateAsync(certificateAuthorityConfiguration);
+        ValidationResult? validationResult = await _CertificateAuthorityConfigurationValidator.ValidateAsync(certificateAuthorityConfiguration);
 
         if (validationResult.Errors.Any())
             throw new ModelValidationException(validationResult.Errors);
 
-        var entity = _Mapper.Map<CertificateAuthorityConfiguration>(certificateAuthorityConfiguration);
+        CertificateAuthorityConfiguration? entity = _Mapper.Map<CertificateAuthorityConfiguration>(certificateAuthorityConfiguration);
 
         await _PosRepository.UpdateGivenFieldsAsync(id,
             new List<(Expression<Func<PointOfSaleConfiguration, object>>, object)> {(item => item.CertificateAuthorityConfiguration, entity)});

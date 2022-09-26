@@ -42,7 +42,7 @@ internal class StoreConfigurationService : IStoreConfigurationService
 
     public async Task<IEnumerable<StoreDto>> GetMerchantStoresAsync(long merchantId)
     {
-        var result = await _StoresRepository.SelectStoresByMerchant(merchantId);
+        IEnumerable<Store> result = await _StoresRepository.SelectStoresByMerchant(merchantId);
 
         return _Mapper.Map<IEnumerable<StoreDto>>(result);
     }
@@ -56,7 +56,7 @@ internal class StoreConfigurationService : IStoreConfigurationService
 
     public async Task<long> InsertStoreAsync(StoreDto storeDto)
     {
-        var entity = _Mapper.Map<Store>(storeDto);
+        Store? entity = _Mapper.Map<Store>(storeDto);
 
         _StoresRepository.AddEntity(entity);
 
@@ -67,7 +67,7 @@ internal class StoreConfigurationService : IStoreConfigurationService
 
     public async Task UpdateStoreAsync(StoreDto storeDto)
     {
-        var entity = _StoresRepository.Query.FirstOrDefault(x => x.Id == storeDto.Id);
+        Store? entity = _StoresRepository.Query.FirstOrDefault(x => x.Id == storeDto.Id);
 
         if (entity == null)
             throw new NotFoundException(nameof(Store), storeDto.Id);

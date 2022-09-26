@@ -41,7 +41,7 @@ try
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
 
-    var connectionString = builder.Configuration.GetConnectionString("sql");
+    string connectionString = builder.Configuration.GetConnectionString("sql");
 
     builder.Services.AddMongoPersistenceServices();
     builder.Services.AddSqlPersistenceServices(connectionString);

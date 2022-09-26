@@ -17,9 +17,9 @@ internal class MerchantPortalDbContextFactory : IDesignTimeDbContextFactory<Merc
     {
         IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
 
-        var builder = new DbContextOptionsBuilder<MerchantPortalDbContext>();
+        DbContextOptionsBuilder<MerchantPortalDbContext> builder = new DbContextOptionsBuilder<MerchantPortalDbContext>();
 
-        var connectionString = configuration.GetConnectionString("sql");
+        string? connectionString = configuration.GetConnectionString("sql");
 
         builder.UseSqlServer(connectionString);
 

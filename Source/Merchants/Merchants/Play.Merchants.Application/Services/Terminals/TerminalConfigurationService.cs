@@ -42,7 +42,7 @@ internal class TerminalConfigurationService : ITerminalConfigurationService
 
     public async Task<IEnumerable<TerminalDto>> GetStoreTerminalsAsync(long storeId)
     {
-        var result = await _TerminalsRepository.SelectTerminalsByStore(storeId);
+        IEnumerable<Terminal> result = await _TerminalsRepository.SelectTerminalsByStore(storeId);
 
         return _Mapper.Map<IEnumerable<TerminalDto>>(result);
     }
@@ -56,7 +56,7 @@ internal class TerminalConfigurationService : ITerminalConfigurationService
 
     public async Task<long> InsertTerminalAsync(TerminalDto terminalDto)
     {
-        var entity = _Mapper.Map<Terminal>(terminalDto);
+        Terminal? entity = _Mapper.Map<Terminal>(terminalDto);
 
         _TerminalsRepository.AddEntity(entity);
 
@@ -70,7 +70,7 @@ internal class TerminalConfigurationService : ITerminalConfigurationService
     /// <exception cref="NotFoundException"></exception>
     public async Task UpdateTerminalAsync(TerminalDto terminalDto)
     {
-        var entity = _TerminalsRepository.Query.FirstOrDefault(x => x.Id == terminalDto.Id);
+        Terminal? entity = _TerminalsRepository.Query.FirstOrDefault(x => x.Id == terminalDto.Id);
 
         if (entity == null)
             throw new NotFoundException(nameof(Terminal), terminalDto.Id);

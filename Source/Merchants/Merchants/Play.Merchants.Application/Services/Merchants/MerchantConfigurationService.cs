@@ -50,7 +50,7 @@ internal class MerchantConfigurationService : IMerchantConfigurationService
         if (validationResult.Errors.Any())
             throw new ModelValidationException(validationResult.Errors);
 
-        var entity = _Mapper.Map<Merchant>(merchant);
+        Merchant? entity = _Mapper.Map<Merchant>(merchant);
 
         _MerchantsRepository.AddEntity(entity);
 
@@ -61,7 +61,7 @@ internal class MerchantConfigurationService : IMerchantConfigurationService
 
     public async Task UpdateMerchantAsync(MerchantDto merchant)
     {
-        var entity = _MerchantsRepository.Query.FirstOrDefault(x => x.Id == merchant.Id);
+        Merchant? entity = _MerchantsRepository.Query.FirstOrDefault(x => x.Id == merchant.Id);
 
         if (entity == null)
             throw new NotFoundException(nameof(Merchant), merchant.Id);

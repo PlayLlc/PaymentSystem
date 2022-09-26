@@ -32,7 +32,7 @@ namespace Play.Merchants.Api.Controllers
         [HttpGet]
         public async Task<MerchantDto> Get(long id)
         {
-            var merchant = await _MerchantConfigurationService.GetMerchantAsync(id);
+            MerchantDto merchant = await _MerchantConfigurationService.GetMerchantAsync(id);
 
             return merchant;
         }

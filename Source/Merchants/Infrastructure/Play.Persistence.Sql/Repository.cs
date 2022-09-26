@@ -37,7 +37,7 @@ namespace Play.Merchants.Persistence.Sql.Sql
 
         public async Task SaveChangesAsync()
         {
-            var result = await _DbContext.SaveChangesAsync();
+            int result = await _DbContext.SaveChangesAsync();
         }
 
         #endregion
