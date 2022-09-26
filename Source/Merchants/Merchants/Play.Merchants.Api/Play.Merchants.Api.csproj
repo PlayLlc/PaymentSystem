@@ -16,10 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Play.MerchantPortal.Application\Play.MerchantPortal.Application.csproj" />
-    <ProjectReference Include="..\Play.MerchantPortal.Contracts\Play.MerchantPortal.Contracts.csproj" />
-    <ProjectReference Include="..\Play.MerchantPortal.Infrastructure.Persistence.Mongo\Play.MerchantPortal.Infrastructure.Persistence.Mongo.csproj" />
-    <ProjectReference Include="..\Play.MerchantPortal.Infrastructure.Persistence\Play.MerchantPortal.Infrastructure.Persistence.Sql.csproj" />
+    <ProjectReference Include="..\Infrastructure\Play.Merchants.Persistence.Mongo\Play.Merchants.Persistence.Mongo.csproj" />
+    <ProjectReference Include="..\Infrastructure\Play.Merchants.Persistence.Sql\Play.Merchants.Persistence.Sql.csproj" />
+    <ProjectReference Include="..\Play.Merchants.Application\Play.Merchants.Application.csproj" />
   </ItemGroup>
 
 </Project>

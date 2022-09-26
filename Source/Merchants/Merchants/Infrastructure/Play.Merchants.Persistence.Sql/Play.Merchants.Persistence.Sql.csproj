@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Play.MerchantPortal.Domain\Play.MerchantPortal.Domain.csproj" />
+    <ProjectReference Include="..\..\Play.Merchants.Domain\Play.Merchants.Domain.csproj" />
   </ItemGroup>
 
 </Project>
