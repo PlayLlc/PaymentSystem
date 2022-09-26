@@ -1,4 +1,4 @@
-﻿namespace Play.Merchants.Contracts.Messages.PointOfSale;
+﻿namespace Play.Merchants.Contracts.Messages;
 
 public record CreatePosConfigurationDto
 {

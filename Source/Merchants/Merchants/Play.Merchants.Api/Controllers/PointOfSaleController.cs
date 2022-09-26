@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
+using Play.Merchants.Contracts.Messages;
 using Play.Merchants.Contracts.Messages.PointOfSale;
 using Play.Merchants.Contracts.Services;
 
