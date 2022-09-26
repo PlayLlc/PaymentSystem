@@ -1,10 +1,13 @@
 ﻿using FluentValidation;
-using Play.MerchantPortal.Contracts.Messages.PointOfSale;
 
-namespace Play.MerchantPortal.Application.Services.PointsOfSale.Validators;
+using Play.Merchants.Contracts.Messages.PointOfSale;
+
+namespace Play.Merchants.Application.Services.PointsOfSale.Validators;
 
 public class CombinationConfigurationValidator : AbstractValidator<CombinationConfigurationDto>
 {
+    #region Constructor
+
     public CombinationConfigurationValidator()
     {
         RuleFor(x => x.ApplicationId).NotEmpty();
@@ -16,4 +19,6 @@ public class CombinationConfigurationValidator : AbstractValidator<CombinationCo
         RuleFor(x => x.KernelConfiguration).Must(t => t > 0);
         RuleFor(x => x.TerminalTransactionQualifiers).Must(t => t > 0);
     }
+
+    #endregion
 }

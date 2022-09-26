@@ -1,14 +1,17 @@
 ﻿using FluentValidation;
-using Play.MerchantPortal.Contracts.Messages.PointOfSale;
 
-namespace Play.MerchantPortal.Application.Services.PointsOfSale.Validators;
+using Play.Merchants.Contracts.Messages.PointOfSale;
+
+namespace Play.Merchants.Application.Services.PointsOfSale.Validators;
 
 public class ProximityCouplingDeviceConfigurationValidator : AbstractValidator<ProximityCouplingDeviceConfigurationDto>
 {
+    #region Constructor
+
     public ProximityCouplingDeviceConfigurationValidator()
     {
-        RuleFor(x => (int)x.TimeoutValue)
-            .NotEmpty()
-            .GreaterThan(0);
+        RuleFor(x => (int) x.TimeoutValue).NotEmpty().GreaterThan(0);
     }
+
+    #endregion
 }

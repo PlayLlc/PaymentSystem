@@ -1,7 +1,9 @@
-﻿namespace Play.MerchantPortal.Contracts.Messages.PointOfSale;
+﻿namespace Play.Merchants.Contracts.Messages.PointOfSale;
 
 public record CombinationConfigurationDto
 {
+    #region Instance Values
+
     public int KernelId { get; set; }
 
     public string ApplicationId { get; set; } = string.Empty;
@@ -27,4 +29,6 @@ public record CombinationConfigurationDto
     public bool IsZeroAmountAllowedForOffline { get; set; }
 
     public bool IsExtendedSelectionSupported { get; set; }
+
+    #endregion
 }

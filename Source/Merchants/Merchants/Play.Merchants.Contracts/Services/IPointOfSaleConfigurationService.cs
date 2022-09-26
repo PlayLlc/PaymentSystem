@@ -1,9 +1,11 @@
-﻿using Play.MerchantPortal.Contracts.Messages.PointOfSale;
+﻿using Play.Merchants.Contracts.Messages.PointOfSale;
 
-namespace Play.MerchantPortal.Contracts.Services;
+namespace Play.Merchants.Contracts.Services;
 
 public interface IPointOfSaleConfigurationService
 {
+    #region Instance Members
+
     Task CreateNewPosConfiguratioAsync(CreatePosConfigurationDto initialConfiguration);
 
     Task<PointOfSaleConfigurationDto> GetTerminalPoSConfigurationAsync(long terminalId);
@@ -25,4 +27,6 @@ public interface IPointOfSaleConfigurationService
     Task UpdateProximityCouplingDeviceConfigurationAsync(Guid id, ProximityCouplingDeviceConfigurationDto proximityCouplingDeviceConfiguration);
 
     Task UpdateCertificateAuthorityConfigurationAsync(Guid id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration);
+
+    #endregion
 }

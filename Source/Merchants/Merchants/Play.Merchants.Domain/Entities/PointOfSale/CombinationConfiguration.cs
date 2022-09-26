@@ -1,7 +1,9 @@
-﻿namespace Play.MerchantPortal.Domain.Entities.PointOfSale;
+﻿namespace Play.Merchants.Domain.Entities.PointOfSale;
 
 public class CombinationConfiguration
 {
+    #region Instance Values
+
     public int KernelId { get; set; }
 
     public string ApplicationId { get; set; } = string.Empty;
@@ -27,4 +29,6 @@ public class CombinationConfiguration
     public bool IsZeroAmountAllowedForOffline { get; set; }
 
     public bool IsExtendedSelectionSupported { get; set; }
+
+    #endregion
 }

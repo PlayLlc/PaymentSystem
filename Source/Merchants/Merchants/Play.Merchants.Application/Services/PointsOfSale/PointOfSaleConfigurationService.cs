@@ -1,12 +1,16 @@
-﻿using AutoMapper;
-using FluentValidation;
-using Play.MerchantPortal.Application.Common.Exceptions;
-using Play.MerchantPortal.Contracts.Messages.PointOfSale;
-using Play.MerchantPortal.Contracts.Services;
-using Play.MerchantPortal.Domain.Entities.PointOfSale;
-using Play.MerchantPortal.Domain.Persistence;
+﻿using System.Linq.Expressions;
 
-namespace Play.MerchantPortal.Application.Services.PointsOfSale;
+using AutoMapper;
+
+using FluentValidation;
+
+using Play.Merchants.Application.Common.Exceptions;
+using Play.Merchants.Contracts.Messages.PointOfSale;
+using Play.Merchants.Contracts.Services;
+using Play.Merchants.Domain.Entities.PointOfSale;
+using Play.Merchants.Domain.Repositories;
+
+namespace Play.Merchants.Application.Services.PointsOfSale;
 
 internal class PointOfSaleConfigurationService : IPointOfSaleConfigurationService
 {
@@ -27,13 +31,10 @@ internal class PointOfSaleConfigurationService : IPointOfSaleConfigurationServic
     #region Constructor
 
     public PointOfSaleConfigurationService(
-        IPointOfSaleRepository posRepository,
-        IMapper mapper,
-        IValidator<TerminalConfigurationDto> terminalConfigurationValidator,
+        IPointOfSaleRepository posRepository, IMapper mapper, IValidator<TerminalConfigurationDto> terminalConfigurationValidator,
         IValidator<ProximityCouplingDeviceConfigurationDto> proximityCouplingDeviceValidator,
         IValidator<CertificateAuthorityConfigurationDto> certificateAuthorityConfigurationValidator,
-        IValidator<DisplayConfigurationDto> displayConfigurationValidator,
-        IValidator<KernelConfigurationDto> kernelConfigurationValidator,
+        IValidator<DisplayConfigurationDto> displayConfigurationValidator, IValidator<KernelConfigurationDto> kernelConfigurationValidator,
         IValidator<CombinationConfigurationDto> combinationConfigurationValidator)
     {
         _PosRepository = posRepository;
@@ -54,9 +55,7 @@ internal class PointOfSaleConfigurationService : IPointOfSaleConfigurationServic
     {
         var entity = new PointOfSaleConfiguration()
         {
-            CompanyId = initialConfiguration.CompanyId,
-            MerchantId = initialConfiguration.MerchantId,
-            StoreId = initialConfiguration.StoreId,
+            CompanyId = initialConfiguration.CompanyId, MerchantId = initialConfiguration.MerchantId, StoreId = initialConfiguration.StoreId,
             TerminalId = initialConfiguration.TerminalId
         };
 
@@ -78,10 +77,7 @@ internal class PointOfSaleConfigurationService : IPointOfSaleConfigurationServic
             throw new ModelValidationException(validationErrors);
 
         await _PosRepository.UpdateGivenFieldsAsync(id,
-            new List<(System.Linq.Expressions.Expression<Func<PointOfSaleConfiguration, object>>, object)>
-            {
-                (item => item.Combinations, collection)
-            });
+            new List<(Expression<Func<PointOfSaleConfiguration, object>>, object)> {(item => item.Combinations, collection)});
     }
 
     public async Task UpdateDisplayConfigurationAsync(Guid id, DisplayConfigurationDto displayConfiguration)
@@ -99,10 +95,7 @@ internal class PointOfSaleConfigurationService : IPointOfSaleConfigurationServic
         var entity = _Mapper.Map<DisplayConfiguration>(displayConfiguration);
 
         await _PosRepository.UpdateGivenFieldsAsync(id,
-            new List<(System.Linq.Expressions.Expression<Func<PointOfSaleConfiguration, object>>, object)>
-            {
-                (item => item.DisplayConfiguration, entity)
-            });
+            new List<(Expression<Func<PointOfSaleConfiguration, object>>, object)> {(item => item.DisplayConfiguration, entity)});
     }
 
     public async Task UpdateKernelConfigurationAsync(Guid id, KernelConfigurationDto kernelConfiguration)
@@ -120,10 +113,7 @@ internal class PointOfSaleConfigurationService : IPointOfSaleConfigurationServic
         var entity = _Mapper.Map<KernelConfiguration>(kernelConfiguration);
 
         await _PosRepository.UpdateGivenFieldsAsync(id,
-            new List<(System.Linq.Expressions.Expression<Func<PointOfSaleConfiguration, object>>, object)>
-            {
-                (item => item.KernelConfiguration, entity)
-            });
+            new List<(Expression<Func<PointOfSaleConfiguration, object>>, object)> {(item => item.KernelConfiguration, entity)});
     }
 
     public async Task UpdateTerminalConfigurationAsync(Guid id, TerminalConfigurationDto terminalConfiguration)
@@ -141,10 +131,7 @@ internal class PointOfSaleConfigurationService : IPointOfSaleConfigurationServic
         var entity = _Mapper.Map<TerminalConfiguration>(terminalConfiguration);
 
         await _PosRepository.UpdateGivenFieldsAsync(id,
-            new List<(System.Linq.Expressions.Expression<Func<PointOfSaleConfiguration, object>>, object)>
-            {
-                (item => item.TerminalConfiguration, entity)
-            });
+            new List<(Expression<Func<PointOfSaleConfiguration, object>>, object)> {(item => item.TerminalConfiguration, entity)});
     }
 
     public async Task UpdateProximityCouplingDeviceConfigurationAsync(Guid id, ProximityCouplingDeviceConfigurationDto proximityCouplingDeviceConfiguration)
@@ -162,10 +149,7 @@ internal class PointOfSaleConfigurationService : IPointOfSaleConfigurationServic
         var entity = _Mapper.Map<ProximityCouplingDeviceConfiguration>(proximityCouplingDeviceConfiguration);
 
         await _PosRepository.UpdateGivenFieldsAsync(id,
-            new List<(System.Linq.Expressions.Expression<Func<PointOfSaleConfiguration, object>>, object)>
-            {
-                (item => item.ProximityCouplingDeviceConfiguration, entity)
-            });
+            new List<(Expression<Func<PointOfSaleConfiguration, object>>, object)> {(item => item.ProximityCouplingDeviceConfiguration, entity)});
     }
 
     public async Task UpdateCertificateAuthorityConfigurationAsync(Guid id, CertificateAuthorityConfigurationDto certificateAuthorityConfiguration)
@@ -183,10 +167,7 @@ internal class PointOfSaleConfigurationService : IPointOfSaleConfigurationServic
         var entity = _Mapper.Map<CertificateAuthorityConfiguration>(certificateAuthorityConfiguration);
 
         await _PosRepository.UpdateGivenFieldsAsync(id,
-            new List<(System.Linq.Expressions.Expression<Func<PointOfSaleConfiguration, object>>, object)>
-            {
-                (item => item.CertificateAuthorityConfiguration, entity)
-            });
+            new List<(Expression<Func<PointOfSaleConfiguration, object>>, object)> {(item => item.CertificateAuthorityConfiguration, entity)});
     }
 
     public async Task<PointOfSaleConfigurationDto> GetTerminalPoSConfigurationAsync(long terminalId)

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using Play.MerchantPortal.Domain.Entities;
+using Play.Merchants.Domain.Entities;
 
-namespace Play.MerchantPortal.Infrastructure.Persistence.Sql.Configurations;
+namespace Play.Merchants.Persistence.Sql.Sql.Configurations;
 
 internal class TerminalEntityConfiguration : BaseEntityConfiguration<Terminal>
 {

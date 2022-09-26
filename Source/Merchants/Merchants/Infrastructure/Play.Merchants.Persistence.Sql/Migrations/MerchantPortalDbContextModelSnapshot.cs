@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-using Play.MerchantPortal.Infrastructure.Persistence.Sql;
+using Play.Merchants.Persistence.Sql.Sql;
 
 #nullable disable
 

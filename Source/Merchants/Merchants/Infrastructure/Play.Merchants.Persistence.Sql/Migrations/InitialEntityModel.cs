@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿#nullable disable
 
-#nullable disable
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MerchantPortal.Infrastructure.Persistence.Migrations
+namespace Play.Merchants.Persistence.Sql.Migrations
 {
     public partial class InitialEntityModel : Migration
     {

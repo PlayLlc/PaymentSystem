@@ -1,14 +1,18 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
-using Play.Infrastructure.Persistence.Mongo;
-using Play.MerchantPortal.Domain.Persistence;
 
-namespace Play.MerchantPortal.Infrastructure.Persistence.Mongo;
+using Play.Merchants.Domain.Repositories;
+using Play.Persistence.Mongo.Helpers;
+
+namespace Play.Merchants.Persistence.Mongo;
 
 public static class ConfigureServices
 {
+    #region Instance Members
+
     public static void AddMongoPersistenceServices(this IServiceCollection services)
     {
         //This is obsolete but mongo team marked it as obsolete too aggresively, their suggestion is to suppres this for now.
@@ -22,4 +26,6 @@ public static class ConfigureServices
         services.AddSingleton<IMongoDbHelper, MongoDbHelper>();
         services.AddScoped<IPointOfSaleRepository, PointOfSaleRepository>();
     }
+
+    #endregion
 }

@@ -1,9 +1,11 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 
-namespace Play.MerchantPortal.Domain.Entities.PointOfSale;
+namespace Play.Merchants.Domain.Entities.PointOfSale;
 
 public class PointOfSaleConfiguration
 {
+    #region Instance Values
+
     [BsonId]
     public Guid Id { get; set; }
 
@@ -26,4 +28,6 @@ public class PointOfSaleConfiguration
     public ProximityCouplingDeviceConfiguration ProximityCouplingDeviceConfiguration { get; set; } = default!;
 
     public CertificateAuthorityConfiguration CertificateAuthorityConfiguration { get; set; } = default!;
+
+    #endregion
 }

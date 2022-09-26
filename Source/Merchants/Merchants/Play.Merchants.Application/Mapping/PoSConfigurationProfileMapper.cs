@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
-using Play.MerchantPortal.Contracts.Messages.PointOfSale;
-using Play.MerchantPortal.Domain.Entities.PointOfSale;
 
-namespace Play.MerchantPortal.Application.Mapping;
+using Play.Merchants.Contracts.Messages.PointOfSale;
+using Play.Merchants.Domain.Entities.PointOfSale;
+
+namespace Play.Merchants.Application.Mapping;
 
 public class PosConfigurationProfileMapper : Profile
 {
+    #region Constructor
+
     public PosConfigurationProfileMapper()
     {
         CreateMap<PointOfSaleConfiguration, PointOfSaleConfigurationDto>();
@@ -34,4 +37,6 @@ public class PosConfigurationProfileMapper : Profile
         CreateMap<TagLengthValueDto, TagLengthValue>();
         CreateMap<TerminalConfigurationDto, TerminalConfiguration>();
     }
+
+    #endregion
 }

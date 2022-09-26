@@ -1,4 +1,4 @@
-﻿namespace Play.Infrastructure.Persistence.Mongo;
+﻿namespace Play.Persistence.Mongo.Helpers;
 
 public enum SortOrder
 {

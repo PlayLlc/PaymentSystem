@@ -1,7 +1,9 @@
-﻿namespace Play.MerchantPortal.Domain.Entities.PointOfSale;
+﻿namespace Play.Merchants.Domain.Entities.PointOfSale;
 
 public class CertificateConfiguration
 {
+    #region Instance Values
+
     public string RegisteredApplicationProviderIndicator { get; set; } = string.Empty;
     public string PublicKeyIndex { get; set; } = string.Empty;
     public byte HashAlgorithmIndicator { get; set; }
@@ -13,4 +15,6 @@ public class CertificateConfiguration
     public string Checksum { get; set; } = string.Empty;
     public bool IsRevoked { get; set; }
     public string CertificateSerialNumber { get; set; } = string.Empty;
+
+    #endregion
 }

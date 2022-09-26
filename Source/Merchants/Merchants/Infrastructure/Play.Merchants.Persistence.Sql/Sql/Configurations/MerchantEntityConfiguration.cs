@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using Play.MerchantPortal.Domain.Entities;
+using Play.Merchants.Domain.Entities;
 
-namespace Play.MerchantPortal.Infrastructure.Persistence.Sql.Configurations
+namespace Play.Merchants.Persistence.Sql.Sql.Configurations
 {
     internal class MerchantEntityConfiguration : BaseEntityConfiguration<Merchant>
     {
         #region Instance Members
-         
+
         public override void Configure(EntityTypeBuilder<Merchant> builder)
         {
             builder.Property(x => x.AcquirerId).HasMaxLength(11).IsRequired();

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace Play.MerchantPortal.Infrastructure.Persistence.Sql;
+namespace Play.Merchants.Persistence.Sql.Sql;
 
 internal class MerchantPortalDbContextFactory : IDesignTimeDbContextFactory<MerchantPortalDbContext>
 {

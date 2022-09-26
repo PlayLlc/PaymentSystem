@@ -1,6 +1,6 @@
-﻿using Play.Infrastructure.Domain.Entities;
+﻿using Play.Domain.Entitities;
 
-namespace Play.MerchantPortal.Domain.Entities;
+namespace Play.Merchants.Domain.Entities;
 
 public class Merchant : BaseEntity
 {

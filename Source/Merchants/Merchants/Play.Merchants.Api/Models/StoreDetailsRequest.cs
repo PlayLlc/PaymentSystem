@@ -1,4 +1,4 @@
-﻿namespace Play.MerchantPortal.Api.Models;
+﻿namespace Play.Merchants.Api.Models;
 
 public class StoreDetailsRequest
 {

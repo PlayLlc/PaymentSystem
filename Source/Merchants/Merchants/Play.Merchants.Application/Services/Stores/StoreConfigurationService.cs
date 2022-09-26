@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
-using FluentValidation;
-using Play.MerchantPortal.Application.Common.Exceptions;
-using Play.MerchantPortal.Contracts.DTO;
-using Play.MerchantPortal.Contracts.Services;
-using Play.MerchantPortal.Domain.Entities;
-using Play.MerchantPortal.Domain.Persistence;
 
-namespace Play.MerchantPortal.Application.Services.Stores;
+using FluentValidation;
+
+using Play.Merchants.Application.Common.Exceptions;
+using Play.Merchants.Contracts.DTO;
+using Play.Merchants.Contracts.Services;
+using Play.Merchants.Domain.Entities;
+using Play.Merchants.Domain.Repositories;
+
+namespace Play.Merchants.Application.Services.Stores;
 
 internal class StoreConfigurationService : IStoreConfigurationService
 {

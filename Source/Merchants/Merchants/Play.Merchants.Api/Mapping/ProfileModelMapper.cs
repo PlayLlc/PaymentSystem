@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 
-using Play.MerchantPortal.Api.Models;
-using Play.MerchantPortal.Contracts.DTO;
+using Play.Merchants.Api.Models;
+using Play.Merchants.Contracts.DTO;
 
-namespace Play.MerchantPortal.Api.Mapping;
+namespace Play.Merchants.Api.Mapping;
 
 public class ProfileModelMapper : Profile
 {

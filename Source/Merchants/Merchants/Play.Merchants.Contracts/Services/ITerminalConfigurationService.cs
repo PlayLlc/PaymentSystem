@@ -1,9 +1,11 @@
-﻿using Play.MerchantPortal.Contracts.DTO;
+﻿using Play.Merchants.Contracts.DTO;
 
-namespace Play.MerchantPortal.Contracts.Services;
+namespace Play.Merchants.Contracts.Services;
 
 public interface ITerminalConfigurationService
 {
+    #region Instance Members
+
     Task<IEnumerable<TerminalDto>> GetStoreTerminalsAsync(long storeId);
 
     Task<TerminalDto> GetTerminalAsync(long id);
@@ -14,4 +16,5 @@ public interface ITerminalConfigurationService
 
     Task DeleteTerminalAsync(long id);
 
+    #endregion
 }

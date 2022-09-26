@@ -1,4 +1,4 @@
-namespace Play.MerchantPortal.Api
+namespace Play.Merchants.Api
 {
     public class WeatherForecast
     {

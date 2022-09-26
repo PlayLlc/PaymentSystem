@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-using Play.MerchantPortal.Application.Common.Exceptions;
+using Play.Merchants.Application.Common.Exceptions;
 
-namespace Play.MerchantPortal.Api.Filters;
+namespace Play.Merchants.Api.Filters;
 
 public class ApiFilterExceptionAttribute : ExceptionFilterAttribute
 {

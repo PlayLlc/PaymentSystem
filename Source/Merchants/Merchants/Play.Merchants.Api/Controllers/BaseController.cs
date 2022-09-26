@@ -2,7 +2,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace Play.MerchantPortal.Api.Controllers
+namespace Play.Merchants.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

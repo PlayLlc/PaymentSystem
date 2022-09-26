@@ -1,8 +1,12 @@
-﻿namespace Play.MerchantPortal.Domain.Entities.PointOfSale;
+﻿namespace Play.Merchants.Domain.Entities.PointOfSale;
 
 public class KernelConfiguration
 {
+    #region Instance Values
+
     public byte KernelId { get; set; }
 
     public IEnumerable<TagLengthValue> TagLengthValues { get; set; } = Enumerable.Empty<TagLengthValue>();
+
+    #endregion
 }

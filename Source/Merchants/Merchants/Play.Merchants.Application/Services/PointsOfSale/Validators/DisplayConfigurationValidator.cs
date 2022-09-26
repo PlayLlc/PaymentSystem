@@ -1,10 +1,13 @@
 ﻿using FluentValidation;
-using Play.MerchantPortal.Contracts.Messages.PointOfSale;
 
-namespace Play.MerchantPortal.Application.Services.PointsOfSale.Validators;
+using Play.Merchants.Contracts.Messages.PointOfSale;
+
+namespace Play.Merchants.Application.Services.PointsOfSale.Validators;
 
 public class DisplayConfigurationValidator : AbstractValidator<DisplayConfigurationDto>
 {
+    #region Constructor
+
     public DisplayConfigurationValidator()
     {
         RuleFor(x => x.MessageHoldTime).NotEmpty();
@@ -14,11 +17,14 @@ public class DisplayConfigurationValidator : AbstractValidator<DisplayConfigurat
             {
                 displayMessageSet.RuleFor(x => x.LanguageCode).NotEmpty().Length(2);
                 displayMessageSet.RuleFor(x => x.CountryCode).NotEmpty();
-                displayMessageSet.RuleForEach(x => x.Messages).ChildRules(message =>
-                {
-                    message.RuleFor(x => x.MessageIdentifier).NotEmpty();
-                    message.RuleFor(x => x.Message).NotEmpty();
-                });
+                displayMessageSet.RuleForEach(x => x.Messages)
+                    .ChildRules(message =>
+                    {
+                        message.RuleFor(x => x.MessageIdentifier).NotEmpty();
+                        message.RuleFor(x => x.Message).NotEmpty();
+                    });
             });
     }
+
+    #endregion
 }

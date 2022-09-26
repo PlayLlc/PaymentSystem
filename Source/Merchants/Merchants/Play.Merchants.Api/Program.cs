@@ -1,11 +1,14 @@
 using FluentValidation.AspNetCore;
+
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
+
 using Microsoft.OpenApi.Models;
-using Play.MerchantPortal.Api.Filters;
-using Play.MerchantPortal.Api.Mapping;
-using Play.MerchantPortal.Application;
-using Play.MerchantPortal.Infrastructure.Persistence;
-using Play.MerchantPortal.Infrastructure.Persistence.Mongo;
+
+using Play.Merchants.Api.Filters;
+using Play.Merchants.Application;
+using Play.Merchants.Persistence.Mongo;
+using Play.Merchants.Persistence.Sql;
+
 using Serilog;
 
 Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateBootstrapLogger();
@@ -31,8 +34,7 @@ try
     });
 
     // Add services to the container.
-    builder.Services
-        .AddFluentValidationAutoValidation(x => x.DisableDataAnnotationsValidation = true)
+    builder.Services.AddFluentValidationAutoValidation(x => x.DisableDataAnnotationsValidation = true)
         .AddFluentValidationClientsideAdapters()
         .AddFluentValidationRulesToSwagger();
 
@@ -47,7 +49,7 @@ try
 
     builder.Services.AddSwaggerGen(c =>
     {
-        c.SwaggerDoc("v1", new OpenApiInfo { Title = "Merchant Portal", Version = "v1" });
+        c.SwaggerDoc("v1", new OpenApiInfo {Title = "Merchant Portal", Version = "v1"});
     });
 
     WebApplication app = builder.Build();

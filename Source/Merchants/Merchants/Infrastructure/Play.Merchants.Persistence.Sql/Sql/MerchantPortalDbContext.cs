@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-using Play.MerchantPortal.Domain.Entities;
+using Play.Merchants.Domain.Entities;
 
-namespace Play.MerchantPortal.Infrastructure.Persistence.Sql;
+namespace Play.Merchants.Persistence.Sql.Sql;
 
 internal class MerchantPortalDbContext : DbContext
 {

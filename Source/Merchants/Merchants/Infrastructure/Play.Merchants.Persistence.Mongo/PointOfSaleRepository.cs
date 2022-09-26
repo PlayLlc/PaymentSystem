@@ -1,19 +1,35 @@
-﻿using Play.Infrastructure.Persistence.Mongo;
-using Play.MerchantPortal.Domain.Entities.PointOfSale;
-using Play.MerchantPortal.Domain.Persistence;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
-namespace Play.MerchantPortal.Infrastructure.Persistence.Mongo;
+using Play.Merchants.Domain.Entities.PointOfSale;
+using Play.Merchants.Domain.Repositories;
+using Play.Persistence.Mongo.Helpers;
+
+namespace Play.Merchants.Persistence.Mongo;
 
 internal class PointOfSaleRepository : IPointOfSaleRepository
 {
-    private readonly IMongoDbHelper _MongoDbHelper;
+    #region Static Metadata
+
     private const string _collectionName = "PosConfigurations";
+
+    #endregion
+
+    #region Instance Values
+
+    private readonly IMongoDbHelper _MongoDbHelper;
+
+    #endregion
+
+    #region Constructor
 
     public PointOfSaleRepository(IMongoDbHelper mongoDbHelper)
     {
         _MongoDbHelper = mongoDbHelper;
     }
+
+    #endregion
+
+    #region Instance Members
 
     public async Task InsertNewPosConfigurationAsync(PointOfSaleConfiguration posConfiguration)
     {
@@ -49,39 +65,31 @@ internal class PointOfSaleRepository : IPointOfSaleRepository
 
     public async Task<bool> ExistsAsync(Guid id)
     {
-        var count = (await _MongoDbHelper.CountAsync<PointOfSaleConfiguration>(_collectionName, filter => filter.Id == id));
+        var count = await _MongoDbHelper.CountAsync<PointOfSaleConfiguration>(_collectionName, filter => filter.Id == id);
+
         return count > 0;
     }
 
     public async Task UpdateGivenFieldsAsync(Guid id, List<(Expression<Func<PointOfSaleConfiguration, object>>, object)> updatedValues)
     {
-        await _MongoDbHelper.FindOneAndUpdateAsync<PointOfSaleConfiguration>(
-            _collectionName,
-            filter => filter.Id == id,
-            updatedValues.Select(x => new UpdateFieldConfig<PointOfSaleConfiguration> { Field = x.Item1!, Value = x.Item2 }).ToArray());
+        await _MongoDbHelper.FindOneAndUpdateAsync<PointOfSaleConfiguration>(_collectionName, filter => filter.Id == id,
+            updatedValues.Select(x => new UpdateFieldConfig<PointOfSaleConfiguration> {Field = x.Item1!, Value = x.Item2}).ToArray());
     }
 
     public async Task AddCombinationConfigurationAsync(Guid id, CombinationConfiguration combination)
     {
-        await _MongoDbHelper.AddToSetAsync<PointOfSaleConfiguration, CombinationConfiguration>(
-            _collectionName,
-            filter => filter.Id == id,
-            new AddFieldConfig<PointOfSaleConfiguration, CombinationConfiguration>
-            {
-                Field = combination,
-                FieldDefinition = x => x.Combinations
-            });
+        await _MongoDbHelper.AddToSetAsync<PointOfSaleConfiguration, CombinationConfiguration>(_collectionName, filter => filter.Id == id,
+            new AddFieldConfig<PointOfSaleConfiguration, CombinationConfiguration> {Field = combination, FieldDefinition = x => x.Combinations});
     }
 
     public async Task AddCertificateConfigurationAsync(Guid id, CertificateConfiguration configuration)
     {
-        await _MongoDbHelper.AddToSetAsync<PointOfSaleConfiguration, CertificateConfiguration>(
-            _collectionName,
-            fiter => fiter.Id == id,
+        await _MongoDbHelper.AddToSetAsync<PointOfSaleConfiguration, CertificateConfiguration>(_collectionName, fiter => fiter.Id == id,
             new AddFieldConfig<PointOfSaleConfiguration, CertificateConfiguration>
             {
-                Field = configuration,
-                FieldDefinition = x => x.CertificateAuthorityConfiguration.Certificates
+                Field = configuration, FieldDefinition = x => x.CertificateAuthorityConfiguration.Certificates
             });
     }
+
+    #endregion
 }

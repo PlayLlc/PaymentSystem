@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Play.MerchantPortal.Domain.Persistence;
-using Play.MerchantPortal.Infrastructure.Persistence.Repositories;
-using Play.MerchantPortal.Infrastructure.Persistence.Sql;
-using Play.MerchantPortal.Infrastructure.Persistence.Sql.DataSeed;
 
-namespace Play.MerchantPortal.Infrastructure.Persistence;
+using Play.Merchants.Domain.Repositories;
+using Play.Merchants.Persistence.Sql.Repositories;
+using Play.Merchants.Persistence.Sql.Sql;
+using Play.Merchants.Persistence.Sql.Sql.DataSeed;
+
+namespace Play.Merchants.Persistence.Sql;
 
 public static class ConfigureServices
 {

@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 
-using Play.MerchantPortal.Contracts.DTO;
-using Play.MerchantPortal.Domain.Entities;
+using Play.Merchants.Contracts.DTO;
+using Play.Merchants.Domain.Entities;
 
-namespace Play.MerchantPortal.Application.Mapping;
+namespace Play.Merchants.Application.Mapping;
 
 public class MerchantConfigurationMapperProfile : Profile
 {

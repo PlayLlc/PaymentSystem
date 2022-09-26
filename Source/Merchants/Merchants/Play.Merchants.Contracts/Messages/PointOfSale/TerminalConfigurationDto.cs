@@ -1,7 +1,9 @@
-﻿namespace Play.MerchantPortal.Contracts.Messages.PointOfSale;
+﻿namespace Play.Merchants.Contracts.Messages.PointOfSale;
 
 public record TerminalConfigurationDto
 {
+    #region Instance Values
+
     public string TerminalIdentification { get; set; } = string.Empty;
     public string MerchantIdentifier { get; set; } = string.Empty;
     public string MerchantCategoryCode { get; set; } = string.Empty;
@@ -9,7 +11,7 @@ public record TerminalConfigurationDto
     public string AcquirerIdentifier { get; set; } = string.Empty;
     public string InterfaceDeviceSerialNumber { get; set; } = string.Empty;
     public string TerminalType { get; set; } = string.Empty;
-    public string TerminalCapabilities { get; set; } = string.Empty;//Capabilities
+    public string TerminalCapabilities { get; set; } = string.Empty; //Capabilities
     public string AdditionalTerminalCapabilities { get; set; } = string.Empty; //AdditionalCapabilities
     public string TerminalCountryCode { get; set; } = string.Empty; //CountryCode
     public string LanguagePreference { get; set; } = string.Empty;
@@ -26,4 +28,6 @@ public record TerminalConfigurationDto
     public string MaxNumberOfTornTransactionLogRecords { get; set; } = string.Empty;
     public string MaxLifetimeOfTornTransactionLogRecords { get; set; } = string.Empty;
     public SequenceConfigurationDto SequenceConfiguration { get; set; } = default!;
+
+    #endregion
 }

@@ -1,7 +1,9 @@
-﻿namespace Play.MerchantPortal.Contracts.Messages.PointOfSale;
+﻿namespace Play.Merchants.Contracts.Messages.PointOfSale;
 
 public record PointOfSaleConfigurationDto
 {
+    #region Instance Values
+
     public Guid Id { get; set; }
 
     public long TerminalId { get; set; }
@@ -23,4 +25,6 @@ public record PointOfSaleConfigurationDto
     public ProximityCouplingDeviceConfigurationDto ProximityCouplingDeviceConfiguration { get; set; } = default!;
 
     public CertificateAuthorityConfigurationDto CertificateAuthorityConfiguration { get; set; } = default!;
+
+    #endregion
 }

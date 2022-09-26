@@ -1,6 +1,6 @@
-﻿using Play.Infrastructure.Domain.Entities;
+﻿using Play.Domain.Entitities;
 
-namespace Play.MerchantPortal.Domain.Persistence;
+namespace Play.Merchants.Domain.Repositories;
 
 public interface IRepository
 {

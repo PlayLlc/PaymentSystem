@@ -1,17 +1,19 @@
 ﻿using FluentValidation;
-using Play.MerchantPortal.Contracts.DTO;
 
-namespace Play.MerchantPortal.Application.Services.Stores;
+using Play.Merchants.Contracts.DTO;
+
+namespace Play.Merchants.Application.Services.Stores;
 
 public class StoreValidator : AbstractValidator<StoreDto>
 {
+    #region Constructor
+
     public StoreValidator()
     {
-        RuleFor(x => x.Name)
-            .NotEmpty()
-            .MaximumLength(50);
+        RuleFor(x => x.Name).NotEmpty().MaximumLength(50);
 
-        RuleFor(x => x.Address)
-            .NotEmpty();
+        RuleFor(x => x.Address).NotEmpty();
     }
+
+    #endregion
 }

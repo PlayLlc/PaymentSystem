@@ -1,8 +1,8 @@
-﻿using Play.MerchantPortal.Domain.Entities;
-using Play.MerchantPortal.Domain.Persistence;
-using Play.MerchantPortal.Infrastructure.Persistence.Sql;
+﻿using Play.Merchants.Domain.Entities;
+using Play.Merchants.Domain.Repositories;
+using Play.Merchants.Persistence.Sql.Sql;
 
-namespace Play.MerchantPortal.Infrastructure.Persistence.Repositories;
+namespace Play.Merchants.Persistence.Sql.Repositories;
 
 internal class CompaniesRepository : Repository<Company>, ICompaniesRepository
 {

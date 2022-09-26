@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
-using MongoDB.Driver;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
-namespace Play.Infrastructure.Persistence.Mongo;
+using Microsoft.Extensions.Configuration;
+
+using MongoDB.Driver;
+
+namespace Play.Persistence.Mongo.Helpers;
 
 public class MongoDbHelper : IMongoDbHelper
 {
@@ -62,10 +64,8 @@ public class MongoDbHelper : IMongoDbHelper
     public async Task<_> FindOneAndUpdateAsync<_>(string collectionName, Expression<Func<_, bool>> filter, params UpdateFieldConfig<_>[] updateFieldsConfig)
     {
         return await GetCollection<_>(collectionName)
-            .FindOneAndUpdateAsync(
-                filter,
-                Builders<_>.Update.Combine(updateFieldsConfig.Select(x => Builders<_>.Update.Set(x.Field, x.Value)).ToList()))
-                .ConfigureAwait(false);
+            .FindOneAndUpdateAsync(filter, Builders<_>.Update.Combine(updateFieldsConfig.Select(x => Builders<_>.Update.Set(x.Field, x.Value)).ToList()))
+            .ConfigureAwait(false);
     }
 
     public async Task InsertAsync<_>(string collectionName, _ item)
@@ -85,13 +85,10 @@ public class MongoDbHelper : IMongoDbHelper
 
     public async Task AddToSetAsync<_, Titem>(string collectionName, Expression<Func<_, bool>> filter, AddFieldConfig<_, Titem> fieldToAdd)
     {
-        await GetCollection<_>(collectionName).FindOneAndUpdateAsync(
-            filter,
-            Builders<_>.Update.Push(fieldToAdd.FieldDefinition, fieldToAdd.Field),
-            new FindOneAndUpdateOptions<_, Titem>
-            {
-                IsUpsert = true,
-            }).ConfigureAwait(false);
+        await GetCollection<_>(collectionName)
+            .FindOneAndUpdateAsync(filter, Builders<_>.Update.Push(fieldToAdd.FieldDefinition, fieldToAdd.Field),
+                new FindOneAndUpdateOptions<_, Titem> {IsUpsert = true})
+            .ConfigureAwait(false);
     }
 
     private IMongoCollection<_> GetCollection<_>(string collectionName)

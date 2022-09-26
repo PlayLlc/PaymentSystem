@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Play.MerchantPortal.Domain.Entities;
-using Play.MerchantPortal.Domain.Persistence;
-using Play.MerchantPortal.Infrastructure.Persistence.Sql;
 
-namespace Play.MerchantPortal.Infrastructure.Persistence.Repositories;
+using Play.Merchants.Domain.Entities;
+using Play.Merchants.Domain.Repositories;
+using Play.Merchants.Persistence.Sql.Sql;
+
+namespace Play.Merchants.Persistence.Sql.Repositories;
 
 internal class MerchantsRepository : Repository<Merchant>, IMerchantsRepository
 {

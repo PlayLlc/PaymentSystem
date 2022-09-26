@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace Play.Infrastructure.Persistence.Mongo;
+namespace Play.Persistence.Mongo.Helpers;
 
 public interface IMongoDbHelper
 {

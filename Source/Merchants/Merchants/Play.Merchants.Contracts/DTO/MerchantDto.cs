@@ -1,7 +1,9 @@
-﻿namespace Play.MerchantPortal.Contracts.DTO;
+﻿namespace Play.Merchants.Contracts.DTO;
 
 public record MerchantDto
 {
+    #region Instance Values
+
     public long Id { get; set; }
 
     public string AcquirerId { get; set; } = string.Empty;
@@ -23,4 +25,6 @@ public record MerchantDto
     public string Country { get; set; } = string.Empty;
 
     public long CompanyId { get; set; }
+
+    #endregion
 }

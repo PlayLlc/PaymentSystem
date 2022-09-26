@@ -1,10 +1,13 @@
-﻿using Play.MerchantPortal.Domain.Entities.PointOfSale;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
-namespace Play.MerchantPortal.Domain.Persistence;
+using Play.Merchants.Domain.Entities.PointOfSale;
+
+namespace Play.Merchants.Domain.Repositories;
 
 public interface IPointOfSaleRepository
 {
+    #region Instance Members
+
     Task InsertNewPosConfigurationAsync(PointOfSaleConfiguration posConfiguration);
 
     Task<IEnumerable<PointOfSaleConfiguration>> SelectByCompanyIdAsync(long companyId);
@@ -24,4 +27,6 @@ public interface IPointOfSaleRepository
     Task AddCombinationConfigurationAsync(Guid id, CombinationConfiguration combination);
 
     Task AddCertificateConfigurationAsync(Guid id, CertificateConfiguration configuration);
+
+    #endregion
 }

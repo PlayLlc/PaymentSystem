@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Play.MerchantPortal.Contracts.Messages.PointOfSale;
-using Play.MerchantPortal.Contracts.Services;
+
+using Play.Merchants.Contracts.Messages.PointOfSale;
+using Play.Merchants.Contracts.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace Play.MerchantPortal.Api.Controllers
+namespace Play.Merchants.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -16,7 +17,7 @@ namespace Play.MerchantPortal.Api.Controllers
 
         #endregion
 
-        #region Constructors
+        #region Constructor
 
         public PointOfSaleController(IPointOfSaleConfigurationService posConfigurationService)
         {
@@ -44,6 +45,8 @@ namespace Play.MerchantPortal.Api.Controllers
         {
             return await _posConfigurationService.GetStorePoSConfigurationsAsync(storeId);
         }
+
+        #endregion
 
         #endregion
 
@@ -96,14 +99,13 @@ namespace Play.MerchantPortal.Api.Controllers
         }
 
         [HttpPut("certificateconfiguration/{id}")]
-        public async Task<IActionResult> UpdateCertificateAuthorityConfiguration(Guid id, [FromBody] CertificateAuthorityConfigurationDto certificateAuthorityConfiguration)
+        public async Task<IActionResult> UpdateCertificateAuthorityConfiguration(
+            Guid id, [FromBody] CertificateAuthorityConfigurationDto certificateAuthorityConfiguration)
         {
             await _posConfigurationService.UpdateCertificateAuthorityConfigurationAsync(id, certificateAuthorityConfiguration);
 
             return Ok();
         }
-
-        #endregion
 
         #endregion
     }
