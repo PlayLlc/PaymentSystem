@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using Play.Domain;
 
-namespace Play.Merchants.Persistence.Sql.Sql.Configurations;
+namespace Play.Persistence.Sql;
 
 public class BaseEntityConfiguration<_Entity> : IEntityTypeConfiguration<_Entity> where _Entity : BaseEntity
 {

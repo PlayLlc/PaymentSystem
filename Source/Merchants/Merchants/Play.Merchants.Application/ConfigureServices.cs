@@ -5,10 +5,7 @@ using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
 using Play.Merchants.Application.Mapping;
-using Play.Merchants.Application.Services.Merchants;
-using Play.Merchants.Application.Services.PointsOfSale;
-using Play.Merchants.Application.Services.Stores;
-using Play.Merchants.Application.Services.Terminals;
+using Play.Merchants.Application.Services;
 using Play.Merchants.Contracts.Services;
 
 namespace Play.Merchants.Application;

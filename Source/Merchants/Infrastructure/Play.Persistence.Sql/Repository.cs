@@ -2,7 +2,7 @@
 
 using Play.Domain;
 
-namespace Play.Merchants.Persistence.Sql.Sql
+namespace Play.Persistence.Sql
 {
     public class Repository<_> : IRepository<_> where _ : BaseEntity
     {

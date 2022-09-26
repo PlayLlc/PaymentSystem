@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 
-using Play.Merchants.Contracts.Messages.PointOfSale;
+using Play.Merchants.Contracts.DTO.PointOfSale;
 
-namespace Play.Merchants.Application.Services.PointsOfSale.Validators;
+namespace Play.Merchants.Application.Services;
 
 public class DisplayConfigurationValidator : AbstractValidator<DisplayConfigurationDto>
 {

@@ -2,7 +2,7 @@
 
 using Play.Merchants.Contracts.DTO;
 
-namespace Play.Merchants.Application.Services.Stores;
+namespace Play.Merchants.Application.Services;
 
 public class StoreValidator : AbstractValidator<StoreDto>
 {

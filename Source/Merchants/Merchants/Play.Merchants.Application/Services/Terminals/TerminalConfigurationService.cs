@@ -2,13 +2,13 @@
 
 using FluentValidation;
 
-using Play.Merchants.Application.Common.Exceptions;
+using Play.Merchants.Application.Exceptions;
 using Play.Merchants.Contracts.DTO;
 using Play.Merchants.Contracts.Services;
 using Play.Merchants.Domain.Entities;
 using Play.Merchants.Domain.Repositories;
 
-namespace Play.Merchants.Application.Services.Terminals;
+namespace Play.Merchants.Application.Services;
 
 internal class TerminalConfigurationService : ITerminalConfigurationService
 {

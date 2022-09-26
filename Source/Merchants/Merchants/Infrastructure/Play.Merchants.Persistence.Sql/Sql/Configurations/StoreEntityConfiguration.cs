@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using Play.Merchants.Domain.Entities;
+using Play.Persistence.Sql;
 
 namespace Play.Merchants.Persistence.Sql.Sql.Configurations;
 

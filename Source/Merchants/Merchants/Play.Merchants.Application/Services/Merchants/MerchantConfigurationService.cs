@@ -3,15 +3,15 @@
 using FluentValidation;
 using FluentValidation.Results;
 
-using Play.Merchants.Application.Common.Exceptions;
+using Play.Merchants.Application.Exceptions;
 using Play.Merchants.Contracts.DTO;
 using Play.Merchants.Contracts.Services;
 using Play.Merchants.Domain.Entities;
 using Play.Merchants.Domain.Repositories;
 
-using ModelValidationException = Play.Merchants.Application.Common.Exceptions.ModelValidationException;
+using ModelValidationException = Play.Merchants.Application.Exceptions.ModelValidationException;
 
-namespace Play.Merchants.Application.Services.Merchants;
+namespace Play.Merchants.Application.Services;
 
 internal class MerchantConfigurationService : IMerchantConfigurationService
 {

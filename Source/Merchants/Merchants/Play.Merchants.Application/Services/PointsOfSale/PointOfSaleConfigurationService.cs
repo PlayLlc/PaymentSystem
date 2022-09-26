@@ -5,14 +5,14 @@ using AutoMapper;
 using FluentValidation;
 using FluentValidation.Results;
 
-using Play.Merchants.Application.Common.Exceptions;
+using Play.Merchants.Application.Exceptions;
+using Play.Merchants.Contracts.DTO.PointOfSale;
 using Play.Merchants.Contracts.Messages;
-using Play.Merchants.Contracts.Messages.PointOfSale;
 using Play.Merchants.Contracts.Services;
 using Play.Merchants.Domain.Entities.PointOfSale;
 using Play.Merchants.Domain.Repositories;
 
-namespace Play.Merchants.Application.Services.PointsOfSale;
+namespace Play.Merchants.Application.Services;
 
 internal class PointOfSaleConfigurationService : IPointOfSaleConfigurationService
 {

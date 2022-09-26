@@ -1,4 +1,4 @@
-﻿namespace Play.Merchants.Application.Common.Exceptions;
+﻿namespace Play.Merchants.Application.Exceptions;
 
 public class NotFoundException : Exception
 {

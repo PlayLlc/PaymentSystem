@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-using Play.Merchants.Application.Common.Exceptions;
+using Play.Merchants.Application.Exceptions;
 
 namespace Play.Merchants.Api.Filters;
 
