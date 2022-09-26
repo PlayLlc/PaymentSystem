@@ -52,7 +52,7 @@ internal class PointOfSaleConfigurationService : IPointOfSaleConfigurationServic
 
     #region Instance Members
 
-    public async Task CreateNewPosConfiguratioAsync(CreatePosConfigurationDto initialConfiguration)
+    public async Task CreatePosConfigurationAsync(CreatePosConfigurationDto initialConfiguration)
     {
         var entity = new PointOfSaleConfiguration()
         {
@@ -171,28 +171,28 @@ internal class PointOfSaleConfigurationService : IPointOfSaleConfigurationServic
             new List<(Expression<Func<PointOfSaleConfiguration, object>>, object)> {(item => item.CertificateAuthorityConfiguration, entity)});
     }
 
-    public async Task<PointOfSaleConfigurationDto> GetTerminalPoSConfigurationAsync(long terminalId)
+    public async Task<PointOfSaleConfigurationDto> GetTerminalConfigurationAsync(long terminalId)
     {
         PointOfSaleConfiguration? configuration = await _PosRepository.FindByTerminalIdAsync(terminalId);
 
         return _Mapper.Map<PointOfSaleConfigurationDto>(configuration);
     }
 
-    public async Task<PointOfSaleConfigurationDto> GetPoSConfigurationAsync(Guid id)
+    public async Task<PointOfSaleConfigurationDto> GetPosConfigurationAsync(Guid id)
     {
         PointOfSaleConfiguration? configuration = await _PosRepository.FindByIdAsync(id);
 
         return _Mapper.Map<PointOfSaleConfigurationDto>(configuration);
     }
 
-    public async Task<IEnumerable<PointOfSaleConfigurationDto>> GetStorePoSConfigurationsAsync(long storeId)
+    public async Task<IEnumerable<PointOfSaleConfigurationDto>> GetPosConfigurationByStoreIdAsync(long storeId)
     {
         IEnumerable<PointOfSaleConfiguration> result = await _PosRepository.SelectPosConfigurationsByStoreIdAsync(storeId);
 
         return _Mapper.Map<IEnumerable<PointOfSaleConfigurationDto>>(result);
     }
 
-    public async Task<IEnumerable<PointOfSaleConfigurationDto>> GetMerchantPoSConfigurationsAsync(long merchantId)
+    public async Task<IEnumerable<PointOfSaleConfigurationDto>> GetPosConfigurationByMerchantIdAsync(long merchantId)
     {
         IEnumerable<PointOfSaleConfiguration> result = await _PosRepository.SelectPoSConfigurationsByMerchantIdAsync(merchantId);
 

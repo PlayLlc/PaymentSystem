@@ -34,7 +34,7 @@ namespace Play.Merchants.Api.Controllers
         [HttpGet("terminal/{terminalId}")]
         public async Task<PointOfSaleConfigurationDto> GetByTerminal(long terminalId)
         {
-            return await _posConfigurationService.GetTerminalPoSConfigurationAsync(terminalId);
+            return await _posConfigurationService.GetTerminalConfigurationAsync(terminalId);
         }
 
         #endregion
@@ -44,7 +44,7 @@ namespace Play.Merchants.Api.Controllers
         [HttpGet("store/{storeId}")]
         public async Task<IEnumerable<PointOfSaleConfigurationDto>> GetByStore(long storeId)
         {
-            return await _posConfigurationService.GetStorePoSConfigurationsAsync(storeId);
+            return await _posConfigurationService.GetPosConfigurationByStoreIdAsync(storeId);
         }
 
         #endregion
@@ -56,13 +56,13 @@ namespace Play.Merchants.Api.Controllers
         [HttpGet("{id}")]
         public async Task<PointOfSaleConfigurationDto> Get(Guid id)
         {
-            return await _posConfigurationService.GetPoSConfigurationAsync(id);
+            return await _posConfigurationService.GetPosConfigurationAsync(id);
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreatePosConfigurationDto posConfigurationHeader)
         {
-            await _posConfigurationService.CreateNewPosConfiguratioAsync(posConfigurationHeader);
+            await _posConfigurationService.CreatePosConfigurationAsync(posConfigurationHeader);
 
             return Ok();
         }

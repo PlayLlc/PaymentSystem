@@ -7,15 +7,15 @@ public interface IPointOfSaleConfigurationService
 {
     #region Instance Members
 
-    Task CreateNewPosConfiguratioAsync(CreatePosConfigurationDto initialConfiguration);
+    Task CreatePosConfigurationAsync(CreatePosConfigurationDto initialConfiguration);
 
-    Task<PointOfSaleConfigurationDto> GetTerminalPoSConfigurationAsync(long terminalId);
+    Task<PointOfSaleConfigurationDto> GetTerminalConfigurationAsync(long terminalId);
 
-    Task<PointOfSaleConfigurationDto> GetPoSConfigurationAsync(Guid id);
+    Task<PointOfSaleConfigurationDto> GetPosConfigurationAsync(Guid id);
 
-    Task<IEnumerable<PointOfSaleConfigurationDto>> GetStorePoSConfigurationsAsync(long storeId);
+    Task<IEnumerable<PointOfSaleConfigurationDto>> GetPosConfigurationByStoreIdAsync(long storeId);
 
-    Task<IEnumerable<PointOfSaleConfigurationDto>> GetMerchantPoSConfigurationsAsync(long merchantId);
+    Task<IEnumerable<PointOfSaleConfigurationDto>> GetPosConfigurationByMerchantIdAsync(long merchantId);
 
     Task UpdateTerminalConfigurationAsync(Guid id, TerminalConfigurationDto terminalConfiguration);
 
