@@ -23,6 +23,12 @@ public readonly struct Alpha2CountryCode
         _SecondChar = (byte) value[1];
     }
 
+    public Alpha2CountryCode(byte firstChar, byte secondChar)
+    {
+        _FirstChar = firstChar;
+        _SecondChar = secondChar;
+    }
+
     #endregion
 
     #region Equality
@@ -69,6 +75,15 @@ public readonly struct Alpha2CountryCode
     }
 
     public static bool operator !=(Alpha2CountryCode left, Alpha2CountryCode right) => !left.Equals(right);
+
+    #endregion
+
+    #region Instance Members
+
+    public char[] AsCharArray() => new[] { (char)_FirstChar, (char)_SecondChar };
+    public ReadOnlySpan<char> AsReadOnlySpan() => AsCharArray();
+    public string AsString() => new(AsReadOnlySpan());
+    public override string ToString() => AsString();
 
     #endregion
 }
