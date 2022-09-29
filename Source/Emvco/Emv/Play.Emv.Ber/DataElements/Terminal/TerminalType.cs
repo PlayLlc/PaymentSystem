@@ -131,7 +131,8 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
     public bool IsOperatorType(TerminalOperatorType operatorType) => TerminalOperatorType.IsOperatorType(_Value, operatorType);
     public bool IsCommunicationType(CommunicationType communicationType) => CommunicationType.IsCommunicationType(_Value, communicationType);
     public bool IsEnvironmentType(EnvironmentType operatorType) => EnvironmentType.IsEnvironmentType(_Value, operatorType);
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => PlayCodec.NumericCodec.GetByteCount(_Value);
+    public override ushort GetValueByteCount() => PlayCodec.NumericCodec.GetByteCount(_Value);
 
     #endregion
 }

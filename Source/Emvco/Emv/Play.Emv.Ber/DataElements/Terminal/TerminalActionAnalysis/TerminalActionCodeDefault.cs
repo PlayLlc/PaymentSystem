@@ -44,7 +44,7 @@ public record TerminalActionCodeDefault : DataElement<ulong>, IEqualityComparer<
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        ulong result = PlayCodec.BinaryCodec.DecodeToUInt32(value);
+        ulong result = PlayCodec.BinaryCodec.DecodeToUInt64(value);
 
         return new TerminalActionCodeDefault(result);
     }
