@@ -168,8 +168,87 @@ public class TerminalTypeTests
 
     #endregion
 
-    #region TerminalType
+    #region TerminalType - CommunicationType
 
+    [Fact]
+    public void TerminalType_GetCommunicationType_ReturnsExpectedResult()
+    {
+        TerminalTypeTestTlv testData = new(new byte[] { 43 });
+        TerminalType sut = TerminalType.Decode(testData.EncodeValue().AsSpan());
+
+        Assert.Equal(TerminalType.CommunicationType.OfflineOnly, sut.GetCommunicationType());
+    }
+
+    [Fact]
+    public void TerminalType_GetCommunicationType_ReturnsExpectedResult2()
+    {
+        TerminalTypeTestTlv testData = new(new byte[] { 42 });
+        TerminalType sut = TerminalType.Decode(testData.EncodeValue().AsSpan());
+
+        Assert.Equal(TerminalType.CommunicationType.OnlineAndOfflineCapable, sut.GetCommunicationType());
+    }
+
+    [Fact]
+    public void TerminalType_IsCommunicatioType_ReturnsTrue()
+    {
+        TerminalTypeTestTlv testData = new(new byte[] { 42 });
+        TerminalType sut = TerminalType.Decode(testData.EncodeValue().AsSpan());
+
+        Assert.True(sut.IsCommunicationType(TerminalType.CommunicationType.OnlineAndOfflineCapable));
+    }
+
+    #endregion
+
+    #region TerminalType - EnvironmentType
+
+    [Fact]
+    public void TerminalType_GetEnvironment_ReturnsUnattended()
+    {
+        TerminalTypeTestTlv testData = new(new byte[] { 44 });
+        TerminalType sut = TerminalType.Decode(testData.EncodeValue().AsSpan());
+
+        Assert.Equal(TerminalType.EnvironmentType.Unattended, sut.GetEnvironment());
+    }
+
+    [Fact]
+    public void TerminalType_GetEnvironment_ReturnsAttended()
+    {
+        TerminalTypeTestTlv testData = new(new byte[] { 43 });
+        TerminalType sut = TerminalType.Decode(testData.EncodeValue().AsSpan());
+
+        Assert.Equal(TerminalType.EnvironmentType.Attended, sut.GetEnvironment());
+    }
+
+    [Fact]
+    public void TerminalType_IsEnvironmentType_ReturnsTrue()
+    {
+        TerminalTypeTestTlv testData = new(new byte[] { 43 });
+        TerminalType sut = TerminalType.Decode(testData.EncodeValue().AsSpan());
+
+        Assert.True(sut.IsEnvironmentType(TerminalType.EnvironmentType.Attended));
+    }
+
+    #endregion
+
+    #region TerminalType - TerminalOperatorType
+
+    [Fact]
+    public void TerminalType_GetTerminalOperatorType_ReturnsExpectedResult()
+    {
+        TerminalTypeTestTlv testData = new(new byte[] { 23 });
+        TerminalType sut = TerminalType.Decode(testData.EncodeValue().AsSpan());
+
+        Assert.Equal(TerminalType.TerminalOperatorType.Merchant, sut.GetTerminalOperatorType());
+    }
+
+    [Fact]
+    public void TerminalType_IsOperatorType_ReturnsTrue()
+    {
+        TerminalTypeTestTlv testData = new(new byte[] { 23 });
+        TerminalType sut = TerminalType.Decode(testData.EncodeValue().AsSpan());
+
+        Assert.True(sut.IsOperatorType(TerminalType.TerminalOperatorType.Merchant));
+    }
 
     #endregion
 }
