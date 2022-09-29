@@ -142,7 +142,10 @@ public class MerchantCustomDataTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        MerchantCustomDataTestTlv testData = new(new byte[] { 0x32 });
+        MerchantCustomDataTestTlv testData = new(new byte[] {
+            0x3c, 0x7d, 0x8c, 0x9f, 0x3f, 0xed, 0xab, 0x08, 0x19, 0xfa,
+            0xC3, 0xd7, 0xc8, 0xf9, 0xf3, 0xde, 0xba, 0x80, 0x91, 0xaf,
+        });
         MerchantCustomData sut = MerchantCustomData.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -158,9 +161,9 @@ public class MerchantCustomDataTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        MerchantCustomDataTestTlv testData = new(new byte[]
-        {
-            0x08
+        MerchantCustomDataTestTlv testData = new(new byte[] {
+            0x3c, 0x7d, 0x8c, 0x9f, 0x3f, 0xed, 0xab, 0x08, 0x19, 0xfa,
+            0xC3, 0xd7, 0xc8, 0xf9, 0xf3, 0xde, 0xba, 0x80, 0x91, 0xaf,
         });
 
         MerchantCustomData sut = MerchantCustomData.Decode(testData.EncodeValue().AsSpan());

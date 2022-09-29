@@ -129,7 +129,12 @@ public class TransactionCertificateHashValueTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        TransactionCertificateHashValueTestTlv testData = new(new byte[] { 0x8f });
+        TransactionCertificateHashValueTestTlv testData = new(new byte[]
+        {
+            0x4d, 0x3f, 0x07, 0x12, 0x32, 0x5d, 0xaa, 0x9b, 0x3c, 0xab,
+            0xd4, 0xf3, 0x70, 0x21, 0x23, 0xd5, 0xaa, 0xb9, 0xc3, 0xba
+        });
+
         TransactionCertificateHashValue sut = TransactionCertificateHashValue.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -147,7 +152,8 @@ public class TransactionCertificateHashValueTests
     {
         TransactionCertificateHashValueTestTlv testData = new(new byte[]
         {
-            0x4d
+            0x4d, 0x3f, 0x07, 0x12, 0x32, 0x5d, 0xaa, 0x9b, 0x3c, 0xab,
+            0xd4, 0xf3, 0x70, 0x21, 0x23, 0xd5, 0xaa, 0xb9, 0xc3, 0xba
         });
 
         TransactionCertificateHashValue sut = TransactionCertificateHashValue.Decode(testData.EncodeValue().AsSpan());

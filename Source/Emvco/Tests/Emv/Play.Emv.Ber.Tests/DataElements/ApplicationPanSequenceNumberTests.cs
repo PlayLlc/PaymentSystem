@@ -142,7 +142,7 @@ public class ApplicationPanSequenceNumberTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        ApplicationPanSequenceNumberTestTlv testData = new(new byte[] { 0x08, 0x32 });
+        ApplicationPanSequenceNumberTestTlv testData = new(new byte[] { 0x32 });
         ApplicationPanSequenceNumber sut = ApplicationPanSequenceNumber.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -158,7 +158,7 @@ public class ApplicationPanSequenceNumberTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        ApplicationPanSequenceNumberTestTlv testData = new(new byte[] { 0x79, 0xEF });
+        ApplicationPanSequenceNumberTestTlv testData = new(new byte[] { 32 });
 
         ApplicationPanSequenceNumber sut = ApplicationPanSequenceNumber.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();

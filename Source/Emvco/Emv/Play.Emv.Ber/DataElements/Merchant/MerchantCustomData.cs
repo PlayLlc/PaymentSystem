@@ -47,8 +47,8 @@ public record MerchantCustomData : DataElement<BigInteger>
         return new MerchantCustomData(result);
     }
 
-    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode(_Value, _ByteLength);
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
+    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode(_Value);
 
     #endregion
 
