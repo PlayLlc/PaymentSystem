@@ -1,22 +1,26 @@
 ﻿namespace Play.Events;
 
-/// <summary>
-///     Uniquely identifies an event type
-/// </summary>
 public readonly record struct EventTypeId
 {
     #region Instance Values
 
-    private readonly ushort _Value;
+    private readonly ulong _Value;
 
     #endregion
 
     #region Constructor
 
-    public EventTypeId(ushort eventTypeIdentifier)
+    public EventTypeId(ulong value)
     {
-        _Value = eventTypeIdentifier;
+        _Value = value;
     }
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(EventTypeId x, EventTypeId y) => x._Value == y._Value;
+    public int GetHashCode(EventTypeId obj) => obj._Value.GetHashCode();
 
     #endregion
 }

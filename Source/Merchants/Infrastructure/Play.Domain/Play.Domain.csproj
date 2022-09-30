@@ -6,4 +6,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Emvco\Core\Play.Globalization\Play.Globalization.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="_Temp\ES\Mongo\" />
+  </ItemGroup>
+
 </Project>
