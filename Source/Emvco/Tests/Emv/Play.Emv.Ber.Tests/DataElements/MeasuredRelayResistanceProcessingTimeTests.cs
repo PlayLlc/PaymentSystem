@@ -3,6 +3,7 @@
 using Play.Ber.DataObjects;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
+using Play.Globalization.Time;
 using Play.Testing.Emv.Ber.Primitive;
 
 using Xunit;
@@ -164,6 +165,38 @@ public class MeasuredRelayResistanceProcessingTimeTests
         });
 
         Assert.Throws<DataElementParsingException>(() => MeasuredRelayResistanceProcessingTime.Decode(testData.EncodeValue().AsSpan()));
+    }
+
+    #endregion
+
+    #region MeasuredRelayResistanceProcessingTime - Tests
+
+    [Fact]
+    public void MeasuredRelayResistanceProcessingTime_CreateMeasuredRelayResistanceProcessingTime_ReturnsZero()
+    {
+        Microseconds timeElapsed = new(20000);
+        TerminalExpectedTransmissionTimeForRelayResistanceCapdu terminalExpectedCapduTransmissionTime = new(400);
+        TerminalExpectedTransmissionTimeForRelayResistanceRapdu terminalExpectedRapduTransmissionTime = new(200);
+        DeviceEstimatedTransmissionTimeForRelayResistanceRapdu deviceEstimatedTransmissionTime = new(300);
+
+        MeasuredRelayResistanceProcessingTime expected = new(0);
+        var actual = MeasuredRelayResistanceProcessingTime.Create(timeElapsed, terminalExpectedCapduTransmissionTime, terminalExpectedRapduTransmissionTime, deviceEstimatedTransmissionTime);
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void MeasuredRelayResistanceProcessingTime_CreateMeasuredRelayResistanceProcessingTime_Returns100RelaySeconds()
+    {
+        Microseconds timeElapsed = new(30000);
+        TerminalExpectedTransmissionTimeForRelayResistanceCapdu terminalExpectedCapduTransmissionTime = new(400);
+        TerminalExpectedTransmissionTimeForRelayResistanceRapdu terminalExpectedRapduTransmissionTime = new(200);
+        DeviceEstimatedTransmissionTimeForRelayResistanceRapdu deviceEstimatedTransmissionTime = new(300);
+
+        MeasuredRelayResistanceProcessingTime expected = new(100);
+        var actual = MeasuredRelayResistanceProcessingTime.Create(timeElapsed, terminalExpectedCapduTransmissionTime, terminalExpectedRapduTransmissionTime, deviceEstimatedTransmissionTime);
+
+        Assert.Equal(expected, actual);
     }
 
     #endregion
