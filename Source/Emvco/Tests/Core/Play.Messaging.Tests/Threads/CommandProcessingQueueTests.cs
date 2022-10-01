@@ -41,7 +41,29 @@ public class CommandProcessingQueueTests
 
         var testMessage = actual as TestChannel1RequestMessage;
 
-        Assert.Equal(expected, testMessage.GetValue());
+        Assert.Equal(expected, testMessage?.GetValue());
+    }
+
+    [Fact]
+    public void CommandProcessingQueue_EnqueueTestChannel2RequestMessage_MessageGetsEnqueuedAndProcessed()
+    {
+        TestCommandProcessingQueue _Queue = new();
+
+        int expected = 22;
+        TestChannel2RequestMessage message = new(expected);
+
+        _Queue.Enqueue(message);
+
+        Thread.Sleep(100);
+
+        _Queue.ReceivingQueue.TryDequeue(out Message? actual);
+
+        Assert.NotNull(actual);
+        Assert.True(actual is TestChannel2RequestMessage);
+
+        var testMessage = actual as TestChannel2RequestMessage;
+
+        Assert.Equal(expected, testMessage?.GetValue());
     }
 
     [Fact]
@@ -65,7 +87,7 @@ public class CommandProcessingQueueTests
 
         while(_Queue.ReceivingQueue.TryDequeue(out Message? message))
         {
-            TestChannel1RequestMessage command = message as TestChannel1RequestMessage;
+            TestChannel1RequestMessage? command = message as TestChannel1RequestMessage;
 
             Assert.True(expectedValues.Contains(command.GetValue()));
         }
@@ -76,7 +98,7 @@ public class CommandProcessingQueueTests
     {
         TestCommandProcessingQueue _Queue = new();
 
-        List<Task> processingTasks = new List<Task>();
+        List<Task> publishingTasks = new List<Task>();
         ConcurrentBag<int> expectedValues = new ConcurrentBag<int>();
 
         for (int i = 0; i < 100; i++)
@@ -89,19 +111,18 @@ public class CommandProcessingQueueTests
                 _Queue.Enqueue(message);
             });
 
-            processingTasks.Add(t);
+            publishingTasks.Add(t);
         }
 
-        Task.WaitAll(processingTasks.ToArray());
+        Task.WaitAll(publishingTasks.ToArray());
 
-        ////Small sleep to be sure queue processing tasks finished.
         Thread.Sleep(100);
 
         Assert.Equal(100, _Queue.ReceivingQueue.Count);
 
         while (_Queue.ReceivingQueue.TryDequeue(out Message? message))
         {
-            TestChannel1RequestMessage command = message as TestChannel1RequestMessage;
+            TestChannel1RequestMessage? command = message as TestChannel1RequestMessage;
 
             Assert.NotNull(expectedValues.FirstOrDefault(x => x == command.GetValue()));
         }
@@ -128,7 +149,7 @@ public class CommandProcessingQueueTests
     {
         TestCommandProcessingQueue _Queue = new();
 
-        List<Task> processingTasks = new List<Task>();
+        List<Task> publishingTasks = new List<Task>();
         ConcurrentBag<int> expectedValues = new ConcurrentBag<int>();
 
         for (int i = 0; i < 100; i++)
@@ -136,7 +157,7 @@ public class CommandProcessingQueueTests
             if (i == 50)
             {
                 Task cancelTask = Task.Run(() => _Queue.Cancel());
-                processingTasks.Add(cancelTask);
+                publishingTasks.Add(cancelTask);
                 continue;
             }
 
@@ -148,10 +169,10 @@ public class CommandProcessingQueueTests
                 _Queue.Enqueue(message);
             });
 
-            processingTasks.Add(t);
+            publishingTasks.Add(t);
         }
 
-        Task.WaitAll(processingTasks.ToArray());
+        Task.WaitAll(publishingTasks.ToArray());
 
         Assert.True(_Queue.ReceivingQueue.Count > 0);
         Assert.True(_Queue.ReceivingQueue.Count < 100);
