@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 
-using Play.Merchants.Contracts.DTO.PointOfSale;
-using Play.Merchants.Domain.Entities.PointOfSale;
+using Play.Merchants.Contracts.DTO;
+using Play.Merchants.Domain.Entities;
 
 namespace Play.Merchants.Application.Mapping;
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Play.Domain.Entities;
 using Play.Domain.Events;
+using Play.Domain.Repositories;
 
 namespace Play.Domain.Aggregates
 {
@@ -35,6 +36,8 @@ namespace Play.Domain.Aggregates
         }
 
         public abstract override string ToString();
+
+        public abstract Dto<_TId> AsDto();
 
         #endregion
     }

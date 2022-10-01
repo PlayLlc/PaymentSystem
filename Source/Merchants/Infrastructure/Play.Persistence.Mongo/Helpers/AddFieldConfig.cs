@@ -2,13 +2,13 @@
 
 namespace Play.Persistence.Mongo.Helpers;
 
-public class AddFieldConfig<T, Titem>
+public class AddFieldConfig<_, _Titem>
 {
     #region Instance Values
 
-    public Titem Field { get; set; } = default!;
+    public _Titem Field { get; set; } = default!;
 
-    public Expression<Func<T, IEnumerable<Titem>>> FieldDefinition { get; set; } = default!;
+    public Expression<Func<_, IEnumerable<_Titem>>> FieldDefinition { get; set; } = default!;
 
     #endregion
 }

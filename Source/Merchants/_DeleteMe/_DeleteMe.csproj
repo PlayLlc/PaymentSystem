@@ -7,7 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Emvco\Core\Play.Globalization\Play.Globalization.csproj" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure\Play.Persistence.Sql\Play.Persistence.Sql.csproj" />
   </ItemGroup>
 
 </Project>

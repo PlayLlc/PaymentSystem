@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-using Play.Merchants.Contracts.DTO.PointOfSale;
+using Play.Merchants.Contracts.DTO;
 using Play.Merchants.Contracts.Messages;
 using Play.Merchants.Contracts.Services;
 
@@ -14,7 +14,7 @@ public class PointOfSaleController : ControllerBase
 {
     #region Instance Values
 
-    private readonly IPointOfSaleConfigurationService _posConfigurationService;
+    private readonly IPointOfSaleConfigurationService _PosConfigurationService;
 
     #endregion
 
@@ -22,7 +22,7 @@ public class PointOfSaleController : ControllerBase
 
     public PointOfSaleController(IPointOfSaleConfigurationService posConfigurationService)
     {
-        _posConfigurationService = posConfigurationService;
+        _PosConfigurationService = posConfigurationService;
     }
 
     #endregion
@@ -34,7 +34,7 @@ public class PointOfSaleController : ControllerBase
     [HttpGet("terminal/{terminalId}")]
     public async Task<PointOfSaleConfigurationDto> GetByTerminal(long terminalId)
     {
-        return await _posConfigurationService.GetTerminalConfigurationAsync(terminalId);
+        return await _PosConfigurationService.GetTerminalConfigurationAsync(terminalId);
     }
 
     #endregion
@@ -44,7 +44,7 @@ public class PointOfSaleController : ControllerBase
     [HttpGet("store/{storeId}")]
     public async Task<IEnumerable<PointOfSaleConfigurationDto>> GetByStore(long storeId)
     {
-        return await _posConfigurationService.GetPosConfigurationByStoreIdAsync(storeId);
+        return await _PosConfigurationService.GetPosConfigurationByStoreIdAsync(storeId);
     }
 
     #endregion
@@ -56,13 +56,13 @@ public class PointOfSaleController : ControllerBase
     [HttpGet("{id}")]
     public async Task<PointOfSaleConfigurationDto> Get(Guid id)
     {
-        return await _posConfigurationService.GetPosConfigurationAsync(id);
+        return await _PosConfigurationService.GetPosConfigurationAsync(id);
     }
 
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] CreatePosConfigurationDto posConfigurationHeader)
     {
-        await _posConfigurationService.CreatePosConfigurationAsync(posConfigurationHeader);
+        await _PosConfigurationService.CreatePosConfigurationAsync(posConfigurationHeader);
 
         return Ok();
     }
@@ -70,7 +70,7 @@ public class PointOfSaleController : ControllerBase
     [HttpPut("terminalconfiguration/{id}")]
     public async Task<IActionResult> UpdatePoSTerminalConfiguration(Guid id, [FromBody] TerminalConfigurationDto terminalConfiguration)
     {
-        await _posConfigurationService.UpdateTerminalConfigurationAsync(id, terminalConfiguration);
+        await _PosConfigurationService.UpdateTerminalConfigurationAsync(id, terminalConfiguration);
 
         return Ok();
     }
@@ -78,7 +78,7 @@ public class PointOfSaleController : ControllerBase
     [HttpPut("kernelconfiguration/{id}")]
     public async Task<IActionResult> UpdatePoSKernelConfiguration(Guid id, [FromBody] KernelConfigurationDto kernelConfiguration)
     {
-        await _posConfigurationService.UpdateKernelConfigurationAsync(id, kernelConfiguration);
+        await _PosConfigurationService.UpdateKernelConfigurationAsync(id, kernelConfiguration);
 
         return Ok();
     }
@@ -86,7 +86,7 @@ public class PointOfSaleController : ControllerBase
     [HttpPut("displayconfiguration/{id}")]
     public async Task<IActionResult> UpdateDisplayConfiguration(Guid id, [FromBody] DisplayConfigurationDto displayConfiguration)
     {
-        await _posConfigurationService.UpdateDisplayConfigurationAsync(id, displayConfiguration);
+        await _PosConfigurationService.UpdateDisplayConfigurationAsync(id, displayConfiguration);
 
         return Ok();
     }
@@ -94,7 +94,7 @@ public class PointOfSaleController : ControllerBase
     [HttpPut("combinationconfiguration/{id}")]
     public async Task<IActionResult> UpdateCombinationsConfiguration(Guid id, [FromBody] IEnumerable<CombinationConfigurationDto> combinations)
     {
-        await _posConfigurationService.UpdateCombinationsConfigurationAsync(id, combinations);
+        await _PosConfigurationService.UpdateCombinationsConfigurationAsync(id, combinations);
 
         return Ok();
     }
@@ -103,7 +103,7 @@ public class PointOfSaleController : ControllerBase
     public async Task<IActionResult> UpdateCertificateAuthorityConfiguration(
         Guid id, [FromBody] CertificateAuthorityConfigurationDto certificateAuthorityConfiguration)
     {
-        await _posConfigurationService.UpdateCertificateAuthorityConfigurationAsync(id, certificateAuthorityConfiguration);
+        await _PosConfigurationService.UpdateCertificateAuthorityConfigurationAsync(id, certificateAuthorityConfiguration);
 
         return Ok();
     }

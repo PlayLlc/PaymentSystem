@@ -22,4 +22,8 @@
     <ProjectReference Include="..\..\Play.Merchants.Domain\Play.Merchants.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
+  </ItemGroup>
+
 </Project>

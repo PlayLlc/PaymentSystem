@@ -22,7 +22,7 @@ public interface IMongoDbHelper
 
     Task DeleteOneAsync<_>(string collectionName, Expression<Func<_, bool>> filter);
 
-    Task AddToSetAsync<_, Titem>(string collectionName, Expression<Func<_, bool>> filter, AddFieldConfig<_, Titem> fieldToAdd);
+    Task AddToSetAsync<_, _Titem>(string collectionName, Expression<Func<_, bool>> filter, AddFieldConfig<_, _Titem> fieldToAdd);
 
     #endregion
 }

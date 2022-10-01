@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 
-namespace Play.Merchants.Domain.Entities.PointOfSale;
+namespace Play.Merchants.Domain.Entities;
 
 public class PointOfSaleConfiguration
 {

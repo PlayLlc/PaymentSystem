@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-using Play.Merchants.Domain.Entities.PointOfSale;
+using Play.Merchants.Domain.Entities;
 
 namespace Play.Merchants.Domain.Repositories;
 

@@ -2,14 +2,16 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using Play.Domain;
+using Play.Domain.Aggregates;
+using Play.Domain.Entities;
 
 namespace Play.Persistence.Sql;
 
-public class BaseEntityConfiguration<_Entity> : IEntityTypeConfiguration<_Entity> where _Entity : BaseEntity
+public class BaseEntityConfiguration<_Aggregate, _TId> : IEntityTypeConfiguration<_Aggregate> where _Aggregate : AggregateBase<_TId>
 {
     #region Instance Members
 
-    public virtual void Configure(EntityTypeBuilder<_Entity> builder)
+    public virtual void Configure(EntityTypeBuilder<_Aggregate> builder)
     {
         builder.HasKey(x => x.Id);
     }

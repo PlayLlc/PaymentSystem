@@ -1,4 +1,4 @@
-﻿namespace Play.Merchants.Contracts.DTO.PointOfSale;
+﻿namespace Play.Merchants.Contracts.DTO;
 
 public record PointOfSaleConfigurationDto
 {

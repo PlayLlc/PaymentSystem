@@ -1,4 +1,4 @@
-﻿namespace Play.Merchants.Domain.Entities.PointOfSale;
+﻿namespace Play.Merchants.Domain.Entities;
 
 public class CertificateConfiguration
 {

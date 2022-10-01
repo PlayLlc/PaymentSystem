@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-using Play.Merchants.Domain.Entities.PointOfSale;
+using Play.Merchants.Domain.Entities;
 using Play.Merchants.Domain.Repositories;
 using Play.Persistence.Mongo.Helpers;
 

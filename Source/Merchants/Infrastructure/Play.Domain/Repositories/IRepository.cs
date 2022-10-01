@@ -10,18 +10,16 @@ using Play.Domain.Entities;
 
 namespace Play.Domain.Repositories
 {
-    public interface IRepository<_Aggregate, _TId> where _Aggregate : IAggregate<_TId>
+    public interface IRepository<_Aggregate, _TId> where _Aggregate : AggregateBase<_TId>
     {
         #region Instance Members
 
-        Task<IEnumerable<_Aggregate>> GetAllAsync(Expression<Func<_Aggregate, bool>> predicate);
-        Task<_Aggregate> GetByIdAsync(EntityId<_TId> id);
+        Task<_Aggregate?> GetByIdAsync(EntityId<_TId> id);
         Task SaveAsync(_Aggregate aggregate);
-        Task RemoveAsync(EntityId<_TId> id);
-
-        _Aggregate GetById(EntityId<_TId> id);
-        void Save(_Aggregate entity);
-        void Remove(EntityId<_TId> entity);
+        Task RemoveAsync(_Aggregate id);
+        _Aggregate? GetById(EntityId<_TId> id);
+        void Save(_Aggregate aggregate);
+        void Remove(_Aggregate entity);
 
         #endregion
     }

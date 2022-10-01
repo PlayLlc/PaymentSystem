@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-using Play.Merchants.Contracts.DTO.PointOfSale;
+using Play.Merchants.Contracts.DTO;
 
 namespace Play.Merchants.Application.Services;
 

@@ -1,33 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
+﻿using System.Linq.Expressions;
 
 using MongoDB.Driver;
 
-using Play.Domain;
 using Play.Domain.Aggregates;
 using Play.Domain.Entities;
 using Play.Domain.Repositories;
-using Play.Persistence.Mongo;
 
-namespace ES.Payments.PurchaseAdjustment.Persistence.MongoDB;
+namespace Play.Persistence.Mongo;
 
-public class MongoDBRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where _Aggregate : AggregateBase<_TId>
+public class MongoDbRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where _Aggregate : AggregateBase<_TId>
 {
     #region Instance Values
 
-    private readonly IMongoDatabase mongoDatabase;
+    private readonly IMongoDatabase _MongoDatabase;
 
-    private string CollectionName => typeof(_Aggregate).Name;
+    private string _CollectionName => typeof(_Aggregate).Name;
 
     #endregion
 
     #region Constructor
 
-    public MongoDBRepository(IMongoDatabase mongoDatabase)
+    public MongoDbRepository(IMongoDatabase mongoDatabase)
     {
-        this.mongoDatabase = mongoDatabase;
+        _MongoDatabase = mongoDatabase;
     }
 
     #endregion
@@ -39,7 +34,7 @@ public class MongoDBRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
     {
         try
         {
-            var cursor = await mongoDatabase.GetCollection<_Aggregate>(CollectionName).FindAsync(predicate).ConfigureAwait(false);
+            var cursor = await _MongoDatabase.GetCollection<_Aggregate>(_CollectionName).FindAsync(predicate).ConfigureAwait(false);
 
             return cursor.ToEnumerable();
         }
@@ -54,7 +49,7 @@ public class MongoDBRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
     {
         try
         {
-            return await mongoDatabase.GetCollection<_Aggregate>(CollectionName).Find(x => x.Id == id).SingleAsync().ConfigureAwait(false);
+            return await _MongoDatabase.GetCollection<_Aggregate>(_CollectionName).Find(x => x.Id == id).SingleAsync().ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -67,7 +62,7 @@ public class MongoDBRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
     {
         try
         {
-            var result = await mongoDatabase.GetCollection<_Aggregate>(CollectionName)
+            var result = await _MongoDatabase.GetCollection<_Aggregate>(_CollectionName)
                 .ReplaceOneAsync(x => x.Id == aggregate.Id, aggregate, new ReplaceOptions() {IsUpsert = true})
                 .ConfigureAwait(false);
         }
@@ -77,11 +72,12 @@ public class MongoDBRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
         }
     }
 
+    /// <exception cref="MongoRepositoryException"></exception>
     public async Task RemoveAsync(EntityId<_TId> id)
     {
         try
         {
-            await mongoDatabase.GetCollection<_Aggregate>(CollectionName).DeleteOneAsync(x => x.Id == id).ConfigureAwait(false);
+            await _MongoDatabase.GetCollection<_Aggregate>(_CollectionName).DeleteOneAsync(x => x.Id == id).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -93,11 +89,12 @@ public class MongoDBRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
 
     #region Synchronous
 
+    /// <exception cref="MongoRepositoryException"></exception>
     public _Aggregate GetById(EntityId<_TId> id)
     {
         try
         {
-            return mongoDatabase.GetCollection<_Aggregate>(CollectionName).Find(x => x.Id == id).Single();
+            return _MongoDatabase.GetCollection<_Aggregate>(_CollectionName).Find(x => x.Id == id).Single();
         }
         catch (Exception ex)
         {
@@ -105,11 +102,12 @@ public class MongoDBRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
         }
     }
 
+    /// <exception cref="MongoRepositoryException"></exception>
     public void Remove(EntityId<_TId> id)
     {
         try
         {
-            mongoDatabase.GetCollection<_Aggregate>(CollectionName).DeleteOne(x => x.Id == id);
+            _MongoDatabase.GetCollection<_Aggregate>(_CollectionName).DeleteOne(x => x.Id == id);
         }
         catch (Exception ex)
         {
@@ -117,11 +115,12 @@ public class MongoDBRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
         }
     }
 
+    /// <exception cref="MongoRepositoryException"></exception>
     public void Save(_Aggregate aggregate)
     {
         try
         {
-            var result = mongoDatabase.GetCollection<_Aggregate>(CollectionName)
+            var result = _MongoDatabase.GetCollection<_Aggregate>(_CollectionName)
                 .ReplaceOneAsync(x => x.Id == aggregate.Id, aggregate, new ReplaceOptions() {IsUpsert = true});
         }
         catch (Exception ex)
