@@ -8,7 +8,7 @@ using Play.Domain.Repositories;
 
 namespace Play.Persistence.Mongo;
 
-public class MongoDbRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where _Aggregate : AggregateBase<_TId>
+public class MongoDbRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where _Aggregate : Aggregate<_TId>
 {
     #region Instance Values
 

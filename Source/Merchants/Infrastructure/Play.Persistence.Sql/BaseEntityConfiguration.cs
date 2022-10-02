@@ -7,7 +7,7 @@ using Play.Domain.Entities;
 
 namespace Play.Persistence.Sql;
 
-public class BaseEntityConfiguration<_Aggregate, _TId> : IEntityTypeConfiguration<_Aggregate> where _Aggregate : AggregateBase<_TId>
+public class BaseEntityConfiguration<_Aggregate, _TId> : IEntityTypeConfiguration<_Aggregate> where _Aggregate : Aggregate<_TId>
 {
     #region Instance Members
 

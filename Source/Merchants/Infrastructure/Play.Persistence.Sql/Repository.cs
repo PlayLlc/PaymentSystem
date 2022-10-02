@@ -13,23 +13,21 @@ using Play.Merchants.Persistence.Sql.Exceptions;
 
 namespace Play.Persistence.Sql;
 
-public class Repository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where _Aggregate : AggregateBase<_TId>
+public class Repository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where _Aggregate : Aggregate<_TId>
 {
     #region Instance Values
 
     protected readonly DbContext _DbContext;
-    protected readonly DbSet<Dto<_TId>> _DbSet;
-    protected readonly IMapDtoToAggregate _Mapper;
+    protected readonly DbSet<_Aggregate> _DbSet;
 
     #endregion
 
     #region Constructor
 
-    public Repository(IMapDtoToAggregate mapper, DbSet<Dto<_TId>> dbSet, DbContext dbContext)
+    public Repository(DbContext dbContext)
     {
-        _Mapper = mapper;
         _DbContext = dbContext;
-        _DbSet = dbSet;
+        _DbSet = dbContext.Set<_Aggregate>();
     }
 
     #endregion
@@ -41,7 +39,7 @@ public class Repository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where 
     {
         try
         {
-            return (_Aggregate) _Mapper.AsAggregate(_DbSet.Find(id)!);
+            return _DbSet.Find(id.Id);
         }
         catch (Exception ex)
         {
@@ -57,7 +55,7 @@ public class Repository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where 
     {
         try
         {
-            _DbSet.Remove(aggregate.AsDto());
+            _DbSet.Remove(aggregate);
             _DbContext.SaveChanges();
         }
         catch (Exception ex)
@@ -73,7 +71,7 @@ public class Repository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where 
     {
         try
         {
-            _DbSet.Update(aggregate.AsDto());
+            _DbSet.Update(aggregate);
             _DbContext.SaveChanges();
         }
         catch (Exception ex)
@@ -94,12 +92,7 @@ public class Repository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where 
     {
         try
         {
-            var aggregate = await _DbSet.FindAsync(id.Id).ConfigureAwait(false);
-
-            if (aggregate == null)
-                return null;
-
-            return (_Aggregate) _Mapper.AsAggregate(aggregate);
+            return await _DbSet.FindAsync(id.Id).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -115,7 +108,7 @@ public class Repository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where 
     {
         try
         {
-            _DbSet.Update(aggregate.AsDto());
+            _DbSet.Update(aggregate);
             await _DbContext.SaveChangesAsync();
         }
         catch (Exception ex)
@@ -131,7 +124,7 @@ public class Repository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where 
     {
         try
         {
-            _DbSet.Remove(aggregate.AsDto());
+            _DbSet.Remove(aggregate);
             await _DbContext.SaveChangesAsync();
         }
         catch (Exception ex)

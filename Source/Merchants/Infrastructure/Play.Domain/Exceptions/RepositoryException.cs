@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 using Play.Core.Exceptions;
 
-namespace Play.Domain.Repositories
+namespace Play.Domain.Exceptions
 {
     public class RepositoryException : PlayException
     {

@@ -4,16 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Play.Domain.Aggregates;
-using Play.Domain.Entities;
+using Play.Domain;
 
-namespace Play.Domain.Repositories
+namespace Play.Merchants.Onboarding.Contracts.Dto
 {
-    public abstract class Dto<_Id>
+    internal class TerminalDto : Dto<int>
     {
         #region Instance Values
 
-        public abstract _Id Id { get; set; }
+        public override int Id { get; set; }
 
         #endregion
     }

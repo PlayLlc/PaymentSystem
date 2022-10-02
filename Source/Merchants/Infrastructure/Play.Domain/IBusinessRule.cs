@@ -4,16 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Play.Domain.Aggregates;
-using Play.Domain.Repositories;
-
 namespace Play.Domain
 {
-    public interface IMapDtoToAggregate
+    public interface IBusinessRule
     {
+        #region Instance Values
+
+        string Message { get; }
+
+        #endregion
+
         #region Instance Members
 
-        public AggregateBase<_Id> AsAggregate<_Id>(Dto<_Id> model);
+        bool IsBroken();
 
         #endregion
     }

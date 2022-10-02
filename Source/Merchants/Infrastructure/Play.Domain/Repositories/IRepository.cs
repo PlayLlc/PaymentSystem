@@ -10,7 +10,7 @@ using Play.Domain.Entities;
 
 namespace Play.Domain.Repositories
 {
-    public interface IRepository<_Aggregate, _TId> where _Aggregate : AggregateBase<_TId>
+    public interface IRepository<_Aggregate, _TId> where _Aggregate : Aggregate<_TId>
     {
         #region Instance Members
 

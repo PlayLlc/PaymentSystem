@@ -35,7 +35,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.PointOfSale.Domain", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Globalization", "..\Emvco\Core\Play.Globalization\Play.Globalization.csproj", "{44D1ED40-3D73-4862-96AC-4D2C2BABF22D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_DeleteMe", "_DeleteMe\_DeleteMe.csproj", "{A5088D73-71E6-4952-8F05-BB27D7EEE82A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_DeleteMe", "_DeleteMe\_DeleteMe.csproj", "{A5088D73-71E6-4952-8F05-BB27D7EEE82A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Onboarding", "Onboarding", "{460B0CC6-3EFF-4FC8-B4E0-A01349EE3803}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Merchants.Onboarding.Domain", "Onboarding\Play.Merchants.Onboarding.Domain\Play.Merchants.Onboarding.Domain.csproj", "{BB17D34A-FBCB-4232-9FBA-1539B85D091B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Merchants.Onboarding.Contracts", "Onboarding\Play.Merchants.Onboarding.Contracts\Play.Merchants.Onboarding.Contracts.csproj", "{3EEDBB75-F54A-4C0D-A3F1-C346D1937E0D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Merchants.Onboarding.Sql", "Onboarding\Play.Merchants.Onboarding.Sql\Play.Merchants.Onboarding.Sql.csproj", "{43106AE3-B8BE-4062-A815-560F3602BB2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,6 +103,18 @@ Global
 		{A5088D73-71E6-4952-8F05-BB27D7EEE82A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5088D73-71E6-4952-8F05-BB27D7EEE82A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5088D73-71E6-4952-8F05-BB27D7EEE82A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB17D34A-FBCB-4232-9FBA-1539B85D091B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB17D34A-FBCB-4232-9FBA-1539B85D091B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB17D34A-FBCB-4232-9FBA-1539B85D091B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB17D34A-FBCB-4232-9FBA-1539B85D091B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EEDBB75-F54A-4C0D-A3F1-C346D1937E0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EEDBB75-F54A-4C0D-A3F1-C346D1937E0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EEDBB75-F54A-4C0D-A3F1-C346D1937E0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EEDBB75-F54A-4C0D-A3F1-C346D1937E0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43106AE3-B8BE-4062-A815-560F3602BB2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43106AE3-B8BE-4062-A815-560F3602BB2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43106AE3-B8BE-4062-A815-560F3602BB2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43106AE3-B8BE-4062-A815-560F3602BB2C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -114,6 +134,9 @@ Global
 		{A165E54C-9702-456B-A0D8-89B3153BDC5D} = {0B68DA4F-047D-408D-A0D6-E7A8FA6CD81E}
 		{44D1ED40-3D73-4862-96AC-4D2C2BABF22D} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
 		{A5088D73-71E6-4952-8F05-BB27D7EEE82A} = {B771B052-7DD2-4E5E-A795-A326D4DE7E60}
+		{BB17D34A-FBCB-4232-9FBA-1539B85D091B} = {460B0CC6-3EFF-4FC8-B4E0-A01349EE3803}
+		{3EEDBB75-F54A-4C0D-A3F1-C346D1937E0D} = {460B0CC6-3EFF-4FC8-B4E0-A01349EE3803}
+		{43106AE3-B8BE-4062-A815-560F3602BB2C} = {460B0CC6-3EFF-4FC8-B4E0-A01349EE3803}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6833603-DD22-4624-AB4A-235C51671F62}
