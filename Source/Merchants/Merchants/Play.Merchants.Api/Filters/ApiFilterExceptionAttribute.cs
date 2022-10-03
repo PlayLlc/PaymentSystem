@@ -81,7 +81,6 @@ public class ApiFilterExceptionAttribute : ExceptionFilterAttribute
             new ValidationProblemDetails(exception.Errors) {Type = "https://www.rfc-editor.org/rfc/rfc7231#section-6.5.1"};
 
         context.Result = new BadRequestObjectResult(problemDetails);
-
         context.ExceptionHandled = true;
     }
 

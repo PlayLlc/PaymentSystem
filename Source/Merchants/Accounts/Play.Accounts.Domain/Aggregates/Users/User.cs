@@ -1,21 +1,24 @@
-﻿using Play.Domain.Aggregates;
+﻿using Play.Accounts.Contracts.Dtos;
+using Play.Domain;
+using Play.Domain.Aggregates;
 using Play.Globalization.Time;
 using Play.Merchants.Onboarding.Domain.Common;
 
 namespace Play.Merchants.Onboarding.Domain.Aggregates;
 
-public class User : Aggregate<string>
+public class User : Aggregate<UserId>
 {
     #region Instance Values
 
     private readonly UserId _Id;
+    private readonly MerchantId _MerchantId;
     private readonly HashSet<UserRole> _Roles;
 
-    private Address _Address;
-    private ContactInfo _ContactInfo;
-    private DateTimeUtc _DateOfBirth;
-    private string _LastFourOfSsn;
-    private bool _IsActive;
+    private readonly Address _Address;
+    private readonly ContactInfo _ContactInfo;
+    private readonly DateTimeUtc _DateOfBirth;
+    private readonly string _LastFourOfSsn;
+    private readonly bool _IsActive;
 
     #endregion
 
@@ -26,9 +29,12 @@ public class User : Aggregate<string>
         // Entity Framework only
     }
 
-    public User(UserId id, Address address, ContactInfo contactInfo, string lastFourOfSsn, DateTimeUtc dateOfBirth, bool isActive, params UserRole[] roles)
+    public User(
+        UserId id, MerchantId merchantId, Address address, ContactInfo contactInfo, string lastFourOfSsn, DateTimeUtc dateOfBirth, bool isActive,
+        params UserRole[] roles)
     {
         _Id = id;
+        _MerchantId = merchantId;
         _Address = address;
         _ContactInfo = contactInfo;
         _LastFourOfSsn = lastFourOfSsn;
@@ -59,6 +65,15 @@ public class User : Aggregate<string>
     public override UserId GetId()
     {
         return (UserId) _Id;
+    }
+
+    public override UserDto AsDto()
+    {
+        return new UserDto
+        {
+            Id = _Id.Id, MerchantId = _MerchantId.Id, Address = _Address.AsDto(), ContactInfo = _ContactInfo.AsDto(), DateOfBirth = _DateOfBirth,
+            LastFourOfSsn = _LastFourOfSsn, IsActive = _IsActive, Roles = _Roles.ToList().Select(a => a.Value).ToList()
+        };
     }
 
     #endregion

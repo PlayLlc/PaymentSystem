@@ -1,4 +1,6 @@
-﻿using Play.Domain;
+﻿using Play.Accounts.Contracts.Commands;
+using Play.Accounts.Contracts.Dtos;
+using Play.Domain;
 using Play.Domain.Aggregates;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Time;
@@ -6,18 +8,17 @@ using Play.Merchants.Onboarding.Domain.Common;
 using Play.Merchants.Onboarding.Domain.Entities;
 using Play.Merchants.Onboarding.Domain.Enums;
 using Play.Merchants.Onboarding.Domain.Services;
-using Play.Merchants.Onboarding.Domain.ValueObjects;
 
 namespace Play.Merchants.Onboarding.Domain.Aggregates;
 
-public class UserRegistration : Aggregate<string>
+public class UserRegistration : Aggregate<UserRegistrationId>
 {
     #region Instance Values
 
     private readonly UserRegistrationId _Id;
     private readonly Address _Address;
     private readonly ContactInfo _ContactInfo;
-    private readonly string _LastFourOfSocialSecurityNumber;
+    private readonly string _LastFourOfSsn;
     private readonly DateTimeUtc _DateOfBirth;
     private readonly DateTimeUtc _RegisteredDate;
     private DateTimeUtc? _ConfirmedDate;
@@ -27,16 +28,13 @@ public class UserRegistration : Aggregate<string>
 
     #region Constructor
 
-    private UserRegistration()
-    { }
-
-    public UserRegistration(UserRegistrationId id, Address address, ContactInfo contactInfo, string lastFourOfSocialSecurityNumber, DateTimeUtc dateOfBirth)
+    public UserRegistration(Address address, ContactInfo contactInfo, string lastFourOfSsn, DateTimeUtc dateOfBirth)
     {
-        _Id = id;
+        _Id = new UserRegistrationId(contactInfo.Email.Value);
         _Address = address;
         _ContactInfo = contactInfo;
 
-        _LastFourOfSocialSecurityNumber = lastFourOfSocialSecurityNumber;
+        _LastFourOfSsn = lastFourOfSsn;
 
         _DateOfBirth = dateOfBirth;
         _RegisteredDate = DateTimeUtc.Now;
@@ -50,23 +48,21 @@ public class UserRegistration : Aggregate<string>
 
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="ValueObjectException"></exception>
-    public static UserRegistration CreateNewUserRegistration(
-        string name, string streetAddress, string apartmentNumber, string zipcode, StateAbbreviations state, string city, string firstName, string lastName,
-        string phone, string email, string lastFourOfSocialSecurityNumber, DateTimeUtc dateOfBirth, IEnsureUniqueEmails uniqueEmailChecker)
+    public static UserRegistration CreateNewUserRegistration(RegisterUserRequest registerUserRequest, IEnsureUniqueEmails uniqueEmailChecker)
     {
-        UserRegistrationId id = UserRegistrationId.New();
-
         // Create the entities needed for this Aggregate Object. Entities are responsible for ensuring they are instantiated correctly
-        Address address = new(AddressId.New(), streetAddress, apartmentNumber, zipcode, state, city);
-        ContactInfo contactInfo = new(ContactInfoId.New(), firstName, lastName, phone, email);
-        UserRegistration userRegistration = new UserRegistration(id, address, contactInfo, lastFourOfSocialSecurityNumber, dateOfBirth);
+        Address address = new(AddressId.New(), registerUserRequest.StreetAddress, registerUserRequest.ApartmentNumber, registerUserRequest.Zipcode,
+            registerUserRequest.StateAbbreviation, registerUserRequest.City);
+        ContactInfo contactInfo = new(ContactInfoId.New(), registerUserRequest.FirstName, registerUserRequest.LastName, registerUserRequest.Phone,
+            registerUserRequest.Email);
+        UserRegistration userRegistration = new UserRegistration(address, contactInfo, registerUserRequest.LastFourOfSocial, registerUserRequest.DateOfBirth);
 
         // Validate the business rules for this Aggregate Object
         userRegistration.Enforce(new UserEmailMustBeUnique(uniqueEmailChecker, contactInfo.Email));
 
         // Publish a domain event when a business process has taken place
-        userRegistration.Raise(new UserRegistrationCreatedDomainEvent(address, contactInfo, lastFourOfSocialSecurityNumber, dateOfBirth,
-            userRegistration._RegisteredDate));
+        userRegistration.Raise(new UserRegistrationCreatedDomainEvent(userRegistration._Id, address, contactInfo, registerUserRequest.LastFourOfSocial,
+            registerUserRequest.DateOfBirth, userRegistration._RegisteredDate));
 
         return userRegistration;
     }
@@ -77,7 +73,7 @@ public class UserRegistration : Aggregate<string>
         Enforce(new UserCannotBeCreatedWhenRegistrationHasExpired(_RegisteredDate));
         Enforce(new UserCannotBeCreatedWhenRegistrationIsNotConfirmed(_Status));
 
-        User user = User.CreateFromUserRegistration((UserRegistrationId) _Id!, _Address, _ContactInfo, _LastFourOfSocialSecurityNumber, _DateOfBirth);
+        User user = User.CreateFromUserRegistration((UserRegistrationId) _Id!, _Address, _ContactInfo, _LastFourOfSsn, _DateOfBirth);
 
         return user;
     }
@@ -107,6 +103,15 @@ public class UserRegistration : Aggregate<string>
     public override UserRegistrationId GetId()
     {
         return (UserRegistrationId) _Id;
+    }
+
+    public override UserRegistrationDto AsDto()
+    {
+        return new UserRegistrationDto
+        {
+            Id = _Id.Id, Address = _Address.AsDto(), ContactInfo = _ContactInfo.AsDto(), DateOfBirth = _DateOfBirth, ConfirmedDate = _ConfirmedDate,
+            LastFourOfSsn = _LastFourOfSsn, RegisteredDate = _RegisteredDate, RegistrationStatus = _Status
+        };
     }
 
     #endregion

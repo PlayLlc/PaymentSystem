@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using Play.Accounts.Contracts.Dtos;
+using Play.Domain;
 using Play.Domain.Entities;
 using Play.Merchants.Onboarding.Domain.Entities;
 using Play.Merchants.Onboarding.Domain.Enums;
@@ -45,6 +41,14 @@ public class Address : Entity<string>
     public override AddressId GetId()
     {
         return Id;
+    }
+
+    public override AddressDto AsDto()
+    {
+        return new AddressDto
+        {
+            ApartmentNumber = ApartmentNumber, City = City, StateAbbreviation = State, StreetAddress = StreetAddress, Zipcode = Zipcode.Value
+        };
     }
 
     #endregion

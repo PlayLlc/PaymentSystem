@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using NServiceBus;
-
-using Play.Merchants.Onboarding.Domain.Aggregates.MerchantRegistration;
-using Play.Messaging.NServiceBus;
+﻿using Play.Messaging.NServiceBus;
 
 namespace Play.Accounts.Application.Events
 {

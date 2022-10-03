@@ -1,0 +1,49 @@
+﻿using Play.Domain.Aggregates;
+using Play.Domain.Entities;
+using Play.Merchants.Onboarding.Domain.Aggregates;
+
+namespace Play.Accounts.Domain.Aggregates.Terminals
+{
+    internal class Terminal : Aggregate<TerminalId>
+    {
+        #region Instance Values
+
+        private readonly TerminalId _Id;
+        private readonly MerchantId _MerchantId;
+        private readonly UserId _UserId;
+        private readonly string _DeviceId;
+
+        #endregion
+
+        #region Constructor
+
+        private Terminal(TerminalId id, MerchantId merchantId, UserId userId, string deviceId)
+        {
+            _Id = id;
+            _MerchantId = merchantId;
+            _UserId = userId;
+            _DeviceId = deviceId;
+
+            // Entity Framework only
+        }
+
+        #endregion
+
+        #region Instance Members
+
+        public static Terminal CreateNewTerminal(MerchantId merchantId, UserId userId, string deviceId)
+        {
+            // Rules
+            return new Terminal(TerminalId.New(), merchantId, userId, deviceId);
+
+            // Publish Domain Event
+        }
+
+        public override EntityId<string> GetId()
+        {
+            return _Id;
+        }
+
+        #endregion
+    }
+}

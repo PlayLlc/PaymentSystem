@@ -1,5 +1,4 @@
 ﻿using Play.Domain.Entities;
-using Play.Globalization.Time;
 
 namespace Play.Merchants.Onboarding.Domain.Aggregates;
 
@@ -16,7 +15,7 @@ public record MerchantId : EntityId<string>
 
     public static MerchantId New()
     {
-        return new(GenerateStringId());
+        return new MerchantId(GenerateStringId());
     }
 
     #endregion

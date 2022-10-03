@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Emvco\Core\Play.Globalization\Play.Globalization.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Play.Domain\Play.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

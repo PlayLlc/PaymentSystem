@@ -14,8 +14,7 @@ public record UserRegistrationCreatedDomainEvent : DomainEvent
 
     #region Instance Values
 
-    public readonly MerchantId MerchantId;
-
+    public readonly UserRegistrationId UserRegistrationId;
     public readonly string StreetAddress;
     public readonly string ApartmentNumber;
     public readonly string Zipcode;
@@ -34,21 +33,22 @@ public record UserRegistrationCreatedDomainEvent : DomainEvent
     #region Constructor
 
     public UserRegistrationCreatedDomainEvent(
-        MerchantId merchantId, Address address, ContactInfo contactInfo, string lastFourOfSocialSecurityNumber, DateTimeUtc dateOfBirth,
+        UserRegistrationId userRegistrationId, Address address, ContactInfo contactInfo, string lastFourOfSocialSecurityNumber, DateTimeUtc dateOfBirth,
         DateTimeUtc registeredDate) : base(DomainEventTypeId)
     {
+        UserRegistrationId = userRegistrationId;
         StreetAddress = address.StreetAddress;
         ApartmentNumber = address.ApartmentNumber;
-        Zipcode = address.Zipcode;
+        Zipcode = address.Zipcode.Value;
         State = address.State;
         City = address.City;
 
         LastFourOfSocialSecurityNumber = lastFourOfSocialSecurityNumber;
 
-        FirstName = contactInfo.FirstName;
-        LastName = contactInfo.LastName;
-        Phone = contactInfo.Phone;
-        Email = contactInfo.Email;
+        FirstName = contactInfo.FirstName.Value;
+        LastName = contactInfo.LastName.Value;
+        Phone = contactInfo.Phone.Value;
+        Email = contactInfo.Email.Value;
         DateOfBirth = dateOfBirth;
         RegisteredDate = registeredDate;
     }

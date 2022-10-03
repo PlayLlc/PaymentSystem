@@ -1,13 +1,7 @@
-﻿using System.Data.Common;
+﻿using Microsoft.EntityFrameworkCore;
 
-using Microsoft.EntityFrameworkCore;
-
-using Play.Domain;
 using Play.Domain.Entities;
 using Play.Domain.Repositories;
-
-using System.Linq.Expressions;
-
 using Play.Domain.Aggregates;
 using Play.Merchants.Persistence.Sql.Exceptions;
 

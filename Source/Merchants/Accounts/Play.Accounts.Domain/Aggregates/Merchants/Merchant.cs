@@ -1,53 +1,57 @@
-﻿using Play.Domain.Aggregates;
+﻿using Play.Accounts.Contracts.Dtos;
+using Play.Domain;
+using Play.Domain.Aggregates;
 using Play.Globalization.Time;
 using Play.Merchants.Onboarding.Domain.Common;
+using Play.Merchants.Onboarding.Domain.Enums;
+using Play.Merchants.Onboarding.Domain.ValueObjects;
 
 namespace Play.Merchants.Onboarding.Domain.Aggregates;
 
-public class Merchant : Aggregate<string>
+public class Merchant : Aggregate<MerchantId>
 {
     #region Instance Values
 
-    private readonly UserId _Id;
-
-    private Address _Address;
-    private ContactInfo _ContactInfo;
+    private readonly MerchantId _Id;
+    private readonly Name _CompanyName;
+    private readonly Address _Address;
+    private readonly BusinessTypes _BusinessType;
+    private readonly MerchantCategoryCodes _MerchantCategoryCode;
 
     #endregion
 
     #region Constructor
 
-    private Merchant()
-    {
-        // Entity Framework only
-    }
-
-    public Merchant(MerchantId id, Address address, ContactInfo contactInfo)
+    public Merchant(MerchantId id, Name companyName, Address address, BusinessTypes businessType, MerchantCategoryCodes merchantCategoryCode)
     {
         _Id = id;
+        _CompanyName = companyName;
         _Address = address;
-        _ContactInfo = contactInfo;
+        _BusinessType = businessType;
+        _MerchantCategoryCode = merchantCategoryCode;
     }
 
     #endregion
 
     #region Instance Members
 
-    public static Merchant CreateFromUserRegistration(
-        UserRegistrationId userRegistrationId, Address address, ContactInfo contactInfo, string lastFourOfSsn, DateTimeUtc dateOfBirth)
+    public static Merchant CreateFromMerchantRegistration(Name name, Address address, BusinessTypes businessType, MerchantCategoryCodes merchantCategoryCode)
     {
-        return new Merchant(new UserId(userRegistrationId.Id), address, contactInfo, lastFourOfSsn, dateOfBirth, true, UserRole.Member);
+        return new Merchant(MerchantId.New(), name, address, businessType, merchantCategoryCode);
     }
 
-    public void AddRole(UserRole role)
+    public override MerchantId GetId()
     {
-        if (_Roles.Add(role))
-            Raise(new UserRoleAdded((UserId) _Id!, role));
+        return _Id;
     }
 
-    public override UserId GetId()
+    public override MerchantDto AsDto()
     {
-        return (UserId) _Id;
+        return new MerchantDto
+        {
+            Id = _Id.Id, Address = _Address.AsDto(), BusinessType = _BusinessType, CompanyName = _CompanyName.Value,
+            MerchantCategoryCode = $"{_MerchantCategoryCode}"
+        };
     }
 
     #endregion

@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Immutable;
 
 using Play.Core;
-using Play.Domain.ValueObjects;
 
 namespace Play.Merchants.Onboarding.Domain.Enums
 {

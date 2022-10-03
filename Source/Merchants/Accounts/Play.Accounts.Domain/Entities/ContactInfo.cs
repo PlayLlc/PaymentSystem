@@ -1,4 +1,5 @@
-﻿using Play.Domain.Entities;
+﻿using Play.Accounts.Contracts.Dtos;
+using Play.Domain.Entities;
 using Play.Merchants.Onboarding.Domain.Entities;
 using Play.Merchants.Onboarding.Domain.ValueObjects;
 
@@ -36,6 +37,11 @@ public class ContactInfo : Entity<string>
     public override ContactInfoId GetId()
     {
         return Id;
+    }
+
+    public override ContactInfoDto AsDto()
+    {
+        return new ContactInfoDto() {Email = Email.Value, FirstName = FirstName.Value, LastName = LastName.Value, Phone = Phone.Value};
     }
 
     #endregion

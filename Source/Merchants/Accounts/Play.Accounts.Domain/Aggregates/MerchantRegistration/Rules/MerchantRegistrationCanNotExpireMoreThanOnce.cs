@@ -1,6 +1,5 @@
 ﻿using Play.Domain;
 using Play.Merchants.Onboarding.Domain.Enums;
-using Play.Merchants.Onboarding.Domain.ValueObjects;
 
 namespace Play.Merchants.Onboarding.Domain.Aggregates.MerchantRegistration.Rules;
 

@@ -1,0 +1,21 @@
+﻿namespace Play.Accounts.Api.Models
+{
+    public class Response
+    {
+        #region Instance Values
+
+        public bool Errored { get; set; }
+        public string ErrorMessage { get; set; }
+
+        #endregion
+    }
+
+    public sealed class Response<TReturn> : Response
+    {
+        #region Instance Values
+
+        public TReturn Object { get; set; }
+
+        #endregion
+    }
+}

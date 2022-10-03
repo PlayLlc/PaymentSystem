@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Domain.Events;
+﻿using Play.Domain.Events;
 using Play.Globalization.Time;
 using Play.Merchants.Onboarding.Domain.Common;
 using Play.Merchants.Onboarding.Domain.Enums;

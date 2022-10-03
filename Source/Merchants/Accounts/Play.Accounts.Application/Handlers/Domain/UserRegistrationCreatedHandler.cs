@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Domain.Events;
+﻿using Play.Domain.Events;
 using Play.Merchants.Onboarding.Domain.Aggregates;
 
 namespace Play.Accounts.Application.Handlers.Domain

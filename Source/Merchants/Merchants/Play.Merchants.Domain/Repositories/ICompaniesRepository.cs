@@ -1,5 +1,4 @@
-﻿using Play.Domain;
-using Play.Merchants.Domain.Entities;
+﻿using Play.Merchants.Domain.Entities;
 
 namespace Play.Merchants.Domain.Repositories;
 
