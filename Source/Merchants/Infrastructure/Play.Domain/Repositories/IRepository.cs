@@ -7,10 +7,10 @@ public interface IRepository<_Aggregate, _TId> where _Aggregate : Aggregate<_TId
 {
     #region Instance Members
 
-    Task<_Aggregate?> GetByIdAsync(EntityId<_TId> id);
+    Task<_Aggregate?> GetByIdAsync(_TId id);
     Task SaveAsync(_Aggregate aggregate);
     Task RemoveAsync(_Aggregate id);
-    _Aggregate? GetById(EntityId<_TId> id);
+    _Aggregate? GetById(_TId id);
     void Save(_Aggregate aggregate);
     void Remove(_Aggregate entity);
 

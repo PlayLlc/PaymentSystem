@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-using Play.Accounts.Api.Messages;
 using Play.Accounts.Api.Models;
 using Play.Accounts.Contracts.Commands;
 using Play.Accounts.Contracts.Dtos;
@@ -11,6 +10,8 @@ using Play.Merchants.Onboarding.Domain.Services;
 
 namespace Play.Accounts.Api.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class UserRegistrationController : Controller
     {
         #region Instance Values
@@ -22,23 +23,27 @@ namespace Play.Accounts.Api.Controllers
 
         #region Constructor
 
-        public UserRegistrationController(IEnsureUniqueEmails uniqueEmailChecker)
+        public UserRegistrationController(IEnsureUniqueEmails uniqueEmailChecker, IRepository<UserRegistration, UserRegistrationId> userRegistrationRepository)
         {
             _UniqueEmailChecker = uniqueEmailChecker;
+            _UserRegistrationRepository = userRegistrationRepository;
         }
 
         #endregion
 
         #region Instance Members
 
-        // GET: UserRegistrationController
-        public Response<UserRegistrationDto> RegisterUser(RegisterUserRequest registerUserRequest)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<Response<UserRegistrationDto>> RegisterUser(RegisterUserRequest registerUserRequest)
         {
             Response<UserRegistrationDto> response = new Response<UserRegistrationDto>();
 
             try
             {
-                response.Object = UserRegistration.CreateNewUserRegistration(registerUserRequest, _UniqueEmailChecker).AsDto();
+                var userRegistration = UserRegistration.CreateNewUserRegistration(registerUserRequest, _UniqueEmailChecker);
+                await _UserRegistrationRepository.SaveAsync(userRegistration).ConfigureAwait(false);
+                response.Object = userRegistration.AsDto();
 
                 return response;
             }
@@ -51,72 +56,45 @@ namespace Play.Accounts.Api.Controllers
             }
         }
 
-        // GET: UserRegistrationController/Details/5
-        public IActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: UserRegistrationController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: UserRegistrationController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<Response> VerifyEmail(VerifyUserEmailRequest verifyUserEmailRequest)
         {
+            Response<UserRegistrationDto> response = new Response<UserRegistrationDto>();
+
             try
             {
-                return RedirectToAction(nameof(Index));
+                // Logic
+
+                return response;
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                response.Errored = true;
+                response.ErrorMessage = e.Message;
+
+                return response;
             }
         }
 
-        // GET: UserRegistrationController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: UserRegistrationController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<Response> VerifyMobile(VerifyUserMobileRequest verifyUserEmailRequest)
         {
+            Response<UserRegistrationDto> response = new Response<UserRegistrationDto>();
+
             try
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+                // Logic
 
-        // GET: UserRegistrationController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: UserRegistrationController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
+                return response;
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                response.Errored = true;
+                response.ErrorMessage = e.Message;
+
+                return response;
             }
         }
 

@@ -46,7 +46,7 @@ public abstract class Aggregate<_TId> : Entity<_TId>, IEquatable<Aggregate<_TId>
         if (other is null)
             return false;
 
-        if (other.GetId() == GetId())
+        if (other.GetId()!.Equals(GetId()))
             return true;
 
         return false;
