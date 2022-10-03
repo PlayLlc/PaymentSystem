@@ -37,7 +37,6 @@ namespace Play.Accounts.Contracts.Commands
         /// </summary>
         [Required]
         [StringLength(2)]
-        [EnumDataType(typeof(StateAbbreviations))] // HACK - This needs to be an enum type
         public string StateAbbreviation { get; set; }
 
         /// <summary>

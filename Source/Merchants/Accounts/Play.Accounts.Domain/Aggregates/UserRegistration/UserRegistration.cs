@@ -1,5 +1,6 @@
 ﻿using Play.Accounts.Contracts.Commands;
 using Play.Accounts.Contracts.Dtos;
+using Play.Core;
 using Play.Domain;
 using Play.Domain.Aggregates;
 using Play.Domain.ValueObjects;
@@ -52,7 +53,7 @@ public class UserRegistration : Aggregate<UserRegistrationId>
     {
         // Create the entities needed for this Aggregate Object. Entities are responsible for ensuring they are instantiated correctly
         Address address = new(AddressId.New(), registerUserRequest.StreetAddress, registerUserRequest.ApartmentNumber, registerUserRequest.Zipcode,
-            registerUserRequest.StateAbbreviation, registerUserRequest.City);
+            StateAbbreviations.Empty.Get(registerUserRequest.StateAbbreviation), registerUserRequest.City);
         ContactInfo contactInfo = new(ContactInfoId.New(), registerUserRequest.FirstName, registerUserRequest.LastName, registerUserRequest.Phone,
             registerUserRequest.Email);
         UserRegistration userRegistration = new UserRegistration(address, contactInfo, registerUserRequest.LastFourOfSocial, registerUserRequest.DateOfBirth);

@@ -145,6 +145,11 @@ namespace Play.Merchants.Onboarding.Domain.Enums
             return _ValueObjectMap.Values.ToArray();
         }
 
+        public StateAbbreviations Get(string value)
+        {
+            return _ValueObjectMap[value];
+        }
+
         public override bool TryGet(string value, out EnumObjectString? result)
         {
             if (_ValueObjectMap.TryGetValue(value, out StateAbbreviations? enumResult))
