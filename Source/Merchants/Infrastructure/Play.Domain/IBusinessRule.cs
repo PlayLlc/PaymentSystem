@@ -4,20 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Play.Domain
+namespace Play.Domain;
+
+public interface IBusinessRule
 {
-    public interface IBusinessRule
-    {
-        #region Instance Values
+    #region Instance Values
 
-        string Message { get; }
+    string Message { get; }
 
-        #endregion
+    #endregion
 
-        #region Instance Members
+    #region Instance Members
 
-        bool IsBroken();
+    bool IsBroken();
 
-        #endregion
-    }
+    #endregion
 }

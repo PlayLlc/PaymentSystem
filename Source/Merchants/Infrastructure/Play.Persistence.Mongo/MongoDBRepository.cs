@@ -34,7 +34,7 @@ public class MongoDbRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
     {
         try
         {
-            var cursor = await _MongoDatabase.GetCollection<_Aggregate>(_CollectionName).FindAsync(predicate).ConfigureAwait(false);
+            IAsyncCursor<_Aggregate>? cursor = await _MongoDatabase.GetCollection<_Aggregate>(_CollectionName).FindAsync(predicate).ConfigureAwait(false);
 
             return cursor.ToEnumerable();
         }
@@ -62,7 +62,7 @@ public class MongoDbRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
     {
         try
         {
-            var result = await _MongoDatabase.GetCollection<_Aggregate>(_CollectionName)
+            ReplaceOneResult? result = await _MongoDatabase.GetCollection<_Aggregate>(_CollectionName)
                 .ReplaceOneAsync(x => x.Id == aggregate.Id, aggregate, new ReplaceOptions() {IsUpsert = true})
                 .ConfigureAwait(false);
         }
@@ -120,7 +120,7 @@ public class MongoDbRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
     {
         try
         {
-            var result = _MongoDatabase.GetCollection<_Aggregate>(_CollectionName)
+            Task<ReplaceOneResult>? result = _MongoDatabase.GetCollection<_Aggregate>(_CollectionName)
                 .ReplaceOneAsync(x => x.Id == aggregate.Id, aggregate, new ReplaceOptions() {IsUpsert = true});
         }
         catch (Exception ex)

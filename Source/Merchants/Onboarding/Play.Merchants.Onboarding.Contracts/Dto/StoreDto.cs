@@ -7,16 +7,15 @@ using System.Threading.Tasks;
 using Play.Domain;
 using Play.Merchants.Onboarding.Contracts.Common;
 
-namespace Play.Merchants.Onboarding.Contracts.Dto
+namespace Play.Merchants.Onboarding.Contracts.Dto;
+
+internal class StoreDto : Dto<int>
 {
-    internal class StoreDto : Dto<int>
-    {
-        #region Instance Values
+    #region Instance Values
 
-        public override int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public Address Address { get; set; } = new();
+    public override int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public Address Address { get; set; } = new();
 
-        #endregion
-    }
+    #endregion
 }

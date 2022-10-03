@@ -8,15 +8,14 @@ using System.Threading.Tasks;
 
 using Play.Merchants.Onboarding.Contracts.Common;
 
-namespace Play.Merchants.Onboarding.Contracts.Dto
+namespace Play.Merchants.Onboarding.Contracts.Dto;
+
+internal class MerchantDto : Dto<int>
 {
-    internal class MerchantDto : Dto<int>
-    {
-        #region Instance Values
+    #region Instance Values
 
-        public override int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
+    public override int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
 
-        #endregion
-    }
+    #endregion
 }

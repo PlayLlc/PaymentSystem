@@ -8,7 +8,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\Play.Domain\Play.Domain.csproj" />
-    <ProjectReference Include="..\Play.Merchants.Onboarding.Contracts\Play.Merchants.Onboarding.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Aggregates\Users\Rules\" />
   </ItemGroup>
 
 </Project>
