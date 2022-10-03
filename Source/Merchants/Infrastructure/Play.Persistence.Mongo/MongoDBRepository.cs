@@ -49,7 +49,7 @@ public class MongoDbRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
     {
         try
         {
-            return await _MongoDatabase.GetCollection<_Aggregate>(_CollectionName).Find(x => x.Id == id).SingleAsync().ConfigureAwait(false);
+            return await _MongoDatabase.GetCollection<_Aggregate>(_CollectionName).Find(x => x.GetId() == id).SingleAsync().ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -63,7 +63,7 @@ public class MongoDbRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
         try
         {
             ReplaceOneResult? result = await _MongoDatabase.GetCollection<_Aggregate>(_CollectionName)
-                .ReplaceOneAsync(x => x.Id == aggregate.Id, aggregate, new ReplaceOptions() {IsUpsert = true})
+                .ReplaceOneAsync(x => x.GetId() == aggregate.GetId(), aggregate, new ReplaceOptions() {IsUpsert = true})
                 .ConfigureAwait(false);
         }
         catch (Exception ex)
@@ -73,15 +73,16 @@ public class MongoDbRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
     }
 
     /// <exception cref="MongoRepositoryException"></exception>
-    public async Task RemoveAsync(EntityId<_TId> id)
+    public async Task RemoveAsync(_Aggregate aggregate)
     {
         try
         {
-            await _MongoDatabase.GetCollection<_Aggregate>(_CollectionName).DeleteOneAsync(x => x.Id == id).ConfigureAwait(false);
+            await _MongoDatabase.GetCollection<_Aggregate>(_CollectionName).DeleteOneAsync(x => x.GetId() == aggregate.GetId()).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            throw new MongoRepositoryException($"Error removing the {nameof(_Aggregate)} document with the {nameof(EntityId<_TId>)}: [{id}]", ex);
+            throw new MongoRepositoryException($"Error removing the {nameof(_Aggregate)} document with the {nameof(EntityId<_TId>)}: [{aggregate.GetId()}]",
+                ex);
         }
     }
 
@@ -94,7 +95,7 @@ public class MongoDbRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
     {
         try
         {
-            return _MongoDatabase.GetCollection<_Aggregate>(_CollectionName).Find(x => x.Id == id).Single();
+            return _MongoDatabase.GetCollection<_Aggregate>(_CollectionName).Find(x => x.GetId() == id).Single();
         }
         catch (Exception ex)
         {
@@ -103,15 +104,16 @@ public class MongoDbRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
     }
 
     /// <exception cref="MongoRepositoryException"></exception>
-    public void Remove(EntityId<_TId> id)
+    public void Remove(_Aggregate aggregate)
     {
         try
         {
-            _MongoDatabase.GetCollection<_Aggregate>(_CollectionName).DeleteOne(x => x.Id == id);
+            _MongoDatabase.GetCollection<_Aggregate>(_CollectionName).DeleteOne(x => x.GetId() == aggregate.GetId());
         }
         catch (Exception ex)
         {
-            throw new MongoRepositoryException($"Error removing the {nameof(_Aggregate)} document with the {nameof(EntityId<_TId>)}: [{id}]", ex);
+            throw new MongoRepositoryException($"Error removing the {nameof(_Aggregate)} document with the {nameof(EntityId<_TId>)}: [{aggregate.GetId()}]",
+                ex);
         }
     }
 
@@ -121,7 +123,7 @@ public class MongoDbRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
         try
         {
             Task<ReplaceOneResult>? result = _MongoDatabase.GetCollection<_Aggregate>(_CollectionName)
-                .ReplaceOneAsync(x => x.Id == aggregate.Id, aggregate, new ReplaceOptions() {IsUpsert = true});
+                .ReplaceOneAsync(x => x.GetId() == aggregate.GetId(), aggregate, new ReplaceOptions() {IsUpsert = true});
         }
         catch (Exception ex)
         {

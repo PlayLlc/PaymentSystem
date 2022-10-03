@@ -19,17 +19,17 @@ public static class DomainEventBus
 
     #region Events
 
-    public static void Subscribe(DomainEventHandler domainEventHandler)
+    public static void Subscribe(IHandleDomainEvents domainEventHandler)
     {
         _DomainEventRouter.Subscribe(domainEventHandler);
     }
 
-    public static void Unsubscribe(DomainEventHandler domainEventHandler)
+    public static void Unsubscribe(IHandleDomainEvents domainEventHandler)
     {
         _DomainEventRouter.Unsubscribe(domainEventHandler);
     }
 
-    public static void Publish(DomainEvent domainEvent)
+    public static void Publish<_Event>(_Event domainEvent) where _Event : DomainEvent
     {
         _DomainEventRouter.Publish(domainEvent);
     }

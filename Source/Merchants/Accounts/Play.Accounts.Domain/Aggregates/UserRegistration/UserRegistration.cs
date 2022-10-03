@@ -65,7 +65,7 @@ public class UserRegistration : Aggregate<string>
         userRegistration.Enforce(new UserEmailMustBeUnique(uniqueEmailChecker, contactInfo.Email));
 
         // Publish a domain event when a business process has taken place
-        userRegistration.Raise(new UserRegistrationCreated(address, contactInfo, lastFourOfSocialSecurityNumber, dateOfBirth,
+        userRegistration.Raise(new UserRegistrationCreatedDomainEvent(address, contactInfo, lastFourOfSocialSecurityNumber, dateOfBirth,
             userRegistration._RegisteredDate));
 
         return userRegistration;
@@ -91,7 +91,7 @@ public class UserRegistration : Aggregate<string>
         _Status = RegistrationStatuses.Confirmed;
         _ConfirmedDate = DateTimeUtc.Now;
 
-        Raise(new UserRegistrationHasBeenConfirmed(_Id!));
+        Raise(new UserRegistrationHasBeenConfirmedDomainEvent(_Id!));
     }
 
     /// <exception cref="BusinessRuleValidationException"></exception>
@@ -101,7 +101,7 @@ public class UserRegistration : Aggregate<string>
 
         _Status = RegistrationStatuses.Expired;
 
-        Raise(new UserRegistrationHasExpired(_Id!));
+        Raise(new UserRegistrationHasExpiredDomainEvent(_Id!));
     }
 
     public override UserRegistrationId GetId()
