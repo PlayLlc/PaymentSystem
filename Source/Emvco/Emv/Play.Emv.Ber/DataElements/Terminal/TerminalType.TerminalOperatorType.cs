@@ -41,7 +41,7 @@ public partial record TerminalType
         {
             FinancialInstitution = new TerminalOperatorType(_FinancialInstitution);
             Merchant = new TerminalOperatorType(_Merchant);
-            Cardholder = new TerminalOperatorType(_Merchant);
+            Cardholder = new TerminalOperatorType(_Cardholder);
 
             _ValueObjectMap = new Dictionary<byte, TerminalOperatorType>
             {

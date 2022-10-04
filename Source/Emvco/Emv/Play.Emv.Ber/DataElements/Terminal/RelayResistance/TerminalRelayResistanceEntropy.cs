@@ -43,7 +43,7 @@ public record TerminalRelayResistanceEntropy : DataElement<uint>
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
+        uint result = PlayCodec.BinaryCodec.DecodeToUInt32(value);
 
         return new TerminalRelayResistanceEntropy(result);
     }

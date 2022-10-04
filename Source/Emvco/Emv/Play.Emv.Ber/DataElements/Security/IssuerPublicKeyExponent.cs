@@ -33,7 +33,7 @@ public record IssuerPublicKeyExponent : DataElement<uint>, IEqualityComparer<Iss
 
     #region Instance Members
 
-    public byte[] AsByteArray() => PlayCodec.UnsignedIntegerCodec.Encode(_Value);
+    public byte[] AsByteArray() => PlayCodec.UnsignedIntegerCodec.Encode(_Value, true);
     public PublicKeyExponents AsPublicKeyExponent() => PublicKeyExponents.Create(_Value);
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public int GetByteCount() => _Value.GetMostSignificantBit();
@@ -54,8 +54,8 @@ public record IssuerPublicKeyExponent : DataElement<uint>, IEqualityComparer<Iss
     public static IssuerPublicKeyExponent Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
-        Check.Primitive.ForMinimumLength(value, _MaxByteLength, Tag);
-        ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
+        uint result = PlayCodec.BinaryCodec.DecodeToUInt32(value);
 
         return new IssuerPublicKeyExponent(result);
     }

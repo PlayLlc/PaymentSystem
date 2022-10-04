@@ -1,4 +1,6 @@
-﻿using Play.Ber.DataObjects;
+﻿using System.Numerics;
+
+using Play.Ber.DataObjects;
 using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
@@ -9,7 +11,7 @@ namespace Play.Emv.Ber.DataElements;
 /// <summary>
 ///     Proprietary merchant data that may be requested by the Card.
 /// </summary>
-public record MerchantCustomData : DataElement<byte>
+public record MerchantCustomData : DataElement<BigInteger>
 {
     #region Static Metadata
 
@@ -21,7 +23,7 @@ public record MerchantCustomData : DataElement<byte>
 
     #region Constructor
 
-    public MerchantCustomData(byte value) : base(value)
+    public MerchantCustomData(BigInteger value) : base(value)
     { }
 
     #endregion
@@ -40,13 +42,13 @@ public record MerchantCustomData : DataElement<byte>
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
         return new MerchantCustomData(result);
     }
 
-    public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => _Codec.EncodeValue(EncodingId, _Value, length);
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
+    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode(_Value);
 
     #endregion
 

@@ -47,8 +47,8 @@ public record TerminalCategoriesSupportedList : DataElement<BigInteger>, IEquali
         return new TerminalCategoriesSupportedList(result);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec) => PlayCodec.BinaryCodec.Encode(_Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => PlayCodec.BinaryCodec.Encode(_Value, length);
 
     #endregion
 

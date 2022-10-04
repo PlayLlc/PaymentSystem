@@ -63,7 +63,7 @@ public record SignedDynamicApplicationData : DataElement<BigInteger>, IEqualityC
 
     #region Instance Members
 
-    public byte[] AsByteArray() => _Value.ToByteArray();
+    public byte[] AsByteArray() => _Value.ToByteArray(true);
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public ushort GetByteCount() => (ushort) _Value.GetByteCount();
     public override Tag GetTag() => Tag;
