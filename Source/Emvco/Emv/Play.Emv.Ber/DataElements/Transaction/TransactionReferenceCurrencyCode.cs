@@ -84,7 +84,9 @@ public record TransactionReferenceCurrencyCode : DataElement<NumericCurrencyCode
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => PlayCodec.NumericCodec.GetByteCount(_Value);
+
+    public override ushort GetValueByteCount() => PlayCodec.NumericCodec.GetByteCount(_Value);
 
     #endregion
 }

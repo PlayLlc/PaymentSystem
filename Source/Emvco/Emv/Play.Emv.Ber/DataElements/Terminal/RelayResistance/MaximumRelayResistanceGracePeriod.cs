@@ -1,4 +1,5 @@
-﻿using Play.Ber.DataObjects;
+﻿using Play.Ber.Codecs;
+using Play.Ber.DataObjects;
 using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
@@ -48,8 +49,8 @@ public record MaximumRelayResistanceGracePeriod : DataElement<RelaySeconds>
         return new MaximumRelayResistanceGracePeriod(result);
     }
 
-    public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => _Codec.EncodeValue(EncodingId, _Value, length);
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode((ushort)_Value, _ByteLength);
+    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode((ushort)_Value, length);
 
     #endregion
 
@@ -63,6 +64,10 @@ public record MaximumRelayResistanceGracePeriod : DataElement<RelaySeconds>
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
+
+    public override ushort GetValueByteCount() => PlayCodec.BinaryCodec.GetByteCount((ushort)_Value);
+
+    public override ushort GetValueByteCount(BerCodec codec) => PlayCodec.BinaryCodec.GetByteCount((ushort)_Value);
 
     #endregion
 }

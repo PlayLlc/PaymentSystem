@@ -1,4 +1,5 @@
-﻿using Play.Ber.DataObjects;
+﻿using Play.Ber.Codecs;
+using Play.Ber.DataObjects;
 using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
@@ -86,6 +87,8 @@ public record TransactionCurrencyCode : DataElement<NumericCurrencyCode>, IEqual
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount() => PlayCodec.NumericCodec.GetByteCount(_Value);
+    public override ushort GetValueByteCount(BerCodec codec) => PlayCodec.NumericCodec.GetByteCount(_Value);
 
     #endregion
 }
