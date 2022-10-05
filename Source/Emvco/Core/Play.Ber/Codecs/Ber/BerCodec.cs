@@ -200,6 +200,9 @@ public partial class BerCodec
     /// <exception cref="OverflowException"></exception>
     public TagLengthValue[] DecodeTagLengthValues(ReadOnlySpan<byte> value)
     {
+        if (value.Length == 0)
+            return Array.Empty<TagLengthValue>();
+
         TagLength[]? tagLengthArray = _TagLengthFactory.GetTagLengthArray(value);
 
         if (tagLengthArray.Length == 0)
