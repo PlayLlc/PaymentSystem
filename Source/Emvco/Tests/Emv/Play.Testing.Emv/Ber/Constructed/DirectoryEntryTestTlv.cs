@@ -37,8 +37,6 @@ public class DirectoryEntryTestTlv : TestTlv
     #endregion
 
     #region Instance Members
-
-    public static TagLengthValue AsTagLengthValue() => new(Tag, _DefaultContentOctets);
     public static byte[] GetRawTagLengthValue() => _RawTagLengthValue;
     public override Tag GetTag() => DirectoryEntry.Tag;
 

@@ -70,7 +70,8 @@ public class DirectoryEntryTests : TestBase
     [Fact]
     public void Template_InvokingAsTagLengthValue_ReturnsExpectedResult()
     {
-        TagLengthValue expected = DirectoryEntryTestTlv.AsTagLengthValue();
+        DirectoryEntryTestTlv testData = new();
+        TagLengthValue expected = testData.AsTagLengthValue();
         DirectoryEntry sut = DirectoryEntry.Decode(expected.EncodeTagLengthValue());
         TagLengthValue actual = sut.AsTagLengthValue();
 

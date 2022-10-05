@@ -9,12 +9,6 @@ public class FileControlInformationProprietaryAdfTestTlv : TestTlv
 {
     #region Static Data
 
-    private static readonly byte[] _RawTagLengthValue =
-    {
-        0x61, 0x10, 0x4F, 0x07, 0xA0, 0x00, 0x00, 0x00, 0x03, 0x10,
-        0x10, 0x87, 0x01, 0x01, 0x9F, 0x2A, 0x01, 0x03
-    };
-
     private static readonly byte[] _DefaultContentOctets =
     {
         0x50, 0x04, (byte) 't', (byte) 'e', (byte) 's', (byte) 't',
@@ -41,9 +35,6 @@ public class FileControlInformationProprietaryAdfTestTlv : TestTlv
     #endregion
 
     #region Instance Members
-
-    public static TagLengthValue AsTagLengthValue() => new(Tag, _DefaultContentOctets);
-    public static byte[] GetRawTagLengthValue() => _RawTagLengthValue;
 
     public override Tag GetTag() => FileControlInformationProprietaryAdf.Tag;
 

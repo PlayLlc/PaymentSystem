@@ -69,7 +69,8 @@ public class FileControlInformationProprietaryAdfTests : TestBase
     [Fact]
     public void Template_InvokingAsTagLengthValue_ReturnsExpectedResult()
     {
-        TagLengthValue expected = FileControlInformationProprietaryAdfTestTlv.AsTagLengthValue();
+        FileControlInformationProprietaryAdfTestTlv testData = new();
+        TagLengthValue expected = testData.AsTagLengthValue();
         FileControlInformationProprietaryAdf sut = FileControlInformationProprietaryAdf.Decode(expected.EncodeTagLengthValue());
         TagLengthValue actual = sut.AsTagLengthValue();
 
