@@ -17,12 +17,13 @@ public class FileControlInformationProprietaryAdfTestTlv : TestTlv
 
     private static readonly byte[] _DefaultContentOctets =
     {
-        0xBF, 0x0C, 0x07, 0xA0, 0x00, 0x00, 0x00, 0x03, 0x10, 0x10,
-        0x87, 1, 13,
         0x50, 0x04, (byte) 't', (byte) 'e', (byte) 's', (byte) 't',
         0x9F, 0x12, 0x04, (byte) 't', (byte) 'e', (byte) 's', (byte) 't',
+        0x87, 1, 13,
+        0xBF, 0x0C, 0x00,
         0x9F, 0x11, 1, 22,
-        0x5F, 0x2D, 2, (byte)'e', (byte)'n'
+        0x5F, 0x2D, 2, (byte)'e', (byte)'n',
+        0x9F, 0x38, 0x00
     };
 
     private static readonly Tag Tag = FileControlInformationProprietaryAdf.Tag;

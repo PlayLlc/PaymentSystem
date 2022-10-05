@@ -1,3 +1,4 @@
+using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Tags;
 using Play.Codecs;
@@ -67,6 +68,10 @@ public record IssuerCodeTableIndex : DataElement<byte>
 
         return x.Equals(y);
     }
+
+    public override ushort GetValueByteCount() => PlayCodec.NumericCodec.GetByteCount(_Value);
+
+    public override ushort GetValueByteCount(BerCodec codec) => PlayCodec.NumericCodec.GetByteCount(_Value);
 
     #endregion
 }
