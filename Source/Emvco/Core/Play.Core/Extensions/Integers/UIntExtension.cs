@@ -98,7 +98,7 @@ public static class UIntExtension
         if (bitPosition > Specs.Integer.UInt32.BitCount)
             throw new ArgumentOutOfRangeException(nameof(bitPosition));
 
-        return input | ((uint) bitPosition - 8);
+        return input | (uint)(1 << (bitPosition - 1));
     }
 
     public static uint SetBits(this in uint input, uint bitsToSet) => input | bitsToSet;

@@ -4,6 +4,7 @@ using Play.Ber.DataObjects;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
+using Play.Icc.Messaging.Apdu;
 using Play.Testing.Emv.Ber.Primitive;
 
 using Xunit;
@@ -211,7 +212,7 @@ public class ErrorIndicationTests
         ErrorIndicationTestTlv testData = new(new byte[]
         {
             0x00, //L2Ok
-            0x12, 
+            0x12,
             0x9F, 0x15, 0x28, 0x3E
         });
 
@@ -321,6 +322,72 @@ public class ErrorIndicationTests
         ErrorIndication sut = ErrorIndication.Decode(testData.EncodeValue().AsSpan());
         Assert.False(sut.IsErrorPresent());
     }
+
+    #endregion
+
+    #region Builder
+
+    [Fact]
+    public void ErrrorIndicationBuilder_Instantiate_BuilderInstantiated()
+    {
+        ErrorIndication.Builder builder = ErrorIndication.GetBuilder();
+
+        Assert.NotNull(builder);
+    }
+
+    [Fact]
+    public void ErrorIndicationBuilder_Reset_ReturnsExpectedResult()
+    {
+        ErrorIndication.Builder builder = ErrorIndication.GetBuilder();
+
+        builder.Reset(ErrorIndication.Default);
+        Assert.Equal(ErrorIndication.Default, builder.Complete());
+    }
+
+    [Fact]
+    public void ErrorIndicationBuilder_SetLevel1Error_ReturnsExpectedResult()
+    {
+        ErrorIndication.Builder builder = ErrorIndication.GetBuilder();
+        byte[] testValue = { 0b11, 0, 0, 0, 0, 0 };
+        ErrorIndication expected = ErrorIndication.Decode(testValue.AsSpan());
+
+        builder.Set(Level1Error.ProtocolError);
+        Assert.Equal(expected, builder.Complete());
+    }
+
+    [Fact]
+    public void ErrorIndicationBuilder_SetLevel2Error_ReturnsExpectedResult()
+    {
+        ErrorIndication.Builder builder = ErrorIndication.GetBuilder();
+        byte[] testValue = { 0, 6, 0, 0, 0, 0 };
+        ErrorIndication expected = ErrorIndication.Decode(testValue.AsSpan());
+
+        builder.Set(Level2Error.CardDataError);
+        Assert.Equal(expected, builder.Complete());
+    }
+
+    [Fact]
+    public void ErrorIndicationBuilder_SetLevel3Error_ReturnsExpectedResult()
+    {
+        ErrorIndication.Builder builder = ErrorIndication.GetBuilder();
+        byte[] testValue = { 0, 0, 0, 0, 0, 48 };
+        ErrorIndication expected = ErrorIndication.Decode(testValue.AsSpan());
+
+        builder.Set(Level3Error.AmountNotPresent);
+        Assert.Equal(expected, builder.Complete());
+    }
+
+    [Fact]
+    public void ErrorIndicationBuilder_SetStatusWords_ReturnsExpectedResult()
+    {
+        ErrorIndication.Builder builder = ErrorIndication.GetBuilder();
+        byte[] testValue = { 0, 0, 0, 0x6A, 0x88, 0 };
+        ErrorIndication expected = ErrorIndication.Decode(testValue.AsSpan());
+
+        builder.Set(StatusWords._6A88);
+        Assert.Equal(expected, builder.Complete());
+    }
+
 
     #endregion
 }
