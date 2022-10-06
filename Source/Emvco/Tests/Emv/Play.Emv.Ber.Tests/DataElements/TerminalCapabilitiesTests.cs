@@ -169,6 +169,118 @@ public class TerminalCapabilitiesTests
 
     #endregion
 
+    #region TerminalCapabilities
+
+    [Fact]
+    public void TerminalCapabilities_IsCardCaptureSupported_ReturnsTrue()
+    {
+        byte[] testValue = { 0b100000, 0, 0 };
+        TerminalCapabilities sut = TerminalCapabilities.Decode(testValue.AsSpan());
+
+        Assert.True(sut.IsCardCaptureSupported());
+    }
+
+    [Fact]
+    public void TerminalCapabilities_IsCombinedDataAuthenticationSupported_ReturnsTrue()
+    {
+        byte[] testValue = { 0b10000, 0, 0 };
+        TerminalCapabilities sut = TerminalCapabilities.Decode(testValue.AsSpan());
+
+        Assert.True(sut.IsCombinedDataAuthenticationSupported());
+    }
+
+    [Fact]
+    public void TerminalCapabilities_IsDynamicDataAuthenticationSupported_ReturnsTrue()
+    {
+        byte[] testValue = { 0b1000000, 0, 0 };
+        TerminalCapabilities sut = TerminalCapabilities.Decode(testValue.AsSpan());
+
+        Assert.True(sut.IsDynamicDataAuthenticationSupported());
+    }
+
+    [Fact]
+    public void TerminalCapabilities_IsEncipheredPinForOfflineVerificationSupported_ReturnsTrue()
+    {
+        byte[] testValue = { 0b1000000, 0b10000, 0 };
+        TerminalCapabilities sut = TerminalCapabilities.Decode(testValue.AsSpan());
+
+        Assert.True(sut.IsEncipheredPinForOfflineVerificationSupported());
+    }
+
+    [Fact]
+    public void TerminalCapabilities_IsEncipheredPinForOnlineVerificationSupported_ReturnsTrue()
+    {
+        byte[] testValue = { 0b1000000, 0b1000000, 0 };
+        TerminalCapabilities sut = TerminalCapabilities.Decode(testValue.AsSpan());
+
+        Assert.True(sut.IsEncipheredPinForOnlineVerificationSupported());
+    }
+
+    [Fact]
+    public void TerminalCapabilities_IsIcWithContactsSupported_ReturnsTrue()
+    {
+        byte[] testValue = { 0b1000000, 0b1000000, 0b100000 };
+        TerminalCapabilities sut = TerminalCapabilities.Decode(testValue.AsSpan());
+
+        Assert.True(sut.IsIcWithContactsSupported());
+    }
+
+    [Fact]
+    public void TerminalCapabilities_IsMagneticStripeSupported_ReturnsTrue()
+    {
+        byte[] testValue = { 0b1000000, 0b1000000, 0b1000000 };
+        TerminalCapabilities sut = TerminalCapabilities.Decode(testValue.AsSpan());
+
+        Assert.True(sut.IsMagneticStripeSupported());
+    }
+
+    [Fact]
+    public void TerminalCapabilities_IsManualKeyEntrySupported_ReturnsTrue()
+    {
+        byte[] testValue = { 0b1000000, 0b1000000, 0b10000000 };
+        TerminalCapabilities sut = TerminalCapabilities.Decode(testValue.AsSpan());
+
+        Assert.True(sut.IsManualKeyEntrySupported());
+    }
+
+    [Fact]
+    public void TerminalCapabilities_IsNoCardVerificationMethodRequiredSet_ReturnsTrue()
+    {
+        byte[] testValue = { 0b1000000, 0b1000, 0b10000000 };
+        TerminalCapabilities sut = TerminalCapabilities.Decode(testValue.AsSpan());
+
+        Assert.True(sut.IsManualKeyEntrySupported());
+    }
+
+    [Fact]
+    public void TerminalCapabilities_IsPlaintextPinForIccVerificationSupported_ReturnsTrue()
+    {
+        byte[] testValue = { 0b1000000, 0b10000000, 0b10000000 };
+        TerminalCapabilities sut = TerminalCapabilities.Decode(testValue.AsSpan());
+
+        Assert.True(sut.IsPlaintextPinForIccVerificationSupported());
+    }
+
+    [Fact]
+    public void TerminalCapabilities_IsSignaturePaperSupported_ReturnsTrue()
+    {
+        byte[] testValue = { 0b1000000, 0b100000, 0b10000000 };
+        TerminalCapabilities sut = TerminalCapabilities.Decode(testValue.AsSpan());
+
+        Assert.True(sut.IsSignaturePaperSupported());
+    }
+
+    [Fact]
+    public void TerminalCapabilities_IsStaticDataAuthenticationSupported_ReturnsTrue()
+    {
+        byte[] testValue = { 0b10000000, 0b100000, 0b10000000 };
+        TerminalCapabilities sut = TerminalCapabilities.Decode(testValue.AsSpan());
+
+        Assert.True(sut.IsStaticDataAuthenticationSupported());
+    }
+
+    #endregion
+
     #region Builder
 
     [Fact]
