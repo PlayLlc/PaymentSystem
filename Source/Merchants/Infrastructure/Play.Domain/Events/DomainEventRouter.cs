@@ -40,9 +40,9 @@ internal class DomainEventRouter
         if (!_HandlerMap.TryGetValue(domainEvent.GetEventTypeId(), out HashSet<IHandleDomainEvents>? handlers))
             return;
 
-        foreach (var handleDomainEvents in handlers!.ToArray())
+        foreach (IHandleDomainEvents handleDomainEvents in handlers!.ToArray())
         {
-            var handler = (DomainEventHandler<_T>) handleDomainEvents;
+            DomainEventHandler<_T> handler = (DomainEventHandler<_T>) handleDomainEvents;
             handler.Handle(domainEvent);
         }
     }

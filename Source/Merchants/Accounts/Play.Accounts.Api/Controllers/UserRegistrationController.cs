@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 using Play.Accounts.Api.Models;
 using Play.Accounts.Contracts.Commands;
@@ -41,7 +40,7 @@ namespace Play.Accounts.Api.Controllers
 
             try
             {
-                var userRegistration = UserRegistration.CreateNewUserRegistration(registerUserRequest, _UniqueEmailChecker);
+                UserRegistration userRegistration = UserRegistration.CreateNewUserRegistration(registerUserRequest, _UniqueEmailChecker);
                 await _UserRegistrationRepository.SaveAsync(userRegistration).ConfigureAwait(false);
                 response.Object = userRegistration.AsDto();
 
