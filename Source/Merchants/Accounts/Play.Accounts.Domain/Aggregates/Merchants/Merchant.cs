@@ -6,7 +6,7 @@ using Play.Merchants.Onboarding.Domain.ValueObjects;
 
 namespace Play.Merchants.Onboarding.Domain.Aggregates;
 
-public class Merchant : Aggregate<MerchantId>
+public class Merchant : Aggregate<string>
 {
     #region Instance Values
 

@@ -5,12 +5,13 @@ using Play.Merchants.Onboarding.Domain.Common;
 
 namespace Play.Merchants.Onboarding.Domain.Aggregates;
 
-public class User : Aggregate<UserId>
+public class User : Aggregate<string>
 {
     #region Instance Values
 
     private readonly UserId _Id;
-    private readonly MerchantId _MerchantId;
+
+    // private readonly MerchantId _MerchantId;
     private readonly HashSet<UserRole> _Roles;
 
     private readonly Address _Address;
@@ -28,12 +29,11 @@ public class User : Aggregate<UserId>
         // Entity Framework only
     }
 
-    public User(
-        UserId id, MerchantId merchantId, Address address, ContactInfo contactInfo, string lastFourOfSsn, DateTimeUtc dateOfBirth, bool isActive,
-        params UserRole[] roles)
+    public User(UserId id, Address address, ContactInfo contactInfo, string lastFourOfSsn, DateTimeUtc dateOfBirth, bool isActive, params UserRole[] roles)
     {
         _Id = id;
-        _MerchantId = merchantId;
+
+        //_MerchantId = merchantId;
         _Address = address;
         _ContactInfo = contactInfo;
         _LastFourOfSsn = lastFourOfSsn;
@@ -70,8 +70,8 @@ public class User : Aggregate<UserId>
     {
         return new UserDto
         {
-            Id = _Id.Id, MerchantId = _MerchantId.Id, Address = _Address.AsDto(), ContactInfo = _ContactInfo.AsDto(), DateOfBirth = _DateOfBirth,
-            LastFourOfSsn = _LastFourOfSsn, IsActive = _IsActive, Roles = _Roles.ToList().Select(a => a.Value).ToList()
+            Id = _Id.Id, /* MerchantId = _MerchantId.Id,*/ Address = _Address.AsDto(), ContactInfo = _ContactInfo.AsDto(),
+            PersonalInfo = new PersonalInfoDto() {DateOfBirth = _DateOfBirth, LastFourOfSocial = _LastFourOfSsn}, IsActive = _IsActive
         };
     }
 

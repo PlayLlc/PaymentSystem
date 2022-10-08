@@ -32,14 +32,15 @@ namespace Play.Accounts.Api.Extensions
                 builder.UseSqlServer(connectionString, sqlOptions => sqlOptions.MigrationsAssembly(migrationsAssembly)));
 
             builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
-            builder.Services.AddIdentityServices(builder.Configuration.GetConnectionString("Play.IdentityStore"));
+
+            //builder.Services.AddIdentityServices(builder.Configuration.GetConnectionString("Play.IdentityStore"));
 
             builder.Services.AddIdentityServer(options =>
             {
-                options.Endpoints.
+                // options.Endpoints.
 
-                    // see https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/
-                    options.EmitStaticAudienceClaim = true;
+                // see https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/
+                //options.EmitStaticAudienceClaim = true;
             });
 
             //IdentityRole 
@@ -67,13 +68,13 @@ namespace Play.Accounts.Api.Extensions
                 // TODO: User Passwords must be unique when updated. Require last 4 passwords to be unique
             });
 
-            identityServerBuilder
-                .AddOperationalStore(options => options.ConfigureDbContext = builder =>
-                    builder.UseSqlServer(connectionString, sqlOptions => sqlOptions.MigrationsAssembly(migrationsAssembly)))
-                .AddConfigurationStore(options => options.ConfigureDbContext = builder =>
-                    builder.UseSqlServer(connectionString, sqlOptions => sqlOptions.MigrationsAssembly(migrationsAssembly)));
+            //identityServerBuilder
+            //    .AddOperationalStore(options => options.ConfigureDbContext = builder =>
+            //        builder.UseSqlServer(connectionString, sqlOptions => sqlOptions.MigrationsAssembly(migrationsAssembly)))
+            //    .AddConfigurationStore(options => options.ConfigureDbContext = builder =>
+            //        builder.UseSqlServer(connectionString, sqlOptions => sqlOptions.MigrationsAssembly(migrationsAssembly)));
 
-            identityServerBuilder.AddAspNetIdentity<IdentityUser>();
+            //identityServerBuilder.AddAspNetIdentity<IdentityUser>();
 
             return builder.Build();
         }

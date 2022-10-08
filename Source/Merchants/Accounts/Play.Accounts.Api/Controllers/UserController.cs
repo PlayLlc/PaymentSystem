@@ -15,13 +15,13 @@ namespace Play.Accounts.Api.Controllerss
     {
         #region Instance Values
 
-        private readonly IRepository<User, UserId> _UserRepository;
+        private readonly IRepository<User, string> _UserRepository;
 
         #endregion
 
         #region Constructor
 
-        public UserController(IRepository<User, UserId> userRegistrationRepository)
+        public UserController(IRepository<User, string> userRegistrationRepository)
         {
             _UserRepository = userRegistrationRepository;
         }
@@ -50,14 +50,14 @@ namespace Play.Accounts.Api.Controllerss
                 response.Object = new UserDto();
                 HttpContext.Response.StatusCode = (int) HttpStatusCode.NotFound;
 
-                response.Errored = true;
+                response.Success = false;
                 response.ErrorMessage = $"No {nameof(User)} could be found with the {nameof(id)}: [id]";
 
                 return response;
             }
             catch (Exception e)
             {
-                response.Errored = true;
+                response.Success = false;
                 response.ErrorMessage = e.Message;
 
                 return response;

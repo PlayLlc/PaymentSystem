@@ -26,7 +26,7 @@ internal class UserRegistrationCanNotBeConfirmedMoreThanOnce : IBusinessRule
 
     public bool IsBroken()
     {
-        return _ActualRegistrationStatus == RegistrationStatus.Confirmed;
+        return _ActualRegistrationStatus == RegistrationStatuses.Confirmed;
     }
 
     #endregion

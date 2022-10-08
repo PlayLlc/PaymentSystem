@@ -12,7 +12,7 @@ namespace Play.Accounts.Application.Handlers.Domain
             return UserRegistrationHasBeenConfirmedDomainEvent.DomainEventTypeId;
         }
 
-        public override void Handle(UserRegistrationHasBeenConfirmedDomainEvent domainEvent)
+        public override Task Handle(UserRegistrationHasBeenConfirmedDomainEvent domainEvent)
         {
             throw new NotImplementedException();
         }

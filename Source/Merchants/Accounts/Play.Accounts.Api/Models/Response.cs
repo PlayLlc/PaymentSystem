@@ -10,7 +10,7 @@
         #endregion
     }
 
-    public sealed class Response<TReturn> : Response
+    public class Response<TReturn> : Response
     {
         #region Instance Values
 

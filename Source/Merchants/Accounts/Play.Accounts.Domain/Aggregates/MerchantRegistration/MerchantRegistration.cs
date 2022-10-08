@@ -13,7 +13,7 @@ using Play.Merchants.Onboarding.Domain.ValueObjects;
 
 namespace Play.Merchants.Onboarding.Domain.Aggregates.CompanyRegistration;
 
-public class MerchantRegistration : Aggregate<MerchantRegistrationId>
+public class MerchantRegistration : Aggregate<string>
 {
     #region Instance Values
 

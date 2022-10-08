@@ -12,7 +12,7 @@ namespace Play.Accounts.Application.Handlers.Domain
             return UserRegistrationHasExpiredDomainEvent.DomainEventTypeId;
         }
 
-        public override void Handle(UserRegistrationHasExpiredDomainEvent domainEvent)
+        public override Task Handle(UserRegistrationHasExpiredDomainEvent domainEvent)
         {
             throw new NotImplementedException();
         }

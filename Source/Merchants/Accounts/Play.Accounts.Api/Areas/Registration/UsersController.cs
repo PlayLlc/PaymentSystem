@@ -17,7 +17,7 @@ namespace Play.Accounts.Api.Areas.Registration
     {
         #region Instance Values
 
-        private readonly IRepository<UserRegistration, UserRegistrationId> _UserRegistrationRepository;
+        private readonly IRepository<UserRegistration, string> _UserRegistrationRepository;
 
         private readonly IIdentityService _IdentityService;
 
@@ -25,7 +25,7 @@ namespace Play.Accounts.Api.Areas.Registration
 
         #region Constructor
 
-        public UsersController(IRepository<UserRegistration, UserRegistrationId> userRegistrationRepository)
+        public UsersController(IRepository<UserRegistration, string> userRegistrationRepository)
         {
             _UserRegistrationRepository = userRegistrationRepository;
         }
@@ -48,7 +48,7 @@ namespace Play.Accounts.Api.Areas.Registration
                 }
                 catch (Exception e)
                 {
-                    response.Errored = true;
+                    response.Success = false;
                     response.ErrorMessage = e.Message;
 
                     return response;

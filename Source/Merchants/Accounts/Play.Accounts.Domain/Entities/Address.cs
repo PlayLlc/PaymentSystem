@@ -39,7 +39,7 @@ public class Address : Entity<string>
 
     public override AddressId GetId()
     {
-        return Id;
+        return (AddressId) Id;
     }
 
     public override AddressDto AsDto()

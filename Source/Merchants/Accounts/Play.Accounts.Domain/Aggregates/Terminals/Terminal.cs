@@ -1,10 +1,12 @@
-﻿using Play.Domain.Aggregates;
+﻿using Play.Accounts.Contracts.Dtos;
+using Play.Domain;
+using Play.Domain.Aggregates;
 using Play.Domain.Entities;
 using Play.Merchants.Onboarding.Domain.Aggregates;
 
 namespace Play.Accounts.Domain.Aggregates.Terminals
 {
-    internal class Terminal : Aggregate<TerminalId>
+    public class Terminal : Aggregate<string>
     {
         #region Instance Values
 
@@ -39,9 +41,14 @@ namespace Play.Accounts.Domain.Aggregates.Terminals
             // Publish Domain Event
         }
 
-        public override EntityId<string> GetId()
+        public override IDto AsDto()
         {
-            return _Id;
+            return new TerminalDto {Id = _Id.Id, MerchantId = _MerchantId, UserId = _UserId, DeviceId = _DeviceId};
+        }
+
+        public override TerminalId GetId()
+        {
+            return (TerminalId) _Id;
         }
 
         #endregion

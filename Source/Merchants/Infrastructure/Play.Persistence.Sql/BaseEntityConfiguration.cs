@@ -11,7 +11,7 @@ public class BaseEntityConfiguration<_Aggregate, _TId> : IEntityTypeConfiguratio
 
     public virtual void Configure(EntityTypeBuilder<_Aggregate> builder)
     {
-        builder.HasKey(x => x.Id);
+        builder.HasKey(x => x.GetId());
     }
 
     #endregion

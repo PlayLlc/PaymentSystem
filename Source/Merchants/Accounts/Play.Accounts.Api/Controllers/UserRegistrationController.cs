@@ -16,13 +16,13 @@ namespace Play.Accounts.Api.Controllers
         #region Instance Values
 
         private readonly IEnsureUniqueEmails _UniqueEmailChecker;
-        private readonly IRepository<UserRegistration, UserRegistrationId> _UserRegistrationRepository;
+        private readonly IRepository<UserRegistration, string> _UserRegistrationRepository;
 
         #endregion
 
         #region Constructor
 
-        public UserRegistrationController(IEnsureUniqueEmails uniqueEmailChecker, IRepository<UserRegistration, UserRegistrationId> userRegistrationRepository)
+        public UserRegistrationController(IEnsureUniqueEmails uniqueEmailChecker, IRepository<UserRegistration, string> userRegistrationRepository)
         {
             _UniqueEmailChecker = uniqueEmailChecker;
             _UserRegistrationRepository = userRegistrationRepository;
@@ -48,7 +48,7 @@ namespace Play.Accounts.Api.Controllers
             }
             catch (Exception e)
             {
-                response.Errored = true;
+                response.Success = false;
                 response.ErrorMessage = e.Message;
 
                 return response;
@@ -69,7 +69,7 @@ namespace Play.Accounts.Api.Controllers
             }
             catch (Exception e)
             {
-                response.Errored = true;
+                response.Success = false;
                 response.ErrorMessage = e.Message;
 
                 return response;
@@ -90,7 +90,7 @@ namespace Play.Accounts.Api.Controllers
             }
             catch (Exception e)
             {
-                response.Errored = true;
+                response.Success = false;
                 response.ErrorMessage = e.Message;
 
                 return response;

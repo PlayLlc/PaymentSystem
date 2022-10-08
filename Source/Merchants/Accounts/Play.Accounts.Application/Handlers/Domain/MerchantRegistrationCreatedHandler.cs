@@ -12,7 +12,7 @@ namespace Play.Accounts.Application.Handlers.Domain
             return MerchantRegistrationCreatedDomainEvent.DomainEventTypeId;
         }
 
-        public override void Handle(MerchantRegistrationCreatedDomainEvent domainEvent)
+        public override Task Handle(MerchantRegistrationCreatedDomainEvent domainEvent)
         {
             throw new NotImplementedException();
         }

@@ -7,7 +7,7 @@ internal class MerchantCannotBeCreatedWhenRegistrationIsNotConfirmed : IBusiness
 {
     #region Instance Values
 
-    private readonly RegistrationStatus _RegistrationStatus;
+    private readonly RegistrationStatuses _RegistrationStatus;
 
     public string Message => "User cannot be created when registration is not confirmed";
 
@@ -26,7 +26,7 @@ internal class MerchantCannotBeCreatedWhenRegistrationIsNotConfirmed : IBusiness
 
     public bool IsBroken()
     {
-        return _RegistrationStatus != RegistrationStatus.Confirmed;
+        return _RegistrationStatus != RegistrationStatuses.Confirmed;
     }
 
     #endregion

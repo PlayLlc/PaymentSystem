@@ -1,4 +1,6 @@
-﻿namespace Play.Accounts.Api.Models;
+﻿using Play.Accounts.Contracts.Dtos;
 
-public class RegisterUserResponse : Response<RegisterUserDto>
+namespace Play.Accounts.Api.Models;
+
+public class RegisterUserResponse : Response<UserRegistrationDto>
 { }

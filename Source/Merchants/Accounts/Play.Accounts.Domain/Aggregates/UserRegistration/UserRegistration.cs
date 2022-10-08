@@ -11,7 +11,7 @@ using Play.Merchants.Onboarding.Domain.Services;
 
 namespace Play.Merchants.Onboarding.Domain.Aggregates;
 
-public class UserRegistration : Aggregate<UserRegistrationId>
+public class UserRegistration : Aggregate<string>
 {
     #region Instance Values
 
@@ -51,18 +51,19 @@ public class UserRegistration : Aggregate<UserRegistrationId>
     public static UserRegistration CreateNewUserRegistration(RegisterUserRequest registerUserRequest, IEnsureUniqueEmails uniqueEmailChecker)
     {
         // Create the entities needed for this Aggregate Object. Entities are responsible for ensuring they are instantiated correctly
-        Address address = new(AddressId.New(), registerUserRequest.StreetAddress, registerUserRequest.ApartmentNumber, registerUserRequest.Zipcode,
-            StateAbbreviations.Empty.Get(registerUserRequest.StateAbbreviation), registerUserRequest.City);
-        ContactInfo contactInfo = new(ContactInfoId.New(), registerUserRequest.FirstName, registerUserRequest.LastName, registerUserRequest.Phone,
-            registerUserRequest.Email);
-        UserRegistration userRegistration = new UserRegistration(address, contactInfo, registerUserRequest.LastFourOfSocial, registerUserRequest.DateOfBirth);
+        Address address = new(AddressId.New(), registerUserRequest.Address.StreetAddress, registerUserRequest.Address.ApartmentNumber,
+            registerUserRequest.Address.Zipcode, StateAbbreviations.Empty.Get(registerUserRequest.Address.StateAbbreviation), registerUserRequest.Address.City);
+        ContactInfo contactInfo = new(ContactInfoId.New(), registerUserRequest.ContactInfo.FirstName, registerUserRequest.ContactInfo.LastName,
+            registerUserRequest.ContactInfo.Phone, registerUserRequest.ContactInfo.Email);
+        UserRegistration userRegistration = new UserRegistration(address, contactInfo, registerUserRequest.PersonalInfo.LastFourOfSocial,
+            registerUserRequest.PersonalInfo.DateOfBirth);
 
         // Validate the business rules for this Aggregate Object
         userRegistration.Enforce(new UserEmailMustBeUnique(uniqueEmailChecker, contactInfo.Email));
 
         // Publish a domain event when a business process has taken place
-        userRegistration.Raise(new UserRegistrationCreatedDomainEvent(userRegistration._Id, address, contactInfo, registerUserRequest.LastFourOfSocial,
-            registerUserRequest.DateOfBirth, userRegistration._RegisteredDate));
+        userRegistration.Raise(new UserRegistrationCreatedDomainEvent(userRegistration._Id, address, contactInfo,
+            registerUserRequest.PersonalInfo.LastFourOfSocial, registerUserRequest.PersonalInfo.DateOfBirth, userRegistration._RegisteredDate));
 
         return userRegistration;
     }

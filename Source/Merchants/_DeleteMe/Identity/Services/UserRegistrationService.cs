@@ -1,8 +1,5 @@
 ﻿namespace _DeleteMe.Identity.Services
 {
-    public interface IUserRegistrationService
-    { }
-
     public class UserRegistrationService : IUserRegistrationService
     { }
 }

@@ -7,7 +7,7 @@ internal class MerchantRegistrationCanNotExpireMoreThanOnce : IBusinessRule
 {
     #region Instance Values
 
-    private readonly RegistrationStatus _ActualRegistrationStatus;
+    private readonly RegistrationStatuses _ActualRegistrationStatus;
 
     public string Message => "User Registration cannot be confirmed because it is expired";
 
@@ -15,7 +15,7 @@ internal class MerchantRegistrationCanNotExpireMoreThanOnce : IBusinessRule
 
     #region Constructor
 
-    public MerchantRegistrationCanNotExpireMoreThanOnce(RegistrationStatus actualRegistrationStatus)
+    public MerchantRegistrationCanNotExpireMoreThanOnce(RegistrationStatuses actualRegistrationStatus)
     {
         _ActualRegistrationStatus = actualRegistrationStatus;
     }
@@ -26,7 +26,7 @@ internal class MerchantRegistrationCanNotExpireMoreThanOnce : IBusinessRule
 
     public bool IsBroken()
     {
-        return _ActualRegistrationStatus.Value == RegistrationStatuses.Expired;
+        return _ActualRegistrationStatus == RegistrationStatuses.Expired;
     }
 
     #endregion

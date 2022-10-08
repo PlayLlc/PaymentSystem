@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Play.Globalization.Time;
 using Play.Merchants.Onboarding.Domain.Aggregates;
 using Play.Merchants.Onboarding.Domain.Common;
+using Play.Merchants.Onboarding.Domain.Enums;
 
 namespace Play.Merchants.Onboarding.Sql.Configurations;
 
@@ -42,9 +43,9 @@ internal class UserRegistrationEntityTypeConfiguration : IEntityTypeConfiguratio
             b.Property(x => x.Email).HasColumnName("Email");
         });
 
-        builder.OwnsOne<RegistrationStatus>("_Status", b =>
+        builder.OwnsOne<RegistrationStatuses>("_Status", b =>
         {
-            b.Property(x => x.Value).HasColumnName("Status");
+            b.Property(x => x).HasColumnName("Status");
         });
     }
 
