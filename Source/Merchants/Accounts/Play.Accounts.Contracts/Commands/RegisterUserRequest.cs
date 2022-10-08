@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using Play.Accounts.Contracts.Dtos;
 using Play.Globalization.Time;
 
 namespace Play.Accounts.Contracts.Commands
@@ -9,75 +10,26 @@ namespace Play.Accounts.Contracts.Commands
         #region Instance Values
 
         /// <summary>
-        ///     The street address of the user's home
+        ///     The home address of the user
         /// </summary>
         [Required]
-        public string StreetAddress { get; set; }
+        public AddressDto Address { get; set; } = new();
 
         /// <summary>
-        ///     The apartment number of the user's home
+        ///     The personal contact info of the user
         /// </summary>
-        public string ApartmentNumber { get; set; }
+        [Required]
+        public ContactInfoDto ContactInfo { get; set; } = new();
+
+        [Required]
+        public PersonalInfoDto PersonalInfo { get; set; } = new();
 
         /// <summary>
-        ///     The zipcode of the user's home
+        ///     Passwords must be at least 8 characters containing numeric, alphabetic, and special characters
         /// </summary>
         [Required]
-        [MinLength(5)]
-        [MaxLength(10)]
-        public string Zipcode { get; set; }
-
-        /// <summary>
-        ///     The zipcode of the user's home
-        /// </summary>
-        [Required]
-        [StringLength(2)]
-        public string StateAbbreviation { get; set; }
-
-        /// <summary>
-        ///     The city where the user lives
-        /// </summary>
-        [Required]
-        public string City { get; set; }
-
-        /// <summary>
-        ///     The user's first name
-        /// </summary>
-        [Required]
-        [RegularExpression("[\x32-\x7E]{2,26}")]
-        public string FirstName { get; set; }
-
-        /// <summary>
-        ///     The user's last name
-        /// </summary>
-        [Required]
-        [RegularExpression("[\x32-\x7E]{2,26}")]
-        public string LastName { get; set; }
-
-        /// <summary>
-        ///     The user's mobile phone number
-        /// </summary>
-        [Required]
-        [Phone]
-        public string Phone { get; set; }
-
-        /// <summary>
-        ///     The user's email address
-        /// </summary>
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-
-        /// <summary>
-        ///     The last four digits of the user's Social Security Number
-        /// </summary>
-        [Required]
-        [StringLength(4)]
-        [RegularExpression("[\\d]{4}")]
-        public string LastFourOfSocial { get; set; }
-
-        [Required]
-        public DateTimeUtc DateOfBirth { get; set; }
+        [MinLength(8)]
+        public string Password { get; set; } = string.Empty;
 
         #endregion
     }

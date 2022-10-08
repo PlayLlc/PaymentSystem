@@ -29,11 +29,11 @@ public class Repository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where 
     #region Synchronous
 
     /// <exception cref="EntityFrameworkRepositoryException"></exception>
-    public _Aggregate? GetById(EntityId<_TId> id)
+    public _Aggregate? GetById(_TId id)
     {
         try
         {
-            return _DbSet.Find(id.Id);
+            return _DbSet.FirstOrDefault(a => a.GetId()!.Equals(id));
         }
         catch (Exception ex)
         {
@@ -82,11 +82,11 @@ public class Repository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where 
 
     /// <exception cref="EntityFrameworkRepositoryException"></exception>
     /// <exception cref="ArgumentNullException"></exception>
-    public async Task<_Aggregate?> GetByIdAsync(EntityId<_TId> id)
+    public async Task<_Aggregate?> GetByIdAsync(_TId id)
     {
         try
         {
-            return await _DbSet.FindAsync(id.Id).ConfigureAwait(false);
+            return await _DbSet.Where(a => a.GetId()!.Equals(id)).FirstAsync().ConfigureAwait(false);
         }
         catch (Exception ex)
         {

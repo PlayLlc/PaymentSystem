@@ -45,11 +45,11 @@ public class MongoDbRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
     }
 
     /// <exception cref="MongoRepositoryException"></exception>
-    public async Task<_Aggregate> GetByIdAsync(EntityId<_TId> id)
+    public async Task<_Aggregate?> GetByIdAsync(_TId id)
     {
         try
         {
-            return await _MongoDatabase.GetCollection<_Aggregate>(_CollectionName).Find(x => x.GetId() == id).SingleAsync().ConfigureAwait(false);
+            return await _MongoDatabase.GetCollection<_Aggregate>(_CollectionName).Find(x => x.GetId()!.Equals(id)).SingleAsync().ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -63,7 +63,7 @@ public class MongoDbRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
         try
         {
             ReplaceOneResult? result = await _MongoDatabase.GetCollection<_Aggregate>(_CollectionName)
-                .ReplaceOneAsync(x => x.GetId() == aggregate.GetId(), aggregate, new ReplaceOptions() {IsUpsert = true})
+                .ReplaceOneAsync(x => x.GetId()!.Equals(aggregate.GetId()), aggregate, new ReplaceOptions() {IsUpsert = true})
                 .ConfigureAwait(false);
         }
         catch (Exception ex)
@@ -77,7 +77,7 @@ public class MongoDbRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
     {
         try
         {
-            await _MongoDatabase.GetCollection<_Aggregate>(_CollectionName).DeleteOneAsync(x => x.GetId() == aggregate.GetId()).ConfigureAwait(false);
+            await _MongoDatabase.GetCollection<_Aggregate>(_CollectionName).DeleteOneAsync(x => x.GetId()!.Equals(aggregate.GetId())).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -91,11 +91,11 @@ public class MongoDbRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
     #region Synchronous
 
     /// <exception cref="MongoRepositoryException"></exception>
-    public _Aggregate GetById(EntityId<_TId> id)
+    public _Aggregate? GetById(_TId id)
     {
         try
         {
-            return _MongoDatabase.GetCollection<_Aggregate>(_CollectionName).Find(x => x.GetId() == id).Single();
+            return _MongoDatabase.GetCollection<_Aggregate>(_CollectionName).Find(x => x.GetId()!.Equals(id)).Single();
         }
         catch (Exception ex)
         {
@@ -108,7 +108,7 @@ public class MongoDbRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
     {
         try
         {
-            _MongoDatabase.GetCollection<_Aggregate>(_CollectionName).DeleteOne(x => x.GetId() == aggregate.GetId());
+            _MongoDatabase.GetCollection<_Aggregate>(_CollectionName).DeleteOne(x => x.GetId()!.Equals(aggregate.GetId()));
         }
         catch (Exception ex)
         {
@@ -123,7 +123,7 @@ public class MongoDbRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
         try
         {
             Task<ReplaceOneResult>? result = _MongoDatabase.GetCollection<_Aggregate>(_CollectionName)
-                .ReplaceOneAsync(x => x.GetId() == aggregate.GetId(), aggregate, new ReplaceOptions() {IsUpsert = true});
+                .ReplaceOneAsync(x => x.GetId()!.Equals(aggregate.GetId()), aggregate, new ReplaceOptions() {IsUpsert = true});
         }
         catch (Exception ex)
         {

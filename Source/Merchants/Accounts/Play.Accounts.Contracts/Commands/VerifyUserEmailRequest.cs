@@ -7,10 +7,12 @@ namespace Play.Accounts.Contracts.Commands
         #region Instance Values
 
         /// <summary>
-        ///     The identifier of the user registration
+        ///     The user's email
         /// </summary>
         [Required]
-        public string UserRegistrationId { get; set; }
+        [EmailAddress]
+        [MinLength(1)]
+        public string Email { get; set; } = string.Empty;
 
         /// <summary>
         ///     The confirmation code sent via email message

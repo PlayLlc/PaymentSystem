@@ -4,7 +4,7 @@
     {
         #region Instance Values
 
-        public bool Errored { get; set; }
+        public bool Success { get; set; }
         public string ErrorMessage { get; set; }
 
         #endregion
