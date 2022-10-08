@@ -22,34 +22,6 @@ namespace _DeleteMe.Extensions
                 options.UseSqlServer(identityConnectionString);
             });
 
-            builder.Services.AddIdentityServer(options =>
-                {
-                    options.Authentication.CoordinateClientLifetimesWithUserSession = true;
-                    options.ServerSideSessions.UserDisplayNameClaimType = JwtClaimTypes.Name;
-                    options.ServerSideSessions.RemoveExpiredSessions = true;
-                    options.ServerSideSessions.RemoveExpiredSessionsFrequency = TimeSpan.FromSeconds(10);
-                    options.ServerSideSessions.ExpiredSessionsTriggerBackchannelLogout = true;
-                })
-                .AddDeveloperSigningCredential() // HACK: we will use this only for dev. for production we need appropriate signing certificates for our tls.
-                .AddInMemoryIdentityResources(IdentityConfig.IdentityResources)
-                .AddInMemoryApiScopes(IdentityConfig.ApiScopes)
-                .AddInMemoryClients(IdentityConfig.GetClientConfiguration(builder.Configuration))
-                .AddTestUsers(IdentityConfig.GetTestUsers(builder.Configuration))
-                .AddAspNetIdentity<UserIdentity>()
-                .AddConfigurationStore(options =>
-                {
-                    options.ConfigureDbContext = b => b.UseSqlServer(identityConnectionString);
-                })
-                .AddOperationalStore(options =>
-                {
-                    options.ConfigureDbContext = b => b.UseSqlServer(identityConnectionString);
-
-                    // this enables automatic token cleanup. this is optional.
-                    options.EnableTokenCleanup = false;
-                    options.RemoveConsumedTokens = true;
-                    options.TokenCleanupInterval = 10; // interval in seconds
-                });
-
             builder.Services.AddIdentity<UserIdentity, Role>(options =>
                 {
                     options.SignIn.RequireConfirmedAccount = true;
@@ -75,6 +47,34 @@ namespace _DeleteMe.Extensions
                 })
                 .AddEntityFrameworkStores<UserIdentityDbContext>()
                 .AddDefaultTokenProviders();
+
+            builder.Services.AddIdentityServer(options =>
+                {
+                    options.Authentication.CoordinateClientLifetimesWithUserSession = true;
+                    options.ServerSideSessions.UserDisplayNameClaimType = JwtClaimTypes.Name;
+                    options.ServerSideSessions.RemoveExpiredSessions = true;
+                    options.ServerSideSessions.RemoveExpiredSessionsFrequency = TimeSpan.FromSeconds(10);
+                    options.ServerSideSessions.ExpiredSessionsTriggerBackchannelLogout = true;
+                })
+                .AddDeveloperSigningCredential() // HACK: we will use this only for dev. for production we need appropriate signing certificates for our tls.
+                .AddAspNetIdentity<UserIdentity>()
+                .AddInMemoryIdentityResources(IdentityConfig.IdentityResources)
+                .AddInMemoryApiScopes(IdentityConfig.ApiScopes)
+                .AddInMemoryClients(IdentityConfig.GetClientConfiguration(builder.Configuration))
+                .AddTestUsers(IdentityConfig.GetTestUsers(builder.Configuration))
+                .AddConfigurationStore(options =>
+                {
+                    options.ConfigureDbContext = b => b.UseSqlServer(identityConnectionString);
+                })
+                .AddOperationalStore(options =>
+                {
+                    options.ConfigureDbContext = b => b.UseSqlServer(identityConnectionString);
+
+                    // this enables automatic token cleanup. this is optional.
+                    options.EnableTokenCleanup = false;
+                    options.RemoveConsumedTokens = true;
+                    options.TokenCleanupInterval = 10; // interval in seconds
+                });
 
             return builder;
         }
