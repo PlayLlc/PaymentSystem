@@ -10,7 +10,7 @@ namespace Play.Identity.Api.Identity.Persistence
     {
         #region Constructor
 
-        public UserIdentityDbContext(DbContextOptions options) : base(options)
+        public UserIdentityDbContext(DbContextOptions<UserIdentityDbContext> options) : base(options)
         { }
 
         #endregion

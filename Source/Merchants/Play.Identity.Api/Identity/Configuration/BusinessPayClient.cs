@@ -15,6 +15,8 @@ public class BusinessPayClient
     public string ClientName => _ClientName;
     public string ClientId { get; set; } = string.Empty;
     public string ClientSecret { get; set; } = string.Empty;
+    public string RedirectUris { get; set; } = string.Empty;
+    public string PostLogoutRedirectUris { get; set; } = string.Empty;
 
     #endregion
 

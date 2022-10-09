@@ -10,11 +10,11 @@
         #endregion
     }
 
-    public class Response<TReturn> : Response
+    public class Response<_Return> : Response
     {
         #region Instance Values
 
-        public TReturn Object { get; set; }
+        public _Return Object { get; set; }
 
         #endregion
     }

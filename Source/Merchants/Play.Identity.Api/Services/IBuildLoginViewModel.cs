@@ -1,4 +1,6 @@
-﻿namespace Play.Identity.Api.Models.Accounts;
+﻿using Play.Identity.Api.Models;
+
+namespace Play.Identity.Api.Services;
 
 public interface IBuildLoginViewModel
 {

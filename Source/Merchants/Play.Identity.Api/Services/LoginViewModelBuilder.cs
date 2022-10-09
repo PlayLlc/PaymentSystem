@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Authentication;
 
 using NuGet.Packaging;
 
-namespace Play.Identity.Api.Models.Accounts;
+using Play.Identity.Api.Models;
+
+namespace Play.Identity.Api.Services;
 
 public class LoginViewModelBuilder : IBuildLoginViewModel
 {
@@ -67,26 +69,26 @@ public class LoginViewModelBuilder : IBuildLoginViewModel
             Username = context?.LoginHint ?? string.Empty
         };
 
-        vm.ExternalProviders = new[] {new ExternalProvider {AuthenticationScheme = context?.IdP ?? string.Empty}};
+        vm.ExternalProviders = new[] {new ExternalProviderModel {AuthenticationScheme = context?.IdP ?? string.Empty}};
 
         return vm;
     }
 
-    private async Task<HashSet<ExternalProvider>> GetExternalProvidersAsync(AuthorizationRequest context)
+    private async Task<HashSet<ExternalProviderModel>> GetExternalProvidersAsync(AuthorizationRequest context)
     {
         IEnumerable<AuthenticationScheme> schemes = await _SchemeProvider.GetAllSchemesAsync();
 
-        HashSet<ExternalProvider> providers = schemes.Where(x => x.DisplayName != null)
-            .Select(x => new ExternalProvider
+        HashSet<ExternalProviderModel> providers = schemes.Where(x => x.DisplayName != null)
+            .Select(x => new ExternalProviderModel
             {
                 DisplayName = x.DisplayName ?? x.Name,
                 AuthenticationScheme = x.Name
             })
             .ToHashSet();
 
-        IEnumerable<ExternalProvider> identityProvidersSchemes = (await _IdentityProviderStore.GetAllSchemeNamesAsync())
+        IEnumerable<ExternalProviderModel> identityProvidersSchemes = (await _IdentityProviderStore.GetAllSchemeNamesAsync())
             .Where(x => x.Enabled && !string.IsNullOrWhiteSpace(x.DisplayName))
-            .Select(x => new ExternalProvider
+            .Select(x => new ExternalProviderModel
             {
                 AuthenticationScheme = x.Scheme,
                 DisplayName = x.DisplayName

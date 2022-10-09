@@ -1,4 +1,5 @@
-﻿using Duende.IdentityServer.AspNetIdentity;
+﻿using Duende.IdentityServer;
+using Duende.IdentityServer.AspNetIdentity;
 using Duende.IdentityServer.Services;
 
 using IdentityModel;
@@ -10,7 +11,7 @@ using Play.Identity.Api.Identity.Configuration;
 using Play.Identity.Api.Identity.Entities;
 using Play.Identity.Api.Identity.Persistence;
 using Play.Identity.Api.Identity.Services;
-using Play.Identity.Api.Models.Accounts;
+using Play.Identity.Api.Services;
 
 namespace Play.Identity.Api.Extensions
 {
@@ -38,7 +39,7 @@ namespace Play.Identity.Api.Extensions
                     options.Lockout.DefaultLockoutTimeSpan = new TimeSpan(0, 0, 45);
 
                     // PCI-DSS Restricted Data - Ensure troubleshooting does not expose authentication or sensitive data
-                    options.Stores.ProtectPersonalData = true;
+                    // options.Stores.ProtectPersonalData = true; // HACK: Implement Service
 
                     // PCI-DSS Passwords must be at least 7 characters, Contain numeric and alphabetic characters, Unique when updated
                     options.Password.RequiredLength = 8;
@@ -82,6 +83,15 @@ namespace Play.Identity.Api.Extensions
                     options.EnableTokenCleanup = false;
                     options.RemoveConsumedTokens = true;
                     options.TokenCleanupInterval = 10; // interval in seconds
+                });
+
+            builder.Services.AddAuthentication()
+                .AddGoogle("Google", options =>
+                {
+                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+
+                    options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+                    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
                 });
 
             return builder;

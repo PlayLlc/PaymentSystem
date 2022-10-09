@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Play.Identity.Api.Models;
-using Play.Identity.Api.Models.Accounts;
+using Play.Identity.Api.Services;
 
 namespace Play.Identity.Api.Controllers
 {
@@ -34,13 +34,23 @@ namespace Play.Identity.Api.Controllers
         [HttpGet(nameof(Login))]
         public async Task<IActionResult> Login(string returnUrl)
         {
-            LoginViewModel model = await _LoginViewModelBuilder.BuildLoginViewModelAsync(returnUrl).ConfigureAwait(false);
+            // build a model so we know what to show on the login page
+            LoginViewModel vm = await _LoginViewModelBuilder.BuildLoginViewModelAsync(returnUrl).ConfigureAwait(false);
 
-            return View(model);
+            if (vm.IsExternalLoginOnly)
+
+                // we only have one option for logging in and it's an external provider
+                return RedirectToAction("Challenge", "External", new
+                {
+                    scheme = vm.ExternalLoginScheme,
+                    returnUrl
+                });
+
+            return View(vm);
         }
 
-        [HttpPost("{action}")]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        [HttpPost(nameof(Login))]
+        private async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);

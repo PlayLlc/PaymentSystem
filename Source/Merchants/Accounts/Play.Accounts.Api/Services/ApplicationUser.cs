@@ -49,13 +49,34 @@ namespace Play.Accounts.Api.Services
         {
             AddressDto address = new AddressDto()
             {
-                StreetAddress = StreetAddress, ApartmentNumber = ApartmentNumber, City = City, StateAbbreviation = StateAbbreviation, Zipcode = Zipcode
+                StreetAddress = StreetAddress,
+                ApartmentNumber = ApartmentNumber,
+                City = City,
+                StateAbbreviation = StateAbbreviation,
+                Zipcode = Zipcode
             };
-            ContactInfoDto contactInfo = new ContactInfoDto() {FirstName = FirstName, LastName = LastName, Email = Email, Phone = PhoneNumber};
+            ContactInfoDto contactInfo = new ContactInfoDto()
+            {
+                FirstName = FirstName,
+                LastName = LastName,
+                Email = Email,
+                Phone = PhoneNumber
+            };
 
-            PersonalInfoDto PersonalInfo = new PersonalInfoDto() {DateOfBirth = new DateTimeUtc(DateOfBirth), LastFourOfSocial = LastFourOfSocial};
+            PersonalInfoDto personalInfo = new PersonalInfoDto()
+            {
+                DateOfBirth = new DateTimeUtc(DateOfBirth),
+                LastFourOfSocial = LastFourOfSocial
+            };
 
-            return new UserDto {Id = Id, Address = address, ContactInfo = contactInfo, PersonalInfo = PersonalInfo, IsActive = IsActive};
+            return new UserDto
+            {
+                Id = Id,
+                Address = address,
+                ContactInfo = contactInfo,
+                PersonalInfo = personalInfo,
+                IsActive = IsActive
+            };
         }
 
         #endregion

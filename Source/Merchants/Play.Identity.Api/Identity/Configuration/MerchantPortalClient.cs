@@ -16,7 +16,8 @@ public class MerchantPortalClient
 
     public string ClientName => _ClientName;
     public string ClientId { get; set; } = string.Empty;
-    public IEnumerable<string> RedirectUris { get; set; } = new List<string>();
+    public string RedirectUris { get; set; } = string.Empty;
+    public string PostLogoutRedirectUris { get; set; } = string.Empty;
     public string ClientSecret { get; set; } = string.Empty;
 
     #endregion

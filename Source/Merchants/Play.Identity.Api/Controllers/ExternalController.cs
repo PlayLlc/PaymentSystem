@@ -17,13 +17,26 @@ using Play.Identity.Api.Models;
 
 namespace Play.Identity.Api.Controllers
 {
-    public class ExternalProvidersController : Controller
+    [ApiController]
+    [Route("[controller]")]
+    public class ExternalController : Controller
     {
         #region Instance Values
 
-        private readonly IIdentityServerInteractionService _interaction;
-        private readonly ILogger<ExternalProvidersController> _logger;
-        private readonly UserManager<UserIdentity> _userManager;
+        private readonly IIdentityServerInteractionService _Interaction;
+        private readonly ILogger<ExternalController> _Logger;
+        private readonly UserManager<UserIdentity> _UserManager;
+
+        #endregion
+
+        #region Constructor
+
+        public ExternalController(IIdentityServerInteractionService interaction, ILogger<ExternalController> logger, UserManager<UserIdentity> userManager)
+        {
+            _Interaction = interaction;
+            _Logger = logger;
+            _UserManager = userManager;
+        }
 
         #endregion
 
@@ -32,17 +45,18 @@ namespace Play.Identity.Api.Controllers
         /// <summary>
         ///     initiate roundtrip to external authentication provider
         /// </summary>
-        [HttpGet]
+        [HttpGet(nameof(Challenge))]
         public IActionResult Challenge(string scheme, string returnUrl)
         {
             if (string.IsNullOrEmpty(returnUrl))
                 returnUrl = "~/";
 
-            // validate returnUrl - either it is a valid OIDC URL or back to a local page
-            if ((Url.IsLocalUrl(returnUrl) == false) && (_interaction.IsValidReturnUrl(returnUrl) == false))
+            // HACK: When a client implements OpenID Connect, we will uncomment this code and use the sign-in return url
+            //// validate returnUrl - either it is a valid OIDC URL or back to a local page
+            //if ((Url.IsLocalUrl(returnUrl) == false) && (_Interaction.IsValidReturnUrl(returnUrl) == false))
 
-                // user might have clicked on a malicious link - should be logged
-                throw new Exception("invalid return URL");
+            //    // user might have clicked on a malicious link - should be logged
+            //    throw new Exception("invalid return URL");
 
             // start challenge and roundtrip the return URL and scheme 
             AuthenticationProperties props = new AuthenticationProperties
@@ -61,7 +75,7 @@ namespace Play.Identity.Api.Controllers
         /// <summary>
         ///     Post processing of external authentication
         /// </summary>
-        [HttpGet]
+        [HttpGet(nameof(Callback))]
         public async Task<IActionResult> Callback()
         {
             // read external identity from the temporary cookie
@@ -70,10 +84,10 @@ namespace Play.Identity.Api.Controllers
             if (result?.Succeeded != true)
                 throw new Exception("External authentication error");
 
-            if (_logger.IsEnabled(LogLevel.Debug))
+            if (_Logger.IsEnabled(LogLevel.Debug))
             {
                 IEnumerable<string> externalClaims = result.Principal.Claims.Select(c => $"{c.Type}: {c.Value}");
-                _logger.LogDebug("External claims: {@claims}", externalClaims);
+                _Logger.LogDebug("External claims: {@claims}", externalClaims);
             }
 
             // lookup our user and external provider info
@@ -109,7 +123,7 @@ namespace Play.Identity.Api.Controllers
             string returnUrl = result.Properties.Items["returnUrl"] ?? "~/";
 
             // check if external login is in the context of an OIDC request
-            AuthorizationRequest context = await _interaction.GetAuthorizationContextAsync(returnUrl);
+            AuthorizationRequest context = await _Interaction.GetAuthorizationContextAsync(returnUrl);
 
             if (context != null)
                 if (context.IsNativeClient())
@@ -140,7 +154,7 @@ namespace Play.Identity.Api.Controllers
             string providerUserId = userIdClaim.Value;
 
             // find external user
-            IdentityUser user = await _userManager.FindByLoginAsync(provider, providerUserId);
+            IdentityUser user = await _UserManager.FindByLoginAsync(provider, providerUserId);
 
             return (user, provider, providerUserId, claims);
         }
@@ -149,10 +163,10 @@ namespace Play.Identity.Api.Controllers
         {
             // create dummy internal account (you can do something more complex)
             UserIdentity user = new UserIdentity {Id = Guid.NewGuid().ToString()};
-            await _userManager.CreateAsync(user);
+            await _UserManager.CreateAsync(user);
 
             // add external user ID to new account
-            await _userManager.AddLoginAsync(user, new UserLoginInfo(provider, providerUserId, provider));
+            await _UserManager.AddLoginAsync(user, new UserLoginInfo(provider, providerUserId, provider));
 
             return user;
         }

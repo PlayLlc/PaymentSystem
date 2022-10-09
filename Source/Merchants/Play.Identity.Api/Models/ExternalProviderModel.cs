@@ -1,6 +1,6 @@
 ﻿namespace Play.Identity.Api.Models;
 
-public record ExternalProvider
+public record ExternalProviderModel
 {
     #region Instance Values
 
