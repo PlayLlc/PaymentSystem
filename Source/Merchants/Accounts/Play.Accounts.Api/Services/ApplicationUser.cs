@@ -47,13 +47,13 @@ namespace Play.Accounts.Api.Services
 
         public UserDto AsDto()
         {
-            var address = new AddressDto()
+            AddressDto address = new AddressDto()
             {
                 StreetAddress = StreetAddress, ApartmentNumber = ApartmentNumber, City = City, StateAbbreviation = StateAbbreviation, Zipcode = Zipcode
             };
-            var contactInfo = new ContactInfoDto() {FirstName = FirstName, LastName = LastName, Email = Email, Phone = PhoneNumber};
+            ContactInfoDto contactInfo = new ContactInfoDto() {FirstName = FirstName, LastName = LastName, Email = Email, Phone = PhoneNumber};
 
-            var PersonalInfo = new PersonalInfoDto() {DateOfBirth = new DateTimeUtc(DateOfBirth), LastFourOfSocial = LastFourOfSocial};
+            PersonalInfoDto PersonalInfo = new PersonalInfoDto() {DateOfBirth = new DateTimeUtc(DateOfBirth), LastFourOfSocial = LastFourOfSocial};
 
             return new UserDto {Id = Id, Address = address, ContactInfo = contactInfo, PersonalInfo = PersonalInfo, IsActive = IsActive};
         }

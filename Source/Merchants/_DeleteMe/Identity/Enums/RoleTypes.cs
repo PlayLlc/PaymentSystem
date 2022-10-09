@@ -2,7 +2,7 @@
 {
     public enum RoleTypes
     {
-        Owner,
+        SuperAdmin,
         Administrator,
         SalesAssociate
     }

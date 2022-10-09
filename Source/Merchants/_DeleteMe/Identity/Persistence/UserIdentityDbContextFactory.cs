@@ -12,7 +12,7 @@ internal class UserIdentityDbContextFactory : IDesignTimeDbContextFactory<UserId
         DbContextOptionsBuilder<UserIdentityDbContext> builder = new DbContextOptionsBuilder<UserIdentityDbContext>();
         string? envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-        var configuration = new ConfigurationBuilder().SetBasePath(Path.Combine(Directory.GetCurrentDirectory()))
+        IConfigurationRoot? configuration = new ConfigurationBuilder().SetBasePath(Path.Combine(Directory.GetCurrentDirectory()))
             .AddJsonFile("appsettings.json", false)
             .AddJsonFile($"appsettings.{envName}.json", false)
             .Build();

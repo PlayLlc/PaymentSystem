@@ -3,6 +3,9 @@ using _DeleteMe.Identity.Entities;
 using _DeleteMe.Identity.Persistence;
 using _DeleteMe.Identity.Services;
 
+using Duende.IdentityServer.AspNetIdentity;
+using Duende.IdentityServer.Services;
+
 using IdentityModel;
 
 using Microsoft.AspNetCore.Identity;
@@ -21,7 +24,6 @@ namespace _DeleteMe.Extensions
             {
                 options.UseSqlServer(identityConnectionString);
             });
-
             builder.Services.AddIdentity<UserIdentity, Role>(options =>
                 {
                     options.SignIn.RequireConfirmedAccount = true;
@@ -47,7 +49,7 @@ namespace _DeleteMe.Extensions
                 })
                 .AddEntityFrameworkStores<UserIdentityDbContext>()
                 .AddDefaultTokenProviders();
-
+            builder.Services.AddLocalApiAuthentication();
             builder.Services.AddIdentityServer(options =>
                 {
                     options.Authentication.CoordinateClientLifetimesWithUserSession = true;
@@ -58,9 +60,10 @@ namespace _DeleteMe.Extensions
                 })
                 .AddDeveloperSigningCredential() // HACK: we will use this only for dev. for production we need appropriate signing certificates for our tls.
                 .AddAspNetIdentity<UserIdentity>()
-                .AddInMemoryIdentityResources(IdentityConfig.IdentityResources)
-                .AddInMemoryApiScopes(IdentityConfig.ApiScopes)
-                .AddInMemoryClients(IdentityConfig.GetClientConfiguration(builder.Configuration))
+                .AddProfileService<ProfileService<UserIdentity>>()
+                .AddInMemoryIdentityResources(IdentityConfig.GetIdentityResources())
+                .AddInMemoryApiScopes(IdentityConfig.GetApiScopes())
+                .AddInMemoryClients(IdentityConfig.GetClients(builder.Configuration))
                 .AddTestUsers(IdentityConfig.GetTestUsers(builder.Configuration))
                 .AddConfigurationStore(options =>
                 {
@@ -82,6 +85,7 @@ namespace _DeleteMe.Extensions
         internal static WebApplicationBuilder ConfigureApplicationServices(this WebApplicationBuilder builder)
         {
             builder.Services.AddTransient<IUserRegistrationService, UserRegistrationService>();
+            builder.Services.AddScoped<IProfileService, ProfileService<UserIdentity>>();
 
             return builder;
         }
