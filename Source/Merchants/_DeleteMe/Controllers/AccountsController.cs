@@ -12,16 +12,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace _DeleteMe.Controllers
 {
-    [Authorize(ApiScopes.IdentityServer.Name)]
+    [ApiController]
+    [Route("[controller]")]
     public class AccountsController : Controller
     {
         #region Instance Members
 
+        [HttpGet]
         public async Task<IActionResult> Test()
         {
             return View();
         }
 
+        [HttpPost("{action}")]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
@@ -36,11 +39,12 @@ namespace _DeleteMe.Controllers
             return View("Redirect", new RedirectViewModel {RedirectUrl = model.ReturnUrl});
         }
 
-        public async Task<IActionResult> Login(string returnUrl)
+        [HttpGet(nameof(Login))]
+        public async Task<IActionResult> Login()
         {
             LoginViewModel viewModel = new LoginViewModel();
 
-            viewModel.ReturnUrl = returnUrl;
+            viewModel.ReturnUrl = "";
 
             return View(viewModel);
         }

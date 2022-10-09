@@ -18,9 +18,10 @@ using Duende.IdentityServer.Validation;
 using Serilog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddMvc(options =>
+{
+    options.EnableEndpointRouting = true;
+});
 builder.ConfigureIdentityServer();
 builder.ConfigureApplicationServices();
 
