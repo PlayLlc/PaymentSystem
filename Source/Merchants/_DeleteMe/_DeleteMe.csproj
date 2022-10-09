@@ -32,6 +32,8 @@
 
   <ItemGroup>
     <Folder Include="Areas\" />
+    <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 
 </Project>
