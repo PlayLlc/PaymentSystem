@@ -7,6 +7,7 @@ using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Templates;
+using Play.Emv.Database;
 using Play.Emv.Icc;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
@@ -39,8 +40,11 @@ public partial class ContactlessFixture
         fixture.Register<KernelPersistentConfiguration>(() => new Kernel2KernelPersistentConfiguration(Array.Empty<PrimitiveValue>(), new EmvRuntimeCodec()));
         fixture.Register<KnownObjects>(fixture.Create<Kernel2KnownObjects>);
         fixture.Register(() => new SequenceCounterThreshold(0, int.MaxValue, 1));
-        KernelDatabase database = fixture.Create<KernelDatabase>();
-        fixture.Freeze<KernelDatabase>();
+
+        //KernelDatabase database = fixture.Create<KernelDatabase>();
+        //fixture.Freeze<KernelDatabase>();
+
+        fixture.Register(() => new KernelDatabase(new CertificateAuthorityDataset[0], new PrimitiveValue[0], fixture.Create<KnownObjects>(), null));
     }
 
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>

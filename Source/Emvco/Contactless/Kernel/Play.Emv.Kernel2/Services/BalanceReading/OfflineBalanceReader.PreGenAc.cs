@@ -13,7 +13,7 @@ using Play.Messaging;
 
 namespace Play.Emv.Kernel2.Services.BalanceReading;
 
-internal partial class OfflineBalanceReader : CommonProcessing
+public partial class OfflineBalanceReader : CommonProcessing
 {
     /// <summary>
     ///     A Card may have an offline balance, and some products require the balance to be read and made available to the

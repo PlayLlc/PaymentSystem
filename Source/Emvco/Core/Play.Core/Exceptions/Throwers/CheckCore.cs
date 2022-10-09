@@ -54,8 +54,8 @@ public class CheckCore
         if (value == null)
             throw new PlayInternalException(new ArgumentNullException(name));
 
-        if (value.Length == 0)
-            throw new PlayInternalException(new ArgumentOutOfRangeException(name));
+        //if (value.Length == 0)
+        //    throw new PlayInternalException(new ArgumentOutOfRangeException(name));
     }
 
     /// <summary>
