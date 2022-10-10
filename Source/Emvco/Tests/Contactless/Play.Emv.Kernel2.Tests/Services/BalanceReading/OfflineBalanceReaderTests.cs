@@ -4,6 +4,7 @@ using AutoFixture;
 
 using Moq;
 
+using Play.Core.Extensions.IEnumerable;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
@@ -15,7 +16,9 @@ using Play.Emv.Kernel2.Services.BalanceReading;
 using Play.Emv.Kernel2.StateMachine;
 using Play.Emv.Pcd.Contracts;
 using Play.Messaging;
+using Play.Testing.Emv.Ber.Primitive;
 using Play.Testing.Emv.Contactless.AutoFixture;
+using System;
 
 using Xunit;
 
@@ -94,7 +97,7 @@ public class OfflineBalanceReaderTests
     public void OfflineBalanceReader_ProcessPreGenAcBalanceReaderApplicationCapabilitiesInformationDoesNotSupportBalanceRead_ReturnsCurrentStateId()
     {
         //Arrange
-        StateId currentStateId = _Fixture.Create<StateId>();
+        StateId currentStateId = WaitingForGetDataResponse.StateId;
         _KernelStateIdRetriever.Setup(m => m.GetStateId()).Returns(currentStateId);
 
         Kernel2Session kernel2Session = _Fixture.Create<Kernel2Session>();
@@ -114,11 +117,14 @@ public class OfflineBalanceReaderTests
     public void OfflineBalanceReader_ProcessPreGenAcBalanceReaderButRespectiveTagNoPresentInDb_ReturnsCurrentStateId()
     {
         //Arrange
-        StateId currentStateId = _Fixture.Create<StateId>();
+        StateId currentStateId = WaitingForGetDataResponse.StateId;
         _KernelStateIdRetriever.Setup(m => m.GetStateId()).Returns(currentStateId);
 
         Kernel2Session kernel2Session = _Fixture.Create<Kernel2Session>();
         Message message = _Fixture.Create<Message>();
+
+        ApplicationCapabilitiesInformation applicationCapabilitiesInformation = new ApplicationCapabilitiesInformation(0b10_0000_0000);
+        _Database.Update(applicationCapabilitiesInformation);
 
         //Act
         StateId actual = _SystemUnderTest.Process(_KernelStateIdRetriever.Object, kernel2Session, message);
@@ -131,7 +137,7 @@ public class OfflineBalanceReaderTests
     public void OfflineBalanceReader_ProcessPostGenAcBalanceReadApplicationCapabilitiesInformationTagMissingFromDb_ReturnsCurrentStateId()
     {
         //Arrange
-        StateId currentStateId = _Fixture.Create<StateId>();
+        StateId currentStateId = WaitingForGenerateAcResponse1.StateId;
         _KernelStateIdRetriever.Setup(m => m.GetStateId()).Returns(currentStateId);
 
         Kernel2Session kernel2Session = _Fixture.Create<Kernel2Session>();
@@ -145,10 +151,30 @@ public class OfflineBalanceReaderTests
     }
 
     [Fact]
+    public void OfflineBalanceReader_ProcessPostGenAcBalanceReadApplicationCapabilitiesInformationDoesNotSupportBalanceRead_ReturnsCurrentStateId()
+    {
+        //Arrange
+        StateId currentStateId = WaitingForGenerateAcResponse1.StateId;
+        _KernelStateIdRetriever.Setup(m => m.GetStateId()).Returns(currentStateId);
+
+        Kernel2Session kernel2Session = _Fixture.Create<Kernel2Session>();
+        Message message = _Fixture.Create<Message>();
+
+        ApplicationCapabilitiesInformation applicationCapabilitiesInformation = new ApplicationCapabilitiesInformation(0b1000_0000);
+        _Database.Update(applicationCapabilitiesInformation);
+
+        //Act
+        StateId actual = _SystemUnderTest.Process(_KernelStateIdRetriever.Object, kernel2Session, message);
+
+        //Assert
+        Assert.Equal(currentStateId, actual);
+    }
+
+    [Fact]
     public void OfflineBalanceReader_ProcessPostGenAcBalanceReadBalanceReadAfterGenAcMissingFromDb_ReturnsCurrentStateId()
     {
         //Arrange
-        StateId currentStateId = _Fixture.Create<StateId>();
+        StateId currentStateId = WaitingForGenerateAcResponse1.StateId;
         _KernelStateIdRetriever.Setup(m => m.GetStateId()).Returns(currentStateId);
 
         Kernel2Session kernel2Session = _Fixture.Create<Kernel2Session>();
@@ -165,15 +191,24 @@ public class OfflineBalanceReaderTests
     public void OfflineBalanceReader_ProcessPostGenAcBalanceRead_GetRequestDataIsSentAndWaitingForPostGenAcBalanceStateIdIsReturned()
     {
         //Arrange
-        StateId currentStateId = _Fixture.Create<StateId>();
+        StateId currentStateId = WaitingForGenerateAcResponse1.StateId;
         _KernelStateIdRetriever.Setup(m => m.GetStateId()).Returns(currentStateId);
 
         Kernel2Session kernel2Session = _Fixture.Create<Kernel2Session>();
         Message message = _Fixture.Create<Message>();
 
+        // app capabilities that supports balance read.
+        ApplicationCapabilitiesInformation applicationCapabilitiesInformation = new ApplicationCapabilitiesInformation(0b10_0000_0000);
+        _Database.Update(applicationCapabilitiesInformation);
+
         //setup endpointclient.
-        GetDataRequest capdu = _Fixture.Create<GetDataRequest>();
-        _EndpointClient.Setup(m => m.Send(It.Is<GetDataRequest>(x => x.Equals(capdu))));
+
+        BalanceReadAfterGenAcTestTlv testData = new();
+        BalanceReadAfterGenAc balanceReadAfterGenAc = BalanceReadAfterGenAc.Decode(testData.EncodeValue().AsSpan());
+        _Database.Update(balanceReadAfterGenAc);
+
+        GetDataRequest capdu = GetDataRequest.Create(OfflineAccumulatorBalance.Tag, kernel2Session.GetTransactionSessionId());
+        _EndpointClient.Setup(m => m.Send(It.Is<GetDataRequest>(x => x.GetTransactionSessionId() == capdu.GetTransactionSessionId())));
 
         //Act
         StateId actual = _SystemUnderTest.Process(_KernelStateIdRetriever.Object, kernel2Session, message);
@@ -186,15 +221,23 @@ public class OfflineBalanceReaderTests
     public void OfflineBalanceReader_ProcessPreGenAcBalanceRead_GetRequestDataIsSentAndWaitingForPreGenAcBalanceStateIdIsReturned()
     {
         //Arrange
-        StateId currentStateId = _Fixture.Create<StateId>();
+        StateId currentStateId = WaitingForGetDataResponse.StateId;
         _KernelStateIdRetriever.Setup(m => m.GetStateId()).Returns(currentStateId);
 
         Kernel2Session kernel2Session = _Fixture.Create<Kernel2Session>();
         Message message = _Fixture.Create<Message>();
 
+        // app capabilities that supports balance read.
+        ApplicationCapabilitiesInformation applicationCapabilitiesInformation = new ApplicationCapabilitiesInformation(0b10_0000_0000);
+        _Database.Update(applicationCapabilitiesInformation);
+
+        BalanceReadBeforeGenAcTestTlv testData = new();
+        BalanceReadBeforeGenAc balanceReadBeforeGenAc = BalanceReadBeforeGenAc.Decode(testData.EncodeValue().AsSpan());
+        _Database.Update(balanceReadBeforeGenAc);
+
         //setup endpointclient.
-        GetDataRequest capdu = _Fixture.Create<GetDataRequest>();
-        _EndpointClient.Setup(m => m.Send(It.Is<GetDataRequest>(x => x.Equals(capdu))));
+        GetDataRequest capdu = GetDataRequest.Create(OfflineAccumulatorBalance.Tag, kernel2Session.GetTransactionSessionId());
+        _EndpointClient.Setup(m => m.Send(It.Is<GetDataRequest>(x => x.GetTransactionSessionId() == capdu.GetTransactionSessionId())));
 
         //Act
         StateId actual = _SystemUnderTest.Process(_KernelStateIdRetriever.Object, kernel2Session, message);
