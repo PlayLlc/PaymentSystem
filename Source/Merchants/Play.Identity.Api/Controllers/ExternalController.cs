@@ -1,12 +1,10 @@
-﻿using Duende.IdentityServer.Events;
-using Duende.IdentityServer.Models;
+﻿using Duende.IdentityServer.Models;
 using Duende.IdentityServer;
 using Duende.IdentityServer.Services;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
 
 using System.Security.Claims;
 

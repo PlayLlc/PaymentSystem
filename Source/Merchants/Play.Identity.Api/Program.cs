@@ -1,15 +1,3 @@
-using Duende.IdentityServer;
-
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-using Duende.IdentityServer.Validation;
-
 using Play.Identity.Api.Extensions;
 
 using Serilog;

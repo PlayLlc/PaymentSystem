@@ -6,7 +6,6 @@ using IdentityModel;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
 using Play.Identity.Api.Identity.Configuration;
 using Play.Identity.Api.Identity.Entities;

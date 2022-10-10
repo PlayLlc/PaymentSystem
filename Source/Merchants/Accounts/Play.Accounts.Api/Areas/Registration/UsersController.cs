@@ -6,7 +6,6 @@ using Play.Accounts.Contracts.Commands;
 using Play.Accounts.Contracts.Dtos;
 using Play.Domain.Repositories;
 using Play.Merchants.Onboarding.Domain.Aggregates;
-using Play.Merchants.Onboarding.Domain.Services;
 
 namespace Play.Accounts.Api.Areas.Registration
 {

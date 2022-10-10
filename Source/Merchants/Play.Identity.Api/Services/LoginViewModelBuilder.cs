@@ -37,6 +37,15 @@ public class LoginViewModelBuilder : IBuildLoginViewModel
 
     #region Instance Members
 
+    public async Task<LoginViewModel> BuildLoginViewModelAsync(LoginInputModel model)
+    {
+        LoginViewModel vm = await BuildLoginViewModelAsync(model.ReturnUrl);
+        vm.Username = model.Username;
+        vm.RememberLogin = model.RememberLogin;
+
+        return vm;
+    }
+
     public async Task<LoginViewModel> BuildLoginViewModelAsync(string returnUrl)
     {
         AuthorizationRequest context = await _InteractionService.GetAuthorizationContextAsync(returnUrl);

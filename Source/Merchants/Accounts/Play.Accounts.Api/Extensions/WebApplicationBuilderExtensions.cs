@@ -1,11 +1,7 @@
-﻿using Duende.IdentityServer.Configuration;
-
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using Play.Accounts.Api.Data;
-using Play.Accounts.Api.Services;
-using Play.Merchants.Onboarding.Domain.Aggregates;
 
 using ApplicationUser = Play.Accounts.Api.Services.ApplicationUser;
 

@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 using Play.Accounts.Contracts.Dtos;
-using Play.Globalization.Time;
 
 namespace Play.Accounts.Contracts.Commands
 {

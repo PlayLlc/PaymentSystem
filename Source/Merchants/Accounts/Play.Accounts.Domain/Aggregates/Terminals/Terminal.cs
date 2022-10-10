@@ -1,7 +1,6 @@
 ﻿using Play.Accounts.Contracts.Dtos;
 using Play.Domain;
 using Play.Domain.Aggregates;
-using Play.Domain.Entities;
 using Play.Merchants.Onboarding.Domain.Aggregates;
 
 namespace Play.Accounts.Domain.Aggregates.Terminals
@@ -43,7 +42,13 @@ namespace Play.Accounts.Domain.Aggregates.Terminals
 
         public override IDto AsDto()
         {
-            return new TerminalDto {Id = _Id.Id, MerchantId = _MerchantId, UserId = _UserId, DeviceId = _DeviceId};
+            return new TerminalDto
+            {
+                Id = _Id.Id,
+                MerchantId = _MerchantId,
+                UserId = _UserId,
+                DeviceId = _DeviceId
+            };
         }
 
         public override TerminalId GetId()

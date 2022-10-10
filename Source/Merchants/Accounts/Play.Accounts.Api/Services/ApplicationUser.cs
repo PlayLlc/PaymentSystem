@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
 using Play.Accounts.Contracts.Dtos;
-
-using System.ComponentModel.DataAnnotations;
-
 using Play.Globalization.Time;
-using Play.Merchants.Onboarding.Domain.Common;
 
 namespace Play.Accounts.Api.Services
 {
