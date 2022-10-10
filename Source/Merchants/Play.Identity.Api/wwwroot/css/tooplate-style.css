@@ -13,8 +13,10 @@ http://www.tooplate.com/view/2106-soft-landing
     overflow-x: hidden;
     background: #f9f9f9;
   }
-   
 
+img#playLogoCatchphrase {
+    margin:auto !important
+}
   /*---------------------------------------
      TYPOGRAPHY              
   -----------------------------------------*/
