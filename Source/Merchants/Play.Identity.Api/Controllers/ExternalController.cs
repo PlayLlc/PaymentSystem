@@ -18,7 +18,7 @@ using Play.Identity.Api.Models;
 namespace Play.Identity.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     public class ExternalController : Controller
     {
         #region Instance Values
@@ -45,7 +45,7 @@ namespace Play.Identity.Api.Controllers
         /// <summary>
         ///     initiate roundtrip to external authentication provider
         /// </summary>
-        [HttpGet(nameof(Challenge))]
+        [HttpGet]
         public IActionResult Challenge(string scheme, string returnUrl)
         {
             if (string.IsNullOrEmpty(returnUrl))
@@ -75,7 +75,7 @@ namespace Play.Identity.Api.Controllers
         /// <summary>
         ///     Post processing of external authentication
         /// </summary>
-        [HttpGet(nameof(Callback))]
+        [HttpGet]
         public async Task<IActionResult> Callback()
         {
             // read external identity from the temporary cookie
