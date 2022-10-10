@@ -2,7 +2,7 @@
 
 using Play.Core;
 
-namespace Play.Merchants.Onboarding.Domain.Enums
+namespace Play.Accounts.Domain.Enums
 {
     public record BusinessTypes : EnumObjectString
     {
@@ -32,7 +32,10 @@ namespace Play.Merchants.Onboarding.Domain.Enums
 
             _ValueObjectMap = new Dictionary<string, BusinessTypes>
             {
-                {SoleProprietorship, SoleProprietorship}, {Partnership, Partnership}, {LimitedLiability, LimitedLiability}, {NonProfit, NonProfit},
+                {SoleProprietorship, SoleProprietorship},
+                {Partnership, Partnership},
+                {LimitedLiability, LimitedLiability},
+                {NonProfit, NonProfit},
                 {Exempt, Exempt}
             }.ToImmutableSortedDictionary();
         }

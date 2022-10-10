@@ -1,10 +1,10 @@
-﻿using Play.Domain.Events;
+﻿using Play.Accounts.Domain.Entities;
+using Play.Accounts.Domain.Enums;
+using Play.Accounts.Domain.ValueObjects;
+using Play.Domain.Events;
 using Play.Globalization.Time;
-using Play.Merchants.Onboarding.Domain.Common;
-using Play.Merchants.Onboarding.Domain.Enums;
-using Play.Merchants.Onboarding.Domain.ValueObjects;
 
-namespace Play.Merchants.Onboarding.Domain.Aggregates.MerchantRegistration.Events
+namespace Play.Accounts.Domain.Aggregates.MerchantRegistration
 {
     public record MerchantRegistrationCreatedDomainEvent : DomainEvent
     {

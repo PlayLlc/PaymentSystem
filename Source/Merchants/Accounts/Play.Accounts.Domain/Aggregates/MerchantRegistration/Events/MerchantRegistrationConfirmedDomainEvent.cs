@@ -1,6 +1,6 @@
 ﻿using Play.Domain.Events;
 
-namespace Play.Merchants.Onboarding.Domain.Aggregates.MerchantRegistration.Events;
+namespace Play.Accounts.Domain.Aggregates.MerchantRegistration;
 
 public record MerchantRegistrationConfirmedDomainEvent : DomainEvent
 {

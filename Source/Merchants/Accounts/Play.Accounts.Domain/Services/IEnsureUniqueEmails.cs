@@ -1,6 +1,6 @@
-﻿using Play.Merchants.Onboarding.Domain.ValueObjects;
+﻿using Play.Accounts.Domain.ValueObjects;
 
-namespace Play.Merchants.Onboarding.Domain.Services;
+namespace Play.Accounts.Domain.Services;
 
 public interface IEnsureUniqueEmails
 {

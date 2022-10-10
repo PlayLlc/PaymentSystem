@@ -1,8 +1,8 @@
-﻿using Play.Domain;
-using Play.Merchants.Onboarding.Domain.Services;
-using Play.Merchants.Onboarding.Domain.ValueObjects;
+﻿using Play.Accounts.Domain.Services;
+using Play.Accounts.Domain.ValueObjects;
+using Play.Domain;
 
-namespace Play.Merchants.Onboarding.Domain.Aggregates;
+namespace Play.Accounts.Domain.Aggregates.UserRegistration;
 
 internal class UserEmailMustBeUnique : IBusinessRule
 {

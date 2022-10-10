@@ -1,10 +1,10 @@
 ﻿using Play.Accounts.Contracts.Dtos;
+using Play.Accounts.Domain.Entities;
+using Play.Accounts.Domain.Enums;
+using Play.Accounts.Domain.ValueObjects;
 using Play.Domain.Aggregates;
-using Play.Merchants.Onboarding.Domain.Common;
-using Play.Merchants.Onboarding.Domain.Enums;
-using Play.Merchants.Onboarding.Domain.ValueObjects;
 
-namespace Play.Merchants.Onboarding.Domain.Aggregates;
+namespace Play.Accounts.Domain.Aggregates.Merchants;
 
 public class Merchant : Aggregate<string>
 {
@@ -47,7 +47,10 @@ public class Merchant : Aggregate<string>
     {
         return new MerchantDto
         {
-            Id = _Id.Id, Address = _Address.AsDto(), BusinessType = _BusinessType, CompanyName = _CompanyName.Value,
+            Id = _Id.Id,
+            Address = _Address.AsDto(),
+            BusinessType = _BusinessType,
+            CompanyName = _CompanyName.Value,
             MerchantCategoryCode = $"{_MerchantCategoryCode}"
         };
     }

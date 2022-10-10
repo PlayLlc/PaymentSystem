@@ -1,7 +1,7 @@
 ﻿using Play.Domain.Entities;
 using Play.Domain.Events;
 
-namespace Play.Merchants.Onboarding.Domain.Aggregates;
+namespace Play.Accounts.Domain.Aggregates.UserRegistration;
 
 public record UserRegistrationHasExpiredDomainEvent : DomainEvent
 {

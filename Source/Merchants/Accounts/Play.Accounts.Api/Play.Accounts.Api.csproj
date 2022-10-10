@@ -24,8 +24,4 @@
     <ProjectReference Include="..\Play.Accounts.Application\Play.Accounts.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Logging\" />
-  </ItemGroup>
-
 </Project>

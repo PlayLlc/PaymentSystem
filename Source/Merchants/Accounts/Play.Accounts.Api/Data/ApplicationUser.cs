@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
+using Play.Accounts.Domain.Aggregates.Merchants;
+using Play.Accounts.Domain.Aggregates.Users;
+using Play.Accounts.Domain.Entities;
 using Play.Globalization.Time;
-using Play.Merchants.Onboarding.Domain.Aggregates;
-using Play.Merchants.Onboarding.Domain.Common;
 
 namespace Play.Accounts.Api.Data
 {

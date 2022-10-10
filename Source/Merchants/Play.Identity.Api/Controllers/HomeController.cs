@@ -1,33 +1,52 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 using Play.Identity.Api.Models;
 
 using System.Diagnostics;
 
+using Play.Identity.Api.Attributes;
+
+using Duende.IdentityServer.Services;
+
 namespace Play.Identity.Api.Controllers
 {
+    [SecurityHeaders]
+    [AllowAnonymous]
+    [ApiController]
+    [Route("")]
     public class HomeController : Controller
     {
         #region Instance Values
 
-        private readonly ILogger<HomeController> _Logger;
+        private readonly IWebHostEnvironment _environment;
+        private readonly ILogger _logger;
 
         #endregion
 
         #region Constructor
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IWebHostEnvironment environment, ILogger<HomeController> logger)
         {
-            _Logger = logger;
+            _environment = environment;
+            _logger = logger;
         }
 
         #endregion
 
         #region Instance Members
 
+        [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            // only show in development
+            if (_environment.IsDevelopment())
+
+                return View();
+
+            _logger.LogInformation("Homepage is disabled in production. Returning 404.");
+
+            return NotFound();
         }
 
         public IActionResult Privacy()

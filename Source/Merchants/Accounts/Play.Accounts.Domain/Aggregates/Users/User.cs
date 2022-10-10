@@ -1,9 +1,10 @@
 ﻿using Play.Accounts.Contracts.Dtos;
+using Play.Accounts.Domain.Aggregates.UserRegistration;
+using Play.Accounts.Domain.Entities;
 using Play.Domain.Aggregates;
 using Play.Globalization.Time;
-using Play.Merchants.Onboarding.Domain.Common;
 
-namespace Play.Merchants.Onboarding.Domain.Aggregates;
+namespace Play.Accounts.Domain.Aggregates.Users;
 
 public class User : Aggregate<string>
 {
@@ -70,8 +71,15 @@ public class User : Aggregate<string>
     {
         return new UserDto
         {
-            Id = _Id.Id, /* MerchantId = _MerchantId.Id,*/ Address = _Address.AsDto(), ContactInfo = _ContactInfo.AsDto(),
-            PersonalInfo = new PersonalInfoDto() {DateOfBirth = _DateOfBirth, LastFourOfSocial = _LastFourOfSsn}, IsActive = _IsActive
+            Id = _Id.Id, /* MerchantId = _MerchantId.Id,*/
+            Address = _Address.AsDto(),
+            ContactInfo = _ContactInfo.AsDto(),
+            PersonalInfo = new PersonalInfoDto()
+            {
+                DateOfBirth = _DateOfBirth,
+                LastFourOfSocial = _LastFourOfSsn
+            },
+            IsActive = _IsActive
         };
     }
 

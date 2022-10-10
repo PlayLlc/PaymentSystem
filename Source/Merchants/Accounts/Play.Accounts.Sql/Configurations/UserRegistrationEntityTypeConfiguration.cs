@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+using Play.Accounts.Domain.Aggregates.UserRegistration;
+using Play.Accounts.Domain.Entities;
+using Play.Accounts.Domain.Enums;
 using Play.Globalization.Time;
-using Play.Merchants.Onboarding.Domain.Aggregates;
-using Play.Merchants.Onboarding.Domain.Common;
-using Play.Merchants.Onboarding.Domain.Enums;
 
-namespace Play.Merchants.Onboarding.Sql.Configurations;
+namespace Play.Accounts.Sql.Configurations;
 
 internal class UserRegistrationEntityTypeConfiguration : IEntityTypeConfiguration<UserRegistration>
 {

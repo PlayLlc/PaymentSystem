@@ -1,10 +1,9 @@
 ﻿using Play.Accounts.Contracts.Dtos;
+using Play.Accounts.Domain.Enums;
+using Play.Accounts.Domain.ValueObjects;
 using Play.Domain.Entities;
-using Play.Merchants.Onboarding.Domain.Entities;
-using Play.Merchants.Onboarding.Domain.Enums;
-using Play.Merchants.Onboarding.Domain.ValueObjects;
 
-namespace Play.Merchants.Onboarding.Domain.Common;
+namespace Play.Accounts.Domain.Entities;
 
 public class Address : Entity<string>
 {
@@ -46,7 +45,11 @@ public class Address : Entity<string>
     {
         return new AddressDto
         {
-            ApartmentNumber = ApartmentNumber, City = City, StateAbbreviation = State, StreetAddress = StreetAddress, Zipcode = Zipcode.Value
+            ApartmentNumber = ApartmentNumber,
+            City = City,
+            StateAbbreviation = State,
+            StreetAddress = StreetAddress,
+            Zipcode = Zipcode.Value
         };
     }
 

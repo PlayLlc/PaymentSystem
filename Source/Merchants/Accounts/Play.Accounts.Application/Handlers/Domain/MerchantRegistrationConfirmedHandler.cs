@@ -1,8 +1,8 @@
 ﻿using NServiceBus;
 
 using Play.Accounts.Application.Events;
+using Play.Accounts.Domain.Aggregates.MerchantRegistration;
 using Play.Domain.Events;
-using Play.Merchants.Onboarding.Domain.Aggregates.MerchantRegistration.Events;
 
 namespace Play.Accounts.Application.Handlers.Domain;
 

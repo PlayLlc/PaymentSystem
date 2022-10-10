@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
+using Play.Identity.Api.Identity.Entities;
 using Play.Identity.Api.Models;
 using Play.Identity.Api.Services;
 
@@ -26,7 +27,7 @@ namespace Play.Identity.Api.Controllers
 
         private readonly IBuildLoginViewModel _LoginViewModelBuilder;
         private readonly IIdentityServerInteractionService _InteractionService;
-        private readonly SignInManager<IdentityUser> _SignInManager;
+        private readonly SignInManager<UserIdentity> _SignInManager;
         private readonly ILogger<AccountsController> _Logger;
 
         #endregion
@@ -34,7 +35,7 @@ namespace Play.Identity.Api.Controllers
         #region Constructor
 
         public AccountsController(
-            IBuildLoginViewModel loginViewModelBuilder, IIdentityServerInteractionService interactionService, SignInManager<IdentityUser> signInManager,
+            IBuildLoginViewModel loginViewModelBuilder, IIdentityServerInteractionService interactionService, SignInManager<UserIdentity> signInManager,
             ILogger<AccountsController> logger)
         {
             _LoginViewModelBuilder = loginViewModelBuilder;
@@ -87,7 +88,7 @@ namespace Play.Identity.Api.Controllers
             if (!ModelState.IsValid)
                 return View(await _LoginViewModelBuilder.BuildLoginViewModelAsync(model).ConfigureAwait(false));
 
-            IdentityUser? user = await _SignInManager.UserManager.FindByNameAsync(model.Username);
+            UserIdentity? user = await _SignInManager.UserManager.FindByNameAsync(model.Username);
 
             if (!await IsUsernameAndPasswordValid(user, model.Password).ConfigureAwait(false))
             {
@@ -111,7 +112,7 @@ namespace Play.Identity.Api.Controllers
             return Redirect(model.ReturnUrl);
         }
 
-        private async Task<bool> IsUsernameAndPasswordValid(IdentityUser? user, string password)
+        private async Task<bool> IsUsernameAndPasswordValid(UserIdentity? user, string password)
         {
             if (user is null)
                 return false;

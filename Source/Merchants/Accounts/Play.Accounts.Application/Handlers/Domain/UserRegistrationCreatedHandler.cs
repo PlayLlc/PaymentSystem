@@ -1,5 +1,5 @@
-﻿using Play.Domain.Events;
-using Play.Merchants.Onboarding.Domain.Aggregates;
+﻿using Play.Accounts.Domain.Aggregates.UserRegistration;
+using Play.Domain.Events;
 
 namespace Play.Accounts.Application.Handlers.Domain
 {

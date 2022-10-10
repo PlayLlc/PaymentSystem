@@ -73,6 +73,7 @@ namespace Play.Identity.Api.Controllers
         /// <summary>
         ///     Post processing of external authentication
         /// </summary>
+        /// <exception cref="Exception"></exception>
         [HttpGet]
         public async Task<IActionResult> Callback()
         {
@@ -84,56 +85,42 @@ namespace Play.Identity.Api.Controllers
 
             if (_Logger.IsEnabled(LogLevel.Debug))
             {
-                IEnumerable<string> externalClaims = result.Principal.Claims.Select(c => $"{c.Type}: {c.Value}");
-                _Logger.LogDebug("External claims: {@claims}", externalClaims);
+                IEnumerable<string> externalClaims = result.Principal?.Claims.Select(c => $"{c.Type}: {c.Value}") ?? Array.Empty<string>();
+                _Logger.LogDebug($"External claims: {externalClaims}");
             }
 
             // lookup our user and external provider info
-            (IdentityUser user, string provider, string providerUserId, IEnumerable<Claim> claims) = await FindUserFromExternalProvider(result);
-            if (user == null)
+            (IdentityUser? user, string provider, string providerUserId, IEnumerable<Claim> claims) = await FindUserFromExternalProvider(result);
 
-                // this might be where you might initiate a custom workflow for user registration
-                // in this sample we don't show how that would be done, as our sample implementation
-                // simply auto-provisions new external user
-                user = await AutoProvisionUser(provider, providerUserId, claims);
+            user ??= await AutoProvisionUser(provider, providerUserId, claims);
 
             // this allows us to collect any additional claims or properties
             // for the specific protocols used and store them in the local auth cookie.
-            // this is typically used to store data needed for signout from those protocols.
+            // this is typically used to store data needed for sign out from those protocols.
             List<Claim> additionalLocalClaims = new List<Claim>();
             AuthenticationProperties localSignInProps = new AuthenticationProperties();
             ProcessLoginCallback(result, additionalLocalClaims, localSignInProps);
 
             // issue authentication cookie for user
-            IdentityServerUser isuser = new IdentityServerUser(user.Id)
+            IdentityServerUser issuer = new IdentityServerUser(user.Id)
             {
                 DisplayName = user.UserName,
                 IdentityProvider = provider,
                 AdditionalClaims = additionalLocalClaims
             };
 
-            await HttpContext.SignInAsync(isuser, localSignInProps);
+            await HttpContext.SignInAsync(issuer, localSignInProps);
 
             // delete temporary cookie used during external authentication
             await HttpContext.SignOutAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);
 
             // retrieve return URL
-            string returnUrl = result.Properties.Items["returnUrl"] ?? "~/";
-
-            // check if external login is in the context of an OIDC request
-            AuthorizationRequest context = await _Interaction.GetAuthorizationContextAsync(returnUrl);
-
-            if (context != null)
-                if (context.IsNativeClient())
-
-                    // The client is native, so this change in how to
-                    // return the response is for better UX for the end user.
-                    return this.LoadingPage("Redirect", returnUrl);
+            string returnUrl = result.Properties?.Items["returnUrl"] ?? "~/";
 
             return Redirect(returnUrl);
         }
 
-        private async Task<(IdentityUser user, string provider, string providerUserId, IEnumerable<Claim> claims)> FindUserFromExternalProvider(
+        private async Task<(IdentityUser? user, string provider, string providerUserId, IEnumerable<Claim> claims)> FindUserFromExternalProvider(
             AuthenticateResult result)
         {
             ClaimsPrincipal externalUser = result.Principal;

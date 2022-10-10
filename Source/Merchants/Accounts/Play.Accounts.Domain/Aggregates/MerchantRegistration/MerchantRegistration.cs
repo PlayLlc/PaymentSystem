@@ -1,17 +1,14 @@
 ﻿using Play.Accounts.Contracts.Dtos;
+using Play.Accounts.Domain.Aggregates.UserRegistration;
+using Play.Accounts.Domain.Entities;
+using Play.Accounts.Domain.Enums;
+using Play.Accounts.Domain.Services;
+using Play.Accounts.Domain.ValueObjects;
 using Play.Domain;
 using Play.Domain.Aggregates;
 using Play.Globalization.Time;
-using Play.Merchants.Onboarding.Domain.Aggregates.MerchantRegistration;
-using Play.Merchants.Onboarding.Domain.Aggregates.MerchantRegistration.Events;
-using Play.Merchants.Onboarding.Domain.Aggregates.MerchantRegistration.Rules;
-using Play.Merchants.Onboarding.Domain.Common;
-using Play.Merchants.Onboarding.Domain.Entities;
-using Play.Merchants.Onboarding.Domain.Enums;
-using Play.Merchants.Onboarding.Domain.Services;
-using Play.Merchants.Onboarding.Domain.ValueObjects;
 
-namespace Play.Merchants.Onboarding.Domain.Aggregates.CompanyRegistration;
+namespace Play.Accounts.Domain.Aggregates.MerchantRegistration;
 
 public class MerchantRegistration : Aggregate<string>
 {
@@ -77,9 +74,15 @@ public class MerchantRegistration : Aggregate<string>
     {
         return new MerchantRegistrationDto
         {
-            Id = _Id.Id, UserRegistrationId = _UserRegistrationId.Id, Address = _Address.AsDto(), BusinessType = _BusinessType,
-            CompanyName = _CompanyName.Value, ConfirmedDate = _ConfirmedDate, MerchantCategoryCode = $"{_MerchantCategoryCode}",
-            RegisteredDate = _RegisteredDate, RegistrationStatus = _Status
+            Id = _Id.Id,
+            UserRegistrationId = _UserRegistrationId.Id,
+            Address = _Address.AsDto(),
+            BusinessType = _BusinessType,
+            CompanyName = _CompanyName.Value,
+            ConfirmedDate = _ConfirmedDate,
+            MerchantCategoryCode = $"{_MerchantCategoryCode}",
+            RegisteredDate = _RegisteredDate,
+            RegistrationStatus = _Status
         };
     }
 

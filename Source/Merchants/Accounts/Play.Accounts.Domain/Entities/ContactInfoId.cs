@@ -1,6 +1,6 @@
 ﻿using Play.Domain.Entities;
 
-namespace Play.Merchants.Onboarding.Domain.Entities
+namespace Play.Accounts.Domain.Entities
 {
     public record ContactInfoId : EntityId<string>
     {

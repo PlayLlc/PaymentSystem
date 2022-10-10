@@ -1,7 +1,7 @@
 ﻿using Play.Domain;
 using Play.Globalization.Time;
 
-namespace Play.Merchants.Onboarding.Domain.Aggregates.MerchantRegistration.Rules;
+namespace Play.Accounts.Domain.Aggregates.MerchantRegistration;
 
 internal class MerchantCannotBeCreatedWhenRegistrationHasExpired : IBusinessRule
 {

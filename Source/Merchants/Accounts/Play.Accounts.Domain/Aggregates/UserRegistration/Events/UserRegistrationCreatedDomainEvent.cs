@@ -1,8 +1,8 @@
-﻿using Play.Domain.Events;
+﻿using Play.Accounts.Domain.Entities;
+using Play.Domain.Events;
 using Play.Globalization.Time;
-using Play.Merchants.Onboarding.Domain.Common;
 
-namespace Play.Merchants.Onboarding.Domain.Aggregates;
+namespace Play.Accounts.Domain.Aggregates.UserRegistration;
 
 public record UserRegistrationCreatedDomainEvent : DomainEvent
 {

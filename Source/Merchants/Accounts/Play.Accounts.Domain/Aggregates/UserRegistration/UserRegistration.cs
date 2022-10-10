@@ -1,15 +1,15 @@
 ﻿using Play.Accounts.Contracts.Commands;
 using Play.Accounts.Contracts.Dtos;
+using Play.Accounts.Domain.Aggregates.Users;
+using Play.Accounts.Domain.Entities;
+using Play.Accounts.Domain.Enums;
+using Play.Accounts.Domain.Services;
 using Play.Domain;
 using Play.Domain.Aggregates;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Time;
-using Play.Merchants.Onboarding.Domain.Common;
-using Play.Merchants.Onboarding.Domain.Entities;
-using Play.Merchants.Onboarding.Domain.Enums;
-using Play.Merchants.Onboarding.Domain.Services;
 
-namespace Play.Merchants.Onboarding.Domain.Aggregates;
+namespace Play.Accounts.Domain.Aggregates.UserRegistration;
 
 public class UserRegistration : Aggregate<string>
 {
@@ -110,8 +110,14 @@ public class UserRegistration : Aggregate<string>
     {
         return new UserRegistrationDto
         {
-            Id = _Id.Id, Address = _Address.AsDto(), ContactInfo = _ContactInfo.AsDto(), DateOfBirth = _DateOfBirth, ConfirmedDate = _ConfirmedDate,
-            LastFourOfSsn = _LastFourOfSsn, RegisteredDate = _RegisteredDate, RegistrationStatus = _Status
+            Id = _Id.Id,
+            Address = _Address.AsDto(),
+            ContactInfo = _ContactInfo.AsDto(),
+            DateOfBirth = _DateOfBirth,
+            ConfirmedDate = _ConfirmedDate,
+            LastFourOfSsn = _LastFourOfSsn,
+            RegisteredDate = _RegisteredDate,
+            RegistrationStatus = _Status
         };
     }
 

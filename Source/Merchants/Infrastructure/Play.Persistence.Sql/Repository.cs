@@ -3,7 +3,6 @@
 using Play.Domain.Entities;
 using Play.Domain.Repositories;
 using Play.Domain.Aggregates;
-using Play.Merchants.Persistence.Sql.Exceptions;
 
 namespace Play.Persistence.Sql;
 

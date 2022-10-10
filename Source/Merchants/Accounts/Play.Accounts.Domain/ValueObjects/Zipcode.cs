@@ -1,6 +1,6 @@
 ﻿using Play.Domain.ValueObjects;
 
-namespace Play.Merchants.Onboarding.Domain.ValueObjects
+namespace Play.Accounts.Domain.ValueObjects
 {
     public record Zipcode : ValueObject<string>
     {

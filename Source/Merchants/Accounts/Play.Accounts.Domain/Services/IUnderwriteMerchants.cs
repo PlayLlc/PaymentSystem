@@ -1,8 +1,8 @@
-﻿using Play.Merchants.Onboarding.Domain.Common;
-using Play.Merchants.Onboarding.Domain.Enums;
-using Play.Merchants.Onboarding.Domain.ValueObjects;
+﻿using Play.Accounts.Domain.Entities;
+using Play.Accounts.Domain.Enums;
+using Play.Accounts.Domain.ValueObjects;
 
-namespace Play.Merchants.Onboarding.Domain.Services
+namespace Play.Accounts.Domain.Services
 {
     public interface IUnderwriteMerchants
     {

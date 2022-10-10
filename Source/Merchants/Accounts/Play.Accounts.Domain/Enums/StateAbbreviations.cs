@@ -2,7 +2,7 @@
 
 using Play.Core;
 
-namespace Play.Merchants.Onboarding.Domain.Enums
+namespace Play.Accounts.Domain.Enums
 {
     public record StateAbbreviations : EnumObjectString
     {
@@ -124,15 +124,57 @@ namespace Play.Merchants.Onboarding.Domain.Enums
             Wyoming = new StateAbbreviations("WY");
             _ValueObjectMap = new Dictionary<string, StateAbbreviations>
             {
-                {Alabama, Alabama}, {Alaska, Alaska}, {Arizona, Arizona}, {Arkansas, Arkansas}, {California, California}, {Colorado, Colorado},
-                {Connecticut, Connecticut}, {Delaware, Delaware}, {DistrictOfColumbia, DistrictOfColumbia}, {Florida, Florida}, {Georgia, Georgia},
-                {Hawaii, Hawaii}, {Idaho, Idaho}, {Illinois, Illinois}, {Indiana, Indiana}, {Iowa, Iowa}, {Kansas, Kansas}, {Kentucky, Kentucky},
-                {Louisiana, Louisiana}, {Maine, Maine}, {Maryland, Maryland}, {Massachusetts, Massachusetts}, {Michigan, Michigan}, {Minnesota, Minnesota},
-                {Mississippi, Mississippi}, {Missouri, Missouri}, {Montana, Montana}, {Nebraska, Nebraska}, {Nevada, Nevada}, {NewHampshire, NewHampshire},
-                {NewJersey, NewJersey}, {NewMexico, NewMexico}, {NewYork, NewYork}, {NorthCarolina, NorthCarolina}, {NorthDakota, NorthDakota},
-                {Ohio, Ohio}, {Oklahoma, Oklahoma}, {Oregon, Oregon}, {Pennsylvania, Pennsylvania}, {RhodeIsland, RhodeIsland},
-                {SouthCarolina, SouthCarolina}, {SouthDakota, SouthDakota}, {Tennessee, Tennessee}, {Texas, Texas}, {Utah, Utah}, {Vermont, Vermont},
-                {Virginia, Virginia}, {Washington, Washington}, {WestVirginia, WestVirginia}, {Wisconsin, Wisconsin}, {Wyoming, Wyoming}
+                {Alabama, Alabama},
+                {Alaska, Alaska},
+                {Arizona, Arizona},
+                {Arkansas, Arkansas},
+                {California, California},
+                {Colorado, Colorado},
+                {Connecticut, Connecticut},
+                {Delaware, Delaware},
+                {DistrictOfColumbia, DistrictOfColumbia},
+                {Florida, Florida},
+                {Georgia, Georgia},
+                {Hawaii, Hawaii},
+                {Idaho, Idaho},
+                {Illinois, Illinois},
+                {Indiana, Indiana},
+                {Iowa, Iowa},
+                {Kansas, Kansas},
+                {Kentucky, Kentucky},
+                {Louisiana, Louisiana},
+                {Maine, Maine},
+                {Maryland, Maryland},
+                {Massachusetts, Massachusetts},
+                {Michigan, Michigan},
+                {Minnesota, Minnesota},
+                {Mississippi, Mississippi},
+                {Missouri, Missouri},
+                {Montana, Montana},
+                {Nebraska, Nebraska},
+                {Nevada, Nevada},
+                {NewHampshire, NewHampshire},
+                {NewJersey, NewJersey},
+                {NewMexico, NewMexico},
+                {NewYork, NewYork},
+                {NorthCarolina, NorthCarolina},
+                {NorthDakota, NorthDakota},
+                {Ohio, Ohio},
+                {Oklahoma, Oklahoma},
+                {Oregon, Oregon},
+                {Pennsylvania, Pennsylvania},
+                {RhodeIsland, RhodeIsland},
+                {SouthCarolina, SouthCarolina},
+                {SouthDakota, SouthDakota},
+                {Tennessee, Tennessee},
+                {Texas, Texas},
+                {Utah, Utah},
+                {Vermont, Vermont},
+                {Virginia, Virginia},
+                {Washington, Washington},
+                {WestVirginia, WestVirginia},
+                {Wisconsin, Wisconsin},
+                {Wyoming, Wyoming}
             }.ToImmutableSortedDictionary();
         }
 

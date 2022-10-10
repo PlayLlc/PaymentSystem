@@ -3,7 +3,7 @@
 using Play.Core.Exceptions;
 using Play.Domain.Exceptions;
 
-namespace Play.Merchants.Persistence.Sql.Exceptions;
+namespace Play.Persistence.Sql;
 
 public class EntityFrameworkRepositoryException : RepositoryException
 {

@@ -3,9 +3,9 @@
 using Play.Accounts.Api.Models;
 using Play.Accounts.Contracts.Commands;
 using Play.Accounts.Contracts.Dtos;
+using Play.Accounts.Domain.Aggregates.UserRegistration;
+using Play.Accounts.Domain.Services;
 using Play.Domain.Repositories;
-using Play.Merchants.Onboarding.Domain.Aggregates;
-using Play.Merchants.Onboarding.Domain.Services;
 
 namespace Play.Accounts.Api.Controllers
 {

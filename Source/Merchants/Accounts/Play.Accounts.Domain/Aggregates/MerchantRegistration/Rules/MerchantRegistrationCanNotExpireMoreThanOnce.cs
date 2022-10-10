@@ -1,7 +1,7 @@
-﻿using Play.Domain;
-using Play.Merchants.Onboarding.Domain.Enums;
+﻿using Play.Accounts.Domain.Enums;
+using Play.Domain;
 
-namespace Play.Merchants.Onboarding.Domain.Aggregates.MerchantRegistration.Rules;
+namespace Play.Accounts.Domain.Aggregates.MerchantRegistration;
 
 internal class MerchantRegistrationCanNotExpireMoreThanOnce : IBusinessRule
 {

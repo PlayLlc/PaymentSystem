@@ -1,9 +1,9 @@
-﻿using Play.Domain;
-using Play.Merchants.Onboarding.Domain.Common;
-using Play.Merchants.Onboarding.Domain.Services;
-using Play.Merchants.Onboarding.Domain.ValueObjects;
+﻿using Play.Accounts.Domain.Entities;
+using Play.Accounts.Domain.Services;
+using Play.Accounts.Domain.ValueObjects;
+using Play.Domain;
 
-namespace Play.Merchants.Onboarding.Domain.Aggregates.MerchantRegistration.Rules;
+namespace Play.Accounts.Domain.Aggregates.MerchantRegistration;
 
 internal class MerchantMustNotBeProhibited : IBusinessRule
 {

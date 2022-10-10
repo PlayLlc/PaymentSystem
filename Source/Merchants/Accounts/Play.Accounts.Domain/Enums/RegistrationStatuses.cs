@@ -2,7 +2,7 @@
 
 using Play.Core;
 
-namespace Play.Merchants.Onboarding.Domain.Enums
+namespace Play.Accounts.Domain.Enums
 {
     public record RegistrationStatuses : EnumObjectString
     {
@@ -33,7 +33,10 @@ namespace Play.Merchants.Onboarding.Domain.Enums
 
             _ValueObjectMap = new Dictionary<string, RegistrationStatuses>
             {
-                {WaitingForConfirmation, WaitingForConfirmation}, {Confirmed, Confirmed}, {Expired, Expired}, {Rejected, Rejected}
+                {WaitingForConfirmation, WaitingForConfirmation},
+                {Confirmed, Confirmed},
+                {Expired, Expired},
+                {Rejected, Rejected}
             }.ToImmutableSortedDictionary();
         }
 

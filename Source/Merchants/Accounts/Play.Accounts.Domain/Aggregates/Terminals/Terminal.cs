@@ -1,7 +1,8 @@
 ﻿using Play.Accounts.Contracts.Dtos;
+using Play.Accounts.Domain.Aggregates.Merchants;
+using Play.Accounts.Domain.Aggregates.Users;
 using Play.Domain;
 using Play.Domain.Aggregates;
-using Play.Merchants.Onboarding.Domain.Aggregates;
 
 namespace Play.Accounts.Domain.Aggregates.Terminals
 {

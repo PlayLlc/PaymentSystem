@@ -1,4 +1,4 @@
-﻿namespace Play.Merchants.Onboarding.Domain.Aggregates;
+﻿namespace Play.Accounts.Domain.Aggregates.Users;
 
 public record UserRole
 {

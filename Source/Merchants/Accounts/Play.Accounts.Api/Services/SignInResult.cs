@@ -1,4 +1,4 @@
-﻿using Play.Accounts.Api.Services;
+﻿namespace Play.Accounts.Api.Services;
 
 public class SignInResult
 {
@@ -16,12 +16,20 @@ public class SignInResult
 
     public static SignInResult Success(ApplicationUser applicationUser)
     {
-        return new SignInResult {Succeeded = true, IdentityUser = applicationUser};
+        return new SignInResult
+        {
+            Succeeded = true,
+            IdentityUser = applicationUser
+        };
     }
 
     public static SignInResult ChangePasswordRequired(ApplicationUser applicationUser)
     {
-        return new SignInResult {ChangePassword = true, IdentityUser = applicationUser};
+        return new SignInResult
+        {
+            ChangePassword = true,
+            IdentityUser = applicationUser
+        };
     }
 
     public static SignInResult FailedSignIn()

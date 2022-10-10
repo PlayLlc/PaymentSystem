@@ -1,9 +1,8 @@
 ﻿using Play.Accounts.Contracts.Dtos;
+using Play.Accounts.Domain.ValueObjects;
 using Play.Domain.Entities;
-using Play.Merchants.Onboarding.Domain.Entities;
-using Play.Merchants.Onboarding.Domain.ValueObjects;
 
-namespace Play.Merchants.Onboarding.Domain.Common;
+namespace Play.Accounts.Domain.Entities;
 
 public class ContactInfo : Entity<string>
 {
@@ -41,7 +40,13 @@ public class ContactInfo : Entity<string>
 
     public override ContactInfoDto AsDto()
     {
-        return new ContactInfoDto() {Email = Email.Value, FirstName = FirstName.Value, LastName = LastName.Value, Phone = Phone.Value};
+        return new ContactInfoDto()
+        {
+            Email = Email.Value,
+            FirstName = FirstName.Value,
+            LastName = LastName.Value,
+            Phone = Phone.Value
+        };
     }
 
     #endregion

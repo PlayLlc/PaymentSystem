@@ -2,7 +2,7 @@
 
 using Play.Core;
 
-namespace Play.Merchants.Onboarding.Domain.Enums
+namespace Play.Accounts.Domain.Enums
 {
     public record MerchantCategoryCodes : EnumObject<short>
     {
@@ -35,7 +35,11 @@ namespace Play.Merchants.Onboarding.Domain.Enums
             // ...
             _ValueObjectMap = new Dictionary<short, MerchantCategoryCodes>
             {
-                {Accounting, Accounting}, {Childcare, Childcare}, {Consulting, Consulting}, {Delivery, Delivery}, {LegalServices, LegalServices}
+                {Accounting, Accounting},
+                {Childcare, Childcare},
+                {Consulting, Consulting},
+                {Delivery, Delivery},
+                {LegalServices, LegalServices}
             }.ToImmutableSortedDictionary();
         }
 

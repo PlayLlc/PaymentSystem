@@ -1,6 +1,6 @@
 ﻿using Play.Domain.Entities;
 
-namespace Play.Merchants.Onboarding.Domain.Aggregates.MerchantRegistration;
+namespace Play.Accounts.Domain.Aggregates.MerchantRegistration;
 
 public record MerchantRegistrationId : EntityId<string>
 {

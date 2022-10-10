@@ -1,7 +1,7 @@
 ﻿using Play.Domain;
 using Play.Globalization.Time;
 
-namespace Play.Merchants.Onboarding.Domain.Aggregates;
+namespace Play.Accounts.Domain.Aggregates.UserRegistration;
 
 internal class UserCannotBeCreatedWhenRegistrationHasExpired : IBusinessRule
 {

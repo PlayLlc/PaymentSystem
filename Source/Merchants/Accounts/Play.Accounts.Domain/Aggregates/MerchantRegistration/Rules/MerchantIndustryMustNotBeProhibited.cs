@@ -1,8 +1,8 @@
-﻿using Play.Domain;
-using Play.Merchants.Onboarding.Domain.Enums;
-using Play.Merchants.Onboarding.Domain.Services;
+﻿using Play.Accounts.Domain.Enums;
+using Play.Accounts.Domain.Services;
+using Play.Domain;
 
-namespace Play.Merchants.Onboarding.Domain.Aggregates.MerchantRegistration.Rules;
+namespace Play.Accounts.Domain.Aggregates.MerchantRegistration;
 
 internal class MerchantIndustryMustNotBeProhibited : IBusinessRule
 {
