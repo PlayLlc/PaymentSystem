@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace _DeleteMe.MerchantPortal.DeleteMe.Controllers
 {
-    [AllowAnonymous]
     public class HomeController : Controller
     {
         #region Instance Values

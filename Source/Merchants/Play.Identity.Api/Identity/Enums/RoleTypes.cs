@@ -2,6 +2,7 @@
 {
     public enum RoleTypes
     {
+        ShadowAdmin,
         SuperAdmin,
         Administrator,
         SalesAssociate

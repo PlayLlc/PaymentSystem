@@ -7,6 +7,7 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.ConfigureIdentityServer();
 builder.ConfigureApplicationServices();
+await builder.SeedDefaultIdentityData().ConfigureAwait(false);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

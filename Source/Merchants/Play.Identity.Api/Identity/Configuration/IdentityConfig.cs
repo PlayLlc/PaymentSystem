@@ -103,6 +103,22 @@ namespace Play.Identity.Api.Identity.Configuration
 
             return new List<Client>
             {
+                new()
+                {
+                    ClientId = businessPayConfig.ClientId,
+                    ClientName = businessPayConfig.ClientName,
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    ClientSecrets = new List<Secret> {new(businessPayConfig.ClientSecret.Sha256())},
+                    RedirectUris = {businessPayConfig.RedirectUris},
+                    PostLogoutRedirectUris = {businessPayConfig.PostLogoutRedirectUris},
+                    AllowedScopes =
+                    {
+                        Specs.ApiScopes.IdentityServer,
+                        Specs.ApiScopes.ExternalMobile,
+                        Specs.ApiScopes.OpenId
+                    }
+                },
+
                 // interactive client such as web applications, SPAs or native/mobile apps with interactive users who interact
                 // with a browser page for login, consent, etc
                 new()
@@ -120,21 +136,6 @@ namespace Play.Identity.Api.Identity.Configuration
 
                         //Specs.ApiScopes.IdentityServer,
                         //Specs.ApiScopes.ExternalApi
-                    }
-                },
-                new()
-                {
-                    ClientId = businessPayConfig.ClientId,
-                    ClientName = businessPayConfig.ClientName,
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    ClientSecrets = new List<Secret> {new(businessPayConfig.ClientSecret.Sha256())},
-                    RedirectUris = {businessPayConfig.RedirectUris},
-                    PostLogoutRedirectUris = {businessPayConfig.PostLogoutRedirectUris},
-                    AllowedScopes =
-                    {
-                        Specs.ApiScopes.IdentityServer,
-                        Specs.ApiScopes.ExternalMobile,
-                        Specs.ApiScopes.OpenId
                     }
                 }
             };

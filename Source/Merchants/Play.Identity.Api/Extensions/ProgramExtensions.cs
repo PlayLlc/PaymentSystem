@@ -1,4 +1,6 @@
-﻿using Duende.IdentityServer;
+﻿using AutoMapper.Internal;
+
+using Duende.IdentityServer;
 using Duende.IdentityServer.AspNetIdentity;
 using Duende.IdentityServer.Services;
 
@@ -74,8 +76,9 @@ namespace Play.Identity.Api.Extensions
                 .AddProfileService<ProfileService<UserIdentity>>()
                 .AddInMemoryIdentityResources(IdentityConfig.GetIdentityResources())
                 .AddInMemoryApiScopes(IdentityConfig.GetApiScopes())
-                .AddInMemoryClients(IdentityConfig.GetClients(builder.Configuration))
-                .AddTestUsers(IdentityConfig.GetTestUsers(builder.Configuration));
+                .AddInMemoryClients(IdentityConfig.GetClients(builder.Configuration));
+
+            //.AddTestUsers(IdentityConfig.GetTestUsers(builder.Configuration));
 
             builder.Services.AddAuthentication()
                 .AddGoogle("Google", options =>
@@ -119,6 +122,13 @@ namespace Play.Identity.Api.Extensions
             builder.Services.AddScoped<IProfileService, ProfileService<UserIdentity>>();
 
             return builder;
+        }
+
+        internal static async Task SeedDefaultIdentityData(this WebApplicationBuilder builder)
+        {
+            var seeder = new UserIdentityDbSeeder(builder.Services.BuildServiceProvider().GetService<UserIdentityDbContext>()!);
+
+            await seeder.Seed().ConfigureAwait(false);
         }
 
         #endregion

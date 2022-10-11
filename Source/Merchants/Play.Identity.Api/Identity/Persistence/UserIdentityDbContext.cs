@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using Play.Identity.Api.Identity.Entities;
 
@@ -19,6 +20,15 @@ namespace Play.Identity.Api.Identity.Persistence
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<Address>().ToTable("Addresses").Property(x => x.Id).ValueGeneratedOnAdd();
+            builder.Entity<Address>().HasKey(x => x.Id);
+
+            builder.Entity<ContactInfo>().ToTable("Contacts").Property(x => x.Id).ValueGeneratedOnAdd();
+            builder.Entity<ContactInfo>().HasKey(x => x.Id);
+
+            builder.Entity<PersonalInfo>().ToTable("PersonalDetails").Property(x => x.Id).ValueGeneratedOnAdd();
+            builder.Entity<PersonalInfo>().HasKey(x => x.Id);
+
             builder.Entity<UserIdentity>().ToTable("UserIdentities");
             builder.Entity<Role>().ToTable("Roles");
             builder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");

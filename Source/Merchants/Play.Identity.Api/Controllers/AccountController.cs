@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 using Play.Identity.Api.Attributes;
 using Play.Identity.Api.Identity.Entities;
@@ -23,22 +24,22 @@ namespace Play.Identity.Api.Controllers
     [AllowAnonymous]
     [ApiController]
     [Route("[controller]/[action]")]
-    public class AccountsController : Controller
+    public class AccountController : Controller
     {
         #region Instance Values
 
         private readonly IBuildLoginViewModel _LoginViewModelBuilder;
         private readonly IIdentityServerInteractionService _InteractionService;
         private readonly SignInManager<UserIdentity> _SignInManager;
-        private readonly ILogger<AccountsController> _Logger;
+        private readonly ILogger<AccountController> _Logger;
 
         #endregion
 
         #region Constructor
 
-        public AccountsController(
+        public AccountController(
             IBuildLoginViewModel loginViewModelBuilder, IIdentityServerInteractionService interactionService, SignInManager<UserIdentity> signInManager,
-            ILogger<AccountsController> logger)
+            ILogger<AccountController> logger)
         {
             _LoginViewModelBuilder = loginViewModelBuilder;
             _InteractionService = interactionService;

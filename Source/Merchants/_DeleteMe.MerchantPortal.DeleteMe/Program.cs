@@ -15,7 +15,6 @@ builder.Services.AddAuthentication(options =>
     .AddOpenIdConnect("oidc", options =>
     {
         options.Authority = "https://localhost:7012";
-
         options.ClientId = "MerchantPortal";
         options.ClientSecret = "secret";
         options.ResponseType = "code";
