@@ -115,8 +115,11 @@ namespace Play.Identity.Api.Identity.Configuration
                     PostLogoutRedirectUris = {merchantPortalConfig.PostLogoutRedirectUris},
                     AllowedScopes =
                     {
-                        Specs.ApiScopes.IdentityServer,
-                        Specs.ApiScopes.ExternalApi
+                        Specs.ApiScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile
+
+                        //Specs.ApiScopes.IdentityServer,
+                        //Specs.ApiScopes.ExternalApi
                     }
                 },
                 new()

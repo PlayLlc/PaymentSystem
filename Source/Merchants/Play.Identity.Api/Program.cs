@@ -20,6 +20,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseIdentityServer();
 app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseAuthorization();

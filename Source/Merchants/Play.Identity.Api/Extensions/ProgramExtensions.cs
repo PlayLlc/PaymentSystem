@@ -7,6 +7,7 @@ using IdentityModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 using Play.Identity.Api.Identity.Configuration;
 using Play.Identity.Api.Identity.Entities;
@@ -56,6 +57,8 @@ namespace Play.Identity.Api.Extensions
             //builder.Services.AddLocalApiAuthentication();
             builder.Services.AddIdentityServer(options =>
                 {
+                    options.KeyManagement.Enabled = true;
+
                     // PCI-DSS Log out of user sessions that are idle for 15 minutes or longer
                     options.Authentication.CookieLifetime = TimeSpan.FromMinutes(15);
                     options.Authentication.CookieSlidingExpiration = true;
@@ -65,26 +68,14 @@ namespace Play.Identity.Api.Extensions
                     options.ServerSideSessions.RemoveExpiredSessionsFrequency = TimeSpan.FromSeconds(10);
                     options.ServerSideSessions.ExpiredSessionsTriggerBackchannelLogout = true;
                 })
-                .AddDeveloperSigningCredential() // HACK: we will use this only for dev. for production we need appropriate signing certificates for our tls.
+
+                // .AddDeveloperSigningCredential() // HACK: we will use this only for dev. for production we need appropriate signing certificates for our tls.
                 .AddAspNetIdentity<UserIdentity>()
                 .AddProfileService<ProfileService<UserIdentity>>()
                 .AddInMemoryIdentityResources(IdentityConfig.GetIdentityResources())
                 .AddInMemoryApiScopes(IdentityConfig.GetApiScopes())
                 .AddInMemoryClients(IdentityConfig.GetClients(builder.Configuration))
-                .AddTestUsers(IdentityConfig.GetTestUsers(builder.Configuration))
-                .AddConfigurationStore(options =>
-                {
-                    options.ConfigureDbContext = b => b.UseSqlServer(identityConnectionString);
-                })
-                .AddOperationalStore(options =>
-                {
-                    options.ConfigureDbContext = b => b.UseSqlServer(identityConnectionString);
-
-                    // this enables automatic token cleanup. this is optional.
-                    options.EnableTokenCleanup = false;
-                    options.RemoveConsumedTokens = true;
-                    options.TokenCleanupInterval = 10; // interval in seconds
-                });
+                .AddTestUsers(IdentityConfig.GetTestUsers(builder.Configuration));
 
             builder.Services.AddAuthentication()
                 .AddGoogle("Google", options =>
@@ -99,6 +90,23 @@ namespace Play.Identity.Api.Extensions
                     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
                     options.ClientId = builder.Configuration["Authentication:Facebook:ClientId"];
                     options.ClientSecret = builder.Configuration["Authentication:Facebook:ClientSecret"];
+                })
+                .AddOpenIdConnect("oidc", "Demo IdentityServer", options =>
+                {
+                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+                    options.SignOutScheme = IdentityServerConstants.SignoutScheme;
+                    options.SaveTokens = true;
+
+                    options.Authority = "https://demo.duendesoftware.com";
+                    options.ClientId = "interactive.confidential";
+                    options.ClientSecret = "secret";
+                    options.ResponseType = "code";
+
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        NameClaimType = "name",
+                        RoleClaimType = "role"
+                    };
                 });
 
             return builder;

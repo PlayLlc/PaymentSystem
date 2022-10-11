@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
+using Play.Identity.Api.Attributes;
 using Play.Identity.Api.Identity.Entities;
 using Play.Identity.Api.Models;
 using Play.Identity.Api.Services;
@@ -18,6 +19,7 @@ namespace Play.Identity.Api.Controllers
 {
     // TODO: Add logging
 
+    [SecurityHeaders]
     [AllowAnonymous]
     [ApiController]
     [Route("[controller]/[action]")]

@@ -11,10 +11,7 @@ using Duende.IdentityServer.Services;
 
 namespace Play.Identity.Api.Controllers
 {
-    [SecurityHeaders]
     [AllowAnonymous]
-    [ApiController]
-    [Route("")]
     public class HomeController : Controller
     {
         #region Instance Values

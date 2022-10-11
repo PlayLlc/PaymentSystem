@@ -5,8 +5,31 @@ Template 2106 Soft Landing
 http://www.tooplate.com/view/2106-soft-landing
 	
 */
+#ExternalIdentityProviders {
+    margin-top: 1em !important;
+}
+#LoginLead {
+    text-align: center;
+}
  
   @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400');
+  #LoginPageContainer {
+      padding-bottom: 40px;
+      position: relative;
+      padding-left: 10px;
+      -ms-border-radius: 5px;
+      border-radius: 5px;
+      border: 1px solid #eee;
+      background-color: #fff;
+      color: #000;
+      -ms-transition: transform .1s;
+      -o-transition: transform .1s;
+      -webkit-transition: transform .1s;
+      transition: transform .1s;
+      -moz-filter: drop-shadow(5px 5px 8px #213848) !important;
+      -webkit-filter: drop-shadow(5px 5px 8px #213848) !important;
+      filter: drop-shadow(5px 5px 8px #213848) !important;
+  }
 
   body {
     font-family: 'Open Sans', sans-serif;
