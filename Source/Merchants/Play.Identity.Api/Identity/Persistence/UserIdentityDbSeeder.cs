@@ -37,20 +37,17 @@ namespace Play.Identity.Api.Identity.Persistence
 
         /// <exception cref="OperationCanceledException"></exception>
         /// <exception cref="DbUpdateException"></exception>
-        public async Task Seed()
+        public async Task Seed(UserManager<UserIdentity> userManager, RoleStore<Role> roleStore)
         {
-            RoleStore<Role> roleStore = new RoleStore<Role>(_Context);
-            UserStore<UserIdentity, Role, UserIdentityDbContext> userStore = new UserStore<UserIdentity, Role, UserIdentityDbContext>(_Context);
-
             if (!await roleStore.Roles.AnyAsync().ConfigureAwait(false))
                 await SeedRoles(roleStore).ConfigureAwait(false);
 
-            if (await userStore.Users.AnyAsync().ConfigureAwait(false))
+            if (await userManager.Users.AnyAsync().ConfigureAwait(false))
                 return;
 
-            var user = await AddSuperAdmin(userStore).ConfigureAwait(false);
+            var user = await AddSuperAdmin(userManager).ConfigureAwait(false);
 
-            await AddClaims(userStore, user).ConfigureAwait(false);
+            await AddClaims(userManager, user).ConfigureAwait(false);
 
             await _Context.SaveChangesAsync().ConfigureAwait(false);
         }
@@ -75,7 +72,7 @@ namespace Play.Identity.Api.Identity.Persistence
         }
 
         /// <exception cref="OperationCanceledException"></exception>
-        private async Task<UserIdentity> AddSuperAdmin(UserStore<UserIdentity, Role, UserIdentityDbContext> userStore)
+        private async Task<UserIdentity> AddSuperAdmin(UserManager<UserIdentity> userManager)
         {
             Address address = new()
             {
@@ -101,19 +98,18 @@ namespace Play.Identity.Api.Identity.Persistence
             };
 
             UserIdentity superAdmin = new UserIdentity(contactInfo, address, personalInfo);
+            superAdmin.PasswordHash = userManager.PasswordHasher.HashPassword(superAdmin, "test");
 
-            superAdmin.PasswordHash = new PasswordHasher<UserIdentity>().HashPassword(superAdmin, "test");
-
-            await userStore.CreateAsync(superAdmin).ConfigureAwait(false);
-            await userStore.AddToRoleAsync(superAdmin, nameof(RoleTypes.SuperAdmin));
+            await userManager.CreateAsync(superAdmin).ConfigureAwait(false);
+            await userManager.AddToRoleAsync(superAdmin, nameof(RoleTypes.SuperAdmin));
 
             return superAdmin;
         }
 
-        private async Task AddClaims(UserStore<UserIdentity, Role, UserIdentityDbContext> userStore, UserIdentity user)
+        private async Task AddClaims(UserManager<UserIdentity> userManager, UserIdentity user)
         {
             //add some claims for our admin
-            await userStore.AddClaimsAsync(user,
+            await userManager.AddClaimsAsync(user,
                 new Claim[]
                 {
                     new(JwtClaimTypes.Name, "Admin"), new(JwtClaimTypes.GivenName, "Play Admin"), new(JwtClaimTypes.FamilyName, "Play Family"),

@@ -126,9 +126,11 @@ namespace Play.Identity.Api.Extensions
 
         internal static async Task SeedDefaultIdentityData(this WebApplicationBuilder builder)
         {
-            var seeder = new UserIdentityDbSeeder(builder.Services.BuildServiceProvider().GetService<UserIdentityDbContext>()!);
+            var serviceBuilder = builder.Services.BuildServiceProvider();
+            var seeder = new UserIdentityDbSeeder(serviceBuilder.GetService<UserIdentityDbContext>()!);
 
-            await seeder.Seed().ConfigureAwait(false);
+            await seeder.Seed(serviceBuilder.GetService<UserManager<UserIdentity>>()!, new RoleStore<Role>(serviceBuilder.GetService<UserIdentityDbContext>()))
+                .ConfigureAwait(false);
         }
 
         #endregion

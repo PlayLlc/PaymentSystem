@@ -93,6 +93,12 @@ namespace Play.Identity.Api.Controllers
 
             UserIdentity? user = await _SignInManager.UserManager.FindByNameAsync(model.Username);
 
+            var passwordHash1 = new PasswordHasher<UserIdentity>().HashPassword(user, model.Password);
+            var passwordHash2 = new PasswordHasher<UserIdentity>().HashPassword(user, model.Password);
+
+            var passwordVerification = new PasswordHasher<UserIdentity>().VerifyHashedPassword(user, user.PasswordHash, model.Password);
+            var isSuccessful = passwordVerification == PasswordVerificationResult.Success;
+
             if (!await IsUsernameAndPasswordValid(user, model.Password).ConfigureAwait(false))
             {
                 ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
