@@ -53,7 +53,7 @@ public abstract partial class TlvDatabase
     /// <exception cref="TerminalDataException"></exception>
     public UserInterfaceRequestData GetUserInterfaceRequestData()
     {
-        if (IsPresentAndNotEmpty(UserInterfaceRequestData.Tag))
+        if (!IsPresentAndNotEmpty(UserInterfaceRequestData.Tag))
         {
             UserInterfaceRequestData.Builder builder = UserInterfaceRequestData.GetBuilder();
 
