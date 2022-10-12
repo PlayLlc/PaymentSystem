@@ -35,7 +35,7 @@ public record CardRiskManagementDataObjectList1RelatedData : DataElement<TagLeng
     /// <exception cref="BerParsingException"></exception>
     public static CardRiskManagementDataObjectList1RelatedData Decode(ReadOnlySpan<byte> value) => new(new DataObjectListResult(_Codec.DecodeTagLengthValues(value.ToArray().AsSpan())));
 
-    public override byte[] EncodeValue() => _Value.SelectMany(x => x.EncodeValue()).ToArray();
+    public override byte[] EncodeValue() => _Value.SelectMany(x => x.EncodeTagLengthValue()).ToArray();
 
     #endregion
 
