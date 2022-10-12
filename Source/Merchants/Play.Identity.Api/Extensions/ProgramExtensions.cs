@@ -1,4 +1,6 @@
-﻿using AutoMapper.Internal;
+﻿using System.Reflection;
+
+using AutoMapper.Internal;
 
 using Duende.IdentityServer;
 using Duende.IdentityServer.AspNetIdentity;
@@ -9,6 +11,7 @@ using IdentityModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations.Internal;
 using Microsoft.IdentityModel.Tokens;
 
 using Play.Identity.Api.Identity.Configuration;
@@ -26,6 +29,8 @@ namespace Play.Identity.Api.Extensions
         internal static WebApplicationBuilder ConfigureIdentityServer(this WebApplicationBuilder builder)
         {
             string? identityConnectionString = builder.Configuration.GetConnectionString("Identity");
+            string migrationAssembly = typeof(Program).Assembly.GetName().Name!;
+
             builder.Services.AddDbContext<UserIdentityDbContext>(options =>
             {
                 options.UseSqlServer(identityConnectionString);
@@ -78,6 +83,22 @@ namespace Play.Identity.Api.Extensions
                 .AddInMemoryApiScopes(IdentityConfig.GetApiScopes())
                 .AddInMemoryClients(IdentityConfig.GetClients(builder.Configuration));
 
+            //.AddConfigurationStore(options =>
+            //{
+            //    options.ConfigureDbContext = dbContextOptions =>
+            //        dbContextOptions.UseSqlServer(identityConnectionString, sql => sql.MigrationsAssembly(migrationAssembly));
+            //})
+            //.AddOperationalStore(options =>
+            //{
+            //    options.ConfigureDbContext = dbContextOptions =>
+            //        dbContextOptions.UseSqlServer(identityConnectionString, sql => sql.MigrationsAssembly(migrationAssembly));
+
+            //    // this enables automatic token cleanup. this is optional.
+            //    options.EnableTokenCleanup = true;
+            //    options.TokenCleanupInterval = 3600; // interval in seconds (default is 3600)
+            //});
+            ;
+
             //.AddTestUsers(IdentityConfig.GetTestUsers(builder.Configuration));
 
             builder.Services.AddAuthentication()
@@ -117,9 +138,10 @@ namespace Play.Identity.Api.Extensions
 
         internal static WebApplicationBuilder ConfigureApplicationServices(this WebApplicationBuilder builder)
         {
-            builder.Services.AddTransient<IUserRegistrationService, UserRegistrationService>();
+            builder.Services.AddTransient<IRegisterUsers, UserRegistrationService>();
             builder.Services.AddTransient<IBuildLoginViewModel, LoginViewModelBuilder>();
             builder.Services.AddScoped<IProfileService, ProfileService<UserIdentity>>();
+            builder.Services.AddScoped<IUnderwriteMerchants, Underwriter>();
 
             return builder;
         }

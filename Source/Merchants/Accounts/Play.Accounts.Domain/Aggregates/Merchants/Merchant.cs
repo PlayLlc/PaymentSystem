@@ -4,6 +4,8 @@ using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.ValueObjects;
 using Play.Domain.Aggregates;
 
+using Address = Play.Accounts.Domain.Entities.Address;
+
 namespace Play.Accounts.Domain.Aggregates.Merchants;
 
 public class Merchant : Aggregate<string>
@@ -48,7 +50,7 @@ public class Merchant : Aggregate<string>
         return new MerchantDto
         {
             Id = _Id.Id,
-            Address = _Address.AsDto(),
+            AddressDto = _Address.AsDto(),
             BusinessType = _BusinessType,
             CompanyName = _CompanyName.Value,
             MerchantCategoryCode = $"{_MerchantCategoryCode}"

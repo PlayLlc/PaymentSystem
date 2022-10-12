@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <Folder Include="Handlers\Network\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

@@ -2,9 +2,11 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace Play.Accounts.Contracts.Dtos
+using Play.Domain;
+
+namespace Play.Accounts.Contracts.Common
 {
-    public class PersonalInfoDto
+    public class PersonalInfoDto : IDto
     {
         #region Instance Values
 

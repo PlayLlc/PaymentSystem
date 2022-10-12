@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using Play.Accounts.Contracts.Common;
 using Play.Domain;
 
 namespace Play.Accounts.Contracts.Dtos
@@ -17,7 +18,7 @@ namespace Play.Accounts.Contracts.Dtos
         public string CompanyName { get; set; } = string.Empty;
 
         [Required]
-        public AddressDto Address { get; set; } = new();
+        public AddressDto AddressDto { get; set; } = new();
 
         [Required]
         public string BusinessType { get; set; } = string.Empty;

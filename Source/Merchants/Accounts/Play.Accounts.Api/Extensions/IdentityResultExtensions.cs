@@ -8,9 +8,9 @@ namespace Play.Accounts.Api.Extensions
     {
         #region Instance Members
 
-        public static RegisterResult ToResult(this IdentityResult result)
+        public static Result ToResult(this IdentityResult result)
         {
-            return result.Succeeded ? RegisterResult.Success() : RegisterResult.Failure(result.Errors.Select(e => e.Description));
+            return result.Succeeded ? Result.Success() : Result.Failure(result.Errors.Select(e => e.Description));
         }
 
         #endregion

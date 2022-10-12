@@ -1,5 +1,4 @@
-﻿using Duende.IdentityServer.Models;
-using Duende.IdentityServer;
+﻿using Duende.IdentityServer;
 using Duende.IdentityServer.Services;
 
 using Microsoft.AspNetCore.Authentication;
@@ -11,7 +10,6 @@ using System.Security.Claims;
 using IdentityModel;
 
 using Play.Identity.Api.Identity.Entities;
-using Play.Identity.Api.Models;
 
 namespace Play.Identity.Api.Controllers
 {
@@ -177,37 +175,6 @@ namespace Play.Identity.Api.Controllers
                         Value = idToken
                     }
                 });
-        }
-
-        #endregion
-    }
-
-    public static class ControllerExtensions
-    {
-        #region Instance Members
-
-        public static IActionResult LoadingPage(this Controller controller, string viewName, string redirectUri)
-        {
-            controller.HttpContext.Response.StatusCode = 200;
-            controller.HttpContext.Response.Headers["Location"] = "";
-
-            return controller.View(viewName, new RedirectViewModel {RedirectUrl = redirectUri});
-        }
-
-        #endregion
-    }
-
-    public static class AuthorizationRequestExtensions
-    {
-        #region Instance Members
-
-        /// <summary>
-        ///     Checks if the redirect URI is for a native client.
-        /// </summary>
-        /// <returns></returns>
-        public static bool IsNativeClient(this AuthorizationRequest context)
-        {
-            return !context.RedirectUri.StartsWith("https", StringComparison.Ordinal) && !context.RedirectUri.StartsWith("http", StringComparison.Ordinal);
         }
 
         #endregion

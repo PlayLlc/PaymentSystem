@@ -8,6 +8,8 @@ using Play.Domain;
 using Play.Domain.Aggregates;
 using Play.Globalization.Time;
 
+using Address = Play.Accounts.Domain.Entities.Address;
+
 namespace Play.Accounts.Domain.Aggregates.MerchantRegistration;
 
 public class MerchantRegistration : Aggregate<string>
@@ -76,7 +78,7 @@ public class MerchantRegistration : Aggregate<string>
         {
             Id = _Id.Id,
             UserRegistrationId = _UserRegistrationId.Id,
-            Address = _Address.AsDto(),
+            AddressDto = _Address.AsDto(),
             BusinessType = _BusinessType,
             CompanyName = _CompanyName.Value,
             ConfirmedDate = _ConfirmedDate,

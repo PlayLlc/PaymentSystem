@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
+using Play.Accounts.Contracts.Common;
 using Play.Accounts.Contracts.Dtos;
 using Play.Globalization.Time;
 
@@ -43,7 +44,7 @@ namespace Play.Accounts.Api.Services
 
         public UserDto AsDto()
         {
-            AddressDto address = new AddressDto()
+            AddressDto addressDto = new AddressDto()
             {
                 StreetAddress = StreetAddress,
                 ApartmentNumber = ApartmentNumber,
@@ -51,7 +52,7 @@ namespace Play.Accounts.Api.Services
                 StateAbbreviation = StateAbbreviation,
                 Zipcode = Zipcode
             };
-            ContactInfoDto contactInfo = new ContactInfoDto()
+            ContactInfoDto contactInfoDto = new ContactInfoDto()
             {
                 FirstName = FirstName,
                 LastName = LastName,
@@ -59,7 +60,7 @@ namespace Play.Accounts.Api.Services
                 Phone = PhoneNumber
             };
 
-            PersonalInfoDto personalInfo = new PersonalInfoDto()
+            PersonalInfoDto personalInfoDto = new PersonalInfoDto()
             {
                 DateOfBirth = new DateTimeUtc(DateOfBirth),
                 LastFourOfSocial = LastFourOfSocial
@@ -68,9 +69,9 @@ namespace Play.Accounts.Api.Services
             return new UserDto
             {
                 Id = Id,
-                Address = address,
-                ContactInfo = contactInfo,
-                PersonalInfo = personalInfo,
+                AddressDto = addressDto,
+                ContactInfoDto = contactInfoDto,
+                PersonalInfoDto = personalInfoDto,
                 IsActive = IsActive
             };
         }

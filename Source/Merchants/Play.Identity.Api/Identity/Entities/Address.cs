@@ -1,12 +1,13 @@
-﻿using Play.Domain;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 
-using System.ComponentModel.DataAnnotations;
+namespace Play.Identity.Api.Identity.Entities;
 
-namespace Play.Accounts.Contracts.Dtos;
-
-public class AddressDto : IDto
+public class Address
 {
     #region Instance Values
+
+    public int Id { get; set; }
 
     /// <summary>
     ///     The street address of the user's home
@@ -29,11 +30,11 @@ public class AddressDto : IDto
     public string Zipcode { get; set; } = string.Empty;
 
     /// <summary>
-    ///     The zipcode of the user's home
+    ///     The state the user lives in
     /// </summary>
     [Required]
-    [StringLength(2)]
-    public string StateAbbreviation { get; set; } = string.Empty;
+    [MinLength(1)]
+    public string State { get; set; } = string.Empty;
 
     /// <summary>
     ///     The city where the user lives
@@ -41,6 +42,23 @@ public class AddressDto : IDto
     [Required]
     [MinLength(1)]
     public string City { get; set; } = string.Empty;
+
+    #endregion
+
+    #region Instance Members
+
+    /// <exception cref="NotSupportedException"></exception>
+    public string Normalize()
+    {
+        return JsonSerializer.Serialize(new
+        {
+            street_address = StreetAddress,
+            locality = City,
+            region = State,
+            postal_code = Zipcode,
+            country = "United States"
+        });
+    }
 
     #endregion
 }

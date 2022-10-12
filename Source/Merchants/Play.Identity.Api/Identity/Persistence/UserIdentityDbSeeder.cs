@@ -14,6 +14,8 @@ using Duende.IdentityServer;
 
 using Microsoft.EntityFrameworkCore;
 
+using Play.Identity.Api.Extensions;
+
 namespace Play.Identity.Api.Identity.Persistence
 {
     internal class UserIdentityDbSeeder
@@ -72,6 +74,7 @@ namespace Play.Identity.Api.Identity.Persistence
         }
 
         /// <exception cref="OperationCanceledException"></exception>
+        /// <exception cref="DbUpdateException"></exception>
         private async Task<UserIdentity> AddSuperAdmin(UserManager<UserIdentity> userManager)
         {
             Address address = new()
@@ -91,17 +94,17 @@ namespace Play.Identity.Api.Identity.Persistence
 
             ContactInfo contactInfo = new()
             {
-                Email = "test",
+                Email = "test@aol.com",
                 FirstName = "Ralph",
                 LastName = "Nader",
                 Phone = "4204206969"
             };
 
+            string password = "Password1!";
             UserIdentity superAdmin = new UserIdentity(contactInfo, address, personalInfo);
-            superAdmin.PasswordHash = userManager.PasswordHasher.HashPassword(superAdmin, "test");
-
-            await userManager.CreateAsync(superAdmin).ConfigureAwait(false);
+            await userManager.CreateAsync(superAdmin, password).ConfigureAwait(false);
             await userManager.AddToRoleAsync(superAdmin, nameof(RoleTypes.SuperAdmin));
+            await _Context.SaveChangesAsync().ConfigureAwait(false);
 
             return superAdmin;
         }

@@ -4,6 +4,9 @@ using Play.Accounts.Domain.Entities;
 using Play.Domain.Aggregates;
 using Play.Globalization.Time;
 
+using Address = Play.Accounts.Domain.Entities.Address;
+using ContactInfo = Play.Accounts.Domain.Entities.ContactInfo;
+
 namespace Play.Accounts.Domain.Aggregates.Users;
 
 public class User : Aggregate<string>
@@ -72,9 +75,9 @@ public class User : Aggregate<string>
         return new UserDto
         {
             Id = _Id.Id, /* MerchantId = _MerchantId.Id,*/
-            Address = _Address.AsDto(),
-            ContactInfo = _ContactInfo.AsDto(),
-            PersonalInfo = new PersonalInfoDto()
+            AddressDto = _Address.AsDto(),
+            ContactInfoDto = _ContactInfo.AsDto(),
+            PersonalInfoDto = new PersonalInfo()
             {
                 DateOfBirth = _DateOfBirth,
                 LastFourOfSocial = _LastFourOfSsn

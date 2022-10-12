@@ -2,7 +2,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace Play.Accounts.Contracts.Dtos
+namespace Play.Accounts.Contracts.Common
 {
     public class ContactInfoDto : IDto
     {

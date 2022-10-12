@@ -1,6 +1,6 @@
 ﻿namespace Play.Accounts.Api.Services;
 
-public class RegisterResult
+public class Result
 {
     #region Instance Values
 
@@ -12,7 +12,7 @@ public class RegisterResult
 
     #region Constructor
 
-    internal RegisterResult(bool succeeded, IEnumerable<string> errors)
+    internal Result(bool succeeded, IEnumerable<string> errors)
     {
         Succeeded = succeeded;
         Errors = errors.ToArray();
@@ -22,14 +22,14 @@ public class RegisterResult
 
     #region Instance Members
 
-    public static RegisterResult Success()
+    public static Result Success()
     {
-        return new RegisterResult(true, Array.Empty<string>());
+        return new Result(true, Array.Empty<string>());
     }
 
-    public static RegisterResult Failure(IEnumerable<string> errors)
+    public static Result Failure(IEnumerable<string> errors)
     {
-        return new RegisterResult(false, errors);
+        return new Result(false, errors);
     }
 
     #endregion

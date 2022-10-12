@@ -1,4 +1,4 @@
-﻿using Play.Accounts.Contracts.Dtos;
+﻿using Play.Accounts.Contracts.Common;
 using Play.Accounts.Domain.ValueObjects;
 using Play.Domain.Entities;
 
@@ -40,7 +40,7 @@ public class ContactInfo : Entity<string>
 
     public override ContactInfoDto AsDto()
     {
-        return new ContactInfoDto()
+        return new Contracts.Dtos.ContactInfo()
         {
             Email = Email.Value,
             FirstName = FirstName.Value,

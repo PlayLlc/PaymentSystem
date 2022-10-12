@@ -1,4 +1,5 @@
-﻿using Play.Domain;
+﻿using Play.Accounts.Contracts.Common;
+using Play.Domain;
 
 using System.ComponentModel.DataAnnotations;
 
@@ -17,13 +18,13 @@ namespace Play.Accounts.Contracts.Dtos
         public string MerchantId { get; set; } = string.Empty;
 
         [Required]
-        public AddressDto Address { get; set; } = new();
+        public AddressDto AddressDto { get; set; } = new();
 
         [Required]
-        public ContactInfoDto ContactInfo { get; set; } = new();
+        public ContactInfoDto ContactInfoDto { get; set; } = new();
 
         [Required]
-        public PersonalInfoDto PersonalInfo { get; set; } = new();
+        public PersonalInfoDto PersonalInfoDto { get; set; } = new();
 
         public bool IsActive { get; set; }
 

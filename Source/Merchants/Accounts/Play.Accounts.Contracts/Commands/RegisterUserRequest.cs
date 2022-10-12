@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Play.Accounts.Contracts.Dtos;
+using Play.Accounts.Contracts.Common;
 
 namespace Play.Accounts.Contracts.Commands
 {
@@ -12,16 +12,16 @@ namespace Play.Accounts.Contracts.Commands
         ///     The home address of the user
         /// </summary>
         [Required]
-        public AddressDto Address { get; set; } = new();
+        public AddressDto AddressDto { get; set; } = new();
 
         /// <summary>
         ///     The personal contact info of the user
         /// </summary>
         [Required]
-        public ContactInfoDto ContactInfo { get; set; } = new();
+        public ContactInfoDto ContactInfoDto { get; set; } = new();
 
         [Required]
-        public PersonalInfoDto PersonalInfo { get; set; } = new();
+        public PersonalInfoDto PersonalInfoDto { get; set; } = new();
 
         /// <summary>
         ///     Passwords must be at least 8 characters containing numeric, alphabetic, and special characters

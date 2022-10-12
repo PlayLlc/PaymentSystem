@@ -12,7 +12,7 @@ using Play.Identity.Api.Identity.Persistence;
 namespace Play.Identity.Api.Migrations
 {
     [DbContext(typeof(UserIdentityDbContext))]
-    [Migration("20221011040004_InitialMigration")]
+    [Migration("20221011062755_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

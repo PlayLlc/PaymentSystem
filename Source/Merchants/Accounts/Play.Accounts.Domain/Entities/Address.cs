@@ -1,4 +1,4 @@
-﻿using Play.Accounts.Contracts.Dtos;
+﻿using Play.Accounts.Contracts.Common;
 using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.ValueObjects;
 using Play.Domain.Entities;

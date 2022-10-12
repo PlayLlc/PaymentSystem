@@ -1,4 +1,5 @@
-﻿using Play.Domain;
+﻿using Play.Accounts.Contracts.Common;
+using Play.Domain;
 using Play.Globalization.Time;
 
 namespace Play.Accounts.Contracts.Dtos
@@ -10,7 +11,7 @@ namespace Play.Accounts.Contracts.Dtos
         public string Id { get; set; }
         public string UserRegistrationId { get; set; }
         public string CompanyName { get; set; }
-        public AddressDto Address { get; set; }
+        public AddressDto AddressDto { get; set; }
         public string BusinessType { get; set; }
         public string MerchantCategoryCode { get; set; }
         public DateTimeUtc RegisteredDate { get; set; }
