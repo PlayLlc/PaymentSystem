@@ -138,10 +138,13 @@ namespace Play.Identity.Api.Extensions
 
         internal static WebApplicationBuilder ConfigureApplicationServices(this WebApplicationBuilder builder)
         {
-            builder.Services.AddTransient<IRegisterUsers, UserRegistrationService>();
+            //  builder.Services.AddTransient<IRegisterUsers, UserRegistrationService>();
             builder.Services.AddTransient<IBuildLoginViewModel, LoginViewModelBuilder>();
             builder.Services.AddScoped<IProfileService, ProfileService<UserIdentity>>();
             builder.Services.AddScoped<IUnderwriteMerchants, Underwriter>();
+
+            //builder.Services.AddScoped<IVerifyEmailAccount, EmailAccountVerifier>();
+            // builder.Services.AddScoped<IVerifyMobilePhone, MobilePhoneVerifier>();
 
             return builder;
         }
@@ -151,7 +154,8 @@ namespace Play.Identity.Api.Extensions
             var serviceBuilder = builder.Services.BuildServiceProvider();
             var seeder = new UserIdentityDbSeeder(serviceBuilder.GetService<UserIdentityDbContext>()!);
 
-            await seeder.Seed(serviceBuilder.GetService<UserManager<UserIdentity>>()!, new RoleStore<Role>(serviceBuilder.GetService<UserIdentityDbContext>()))
+            await seeder.Seed(builder.Configuration, serviceBuilder.GetService<UserManager<UserIdentity>>()!,
+                    new RoleStore<Role>(serviceBuilder.GetService<UserIdentityDbContext>()))
                 .ConfigureAwait(false);
         }
 

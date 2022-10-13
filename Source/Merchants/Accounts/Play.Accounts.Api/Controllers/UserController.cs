@@ -32,9 +32,9 @@ namespace Play.Accounts.Api.Controllers
 
         [HttpGet("User/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<Response<UserDto>> GetUser(string id)
+        public async Task<Result<UserDto>> GetUser(string id)
         {
-            Response<UserDto> response = new Response<UserDto>();
+            Result<UserDto> result = new Result<UserDto>();
 
             try
             {
@@ -42,25 +42,25 @@ namespace Play.Accounts.Api.Controllers
 
                 if (user != null)
                 {
-                    response.Object = user.AsDto();
+                    result.Object = user.AsDto();
 
-                    return response;
+                    return result;
                 }
 
-                response.Object = new UserDto();
+                result.Object = new UserDto();
                 HttpContext.Response.StatusCode = (int) HttpStatusCode.NotFound;
 
-                response.Success = false;
-                response.ErrorMessage = $"No {nameof(User)} could be found with the {nameof(id)}: [id]";
+                result.Success = false;
+                result.ErrorMessage = $"No {nameof(User)} could be found with the {nameof(id)}: [id]";
 
-                return response;
+                return result;
             }
             catch (Exception e)
             {
-                response.Success = false;
-                response.ErrorMessage = e.Message;
+                result.Success = false;
+                result.ErrorMessage = e.Message;
 
-                return response;
+                return result;
             }
         }
 

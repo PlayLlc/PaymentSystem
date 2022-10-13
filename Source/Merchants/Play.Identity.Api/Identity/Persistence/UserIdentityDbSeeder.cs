@@ -15,6 +15,8 @@ using Duende.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 
 using Play.Identity.Api.Extensions;
+using Play.Identity.Api.Identity.Configuration;
+using Play.Identity.Api.Identity.Services;
 
 namespace Play.Identity.Api.Identity.Persistence
 {
@@ -39,8 +41,12 @@ namespace Play.Identity.Api.Identity.Persistence
 
         /// <exception cref="OperationCanceledException"></exception>
         /// <exception cref="DbUpdateException"></exception>
-        public async Task Seed(UserManager<UserIdentity> userManager, RoleStore<Role> roleStore)
+        public async Task Seed(ConfigurationManager manager, UserManager<UserIdentity> userManager, RoleStore<Role> roleStore)
         {
+            //SendGridConfig? config = manager.GetSection(nameof(SendGridConfig)).Get<SendGridConfig>();
+            var a = new EmailAccountVerifier();
+            await a.SendVerificationCode().ConfigureAwait(false);
+
             if (!await roleStore.Roles.AnyAsync().ConfigureAwait(false))
                 await SeedRoles(roleStore).ConfigureAwait(false);
 
@@ -101,7 +107,12 @@ namespace Play.Identity.Api.Identity.Persistence
             };
 
             string password = "Password1!";
-            UserIdentity superAdmin = new UserIdentity(contactInfo, address, personalInfo);
+            UserIdentity superAdmin = new UserIdentity(contactInfo, address, personalInfo)
+            {
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true
+            };
+
             await userManager.CreateAsync(superAdmin, password).ConfigureAwait(false);
             await userManager.AddToRoleAsync(superAdmin, nameof(RoleTypes.SuperAdmin));
             await _Context.SaveChangesAsync().ConfigureAwait(false);

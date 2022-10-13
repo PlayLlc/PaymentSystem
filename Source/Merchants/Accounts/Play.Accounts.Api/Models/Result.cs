@@ -1,6 +1,6 @@
 ﻿namespace Play.Accounts.Api.Models
 {
-    public class Response
+    public class Result
     {
         #region Instance Values
 
@@ -10,7 +10,7 @@
         #endregion
     }
 
-    public class Response<_Return> : Response
+    public class Result<_Return> : Result
     {
         #region Instance Values
 

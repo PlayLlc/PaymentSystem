@@ -1,4 +1,27 @@
-﻿namespace Play.Identity.Api.Identity.Services;
+﻿using System.Net;
+
+namespace Play.Identity.Api.Identity.Services;
+
+public class RestfulResult : Result
+{
+    #region Instance Values
+
+    public readonly HttpStatusCode? StatusCode;
+
+    #endregion
+
+    #region Constructor
+
+    public RestfulResult() : base()
+    { }
+
+    public RestfulResult(HttpStatusCode statusCode, IEnumerable<string> errors) : base(errors)
+    {
+        StatusCode = statusCode;
+    }
+
+    #endregion
+}
 
 public class Result
 {
@@ -12,14 +35,16 @@ public class Result
 
     #region Constructor
 
-    internal Result(IEnumerable<string> errors)
+    public Result(IEnumerable<string> errors)
     {
         Succeeded = false;
         Errors = errors.ToArray();
     }
 
-    internal Result()
-    { }
+    public Result()
+    {
+        Succeeded = true;
+    }
 
     #endregion
 }

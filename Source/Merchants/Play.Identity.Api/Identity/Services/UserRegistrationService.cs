@@ -15,22 +15,31 @@ namespace Play.Identity.Api.Identity.Services
 
         private readonly UserIdentityDbContext _UserIdentityDbContext;
         private readonly IUnderwriteMerchants _Underwriter;
+        private readonly IVerifyEmailAccount _EmailAccountVerifier;
+        private readonly IVerifyMobilePhone _MobilePhoneVerifier;
         private readonly UserManager<UserIdentity> _UserManager;
 
         #endregion
 
         #region Constructor
 
-        public UserRegistrationService(IUnderwriteMerchants underwriter, UserManager<UserIdentity> userManager, UserIdentityDbContext userIdentityDbContext)
+        public UserRegistrationService(
+            IUnderwriteMerchants underwriter, UserManager<UserIdentity> userManager, UserIdentityDbContext userIdentityDbContext,
+            IVerifyEmailAccount emailAccountVerifier, IVerifyMobilePhone mobilePhoneVerifier)
         {
             _UserManager = userManager;
             _Underwriter = underwriter;
             _UserIdentityDbContext = userIdentityDbContext;
+            _EmailAccountVerifier = emailAccountVerifier;
+            _MobilePhoneVerifier = mobilePhoneVerifier;
         }
 
         #endregion
 
         #region Instance Members
+
+        public async Task SendEmailVerificationCode(string email)
+        { }
 
         /// <exception cref="OperationCanceledException"></exception>
         public async Task<bool> IsUsernameUnique(string username)

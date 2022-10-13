@@ -5,7 +5,7 @@ using Play.Core.Extensions;
 
 namespace Play.Randoms;
 
-public partial class Randomize
+public static partial class Randomize
 {
     public class Integers
     {

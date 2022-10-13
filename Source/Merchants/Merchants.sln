@@ -35,6 +35,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Identity.Api", "Play.I
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_DeleteMe.MerchantPortal.DeleteMe", "_DeleteMe.MerchantPortal.DeleteMe\_DeleteMe.MerchantPortal.DeleteMe.csproj", "{98CD5D30-9E43-45A9-A11A-BC8E8F3E976F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Randoms", "..\Emvco\Core\Play.Randoms\Play.Randoms.csproj", "{8FC02437-8597-45C1-B7A1-FC09C0468E6C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{98CD5D30-9E43-45A9-A11A-BC8E8F3E976F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98CD5D30-9E43-45A9-A11A-BC8E8F3E976F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98CD5D30-9E43-45A9-A11A-BC8E8F3E976F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FC02437-8597-45C1-B7A1-FC09C0468E6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FC02437-8597-45C1-B7A1-FC09C0468E6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FC02437-8597-45C1-B7A1-FC09C0468E6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FC02437-8597-45C1-B7A1-FC09C0468E6C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -111,6 +117,7 @@ Global
 		{C2CA4F33-E5B1-46B9-A341-D585786CF324} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
 		{D9E23722-F4E6-41F3-AE49-233FF4967566} = {2940E8A1-9151-47E7-8109-5A23C7214FAC}
 		{98CD5D30-9E43-45A9-A11A-BC8E8F3E976F} = {2940E8A1-9151-47E7-8109-5A23C7214FAC}
+		{8FC02437-8597-45C1-B7A1-FC09C0468E6C} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6833603-DD22-4624-AB4A-235C51671F62}

@@ -7,6 +7,8 @@ using Play.Accounts.Contracts.Dtos;
 using Play.Accounts.Domain.Aggregates.UserRegistration;
 using Play.Domain.Repositories;
 
+using Result = Play.Accounts.Api.Models.Result;
+
 namespace Play.Accounts.Api.Areas.Registration
 {
     [Area($"{nameof(Registration)}")]
@@ -35,9 +37,9 @@ namespace Play.Accounts.Api.Areas.Registration
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<Response<UserRegistrationDto>> RegisterUser([FromBody] RegisterUserRequest registerUserRequest)
+        public async Task<Result<UserRegistrationDto>> RegisterUser([FromBody] RegisterUserRequest registerUserRequest)
         {
-            Response<UserRegistrationDto> response = new Response<UserRegistrationDto>();
+            Result<UserRegistrationDto> result = new Result<UserRegistrationDto>();
 
             if (ModelState.IsValid)
 
@@ -47,73 +49,73 @@ namespace Play.Accounts.Api.Areas.Registration
                 }
                 catch (Exception e)
                 {
-                    response.Success = false;
-                    response.ErrorMessage = e.Message;
+                    result.Success = false;
+                    result.ErrorMessage = e.Message;
 
-                    return response;
+                    return result;
                 }
 
-            return response;
+            return result;
         }
 
-        public async Task<Response> ValidateEmail(ValidateEmailRequest request)
+        public async Task<Result> ValidateEmail(ValidateEmailRequest request)
         {
-            Response response = new Response();
+            Result result = new Result();
 
             try
             {
                 await _IdentityService.ValidateUsername(request).ConfigureAwait(false);
 
-                return response;
+                return result;
             }
             catch (Exception e)
             {
-                response.Success = false;
-                response.ErrorMessage = e.Message;
+                result.Success = false;
+                result.ErrorMessage = e.Message;
 
-                return response;
+                return result;
             }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<Response> VerifyEmail(VerifyUserEmailRequest request)
+        public async Task<Result> VerifyEmail(VerifyUserEmailRequest request)
         {
-            Response<UserRegistrationDto> response = new Response<UserRegistrationDto>();
+            Result<UserRegistrationDto> result = new Result<UserRegistrationDto>();
 
             try
             {
                 // Logic
 
-                return response;
+                return result;
             }
             catch (Exception e)
             {
-                response.Success = false;
-                response.ErrorMessage = e.Message;
+                result.Success = false;
+                result.ErrorMessage = e.Message;
 
-                return response;
+                return result;
             }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<Response> VerifyMobile(VerifyUserMobileRequest verifyUserEmailRequest)
+        public async Task<Result> VerifyMobile(VerifyUserMobileRequest verifyUserEmailRequest)
         {
-            Response<UserRegistrationDto> response = new Response<UserRegistrationDto>();
+            Result<UserRegistrationDto> result = new Result<UserRegistrationDto>();
 
             try
             {
                 // Logic
 
-                return response;
+                return result;
             }
             catch (Exception e)
             {
-                response.Success = false;
-                response.ErrorMessage = e.Message;
+                result.Success = false;
+                result.ErrorMessage = e.Message;
 
-                return response;
+                return result;
             }
         }
 
