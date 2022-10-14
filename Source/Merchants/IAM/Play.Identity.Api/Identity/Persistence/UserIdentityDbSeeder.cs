@@ -9,13 +9,8 @@ using System.Security.Claims;
 
 using Play.Identity.Api.Identity.Enums;
 
-using Duende.IdentityServer.Test;
-using Duende.IdentityServer;
-
 using Microsoft.EntityFrameworkCore;
 
-using Play.Identity.Api.Extensions;
-using Play.Identity.Api.Identity.Configuration;
 using Play.Identity.Api.Identity.Services;
 
 namespace Play.Identity.Api.Identity.Persistence

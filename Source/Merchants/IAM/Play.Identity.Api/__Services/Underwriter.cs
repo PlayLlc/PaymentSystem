@@ -1,5 +1,4 @@
 ﻿using Play.Identity.Api.Identity.Entities;
-using Play.Identity.Api.Identity.Persistence;
 
 namespace Play.Identity.Api.Services;
 

@@ -1,21 +1,8 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-using Play.Identity.Api.Identity.Services;
-
-using System.Net;
-using System.Net.Mail;
-using System.Net.Mime;
-
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Options;
-
-using Play.Randoms;
-
 using SendGrid;
 using SendGrid.Helpers.Mail;
-
-using Attachment = SendGrid.Helpers.Mail.Attachment;
 
 namespace Play.Identity.Api.Identity.Services;
 

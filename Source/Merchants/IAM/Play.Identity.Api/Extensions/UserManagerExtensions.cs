@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-using Play.Core.Extensions.IEnumerable;
 using Play.Identity.Api.Identity.Entities;
 using Play.Identity.Api.Identity.Services;
 

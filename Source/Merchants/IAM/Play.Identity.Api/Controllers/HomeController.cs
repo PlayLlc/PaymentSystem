@@ -5,10 +5,6 @@ using Play.Identity.Api.Models;
 
 using System.Diagnostics;
 
-using Play.Identity.Api.Attributes;
-
-using Duende.IdentityServer.Services;
-
 namespace Play.Identity.Api.Controllers
 {
     [AllowAnonymous]

@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-using Duende.IdentityServer;
+﻿using Duende.IdentityServer;
 using Duende.IdentityServer.AspNetIdentity;
 using Duende.IdentityServer.Services;
 
@@ -9,13 +7,11 @@ using IdentityModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations.Internal;
 using Microsoft.IdentityModel.Tokens;
 
 using Play.Identity.Api.Identity.Configuration;
 using Play.Identity.Api.Identity.Entities;
 using Play.Identity.Api.Identity.Persistence;
-using Play.Identity.Api.Identity.Services;
 using Play.Identity.Api.Services;
 
 namespace Play.Identity.Api.Extensions

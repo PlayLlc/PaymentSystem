@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 
 using Play.Identity.Api.Extensions;
 using Play.Identity.Api.Identity.Entities;
-using Play.Identity.Api.Identity.Enums;
 using Play.Identity.Api.Identity.Persistence;
 using Play.Identity.Api.Services;
 
