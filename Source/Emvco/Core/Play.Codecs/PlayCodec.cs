@@ -1,4 +1,6 @@
-﻿namespace Play.Codecs;
+﻿using System.Text;
+
+namespace Play.Codecs;
 
 /// <summary>
 ///     A simple codec base class that can be inherited to customize an encoding class specific to the encoding rules of

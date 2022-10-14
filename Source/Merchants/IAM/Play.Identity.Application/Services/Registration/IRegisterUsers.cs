@@ -1,4 +1,4 @@
-﻿namespace Play.Identity.Api.Identity.Services;
+﻿namespace Play.Identity.Api.Identity;
 
 public interface IRegisterUsers
 {

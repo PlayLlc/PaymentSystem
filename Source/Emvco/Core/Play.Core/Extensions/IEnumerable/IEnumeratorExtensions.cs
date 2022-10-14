@@ -13,7 +13,7 @@ public static class IEnumeratorExtensions
     {
         StringBuilder stringBuilder = new();
 
-        foreach (var value in enumerator)
+        foreach (string? value in enumerator)
             stringBuilder.Append($"[{value}] ");
 
         return stringBuilder.ToString();
@@ -23,7 +23,7 @@ public static class IEnumeratorExtensions
     {
         StringBuilder stringBuilder = new();
 
-        foreach (var value in enumerator)
+        foreach (string? value in enumerator)
             stringBuilder.Append($"[{value}] ");
 
         return stringBuilder.ToString();

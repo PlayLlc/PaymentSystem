@@ -29,8 +29,6 @@ namespace Play.Identity.Api.Identity.Entities
         }
 
         public PersonalInfo PersonalInfo { get; set; } = new();
-        public int? EmailConfirmationCode { get; set; }
-        public int? MobileConfirmationCode { get; set; }
 
         #endregion
 

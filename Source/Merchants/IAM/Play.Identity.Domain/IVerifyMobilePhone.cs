@@ -1,4 +1,4 @@
-﻿namespace Play.Identity.Api.Identity.Services
+﻿namespace Play.Identity.Api.Identity.Services._Email_Sms_Clientz
 {
     public interface IVerifyMobilePhone
     {

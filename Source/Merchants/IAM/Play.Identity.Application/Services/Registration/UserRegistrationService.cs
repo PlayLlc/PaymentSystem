@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+using Play.Core;
 using Play.Identity.Api.Extensions;
 using Play.Identity.Api.Identity.Entities;
-using Play.Identity.Api.Identity.Persistence;
-using Play.Identity.Api.Services;
+using Play.Identity.Api.Identity.Services._Email_Sms_Clientz;
+using Play.Identity.Application.Services.Registration.Merchants;
+using Play.Identity.Domain;
 
 namespace Play.Identity.Api.Identity.Services.Registration
 {
@@ -12,7 +14,7 @@ namespace Play.Identity.Api.Identity.Services.Registration
     {
         #region Instance Values
 
-        private readonly UserIdentityDbContext _UserIdentityDbContext;
+        private readonly IUserRepository _UserRepository;
         private readonly IUnderwriteMerchants _Underwriter;
         private readonly IVerifyEmailAccount _EmailAccountVerifier;
         private readonly IVerifyMobilePhone _MobilePhoneVerifier;
@@ -23,12 +25,12 @@ namespace Play.Identity.Api.Identity.Services.Registration
         #region Constructor
 
         public UserRegistrationService(
-            IUnderwriteMerchants underwriter, UserManager<UserIdentity> userManager, UserIdentityDbContext userIdentityDbContext,
-            IVerifyEmailAccount emailAccountVerifier, IVerifyMobilePhone mobilePhoneVerifier)
+            IUnderwriteMerchants underwriter, UserManager<UserIdentity> userManager, IUserRepository userRepository, IVerifyEmailAccount emailAccountVerifier,
+            IVerifyMobilePhone mobilePhoneVerifier)
         {
             _UserManager = userManager;
             _Underwriter = underwriter;
-            _UserIdentityDbContext = userIdentityDbContext;
+            _UserRepository = userRepository;
             _EmailAccountVerifier = emailAccountVerifier;
             _MobilePhoneVerifier = mobilePhoneVerifier;
         }
@@ -73,7 +75,7 @@ namespace Play.Identity.Api.Identity.Services.Registration
             if (!identityResult.Succeeded)
                 return new Result(identityResult.Errors.Select(a => a.Description));
 
-            await _UserIdentityDbContext.SaveChangesAsync().ConfigureAwait(false);
+            await _UserRepository.SaveChangesAsync().ConfigureAwait(false);
 
             return new Result();
         }

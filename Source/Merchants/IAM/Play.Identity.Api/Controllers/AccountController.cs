@@ -1,4 +1,6 @@
-﻿using Duende.IdentityServer;
+﻿using System.Net;
+
+using Duende.IdentityServer;
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
 
@@ -9,8 +11,11 @@ using Microsoft.AspNetCore.Mvc;
 
 using Play.Identity.Api.Attributes;
 using Play.Identity.Api.Identity.Entities;
+using Play.Identity.Api.Identity.Services._Email_Sms_Clientz;
 using Play.Identity.Api.Models;
 using Play.Identity.Api.Services;
+
+using SendGrid;
 
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
@@ -30,6 +35,7 @@ namespace Play.Identity.Api.Controllers
         private readonly IIdentityServerInteractionService _InteractionService;
         private readonly SignInManager<UserIdentity> _SignInManager;
         private readonly ILogger<AccountController> _Logger;
+        private readonly IVerifyEmailAccount _EmailAccountVerifier;
 
         #endregion
 
@@ -124,6 +130,23 @@ namespace Play.Identity.Api.Controllers
                 return false;
 
             return true;
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<bool> EmailVerification([FromQuery] string email, [FromQuery] int code)
+        {
+            bool result = await _EmailAccountVerifier.VerifyConfirmationCode(email, code).ConfigureAwait(false);
+
+            if (result)
+                return true;
+
+            Response.StatusCode = (int) HttpStatusCode.BadRequest;
+
+            // Hack -> But yeah ..here
+            new ExternalController(null, null, null).Callback();
+
+            return false;
         }
 
         #endregion

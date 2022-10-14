@@ -7,7 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Duende.IdentityServer" Version="6.1.7" />
+    <PackageReference Include="Duende.IdentityServer.EntityFramework.Storage" Version="6.1.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Builders\" />
+    <Folder Include="Services\Registration\Users\" />
+    <Folder Include="Validators\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\Play.Telecom\Play.Telecom.SendGrid.csproj" />
+    <ProjectReference Include="..\Play.Identity.Domain\Play.Identity.Domain.csproj" />
   </ItemGroup>
 
 </Project>

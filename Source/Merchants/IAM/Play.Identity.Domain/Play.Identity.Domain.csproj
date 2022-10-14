@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Infrastructure\Play.Messaging.NServiceBus\Play.Messaging.NServiceBus.csproj" />
-    <ProjectReference Include="..\Play.Accounts.Domain\Play.Accounts.Domain.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Play.Domain\Play.Domain.csproj" />
   </ItemGroup>
 
 </Project>

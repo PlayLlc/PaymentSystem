@@ -72,12 +72,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Identity\Services\_Email_Sms_Clientz\" />
+    <ProjectReference Include="..\..\..\Emvco\Core\Play.Globalization\Play.Globalization.csproj" />
+    <ProjectReference Include="..\..\..\Emvco\Core\Play.Randoms\Play.Randoms.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Play.Telecom\Play.Telecom.SendGrid.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Emvco\Core\Play.Globalization\Play.Globalization.csproj" />
-    <ProjectReference Include="..\..\..\Emvco\Core\Play.Randoms\Play.Randoms.csproj" />
+    <Folder Include="Identity\Services\" />
   </ItemGroup>
 
 </Project>
