@@ -13,13 +13,13 @@ public record UserRegistrationHasExpiredDomainEvent : DomainEvent
 
     #region Instance Values
 
-    public EntityId<string> UserRegistrationId;
+    public string UserRegistrationId;
 
     #endregion
 
     #region Constructor
 
-    public UserRegistrationHasExpiredDomainEvent(EntityId<string> userRegistrationId) : base(DomainEventTypeId)
+    public UserRegistrationHasExpiredDomainEvent(string userRegistrationId) : base(DomainEventTypeId)
     {
         UserRegistrationId = userRegistrationId;
     }

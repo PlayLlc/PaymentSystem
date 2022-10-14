@@ -16,7 +16,7 @@ namespace Play.Accounts.Domain.Aggregates.MerchantRegistration
 
         #region Instance Values
 
-        public readonly MerchantRegistrationId Id;
+        public readonly string Id;
         public readonly Name Name;
         public readonly Address Address;
         public readonly BusinessTypes BusinessType;
@@ -29,8 +29,8 @@ namespace Play.Accounts.Domain.Aggregates.MerchantRegistration
         #region Constructor
 
         public MerchantRegistrationCreatedDomainEvent(
-            MerchantRegistrationId id, Name name, Address address, BusinessTypes businessType, MerchantCategoryCodes merchantCategoryCode,
-            DateTimeUtc registeredDate, RegistrationStatuses status) : base(DomainEventTypeId)
+            string id, Name name, Address address, BusinessTypes businessType, MerchantCategoryCodes merchantCategoryCode, DateTimeUtc registeredDate,
+            RegistrationStatuses status) : base(DomainEventTypeId)
         {
             Id = id;
             Name = name;

@@ -16,8 +16,8 @@ public class MerchantRegistration : Aggregate<string>
 {
     #region Instance Values
 
-    private readonly MerchantRegistrationId _Id;
-    private readonly UserRegistrationId _UserRegistrationId;
+    private readonly string _Id;
+    private readonly string _UserRegistrationId;
     private readonly Name _CompanyName;
     private readonly Address _Address;
     private readonly BusinessTypes _BusinessType;
@@ -31,8 +31,8 @@ public class MerchantRegistration : Aggregate<string>
     #region Constructor
 
     public MerchantRegistration(
-        MerchantRegistrationId id, UserRegistrationId userRegistrationId, Name companyName, Address address, BusinessTypes businessType,
-        MerchantCategoryCodes merchantCategoryCode, DateTimeUtc registeredDate, DateTimeUtc? confirmedDate, RegistrationStatuses status)
+        string id, string userRegistrationId, Name companyName, Address address, BusinessTypes businessType, MerchantCategoryCodes merchantCategoryCode,
+        DateTimeUtc registeredDate, DateTimeUtc? confirmedDate, RegistrationStatuses status)
     {
         _Id = id;
         _UserRegistrationId = userRegistrationId;
@@ -51,13 +51,13 @@ public class MerchantRegistration : Aggregate<string>
 
     /// <exception cref="Play.Domain.ValueObjects.ValueObjectException"></exception>
     public static MerchantRegistration CreateNewMerchantRegistration(
-        UserRegistrationId userRegistrationId, string name, string streetAddress, string apartmentNumber, string zipcode, StateAbbreviations state, string city,
+        string userRegistrationId, string name, string streetAddress, string apartmentNumber, string zipcode, StateAbbreviations state, string city,
         BusinessTypes businessType, MerchantCategoryCodes merchantCategoryCode)
     {
         Name companyName = new(name);
-        Address address = new Address(AddressId.New(), streetAddress, apartmentNumber, zipcode, state, city);
-        MerchantRegistration merchantRegistration = new MerchantRegistration(MerchantRegistrationId.New(), userRegistrationId, companyName, address,
-            businessType, merchantCategoryCode, DateTimeUtc.Now, null, RegistrationStatuses.WaitingForConfirmation);
+        Address address = new Address(GenerateSimpleStringId(), streetAddress, apartmentNumber, zipcode, state, city);
+        MerchantRegistration merchantRegistration = new MerchantRegistration(GenerateSimpleStringId(), userRegistrationId, companyName, address, businessType,
+            merchantCategoryCode, DateTimeUtc.Now, null, RegistrationStatuses.WaitingForConfirmation);
 
         // Publish a domain event when a business process has taken place
         merchantRegistration.Raise(new MerchantRegistrationCreatedDomainEvent(merchantRegistration._Id, merchantRegistration._CompanyName,
@@ -67,17 +67,17 @@ public class MerchantRegistration : Aggregate<string>
         return merchantRegistration;
     }
 
-    public override MerchantRegistrationId GetId()
+    public override string GetId()
     {
-        return (MerchantRegistrationId) _Id;
+        return _Id;
     }
 
     public override MerchantRegistrationDto AsDto()
     {
         return new MerchantRegistrationDto
         {
-            Id = _Id.Id,
-            UserRegistrationId = _UserRegistrationId.Id,
+            Id = _Id,
+            UserRegistrationId = _UserRegistrationId,
             AddressDto = _Address.AsDto(),
             BusinessType = _BusinessType,
             CompanyName = _CompanyName.Value,

@@ -13,13 +13,13 @@ public record UserRegistrationHasBeenConfirmedDomainEvent : DomainEvent
 
     #region Instance Values
 
-    public EntityId<string> UserRegistrationId;
+    public string UserRegistrationId;
 
     #endregion
 
     #region Constructor
 
-    public UserRegistrationHasBeenConfirmedDomainEvent(EntityId<string> userRegistrationId) : base(DomainEventTypeId)
+    public UserRegistrationHasBeenConfirmedDomainEvent(string userRegistrationId) : base(DomainEventTypeId)
     {
         UserRegistrationId = userRegistrationId;
     }

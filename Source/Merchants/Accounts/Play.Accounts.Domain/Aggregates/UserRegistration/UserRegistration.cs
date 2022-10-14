@@ -18,7 +18,7 @@ public class UserRegistration : Aggregate<string>
 {
     #region Instance Values
 
-    private readonly UserRegistrationId _Id;
+    private readonly string _Id;
     private readonly Address _Address;
     private readonly ContactInfo _ContactInfo;
     private readonly string _LastFourOfSsn;
@@ -33,7 +33,7 @@ public class UserRegistration : Aggregate<string>
 
     public UserRegistration(Address address, ContactInfo contactInfo, string lastFourOfSsn, DateTimeUtc dateOfBirth)
     {
-        _Id = new UserRegistrationId(contactInfo.Email.Value);
+        _Id = contactInfo.Email.Value;
         _Address = address;
         _ContactInfo = contactInfo;
 
@@ -54,10 +54,10 @@ public class UserRegistration : Aggregate<string>
     public static UserRegistration CreateNewUserRegistration(RegisterUserRequest registerUserRequest, IEnsureUniqueEmails uniqueEmailChecker)
     {
         // Create the entities needed for this Aggregate Object. Entities are responsible for ensuring they are instantiated correctly
-        Address address = new(AddressId.New(), registerUserRequest.AddressDto.StreetAddress, registerUserRequest.AddressDto.ApartmentNumber,
+        Address address = new(GenerateSimpleStringId(), registerUserRequest.AddressDto.StreetAddress, registerUserRequest.AddressDto.ApartmentNumber,
             registerUserRequest.AddressDto.Zipcode, StateAbbreviations.Empty.Get(registerUserRequest.AddressDto.StateAbbreviation),
             registerUserRequest.AddressDto.City);
-        ContactInfo contactInfo = new(ContactInfoId.New(), registerUserRequest.ContactInfoDto.FirstName, registerUserRequest.ContactInfoDto.LastName,
+        ContactInfo contactInfo = new(GenerateSimpleStringId(), registerUserRequest.ContactInfoDto.FirstName, registerUserRequest.ContactInfoDto.LastName,
             registerUserRequest.ContactInfoDto.Phone, registerUserRequest.ContactInfoDto.Email);
         UserRegistration userRegistration = new UserRegistration(address, contactInfo, registerUserRequest.PersonalInfoDto.LastFourOfSocial,
             registerUserRequest.PersonalInfoDto.DateOfBirth);
@@ -78,7 +78,7 @@ public class UserRegistration : Aggregate<string>
         Enforce(new UserCannotBeCreatedWhenRegistrationHasExpired(_RegisteredDate));
         Enforce(new UserCannotBeCreatedWhenRegistrationIsNotConfirmed(_Status));
 
-        User user = User.CreateFromUserRegistration((UserRegistrationId) _Id!, _Address, _ContactInfo, _LastFourOfSsn, _DateOfBirth);
+        User user = User.CreateFromUserRegistration(_Id!, _Address, _ContactInfo, _LastFourOfSsn, _DateOfBirth);
 
         return user;
     }
@@ -105,16 +105,16 @@ public class UserRegistration : Aggregate<string>
         Raise(new UserRegistrationHasExpiredDomainEvent(_Id!));
     }
 
-    public override UserRegistrationId GetId()
+    public override string GetId()
     {
-        return (UserRegistrationId) _Id;
+        return _Id;
     }
 
     public override UserRegistrationDto AsDto()
     {
         return new UserRegistrationDto
         {
-            Id = _Id.Id,
+            Id = _Id,
             AddressDto = _Address.AsDto(),
             ContactInfoDto = _ContactInfo.AsDto(),
             DateOfBirth = _DateOfBirth,

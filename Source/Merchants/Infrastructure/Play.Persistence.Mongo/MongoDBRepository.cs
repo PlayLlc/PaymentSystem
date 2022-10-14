@@ -8,7 +8,7 @@ using Play.Domain.Repositories;
 
 namespace Play.Persistence.Mongo;
 
-public class MongoDbRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where _Aggregate : Aggregate<_TId>
+public class MongoDbRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where _Aggregate : Aggregate<_TId> where _TId : IEquatable<_TId>
 {
     #region Instance Values
 
@@ -53,7 +53,7 @@ public class MongoDbRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
         }
         catch (Exception ex)
         {
-            throw new MongoRepositoryException($"Error retrieving the {nameof(_Aggregate)} document with the {nameof(EntityId<_TId>)}: [{id}]", ex);
+            throw new MongoRepositoryException($"Error retrieving the {nameof(_Aggregate)} document with the Identifier: [{id}]", ex);
         }
     }
 
@@ -81,8 +81,7 @@ public class MongoDbRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
         }
         catch (Exception ex)
         {
-            throw new MongoRepositoryException($"Error removing the {nameof(_Aggregate)} document with the {nameof(EntityId<_TId>)}: [{aggregate.GetId()}]",
-                ex);
+            throw new MongoRepositoryException($"Error removing the {nameof(_Aggregate)} document with the Identifier: [{aggregate.GetId()}]", ex);
         }
     }
 
@@ -99,7 +98,7 @@ public class MongoDbRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
         }
         catch (Exception ex)
         {
-            throw new MongoRepositoryException($"Error retrieving the {nameof(_Aggregate)} document with the {nameof(EntityId<_TId>)}: [{id}]", ex);
+            throw new MongoRepositoryException($"Error retrieving the {nameof(_Aggregate)} document with the Identifier: [{id}]", ex);
         }
     }
 
@@ -112,8 +111,7 @@ public class MongoDbRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
         }
         catch (Exception ex)
         {
-            throw new MongoRepositoryException($"Error removing the {nameof(_Aggregate)} document with the {nameof(EntityId<_TId>)}: [{aggregate.GetId()}]",
-                ex);
+            throw new MongoRepositoryException($"Error removing the {nameof(_Aggregate)} document with the Identifier: [{aggregate.GetId()}]", ex);
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using Play.Accounts.Contracts.Dtos;
+﻿using Play.Accounts.Contracts.Common;
+using Play.Accounts.Contracts.Dtos;
 using Play.Accounts.Domain.Aggregates.UserRegistration;
 using Play.Accounts.Domain.Entities;
 using Play.Domain.Aggregates;
@@ -13,7 +14,7 @@ public class User : Aggregate<string>
 {
     #region Instance Values
 
-    private readonly UserId _Id;
+    private readonly string _Id;
 
     // private readonly MerchantId _MerchantId;
     private readonly HashSet<UserRole> _Roles;
@@ -33,7 +34,7 @@ public class User : Aggregate<string>
         // Entity Framework only
     }
 
-    public User(UserId id, Address address, ContactInfo contactInfo, string lastFourOfSsn, DateTimeUtc dateOfBirth, bool isActive, params UserRole[] roles)
+    public User(string id, Address address, ContactInfo contactInfo, string lastFourOfSsn, DateTimeUtc dateOfBirth, bool isActive, params UserRole[] roles)
     {
         _Id = id;
 
@@ -51,9 +52,9 @@ public class User : Aggregate<string>
     #region Instance Members
 
     public static User CreateFromUserRegistration(
-        UserRegistrationId userRegistrationId, Address address, ContactInfo contactInfo, string lastFourOfSsn, DateTimeUtc dateOfBirth)
+        string userRegistrationId, Address address, ContactInfo contactInfo, string lastFourOfSsn, DateTimeUtc dateOfBirth)
     {
-        User user = new User(new UserId(userRegistrationId.Id), address, contactInfo, lastFourOfSsn, dateOfBirth, true, UserRole.Member);
+        User user = new User(userRegistrationId, address, contactInfo, lastFourOfSsn, dateOfBirth, true, UserRole.Member);
         user.Raise(new UserCreated(user.GetId()));
 
         return user;
@@ -62,22 +63,22 @@ public class User : Aggregate<string>
     public void AddRole(UserRole role)
     {
         if (_Roles.Add(role))
-            Raise(new UserRoleAdded((UserId) _Id!, role));
+            Raise(new UserRoleAdded(_Id!, role));
     }
 
-    public override UserId GetId()
+    public override string GetId()
     {
-        return (UserId) _Id;
+        return _Id;
     }
 
     public override UserDto AsDto()
     {
         return new UserDto
         {
-            Id = _Id.Id, /* MerchantId = _MerchantId.Id,*/
+            Id = _Id, /* MerchantId = _MerchantId.Id,*/
             AddressDto = _Address.AsDto(),
             ContactInfoDto = _ContactInfo.AsDto(),
-            PersonalInfoDto = new PersonalInfo()
+            PersonalInfoDto = new PersonalInfoDto()
             {
                 DateOfBirth = _DateOfBirth,
                 LastFourOfSocial = _LastFourOfSsn

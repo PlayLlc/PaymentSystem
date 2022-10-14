@@ -12,13 +12,13 @@ public record UserCreated : DomainEvent
 
     #region Instance Values
 
-    public readonly UserId UserId;
+    public readonly string UserId;
 
     #endregion
 
     #region Constructor
 
-    public UserCreated(UserId id) : base(DomainEventTypeId)
+    public UserCreated(string id) : base(DomainEventTypeId)
     {
         UserId = id;
     }

@@ -2,7 +2,7 @@
 
 namespace Play.Domain.Repositories;
 
-public interface IRepository<_Aggregate, _TId> where _Aggregate : Aggregate<_TId>
+public interface IRepository<_Aggregate, _TId> where _Aggregate : Aggregate<_TId> where _TId : IEquatable<_TId>
 {
     #region Instance Members
 

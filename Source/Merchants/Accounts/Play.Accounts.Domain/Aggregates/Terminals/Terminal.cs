@@ -10,16 +10,16 @@ namespace Play.Accounts.Domain.Aggregates.Terminals
     {
         #region Instance Values
 
-        private readonly TerminalId _Id;
-        private readonly MerchantId _MerchantId;
-        private readonly UserId _UserId;
+        private readonly string _Id;
+        private readonly string _MerchantId;
+        private readonly string _UserId;
         private readonly string _DeviceId;
 
         #endregion
 
         #region Constructor
 
-        private Terminal(TerminalId id, MerchantId merchantId, UserId userId, string deviceId)
+        private Terminal(string id, string merchantId, string userId, string deviceId)
         {
             _Id = id;
             _MerchantId = merchantId;
@@ -33,10 +33,10 @@ namespace Play.Accounts.Domain.Aggregates.Terminals
 
         #region Instance Members
 
-        public static Terminal CreateNewTerminal(MerchantId merchantId, UserId userId, string deviceId)
+        public static Terminal CreateNewTerminal(string merchantId, string userId, string deviceId)
         {
             // Rules
-            return new Terminal(TerminalId.New(), merchantId, userId, deviceId);
+            return new Terminal(GenerateSimpleStringId(), merchantId, userId, deviceId);
 
             // Publish Domain Event
         }
@@ -45,16 +45,16 @@ namespace Play.Accounts.Domain.Aggregates.Terminals
         {
             return new TerminalDto
             {
-                Id = _Id.Id,
+                Id = _Id,
                 MerchantId = _MerchantId,
                 UserId = _UserId,
                 DeviceId = _DeviceId
             };
         }
 
-        public override TerminalId GetId()
+        public override string GetId()
         {
-            return (TerminalId) _Id;
+            return _Id;
         }
 
         #endregion

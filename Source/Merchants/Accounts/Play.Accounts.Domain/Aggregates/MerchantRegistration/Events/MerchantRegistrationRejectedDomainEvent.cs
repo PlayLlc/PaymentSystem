@@ -12,13 +12,13 @@ public record MerchantRegistrationRejectedDomainEvent : DomainEvent
 
     #region Instance Values
 
-    public readonly MerchantRegistrationId Id;
+    public readonly string Id;
 
     #endregion
 
     #region Constructor
 
-    public MerchantRegistrationRejectedDomainEvent(MerchantRegistrationId id) : base(DomainEventTypeId)
+    public MerchantRegistrationRejectedDomainEvent(string id) : base(DomainEventTypeId)
     {
         Id = id;
     }

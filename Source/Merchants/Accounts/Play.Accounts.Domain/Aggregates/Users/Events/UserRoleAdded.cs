@@ -12,14 +12,14 @@ public record UserRoleAdded : DomainEvent
 
     #region Instance Values
 
-    public readonly UserId UserId;
+    public readonly string UserId;
     public readonly UserRole UserRole;
 
     #endregion
 
     #region Constructor
 
-    public UserRoleAdded(UserId id, UserRole role) : base(DomainEventTypeId)
+    public UserRoleAdded(string id, UserRole role) : base(DomainEventTypeId)
     {
         UserId = id;
         UserRole = role;

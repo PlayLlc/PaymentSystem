@@ -12,7 +12,7 @@ public class Merchant : Aggregate<string>
 {
     #region Instance Values
 
-    private readonly MerchantId _Id;
+    private readonly string _Id;
     private readonly Name _CompanyName;
     private readonly Address _Address;
     private readonly BusinessTypes _BusinessType;
@@ -22,7 +22,7 @@ public class Merchant : Aggregate<string>
 
     #region Constructor
 
-    public Merchant(MerchantId id, Name companyName, Address address, BusinessTypes businessType, MerchantCategoryCodes merchantCategoryCode)
+    public Merchant(string id, Name companyName, Address address, BusinessTypes businessType, MerchantCategoryCodes merchantCategoryCode)
     {
         _Id = id;
         _CompanyName = companyName;
@@ -37,10 +37,10 @@ public class Merchant : Aggregate<string>
 
     public static Merchant CreateFromMerchantRegistration(Name name, Address address, BusinessTypes businessType, MerchantCategoryCodes merchantCategoryCode)
     {
-        return new Merchant(MerchantId.New(), name, address, businessType, merchantCategoryCode);
+        return new Merchant(GenerateSimpleStringId(), name, address, businessType, merchantCategoryCode);
     }
 
-    public override MerchantId GetId()
+    public override string GetId()
     {
         return _Id;
     }
@@ -49,7 +49,7 @@ public class Merchant : Aggregate<string>
     {
         return new MerchantDto
         {
-            Id = _Id.Id,
+            Id = _Id,
             AddressDto = _Address.AsDto(),
             BusinessType = _BusinessType,
             CompanyName = _CompanyName.Value,

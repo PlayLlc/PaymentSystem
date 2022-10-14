@@ -13,14 +13,14 @@ public class ContactInfo : Entity<string>
     public readonly Phone Phone;
     public readonly Email Email;
 
-    public ContactInfoId Id { get; }
+    public string Id { get; }
 
     #endregion
 
     #region Constructor
 
     /// <exception cref="Play.Domain.ValueObjects.ValueObjectException"></exception>
-    public ContactInfo(ContactInfoId id, string firstName, string lastName, string phone, string email)
+    public ContactInfo(string id, string firstName, string lastName, string phone, string email)
     {
         Id = id;
         Email = new Email(email);
@@ -33,14 +33,14 @@ public class ContactInfo : Entity<string>
 
     #region Instance Members
 
-    public override ContactInfoId GetId()
+    public override string GetId()
     {
         return Id;
     }
 
     public override ContactInfoDto AsDto()
     {
-        return new Contracts.Dtos.ContactInfo()
+        return new ContactInfoDto()
         {
             Email = Email.Value,
             FirstName = FirstName.Value,

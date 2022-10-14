@@ -1,9 +1,10 @@
 ﻿using Play.Domain.Entities;
 using Play.Domain.Events;
+using Play.Randoms;
 
 namespace Play.Domain.Aggregates;
 
-public abstract class Aggregate<_TId> : Entity<_TId>, IEquatable<Aggregate<_TId>>, IEqualityComparer<Aggregate<_TId>>
+public abstract class Aggregate<_TId> : Entity<_TId>, IEquatable<Aggregate<_TId>>, IEqualityComparer<Aggregate<_TId>> where _TId : IEquatable<_TId>
 {
     #region Constructor
 
@@ -13,6 +14,11 @@ public abstract class Aggregate<_TId> : Entity<_TId>, IEquatable<Aggregate<_TId>
     #endregion
 
     #region Instance Members
+
+    protected static string GenerateSimpleStringId()
+    {
+        return Randomize.AlphaNumericSpecial.String(20);
+    }
 
     protected void Raise(DomainEvent domainEvent)
     {

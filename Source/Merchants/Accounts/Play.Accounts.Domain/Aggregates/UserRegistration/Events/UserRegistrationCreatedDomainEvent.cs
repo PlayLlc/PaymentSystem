@@ -14,7 +14,7 @@ public record UserRegistrationCreatedDomainEvent : DomainEvent
 
     #region Instance Values
 
-    public readonly UserRegistrationId UserRegistrationId;
+    public readonly string UserRegistrationId;
     public readonly string StreetAddress;
     public readonly string ApartmentNumber;
     public readonly string Zipcode;
@@ -33,7 +33,7 @@ public record UserRegistrationCreatedDomainEvent : DomainEvent
     #region Constructor
 
     public UserRegistrationCreatedDomainEvent(
-        UserRegistrationId userRegistrationId, Address address, ContactInfo contactInfo, string lastFourOfSocialSecurityNumber, DateTimeUtc dateOfBirth,
+        string userRegistrationId, Address address, ContactInfo contactInfo, string lastFourOfSocialSecurityNumber, DateTimeUtc dateOfBirth,
         DateTimeUtc registeredDate) : base(DomainEventTypeId)
     {
         UserRegistrationId = userRegistrationId;

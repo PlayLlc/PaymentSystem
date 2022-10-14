@@ -15,14 +15,14 @@ public class Address : Entity<string>
     public StateAbbreviations State;
     public string City;
 
-    public AddressId Id { get; }
+    public string Id { get; }
 
     #endregion
 
     #region Constructor
 
     /// <exception cref="Play.Domain.ValueObjects.ValueObjectException"></exception>
-    public Address(AddressId id, string streetAddress, string apartmentNumber, string zipcode, StateAbbreviations state, string city)
+    public Address(string id, string streetAddress, string apartmentNumber, string zipcode, StateAbbreviations state, string city)
     {
         Id = id;
         StreetAddress = streetAddress;
@@ -36,9 +36,9 @@ public class Address : Entity<string>
 
     #region Instance Members
 
-    public override AddressId GetId()
+    public override string GetId()
     {
-        return (AddressId) Id;
+        return Id;
     }
 
     public override AddressDto AsDto()

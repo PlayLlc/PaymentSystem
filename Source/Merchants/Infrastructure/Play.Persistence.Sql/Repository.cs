@@ -6,7 +6,7 @@ using Play.Domain.Aggregates;
 
 namespace Play.Persistence.Sql;
 
-public class Repository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where _Aggregate : Aggregate<_TId>
+public class Repository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where _Aggregate : Aggregate<_TId> where _TId : IEquatable<_TId>
 {
     #region Instance Values
 
@@ -38,8 +38,7 @@ public class Repository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where 
         {
             // logging
             throw new EntityFrameworkRepositoryException(
-                $"The {nameof(Repository<_Aggregate, _TId>)} encountered an exception retrieving {nameof(_Aggregate)} with the {nameof(EntityId<_TId>)}: [{id}]",
-                ex);
+                $"The {nameof(Repository<_Aggregate, _TId>)} encountered an exception retrieving {nameof(_Aggregate)} with the Identifier: [{id}]", ex);
         }
     }
 
@@ -91,8 +90,7 @@ public class Repository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where 
         {
             // logging
             throw new EntityFrameworkRepositoryException(
-                $"The {nameof(Repository<_Aggregate, _TId>)} encountered an exception retrieving {nameof(_Aggregate)} with {nameof(EntityId<_TId>)}: [{id}]",
-                ex);
+                $"The {nameof(Repository<_Aggregate, _TId>)} encountered an exception retrieving {nameof(_Aggregate)} with the Identifier: [{id}]", ex);
         }
     }
 
