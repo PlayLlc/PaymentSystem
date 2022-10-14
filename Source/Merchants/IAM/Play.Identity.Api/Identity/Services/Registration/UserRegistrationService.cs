@@ -7,7 +7,7 @@ using Play.Identity.Api.Identity.Enums;
 using Play.Identity.Api.Identity.Persistence;
 using Play.Identity.Api.Services;
 
-namespace Play.Identity.Api.Identity.Services
+namespace Play.Identity.Api.Identity.Services.Registration
 {
     public class UserRegistrationService : IRegisterUsers
     {

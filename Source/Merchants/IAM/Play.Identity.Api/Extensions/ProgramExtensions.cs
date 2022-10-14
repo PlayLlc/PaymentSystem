@@ -1,7 +1,5 @@
 ﻿using System.Reflection;
 
-using AutoMapper.Internal;
-
 using Duende.IdentityServer;
 using Duende.IdentityServer.AspNetIdentity;
 using Duende.IdentityServer.Services;

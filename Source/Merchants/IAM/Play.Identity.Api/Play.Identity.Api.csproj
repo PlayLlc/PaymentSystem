@@ -88,4 +88,8 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Identity\Services\_Email_Sms_Clientz\" />
+  </ItemGroup>
+
 </Project>
