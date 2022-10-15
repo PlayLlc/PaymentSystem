@@ -4,7 +4,7 @@ internal class DomainEventRouter
 {
     #region Instance Values
 
-    private readonly Dictionary<DomainEventTypeId, HashSet<IHandleDomainEvents>> _HandlerMap;
+    private readonly Dictionary<string, HashSet<IHandleDomainEvents<DomainEvent>>> _HandlerMap;
 
     #endregion
 
@@ -12,7 +12,7 @@ internal class DomainEventRouter
 
     public DomainEventRouter()
     {
-        _HandlerMap = new Dictionary<DomainEventTypeId, HashSet<IHandleDomainEvents>>();
+        _HandlerMap = new Dictionary<string, HashSet<IHandleDomainEvents<DomainEvent>>>();
     }
 
     #endregion
@@ -21,30 +21,31 @@ internal class DomainEventRouter
 
     public void Subscribe<_Event>(IHandleDomainEvents<_Event> handler) where _Event : DomainEvent
     {
-        if (!_HandlerMap.ContainsKey(handler.GetEventTypeId()))
-            _HandlerMap.Add(handler.GetEventTypeId(), new HashSet<IHandleDomainEvents>());
+        string fullName = typeof(_Event).FullName!;
 
-        _HandlerMap[handler.GetEventTypeId()].Add(handler);
+        if (!_HandlerMap.ContainsKey(fullName))
+            _HandlerMap.Add(fullName, new HashSet<IHandleDomainEvents<DomainEvent>>());
+        _HandlerMap[fullName].Add((dynamic) handler);
     }
 
-    public void Unsubscribe(IHandleDomainEvents handler)
+    public void Unsubscribe<_Event>(IHandleDomainEvents<_Event> handler) where _Event : DomainEvent
     {
-        if (!_HandlerMap.ContainsKey(handler.GetEventTypeId()))
-            _HandlerMap.Add(handler.GetEventTypeId(), new HashSet<IHandleDomainEvents>());
+        string fullName = typeof(_Event).FullName!;
+        if (!_HandlerMap.ContainsKey(fullName))
+            _HandlerMap.Add(fullName, new HashSet<IHandleDomainEvents<DomainEvent>>());
 
-        _HandlerMap[handler.GetEventTypeId()].Add(handler);
+        _HandlerMap[fullName].Remove((dynamic) handler);
     }
 
-    public void Publish<_T>(_T domainEvent) where _T : DomainEvent
+    public void Publish<_Event>(_Event domainEvent) where _Event : DomainEvent
     {
-        if (!_HandlerMap.TryGetValue(domainEvent.GetEventTypeId(), out HashSet<IHandleDomainEvents>? handlers))
+        string fullName = typeof(_Event).FullName!;
+
+        if (!_HandlerMap.TryGetValue(fullName, out HashSet<IHandleDomainEvents<DomainEvent>>? handlers))
             return;
 
-        foreach (IHandleDomainEvents handleDomainEvents in handlers!.ToArray())
-        {
-            DomainEventHandler<_T> handler = (DomainEventHandler<_T>) handleDomainEvents;
+        foreach (IHandleDomainEvents<DomainEvent> handler in handlers!.ToArray())
             handler.Handle(domainEvent);
-        }
     }
 
     #endregion
