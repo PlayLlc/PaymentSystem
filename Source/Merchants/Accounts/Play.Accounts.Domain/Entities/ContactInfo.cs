@@ -29,6 +29,15 @@ public class ContactInfo : Entity<string>
         LastName = new Name(lastName);
     }
 
+    public ContactInfo(ContactInfoDto contactInfo)
+    {
+        Id = contactInfo.Id!;
+        Email = new Email(contactInfo.Email);
+        Phone = new Phone(contactInfo.Phone);
+        FirstName = new Name(contactInfo.FirstName);
+        LastName = new Name(contactInfo.LastName);
+    }
+
     #endregion
 
     #region Instance Members

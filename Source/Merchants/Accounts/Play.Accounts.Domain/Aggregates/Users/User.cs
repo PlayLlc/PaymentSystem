@@ -55,7 +55,7 @@ public class User : Aggregate<string>
         string userRegistrationId, Address address, ContactInfo contactInfo, string lastFourOfSsn, DateTimeUtc dateOfBirth)
     {
         User user = new User(userRegistrationId, address, contactInfo, lastFourOfSsn, dateOfBirth, true, UserRole.Member);
-        user.Raise(new UserCreated(user.GetId()));
+        user.Publish(new UserCreated(user.GetId()));
 
         return user;
     }
@@ -63,7 +63,7 @@ public class User : Aggregate<string>
     public void AddRole(UserRole role)
     {
         if (_Roles.Add(role))
-            Raise(new UserRoleAdded(_Id!, role));
+            Publish(new UserRoleAdded(_Id!, role));
     }
 
     public override string GetId()

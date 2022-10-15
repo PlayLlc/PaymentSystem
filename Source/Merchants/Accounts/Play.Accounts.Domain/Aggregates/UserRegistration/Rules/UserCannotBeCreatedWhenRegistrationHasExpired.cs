@@ -1,4 +1,4 @@
-﻿using Play.Domain;
+﻿using Play.Domain.Aggregates;
 using Play.Globalization.Time;
 
 namespace Play.Accounts.Domain.Aggregates.UserRegistration;

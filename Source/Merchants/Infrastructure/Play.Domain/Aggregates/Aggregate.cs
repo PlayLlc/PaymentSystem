@@ -4,7 +4,10 @@ using Play.Randoms;
 
 namespace Play.Domain.Aggregates;
 
-public abstract class Aggregate<_TId> : Entity<_TId>, IEquatable<Aggregate<_TId>>, IEqualityComparer<Aggregate<_TId>> where _TId : IEquatable<_TId>
+public interface IAggregate
+{ }
+
+public abstract class Aggregate<_TId> : Entity<_TId>, IAggregate, IEquatable<Aggregate<_TId>>, IEqualityComparer<Aggregate<_TId>> where _TId : IEquatable<_TId>
 {
     #region Constructor
 
@@ -20,27 +23,21 @@ public abstract class Aggregate<_TId> : Entity<_TId>, IEquatable<Aggregate<_TId>
         return Randomize.AlphaNumericSpecial.String(20);
     }
 
-    protected void Raise(DomainEvent domainEvent)
+    protected void Publish(DomainEvent domainEvent)
     {
         // stuff?
         DomainEventBus.Publish(domainEvent);
     }
 
-    public override string ToString()
-    {
-        return GetValueDetails();
-    }
-
-    private static string GetValueDetails()
-    {
-        throw new NotImplementedException();
-    }
-
     /// <exception cref="BusinessRuleValidationException"></exception>
-    protected void Enforce(IBusinessRule rule)
+    protected void Enforce(IBusinessRule<Aggregate<_TId>, _TId> rule)
     {
         if (rule.IsBroken())
+        {
+            Publish(rule.CreateBusinessRuleViolationDomainEvent());
+
             throw new BusinessRuleValidationException(rule);
+        }
     }
 
     #endregion

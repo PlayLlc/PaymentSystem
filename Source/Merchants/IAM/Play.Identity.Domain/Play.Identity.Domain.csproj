@@ -10,4 +10,8 @@
     <ProjectReference Include="..\..\Infrastructure\Play.Domain\Play.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UserRegistration\" />
+  </ItemGroup>
+
 </Project>

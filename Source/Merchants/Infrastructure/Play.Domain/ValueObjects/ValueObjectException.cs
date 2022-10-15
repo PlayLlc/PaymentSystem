@@ -2,7 +2,7 @@
 
 using Play.Core.Exceptions;
 
-namespace Play.Domain.ValueObjects
+namespace Play.Domain.ValueObjectsd
 {
     public class ValueObjectException : PlayException
     {

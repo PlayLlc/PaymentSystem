@@ -1,5 +1,4 @@
 ﻿using Play.Codecs;
-using Play.Domain;
 
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,7 @@ using System.Threading.Tasks;
 
 using Play.Accounts.Domain.Services;
 using Play.Domain.Events;
+using Play.Domain.Aggregates;
 
 namespace Play.Identity.Domain.Rules
 {

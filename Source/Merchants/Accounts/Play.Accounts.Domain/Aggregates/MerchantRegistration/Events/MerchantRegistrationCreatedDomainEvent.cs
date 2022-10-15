@@ -1,4 +1,5 @@
-﻿using Play.Accounts.Domain.Entities;
+﻿using Play.Accounts.Domain.Aggregates.Merchants;
+using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.ValueObjects;
 using Play.Domain.Events;
@@ -8,12 +9,6 @@ namespace Play.Accounts.Domain.Aggregates.MerchantRegistration
 {
     public record MerchantRegistrationCreatedDomainEvent : DomainEvent
     {
-        #region Static Metadata
-
-        public static readonly DomainEventTypeId DomainEventTypeId = CreateEventTypeId(typeof(MerchantRegistrationCreatedDomainEvent));
-
-        #endregion
-
         #region Instance Values
 
         public readonly string Id;
@@ -30,7 +25,7 @@ namespace Play.Accounts.Domain.Aggregates.MerchantRegistration
 
         public MerchantRegistrationCreatedDomainEvent(
             string id, Name name, Address address, BusinessTypes businessType, MerchantCategoryCodes merchantCategoryCode, DateTimeUtc registeredDate,
-            RegistrationStatuses status) : base(DomainEventTypeId)
+            RegistrationStatuses status) : base($"The {nameof(Merchant)}: [{name}] has begun the registration process")
         {
             Id = id;
             Name = name;

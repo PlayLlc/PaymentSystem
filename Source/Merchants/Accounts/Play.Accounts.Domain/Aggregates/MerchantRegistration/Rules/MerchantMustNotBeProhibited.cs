@@ -1,11 +1,12 @@
 ﻿using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Services;
 using Play.Accounts.Domain.ValueObjects;
-using Play.Domain;
+using Play.Domain.Aggregates;
+using Play.Domain.Events;
 
 namespace Play.Accounts.Domain.Aggregates.MerchantRegistration;
 
-internal class MerchantMustNotBeProhibited : IBusinessRule
+internal class MerchantMustNotBeProhibited : IBusinessRule<MerchantRegistration, string>
 {
     #region Instance Values
 
@@ -33,6 +34,11 @@ internal class MerchantMustNotBeProhibited : IBusinessRule
     public bool IsBroken()
     {
         return _UnderwritingService.IsMerchantProhibited(_Name, _Address);
+    }
+
+    public BusinessRuleViolationDomainEvent<MerchantRegistration> CreateBusinessRuleViolationDomainEvent()
+    {
+        throw new NotImplementedException();
     }
 
     #endregion

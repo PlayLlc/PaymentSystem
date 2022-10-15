@@ -29,7 +29,7 @@ internal class UserRegistrationEntityTypeConfiguration : IEntityTypeConfiguratio
             b.Property(x => x.StreetAddress).HasColumnName("StreetAddress");
             b.Property(x => x.ApartmentNumber).HasColumnName("ApartmentNumber");
             b.Property(x => x.City).HasColumnName("City");
-            b.Property(x => x.State).HasColumnName("State");
+            b.Property(x => x.StateAbbreviation).HasColumnName("State");
             b.Property(x => x.Zipcode).HasColumnName("Zipcode");
         });
 

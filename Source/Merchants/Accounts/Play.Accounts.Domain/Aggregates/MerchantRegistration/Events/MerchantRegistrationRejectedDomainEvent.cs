@@ -1,15 +1,11 @@
-﻿using Play.Domain.Events;
+﻿using Play.Accounts.Domain.Aggregates.Merchants;
+using Play.Accounts.Domain.ValueObjects;
+using Play.Domain.Events;
 
 namespace Play.Accounts.Domain.Aggregates.MerchantRegistration;
 
 public record MerchantRegistrationRejectedDomainEvent : DomainEvent
 {
-    #region Static Metadata
-
-    public static readonly DomainEventTypeId DomainEventTypeId = CreateEventTypeId(typeof(MerchantRegistrationRejectedDomainEvent));
-
-    #endregion
-
     #region Instance Values
 
     public readonly string Id;
@@ -18,7 +14,8 @@ public record MerchantRegistrationRejectedDomainEvent : DomainEvent
 
     #region Constructor
 
-    public MerchantRegistrationRejectedDomainEvent(string id) : base(DomainEventTypeId)
+    public MerchantRegistrationRejectedDomainEvent(string id, Name companyName) : base(
+        $"The {nameof(Merchant)}: [{companyName}] is prohibited from registering an account")
     {
         Id = id;
     }

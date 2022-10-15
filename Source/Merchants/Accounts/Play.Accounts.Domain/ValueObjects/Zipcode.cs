@@ -1,4 +1,5 @@
 ﻿using Play.Domain.ValueObjects;
+using Play.Domain.ValueObjectsd;
 
 namespace Play.Accounts.Domain.ValueObjects
 {
@@ -22,9 +23,17 @@ namespace Play.Accounts.Domain.ValueObjects
         /// <exception cref="ValueObjectException"></exception>
         private static void ValidateDigitRange(ReadOnlySpan<char> value)
         {
+            if (IsValid(value))
+                throw new ValueObjectException($"The {nameof(Zipcode)} contained an invalid character");
+        }
+
+        public static bool IsValid(ReadOnlySpan<char> value)
+        {
             for (int i = 0; i < value.Length; i++)
                 if (!char.IsDigit(value[i]))
-                    throw new ValueObjectException($"The {nameof(Zipcode)} contained an invalid character: [{value[i]}]");
+                    return false;
+
+            return true;
         }
 
         #endregion

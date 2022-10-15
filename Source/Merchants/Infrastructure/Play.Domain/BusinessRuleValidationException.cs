@@ -1,6 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 
 using Play.Core.Exceptions;
+using Play.Domain.Aggregates;
 
 namespace Play.Domain;
 

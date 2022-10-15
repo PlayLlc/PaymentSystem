@@ -2,6 +2,8 @@
 using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.ValueObjects;
 using Play.Domain.Entities;
+using Play.Domain.ValueObjects;
+using Play.Domain.ValueObjectsd;
 
 namespace Play.Accounts.Domain.Entities;
 
@@ -10,9 +12,9 @@ public class Address : Entity<string>
     #region Instance Values
 
     public string StreetAddress;
-    public string ApartmentNumber;
+    public string? ApartmentNumber;
     public Zipcode Zipcode;
-    public StateAbbreviations State;
+    public StateAbbreviation StateAbbreviation;
     public string City;
 
     public string Id { get; }
@@ -21,14 +23,24 @@ public class Address : Entity<string>
 
     #region Constructor
 
-    /// <exception cref="Play.Domain.ValueObjects.ValueObjectException"></exception>
-    public Address(string id, string streetAddress, string apartmentNumber, string zipcode, StateAbbreviations state, string city)
+    public Address(AddressDto dto)
+    {
+        Id = dto.Id!;
+
+        StreetAddress = dto.StreetAddress;
+        ApartmentNumber = dto.ApartmentNumber;
+        Zipcode = new Zipcode(dto.Zipcode);
+        City = dto.City;
+        StateAbbreviation = new StateAbbreviation(dto.StateAbbreviation);
+    }
+
+    /// <exception cref="ValueObjectException"></exception>
+    public Address(string id, string streetAddress, string zipcode, string stateAbbreviation, string city)
     {
         Id = id;
         StreetAddress = streetAddress;
-        ApartmentNumber = apartmentNumber;
         Zipcode = new Zipcode(zipcode);
-        State = state;
+        StateAbbreviation = new StateAbbreviation(stateAbbreviation);
         City = city;
     }
 
@@ -47,7 +59,7 @@ public class Address : Entity<string>
         {
             ApartmentNumber = ApartmentNumber,
             City = City,
-            StateAbbreviation = State,
+            StateAbbreviation = StateAbbreviation.Value,
             StreetAddress = StreetAddress,
             Zipcode = Zipcode.Value
         };

@@ -1,9 +1,11 @@
 ﻿using Play.Accounts.Contracts.Commands;
 using Play.Accounts.Contracts.Dtos;
+using Play.Accounts.Domain.Aggregates.UserRegistration.Rules;
 using Play.Accounts.Domain.Aggregates.Users;
 using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.Services;
+using Play.Accounts.Domain.ValueObjects;
 using Play.Domain;
 using Play.Domain.Aggregates;
 using Play.Domain.ValueObjects;
@@ -14,22 +16,40 @@ using ContactInfo = Play.Accounts.Domain.Entities.ContactInfo;
 
 namespace Play.Accounts.Domain.Aggregates.UserRegistration;
 
+ 
+
+
+
 public class UserRegistration : Aggregate<string>
 {
     #region Instance Values
 
     private readonly string _Id;
-    private readonly Address _Address;
-    private readonly ContactInfo _ContactInfo;
-    private readonly string _LastFourOfSsn;
-    private readonly DateTimeUtc _DateOfBirth;
-    private readonly DateTimeUtc _RegisteredDate;
+    private readonly string Username;
+    private readonly string Password;
+
+
+    private readonly Address? _Address;
+    private readonly ContactInfo? _ContactInfo;
+    private readonly string? _LastFourOfSsn;
+    private readonly DateTimeUtc? _DateOfBirth;
+    private readonly DateTimeUtc? _RegisteredDate;
     private DateTimeUtc? _ConfirmedDate;
-    private RegistrationStatuses _Status;
+    private RegistrationStatuses? _Status;
 
     #endregion
 
     #region Constructor
+
+    public UserRegistration(string username, string password)
+    {
+        _Id = GenerateSimpleStringId();
+      
+        if(new UsernameMustBeAValidEmail(username).IsBroken())
+            
+
+    }
+
 
     public UserRegistration(Address address, ContactInfo contactInfo, string lastFourOfSsn, DateTimeUtc dateOfBirth)
     {
@@ -49,6 +69,10 @@ public class UserRegistration : Aggregate<string>
 
     #region Instance Members
 
+
+
+
+
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="ValueObjectException"></exception>
     public static UserRegistration CreateNewUserRegistration(RegisterUserRequest registerUserRequest, IEnsureUniqueEmails uniqueEmailChecker)
@@ -66,7 +90,7 @@ public class UserRegistration : Aggregate<string>
         userRegistration.Enforce(new UserEmailMustBeUnique(uniqueEmailChecker, contactInfo.Email));
 
         // Publish a domain event when a business process has taken place
-        userRegistration.Raise(new UserRegistrationCreatedDomainEvent(userRegistration._Id, address, contactInfo,
+        userRegistration.Publish(new UserRegistrationCreatedDomainEvent(userRegistration._Id, address, contactInfo,
             registerUserRequest.PersonalInfoDto.LastFourOfSocial, registerUserRequest.PersonalInfoDto.DateOfBirth, userRegistration._RegisteredDate));
 
         return userRegistration;
@@ -92,7 +116,7 @@ public class UserRegistration : Aggregate<string>
         _Status = RegistrationStatuses.Confirmed;
         _ConfirmedDate = DateTimeUtc.Now;
 
-        Raise(new UserRegistrationHasBeenConfirmedDomainEvent(_Id!));
+        Publish(new UserRegistrationHasBeenConfirmedDomainEvent(_Id!));
     }
 
     /// <exception cref="BusinessRuleValidationException"></exception>
@@ -102,7 +126,7 @@ public class UserRegistration : Aggregate<string>
 
         _Status = RegistrationStatuses.Expired;
 
-        Raise(new UserRegistrationHasExpiredDomainEvent(_Id!));
+        Publish(new UserRegistrationHasExpiredDomainEvent(_Id!));
     }
 
     public override string GetId()

@@ -8,6 +8,8 @@ public class AddressDto : IDto
 {
     #region Instance Values
 
+    public string? Id { get; set; }
+
     /// <summary>
     ///     The street address of the user's home
     /// </summary>
@@ -29,7 +31,7 @@ public class AddressDto : IDto
     public string Zipcode { get; set; } = string.Empty;
 
     /// <summary>
-    ///     The zipcode of the user's home
+    ///     The state abbreviation of the address
     /// </summary>
     [Required]
     [StringLength(2)]

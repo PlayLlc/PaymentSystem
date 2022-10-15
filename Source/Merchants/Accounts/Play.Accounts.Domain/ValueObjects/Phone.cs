@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 using Play.Domain.ValueObjects;
+using Play.Domain.ValueObjectsd;
 
 namespace Play.Accounts.Domain.ValueObjects;
 

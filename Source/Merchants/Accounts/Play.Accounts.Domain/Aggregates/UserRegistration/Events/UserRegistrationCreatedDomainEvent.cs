@@ -40,7 +40,7 @@ public record UserRegistrationCreatedDomainEvent : DomainEvent
         StreetAddress = address.StreetAddress;
         ApartmentNumber = address.ApartmentNumber;
         Zipcode = address.Zipcode.Value;
-        State = address.State;
+        State = address.StateAbbreviation;
         City = address.City;
 
         LastFourOfSocialSecurityNumber = lastFourOfSocialSecurityNumber;

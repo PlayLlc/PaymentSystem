@@ -1,5 +1,4 @@
-﻿using Play.Domain;
-using Play.Globalization.Time;
+﻿using Play.Globalization.Time;
 
 using System;
 using System.Collections.Generic;
@@ -8,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Play.Codecs;
+using Play.Domain.Aggregates;
 
 namespace Play.Identity.Domain.Rules
 {

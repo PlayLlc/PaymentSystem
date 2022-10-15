@@ -8,6 +8,8 @@ namespace Play.Accounts.Contracts.Common
     {
         #region Instance Values
 
+        public string? Id;
+
         /// <summary>
         ///     The user's first name
         /// </summary>

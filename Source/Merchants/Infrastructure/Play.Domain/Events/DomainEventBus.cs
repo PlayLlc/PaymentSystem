@@ -1,6 +1,6 @@
 ﻿namespace Play.Domain.Events;
 
-public static class DomainEventBus
+internal static class DomainEventBus
 {
     #region Static Metadata
 

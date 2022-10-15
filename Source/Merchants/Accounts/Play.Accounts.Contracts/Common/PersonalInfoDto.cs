@@ -10,6 +10,8 @@ namespace Play.Accounts.Contracts.Common
     {
         #region Instance Values
 
+        public string? Id { get; set; }
+
         /// <summary>
         ///     The last four digits of the user's Social Security Number
         /// </summary>

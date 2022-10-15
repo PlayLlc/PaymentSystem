@@ -60,7 +60,7 @@ public class MerchantRegistration : Aggregate<string>
             merchantCategoryCode, DateTimeUtc.Now, null, RegistrationStatuses.WaitingForConfirmation);
 
         // Publish a domain event when a business process has taken place
-        merchantRegistration.Raise(new MerchantRegistrationCreatedDomainEvent(merchantRegistration._Id, merchantRegistration._CompanyName,
+        merchantRegistration.Publish(new MerchantRegistrationCreatedDomainEvent(merchantRegistration._Id, merchantRegistration._CompanyName,
             merchantRegistration._Address, merchantRegistration._BusinessType, merchantRegistration._MerchantCategoryCode, merchantRegistration._RegisteredDate,
             merchantRegistration._Status));
 
@@ -102,13 +102,13 @@ public class MerchantRegistration : Aggregate<string>
 
         _Status = RegistrationStatuses.Confirmed;
 
-        Raise(new MerchantRegistrationConfirmedDomainEvent(_Id));
+        Publish(new MerchantRegistrationConfirmedDomainEvent(_Id, _CompanyName));
     }
 
     public void RejectRegistration()
     {
         _Status = RegistrationStatuses.Rejected;
-        Raise(new MerchantRegistrationRejectedDomainEvent(_Id));
+        Publish(new MerchantRegistrationRejectedDomainEvent(_Id));
     }
 
     #endregion

@@ -1,15 +1,11 @@
-﻿using Play.Domain.Events;
+﻿using Play.Accounts.Domain.Aggregates.Merchants;
+using Play.Accounts.Domain.ValueObjects;
+using Play.Domain.Events;
 
 namespace Play.Accounts.Domain.Aggregates.MerchantRegistration;
 
 public record MerchantRegistrationConfirmedDomainEvent : DomainEvent
 {
-    #region Static Metadata
-
-    public static readonly DomainEventTypeId DomainEventTypeId = CreateEventTypeId(typeof(MerchantRegistrationConfirmedDomainEvent));
-
-    #endregion
-
     #region Instance Values
 
     public readonly string Id;
@@ -18,7 +14,8 @@ public record MerchantRegistrationConfirmedDomainEvent : DomainEvent
 
     #region Constructor
 
-    public MerchantRegistrationConfirmedDomainEvent(string id) : base(DomainEventTypeId)
+    public MerchantRegistrationConfirmedDomainEvent(string id, Name companyName) : base(
+        $"The {nameof(Merchant)}: [{companyName}] has been successfully registered")
     {
         Id = id;
     }
