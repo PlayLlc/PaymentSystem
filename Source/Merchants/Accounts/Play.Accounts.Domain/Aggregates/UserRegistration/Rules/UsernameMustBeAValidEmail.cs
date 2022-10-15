@@ -1,39 +1,8 @@
 ﻿using Play.Accounts.Domain.ValueObjects;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Domain.Events;
-using Play.Accounts.Domain.Aggregates.UserRegistration.Events;
 using Play.Domain.Aggregates;
 
 namespace Play.Accounts.Domain.Aggregates.UserRegistration.Rules
 {
-    public record UsernameWasNotAValidEmail : DomainEvent
-    {
-        #region Static Metadata
-
-        public static readonly DomainEventTypeId DomainEventTypeId = CreateEventTypeId(typeof(UsernameWasNotAValidEmail));
-
-        #endregion
-
-        #region Instance Values
-
-        public readonly string Username;
-
-        #endregion
-
-        #region Constructor
-
-        public UsernameWasNotAValidEmail(string username) : base(DomainEventTypeId)
-        { }
-
-        #endregion
-    }
-
     internal class UsernameMustBeAValidEmail : IBusinessRule
     {
         #region Instance Values

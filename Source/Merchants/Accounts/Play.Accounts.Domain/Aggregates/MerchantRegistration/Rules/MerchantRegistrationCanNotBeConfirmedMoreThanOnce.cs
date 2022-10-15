@@ -1,15 +1,16 @@
-﻿using Play.Accounts.Domain.Enums;
+﻿using Play.Accounts.Domain.Aggregates.MerchantRegistration.Events;
+using Play.Accounts.Domain.Enums;
 using Play.Domain.Aggregates;
 
 namespace Play.Accounts.Domain.Aggregates.MerchantRegistration;
 
-internal class MerchantRegistrationCanNotBeConfirmedMoreThanOnce : IBusinessRule
+internal class MerchantRegistrationCanNotBeConfirmedMoreThanOnce : BusinessRule<MerchantRegistration, string>
 {
     #region Instance Values
 
     private readonly RegistrationStatuses _ActualRegistrationStatus;
 
-    public string Message => "User Registration cannot be confirmed more than once";
+    public override string Message => "Merchant Registration cannot be confirmed more than once";
 
     #endregion
 
@@ -24,9 +25,14 @@ internal class MerchantRegistrationCanNotBeConfirmedMoreThanOnce : IBusinessRule
 
     #region Instance Members
 
-    public bool IsBroken()
+    public override bool IsBroken()
     {
         return _ActualRegistrationStatus == RegistrationStatuses.Confirmed;
+    }
+
+    public override MerchantHasAlreadyBeenRegistered CreateBusinessRuleViolationDomainEvent(MerchantRegistration merchantRegistration)
+    {
+        return new MerchantHasAlreadyBeenRegistered(merchantRegistration, this);
     }
 
     #endregion

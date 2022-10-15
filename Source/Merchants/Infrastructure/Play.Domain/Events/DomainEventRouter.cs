@@ -19,7 +19,7 @@ internal class DomainEventRouter
 
     #region Instance Members
 
-    public void Subscribe(IHandleDomainEvents handler)
+    public void Subscribe<_Event>(IHandleDomainEvents<_Event> handler) where _Event : DomainEvent
     {
         if (!_HandlerMap.ContainsKey(handler.GetEventTypeId()))
             _HandlerMap.Add(handler.GetEventTypeId(), new HashSet<IHandleDomainEvents>());

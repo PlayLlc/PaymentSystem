@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 
 using System.Diagnostics;
 
-using Microsoft.AspNetCore.Authorization;
-
 namespace _DeleteMe.MerchantPortal.DeleteMe.Controllers
 {
     public class HomeController : Controller

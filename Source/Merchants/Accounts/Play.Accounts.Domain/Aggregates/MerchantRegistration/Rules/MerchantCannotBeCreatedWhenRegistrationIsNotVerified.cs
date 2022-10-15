@@ -1,29 +1,16 @@
-﻿using Play.Accounts.Domain.Aggregates.Merchants;
+﻿using Play.Accounts.Domain.Aggregates.MerchantRegistration.Events;
 using Play.Accounts.Domain.Enums;
-using Play.Accounts.Domain.ValueObjects;
 using Play.Domain.Aggregates;
-using Play.Domain.Events;
 
 namespace Play.Accounts.Domain.Aggregates.MerchantRegistration;
 
-public record MerchantRegistrationHasNotBeenVerified : BusinessRuleViolationDomainEvent<MerchantRegistration>
-{
-    #region Constructor
-
-    public MerchantRegistrationHasNotBeenVerified(string merchantId, Name companyName, IBusinessRule rule) : base(rule,
-        $"Id: {merchantId}; {nameof(Merchant)}: [{companyName}];")
-    { }
-
-    #endregion
-}
-
-internal class MerchantCannotBeCreatedWhenRegistrationIsNotVerified : IBusinessRule
+internal class MerchantCannotBeCreatedWhenRegistrationIsNotVerified : BusinessRule<MerchantRegistration, string>
 {
     #region Instance Values
 
     private readonly RegistrationStatuses _RegistrationStatus;
 
-    public string Message => "User cannot be created when registration is not confirmed";
+    public override string Message => "Merchant Account cannot be created when registration is not verified";
 
     #endregion
 
@@ -38,7 +25,12 @@ internal class MerchantCannotBeCreatedWhenRegistrationIsNotVerified : IBusinessR
 
     #region Instance Members
 
-    public bool IsBroken()
+    public override MerchantRegistrationHasNotBeenVerified CreateBusinessRuleViolationDomainEvent(MerchantRegistration aggregate)
+    {
+        return new MerchantRegistrationHasNotBeenVerified(aggregate, this);
+    }
+
+    public override bool IsBroken()
     {
         return _RegistrationStatus != RegistrationStatuses.Confirmed;
     }

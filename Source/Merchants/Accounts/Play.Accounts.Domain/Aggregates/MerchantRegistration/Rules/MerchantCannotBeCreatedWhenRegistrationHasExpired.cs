@@ -1,30 +1,18 @@
-﻿using Play.Accounts.Domain.Aggregates.Merchants;
-using Play.Accounts.Domain.ValueObjects;
+﻿using Play.Accounts.Domain.Aggregates.MerchantRegistration.Events;
 using Play.Domain.Aggregates;
 using Play.Domain.Events;
 using Play.Globalization.Time;
 
 namespace Play.Accounts.Domain.Aggregates.MerchantRegistration;
 
-public record MerchantRegistrationHasExpired : BusinessRuleViolationDomainEvent<MerchantRegistration, string>
-{
-    #region Constructor
-
-    public MerchantRegistrationHasExpired(MerchantRegistration merchantRegistration, IBusinessRule rule) : base(merchantRegistration, rule)
-    { }
-
-    #endregion
-}
- 
-
 internal class MerchantCannotBeCreatedWhenRegistrationHasExpired : BusinessRule<MerchantRegistration, string>
 {
     #region Instance Values
 
-    private readonly TimeSpan _ValidityPeriod = TimeSpan.FromDays(1);
+    private readonly TimeSpan _ValidityPeriod = TimeSpan.FromHours(4);
     private readonly DateTimeUtc _RegisteredDate;
 
-    public override string Message => "User cannot be created when registration has expired";
+    public override string Message => "Merchant cannot be created when registration has expired";
 
     #endregion
 
@@ -39,14 +27,14 @@ internal class MerchantCannotBeCreatedWhenRegistrationHasExpired : BusinessRule<
 
     #region Instance Members
 
+    public override MerchantRegistrationHasExpired CreateBusinessRuleViolationDomainEvent(MerchantRegistration aggregate)
+    {
+        return new MerchantRegistrationHasExpired(aggregate, this);
+    }
+
     public override bool IsBroken()
     {
         return (DateTimeUtc.Now - _RegisteredDate) > _ValidityPeriod;
-    }
-
-    public override MerchantRegistrationHasExpired CreateBusinessRuleViolationDomainEvent()
-    {
-        return new MerchantRegistrationHasExpired()
     }
 
     #endregion

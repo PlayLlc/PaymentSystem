@@ -1,6 +1,4 @@
 ﻿using Play.Accounts.Domain.Entities;
-using Play.Accounts.Domain.Enums;
-using Play.Accounts.Domain.ValueObjects;
 
 namespace Play.Identity.Application.Services.Registration.Merchants
 {

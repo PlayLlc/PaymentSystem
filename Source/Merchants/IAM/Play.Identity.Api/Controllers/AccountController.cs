@@ -11,11 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 
 using Play.Identity.Api.Attributes;
 using Play.Identity.Api.Identity.Entities;
-using Play.Identity.Api.Identity.Services._Email_Sms_Clientz;
 using Play.Identity.Api.Models;
 using Play.Identity.Api.Services;
-
-using SendGrid;
 
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 

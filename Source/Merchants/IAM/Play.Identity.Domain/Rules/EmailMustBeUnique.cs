@@ -1,20 +1,9 @@
-﻿using Play.Codecs;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Accounts.Domain.Services;
+﻿using Play.Accounts.Domain.Services;
 using Play.Domain.Events;
 using Play.Domain.Aggregates;
 
 namespace Play.Identity.Domain.Rules
 {
-    public record EmailWasNotUnique : DomainEvent
-    { }
-
     internal class EmailMustBeUnique : IBusinessRule
     {
         #region Instance Values

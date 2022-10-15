@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-using Play.Domain.Entities;
 using Play.Domain.Repositories;
 using Play.Domain.Aggregates;
 

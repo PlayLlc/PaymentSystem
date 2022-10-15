@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 
 using Play.Core;
-using Play.Identity.Api.Extensions;
 using Play.Identity.Api.Identity.Entities;
 using Play.Identity.Api.Identity.Services._Email_Sms_Clientz;
 using Play.Identity.Application.Services.Registration.Merchants;

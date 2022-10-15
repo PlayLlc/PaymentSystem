@@ -1,6 +1,5 @@
 ﻿using System.Net.Mail;
 
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
 using SendGrid;

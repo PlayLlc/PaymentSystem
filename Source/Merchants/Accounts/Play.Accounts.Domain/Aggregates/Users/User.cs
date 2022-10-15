@@ -1,7 +1,5 @@
 ﻿using Play.Accounts.Contracts.Common;
 using Play.Accounts.Contracts.Dtos;
-using Play.Accounts.Domain.Aggregates.UserRegistration;
-using Play.Accounts.Domain.Entities;
 using Play.Domain.Aggregates;
 using Play.Globalization.Time;
 

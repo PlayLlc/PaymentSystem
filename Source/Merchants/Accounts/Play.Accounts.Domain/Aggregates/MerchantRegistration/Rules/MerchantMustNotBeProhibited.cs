@@ -1,44 +1,40 @@
-﻿using Play.Accounts.Domain.Entities;
+﻿using Play.Accounts.Domain.Aggregates.MerchantRegistration.Events;
+using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Services;
 using Play.Accounts.Domain.ValueObjects;
 using Play.Domain.Aggregates;
-using Play.Domain.Events;
 
 namespace Play.Accounts.Domain.Aggregates.MerchantRegistration;
 
-internal class MerchantMustNotBeProhibited : IBusinessRule<MerchantRegistration, string>
+internal class MerchantMustNotBeProhibited : BusinessRule<MerchantRegistration, string>
 {
     #region Instance Values
 
-    private readonly Name _Name;
-    private readonly Address _Address;
-    private readonly IUnderwriteMerchants _UnderwritingService;
+    private readonly bool _IsProhibited;
 
-    public string Message => "User cannot be created when registration has expired";
+    public override string Message => "Merchant is prohibited from conducting commerce by the government";
 
     #endregion
 
     #region Constructor
 
-    public MerchantMustNotBeProhibited(Name companyName, Address companyAddress, IUnderwriteMerchants underwritingService)
+    public MerchantMustNotBeProhibited(IUnderwriteMerchants merchantUnderwriter, Name companyName, Address address)
     {
-        _Name = companyName;
-        _Address = companyAddress;
-        _UnderwritingService = underwritingService;
+        _IsProhibited = merchantUnderwriter.IsMerchantProhibited(companyName, address);
     }
 
     #endregion
 
     #region Instance Members
 
-    public bool IsBroken()
+    public override bool IsBroken()
     {
-        return _UnderwritingService.IsMerchantProhibited(_Name, _Address);
+        return _IsProhibited;
     }
 
-    public BusinessRuleViolationDomainEvent<MerchantRegistration> CreateBusinessRuleViolationDomainEvent()
+    public override MerchantRejectedBecauseItIsProhibited CreateBusinessRuleViolationDomainEvent(MerchantRegistration merchantRegistration)
     {
-        throw new NotImplementedException();
+        return new MerchantRejectedBecauseItIsProhibited(merchantRegistration, this);
     }
 
     #endregion

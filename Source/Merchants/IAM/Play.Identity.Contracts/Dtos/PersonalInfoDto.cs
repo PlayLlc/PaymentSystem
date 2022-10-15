@@ -1,8 +1,4 @@
-﻿using Play.Globalization.Time;
-
-using System.ComponentModel.DataAnnotations;
-
-using Play.Domain;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Play.Accounts.Contracts.Common
 {

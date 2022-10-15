@@ -11,18 +11,22 @@ public abstract record BusinessRuleViolationDomainEvent<_Aggregate, _TId> : Doma
     protected BusinessRuleViolationDomainEvent(_Aggregate aggregate, IBusinessRule rule) : base($"{GetRuleDescription(aggregate, rule)}")
     { }
 
-    protected BusinessRuleViolationDomainEvent(_Aggregate aggregate, IBusinessRule rule, string message) : base(
-        $"{GetRuleDescription(aggregate, rule)}. \n\n{message}")
-    { }
-
     #endregion
 
     #region Instance Members
 
     protected static string GetRuleDescription(_Aggregate aggregate, IBusinessRule rule)
     {
-        return
-            $"The {nameof(_Aggregate)} with has violated the [{nameof(IBusinessRule)} business rule: [{rule.Message}]; {nameof(_Aggregate)}: [{JsonSerializer.Serialize(aggregate.AsDto())}]";
+        try
+        {
+            return
+                $"The {nameof(_Aggregate)} with has violated the [{nameof(IBusinessRule)} business rule: [{rule.Message}]; {nameof(_Aggregate)}: [{JsonSerializer.Serialize(aggregate.AsDto())}]";
+        }
+        catch (Exception)
+        {
+            return
+                $"The {nameof(_Aggregate)} with has violated the [{nameof(IBusinessRule)} business rule: [{rule.Message}]; {nameof(_Aggregate)}: [WARNING-{nameof(JsonSerializer)} not supported-WARNING]";
+        }
     }
 
     #endregion

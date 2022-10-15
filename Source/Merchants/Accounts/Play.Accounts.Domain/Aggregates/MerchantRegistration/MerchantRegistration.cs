@@ -1,14 +1,13 @@
 ﻿using Play.Accounts.Contracts.Dtos;
-using Play.Accounts.Domain.Aggregates.UserRegistration;
 using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.Services;
 using Play.Accounts.Domain.ValueObjects;
+using Play.Core;
 using Play.Domain;
 using Play.Domain.Aggregates;
+using Play.Domain.ValueObjectsd;
 using Play.Globalization.Time;
-
-using Address = Play.Accounts.Domain.Entities.Address;
 
 namespace Play.Accounts.Domain.Aggregates.MerchantRegistration;
 
@@ -49,13 +48,13 @@ public class MerchantRegistration : Aggregate<string>
 
     #region Instance Members
 
-    /// <exception cref="Play.Domain.ValueObjects.ValueObjectException"></exception>
+    /// <exception cref="ValueObjectException"></exception>
     public static MerchantRegistration CreateNewMerchantRegistration(
         string userRegistrationId, string name, string streetAddress, string apartmentNumber, string zipcode, StateAbbreviations state, string city,
         BusinessTypes businessType, MerchantCategoryCodes merchantCategoryCode)
     {
         Name companyName = new(name);
-        Address address = new Address(GenerateSimpleStringId(), streetAddress, apartmentNumber, zipcode, state, city);
+        Address address = new Address(GenerateSimpleStringId(), streetAddress, zipcode, state, city) {ApartmentNumber = apartmentNumber};
         MerchantRegistration merchantRegistration = new MerchantRegistration(GenerateSimpleStringId(), userRegistrationId, companyName, address, businessType,
             merchantCategoryCode, DateTimeUtc.Now, null, RegistrationStatuses.WaitingForConfirmation);
 
@@ -89,26 +88,32 @@ public class MerchantRegistration : Aggregate<string>
     }
 
     /// <exception cref="BusinessRuleValidationException"></exception>
-    public void Confirm(IUnderwriteMerchants underwritingService)
+    public Result VerifyMerchantAccount(IUnderwriteMerchants underwritingService)
     {
-        Enforce(new MerchantRegistrationCanNotBeConfirmedMoreThanOnce(_Status));
-        Enforce(new MerchantRegistrationCanNotBeConfirmedAfterItHasExpired(_Status));
+        if (!GetEnforcementResult(new MerchantCannotBeCreatedWhenRegistrationHasExpired(_RegisteredDate)).Succeeded)
+        {
+            _Status = RegistrationStatuses.Expired;
 
-        if (new MerchantIndustryMustNotBeProhibited(_MerchantCategoryCode, underwritingService).IsBroken())
-            RejectRegistration();
+            return RejectRegistration();
+        }
 
-        if (new MerchantMustNotBeProhibited(_CompanyName, _Address, underwritingService).IsBroken())
-            RejectRegistration();
+        if (!GetEnforcementResult(new MerchantRegistrationCanNotBeConfirmedAfterItHasExpired(_Status)).Succeeded)
+            return RejectRegistration();
+        if (!GetEnforcementResult(new MerchantIndustryMustNotBeProhibited(_MerchantCategoryCode, underwritingService)).Succeeded)
+            return RejectRegistration();
+        if (!GetEnforcementResult(new MerchantMustNotBeProhibited(underwritingService, _CompanyName, _Address)).Succeeded)
+            return RejectRegistration();
 
         _Status = RegistrationStatuses.Confirmed;
 
         Publish(new MerchantRegistrationConfirmedDomainEvent(_Id, _CompanyName));
     }
 
-    public void RejectRegistration()
+    public Result RejectRegistration()
     {
         _Status = RegistrationStatuses.Rejected;
-        Publish(new MerchantRegistrationRejectedDomainEvent(_Id));
+
+        return new Result("Merchant account verification failed");
     }
 
     #endregion

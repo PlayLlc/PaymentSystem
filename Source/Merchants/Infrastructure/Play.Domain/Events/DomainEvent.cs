@@ -1,5 +1,4 @@
-﻿using Play.Domain.Aggregates;
-using Play.Globalization.Time;
+﻿using Play.Globalization.Time;
 
 namespace Play.Domain.Events;
 
@@ -9,7 +8,6 @@ public abstract record DomainEvent
 
     public readonly DateTimeUtc DateTimeUtc;
     public readonly string Description;
-
     public DomainEventTypeId DomainEventTypeId = CreateEventTypeId(typeof(DomainEvent));
     private readonly DomainEventIdentifier _DomainEventIdentifier;
 

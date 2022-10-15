@@ -11,8 +11,6 @@ using Play.Identity.Api.Identity.Enums;
 
 using Microsoft.EntityFrameworkCore;
 
-using Play.Identity.Api.Identity.Services;
-
 namespace Play.Identity.Api.Identity.Persistence
 {
     internal class UserIdentityDbSeeder

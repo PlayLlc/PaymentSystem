@@ -1,11 +1,9 @@
-﻿using Play.Domain.Entities;
+﻿using Play.Core;
+using Play.Domain.Entities;
 using Play.Domain.Events;
 using Play.Randoms;
 
 namespace Play.Domain.Aggregates;
-
-public interface IAggregate
-{ }
 
 public abstract class Aggregate<_TId> : Entity<_TId>, IAggregate, IEquatable<Aggregate<_TId>>, IEqualityComparer<Aggregate<_TId>> where _TId : IEquatable<_TId>
 {
@@ -25,20 +23,29 @@ public abstract class Aggregate<_TId> : Entity<_TId>, IAggregate, IEquatable<Agg
 
     protected void Publish(DomainEvent domainEvent)
     {
-        // stuff?
         DomainEventBus.Publish(domainEvent);
     }
 
     /// <exception cref="BusinessRuleValidationException"></exception>
-    protected void Enforce(IBusinessRule<Aggregate<_TId>, _TId> rule)
+    protected void Enforce(IBusinessRule rule)
     {
         if (rule.IsBroken())
-        {
-            Publish(rule.CreateBusinessRuleViolationDomainEvent());
+            Publish(((BusinessRule<Aggregate<_TId>, _TId>) rule).CreateBusinessRuleViolationDomainEvent(this));
 
-            throw new BusinessRuleValidationException(rule);
-        }
+        throw new BusinessRuleValidationException(rule);
     }
+
+    protected Result GetEnforcementResult(IBusinessRule rule)
+    {
+        if (!rule.IsBroken())
+            return new Result();
+
+        Publish(((BusinessRule<Aggregate<_TId>, _TId>) rule).CreateBusinessRuleViolationDomainEvent(this));
+
+        return new Result(rule.Message);
+    }
+
+    public abstract IDto AsDto();
 
     #endregion
 

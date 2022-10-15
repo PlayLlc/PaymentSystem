@@ -3,7 +3,6 @@
 using MongoDB.Driver;
 
 using Play.Domain.Aggregates;
-using Play.Domain.Entities;
 using Play.Domain.Repositories;
 
 namespace Play.Persistence.Mongo;

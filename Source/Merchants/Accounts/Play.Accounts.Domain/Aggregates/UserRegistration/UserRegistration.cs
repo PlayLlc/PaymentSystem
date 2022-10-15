@@ -2,13 +2,10 @@
 using Play.Accounts.Contracts.Dtos;
 using Play.Accounts.Domain.Aggregates.UserRegistration.Rules;
 using Play.Accounts.Domain.Aggregates.Users;
-using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.Services;
-using Play.Accounts.Domain.ValueObjects;
 using Play.Domain;
 using Play.Domain.Aggregates;
-using Play.Domain.ValueObjects;
 using Play.Globalization.Time;
 
 using Address = Play.Accounts.Domain.Entities.Address;

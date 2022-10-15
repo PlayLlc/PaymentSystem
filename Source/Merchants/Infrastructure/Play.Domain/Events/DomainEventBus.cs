@@ -19,7 +19,7 @@ internal static class DomainEventBus
 
     #region Events
 
-    public static void Subscribe(IHandleDomainEvents domainEventHandler)
+    public static void Subscribe<_Event>(IHandleDomainEvents<_Event> domainEventHandler) where _Event : DomainEvent
     {
         _DomainEventRouter.Subscribe(domainEventHandler);
     }

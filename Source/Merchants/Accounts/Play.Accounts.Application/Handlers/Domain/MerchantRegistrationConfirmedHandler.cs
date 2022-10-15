@@ -18,7 +18,7 @@ internal class MerchantRegistrationConfirmedHandler : DomainEventHandler<Merchan
 
     public MerchantRegistrationConfirmedHandler(IMessageHandlerContext messageHandlerContext)
     {
-        _MessageHandlerContext = messageHandlerContext;
+        DomainEventBus _MessageHandlerContext = messageHandlerContext;
     }
 
     #endregion

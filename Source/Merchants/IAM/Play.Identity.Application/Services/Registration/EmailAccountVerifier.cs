@@ -1,13 +1,8 @@
-﻿using System.ComponentModel;
-using System.Net;
+﻿using System.Net;
 using System.Net.Mail;
-using System.Text;
 
 using Microsoft.AspNetCore.Identity;
 
-using NuGet.ProjectModel;
-
-using Play.Codecs;
 using Play.Core.Exceptions;
 using Play.Identity.Api.Identity.Entities;
 using Play.Identity.Api.Identity.Services._Email_Sms_Clientz;

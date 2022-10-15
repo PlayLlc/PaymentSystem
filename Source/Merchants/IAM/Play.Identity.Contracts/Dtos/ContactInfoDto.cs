@@ -1,6 +1,4 @@
-﻿using Play.Domain;
-
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Play.Accounts.Contracts.Common
 {
