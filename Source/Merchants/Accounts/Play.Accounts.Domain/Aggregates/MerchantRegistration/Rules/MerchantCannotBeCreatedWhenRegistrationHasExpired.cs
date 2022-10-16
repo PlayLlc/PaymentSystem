@@ -1,5 +1,4 @@
 ﻿using Play.Domain.Aggregates;
-using Play.Domain.Events;
 using Play.Globalization.Time;
 
 namespace Play.Accounts.Domain.Aggregates.MerchantRegistration;

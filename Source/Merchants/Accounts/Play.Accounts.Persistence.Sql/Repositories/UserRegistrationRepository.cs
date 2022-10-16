@@ -1,41 +1,16 @@
-﻿using Play.Accounts.Domain.Aggregates.UserRegistration;
-using Play.Accounts.Domain.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+
+using Play.Accounts.Domain.Aggregates.UserRegistration;
+using Play.Persistence.Sql;
 
 namespace Play.Accounts.Persistence.Sql.Repositories;
 
-public class UserRegistrationRepository : IUserRegistrationRepository
+public class UserRegistrationRepository : Repository<UserRegistration, string>
 {
-    #region Instance Members
+    #region Constructor
 
-    public Task<UserRegistration?> GetByIdAsync(string id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task SaveAsync(UserRegistration aggregate)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task RemoveAsync(UserRegistration id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public UserRegistration? GetById(string id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Save(UserRegistration aggregate)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Remove(UserRegistration entity)
-    {
-        throw new NotImplementedException();
-    }
+    public UserRegistrationRepository(DbContext dbContext) : base(dbContext)
+    { }
 
     #endregion
 }

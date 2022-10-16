@@ -1,7 +1,6 @@
 ﻿using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.Services;
 using Play.Domain.Aggregates;
-using Play.Domain.Events;
 
 namespace Play.Accounts.Domain.Aggregates.MerchantRegistration;
 

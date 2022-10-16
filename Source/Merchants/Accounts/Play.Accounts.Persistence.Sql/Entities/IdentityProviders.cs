@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Play.Identity.Api.Identity.Entities;
+namespace Play.Accounts.Persistence.Sql.Entities;
 
 [Table(nameof(IdentityProviders))]
 public class IdentityProviders

@@ -16,4 +16,13 @@ public record Phone : ValueObject<string>
     }
 
     #endregion
+
+    #region Operator Overrides
+
+    public static implicit operator string(Phone value)
+    {
+        return value.Value;
+    }
+
+    #endregion
 }

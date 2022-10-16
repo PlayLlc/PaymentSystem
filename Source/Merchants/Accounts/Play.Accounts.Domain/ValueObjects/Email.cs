@@ -16,4 +16,13 @@ public record Email : ValueObject<string>
     }
 
     #endregion
+
+    #region Operator Overrides
+
+    public static implicit operator string(Email value)
+    {
+        return value.Value;
+    }
+
+    #endregion
 }

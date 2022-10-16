@@ -75,7 +75,7 @@ public class UserRegistration : Aggregate<string>
     {
         // Create the entities needed for this Aggregate Object. Entities are responsible for ensuring they are instantiated correctly
         Address address = new(GenerateSimpleStringId(), registerUserRequest.AddressDto.StreetAddress, registerUserRequest.AddressDto.ApartmentNumber,
-            registerUserRequest.AddressDto.Zipcode, StateAbbreviations.Empty.Get(registerUserRequest.AddressDto.StateAbbreviation),
+            registerUserRequest.AddressDto.Zipcode, States.Empty.Get(registerUserRequest.AddressDto.StateAbbreviation),
             registerUserRequest.AddressDto.City);
         ContactInfo contactInfo = new(GenerateSimpleStringId(), registerUserRequest.ContactInfoDto.FirstName, registerUserRequest.ContactInfoDto.LastName,
             registerUserRequest.ContactInfoDto.Phone, registerUserRequest.ContactInfoDto.Email);

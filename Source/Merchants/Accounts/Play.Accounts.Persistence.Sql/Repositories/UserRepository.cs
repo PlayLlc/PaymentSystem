@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Accounts.Domain.Aggregates.Users;
-using Play.Accounts.Domain.Repositories;
+﻿using Play.Accounts.Domain.Aggregates.Users;
+using Play.Domain.Repositories;
 
 namespace Play.Accounts.Persistence.Sql.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : IRepository<User, string>
     {
         #region Instance Members
 

@@ -1,4 +1,4 @@
-﻿namespace Play.Identity.Api.Identity.Enums;
+﻿namespace Play.Accounts.Persistence.Sql.Enums;
 
 public enum RoleTypes
 {

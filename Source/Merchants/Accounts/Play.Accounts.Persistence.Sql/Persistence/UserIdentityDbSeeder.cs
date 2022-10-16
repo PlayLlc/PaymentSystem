@@ -1,17 +1,15 @@
-﻿using IdentityModel;
+﻿using System.Security.Claims;
 
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using IdentityModel;
+
 using Microsoft.AspNetCore.Identity;
-
-using Play.Identity.Api.Identity.Entities;
-
-using System.Security.Claims;
-
-using Play.Identity.Api.Identity.Enums;
-
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Play.Identity.Api.Identity.Persistence;
+using Play.Accounts.Persistence.Sql.Entities;
+using Play.Accounts.Persistence.Sql.Enums;
+
+namespace Play.Accounts.Persistence.Sql.Persistence;
 
 internal class UserIdentityDbSeeder
 {

@@ -4,31 +4,35 @@ using IdentityModel;
 
 using Microsoft.AspNetCore.Identity;
 
-namespace Play.Identity.Api.Identity.Entities;
+using Play.Accounts.Domain.Entities;
+
+namespace Play.Accounts.Persistence.Sql.Entities;
 
 public sealed class UserIdentity : IdentityUser
 {
     #region Instance Values
 
-    private ContactInfo _ContactInfo = new();
+    public Address Address;
+    public PersonalInfo PersonalInfo;
 
-    public Address Address { get; set; } = new();
+    private ContactInfo _ContactInfo;
 
     public ContactInfo ContactInfo
     {
         get => _ContactInfo;
         set
         {
-            UserName = value.Email;
-            NormalizedUserName = value.Email.ToLower();
-            Email = value.Email;
-            NormalizedEmail = value.Email.ToLower();
-            PhoneNumber = value.Phone;
             _ContactInfo = value;
+            UserName = value.Email;
+
+            //NormalizedUserName = value.Email.Value.ToUpper();
+            Email = value.Email;
+
+            //NormalizedEmail = Email.ToUpper();
+            PhoneNumber = value.Phone;
         }
     }
 
-    public PersonalInfo PersonalInfo { get; set; } = new();
     public int? EmailConfirmationCode { get; set; }
     public int? MobileConfirmationCode { get; set; }
 
@@ -36,7 +40,7 @@ public sealed class UserIdentity : IdentityUser
 
     #region Constructor
 
-    public UserIdentity()
+    private UserIdentity()
     { }
 
     public UserIdentity(ContactInfo contactInfo, Address address, PersonalInfo personalInfo)

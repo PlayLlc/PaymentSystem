@@ -50,7 +50,7 @@ public class MerchantRegistration : Aggregate<string>
 
     /// <exception cref="ValueObjectException"></exception>
     public static MerchantRegistration CreateNewMerchantRegistration(
-        string userRegistrationId, string name, string streetAddress, string apartmentNumber, string zipcode, StateAbbreviations state, string city,
+        string userRegistrationId, string name, string streetAddress, string apartmentNumber, string zipcode, States state, string city,
         BusinessTypes businessType, MerchantCategoryCodes merchantCategoryCode)
     {
         Name companyName = new(name);

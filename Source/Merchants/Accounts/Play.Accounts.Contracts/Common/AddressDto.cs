@@ -31,11 +31,11 @@ public class AddressDto : IDto
     public string Zipcode { get; set; } = string.Empty;
 
     /// <summary>
-    ///     The state abbreviation of the address
+    ///     The state or province of the address
     /// </summary>
     [Required]
-    [StringLength(2)]
-    public string StateAbbreviation { get; set; } = string.Empty;
+    [MinLength(1)]
+    public string State { get; set; } = string.Empty;
 
     /// <summary>
     ///     The city where the user lives

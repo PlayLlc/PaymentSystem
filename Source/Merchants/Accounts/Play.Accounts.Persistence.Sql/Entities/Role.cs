@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-using Play.Identity.Api.Identity.Enums;
+using Play.Accounts.Persistence.Sql.Enums;
 
-namespace Play.Identity.Api.Identity.Entities;
+namespace Play.Accounts.Persistence.Sql.Entities;
 
 public class Role : IdentityRole
 {

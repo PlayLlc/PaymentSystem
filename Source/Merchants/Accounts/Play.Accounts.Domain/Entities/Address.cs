@@ -3,6 +3,9 @@ using Play.Accounts.Domain.ValueObjects;
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
 
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
+
 namespace Play.Accounts.Domain.Entities;
 
 public class Address : Entity<string>
@@ -12,7 +15,7 @@ public class Address : Entity<string>
     public string StreetAddress;
     public string? ApartmentNumber;
     public Zipcode Zipcode;
-    public StateAbbreviation StateAbbreviation;
+    public State State;
     public string City;
 
     public string Id { get; }
@@ -21,6 +24,7 @@ public class Address : Entity<string>
 
     #region Constructor
 
+    /// <exception cref="ValueObjectException"></exception>
     public Address(AddressDto dto)
     {
         Id = dto.Id!;
@@ -29,7 +33,7 @@ public class Address : Entity<string>
         ApartmentNumber = dto.ApartmentNumber;
         Zipcode = new Zipcode(dto.Zipcode);
         City = dto.City;
-        StateAbbreviation = new StateAbbreviation(dto.StateAbbreviation);
+        State = new State(dto.State);
     }
 
     /// <exception cref="ValueObjectException"></exception>
@@ -38,7 +42,7 @@ public class Address : Entity<string>
         Id = id;
         StreetAddress = streetAddress;
         Zipcode = new Zipcode(zipcode);
-        StateAbbreviation = new StateAbbreviation(stateAbbreviation);
+        State = new State(stateAbbreviation);
         City = city;
     }
 
@@ -57,10 +61,23 @@ public class Address : Entity<string>
         {
             ApartmentNumber = ApartmentNumber,
             City = City,
-            StateAbbreviation = StateAbbreviation.Value,
+            State = State.Value,
             StreetAddress = StreetAddress,
             Zipcode = Zipcode.Value
         };
+    }
+
+    /// <exception cref="NotSupportedException"></exception>
+    public string Normalize()
+    {
+        return JsonSerializer.Serialize(new
+        {
+            street_address = StreetAddress,
+            locality = City,
+            region = State,
+            postal_code = Zipcode,
+            country = "United States"
+        });
     }
 
     #endregion

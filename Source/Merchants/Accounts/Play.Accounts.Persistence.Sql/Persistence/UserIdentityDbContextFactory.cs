@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace Play.Identity.Api.Identity.Persistence;
+namespace Play.Accounts.Persistence.Sql.Persistence;
 
 internal class UserIdentityDbContextFactory : IDesignTimeDbContextFactory<UserIdentityDbContext>
 {

@@ -45,8 +45,6 @@ public abstract class Aggregate<_TId> : Entity<_TId>, IAggregate, IEquatable<Agg
         return new Result(rule.Message);
     }
 
-    public abstract IDto AsDto();
-
     #endregion
 
     #region Equality

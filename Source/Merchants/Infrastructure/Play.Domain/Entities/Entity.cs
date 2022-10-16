@@ -6,5 +6,7 @@ public abstract class Entity<_TId> where _TId : IEquatable<_TId>
 
     public abstract _TId GetId();
 
+    public abstract IDto AsDto();
+
     #endregion
 }

@@ -1,10 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using Play.Identity.Api.Identity.Entities;
+using Play.Accounts.Domain.Entities;
+using Play.Accounts.Persistence.Sql.Entities;
 
-namespace Play.Identity.Api.Identity.Persistence;
+using PersonalInfo = Play.Accounts.Domain.Entities.PersonalInfo;
+
+namespace Play.Accounts.Persistence.Sql.Persistence;
 
 public class UserIdentityDbContext : IdentityDbContext<UserIdentity, Role, string>
 {
@@ -25,7 +29,9 @@ public class UserIdentityDbContext : IdentityDbContext<UserIdentity, Role, strin
         builder.Entity<ContactInfo>().ToTable("Contacts").Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<ContactInfo>().HasKey(x => x.Id);
 
-        builder.Entity<PersonalInfo>().ToTable("PersonalDetails").Property(x => x.Id).ValueGeneratedOnAdd();
+        RelationalEntityTypeBuilderExtensions.ToTable((EntityTypeBuilder) builder.Entity<PersonalInfo>(), "PersonalDetails")
+            .Property(x => x.Id)
+            .ValueGeneratedOnAdd();
         builder.Entity<PersonalInfo>().HasKey(x => x.Id);
 
         builder.Entity<UserIdentity>().ToTable("UserIdentities");

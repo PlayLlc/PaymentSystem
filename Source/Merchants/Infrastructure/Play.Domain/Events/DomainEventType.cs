@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace Play.Domain.Events;
+﻿namespace Play.Domain.Events;
 
 public record DomainEventType
 {

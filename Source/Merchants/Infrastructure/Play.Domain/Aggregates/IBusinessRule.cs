@@ -1,6 +1,4 @@
-﻿using Play.Domain.Events;
-
-namespace Play.Domain.Aggregates;
+﻿namespace Play.Domain.Aggregates;
 
 public interface IBusinessRule
 {

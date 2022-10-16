@@ -1,41 +1,16 @@
-﻿using Play.Accounts.Domain.Aggregates.MerchantRegistration;
-using Play.Accounts.Domain.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+
+using Play.Accounts.Domain.Aggregates.MerchantRegistration;
+using Play.Persistence.Sql;
 
 namespace Play.Accounts.Persistence.Sql.Repositories;
 
-public class MerchantRegistrationRepository : IMerchantRegistrationRepository
+public class MerchantRegistrationRepository : Repository<MerchantRegistration, string>
 {
-    #region Instance Members
+    #region Constructor
 
-    public Task<MerchantRegistration?> GetByIdAsync(string id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task SaveAsync(MerchantRegistration aggregate)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task RemoveAsync(MerchantRegistration id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public MerchantRegistration? GetById(string id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Save(MerchantRegistration aggregate)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Remove(MerchantRegistration entity)
-    {
-        throw new NotImplementedException();
-    }
+    public MerchantRegistrationRepository(DbContext dbContext) : base(dbContext)
+    { }
 
     #endregion
 }

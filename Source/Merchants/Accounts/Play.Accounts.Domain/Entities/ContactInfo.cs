@@ -1,6 +1,7 @@
 ﻿using Play.Accounts.Contracts.Common;
 using Play.Accounts.Domain.ValueObjects;
 using Play.Domain.Entities;
+using Play.Domain.ValueObjects;
 
 namespace Play.Accounts.Domain.Entities;
 
@@ -29,6 +30,7 @@ public class ContactInfo : Entity<string>
         LastName = new Name(lastName);
     }
 
+    /// <exception cref=" ValueObjectException"></exception>
     public ContactInfo(ContactInfoDto contactInfo)
     {
         Id = contactInfo.Id!;
@@ -41,6 +43,11 @@ public class ContactInfo : Entity<string>
     #endregion
 
     #region Instance Members
+
+    public string GetFullName()
+    {
+        return $"{FirstName} {LastName}";
+    }
 
     public override string GetId()
     {

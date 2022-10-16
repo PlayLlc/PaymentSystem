@@ -16,4 +16,13 @@ public record Name : ValueObject<string>
     }
 
     #endregion
+
+    #region Operator Overrides
+
+    public static implicit operator string(Name value)
+    {
+        return value.Value;
+    }
+
+    #endregion
 }
