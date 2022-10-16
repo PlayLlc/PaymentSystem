@@ -14,4 +14,8 @@
     <ProjectReference Include="..\Play.Accounts.Domain\Play.Accounts.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Handlers\Network\" />
+  </ItemGroup>
+
 </Project>
