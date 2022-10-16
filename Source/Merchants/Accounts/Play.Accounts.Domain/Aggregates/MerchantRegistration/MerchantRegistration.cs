@@ -6,7 +6,7 @@ using Play.Accounts.Domain.ValueObjects;
 using Play.Core;
 using Play.Domain;
 using Play.Domain.Aggregates;
-using Play.Domain.ValueObjectsd;
+using Play.Domain.ValueObjects;
 using Play.Globalization.Time;
 
 namespace Play.Accounts.Domain.Aggregates.MerchantRegistration;

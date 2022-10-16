@@ -1,5 +1,4 @@
-﻿using Play.Accounts.Domain.Aggregates.MerchantRegistration.Events;
-using Play.Accounts.Domain.Entities;
+﻿using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Services;
 using Play.Accounts.Domain.ValueObjects;
 using Play.Domain.Aggregates;

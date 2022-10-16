@@ -1,6 +1,6 @@
 ﻿using Play.Domain.Entities;
 
-namespace Play.Accounts.Domain.Entities;
+namespace Play.Identity.Domain;
 
 public class Address : Entity<string>
 {

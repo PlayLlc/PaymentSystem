@@ -1,5 +1,4 @@
-﻿namespace Play.Identity.Domain
-{
-    public interface IUserRepository
-    { }
-}
+﻿namespace Play.Identity.Domain;
+
+public interface IUserRepository
+{ }

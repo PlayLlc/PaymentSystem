@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Play.Identity.Api.Identity.Entities;
+namespace Play.Identity.Application.Entities;
 
 public class PersonalInfo
 {

@@ -1,4 +1,4 @@
-﻿namespace Play.Identity.Api.Identity.Services._Email_Sms_Clientz;
+﻿namespace Play.Telecom.SendGrid;
 
 public abstract class EmailTemplateBuilder
 {

@@ -8,7 +8,7 @@ using NuGet.Packaging;
 
 using Play.Identity.Api.Models;
 
-namespace Play.Identity.Api.Services;
+namespace Play.Identity.Api.__Services;
 
 public class LoginViewModelBuilder : IBuildLoginViewModel
 {

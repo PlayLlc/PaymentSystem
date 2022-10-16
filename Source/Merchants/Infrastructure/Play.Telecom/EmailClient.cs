@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
-namespace Play.Identity.Api.Identity.Services._Email_Sms_Clientz;
+namespace Play.Telecom.SendGrid;
 
 public sealed class EmailClient : ISendEmail
 {

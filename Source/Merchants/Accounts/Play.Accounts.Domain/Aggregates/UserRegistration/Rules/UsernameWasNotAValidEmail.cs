@@ -1,12 +1,12 @@
 ﻿using Play.Domain.Events;
 
-namespace Play.Accounts.Domain.Aggregates.UserRegistration.Rules;
+namespace Play.Accounts.Domain.Aggregates.UserRegistration;
 
 public record UsernameWasNotAValidEmail : DomainEvent
 {
     #region Static Metadata
 
-    public static readonly DomainEventTypeId DomainEventTypeId = CreateEventTypeId(typeof(UsernameWasNotAValidEmail));
+    public static readonly DomainEventType DomainEventType = CreateEventTypeId(typeof(UsernameWasNotAValidEmail));
 
     #endregion
 
@@ -18,7 +18,7 @@ public record UsernameWasNotAValidEmail : DomainEvent
 
     #region Constructor
 
-    public UsernameWasNotAValidEmail(string username) : base(DomainEventTypeId)
+    public UsernameWasNotAValidEmail(string username) : base(DomainEventType)
     { }
 
     #endregion

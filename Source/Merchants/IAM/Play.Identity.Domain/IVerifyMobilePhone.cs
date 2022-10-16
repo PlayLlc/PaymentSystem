@@ -1,12 +1,11 @@
-﻿namespace Play.Identity.Api.Identity.Services._Email_Sms_Clientz
+﻿namespace Play.Identity.Domain;
+
+public interface IVerifyMobilePhone
 {
-    public interface IVerifyMobilePhone
-    {
-        #region Instance Members
+    #region Instance Members
 
-        public Task SendVerificationCode(string email);
-        public Task<bool> VerifyConfirmationCode(string email, int code);
+    public Task SendVerificationCode(string email);
+    public Task<bool> VerifyConfirmationCode(string email, int code);
 
-        #endregion
-    }
+    #endregion
 }

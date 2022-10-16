@@ -1,6 +1,6 @@
 ﻿using Play.Identity.Api.Identity.Entities;
 
-namespace Play.Identity.Api.Services;
+namespace Play.Identity.Api.__Services;
 
 public class Underwriter : IUnderwriteMerchants
 {

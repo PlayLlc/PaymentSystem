@@ -1,6 +1,6 @@
 ﻿using System.Net.Mail;
 
-namespace Play.Identity.Api.Identity.Services._Email_Sms_Clientz;
+namespace Play.Telecom.SendGrid;
 
 public interface ISendEmail
 {

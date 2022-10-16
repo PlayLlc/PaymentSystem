@@ -1,10 +1,9 @@
-﻿namespace Play.Identity.Api.Identity.Enums
+﻿namespace Play.Identity.Api.Identity.Enums;
+
+public enum RoleTypes
 {
-    public enum RoleTypes
-    {
-        ShadowAdmin,
-        SuperAdmin,
-        Administrator,
-        SalesAssociate
-    }
+    ShadowAdmin,
+    SuperAdmin,
+    Administrator,
+    SalesAssociate
 }

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Play.Accounts.Contracts.Common;
+namespace Play.Identity.Contracts.Dtos;
 
 public class AddressDto : IDto
 {

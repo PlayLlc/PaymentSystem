@@ -2,17 +2,16 @@
 
 using Play.Identity.Api.Identity.Enums;
 
-namespace Play.Identity.Api.Identity.Entities
+namespace Play.Identity.Api.Identity.Entities;
+
+public class Role : IdentityRole
 {
-    public class Role : IdentityRole
+    #region Instance Members
+
+    public static IEnumerable<string> GetAllRoles()
     {
-        #region Instance Members
-
-        public static IEnumerable<string> GetAllRoles()
-        {
-            return Enum.GetNames<RoleTypes>().ToList();
-        }
-
-        #endregion
+        return Enum.GetNames<RoleTypes>().ToList();
     }
+
+    #endregion
 }

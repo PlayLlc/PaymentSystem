@@ -8,7 +8,7 @@ public abstract record DomainEvent
 
     public readonly DateTimeUtc DateTimeUtc;
     public readonly string Description;
-    public DomainEventTypeId DomainEventTypeId = CreateEventTypeId(typeof(DomainEvent));
+    public DomainEventType DomainEventType = CreateEventTypeId(typeof(DomainEvent));
     private readonly DomainEventIdentifier _DomainEventIdentifier;
 
     #endregion
@@ -17,29 +17,28 @@ public abstract record DomainEvent
 
     protected DomainEvent(string description)
     {
-        _DomainEventIdentifier = new DomainEventIdentifier(DomainEventTypeId);
-        Description = description;
         DateTimeUtc = new DateTimeUtc();
+        _DomainEventIdentifier = new DomainEventIdentifier(DomainEventType, DateTimeUtc);
+        Description = description;
     }
 
     #endregion
 
     #region Instance Members
 
-    public DomainEventTypeId GetEventTypeId()
+    public DomainEventType GetEventType()
     {
-        return _DomainEventIdentifier.DomainEventTypeId;
+        return _DomainEventIdentifier.DomainEventType;
     }
 
-    public Guid GetEventId()
+    public int GetEventId()
     {
         return _DomainEventIdentifier.EventId;
     }
 
-    /// <exception cref="ArgumentNullException"></exception>
-    protected static DomainEventTypeId CreateEventTypeId(Type type)
+    protected static DomainEventType CreateEventTypeId(Type type)
     {
-        return new DomainEventTypeId(type!.FullName ?? throw new ArgumentNullException(nameof(type)));
+        return new DomainEventType(type);
     }
 
     #endregion

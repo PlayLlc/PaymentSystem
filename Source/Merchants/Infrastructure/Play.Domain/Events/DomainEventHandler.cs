@@ -1,19 +1,32 @@
-﻿namespace Play.Domain.Events;
+﻿using Microsoft.Extensions.Logging;
 
-public interface IHandleDomainEvents<in _Event> where _Event : DomainEvent
+namespace Play.Domain.Events;
+
+public abstract class DomainEventHandler
 {
-    #region Instance Members
+    #region Instance Values
 
-    public bool Handle(_Event domainEvent);
+    protected readonly ILogger _Logger;
 
     #endregion
-}
 
-public abstract class DomainEventHandler<_Event> where _Event : DomainEvent
-{
+    #region Constructor
+
+    protected DomainEventHandler(ILogger logger)
+    {
+        _Logger = logger;
+    }
+
+    #endregion
+
     #region Instance Members
 
-    public void Subscribe(IHandleDomainEvents<_Event> handler)
+    protected void Log(DomainEvent domainEvent)
+    {
+        _Logger.Log(LogLevel.Information, new EventId(domainEvent.GetEventId(), domainEvent.GetEventType()), domainEvent.Description);
+    }
+
+    public void Subscribe<_Event>(IHandleDomainEvents<_Event> handler) where _Event : DomainEvent
     {
         DomainEventBus.Subscribe(handler);
     }

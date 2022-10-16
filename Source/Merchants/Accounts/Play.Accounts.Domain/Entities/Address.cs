@@ -1,7 +1,7 @@
 ﻿using Play.Accounts.Contracts.Common;
 using Play.Accounts.Domain.ValueObjects;
 using Play.Domain.Entities;
-using Play.Domain.ValueObjectsd;
+using Play.Domain.ValueObjects;
 
 namespace Play.Accounts.Domain.Entities;
 

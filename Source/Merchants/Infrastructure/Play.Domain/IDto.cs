@@ -1,5 +1,4 @@
-﻿namespace Play.Domain
-{
-    public interface IDto
-    { }
-}
+﻿namespace Play.Domain;
+
+public interface IDto
+{ }

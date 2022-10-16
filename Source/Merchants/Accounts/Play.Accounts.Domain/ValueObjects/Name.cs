@@ -1,21 +1,19 @@
 ﻿using Play.Domain.ValueObjects;
-using Play.Domain.ValueObjectsd;
 
-namespace Play.Accounts.Domain.ValueObjects
+namespace Play.Accounts.Domain.ValueObjects;
+
+public record Name : ValueObject<string>
 {
-    public record Name : ValueObject<string>
+    #region Constructor
+
+    /// <exception cref="ValueObjectException"></exception>
+    public Name(string value) : base(value)
     {
-        #region Constructor
-
-        /// <exception cref="ValueObjectException"></exception>
-        public Name(string value) : base(value)
-        {
-            if (value == string.Empty)
-                throw new ValueObjectException($"The {nameof(Name)} provided was empty: [{value}]");
-            if (value.Length > 50)
-                throw new ValueObjectException($"The {nameof(Name)} provided was too long: [{value}]");
-        }
-
-        #endregion
+        if (value == string.Empty)
+            throw new ValueObjectException($"The {nameof(Name)} provided was empty: [{value}]");
+        if (value.Length > 50)
+            throw new ValueObjectException($"The {nameof(Name)} provided was too long: [{value}]");
     }
+
+    #endregion
 }

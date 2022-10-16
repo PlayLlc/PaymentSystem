@@ -1,20 +1,26 @@
-﻿namespace Play.Domain.Events;
+﻿using Play.Globalization.Time;
+
+namespace Play.Domain.Events;
 
 internal record DomainEventIdentifier : IEqualityComparer<DomainEventIdentifier>
 {
     #region Instance Values
 
-    public readonly Guid EventId;
-    public readonly DomainEventTypeId DomainEventTypeId;
+    public readonly int EventId;
+    public readonly DomainEventType DomainEventType;
 
     #endregion
 
     #region Constructor
 
-    public DomainEventIdentifier(DomainEventTypeId domainEventTypeId)
+    public DomainEventIdentifier(DomainEventType domainEventType, DateTimeUtc dateTime)
     {
-        EventId = Guid.NewGuid();
-        DomainEventTypeId = domainEventTypeId;
+        unchecked
+        {
+            EventId = (int) dateTime.Ticks;
+        }
+
+        DomainEventType = domainEventType;
     }
 
     #endregion

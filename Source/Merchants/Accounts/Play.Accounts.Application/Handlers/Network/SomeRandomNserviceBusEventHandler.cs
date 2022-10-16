@@ -1,5 +1,4 @@
-﻿namespace Play.Accounts.Application.Handlers.Network
-{
-    internal class SomeRandomNserviceBusEventHandler
-    { }
-}
+﻿namespace Play.Accounts.Application.Handlers.Network;
+
+internal class SomeRandomNserviceBusEventHandler
+{ }

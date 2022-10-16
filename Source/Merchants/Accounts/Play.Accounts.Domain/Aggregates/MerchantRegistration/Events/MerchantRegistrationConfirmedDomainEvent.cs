@@ -8,16 +8,16 @@ public record MerchantRegistrationConfirmedDomainEvent : DomainEvent
 {
     #region Instance Values
 
-    public readonly string Id;
+    public readonly string MerchantRegistrationId;
 
     #endregion
 
     #region Constructor
 
-    public MerchantRegistrationConfirmedDomainEvent(string id, Name companyName) : base(
+    public MerchantRegistrationConfirmedDomainEvent(string merchantRegistrationId, Name companyName) : base(
         $"The {nameof(Merchant)}: [{companyName}] has been successfully registered")
     {
-        Id = id;
+        MerchantRegistrationId = merchantRegistrationId;
     }
 
     #endregion

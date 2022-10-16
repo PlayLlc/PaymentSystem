@@ -8,7 +8,7 @@ public record UserRegistrationCreatedDomainEvent : DomainEvent
 {
     #region Static Metadata
 
-    public static readonly DomainEventTypeId DomainEventTypeId = CreateEventTypeId(typeof(UserRegistrationCreatedDomainEvent));
+    public static readonly DomainEventType DomainEventType = CreateEventTypeId(typeof(UserRegistrationCreatedDomainEvent));
 
     #endregion
 
@@ -34,7 +34,7 @@ public record UserRegistrationCreatedDomainEvent : DomainEvent
 
     public UserRegistrationCreatedDomainEvent(
         string userRegistrationId, Address address, ContactInfo contactInfo, string lastFourOfSocialSecurityNumber, DateTimeUtc dateOfBirth,
-        DateTimeUtc registeredDate) : base(DomainEventTypeId)
+        DateTimeUtc registeredDate) : base(DomainEventType)
     {
         UserRegistrationId = userRegistrationId;
         StreetAddress = address.StreetAddress;

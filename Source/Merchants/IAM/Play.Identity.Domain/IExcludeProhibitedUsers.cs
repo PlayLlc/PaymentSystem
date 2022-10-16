@@ -1,11 +1,10 @@
-﻿namespace Play.Identity.Application.Services.Registration.Users
+﻿namespace Play.Identity.Domain;
+
+public interface IExcludeProhibitedUsers
 {
-    public interface IExcludeProhibitedUsers
-    {
-        #region Instance Members
+    #region Instance Members
 
-        public bool IsUserProhibited(Address address, ContactInfo contactInfo);
+    public bool IsUserProhibited(Address address, ContactInfo contactInfo);
 
-        #endregion
-    }
+    #endregion
 }

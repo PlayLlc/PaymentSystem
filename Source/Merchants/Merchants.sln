@@ -41,13 +41,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Persistence", "Infrast
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Identity.Application", "IAM\Play.Identity.Application\Play.Identity.Application.csproj", "{C0E269B2-9207-496A-9BD3-20A254F80501}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Telecom.SendGrid", "Infrastructure\Play.Telecom\Play.Telecom.SendGrid.csproj", "{4DE8A436-9400-4C6F-803D-8ECCE7025F14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Telecom.SendGrid", "Infrastructure\Play.Telecom\Play.Telecom.SendGrid.csproj", "{4DE8A436-9400-4C6F-803D-8ECCE7025F14}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Core", "..\Emvco\Core\Play.Core\Play.Core.csproj", "{DAC70B20-4856-4735-911F-560FF437C15D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Identity.Domain", "IAM\Play.Identity.Domain\Play.Identity.Domain.csproj", "{971B7D8E-6188-4193-8273-7F07C5C75ECB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Identity.Domain", "IAM\Play.Identity.Domain\Play.Identity.Domain.csproj", "{971B7D8E-6188-4193-8273-7F07C5C75ECB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Identity.Contracts", "IAM\Play.Identity.Contracts\Play.Identity.Contracts.csproj", "{2C0DA2AC-C697-4F77-9C3A-2FB18AF1B4F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Identity.Contracts", "IAM\Play.Identity.Contracts\Play.Identity.Contracts.csproj", "{2C0DA2AC-C697-4F77-9C3A-2FB18AF1B4F4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Terminals", "Terminals", "{C7DC960F-14D9-43E4-92AA-2A933F241475}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Terminals.Application", "Terminals\Play.Terminals.Application\Play.Terminals.Application.csproj", "{C7B0E54D-78BE-491E-BCFE-CBCDBD7CFE53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Terminals.Contracts", "Terminals\Play.Terminals.Contracts\Play.Terminals.Contracts.csproj", "{E6E8C275-F17B-4099-8EC2-9433B7BA8561}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Terminals.Domain", "Terminals\Play.Terminals.Domain\Play.Terminals.Domain.csproj", "{9E8D3129-9C38-408D-8578-26EFB2A729EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -131,6 +139,18 @@ Global
 		{2C0DA2AC-C697-4F77-9C3A-2FB18AF1B4F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C0DA2AC-C697-4F77-9C3A-2FB18AF1B4F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C0DA2AC-C697-4F77-9C3A-2FB18AF1B4F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7B0E54D-78BE-491E-BCFE-CBCDBD7CFE53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7B0E54D-78BE-491E-BCFE-CBCDBD7CFE53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7B0E54D-78BE-491E-BCFE-CBCDBD7CFE53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7B0E54D-78BE-491E-BCFE-CBCDBD7CFE53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6E8C275-F17B-4099-8EC2-9433B7BA8561}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6E8C275-F17B-4099-8EC2-9433B7BA8561}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6E8C275-F17B-4099-8EC2-9433B7BA8561}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6E8C275-F17B-4099-8EC2-9433B7BA8561}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E8D3129-9C38-408D-8578-26EFB2A729EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E8D3129-9C38-408D-8578-26EFB2A729EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E8D3129-9C38-408D-8578-26EFB2A729EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E8D3129-9C38-408D-8578-26EFB2A729EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -155,6 +175,9 @@ Global
 		{DAC70B20-4856-4735-911F-560FF437C15D} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
 		{971B7D8E-6188-4193-8273-7F07C5C75ECB} = {1BED97E7-2358-4FD9-9C7A-C40D8F5C3845}
 		{2C0DA2AC-C697-4F77-9C3A-2FB18AF1B4F4} = {1BED97E7-2358-4FD9-9C7A-C40D8F5C3845}
+		{C7B0E54D-78BE-491E-BCFE-CBCDBD7CFE53} = {C7DC960F-14D9-43E4-92AA-2A933F241475}
+		{E6E8C275-F17B-4099-8EC2-9433B7BA8561} = {C7DC960F-14D9-43E4-92AA-2A933F241475}
+		{9E8D3129-9C38-408D-8578-26EFB2A729EB} = {C7DC960F-14D9-43E4-92AA-2A933F241475}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6833603-DD22-4624-AB4A-235C51671F62}

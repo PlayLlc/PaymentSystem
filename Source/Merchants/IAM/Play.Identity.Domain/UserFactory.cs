@@ -1,9 +1,4 @@
-﻿using Play.Accounts.Domain.Entities;
-using Play.Accounts.Domain.Services;
-using Play.Identity.Api.Identity.Services._Email_Sms_Clientz;
-using Play.Identity.Application.Services.Registration.Users;
-
-namespace Play.Identity.Domain;
+﻿namespace Play.Identity.Domain;
 
 public class UserFactory
 {

@@ -6,7 +6,7 @@ public record UserRegistrationHasExpiredDomainEvent : DomainEvent
 {
     #region Static Metadata
 
-    public static readonly DomainEventTypeId DomainEventTypeId = CreateEventTypeId(typeof(UserRegistrationHasBeenConfirmedDomainEvent));
+    public static readonly DomainEventType DomainEventType = CreateEventTypeId(typeof(UserRegistrationHasBeenConfirmedDomainEvent));
 
     #endregion
 
@@ -18,7 +18,7 @@ public record UserRegistrationHasExpiredDomainEvent : DomainEvent
 
     #region Constructor
 
-    public UserRegistrationHasExpiredDomainEvent(string userRegistrationId) : base(DomainEventTypeId)
+    public UserRegistrationHasExpiredDomainEvent(string userRegistrationId) : base(DomainEventType)
     {
         UserRegistrationId = userRegistrationId;
     }

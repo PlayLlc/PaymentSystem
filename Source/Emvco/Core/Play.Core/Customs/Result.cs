@@ -1,30 +1,29 @@
 ﻿using System;
 using System.Linq;
 
-namespace Play.Core
+namespace Play.Core;
+
+public class Result
 {
-    public class Result
+    #region Instance Values
+
+    public bool Succeeded { get; set; }
+    public string[] Errors { get; set; } = Array.Empty<string>();
+
+    #endregion
+
+    #region Constructor
+
+    public Result(params string[] errors)
     {
-        #region Instance Values
-
-        public bool Succeeded { get; set; }
-        public string[] Errors { get; set; } = Array.Empty<string>();
-
-        #endregion
-
-        #region Constructor
-
-        public Result(params string[] errors)
-        {
-            Succeeded = false;
-            Errors = errors.ToArray();
-        }
-
-        public Result()
-        {
-            Succeeded = true;
-        }
-
-        #endregion
+        Succeeded = false;
+        Errors = errors.ToArray();
     }
+
+    public Result()
+    {
+        Succeeded = true;
+    }
+
+    #endregion
 }

@@ -1,6 +1,5 @@
 ﻿using Play.Accounts.Contracts.Commands;
 using Play.Accounts.Contracts.Dtos;
-using Play.Accounts.Domain.Aggregates.UserRegistration.Rules;
 using Play.Accounts.Domain.Aggregates.Users;
 using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.Services;

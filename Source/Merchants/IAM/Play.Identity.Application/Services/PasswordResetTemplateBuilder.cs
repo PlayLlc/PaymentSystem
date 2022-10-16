@@ -1,4 +1,6 @@
-﻿namespace Play.Identity.Api.Identity.Services._Email_Sms_Clientz;
+﻿using Play.Telecom.SendGrid;
+
+namespace Play.Identity.Application.Services;
 
 public class PasswordResetTemplateBuilder : EmailTemplateBuilder
 {

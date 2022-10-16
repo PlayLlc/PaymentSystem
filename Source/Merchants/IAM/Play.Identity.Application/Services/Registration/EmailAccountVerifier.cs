@@ -4,9 +4,10 @@ using System.Net.Mail;
 using Microsoft.AspNetCore.Identity;
 
 using Play.Core.Exceptions;
-using Play.Identity.Api.Identity.Entities;
-using Play.Identity.Api.Identity.Services._Email_Sms_Clientz;
+using Play.Identity.Application.Entities;
+using Play.Identity.Domain;
 using Play.Randoms;
+using Play.Telecom.SendGrid;
 
 namespace Play.Identity.Application.Services.Registration;
 

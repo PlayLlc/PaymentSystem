@@ -6,7 +6,7 @@ public record UserRoleAdded : DomainEvent
 {
     #region Static Metadata
 
-    public static readonly DomainEventTypeId DomainEventTypeId = CreateEventTypeId(typeof(UserRoleAdded));
+    public static readonly DomainEventType DomainEventType = CreateEventTypeId(typeof(UserRoleAdded));
 
     #endregion
 
@@ -19,7 +19,7 @@ public record UserRoleAdded : DomainEvent
 
     #region Constructor
 
-    public UserRoleAdded(string id, UserRole role) : base(DomainEventTypeId)
+    public UserRoleAdded(string id, UserRole role) : base(DomainEventType)
     {
         UserId = id;
         UserRole = role;
