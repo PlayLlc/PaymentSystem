@@ -4,6 +4,7 @@ using IdentityModel;
 
 using Microsoft.AspNetCore.Identity;
 
+using Play.Accounts.Contracts.Dtos;
 using Play.Accounts.Domain.Entities;
 
 namespace Play.Accounts.Persistence.Sql.Entities;
@@ -33,6 +34,7 @@ public sealed class UserIdentity : IdentityUser
         }
     }
 
+    public bool IsActive { get; set; }
     public int? EmailConfirmationCode { get; set; }
     public int? MobileConfirmationCode { get; set; }
 
@@ -42,6 +44,13 @@ public sealed class UserIdentity : IdentityUser
 
     private UserIdentity()
     { }
+
+    public UserIdentity(UserDto dto)
+    {
+        Address = new Address(dto.AddressDto);
+        ContactInfo = new ContactInfo(dto.ContactInfoDto);
+        PersonalInfo = new PersonalInfo(dto.PersonalInfoDto);
+    }
 
     public UserIdentity(ContactInfo contactInfo, Address address, PersonalInfo personalInfo)
     {

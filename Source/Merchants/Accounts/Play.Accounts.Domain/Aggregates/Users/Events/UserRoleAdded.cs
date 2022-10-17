@@ -1,4 +1,5 @@
-﻿using Play.Domain.Events;
+﻿using Play.Accounts.Domain.Entities;
+using Play.Domain.Events;
 
 namespace Play.Accounts.Domain.Aggregates.Users;
 

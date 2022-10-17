@@ -13,7 +13,6 @@ public class User : Aggregate<string>
     private readonly string _Id;
 
     // private readonly MerchantId _MerchantId;
-    private readonly HashSet<UserRole> _Roles;
     private readonly Address _Address;
     private readonly ContactInfo _ContactInfo;
     private readonly PersonalInfo _PersonalInfo;
@@ -37,7 +36,6 @@ public class User : Aggregate<string>
         _ContactInfo = contactInfo;
         _PersonalInfo = personalInfo;
         _IsActive = isActive;
-        _Roles = roles.ToHashSet();
     }
 
     #endregion
@@ -53,11 +51,11 @@ public class User : Aggregate<string>
         return user;
     }
 
-    public void AddRole(UserRole role)
-    {
-        if (_Roles.Add(role))
-            Publish(new UserRoleAdded(_Id!, role));
-    }
+    //public void AddRole(UserRole role)
+    //{
+    //    if (_Roles.Add(role))
+    //        Publish(new UserRoleAdded(_Id!, role));
+    //}
 
     public override string GetId()
     {

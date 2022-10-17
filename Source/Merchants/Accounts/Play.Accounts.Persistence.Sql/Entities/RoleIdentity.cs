@@ -4,7 +4,7 @@ using Play.Accounts.Persistence.Sql.Enums;
 
 namespace Play.Accounts.Persistence.Sql.Entities;
 
-public class Role : IdentityRole
+public class RoleIdentity : IdentityRole
 {
     #region Instance Members
 

@@ -10,7 +10,7 @@ using PersonalInfo = Play.Accounts.Domain.Entities.PersonalInfo;
 
 namespace Play.Accounts.Persistence.Sql.Persistence;
 
-public class UserIdentityDbContext : IdentityDbContext<UserIdentity, Role, string>
+public class UserIdentityDbContext : IdentityDbContext<UserIdentity, RoleIdentity, string>
 {
     #region Constructor
 
@@ -35,7 +35,7 @@ public class UserIdentityDbContext : IdentityDbContext<UserIdentity, Role, strin
         builder.Entity<PersonalInfo>().HasKey(x => x.Id);
 
         builder.Entity<UserIdentity>().ToTable("UserIdentities");
-        builder.Entity<Role>().ToTable("Roles");
+        builder.Entity<RoleIdentity>().ToTable("Roles");
         builder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
         builder.Entity<IdentityUserRole<string>>()
         .ToTable("UserRoles")

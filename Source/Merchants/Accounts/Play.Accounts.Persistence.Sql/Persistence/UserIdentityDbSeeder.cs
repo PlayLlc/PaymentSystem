@@ -32,7 +32,7 @@ internal class UserIdentityDbSeeder
 
     /// <exception cref="OperationCanceledException"></exception>
     /// <exception cref="DbUpdateException"></exception>
-    public async Task Seed(ConfigurationManager manager, UserManager<UserIdentity> userManager, RoleStore<Role> roleStore)
+    public async Task Seed(ConfigurationManager manager, UserManager<UserIdentity> userManager, RoleStore<RoleIdentity> roleStore)
     {
         //SendGridConfig? config = manager.GetSection(nameof(SendGridConfig)).Get<SendGridConfig>();
         var a = new EmailAccountVerifier();
@@ -53,13 +53,13 @@ internal class UserIdentityDbSeeder
 
     /// <exception cref="DbUpdateException"></exception>
     /// <exception cref="OperationCanceledException"></exception>
-    private async Task SeedRoles(RoleStore<Role> roleStore)
+    private async Task SeedRoles(RoleStore<RoleIdentity> roleStore)
     {
         if (await roleStore.Roles.AnyAsync().ConfigureAwait(false))
             return;
 
-        List<Role> roles = Enum.GetNames<RoleTypes>()
-            .Select(a => new Role
+        List<RoleIdentity> roles = Enum.GetNames<RoleTypes>()
+            .Select(a => new RoleIdentity
             {
                 Name = a,
                 NormalizedName = a.ToLower()
