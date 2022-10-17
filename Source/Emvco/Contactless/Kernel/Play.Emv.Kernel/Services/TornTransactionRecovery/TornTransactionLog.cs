@@ -74,6 +74,18 @@ public class TornTransactionLog : IManageTornTransactions
         _TornRecords.Remove(tornEntry);
     }
 
+    public void CleanOldRecords(IWriteToDek dataExchangeKernel, DekResponseType dekResponseType)
+    {
+        foreach (KeyValuePair<TornEntry, TornRecord> record in _TornRecords)
+        {
+            if (record.Value.HasRecordExpired(_MaxLogLifetime))
+            {
+                dataExchangeKernel.Enqueue(dekResponseType, record.Value);
+                _TornRecords.Remove(record.Key);
+            }
+        }
+    }
+
     private void CleanStaleRecords()
     {
         foreach (KeyValuePair<TornEntry, TornRecord> record in _TornRecords)

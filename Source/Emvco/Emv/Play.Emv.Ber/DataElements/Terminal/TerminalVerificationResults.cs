@@ -21,6 +21,8 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x95;
+    public static readonly TerminalVerificationResults Default = new(0);
+
     private const byte _ByteLength = 5;
 
     #endregion

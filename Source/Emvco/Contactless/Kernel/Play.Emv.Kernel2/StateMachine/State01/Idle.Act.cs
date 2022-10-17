@@ -18,6 +18,7 @@ using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
 using Play.Globalization.Time;
+using Play.Icc.FileSystem.DedicatedFiles;
 using Play.Messaging;
 
 namespace Play.Emv.Kernel2.StateMachine;
@@ -42,10 +43,14 @@ public partial class Idle : KernelState
         if (!TryInitialize(signal.GetCorrelationId(), signal.GetKernelSessionId()))
             return _KernelStateResolver.GetKernelState(StateId);
 
-        if (TryHandlingBerEncodingException(signal))
+        if (!ParseTransactionDataAndFCITemplateToTlvDatabase(signal))
             return _KernelStateResolver.GetKernelState(StateId);
 
         UpdateLanguagePreferences();
+
+        if (IsMissingDedicateFileName(signal))
+            return _KernelStateResolver.GetKernelState(StateId);
+
         HandleSupportForFieldOffDetection();
         InitializeEmvDataObjects();
         InitializeDataExchangeObjects();
@@ -59,19 +64,34 @@ public partial class Idle : KernelState
 
     #region S1.7
 
-    /// <remarks>Book C-2 Section 6.3.3 S1.7</remarks>
+    /// <remarks>Book C-2 Section 6.3.3 S1.7
+    /// If the Language Preference is returned from the Card, then copy it to 'Language 
+    /// Preference' in User Interface Request Data </remarks>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     private void UpdateLanguagePreferences()
     {
-        if (_Database.TryGet(LanguagePreference.Tag, out LanguagePreference? languagePreference))
-        {
-            throw new InvalidOperationException(
-                $"The {nameof(Idle)} state could not process the {nameof(ActivateKernelRequest)} because no {nameof(LanguagePreference)} was found in the {nameof(KernelDatabase)}");
-        }
+        if (!_Database.TryGet(LanguagePreference.Tag, out LanguagePreference? languagePreference))
+            return;
 
         _Database.Update(languagePreference!);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private bool IsMissingDedicateFileName(ActivateKernelRequest signal)
+    {
+        if(!_Database.TryGet(DedicatedFileName.Tag, out DedicatedFileName? dedicatedFileName))
+        {
+            _Database.Update(Level2Error.CardDataMissing);
+            HandleBerEncodingException(signal.GetCorrelationId(), signal.GetKernelSessionId());
+
+            return true;
+        }
+
+        return false;
     }
 
     /// <remarks>Book C-2 Section 6.3.3 - S1.7</remarks>
@@ -83,6 +103,9 @@ public partial class Idle : KernelState
     {
         _Database.Update(StatusOutcomes.SelectNext);
         _Database.Update(StartOutcomes.C);
+
+        _DataExchangeKernelService.Initialize(DekResponseType.DiscretionaryData);
+        _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, _Database.Get<ErrorIndication>(ErrorIndication.Tag));
 
         _EndpointClient.Send(new OutKernelResponse(correlationId, kernelSessionId, _Database.GetTransaction()));
     }
@@ -105,7 +128,7 @@ public partial class Idle : KernelState
 
     #region S1.7 & S1.8
 
-    private bool TryHandlingBerEncodingException(ActivateKernelRequest signal)
+    private bool ParseTransactionDataAndFCITemplateToTlvDatabase(ActivateKernelRequest signal)
     {
         try
         {
@@ -119,7 +142,7 @@ public partial class Idle : KernelState
             _Database.Update(Level2Error.ParsingError);
             HandleBerEncodingException(signal.GetCorrelationId(), signal.GetKernelSessionId());
 
-            return true;
+            return false;
         }
 
         catch (CardDataMissingException)
@@ -128,7 +151,7 @@ public partial class Idle : KernelState
             _Database.Update(Level2Error.CardDataError);
             HandleBerEncodingException(signal.GetCorrelationId(), signal.GetKernelSessionId());
 
-            return true;
+            return false;
         }
         catch (Exception)
         {
@@ -136,7 +159,7 @@ public partial class Idle : KernelState
             _Database.Update(Level2Error.CardDataError);
             HandleBerEncodingException(signal.GetCorrelationId(), signal.GetKernelSessionId());
 
-            return true;
+            return false;
         }
     }
 
@@ -155,7 +178,6 @@ public partial class Idle : KernelState
             OutcomeParameterSet.Builder outcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
             UserInterfaceRequestData.Builder userInterfaceBuilder = UserInterfaceRequestData.GetBuilder();
 
-            userInterfaceBuilder.Set((MessageHoldTime) _Database.Get(MessageHoldTime.Tag));
             _Database.Reset(outcomeParameterSetBuilder.Complete());
             _Database.Reset(userInterfaceBuilder.Complete());
             _Database.Reset(new ErrorIndication());
@@ -308,8 +330,8 @@ public partial class Idle : KernelState
     {
         _Database.Update(new PostGenAcPutDataStatus(0));
         _Database.Update(new PreGenAcPutDataStatus(0));
-        _Database.Initialize(DekResponseType.TagsToWriteBeforeGenAc);
-        _Database.Initialize(DekResponseType.TagsToWriteAfterGenAc);
+        _DataExchangeKernelService.Initialize(DekResponseType.TagsToWriteBeforeGenAc);
+        _DataExchangeKernelService.Initialize(DekResponseType.TagsToWriteAfterGenAc);
 
         if (_Database.TryGet(TagsToWriteBeforeGeneratingApplicationCryptogram.Tag, out PrimitiveValue? tagsToWriteBeforeGenAc))
             _DataExchangeKernelService.Enqueue(DekResponseType.TagsToWriteBeforeGenAc, tagsToWriteBeforeGenAc!);
@@ -350,15 +372,7 @@ public partial class Idle : KernelState
     /// <exception cref="CodecParsingException"></exception>
     private void HandleDataStorageVersionNumberTerm(Kernel2Session session)
     {
-        if (!_Database.IsPresentAndNotEmpty(DataStorageVersionNumberTerminal.Tag))
-        {
-            EnqueueDataStorageId();
-            EnqueueApplicationCapabilitiesInformation();
-
-            return;
-        }
-
-        if (!_Database.IsPresent(DataStorageRequestedOperatorId.Tag))
+        if (!_Database.IsPresentAndNotEmpty(DataStorageVersionNumberTerminal.Tag) || !_Database.IsPresent(DataStorageRequestedOperatorId.Tag))
         {
             EnqueueDataStorageId();
             EnqueueApplicationCapabilitiesInformation();
@@ -425,10 +439,9 @@ public partial class Idle : KernelState
 
         ApplicationCapabilitiesInformation applicationCapabilitiesInformation = (ApplicationCapabilitiesInformation) applicationCapabilitiesInformationTlv!;
 
-        if (applicationCapabilitiesInformation.GetDataStorageVersionNumber() == DataStorageVersionNumbers.Version1)
-            SetIntegratedDataStorageReadStatus();
-
-        if (applicationCapabilitiesInformation.GetDataStorageVersionNumber() == DataStorageVersionNumbers.Version2)
+        DataStorageVersionNumber dataStorageVersionNumber = applicationCapabilitiesInformation.GetDataStorageVersionNumber();
+        if (dataStorageVersionNumber == DataStorageVersionNumbers.Version1 ||
+            dataStorageVersionNumber == DataStorageVersionNumbers.Version2)
             SetIntegratedDataStorageReadStatus();
 
         return HandlePdolData(session);
@@ -475,7 +488,7 @@ public partial class Idle : KernelState
     {
         if (session.IsPdolDataMissing())
         {
-            DispatchDataExchangeMessages(session.GetKernelSessionId());
+            DispatchDataExchangeMessages(session.GetKernelSessionId(), session.GetCorrelationId());
             SetTimeout(session);
 
             return _KernelStateResolver.GetKernelState(WaitingForPdolData.StateId);
@@ -495,13 +508,13 @@ public partial class Idle : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     /// <remarks> EMV Book C-2 Section S1.22 </remarks>
     /// <exception cref="TerminalDataException"></exception>
-    private void DispatchDataExchangeMessages(KernelSessionId kernelSessionId)
+    private void DispatchDataExchangeMessages(KernelSessionId kernelSessionId, CorrelationId correlationId)
     {
         // HACK: The correlationId cannot be null where. We need to revisit the pattern we're using the resolve requests and responses and implement that pattern here
-        _DataExchangeKernelService.SendResponse(kernelSessionId, null);
+        _DataExchangeKernelService.SendResponse(kernelSessionId, correlationId);
         _DataExchangeKernelService.SendRequest(kernelSessionId);
         _DataExchangeKernelService.Initialize(DekResponseType.DataToSend);
-        _DataExchangeKernelService.Initialize(new DataNeeded());
+        _DataExchangeKernelService.Initialize(new DataNeeded()); //this 2nd initialization should refresh the lists I think.
     }
 
     #endregion

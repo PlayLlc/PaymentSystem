@@ -1,4 +1,5 @@
 ﻿using AutoFixture;
+using AutoFixture.Kernel;
 
 using Play.Ber.DataObjects;
 using Play.Core;
@@ -18,6 +19,7 @@ using Play.Emv.Pcd.Contracts;
 using Play.Icc.FileSystem.DedicatedFiles;
 using Play.Icc.Messaging.Apdu;
 using Play.Messaging;
+using Play.Testing.Emv.Contactless.AutoFixture.Configuration;
 
 namespace Play.Testing.Emv.Contactless.AutoFixture;
 
@@ -30,36 +32,48 @@ public partial class ContactlessFixture
         CreateDatabase(fixture);
     }
 
-    public static KernelDatabase CreateDefaultDatabase(IFixture fixture) => SetupDatabase(fixture);
+    public static KernelDatabase CreateDefaultDatabase(IFixture fixture, ContactlessFixtureBuilderOptions options = null) => SetupDatabase(fixture, options ?? ContactlessFixtureBuilderOptions.Default);
 
     private static void CreateDatabase(IFixture fixture)
     {
+        KernelId kernelId = new KernelId(2);
+        fixture.Register(() => kernelId);
         fixture.Freeze<TransactionSessionId>();
         fixture.Freeze<KernelSessionId>();
         fixture.Register<KernelPersistentConfiguration>(() => new Kernel2KernelPersistentConfiguration(Array.Empty<PrimitiveValue>(), new EmvRuntimeCodec()));
         fixture.Register<KnownObjects>(fixture.Create<Kernel2KnownObjects>);
         fixture.Register(() => new SequenceCounterThreshold(0, int.MaxValue, 1));
-        KernelDatabase database = fixture.Create<KernelDatabase>();
-        fixture.Freeze<KernelDatabase>();
+        fixture.Register(() => new KernelDatabase(new CertificateAuthorityDataset[0], GetDefaultPrimitiveValues(), fixture.Create<KnownObjects>(), null));
     }
 
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
-    private static KernelDatabase SetupDatabase(IFixture fixture)
+    private static KernelDatabase SetupDatabase(IFixture fixture, ContactlessFixtureBuilderOptions options)
     {
         KernelDatabase database = fixture.Create<KernelDatabase>();
-        database.Activate(fixture.Create<TransactionSessionId>());
-        TagsToRead tagsToRead = new();
-        TerminalTransactionQualifiers ttq = fixture.Create<TerminalTransactionQualifiers>();
-        SelectApplicationDefinitionFileInfoResponse rapdu = CreateSelectApplicationDefinitionFileInfoResponse(fixture);
 
-        database.Update(ttq);
-        database.Update(tagsToRead);
-        database.Update(rapdu.AsPrimitiveValues());
-        database.Update(CreateCombinationCompositeKey(fixture).AsPrimitiveValues());
-        database.Update(Outcome.Default.AsPrimitiveValues());
-        database.Update(GetTransaction(fixture).AsPrimitiveValues());
+        if (options.ActivateKernelDbOnInitialization)
+            database.Activate(fixture.Create<TransactionSessionId>());
+
+        if (options.InitializeDefaultConfigurationData)
+        {
+            TagsToRead tagsToRead = new();
+            TerminalTransactionQualifiers ttq = fixture.Create<TerminalTransactionQualifiers>();
+            SelectApplicationDefinitionFileInfoResponse rapdu = CreateSelectApplicationDefinitionFileInfoResponse(fixture);
+
+            database.Update(ttq);
+            database.Update(tagsToRead);
+            database.Update(rapdu.AsPrimitiveValues());
+            database.Update(CreateCombinationCompositeKey(fixture).AsPrimitiveValues());
+            database.Update(Outcome.Default.AsPrimitiveValues());
+            database.Update(GetTransaction(fixture).AsPrimitiveValues());
+        }
 
         return database;
+    }
+
+    private static PrimitiveValue[] GetDefaultPrimitiveValues()
+    {
+        return new PrimitiveValue[] { TimeoutValue.Default, CardDataInputCapability.Default, SecurityCapability.Default };
     }
 
     private static CombinationCompositeKey CreateCombinationCompositeKey(IFixture fixture)
@@ -71,7 +85,7 @@ public partial class ContactlessFixture
         return new CombinationCompositeKey(dedicatedFileName, kernelType, transaction.GetTransactionType());
     }
 
-    private static SelectApplicationDefinitionFileInfoResponse CreateSelectApplicationDefinitionFileInfoResponse(IFixture fixture)
+    public static SelectApplicationDefinitionFileInfoResponse CreateSelectApplicationDefinitionFileInfoResponse(IFixture fixture)
     {
         CorrelationId correlationId = fixture.Create<CorrelationId>();
 
