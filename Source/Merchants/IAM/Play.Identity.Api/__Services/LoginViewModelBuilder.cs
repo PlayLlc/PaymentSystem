@@ -50,7 +50,7 @@ public class LoginViewModelBuilder : IBuildLoginViewModel
     {
         AuthorizationRequest context = await _InteractionService.GetAuthorizationContextAsync(returnUrl);
 
-        var modelFromScheme = await TryGetLoginViewModelFromScheme(context, returnUrl).ConfigureAwait(false);
+        LoginViewModel? modelFromScheme = await TryGetLoginViewModelFromScheme(context, returnUrl).ConfigureAwait(false);
 
         if (modelFromScheme is not null)
             return modelFromScheme;

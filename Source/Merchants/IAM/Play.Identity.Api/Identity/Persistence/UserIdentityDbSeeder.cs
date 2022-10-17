@@ -46,7 +46,7 @@ internal class UserIdentityDbSeeder
         if (await userManager.Users.AnyAsync().ConfigureAwait(false))
             return;
 
-        var user = await AddSuperAdmin(userManager).ConfigureAwait(false);
+        UserIdentity user = await AddSuperAdmin(userManager).ConfigureAwait(false);
 
         await AddClaims(userManager, user).ConfigureAwait(false);
 
@@ -68,7 +68,7 @@ internal class UserIdentityDbSeeder
             })
             .ToList();
 
-        foreach (var role in roles)
+        foreach (Role role in roles)
             await roleStore.CreateAsync(role).ConfigureAwait(false);
     }
 

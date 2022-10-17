@@ -3,7 +3,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-using Play.Accounts.Domain.Aggregates.Users;
+using Play.Accounts.Domain.Aggregates;
 using Play.Accounts.Persistence.Sql.Entities;
 using Play.Domain.Aggregates;
 using Play.Domain.Repositories;
@@ -44,7 +44,7 @@ namespace Play.Accounts.Persistence.Sql.Repositories
         /// <exception cref="OperationCanceledException"></exception>
         public async Task SaveAsync(User user)
         {
-            var userIdentity = _Mapper.Map<UserIdentity>(user);
+            UserIdentity? userIdentity = _Mapper.Map<UserIdentity>(user);
             await _UserManager.UpdateAsync(userIdentity).ConfigureAwait(false);
             await _Context.SaveChangesAsync().ConfigureAwait(false);
         }
@@ -53,7 +53,7 @@ namespace Play.Accounts.Persistence.Sql.Repositories
         /// <exception cref="OperationCanceledException"></exception>
         public async Task RemoveAsync(User user)
         {
-            var userIdentity = _Mapper.Map<UserIdentity>(user);
+            UserIdentity? userIdentity = _Mapper.Map<UserIdentity>(user);
             await _UserManager.DeleteAsync(userIdentity).ConfigureAwait(false);
             await _Context.SaveChangesAsync().ConfigureAwait(false);
         }
@@ -69,14 +69,14 @@ namespace Play.Accounts.Persistence.Sql.Repositories
 
         public void Save(User user)
         {
-            var userIdentity = _Mapper.Map<UserIdentity>(user);
+            UserIdentity? userIdentity = _Mapper.Map<UserIdentity>(user);
             Task.WhenAll(_UserManager.UpdateAsync(userIdentity));
             Task.WhenAll(_Context.SaveChangesAsync());
         }
 
         public void Remove(User user)
         {
-            var userIdentity = _Mapper.Map<UserIdentity>(user);
+            UserIdentity? userIdentity = _Mapper.Map<UserIdentity>(user);
             Task.WhenAll(_UserManager.DeleteAsync(userIdentity));
             Task.WhenAll(_Context.SaveChangesAsync());
         }

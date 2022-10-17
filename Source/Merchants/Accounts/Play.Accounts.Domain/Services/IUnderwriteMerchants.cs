@@ -10,7 +10,7 @@ public interface IUnderwriteMerchants
 
     public bool IsMerchantProhibited(Name name, Address address);
 
-    public bool IsIndustryProhibited(MerchantCategoryCodes categoryCodes);
+    public bool IsIndustryProhibited(MerchantCategoryCode categoryCodes);
 
     /// <summary>
     ///     Ensures that the user is not under sanctions, terrorism watch list, money laundering, etc..

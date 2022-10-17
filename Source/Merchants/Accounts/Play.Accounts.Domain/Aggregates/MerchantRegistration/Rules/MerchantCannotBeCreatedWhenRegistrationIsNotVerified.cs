@@ -1,7 +1,7 @@
 ﻿using Play.Accounts.Domain.Enums;
 using Play.Domain.Aggregates;
 
-namespace Play.Accounts.Domain.Aggregates.MerchantRegistration;
+namespace Play.Accounts.Domain.Aggregates;
 
 internal class MerchantCannotBeCreatedWhenRegistrationIsNotVerified : BusinessRule<MerchantRegistration, string>
 {

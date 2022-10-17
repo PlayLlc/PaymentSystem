@@ -3,7 +3,7 @@ using Play.Accounts.Domain.Services;
 using Play.Accounts.Domain.ValueObjects;
 using Play.Domain.Aggregates;
 
-namespace Play.Accounts.Domain.Aggregates.MerchantRegistration;
+namespace Play.Accounts.Domain.Aggregates;
 
 internal class MerchantMustNotBeProhibited : BusinessRule<MerchantRegistration, string>
 {

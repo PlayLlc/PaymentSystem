@@ -9,7 +9,7 @@ using Play.Domain.Aggregates;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Time;
 
-namespace Play.Accounts.Domain.Aggregates.MerchantRegistration;
+namespace Play.Accounts.Domain.Aggregates;
 
 public class MerchantRegistration : Aggregate<string>
 {
@@ -20,7 +20,7 @@ public class MerchantRegistration : Aggregate<string>
     private readonly Name _CompanyName;
     private readonly Address _Address;
     private readonly BusinessTypes _BusinessType;
-    private readonly MerchantCategoryCodes _MerchantCategoryCode;
+    private readonly MerchantCategoryCode _MerchantCategoryCode;
     private readonly DateTimeUtc _RegisteredDate;
     private readonly DateTimeUtc? _ConfirmedDate;
     private RegistrationStatuses _Status;
@@ -30,7 +30,7 @@ public class MerchantRegistration : Aggregate<string>
     #region Constructor
 
     public MerchantRegistration(
-        string id, string userRegistrationId, Name companyName, Address address, BusinessTypes businessType, MerchantCategoryCodes merchantCategoryCode,
+        string id, string userRegistrationId, Name companyName, Address address, BusinessTypes businessType, MerchantCategoryCode merchantCategoryCode,
         DateTimeUtc registeredDate, DateTimeUtc? confirmedDate, RegistrationStatuses status)
     {
         _Id = id;
@@ -51,14 +51,13 @@ public class MerchantRegistration : Aggregate<string>
     /// <exception cref="ValueObjectException"></exception>
     public static MerchantRegistration CreateNewMerchantRegistration(
         string userRegistrationId, string name, string streetAddress, string apartmentNumber, string zipcode, States state, string city,
-        BusinessTypes businessType, MerchantCategoryCodes merchantCategoryCode)
+        BusinessTypes businessType, MerchantCategoryCode merchantCategoryCode)
     {
         Name companyName = new(name);
         Address address = new Address(GenerateSimpleStringId(), streetAddress, zipcode, state, city) {ApartmentNumber = apartmentNumber};
         MerchantRegistration merchantRegistration = new MerchantRegistration(GenerateSimpleStringId(), userRegistrationId, companyName, address, businessType,
             merchantCategoryCode, DateTimeUtc.Now, null, RegistrationStatuses.WaitingForConfirmation);
 
-        // Publish a domain event when a business process has taken place
         merchantRegistration.Publish(new MerchantRegistrationCreatedDomainEvent(merchantRegistration._Id, merchantRegistration._CompanyName,
             merchantRegistration._Address, merchantRegistration._BusinessType, merchantRegistration._MerchantCategoryCode, merchantRegistration._RegisteredDate,
             merchantRegistration._Status));
@@ -81,7 +80,7 @@ public class MerchantRegistration : Aggregate<string>
             BusinessType = _BusinessType,
             CompanyName = _CompanyName.Value,
             ConfirmedDate = _ConfirmedDate,
-            MerchantCategoryCode = $"{_MerchantCategoryCode}",
+            MerchantCategoryCode = _MerchantCategoryCode,
             RegisteredDate = _RegisteredDate,
             RegistrationStatus = _Status
         };
@@ -107,6 +106,8 @@ public class MerchantRegistration : Aggregate<string>
         _Status = RegistrationStatuses.Confirmed;
 
         Publish(new MerchantRegistrationConfirmedDomainEvent(_Id, _CompanyName));
+
+        return new Result();
     }
 
     public Result RejectRegistration()

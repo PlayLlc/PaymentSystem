@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Play.Accounts.Domain\Play.Accounts.Domain.csproj" />
+    <ProjectReference Include="..\Play.Accounts.Persistence.Sql\Play.Accounts.Persistence.Sql.csproj" />
   </ItemGroup>
 
   <ItemGroup>

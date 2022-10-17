@@ -13,7 +13,7 @@ public class MerchantRegistrationDto : IDto
     public string CompanyName { get; set; }
     public AddressDto AddressDto { get; set; }
     public string BusinessType { get; set; }
-    public string MerchantCategoryCode { get; set; }
+    public ushort MerchantCategoryCode { get; set; }
     public DateTimeUtc RegisteredDate { get; set; }
     public DateTimeUtc? ConfirmedDate { get; set; }
     public string RegistrationStatus { get; set; }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using System.ComponentModel.DataAnnotations;
 
 using Play.Core;
 
@@ -9,6 +10,7 @@ public record BusinessTypes : EnumObjectString
     #region Static Metadata
 
     private static readonly ImmutableSortedDictionary<string, BusinessTypes> _ValueObjectMap;
+    public static BusinessTypes Empty;
     public static BusinessTypes SoleProprietorship;
     public static BusinessTypes Partnership;
     public static BusinessTypes LimitedLiability;
@@ -24,6 +26,7 @@ public record BusinessTypes : EnumObjectString
 
     static BusinessTypes()
     {
+        Empty = new BusinessTypes("");
         SoleProprietorship = new BusinessTypes(nameof(SoleProprietorship));
         Partnership = new BusinessTypes(nameof(Partnership));
         LimitedLiability = new BusinessTypes(nameof(LimitedLiability));

@@ -1,8 +1,9 @@
 ﻿using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.Services;
+using Play.Accounts.Domain.ValueObjects;
 using Play.Domain.Aggregates;
 
-namespace Play.Accounts.Domain.Aggregates.MerchantRegistration;
+namespace Play.Accounts.Domain.Aggregates;
 
 public class MerchantIndustryMustNotBeProhibited : BusinessRule<MerchantRegistration, string>
 {
@@ -15,7 +16,7 @@ public class MerchantIndustryMustNotBeProhibited : BusinessRule<MerchantRegistra
 
     #region Constructor
 
-    public MerchantIndustryMustNotBeProhibited(MerchantCategoryCodes merchantCategoryCode, IUnderwriteMerchants underwritingService)
+    public MerchantIndustryMustNotBeProhibited(MerchantCategoryCode merchantCategoryCode, IUnderwriteMerchants underwritingService)
     {
         _IsProhibited = underwritingService.IsIndustryProhibited(merchantCategoryCode);
         ;

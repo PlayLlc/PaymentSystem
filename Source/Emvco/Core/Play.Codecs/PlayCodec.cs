@@ -17,6 +17,7 @@ public abstract class PlayCodec : IGetPlayCodecMetadata, IEncodeStructs, IEncode
     /// </summary>
     public static StrictAsciiCodec AsciiCodec => new();
 
+    public static SpecialCodec SpecialCodec => new();
     public static UnicodeCodec UnicodeCodec => new();
     public static BinaryCodec BinaryCodec => new();
     public static HexadecimalCodec HexadecimalCodec => new();

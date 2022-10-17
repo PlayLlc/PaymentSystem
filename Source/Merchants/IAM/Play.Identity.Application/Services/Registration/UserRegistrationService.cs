@@ -55,7 +55,7 @@ public class UserRegistrationService : IRegisterUsers
     /// <exception cref="DbUpdateException"></exception>
     public async Task<Result> RegisterUser(UserIdentity user, string password)
     {
-        var a = await ValidatePasswordPolicies(password).ConfigureAwait(false);
+        Result a = await ValidatePasswordPolicies(password).ConfigureAwait(false);
 
         if (!a.Succeeded)
             return a;
@@ -68,7 +68,7 @@ public class UserRegistrationService : IRegisterUsers
         if (_Underwriter.IsUserProhibited(user))
             return new Result(new List<string> {"This use is prohibited from conducted commerce in the United States"});
 
-        var identityResult = await _UserManager.CreateAsync(user, password).ConfigureAwait(false);
+        IdentityResult? identityResult = await _UserManager.CreateAsync(user, password).ConfigureAwait(false);
 
         if (!identityResult.Succeeded)
             return new Result(identityResult.Errors.Select(a => a.Description));

@@ -2,7 +2,7 @@
 using Play.Domain;
 using Play.Domain.Aggregates;
 
-namespace Play.Accounts.Domain.Aggregates.Terminals;
+namespace Play.Accounts.Domain.Aggregates;
 
 public class Terminal : Aggregate<string>
 {

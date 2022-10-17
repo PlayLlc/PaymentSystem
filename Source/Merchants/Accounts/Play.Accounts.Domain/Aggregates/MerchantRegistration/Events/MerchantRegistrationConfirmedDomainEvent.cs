@@ -1,8 +1,7 @@
-﻿using Play.Accounts.Domain.Aggregates.Merchants;
-using Play.Accounts.Domain.ValueObjects;
+﻿using Play.Accounts.Domain.ValueObjects;
 using Play.Domain.Events;
 
-namespace Play.Accounts.Domain.Aggregates.MerchantRegistration;
+namespace Play.Accounts.Domain.Aggregates;
 
 public record MerchantRegistrationConfirmedDomainEvent : DomainEvent
 {

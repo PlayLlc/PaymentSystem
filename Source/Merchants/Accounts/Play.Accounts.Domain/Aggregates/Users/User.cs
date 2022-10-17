@@ -1,10 +1,8 @@
-﻿using Play.Accounts.Contracts.Common;
-using Play.Accounts.Contracts.Dtos;
+﻿using Play.Accounts.Contracts.Dtos;
 using Play.Accounts.Domain.Entities;
 using Play.Domain.Aggregates;
-using Play.Globalization.Time;
 
-namespace Play.Accounts.Domain.Aggregates.Users;
+namespace Play.Accounts.Domain.Aggregates;
 
 public class User : Aggregate<string>
 {

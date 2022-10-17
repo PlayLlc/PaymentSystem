@@ -1,11 +1,10 @@
-﻿using Play.Accounts.Domain.Aggregates.Merchants;
-using Play.Accounts.Domain.Entities;
+﻿using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.ValueObjects;
 using Play.Domain.Events;
 using Play.Globalization.Time;
 
-namespace Play.Accounts.Domain.Aggregates.MerchantRegistration;
+namespace Play.Accounts.Domain.Aggregates;
 
 public record MerchantRegistrationCreatedDomainEvent : DomainEvent
 {
@@ -15,7 +14,7 @@ public record MerchantRegistrationCreatedDomainEvent : DomainEvent
     public readonly Name Name;
     public readonly Address Address;
     public readonly BusinessTypes BusinessType;
-    public readonly MerchantCategoryCodes MerchantCategoryCode;
+    public readonly MerchantCategoryCode MerchantCategoryCode;
     public readonly DateTimeUtc RegisteredDate;
     public RegistrationStatuses Status;
 
@@ -24,7 +23,7 @@ public record MerchantRegistrationCreatedDomainEvent : DomainEvent
     #region Constructor
 
     public MerchantRegistrationCreatedDomainEvent(
-        string id, Name name, Address address, BusinessTypes businessType, MerchantCategoryCodes merchantCategoryCode, DateTimeUtc registeredDate,
+        string id, Name name, Address address, BusinessTypes businessType, MerchantCategoryCode merchantCategoryCode, DateTimeUtc registeredDate,
         RegistrationStatuses status) : base($"The {nameof(Merchant)}: [{name}] has begun the registration process")
     {
         Id = id;

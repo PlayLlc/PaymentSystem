@@ -1,11 +1,12 @@
 ﻿using Play.Accounts.Contracts.Dtos;
+using Play.Accounts.Domain.Aggregates.Events;
+using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.ValueObjects;
 using Play.Domain.Aggregates;
+using Play.Domain.ValueObjects;
 
-using Address = Play.Accounts.Domain.Entities.Address;
-
-namespace Play.Accounts.Domain.Aggregates.Merchants;
+namespace Play.Accounts.Domain.Aggregates;
 
 public class Merchant : Aggregate<string>
 {
@@ -14,14 +15,14 @@ public class Merchant : Aggregate<string>
     private readonly string _Id;
     private readonly Name _CompanyName;
     private readonly Address _Address;
-    private readonly BusinessTypes _BusinessType;
-    private readonly MerchantCategoryCodes _MerchantCategoryCode;
+    private readonly BusinessType _BusinessType;
+    private readonly MerchantCategoryCode _MerchantCategoryCode;
 
     #endregion
 
     #region Constructor
 
-    public Merchant(string id, Name companyName, Address address, BusinessTypes businessType, MerchantCategoryCodes merchantCategoryCode)
+    public Merchant(string id, Name companyName, Address address, BusinessType businessType, MerchantCategoryCode merchantCategoryCode)
     {
         _Id = id;
         _CompanyName = companyName;
@@ -34,9 +35,16 @@ public class Merchant : Aggregate<string>
 
     #region Instance Members
 
-    public static Merchant CreateFromMerchantRegistration(Name name, Address address, BusinessTypes businessType, MerchantCategoryCodes merchantCategoryCode)
+    /// <exception cref="ValueObjectException"></exception>
+    public static Merchant CreateFromMerchantRegistration(MerchantRegistration merchantRegistration)
     {
-        return new Merchant(GenerateSimpleStringId(), name, address, businessType, merchantCategoryCode);
+        MerchantRegistrationDto merchantDto = merchantRegistration.AsDto();
+
+        Merchant merchant = new Merchant(merchantRegistration.GetId(), new Name(merchantDto.CompanyName), new Address(merchantDto.AddressDto),
+            new BusinessType(merchantDto.BusinessType), new MerchantCategoryCode(merchantDto.MerchantCategoryCode));
+        merchant.Publish(new MerchantHasBeenCreated(merchant._Id));
+
+        return merchant;
     }
 
     public override string GetId()

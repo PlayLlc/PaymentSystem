@@ -22,7 +22,7 @@ public sealed class EmailClient : ISendEmail
     public EmailClient(EmailClientConfig emailClientConfig, ILogger<EmailClient> logger)
     {
         _Logger = logger;
-        var client = new SendGridClient(emailClientConfig.ApiKey);
+        SendGridClient client = new SendGridClient(emailClientConfig.ApiKey);
         client.UrlPath = emailClientConfig.Server;
     }
 
@@ -36,7 +36,7 @@ public sealed class EmailClient : ISendEmail
 
         try
         {
-            var emailMessage = new SendGridMessage
+            SendGridMessage emailMessage = new SendGridMessage
             {
                 Subject = message.Subject,
                 From = new EmailAddress(message.From!.Address, message.From.DisplayName),

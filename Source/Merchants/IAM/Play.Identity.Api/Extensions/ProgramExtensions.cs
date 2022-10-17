@@ -39,13 +39,13 @@ internal static class ProgramExtensions
                 options.Lockout.MaxFailedAccessAttempts = 4;
 
                 // PCI-DSS Set the lockout period to a minimum of 30 minutes or until the administrator enables the User Id
-                options.Lockout.DefaultLockoutTimeSpan = new TimeSpan(0, 0, 45);
+                options.Lockout.DefaultLockoutTimeSpan = new TimeSpan(0, 30, 0);
 
                 // PCI-DSS Restricted Data - Ensure troubleshooting does not expose authentication or sensitive data
                 // options.Stores.ProtectPersonalData = true; // HACK: Implement Service
 
                 // PCI-DSS Passwords must be at least 7 characters, Contain numeric and alphabetic characters, Unique when updated
-                options.Password.RequiredLength = 8;
+                options.Password.RequiredLength = 7;
 
                 // PCI-DSS Unique user ids
                 options.User.RequireUniqueEmail = true;
@@ -145,8 +145,8 @@ internal static class ProgramExtensions
 
     internal static async Task SeedDefaultIdentityData(this WebApplicationBuilder builder)
     {
-        var serviceBuilder = builder.Services.BuildServiceProvider();
-        var seeder = new UserIdentityDbSeeder(serviceBuilder.GetService<UserIdentityDbContext>()!);
+        ServiceProvider serviceBuilder = builder.Services.BuildServiceProvider();
+        UserIdentityDbSeeder seeder = new UserIdentityDbSeeder(serviceBuilder.GetService<UserIdentityDbContext>()!);
 
         await seeder.Seed(builder.Configuration, serviceBuilder.GetService<UserManager<UserIdentity>>()!,
                 new RoleStore<Role>(serviceBuilder.GetService<UserIdentityDbContext>()))

@@ -1,4 +1,6 @@
-﻿namespace Play.Identity.Application.Services.Registration;
+﻿using Play.Core;
+
+namespace Play.Identity.Application.Services.Registration;
 
 public interface IRegisterUsers
 {

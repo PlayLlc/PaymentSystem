@@ -36,7 +36,7 @@ public abstract class EmailTemplateBuilder
     protected string CreateMessage(Dictionary<string, string> dynamicValues)
     {
         string result = GetTemplate();
-        foreach (var dynamicValue in dynamicValues)
+        foreach (KeyValuePair<string, string> dynamicValue in dynamicValues)
             result.Replace(GetTemplateVariable(dynamicValue.Key), dynamicValue.Value);
 
         return result;

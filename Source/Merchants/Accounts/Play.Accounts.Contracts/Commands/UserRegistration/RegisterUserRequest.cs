@@ -2,7 +2,7 @@
 
 using Play.Accounts.Contracts.Common;
 
-namespace Play.Accounts.Contracts.Commands;
+namespace Play.Accounts.Contracts.Commands.UserRegistration;
 
 public class RegisterUserRequest
 {

@@ -8,7 +8,7 @@ using AutoMapper;
 
 using Play.Accounts.Contracts.Common;
 using Play.Accounts.Contracts.Dtos;
-using Play.Accounts.Domain.Aggregates.Users;
+using Play.Accounts.Domain.Aggregates;
 using Play.Accounts.Domain.Entities;
 using Play.Accounts.Persistence.Sql.Entities;
 
@@ -20,7 +20,7 @@ namespace Play.Accounts.Persistence.Sql.Mapping
 
         public AccountMappingProfile()
         {
-            var config = new MapperConfiguration(cfg =>
+            MapperConfiguration config = new MapperConfiguration(cfg =>
             {
                 // Address
                 cfg.CreateMap<AddressDto, Address>().ForMember((dest) => dest, opt => opt.MapFrom(src => new Address(src)));

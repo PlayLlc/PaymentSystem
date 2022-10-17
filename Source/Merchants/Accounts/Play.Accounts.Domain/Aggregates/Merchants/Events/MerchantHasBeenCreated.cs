@@ -1,6 +1,6 @@
 ﻿using Play.Domain.Events;
 
-namespace Play.Accounts.Domain.Aggregates.Merchants.Events
+namespace Play.Accounts.Domain.Aggregates.Events
 {
     public record MerchantHasBeenCreated : DomainEvent
     {

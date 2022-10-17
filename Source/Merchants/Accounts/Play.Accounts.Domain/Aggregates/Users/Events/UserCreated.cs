@@ -1,6 +1,6 @@
 ﻿using Play.Domain.Events;
 
-namespace Play.Accounts.Domain.Aggregates.Users;
+namespace Play.Accounts.Domain.Aggregates;
 
 public record UserCreated : DomainEvent
 {

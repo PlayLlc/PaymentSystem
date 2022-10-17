@@ -1,7 +1,7 @@
 ﻿using Play.Accounts.Domain.Entities;
 using Play.Domain.Events;
 
-namespace Play.Accounts.Domain.Aggregates.Users;
+namespace Play.Accounts.Domain.Aggregates;
 
 public record UserRoleAdded : DomainEvent
 {

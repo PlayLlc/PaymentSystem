@@ -2,6 +2,7 @@
 using System.Net.Mail;
 
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 
 using Play.Core.Exceptions;
 using Play.Identity.Application.Entities;
@@ -54,7 +55,7 @@ public class EmailAccountVerifier : IVerifyEmailAccount
             user.EmailConfirmationCode = Randomize.Integers.Int(100000, 999999);
             _ = await _UserManager.UpdateAsync(user).ConfigureAwait(false);
 
-            var email = new MailMessage(string.Empty, user.Email, _TemplateBuilder.Subject,
+            MailMessage email = new MailMessage(string.Empty, user.Email, _TemplateBuilder.Subject,
                 _TemplateBuilder.CreateEmail(returnUrl.Invoke(user.EmailConfirmationCode!.Value))) {IsBodyHtml = true};
 
             return await _EmailClient.SendEmail(email).ConfigureAwait(false);

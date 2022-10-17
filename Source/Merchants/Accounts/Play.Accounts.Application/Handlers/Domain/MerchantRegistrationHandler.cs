@@ -1,11 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
 
-using Play.Accounts.Domain.Aggregates.MerchantRegistration;
 using Play.Domain.Events;
 
 using NServiceBus;
 
 using Play.Accounts.Contracts.Events;
+using Play.Accounts.Domain.Aggregates;
+using Play.Domain.Repositories;
 
 namespace Play.Accounts.Application.Handlers.Domain;
 
@@ -16,6 +17,8 @@ public class MerchantRegistrationHandler : DomainEventHandler, IHandleDomainEven
     #region Instance Values
 
     private readonly IMessageHandlerContext _MessageHandlerContext;
+    private readonly IRepository<Merchant, string> _MerchantRepository;
+    private readonly IRepository<MerchantRegistration, string> _MerchantRegistrationRepository;
 
     #endregion
 
@@ -78,10 +81,18 @@ public class MerchantRegistrationHandler : DomainEventHandler, IHandleDomainEven
             .ConfigureAwait(false);
     }
 
+    /// <exception cref="Play.Domain.ValueObjects.ValueObjectException"></exception>
     public async Task Handle(MerchantRegistrationConfirmedDomainEvent domainEvent)
     {
         Log(domainEvent);
 
+        MerchantRegistration? merchantRegistration =
+            await _MerchantRegistrationRepository.GetByIdAsync(domainEvent.MerchantRegistrationId).ConfigureAwait(false);
+
+        Merchant merchant = Merchant.CreateFromMerchantRegistration(merchantRegistration!);
+        await _MerchantRepository.SaveAsync(merchant).ConfigureAwait(false);
+
+        // BUG: Update this. We need to
         await _MessageHandlerContext.Publish<MerchantRegistrationWasRejectedEvent>((a) =>
             {
                 a.MerchantRegistrationId = domainEvent.MerchantRegistrationId;

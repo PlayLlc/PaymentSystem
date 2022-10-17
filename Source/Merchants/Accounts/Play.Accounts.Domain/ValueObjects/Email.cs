@@ -11,8 +11,20 @@ public record Email : ValueObject<string>
     /// <exception cref="ValueObjectException"></exception>
     public Email(string value) : base(value)
     {
-        if (!new EmailAddressAttribute().IsValid(Value))
+        if (!IsValid(value))
             throw new ValueObjectException($"The {nameof(Email)} provided was invalid: [{value}]");
+    }
+
+    #endregion
+
+    #region Instance Members
+
+    public static bool IsValid(string value)
+    {
+        if (!new EmailAddressAttribute().IsValid(value))
+            return false;
+
+        return true;
     }
 
     #endregion

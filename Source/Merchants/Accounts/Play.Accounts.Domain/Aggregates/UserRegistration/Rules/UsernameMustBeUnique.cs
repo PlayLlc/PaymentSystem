@@ -1,23 +1,24 @@
-﻿using Play.Accounts.Domain.ValueObjects;
+﻿using Play.Accounts.Domain.Services;
+using Play.Accounts.Domain.ValueObjects;
 using Play.Domain.Aggregates;
 
 namespace Play.Accounts.Domain.Aggregates;
 
-internal class UsernameMustBeAValidEmail : BusinessRule<UserRegistration, string>
+internal class UsernameMustBeUnique : BusinessRule<UserRegistration, string>
 {
     #region Instance Values
 
     private readonly bool _IsValid;
 
-    public override string Message => "Username must be a valid email address";
+    public override string Message => "Username must be unique";
 
     #endregion
 
     #region Constructor
 
-    internal UsernameMustBeAValidEmail(string username)
+    internal UsernameMustBeUnique(IEnsureUniqueEmails uniqueEmailChecker, Email email)
     {
-        _IsValid = Email.IsValid(username);
+        _IsValid = uniqueEmailChecker.IsUnique(email);
     }
 
     #endregion

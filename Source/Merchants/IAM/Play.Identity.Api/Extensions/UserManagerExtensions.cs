@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
+using Play.Core;
 using Play.Identity.Api.Identity.Entities;
 
 namespace Play.Identity.Api.Extensions;

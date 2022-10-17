@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-using Play.Accounts.Domain.Aggregates.MerchantRegistration;
+using Play.Accounts.Domain.Aggregates;
 using Play.Persistence.Sql;
 
 namespace Play.Accounts.Persistence.Sql.Repositories;

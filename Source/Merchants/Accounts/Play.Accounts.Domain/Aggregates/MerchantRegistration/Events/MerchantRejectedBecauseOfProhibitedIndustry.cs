@@ -1,7 +1,7 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Events;
 
-namespace Play.Accounts.Domain.Aggregates.MerchantRegistration;
+namespace Play.Accounts.Domain.Aggregates;
 
 public record MerchantRejectedBecauseOfProhibitedIndustry : BusinessRuleViolationDomainEvent<MerchantRegistration, string>
 {

@@ -1,18 +1,19 @@
-﻿using Play.Accounts.Contracts.Commands;
+﻿using Play.Accounts.Contracts.Commands.UserRegistration;
 using Play.Accounts.Contracts.Dtos;
-using Play.Accounts.Domain.Aggregates.Users;
+using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.Services;
 using Play.Domain;
 using Play.Domain.Aggregates;
+using Play.Domain.ValueObjects;
 using Play.Globalization.Time;
 
 using Address = Play.Accounts.Domain.Entities.Address;
 using ContactInfo = Play.Accounts.Domain.Entities.ContactInfo;
 
-namespace Play.Accounts.Domain.Aggregates.UserRegistration;
+namespace Play.Accounts.Domain.Aggregates;
 
- 
+
 
 
 
@@ -22,13 +23,13 @@ public class UserRegistration : Aggregate<string>
 
     private readonly string _Id;
     private readonly string Username;
-    private readonly string Password;
-
+    private readonly string Password; 
 
     private readonly Address? _Address;
-    private readonly ContactInfo? _ContactInfo;
-    private readonly string? _LastFourOfSsn;
-    private readonly DateTimeUtc? _DateOfBirth;
+    private readonly ContactInfo? _ContactInfo;  
+    private readonly PersonalInfo? _PersonalInfo;
+
+
     private readonly DateTimeUtc? _RegisteredDate;
     private DateTimeUtc? _ConfirmedDate;
     private RegistrationStatuses? _Status;
@@ -42,20 +43,16 @@ public class UserRegistration : Aggregate<string>
         _Id = GenerateSimpleStringId();
       
         if(new UsernameMustBeAValidEmail(username).IsBroken())
-            
 
     }
 
 
-    public UserRegistration(Address address, ContactInfo contactInfo, string lastFourOfSsn, DateTimeUtc dateOfBirth)
+    public UserRegistration(Address address, ContactInfo contactInfo, PersonalInfo personalInfo)
     {
         _Id = contactInfo.Email.Value;
         _Address = address;
         _ContactInfo = contactInfo;
-
-        _LastFourOfSsn = lastFourOfSsn;
-
-        _DateOfBirth = dateOfBirth;
+        _PersonalInfo = personalInfo;
         _RegisteredDate = DateTimeUtc.Now;
         _ConfirmedDate = null;
         _Status = RegistrationStatuses.WaitingForConfirmation;
@@ -65,6 +62,9 @@ public class UserRegistration : Aggregate<string>
 
     #region Instance Members
 
+    public static UserRegistration CreateNewUserRegistration()
+
+
 
 
 
@@ -73,17 +73,21 @@ public class UserRegistration : Aggregate<string>
     /// <exception cref="ValueObjectException"></exception>
     public static UserRegistration CreateNewUserRegistration(RegisterUserRequest registerUserRequest, IEnsureUniqueEmails uniqueEmailChecker)
     {
+        registerUserRequest.AddressDto.Id = GenerateSimpleStringId();
+        registerUserRequest.ContactInfoDto.Id = GenerateSimpleStringId();
+        registerUserRequest.PersonalInfoDto.Id = GenerateSimpleStringId();
+
+        
+
         // Create the entities needed for this Aggregate Object. Entities are responsible for ensuring they are instantiated correctly
-        Address address = new(GenerateSimpleStringId(), registerUserRequest.AddressDto.StreetAddress, registerUserRequest.AddressDto.ApartmentNumber,
-            registerUserRequest.AddressDto.Zipcode, States.Empty.Get(registerUserRequest.AddressDto.StateAbbreviation),
-            registerUserRequest.AddressDto.City);
-        ContactInfo contactInfo = new(GenerateSimpleStringId(), registerUserRequest.ContactInfoDto.FirstName, registerUserRequest.ContactInfoDto.LastName,
-            registerUserRequest.ContactInfoDto.Phone, registerUserRequest.ContactInfoDto.Email);
-        UserRegistration userRegistration = new UserRegistration(address, contactInfo, registerUserRequest.PersonalInfoDto.LastFourOfSocial,
-            registerUserRequest.PersonalInfoDto.DateOfBirth);
+        Address address = new(registerUserRequest.AddressDto);
+        ContactInfo contactInfo = new(registerUserRequest.ContactInfoDto);
+        PersonalInfo personalInfo = new(registerUserRequest.PersonalInfoDto);
+
+        UserRegistration userRegistration = new UserRegistration(address, contactInfo, );
 
         // Validate the business rules for this Aggregate Object
-        userRegistration.Enforce(new UserEmailMustBeUnique(uniqueEmailChecker, contactInfo.Email));
+        userRegistration.Enforce(new UsernameMustBeUnique(uniqueEmailChecker, contactInfo.Email));
 
         // Publish a domain event when a business process has taken place
         userRegistration.Publish(new UserRegistrationCreatedDomainEvent(userRegistration._Id, address, contactInfo,
@@ -95,7 +99,7 @@ public class UserRegistration : Aggregate<string>
     /// <exception cref="BusinessRuleValidationException"></exception>
     public User CreateUser()
     {
-        Enforce(new UserCannotBeCreatedWhenRegistrationHasExpired(_RegisteredDate));
+        Enforce(new UserCannotBeCreatedWhenRegistrationHasExpired(_RegisteredDate!.Value));
         Enforce(new UserCannotBeCreatedWhenRegistrationIsNotConfirmed(_Status));
 
         User user = User.CreateFromUserRegistration(_Id!, _Address, _ContactInfo, _LastFourOfSsn, _DateOfBirth);
