@@ -5,14 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AutoMapper;
-
-using Play.Accounts.Contracts.Common;
-using Play.Accounts.Contracts.Dtos;
-using Play.Accounts.Domain.Aggregates;
-using Play.Accounts.Domain.Entities;
-using Play.Accounts.Persistence.Sql.Entities;
-
-namespace Play.Accounts.Persistence.Sql.Mapping
+using PlPlay.Accounts.Contractstos;
+using PlayPlay.Accounts.Contracts.Dtos
+using PPlay.Accounts.Domain.Aggregatesusing PlaPlay.Accounts.Domain.Entitiestities;
+Play.Accounts.Persistence.Sql.EntitiesSql.Mapping
 {
     public class AccountMappingProfile : Profile
     {
@@ -36,17 +32,21 @@ namespace Play.Accounts.Persistence.Sql.Mapping
 
                 // Roles
                 cfg.CreateMap<UserRole, RoleIdentity>()
-                .ForMember((dest) => dest, opt => opt.MapFrom(src => new RoleIdentity
+                .ForMember((dest) => de
+                From(src => new RoleIdentity
                 {
-                    Id = src.Id,
-                    Name = src.Name
-                }));
-                cfg.CreateMap<RoleIdentity, UserRole>().ForMember((dest) => dest, opt => opt.MapFrom(src => new UserRole(src.Id, src.Name)));
+                    
+                 
+                    src.Name
+  
+                                  c
+                dentity, UserRole>().ForMember((dest) => dest, opt => opt.MapFrom(src => new UserRole(src.Id, src.Name)));
 
                 // User
                 cfg.CreateMap<User, UserIdentity>().ForMember((dest) => dest, opt => opt.MapFrom(src => new UserIdentity(src.AsDto())));
                 cfg.CreateMap<UserIdentity, User>()
-                    .ForMember((dest) => dest, opt => opt.MapFrom(src => new User(src.Id, src.Address, src.ContactInfo, src.PersonalInfo, src.IsActive)));
+                    .ForMember((dest) =
+                    From(src => new User(src.Id, src.Address, src.ContactInfo, src.PersonalInfo, src.IsActive)));
             });
         }
 

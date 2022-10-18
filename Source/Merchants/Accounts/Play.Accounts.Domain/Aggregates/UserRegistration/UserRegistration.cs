@@ -1,6 +1,4 @@
-﻿using Play.Accounts.Contracts.Commands.UserRegistration;
-using Play.Accounts.Contracts.Common;
-using Play.Accounts.Contracts.Dtos;
+﻿using Play.Accounts.Contracts.Dtos;
 using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.Services;
@@ -12,6 +10,7 @@ using Play.Globalization.Time;
 
 using System.Net.NetworkInformation;
 
+using Play.Accounts.Contracts.Commands;
 using Play.Core.Exceptions;
 using Play.Randoms;
 

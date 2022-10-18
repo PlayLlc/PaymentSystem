@@ -1,4 +1,5 @@
-﻿using Play.Accounts.Domain.ValueObjects;
+﻿using Play.Accounts.Contracts.Dtos;
+using Play.Accounts.Domain.ValueObjects;
 using Play.Domain;
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;

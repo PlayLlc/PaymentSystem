@@ -1,6 +1,6 @@
 ﻿using Play.Domain;
 
-namespace Play.Accounts.Domain.Aggregates;
+namespace Play.Accounts.Contracts.Dtos;
 
 public class ConfirmationCodeDto : IDto
 {

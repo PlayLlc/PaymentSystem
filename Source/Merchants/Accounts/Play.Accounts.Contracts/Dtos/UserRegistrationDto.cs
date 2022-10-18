@@ -1,5 +1,4 @@
-﻿using Play.Accounts.Contracts.Common;
-using Play.Domain;
+﻿using Play.Domain;
 using Play.Globalization.Time;
 
 namespace Play.Accounts.Contracts.Dtos;

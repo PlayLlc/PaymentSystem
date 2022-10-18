@@ -1,6 +1,6 @@
-﻿using Play.Accounts.Contracts.Common;
-using Play.Domain.Entities;
-using Play.Globalization.Time;
+﻿using Play.Accounts.Contracts.Dtos;
+using PlPlay.Domain.Entities
+using PlPlay.Globalization.Time
 
 namespace Play.Accounts.Domain.Entities;
 
@@ -52,11 +52,16 @@ public class PersonalInfo : Entity<string>
     public override PersonalInfoDto AsDto()
     {
         return new PersonalInfoDto
-        {
-            Id = Id,
-            DateOfBirth = new DateTimeUtc(DateOfBirth),
-            LastFourOfSocial = LastFourOfSocial
-        };
+
+        
+
+             = Id,
+
+            teOfBirth = new DateTimeUtc(DateOfBirth),
+
+            stFourOfSocial = LastFourOfSocial
+
+        
     }
 
     #endregion

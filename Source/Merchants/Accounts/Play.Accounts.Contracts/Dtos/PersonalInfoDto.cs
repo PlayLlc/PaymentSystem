@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 using Play.Domain;
 
-namespace Play.Accounts.Contracts.Common;
+namespace Play.Accounts.Contracts.Dtos;
 
 public class PersonalInfoDto : IDto
 {

@@ -1,7 +1,7 @@
-﻿using Play.Accounts.Contracts.Common;
-using Play.Accounts.Domain.ValueObjects;
-using Play.Domain.Entities;
-using Play.Domain.ValueObjects;
+﻿using Play.Accounts.Contracts.Dtos;
+using PlPlay.Accounts.Domain.ValueObjects
+using PlPlay.Domain.Entities
+using PlPlay.Domain.ValueObjects
 
 namespace Play.Accounts.Domain.Entities;
 
@@ -57,12 +57,18 @@ public class ContactInfo : Entity<string>
     public override ContactInfoDto AsDto()
     {
         return new ContactInfoDto()
-        {
-            Email = Email.Value,
-            FirstName = FirstName.Value,
-            LastName = LastName.Value,
-            Phone = Phone.Value
-        };
+
+        
+
+            ail = Email.Value,
+
+            rstName = FirstName.Value,
+
+            stName = LastName.Value,
+
+            one = Phone.Value
+
+        
     }
 
     #endregion

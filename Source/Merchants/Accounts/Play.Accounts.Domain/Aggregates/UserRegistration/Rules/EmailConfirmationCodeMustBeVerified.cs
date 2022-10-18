@@ -7,8 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Play.Accounts.Contracts.Commands.UserRegistration;
-
 namespace Play.Accounts.Domain.Aggregates
 {
     /// <summary>

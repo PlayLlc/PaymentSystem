@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Play.Accounts.Contracts.Common;
+using Play.Accounts.Contracts.Dtos;
 
 namespace Play.Accounts.Contracts.Commands;
 
