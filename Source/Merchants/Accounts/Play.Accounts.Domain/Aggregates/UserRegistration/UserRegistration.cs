@@ -31,8 +31,8 @@ public class UserRegistration : Aggregate<string>
     private PersonalInfo? _PersonalInfo;
     private RegistrationStatus _Status;
 
-    private ushort? _EmailConfirmationCode;
-    private ushort? _SmsConfirmationCode;
+    private uint? _EmailConfirmationCode;
+    private uint? _SmsConfirmationCode;
 
     private DateTimeUtc? _ConfirmedDate;
 
@@ -73,6 +73,7 @@ public class UserRegistration : Aggregate<string>
         if (_ContactInfo is null)
             throw new InvalidOperationException();
 
+        // TODO: We need to handle when the email client doesn't correctly send an email
         _EmailConfirmationCode = await emailAccountVerifier.SendVerificationCode(_ContactInfo!.Email).ConfigureAwait(false);
         _Status = new RegistrationStatus(RegistrationStatuses.WaitingForEmailVerification);
     }
@@ -112,8 +113,8 @@ public class UserRegistration : Aggregate<string>
         if (_ContactInfo is null)
             throw new InvalidOperationException();
 
+        // TODO: We need to handle when the email client doesn't correctly send an email
         _SmsConfirmationCode = await mobilePhoneVerifier.SendVerificationCode(_ContactInfo!.Phone).ConfigureAwait(false);
-
         _Status = new RegistrationStatus(RegistrationStatuses.WaitingForSmsVerification);
     }
 
@@ -121,7 +122,6 @@ public class UserRegistration : Aggregate<string>
     public bool ValidateSmsVerificationCode(ushort verificationCode)
     {
         // TODO: We need to make sure the verification code hasn't expired.  Create BusinessRules and the matching BusinessRuleViolationDomainEvent 
-
         bool isValid = _SmsConfirmationCode == verificationCode;
         _SmsConfirmationCode = null;
 

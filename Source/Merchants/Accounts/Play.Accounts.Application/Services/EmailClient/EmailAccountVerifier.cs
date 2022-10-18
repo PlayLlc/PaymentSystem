@@ -1,8 +1,10 @@
-﻿using System.Net.Mail;
+﻿using System.Net;
+using System.Net.Mail;
 
 using Microsoft.Extensions.Logging;
 
 using Play.Accounts.Domain.Services;
+using Play.Core.Extensions.IEnumerable;
 using Play.Randoms;
 using Play.Telecom.SendGrid;
 
@@ -46,15 +48,17 @@ namespace Play.Accounts.Application.Services
 
         public async Task<uint> SendVerificationCode(string email)
         {
-            // TODO: Logging
-
             uint verificationCode = Randomize.Integers.UInt(100000, 999999);
 
             MailMessage message = new MailMessage(string.Empty, email, _TemplateBuilder.Subject,
                 _TemplateBuilder.CreateEmail(_EmailVerificationReturnUrlBuilder.CreateReturnUrl(email, verificationCode))) {IsBodyHtml = true};
 
-            // TODO: Exponential callback or something if this fails?
-            await _EmailClient.SendEmail(message).ConfigureAwait(false);
+            EmailDeliveryResult result = await _EmailClient.SendEmail(message).ConfigureAwait(false);
+
+            // TODO: We need to make this resilient. We need an Exponential Retry strategy using Polly or something
+            if (!result.Succeeded)
+                _Logger.Log(LogLevel.Error,
+                    $"An attempt was made to send an email verification code to {email} but failed. {nameof(HttpStatusCode)}: [{result.StatusCode}]. Errors: [{result.Errors.ToStringAsConcatenatedValues()}]");
 
             return verificationCode;
         }
