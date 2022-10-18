@@ -194,7 +194,7 @@ public class UserRegistration : Aggregate<string>
             PersonalInfo = _PersonalInfo?.AsDto(),
             ConfirmedDate = _ConfirmedDate,
             RegisteredDate = _RegisteredDate!,
-            RegistrationStatus = _Status ?? _Status
+            RegistrationStatus = _Status
         };
     }
 

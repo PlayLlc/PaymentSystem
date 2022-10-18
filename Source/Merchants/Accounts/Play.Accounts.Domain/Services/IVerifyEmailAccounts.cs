@@ -12,7 +12,7 @@ namespace Play.Accounts.Domain.Services
     {
         #region Instance Members
 
-        public Task<ushort> SendVerificationCode(string email);
+        public Task<uint> SendVerificationCode(string email);
 
         #endregion
     }
