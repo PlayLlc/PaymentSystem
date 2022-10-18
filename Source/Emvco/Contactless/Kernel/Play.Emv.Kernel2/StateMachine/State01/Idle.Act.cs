@@ -196,6 +196,11 @@ public partial class Idle : KernelState
             _Database.Update(Level2Error.ParsingError);
             HandleBerEncodingException(correlationId, kernelSessionId);
         }
+        catch (InvalidOperationException e)
+        {
+            /* This means that something went wrong with the KernelDb initialization or on one of its configuration methods */
+            throw e;
+        }
         catch (Exception)
         {
             /* logging */

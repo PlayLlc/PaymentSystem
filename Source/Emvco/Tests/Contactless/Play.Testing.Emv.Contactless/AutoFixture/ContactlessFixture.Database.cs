@@ -73,7 +73,8 @@ public partial class ContactlessFixture
 
     private static PrimitiveValue[] GetDefaultPrimitiveValues()
     {
-        return new PrimitiveValue[] { TimeoutValue.Default, CardDataInputCapability.Default, SecurityCapability.Default };
+        return new PrimitiveValue[] { TimeoutValue.Default, CardDataInputCapability.Default, SecurityCapability.Default, OutcomeParameterSet.Default,
+        ErrorIndication.Default };
     }
 
     private static CombinationCompositeKey CreateCombinationCompositeKey(IFixture fixture)
