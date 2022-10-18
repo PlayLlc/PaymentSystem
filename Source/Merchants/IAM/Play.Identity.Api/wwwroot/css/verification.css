@@ -1,0 +1,131 @@
+﻿<style >
+.backgroundColor {
+    background-color: #f9f9f9;
+}
+
+.formBackgroundColor {
+    background-color: #F4F6F9;
+}
+
+.formText {
+    font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
+}
+
+.footerText {
+    font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
+    color: #213848;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 300;
+    line-height: normal;
+    color: #213848;
+}
+
+h1 {
+    font-size: 3em;
+    color: #213848;
+}
+
+h2 {
+    color: #213848;
+    font-size: 2em;
+}
+
+p {
+    color: #213848;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 24px;
+}
+
+.titleText {
+    color: #213848;
+    font-family: 'Open Sans', sans-serif;
+}
+
+@media screen {
+    @font-face {
+        font-family: 'Source Sans Pro';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url(https://fonts.gstatic.com/s/sourcesanspro/v10/ODelI1aHBYDBqgeIAH2zlBM0YzuT7MdOe03otPbuUS0.woff) format('woff');
+    }
+
+    @font-face {
+        font-family: 'Source Sans Pro';
+        font-style: normal;
+        font-weight: 700;
+        src: local('Source Sans Pro Bold'), local('SourceSansPro-Bold'), url(https://fonts.gstatic.com/s/sourcesanspro/v10/toadOcfmlt9b38dHJxOBGFkQc6VGVFSmCnC_l7QZG60.woff) format('woff');
+    }
+}
+
+body,
+table,
+td,
+a {
+    -ms-text-size-adjust: 100%; /* 1 */
+    -webkit-text-size-adjust: 100%; /* 2 */
+}
+
+table,
+td {
+    mso-table-rspace: 0pt;
+    mso-table-lspace: 0pt;
+}
+
+img {
+    -ms-interpolation-mode: bicubic;
+}
+
+a.simpleButton:hover, a:active, a:focus {
+    color: #ffffff;
+    background: #00C3D9;
+    outline: none;
+}
+
+.simpleButton {
+    font-family: 'Open Sans', sans-serif !important;
+    font-size: 16px;
+    font-weight: normal;
+    background: #29ca8e;
+    border: 0;
+    border-radius: 50px;
+    color: #ffffff;
+    padding: 12px 30px;
+}
+
+a {
+    color: #00C3D9;
+    text-decoration: none !important;
+}
+
+    a:hover, a:active, a:focus {
+        color: #00D994;
+        outline: none;
+    }
+
+div[style*="margin: 16px 0;"] {
+    margin: 0 !important;
+}
+
+body {
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+table {
+    border-collapse: collapse !important;
+}
+
+img {
+    height: auto;
+    line-height: 100%;
+    text-decoration: none;
+    border: 0;
+    outline: none;
+}
+
+</style >

@@ -6,7 +6,7 @@ public interface IEnsureUniqueEmails
 {
     #region Instance Members
 
-    public bool IsUnique(Email email);
+    public bool IsUnique(string email);
 
     #endregion
 }

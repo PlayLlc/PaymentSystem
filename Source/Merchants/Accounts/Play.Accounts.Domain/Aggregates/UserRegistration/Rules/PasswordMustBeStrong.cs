@@ -1,4 +1,5 @@
-﻿using Play.Codecs;
+﻿using Play.Accounts.Domain.ValueObjects;
+using Play.Codecs;
 using Play.Domain.Aggregates;
 
 namespace Play.Accounts.Domain.Aggregates;
@@ -21,39 +22,16 @@ internal class PasswordMustBeStrong : BusinessRule<UserRegistration, string>
 
     internal PasswordMustBeStrong(string password)
     {
-        _IsValid = IsAlphabeticCharacterPresent(password)
-                   && IsNumericPresent(password)
-                   && IsSevenCharactersInLength(password)
-                   && IsSpecialCharacterPresent(password);
+        _IsValid = Password.IsValid(password);
     }
 
     #endregion
 
     #region Instance Members
 
-    private static bool IsSpecialCharacterPresent(string password)
+    public override PasswordWasTooWeak CreateBusinessRuleViolationDomainEvent(UserRegistration aggregate)
     {
-        return password.Any(a => SpecialCodec.SpecialCodec.IsValid(a));
-    }
-
-    private static bool IsAlphabeticCharacterPresent(string password)
-    {
-        return password.Any(a => a is >= 'a' and <= 'z' or >= 'A' and <= 'Z');
-    }
-
-    private static bool IsNumericPresent(string password)
-    {
-        return password.Any(a => a is >= (char) 0 and <= (char) 9);
-    }
-
-    private static bool IsSevenCharactersInLength(string password)
-    {
-        return password.Length >= 7;
-    }
-
-    public override UsernameWasNotAValidEmail CreateBusinessRuleViolationDomainEvent(UserRegistration aggregate)
-    {
-        return new UsernameWasNotAValidEmail(aggregate, this);
+        return new PasswordWasTooWeak(aggregate, this);
     }
 
     public override bool IsBroken()

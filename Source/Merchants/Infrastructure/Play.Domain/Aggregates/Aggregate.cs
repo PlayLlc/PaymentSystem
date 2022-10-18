@@ -35,14 +35,14 @@ public abstract class Aggregate<_TId> : Entity<_TId>, IAggregate, IEquatable<Agg
         throw new BusinessRuleValidationException(rule);
     }
 
-    protected Result GetEnforcementResult(IBusinessRule rule)
+    protected Result<IBusinessRule> GetEnforcementResult(IBusinessRule rule)
     {
         if (!rule.IsBroken())
-            return new Result();
+            return new Result<IBusinessRule>(rule);
 
         Publish(((BusinessRule<Aggregate<_TId>, _TId>) rule).CreateBusinessRuleViolationDomainEvent(this));
 
-        return new Result(rule.Message);
+        return new Result<IBusinessRule>(rule, rule.Message);
     }
 
     #endregion

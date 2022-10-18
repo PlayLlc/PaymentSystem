@@ -8,11 +8,10 @@ public class UserRegistrationDto : IDto
 {
     #region Instance Values
 
-    public string Id { get; set; } = string.Empty;
-    public AddressDto AddressDto { get; set; } = new();
-    public ContactInfoDto ContactInfoDto { get; set; } = new();
-    public string LastFourOfSsn { get; set; } = string.Empty;
-    public DateTimeUtc DateOfBirth { get; set; }
+    public string? Id { get; set; }
+    public AddressDto? Address { get; set; }
+    public ContactInfoDto? ContactInfo { get; set; }
+    public PersonalInfoDto? PersonalInfo { get; set; }
     public DateTimeUtc RegisteredDate { get; set; }
     public DateTimeUtc? ConfirmedDate { get; set; }
     public string RegistrationStatus { get; set; } = string.Empty;

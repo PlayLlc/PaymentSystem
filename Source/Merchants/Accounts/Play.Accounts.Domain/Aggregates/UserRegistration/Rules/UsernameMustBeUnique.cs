@@ -16,7 +16,7 @@ internal class UsernameMustBeUnique : BusinessRule<UserRegistration, string>
 
     #region Constructor
 
-    internal UsernameMustBeUnique(IEnsureUniqueEmails uniqueEmailChecker, Email email)
+    internal UsernameMustBeUnique(IEnsureUniqueEmails uniqueEmailChecker, string email)
     {
         _IsValid = uniqueEmailChecker.IsUnique(email);
     }

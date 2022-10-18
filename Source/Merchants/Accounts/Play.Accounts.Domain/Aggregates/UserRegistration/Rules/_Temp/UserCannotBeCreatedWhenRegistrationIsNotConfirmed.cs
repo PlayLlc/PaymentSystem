@@ -26,7 +26,7 @@ internal class UserCannotBeCreatedWhenRegistrationIsNotConfirmed : IBusinessRule
 
     public bool IsBroken()
     {
-        return _RegistrationStatus != RegistrationStatuses.Confirmed;
+        return _RegistrationStatus != RegistrationStatuses.Approved;
     }
 
     #endregion

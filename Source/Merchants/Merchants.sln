@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Logging", "Infrastruct
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Randoms", "..\Emvco\Core\Play.Randoms\Play.Randoms.csproj", "{8FC02437-8597-45C1-B7A1-FC09C0468E6C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IAM", "IAM", "{1BED97E7-2358-4FD9-9C7A-C40D8F5C3845}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DeleteMe", "DeleteMe", "{1BED97E7-2358-4FD9-9C7A-C40D8F5C3845}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_HackingShit", "_HackingShit", "{16E21962-CC11-4612-9E81-42F8E97732E0}"
 EndProject
@@ -51,13 +51,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Identity.Contracts", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Terminals", "Terminals", "{C7DC960F-14D9-43E4-92AA-2A933F241475}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Terminals.Application", "Terminals\Play.Terminals.Application\Play.Terminals.Application.csproj", "{C7B0E54D-78BE-491E-BCFE-CBCDBD7CFE53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Terminals.Application", "Terminals\Play.Terminals.Application\Play.Terminals.Application.csproj", "{C7B0E54D-78BE-491E-BCFE-CBCDBD7CFE53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Terminals.Contracts", "Terminals\Play.Terminals.Contracts\Play.Terminals.Contracts.csproj", "{E6E8C275-F17B-4099-8EC2-9433B7BA8561}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Terminals.Contracts", "Terminals\Play.Terminals.Contracts\Play.Terminals.Contracts.csproj", "{E6E8C275-F17B-4099-8EC2-9433B7BA8561}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Terminals.Domain", "Terminals\Play.Terminals.Domain\Play.Terminals.Domain.csproj", "{9E8D3129-9C38-408D-8578-26EFB2A729EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Terminals.Domain", "Terminals\Play.Terminals.Domain\Play.Terminals.Domain.csproj", "{9E8D3129-9C38-408D-8578-26EFB2A729EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Accounts.Persistence.Sql", "Accounts\Play.Accounts.Persistence.Sql\Play.Accounts.Persistence.Sql.csproj", "{A5F05D2E-8E7D-493C-94B1-D8A3F92CB344}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Accounts.Persistence.Sql", "Accounts\Play.Accounts.Persistence.Sql\Play.Accounts.Persistence.Sql.csproj", "{A5F05D2E-8E7D-493C-94B1-D8A3F92CB344}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

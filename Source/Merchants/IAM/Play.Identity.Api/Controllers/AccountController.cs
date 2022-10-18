@@ -51,6 +51,9 @@ public class AccountController : Controller
 
     #region Instance Members
 
+    public async Task<IActionResult> VerifyEmail(int verificationCode)
+    { }
+
     [HttpGet]
     public async Task<IActionResult> Login(string returnUrl)
     {

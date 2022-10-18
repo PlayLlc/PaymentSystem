@@ -9,12 +9,12 @@ public record RegistrationStatuses : EnumObjectString
     #region Static Metadata
 
     private static readonly ImmutableSortedDictionary<string, RegistrationStatuses> _ValueObjectMap;
-    public static RegistrationStatuses WaitingForConfirmation;
-
-    public static RegistrationStatuses Confirmed;
-
+    public static RegistrationStatuses Empty;
+    public static RegistrationStatuses WaitingForRiskAnalysis;
+    public static RegistrationStatuses WaitingForEmailVerification;
+    public static RegistrationStatuses WaitingForSmsVerification;
+    public static RegistrationStatuses Approved;
     public static RegistrationStatuses Expired;
-
     public static RegistrationStatuses Rejected;
 
     #endregion
@@ -26,15 +26,20 @@ public record RegistrationStatuses : EnumObjectString
 
     static RegistrationStatuses()
     {
-        WaitingForConfirmation = new RegistrationStatuses(nameof(WaitingForConfirmation));
-        Confirmed = new RegistrationStatuses(nameof(Confirmed));
+        Empty = new RegistrationStatuses("");
+        WaitingForRiskAnalysis = new RegistrationStatuses(nameof(WaitingForRiskAnalysis));
+        WaitingForEmailVerification = new RegistrationStatuses(nameof(WaitingForEmailVerification));
+        WaitingForSmsVerification = new RegistrationStatuses(nameof(WaitingForSmsVerification));
+        Approved = new RegistrationStatuses(nameof(Approved));
         Expired = new RegistrationStatuses(nameof(Expired));
         Rejected = new RegistrationStatuses(nameof(Rejected));
 
         _ValueObjectMap = new Dictionary<string, RegistrationStatuses>
         {
-            {WaitingForConfirmation, WaitingForConfirmation},
-            {Confirmed, Confirmed},
+            {WaitingForRiskAnalysis, WaitingForRiskAnalysis},
+            {WaitingForEmailVerification, WaitingForEmailVerification},
+            {WaitingForSmsVerification, WaitingForSmsVerification},
+            {Approved, Approved},
             {Expired, Expired},
             {Rejected, Rejected}
         }.ToImmutableSortedDictionary();

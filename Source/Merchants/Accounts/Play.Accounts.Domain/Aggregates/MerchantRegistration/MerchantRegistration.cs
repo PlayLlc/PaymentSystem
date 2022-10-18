@@ -56,7 +56,7 @@ public class MerchantRegistration : Aggregate<string>
         Name companyName = new(name);
         Address address = new Address(GenerateSimpleStringId(), streetAddress, zipcode, state, city) {ApartmentNumber = apartmentNumber};
         MerchantRegistration merchantRegistration = new MerchantRegistration(GenerateSimpleStringId(), userRegistrationId, companyName, address, businessType,
-            merchantCategoryCode, DateTimeUtc.Now, null, RegistrationStatuses.WaitingForConfirmation);
+            merchantCategoryCode, DateTimeUtc.Now, null, RegistrationStatuses.WaitingForRiskAnalysis);
 
         merchantRegistration.Publish(new MerchantRegistrationCreatedDomainEvent(merchantRegistration._Id, merchantRegistration._CompanyName,
             merchantRegistration._Address, merchantRegistration._BusinessType, merchantRegistration._MerchantCategoryCode, merchantRegistration._RegisteredDate,
@@ -103,7 +103,7 @@ public class MerchantRegistration : Aggregate<string>
         if (!GetEnforcementResult(new MerchantMustNotBeProhibited(underwritingService, _CompanyName, _Address)).Succeeded)
             return RejectRegistration();
 
-        _Status = RegistrationStatuses.Confirmed;
+        _Status = RegistrationStatuses.Approved;
 
         Publish(new MerchantRegistrationConfirmedDomainEvent(_Id, _CompanyName));
 

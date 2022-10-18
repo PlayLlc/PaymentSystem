@@ -26,7 +26,7 @@ internal class MerchantRegistrationCanNotBeConfirmedMoreThanOnce : BusinessRule<
 
     public override bool IsBroken()
     {
-        return _ActualRegistrationStatus == RegistrationStatuses.Confirmed;
+        return _ActualRegistrationStatus == RegistrationStatuses.Approved;
     }
 
     public override MerchantHasAlreadyBeenRegistered CreateBusinessRuleViolationDomainEvent(MerchantRegistration merchantRegistration)
