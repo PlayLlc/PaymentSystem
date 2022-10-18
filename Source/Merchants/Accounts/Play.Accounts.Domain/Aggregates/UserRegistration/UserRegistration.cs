@@ -4,7 +4,6 @@ using Play.Accounts.Contracts.Dtos;
 using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.Services;
-using Play.Accounts.Domain.ValueObjects;
 using Play.Core;
 using Play.Domain;
 using Play.Domain.Aggregates;
@@ -14,11 +13,18 @@ using Play.Globalization.Time;
 using System.Net.NetworkInformation;
 
 using Play.Core.Exceptions;
+using Play.Randoms;
 
 namespace Play.Accounts.Domain.Aggregates;
 
 public class UserRegistration : Aggregate<string>
 {
+    #region Static Metadata
+
+    private static readonly TimeSpan _ValidityPeriod = new(7, 0, 0, 0);
+
+    #endregion
+
     #region Instance Values
 
     private readonly string _Id;
@@ -31,10 +37,8 @@ public class UserRegistration : Aggregate<string>
     private PersonalInfo? _PersonalInfo;
     private RegistrationStatus _Status;
 
-    private uint? _EmailConfirmationCode;
-    private uint? _SmsConfirmationCode;
-
-    private DateTimeUtc? _ConfirmedDate;
+    private ConfirmationCode? _EmailConfirmation;
+    private ConfirmationCode? _SmsConfirmation;
 
     #endregion
 
@@ -59,76 +63,171 @@ public class UserRegistration : Aggregate<string>
 
     #region Instance Members
 
+    /// <exception cref="ValueObjectException"></exception>
+    private bool IsUserRegistrationExpired()
+    {
+        if (_Status == RegistrationStatuses.Expired)
+            return true;
+
+        if ((DateTimeUtc.Now - _RegisteredDate) > _ValidityPeriod)
+        {
+            _Status = new RegistrationStatus(RegistrationStatuses.Expired);
+            Publish(new UserRegistrationHasExpired(_Id));
+
+            return true;
+        }
+
+        return false;
+    }
+
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="ValueObjectException"></exception>
-    public static UserRegistration CreateNewUserRegistration(IEnsureUniqueEmails uniqueEmailChecker, string username, string password)
+    public static UserRegistration CreateNewUserRegistration(IEnsureUniqueEmails uniqueEmailChecker, CreateUserRegistrationCommand command)
     {
-        return new UserRegistration(uniqueEmailChecker, username, password);
+        return new UserRegistration(uniqueEmailChecker, command.Email, command.Password);
     }
 
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    public async Task SendEmailAccountVerificationCode(IVerifyEmailAccounts emailAccountVerifier)
+    public async Task<Result> SendEmailAccountVerificationCode(IVerifyEmailAccounts emailAccountVerifier)
     {
-        if (_ContactInfo is null)
-            throw new InvalidOperationException();
+        if (IsUserRegistrationExpired())
+            return new Result($"The user registration has expired");
 
-        // TODO: We need to handle when the email client doesn't correctly send an email
-        _EmailConfirmationCode = await emailAccountVerifier.SendVerificationCode(_ContactInfo!.Email).ConfigureAwait(false);
-        _Status = new RegistrationStatus(RegistrationStatuses.WaitingForEmailVerification);
-    }
-
-    /// <exception cref="ValueObjectException"></exception>
-    public bool ValidateEmailVerificationCode(ushort verificationCode)
-    {
-        // TODO: We need to make sure the verification code hasn't expired.  Create BusinessRules and the matching BusinessRuleViolationDomainEvent 
-
-        bool isValid = _EmailConfirmationCode == verificationCode;
-        _EmailConfirmationCode = null;
-
-        if (isValid)
-            _Status = new RegistrationStatus(RegistrationStatuses.WaitingForSmsVerification);
-
-        return isValid;
-    }
-
-    public Result UpdateUserInfo(PersonalInfo personalInfo, Address address, ContactInfo contactInfo)
-    {
         if (_Status.Value == RegistrationStatuses.Rejected)
             return new Result($"The user can not register because they have previously been rejected");
 
-        _PersonalInfo = personalInfo;
-        _Address = address;
-        _ContactInfo = contactInfo;
+        if (_ContactInfo is null)
+            throw new InvalidOperationException();
+
+        _EmailConfirmation = new ConfirmationCode(GenerateSimpleStringId(), DateTimeUtc.Now, Randomize.Integers.UInt(100000, 999999));
+
+        Result result = await emailAccountVerifier.SendVerificationCode(_EmailConfirmation.Code, _ContactInfo!.Email.Value).ConfigureAwait(false);
+
+        if (!result.Succeeded)
+        {
+            _SmsConfirmation = null;
+            Publish(new EmailVerificationCodeFailedToSend(_Id));
+
+            return result;
+        }
+
+        _Status = new RegistrationStatus(RegistrationStatuses.WaitingForSmsVerification);
 
         return new Result();
     }
 
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    public async Task SendSmsVerificationCode(IVerifyMobilePhones mobilePhoneVerifier)
+    /// <exception cref="BusinessRuleValidationException"></exception>
+    public Result VerifyEmail(VerifyUserRegistrationConfirmationCodeCommand command)
     {
-        // TODO: We need to make sure the verification code hasn't expired
+        if (_EmailConfirmation is null)
+            throw new InvalidOperationException();
+
+        if (IsUserRegistrationExpired())
+            return new Result($"The user registration has expired");
+
+        ConfirmationCode confirmationCode = new ConfirmationCode(_EmailConfirmation.AsDto());
+        _EmailConfirmation = null;
+
+        Result<IBusinessRule> emailConfirmationCodeMustNotBeExpired = GetEnforcementResult(new EmailConfirmationCodeMustNotBeExpired(confirmationCode));
+
+        if (!emailConfirmationCodeMustNotBeExpired.Succeeded)
+            return emailConfirmationCodeMustNotBeExpired;
+
+        var emailConfirmationCodeMustBeVerified = GetEnforcementResult(new EmailConfirmationCodeMustBeVerified(confirmationCode!, command.ConfirmationCode));
+
+        if (!emailConfirmationCodeMustBeVerified.Succeeded)
+            return emailConfirmationCodeMustBeVerified;
+
+        _Status = new RegistrationStatus(RegistrationStatuses.WaitingForSmsVerification);
+
+        return new Result();
+    }
+
+    /// <exception cref="ValueObjectException"></exception>
+    public Result UpdateUserRegistrationDetails(UpdateUserRegistrationDetailsCommand command)
+    {
+        if (_Status.Value == RegistrationStatuses.Rejected)
+            return new Result($"The user can not register because they have previously been rejected");
+        if (IsUserRegistrationExpired())
+            return new Result($"The user registration has expired");
+
+        try
+        {
+            command.AddressDto.Id = GenerateSimpleStringId();
+            command.ContactInfoDto.Id = GenerateSimpleStringId();
+            command.PersonalInfo.Id = GenerateSimpleStringId();
+
+            _PersonalInfo = new PersonalInfo(command.PersonalInfo);
+            _Address = new Address(command.AddressDto);
+            _ContactInfo = new ContactInfo(command.ContactInfoDto);
+        }
+        catch (ValueObjectException e)
+        {
+            return new Result(e.Message);
+        }
+
+        return new Result();
+    }
+
+    /// <exception cref="ValueObjectException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    public async Task<Result> SendSmsVerificationCode(IVerifyMobilePhones mobilePhoneVerifier)
+    {
+        if (_Status.Value == RegistrationStatuses.Rejected)
+            return new Result($"The user can not register because they have previously been rejected");
+        if (IsUserRegistrationExpired())
+            return new Result($"The user registration has expired");
 
         if (_ContactInfo is null)
             throw new InvalidOperationException();
 
-        // TODO: We need to handle when the email client doesn't correctly send an email
-        _SmsConfirmationCode = await mobilePhoneVerifier.SendVerificationCode(_ContactInfo!.Phone).ConfigureAwait(false);
+        _SmsConfirmation = new ConfirmationCode(GenerateSimpleStringId(), DateTimeUtc.Now, Randomize.Integers.UInt(100000, 999999));
+
+        Result result = await mobilePhoneVerifier.SendVerificationCode(_SmsConfirmation.Code, _ContactInfo!.Phone.Value).ConfigureAwait(false);
+
+        if (!result.Succeeded)
+        {
+            _SmsConfirmation = null;
+
+            Publish(new SmsVerificationCodeFailedToSend(_Id));
+
+            return result;
+        }
+
         _Status = new RegistrationStatus(RegistrationStatuses.WaitingForSmsVerification);
+
+        return new Result();
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    public bool ValidateSmsVerificationCode(ushort verificationCode)
+    /// <exception cref="InvalidOperationException"></exception>
+    public Result VerifyMobilePhone(VerifyUserRegistrationConfirmationCodeCommand command)
     {
-        // TODO: We need to make sure the verification code hasn't expired.  Create BusinessRules and the matching BusinessRuleViolationDomainEvent 
-        bool isValid = _SmsConfirmationCode == verificationCode;
-        _SmsConfirmationCode = null;
+        if (IsUserRegistrationExpired())
+            return new Result($"The user registration has expired");
 
-        if (isValid)
-            _Status = new RegistrationStatus(RegistrationStatuses.WaitingForRiskAnalysis);
+        if (_SmsConfirmation is null)
+            throw new InvalidOperationException();
 
-        return isValid;
+        ConfirmationCode confirmationCode = new ConfirmationCode(_SmsConfirmation.AsDto());
+        _EmailConfirmation = null;
+
+        Result<IBusinessRule> smsConfirmationCodeMustNotBeExpired = GetEnforcementResult(new SmsConfirmationCodeMustNotBeExpired(confirmationCode));
+
+        if (!smsConfirmationCodeMustNotBeExpired.Succeeded)
+            return smsConfirmationCodeMustNotBeExpired;
+
+        var smsConfirmationCodeMustBeVerified = GetEnforcementResult(new SmsConfirmationCodeMustBeVerified(confirmationCode!, command.ConfirmationCode));
+
+        if (!smsConfirmationCodeMustBeVerified.Succeeded)
+            return smsConfirmationCodeMustBeVerified;
+
+        _Status = new RegistrationStatus(RegistrationStatuses.WaitingForRiskAnalysis);
+
+        return new Result();
     }
 
     /// <exception cref="ValueObjectException"></exception>
@@ -137,6 +236,8 @@ public class UserRegistration : Aggregate<string>
     {
         if (_Status.Value == RegistrationStatuses.Rejected)
             return new Result($"The user can not register because they have previously been rejected");
+        if (IsUserRegistrationExpired())
+            return new Result($"The user registration has expired");
 
         if (_PersonalInfo is null)
             throw new InvalidOperationException();
@@ -192,7 +293,6 @@ public class UserRegistration : Aggregate<string>
             Address = _Address?.AsDto(),
             ContactInfo = _ContactInfo?.AsDto() ?? new ContactInfoDto(),
             PersonalInfo = _PersonalInfo?.AsDto(),
-            ConfirmedDate = _ConfirmedDate,
             RegisteredDate = _RegisteredDate!,
             RegistrationStatus = _Status
         };

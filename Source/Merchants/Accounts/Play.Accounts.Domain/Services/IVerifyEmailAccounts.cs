@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Play.Accounts.Domain.Aggregates;
+using Play.Core;
 
 namespace Play.Accounts.Domain.Services
 {
@@ -12,7 +13,7 @@ namespace Play.Accounts.Domain.Services
     {
         #region Instance Members
 
-        public Task<uint> SendVerificationCode(string email);
+        public Task<Result> SendVerificationCode(uint code, string email);
 
         #endregion
     }

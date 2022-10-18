@@ -1,6 +1,6 @@
 ﻿using Play.Accounts.Contracts.Dtos;
 
-namespace Play.Accounts.Contracts.Commands.UserRegistration;
+namespace Play.Accounts.Contracts.Commands;
 
 public class RegisterUserResponse
 {

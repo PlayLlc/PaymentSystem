@@ -58,8 +58,8 @@ public class MerchantRegistration : Aggregate<string>
         MerchantRegistration merchantRegistration = new MerchantRegistration(GenerateSimpleStringId(), userRegistrationId, companyName, address, businessType,
             merchantCategoryCode, DateTimeUtc.Now, null, RegistrationStatuses.WaitingForRiskAnalysis);
 
-        merchantRegistration.Publish(new MerchantRegistrationCreatedDomainEvent(merchantRegistration._Id, merchantRegistration._CompanyName,
-            merchantRegistration._Address, merchantRegistration._BusinessType, merchantRegistration._MerchantCategoryCode, merchantRegistration._RegisteredDate,
+        merchantRegistration.Publish(new MerchantRegistrationCreated(merchantRegistration._Id, merchantRegistration._CompanyName, merchantRegistration._Address,
+            merchantRegistration._BusinessType, merchantRegistration._MerchantCategoryCode, merchantRegistration._RegisteredDate,
             merchantRegistration._Status));
 
         return merchantRegistration;

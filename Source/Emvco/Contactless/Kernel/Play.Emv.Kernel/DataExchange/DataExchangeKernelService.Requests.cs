@@ -27,10 +27,10 @@ public partial class DataExchangeKernelService
             if (!_Lock.Responses.ContainsKey(DekRequestType.DataNeeded))
                 return;
 
-            QueryTerminalRequest queryKernelResponse = new(new DataExchangeKernelId(sessionId.GetKernelId(), sessionId),
+            QueryTerminalRequest queryTerminalRequest = new(new DataExchangeKernelId(sessionId.GetKernelId(), sessionId),
                 (DataNeeded) _Lock.Requests[DekRequestType.DataNeeded]);
 
-            _EndpointClient.Send(queryKernelResponse);
+            _EndpointClient.Send(queryTerminalRequest);
             _Lock.Responses[DekRequestType.DataNeeded].Clear();
         }
     }

@@ -4,7 +4,7 @@ using Play.Accounts.Contracts.Common;
 
 namespace Play.Accounts.Contracts.Commands.UserRegistration;
 
-public class RegisterUserRequest
+public class UpdateUserRegistrationDetailsCommand
 {
     #region Instance Values
 
@@ -20,15 +20,11 @@ public class RegisterUserRequest
     [Required]
     public ContactInfoDto ContactInfoDto { get; set; } = new();
 
-    [Required]
-    public PersonalInfoDto PersonalInfoDto { get; set; } = new();
-
     /// <summary>
-    ///     Passwords must be at least 8 characters containing numeric, alphabetic, and special characters
+    ///     Personal details about the user
     /// </summary>
     [Required]
-    [MinLength(8)]
-    public string Password { get; set; } = string.Empty;
+    public PersonalInfoDto PersonalInfo { get; set; } = new();
 
     #endregion
 }

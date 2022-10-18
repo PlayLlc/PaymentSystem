@@ -13,8 +13,7 @@ public class VerifyUserMobileRequest
     ///     The identifier of the user registration
     /// </summary>
     [Required]
-    [StringLength(6)]
-    public string ConfirmationCode { get; set; }
+    public uint ConfirmationCode { get; set; }
 
     #endregion
 }

@@ -6,7 +6,7 @@ using Play.Globalization.Time;
 
 namespace Play.Accounts.Domain.Aggregates;
 
-public record MerchantRegistrationCreatedDomainEvent : DomainEvent
+public record MerchantRegistrationCreated : DomainEvent
 {
     #region Instance Values
 
@@ -22,7 +22,7 @@ public record MerchantRegistrationCreatedDomainEvent : DomainEvent
 
     #region Constructor
 
-    public MerchantRegistrationCreatedDomainEvent(
+    public MerchantRegistrationCreated(
         string id, Name name, Address address, BusinessTypes businessType, MerchantCategoryCode merchantCategoryCode, DateTimeUtc registeredDate,
         RegistrationStatuses status) : base($"The {nameof(Merchant)}: [{name}] has begun the registration process")
     {

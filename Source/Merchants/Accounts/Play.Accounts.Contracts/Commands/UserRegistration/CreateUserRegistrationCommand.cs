@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Play.Accounts.Contracts.Commands.UserRegistration
 {
-    public class CreateUserRegistration
+    public class CreateUserRegistrationCommand
     {
         #region Instance Values
 
