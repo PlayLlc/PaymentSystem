@@ -38,9 +38,9 @@ namespace Play.Accounts.Application.Services
 
         public async Task<Result> SendVerificationCode(uint code, Phone mobile)
         {
-            var message = _TemplateBuilder.CreateSmsMessage($"{code}");
+            string message = _TemplateBuilder.CreateSmsMessage($"{code}");
 
-            var result = await _SmsClient.Send(mobile, message).ConfigureAwait(false);
+            SmsDeliveryResult result = await _SmsClient.Send(mobile, message).ConfigureAwait(false);
 
             if (result.Succeeded)
                 return result;

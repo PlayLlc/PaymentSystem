@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Aggregates\Users\Rules\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Play.Accounts.Contracts\Play.Accounts.Contracts.csproj" />
   </ItemGroup>
 

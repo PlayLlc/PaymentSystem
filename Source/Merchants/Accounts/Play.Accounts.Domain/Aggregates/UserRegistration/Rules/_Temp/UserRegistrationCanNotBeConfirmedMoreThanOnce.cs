@@ -7,7 +7,7 @@ internal class UserRegistrationCanNotBeConfirmedMoreThanOnce : IBusinessRule
 {
     #region Instance Values
 
-    private readonly RegistrationStatuses _ActualRegistrationStatus;
+    private readonly UserRegistrationStatuses _ActualUserRegistrationStatus;
 
     public string Message => "User Registration cannot be confirmed more than once";
 
@@ -15,9 +15,9 @@ internal class UserRegistrationCanNotBeConfirmedMoreThanOnce : IBusinessRule
 
     #region Constructor
 
-    public UserRegistrationCanNotBeConfirmedMoreThanOnce(RegistrationStatuses actualRegistrationStatus)
+    public UserRegistrationCanNotBeConfirmedMoreThanOnce(UserRegistrationStatuses actualUserRegistrationStatus)
     {
-        _ActualRegistrationStatus = actualRegistrationStatus;
+        _ActualUserRegistrationStatus = actualUserRegistrationStatus;
     }
 
     #endregion
@@ -26,7 +26,7 @@ internal class UserRegistrationCanNotBeConfirmedMoreThanOnce : IBusinessRule
 
     public bool IsBroken()
     {
-        return _ActualRegistrationStatus == RegistrationStatuses.Approved;
+        return _ActualUserRegistrationStatus == UserRegistrationStatuses.Approved;
     }
 
     #endregion

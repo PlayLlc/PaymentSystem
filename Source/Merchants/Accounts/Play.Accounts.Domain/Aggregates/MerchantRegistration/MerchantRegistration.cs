@@ -1,4 +1,5 @@
 ﻿using Play.Accounts.Contracts.Dtos;
+using Play.Accounts.Domain.Aggregates.Events;
 using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.Services;
@@ -9,6 +10,11 @@ using Play.Domain.Aggregates;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Time;
 
+using System.Diagnostics.Contracts;
+using System.Runtime.InteropServices;
+
+using Play.Domain.Repositories;
+
 namespace Play.Accounts.Domain.Aggregates;
 
 public class MerchantRegistration : Aggregate<string>
@@ -17,21 +23,26 @@ public class MerchantRegistration : Aggregate<string>
 
     private readonly string _Id;
     private readonly string _UserRegistrationId;
-    private readonly Name _CompanyName;
-    private readonly Address _Address;
-    private readonly BusinessTypes _BusinessType;
-    private readonly MerchantCategoryCode _MerchantCategoryCode;
-    private readonly DateTimeUtc _RegisteredDate;
-    private readonly DateTimeUtc? _ConfirmedDate;
-    private RegistrationStatuses _Status;
+    private readonly DateTimeUtc _RegistrationDate;
+    private readonly Name? _CompanyName;
+    private readonly Address? _Address;
+    private readonly BusinessType? _BusinessType;
+    private readonly MerchantCategoryCode? _MerchantCategoryCode;
+    private MerchantRegistrationStatus _Status;
 
     #endregion
 
     #region Constructor
 
-    public MerchantRegistration(
-        string id, string userRegistrationId, Name companyName, Address address, BusinessTypes businessType, MerchantCategoryCode merchantCategoryCode,
-        DateTimeUtc registeredDate, DateTimeUtc? confirmedDate, RegistrationStatuses status)
+    private MerchantRegistration(string id, Name companyName)
+    {
+        _Id = id;
+        _CompanyName = companyName;
+    }
+
+    private MerchantRegistration(
+        string id, string userRegistrationId, Name companyName, Address address, BusinessType businessType, MerchantCategoryCode merchantCategoryCode,
+        DateTimeUtc registrationDate, DateTimeUtc? confirmedDate, MerchantRegistrationStatus status)
     {
         _Id = id;
         _UserRegistrationId = userRegistrationId;
@@ -39,8 +50,7 @@ public class MerchantRegistration : Aggregate<string>
         _Address = address;
         _BusinessType = businessType;
         _MerchantCategoryCode = merchantCategoryCode;
-        _RegisteredDate = registeredDate;
-        _ConfirmedDate = confirmedDate;
+        _RegistrationDate = registrationDate;
         _Status = status;
     }
 
@@ -49,20 +59,31 @@ public class MerchantRegistration : Aggregate<string>
     #region Instance Members
 
     /// <exception cref="ValueObjectException"></exception>
-    public static MerchantRegistration CreateNewMerchantRegistration(
-        string userRegistrationId, string name, string streetAddress, string apartmentNumber, string zipcode, States state, string city,
-        BusinessTypes businessType, MerchantCategoryCode merchantCategoryCode)
+    public static MerchantRegistration CreateNewMerchantRegistration(User user, string companyName)
     {
-        Name companyName = new(name);
-        Address address = new Address(GenerateSimpleStringId(), streetAddress, zipcode, state, city) {ApartmentNumber = apartmentNumber};
-        MerchantRegistration merchantRegistration = new MerchantRegistration(GenerateSimpleStringId(), userRegistrationId, companyName, address, businessType,
-            merchantCategoryCode, DateTimeUtc.Now, null, RegistrationStatuses.WaitingForRiskAnalysis);
+        MerchantRegistration registration = new MerchantRegistration(user.GetMerchantId(), new Name(companyName));
 
-        merchantRegistration.Publish(new MerchantRegistrationCreated(merchantRegistration._Id, merchantRegistration._CompanyName, merchantRegistration._Address,
-            merchantRegistration._BusinessType, merchantRegistration._MerchantCategoryCode, merchantRegistration._RegisteredDate,
-            merchantRegistration._Status));
+        // TODO: Publish Merchant Created domain event
 
-        return merchantRegistration;
+        return registration;
+    }
+
+    /// <exception cref="InvalidOperationException"></exception>
+    public Result<Merchant?> CreateMerchant()
+    {
+        if (_Status != MerchantRegistrationStatuses.Approved)
+            return new Result<Merchant?>(null, $"The {nameof(Merchant)} can't be created because registration has not yet been approved");
+
+        if (_CompanyName is null)
+            throw new InvalidOperationException();
+        if (_Address is null)
+            throw new InvalidOperationException();
+        if (_BusinessType is null)
+            throw new InvalidOperationException();
+        if (_MerchantCategoryCode is null)
+            throw new InvalidOperationException();
+
+        return new Result<Merchant?>(new Merchant(_Id, _CompanyName, _Address, _BusinessType, _MerchantCategoryCode));
     }
 
     public override string GetId()
@@ -76,34 +97,51 @@ public class MerchantRegistration : Aggregate<string>
         {
             Id = _Id,
             UserRegistrationId = _UserRegistrationId,
-            AddressDto = _Address.AsDto(),
-            BusinessType = _BusinessType,
-            CompanyName = _CompanyName.Value,
-            ConfirmedDate = _ConfirmedDate,
+            AddressDto = _Address?.AsDto() ?? new AddressDto(),
+            BusinessType = _BusinessType ?? new(),
+            CompanyName = _CompanyName?.Value ?? new(),
             MerchantCategoryCode = _MerchantCategoryCode,
-            RegisteredDate = _RegisteredDate,
+            RegisteredDate = _RegistrationDate,
             RegistrationStatus = _Status
         };
     }
 
-    /// <exception cref="BusinessRuleValidationException"></exception>
-    public Result VerifyMerchantAccount(IUnderwriteMerchants underwritingService)
+    private bool IsUserRegistrationExpired()
     {
-        if (!GetEnforcementResult(new MerchantCannotBeCreatedWhenRegistrationHasExpired(_RegisteredDate)).Succeeded)
-        {
-            _Status = RegistrationStatuses.Expired;
+        if (_Status == MerchantRegistrationStatuses.Expired)
+            return true;
 
-            return RejectRegistration();
+        Result<IBusinessRule> businessRule = GetEnforcementResult(new MerchantCannotBeCreatedWhenRegistrationHasExpired(_RegistrationDate));
+
+        if (!businessRule.Succeeded)
+        {
+            _Status = MerchantRegistrationStatuses.Expired;
+
+            return true;
         }
 
-        if (!GetEnforcementResult(new MerchantRegistrationCanNotBeConfirmedAfterItHasExpired(_Status)).Succeeded)
-            return RejectRegistration();
+        return false;
+    }
+
+    /// <exception cref="InvalidOperationException"></exception>
+    public Result VerifyMerchantAccount(IUnderwriteMerchants underwritingService)
+    {
+        if (IsUserRegistrationExpired())
+            return new Result($"The {nameof(MerchantRegistration)} has expired");
+
+        if (_CompanyName is null)
+            throw new InvalidOperationException();
+        if (_MerchantCategoryCode is null)
+            throw new InvalidOperationException();
+        if (_Address is null)
+            throw new InvalidOperationException();
+
         if (!GetEnforcementResult(new MerchantIndustryMustNotBeProhibited(_MerchantCategoryCode, underwritingService)).Succeeded)
             return RejectRegistration();
-        if (!GetEnforcementResult(new MerchantMustNotBeProhibited(underwritingService, _CompanyName, _Address)).Succeeded)
+        if (!GetEnforcementResult(new MerchantMustNotBeProhibited(underwritingService, _CompanyName!, _Address!)).Succeeded)
             return RejectRegistration();
 
-        _Status = RegistrationStatuses.Approved;
+        _Status = MerchantRegistrationStatuses.Approved;
 
         Publish(new MerchantRegistrationConfirmedDomainEvent(_Id, _CompanyName));
 
@@ -112,7 +150,7 @@ public class MerchantRegistration : Aggregate<string>
 
     public Result RejectRegistration()
     {
-        _Status = RegistrationStatuses.Rejected;
+        _Status = MerchantRegistrationStatuses.Rejected;
 
         return new Result("Merchant account verification failed");
     }

@@ -35,17 +35,6 @@ public class Merchant : Aggregate<string>
     #region Instance Members
 
     /// <exception cref="ValueObjectException"></exception>
-    public static Merchant CreateFromMerchantRegistration(MerchantRegistration merchantRegistration)
-    {
-        MerchantRegistrationDto merchantDto = merchantRegistration.AsDto();
-
-        Merchant merchant = new Merchant(merchantRegistration.GetId(), new Name(merchantDto.CompanyName), new Address(merchantDto.AddressDto),
-            new BusinessType(merchantDto.BusinessType), new MerchantCategoryCode(merchantDto.MerchantCategoryCode));
-        merchant.Publish(new MerchantHasBeenCreated(merchant._Id));
-
-        return merchant;
-    }
-
     public override string GetId()
     {
         return _Id;

@@ -14,6 +14,10 @@ public class UserDto : IDto
 
     [Required]
     [MinLength(1)]
+    public string HashedPassword { get; set; } = string.Empty;
+
+    [Required]
+    [MinLength(1)]
     public string MerchantId { get; set; } = string.Empty;
 
     [Required]

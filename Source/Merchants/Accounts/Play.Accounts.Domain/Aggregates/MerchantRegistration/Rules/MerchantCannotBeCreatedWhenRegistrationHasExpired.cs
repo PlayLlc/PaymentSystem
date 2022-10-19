@@ -7,7 +7,7 @@ internal class MerchantCannotBeCreatedWhenRegistrationHasExpired : BusinessRule<
 {
     #region Instance Values
 
-    private readonly TimeSpan _ValidityPeriod = TimeSpan.FromHours(4);
+    private readonly TimeSpan _ValidityPeriod = new(7, 0, 0, 0);
     private readonly DateTimeUtc _RegisteredDate;
 
     public override string Message => "Merchant cannot be created when registration has expired";

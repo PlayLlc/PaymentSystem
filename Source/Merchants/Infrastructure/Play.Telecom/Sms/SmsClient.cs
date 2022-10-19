@@ -1,4 +1,14 @@
-﻿using Play.Telecom.Twilio.Sms;
+﻿using System;
+using System.Collections.Generic;
+
+using Microsoft.Extensions.Logging;
+
+using Play.Telecom.Twilio.Sms;
+
+using Twilio;
+using Twilio.Clients;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
 
 namespace Play.Telecom.SendGrid.Sms
 {
@@ -7,35 +17,41 @@ namespace Play.Telecom.SendGrid.Sms
         #region Instance Values
 
         private readonly SmsClientConfiguration _Configuration;
+        private readonly ITwilioRestClient _Client;
+        private readonly ILogger<SmsClient> _Logger;
 
         #endregion
 
         #region Constructor
 
-        public SmsClient(SmsClientConfiguration configuration)
+        public SmsClient(SmsClientConfiguration configuration, ILogger<SmsClient> logger)
         {
-            _Configuration = new SmsClientConfiguration("ACe687560431e5aea720ee30c443b767c3", "df1ed3dc580ef0585d82504a8d62ba38");
-
-            //_Client = TwilioClient.Init(_Configuration.AccountSid, _Configuration.AuthToken);
+            _Configuration = configuration;
+            TwilioClient.Init(configuration.AccountSid, configuration.AuthToken);
+            _Client = TwilioClient.GetRestClient();
+            _Logger = logger;
         }
 
         #endregion
 
         #region Instance Members
 
-        public async Task<SmsDeliveryResult> Send(string phone, string message)
+        public async Task<SmsDeliveryResult> Send(string phone, string text)
         {
-            throw new NotImplementedException();
+            CreateMessageOptions messageOptions = new CreateMessageOptions(new PhoneNumber(phone));
+            messageOptions.MessagingServiceSid = _Configuration.AccountSid;
+            messageOptions.Body = text;
+            MessageResource messageResource = await MessageResource.CreateAsync(messageOptions, _Client).ConfigureAwait(false);
 
-            //var messageOptions = new CreateMessageOptions(
-            //    new PhoneNumber("+14693461987"));
+            if (messageResource.ErrorCode is not null)
+            {
+                _Logger.Log(LogLevel.Error,
+                    $"The {nameof(SmsClient)} failed to send the SMS message to the {nameof(PhoneNumber)} with the phone number: [XXX-XXX-{phone.Substring(phone.Length - 4)}]. Error Message: [{messageResource.ErrorMessage}]");
 
-            //var message = MessageResource.Create(
-            //    body: "Hi there",
-            //    from: new Twilio.Types.PhoneNumber("+15017122661"),
-            //    to: new Twilio.Types.PhoneNumber("+15558675310")
-            //);
-            //message.Status
+                return new SmsDeliveryResult(messageResource.ErrorMessage);
+            }
+
+            return new SmsDeliveryResult();
         }
 
         #endregion

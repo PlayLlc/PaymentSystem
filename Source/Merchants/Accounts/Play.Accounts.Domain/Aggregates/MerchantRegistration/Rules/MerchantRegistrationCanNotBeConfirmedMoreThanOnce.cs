@@ -7,7 +7,7 @@ internal class MerchantRegistrationCanNotBeConfirmedMoreThanOnce : BusinessRule<
 {
     #region Instance Values
 
-    private readonly RegistrationStatuses _ActualRegistrationStatus;
+    private readonly UserRegistrationStatuses _ActualUserRegistrationStatus;
 
     public override string Message => "Merchant Registration cannot be confirmed more than once";
 
@@ -15,9 +15,9 @@ internal class MerchantRegistrationCanNotBeConfirmedMoreThanOnce : BusinessRule<
 
     #region Constructor
 
-    public MerchantRegistrationCanNotBeConfirmedMoreThanOnce(RegistrationStatuses actualRegistrationStatus)
+    public MerchantRegistrationCanNotBeConfirmedMoreThanOnce(UserRegistrationStatuses actualUserRegistrationStatus)
     {
-        _ActualRegistrationStatus = actualRegistrationStatus;
+        _ActualUserRegistrationStatus = actualUserRegistrationStatus;
     }
 
     #endregion
@@ -26,7 +26,7 @@ internal class MerchantRegistrationCanNotBeConfirmedMoreThanOnce : BusinessRule<
 
     public override bool IsBroken()
     {
-        return _ActualRegistrationStatus == RegistrationStatuses.Approved;
+        return _ActualUserRegistrationStatus == UserRegistrationStatuses.Approved;
     }
 
     public override MerchantHasAlreadyBeenRegistered CreateBusinessRuleViolationDomainEvent(MerchantRegistration merchantRegistration)

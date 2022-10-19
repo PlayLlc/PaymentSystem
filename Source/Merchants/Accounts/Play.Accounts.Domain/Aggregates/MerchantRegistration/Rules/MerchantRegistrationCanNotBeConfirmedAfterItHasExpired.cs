@@ -1,4 +1,5 @@
 ﻿using Play.Accounts.Domain.Enums;
+using Play.Accounts.Domain.ValueObjects;
 using Play.Domain.Aggregates;
 
 namespace Play.Accounts.Domain.Aggregates;
@@ -7,7 +8,7 @@ internal class MerchantRegistrationCanNotBeConfirmedAfterItHasExpired : Business
 {
     #region Instance Values
 
-    private readonly RegistrationStatuses _ActualRegistrationStatus;
+    private readonly MerchantRegistrationStatus _Status;
 
     public override string Message => "Merchant Registration cannot be confirmed because it is expired";
 
@@ -15,9 +16,9 @@ internal class MerchantRegistrationCanNotBeConfirmedAfterItHasExpired : Business
 
     #region Constructor
 
-    public MerchantRegistrationCanNotBeConfirmedAfterItHasExpired(RegistrationStatuses actualRegistrationStatus)
+    public MerchantRegistrationCanNotBeConfirmedAfterItHasExpired(MerchantRegistrationStatus status)
     {
-        _ActualRegistrationStatus = actualRegistrationStatus;
+        _Status = status;
     }
 
     #endregion
@@ -26,7 +27,7 @@ internal class MerchantRegistrationCanNotBeConfirmedAfterItHasExpired : Business
 
     public override bool IsBroken()
     {
-        return _ActualRegistrationStatus == RegistrationStatuses.Expired;
+        return _Status == UserRegistrationStatuses.Expired;
     }
 
     public override MerchantRejectedBecauseTheRegistrationPeriodExpired CreateBusinessRuleViolationDomainEvent(MerchantRegistration merchantRegistration)

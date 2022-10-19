@@ -7,7 +7,7 @@ internal class UserRegistrationCanNotBeConfirmedAfterItHasExpired : IBusinessRul
 {
     #region Instance Values
 
-    private readonly RegistrationStatuses _ActualRegistrationStatus;
+    private readonly UserRegistrationStatuses _ActualUserRegistrationStatus;
 
     public string Message => "User Registration cannot be confirmed because it is expired";
 
@@ -15,9 +15,9 @@ internal class UserRegistrationCanNotBeConfirmedAfterItHasExpired : IBusinessRul
 
     #region Constructor
 
-    public UserRegistrationCanNotBeConfirmedAfterItHasExpired(RegistrationStatuses actualRegistrationStatus)
+    public UserRegistrationCanNotBeConfirmedAfterItHasExpired(UserRegistrationStatuses actualUserRegistrationStatus)
     {
-        _ActualRegistrationStatus = actualRegistrationStatus;
+        _ActualUserRegistrationStatus = actualUserRegistrationStatus;
     }
 
     #endregion
@@ -26,7 +26,7 @@ internal class UserRegistrationCanNotBeConfirmedAfterItHasExpired : IBusinessRul
 
     public bool IsBroken()
     {
-        return _ActualRegistrationStatus == RegistrationStatuses.Expired;
+        return _ActualUserRegistrationStatus == UserRegistrationStatuses.Expired;
     }
 
     #endregion

@@ -32,7 +32,7 @@ public class UserRegistration : Aggregate<string>
     private Address? _Address;
     private Contact? _Contact;
     private PersonalDetail? _PersonalDetail;
-    private RegistrationStatus _Status;
+    private MerchantRegistrationStatus _Status;
 
     private ConfirmationCode? _EmailConfirmation;
     private ConfirmationCode? _SmsConfirmation;
@@ -43,7 +43,7 @@ public class UserRegistration : Aggregate<string>
 
     private UserRegistration(
         string id, string username, string hashedPassword, DateTimeUtc registrationDate, Address address, Contact contact, PersonalDetail personalDetail,
-        RegistrationStatus status, ConfirmationCode? emailConfirmation = null, ConfirmationCode? smsConfirmation = null)
+        MerchantRegistrationStatus status, ConfirmationCode? emailConfirmation = null, ConfirmationCode? smsConfirmation = null)
     {
         _Id = id;
         _Username = username;
@@ -63,12 +63,12 @@ public class UserRegistration : Aggregate<string>
     {
         Enforce(new UsernameMustBeAValidEmail(username));
         Enforce(new UsernameMustBeUnique(uniqueEmailChecker, username));
-        Enforce(new PasswordMustBeStrong(password));
+        Enforce(new UserPasswordMustBeStrong(password));
         _Id = GenerateSimpleStringId();
         _Username = username;
         _HashedPassword = passwordHasher.GeneratePasswordHash(password);
         _RegistrationDate = DateTimeUtc.Now;
-        _Status = new RegistrationStatus(RegistrationStatuses.WaitingForEmailVerification);
+        _Status = new MerchantRegistrationStatus(UserRegistrationStatuses.WaitingForEmailVerification);
         Publish(new UserRegistrationCreated(_Id, _HashedPassword));
     }
 
@@ -84,12 +84,12 @@ public class UserRegistration : Aggregate<string>
     /// <exception cref="ValueObjectException"></exception>
     private bool IsUserRegistrationExpired()
     {
-        if (_Status == RegistrationStatuses.Expired)
+        if (_Status == UserRegistrationStatuses.Expired)
             return true;
 
         if ((DateTimeUtc.Now - _RegistrationDate) > _ValidityPeriod)
         {
-            _Status = new RegistrationStatus(RegistrationStatuses.Expired);
+            _Status = new MerchantRegistrationStatus(UserRegistrationStatuses.Expired);
             Publish(new UserRegistrationHasExpired(_Id));
 
             return true;
@@ -113,7 +113,7 @@ public class UserRegistration : Aggregate<string>
         if (IsUserRegistrationExpired())
             return new Result($"The user registration has expired");
 
-        if (_Status.Value == RegistrationStatuses.Rejected)
+        if (_Status.Value == UserRegistrationStatuses.Rejected)
             return new Result($"The user can not register because they have previously been rejected");
 
         if (_Contact is null)
@@ -131,15 +131,14 @@ public class UserRegistration : Aggregate<string>
             return result;
         }
 
-        _Status = new RegistrationStatus(RegistrationStatuses.WaitingForSmsVerification);
+        _Status = new MerchantRegistrationStatus(UserRegistrationStatuses.WaitingForSmsVerification);
 
         return new Result();
     }
 
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BusinessRuleValidationException"></exception>
-    public Result VerifyEmail(VerifyUserRegistrationConfirmationCodeCommand command)
+    public Result VerifyEmail(VerifyConfirmationCodeCommand command)
     {
         if (_EmailConfirmation is null)
             throw new InvalidOperationException();
@@ -155,12 +154,13 @@ public class UserRegistration : Aggregate<string>
         if (!emailConfirmationCodeMustNotBeExpired.Succeeded)
             return emailConfirmationCodeMustNotBeExpired;
 
-        var emailConfirmationCodeMustBeVerified = GetEnforcementResult(new EmailConfirmationCodeMustBeVerified(confirmationCode!, command.ConfirmationCode));
+        Result<IBusinessRule> emailConfirmationCodeMustBeVerified =
+            GetEnforcementResult(new EmailConfirmationCodeMustBeVerified(confirmationCode!, command.ConfirmationCode));
 
         if (!emailConfirmationCodeMustBeVerified.Succeeded)
             return emailConfirmationCodeMustBeVerified;
 
-        _Status = new RegistrationStatus(RegistrationStatuses.WaitingForSmsVerification);
+        _Status = new MerchantRegistrationStatus(UserRegistrationStatuses.WaitingForSmsVerification);
 
         return new Result();
     }
@@ -168,7 +168,7 @@ public class UserRegistration : Aggregate<string>
     /// <exception cref="ValueObjectException"></exception>
     public Result UpdateUserRegistrationDetails(UpdateUserRegistrationDetailsCommand command)
     {
-        if (_Status.Value == RegistrationStatuses.Rejected)
+        if (_Status.Value == UserRegistrationStatuses.Rejected)
             return new Result($"The user can not register because they have previously been rejected");
         if (IsUserRegistrationExpired())
             return new Result($"The user registration has expired");
@@ -195,7 +195,7 @@ public class UserRegistration : Aggregate<string>
     /// <exception cref="InvalidOperationException"></exception>
     public async Task<Result> SendSmsVerificationCode(IVerifyMobilePhones mobilePhoneVerifier)
     {
-        if (_Status.Value == RegistrationStatuses.Rejected)
+        if (_Status.Value == UserRegistrationStatuses.Rejected)
             return new Result($"The user can not register because they have previously been rejected");
         if (IsUserRegistrationExpired())
             return new Result($"The user registration has expired");
@@ -216,14 +216,14 @@ public class UserRegistration : Aggregate<string>
             return result;
         }
 
-        _Status = new RegistrationStatus(RegistrationStatuses.WaitingForSmsVerification);
+        _Status = new MerchantRegistrationStatus(UserRegistrationStatuses.WaitingForSmsVerification);
 
         return new Result();
     }
 
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    public Result VerifyMobilePhone(VerifyUserRegistrationConfirmationCodeCommand command)
+    public Result VerifyMobilePhone(VerifyConfirmationCodeCommand command)
     {
         if (IsUserRegistrationExpired())
             return new Result($"The user registration has expired");
@@ -239,12 +239,13 @@ public class UserRegistration : Aggregate<string>
         if (!smsConfirmationCodeMustNotBeExpired.Succeeded)
             return smsConfirmationCodeMustNotBeExpired;
 
-        var smsConfirmationCodeMustBeVerified = GetEnforcementResult(new SmsConfirmationCodeMustBeVerified(confirmationCode!, command.ConfirmationCode));
+        Result<IBusinessRule> smsConfirmationCodeMustBeVerified =
+            GetEnforcementResult(new SmsConfirmationCodeMustBeVerified(confirmationCode!, command.ConfirmationCode));
 
         if (!smsConfirmationCodeMustBeVerified.Succeeded)
             return smsConfirmationCodeMustBeVerified;
 
-        _Status = new RegistrationStatus(RegistrationStatuses.WaitingForRiskAnalysis);
+        _Status = new MerchantRegistrationStatus(UserRegistrationStatuses.WaitingForRiskAnalysis);
 
         return new Result();
     }
@@ -253,7 +254,7 @@ public class UserRegistration : Aggregate<string>
     /// <exception cref="InvalidOperationException"></exception>
     public Result AnalyzeUserRisk(IUnderwriteMerchants merchantUnderwriter)
     {
-        if (_Status.Value == RegistrationStatuses.Rejected)
+        if (_Status.Value == UserRegistrationStatuses.Rejected)
             return new Result($"The user can not register because they have previously been rejected");
         if (IsUserRegistrationExpired())
             return new Result($"The user registration has expired");
@@ -270,13 +271,13 @@ public class UserRegistration : Aggregate<string>
 
         if (!result.Succeeded)
         {
-            _Status = new RegistrationStatus(RegistrationStatuses.Rejected);
+            _Status = new MerchantRegistrationStatus(UserRegistrationStatuses.Rejected);
             Publish(((UserMustNotBeProhibitedFromRegistering) result.Value).CreateBusinessRuleViolationDomainEvent(this));
 
             return result;
         }
 
-        _Status = new RegistrationStatus(RegistrationStatuses.Approved);
+        _Status = new MerchantRegistrationStatus(UserRegistrationStatuses.Approved);
         Publish(new UserRegistrationRiskAnalysisApproved(_Id, _Username));
 
         return result;
@@ -285,7 +286,7 @@ public class UserRegistration : Aggregate<string>
     /// <exception cref="InvalidOperationException"></exception>
     public Result<User?> CreateUser()
     {
-        if (_Status != RegistrationStatuses.Approved)
+        if (_Status != UserRegistrationStatuses.Approved)
             return new Result<User?>(null, $"The user can't be created because registration has not yet been approved");
 
         if (_PersonalDetail is null)

@@ -42,7 +42,7 @@ public class EmailAccountVerifier : IVerifyEmailAccounts
         MailMessage message = new MailMessage(string.Empty, email, _TemplateBuilder.Subject,
             _TemplateBuilder.CreateEmail(_EmailVerificationReturnUrlBuilder.CreateReturnUrl(email, verificationCode))) {IsBodyHtml = true};
 
-        var result = await _EmailClient.SendEmail(message).ConfigureAwait(false);
+        EmailDeliveryResult result = await _EmailClient.SendEmail(message).ConfigureAwait(false);
 
         // TODO: We need to make this resilient. We need an Exponential Retry strategy using Polly or something
         if (!result.Succeeded)

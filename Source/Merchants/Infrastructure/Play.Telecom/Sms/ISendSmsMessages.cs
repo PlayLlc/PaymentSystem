@@ -6,7 +6,7 @@ public interface ISendSmsMessages
 {
     #region Instance Members
 
-    public Task<SmsDeliveryResult> Send(string phone, string message);
+    public Task<SmsDeliveryResult> Send(string phone, string text);
 
     #endregion
 }

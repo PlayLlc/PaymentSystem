@@ -51,9 +51,9 @@ internal class UserRegistrationEntityTypeConfiguration : IEntityTypeConfiguratio
             b.ToTable($"{nameof(PersonalDetail)}s");
         });
 
-        builder.OwnsOne<RegistrationStatus>("_Status", b =>
+        builder.OwnsOne<MerchantRegistrationStatus>("_Status", b =>
         {
-            b.Property(x => x.Value).HasColumnName(nameof(RegistrationStatus));
+            b.Property(x => x.Value).HasColumnName(nameof(MerchantRegistrationStatus));
         });
     }
 

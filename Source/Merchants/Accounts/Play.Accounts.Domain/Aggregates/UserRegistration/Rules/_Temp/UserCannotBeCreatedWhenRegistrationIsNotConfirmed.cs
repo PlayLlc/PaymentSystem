@@ -7,7 +7,7 @@ internal class UserCannotBeCreatedWhenRegistrationIsNotConfirmed : IBusinessRule
 {
     #region Instance Values
 
-    private readonly RegistrationStatuses _RegistrationStatus;
+    private readonly UserRegistrationStatuses _UserRegistrationStatus;
 
     public string Message => "User cannot be created when registration is not confirmed";
 
@@ -15,9 +15,9 @@ internal class UserCannotBeCreatedWhenRegistrationIsNotConfirmed : IBusinessRule
 
     #region Constructor
 
-    internal UserCannotBeCreatedWhenRegistrationIsNotConfirmed(RegistrationStatuses registrationStatus)
+    internal UserCannotBeCreatedWhenRegistrationIsNotConfirmed(UserRegistrationStatuses userRegistrationStatus)
     {
-        _RegistrationStatus = registrationStatus;
+        _UserRegistrationStatus = userRegistrationStatus;
     }
 
     #endregion
@@ -26,7 +26,7 @@ internal class UserCannotBeCreatedWhenRegistrationIsNotConfirmed : IBusinessRule
 
     public bool IsBroken()
     {
-        return _RegistrationStatus != RegistrationStatuses.Approved;
+        return _UserRegistrationStatus != UserRegistrationStatuses.Approved;
     }
 
     #endregion

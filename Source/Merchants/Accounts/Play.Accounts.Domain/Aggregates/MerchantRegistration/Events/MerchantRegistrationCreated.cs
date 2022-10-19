@@ -11,28 +11,15 @@ public record MerchantRegistrationCreated : DomainEvent
     #region Instance Values
 
     public readonly string Id;
-    public readonly Name Name;
-    public readonly Address Address;
-    public readonly BusinessTypes BusinessType;
-    public readonly MerchantCategoryCode MerchantCategoryCode;
-    public readonly DateTimeUtc RegisteredDate;
-    public RegistrationStatuses Status;
 
     #endregion
 
     #region Constructor
 
-    public MerchantRegistrationCreated(
-        string id, Name name, Address address, BusinessTypes businessType, MerchantCategoryCode merchantCategoryCode, DateTimeUtc registeredDate,
-        RegistrationStatuses status) : base($"The {nameof(Merchant)}: [{name}] has begun the registration process")
+    public MerchantRegistrationCreated(string id) : base(
+        $"The {nameof(MerchantRegistration)} process has begun for the {nameof(MerchantRegistration)} with the Id: [{id}];")
     {
         Id = id;
-        Name = name;
-        Address = address;
-        BusinessType = businessType;
-        MerchantCategoryCode = merchantCategoryCode;
-        RegisteredDate = registeredDate;
-        Status = status;
     }
 
     #endregion

@@ -104,7 +104,7 @@ internal class UserIdentityDbSeeder
             PhoneNumberConfirmed = true
         };
 
-        var a = userManager.PasswordHasher;
+        IPasswordHasher<UserIdentity>? a = userManager.PasswordHasher;
 
         userManager.CreateAsync(new UserIdentity(), "");
 

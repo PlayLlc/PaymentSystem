@@ -7,7 +7,7 @@ internal class MerchantCannotBeCreatedWhenRegistrationIsNotVerified : BusinessRu
 {
     #region Instance Values
 
-    private readonly RegistrationStatuses _RegistrationStatus;
+    private readonly UserRegistrationStatuses _UserRegistrationStatus;
 
     public override string Message => "Merchant Account cannot be created when registration is not verified";
 
@@ -15,9 +15,9 @@ internal class MerchantCannotBeCreatedWhenRegistrationIsNotVerified : BusinessRu
 
     #region Constructor
 
-    internal MerchantCannotBeCreatedWhenRegistrationIsNotVerified(RegistrationStatuses registrationStatus)
+    internal MerchantCannotBeCreatedWhenRegistrationIsNotVerified(UserRegistrationStatuses userRegistrationStatus)
     {
-        _RegistrationStatus = registrationStatus;
+        _UserRegistrationStatus = userRegistrationStatus;
     }
 
     #endregion
@@ -31,7 +31,7 @@ internal class MerchantCannotBeCreatedWhenRegistrationIsNotVerified : BusinessRu
 
     public override bool IsBroken()
     {
-        return _RegistrationStatus != RegistrationStatuses.Approved;
+        return _UserRegistrationStatus != UserRegistrationStatuses.Approved;
     }
 
     #endregion
