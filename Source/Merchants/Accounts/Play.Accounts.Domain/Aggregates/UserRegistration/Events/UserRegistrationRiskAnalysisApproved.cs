@@ -1,7 +1,6 @@
-﻿using Play.Accounts.Domain.Aggregates;
-using Play.Domain.Events;
+﻿using Play.Domain.Events;
 
-namespace Play.Accounts.Domain;
+namespace Play.Accounts.Domain.Aggregates;
 
 public record UserRegistrationRiskAnalysisApproved : DomainEvent
 {

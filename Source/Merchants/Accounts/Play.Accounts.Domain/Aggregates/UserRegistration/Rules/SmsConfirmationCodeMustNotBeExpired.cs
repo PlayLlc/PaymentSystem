@@ -1,4 +1,5 @@
-﻿using Play.Domain.Aggregates;
+﻿using Play.Accounts.Domain.Entities;
+using Play.Domain.Aggregates;
 
 namespace Play.Accounts.Domain.Aggregates;
 

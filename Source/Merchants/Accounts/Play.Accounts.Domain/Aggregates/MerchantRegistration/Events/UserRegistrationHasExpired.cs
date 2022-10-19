@@ -9,23 +9,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Play.Accounts.Domain.Aggregates
+namespace Play.Accounts.Domain.Aggregates;
+
+public record UserRegistrationHasExpired : DomainEvent
 {
-    public record UserRegistrationHasExpired : DomainEvent
+    #region Instance Values
+
+    public readonly string Id;
+
+    #endregion
+
+    #region Constructor
+
+    public UserRegistrationHasExpired(string id) : base($"The user registration has expired for {nameof(UserRegistration)} with the {nameof(Id)}: [{id}];")
     {
-        #region Instance Values
-
-        public readonly string Id;
-
-        #endregion
-
-        #region Constructor
-
-        public UserRegistrationHasExpired(string id) : base($"The user registration has expired for {nameof(UserRegistration)} with the {nameof(Id)}: [{id}];")
-        {
-            Id = id;
-        }
-
-        #endregion
+        Id = id;
     }
+
+    #endregion
 }

@@ -1,15 +1,14 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Events;
 
-namespace Play.Accounts.Domain.Aggregates
+namespace Play.Accounts.Domain.Aggregates;
+
+public record PasswordWasTooWeak : BusinessRuleViolationDomainEvent<UserRegistration, string>
 {
-    public record PasswordWasTooWeak : BusinessRuleViolationDomainEvent<UserRegistration, string>
-    {
-        #region Constructor
+    #region Constructor
 
-        public PasswordWasTooWeak(UserRegistration userRegistration, IBusinessRule rule) : base(userRegistration, rule)
-        { }
+    public PasswordWasTooWeak(UserRegistration userRegistration, IBusinessRule rule) : base(userRegistration, rule)
+    { }
 
-        #endregion
-    }
+    #endregion
 }

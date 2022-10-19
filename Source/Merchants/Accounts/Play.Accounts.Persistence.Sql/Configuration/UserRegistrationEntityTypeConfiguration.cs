@@ -3,10 +3,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using Play.Accounts.Domain.Aggregates;
 using Play.Accounts.Domain.Entities;
-using Play.Accounts.Domain.Enums;
-using Play.Globalization.Time;
+using Play.Accounts.Domain.ValueObjects;
 
-namespace Play.Accounts.Sql.Configurations;
+namespace Play.Accounts.Persistence.Sql.Configuration;
 
 internal class UserRegistrationEntityTypeConfiguration : IEntityTypeConfiguration<UserRegistration>
 {

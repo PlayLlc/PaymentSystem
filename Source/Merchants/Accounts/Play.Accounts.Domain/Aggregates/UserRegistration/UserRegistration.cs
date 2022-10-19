@@ -11,6 +11,7 @@ using Play.Globalization.Time;
 using System.Net.NetworkInformation;
 
 using Play.Accounts.Contracts.Commands;
+using Play.Accounts.Domain.ValueObjects;
 using Play.Core.Exceptions;
 using Play.Randoms;
 
@@ -77,6 +78,11 @@ public class UserRegistration : Aggregate<string>
     #endregion
 
     #region Instance Members
+
+    public string GetEmail()
+    {
+        return _Username;
+    }
 
     /// <exception cref="ValueObjectException"></exception>
     private bool IsUserRegistrationExpired()

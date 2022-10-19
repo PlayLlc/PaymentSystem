@@ -2,15 +2,14 @@
 
 using Microsoft.Extensions.Logging;
 
-namespace Play.Accounts.Application.Handlers.Domain
+namespace Play.Accounts.Application.Handlers.Domain;
+
+public class MerchantHandler : DomainEventHandler
 {
-    public class MerchantHandler : DomainEventHandler
-    {
-        #region Constructor
+    #region Constructor
 
-        public MerchantHandler(ILogger<MerchantHandler> logger) : base(logger)
-        { }
+    public MerchantHandler(ILogger<MerchantHandler> logger) : base(logger)
+    { }
 
-        #endregion
-    }
+    #endregion
 }

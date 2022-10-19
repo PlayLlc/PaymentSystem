@@ -7,14 +7,13 @@ using System.Threading.Tasks;
 using Play.Accounts.Domain.Aggregates;
 using Play.Core;
 
-namespace Play.Accounts.Domain.Services
+namespace Play.Accounts.Domain.Services;
+
+public interface IVerifyEmailAccounts
 {
-    public interface IVerifyEmailAccounts
-    {
-        #region Instance Members
+    #region Instance Members
 
-        public Task<Result> SendVerificationCode(uint code, string email);
+    public Task<Result> SendVerificationCode(uint verificationCode, string email);
 
-        #endregion
-    }
+    #endregion
 }

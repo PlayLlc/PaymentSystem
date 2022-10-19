@@ -1,11 +1,10 @@
 ﻿using Play.Accounts.Contracts.Dtos;
 using Play.Accounts.Domain.ValueObjects;
-using Play.Domain;
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Time;
 
-namespace Play.Accounts.Domain.Aggregates;
+namespace Play.Accounts.Domain.Entities;
 
 public class ConfirmationCode : Entity<string>
 {

@@ -1,7 +1,8 @@
-﻿using Play.Core;
+﻿using Play.Accounts.Domain.Enums;
+using Play.Core;
 using Play.Domain.ValueObjects;
 
-namespace Play.Accounts.Domain.Enums;
+namespace Play.Accounts.Domain.ValueObjects;
 
 public record RegistrationStatus : ValueObject<string>
 {

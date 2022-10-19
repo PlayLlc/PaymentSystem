@@ -6,7 +6,7 @@ public interface IEnsureUniqueEmails
 {
     #region Instance Members
 
-    public bool IsUnique(string email);
+    public Task<bool> IsUnique(string email);
 
     #endregion
 }

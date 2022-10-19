@@ -1,6 +1,6 @@
 ﻿using Play.Telecom.SendGrid;
 
-namespace Play.Identity.Application.Services;
+namespace Play.Accounts.Application.Services;
 
 public class PasswordResetTemplateBuilder : EmailTemplateBuilder
 {
