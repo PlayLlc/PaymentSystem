@@ -1,5 +1,4 @@
 ﻿using Play.Accounts.Domain.ValueObjects;
-using Play.Codecs;
 using Play.Domain.Aggregates;
 
 namespace Play.Accounts.Domain.Aggregates;

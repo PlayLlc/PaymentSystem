@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using Play.Accounts.Domain.ValueObjects;
 using Play.Core;
 
 namespace Play.Accounts.Domain.Services;
@@ -12,7 +7,7 @@ public interface IVerifyMobilePhones
 {
     #region Instance Members
 
-    public Task<Result> SendVerificationCode(uint code, string mobile);
+    public Task<Result> SendVerificationCode(uint code, Phone mobile);
 
     #endregion
 }

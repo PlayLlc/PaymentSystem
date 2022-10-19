@@ -8,7 +8,7 @@ using Play.Core.Exceptions;
 using Play.Identity.Application.Entities;
 using Play.Identity.Domain;
 using Play.Randoms;
-using Play.Telecom.SendGrid;
+using Play.Telecom.SendGrid.Email;
 
 namespace Play.Identity.Application.Services.Registration;
 

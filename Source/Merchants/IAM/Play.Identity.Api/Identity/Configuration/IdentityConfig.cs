@@ -29,7 +29,7 @@ public static class IdentityConfig
     {
         return new List<ApiScope>
         {
-            new(Specs.ApiScopes.IdentityServer, "This scope represents any client that is authorized to use an Identity Server resource",
+            new(IdentitySpecs.ApiScopes.IdentityServer, "This scope represents any client that is authorized to use an Identity Server resource",
                 new List<string>
                 {
                     JwtClaimTypes.Id,
@@ -38,7 +38,7 @@ public static class IdentityConfig
                     JwtClaimTypes.Address,
                     JwtClaimTypes.Email
                 }),
-            new(Specs.ApiScopes.ExternalApi, "This scope represents clients calling from an external web api", new List<string>
+            new(IdentitySpecs.ApiScopes.ExternalApi, "This scope represents clients calling from an external web api", new List<string>
             {
                 JwtClaimTypes.Id,
                 JwtClaimTypes.ClientId,
@@ -46,15 +46,16 @@ public static class IdentityConfig
                 JwtClaimTypes.Address,
                 JwtClaimTypes.Email
             }),
-            new(Specs.ApiScopes.ExternalMobile, "This scope represents clients calling from a mobile application", new List<string>
-            {
-                JwtClaimTypes.Id,
-                JwtClaimTypes.ClientId,
-                JwtClaimTypes.PhoneNumber,
-                JwtClaimTypes.Address,
-                JwtClaimTypes.Email
-            }),
-            new(Specs.ApiScopes.Verification, "This scope allows clients to see if the user's account information has been verified",
+            new(IdentitySpecs.ApiScopes.ExternalMobile, "This scope represents clients calling from a mobile application",
+                new List<string>
+                {
+                    JwtClaimTypes.Id,
+                    JwtClaimTypes.ClientId,
+                    JwtClaimTypes.PhoneNumber,
+                    JwtClaimTypes.Address,
+                    JwtClaimTypes.Email
+                }),
+            new(IdentitySpecs.ApiScopes.Verification, "This scope allows clients to see if the user's account information has been verified",
                 new List<string>
                 {
                     JwtClaimTypes.Id,
@@ -83,9 +84,9 @@ public static class IdentityConfig
                 PostLogoutRedirectUris = {businessPayConfig.PostLogoutRedirectUris},
                 AllowedScopes =
                 {
-                    Specs.ApiScopes.IdentityServer,
-                    Specs.ApiScopes.ExternalMobile,
-                    Specs.ApiScopes.OpenId
+                    IdentitySpecs.ApiScopes.IdentityServer,
+                    IdentitySpecs.ApiScopes.ExternalMobile,
+                    IdentitySpecs.ApiScopes.OpenId
                 }
             },
 
@@ -101,7 +102,7 @@ public static class IdentityConfig
                 PostLogoutRedirectUris = {merchantPortalConfig.PostLogoutRedirectUris},
                 AllowedScopes =
                 {
-                    Specs.ApiScopes.OpenId,
+                    IdentitySpecs.ApiScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile
 
                     //Specs.ApiScopes.IdentityServer,

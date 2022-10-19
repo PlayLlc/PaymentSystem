@@ -6,12 +6,11 @@ using Microsoft.Extensions.Logging;
 using Play.Accounts.Domain.Services;
 using Play.Core;
 using Play.Core.Extensions.IEnumerable;
-using Play.Randoms;
-using Play.Telecom.SendGrid;
+using Play.Telecom.SendGrid.Email;
 
 namespace Play.Accounts.Application.Services;
 
-internal class EmailAccountVerifier : IVerifyEmailAccounts
+public class EmailAccountVerifier : IVerifyEmailAccounts
 {
     #region Instance Values
 

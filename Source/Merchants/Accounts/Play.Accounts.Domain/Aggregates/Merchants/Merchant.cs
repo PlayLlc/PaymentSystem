@@ -1,7 +1,6 @@
 ﻿using Play.Accounts.Contracts.Dtos;
 using Play.Accounts.Domain.Aggregates.Events;
 using Play.Accounts.Domain.Entities;
-using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.ValueObjects;
 using Play.Domain.Aggregates;
 using Play.Domain.ValueObjects;

@@ -12,10 +12,11 @@ public class User : Aggregate<string>
 
     private readonly string _HashedPassword;
 
+    private readonly bool _IsActive;
     private readonly Address _Address;
     private readonly Contact _Contact;
     private readonly PersonalDetail _PersonalDetail;
-    private readonly bool _IsActive;
+    private readonly List<UserRole> _Roles;
 
     #endregion
 
@@ -35,6 +36,7 @@ public class User : Aggregate<string>
         _Contact = contact;
         _PersonalDetail = personalDetail;
         _IsActive = isActive;
+        _Roles = roles.ToList();
     }
 
     #endregion

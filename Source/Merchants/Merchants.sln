@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Accounts.Contracts", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Accounts.Domain", "Accounts\Play.Accounts.Domain\Play.Accounts.Domain.csproj", "{FAEAC8F8-498D-40A8-9607-CDA46F14E8AF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Accounts.Sql", "Accounts\Play.Accounts.Sql\Play.Accounts.Sql.csproj", "{834FCE12-8D19-41B7-B430-6C30F659E7E2}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Accounts.Application", "Accounts\Play.Accounts.Application\Play.Accounts.Application.csproj", "{2EFBAC6F-EE2E-40DD-825F-7376E7996BE6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Messaging.NServiceBus", "Infrastructure\Play.Messaging.NServiceBus\Play.Messaging.NServiceBus.csproj", "{4DB6BA4E-1F79-4E53-B234-373D955FA349}"
@@ -35,13 +33,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_HackingShit", "_HackingShi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_DeleteMe.MerchantPortal.DeleteMe", "_HackingShit\_DeleteMe.MerchantPortal.DeleteMe\_DeleteMe.MerchantPortal.DeleteMe.csproj", "{72E96B99-26CD-4496-B247-CD10366E479C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Identity.Api", "IAM\Play.Identity.Api\Play.Identity.Api.csproj", "{15D230CB-4F27-40C2-8FA4-B85764D9F063}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_Archite_Play.Identity.Api", "IAM\Play.Identity.Api\_Archite_Play.Identity.Api.csproj", "{15D230CB-4F27-40C2-8FA4-B85764D9F063}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Persistence", "Infrastructure\Play.Persistence\Play.Persistence.csproj", "{0E25D2E8-C051-430E-812A-BD796D126010}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Identity.Application", "IAM\Play.Identity.Application\Play.Identity.Application.csproj", "{C0E269B2-9207-496A-9BD3-20A254F80501}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Telecom.SendGrid", "Infrastructure\Play.Telecom\Play.Telecom.SendGrid.csproj", "{4DE8A436-9400-4C6F-803D-8ECCE7025F14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Telecom.Twilio", "Infrastructure\Play.Telecom\Play.Telecom.Twilio.csproj", "{4DE8A436-9400-4C6F-803D-8ECCE7025F14}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Core", "..\Emvco\Core\Play.Core\Play.Core.csproj", "{DAC70B20-4856-4735-911F-560FF437C15D}"
 EndProject
@@ -58,6 +56,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Terminals.Domain", "Terminals\Play.Terminals.Domain\Play.Terminals.Domain.csproj", "{9E8D3129-9C38-408D-8578-26EFB2A729EB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Accounts.Persistence.Sql", "Accounts\Play.Accounts.Persistence.Sql\Play.Accounts.Persistence.Sql.csproj", "{A5F05D2E-8E7D-493C-94B1-D8A3F92CB344}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Identity.Api", "Accounts\Play.Identity.Api\Play.Identity.Api.csproj", "{8E4CBF7D-DD4D-4BAF-B6D9-550D2401765B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,10 +89,6 @@ Global
 		{FAEAC8F8-498D-40A8-9607-CDA46F14E8AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FAEAC8F8-498D-40A8-9607-CDA46F14E8AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FAEAC8F8-498D-40A8-9607-CDA46F14E8AF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{834FCE12-8D19-41B7-B430-6C30F659E7E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{834FCE12-8D19-41B7-B430-6C30F659E7E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{834FCE12-8D19-41B7-B430-6C30F659E7E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{834FCE12-8D19-41B7-B430-6C30F659E7E2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2EFBAC6F-EE2E-40DD-825F-7376E7996BE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2EFBAC6F-EE2E-40DD-825F-7376E7996BE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EFBAC6F-EE2E-40DD-825F-7376E7996BE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -157,6 +153,10 @@ Global
 		{A5F05D2E-8E7D-493C-94B1-D8A3F92CB344}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5F05D2E-8E7D-493C-94B1-D8A3F92CB344}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5F05D2E-8E7D-493C-94B1-D8A3F92CB344}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E4CBF7D-DD4D-4BAF-B6D9-550D2401765B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E4CBF7D-DD4D-4BAF-B6D9-550D2401765B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E4CBF7D-DD4D-4BAF-B6D9-550D2401765B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E4CBF7D-DD4D-4BAF-B6D9-550D2401765B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -168,7 +168,6 @@ Global
 		{44D1ED40-3D73-4862-96AC-4D2C2BABF22D} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
 		{FE3AD17E-B250-4A4B-8FF4-3FA0D1B87A6D} = {460B0CC6-3EFF-4FC8-B4E0-A01349EE3803}
 		{FAEAC8F8-498D-40A8-9607-CDA46F14E8AF} = {460B0CC6-3EFF-4FC8-B4E0-A01349EE3803}
-		{834FCE12-8D19-41B7-B430-6C30F659E7E2} = {460B0CC6-3EFF-4FC8-B4E0-A01349EE3803}
 		{2EFBAC6F-EE2E-40DD-825F-7376E7996BE6} = {460B0CC6-3EFF-4FC8-B4E0-A01349EE3803}
 		{4DB6BA4E-1F79-4E53-B234-373D955FA349} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
 		{C2CA4F33-E5B1-46B9-A341-D585786CF324} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
@@ -186,6 +185,7 @@ Global
 		{E6E8C275-F17B-4099-8EC2-9433B7BA8561} = {C7DC960F-14D9-43E4-92AA-2A933F241475}
 		{9E8D3129-9C38-408D-8578-26EFB2A729EB} = {C7DC960F-14D9-43E4-92AA-2A933F241475}
 		{A5F05D2E-8E7D-493C-94B1-D8A3F92CB344} = {460B0CC6-3EFF-4FC8-B4E0-A01349EE3803}
+		{8E4CBF7D-DD4D-4BAF-B6D9-550D2401765B} = {460B0CC6-3EFF-4FC8-B4E0-A01349EE3803}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6833603-DD22-4624-AB4A-235C51671F62}

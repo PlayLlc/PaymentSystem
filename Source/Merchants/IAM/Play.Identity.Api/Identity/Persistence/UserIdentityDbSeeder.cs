@@ -37,8 +37,6 @@ internal class UserIdentityDbSeeder
     public async Task Seed(ConfigurationManager manager, UserManager<UserIdentity> userManager, RoleStore<Role> roleStore)
     {
         //SendGridConfig? config = manager.GetSection(nameof(SendGridConfig)).Get<SendGridConfig>();
-        var a = new EmailAccountVerifier();
-        await a.SendVerificationCode().ConfigureAwait(false);
 
         if (!await roleStore.Roles.AnyAsync().ConfigureAwait(false))
             await SeedRoles(roleStore).ConfigureAwait(false);
@@ -105,6 +103,10 @@ internal class UserIdentityDbSeeder
             EmailConfirmed = true,
             PhoneNumberConfirmed = true
         };
+
+        var a = userManager.PasswordHasher;
+
+        userManager.CreateAsync(new UserIdentity(), "");
 
         await userManager.CreateAsync(superAdmin, password).ConfigureAwait(false);
         await userManager.AddToRoleAsync(superAdmin, nameof(RoleTypes.SuperAdmin));

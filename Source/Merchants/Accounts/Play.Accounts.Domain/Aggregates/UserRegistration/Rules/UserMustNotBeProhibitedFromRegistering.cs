@@ -1,12 +1,4 @@
-﻿using Play.Accounts.Domain.ValueObjects;
-using Play.Domain.Aggregates;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using Play.Domain.Aggregates;
 using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Services;
 

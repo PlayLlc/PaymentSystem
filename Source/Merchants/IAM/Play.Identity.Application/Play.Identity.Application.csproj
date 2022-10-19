@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Infrastructure\Play.Telecom\Play.Telecom.SendGrid.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Play.Telecom\Play.Telecom.Twilio.csproj" />
     <ProjectReference Include="..\Play.Identity.Domain\Play.Identity.Domain.csproj" />
   </ItemGroup>
 

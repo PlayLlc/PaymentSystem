@@ -1,4 +1,4 @@
-﻿using Play.Telecom.SendGrid;
+﻿using Play.Telecom.SendGrid.Email;
 
 namespace Play.Accounts.Application.Services;
 

@@ -9,14 +9,14 @@ using Microsoft.Extensions.Configuration;
 
 using Play.Accounts.Contracts.Dtos;
 using Play.Accounts.Domain.Entities;
+using Play.Accounts.Domain.Enums;
 using Play.Accounts.Persistence.Sql.Entities;
-using Play.Accounts.Persistence.Sql.Enums;
 using Play.Globalization.Time;
 using Play.Randoms;
 
 namespace Play.Accounts.Persistence.Sql.Persistence;
 
-internal class UserIdentityDbSeeder
+public class UserIdentityDbSeeder
 {
     #region Instance Values
 
@@ -59,11 +59,11 @@ internal class UserIdentityDbSeeder
         if (await roleStore.Roles.AnyAsync().ConfigureAwait(false))
             return;
 
-        List<RoleIdentity> roles = Enum.GetNames<RoleTypes>()
+        List<RoleIdentity> roles = UserRoles.Empty.GetAll()
             .Select(a => new RoleIdentity
             {
                 Name = a,
-                NormalizedName = a.ToLower()
+                NormalizedName = ((string) a).ToUpper()
             })
             .ToList();
 
@@ -109,7 +109,7 @@ internal class UserIdentityDbSeeder
         };
 
         await userManager.CreateAsync(superAdmin, password).ConfigureAwait(false);
-        await userManager.AddToRoleAsync(superAdmin, nameof(RoleTypes.SuperAdmin));
+        await userManager.AddToRoleAsync(superAdmin, nameof(UserRoles.SuperAdmin));
         await _Context.SaveChangesAsync().ConfigureAwait(false);
 
         return superAdmin;
