@@ -1,10 +1,9 @@
-﻿using Play.Accounts.Contracts.Dtos;
-using PlPlay.Accounts.Domain.ValueObjects
-using PlPlay.Domain.Entities
-using PlPlay.Domain.ValueObjects
+﻿using System.Text.Json;
 
-using SySystem.ComponentModel.DataAnnotations
-using SySystem.Text.Json
+using Play.Accounts.Contracts.Dtos;
+using Play.Accounts.Domain.ValueObjects;
+using Play.Domain.Entities;
+using Play.Domain.ValueObjects;
 
 namespace Play.Accounts.Domain.Entities;
 
@@ -58,40 +57,26 @@ public class Address : Entity<string>
     public override AddressDto AsDto()
     {
         return new AddressDto
-
-        
-
-            artmentNumber = ApartmentNumber,
-
-            ty = City,
-
-            ate = State.Value,
-
-            reetAddress = StreetAddress,
-
-            pcode = Zipcode.Value
-
-        
+        {
+            ApartmentNumber = ApartmentNumber,
+            City = City,
+            State = State.Value,
+            StreetAddress = StreetAddress,
+            Zipcode = Zipcode.Value
+        };
     }
 
     /// <exception cref="NotSupportedException"></exception>
     public string Normalize()
     {
         return JsonSerializer.Serialize(new
-
-        
-
-            reet_address = StreetAddress,
-
-            cality = City,
-
-            gion = State,
-
-            stal_code = Zipcode,
-
-            untry = "United States"
-
-        ;
+        {
+            street_address = StreetAddress,
+            locality = City,
+            region = State,
+            postal_code = Zipcode,
+            country = "United States"
+        });
     }
 
     #endregion

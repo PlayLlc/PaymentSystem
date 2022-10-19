@@ -6,8 +6,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Play.Accounts.Domain.Entities;
 using Play.Accounts.Persistence.Sql.Entities;
 
-using PersonalInfo = Play.Accounts.Domain.Entities.PersonalInfo;
-
 namespace Play.Accounts.Persistence.Sql.Persistence;
 
 public class UserIdentityDbContext : IdentityDbContext<UserIdentity, RoleIdentity, string>
@@ -26,13 +24,13 @@ public class UserIdentityDbContext : IdentityDbContext<UserIdentity, RoleIdentit
         builder.Entity<Address>().ToTable("Addresses").Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<Address>().HasKey(x => x.Id);
 
-        builder.Entity<ContactInfo>().ToTable("Contacts").Property(x => x.Id).ValueGeneratedOnAdd();
-        builder.Entity<ContactInfo>().HasKey(x => x.Id);
+        builder.Entity<Contact>().ToTable("Contacts").Property(x => x.Id).ValueGeneratedOnAdd();
+        builder.Entity<Contact>().HasKey(x => x.Id);
 
-        RelationalEntityTypeBuilderExtensions.ToTable((EntityTypeBuilder) builder.Entity<PersonalInfo>(), "PersonalDetails")
+        RelationalEntityTypeBuilderExtensions.ToTable((EntityTypeBuilder) builder.Entity<PersonalDetail>(), "PersonalDetails")
             .Property(x => x.Id)
             .ValueGeneratedOnAdd();
-        builder.Entity<PersonalInfo>().HasKey(x => x.Id);
+        builder.Entity<PersonalDetail>().HasKey(x => x.Id);
 
         builder.Entity<UserIdentity>().ToTable("UserIdentities");
         builder.Entity<RoleIdentity>().ToTable("Roles");

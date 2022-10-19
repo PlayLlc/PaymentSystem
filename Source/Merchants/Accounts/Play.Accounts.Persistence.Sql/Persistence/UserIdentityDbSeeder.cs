@@ -5,10 +5,14 @@ using IdentityModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
+using Play.Accounts.Contracts.Dtos;
 using Play.Accounts.Domain.Entities;
 using Play.Accounts.Persistence.Sql.Entities;
 using Play.Accounts.Persistence.Sql.Enums;
+using Play.Globalization.Time;
+using Play.Randoms;
 
 namespace Play.Accounts.Persistence.Sql.Persistence;
 
@@ -35,10 +39,6 @@ internal class UserIdentityDbSeeder
     /// <exception cref="DbUpdateException"></exception>
     public async Task Seed(ConfigurationManager manager, UserManager<UserIdentity> userManager, RoleStore<RoleIdentity> roleStore)
     {
-        //SendGridConfig? config = manager.GetSection(nameof(SendGridConfig)).Get<SendGridConfig>();
-        var a = new EmailAccountVerifier();
-        await a.SendVerificationCode().ConfigureAwait(false);
-
         if (!await roleStore.Roles.AnyAsync().ConfigureAwait(false))
             await SeedRoles(roleStore).ConfigureAwait(false);
 
@@ -75,31 +75,34 @@ internal class UserIdentityDbSeeder
     /// <exception cref="DbUpdateException"></exception>
     private async Task<UserIdentity> AddSuperAdmin(UserManager<UserIdentity> userManager)
     {
-        Address address = new()
+        Address address = new(new AddressDto()
         {
+            Id = Randomize.AlphaNumericSpecial.String(20),
             StreetAddress = "1234 Radio Shack Rd",
             ApartmentNumber = "42069",
             City = "Dallas",
             State = "Texas",
             Zipcode = "75036"
-        };
+        });
 
-        PersonalInfo personalInfo = new()
+        PersonalDetail personalDetail = new(new PersonalInfoDto()
         {
-            DateOfBirth = new DateTime(1969, 4, 20),
+            Id = Randomize.AlphaNumericSpecial.String(20),
+            DateOfBirth = new DateTimeUtc(1969, 4, 20),
             LastFourOfSocial = "6969"
-        };
+        });
 
-        ContactInfo contactInfo = new()
+        Contact contact = new(new ContactInfoDto()
         {
+            Id = Randomize.AlphaNumericSpecial.String(20),
             Email = "test@aol.com",
             FirstName = "Ralph",
             LastName = "Nader",
             Phone = "4204206969"
-        };
+        });
 
         string password = "Password1!";
-        UserIdentity superAdmin = new UserIdentity(contactInfo, address, personalInfo)
+        UserIdentity superAdmin = new UserIdentity(contact, address, personalDetail)
         {
             EmailConfirmed = true,
             PhoneNumberConfirmed = true

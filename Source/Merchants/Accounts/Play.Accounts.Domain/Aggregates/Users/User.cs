@@ -10,10 +10,11 @@ public class User : Aggregate<string>
 
     private readonly string _Id;
 
-    // private readonly MerchantId _MerchantId;
+    private readonly string _HashedPassword;
+
     private readonly Address _Address;
-    private readonly ContactInfo _ContactInfo;
-    private readonly PersonalInfo _PersonalInfo;
+    private readonly Contact _Contact;
+    private readonly PersonalDetail _PersonalDetail;
     private readonly bool _IsActive;
 
     #endregion
@@ -25,14 +26,14 @@ public class User : Aggregate<string>
         // Entity Framework only
     }
 
-    public User(string id, Address address, ContactInfo contactInfo, PersonalInfo personalInfo, bool isActive, params UserRole[] roles)
+    public User(string id, string hashedPassword, Address address, Contact contact, PersonalDetail personalDetail, bool isActive, params UserRole[] roles)
     {
         _Id = id;
 
-        //_MerchantId = merchantId;
+        _HashedPassword = hashedPassword;
         _Address = address;
-        _ContactInfo = contactInfo;
-        _PersonalInfo = personalInfo;
+        _Contact = contact;
+        _PersonalDetail = personalDetail;
         _IsActive = isActive;
     }
 
@@ -41,19 +42,13 @@ public class User : Aggregate<string>
     #region Instance Members
 
     public static User CreateFromUserRegistration(
-        string userRegistrationId, Address address, ContactInfo contactInfo, PersonalInfo personalInfo, params UserRole[] roles)
+        string userRegistrationId, string hashedPassword, Address address, Contact contact, PersonalDetail personalDetail, params UserRole[] roles)
     {
-        User user = new User(userRegistrationId, address, contactInfo, personalInfo, true, roles);
+        User user = new User(userRegistrationId, hashedPassword, address, contact, personalDetail, true, roles);
         user.Publish(new UserCreated(user.GetId()));
 
         return user;
     }
-
-    //public void AddRole(UserRole role)
-    //{
-    //    if (_Roles.Add(role))
-    //        Publish(new UserRoleAdded(_Id!, role));
-    //}
 
     public override string GetId()
     {
@@ -66,8 +61,8 @@ public class User : Aggregate<string>
         {
             Id = _Id, /* MerchantId = _MerchantId.Id,*/
             AddressDto = _Address.AsDto(),
-            ContactInfoDto = _ContactInfo.AsDto(),
-            PersonalInfoDto = _PersonalInfo.AsDto(),
+            ContactInfoDto = _Contact.AsDto(),
+            PersonalInfoDto = _PersonalDetail.AsDto(),
             IsActive = _IsActive
         };
     }

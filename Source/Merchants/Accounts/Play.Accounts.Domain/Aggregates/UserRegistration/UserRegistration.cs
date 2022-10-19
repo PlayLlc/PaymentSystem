@@ -28,12 +28,12 @@ public class UserRegistration : Aggregate<string>
 
     private readonly string _Id;
     private readonly string _Username;
-    private readonly string? _Password;
-    private readonly DateTimeUtc _RegisteredDate;
+    private readonly string _HashedPassword;
+    private readonly DateTimeUtc _RegistrationDate;
 
     private Address? _Address;
-    private ContactInfo? _ContactInfo;
-    private PersonalInfo? _PersonalInfo;
+    private Contact? _Contact;
+    private PersonalDetail? _PersonalDetail;
     private RegistrationStatus _Status;
 
     private ConfirmationCode? _EmailConfirmation;
@@ -43,19 +43,35 @@ public class UserRegistration : Aggregate<string>
 
     #region Constructor
 
+    private UserRegistration(
+        string id, string username, string hashedPassword, DateTimeUtc registrationDate, Address address, Contact contact, PersonalDetail personalDetail,
+        RegistrationStatus status, ConfirmationCode? emailConfirmation = null, ConfirmationCode? smsConfirmation = null)
+    {
+        _Id = id;
+        _Username = username;
+        _HashedPassword = hashedPassword;
+        _RegistrationDate = registrationDate;
+        _Address = address;
+        _Contact = contact;
+        _PersonalDetail = personalDetail;
+        _Status = status;
+        _EmailConfirmation = emailConfirmation;
+        _SmsConfirmation = smsConfirmation;
+    }
+
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="ValueObjectException"></exception>
-    private UserRegistration(IEnsureUniqueEmails uniqueEmailChecker, string username, string password)
+    private UserRegistration(IEnsureUniqueEmails uniqueEmailChecker, IHashPasswords passwordHasher, string username, string password)
     {
         Enforce(new UsernameMustBeAValidEmail(username));
         Enforce(new UsernameMustBeUnique(uniqueEmailChecker, username));
         Enforce(new PasswordMustBeStrong(password));
         _Id = GenerateSimpleStringId();
         _Username = username;
-        _Password = password;
-        _RegisteredDate = DateTimeUtc.Now;
+        _HashedPassword = passwordHasher.GeneratePasswordHash(password);
+        _RegistrationDate = DateTimeUtc.Now;
         _Status = new RegistrationStatus(RegistrationStatuses.WaitingForEmailVerification);
-        Publish(new UserRegistrationCreated(_Id, _Password));
+        Publish(new UserRegistrationCreated(_Id, _HashedPassword));
     }
 
     #endregion
@@ -68,7 +84,7 @@ public class UserRegistration : Aggregate<string>
         if (_Status == RegistrationStatuses.Expired)
             return true;
 
-        if ((DateTimeUtc.Now - _RegisteredDate) > _ValidityPeriod)
+        if ((DateTimeUtc.Now - _RegistrationDate) > _ValidityPeriod)
         {
             _Status = new RegistrationStatus(RegistrationStatuses.Expired);
             Publish(new UserRegistrationHasExpired(_Id));
@@ -81,9 +97,10 @@ public class UserRegistration : Aggregate<string>
 
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="ValueObjectException"></exception>
-    public static UserRegistration CreateNewUserRegistration(IEnsureUniqueEmails uniqueEmailChecker, CreateUserRegistrationCommand command)
+    public static UserRegistration CreateNewUserRegistration(
+        IEnsureUniqueEmails uniqueEmailChecker, IHashPasswords passwordHasher, CreateUserRegistrationCommand command)
     {
-        return new UserRegistration(uniqueEmailChecker, command.Email, command.Password);
+        return new UserRegistration(uniqueEmailChecker, passwordHasher, command.Email, command.Password);
     }
 
     /// <exception cref="ValueObjectException"></exception>
@@ -96,12 +113,12 @@ public class UserRegistration : Aggregate<string>
         if (_Status.Value == RegistrationStatuses.Rejected)
             return new Result($"The user can not register because they have previously been rejected");
 
-        if (_ContactInfo is null)
+        if (_Contact is null)
             throw new InvalidOperationException();
 
         _EmailConfirmation = new ConfirmationCode(GenerateSimpleStringId(), DateTimeUtc.Now, Randomize.Integers.UInt(100000, 999999));
 
-        Result result = await emailAccountVerifier.SendVerificationCode(_EmailConfirmation.Code, _ContactInfo!.Email.Value).ConfigureAwait(false);
+        Result result = await emailAccountVerifier.SendVerificationCode(_EmailConfirmation.Code, _Contact!.Email.Value).ConfigureAwait(false);
 
         if (!result.Succeeded)
         {
@@ -159,9 +176,9 @@ public class UserRegistration : Aggregate<string>
             command.ContactInfoDto.Id = GenerateSimpleStringId();
             command.PersonalInfo.Id = GenerateSimpleStringId();
 
-            _PersonalInfo = new PersonalInfo(command.PersonalInfo);
+            _PersonalDetail = new PersonalDetail(command.PersonalInfo);
             _Address = new Address(command.AddressDto);
-            _ContactInfo = new ContactInfo(command.ContactInfoDto);
+            _Contact = new Contact(command.ContactInfoDto);
         }
         catch (ValueObjectException e)
         {
@@ -180,12 +197,12 @@ public class UserRegistration : Aggregate<string>
         if (IsUserRegistrationExpired())
             return new Result($"The user registration has expired");
 
-        if (_ContactInfo is null)
+        if (_Contact is null)
             throw new InvalidOperationException();
 
         _SmsConfirmation = new ConfirmationCode(GenerateSimpleStringId(), DateTimeUtc.Now, Randomize.Integers.UInt(100000, 999999));
 
-        Result result = await mobilePhoneVerifier.SendVerificationCode(_SmsConfirmation.Code, _ContactInfo!.Phone.Value).ConfigureAwait(false);
+        Result result = await mobilePhoneVerifier.SendVerificationCode(_SmsConfirmation.Code, _Contact!.Phone.Value).ConfigureAwait(false);
 
         if (!result.Succeeded)
         {
@@ -238,15 +255,15 @@ public class UserRegistration : Aggregate<string>
         if (IsUserRegistrationExpired())
             return new Result($"The user registration has expired");
 
-        if (_PersonalInfo is null)
+        if (_PersonalDetail is null)
             throw new InvalidOperationException();
         if (_Address is null)
             throw new InvalidOperationException();
-        if (_ContactInfo is null)
+        if (_Contact is null)
             throw new InvalidOperationException();
 
         Result<IBusinessRule> result =
-            GetEnforcementResult(new UserMustNotBeProhibitedFromRegistering(merchantUnderwriter, _PersonalInfo!, _Address!, _ContactInfo!));
+            GetEnforcementResult(new UserMustNotBeProhibitedFromRegistering(merchantUnderwriter, _PersonalDetail!, _Address!, _Contact!));
 
         if (!result.Succeeded)
         {
@@ -268,14 +285,14 @@ public class UserRegistration : Aggregate<string>
         if (_Status != RegistrationStatuses.Approved)
             return new Result<User?>(null, $"The user can't be created because registration has not yet been approved");
 
-        if (_PersonalInfo is null)
+        if (_PersonalDetail is null)
             throw new InvalidOperationException();
         if (_Address is null)
             throw new InvalidOperationException();
-        if (_ContactInfo is null)
+        if (_Contact is null)
             throw new InvalidOperationException();
 
-        return new Result<User?>(new User(_Id, _Address!, _ContactInfo!, _PersonalInfo!, true));
+        return new Result<User?>(new User(_Id, _HashedPassword!, _Address!, _Contact!, _PersonalDetail!, true));
     }
 
     public override string GetId()
@@ -290,9 +307,9 @@ public class UserRegistration : Aggregate<string>
         {
             Id = _Id,
             Address = _Address?.AsDto(),
-            ContactInfo = _ContactInfo?.AsDto() ?? new ContactInfoDto(),
-            PersonalInfo = _PersonalInfo?.AsDto(),
-            RegisteredDate = _RegisteredDate!,
+            ContactInfo = _Contact?.AsDto() ?? new ContactInfoDto(),
+            PersonalInfo = _PersonalDetail?.AsDto(),
+            RegisteredDate = _RegistrationDate!,
             RegistrationStatus = _Status
         };
     }

@@ -1,10 +1,10 @@
 ﻿using Play.Accounts.Contracts.Dtos;
-using PlPlay.Domain.Entities
-using PlPlay.Globalization.Time
+using Play.Domain.Entities;
+using Play.Globalization.Time;
 
 namespace Play.Accounts.Domain.Entities;
 
-public class PersonalInfo : Entity<string>
+public class PersonalDetail : Entity<string>
 {
     #region Instance Values
 
@@ -21,7 +21,7 @@ public class PersonalInfo : Entity<string>
 
     #region Constructor
 
-    public PersonalInfo(PersonalInfoDto dto)
+    public PersonalDetail(PersonalInfoDto dto)
     {
         Id = dto.Id!;
         LastFourOfSocial = dto.LastFourOfSocial;
@@ -29,7 +29,7 @@ public class PersonalInfo : Entity<string>
     }
 
     /// <exception cref="ArgumentException"></exception>
-    public PersonalInfo(string id, string lastFourOfSocial, DateTime dateOfBirth)
+    public PersonalDetail(string id, string lastFourOfSocial, DateTime dateOfBirth)
     {
         if (dateOfBirth.Kind != DateTimeKind.Utc)
             throw new ArgumentException($"The {nameof(dateOfBirth)} must be in {nameof(DateTimeKind.Utc)} format");
@@ -52,16 +52,11 @@ public class PersonalInfo : Entity<string>
     public override PersonalInfoDto AsDto()
     {
         return new PersonalInfoDto
-
-        
-
-             = Id,
-
-            teOfBirth = new DateTimeUtc(DateOfBirth),
-
-            stFourOfSocial = LastFourOfSocial
-
-        
+        {
+            Id = Id,
+            DateOfBirth = new DateTimeUtc(DateOfBirth),
+            LastFourOfSocial = LastFourOfSocial
+        };
     }
 
     #endregion

@@ -25,9 +25,9 @@ namespace Play.Accounts.Domain.Aggregates
         #region Constructor
 
         internal UserMustNotBeProhibitedFromRegistering(
-            IUnderwriteMerchants merchantUnderwriter, PersonalInfo personalInfo, Address address, ContactInfo contactInfo)
+            IUnderwriteMerchants merchantUnderwriter, PersonalDetail personalDetail, Address address, Contact contact)
         {
-            _IsValid = !merchantUnderwriter.IsUserProhibited(personalInfo, address, contactInfo);
+            _IsValid = !merchantUnderwriter.IsUserProhibited(personalDetail, address, contact);
         }
 
         #endregion

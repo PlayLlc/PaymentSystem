@@ -14,16 +14,16 @@ public sealed class UserIdentity : IdentityUser
     #region Instance Values
 
     public Address Address;
-    public PersonalInfo PersonalInfo;
+    public PersonalDetail PersonalDetail;
 
-    private ContactInfo _ContactInfo;
+    private Contact _Contact;
 
-    public ContactInfo ContactInfo
+    public Contact Contact
     {
-        get => _ContactInfo;
+        get => _Contact;
         set
         {
-            _ContactInfo = value;
+            _Contact = value;
             UserName = value.Email;
 
             //NormalizedUserName = value.Email.Value.ToUpper();
@@ -48,15 +48,15 @@ public sealed class UserIdentity : IdentityUser
     public UserIdentity(UserDto dto)
     {
         Address = new Address(dto.AddressDto);
-        ContactInfo = new ContactInfo(dto.ContactInfoDto);
-        PersonalInfo = new PersonalInfo(dto.PersonalInfoDto);
+        Contact = new Contact(dto.ContactInfoDto);
+        PersonalDetail = new PersonalDetail(dto.PersonalInfoDto);
     }
 
-    public UserIdentity(ContactInfo contactInfo, Address address, PersonalInfo personalInfo)
+    public UserIdentity(Contact contact, Address address, PersonalDetail personalDetail)
     {
-        ContactInfo = contactInfo;
+        Contact = contact;
         Address = address;
-        PersonalInfo = personalInfo;
+        PersonalDetail = personalDetail;
     }
 
     #endregion
@@ -68,11 +68,11 @@ public sealed class UserIdentity : IdentityUser
         return new List<Claim>
         {
             new(JwtClaimTypes.Subject, $"{Guid.NewGuid()}_{DateTime.UtcNow.Ticks}"),
-            new(JwtClaimTypes.Name, $"{ContactInfo.GetFullName()}"),
-            new(JwtClaimTypes.GivenName, ContactInfo.FirstName),
-            new(JwtClaimTypes.FamilyName, ContactInfo.LastName),
-            new(JwtClaimTypes.Email, ContactInfo.Email),
-            new(JwtClaimTypes.BirthDate, PersonalInfo.DateOfBirth.ToShortDateString()),
+            new(JwtClaimTypes.Name, $"{Contact.GetFullName()}"),
+            new(JwtClaimTypes.GivenName, Contact.FirstName),
+            new(JwtClaimTypes.FamilyName, Contact.LastName),
+            new(JwtClaimTypes.Email, Contact.Email),
+            new(JwtClaimTypes.BirthDate, PersonalDetail.DateOfBirth.ToShortDateString()),
             new(JwtClaimTypes.Address, Address.Normalize())
         };
     }

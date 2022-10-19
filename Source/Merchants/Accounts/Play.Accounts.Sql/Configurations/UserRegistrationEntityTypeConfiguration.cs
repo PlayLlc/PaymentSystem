@@ -18,9 +18,9 @@ internal class UserRegistrationEntityTypeConfiguration : IEntityTypeConfiguratio
 
         builder.HasKey(x => x.GetId());
 
-        builder.Property<DateTimeUtc>("_RegisteredDate").HasColumnName("RegisteredDate");
-        builder.Property<DateTimeUtc>("_ConfirmedDate").HasColumnName("ConfirmedDate");
-        builder.Property<DateTimeUtc>("_DateOfBirth").HasColumnName("_DateOfBirth");
+        builder.Property<DateTime>("_RegisteredDate").HasColumnName("RegisteredDate");
+        builder.Property<DateTime>("_ConfirmedDate").HasColumnName("ConfirmedDate");
+        builder.Property<DateTime>("_DateOfBirth").HasColumnName("_DateOfBirth");
 
         builder.OwnsOne<Address>("_Address", b =>
         {
@@ -33,7 +33,7 @@ internal class UserRegistrationEntityTypeConfiguration : IEntityTypeConfiguratio
             b.Property(x => x.Zipcode).HasColumnName("Zipcode");
         });
 
-        builder.OwnsOne<ContactInfo>("_ContactInfo", b =>
+        builder.OwnsOne<Contact>("_ContactInfo", b =>
         {
             b.WithOwner().HasPrincipalKey(x => x.GetId());
             b.ToTable("ContactInfo", "users");

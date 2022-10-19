@@ -1,11 +1,11 @@
 ﻿using Play.Accounts.Contracts.Dtos;
-using PlPlay.Accounts.Domain.ValueObjects
-using PlPlay.Domain.Entities
-using PlPlay.Domain.ValueObjects
+using Play.Accounts.Domain.ValueObjects;
+using Play.Domain.Entities;
+using Play.Domain.ValueObjects;
 
 namespace Play.Accounts.Domain.Entities;
 
-public class ContactInfo : Entity<string>
+public class Contact : Entity<string>
 {
     #region Instance Values
 
@@ -21,7 +21,7 @@ public class ContactInfo : Entity<string>
     #region Constructor
 
     /// <exception cref="Play.Domain.ValueObjects.ValueObjectException"></exception>
-    public ContactInfo(string id, string firstName, string lastName, string phone, string email)
+    public Contact(string id, string firstName, string lastName, string phone, string email)
     {
         Id = id;
         Email = new Email(email);
@@ -31,7 +31,7 @@ public class ContactInfo : Entity<string>
     }
 
     /// <exception cref=" ValueObjectException"></exception>
-    public ContactInfo(ContactInfoDto contactInfo)
+    public Contact(ContactInfoDto contactInfo)
     {
         Id = contactInfo.Id!;
         Email = new Email(contactInfo.Email);
@@ -57,18 +57,13 @@ public class ContactInfo : Entity<string>
     public override ContactInfoDto AsDto()
     {
         return new ContactInfoDto()
-
-        
-
-            ail = Email.Value,
-
-            rstName = FirstName.Value,
-
-            stName = LastName.Value,
-
-            one = Phone.Value
-
-        
+        {
+            Id = Id,
+            Email = Email,
+            FirstName = FirstName,
+            LastName = LastName,
+            Phone = Phone
+        };
     }
 
     #endregion

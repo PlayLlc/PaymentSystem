@@ -5,10 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AutoMapper;
-using PlPlay.Accounts.Contractstos;
-using PlayPlay.Accounts.Contracts.Dtos
-using PPlay.Accounts.Domain.Aggregatesusing PlaPlay.Accounts.Domain.Entitiestities;
-Play.Accounts.Persistence.Sql.EntitiesSql.Mapping
+
+using Play.Accounts.Contracts.Dtos;
+using Play.Accounts.Domain.Aggregates;
+using Play.Accounts.Domain.Entities;
+using Play.Accounts.Persistence.Sql.Entities;
+
+namespace Play.Accounts.Persistence.Sql.Mapping
 {
     public class AccountMappingProfile : Profile
     {
@@ -23,30 +26,26 @@ Play.Accounts.Persistence.Sql.EntitiesSql.Mapping
                 cfg.CreateMap<Address, AddressDto>().ForMember((dest) => dest, opt => opt.MapFrom(src => src.AsDto()));
 
                 // ContactInfo
-                cfg.CreateMap<ContactInfoDto, ContactInfo>().ForMember((dest) => dest, opt => opt.MapFrom(src => new ContactInfo(src)));
-                cfg.CreateMap<ContactInfo, ContactInfoDto>().ForMember((dest) => dest, opt => opt.MapFrom(src => src.AsDto()));
+                cfg.CreateMap<ContactInfoDto, Contact>().ForMember((dest) => dest, opt => opt.MapFrom(src => new Contact(src)));
+                cfg.CreateMap<Contact, ContactInfoDto>().ForMember((dest) => dest, opt => opt.MapFrom(src => src.AsDto()));
 
                 // PersonalInfo
-                cfg.CreateMap<PersonalInfoDto, PersonalInfo>().ForMember((dest) => dest, opt => opt.MapFrom(src => new PersonalInfo(src)));
-                cfg.CreateMap<PersonalInfo, PersonalInfoDto>().ForMember((dest) => dest, opt => opt.MapFrom(src => src.AsDto()));
+                cfg.CreateMap<PersonalInfoDto, PersonalDetail>().ForMember((dest) => dest, opt => opt.MapFrom(src => new PersonalDetail(src)));
+                cfg.CreateMap<PersonalDetail, PersonalInfoDto>().ForMember((dest) => dest, opt => opt.MapFrom(src => src.AsDto()));
 
                 // Roles
                 cfg.CreateMap<UserRole, RoleIdentity>()
-                .ForMember((dest) => de
-                From(src => new RoleIdentity
+                .ForMember((dest) => dest, opt => opt.MapFrom(src => new RoleIdentity
                 {
-                    
-                 
-                    src.Name
-  
-                                  c
-                dentity, UserRole>().ForMember((dest) => dest, opt => opt.MapFrom(src => new UserRole(src.Id, src.Name)));
+                    Id = src.Id,
+                    Name = src.Name
+                }));
+                cfg.CreateMap<RoleIdentity, UserRole>().ForMember((dest) => dest, opt => opt.MapFrom(src => new UserRole(src.Id, src.Name)));
 
                 // User
                 cfg.CreateMap<User, UserIdentity>().ForMember((dest) => dest, opt => opt.MapFrom(src => new UserIdentity(src.AsDto())));
                 cfg.CreateMap<UserIdentity, User>()
-                    .ForMember((dest) =
-                    From(src => new User(src.Id, src.Address, src.ContactInfo, src.PersonalInfo, src.IsActive)));
+                    .ForMember((dest) => dest, opt => opt.MapFrom(src => new User(src.Id, src.Address, src.Contact, src.PersonalDetail, src.IsActive)));
             });
         }
 

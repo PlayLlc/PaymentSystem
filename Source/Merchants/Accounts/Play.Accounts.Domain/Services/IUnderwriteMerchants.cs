@@ -16,7 +16,7 @@ public interface IUnderwriteMerchants
     ///     Ensures that the user is not under sanctions, terrorism watch list, money laundering, etc..
     /// </summary>
     /// <returns></returns>
-    public bool IsUserProhibited(PersonalInfo personalInfo, Address address, ContactInfo contactInfo);
+    public bool IsUserProhibited(PersonalDetail personalDetail, Address address, Contact contact);
 
     #endregion
 }
