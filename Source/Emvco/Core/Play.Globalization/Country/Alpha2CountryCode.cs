@@ -1,5 +1,8 @@
 using System;
 
+using Play.Codecs;
+using Play.Core.Exceptions;
+
 namespace Play.Globalization.Country;
 
 public readonly struct Alpha2CountryCode
@@ -16,9 +19,13 @@ public readonly struct Alpha2CountryCode
 
     public Alpha2CountryCode(ReadOnlySpan<char> value)
     {
-        //Circular dependency
-        //if (!CountryCodeRepository.IsValid(value))
-        //    throw new ArgumentOutOfRangeException(nameof(value), $"The argument {nameof(value)} must be ISO 3166 compliant");
+        CheckCore.ForExactLength(value, 2, nameof(value));
+
+        if (!PlayCodec.AlphabeticCodec.IsValid(value))
+        {
+            throw new PlayInternalException(new ArgumentOutOfRangeException(nameof(value),
+                $"The argument {nameof(value)} was expecting a decimal representation of an AsciiCodec alphabetic character"));
+        }
 
         _FirstChar = (byte) value[0];
         _SecondChar = (byte) value[1];
