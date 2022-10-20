@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Runtime.Serialization;
+
+using Microsoft.VisualBasic;
 
 using Play.Core.Exceptions;
 
@@ -15,7 +18,9 @@ public readonly record struct DateTimeUtc
     public int Hour => _Value.Hour;
     public int Minute => _Value.Minute;
     public int Second => _Value.Second;
-    public static DateTimeUtc Now => new(DateTime.UtcNow.Date);
+    private static readonly string _DateFormat = "yyMMdd";
+    private static readonly string _DateTimeFormat = "yyyyMMddHHmmss";
+    public static DateTimeUtc Now => new(DateTime.UtcNow);
     public static DateTimeUtc Today => new(DateTime.UtcNow);
 
     #endregion
@@ -54,9 +59,13 @@ public readonly record struct DateTimeUtc
 
         if (dateTimeValue.Kind != DateTimeKind.Utc)
             throw new ArgumentOutOfRangeException($"The argument {nameof(value)} was not in UTC format");
-
         _Value = dateTimeValue;
     }
+
+    public uint EncodeDate() => uint.Parse(_Value.ToString(_DateFormat));
+
+    public ulong EncodeDateTime() => ulong.Parse(_Value.ToString(_DateTimeFormat));
+
 
     #endregion
 

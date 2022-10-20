@@ -2,23 +2,26 @@
 using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
+using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
+using Play.Globalization.Time;
 
 namespace Play.Emv.Ber.DataElements;
 
-public record ApplicationEffectiveDate : DataElement<uint>, IEqualityComparer<ApplicationEffectiveDate>
+public record ApplicationEffectiveDate : DataElement<DateTimeUtc>, IEqualityComparer<ApplicationEffectiveDate>
 {
     #region Static Metadata
 
     public static readonly Tag Tag = 0x5F25;
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     private const byte _ByteLength = 3;
+    private const byte _CharLength = 6;
 
     #endregion
 
     #region Constructor
 
-    public ApplicationEffectiveDate(uint value) : base(value)
+    public ApplicationEffectiveDate(DateTimeUtc value) : base(value)
     { }
 
     #endregion
@@ -37,11 +40,15 @@ public record ApplicationEffectiveDate : DataElement<uint>, IEqualityComparer<Ap
 
         uint result = PlayCodec.NumericCodec.DecodeToUInt32(value);
 
-        return new ApplicationEffectiveDate(result);
+        nint charLength = result.GetNumberOfDigits();
+
+        Check.Primitive.ForCharLength(charLength, _CharLength, Tag);
+
+        return new ApplicationEffectiveDate(new DateTimeUtc(value[0], value[1], value[2]));
     }
 
-    public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(_Value, length);
+    public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value.EncodeDate(), _ByteLength);
+    public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(_Value.EncodeDate(), length);
 
     #endregion
 
@@ -64,7 +71,8 @@ public record ApplicationEffectiveDate : DataElement<uint>, IEqualityComparer<Ap
 
     #region Operator Overrides
 
-    public static explicit operator uint(ApplicationEffectiveDate value) => value._Value;
+    public static explicit operator DateTimeUtc(ApplicationEffectiveDate value) => value._Value;
+    public static explicit operator uint(ApplicationEffectiveDate value) => value._Value.EncodeDate();
 
     #endregion
 

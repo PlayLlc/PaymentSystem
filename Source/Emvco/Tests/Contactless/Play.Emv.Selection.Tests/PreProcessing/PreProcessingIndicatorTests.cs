@@ -2,7 +2,6 @@
 
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Selection.Configuration;
 using Play.Emv.Selection.Contracts;
 using Play.Globalization;
 using Play.Testing.Emv.Contactless.AutoFixture;

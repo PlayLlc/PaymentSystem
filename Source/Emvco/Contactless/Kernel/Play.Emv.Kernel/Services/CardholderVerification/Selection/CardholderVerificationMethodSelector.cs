@@ -43,7 +43,12 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
         }
 
         if (IsCvmListEmpty(database, out CvmList? cvmList))
+        {
             CreateIccDataMissingCvmResult(database);
+
+            return;
+        }
+            
 
         Select(database, cvmList!, currencyCode);
     }

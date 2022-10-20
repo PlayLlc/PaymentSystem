@@ -93,7 +93,7 @@ public abstract record DataObjectList : DataElement<TagLength[]>
             if (!database.IsKnown(item.GetTag()))
                 return false;
 
-            if (database.IsPresent(item.GetTag()))
+            if (!database.IsPresent(item.GetTag()))
                 return false;
         }
 
@@ -108,7 +108,7 @@ public abstract record DataObjectList : DataElement<TagLength[]>
 
         foreach (TagLength item in _Value)
         {
-            if (!database.IsPresentAndNotEmpty(item.GetTag()))
+            if (database.IsPresentAndNotEmpty(item.GetTag()))
                 result.Add(item.GetTag());
         }
 

@@ -10,13 +10,12 @@ using Play.Globalization.Time;
 
 namespace Play.Emv.Kernel.Services;
 
-internal class RelayResistanceProtocolValidator
+public class RelayResistanceProtocolValidator : IValidateRelayResistanceProtocol
 {
     #region Instance Values
 
     private readonly TransactionSessionId _SessionId;
     private readonly int _MaximumRetryCount;
-    private int _RetryCount;
 
     #endregion
 
@@ -25,14 +24,15 @@ internal class RelayResistanceProtocolValidator
     public RelayResistanceProtocolValidator(TransactionSessionId sessionId, int maximumRetryCount)
     {
         _SessionId = sessionId;
-        _MaximumRetryCount = maximumRetryCount;
+        _MaximumRetryCount = maximumRetryCount; //usually 2
     }
 
     #endregion
 
     #region Instance Members
 
-    public bool IsRetryThresholdHit() => ++_RetryCount > _MaximumRetryCount;
+    //The RelayResistanceProtocolCount is part of the KernelSession.
+    public bool IsRetryThresholdHit(int retryCount) => retryCount > _MaximumRetryCount;
 
     /// <summary>
     ///     IsInRange
@@ -45,27 +45,27 @@ internal class RelayResistanceProtocolValidator
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    private bool IsInRange(TransactionSessionId transactionSessionId, Milliseconds timeElapsed, IReadTlvDatabase tlvDatabase)
+    public bool IsInRange(TransactionSessionId transactionSessionId, Microseconds timeElapsed, IReadTlvDatabase tlvDatabase)
     {
         if (transactionSessionId != _SessionId)
         {
             throw new TerminalDataException(
-                $"The {nameof(RelayResistanceProtocolValidator)} recieved a request with an invalid {nameof(TransactionSessionId)}. The expected {nameof(TransactionSessionId)} was: [{_SessionId}], but the value received was: [{transactionSessionId}]");
+                $"The {nameof(RelayResistanceProtocolValidator)} received a request with an invalid {nameof(TransactionSessionId)}. The expected {nameof(TransactionSessionId)} was: [{_SessionId}], but the value received was: [{transactionSessionId}]");
         }
 
         MeasuredRelayResistanceProcessingTime processingTime = CalculateMeasuredRrpTime(timeElapsed, tlvDatabase);
 
-        if (IsRelayResistanceWithinMinimumRange(processingTime, tlvDatabase))
+        if (!IsRelayResistanceWithinMinimumRange(processingTime, tlvDatabase))
             return false;
 
-        if (IsRelayResistanceWithinMaximumRange())
+        if (!IsRelayResistanceWithinMaximumRange(processingTime, tlvDatabase))
             return false;
 
         return true;
     }
 
     /// <summary>
-    ///     CalculateMeasuredRrpTime
+    ///     CalculateMeasuredRrpTime Book C-2 SR1.18
     /// </summary>
     /// <param name="timeElapsed"></param>
     /// <param name="tlvDatabase"></param>
@@ -74,15 +74,16 @@ internal class RelayResistanceProtocolValidator
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    private MeasuredRelayResistanceProcessingTime CalculateMeasuredRrpTime(Seconds timeElapsed, IReadTlvDatabase tlvDatabase)
+    public MeasuredRelayResistanceProcessingTime CalculateMeasuredRrpTime(Microseconds timeElapsed, IReadTlvDatabase tlvDatabase)
     {
         TerminalExpectedTransmissionTimeForRelayResistanceCapdu terminalExpectedCapduTransmissionTime =
-            (TerminalExpectedTransmissionTimeForRelayResistanceCapdu) tlvDatabase.Get(TerminalExpectedTransmissionTimeForRelayResistanceCapdu.Tag);
+            (TerminalExpectedTransmissionTimeForRelayResistanceCapdu)tlvDatabase.Get(TerminalExpectedTransmissionTimeForRelayResistanceCapdu.Tag);
 
         TerminalExpectedTransmissionTimeForRelayResistanceRapdu terminalExpectedRapduTransmissionTime =
-            (TerminalExpectedTransmissionTimeForRelayResistanceRapdu) tlvDatabase.Get(TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Tag);
+            (TerminalExpectedTransmissionTimeForRelayResistanceRapdu)tlvDatabase.Get(TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Tag);
+
         DeviceEstimatedTransmissionTimeForRelayResistanceRapdu deviceExpectedRapduTransmissionTime =
-            (DeviceEstimatedTransmissionTimeForRelayResistanceRapdu) tlvDatabase.Get(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag);
+            (DeviceEstimatedTransmissionTimeForRelayResistanceRapdu)tlvDatabase.Get(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag);
 
         MeasuredRelayResistanceProcessingTime processingTime = MeasuredRelayResistanceProcessingTime.Create(timeElapsed, terminalExpectedCapduTransmissionTime,
             terminalExpectedRapduTransmissionTime, deviceExpectedRapduTransmissionTime);
@@ -97,18 +98,31 @@ internal class RelayResistanceProtocolValidator
     public bool IsRelayResistanceWithinMinimumRange(MeasuredRelayResistanceProcessingTime processingTime, IReadTlvDatabase tlvDatabase)
     {
         MinTimeForProcessingRelayResistanceApdu minTimeForProcessingRelayResistanceApdu =
-            (MinTimeForProcessingRelayResistanceApdu) tlvDatabase.Get(MinTimeForProcessingRelayResistanceApdu.Tag);
-        MinimumRelayResistanceGracePeriod minGracePeriod = (MinimumRelayResistanceGracePeriod) tlvDatabase.Get(MinimumRelayResistanceGracePeriod.Tag);
+            (MinTimeForProcessingRelayResistanceApdu)tlvDatabase.Get(MinTimeForProcessingRelayResistanceApdu.Tag);
+        MinimumRelayResistanceGracePeriod minGracePeriod = (MinimumRelayResistanceGracePeriod)tlvDatabase.Get(MinimumRelayResistanceGracePeriod.Tag);
 
-        RelaySeconds expectedProcessingTime = (RelaySeconds) minTimeForProcessingRelayResistanceApdu - (RelaySeconds) minGracePeriod;
+        RelaySeconds expectedProcessingTime = (RelaySeconds)minTimeForProcessingRelayResistanceApdu - (RelaySeconds)minGracePeriod;
 
-        if ((RelaySeconds) processingTime < (expectedProcessingTime < RelaySeconds.Zero ? 0 : expectedProcessingTime))
+        if ((RelaySeconds)processingTime < (expectedProcessingTime < RelaySeconds.Zero ? 0 : expectedProcessingTime))
             return false;
 
         return true;
     }
 
-    public bool IsRelayResistanceWithinMaximumRange() => throw new NotImplementedException();
+    public bool IsRelayResistanceWithinMaximumRange(MeasuredRelayResistanceProcessingTime processingTime, IReadTlvDatabase tlvDatabase)
+    {
+        MaxTimeForProcessingRelayResistanceApdu maxTimeForProcessingRelayResistanceApdu =
+            (MaxTimeForProcessingRelayResistanceApdu)tlvDatabase.Get(MaxTimeForProcessingRelayResistanceApdu.Tag);
+
+        MaximumRelayResistanceGracePeriod maxGracePeriod = (MaximumRelayResistanceGracePeriod)tlvDatabase.Get(MaximumRelayResistanceGracePeriod.Tag);
+
+        RelaySeconds expectedProcessingTime = (RelaySeconds)maxTimeForProcessingRelayResistanceApdu + (RelaySeconds)maxGracePeriod;
+
+        if ((RelaySeconds)processingTime > expectedProcessingTime)
+            return false;
+
+        return true;
+    }
 
     #endregion
 }
