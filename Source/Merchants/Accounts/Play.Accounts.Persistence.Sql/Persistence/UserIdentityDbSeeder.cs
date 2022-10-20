@@ -92,7 +92,7 @@ public class UserIdentityDbSeeder
             LastFourOfSocial = "6969"
         });
 
-        Contact contact = new(new ContactInfoDto()
+        Contact contact = new(new ContactDto()
         {
             Id = Randomize.AlphaNumericSpecial.String(20),
             Email = "test@aol.com",

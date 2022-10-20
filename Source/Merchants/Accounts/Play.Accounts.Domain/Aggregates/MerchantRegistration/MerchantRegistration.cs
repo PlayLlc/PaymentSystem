@@ -13,6 +13,7 @@ using Play.Globalization.Time;
 using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 
+using Play.Accounts.Contracts.Commands;
 using Play.Domain.Repositories;
 
 namespace Play.Accounts.Domain.Aggregates;
@@ -62,24 +63,10 @@ public class MerchantRegistration : Aggregate<string>
         return _Id;
     }
 
-    private bool IsMerchantRegistrationExpired()
-    {
-        Result<IBusinessRule> businessRule = GetEnforcementResult(new MerchantRegistrationCannotCompleteIfExpired(_Status, _RegistrationDate));
-
-        if (!businessRule.Succeeded)
-        {
-            _Status = MerchantRegistrationStatuses.Expired;
-
-            return true;
-        }
-
-        return false;
-    }
-
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="AggregateException"></exception>
-    public Result VerifyMerchantAccount(
-        IUnderwriteMerchants underwritingService, Address address, BusinessType businessType, MerchantCategoryCode merchantCategoryCode)
+    /// <exception cref="ValueObjectException"></exception>
+    public Result VerifyMerchantAccount(IUnderwriteMerchants underwritingService, UpdateMerchantRegistrationCommand command)
     {
         if (IsMerchantRegistrationExpired())
             return new Result($"The {nameof(MerchantRegistration)} has expired");
@@ -87,9 +74,9 @@ public class MerchantRegistration : Aggregate<string>
         if (_CompanyName is null)
             throw new InvalidOperationException();
 
-        _Address = address;
-        _BusinessType = businessType;
-        _MerchantCategoryCode = merchantCategoryCode;
+        _Address = new Address(command.Address);
+        _BusinessType = new BusinessType(command.BusinessType);
+        _MerchantCategoryCode = new MerchantCategoryCode(command.MerchantCategoryCode);
 
         if (!GetEnforcementResult(new MerchantIndustryMustNotBeProhibited(_MerchantCategoryCode, underwritingService)).Succeeded)
             return RejectRegistration();
@@ -124,13 +111,6 @@ public class MerchantRegistration : Aggregate<string>
         return merchant;
     }
 
-    public Result RejectRegistration()
-    {
-        _Status = MerchantRegistrationStatuses.Rejected;
-
-        return new Result("Merchant account verification failed");
-    }
-
     public override MerchantRegistrationDto AsDto()
     {
         return new MerchantRegistrationDto
@@ -143,6 +123,27 @@ public class MerchantRegistration : Aggregate<string>
             RegisteredDate = _RegistrationDate,
             RegistrationStatus = _Status
         };
+    }
+
+    private Result RejectRegistration()
+    {
+        _Status = MerchantRegistrationStatuses.Rejected;
+
+        return new Result("Merchant account verification failed");
+    }
+
+    private bool IsMerchantRegistrationExpired()
+    {
+        Result<IBusinessRule> businessRule = GetEnforcementResult(new MerchantRegistrationCannotCompleteIfExpired(_Status, _RegistrationDate));
+
+        if (!businessRule.Succeeded)
+        {
+            _Status = MerchantRegistrationStatuses.Expired;
+
+            return true;
+        }
+
+        return false;
     }
 
     #endregion

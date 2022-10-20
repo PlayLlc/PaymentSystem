@@ -9,7 +9,7 @@ public class UserRegistrationDto : IDto
 
     public string? Id { get; set; }
     public AddressDto? Address { get; set; }
-    public ContactInfoDto? ContactInfo { get; set; }
+    public ContactDto? ContactInfo { get; set; }
     public PersonalInfoDto? PersonalInfo { get; set; }
     public DateTimeUtc RegisteredDate { get; set; }
     public string RegistrationStatus { get; set; } = string.Empty;

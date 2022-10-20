@@ -1,15 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-using System.Net;
-
 using Play.Accounts.Contracts.Commands;
 using Play.Accounts.Domain.Aggregates;
 using Play.Accounts.Domain.Repositories;
-using Play.Accounts.Persistence.Sql.Repositories;
+using Play.Accounts.Domain.Services;
+using Play.Core;
+using Play.Domain;
 using Play.Domain.ValueObjects;
-using Play.Identity.Api.Controllers;
 
-namespace Play.Identity.Api.Areas.Registration
+namespace Play.Identity.Api.Areas.Accounts
 {
     [Area("Accounts")]
     [Route("[area]/[controller]")]
@@ -20,10 +19,41 @@ namespace Play.Identity.Api.Areas.Registration
 
         private readonly ILogger<UserRegistrationController> _Logger;
         private readonly IUserRegistrationRepository _UserRegistrationRepository;
+        private readonly IEnsureUniqueEmails _UniqueEmailChecker;
+        private readonly IHashPasswords _PasswordHasher;
 
         #endregion
 
         #region Instance Members
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<Result> Create(CreateUserRegistrationCommand command)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest();
+
+                var userRegistration = UserRegistration.CreateNewUserRegistration(_UniqueEmailChecker, _PasswordHasher, command);
+                await _UserRegistrationRepository.SaveAsync(userRegistration).ConfigureAwait(false);
+
+                return Ok();
+            }
+
+            // TODO: Let's abstract the handling of exceptions for business rules and value object exceptions
+            catch (BusinessRuleValidationException e)
+            { }
+            catch (ValueObjectException e)
+            { }
+            catch (Exception e)
+            {
+                _Logger.Log(LogLevel.Error,
+                    $"The {nameof(UserRegistration)} with the email: [{command.Email}] could not be created because of an internal server error", e);
+
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -18,7 +18,7 @@ public class UpdateUserRegistrationDetailsCommand
     ///     The personal contact info of the user
     /// </summary>
     [Required]
-    public ContactInfoDto ContactInfoDto { get; set; } = new();
+    public ContactDto ContactDto { get; set; } = new();
 
     /// <summary>
     ///     Personal details about the user

@@ -1,4 +1,6 @@
-﻿using Play.Domain.Aggregates;
+﻿using Play.Accounts.Domain.Enums;
+using Play.Accounts.Domain.ValueObjects;
+using Play.Domain.Aggregates;
 using Play.Domain.Events;
 using Play.Globalization.Time;
 
@@ -8,8 +10,8 @@ internal class UserCannotBeCreatedWhenRegistrationHasExpired : BusinessRule<User
 {
     #region Instance Values
 
-    private readonly TimeSpan _ValidityPeriod = TimeSpan.FromDays(1);
-    private readonly DateTimeUtc _RegisteredDate;
+    private readonly TimeSpan _ValidityPeriod = new(7, 0, 0, 0);
+    private readonly bool _IsValid;
 
     public override string Message => "User cannot be created when registration has expired";
 
@@ -17,9 +19,23 @@ internal class UserCannotBeCreatedWhenRegistrationHasExpired : BusinessRule<User
 
     #region Constructor
 
-    public UserCannotBeCreatedWhenRegistrationHasExpired(DateTimeUtc registeredDate)
+    public UserCannotBeCreatedWhenRegistrationHasExpired(UserRegistrationStatus status, DateTimeUtc registeredDate)
     {
-        _RegisteredDate = registeredDate;
+        if (status == UserRegistrationStatuses.Expired)
+        {
+            _IsValid = false;
+
+            return;
+        }
+
+        if ((DateTimeUtc.Now - registeredDate) > _ValidityPeriod)
+        {
+            _IsValid = false;
+
+            return;
+        }
+
+        _IsValid = true;
     }
 
     #endregion
@@ -28,7 +44,7 @@ internal class UserCannotBeCreatedWhenRegistrationHasExpired : BusinessRule<User
 
     public override bool IsBroken()
     {
-        return (DateTimeUtc.Now - _RegisteredDate) > _ValidityPeriod;
+        return !_IsValid;
     }
 
     public override UserRegistrationHasExpired CreateBusinessRuleViolationDomainEvent(UserRegistration aggregate)

@@ -1,7 +1,12 @@
+using Play.Identity.Api.Filters;
+
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add<ApiExceptionFilterAttribute>();
+});
 
 WebApplication app = builder.Build();
 

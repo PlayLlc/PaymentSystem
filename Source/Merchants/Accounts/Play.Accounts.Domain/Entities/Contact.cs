@@ -31,13 +31,13 @@ public class Contact : Entity<string>
     }
 
     /// <exception cref=" ValueObjectException"></exception>
-    public Contact(ContactInfoDto contactInfo)
+    public Contact(ContactDto contact)
     {
-        Id = contactInfo.Id!;
-        Email = new Email(contactInfo.Email);
-        Phone = new Phone(contactInfo.Phone);
-        FirstName = new Name(contactInfo.FirstName);
-        LastName = new Name(contactInfo.LastName);
+        Id = contact.Id!;
+        Email = new Email(contact.Email);
+        Phone = new Phone(contact.Phone);
+        FirstName = new Name(contact.FirstName);
+        LastName = new Name(contact.LastName);
     }
 
     #endregion
@@ -54,9 +54,9 @@ public class Contact : Entity<string>
         return Id;
     }
 
-    public override ContactInfoDto AsDto()
+    public override ContactDto AsDto()
     {
-        return new ContactInfoDto()
+        return new ContactDto()
         {
             Id = Id,
             Email = Email,

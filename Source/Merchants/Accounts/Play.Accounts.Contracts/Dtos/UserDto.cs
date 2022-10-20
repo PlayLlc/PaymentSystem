@@ -24,7 +24,7 @@ public class UserDto : IDto
     public AddressDto AddressDto { get; set; } = new();
 
     [Required]
-    public ContactInfoDto ContactInfoDto { get; set; } = new();
+    public ContactDto ContactDto { get; set; } = new();
 
     [Required]
     public PersonalInfoDto PersonalInfoDto { get; set; } = new();

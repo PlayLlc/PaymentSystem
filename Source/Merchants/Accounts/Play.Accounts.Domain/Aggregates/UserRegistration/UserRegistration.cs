@@ -11,6 +11,7 @@ using Play.Accounts.Contracts.Commands;
 using Play.Accounts.Domain.ValueObjects;
 using Play.Core.Exceptions;
 using Play.Randoms;
+using Play.Domain.Exceptions;
 
 namespace Play.Accounts.Domain.Aggregates;
 
@@ -20,7 +21,7 @@ public class UserRegistration : Aggregate<string>
 
     private readonly string _Id;
     private readonly string _Username;
-    private readonly string _HashedPassword;
+    private readonly string _HashedHashedPassword;
     private readonly DateTimeUtc _RegistrationDate;
 
     private Address? _Address;
@@ -35,35 +36,15 @@ public class UserRegistration : Aggregate<string>
 
     #region Constructor
 
-    private UserRegistration(
-        string id, string username, string hashedPassword, DateTimeUtc registrationDate, Address address, Contact contact, PersonalDetail personalDetail,
-        UserRegistrationStatus status, ConfirmationCode? emailConfirmation = null, ConfirmationCode? smsConfirmation = null)
+    /// <exception cref="BusinessRuleValidationException"></exception>
+    /// <exception cref="ValueObjectException"></exception>
+    private UserRegistration(string id, string username, string hashedPassword)
     {
         _Id = id;
         _Username = username;
-        _HashedPassword = hashedPassword;
-        _RegistrationDate = registrationDate;
-        _Address = address;
-        _Contact = contact;
-        _PersonalDetail = personalDetail;
-        _Status = status;
-        _EmailConfirmation = emailConfirmation;
-        _SmsConfirmation = smsConfirmation;
-    }
-
-    /// <exception cref="BusinessRuleValidationException"></exception>
-    /// <exception cref="ValueObjectException"></exception>
-    private UserRegistration(IEnsureUniqueEmails uniqueEmailChecker, IHashPasswords passwordHasher, string username, string password)
-    {
-        Enforce(new UsernameMustBeAValidEmail(username));
-        Enforce(new UsernameMustBeUnique(uniqueEmailChecker, username));
-        Enforce(new UserPasswordMustBeStrong(password));
-        _Id = GenerateSimpleStringId();
-        _Username = username;
-        _HashedPassword = passwordHasher.GeneratePasswordHash(password);
+        _HashedHashedPassword = hashedPassword;
         _RegistrationDate = DateTimeUtc.Now;
         _Status = UserRegistrationStatuses.WaitingForEmailVerification;
-        Publish(new UserRegistrationCreated(_Id, _HashedPassword));
     }
 
     #endregion
@@ -75,33 +56,23 @@ public class UserRegistration : Aggregate<string>
         return _Username;
     }
 
-    /// <exception cref="ValueObjectException"></exception>
-    private bool IsUserRegistrationExpired()
-    {
-        if (_Status == UserRegistrationStatuses.Expired)
-            return true;
-
-        if ((DateTimeUtc.Now - _RegistrationDate) > _ValidityPeriod)
-        {
-            _Status = UserRegistrationStatuses.Expired;
-            Publish(new UserRegistrationHasExpired(_Id));
-
-            return true;
-        }
-
-        return false;
-    }
-
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="ValueObjectException"></exception>
     public static UserRegistration CreateNewUserRegistration(
         IEnsureUniqueEmails uniqueEmailChecker, IHashPasswords passwordHasher, CreateUserRegistrationCommand command)
     {
-        return new UserRegistration(uniqueEmailChecker, passwordHasher, command.Email, command.Password);
+        var userRegistration = new UserRegistration(GenerateSimpleStringId(), command.Email, passwordHasher.GeneratePasswordHash(command.Password));
+
+        userRegistration.Enforce(new UsernameMustBeAValidEmail(command.Email));
+        userRegistration.Enforce(new UsernameMustBeUnique(uniqueEmailChecker, command.Email));
+        userRegistration.Enforce(new UserPasswordMustBeStrong(command.Password));
+
+        userRegistration.Publish(new UserRegistrationCreated(userRegistration.GetId(), command.Email));
+
+        return userRegistration;
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
     public async Task<Result> SendEmailAccountVerificationCode(IVerifyEmailAccounts emailAccountVerifier)
     {
         if (IsUserRegistrationExpired())
@@ -111,7 +82,7 @@ public class UserRegistration : Aggregate<string>
             return new Result($"The user can not register because they have previously been rejected");
 
         if (_Contact is null)
-            throw new InvalidOperationException();
+            throw new CommandOutOfSyncException($"The {nameof(Contact)} is required but could not be found");
 
         _EmailConfirmation = new ConfirmationCode(GenerateSimpleStringId(), DateTimeUtc.Now, Randomize.Integers.UInt(100000, 999999));
 
@@ -131,11 +102,10 @@ public class UserRegistration : Aggregate<string>
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
     public Result VerifyEmail(VerifyConfirmationCodeCommand command)
     {
         if (_EmailConfirmation is null)
-            throw new InvalidOperationException();
+            throw new CommandOutOfSyncException($"The email {nameof(ConfirmationCode)} is required but could not be found");
 
         if (IsUserRegistrationExpired())
             return new Result($"The user registration has expired");
@@ -144,17 +114,18 @@ public class UserRegistration : Aggregate<string>
         _EmailConfirmation = null;
 
         Result<IBusinessRule> emailConfirmationCodeMustNotBeExpired = GetEnforcementResult(new EmailConfirmationCodeMustNotBeExpired(confirmationCode));
+        Result<IBusinessRule> emailConfirmationCodeMustBeVerified =
+            GetEnforcementResult(new EmailConfirmationCodeMustBeVerified(confirmationCode!, command.ConfirmationCode));
 
         if (!emailConfirmationCodeMustNotBeExpired.Succeeded)
             return emailConfirmationCodeMustNotBeExpired;
-
-        Result<IBusinessRule> emailConfirmationCodeMustBeVerified =
-            GetEnforcementResult(new EmailConfirmationCodeMustBeVerified(confirmationCode!, command.ConfirmationCode));
 
         if (!emailConfirmationCodeMustBeVerified.Succeeded)
             return emailConfirmationCodeMustBeVerified;
 
         _Status = UserRegistrationStatuses.WaitingForSmsVerification;
+
+        // Todo: Publish Domain Event so that we persist the status update
 
         return new Result();
     }
@@ -170,12 +141,12 @@ public class UserRegistration : Aggregate<string>
         try
         {
             command.AddressDto.Id = GenerateSimpleStringId();
-            command.ContactInfoDto.Id = GenerateSimpleStringId();
+            command.ContactDto.Id = GenerateSimpleStringId();
             command.PersonalInfo.Id = GenerateSimpleStringId();
 
             _PersonalDetail = new PersonalDetail(command.PersonalInfo);
             _Address = new Address(command.AddressDto);
-            _Contact = new Contact(command.ContactInfoDto);
+            _Contact = new Contact(command.ContactDto);
         }
         catch (ValueObjectException e)
         {
@@ -195,10 +166,9 @@ public class UserRegistration : Aggregate<string>
             return new Result($"The user registration has expired");
 
         if (_Contact is null)
-            throw new InvalidOperationException();
+            throw new CommandOutOfSyncException($"The {nameof(Contact)} is required but could not be found");
 
         _SmsConfirmation = new ConfirmationCode(GenerateSimpleStringId(), DateTimeUtc.Now, Randomize.Integers.UInt(100000, 999999));
-
         Result result = await mobilePhoneVerifier.SendVerificationCode(_SmsConfirmation.Code, _Contact!.Phone.Value).ConfigureAwait(false);
 
         if (!result.Succeeded)
@@ -216,25 +186,23 @@ public class UserRegistration : Aggregate<string>
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
     public Result VerifyMobilePhone(VerifyConfirmationCodeCommand command)
     {
         if (IsUserRegistrationExpired())
             return new Result($"The user registration has expired");
 
         if (_SmsConfirmation is null)
-            throw new InvalidOperationException();
+            throw new CommandOutOfSyncException($"The SMS {nameof(ConfirmationCode)} is required but could not be found");
 
         ConfirmationCode confirmationCode = new ConfirmationCode(_SmsConfirmation.AsDto());
         _EmailConfirmation = null;
 
         Result<IBusinessRule> smsConfirmationCodeMustNotBeExpired = GetEnforcementResult(new SmsConfirmationCodeMustNotBeExpired(confirmationCode));
+        Result<IBusinessRule> smsConfirmationCodeMustBeVerified =
+            GetEnforcementResult(new SmsConfirmationCodeMustBeVerified(confirmationCode!, command.ConfirmationCode));
 
         if (!smsConfirmationCodeMustNotBeExpired.Succeeded)
             return smsConfirmationCodeMustNotBeExpired;
-
-        Result<IBusinessRule> smsConfirmationCodeMustBeVerified =
-            GetEnforcementResult(new SmsConfirmationCodeMustBeVerified(confirmationCode!, command.ConfirmationCode));
 
         if (!smsConfirmationCodeMustBeVerified.Succeeded)
             return smsConfirmationCodeMustBeVerified;
@@ -245,7 +213,6 @@ public class UserRegistration : Aggregate<string>
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
     public Result AnalyzeUserRisk(IUnderwriteMerchants merchantUnderwriter)
     {
         if (_Status.Value == UserRegistrationStatuses.Rejected)
@@ -254,11 +221,11 @@ public class UserRegistration : Aggregate<string>
             return new Result($"The user registration has expired");
 
         if (_PersonalDetail is null)
-            throw new InvalidOperationException();
+            throw new CommandOutOfSyncException($"The {nameof(PersonalDetail)} is required but could not be found");
         if (_Address is null)
-            throw new InvalidOperationException();
+            throw new CommandOutOfSyncException($"The {nameof(Address)} is required but could not be found");
         if (_Contact is null)
-            throw new InvalidOperationException();
+            throw new CommandOutOfSyncException($"The {nameof(Contact)} is required but could not be found");
 
         Result<IBusinessRule> result =
             GetEnforcementResult(new UserMustNotBeProhibitedFromRegistering(merchantUnderwriter, _PersonalDetail!, _Address!, _Contact!));
@@ -278,19 +245,24 @@ public class UserRegistration : Aggregate<string>
     }
 
     /// <exception cref="InvalidOperationException"></exception>
-    public Result<User?> CreateUser()
+    /// <exception cref="BusinessRuleValidationException"></exception>
+    public User CreateUser()
     {
-        if (_Status != UserRegistrationStatuses.Approved)
-            return new Result<User?>(null, $"The user can't be created because registration has not yet been approved");
+        Enforce(new UserCannotBeCreatedWithoutApproval(_Status));
 
         if (_PersonalDetail is null)
-            throw new InvalidOperationException();
+            throw new CommandOutOfSyncException($"The {nameof(PersonalDetail)} is required but could not be found");
         if (_Address is null)
-            throw new InvalidOperationException();
+            throw new CommandOutOfSyncException($"The {nameof(Address)} is required but could not be found");
         if (_Contact is null)
-            throw new InvalidOperationException();
+            throw new CommandOutOfSyncException($"The {nameof(Contact)} is required but could not be found");
 
-        return new Result<User?>(new User(_Id, _HashedPassword!, _Address!, _Contact!, _PersonalDetail!, true));
+        var user = new User(_Id, GenerateSimpleStringId(), GenerateSimpleStringId(), _HashedHashedPassword!, _Address!, _Contact!, _PersonalDetail!, true);
+
+        // TODO: Handle this domain event and persist the new user that has been created
+        Publish(new UserHasBeenCreated(user));
+
+        return user;
     }
 
     public override string GetId()
@@ -305,11 +277,25 @@ public class UserRegistration : Aggregate<string>
         {
             Id = _Id,
             Address = _Address?.AsDto(),
-            ContactInfo = _Contact?.AsDto() ?? new ContactInfoDto(),
+            ContactInfo = _Contact?.AsDto() ?? new ContactDto(),
             PersonalInfo = _PersonalDetail?.AsDto(),
             RegisteredDate = _RegistrationDate!,
             RegistrationStatus = _Status
         };
+    }
+
+    private bool IsUserRegistrationExpired()
+    {
+        Result<IBusinessRule> businessRule = GetEnforcementResult(new UserCannotBeCreatedWhenRegistrationHasExpired(_Status, _RegistrationDate));
+
+        if (!businessRule.Succeeded)
+        {
+            _Status = UserRegistrationStatuses.Expired;
+
+            return true;
+        }
+
+        return false;
     }
 
     #endregion

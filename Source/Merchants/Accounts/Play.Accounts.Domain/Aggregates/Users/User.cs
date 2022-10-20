@@ -1,4 +1,5 @@
-﻿using Play.Accounts.Contracts.Dtos;
+﻿using Play.Accounts.Contracts.Commands;
+using Play.Accounts.Contracts.Dtos;
 using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Services;
 using Play.Domain.Aggregates;
@@ -13,12 +14,11 @@ public class User : Aggregate<string>
 
     private readonly string _MerchantId;
     private readonly string _TerminalId;
-
     private readonly bool _IsActive;
     private readonly List<UserRole> _Roles;
-    private readonly Address _Address;
-    private readonly Contact _Contact;
     private readonly PersonalDetail _PersonalDetail;
+    private Address _Address;
+    private Contact _Contact;
     private string _HashedPassword;
 
     #endregion
@@ -30,7 +30,7 @@ public class User : Aggregate<string>
         // Entity Framework only
     }
 
-    private User(
+    public User(
         string id, string merchantId, string terminalId, string hashedPassword, Address address, Contact contact, PersonalDetail personalDetail, bool isActive,
         params UserRole[] roles)
     {
@@ -54,13 +54,19 @@ public class User : Aggregate<string>
         return _MerchantId;
     }
 
-    public static User CreateFromUserRegistration(
-        string userRegistrationId, string hashedPassword, Address address, Contact contact, PersonalDetail personalDetail, params UserRole[] roles)
+    public void UpdateAddress(UpdateUserAddressCommand command)
     {
-        User user = new User(userRegistrationId, hashedPassword, address, contact, personalDetail, true, roles);
-        user.Publish(new UserCreated(user.GetId()));
+        // TODO: Merchant underwriting for new Address? Verify not prohibited? Verify still in area where we're allowed to operate?
+        _Address = new Address(command.Address);
 
-        return user;
+        // TODO: broadcast address change
+    }
+
+    public void UpdateContactInfo(UpdateUserContactCommand command)
+    {
+        _Contact = new Contact(command.Contact);
+
+        // TODO: broadcast Contact Info change
     }
 
     public void UpdatePassword(IHashPasswords passwordHasher, string password)
@@ -74,16 +80,6 @@ public class User : Aggregate<string>
         _HashedPassword = hashedPassword;
 
         // TODO: Publish domain event broadcasting the user's password was updated
-    }
-
-    public void UpdateAddress(Address address)
-    {
-        // TODO: broadcast address change
-    }
-
-    public void UpdateContactInfo(Contact address)
-    {
-        // TODO: broadcast Contact Info change
     }
 
     public void AddUserRole(UserRole role)
@@ -109,7 +105,7 @@ public class User : Aggregate<string>
         {
             Id = _Id, /* MerchantId = _MerchantId.Id,*/
             AddressDto = _Address.AsDto(),
-            ContactInfoDto = _Contact.AsDto(),
+            ContactDto = _Contact.AsDto(),
             PersonalInfoDto = _PersonalDetail.AsDto(),
             IsActive = _IsActive,
             HashedPassword = _HashedPassword

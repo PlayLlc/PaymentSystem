@@ -1,6 +1,6 @@
 ﻿using Duende.IdentityServer;
 
-namespace Play.Identity.Api.Identity.Configuration;
+namespace Play.Identity.Api.Identity;
 
 public static class IdentitySpecs
 {

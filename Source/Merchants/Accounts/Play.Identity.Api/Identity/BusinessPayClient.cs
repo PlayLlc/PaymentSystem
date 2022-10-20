@@ -1,4 +1,4 @@
-﻿namespace Play.Identity.Api.Identity.Configuration;
+﻿namespace Play.Identity.Api.Identity;
 
 public class BusinessPayClient
 {

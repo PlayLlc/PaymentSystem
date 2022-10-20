@@ -17,7 +17,6 @@ using Play.Accounts.Persistence.Sql.Entities;
 using Play.Accounts.Persistence.Sql.Persistence;
 using Play.Accounts.Persistence.Sql.Repositories;
 using Play.Domain.Repositories;
-using Play.Identity.Api.__Services;
 using Play.Identity.Api.Identity;
 using Play.Persistence.Sql;
 using Play.Telecom.SendGrid.Email;

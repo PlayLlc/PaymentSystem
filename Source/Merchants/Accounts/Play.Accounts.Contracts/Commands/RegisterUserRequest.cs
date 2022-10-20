@@ -18,7 +18,7 @@ public class RegisterUserRequest
     ///     The personal contact info of the user
     /// </summary>
     [Required]
-    public ContactInfoDto ContactInfoDto { get; set; } = new();
+    public ContactDto ContactDto { get; set; } = new();
 
     [Required]
     public PersonalInfoDto PersonalInfoDto { get; set; } = new();

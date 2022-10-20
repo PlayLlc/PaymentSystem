@@ -11,7 +11,6 @@ public class CreateUserRegistrationCommand
     /// </summary>
     [Required]
     [EmailAddress]
-    [MinLength(1)]
     public string Email { get; set; } = string.Empty;
 
     /// <summary>

@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 
 using Play.Accounts.Domain.Services;
 using Play.Accounts.Persistence.Sql.Entities;
-using Play.Identity.Api.__Services;
 using Play.Identity.Api.Attributes;
 using Play.Identity.Api.Models;
 

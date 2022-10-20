@@ -1,6 +1,6 @@
 ﻿using Play.Identity.Api.Models;
 
-namespace Play.Identity.Api.__Services;
+namespace Play.Identity.Api;
 
 public interface IBuildLoginViewModel
 {

@@ -4,11 +4,9 @@ using Duende.IdentityServer.Stores;
 
 using Microsoft.AspNetCore.Authentication;
 
-using NuGet.Packaging;
-
 using Play.Identity.Api.Models;
 
-namespace Play.Identity.Api.__Services;
+namespace Play.Identity.Api;
 
 public class LoginViewModelBuilder : IBuildLoginViewModel
 {

@@ -20,8 +20,8 @@ public class AccountMappingProfile : Profile
             cfg.CreateMap<Address, AddressDto>().ForMember((dest) => dest, opt => opt.MapFrom(src => src.AsDto()));
 
             // ContactInfo
-            cfg.CreateMap<ContactInfoDto, Contact>().ForMember((dest) => dest, opt => opt.MapFrom(src => new Contact(src)));
-            cfg.CreateMap<Contact, ContactInfoDto>().ForMember((dest) => dest, opt => opt.MapFrom(src => src.AsDto()));
+            cfg.CreateMap<ContactDto, Contact>().ForMember((dest) => dest, opt => opt.MapFrom(src => new Contact(src)));
+            cfg.CreateMap<Contact, ContactDto>().ForMember((dest) => dest, opt => opt.MapFrom(src => src.AsDto()));
 
             // PersonalInfo
             cfg.CreateMap<PersonalInfoDto, PersonalDetail>().ForMember((dest) => dest, opt => opt.MapFrom(src => new PersonalDetail(src)));

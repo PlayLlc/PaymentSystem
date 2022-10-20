@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Play.Accounts.Contracts.Dtos;
 
-public class ContactInfoDto : IDto
+public class ContactDto : IDto
 {
     #region Instance Values
 

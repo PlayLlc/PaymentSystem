@@ -48,7 +48,7 @@ public sealed class UserIdentity : IdentityUser
     public UserIdentity(UserDto dto)
     {
         Address = new Address(dto.AddressDto);
-        Contact = new Contact(dto.ContactInfoDto);
+        Contact = new Contact(dto.ContactDto);
         PersonalDetail = new PersonalDetail(dto.PersonalInfoDto);
     }
 

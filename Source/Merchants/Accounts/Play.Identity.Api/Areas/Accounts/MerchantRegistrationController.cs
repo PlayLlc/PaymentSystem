@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Play.Identity.Api.Areas.Registration
+namespace Play.Identity.Api.Areas.Accounts
 {
     [Area("Accounts")]
     [Route("[area]/[controller]")]

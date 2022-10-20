@@ -8,7 +8,6 @@ using Duende.IdentityServer.Test;
 using IdentityModel;
 
 using Play.Core.Specifications;
-using Play.Identity.Api.Identity.Configuration;
 
 namespace Play.Identity.Api.Identity;
 
