@@ -12,7 +12,8 @@ namespace Play.Accounts.Application.Handlers.Domain;
 
 public class MerchantRegistrationHandler : DomainEventHandler, IHandleDomainEvents<MerchantRegistrationHasExpired>,
     IHandleDomainEvents<MerchantRejectedBecauseTheRegistrationPeriodExpired>, IHandleDomainEvents<MerchantRejectedBecauseOfProhibitedIndustry>,
-    IHandleDomainEvents<MerchantRejectedBecauseItIsProhibited>, IHandleDomainEvents<MerchantRegistrationConfirmedDomainEvent>
+    IHandleDomainEvents<MerchantRejectedBecauseItIsProhibited>, IHandleDomainEvents<MerchantRegistrationApproved>, IHandleDomainEvents<MerchantHasBeenCreated>,
+    IHandleDomainEvents<MerchantRegistrationRejected>
 {
     #region Instance Values
 
@@ -82,22 +83,35 @@ public class MerchantRegistrationHandler : DomainEventHandler, IHandleDomainEven
     }
 
     /// <exception cref="Play.Domain.ValueObjects.ValueObjectException"></exception>
-    public async Task Handle(MerchantRegistrationConfirmedDomainEvent domainEvent)
+    /// <exception cref="Play.Domain.BusinessRuleValidationException"></exception>
+    public async Task Handle(MerchantRegistrationApproved domainEvent)
     {
         Log(domainEvent);
 
         MerchantRegistration? merchantRegistration =
             await _MerchantRegistrationRepository.GetByIdAsync(domainEvent.MerchantRegistrationId).ConfigureAwait(false);
 
-        Merchant merchant = Merchant.CreateFromMerchantRegistration(merchantRegistration!);
+        Merchant merchant = merchantRegistration!.CreateMerchant();
         await _MerchantRepository.SaveAsync(merchant).ConfigureAwait(false);
 
-        // BUG: Update this. We need to
-        await _MessageHandlerContext.Publish<MerchantRegistrationWasRejectedEvent>((a) =>
+        await _MessageHandlerContext.Publish<MerchantHasBeenCreatedEvent>((a) =>
             {
-                a.MerchantRegistrationId = domainEvent.MerchantRegistrationId;
+                a.MerchantId = merchant.GetId();
             })
             .ConfigureAwait(false);
+    }
+
+    public Task Handle(MerchantHasBeenCreated domainEvent)
+    {
+        Log(domainEvent);
+
+        return Task.CompletedTask;
+    }
+
+    public async Task Handle(MerchantRegistrationRejected domainEvent)
+    {
+        Log(domainEvent);
+        await _MerchantRegistrationRepository.SaveAsync(domainEvent.MerchantRegistration).ConfigureAwait(false);
     }
 
     #endregion

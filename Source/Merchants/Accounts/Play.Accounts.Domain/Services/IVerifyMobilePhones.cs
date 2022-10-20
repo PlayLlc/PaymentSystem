@@ -7,7 +7,7 @@ public interface IVerifyMobilePhones
 {
     #region Instance Members
 
-    public Task<Result> SendVerificationCode(uint code, Phone mobile);
+    public Task<Result> SendVerificationCode(uint code, string mobile);
 
     #endregion
 }

@@ -3,7 +3,7 @@ using Play.Domain.Aggregates;
 
 namespace Play.Accounts.Domain.Aggregates;
 
-internal class MerchantCannotBeCreatedWhenRegistrationIsNotVerified : BusinessRule<MerchantRegistration, string>
+internal class MerchantRegistrationCannotCompleteWithoutVerification : BusinessRule<MerchantRegistration, string>
 {
     #region Instance Values
 
@@ -15,7 +15,7 @@ internal class MerchantCannotBeCreatedWhenRegistrationIsNotVerified : BusinessRu
 
     #region Constructor
 
-    internal MerchantCannotBeCreatedWhenRegistrationIsNotVerified(UserRegistrationStatuses userRegistrationStatus)
+    internal MerchantRegistrationCannotCompleteWithoutVerification(UserRegistrationStatuses userRegistrationStatus)
     {
         _UserRegistrationStatus = userRegistrationStatus;
     }

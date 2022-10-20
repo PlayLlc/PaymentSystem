@@ -1,7 +1,7 @@
 ﻿using Play.Accounts.Domain.Aggregates;
 using Play.Domain.Repositories;
 
-namespace Play.Accounts.Persistence.Sql.Repositories;
+namespace Play.Accounts.Domain.Repositories;
 
 public interface IUserRegistrationRepository : IRepository<UserRegistration, string>
 {

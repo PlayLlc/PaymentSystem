@@ -1,7 +1,7 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Events;
 
-namespace Play.Accounts.Domain.Aggregates.Users.Events;
+namespace Play.Accounts.Domain.Aggregates;
 
 public record UserPasswordWasTooWeak : BusinessRuleViolationDomainEvent<User, string>
 {

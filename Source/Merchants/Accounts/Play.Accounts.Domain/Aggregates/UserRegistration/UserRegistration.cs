@@ -16,12 +16,6 @@ namespace Play.Accounts.Domain.Aggregates;
 
 public class UserRegistration : Aggregate<string>
 {
-    #region Static Metadata
-
-    private static readonly TimeSpan _ValidityPeriod = new(7, 0, 0, 0);
-
-    #endregion
-
     #region Instance Values
 
     private readonly string _Id;
@@ -32,7 +26,7 @@ public class UserRegistration : Aggregate<string>
     private Address? _Address;
     private Contact? _Contact;
     private PersonalDetail? _PersonalDetail;
-    private MerchantRegistrationStatus _Status;
+    private UserRegistrationStatus _Status;
 
     private ConfirmationCode? _EmailConfirmation;
     private ConfirmationCode? _SmsConfirmation;
@@ -43,7 +37,7 @@ public class UserRegistration : Aggregate<string>
 
     private UserRegistration(
         string id, string username, string hashedPassword, DateTimeUtc registrationDate, Address address, Contact contact, PersonalDetail personalDetail,
-        MerchantRegistrationStatus status, ConfirmationCode? emailConfirmation = null, ConfirmationCode? smsConfirmation = null)
+        UserRegistrationStatus status, ConfirmationCode? emailConfirmation = null, ConfirmationCode? smsConfirmation = null)
     {
         _Id = id;
         _Username = username;
@@ -68,7 +62,7 @@ public class UserRegistration : Aggregate<string>
         _Username = username;
         _HashedPassword = passwordHasher.GeneratePasswordHash(password);
         _RegistrationDate = DateTimeUtc.Now;
-        _Status = new MerchantRegistrationStatus(UserRegistrationStatuses.WaitingForEmailVerification);
+        _Status = UserRegistrationStatuses.WaitingForEmailVerification;
         Publish(new UserRegistrationCreated(_Id, _HashedPassword));
     }
 
@@ -89,7 +83,7 @@ public class UserRegistration : Aggregate<string>
 
         if ((DateTimeUtc.Now - _RegistrationDate) > _ValidityPeriod)
         {
-            _Status = new MerchantRegistrationStatus(UserRegistrationStatuses.Expired);
+            _Status = UserRegistrationStatuses.Expired;
             Publish(new UserRegistrationHasExpired(_Id));
 
             return true;
@@ -131,7 +125,7 @@ public class UserRegistration : Aggregate<string>
             return result;
         }
 
-        _Status = new MerchantRegistrationStatus(UserRegistrationStatuses.WaitingForSmsVerification);
+        _Status = UserRegistrationStatuses.WaitingForSmsVerification;
 
         return new Result();
     }
@@ -160,7 +154,7 @@ public class UserRegistration : Aggregate<string>
         if (!emailConfirmationCodeMustBeVerified.Succeeded)
             return emailConfirmationCodeMustBeVerified;
 
-        _Status = new MerchantRegistrationStatus(UserRegistrationStatuses.WaitingForSmsVerification);
+        _Status = UserRegistrationStatuses.WaitingForSmsVerification;
 
         return new Result();
     }
@@ -216,7 +210,7 @@ public class UserRegistration : Aggregate<string>
             return result;
         }
 
-        _Status = new MerchantRegistrationStatus(UserRegistrationStatuses.WaitingForSmsVerification);
+        _Status = UserRegistrationStatuses.WaitingForSmsVerification;
 
         return new Result();
     }
@@ -245,7 +239,7 @@ public class UserRegistration : Aggregate<string>
         if (!smsConfirmationCodeMustBeVerified.Succeeded)
             return smsConfirmationCodeMustBeVerified;
 
-        _Status = new MerchantRegistrationStatus(UserRegistrationStatuses.WaitingForRiskAnalysis);
+        _Status = UserRegistrationStatuses.WaitingForRiskAnalysis;
 
         return new Result();
     }
@@ -271,13 +265,13 @@ public class UserRegistration : Aggregate<string>
 
         if (!result.Succeeded)
         {
-            _Status = new MerchantRegistrationStatus(UserRegistrationStatuses.Rejected);
+            _Status = UserRegistrationStatuses.Rejected;
             Publish(((UserMustNotBeProhibitedFromRegistering) result.Value).CreateBusinessRuleViolationDomainEvent(this));
 
             return result;
         }
 
-        _Status = new MerchantRegistrationStatus(UserRegistrationStatuses.Approved);
+        _Status = UserRegistrationStatuses.Approved;
         Publish(new UserRegistrationRiskAnalysisApproved(_Id, _Username));
 
         return result;

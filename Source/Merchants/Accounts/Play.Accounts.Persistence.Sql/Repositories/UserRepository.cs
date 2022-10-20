@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using Play.Accounts.Domain.Aggregates;
+using Play.Accounts.Domain.Repositories;
 using Play.Accounts.Persistence.Sql.Entities;
 
 namespace Play.Accounts.Persistence.Sql.Repositories;

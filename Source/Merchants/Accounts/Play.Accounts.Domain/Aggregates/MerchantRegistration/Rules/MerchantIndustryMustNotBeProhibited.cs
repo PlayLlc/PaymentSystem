@@ -15,15 +15,25 @@ public class MerchantIndustryMustNotBeProhibited : BusinessRule<MerchantRegistra
 
     #region Constructor
 
+    /// <exception cref="AggregateException"></exception>
     public MerchantIndustryMustNotBeProhibited(MerchantCategoryCode merchantCategoryCode, IUnderwriteMerchants underwritingService)
     {
-        _IsProhibited = underwritingService.IsIndustryProhibited(merchantCategoryCode);
-        ;
+        _IsProhibited = IsProhibited(merchantCategoryCode, underwritingService);
     }
 
     #endregion
 
     #region Instance Members
+
+    /// <exception cref="AggregateException"></exception>
+    public bool IsProhibited(MerchantCategoryCode merchantCategoryCode, IUnderwriteMerchants underwritingService)
+    {
+        var merchantCategoryTask = underwritingService.IsIndustryProhibited(merchantCategoryCode);
+        Task.WhenAll(merchantCategoryTask);
+
+        // ReSharper disable once RedundantSuppressNullableWarningExpression
+        return merchantCategoryTask!.Result;
+    }
 
     public override MerchantRejectedBecauseOfProhibitedIndustry CreateBusinessRuleViolationDomainEvent(MerchantRegistration aggregate)
     {

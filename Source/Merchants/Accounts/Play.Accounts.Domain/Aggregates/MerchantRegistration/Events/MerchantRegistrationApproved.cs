@@ -3,7 +3,7 @@ using Play.Domain.Events;
 
 namespace Play.Accounts.Domain.Aggregates;
 
-public record MerchantRegistrationConfirmedDomainEvent : DomainEvent
+public record MerchantRegistrationApproved : DomainEvent
 {
     #region Instance Values
 
@@ -13,7 +13,7 @@ public record MerchantRegistrationConfirmedDomainEvent : DomainEvent
 
     #region Constructor
 
-    public MerchantRegistrationConfirmedDomainEvent(string merchantRegistrationId, Name companyName) : base(
+    public MerchantRegistrationApproved(string merchantRegistrationId, Name companyName) : base(
         $"The {nameof(Merchant)}: [{companyName}] has been successfully registered")
     {
         MerchantRegistrationId = merchantRegistrationId;

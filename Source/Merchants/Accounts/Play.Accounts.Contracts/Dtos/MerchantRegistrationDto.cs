@@ -8,7 +8,6 @@ public class MerchantRegistrationDto : IDto
     #region Instance Values
 
     public string Id { get; set; }
-    public string UserRegistrationId { get; set; } = string.Empty;
     public string? CompanyName { get; set; }
     public AddressDto? AddressDto { get; set; }
     public string? BusinessType { get; set; }

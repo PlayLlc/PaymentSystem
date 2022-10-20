@@ -17,14 +17,25 @@ internal class MerchantMustNotBeProhibited : BusinessRule<MerchantRegistration, 
 
     #region Constructor
 
+    /// <exception cref="AggregateException"></exception>
     public MerchantMustNotBeProhibited(IUnderwriteMerchants merchantUnderwriter, Name companyName, Address address)
     {
-        _IsProhibited = merchantUnderwriter.IsMerchantProhibited(companyName, address);
+        _IsProhibited = IsProhibited(merchantUnderwriter, companyName, address);
     }
 
     #endregion
 
     #region Instance Members
+
+    /// <exception cref="AggregateException"></exception>
+    public bool IsProhibited(IUnderwriteMerchants merchantUnderwriter, Name companyName, Address address)
+    {
+        var merchantProhibitedTask = merchantUnderwriter.IsMerchantProhibited(companyName, address);
+        Task.WhenAll(merchantProhibitedTask);
+
+        // ReSharper disable once RedundantSuppressNullableWarningExpression
+        return merchantProhibitedTask!.Result;
+    }
 
     public override bool IsBroken()
     {

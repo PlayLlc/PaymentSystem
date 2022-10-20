@@ -10,4 +10,8 @@
     <ProjectReference Include="..\Play.Accounts.Contracts\Play.Accounts.Contracts.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Aggregates\Merchants\Events\" />
+  </ItemGroup>
+
 </Project>

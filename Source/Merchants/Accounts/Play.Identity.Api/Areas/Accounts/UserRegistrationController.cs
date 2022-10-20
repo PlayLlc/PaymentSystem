@@ -4,6 +4,7 @@ using System.Net;
 
 using Play.Accounts.Contracts.Commands;
 using Play.Accounts.Domain.Aggregates;
+using Play.Accounts.Domain.Repositories;
 using Play.Accounts.Persistence.Sql.Repositories;
 using Play.Domain.ValueObjects;
 using Play.Identity.Api.Controllers;
