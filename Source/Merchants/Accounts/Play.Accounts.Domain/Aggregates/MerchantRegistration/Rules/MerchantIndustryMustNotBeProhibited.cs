@@ -35,9 +35,9 @@ public class MerchantIndustryMustNotBeProhibited : BusinessRule<MerchantRegistra
         return merchantCategoryTask!.Result;
     }
 
-    public override MerchantRejectedBecauseOfProhibitedIndustry CreateBusinessRuleViolationDomainEvent(MerchantRegistration aggregate)
+    public override MerchantRegistrationHasBeenRejected CreateBusinessRuleViolationDomainEvent(MerchantRegistration aggregate)
     {
-        return new MerchantRejectedBecauseOfProhibitedIndustry(aggregate, this);
+        return new MerchantRegistrationHasBeenRejected(aggregate, this);
     }
 
     public override bool IsBroken()

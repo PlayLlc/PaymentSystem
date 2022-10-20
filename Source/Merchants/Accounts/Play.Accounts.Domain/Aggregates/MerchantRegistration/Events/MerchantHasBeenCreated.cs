@@ -6,15 +6,15 @@ public record MerchantHasBeenCreated : DomainEvent
 {
     #region Instance Values
 
-    public readonly string MerchantId;
+    public readonly Merchant Merchant;
 
     #endregion
 
     #region Constructor
 
-    public MerchantHasBeenCreated(string merchantId) : base($"The merchant with {nameof(merchantId)}: [{merchantId}] has been created")
+    public MerchantHasBeenCreated(Merchant merchant) : base($"The merchant with {nameof(merchantId)}: [{merchantId}] has been created")
     {
-        MerchantId = merchantId;
+        Merchant = merchant;
     }
 
     #endregion

@@ -10,18 +10,16 @@ public record MerchantRegistrationCreated : DomainEvent
 {
     #region Instance Values
 
-    public readonly string Id;
-    public readonly string CompanyName;
+    public readonly MerchantRegistration MerchantRegistration;
 
     #endregion
 
     #region Constructor
 
-    public MerchantRegistrationCreated(string id, string companyName) : base(
-        $"The {nameof(MerchantRegistration)} process has begun for the {nameof(Merchant)}: [{companyName}] with the Id: [{id}];")
+    public MerchantRegistrationCreated(MerchantRegistration merchantRegistration) : base(
+        $"The {nameof(MerchantRegistration)} process has begun for the {nameof(Merchant)} with ID: [{merchantRegistration.GetId()}].")
     {
-        Id = id;
-        CompanyName = companyName;
+        MerchantRegistration = merchantRegistration;
     }
 
     #endregion

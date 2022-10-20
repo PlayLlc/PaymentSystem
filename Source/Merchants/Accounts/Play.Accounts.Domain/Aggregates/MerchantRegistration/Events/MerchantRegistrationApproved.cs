@@ -7,16 +7,16 @@ public record MerchantRegistrationApproved : DomainEvent
 {
     #region Instance Values
 
-    public readonly string MerchantRegistrationId;
+    public readonly MerchantRegistration MerchantRegistration;
 
     #endregion
 
     #region Constructor
 
-    public MerchantRegistrationApproved(string merchantRegistrationId, Name companyName) : base(
-        $"The {nameof(Merchant)}: [{companyName}] has been successfully registered")
+    public MerchantRegistrationApproved(MerchantRegistration merchantRegistration) : base(
+        $"The {nameof(MerchantRegistration)} with ID: [{merchantRegistration.GetId()}] has been approved")
     {
-        MerchantRegistrationId = merchantRegistrationId;
+        MerchantRegistration = merchantRegistration;
     }
 
     #endregion
