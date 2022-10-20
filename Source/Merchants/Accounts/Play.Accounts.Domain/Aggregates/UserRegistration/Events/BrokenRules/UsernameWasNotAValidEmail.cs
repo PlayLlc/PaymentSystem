@@ -3,7 +3,7 @@ using Play.Domain.Events;
 
 namespace Play.Accounts.Domain.Aggregates;
 
-public record UsernameWasNotAValidEmail : BusinessRuleViolationDomainEvent<UserRegistration, string>
+public record UsernameWasNotAValidEmail : BrokenBusinessRuleDomainEvent<UserRegistration, string>
 {
     #region Constructor
 

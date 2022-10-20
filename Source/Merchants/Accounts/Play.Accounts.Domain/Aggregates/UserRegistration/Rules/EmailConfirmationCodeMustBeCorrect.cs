@@ -7,7 +7,7 @@ namespace Play.Accounts.Domain.Aggregates;
 /// <summary>
 ///     The user's email must be verified during registration
 /// </summary>
-internal class EmailConfirmationCodeMustBeVerified : BusinessRule<UserRegistration, string>
+internal class EmailConfirmationCodeMustBeCorrect : BusinessRule<UserRegistration, string>
 {
     #region Instance Values
 
@@ -19,7 +19,7 @@ internal class EmailConfirmationCodeMustBeVerified : BusinessRule<UserRegistrati
 
     #region Constructor
 
-    internal EmailConfirmationCodeMustBeVerified(ConfirmationCode emailConfirmationCode, uint confirmationCode)
+    internal EmailConfirmationCodeMustBeCorrect(ConfirmationCode emailConfirmationCode, uint confirmationCode)
     {
         _IsValid = emailConfirmationCode.Code == confirmationCode;
     }

@@ -3,7 +3,7 @@ using Play.Domain.Events;
 
 namespace Play.Accounts.Domain.Aggregates;
 
-public record SmsConfirmationCodeWasIncorrect : BusinessRuleViolationDomainEvent<UserRegistration, string>
+public record SmsConfirmationCodeWasIncorrect : BrokenBusinessRuleDomainEvent<UserRegistration, string>
 {
     #region Constructor
 

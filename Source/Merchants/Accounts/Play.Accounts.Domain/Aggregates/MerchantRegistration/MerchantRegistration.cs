@@ -1,5 +1,4 @@
 ﻿using Play.Accounts.Contracts.Dtos;
-using Play.Accounts.Domain.Aggregates.Events;
 using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.Services;
@@ -15,6 +14,7 @@ using System.Runtime.InteropServices;
 
 using Play.Accounts.Contracts.Commands;
 using Play.Domain.Repositories;
+using Play.Domain.Exceptions;
 
 namespace Play.Accounts.Domain.Aggregates;
 
@@ -50,8 +50,7 @@ public class MerchantRegistration : Aggregate<string>
     public static MerchantRegistration CreateNewMerchantRegistration(User user, string companyName)
     {
         MerchantRegistration registration = new MerchantRegistration(user.GetMerchantId(), new Name(companyName),
-            MerchantRegistrationStatuses.WaitingForRiskAnalysis, DateTimeUtc.Now);
-        registration._Status = MerchantRegistrationStatuses.WaitingForRiskAnalysis;
+            MerchantRegistrationStatuses.WaitingForRiskAnalysis, DateTimeUtc.Now) {_Status = MerchantRegistrationStatuses.WaitingForRiskAnalysis};
 
         registration.Publish(new MerchantRegistrationCreated(registration._Id, companyName));
 
@@ -63,47 +62,44 @@ public class MerchantRegistration : Aggregate<string>
         return _Id;
     }
 
-    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="AggregateException"></exception>
     /// <exception cref="ValueObjectException"></exception>
-    public Result VerifyMerchantAccount(IUnderwriteMerchants underwritingService, UpdateMerchantRegistrationCommand command)
+    /// <exception cref="CommandOutOfSyncException"></exception>
+    /// <exception cref="BusinessRuleValidationException"></exception>
+    public void VerifyMerchantAccount(IUnderwriteMerchants underwritingService, UpdateMerchantRegistrationCommand command)
     {
-        if (IsMerchantRegistrationExpired())
-            return new Result($"The {nameof(MerchantRegistration)} has expired");
+        Enforce(new MerchantRegistrationMustNotExpire(_Status, _RegistrationDate), () => _Status = MerchantRegistrationStatuses.Expired);
+        Enforce(new MerchantRegistrationMustNotBeRejected(_Status, _RegistrationDate), () => _Status = MerchantRegistrationStatuses.Rejected);
 
         if (_CompanyName is null)
-            throw new InvalidOperationException();
+            throw new CommandOutOfSyncException($"The {nameof(Name)} of the Merchant is required but could not be found");
 
         _Address = new Address(command.Address);
         _BusinessType = new BusinessType(command.BusinessType);
         _MerchantCategoryCode = new MerchantCategoryCode(command.MerchantCategoryCode);
 
-        if (!GetEnforcementResult(new MerchantIndustryMustNotBeProhibited(_MerchantCategoryCode, underwritingService)).Succeeded)
-            return RejectRegistration();
-        if (!GetEnforcementResult(new MerchantMustNotBeProhibited(underwritingService, _CompanyName!, _Address!)).Succeeded)
-            return RejectRegistration();
+        Enforce(new MerchantIndustryMustNotBeProhibited(_MerchantCategoryCode, underwritingService), () => _Status = MerchantRegistrationStatuses.Rejected);
+        Enforce(new MerchantMustNotBeProhibited(underwritingService, _CompanyName!, _Address!), () => _Status = MerchantRegistrationStatuses.Rejected);
 
         _Status = MerchantRegistrationStatuses.Approved;
-
         Publish(new MerchantRegistrationApproved(_Id, _CompanyName));
-
-        return new Result();
     }
 
-    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
+    /// <exception cref="CommandOutOfSyncException"></exception>
     public Merchant CreateMerchant()
     {
+        Enforce(new MerchantRegistrationMustNotExpire(_Status, _RegistrationDate), () => _Status = MerchantRegistrationStatuses.Expired);
         Enforce(new MerchantCannotBeCreatedWithoutApproval(_Status));
 
         if (_CompanyName is null)
-            throw new InvalidOperationException();
+            throw new CommandOutOfSyncException($"The {nameof(Name)} of the Merchant is required but could not be found");
         if (_Address is null)
-            throw new InvalidOperationException();
+            throw new CommandOutOfSyncException($"The {nameof(Address)} of the Merchant is required but could not be found");
         if (_BusinessType is null)
-            throw new InvalidOperationException();
+            throw new CommandOutOfSyncException($"The {nameof(BusinessType)} of the Merchant is required but could not be found");
         if (_MerchantCategoryCode is null)
-            throw new InvalidOperationException();
+            throw new CommandOutOfSyncException($"The {nameof(MerchantCategoryCode)} of the Merchant is required but could not be found");
 
         var merchant = new Merchant(_Id, _CompanyName, _Address, _BusinessType, _MerchantCategoryCode);
         Publish(new MerchantHasBeenCreated(_Id));
@@ -123,27 +119,6 @@ public class MerchantRegistration : Aggregate<string>
             RegisteredDate = _RegistrationDate,
             RegistrationStatus = _Status
         };
-    }
-
-    private Result RejectRegistration()
-    {
-        _Status = MerchantRegistrationStatuses.Rejected;
-
-        return new Result("Merchant account verification failed");
-    }
-
-    private bool IsMerchantRegistrationExpired()
-    {
-        Result<IBusinessRule> businessRule = GetEnforcementResult(new MerchantRegistrationCannotCompleteIfExpired(_Status, _RegistrationDate));
-
-        if (!businessRule.Succeeded)
-        {
-            _Status = MerchantRegistrationStatuses.Expired;
-
-            return true;
-        }
-
-        return false;
     }
 
     #endregion

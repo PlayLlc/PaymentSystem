@@ -3,7 +3,7 @@ using Play.Accounts.Domain.Entities;
 
 namespace Play.Accounts.Domain.Aggregates;
 
-internal class EmailConfirmationCodeMustNotBeExpired : BusinessRule<UserRegistration, string>
+internal class EmailConfirmationCodeMustNotExpire : BusinessRule<UserRegistration, string>
 {
     #region Static Metadata
 
@@ -21,7 +21,7 @@ internal class EmailConfirmationCodeMustNotBeExpired : BusinessRule<UserRegistra
 
     #region Constructor
 
-    internal EmailConfirmationCodeMustNotBeExpired(ConfirmationCode emailConfirmationCode)
+    internal EmailConfirmationCodeMustNotExpire(ConfirmationCode emailConfirmationCode)
     {
         _IsValid = emailConfirmationCode.IsExpired(_ValidityPeriod);
     }

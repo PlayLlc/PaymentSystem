@@ -3,7 +3,7 @@ using Play.Domain.Events;
 
 namespace Play.Accounts.Domain.Aggregates;
 
-public record MerchantRejectedBecauseOfProhibitedIndustry : BusinessRuleViolationDomainEvent<MerchantRegistration, string>
+public record MerchantRejectedBecauseOfProhibitedIndustry : BrokenBusinessRuleDomainEvent<MerchantRegistration, string>
 {
     #region Instance Values
 

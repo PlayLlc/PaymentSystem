@@ -3,7 +3,7 @@ using Play.Domain.Events;
 
 namespace Play.Accounts.Domain.Aggregates;
 
-public record UserRegistrationHasExpired : BusinessRuleViolationDomainEvent<UserRegistration, string>
+public record UserRegistrationHasExpired : BrokenBusinessRuleDomainEvent<UserRegistration, string>
 {
     #region Constructor
 

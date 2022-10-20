@@ -1,12 +1,11 @@
 ﻿using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.ValueObjects;
 using Play.Domain.Aggregates;
-using Play.Domain.Events;
 using Play.Globalization.Time;
 
 namespace Play.Accounts.Domain.Aggregates;
 
-internal class UserCannotBeCreatedWhenRegistrationHasExpired : BusinessRule<UserRegistration, string>
+internal class UserRegistrationMustNotExpire : BusinessRule<UserRegistration, string>
 {
     #region Instance Values
 
@@ -19,7 +18,7 @@ internal class UserCannotBeCreatedWhenRegistrationHasExpired : BusinessRule<User
 
     #region Constructor
 
-    public UserCannotBeCreatedWhenRegistrationHasExpired(UserRegistrationStatus status, DateTimeUtc registeredDate)
+    public UserRegistrationMustNotExpire(UserRegistrationStatus status, DateTimeUtc registeredDate)
     {
         if (status == UserRegistrationStatuses.Expired)
         {

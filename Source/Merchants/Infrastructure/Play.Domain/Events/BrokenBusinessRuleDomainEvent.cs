@@ -4,11 +4,11 @@ using Play.Domain.Aggregates;
 
 namespace Play.Domain.Events;
 
-public abstract record BusinessRuleViolationDomainEvent<_Aggregate, _TId> : DomainEvent where _Aggregate : Aggregate<_TId> where _TId : IEquatable<_TId>
+public abstract record BrokenBusinessRuleDomainEvent<_Aggregate, _TId> : DomainEvent where _Aggregate : Aggregate<_TId> where _TId : IEquatable<_TId>
 {
     #region Constructor
 
-    protected BusinessRuleViolationDomainEvent(_Aggregate aggregate, IBusinessRule rule) : base($"{GetRuleDescription(aggregate, rule)}")
+    protected BrokenBusinessRuleDomainEvent(_Aggregate aggregate, IBusinessRule rule) : base($"{GetRuleDescription(aggregate, rule)}")
     { }
 
     #endregion

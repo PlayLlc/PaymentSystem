@@ -3,7 +3,7 @@ using Play.Domain.Events;
 
 namespace Play.Accounts.Domain.Aggregates;
 
-public record UserPasswordWasTooWeak : BusinessRuleViolationDomainEvent<User, string>
+public record UserPasswordWasTooWeak : BrokenBusinessRuleDomainEvent<User, string>
 {
     #region Constructor
 

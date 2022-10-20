@@ -10,10 +10,7 @@ using Play.Domain.Repositories;
 
 namespace Play.Accounts.Application.Handlers.Domain;
 
-public class MerchantRegistrationHandler : DomainEventHandler, IHandleDomainEvents<MerchantRegistrationHasExpired>,
-    IHandleDomainEvents<MerchantRejectedBecauseTheRegistrationPeriodExpired>, IHandleDomainEvents<MerchantRejectedBecauseOfProhibitedIndustry>,
-    IHandleDomainEvents<MerchantRejectedBecauseItIsProhibited>, IHandleDomainEvents<MerchantRegistrationApproved>, IHandleDomainEvents<MerchantHasBeenCreated>,
-    IHandleDomainEvents<MerchantRegistrationRejected>
+public class MerchantRegistrationHandler : DomainEventHandler, IHandleDomainEvents<MerchantRegistrationHasExpired>
 {
     #region Instance Values
 
@@ -29,9 +26,7 @@ public class MerchantRegistrationHandler : DomainEventHandler, IHandleDomainEven
     {
         _MessageHandlerContext = messageHandler;
         Subscribe((IHandleDomainEvents<MerchantRegistrationHasExpired>) this);
-        Subscribe((IHandleDomainEvents<MerchantRejectedBecauseTheRegistrationPeriodExpired>) this);
-        Subscribe((IHandleDomainEvents<MerchantRejectedBecauseOfProhibitedIndustry>) this);
-        Subscribe((IHandleDomainEvents<MerchantRejectedBecauseItIsProhibited>) this);
+        Subscribe((IHandleDomainEvents<MerchantRegistrationHasExpired>) this);
     }
 
     #endregion
@@ -41,45 +36,7 @@ public class MerchantRegistrationHandler : DomainEventHandler, IHandleDomainEven
     public async Task Handle(MerchantRegistrationHasExpired domainEvent)
     {
         Log(domainEvent);
-
-        await _MessageHandlerContext.Publish<MerchantRegistrationWasRejectedEvent>((a) =>
-            {
-                a.MerchantRegistrationId = domainEvent.MerchantRegistrationId;
-            })
-            .ConfigureAwait(false);
-    }
-
-    public async Task Handle(MerchantRejectedBecauseTheRegistrationPeriodExpired domainEvent)
-    {
-        Log(domainEvent);
-
-        await _MessageHandlerContext.Publish<MerchantRegistrationWasRejectedEvent>((a) =>
-            {
-                a.MerchantRegistrationId = domainEvent.MerchantRegistrationId;
-            })
-            .ConfigureAwait(false);
-    }
-
-    public async Task Handle(MerchantRejectedBecauseOfProhibitedIndustry domainEvent)
-    {
-        Log(domainEvent);
-
-        await _MessageHandlerContext.Publish<MerchantRegistrationWasRejectedEvent>((a) =>
-            {
-                a.MerchantRegistrationId = domainEvent.MerchantRegistrationId;
-            })
-            .ConfigureAwait(false);
-    }
-
-    public async Task Handle(MerchantRejectedBecauseItIsProhibited domainEvent)
-    {
-        Log(domainEvent);
-
-        await _MessageHandlerContext.Publish<MerchantRegistrationWasRejectedEvent>((a) =>
-            {
-                a.MerchantRegistrationId = domainEvent.MerchantRegistrationId;
-            })
-            .ConfigureAwait(false);
+        await _MerchantRegistrationRepository.SaveAsync(domainEvent.MerchantRegistration).ConfigureAwait(false);
     }
 
     /// <exception cref="Play.Domain.ValueObjects.ValueObjectException"></exception>

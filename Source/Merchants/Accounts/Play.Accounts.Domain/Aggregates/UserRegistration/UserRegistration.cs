@@ -73,6 +73,7 @@ public class UserRegistration : Aggregate<string>
     }
 
     /// <exception cref="ValueObjectException"></exception>
+    /// <exception cref="CommandOutOfSyncException"></exception>
     public async Task<Result> SendEmailAccountVerificationCode(IVerifyEmailAccounts emailAccountVerifier)
     {
         if (IsUserRegistrationExpired())
@@ -113,9 +114,9 @@ public class UserRegistration : Aggregate<string>
         ConfirmationCode confirmationCode = new ConfirmationCode(_EmailConfirmation.AsDto());
         _EmailConfirmation = null;
 
-        Result<IBusinessRule> emailConfirmationCodeMustNotBeExpired = GetEnforcementResult(new EmailConfirmationCodeMustNotBeExpired(confirmationCode));
+        Result<IBusinessRule> emailConfirmationCodeMustNotBeExpired = GetEnforcementResult(new EmailConfirmationCodeMustNotExpire(confirmationCode));
         Result<IBusinessRule> emailConfirmationCodeMustBeVerified =
-            GetEnforcementResult(new EmailConfirmationCodeMustBeVerified(confirmationCode!, command.ConfirmationCode));
+            GetEnforcementResult(new EmailConfirmationCodeMustBeCorrect(confirmationCode!, command.ConfirmationCode));
 
         if (!emailConfirmationCodeMustNotBeExpired.Succeeded)
             return emailConfirmationCodeMustNotBeExpired;
@@ -158,6 +159,7 @@ public class UserRegistration : Aggregate<string>
 
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="CommandOutOfSyncException"></exception>
     public async Task<Result> SendSmsVerificationCode(IVerifyMobilePhones mobilePhoneVerifier)
     {
         if (_Status.Value == UserRegistrationStatuses.Rejected)
@@ -199,7 +201,7 @@ public class UserRegistration : Aggregate<string>
 
         Result<IBusinessRule> smsConfirmationCodeMustNotBeExpired = GetEnforcementResult(new SmsConfirmationCodeMustNotBeExpired(confirmationCode));
         Result<IBusinessRule> smsConfirmationCodeMustBeVerified =
-            GetEnforcementResult(new SmsConfirmationCodeMustBeVerified(confirmationCode!, command.ConfirmationCode));
+            GetEnforcementResult(new SmsConfirmationCodeMustBeCorrect(confirmationCode!, command.ConfirmationCode));
 
         if (!smsConfirmationCodeMustNotBeExpired.Succeeded)
             return smsConfirmationCodeMustNotBeExpired;
@@ -213,6 +215,7 @@ public class UserRegistration : Aggregate<string>
     }
 
     /// <exception cref="ValueObjectException"></exception>
+    /// <exception cref="CommandOutOfSyncException"></exception>
     public Result AnalyzeUserRisk(IUnderwriteMerchants merchantUnderwriter)
     {
         if (_Status.Value == UserRegistrationStatuses.Rejected)
@@ -228,12 +231,12 @@ public class UserRegistration : Aggregate<string>
             throw new CommandOutOfSyncException($"The {nameof(Contact)} is required but could not be found");
 
         Result<IBusinessRule> result =
-            GetEnforcementResult(new UserMustNotBeProhibitedFromRegistering(merchantUnderwriter, _PersonalDetail!, _Address!, _Contact!));
+            GetEnforcementResult(new UserRegistrationMustNotBeProhibited(merchantUnderwriter, _PersonalDetail!, _Address!, _Contact!));
 
         if (!result.Succeeded)
         {
             _Status = UserRegistrationStatuses.Rejected;
-            Publish(((UserMustNotBeProhibitedFromRegistering) result.Value).CreateBusinessRuleViolationDomainEvent(this));
+            Publish(((UserRegistrationMustNotBeProhibited) result.Value).CreateBusinessRuleViolationDomainEvent(this));
 
             return result;
         }
@@ -246,6 +249,7 @@ public class UserRegistration : Aggregate<string>
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
+    /// <exception cref="CommandOutOfSyncException"></exception>
     public User CreateUser()
     {
         Enforce(new UserCannotBeCreatedWithoutApproval(_Status));
@@ -286,7 +290,7 @@ public class UserRegistration : Aggregate<string>
 
     private bool IsUserRegistrationExpired()
     {
-        Result<IBusinessRule> businessRule = GetEnforcementResult(new UserCannotBeCreatedWhenRegistrationHasExpired(_Status, _RegistrationDate));
+        Result<IBusinessRule> businessRule = GetEnforcementResult(new UserRegistrationMustNotExpire(_Status, _RegistrationDate));
 
         if (!businessRule.Succeeded)
         {

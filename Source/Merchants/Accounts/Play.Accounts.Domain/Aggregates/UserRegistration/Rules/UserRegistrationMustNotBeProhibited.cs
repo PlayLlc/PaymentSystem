@@ -4,7 +4,7 @@ using Play.Accounts.Domain.Services;
 
 namespace Play.Accounts.Domain.Aggregates;
 
-internal class UserMustNotBeProhibitedFromRegistering : BusinessRule<UserRegistration, string>
+internal class UserRegistrationMustNotBeProhibited : BusinessRule<UserRegistration, string>
 {
     #region Instance Values
 
@@ -16,7 +16,7 @@ internal class UserMustNotBeProhibitedFromRegistering : BusinessRule<UserRegistr
 
     #region Constructor
 
-    internal UserMustNotBeProhibitedFromRegistering(IUnderwriteMerchants merchantUnderwriter, PersonalDetail personalDetail, Address address, Contact contact)
+    internal UserRegistrationMustNotBeProhibited(IUnderwriteMerchants merchantUnderwriter, PersonalDetail personalDetail, Address address, Contact contact)
     {
         _IsValid = !merchantUnderwriter.IsUserProhibited(personalDetail, address, contact);
     }
@@ -25,9 +25,9 @@ internal class UserMustNotBeProhibitedFromRegistering : BusinessRule<UserRegistr
 
     #region Instance Members
 
-    public override UserIsProhibitedFromRegistering CreateBusinessRuleViolationDomainEvent(UserRegistration aggregate)
+    public override UserRegistrationIsProhibited CreateBusinessRuleViolationDomainEvent(UserRegistration aggregate)
     {
-        return new UserIsProhibitedFromRegistering(aggregate, this);
+        return new UserRegistrationIsProhibited(aggregate, this);
     }
 
     public override bool IsBroken()

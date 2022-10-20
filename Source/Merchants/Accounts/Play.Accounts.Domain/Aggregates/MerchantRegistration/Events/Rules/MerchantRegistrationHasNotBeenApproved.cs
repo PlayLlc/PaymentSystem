@@ -3,7 +3,7 @@ using Play.Domain.Events;
 
 namespace Play.Accounts.Domain.Aggregates;
 
-public record MerchantRegistrationHasNotBeenApproved : BusinessRuleViolationDomainEvent<MerchantRegistration, string>
+public record MerchantRegistrationHasNotBeenApproved : BrokenBusinessRuleDomainEvent<MerchantRegistration, string>
 {
     #region Constructor
 

@@ -3,7 +3,7 @@ using Play.Domain.Aggregates;
 
 namespace Play.Accounts.Domain.Aggregates;
 
-internal class SmsConfirmationCodeMustBeVerified : BusinessRule<UserRegistration, string>
+internal class SmsConfirmationCodeMustBeCorrect : BusinessRule<UserRegistration, string>
 {
     #region Instance Values
 
@@ -15,7 +15,7 @@ internal class SmsConfirmationCodeMustBeVerified : BusinessRule<UserRegistration
 
     #region Constructor
 
-    internal SmsConfirmationCodeMustBeVerified(ConfirmationCode emailConfirmationCode, uint confirmationCode)
+    internal SmsConfirmationCodeMustBeCorrect(ConfirmationCode emailConfirmationCode, uint confirmationCode)
     {
         _IsValid = emailConfirmationCode.Code == confirmationCode;
     }

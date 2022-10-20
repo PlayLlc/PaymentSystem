@@ -35,6 +35,18 @@ public abstract class Aggregate<_TId> : Entity<_TId>, IAggregate, IEquatable<Agg
         throw new BusinessRuleValidationException(rule);
     }
 
+    /// <exception cref="BusinessRuleValidationException"></exception>
+    protected void Enforce(IBusinessRule rule, Action brokenRuleCallbackAction)
+    {
+        if (rule.IsBroken())
+        {
+            brokenRuleCallbackAction.Invoke();
+            Publish(((BusinessRule<Aggregate<_TId>, _TId>) rule).CreateBusinessRuleViolationDomainEvent(this));
+        }
+
+        throw new BusinessRuleValidationException(rule);
+    }
+
     protected Result<IBusinessRule> GetEnforcementResult(IBusinessRule rule)
     {
         if (!rule.IsBroken())
