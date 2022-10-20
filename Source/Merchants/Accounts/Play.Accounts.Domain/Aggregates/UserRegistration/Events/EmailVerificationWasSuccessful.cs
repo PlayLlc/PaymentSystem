@@ -3,7 +3,7 @@ using Play.Domain.Events;
 
 namespace Play.Accounts.Domain.Aggregates;
 
-public record UserRegistrationCreated : DomainEvent
+public record EmailVerificationWasSuccessful : DomainEvent
 {
     #region Instance Values
 
@@ -13,8 +13,8 @@ public record UserRegistrationCreated : DomainEvent
 
     #region Constructor
 
-    public UserRegistrationCreated(UserRegistration userRegistration) : base(
-        $"A {nameof(UserRegistration)} has been created with the ID: [{userRegistration.GetId()}]")
+    public EmailVerificationWasSuccessful(UserRegistration userRegistration) : base(
+        $"The {nameof(UserRegistration)} with the ID: [{userRegistration.GetId()}] successfully verified their {nameof(Email)};")
     {
         UserRegistration = userRegistration;
     }

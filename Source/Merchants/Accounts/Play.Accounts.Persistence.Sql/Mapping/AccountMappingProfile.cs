@@ -24,8 +24,8 @@ public class AccountMappingProfile : Profile
             cfg.CreateMap<Contact, ContactDto>().ForMember((dest) => dest, opt => opt.MapFrom(src => src.AsDto()));
 
             // PersonalInfo
-            cfg.CreateMap<PersonalInfoDto, PersonalDetail>().ForMember((dest) => dest, opt => opt.MapFrom(src => new PersonalDetail(src)));
-            cfg.CreateMap<PersonalDetail, PersonalInfoDto>().ForMember((dest) => dest, opt => opt.MapFrom(src => src.AsDto()));
+            cfg.CreateMap<PersonalDetailDto, PersonalDetail>().ForMember((dest) => dest, opt => opt.MapFrom(src => new PersonalDetail(src)));
+            cfg.CreateMap<PersonalDetail, PersonalDetailDto>().ForMember((dest) => dest, opt => opt.MapFrom(src => src.AsDto()));
 
             // Roles
             cfg.CreateMap<UserRole, RoleIdentity>()

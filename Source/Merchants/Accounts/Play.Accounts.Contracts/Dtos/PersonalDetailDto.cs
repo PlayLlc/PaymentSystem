@@ -6,7 +6,7 @@ using Play.Domain;
 
 namespace Play.Accounts.Contracts.Dtos;
 
-public class PersonalInfoDto : IDto
+public class PersonalDetailDto : IDto
 {
     #region Instance Values
 

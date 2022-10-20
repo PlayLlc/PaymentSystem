@@ -2,7 +2,7 @@
 
 namespace Play.Accounts.Domain.Aggregates;
 
-public record UserRegistrationPhoneVerified : DomainEvent
+public record SmsVerificationCodeHasBeenSent : DomainEvent
 {
     #region Instance Values
 
@@ -12,8 +12,8 @@ public record UserRegistrationPhoneVerified : DomainEvent
 
     #region Constructor
 
-    public UserRegistrationPhoneVerified(UserRegistration userRegistration) : base(
-        $"The {nameof(UserRegistration)} with ID: [{userRegistration.GetId()}] has successfully verified their mobile device")
+    public SmsVerificationCodeHasBeenSent(UserRegistration userRegistration) : base(
+        $"The SMS client has sent a confirmation code to the {nameof(UserRegistration)} with ID: [{userRegistration.GetId()}];")
     {
         UserRegistration = userRegistration;
     }

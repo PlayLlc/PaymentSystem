@@ -52,7 +52,7 @@ public class MerchantRegistration : Aggregate<string>
         MerchantRegistration registration = new MerchantRegistration(user.GetMerchantId(), new Name(companyName),
             MerchantRegistrationStatuses.WaitingForRiskAnalysis, DateTimeUtc.Now) {_Status = MerchantRegistrationStatuses.WaitingForRiskAnalysis};
 
-        registration.Publish(new MerchantRegistrationCreated(registration._Id, companyName));
+        registration.Publish(new MerchantRegistrationCreated(registration));
 
         return registration;
     }
@@ -82,7 +82,7 @@ public class MerchantRegistration : Aggregate<string>
         Enforce(new MerchantMustNotBeProhibited(underwritingService, _CompanyName!, _Address!), () => _Status = MerchantRegistrationStatuses.Rejected);
 
         _Status = MerchantRegistrationStatuses.Approved;
-        Publish(new MerchantRegistrationApproved(_Id, _CompanyName));
+        Publish(new MerchantRegistrationApproved(this));
     }
 
     /// <exception cref="BusinessRuleValidationException"></exception>
@@ -102,7 +102,7 @@ public class MerchantRegistration : Aggregate<string>
             throw new CommandOutOfSyncException($"The {nameof(MerchantCategoryCode)} of the Merchant is required but could not be found");
 
         var merchant = new Merchant(_Id, _CompanyName, _Address, _BusinessType, _MerchantCategoryCode);
-        Publish(new MerchantHasBeenCreated(_Id));
+        Publish(new MerchantHasBeenCreated(this));
 
         return merchant;
     }

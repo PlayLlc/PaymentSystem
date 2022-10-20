@@ -3,7 +3,7 @@ using Play.Domain.Aggregates;
 
 namespace Play.Accounts.Domain.Aggregates;
 
-internal class UsernameMustBeAValidEmail : BusinessRule<UserRegistration, string>
+internal class UserRegistrationUsernameMustBeAValidEmail : BusinessRule<UserRegistration, string>
 {
     #region Instance Values
 
@@ -15,7 +15,7 @@ internal class UsernameMustBeAValidEmail : BusinessRule<UserRegistration, string
 
     #region Constructor
 
-    internal UsernameMustBeAValidEmail(string username)
+    internal UserRegistrationUsernameMustBeAValidEmail(string username)
     {
         _IsValid = Email.IsValid(username);
     }
@@ -24,9 +24,9 @@ internal class UsernameMustBeAValidEmail : BusinessRule<UserRegistration, string
 
     #region Instance Members
 
-    public override UsernameWasNotAValidEmail CreateBusinessRuleViolationDomainEvent(UserRegistration aggregate)
+    public override UserRegistrationUsernameWasInvalid CreateBusinessRuleViolationDomainEvent(UserRegistration aggregate)
     {
-        return new UsernameWasNotAValidEmail(aggregate, this);
+        return new UserRegistrationUsernameWasInvalid(aggregate, this);
     }
 
     public override bool IsBroken()

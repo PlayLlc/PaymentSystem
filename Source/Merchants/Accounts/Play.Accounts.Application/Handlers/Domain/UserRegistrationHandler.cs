@@ -5,22 +5,29 @@ using NServiceBus;
 using Play.Accounts.Contracts.Events;
 using Play.Accounts.Domain.Aggregates;
 using Play.Accounts.Domain.Services;
+using Play.Domain;
 using Play.Domain.Events;
+using Play.Domain.Exceptions;
 using Play.Domain.Repositories;
 using Play.Domain.ValueObjects;
 
 namespace Play.Accounts.Application.Handlers.Domain;
 
-// HACK: DAN --> Go back through all this and update the InvalidOperationExceptions to something more specific
-public class UserRegistrationHandler : DomainEventHandler, IHandleDomainEvents<UserRegistrationRiskAnalysisApproved>,
-    IHandleDomainEvents<UserRegistrationCreated>, IHandleDomainEvents<UserRegistrationContactInfoUpdated>, IHandleDomainEvents<UserRegistrationPhoneVerified>
+public class UserRegistrationHandler : DomainEventHandler, IHandleDomainEvents<EmailVerificationCodeHasExpired>,
+    IHandleDomainEvents<EmailVerificationCodeWasIncorrect>, IHandleDomainEvents<SmsVerificationCodeHasExpired>,
+    IHandleDomainEvents<SmsVerificationCodeWasIncorrect>, IHandleDomainEvents<UserRegistrationHasBeenRejected>, IHandleDomainEvents<UserRegistrationHasExpired>,
+    IHandleDomainEvents<UserRegistrationHasNotBeenApproved>, IHandleDomainEvents<EmailVerificationCodeFailedToSend>,
+    IHandleDomainEvents<EmailVerificationCodeHasBeenSent>, IHandleDomainEvents<EmailVerificationWasSuccessful>,
+    IHandleDomainEvents<SmsVerificationCodeFailedToSend>, IHandleDomainEvents<SmsVerificationCodeHasBeenSent>,
+    IHandleDomainEvents<UserRegistrationAddressUpdated>, IHandleDomainEvents<UserRegistrationContactInfoUpdated>,
+    IHandleDomainEvents<UserRegistrationPersonalDetailsUpdated>, IHandleDomainEvents<UserRegistrationCreated>,
+    IHandleDomainEvents<UserRegistrationHasBeenApproved>, IHandleDomainEvents<UserRegistrationPhoneVerified>
 {
     #region Instance Values
 
     private readonly IMessageHandlerContext _MessageHandlerContext;
     private readonly IVerifyEmailAccounts _EmailAccountVerifier;
     private readonly IVerifyMobilePhones _MobilePhoneVerifier;
-    private readonly IUnderwriteMerchants _MerchantUnderwriter;
     private readonly IRepository<User, string> _UserRepository;
     private readonly IRepository<UserRegistration, string> _UserRegistrationRepository;
 
@@ -29,96 +36,155 @@ public class UserRegistrationHandler : DomainEventHandler, IHandleDomainEvents<U
     #region Constructor
 
     public UserRegistrationHandler(
-        ILogger logger, IMessageHandlerContext messageHandlerContext, IVerifyEmailAccounts emailAccountVerifier, IRepository<User, string> userRepository,
-        IRepository<UserRegistration, string> userRegistrationRepository, IVerifyMobilePhones mobilePhoneVerifier) : base(logger)
+        IMessageHandlerContext messageHandlerContext, IVerifyEmailAccounts emailAccountVerifier, IVerifyMobilePhones mobilePhoneVerifier,
+        IRepository<User, string> userRepository, IRepository<UserRegistration, string> userRegistrationRepository,
+        ILogger<UserRegistrationHandler> logger) : base(logger)
     {
         _MessageHandlerContext = messageHandlerContext;
         _EmailAccountVerifier = emailAccountVerifier;
+        _MobilePhoneVerifier = mobilePhoneVerifier;
         _UserRepository = userRepository;
         _UserRegistrationRepository = userRegistrationRepository;
-        _MobilePhoneVerifier = mobilePhoneVerifier;
     }
 
     #endregion
 
     #region Instance Members
 
-    /// <exception cref="Play.Domain.ValueObjects.ValueObjectException"></exception>
     public async Task Handle(UserRegistrationCreated domainEvent)
     {
-        UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(domainEvent.Id).ConfigureAwait(false);
-
-        await userRegistration!.SendEmailAccountVerificationCode(_EmailAccountVerifier).ConfigureAwait(false);
-    }
-
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="ValueObjectException"></exception>
-    public async Task Handle(UserRegistrationContactInfoUpdated domainEvent)
-    {
-        UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(domainEvent.Id).ConfigureAwait(false);
-
-        if (userRegistration is null)
-            throw new InvalidOperationException();
-
-        await userRegistration!.SendSmsVerificationCode(_MobilePhoneVerifier).ConfigureAwait(false);
+        Log(domainEvent);
+        await _UserRegistrationRepository.SaveAsync(domainEvent.UserRegistration).ConfigureAwait(false);
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    public async Task Handle(UserRegistrationPhoneVerified domainEvent)
+    /// <exception cref="CommandOutOfSyncException"></exception>
+    public async Task Handle(EmailVerificationCodeHasExpired domainEvent)
     {
-        UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(domainEvent.Id).ConfigureAwait(false);
-
-        if (userRegistration is null)
-            throw new InvalidOperationException();
-
-        userRegistration.AnalyzeUserRisk(_MerchantUnderwriter);
-        await _UserRegistrationRepository.SaveAsync(userRegistration).ConfigureAwait(false);
+        Log(domainEvent);
+        await domainEvent.UserRegistration.SendEmailVerificationCode(_EmailAccountVerifier).ConfigureAwait(false);
+        await _UserRegistrationRepository.SaveAsync(domainEvent.UserRegistration).ConfigureAwait(false);
     }
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="ValueObjectException"></exception>
-    public async Task Handle(UserRegistrationRiskAnalysisApproved domainEvent)
-    {
-        UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(domainEvent.Id).ConfigureAwait(false);
-
-        if (userRegistration is null)
-            throw new InvalidOperationException();
-
-        await userRegistration!.SendSmsVerificationCode(_MobilePhoneVerifier).ConfigureAwait(false);
-
-        await _UserRegistrationRepository.SaveAsync(userRegistration).ConfigureAwait(false);
-    }
-
-    public async Task Handle(MerchantRejectedBecauseItIsProhibited domainEvent)
+    public Task Handle(EmailVerificationCodeWasIncorrect domainEvent)
     {
         Log(domainEvent);
 
-        await _MessageHandlerContext.Publish<MerchantRegistrationWasRejectedEvent>((a) =>
-            {
-                a.MerchantRegistrationId = domainEvent.MerchantRegistrationId;
-            })
-            .ConfigureAwait(false);
+        return Task.CompletedTask;
+    }
+
+    /// <exception cref="BusinessRuleValidationException"></exception>
+    /// <exception cref="CommandOutOfSyncException"></exception>
+    /// <exception cref="ValueObjectException"></exception>
+    public async Task Handle(SmsVerificationCodeHasExpired domainEvent)
+    {
+        Log(domainEvent);
+        await domainEvent.UserRegistration.SendSmsVerificationCode(_MobilePhoneVerifier).ConfigureAwait(false);
+        await _UserRegistrationRepository.SaveAsync(domainEvent.UserRegistration).ConfigureAwait(false);
+    }
+
+    public Task Handle(SmsVerificationCodeWasIncorrect domainEvent)
+    {
+        Log(domainEvent);
+
+        return Task.CompletedTask;
+    }
+
+    public async Task Handle(UserRegistrationHasBeenRejected domainEvent)
+    {
+        Log(domainEvent);
+        await _UserRegistrationRepository.SaveAsync(domainEvent.UserRegistration).ConfigureAwait(false);
+    }
+
+    public Task Handle(UserRegistrationHasExpired domainEvent)
+    {
+        // HACK:================================
+        // TODO: What in the heck do we do here?
+        // HACK:================================
+
+        Log(domainEvent);
+
+        return Task.CompletedTask;
+    }
+
+    public Task Handle(UserRegistrationHasNotBeenApproved domainEvent)
+    {
+        // This means that we have an internal exception in our client registration implementation
+        Log(domainEvent);
+
+        return Task.CompletedTask;
+    }
+
+    public Task Handle(EmailVerificationCodeFailedToSend domainEvent)
+    {
+        // HACK: ===============================================
+        // TODO: We need some kind of exponential retry strategy
+        // HACK: ===============================================
+        Log(domainEvent);
+
+        return Task.CompletedTask;
+    }
+
+    public async Task Handle(EmailVerificationCodeHasBeenSent domainEvent)
+    {
+        Log(domainEvent);
+        await _UserRegistrationRepository.SaveAsync(domainEvent.UserRegistration).ConfigureAwait(false);
+    }
+
+    public async Task Handle(EmailVerificationWasSuccessful domainEvent)
+    {
+        Log(domainEvent);
+        await _UserRegistrationRepository.SaveAsync(domainEvent.UserRegistration).ConfigureAwait(false);
+    }
+
+    public Task Handle(SmsVerificationCodeFailedToSend domainEvent)
+    {
+        // HACK: ===============================================
+        // TODO: We need some kind of exponential retry strategy
+        // HACK: ===============================================
+        Log(domainEvent);
+
+        return Task.CompletedTask;
+    }
+
+    public async Task Handle(SmsVerificationCodeHasBeenSent domainEvent)
+    {
+        Log(domainEvent);
+        await _UserRegistrationRepository.SaveAsync(domainEvent.UserRegistration).ConfigureAwait(false);
+    }
+
+    public async Task Handle(UserRegistrationAddressUpdated domainEvent)
+    {
+        Log(domainEvent);
+        await _UserRegistrationRepository.SaveAsync(domainEvent.UserRegistration).ConfigureAwait(false);
+    }
+
+    public async Task Handle(UserRegistrationContactInfoUpdated domainEvent)
+    {
+        Log(domainEvent);
+        await _UserRegistrationRepository.SaveAsync(domainEvent.UserRegistration).ConfigureAwait(false);
+    }
+
+    public async Task Handle(UserRegistrationPersonalDetailsUpdated domainEvent)
+    {
+        Log(domainEvent);
+        await _UserRegistrationRepository.SaveAsync(domainEvent.UserRegistration).ConfigureAwait(false);
+    }
+
+    /// <exception cref="BusinessRuleValidationException"></exception>
+    /// <exception cref="CommandOutOfSyncException"></exception>
+    public async Task Handle(UserRegistrationHasBeenApproved domainEvent)
+    {
+        Log(domainEvent);
+        await _UserRegistrationRepository.SaveAsync(domainEvent.UserRegistration).ConfigureAwait(false);
+        await _UserRepository.SaveAsync(domainEvent.UserRegistration.CreateUser()).ConfigureAwait(false);
+    }
+
+    public async Task Handle(UserRegistrationPhoneVerified domainEvent)
+    {
+        Log(domainEvent);
+        await _UserRegistrationRepository.SaveAsync(domainEvent.UserRegistration).ConfigureAwait(false);
     }
 
     #endregion
-
-    ///// <exception cref="Play.Domain.ValueObjects.ValueObjectException"></exception>
-    //public async Task Handle(MerchantRegistrationConfirmedDomainEvent domainEvent)
-    //{
-    //    Log(domainEvent);
-
-    //    MerchantRegistration? merchantRegistration =
-    //        await _MerchantRegistrationRepository.GetByIdAsync(domainEvent.MerchantRegistrationId).ConfigureAwait(false);
-
-    //    Merchant merchant = Merchant.CreateFromMerchantRegistration(merchantRegistration!);
-    //    await _MerchantRepository.SaveAsync(merchant).ConfigureAwait(false);
-
-    //    // BUG: Update this. We need to
-    //    await _MessageHandlerContext.Publish<MerchantRegistrationWasRejectedEvent>((a) =>
-    //    {
-    //        a.MerchantRegistrationId = domainEvent.MerchantRegistrationId;
-    //    })
-    //        .ConfigureAwait(false);
-    //}
 }

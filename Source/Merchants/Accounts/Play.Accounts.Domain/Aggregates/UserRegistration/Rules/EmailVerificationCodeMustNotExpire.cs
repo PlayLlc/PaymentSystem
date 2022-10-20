@@ -1,9 +1,9 @@
-﻿using Play.Accounts.Domain.Entities;
-using Play.Domain.Aggregates;
+﻿using Play.Domain.Aggregates;
+using Play.Accounts.Domain.Entities;
 
 namespace Play.Accounts.Domain.Aggregates;
 
-internal class SmsConfirmationCodeMustNotBeExpired : BusinessRule<UserRegistration, string>
+internal class EmailVerificationCodeMustNotExpire : BusinessRule<UserRegistration, string>
 {
     #region Static Metadata
 
@@ -21,7 +21,7 @@ internal class SmsConfirmationCodeMustNotBeExpired : BusinessRule<UserRegistrati
 
     #region Constructor
 
-    internal SmsConfirmationCodeMustNotBeExpired(ConfirmationCode emailConfirmationCode)
+    internal EmailVerificationCodeMustNotExpire(ConfirmationCode emailConfirmationCode)
     {
         _IsValid = emailConfirmationCode.IsExpired(_ValidityPeriod);
     }
@@ -30,9 +30,9 @@ internal class SmsConfirmationCodeMustNotBeExpired : BusinessRule<UserRegistrati
 
     #region Instance Members
 
-    public override SmsConfirmationCodeHasExpired CreateBusinessRuleViolationDomainEvent(UserRegistration aggregate)
+    public override EmailVerificationCodeHasExpired CreateBusinessRuleViolationDomainEvent(UserRegistration aggregate)
     {
-        return new SmsConfirmationCodeHasExpired(aggregate, this);
+        return new EmailVerificationCodeHasExpired(aggregate, this);
     }
 
     public override bool IsBroken()

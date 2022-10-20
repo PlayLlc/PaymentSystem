@@ -27,7 +27,7 @@ public class UserDto : IDto
     public ContactDto ContactDto { get; set; } = new();
 
     [Required]
-    public PersonalInfoDto PersonalInfoDto { get; set; } = new();
+    public PersonalDetailDto PersonalDetailDto { get; set; } = new();
 
     public bool IsActive { get; set; }
 

@@ -3,7 +3,7 @@ using Play.Domain.Events;
 
 namespace Play.Accounts.Domain.Aggregates;
 
-public record UserRegistrationCreated : DomainEvent
+public record UserRegistrationHasBeenApproved : DomainEvent
 {
     #region Instance Values
 
@@ -13,8 +13,8 @@ public record UserRegistrationCreated : DomainEvent
 
     #region Constructor
 
-    public UserRegistrationCreated(UserRegistration userRegistration) : base(
-        $"A {nameof(UserRegistration)} has been created with the ID: [{userRegistration.GetId()}]")
+    public UserRegistrationHasBeenApproved(UserRegistration userRegistration) : base(
+        $"The {nameof(UserRegistration)} with ID: [{userRegistration.GetId()}] has been approved")
     {
         UserRegistration = userRegistration;
     }

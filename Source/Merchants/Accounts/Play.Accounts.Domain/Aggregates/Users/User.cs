@@ -106,7 +106,7 @@ public class User : Aggregate<string>
             Id = _Id, /* MerchantId = _MerchantId.Id,*/
             AddressDto = _Address.AsDto(),
             ContactDto = _Contact.AsDto(),
-            PersonalInfoDto = _PersonalDetail.AsDto(),
+            PersonalDetailDto = _PersonalDetail.AsDto(),
             IsActive = _IsActive,
             HashedPassword = _HashedPassword
         };

@@ -21,7 +21,7 @@ public class PersonalDetail : Entity<string>
 
     #region Constructor
 
-    public PersonalDetail(PersonalInfoDto dto)
+    public PersonalDetail(PersonalDetailDto dto)
     {
         Id = dto.Id!;
         LastFourOfSocial = dto.LastFourOfSocial;
@@ -49,9 +49,9 @@ public class PersonalDetail : Entity<string>
     }
 
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
-    public override PersonalInfoDto AsDto()
+    public override PersonalDetailDto AsDto()
     {
-        return new PersonalInfoDto
+        return new PersonalDetailDto
         {
             Id = Id,
             DateOfBirth = new DateTimeUtc(DateOfBirth),

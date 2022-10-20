@@ -6,16 +6,16 @@ public record SmsVerificationCodeFailedToSend : DomainEvent
 {
     #region Instance Values
 
-    public readonly string Id;
+    public readonly UserRegistration UserRegistration;
 
     #endregion
 
     #region Constructor
 
-    public SmsVerificationCodeFailedToSend(string id) : base(
-        $"The sms client failed to send a confirmation code for {nameof(UserRegistration)} with {nameof(Id)}: [{id}];")
+    public SmsVerificationCodeFailedToSend(UserRegistration userRegistration) : base(
+        $"The SMS client failed to send a confirmation code for {nameof(UserRegistration)} with ID: [{userRegistration.GetId()}];")
     {
-        Id = id;
+        UserRegistration = userRegistration;
     }
 
     #endregion

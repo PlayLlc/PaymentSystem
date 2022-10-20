@@ -7,7 +7,7 @@ namespace Play.Accounts.Domain.Aggregates;
 /// <summary>
 ///     The user's email must be verified during registration
 /// </summary>
-internal class EmailConfirmationCodeMustBeCorrect : BusinessRule<UserRegistration, string>
+internal class EmailVerificationCodeMustBeCorrect : BusinessRule<UserRegistration, string>
 {
     #region Instance Values
 
@@ -19,7 +19,7 @@ internal class EmailConfirmationCodeMustBeCorrect : BusinessRule<UserRegistratio
 
     #region Constructor
 
-    internal EmailConfirmationCodeMustBeCorrect(ConfirmationCode emailConfirmationCode, uint confirmationCode)
+    internal EmailVerificationCodeMustBeCorrect(ConfirmationCode emailConfirmationCode, uint confirmationCode)
     {
         _IsValid = emailConfirmationCode.Code == confirmationCode;
     }
@@ -28,9 +28,9 @@ internal class EmailConfirmationCodeMustBeCorrect : BusinessRule<UserRegistratio
 
     #region Instance Members
 
-    public override EmailConfirmationCodeWasIncorrect CreateBusinessRuleViolationDomainEvent(UserRegistration aggregate)
+    public override EmailVerificationCodeWasIncorrect CreateBusinessRuleViolationDomainEvent(UserRegistration aggregate)
     {
-        return new EmailConfirmationCodeWasIncorrect(aggregate, this);
+        return new EmailVerificationCodeWasIncorrect(aggregate, this);
     }
 
     public override bool IsBroken()

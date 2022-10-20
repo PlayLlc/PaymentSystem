@@ -6,17 +6,16 @@ public record UserRegistrationContactInfoUpdated : DomainEvent
 {
     #region Instance Values
 
-    public readonly string Id;
-    public readonly string Email;
+    public readonly UserRegistration UserRegistration;
 
     #endregion
 
     #region Constructor
 
-    public UserRegistrationContactInfoUpdated(string id) : base(
-        $"The {nameof(UserRegistration)} with {nameof(Id)}: [{id}] has updated their contact information")
+    public UserRegistrationContactInfoUpdated(UserRegistration userRegistration) : base(
+        $"The {nameof(UserRegistration)} with ID: [{nameof(userRegistration.GetId)}] has updated their contact information")
     {
-        Id = id;
+        UserRegistration = userRegistration;
     }
 
     #endregion

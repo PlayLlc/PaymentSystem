@@ -85,7 +85,7 @@ public class UserIdentityDbSeeder
             Zipcode = "75036"
         });
 
-        PersonalDetail personalDetail = new(new PersonalInfoDto()
+        PersonalDetail personalDetail = new(new PersonalDetailDto()
         {
             Id = Randomize.AlphaNumericSpecial.String(20),
             DateOfBirth = new DateTimeUtc(1969, 4, 20),

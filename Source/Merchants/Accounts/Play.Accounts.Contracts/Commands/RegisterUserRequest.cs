@@ -21,7 +21,7 @@ public class RegisterUserRequest
     public ContactDto ContactDto { get; set; } = new();
 
     [Required]
-    public PersonalInfoDto PersonalInfoDto { get; set; } = new();
+    public PersonalDetailDto PersonalDetailDto { get; set; } = new();
 
     /// <summary>
     ///     Passwords must be at least 8 characters containing numeric, alphabetic, and special characters

@@ -10,3 +10,12 @@ public class MerchantHasBeenCreatedEvent : NetworkEvent
 
     #endregion
 }
+
+public class UserHasBeenCreatedEvent : NetworkEvent
+{
+    #region Instance Values
+
+    public string UserId { get; set; } = string.Empty;
+
+    #endregion
+}

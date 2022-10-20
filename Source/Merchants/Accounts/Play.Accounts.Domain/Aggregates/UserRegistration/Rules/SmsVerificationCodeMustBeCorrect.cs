@@ -3,7 +3,7 @@ using Play.Domain.Aggregates;
 
 namespace Play.Accounts.Domain.Aggregates;
 
-internal class SmsConfirmationCodeMustBeCorrect : BusinessRule<UserRegistration, string>
+internal class SmsVerificationCodeMustBeCorrect : BusinessRule<UserRegistration, string>
 {
     #region Instance Values
 
@@ -15,7 +15,7 @@ internal class SmsConfirmationCodeMustBeCorrect : BusinessRule<UserRegistration,
 
     #region Constructor
 
-    internal SmsConfirmationCodeMustBeCorrect(ConfirmationCode emailConfirmationCode, uint confirmationCode)
+    internal SmsVerificationCodeMustBeCorrect(ConfirmationCode emailConfirmationCode, uint confirmationCode)
     {
         _IsValid = emailConfirmationCode.Code == confirmationCode;
     }
@@ -24,9 +24,9 @@ internal class SmsConfirmationCodeMustBeCorrect : BusinessRule<UserRegistration,
 
     #region Instance Members
 
-    public override SmsConfirmationCodeWasIncorrect CreateBusinessRuleViolationDomainEvent(UserRegistration aggregate)
+    public override SmsVerificationCodeWasIncorrect CreateBusinessRuleViolationDomainEvent(UserRegistration aggregate)
     {
-        return new SmsConfirmationCodeWasIncorrect(aggregate, this);
+        return new SmsVerificationCodeWasIncorrect(aggregate, this);
     }
 
     public override bool IsBroken()

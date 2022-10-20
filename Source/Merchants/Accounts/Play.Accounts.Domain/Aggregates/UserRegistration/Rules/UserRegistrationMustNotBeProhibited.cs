@@ -25,9 +25,9 @@ internal class UserRegistrationMustNotBeProhibited : BusinessRule<UserRegistrati
 
     #region Instance Members
 
-    public override UserRegistrationIsProhibited CreateBusinessRuleViolationDomainEvent(UserRegistration aggregate)
+    public override UserRegistrationHasBeenRejected CreateBusinessRuleViolationDomainEvent(UserRegistration aggregate)
     {
-        return new UserRegistrationIsProhibited(aggregate, this);
+        return new UserRegistrationHasBeenRejected(aggregate, this);
     }
 
     public override bool IsBroken()

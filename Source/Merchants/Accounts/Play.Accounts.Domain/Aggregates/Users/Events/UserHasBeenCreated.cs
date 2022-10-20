@@ -4,12 +4,6 @@ namespace Play.Accounts.Domain.Aggregates;
 
 public record UserHasBeenCreated : DomainEvent
 {
-    #region Static Metadata
-
-    public static readonly DomainEventType DomainEventType = CreateEventTypeId(typeof(UserHasBeenCreated));
-
-    #endregion
-
     #region Instance Values
 
     public readonly User User;

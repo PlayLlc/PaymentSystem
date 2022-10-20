@@ -18,14 +18,4 @@ namespace Play.Accounts.Contracts.Commands
 
         #endregion
     }
-
-    public record UpdateUserContactCommand
-    {
-        #region Instance Values
-
-        [Required]
-        public ContactDto Contact { get; set; } = new();
-
-        #endregion
-    }
 }

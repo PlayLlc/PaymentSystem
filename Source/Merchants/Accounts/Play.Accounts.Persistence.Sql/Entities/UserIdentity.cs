@@ -49,7 +49,7 @@ public sealed class UserIdentity : IdentityUser
     {
         Address = new Address(dto.AddressDto);
         Contact = new Contact(dto.ContactDto);
-        PersonalDetail = new PersonalDetail(dto.PersonalInfoDto);
+        PersonalDetail = new PersonalDetail(dto.PersonalDetailDto);
     }
 
     public UserIdentity(Contact contact, Address address, PersonalDetail personalDetail)
