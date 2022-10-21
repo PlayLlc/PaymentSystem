@@ -21,7 +21,7 @@ internal class UserRegistrationPasswordMustBeStrong : BusinessRule<UserRegistrat
 
     internal UserRegistrationPasswordMustBeStrong(string password)
     {
-        _IsValid = Password.IsValid(password);
+        _IsValid = ClearTextPassword.IsValid(password);
     }
 
     #endregion

@@ -21,7 +21,7 @@ internal class UserPasswordMustBeStrong : BusinessRule<User, string>
 
     internal UserPasswordMustBeStrong(string password)
     {
-        _IsValid = Password.IsValid(password);
+        _IsValid = ClearTextPassword.IsValid(password);
     }
 
     #endregion

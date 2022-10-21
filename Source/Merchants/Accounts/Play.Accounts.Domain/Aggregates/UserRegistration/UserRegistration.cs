@@ -12,6 +12,7 @@ using Play.Accounts.Domain.ValueObjects;
 using Play.Core.Exceptions;
 using Play.Randoms;
 using Play.Domain.Exceptions;
+using Play.Accounts.Contracts.Commands.User;
 
 namespace Play.Accounts.Domain.Aggregates;
 
@@ -21,7 +22,7 @@ public class UserRegistration : Aggregate<string>
 
     private readonly string _Id;
     private readonly string _Username;
-    private readonly string _HashedHashedPassword;
+    private readonly string _HashedPassword;
     private readonly DateTimeUtc _RegistrationDate;
 
     private Address? _Address;
@@ -42,7 +43,7 @@ public class UserRegistration : Aggregate<string>
     {
         _Id = id;
         _Username = username;
-        _HashedHashedPassword = hashedPassword;
+        _HashedPassword = hashedPassword;
         _RegistrationDate = DateTimeUtc.Now;
         _Status = UserRegistrationStatuses.WaitingForEmailVerification;
     }
@@ -125,7 +126,7 @@ public class UserRegistration : Aggregate<string>
 
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
-    public void UpdateContactInfo(UpdateUserContactCommand contact)
+    public void UpdateContactInfo(UpdateContactCommand contact)
     {
         Enforce(new UserRegistrationMustNotExpire(_Status, _RegistrationDate), () => _Status = UserRegistrationStatuses.Expired);
         Enforce(new UserRegistrationMustNotBeRejected(_Status), () => _Status = UserRegistrationStatuses.Rejected);
@@ -181,24 +182,32 @@ public class UserRegistration : Aggregate<string>
 
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="ValueObjectException"></exception>
-    public void UpdateUserAddress(UpdateUserAddressCommand command)
+    public void UpdateUserAddress(UpdateAddressCommand command)
     {
         Enforce(new UserRegistrationMustNotExpire(_Status, _RegistrationDate), () => _Status = UserRegistrationStatuses.Expired);
         Enforce(new UserRegistrationMustNotBeRejected(_Status), () => _Status = UserRegistrationStatuses.Rejected);
 
         command.Address.Id = GenerateSimpleStringId();
         _Address = new Address(command.Address);
+
+        if (_Address is not null && _PersonalDetail is not null && _Contact is not null)
+            _Status = UserRegistrationStatuses.WaitingForRiskAnalysis;
+
         Publish(new UserRegistrationAddressUpdated(this));
     }
 
     /// <exception cref="BusinessRuleValidationException"></exception>
-    public void UpdatePersonalInfo(UpdateUserPersonalDetailsCommand command)
+    public void UpdatePersonalDetails(UpdatePersonalDetailsCommand command)
     {
         Enforce(new UserRegistrationMustNotExpire(_Status, _RegistrationDate), () => _Status = UserRegistrationStatuses.Expired);
         Enforce(new UserRegistrationMustNotBeRejected(_Status), () => _Status = UserRegistrationStatuses.Rejected);
 
         command.PersonalDetail.Id = GenerateSimpleStringId();
         _PersonalDetail = new PersonalDetail(command.PersonalDetail);
+
+        if (_Address is not null && _PersonalDetail is not null && _Contact is not null)
+            _Status = UserRegistrationStatuses.WaitingForRiskAnalysis;
+
         Publish(new UserRegistrationAddressUpdated(this));
     }
 
@@ -227,7 +236,7 @@ public class UserRegistration : Aggregate<string>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="CommandOutOfSyncException"></exception>
-    public User CreateUser()
+    public User CreateUser(IHashPasswords passwordHasher)
     {
         Enforce(new UserCannotBeCreatedWithoutApproval(_Status));
 
@@ -238,9 +247,9 @@ public class UserRegistration : Aggregate<string>
         if (_Contact is null)
             throw new CommandOutOfSyncException($"The {nameof(Contact)} is required but could not be found");
 
-        var user = new User(_Id, GenerateSimpleStringId(), GenerateSimpleStringId(), _HashedHashedPassword!, _Address!, _Contact!, _PersonalDetail!, true);
+        var user = new User(_Id, GenerateSimpleStringId(), GenerateSimpleStringId(),
+            new Password(_Id, passwordHasher.GeneratePasswordHash(_HashedPassword), DateTimeUtc.Now), _Address!, _Contact!, _PersonalDetail!, true);
 
-        // TODO: Handle this domain event and persist the new user that has been created
         Publish(new UserHasBeenCreated(user));
 
         return user;

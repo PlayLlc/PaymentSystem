@@ -7,11 +7,15 @@ using System.Threading.Tasks;
 
 using Play.Accounts.Contracts.Dtos;
 
-namespace Play.Accounts.Contracts.Commands
+namespace Play.Accounts.Contracts.Commands.User
 {
-    public record UpdateUserAddressCommand
+    public record UpdateAddressCommand
     {
         #region Instance Values
+
+        [Required]
+        [MinLength(1)]
+        public string Id { get; set; } = string.Empty;
 
         [Required]
         public AddressDto Address { get; set; } = new();

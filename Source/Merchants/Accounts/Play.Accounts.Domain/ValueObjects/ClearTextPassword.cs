@@ -6,12 +6,12 @@ namespace Play.Accounts.Domain.ValueObjects;
 /// <summary>
 ///     Passwords must be at least 7 characters, contain numeric, alphabetic, and special characters
 /// </summary>
-public record Password : ValueObject<string>
+public record ClearTextPassword : ValueObject<string>
 {
     #region Constructor
 
     /// <exception cref="ValueObjectException"></exception>
-    public Password(string value) : base(value)
+    public ClearTextPassword(string value) : base(value)
     {
         if (!IsValid(value))
             throw new ValueObjectException($"Passwords must be at least 7 characters, contain numeric, alphabetic, and special characters");
@@ -53,7 +53,7 @@ public record Password : ValueObject<string>
 
     #region Operator Overrides
 
-    public static implicit operator string(Password value)
+    public static implicit operator string(ClearTextPassword value)
     {
         return value.Value;
     }

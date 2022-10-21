@@ -2,9 +2,9 @@
 
 using Play.Accounts.Contracts.Dtos;
 
-namespace Play.Accounts.Contracts.Commands;
+namespace Play.Accounts.Contracts.Commands.User;
 
-public record UpdateUserRolesCommand
+public record UpdateRolesCommand
 {
     #region Instance Values
 

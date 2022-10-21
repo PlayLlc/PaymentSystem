@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
 using Play.Accounts.Contracts.Commands;
+using Play.Accounts.Contracts.Commands.User;
 using Play.Accounts.Domain.Aggregates;
 using Play.Accounts.Domain.Repositories;
 using Play.Accounts.Domain.Services;
 using Play.Core;
 using Play.Domain;
+using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
 
 namespace Play.Identity.Api.Areas.Accounts
@@ -19,6 +21,9 @@ namespace Play.Identity.Api.Areas.Accounts
 
         private readonly ILogger<UserRegistrationController> _Logger;
         private readonly IUserRegistrationRepository _UserRegistrationRepository;
+        private readonly IVerifyMobilePhones _MobilePhoneVerifier;
+        private readonly IUnderwriteMerchants _MerchantUnderwriter;
+        private readonly IVerifyEmailAccounts _EmailVerifier;
         private readonly IEnsureUniqueEmails _UniqueEmailChecker;
         private readonly IHashPasswords _PasswordHasher;
 
@@ -44,29 +49,63 @@ namespace Play.Identity.Api.Areas.Accounts
         [ValidateAntiForgeryToken]
         public async Task<IAsyncResult> Create(CreateUserRegistrationCommand command)
         {
-            var userRegistration = UserRegistration.CreateNewUserRegistration(_UniqueEmailChecker, _PasswordHasher, command);
-            await _UserRegistrationRepository.SaveAsync(userRegistration).ConfigureAwait(false);
+            var a = UserRegistration.CreateNewUserRegistration(_UniqueEmailChecker, _PasswordHasher, command);
+            await a.SendEmailVerificationCode(_EmailVerifier).ConfigureAwait(false);
 
             return Task.FromResult(Ok());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EmailVerification(VerifyConfirmationCodeCommand command)
+        {
+            UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(command.UserRegistrationId).ConfigureAwait(false)
+                                                 ?? throw new NotFoundException(typeof(UserRegistration), command.UserRegistrationId);
+
+            // Redirect exceptions thrown specifically for BusinessRuleValidations, let the Exception Filter take care of the rest
+            try
+            {
+                userRegistration.VerifyEmail(command);
+            }
+            catch (BusinessRuleValidationException e)
+            {
+                _Logger.Log(LogLevel.Error, e.Message);
+
+                return View("EmailVerificationFailed");
+            }
+
+            return View("EmailVerificationSuccessful");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateContactInfo(UpdateContactCommand command)
+        {
+            UserRegistration userRegistration = await _UserRegistrationRepository.GetByIdAsync(command.Id).ConfigureAwait(false)
+                                                ?? throw new NotFoundException(typeof(UserRegistration), command.Id);
+
+            userRegistration.UpdateContactInfo(command);
+            await userRegistration.SendSmsVerificationCode(_MobilePhoneVerifier).ConfigureAwait(false);
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> SmsVerification(VerifyConfirmationCodeCommand command)
         {
-            UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(command.UserRegistrationId).ConfigureAwait(false);
+            UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(command.UserRegistrationId).ConfigureAwait(false)
+                                                 ?? throw new NotFoundException(typeof(UserRegistration), command.UserRegistrationId);
 
-            if (userRegistration is null)
-                return View("SmsVerificationFailed");
-
-            await _UserRegistrationRepository.SaveAsync(userRegistration!).ConfigureAwait(false);
-
+            // Redirect exceptions thrown specifically for BusinessRuleValidations, let the Exception Filter take care of the rest
             try
             {
                 userRegistration.VerifyMobilePhone(command);
             }
             catch (BusinessRuleValidationException e)
             {
+                _Logger.Log(LogLevel.Error, e.Message);
+
                 return View("SmsVerificationFailed");
             }
 
@@ -75,39 +114,27 @@ namespace Play.Identity.Api.Areas.Accounts
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EmailVerification(VerifyConfirmationCodeCommand command)
+        public async Task<IActionResult> UpdateContactInfo(UpdateAddressCommand command)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return View("Error");
+            UserRegistration userRegistration = await _UserRegistrationRepository.GetByIdAsync(command.Id).ConfigureAwait(false)
+                                                ?? throw new NotFoundException(typeof(UserRegistration), command.Id);
 
-                UserRegistration? merchantRegistration = await _UserRegistrationRepository.GetByIdAsync(command.UserRegistrationId).ConfigureAwait(false);
+            userRegistration.UpdateUserAddress(command);
 
-                if (merchantRegistration is null)
-                    return View("EmailVerificationFailed");
+            return Ok();
+        }
 
-                await _UserRegistrationRepository.SaveAsync(merchantRegistration!).ConfigureAwait(false);
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdatePersonalDetails(UpdatePersonalDetailsCommand command)
+        {
+            UserRegistration userRegistration = await _UserRegistrationRepository.GetByIdAsync(command.Id).ConfigureAwait(false)
+                                                ?? throw new NotFoundException(typeof(UserRegistration), command.Id);
 
-                if (!merchantRegistration.VerifyEmail(new VerifyConfirmationCodeCommand()).Succeeded)
-                    return View("EmailVerificationFailed");
+            userRegistration.UpdatePersonalDetails(command);
+            userRegistration.AnalyzeUserRisk(_MerchantUnderwriter);
 
-                return View("EmailVerificationSuccessful");
-            }
-            catch (ValueObjectException e)
-            {
-                _Logger.Log(LogLevel.Error,
-                    $"The {nameof(EmailVerification)} could not be completed. TheThe {nameof(MerchantRegistration)} with the Id: [{command.UserRegistrationId}] contained bad information. An exception occurred initializing a value object");
-
-                return BadRequest();
-            }
-            catch (InvalidOperationException e)
-            {
-                _Logger.Log(LogLevel.Error,
-                    $"The {nameof(MerchantRegistration)} with the Id: [{command.UserRegistrationId}] contained bad information. An exception occurred initializing a value object");
-
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
+            return Ok();
         }
 
         #endregion

@@ -14,22 +14,25 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 {
     #region Instance Values
 
+    private readonly ILogger<ApiExceptionFilterAttribute> _Logger;
     private readonly IDictionary<Type, Action<ExceptionContext>> _ExceptionHandlers;
 
     #endregion
 
     #region Constructor
 
-    public ApiExceptionFilterAttribute()
+    public ApiExceptionFilterAttribute(ILoggerFactory loggerFactory)
     {
+        _Logger = loggerFactory.CreateLogger<ApiExceptionFilterAttribute>();
         _ExceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>()
         {
             {typeof(ValueObjectException), HandleValueObjectException},
-            {typeof(BusinessRuleValidationException), HandleValueObjectException},
+            {typeof(BusinessRuleValidationException), HandleBusinessRuleValidationException},
             {typeof(RepositoryException), HandleRepositoryException},
             {typeof(CommandOutOfSyncException), HandleCommandOutOfSyncException},
             {typeof(PlayInternalException), HandlePlayInternalException},
             {typeof(AggregateException), HandleAggregateException},
+            {typeof(NotFoundException), HandleNotFoundException},
             {typeof(Exception), HandleUncaughtException}
         };
     }
@@ -50,6 +53,24 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         };
         context.Result = new ObjectResult(details);
         context.ExceptionHandled = true;
+
+        _Logger.Log(LogLevel.Error, details.Detail, details);
+    }
+
+    private void HandleNotFoundException(ExceptionContext context)
+    {
+        NotFoundException exception = (NotFoundException) context.Exception;
+
+        ProblemDetails details = new ProblemDetails()
+        {
+            Title = "The requested resource could not be found",
+            Detail = exception.Message,
+            Status = (int) HttpStatusCode.NotFound
+        };
+        context.Result = new ObjectResult(details);
+        context.ExceptionHandled = true;
+
+        _Logger.Log(LogLevel.Error, details.Detail, details);
     }
 
     private void HandleAggregateException(ExceptionContext context)
@@ -64,6 +85,8 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         };
         context.Result = new ObjectResult(details);
         context.ExceptionHandled = true;
+
+        _Logger.Log(LogLevel.Error, details.Detail, details);
     }
 
     private void HandleUncaughtException(ExceptionContext context)
@@ -78,6 +101,8 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         };
         context.Result = new ObjectResult(details);
         context.ExceptionHandled = true;
+
+        _Logger.Log(LogLevel.Error, details.Detail, details);
     }
 
     private void HandleCommandOutOfSyncException(ExceptionContext context)
@@ -92,6 +117,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         };
         context.Result = new NotFoundObjectResult(details);
         context.ExceptionHandled = true;
+        _Logger.Log(LogLevel.Error, details.Detail, details);
     }
 
     private void HandleRepositoryException(ExceptionContext context)
@@ -106,6 +132,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         };
         context.Result = new BadRequestObjectResult(details);
         context.ExceptionHandled = true;
+        _Logger.Log(LogLevel.Error, details.Detail, details);
     }
 
     private void HandleBusinessRuleValidationException(ExceptionContext context)
@@ -120,6 +147,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         };
         context.Result = new BadRequestObjectResult(details);
         context.ExceptionHandled = true;
+        _Logger.Log(LogLevel.Error, details.Detail, details);
     }
 
     private void HandleValueObjectException(ExceptionContext context)
@@ -133,6 +161,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         };
         context.Result = new BadRequestObjectResult(details);
         context.ExceptionHandled = true;
+        _Logger.Log(LogLevel.Error, details.Detail, details);
     }
 
     /// <exception cref="OutOfMemoryException"></exception>
@@ -149,6 +178,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         context.Result = new BadRequestObjectResult(details);
 
         context.ExceptionHandled = true;
+        _Logger.Log(LogLevel.Error, details.Detail, details);
     }
 
     public override void OnException(ExceptionContext context)

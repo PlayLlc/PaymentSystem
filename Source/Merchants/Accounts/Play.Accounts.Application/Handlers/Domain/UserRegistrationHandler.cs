@@ -4,6 +4,7 @@ using NServiceBus;
 
 using Play.Accounts.Contracts.Events;
 using Play.Accounts.Domain.Aggregates;
+using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.Services;
 using Play.Domain;
 using Play.Domain.Events;
@@ -26,8 +27,10 @@ public class UserRegistrationHandler : DomainEventHandler, IHandleDomainEvents<E
     #region Instance Values
 
     private readonly IMessageHandlerContext _MessageHandlerContext;
+    private readonly IHashPasswords _PasswordHasher;
     private readonly IVerifyEmailAccounts _EmailAccountVerifier;
     private readonly IVerifyMobilePhones _MobilePhoneVerifier;
+    private readonly IUnderwriteMerchants _MerchantUnderwriter;
     private readonly IRepository<User, string> _UserRepository;
     private readonly IRepository<UserRegistration, string> _UserRegistrationRepository;
 
@@ -37,12 +40,13 @@ public class UserRegistrationHandler : DomainEventHandler, IHandleDomainEvents<E
 
     public UserRegistrationHandler(
         IMessageHandlerContext messageHandlerContext, IVerifyEmailAccounts emailAccountVerifier, IVerifyMobilePhones mobilePhoneVerifier,
-        IRepository<User, string> userRepository, IRepository<UserRegistration, string> userRegistrationRepository,
+        IUnderwriteMerchants merchantUnderwriter, IRepository<User, string> userRepository, IRepository<UserRegistration, string> userRegistrationRepository,
         ILogger<UserRegistrationHandler> logger) : base(logger)
     {
         _MessageHandlerContext = messageHandlerContext;
         _EmailAccountVerifier = emailAccountVerifier;
         _MobilePhoneVerifier = mobilePhoneVerifier;
+        _MerchantUnderwriter = merchantUnderwriter;
         _UserRepository = userRepository;
         _UserRegistrationRepository = userRegistrationRepository;
     }
@@ -157,6 +161,7 @@ public class UserRegistrationHandler : DomainEventHandler, IHandleDomainEvents<E
     public async Task Handle(UserRegistrationAddressUpdated domainEvent)
     {
         Log(domainEvent);
+
         await _UserRegistrationRepository.SaveAsync(domainEvent.UserRegistration).ConfigureAwait(false);
     }
 
@@ -178,7 +183,7 @@ public class UserRegistrationHandler : DomainEventHandler, IHandleDomainEvents<E
     {
         Log(domainEvent);
         await _UserRegistrationRepository.SaveAsync(domainEvent.UserRegistration).ConfigureAwait(false);
-        await _UserRepository.SaveAsync(domainEvent.UserRegistration.CreateUser()).ConfigureAwait(false);
+        await _UserRepository.SaveAsync(domainEvent.UserRegistration.CreateUser(_PasswordHasher)).ConfigureAwait(false);
     }
 
     public async Task Handle(UserRegistrationPhoneVerified domainEvent)

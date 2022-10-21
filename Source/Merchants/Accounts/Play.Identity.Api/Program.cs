@@ -21,11 +21,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
-
 app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
-
 app.Run();
