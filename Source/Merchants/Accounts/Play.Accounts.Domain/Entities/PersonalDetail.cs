@@ -1,5 +1,8 @@
 ﻿using Play.Accounts.Contracts.Dtos;
+using Play.Core.Exceptions;
+using Play.Domain;
 using Play.Domain.Entities;
+using Play.Domain.ValueObjects;
 using Play.Globalization.Time;
 
 namespace Play.Accounts.Domain.Entities;
@@ -13,7 +16,7 @@ public class PersonalDetail : Entity<string>
     /// </summary>
     public readonly string LastFourOfSocial;
 
-    public readonly DateTime DateOfBirth;
+    public readonly DateTimeUtc DateOfBirth;
 
     public string Id { get; }
 
@@ -21,22 +24,36 @@ public class PersonalDetail : Entity<string>
 
     #region Constructor
 
+    /// <exception cref="ValueObjectException"></exception>
     public PersonalDetail(PersonalDetailDto dto)
     {
         Id = dto.Id!;
         LastFourOfSocial = dto.LastFourOfSocial;
-        DateOfBirth = dto.DateOfBirth;
+
+        try
+        {
+            DateOfBirth = new DateTimeUtc(dto.DateOfBirth);
+        }
+        catch (PlayInternalException e)
+        {
+            throw new ValueObjectException($"The {nameof(DateOfBirth)} must be in {nameof(DateTimeKind.Utc)} format", e);
+        }
     }
 
-    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="ValueObjectException"></exception>
     public PersonalDetail(string id, string lastFourOfSocial, DateTime dateOfBirth)
     {
-        if (dateOfBirth.Kind != DateTimeKind.Utc)
-            throw new ArgumentException($"The {nameof(dateOfBirth)} must be in {nameof(DateTimeKind.Utc)} format");
-
         Id = id;
         LastFourOfSocial = lastFourOfSocial;
-        DateOfBirth = dateOfBirth;
+
+        try
+        {
+            DateOfBirth = new DateTimeUtc(dateOfBirth);
+        }
+        catch (PlayInternalException e)
+        {
+            throw new ValueObjectException($"The {nameof(DateOfBirth)} must be in {nameof(DateTimeKind.Utc)} format", e);
+        }
     }
 
     #endregion
@@ -48,7 +65,6 @@ public class PersonalDetail : Entity<string>
         return Id;
     }
 
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
     public override PersonalDetailDto AsDto()
     {
         return new PersonalDetailDto

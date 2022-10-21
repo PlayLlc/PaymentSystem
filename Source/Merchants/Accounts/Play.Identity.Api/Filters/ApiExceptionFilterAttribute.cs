@@ -3,6 +3,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
+using Play.Core.Exceptions;
 using Play.Domain;
 using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
@@ -27,6 +28,8 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
             {typeof(BusinessRuleValidationException), HandleValueObjectException},
             {typeof(RepositoryException), HandleRepositoryException},
             {typeof(CommandOutOfSyncException), HandleCommandOutOfSyncException},
+            {typeof(PlayInternalException), HandlePlayInternalException},
+            {typeof(AggregateException), HandleAggregateException},
             {typeof(Exception), HandleUncaughtException}
         };
     }
@@ -34,6 +37,34 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     #endregion
 
     #region Instance Members
+
+    private void HandlePlayInternalException(ExceptionContext context)
+    {
+        PlayInternalException exception = (PlayInternalException) context.Exception;
+
+        ProblemDetails details = new ProblemDetails()
+        {
+            Title = "An uncaught internal exception has caused an Internal Server Error",
+            Detail = exception.Message,
+            Status = (int) HttpStatusCode.InternalServerError
+        };
+        context.Result = new ObjectResult(details);
+        context.ExceptionHandled = true;
+    }
+
+    private void HandleAggregateException(ExceptionContext context)
+    {
+        AggregateException exception = (AggregateException) context.Exception;
+
+        ProblemDetails details = new ProblemDetails()
+        {
+            Title = "An uncaught exception likely due to an incorrect asynchronous implementation has caused an Internal Server Error",
+            Detail = exception.Message,
+            Status = (int) HttpStatusCode.InternalServerError
+        };
+        context.Result = new ObjectResult(details);
+        context.ExceptionHandled = true;
+    }
 
     private void HandleUncaughtException(ExceptionContext context)
     {

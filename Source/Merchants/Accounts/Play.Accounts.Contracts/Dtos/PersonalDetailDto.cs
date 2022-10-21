@@ -22,10 +22,10 @@ public class PersonalDetailDto : IDto
     public string LastFourOfSocial { get; set; } = string.Empty;
 
     /// <summary>
-    ///     The user's date of birth
+    ///     The user's date of birth in UTC
     /// </summary>
     [Required]
-    public DateTimeUtc DateOfBirth { get; set; }
+    public DateTime DateOfBirth { get; set; }
 
     #endregion
 }

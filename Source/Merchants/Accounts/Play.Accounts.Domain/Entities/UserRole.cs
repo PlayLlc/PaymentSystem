@@ -1,21 +1,34 @@
-﻿namespace Play.Accounts.Domain.Entities;
+﻿using Play.Accounts.Domain.Enums;
+using Play.Core;
+using Play.Domain.ValueObjects;
+
+namespace Play.Accounts.Domain.Entities;
 
 public record UserRole
 {
     #region Instance Values
 
-    public string Id { get; }
+    public readonly string Id;
 
-    public string Name { get; }
+    public readonly string Value;
 
     #endregion
 
     #region Constructor
 
-    public UserRole(string id, string name)
+    public UserRole(UserRoles userRole)
     {
-        Id = id;
-        Name = name;
+        Id = userRole.Id;
+        Value = userRole;
+    }
+
+    public UserRole(string value)
+    {
+        if (!UserRoles.Empty.TryGet(value, out EnumObjectString? result))
+            throw new ValueObjectException($"The {nameof(UserRole)} with the value: {value} could not be found");
+
+        Id = value;
+        Value = value;
     }
 
     #endregion

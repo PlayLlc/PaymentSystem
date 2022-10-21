@@ -32,7 +32,7 @@ public class AccountMappingProfile : Profile
             .ForMember((dest) => dest, opt => opt.MapFrom(src => new RoleIdentity
             {
                 Id = src.Id,
-                Name = src.Name
+                Name = src.Value
             }));
             cfg.CreateMap<RoleIdentity, UserRole>().ForMember((dest) => dest, opt => opt.MapFrom(src => new UserRole(src.Id, src.Name)));
 

@@ -1,4 +1,5 @@
 ﻿using Play.Domain.Entities;
+using Play.Domain.ValueObjects;
 
 namespace Play.Identity.Domain;
 
@@ -18,7 +19,7 @@ public class Address : Entity<string>
 
     #region Constructor
 
-    /// <exception cref="Play.Domain.ValueObjects.ValueObjectException"></exception>
+    /// <exception cref="ValueObjectException"></exception>
     public Address(string id, string streetAddress, string apartmentNumber, string zipcode, StateAbbreviations state, string city)
     {
         Id = id;

@@ -59,6 +59,7 @@ public class UserRegistrationHandler : DomainEventHandler, IHandleDomainEvents<E
 
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="CommandOutOfSyncException"></exception>
+    /// <exception cref="BusinessRuleValidationException"></exception>
     public async Task Handle(EmailVerificationCodeHasExpired domainEvent)
     {
         Log(domainEvent);

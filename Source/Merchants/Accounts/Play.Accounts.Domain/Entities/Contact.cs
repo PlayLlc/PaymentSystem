@@ -20,7 +20,7 @@ public class Contact : Entity<string>
 
     #region Constructor
 
-    /// <exception cref="Play.Domain.ValueObjects.ValueObjectException"></exception>
+    /// <exception cref="ValueObjectException"></exception>
     public Contact(string id, string firstName, string lastName, string phone, string email)
     {
         Id = id;

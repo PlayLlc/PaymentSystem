@@ -24,72 +24,53 @@ namespace Play.Identity.Api.Areas.Accounts
 
         #endregion
 
+        #region Constructor
+
+        public UserRegistrationController(
+            ILogger<UserRegistrationController> logger, IUserRegistrationRepository userRegistrationRepository, IEnsureUniqueEmails uniqueEmailChecker,
+            IHashPasswords passwordHasher)
+        {
+            _Logger = logger;
+            _UserRegistrationRepository = userRegistrationRepository;
+            _UniqueEmailChecker = uniqueEmailChecker;
+            _PasswordHasher = passwordHasher;
+        }
+
+        #endregion
+
         #region Instance Members
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<Result> Create(CreateUserRegistrationCommand command)
+        public async Task<IAsyncResult> Create(CreateUserRegistrationCommand command)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest();
+            var userRegistration = UserRegistration.CreateNewUserRegistration(_UniqueEmailChecker, _PasswordHasher, command);
+            await _UserRegistrationRepository.SaveAsync(userRegistration).ConfigureAwait(false);
 
-                var userRegistration = UserRegistration.CreateNewUserRegistration(_UniqueEmailChecker, _PasswordHasher, command);
-                await _UserRegistrationRepository.SaveAsync(userRegistration).ConfigureAwait(false);
-
-                return Ok();
-            }
-
-            // TODO: Let's abstract the handling of exceptions for business rules and value object exceptions
-            catch (BusinessRuleValidationException e)
-            { }
-            catch (ValueObjectException e)
-            { }
-            catch (Exception e)
-            {
-                _Logger.Log(LogLevel.Error,
-                    $"The {nameof(UserRegistration)} with the email: [{command.Email}] could not be created because of an internal server error", e);
-
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
+            return Task.FromResult(Ok());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SmsVerification(VerifyConfirmationCodeCommand command)
         {
+            UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(command.UserRegistrationId).ConfigureAwait(false);
+
+            if (userRegistration is null)
+                return View("SmsVerificationFailed");
+
+            await _UserRegistrationRepository.SaveAsync(userRegistration!).ConfigureAwait(false);
+
             try
             {
-                if (!ModelState.IsValid)
-                    return BadRequest();
-
-                UserRegistration? merchantRegistration = await _UserRegistrationRepository.GetByIdAsync(command.UserRegistrationId).ConfigureAwait(false);
-
-                if (merchantRegistration is null)
-                    return View("SmsVerificationFailed");
-
-                await _UserRegistrationRepository.SaveAsync(merchantRegistration!).ConfigureAwait(false);
-
-                if (!merchantRegistration.VerifyMobilePhone(new VerifyConfirmationCodeCommand()).Succeeded)
-                    return View("SmsVerificationFailed");
-
-                return View("SmsVerificationSuccessful");
+                userRegistration.VerifyMobilePhone(command);
             }
-            catch (ValueObjectException e)
+            catch (BusinessRuleValidationException e)
             {
-                _Logger.Log(LogLevel.Error,
-                    $"The {nameof(SmsVerification)} could not be completed. The {nameof(MerchantRegistration)} with the Id: [{command.UserRegistrationId}] contained bad information. An exception occurred initializing a value object");
-
-                return BadRequest();
+                return View("SmsVerificationFailed");
             }
-            catch (InvalidOperationException e)
-            {
-                _Logger.Log(LogLevel.Error,
-                    $"The {nameof(MerchantRegistration)} with the Id: [{command.UserRegistrationId}] contained bad information. An exception occurred initializing a value object");
 
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
+            return View("SmsVerificationSuccessful");
         }
 
         [HttpPost]

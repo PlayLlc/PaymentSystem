@@ -1,4 +1,5 @@
-﻿using Play.Core;
+﻿using Play.Accounts.Domain.ValueObjects;
+using Play.Core;
 
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,8 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using Play.Accounts.Domain.Entities;
 
 namespace Play.Accounts.Domain.Enums
 {
@@ -21,10 +24,20 @@ namespace Play.Accounts.Domain.Enums
 
         #endregion
 
+        #region Instance Values
+
+        public readonly string Id;
+        public readonly string Name;
+
+        #endregion
+
         #region Constructor
 
         private UserRoles(string value) : base(value)
-        { }
+        {
+            Id = value;
+            Name = value;
+        }
 
         static UserRoles()
         {
@@ -66,6 +79,15 @@ namespace Play.Accounts.Domain.Enums
             result = null;
 
             return false;
+        }
+
+        #endregion
+
+        #region Operator Overrides
+
+        public static implicit operator UserRole(UserRoles value)
+        {
+            return new UserRole(value.Id, value.Name);
         }
 
         #endregion

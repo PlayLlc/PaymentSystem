@@ -14,11 +14,14 @@ public class UserDto : IDto
 
     [Required]
     [MinLength(1)]
-    public string HashedPassword { get; set; } = string.Empty;
+    public string MerchantId { get; set; } = string.Empty;
 
     [Required]
     [MinLength(1)]
-    public string MerchantId { get; set; } = string.Empty;
+    public string TerminalId { get; set; } = string.Empty;
+
+    [Required]
+    public PasswordDto Password { get; set; } = new();
 
     [Required]
     public AddressDto AddressDto { get; set; } = new();
@@ -30,6 +33,8 @@ public class UserDto : IDto
     public PersonalDetailDto PersonalDetailDto { get; set; } = new();
 
     public bool IsActive { get; set; }
+
+    public IList<UserRoleDto> Roles { get; set; } = new List<UserRoleDto>();
 
     #endregion
 }

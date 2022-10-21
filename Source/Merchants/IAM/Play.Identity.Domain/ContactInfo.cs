@@ -1,4 +1,5 @@
 ﻿using Play.Domain.Entities;
+using Play.Domain.ValueObjects;
 
 namespace Play.Identity.Domain;
 
@@ -17,7 +18,7 @@ public class ContactInfo : Entity<string>
 
     #region Constructor
 
-    /// <exception cref="Play.Domain.ValueObjects.ValueObjectException"></exception>
+    /// <exception cref="ValueObjectException"></exception>
     public ContactInfo(string id, string firstName, string lastName, string phone, string email)
     {
         Id = id;

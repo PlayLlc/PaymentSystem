@@ -2,11 +2,11 @@
 
 namespace Play.Accounts.Contracts.Events;
 
-public class MerchantHasBeenCreatedEvent : NetworkEvent
+public class UserHasBeenCreatedEvent : NetworkEvent
 {
     #region Instance Values
 
-    public string MerchantId { get; set; } = string.Empty;
+    public string UserId { get; set; } = string.Empty;
 
     #endregion
 }
