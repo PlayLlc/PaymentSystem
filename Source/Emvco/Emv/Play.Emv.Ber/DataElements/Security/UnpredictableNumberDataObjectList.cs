@@ -53,7 +53,5 @@ public record UnpredictableNumberDataObjectList : DataObjectList
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => base.GetValueByteCount();
 
-    public override ushort GetValueByteCount() => base.GetValueByteCount();
-
     #endregion
 }

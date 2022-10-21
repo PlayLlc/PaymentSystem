@@ -41,7 +41,7 @@ public class AcquirerIdentifierTests : TestBase
     [Fact]
     public void BerEncoding_DeserializeDataElementConsistingOf12Digits_ThrowsDataElementParsingException()
     {
-        AcquirerIdentifierTestTlv testData = new(new byte[] { 11, 12, 13, 14, 15, 16 });
+        AcquirerIdentifierTestTlv testData = new(new byte[] { 11, 12, 13, 14, 15, 16, 17 });
 
         Assert.Throws<DataElementParsingException>(() =>
         {
