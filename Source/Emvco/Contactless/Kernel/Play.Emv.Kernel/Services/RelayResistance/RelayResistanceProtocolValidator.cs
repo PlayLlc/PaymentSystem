@@ -21,10 +21,16 @@ public class RelayResistanceProtocolValidator : IValidateRelayResistanceProtocol
 
     #region Constructor
 
+    /// <summary>
+    ///  Book C-2 : 3.11
+    ///  _MaximumRetryCount : 3.11.2.3 -> The Reader will execute up to two retries
+    /// </summary>
+    /// <param name="sessionId"></param>
+    /// <param name="maximumRetryCount"></param>
     public RelayResistanceProtocolValidator(TransactionSessionId sessionId, int maximumRetryCount)
     {
         _SessionId = sessionId;
-        _MaximumRetryCount = maximumRetryCount; //usually 2
+        _MaximumRetryCount = maximumRetryCount; 
     }
 
     #endregion

@@ -14,6 +14,8 @@ public record ApplicationEffectiveDate : DataElement<DateTimeUtc>, IEqualityComp
 
     public static readonly Tag Tag = 0x5F25;
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
+    private const string _DateFormat = "yyMMdd";
+    private const string _DateTimeFormat = "yyyyMMddHHmmss";
     private const byte _ByteLength = 3;
     private const byte _CharLength = 6;
 
@@ -47,8 +49,8 @@ public record ApplicationEffectiveDate : DataElement<DateTimeUtc>, IEqualityComp
         return new ApplicationEffectiveDate(new DateTimeUtc(value[0], value[1], value[2]));
     }
 
-    public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value.EncodeDate(), _ByteLength);
-    public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(_Value.EncodeDate(), length);
+    public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(DecodeDateToUInt32(_Value), _ByteLength);
+    public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(DecodeDateToUInt32(_Value), length);
 
     #endregion
 
@@ -72,7 +74,6 @@ public record ApplicationEffectiveDate : DataElement<DateTimeUtc>, IEqualityComp
     #region Operator Overrides
 
     public static explicit operator DateTimeUtc(ApplicationEffectiveDate value) => value._Value;
-    public static explicit operator uint(ApplicationEffectiveDate value) => value._Value.EncodeDate();
 
     #endregion
 
@@ -80,6 +81,8 @@ public record ApplicationEffectiveDate : DataElement<DateTimeUtc>, IEqualityComp
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
+    private uint DecodeDateToUInt32(DateTimeUtc value) => uint.Parse(value.ToString(_DateFormat));
+    private ulong DecodeDateTimeToUInt32(DateTimeUtc value) => ulong.Parse(value.ToString(_DateTimeFormat));
 
     #endregion
 }

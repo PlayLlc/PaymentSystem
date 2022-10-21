@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
-
-using Microsoft.VisualBasic;
 
 using Play.Core.Exceptions;
 
@@ -18,8 +15,6 @@ public readonly record struct DateTimeUtc
     public int Hour => _Value.Hour;
     public int Minute => _Value.Minute;
     public int Second => _Value.Second;
-    private static readonly string _DateFormat = "yyMMdd";
-    private static readonly string _DateTimeFormat = "yyyyMMddHHmmss";
     public static DateTimeUtc Now => new(DateTime.UtcNow);
     public static DateTimeUtc Today => new(DateTime.UtcNow);
 
@@ -62,11 +57,6 @@ public readonly record struct DateTimeUtc
         _Value = dateTimeValue;
     }
 
-    public uint EncodeDate() => uint.Parse(_Value.ToString(_DateFormat));
-
-    public ulong EncodeDateTime() => ulong.Parse(_Value.ToString(_DateTimeFormat));
-
-
     #endregion
 
     #region Equality
@@ -84,6 +74,12 @@ public readonly record struct DateTimeUtc
     public static bool operator >=(DateTimeUtc left, DateTimeUtc right) => left._Value >= right._Value;
     public static Ticks operator -(DateTimeUtc left, DateTimeUtc right) => (Ticks) (left._Value - right._Value);
     public static implicit operator DateTime(DateTimeUtc value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public string ToString(string format) => _Value.ToString(format);
 
     #endregion
 }

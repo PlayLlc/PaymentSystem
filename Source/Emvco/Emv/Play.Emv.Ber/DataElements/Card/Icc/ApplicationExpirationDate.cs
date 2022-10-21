@@ -4,7 +4,6 @@ using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
-using Play.Emv.Ber.ValueTypes;
 using Play.Globalization.Time;
 
 namespace Play.Emv.Ber.DataElements;
@@ -18,6 +17,8 @@ public record ApplicationExpirationDate : DataElement<DateTimeUtc>, IEqualityCom
 
     public static readonly Tag Tag = 0x5F24;
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
+    private const string _DateFormat = "yyMMdd";
+    private const string _DateTimeFormat = "yyyyMMddHHmmss";
     private const byte _ByteLength = 3;
     private const byte _CharLength = 6;
 
@@ -51,8 +52,8 @@ public record ApplicationExpirationDate : DataElement<DateTimeUtc>, IEqualityCom
         return new ApplicationExpirationDate(new DateTimeUtc(value[0], value[1], value[2]));
     }
 
-    public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value.EncodeDate(), _ByteLength);
-    public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(_Value.EncodeDate(), length);
+    public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(DecodeDateToUInt32(_Value), _ByteLength);
+    public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(DecodeDateToUInt32(_Value), length);
 
     #endregion
 
@@ -76,7 +77,6 @@ public record ApplicationExpirationDate : DataElement<DateTimeUtc>, IEqualityCom
     #region Operator Overrides
 
     public static explicit operator DateTimeUtc(ApplicationExpirationDate value) => value._Value;
-    public static explicit operator uint(ApplicationExpirationDate value) => value._Value.EncodeDate();
 
     #endregion
 
@@ -84,6 +84,8 @@ public record ApplicationExpirationDate : DataElement<DateTimeUtc>, IEqualityCom
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
+    private uint DecodeDateToUInt32(DateTimeUtc value) => uint.Parse(value.ToString(_DateFormat));
+    private ulong DecodeDateTimeToUInt32(DateTimeUtc value) => ulong.Parse(value.ToString(_DateTimeFormat));
 
     #endregion
 }

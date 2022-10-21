@@ -33,7 +33,7 @@ public class Record : IEqualityComparer<Record>, IEquatable<Record>
 
     #region Constructor
 
-    public Record(RecordKey key, PrimitiveValue[] value)
+    protected Record(RecordKey key, PrimitiveValue[] value)
     {
         _Key = key;
         _Value = value;
