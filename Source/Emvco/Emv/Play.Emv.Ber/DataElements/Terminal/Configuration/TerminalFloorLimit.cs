@@ -88,6 +88,7 @@ public record TerminalFloorLimit : DataElement<uint>, IEqualityComparer<Terminal
 
     #region Instance Members
 
+    public Money AsMoney(NumericCurrencyCode numericCurrencyCode) => new(_Value, numericCurrencyCode);
     public Money AsMoney(CultureProfile cultureProfile) => new(_Value, cultureProfile.GetNumericCurrencyCode());
     public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
     public override PlayEncodingId GetEncodingId() => EncodingId;

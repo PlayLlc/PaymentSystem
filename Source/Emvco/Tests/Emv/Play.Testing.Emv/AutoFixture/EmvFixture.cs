@@ -8,6 +8,8 @@ using Play.Emv.Ber.Templates;
 using Play.Emv.Security;
 using Play.Encryption.Certificates;
 using Play.Encryption.Ciphers.Hashing;
+using Play.Testing.Emv.AutoFixture.Builders.DataElements;
+using Play.Testing.Emv.AutoFixture.Builders.Globalization;
 using Play.Testing.Emv.Ber.Constructed;
 using Play.Testing.Extensions;
 using Play.Testing.Infrastructure.AutoFixture;
@@ -34,6 +36,10 @@ public class EmvFixture : TestingFixture
         // Setup upstream builders
         base.SetupCustomBuilders(factory);
 
+        //Globalization
+        //factory.Build(NumericCountryCodeBuilder.Id);
+        //factory.Build(Alpha2CountryCodeBuilder.Id);
+
         // Setup custom builder specific to this module's context
         factory.Build(AlternateInterfacePreferenceOutcomeBuilder.Id);
         factory.Build(CertificateSerialNumberBuilder.Id);
@@ -57,6 +63,7 @@ public class EmvFixture : TestingFixture
         factory.Build(ProcessingOptionsDataObjectListBuilder.Id);
         factory.Build(FileControlInformationIssuerDiscretionaryDataAdfBuilder.Id);
 
+        factory.Build(ApplicationPanBuilder.Id);
         factory.Build(AmountAuthorizedNumericBuilder.Id);
         factory.Build(AmountOtherNumericBuilder.Id);
         factory.Build(ApplicationDedicatedFileNameBuilder.Id);
@@ -74,6 +81,9 @@ public class EmvFixture : TestingFixture
         factory.Build(TransactionDateBuilder.Id);
         factory.Build(FileControlInformationIssuerDiscretionaryPpseBuilder.Id);
         factory.Build(LanguagePreferenceBuilder.Id);
+        factory.Build(InterfaceDeviceSerialNumberBuilder.Id);
+        factory.Build(TerminalIdentificationBuilder.Id);
+        factory.Build(TerminalTransactionQualifiersBuilder.Id);
     }
 
     #region Customize Fixture

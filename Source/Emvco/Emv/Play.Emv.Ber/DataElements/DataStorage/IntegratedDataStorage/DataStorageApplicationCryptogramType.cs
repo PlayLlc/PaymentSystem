@@ -48,6 +48,9 @@ public record DataStorageApplicationCryptogramType : DataElement<byte>, IEqualit
 
         byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
 
+        if (!CryptogramTypes.IsValid(result))
+            throw new CardDataException($"The argument {nameof(value)} was not recognized as a valid {nameof(CryptogramTypes)}");
+
         return new DataStorageApplicationCryptogramType(result);
     }
 

@@ -14,7 +14,7 @@ public record IssuerCountryCodeAlpha2 : DataElement<Alpha2CountryCode>, IEqualit
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = AlphabeticCodec.EncodingId;
     public static readonly Tag Tag = 0x5F55;
     private const byte _ByteLength = 2;
 
@@ -42,8 +42,8 @@ public record IssuerCountryCodeAlpha2 : DataElement<Alpha2CountryCode>, IEqualit
         return new IssuerCountryCodeAlpha2(new Alpha2CountryCode(PlayCodec.AlphabeticCodec.DecodeToChars(value)));
     }
 
-    public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(_Value, length);
+    public override byte[] EncodeValue() => _Value.Encode();
+    public override byte[] EncodeValue(int length) => _Value.Encode();
 
     #endregion
 
@@ -72,6 +72,7 @@ public record IssuerCountryCodeAlpha2 : DataElement<Alpha2CountryCode>, IEqualit
 
     #region Instance Members
 
+    public override ushort GetValueByteCount() => (ushort) PlayCodec.AlphabeticCodec.GetByteCount(_Value.AsCharArray());
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 

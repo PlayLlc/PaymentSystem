@@ -32,15 +32,17 @@ internal abstract record CvmCondition
         AmountInApplicationCurrencyAndOverXValueCondition amountInApplicationCurrencyAndOverXValueCondition = new();
         AmountInApplicationCurrencyAndOverYValueCondition amountInApplicationCurrencyAndOverYValueCondition = new();
         AmountInApplicationCurrencyAndUnderXValueCondition amountInApplicationCurrencyAndUnderXValueCondition = new();
-        AmountInApplicationCurrencyAndUnderXValueCondition amountInApplicationCurrencyAndUnderYValueCondition = new();
+        AmountInApplicationCurrencyAndUnderYValueCondition amountInApplicationCurrencyAndUnderYValueCondition = new();
         ManualCashCondition manualCashCondition = new();
         NotUnattendedCashOrManualCashOrPurchaseWithCashback notUnattendedCashOrManualCashOrPurchaseWithCashback = new();
         PurchaseWithCashbackCondition purchaseWithCashbackCondition = new();
         SupportsCvmCondition supportsCvmCondition = new();
+        UnattendedCash unattendedCash = new();
 
         _Conditions = new Dictionary<CvmConditionCode, CvmCondition>
         {
             {alwaysCondition.GetConditionCode(), alwaysCondition},
+            {unattendedCash.GetConditionCode(), unattendedCash },
             {amountInApplicationCurrencyAndOverXValueCondition.GetConditionCode(), amountInApplicationCurrencyAndOverXValueCondition},
             {amountInApplicationCurrencyAndOverYValueCondition.GetConditionCode(), amountInApplicationCurrencyAndOverYValueCondition},
             {amountInApplicationCurrencyAndUnderXValueCondition.GetConditionCode(), amountInApplicationCurrencyAndUnderXValueCondition},

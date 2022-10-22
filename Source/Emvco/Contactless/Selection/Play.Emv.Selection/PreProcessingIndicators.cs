@@ -59,7 +59,7 @@ public class PreProcessingIndicators : IReadOnlyDictionary<CombinationCompositeK
         if (applicationIdentifiers.Any(a => a.IsFullMatch(applicationIdentifier)))
             return true;
 
-        if (applicationIdentifiers.Any(a => a.IsPartialMatch(a)))
+        if (applicationIdentifiers.Any(a => a.IsPartialMatch(applicationIdentifier)))
             return true;
 
         return false;
@@ -67,7 +67,7 @@ public class PreProcessingIndicators : IReadOnlyDictionary<CombinationCompositeK
 
     public bool IsMatchingKernel(KernelIdentifier kernelIdentifier)
     {
-        return _Values.Values.Where(a => a.ContactlessApplicationNotAllowed == false).Any(a => a.GetKernelId().Equals(kernelIdentifier));
+        return _Values.Values.Where(a => a.ContactlessApplicationNotAllowed == false).Any(a => a.GetKernelId().Equals(kernelIdentifier.AsKernelId()));
     }
 
     /// <summary>

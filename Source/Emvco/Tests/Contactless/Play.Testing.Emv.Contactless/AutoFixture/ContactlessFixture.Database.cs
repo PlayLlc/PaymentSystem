@@ -39,8 +39,12 @@ public partial class ContactlessFixture
         fixture.Register<KernelPersistentConfiguration>(() => new Kernel2KernelPersistentConfiguration(Array.Empty<PrimitiveValue>(), new EmvRuntimeCodec()));
         fixture.Register<KnownObjects>(fixture.Create<Kernel2KnownObjects>);
         fixture.Register(() => new SequenceCounterThreshold(0, int.MaxValue, 1));
-        KernelDatabase database = fixture.Create<KernelDatabase>();
-        fixture.Freeze<KernelDatabase>();
+        fixture.Register(() => new KernelDatabase(new CertificateAuthorityDataset[0], GetDefaultPrimitiveValues(), fixture.Create<KnownObjects>(), null));
+    }
+
+    private static PrimitiveValue[] GetDefaultPrimitiveValues()
+    {
+        return new PrimitiveValue[0];
     }
 
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>

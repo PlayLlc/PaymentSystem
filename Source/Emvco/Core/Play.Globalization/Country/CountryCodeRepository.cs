@@ -11,18 +11,17 @@ internal class CountryCodeRepository
 {
     #region Static Metadata
 
-    private static readonly ImmutableSortedDictionary<Alpha2CountryCode, CountryCodes> _Alpha3CountryMap;
-    private static readonly ImmutableSortedDictionary<NumericCountryCode, CountryCodes> _NumericCountryMap;
+    private static readonly ImmutableDictionary<Alpha2CountryCode, CountryCodes> _Alpha2CountryMap;
+    private static readonly ImmutableDictionary<NumericCountryCode, CountryCodes> _NumericCountryMap;
     private static readonly char[] _Buffer = new char[2];
 
     #endregion
 
     #region Constructor
-
     static CountryCodeRepository()
     {
-        _NumericCountryMap = GetCurrencyCodes().ToImmutableSortedDictionary(a => a.GetNumericCode(), b => b);
-        _Alpha3CountryMap = GetCurrencyCodes().ToImmutableSortedDictionary(a => a.GetAlpha2Code(), b => b);
+        _NumericCountryMap = GetCurrencyCodes().ToImmutableDictionary(a => a.GetNumericCode(), b => b);
+        _Alpha2CountryMap = GetCurrencyCodes().ToImmutableDictionary(a => a.GetAlpha2Code(), b => b);
     }
 
     #endregion
@@ -30,7 +29,7 @@ internal class CountryCodeRepository
     #region Instance Members
 
     public static CountryCodes Get(NumericCountryCode numericCode) => _NumericCountryMap[numericCode];
-    public static CountryCodes Get(Alpha2CountryCode alphaCode) => _Alpha3CountryMap[alphaCode];
+    public static CountryCodes Get(Alpha2CountryCode alphaCode) => _Alpha2CountryMap[alphaCode];
 
     private static List<CountryCodes> GetCurrencyCodes() =>
         new()
@@ -289,15 +288,14 @@ internal class CountryCodeRepository
         return _NumericCountryMap.Keys.Any(a => a == numericCode);
     }
 
-    public static bool IsValid(ReadOnlySpan<char> alpha3Code)
+    public static bool IsValid(ReadOnlySpan<char> alpha2Code)
     {
-        if (alpha3Code.Length != 3)
-            throw new ArgumentOutOfRangeException(nameof(alpha3Code), $"The argument {nameof(alpha3Code)} must be three characters in length");
+        if (alpha2Code.Length != 2)
+            throw new ArgumentOutOfRangeException(nameof(alpha2Code), $"The argument {nameof(alpha2Code)} must be two characters in length");
 
-        _Buffer[0] = alpha3Code[0];
-        _Buffer[1] = alpha3Code[1];
+        char[] buffer = alpha2Code.ToArray();
 
-        return _Alpha3CountryMap.Keys.Any(a => a.Equals(_Buffer));
+        return _Alpha2CountryMap.Keys.Any(a => a.Equals(buffer));
     }
 
     #endregion
