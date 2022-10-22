@@ -25,11 +25,13 @@ public class UserRegistration : Aggregate<string>
     private readonly string _HashedPassword;
     private readonly DateTimeUtc _RegistrationDate;
 
+    private bool _HasEmailBeenVerified = false;
+    private bool _HasPhoneBeenVerified = false;
+
     private Address? _Address;
     private Contact? _Contact;
     private PersonalDetail? _PersonalDetail;
     private UserRegistrationStatus _Status;
-
     private ConfirmationCode? _EmailConfirmation;
     private ConfirmationCode? _SmsConfirmation;
 
@@ -57,6 +59,16 @@ public class UserRegistration : Aggregate<string>
         return _Username;
     }
 
+    public bool HasEmailBeenVerified()
+    {
+        return _HasEmailBeenVerified;
+    }
+
+    public bool HasPhoneBeenVerified()
+    {
+        return _HasPhoneBeenVerified;
+    }
+
     /// <exception cref="AggregateException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="ValueObjectException"></exception>
@@ -68,7 +80,6 @@ public class UserRegistration : Aggregate<string>
         userRegistration.Enforce(new UserRegistrationUsernameMustBeAValidEmail(command.Email));
         userRegistration.Enforce(new UserRegistrationUsernameMustBeUnique(uniqueEmailChecker, command.Email));
         userRegistration.Enforce(new UserPasswordMustBeStrong(command.Password));
-
         userRegistration.Publish(new UserRegistrationCreated(userRegistration));
 
         return userRegistration;
@@ -121,6 +132,7 @@ public class UserRegistration : Aggregate<string>
         Enforce(new EmailVerificationCodeMustBeCorrect(confirmationCode!, command.ConfirmationCode));
 
         _Status = UserRegistrationStatuses.WaitingForSmsVerification;
+        _HasEmailBeenVerified = true;
         Publish(new EmailVerificationWasSuccessful(this));
     }
 
@@ -177,6 +189,7 @@ public class UserRegistration : Aggregate<string>
         Enforce(new SmsVerificationCodeMustNotBeExpired(confirmationCode)); // TODO: If expired - send another in domain event handler 
         Enforce(new SmsVerificationCodeMustBeCorrect(confirmationCode, command.ConfirmationCode));
 
+        _HasPhoneBeenVerified = true;
         Publish(new UserRegistrationPhoneVerified(this));
     }
 

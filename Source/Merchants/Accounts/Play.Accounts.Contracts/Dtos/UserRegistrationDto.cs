@@ -13,6 +13,8 @@ public class UserRegistrationDto : IDto
     public PersonalDetailDto? PersonalInfo { get; set; }
     public DateTimeUtc RegisteredDate { get; set; }
     public string RegistrationStatus { get; set; } = string.Empty;
+    public bool HasEmailBeenVerified { get; set; }
+    public bool HasPhoneBeenVerified { get; set; }
 
     #endregion
 }

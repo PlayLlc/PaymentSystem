@@ -72,27 +72,31 @@ namespace Play.Identity.Api.Areas.Registration.Controllers
             return Created(Url.Action("Index", $"{nameof(User)}", userRegistration.GetId())!, userRegistration.AsDto());
         }
 
+        [HttpGet]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EmailVerification(string id)
+        {
+            UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(id).ConfigureAwait(false)
+                                                 ?? throw new NotFoundException(typeof(UserRegistration), id);
+
+            if (userRegistration.HasEmailBeenVerified())
+                return View("EmailVerificationSuccessful");
+
+            return View("EmailVerificationFailed");
+        }
+
         [HttpPut]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> VerifyEmail([FromBody] VerifyConfirmationCodeCommand command)
+        public async Task<IActionResult> EmailVerification([FromBody] VerifyConfirmationCodeCommand command)
         {
             this.ValidateModel();
 
             UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(command.UserRegistrationId).ConfigureAwait(false)
                                                  ?? throw new NotFoundException(typeof(UserRegistration), command.UserRegistrationId);
 
-            try
-            {
-                userRegistration.VerifyEmail(command);
-            }
-            catch (BusinessRuleValidationException e)
-            {
-                _Logger.Log(LogLevel.Error, e.Message);
+            userRegistration.VerifyEmail(command);
 
-                return View("EmailVerificationFailed");
-            }
-
-            return View("EmailVerificationSuccessful");
+            return Ok();
         }
 
         [HttpPut]
@@ -110,9 +114,22 @@ namespace Play.Identity.Api.Areas.Registration.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PhoneVerification(string id)
+        {
+            UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(id).ConfigureAwait(false)
+                                                 ?? throw new NotFoundException(typeof(UserRegistration), id);
+
+            if (userRegistration.HasEmailBeenVerified())
+                return View("EmailVerificationSuccessful");
+
+            return View("EmailVerificationFailed");
+        }
+
         [HttpPut]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> VerifyPhone([FromBody] VerifyConfirmationCodeCommand command)
+        public async Task<IActionResult> PhoneVerification([FromBody] VerifyConfirmationCodeCommand command)
         {
             this.ValidateModel();
 
@@ -122,19 +139,6 @@ namespace Play.Identity.Api.Areas.Registration.Controllers
             userRegistration.VerifyMobilePhone(command);
 
             return Ok();
-
-            // Redirect exceptions thrown specifically for BusinessRuleValidations, let the Exception Filter take care of the rest
-            //try
-            //{
-
-            //}
-            //catch (BusinessRuleValidationException e)
-            //{
-            //    _Logger.Log(LogLevel.Error, e.Message);
-
-            //    return View("SmsVerificationFailed");
-            //} 
-            //return View("SmsVerificationSuccessful");
         }
 
         [HttpPut]
