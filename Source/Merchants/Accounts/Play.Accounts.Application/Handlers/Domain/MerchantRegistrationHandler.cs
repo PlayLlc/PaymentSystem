@@ -81,6 +81,7 @@ public class MerchantRegistrationHandler : DomainEventHandler, IHandleDomainEven
     {
         Log(domainEvent);
         await _MerchantRegistrationRepository.SaveAsync(domainEvent.MerchantRegistration).ConfigureAwait(false);
+        await _MerchantRepository.SaveAsync(domainEvent.MerchantRegistration.CreateMerchant()).ConfigureAwait(false);
     }
 
     public async Task Handle(MerchantRegistrationCreated domainEvent)

@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 
-using Play.Accounts.Contracts.Commands;
 using Play.Accounts.Contracts.Commands.User;
 using Play.Accounts.Contracts.Dtos;
 using Play.Accounts.Domain.Aggregates;

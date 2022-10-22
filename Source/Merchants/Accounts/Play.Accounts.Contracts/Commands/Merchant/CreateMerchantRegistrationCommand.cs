@@ -7,20 +7,18 @@ using System.Threading.Tasks;
 
 using Play.Accounts.Contracts.Dtos;
 
-namespace Play.Accounts.Contracts.Commands
+namespace Play.Accounts.Contracts.Commands.Merchant
 {
-    public record UpdateMerchantRegistrationCommand
+    public record CreateMerchantRegistrationCommand
     {
         #region Instance Values
 
         [Required]
-        public AddressDto Address { get; set; } = new();
+        public UserDto User { get; set; } = new();
 
         [Required]
         [MinLength(1)]
-        public string BusinessType { get; set; } = string.Empty;
-
-        public ushort MerchantCategoryCode { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         #endregion
     }

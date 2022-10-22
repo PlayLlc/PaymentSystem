@@ -1,4 +1,5 @@
 ﻿using Play.Accounts.Contracts.Commands;
+using Play.Accounts.Contracts.Commands.User;
 using Play.Accounts.Contracts.Dtos;
 using Play.Accounts.Domain.Aggregates.Users.Rules;
 using Play.Accounts.Domain.Entities;
@@ -70,7 +71,7 @@ public class User : Aggregate<string>
     /// <exception cref="CommandOutOfSyncException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="ValueObjectException"></exception>
-    public void UpdateAddress(IUnderwriteMerchants merchantUnderwriter, UpdateUserAddressCommand command)
+    public void UpdateAddress(IUnderwriteMerchants merchantUnderwriter, UpdateAddressCommand command)
     {
         Enforce(new UserMustBeActive(_IsActive));
 
@@ -88,7 +89,7 @@ public class User : Aggregate<string>
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="CommandOutOfSyncException"></exception>
     /// <exception cref="ValueObjectException"></exception>
-    public void UpdateContactInfo(IUnderwriteMerchants merchantUnderwriter, UpdateUserContactCommand command)
+    public void UpdateContactInfo(IUnderwriteMerchants merchantUnderwriter, UpdateContactCommand command)
     {
         Enforce(new UserMustBeActive(_IsActive));
 
@@ -106,7 +107,7 @@ public class User : Aggregate<string>
     /// <exception cref="CommandOutOfSyncException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="ValueObjectException"></exception>
-    public void UpdatePersonalDetails(IUnderwriteMerchants merchantUnderwriter, UpdateUserPersonalDetailsCommand command)
+    public void UpdatePersonalDetails(IUnderwriteMerchants merchantUnderwriter, UpdatePersonalDetailCommand command)
     {
         Enforce(new UserMustBeActive(_IsActive));
 
@@ -121,7 +122,7 @@ public class User : Aggregate<string>
     }
 
     /// <exception cref="BusinessRuleValidationException"></exception>
-    public void UpdateUserRoles(UpdateUserRolesCommand roles)
+    public void UpdateUserRoles(UpdateRolesCommand roles)
     {
         Enforce(new UserMustBeActive(_IsActive));
 

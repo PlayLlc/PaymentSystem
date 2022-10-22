@@ -12,9 +12,9 @@ using Play.Globalization.Time;
 using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 
-using Play.Accounts.Contracts.Commands;
 using Play.Domain.Repositories;
 using Play.Domain.Exceptions;
+using Play.Accounts.Contracts.Commands.Merchant;
 
 namespace Play.Accounts.Domain.Aggregates;
 
@@ -46,10 +46,15 @@ public class MerchantRegistration : Aggregate<string>
 
     #region Instance Members
 
-    /// <exception cref="ValueObjectException"></exception>
-    public static MerchantRegistration CreateNewMerchantRegistration(User user, string companyName)
+    public bool IsApproved()
     {
-        MerchantRegistration registration = new MerchantRegistration(user.GetMerchantId(), new Name(companyName),
+        return _Status == MerchantRegistrationStatuses.Approved;
+    }
+
+    /// <exception cref="ValueObjectException"></exception>
+    public static MerchantRegistration CreateNewMerchantRegistration(CreateMerchantRegistrationCommand command)
+    {
+        MerchantRegistration registration = new MerchantRegistration(command.User.MerchantId, new Name(command.Name),
             MerchantRegistrationStatuses.WaitingForRiskAnalysis, DateTimeUtc.Now) {_Status = MerchantRegistrationStatuses.WaitingForRiskAnalysis};
 
         registration.Publish(new MerchantRegistrationCreated(registration));
@@ -69,7 +74,7 @@ public class MerchantRegistration : Aggregate<string>
     public void VerifyMerchantAccount(IUnderwriteMerchants underwritingService, UpdateMerchantRegistrationCommand command)
     {
         Enforce(new MerchantRegistrationMustNotExpire(_Status, _RegistrationDate), () => _Status = MerchantRegistrationStatuses.Expired);
-        Enforce(new MerchantRegistrationMustNotBeRejected(_Status, _RegistrationDate), () => _Status = MerchantRegistrationStatuses.Rejected);
+        Enforce(new MerchantRegistrationMustNotBeRejected(_Status), () => _Status = MerchantRegistrationStatuses.Rejected);
 
         if (_CompanyName is null)
             throw new CommandOutOfSyncException($"The {nameof(Name)} of the Merchant is required but could not be found");
@@ -102,7 +107,7 @@ public class MerchantRegistration : Aggregate<string>
             throw new CommandOutOfSyncException($"The {nameof(MerchantCategoryCode)} of the Merchant is required but could not be found");
 
         var merchant = new Merchant(_Id, _CompanyName, _Address, _BusinessType, _MerchantCategoryCode);
-        Publish(new MerchantHasBeenCreated(this));
+        Publish(new MerchantHasBeenCreated(merchant));
 
         return merchant;
     }

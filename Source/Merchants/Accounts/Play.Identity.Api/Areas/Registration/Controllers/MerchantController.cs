@@ -1,17 +1,79 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net;
+
+using Microsoft.AspNetCore.Mvc;
+
+using Play.Accounts.Application.Services;
+using Play.Accounts.Contracts.Commands.Merchant;
+using Play.Accounts.Contracts.Commands.User;
+using Play.Accounts.Contracts.Dtos;
+using Play.Accounts.Domain.Aggregates;
+using Play.Accounts.Domain.Repositories;
+using Play.Accounts.Domain.Services;
+using Play.Core;
+using Play.Domain.Repositories;
+using Play.Identity.Api.Extensions;
+
+using SendGrid.Helpers.Errors.Model;
+
+using NotFoundException = Play.Domain.Exceptions.NotFoundException;
 
 namespace Play.Identity.Api.Areas.Registration.Controllers
 {
-    [Area("Accounts")]
+    [Area($"{nameof(Registration)}")]
     [Route("[area]/[controller]")]
     [ApiController]
     public class MerchantController : Controller
     {
+        #region Instance Values
+
+        private readonly ILogger<UserController> _Logger;
+        private readonly IRepository<MerchantRegistration, string> _MerchantRegistrationRepository;
+        private readonly IRepository<Merchant, string> _MerchantRepository;
+        private readonly IUnderwriteMerchants _MerchantUnderwriter;
+
+        #endregion
+
         #region Instance Members
 
-        public IActionResult Index()
+        [HttpGet]
+        [ValidateAntiForgeryToken]
+        public async Task<MerchantRegistrationDto> Index(string id)
         {
-            return Ok();
+            MerchantRegistration merchantRegistration = await _MerchantRegistrationRepository.GetByIdAsync(id).ConfigureAwait(false)
+                                                        ?? throw new NotFoundException(typeof(MerchantRegistration), id);
+
+            return merchantRegistration.AsDto();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Index([FromBody] CreateMerchantRegistrationCommand command)
+        {
+            this.ValidateModel();
+
+            MerchantRegistration merchantRegistration = MerchantRegistration.CreateNewMerchantRegistration(command);
+
+            return Created(Url.Action("Index", $"{nameof(Merchant)}", merchantRegistration.GetId())!, merchantRegistration.AsDto());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Complete([FromBody] UpdateMerchantRegistrationCommand command)
+        {
+            this.ValidateModel();
+
+            MerchantRegistration? merchantRegistration = await _MerchantRegistrationRepository.GetByIdAsync(command.Id).ConfigureAwait(false)
+                                                         ?? throw new NotFoundException(typeof(MerchantRegistration), command.Id);
+
+            merchantRegistration.VerifyMerchantAccount(_MerchantUnderwriter, command);
+
+            if (!merchantRegistration.IsApproved())
+                return new ForbidResult();
+
+            Merchant merchant = await _MerchantRepository.GetByIdAsync(command.Id).ConfigureAwait(false)
+                                ?? throw new NotFoundException(typeof(Merchant), command.Id);
+
+            return Created(Url.Action("Index", $"{nameof(Merchant)}", merchant.GetId())!, merchant.AsDto());
         }
 
         #endregion
