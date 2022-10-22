@@ -4,7 +4,7 @@ using Play.Accounts.Contracts.Dtos;
 
 namespace Play.Accounts.Contracts.Commands.User;
 
-public record UpdatePersonalDetailsCommand
+public record UpdatePersonalDetailCommand
 {
     #region Instance Values
 

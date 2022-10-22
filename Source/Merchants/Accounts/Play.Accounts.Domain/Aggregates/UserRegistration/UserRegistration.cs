@@ -197,7 +197,7 @@ public class UserRegistration : Aggregate<string>
     }
 
     /// <exception cref="BusinessRuleValidationException"></exception>
-    public void UpdatePersonalDetails(UpdatePersonalDetailsCommand command)
+    public void UpdatePersonalDetails(UpdatePersonalDetailCommand command)
     {
         Enforce(new UserRegistrationMustNotExpire(_Status, _RegistrationDate), () => _Status = UserRegistrationStatuses.Expired);
         Enforce(new UserRegistrationMustNotBeRejected(_Status), () => _Status = UserRegistrationStatuses.Rejected);

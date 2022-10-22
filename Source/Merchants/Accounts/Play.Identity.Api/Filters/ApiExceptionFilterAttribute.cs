@@ -8,6 +8,10 @@ using Play.Domain;
 using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
 
+using SendGrid.Helpers.Errors.Model;
+
+using NotFoundException = Play.Domain.Exceptions.NotFoundException;
+
 namespace Play.Identity.Api.Filters;
 
 public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
@@ -26,6 +30,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         _Logger = loggerFactory.CreateLogger<ApiExceptionFilterAttribute>();
         _ExceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>()
         {
+            {typeof(BadRequestException), HandleBadRequestException},
             {typeof(BusinessRuleValidationException), HandleBusinessRuleValidationException},
             {typeof(ValueObjectException), HandleValueObjectException},
             {typeof(RepositoryException), HandleRepositoryException},
@@ -40,6 +45,22 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     #endregion
 
     #region Instance Members
+
+    private void HandleBadRequestException(ExceptionContext context)
+    {
+        BadRequestException exception = (BadRequestException) context.Exception;
+
+        ValidationProblemDetails details = new ValidationProblemDetails(context.ModelState)
+        {
+            Title = "An bad request caused Model validation to fail",
+            Detail = exception.Message,
+            Status = (int) HttpStatusCode.InternalServerError
+        };
+        context.Result = new ObjectResult(details);
+        context.ExceptionHandled = true;
+
+        _Logger.Log(LogLevel.Error, details.Detail, details);
+    }
 
     private void HandlePlayInternalException(ExceptionContext context)
     {

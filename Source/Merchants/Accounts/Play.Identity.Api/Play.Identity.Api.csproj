@@ -58,4 +58,8 @@
     <_ContentIncludedByDefault Remove="Views\Home\_LandingPage.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Registration\Views\Merchant\" />
+  </ItemGroup>
+
 </Project>

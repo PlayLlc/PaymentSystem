@@ -1,25 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 using Play.Accounts.Contracts.Commands;
 using Play.Accounts.Contracts.Commands.User;
+using Play.Accounts.Contracts.Dtos;
 using Play.Accounts.Domain.Aggregates;
 using Play.Accounts.Domain.Repositories;
 using Play.Accounts.Domain.Services;
-using Play.Core;
 using Play.Domain;
 using Play.Domain.Exceptions;
-using Play.Domain.ValueObjects;
+using Play.Identity.Api.Extensions;
 
-namespace Play.Identity.Api.Areas.Accounts
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+
+namespace Play.Identity.Api.Areas.Registration.Controllers
 {
-    [Area("Accounts")]
+    [Area($"{nameof(Registration)}")]
     [Route("[area]/[controller]")]
     [ApiController]
-    public class UserRegistrationController : Controller
+    public class UserController : Controller
     {
         #region Instance Values
 
-        private readonly ILogger<UserRegistrationController> _Logger;
+        private readonly ILogger<UserController> _Logger;
         private readonly IUserRegistrationRepository _UserRegistrationRepository;
         private readonly IVerifyMobilePhones _MobilePhoneVerifier;
         private readonly IUnderwriteMerchants _MerchantUnderwriter;
@@ -31,12 +33,15 @@ namespace Play.Identity.Api.Areas.Accounts
 
         #region Constructor
 
-        public UserRegistrationController(
-            ILogger<UserRegistrationController> logger, IUserRegistrationRepository userRegistrationRepository, IEnsureUniqueEmails uniqueEmailChecker,
-            IHashPasswords passwordHasher)
+        public UserController(
+            ILogger<UserController> logger, IUserRegistrationRepository userRegistrationRepository, IVerifyMobilePhones mobilePhoneVerifier,
+            IUnderwriteMerchants merchantUnderwriter, IVerifyEmailAccounts emailVerifier, IEnsureUniqueEmails uniqueEmailChecker, IHashPasswords passwordHasher)
         {
             _Logger = logger;
             _UserRegistrationRepository = userRegistrationRepository;
+            _MobilePhoneVerifier = mobilePhoneVerifier;
+            _MerchantUnderwriter = merchantUnderwriter;
+            _EmailVerifier = emailVerifier;
             _UniqueEmailChecker = uniqueEmailChecker;
             _PasswordHasher = passwordHasher;
         }
@@ -45,24 +50,37 @@ namespace Play.Identity.Api.Areas.Accounts
 
         #region Instance Members
 
-        [HttpPost]
+        [HttpGet]
         [ValidateAntiForgeryToken]
-        public async Task<IAsyncResult> Create(CreateUserRegistrationCommand command)
+        public async Task<UserRegistrationDto> Index(string id)
         {
-            var a = UserRegistration.CreateNewUserRegistration(_UniqueEmailChecker, _PasswordHasher, command);
-            await a.SendEmailVerificationCode(_EmailVerifier).ConfigureAwait(false);
+            UserRegistration userRegistration = await _UserRegistrationRepository.GetByIdAsync(id).ConfigureAwait(false)
+                                                ?? throw new NotFoundException(typeof(UserRegistration), id);
 
-            return Task.FromResult(Ok());
+            return userRegistration.AsDto();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EmailVerification(VerifyConfirmationCodeCommand command)
+        public async Task<IActionResult> Index([FromBody] CreateUserRegistrationCommand command)
         {
+            this.ValidateModel();
+
+            UserRegistration userRegistration = UserRegistration.CreateNewUserRegistration(_UniqueEmailChecker, _PasswordHasher, command);
+            await userRegistration.SendEmailVerificationCode(_EmailVerifier).ConfigureAwait(false);
+
+            return Created(Url.Action("Index", $"{nameof(User)}", userRegistration.GetId())!, userRegistration.AsDto());
+        }
+
+        [HttpPut]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> VerifyEmail([FromBody] VerifyConfirmationCodeCommand command)
+        {
+            this.ValidateModel();
+
             UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(command.UserRegistrationId).ConfigureAwait(false)
                                                  ?? throw new NotFoundException(typeof(UserRegistration), command.UserRegistrationId);
 
-            // Redirect exceptions thrown specifically for BusinessRuleValidations, let the Exception Filter take care of the rest
             try
             {
                 userRegistration.VerifyEmail(command);
@@ -77,10 +95,12 @@ namespace Play.Identity.Api.Areas.Accounts
             return View("EmailVerificationSuccessful");
         }
 
-        [HttpPost]
+        [HttpPut]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateContactInfo(UpdateContactCommand command)
+        public async Task<IActionResult> Contact([FromBody] UpdateContactCommand command)
         {
+            this.ValidateModel();
+
             UserRegistration userRegistration = await _UserRegistrationRepository.GetByIdAsync(command.Id).ConfigureAwait(false)
                                                 ?? throw new NotFoundException(typeof(UserRegistration), command.Id);
 
@@ -90,32 +110,38 @@ namespace Play.Identity.Api.Areas.Accounts
             return Ok();
         }
 
-        [HttpPost]
+        [HttpPut]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SmsVerification(VerifyConfirmationCodeCommand command)
+        public async Task<IActionResult> VerifyPhone([FromBody] VerifyConfirmationCodeCommand command)
         {
+            this.ValidateModel();
+
             UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(command.UserRegistrationId).ConfigureAwait(false)
                                                  ?? throw new NotFoundException(typeof(UserRegistration), command.UserRegistrationId);
 
+            userRegistration.VerifyMobilePhone(command);
+
+            return Ok();
+
             // Redirect exceptions thrown specifically for BusinessRuleValidations, let the Exception Filter take care of the rest
-            try
-            {
-                userRegistration.VerifyMobilePhone(command);
-            }
-            catch (BusinessRuleValidationException e)
-            {
-                _Logger.Log(LogLevel.Error, e.Message);
+            //try
+            //{
 
-                return View("SmsVerificationFailed");
-            }
+            //}
+            //catch (BusinessRuleValidationException e)
+            //{
+            //    _Logger.Log(LogLevel.Error, e.Message);
 
-            return View("SmsVerificationSuccessful");
+            //    return View("SmsVerificationFailed");
+            //} 
+            //return View("SmsVerificationSuccessful");
         }
 
-        [HttpPost]
+        [HttpPut]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateContactInfo(UpdateAddressCommand command)
+        public async Task<IActionResult> Address([FromBody] UpdateAddressCommand command)
         {
+            this.ValidateModel();
             UserRegistration userRegistration = await _UserRegistrationRepository.GetByIdAsync(command.Id).ConfigureAwait(false)
                                                 ?? throw new NotFoundException(typeof(UserRegistration), command.Id);
 
@@ -124,10 +150,12 @@ namespace Play.Identity.Api.Areas.Accounts
             return Ok();
         }
 
-        [HttpPost]
+        [HttpPut]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdatePersonalDetails(UpdatePersonalDetailsCommand command)
+        public async Task<IActionResult> PersonalDetail(UpdatePersonalDetailCommand command)
         {
+            this.ValidateModel();
+
             UserRegistration userRegistration = await _UserRegistrationRepository.GetByIdAsync(command.Id).ConfigureAwait(false)
                                                 ?? throw new NotFoundException(typeof(UserRegistration), command.Id);
 

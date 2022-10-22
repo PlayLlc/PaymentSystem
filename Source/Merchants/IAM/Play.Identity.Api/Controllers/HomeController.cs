@@ -34,7 +34,6 @@ public class HomeController : Controller
     {
         // only show in development
         if (_environment.IsDevelopment())
-
             return View();
 
         _logger.LogInformation("Homepage is disabled in production. Returning 404.");
