@@ -26,13 +26,13 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         _Logger = loggerFactory.CreateLogger<ApiExceptionFilterAttribute>();
         _ExceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>()
         {
-            {typeof(ValueObjectException), HandleValueObjectException},
             {typeof(BusinessRuleValidationException), HandleBusinessRuleValidationException},
+            {typeof(ValueObjectException), HandleValueObjectException},
             {typeof(RepositoryException), HandleRepositoryException},
-            {typeof(CommandOutOfSyncException), HandleCommandOutOfSyncException},
-            {typeof(PlayInternalException), HandlePlayInternalException},
             {typeof(AggregateException), HandleAggregateException},
             {typeof(NotFoundException), HandleNotFoundException},
+            {typeof(CommandOutOfSyncException), HandleCommandOutOfSyncException},
+            {typeof(PlayInternalException), HandlePlayInternalException},
             {typeof(Exception), HandleUncaughtException}
         };
     }
