@@ -4,6 +4,7 @@ using Duende.IdentityServer;
 
 using IdentityModel;
 
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,8 @@ using Play.Identity.Api.Identity;
 using Play.Persistence.Sql;
 using Play.Telecom.SendGrid.Email;
 using Play.Telecom.SendGrid.Sms;
+using Play.Accounts.Application.Services.Emails;
+using Play.Identity.Api._TempServices;
 
 namespace Play.Identity.Api.Extensions;
 
@@ -153,6 +156,7 @@ internal static class ProgramExtensions
         builder.Services.AddScoped<IUnderwriteMerchants, MerchantUnderwriter>();
         builder.Services.AddScoped<IVerifyEmailAccounts, EmailAccountVerifier>();
         builder.Services.AddScoped<IVerifyMobilePhones, MobilePhoneVerifier>();
+        builder.Services.AddScoped<ICreateEmailVerificationReturnUrl, EmailVerificationReturnUrlGenerator>();
 
         // Repositories
         builder.Services.AddScoped<IUserRegistrationRepository, UserRegistrationRepository>();

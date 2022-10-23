@@ -4,7 +4,7 @@ public interface ICreateEmailVerificationReturnUrl
 {
     #region Instance Members
 
-    public string CreateReturnUrl(string merchantRegistrationId, uint confirmationCode);
+    public string CreateReturnUrl(string userRegistrationId, uint confirmationCode);
 
     #endregion
 }

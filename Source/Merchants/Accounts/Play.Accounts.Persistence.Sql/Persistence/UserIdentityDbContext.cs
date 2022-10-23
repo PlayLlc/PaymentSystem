@@ -64,8 +64,7 @@ public class UserIdentityDbContext : IdentityDbContext<UserIdentity, RoleIdentit
         builder.Entity<PersonalDetail>().HasKey(x => x.Id);
         builder.Entity<PersonalDetail>().Property(x => x.DateOfBirth).HasConversion<DateTime>();
 
-        // Aggregates
-
+        // Aggregates 
         accountEntityConfiguration.Configure(builder.Entity<UserRegistration>());
         accountEntityConfiguration.Configure(builder.Entity<MerchantRegistration>());
         accountEntityConfiguration.Configure(builder.Entity<Merchant>());
