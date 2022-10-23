@@ -9,6 +9,7 @@ using System.Security.Claims;
 
 using IdentityModel;
 
+using Play.Accounts.Contracts.Dtos;
 using Play.Accounts.Persistence.Sql.Entities;
 
 namespace Play.Identity.Api.Controllers;
@@ -145,7 +146,7 @@ public class ExternalController : Controller
     private async Task<IdentityUser> AutoProvisionUser(string provider, string providerUserId, IEnumerable<Claim> claims)
     {
         // create dummy internal account (you can do something more complex)
-        UserIdentity user = new UserIdentity() {Id = Guid.NewGuid().ToString()};
+        UserIdentity user = new UserIdentity(new UserDto()) {Id = Guid.NewGuid().ToString()};
         await _UserManager.CreateAsync(user);
 
         // add external user ID to new account

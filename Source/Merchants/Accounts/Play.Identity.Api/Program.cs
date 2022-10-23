@@ -1,6 +1,10 @@
+using Play.Identity.Api.Extensions;
 using Play.Identity.Api.Filters;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+builder.ConfigureIdentityServer();
+builder.ConfigureApplicationServices();
+await builder.SeedDefaultIdentityData().ConfigureAwait(false);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews(options =>
