@@ -12,6 +12,7 @@ using Play.Core.Exceptions;
 using Play.Randoms;
 using Play.Domain.Exceptions;
 using Play.Accounts.Contracts.Commands.User;
+using Play.Accounts.Contracts.Commands;
 
 namespace Play.Accounts.Domain.Aggregates;
 
@@ -26,11 +27,11 @@ public class UserRegistration : Aggregate<string>
 
     private bool _HasEmailBeenVerified = false;
     private bool _HasPhoneBeenVerified = false;
+    private UserRegistrationStatus _Status;
 
     private Address? _Address;
     private Contact? _Contact;
     private PersonalDetail? _PersonalDetail;
-    private UserRegistrationStatus _Status;
     private ConfirmationCode? _EmailConfirmation;
     private ConfirmationCode? _SmsConfirmation;
 
@@ -66,6 +67,11 @@ public class UserRegistration : Aggregate<string>
     public bool HasPhoneBeenVerified()
     {
         return _HasPhoneBeenVerified;
+    }
+
+    public bool IsApproved()
+    {
+        return _Status == UserRegistrationStatuses.Approved;
     }
 
     /// <exception cref="AggregateException"></exception>
@@ -209,6 +215,7 @@ public class UserRegistration : Aggregate<string>
     }
 
     /// <exception cref="BusinessRuleValidationException"></exception>
+    /// <exception cref="ValueObjectException"></exception>
     public void UpdatePersonalDetails(UpdatePersonalDetailCommand command)
     {
         Enforce(new UserRegistrationMustNotExpire(_Status, _RegistrationDate), () => _Status = UserRegistrationStatuses.Expired);

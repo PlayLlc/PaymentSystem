@@ -7,8 +7,8 @@ public interface IUserRegistrationRepository : IRepository<UserRegistration, str
 {
     #region Instance Members
 
-    public Task<bool> IsEmailUnique(string email);
-    public Task<UserRegistration> GetByEmail(string email);
+    public Task<bool> IsEmailUniqueAsync(string email);
+    public Task<UserRegistration?> GetByEmailAsync(string email);
 
     #endregion
 }

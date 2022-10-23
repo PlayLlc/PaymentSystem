@@ -1,7 +1,6 @@
 ﻿using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.ValueObjects;
 using Play.Domain.Aggregates;
-using Play.Globalization.Time;
 
 namespace Play.Accounts.Domain.Aggregates;
 
@@ -33,9 +32,9 @@ internal class MerchantRegistrationMustNotBeRejected : BusinessRule<MerchantRegi
 
     #region Instance Members
 
-    public override MerchantRegistrationHasBeenRejected CreateBusinessRuleViolationDomainEvent(MerchantRegistration aggregate)
+    public override MerchantRegistrationHasBeenRejected CreateBusinessRuleViolationDomainEvent(MerchantRegistration merchant)
     {
-        return new MerchantRegistrationHasBeenRejected(aggregate, this);
+        return new MerchantRegistrationHasBeenRejected(merchant, this);
     }
 
     public override bool IsBroken()

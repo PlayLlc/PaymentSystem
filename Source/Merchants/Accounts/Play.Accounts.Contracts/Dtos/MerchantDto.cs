@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+
+using Play.Accounts.Domain.Entities;
 using Play.Domain;
 
 namespace Play.Accounts.Contracts.Dtos;
@@ -19,12 +21,10 @@ public class MerchantDto : IDto
     public AddressDto AddressDto { get; set; } = new();
 
     [Required]
-    public string BusinessType { get; set; } = string.Empty;
+    public BusinessInfoDto BusinessInfo { get; set; } = new();
 
     [Required]
-    [MinLength(4)]
-    [MaxLength(4)]
-    public string MerchantCategoryCode { get; set; } = string.Empty;
+    public bool IsActive { get; set; }
 
     #endregion
 }

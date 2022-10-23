@@ -61,6 +61,12 @@ public readonly record struct DateTimeUtc
 
     #endregion
 
+    #region Instance Members
+
+    public string ToShortDateFormat() => $"{_Value.Year}-{_Value.Month}-{_Value.Day:00}";
+
+    #endregion
+
     #region Equality
 
     public bool Equals(DateTime dateTime) => dateTime == _Value;

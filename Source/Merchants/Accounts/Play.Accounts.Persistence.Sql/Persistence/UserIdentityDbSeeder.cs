@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Play.Accounts.Contracts.Dtos;
 using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Enums;
+using Play.Accounts.Domain.Services;
 using Play.Accounts.Persistence.Sql.Entities;
 using Play.Globalization.Time;
 using Play.Randoms;
@@ -21,6 +22,7 @@ public class UserIdentityDbSeeder
     #region Instance Values
 
     private readonly UserIdentityDbContext _Context;
+    private readonly IHashPasswords _PasswordHasher;
 
     #endregion
 
@@ -101,14 +103,24 @@ public class UserIdentityDbSeeder
             Phone = "4204206969"
         });
 
-        string password = "Password1!";
-        UserIdentity superAdmin = new UserIdentity(contact, address, personalDetail)
+        string clearTextPassword = "Password1!";
+
+        string passwordId = Randomize.AlphaNumericSpecial.String(20);
+        string userId = Randomize.AlphaNumericSpecial.String(20);
+        string merchantId = Randomize.AlphaNumericSpecial.String(20);
+        string terminalId = Randomize.AlphaNumericSpecial.String(20);
+
+        Password password = new Password(passwordId, _PasswordHasher.GeneratePasswordHash(clearTextPassword), DateTimeUtc.Now);
+
+        // TODO: Create Merchant
+
+        UserIdentity superAdmin = new UserIdentity(userId, merchantId, terminalId, password, contact, address, personalDetail)
         {
             EmailConfirmed = true,
             PhoneNumberConfirmed = true
         };
 
-        await userManager.CreateAsync(superAdmin, password).ConfigureAwait(false);
+        await userManager.CreateAsync(superAdmin).ConfigureAwait(false);
         await userManager.AddToRoleAsync(superAdmin, nameof(UserRoles.SuperAdmin));
         await _Context.SaveChangesAsync().ConfigureAwait(false);
 

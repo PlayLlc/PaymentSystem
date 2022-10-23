@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using Play.Accounts.Domain.Aggregates;
+using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Repositories;
 using Play.Accounts.Persistence.Sql.Entities;
+using Play.Domain.Exceptions;
 
 namespace Play.Accounts.Persistence.Sql.Repositories;
 
@@ -32,6 +34,20 @@ public class UserRepository : IUserRepository
 
     #region Instance Members
 
+    /// <exception cref="NotFoundException"></exception>
+    public async Task UpdateUserRoles(string userId, params UserRole[] roles)
+    {
+        User? user = await GetByIdAsync(userId).ConfigureAwait(false);
+
+        if (user is null)
+            throw new NotFoundException(typeof(User), userId);
+
+        UserIdentity userIdentity = _Mapper.Map<UserIdentity>(user);
+
+        await _UserManager.AddToRolesAsync(userIdentity, roles.Select(a => a.Value)).ConfigureAwait(false);
+    }
+
+    /// <exception cref="OperationCanceledException"></exception>
     public async Task<bool> IsEmailUnique(string email)
     {
         return await _UserManager.Users.AnyAsync(a => a.Email == email).ConfigureAwait(false);

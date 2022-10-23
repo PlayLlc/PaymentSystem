@@ -4,7 +4,7 @@ using Play.Domain.Aggregates;
 
 namespace Play.Accounts.Domain.Aggregates;
 
-public class MerchantIndustryMustNotBeProhibited : BusinessRule<MerchantRegistration, string>
+public class MerchantRegistrationIndustryMustNotBeProhibited : BusinessRule<MerchantRegistration, string>
 {
     #region Instance Values
 
@@ -16,7 +16,7 @@ public class MerchantIndustryMustNotBeProhibited : BusinessRule<MerchantRegistra
     #region Constructor
 
     /// <exception cref="AggregateException"></exception>
-    public MerchantIndustryMustNotBeProhibited(MerchantCategoryCode merchantCategoryCode, IUnderwriteMerchants underwritingService)
+    public MerchantRegistrationIndustryMustNotBeProhibited(MerchantCategoryCode merchantCategoryCode, IUnderwriteMerchants underwritingService)
     {
         _IsProhibited = IsProhibited(merchantCategoryCode, underwritingService);
     }
@@ -35,9 +35,9 @@ public class MerchantIndustryMustNotBeProhibited : BusinessRule<MerchantRegistra
         return merchantCategoryTask!.Result;
     }
 
-    public override MerchantRegistrationHasBeenRejected CreateBusinessRuleViolationDomainEvent(MerchantRegistration aggregate)
+    public override MerchantRegistrationHasBeenRejected CreateBusinessRuleViolationDomainEvent(MerchantRegistration merchant)
     {
-        return new MerchantRegistrationHasBeenRejected(aggregate, this);
+        return new MerchantRegistrationHasBeenRejected(merchant, this);
     }
 
     public override bool IsBroken()

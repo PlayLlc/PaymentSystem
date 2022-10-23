@@ -12,7 +12,7 @@ public record MerchantHasBeenCreated : DomainEvent
 
     #region Constructor
 
-    public MerchantHasBeenCreated(Merchant merchant) : base($"The merchant with {nameof(merchantId)}: [{merchantId}] has been created")
+    public MerchantHasBeenCreated(Merchant merchant) : base($"The merchant with ID: [{merchant.GetId()}] has been created")
     {
         Merchant = merchant;
     }

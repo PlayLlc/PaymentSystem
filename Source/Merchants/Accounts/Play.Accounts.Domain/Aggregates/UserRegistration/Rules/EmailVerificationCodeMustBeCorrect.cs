@@ -1,6 +1,5 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Accounts.Domain.Entities;
-using Play.Globalization.Time;
 
 namespace Play.Accounts.Domain.Aggregates;
 
@@ -28,9 +27,9 @@ internal class EmailVerificationCodeMustBeCorrect : BusinessRule<UserRegistratio
 
     #region Instance Members
 
-    public override EmailVerificationCodeWasIncorrect CreateBusinessRuleViolationDomainEvent(UserRegistration aggregate)
+    public override EmailVerificationCodeWasIncorrect CreateBusinessRuleViolationDomainEvent(UserRegistration merchant)
     {
-        return new EmailVerificationCodeWasIncorrect(aggregate, this);
+        return new EmailVerificationCodeWasIncorrect(merchant, this);
     }
 
     public override bool IsBroken()

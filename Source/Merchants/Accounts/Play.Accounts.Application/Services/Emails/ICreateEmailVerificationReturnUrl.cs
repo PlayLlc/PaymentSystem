@@ -1,4 +1,4 @@
-﻿namespace Play.Accounts.Application.Services;
+﻿namespace Play.Accounts.Application.Services.Emails;
 
 public interface ICreateEmailVerificationReturnUrl
 {

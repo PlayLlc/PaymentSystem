@@ -2,9 +2,9 @@
 
 using Play.Accounts.Contracts.Dtos;
 
-namespace Play.Accounts.Contracts.Commands.User;
+namespace Play.Accounts.Contracts.Commands;
 
-public record UpdatePersonalDetailCommand
+public record UpdateContactCommand
 {
     #region Instance Values
 
@@ -13,7 +13,7 @@ public record UpdatePersonalDetailCommand
     public string Id { get; set; } = string.Empty;
 
     [Required]
-    public PersonalDetailDto PersonalDetail { get; set; } = new();
+    public ContactDto Contact { get; set; } = new();
 
     #endregion
 }

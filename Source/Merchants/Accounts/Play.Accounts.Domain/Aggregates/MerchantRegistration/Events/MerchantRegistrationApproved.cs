@@ -1,5 +1,4 @@
-﻿using Play.Accounts.Domain.ValueObjects;
-using Play.Domain.Events;
+﻿using Play.Domain.Events;
 
 namespace Play.Accounts.Domain.Aggregates;
 

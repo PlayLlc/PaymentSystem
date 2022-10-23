@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-using Duende.IdentityServer;
+﻿using Duende.IdentityServer;
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
 
@@ -9,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-using Play.Accounts.Domain.Services;
 using Play.Accounts.Persistence.Sql.Entities;
 using Play.Identity.Api.Attributes;
 using Play.Identity.Api.Models;

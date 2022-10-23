@@ -2,9 +2,7 @@
 
 using NServiceBus;
 
-using Play.Accounts.Contracts.Events;
 using Play.Accounts.Domain.Aggregates;
-using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.Services;
 using Play.Domain;
 using Play.Domain.Events;

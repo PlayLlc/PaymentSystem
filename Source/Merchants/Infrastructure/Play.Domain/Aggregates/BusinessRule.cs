@@ -14,7 +14,7 @@ public abstract class BusinessRule<_Aggregate, _TId> : IBusinessRule where _Aggr
 
     // public abstract BusinessRuleViolationDomainEvent<_Aggregate, _TId> CreateBusinessRuleViolationDomainEvent(_Aggregate aggregate);
 
-    public abstract DomainEvent CreateBusinessRuleViolationDomainEvent(_Aggregate aggregate);
+    public abstract DomainEvent CreateBusinessRuleViolationDomainEvent(_Aggregate merchant);
 
     public abstract bool IsBroken();
 

@@ -3,6 +3,7 @@ using System.Net.Mail;
 
 using Microsoft.Extensions.Logging;
 
+using Play.Accounts.Application.Services.Emails;
 using Play.Accounts.Domain.Services;
 using Play.Core;
 using Play.Core.Extensions.IEnumerable;

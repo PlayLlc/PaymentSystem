@@ -3,18 +3,12 @@ using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.Services;
 using Play.Accounts.Domain.ValueObjects;
-using Play.Core;
 using Play.Domain;
 using Play.Domain.Aggregates;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Time;
-
-using System.Diagnostics.Contracts;
-using System.Runtime.InteropServices;
-
-using Play.Domain.Repositories;
 using Play.Domain.Exceptions;
-using Play.Accounts.Contracts.Commands.Merchant;
+using Play.Accounts.Contracts.Commands.MerchantRegistration;
 
 namespace Play.Accounts.Domain.Aggregates;
 
@@ -26,8 +20,7 @@ public class MerchantRegistration : Aggregate<string>
     private readonly DateTimeUtc _RegistrationDate;
     private readonly Name? _CompanyName;
     private Address? _Address;
-    private BusinessType? _BusinessType;
-    private MerchantCategoryCode? _MerchantCategoryCode;
+    private BusinessInfo? _BusinessInfo;
     private MerchantRegistrationStatus _Status;
 
     #endregion
@@ -45,6 +38,11 @@ public class MerchantRegistration : Aggregate<string>
     #endregion
 
     #region Instance Members
+
+    public bool HasBeenApproved()
+    {
+        return _Status == MerchantRegistrationStatuses.Approved;
+    }
 
     public bool IsApproved()
     {
@@ -80,10 +78,10 @@ public class MerchantRegistration : Aggregate<string>
             throw new CommandOutOfSyncException($"The {nameof(Name)} of the Merchant is required but could not be found");
 
         _Address = new Address(command.Address);
-        _BusinessType = new BusinessType(command.BusinessType);
-        _MerchantCategoryCode = new MerchantCategoryCode(command.MerchantCategoryCode);
+        _BusinessInfo = new BusinessInfo(command.BusinessInfo);
 
-        Enforce(new MerchantIndustryMustNotBeProhibited(_MerchantCategoryCode, underwritingService), () => _Status = MerchantRegistrationStatuses.Rejected);
+        Enforce(new MerchantRegistrationIndustryMustNotBeProhibited(_BusinessInfo.MerchantCategoryCode, underwritingService),
+            () => _Status = MerchantRegistrationStatuses.Rejected);
         Enforce(new MerchantMustNotBeProhibited(underwritingService, _CompanyName!, _Address!), () => _Status = MerchantRegistrationStatuses.Rejected);
 
         _Status = MerchantRegistrationStatuses.Approved;
@@ -95,18 +93,16 @@ public class MerchantRegistration : Aggregate<string>
     public Merchant CreateMerchant()
     {
         Enforce(new MerchantRegistrationMustNotExpire(_Status, _RegistrationDate), () => _Status = MerchantRegistrationStatuses.Expired);
-        Enforce(new MerchantCannotBeCreatedWithoutApproval(_Status));
+        Enforce(new MerchantRegistrationCannotBeCreatedWithoutApproval(_Status));
 
         if (_CompanyName is null)
             throw new CommandOutOfSyncException($"The {nameof(Name)} of the Merchant is required but could not be found");
         if (_Address is null)
             throw new CommandOutOfSyncException($"The {nameof(Address)} of the Merchant is required but could not be found");
-        if (_BusinessType is null)
-            throw new CommandOutOfSyncException($"The {nameof(BusinessType)} of the Merchant is required but could not be found");
-        if (_MerchantCategoryCode is null)
-            throw new CommandOutOfSyncException($"The {nameof(MerchantCategoryCode)} of the Merchant is required but could not be found");
+        if (_BusinessInfo is null)
+            throw new CommandOutOfSyncException($"The {nameof(BusinessInfo)} of the Merchant is required but could not be found");
 
-        var merchant = new Merchant(_Id, _CompanyName, _Address, _BusinessType, _MerchantCategoryCode);
+        var merchant = new Merchant(_Id, _CompanyName, _Address, _BusinessInfo, true);
         Publish(new MerchantHasBeenCreated(merchant));
 
         return merchant;
@@ -118,9 +114,8 @@ public class MerchantRegistration : Aggregate<string>
         {
             Id = _Id,
             AddressDto = _Address?.AsDto() ?? new AddressDto(),
-            BusinessType = _BusinessType?.Value,
-            CompanyName = _CompanyName?.Value,
-            MerchantCategoryCode = _MerchantCategoryCode?.Value,
+            BusinessInfo = _BusinessInfo?.AsDto() ?? new BusinessInfoDto(),
+            CompanyName = _CompanyName!.Value,
             RegisteredDate = _RegistrationDate,
             RegistrationStatus = _Status
         };

@@ -32,9 +32,9 @@ internal class UserRegistrationMustNotBeRejected : BusinessRule<UserRegistration
 
     #region Instance Members
 
-    public override UserRegistrationHasBeenRejected CreateBusinessRuleViolationDomainEvent(UserRegistration aggregate)
+    public override UserRegistrationHasBeenRejected CreateBusinessRuleViolationDomainEvent(UserRegistration merchant)
     {
-        return new UserRegistrationHasBeenRejected(aggregate, this);
+        return new UserRegistrationHasBeenRejected(merchant, this);
     }
 
     public override bool IsBroken()

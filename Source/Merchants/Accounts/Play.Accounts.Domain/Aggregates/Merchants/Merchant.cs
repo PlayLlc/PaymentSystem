@@ -1,7 +1,14 @@
-﻿using Play.Accounts.Contracts.Dtos;
+﻿using System.Security.Cryptography.X509Certificates;
+
+using Play.Accounts.Contracts.Commands;
+using Play.Accounts.Contracts.Commands.Merchant;
+using Play.Accounts.Contracts.Dtos;
 using Play.Accounts.Domain.Aggregates.Events;
+using Play.Accounts.Domain.Aggregates.Merchants.Rules;
 using Play.Accounts.Domain.Entities;
+using Play.Accounts.Domain.Services;
 using Play.Accounts.Domain.ValueObjects;
+using Play.Domain;
 using Play.Domain.Aggregates;
 using Play.Domain.ValueObjects;
 
@@ -12,29 +19,67 @@ public class Merchant : Aggregate<string>
     #region Instance Values
 
     private readonly string _Id;
-    private readonly Name _CompanyName;
-    private readonly Address _Address;
-    private readonly BusinessType _BusinessType;
-    private readonly MerchantCategoryCode _MerchantCategoryCode;
+    private Name _CompanyName;
+    private Address _Address;
+    private BusinessInfo _BusinessInfo;
+    private bool _IsActive;
 
     #endregion
 
     #region Constructor
 
-    public Merchant(string id, Name companyName, Address address, BusinessType businessType, MerchantCategoryCode merchantCategoryCode)
+    public Merchant(string id, Name companyName, Address address, BusinessInfo businessInfo, bool isActive)
     {
         _Id = id;
         _CompanyName = companyName;
         _Address = address;
-        _BusinessType = businessType;
-        _MerchantCategoryCode = merchantCategoryCode;
+        _BusinessInfo = businessInfo;
+        _IsActive = isActive;
     }
 
     #endregion
 
     #region Instance Members
 
+    public bool IsActive()
+    {
+        return _IsActive;
+    }
+
+    /// <exception cref="NotSupportedException"></exception>
+    /// <exception cref="AggregateException"></exception>
+    /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="ValueObjectException"></exception>
+    public void Update(IUnderwriteMerchants merchantUnderwriter, UpdateMerchantBusinessInfo command)
+    {
+        _BusinessInfo = new BusinessInfo(command.BusinessInfo);
+        Enforce(new MerchantCategoryCodeMustNotBeProhibited(merchantUnderwriter, _BusinessInfo.MerchantCategoryCode), () => _IsActive = false);
+
+        Publish(new MerchantBusinessInfoHasBeenUpdated(this));
+    }
+
+    /// <exception cref="NotSupportedException"></exception>
+    /// <exception cref="AggregateException"></exception>
+    /// <exception cref="BusinessRuleValidationException"></exception>
+    /// <exception cref="ValueObjectException"></exception>
+    public void Update(IUnderwriteMerchants merchantUnderwriter, UpdateAddressCommand command)
+    {
+        _Address = new Address(command.Address);
+        Enforce(new MerchantMustNotBeProhibited(merchantUnderwriter, _CompanyName, _Address), () => _IsActive = false);
+        Publish(new MerchantAddressHasBeenUpdated(this));
+    }
+
+    /// <exception cref="NotSupportedException"></exception>
+    /// <exception cref="AggregateException"></exception>
+    /// <exception cref="BusinessRuleValidationException"></exception>
+    /// <exception cref="ValueObjectException"></exception>
+    public void Update(IUnderwriteMerchants merchantUnderwriter, UpdateMerchantCompanyName command)
+    {
+        _CompanyName = new Name(command.CompanyName);
+        Enforce(new MerchantMustNotBeProhibited(merchantUnderwriter, _CompanyName, _Address), () => _IsActive = false);
+        Publish(new MerchantCompanyNameBeenUpdated(this));
+    }
+
     public override string GetId()
     {
         return _Id;
@@ -46,9 +91,9 @@ public class Merchant : Aggregate<string>
         {
             Id = _Id,
             AddressDto = _Address.AsDto(),
-            BusinessType = _BusinessType,
+            BusinessInfo = _BusinessInfo.AsDto(),
             CompanyName = _CompanyName.Value,
-            MerchantCategoryCode = $"{_MerchantCategoryCode}"
+            IsActive = true
         };
     }
 

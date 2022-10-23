@@ -23,9 +23,9 @@ internal class UserMustBeActive : BusinessRule<User, string>
 
     #region Instance Members
 
-    public override UserHasBeenDeactivated CreateBusinessRuleViolationDomainEvent(User aggregate)
+    public override UserHasBeenDeactivated CreateBusinessRuleViolationDomainEvent(User merchant)
     {
-        return new UserHasBeenDeactivated(aggregate, this);
+        return new UserHasBeenDeactivated(merchant, this);
     }
 
     public override bool IsBroken()

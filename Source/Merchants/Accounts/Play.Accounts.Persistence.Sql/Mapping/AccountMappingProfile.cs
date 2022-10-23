@@ -34,12 +34,14 @@ public class AccountMappingProfile : Profile
                 Id = src.Id,
                 Name = src.Value
             }));
-            cfg.CreateMap<RoleIdentity, UserRole>().ForMember((dest) => dest, opt => opt.MapFrom(src => new UserRole(src.Id, src.Name)));
+            cfg.CreateMap<RoleIdentity, UserRole>().ForMember((dest) => dest, opt => opt.MapFrom(src => new UserRole(src.Id)));
 
             // User
             cfg.CreateMap<User, UserIdentity>().ForMember((dest) => dest, opt => opt.MapFrom(src => new UserIdentity(src.AsDto())));
             cfg.CreateMap<UserIdentity, User>()
-                .ForMember((dest) => dest, opt => opt.MapFrom(src => new User(src.Id, src.Address, src.Contact, src.PersonalDetail, src.IsActive)));
+                .ForMember((dest) => dest,
+                    opt => opt.MapFrom(src =>
+                        new User(src.Id, src.MerchantId, src.TerminalId, src.Password, src.Address, src.Contact, src.PersonalDetail, src.IsActive)));
         });
     }
 

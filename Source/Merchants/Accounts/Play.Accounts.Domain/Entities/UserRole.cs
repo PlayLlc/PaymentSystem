@@ -18,7 +18,7 @@ public record UserRole
 
     public UserRole(UserRoles userRole)
     {
-        Id = userRole.Id;
+        Id = userRole;
         Value = userRole;
     }
 

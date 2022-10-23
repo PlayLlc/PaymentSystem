@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Commands\UserRegistration\" />
     <Folder Include="Common\" />
   </ItemGroup>
 

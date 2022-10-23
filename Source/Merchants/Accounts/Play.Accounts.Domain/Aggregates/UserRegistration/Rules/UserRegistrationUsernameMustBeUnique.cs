@@ -27,9 +27,9 @@ internal class UserRegistrationUsernameMustBeUnique : BusinessRule<UserRegistrat
 
     #region Instance Members
 
-    public override UserRegistrationUsernameWasInvalid CreateBusinessRuleViolationDomainEvent(UserRegistration aggregate)
+    public override UserRegistrationUsernameWasInvalid CreateBusinessRuleViolationDomainEvent(UserRegistration merchant)
     {
-        return new UserRegistrationUsernameWasInvalid(aggregate, this);
+        return new UserRegistrationUsernameWasInvalid(merchant, this);
     }
 
     public override bool IsBroken()

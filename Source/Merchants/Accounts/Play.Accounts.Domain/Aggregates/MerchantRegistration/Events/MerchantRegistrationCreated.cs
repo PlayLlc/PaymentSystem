@@ -1,8 +1,4 @@
-﻿using Play.Accounts.Domain.Entities;
-using Play.Accounts.Domain.Enums;
-using Play.Accounts.Domain.ValueObjects;
-using Play.Domain.Events;
-using Play.Globalization.Time;
+﻿using Play.Domain.Events;
 
 namespace Play.Accounts.Domain.Aggregates;
 

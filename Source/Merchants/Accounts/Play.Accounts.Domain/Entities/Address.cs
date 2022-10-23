@@ -71,11 +71,11 @@ public class Address : Entity<string>
     {
         return JsonSerializer.Serialize(new
         {
-            street_address = StreetAddress,
-            locality = City,
-            region = State,
-            postal_code = Zipcode,
-            country = "United States"
+            street_address = StreetAddress.ToUpper(),
+            locality = City.ToUpper(),
+            region = State.Value.ToUpper(),
+            postal_code = Zipcode.Value.ToUpper(),
+            country = "UNITED STATES"
         });
     }
 

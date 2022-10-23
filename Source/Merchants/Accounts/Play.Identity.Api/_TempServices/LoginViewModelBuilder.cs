@@ -101,7 +101,8 @@ public class LoginViewModelBuilder : IBuildLoginViewModel
                 DisplayName = x.DisplayName
             });
 
-        providers.AddRange(identityProvidersSchemes);
+        foreach (var provider in identityProvidersSchemes)
+            providers.Add(provider);
 
         if (context?.Client.ClientId is null)
             return providers;

@@ -1,17 +1,16 @@
 ﻿using Play.Core;
 
-namespace Play.Telecom.Twilio.Sms
+namespace Play.Telecom.Twilio.Sms;
+
+public class SmsDeliveryResult : Result
 {
-    public class SmsDeliveryResult : Result
-    {
-        #region Constructor
+    #region Constructor
 
-        public SmsDeliveryResult() : base()
-        { }
+    public SmsDeliveryResult() : base()
+    { }
 
-        public SmsDeliveryResult(params string[] errors) : base(errors)
-        { }
+    public SmsDeliveryResult(params string[] errors) : base(errors)
+    { }
 
-        #endregion
-    }
+    #endregion
 }

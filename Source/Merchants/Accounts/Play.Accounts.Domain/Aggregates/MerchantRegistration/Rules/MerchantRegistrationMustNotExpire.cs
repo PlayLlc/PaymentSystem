@@ -41,9 +41,9 @@ internal class MerchantRegistrationMustNotExpire : BusinessRule<MerchantRegistra
 
     #region Instance Members
 
-    public override MerchantRegistrationHasExpired CreateBusinessRuleViolationDomainEvent(MerchantRegistration aggregate)
+    public override MerchantRegistrationHasExpired CreateBusinessRuleViolationDomainEvent(MerchantRegistration merchant)
     {
-        return new MerchantRegistrationHasExpired(aggregate, this);
+        return new MerchantRegistrationHasExpired(merchant, this);
     }
 
     public override bool IsBroken()

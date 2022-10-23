@@ -1,16 +1,28 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-using Play.Accounts.Persistence.Sql.Enums;
+using Play.Accounts.Domain.Enums;
 
 namespace Play.Accounts.Persistence.Sql.Entities;
 
-public class RoleIdentity : IdentityRole
+public sealed class RoleIdentity : IdentityRole
 {
+    #region Constructor
+
+    public RoleIdentity()
+    { }
+
+    public RoleIdentity(string name) : base(name)
+    {
+        Id = name;
+    }
+
+    #endregion
+
     #region Instance Members
 
     public static IEnumerable<string> GetAllRoles()
     {
-        return Enum.GetNames<RoleTypes>().ToList();
+        return UserRoles.Empty.GetAll().Select(a => a.Name);
     }
 
     #endregion

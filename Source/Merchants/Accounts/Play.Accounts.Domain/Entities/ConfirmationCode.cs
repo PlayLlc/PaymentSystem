@@ -10,7 +10,7 @@ public class ConfirmationCode : Entity<string>
 {
     #region Instance Values
 
-    public UniversalDateTime SentDate;
+    public DateTimeUtc SentDate;
     public uint Code;
 
     public string Id { get; }
@@ -23,7 +23,7 @@ public class ConfirmationCode : Entity<string>
     public ConfirmationCode(ConfirmationCodeDto dto)
     {
         Id = dto.Id!;
-        SentDate = new UniversalDateTime(dto.SentDate);
+        SentDate = new DateTimeUtc(dto.SentDate);
         Code = dto.Code!;
     }
 
@@ -31,7 +31,7 @@ public class ConfirmationCode : Entity<string>
     public ConfirmationCode(string id, DateTime sentDate, uint code)
     {
         Id = id;
-        SentDate = new UniversalDateTime(sentDate);
+        SentDate = new DateTimeUtc(sentDate);
         Code = code;
     }
 
@@ -46,7 +46,7 @@ public class ConfirmationCode : Entity<string>
 
     public bool IsExpired(TimeSpan validityPeriod)
     {
-        return (DateTimeUtc.Now - SentDate.Value) < validityPeriod;
+        return (DateTimeUtc.Now - SentDate) < validityPeriod;
     }
 
     public override ConfirmationCodeDto AsDto()

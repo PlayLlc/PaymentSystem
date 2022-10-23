@@ -34,7 +34,5 @@ public class UserDto : IDto
 
     public bool IsActive { get; set; }
 
-    public IList<UserRoleDto> Roles { get; set; } = new List<UserRoleDto>();
-
     #endregion
 }

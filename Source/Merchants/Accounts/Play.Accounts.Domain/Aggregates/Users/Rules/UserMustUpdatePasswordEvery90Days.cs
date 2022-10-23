@@ -1,7 +1,5 @@
 ﻿using Play.Accounts.Domain.Entities;
-using Play.Accounts.Domain.Services;
 using Play.Domain.Aggregates;
-using Play.Globalization.Time;
 
 namespace Play.Accounts.Domain.Aggregates;
 
@@ -26,9 +24,9 @@ internal class UserMustUpdatePasswordEvery90Days : BusinessRule<User, string>
 
     #region Instance Members
 
-    public override UserMustUpdatePassword CreateBusinessRuleViolationDomainEvent(User aggregate)
+    public override UserMustUpdatePassword CreateBusinessRuleViolationDomainEvent(User merchant)
     {
-        return new UserMustUpdatePassword(aggregate, this);
+        return new UserMustUpdatePassword(merchant, this);
     }
 
     public override bool IsBroken()

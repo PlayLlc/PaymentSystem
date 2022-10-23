@@ -1,8 +1,8 @@
 ﻿using Play.Accounts.Contracts.Commands;
 using Play.Accounts.Contracts.Commands.User;
 using Play.Accounts.Contracts.Dtos;
-using Play.Accounts.Domain.Aggregates.Users.Rules;
 using Play.Accounts.Domain.Entities;
+using Play.Accounts.Domain.Repositories;
 using Play.Accounts.Domain.Services;
 using Play.Domain;
 using Play.Domain.Aggregates;
@@ -19,9 +19,8 @@ public class User : Aggregate<string>
 
     private readonly string _MerchantId;
     private readonly string _TerminalId;
-    private readonly List<UserRole> _Roles;
-    private PersonalDetail _PersonalDetail;
     private bool _IsActive;
+    private PersonalDetail _PersonalDetail;
     private Address _Address;
     private Contact _Contact;
     private Password _Password;
@@ -36,8 +35,7 @@ public class User : Aggregate<string>
     }
 
     public User(
-        string id, string merchantId, string terminalId, Password password, Address address, Contact contact, PersonalDetail personalDetail, bool isActive,
-        params UserRole[] roles)
+        string id, string merchantId, string terminalId, Password password, Address address, Contact contact, PersonalDetail personalDetail, bool isActive)
     {
         _Id = id;
         _MerchantId = merchantId;
@@ -47,7 +45,6 @@ public class User : Aggregate<string>
         _Contact = contact;
         _PersonalDetail = personalDetail;
         _IsActive = isActive;
-        _Roles = roles.ToList();
     }
 
     #endregion
@@ -122,12 +119,11 @@ public class User : Aggregate<string>
     }
 
     /// <exception cref="BusinessRuleValidationException"></exception>
-    public void UpdateUserRoles(UpdateRolesCommand roles)
+    public void UpdateUserRoles(IUserRepository userRepository, UpdateUserRolesCommand command)
     {
         Enforce(new UserMustBeActive(_IsActive));
 
-        _Roles.Clear();
-        _Roles.AddRange(roles.Roles.Select(a => new UserRole(a.Name)));
+        userRepository.UpdateUserRoles(_Id, command.Roles.Select(a => new UserRole(a.Name)).ToArray());
 
         Publish(new UserRolesHaveBeenUpdated(this));
     }
@@ -161,8 +157,7 @@ public class User : Aggregate<string>
             ContactDto = _Contact.AsDto(),
             PersonalDetailDto = _PersonalDetail.AsDto(),
             IsActive = _IsActive,
-            Password = _Password.AsDto(),
-            Roles = _Roles.Select(a => new UserRoleDto {Name = a.Value}).ToList()
+            Password = _Password.AsDto()
         };
     }
 

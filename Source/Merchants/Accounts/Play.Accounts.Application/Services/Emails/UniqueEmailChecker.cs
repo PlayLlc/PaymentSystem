@@ -1,6 +1,5 @@
 ﻿using Play.Accounts.Domain.Repositories;
 using Play.Accounts.Domain.Services;
-using Play.Accounts.Persistence.Sql.Repositories;
 
 namespace Play.Accounts.Application.Services;
 
@@ -27,7 +26,8 @@ public class UniqueEmailChecker : IEnsureUniqueEmails
 
     public async Task<bool> IsUnique(string email)
     {
-        return await _UserRegistrationRepository.IsEmailUnique(email).ConfigureAwait(false) && await _UserRepository.IsEmailUnique(email).ConfigureAwait(false);
+        return await _UserRegistrationRepository.IsEmailUniqueAsync(email).ConfigureAwait(false)
+               && await _UserRepository.IsEmailUnique(email).ConfigureAwait(false);
     }
 
     #endregion

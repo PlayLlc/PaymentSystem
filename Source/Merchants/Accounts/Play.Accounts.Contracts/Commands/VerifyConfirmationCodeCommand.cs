@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Play.Accounts.Contracts.Commands.User;
+namespace Play.Accounts.Contracts.Commands;
 
 public class VerifyConfirmationCodeCommand
 {

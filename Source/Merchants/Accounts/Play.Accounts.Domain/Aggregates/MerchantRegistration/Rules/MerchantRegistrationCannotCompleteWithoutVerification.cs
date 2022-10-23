@@ -24,9 +24,9 @@ internal class MerchantRegistrationCannotCompleteWithoutVerification : BusinessR
 
     #region Instance Members
 
-    public override MerchantRegistrationHasNotBeenVerified CreateBusinessRuleViolationDomainEvent(MerchantRegistration aggregate)
+    public override MerchantRegistrationHasNotBeenVerified CreateBusinessRuleViolationDomainEvent(MerchantRegistration merchant)
     {
-        return new MerchantRegistrationHasNotBeenVerified(aggregate, this);
+        return new MerchantRegistrationHasNotBeenVerified(merchant, this);
     }
 
     public override bool IsBroken()

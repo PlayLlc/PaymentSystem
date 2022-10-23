@@ -4,16 +4,12 @@ using Play.Accounts.Contracts.Dtos;
 
 namespace Play.Accounts.Contracts.Commands.User;
 
-public record UpdateContactCommand
+public record UpdateUserRolesCommand
 {
     #region Instance Values
 
     [Required]
-    [MinLength(1)]
-    public string Id { get; set; } = string.Empty;
-
-    [Required]
-    public ContactDto Contact { get; set; } = new();
+    public IEnumerable<UserRoleDto> Roles { get; set; } = new List<UserRoleDto>();
 
     #endregion
 }

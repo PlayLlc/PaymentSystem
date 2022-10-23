@@ -46,9 +46,9 @@ internal class UserRegistrationMustNotExpire : BusinessRule<UserRegistration, st
         return !_IsValid;
     }
 
-    public override UserRegistrationHasExpired CreateBusinessRuleViolationDomainEvent(UserRegistration aggregate)
+    public override UserRegistrationHasExpired CreateBusinessRuleViolationDomainEvent(UserRegistration merchant)
     {
-        return new UserRegistrationHasExpired(aggregate, this);
+        return new UserRegistrationHasExpired(merchant, this);
     }
 
     #endregion
