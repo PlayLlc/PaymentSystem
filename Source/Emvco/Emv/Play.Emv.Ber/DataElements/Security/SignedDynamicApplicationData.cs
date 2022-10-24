@@ -65,7 +65,7 @@ public record SignedDynamicApplicationData : DataElement<BigInteger>, IEqualityC
 
     public byte[] AsByteArray() => _Value.ToByteArray(true);
     public override PlayEncodingId GetEncodingId() => EncodingId;
-    public ushort GetByteCount() => (ushort) _Value.GetByteCount();
+    public ushort GetByteCount() => (ushort)_Value.GetByteCount(true);
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 

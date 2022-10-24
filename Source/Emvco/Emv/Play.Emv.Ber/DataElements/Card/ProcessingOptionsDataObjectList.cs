@@ -1,3 +1,4 @@
+using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.InternalFactories;
@@ -47,6 +48,8 @@ public record ProcessingOptionsDataObjectList : DataObjectList
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
+
+    public override ushort GetValueByteCount(BerCodec codec) => base.GetValueByteCount();
 
     #endregion
 }

@@ -24,7 +24,7 @@ public abstract record DataElement<T>(T _Value) : PrimitiveValue, IEncodeDataEle
     // TODO: The below should not be casting to ushort. We need to change PrimitiveValue.GetTagLengthValueByteCount to
     // TODO: return a ushort instead
     public virtual ushort GetTagLengthValueByteCount() => (ushort) GetTagLengthValueByteCount(_Codec);
-    public virtual ushort GetValueByteCount() => _Codec.GetByteCount(GetEncodingId(), _Value);
+    public virtual ushort GetValueByteCount() => _Codec.GetByteCount(GetEncodingId(), _Value!);
     public override ushort GetValueByteCount(BerCodec codec) => GetValueByteCount();
 
     #endregion
