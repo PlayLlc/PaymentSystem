@@ -4,12 +4,15 @@ public record TwilioSmsConfiguration
 {
     #region Instance Values
 
-    public readonly string AccountSid;
-    public readonly string AuthToken;
+    public string AccountSid { get; set; } = string.Empty;
+    public string AuthToken { get; set; } = string.Empty;
 
     #endregion
 
     #region Constructor
+
+    public TwilioSmsConfiguration()
+    { }
 
     public TwilioSmsConfiguration(string accountSid, string authToken)
     {

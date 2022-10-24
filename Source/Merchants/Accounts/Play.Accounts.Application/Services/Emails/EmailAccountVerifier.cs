@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net;
 using System.Net.Mail;
 
 using Microsoft.Extensions.Logging;
@@ -38,12 +39,11 @@ public class EmailAccountVerifier : IVerifyEmailAccounts
 
     #region Instance Members
 
-    public async Task<Result> SendVerificationCode(uint verificationCode, string email)
+    public async Task<Result> SendVerificationCode(uint verificationCode, [EmailAddress] string email, string? fullName = null)
     {
-        MailMessage message = new MailMessage(string.Empty, email, _TemplateBuilder.Subject,
-            _TemplateBuilder.CreateEmail(_EmailVerificationReturnUrlBuilder.CreateReturnUrl(email, verificationCode))) {IsBodyHtml = true};
-
-        EmailDeliveryResult result = await _EmailClient.SendEmail(message).ConfigureAwait(false);
+        EmailDeliveryResult result = await _EmailClient.SendEmail(email, _TemplateBuilder.Subject,
+                _TemplateBuilder.CreateEmail(_EmailVerificationReturnUrlBuilder.CreateReturnUrl(email, verificationCode)), fullName, true)
+            .ConfigureAwait(false);
 
         // TODO: We need to make this resilient. We need an Exponential Retry strategy using Polly or something
         if (!result.Succeeded)

@@ -104,7 +104,8 @@ public class UserRegistration : Aggregate<string>
 
         _EmailConfirmation = new ConfirmationCode(GenerateSimpleStringId(), DateTimeUtc.Now, Randomize.Integers.UInt(100000, 999999));
 
-        Result result = await emailAccountVerifier.SendVerificationCode(_EmailConfirmation.Code, _Contact!.Email.Value).ConfigureAwait(false);
+        Result result = await emailAccountVerifier.SendVerificationCode(_EmailConfirmation.Code, _Contact!.Email.Value, _Contact.GetFullName())
+            .ConfigureAwait(false);
 
         if (!result.Succeeded)
         {

@@ -1,9 +1,13 @@
-﻿using System.Net.Mail;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net;
+using System.Net.Mail;
 
 using Microsoft.Extensions.Logging;
 
 using SendGrid;
 using SendGrid.Helpers.Mail;
+
+using Twilio.TwiML.Messaging;
 
 namespace Play.Telecom.SendGrid.Email;
 
@@ -30,23 +34,26 @@ public sealed class EmailClient : ISendEmail
 
     #region Instance Members
 
-    public async Task<EmailDeliveryResult> SendEmail(MailMessage message)
+    // TODO: Make this more resilient 
+    public async Task<EmailDeliveryResult> SendEmail(
+        [EmailAddress] string recipient, string subject, string messageBody, string? recipientNickname = null, bool isBodyHtml = false)
     {
+        EmailAddress to = recipientNickname is null ? new EmailAddress(recipient) : new EmailAddress(recipient, recipientNickname);
         Response? response = null;
 
         try
         {
             SendGridMessage emailMessage = new SendGridMessage
             {
-                Subject = message.Subject,
-                From = new EmailAddress(message.From!.Address, message.From.DisplayName),
-                ReplyTo = new EmailAddress(_Config.FromEmail, _Config.Nickname)
+                Subject = subject,
+                From = string.IsNullOrEmpty(_Config.Nickname) ? new EmailAddress(_Config.FromEmail) : new EmailAddress(_Config.FromEmail, _Config.Nickname),
+                ReplyTo = to
             };
 
-            if (message.IsBodyHtml)
-                emailMessage.HtmlContent = message.Body;
+            if (isBodyHtml)
+                emailMessage.HtmlContent = messageBody;
             else
-                emailMessage.PlainTextContent = message.Body;
+                emailMessage.PlainTextContent = messageBody;
 
             response = await _Client.SendEmailAsync(emailMessage).ConfigureAwait(false);
 
