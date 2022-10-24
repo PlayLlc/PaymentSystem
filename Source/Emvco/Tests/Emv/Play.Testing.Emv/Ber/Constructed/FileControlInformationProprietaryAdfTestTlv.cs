@@ -1,5 +1,4 @@
-﻿using Play.Ber.DataObjects;
-using Play.Ber.Tags;
+﻿using Play.Ber.Tags;
 using Play.Emv.Ber.Templates;
 using Play.Testing.Emv.Ber.Primitive;
 
@@ -19,8 +18,6 @@ public class FileControlInformationProprietaryAdfTestTlv : TestTlv
         0x5F, 0x2D, 2, (byte)'e', (byte)'n',
         0x9F, 0x38, 0x00
     };
-
-    private static readonly Tag Tag = FileControlInformationProprietaryAdf.Tag;
 
     #endregion
 

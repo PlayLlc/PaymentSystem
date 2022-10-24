@@ -94,5 +94,73 @@ public class ApplicationLabelTests
         Assert.Equal(testValue, expectedResult);
     }
 
+    /// <summary>
+    ///     DataElement_InvokingGetValueByteCount_ReturnsExpectedResult
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    [Fact]
+    public void DataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
+    {
+        ApplicationLabelTestTlv testData = new();
+        ApplicationLabel sut = ApplicationLabel.Decode(testData.EncodeValue().AsSpan());
+        int expectedResult = testData.GetValueByteCount();
+        ushort testResult = sut.GetValueByteCount();
+
+        Assert.Equal(expectedResult, testResult);
+    }
+
+    /// <summary>
+    ///     DataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    [Fact]
+    public void DataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
+    {
+        ApplicationLabelTestTlv testData = new();
+        ApplicationLabel sut = ApplicationLabel.Decode(testData.EncodeValue().AsSpan());
+        int expectedResult = testData.GetTagLengthValueByteCount();
+        ushort testResult = sut.GetTagLengthValueByteCount();
+
+        Assert.Equal(expectedResult, testResult);
+    }
+
+    /// <summary>
+    ///     CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    [Fact]
+    public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
+    {
+        ApplicationLabelTestTlv testData = new(new byte[] { 0x08, 0x12, 0x9F, 0x15, 0x28, 0x3E });
+        ApplicationLabel sut = ApplicationLabel.Decode(testData.EncodeValue().AsSpan());
+        int expectedResult = testData.GetValueByteCount();
+        ushort testResult = sut.GetValueByteCount();
+
+        Assert.Equal(expectedResult, testResult);
+    }
+
+    /// <summary>
+    ///     CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    [Fact]
+    public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
+    {
+        ApplicationLabelTestTlv testData = new(new byte[]
+        {
+            0x08, 0x12, 0x9F, 0x15, 0x28, 0x3E
+        });
+
+        ApplicationLabel sut = ApplicationLabel.Decode(testData.EncodeValue().AsSpan());
+        int expectedResult = testData.GetTagLengthValueByteCount();
+        ushort testResult = sut.GetTagLengthValueByteCount();
+
+        Assert.Equal(expectedResult, testResult);
+    }
+
     #endregion
 }
