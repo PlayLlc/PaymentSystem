@@ -2,7 +2,7 @@ using System.Collections.Immutable;
 
 using Play.Core;
 
-namespace Play.Emv.Ber.DataElements;
+namespace Play.Emv.Ber.Enums;
 
 public sealed record KernelType : EnumObject<byte>
 {
@@ -65,7 +65,7 @@ public sealed record KernelType : EnumObject<byte>
 
     #region Equality
 
-    public bool Equals(KernelType? other) => !(other is null) && (_Value == other._Value);
+    public bool Equals(KernelType? other) => !(other is null) && _Value == other._Value;
 
     public bool Equals(KernelType x, KernelType y)
     {

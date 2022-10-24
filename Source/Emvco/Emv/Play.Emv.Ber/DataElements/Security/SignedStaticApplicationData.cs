@@ -35,7 +35,12 @@ public record SignedStaticApplicationData : DataElement<BigInteger>, IEqualityCo
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static SignedStaticApplicationData Decode(ReadOnlySpan<byte> value) => new(new BigInteger(value));
+    public static SignedStaticApplicationData Decode(ReadOnlySpan<byte> value)
+    {
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
+
+        return new(result);
+    }
 
     public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
     public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);

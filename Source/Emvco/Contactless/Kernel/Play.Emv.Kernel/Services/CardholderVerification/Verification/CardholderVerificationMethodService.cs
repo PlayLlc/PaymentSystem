@@ -1,10 +1,11 @@
-﻿using Play.Emv.Ber.Enums;
+﻿using Play.Emv.Ber;
+using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Kernel.Databases;
 
 namespace Play.Emv.Kernel.Services.Verification;
 
-public class CardholderVerificationMethodService
+public class CardholderVerificationMethodService : IVerifyCardholder
 {
     #region Instance Values
 
@@ -39,13 +40,14 @@ public class CardholderVerificationMethodService
                 return result;
 
             if (cardholderVerificationMethods[i] == CardholderVerificationMethods.OfflinePlaintextPin)
-                _OfflinePinAuthentication.Process(database);
+                return _OfflinePinAuthentication.Process(database);
             if (cardholderVerificationMethods[i] == CardholderVerificationMethods.OfflineEncipheredPin)
-                _OfflinePinAuthentication.Process(database);
+                return _OfflinePinAuthentication.Process(database);
             if (cardholderVerificationMethods[i] == CardholderVerificationMethods.OnlineEncipheredPin)
-                _OnlinePinAuthentication.Process(database);
+                return _OnlinePinAuthentication.Process(database);
+
             if (cardholderVerificationMethods[i] == CardholderVerificationMethods.SignaturePaper)
-                _CardholderSignatureVerification.Process();
+                _CardholderSignatureVerification.Process(database);
         }
 
         return result;

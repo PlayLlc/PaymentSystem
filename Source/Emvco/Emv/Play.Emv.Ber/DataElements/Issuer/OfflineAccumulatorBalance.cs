@@ -16,7 +16,7 @@ public record OfflineAccumulatorBalance : DataElement<ulong>, IEqualityComparer<
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x9F50;
     private const byte _ByteLength = 6;
     private const byte _CharLength = 12;
@@ -44,15 +44,15 @@ public record OfflineAccumulatorBalance : DataElement<ulong>, IEqualityComparer<
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        ulong result = PlayCodec.BinaryCodec.DecodeToUInt64(value);
+        ulong result = PlayCodec.NumericCodec.DecodeToUInt64(value);
 
         Check.Primitive.ForCharLength(result.GetNumberOfDigits(), _CharLength, Tag);
 
         return new OfflineAccumulatorBalance(result);
     }
 
-    public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => _Codec.EncodeValue(EncodingId, _Value, length);
+    public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value, _ByteLength);
+    public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(_Value, length);
 
     #endregion
 
@@ -77,7 +77,9 @@ public record OfflineAccumulatorBalance : DataElement<ulong>, IEqualityComparer<
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => _ByteLength;
+
+    public override ushort GetValueByteCount() => PlayCodec.NumericCodec.GetByteCount(_Value);
 
     #endregion
 }

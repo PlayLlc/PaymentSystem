@@ -51,7 +51,7 @@ public record AmountOtherNumeric : DataElement<ulong>, IEqualityComparer<AmountO
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        ushort result = PlayCodec.NumericCodec.DecodeToUInt16(value);
+        ulong result = PlayCodec.NumericCodec.DecodeToUInt64(value);
 
         Check.Primitive.ForMaxCharLength(result.GetNumberOfDigits(), _CharLength, Tag);
 
@@ -85,7 +85,8 @@ public record AmountOtherNumeric : DataElement<ulong>, IEqualityComparer<AmountO
     public Money AsMoney(NumericCurrencyCode numericCurrencyCode) => new(_Value, numericCurrencyCode);
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => PlayCodec.NumericCodec.GetByteCount(_Value);
+    public override ushort GetValueByteCount() => PlayCodec.NumericCodec.GetByteCount(_Value);
 
     #endregion
 }

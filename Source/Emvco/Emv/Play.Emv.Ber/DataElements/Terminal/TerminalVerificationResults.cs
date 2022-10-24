@@ -121,20 +121,18 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
     public bool ScriptProcessingFailedAfterFinalGenerateAc() => _Value.IsBitSet(5);
     public bool ScriptProcessingFailedBeforeFinalGenerateAc() => _Value.IsBitSet(6);
 
-    public void SetBits(TerminalVerificationResult terminalVerificationResult)
-    {
-        _Value.SetBits((ulong) terminalVerificationResult);
-    }
+    public TerminalVerificationResults SetBits(TerminalVerificationResultCodes terminalVerificationResult) =>
+        new(_Value | (ulong)(TerminalVerificationResult)terminalVerificationResult);
 
     public bool StaticDataAuthenticationFailed() => _Value.IsBitSet(39);
     public bool TransactionExceedsFloorLimit() => _Value.IsBitSet(16);
     public bool TransactionSelectedRandomlyForOnlineProcessing() => _Value.IsBitSet(13);
     public bool UnrecognizedCvm() => _Value.IsBitSet(23);
     public bool UpperConsecutiveOfflineLimitExceeded() => _Value.IsBitSet(14);
-    public bool RelayResistanceProtocolNotSupported() => (byte) _Value == 0;
+    public bool RelayResistanceProtocolNotSupported() => (byte)_Value == 0;
     public bool RelayResistanceProtocolNotPerformed() => _Value.IsBitSet(1);
     public bool RelayResistanceProtocolPerformed() => _Value.IsBitSet(2);
-    public bool IsSet(TerminalVerificationResultCodes value) => _Value.AreBitsSet((ulong) (TerminalVerificationResult) value);
+    public bool IsSet(TerminalVerificationResultCodes value) => _Value.AreBitsSet((ulong)(TerminalVerificationResult)value);
 
     #endregion
 

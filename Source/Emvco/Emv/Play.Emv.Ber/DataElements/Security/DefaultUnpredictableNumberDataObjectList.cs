@@ -1,4 +1,5 @@
-﻿using Play.Ber.DataObjects;
+﻿using Play.Ber.Codecs;
+using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.InternalFactories;
 using Play.Ber.Tags;
@@ -80,6 +81,8 @@ public record DefaultUnpredictableNumberDataObjectList : DataObjectList, IEquali
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
+
+    public override ushort GetValueByteCount(BerCodec codec) => base.GetValueByteCount();
 
     #endregion
 }

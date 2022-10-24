@@ -104,18 +104,18 @@ public record MobileSupportIndicator : DataElement<byte>, IEqualityComparer<Mobi
 
         public void SetOnDeviceCvmRequired(bool value)
         {
-            if (value)
-                _Value.SetBits(_OnDeviceCvmRequiredOffset);
-
             _Value.ClearBits(_OnDeviceCvmRequiredOffset);
+
+            if (value)
+                _Value = _Value.SetBits(_OnDeviceCvmRequiredOffset);
         }
 
         public void SetMobileSupported(bool value)
         {
-            if (value)
-                _Value.SetBits(_IsMobileSupportedOffset);
-
             _Value.ClearBits(_IsMobileSupportedOffset);
+
+            if (value)
+                _Value = _Value.SetBits(_IsMobileSupportedOffset);
         }
 
         public override MobileSupportIndicator Complete() => new(_Value);

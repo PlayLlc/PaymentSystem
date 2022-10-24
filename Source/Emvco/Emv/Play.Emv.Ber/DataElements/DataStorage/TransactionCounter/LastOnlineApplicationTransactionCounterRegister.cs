@@ -67,6 +67,12 @@ public record LastOnlineApplicationTransactionCounterRegister : DataElement<usho
 
     #endregion
 
+    #region Operator Overrides
+
+    public static implicit operator ushort(LastOnlineApplicationTransactionCounterRegister value) => value._Value;
+
+    #endregion
+
     #region Instance Members
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
