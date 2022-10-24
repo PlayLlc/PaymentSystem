@@ -19,7 +19,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly OutcomeParameterSet Default;
     public static readonly Tag Tag = 0xDF8129;
     private const byte _StatusOutcomeOffset = 56;
@@ -43,7 +43,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
         Default = builder.Complete();
     }
 
-    private OutcomeParameterSet(ulong value) : base(value)
+    public OutcomeParameterSet(ulong value) : base(value)
     { }
 
     #endregion
@@ -60,13 +60,13 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        ulong result = PlayCodec.NumericCodec.DecodeToUInt64(value);
+        ulong result = PlayCodec.BinaryCodec.DecodeToUInt64(value);
 
         return new OutcomeParameterSet(result);
     }
 
-    public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(_Value, length);
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value, _ByteLength);
+    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode(_Value, length);
 
     #endregion
 
@@ -155,45 +155,46 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
 
         public void Set(StatusOutcomes bitsToSet)
         {
-            _Value.ClearBits((ulong) byte.MaxValue << _StatusOutcomeOffset);
-            _Value |= (ulong) bitsToSet << _StatusOutcomeOffset;
+            _Value = _Value.ClearBits((ulong)byte.MaxValue << _StatusOutcomeOffset);
+            _Value |= (ulong)bitsToSet << _StatusOutcomeOffset;
         }
 
         public void Set(StartOutcomes bitsToSet)
         {
-            _Value.ClearBits((ulong) byte.MaxValue << _StartOutcomeOffset);
-            _Value |= (ulong) bitsToSet << _StartOutcomeOffset;
+            _Value = _Value.ClearBits((ulong)byte.MaxValue << _StartOutcomeOffset);
+            _Value |= (ulong)bitsToSet << _StartOutcomeOffset;
         }
 
         public void Set(OnlineResponseOutcome bitsToSet)
         {
-            _Value.ClearBits((ulong) byte.MaxValue << _OnlineResponseOutcomeOffset);
-            _Value |= (ulong) bitsToSet << _OnlineResponseOutcomeOffset;
+            _Value = _Value.ClearBits((ulong)byte.MaxValue << _OnlineResponseOutcomeOffset);
+            _Value |= (ulong)bitsToSet << _OnlineResponseOutcomeOffset;
         }
 
         public void Set(CvmPerformedOutcome bitsToSet)
         {
-            _Value.ClearBits((ulong) byte.MaxValue << _CvmOutcomeOffset);
-            _Value |= (ulong) bitsToSet << _CvmOutcomeOffset;
+            ulong bitsToClear = (ulong)byte.MaxValue << _CvmOutcomeOffset;
+            _Value = _Value.ClearBits(bitsToClear);
+            _Value |= (ulong)bitsToSet << _CvmOutcomeOffset;
         }
 
         public void Set(AlternateInterfacePreferenceOutcome bitsToSet)
         {
-            _Value.ClearBits((ulong) byte.MaxValue << _AlternateInterfaceOutcomeOffset);
-            _Value |= (ulong) bitsToSet << _AlternateInterfaceOutcomeOffset;
+            _Value = _Value.ClearBits((ulong)byte.MaxValue << _AlternateInterfaceOutcomeOffset);
+            _Value |= (ulong)bitsToSet << _AlternateInterfaceOutcomeOffset;
         }
 
         public void Set(FieldOffRequestOutcome bitsToSet)
         {
-            _Value.ClearBits((ulong) byte.MaxValue << _FieldOffRequestOutcomeOffset);
-            _Value |= (ulong) bitsToSet << _FieldOffRequestOutcomeOffset;
+            _Value = _Value.ClearBits((ulong)byte.MaxValue << _FieldOffRequestOutcomeOffset);
+            _Value |= (ulong)bitsToSet << _FieldOffRequestOutcomeOffset;
         }
 
         public void Set(Milliseconds bitsToSet)
         {
             const byte bitOffset = (8 - 1) * 8;
-            _Value.ClearBits((ulong) byte.MaxValue << bitOffset);
-            _Value |= (ulong) ((long) bitsToSet << bitOffset);
+            _Value = _Value.ClearBits((ulong)byte.MaxValue << bitOffset);
+            _Value |= (ulong)((long)bitsToSet << bitOffset);
         }
 
         // TODO: Rename this to Complete, this is confusing
@@ -204,7 +205,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
             if (value)
                 _Value.SetBit(38);
 
-            _Value.ClearBit(38);
+            _Value = _Value.ClearBit(38);
         }
 
         public void SetIsDiscretionaryDataPresent(bool value)
@@ -212,7 +213,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
             if (value)
                 _Value.SetBit(37);
 
-            _Value.ClearBit(37);
+            _Value = _Value.ClearBit(37);
         }
 
         public void SetIsReceiptPresent(bool value)
@@ -220,7 +221,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
             if (value)
                 _Value.SetBit(36);
 
-            _Value.ClearBit(36);
+            _Value = _Value.ClearBit(36);
         }
 
         public void SetIsUiRequestOnOutcomePresent(bool value)
@@ -228,7 +229,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
             if (value)
                 _Value.SetBit(40);
 
-            _Value.ClearBit(40);
+            _Value = _Value.ClearBit(40);
         }
 
         public void SetIsUiRequestOnRestartPresent(bool value)
@@ -236,7 +237,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
             if (value)
                 _Value.SetBit(39);
 
-            _Value.ClearBit(39);
+            _Value = _Value.ClearBit(39);
         }
 
         protected override void Set(ulong bitsToSet)

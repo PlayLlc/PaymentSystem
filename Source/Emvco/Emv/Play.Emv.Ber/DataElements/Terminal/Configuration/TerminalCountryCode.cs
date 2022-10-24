@@ -93,7 +93,9 @@ public record TerminalCountryCode : DataElement<NumericCountryCode>, IEqualityCo
     public NumericCountryCode AsCountryCode() => _Value;
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => PlayCodec.NumericCodec.GetByteCount(_Value);
+
+    public override ushort GetValueByteCount() => PlayCodec.NumericCodec.GetByteCount(_Value);
 
     #endregion
 }

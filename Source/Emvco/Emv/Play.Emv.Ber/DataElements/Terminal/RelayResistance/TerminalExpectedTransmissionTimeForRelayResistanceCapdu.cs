@@ -12,7 +12,7 @@ namespace Play.Emv.Ber.DataElements;
 ///     the Card. The Terminal Expected Transmission Time For Relay Resistance C-APDU is expressed in units of hundreds of
 ///     microseconds.
 /// </summary>
-public record TerminalExpectedTransmissionTimeForRelayResistanceCapdu : DataElement<ushort>
+public record TerminalExpectedTransmissionTimeForRelayResistanceCapdu : DataElement<RelaySeconds>
 {
     #region Static Metadata
 
@@ -48,8 +48,8 @@ public record TerminalExpectedTransmissionTimeForRelayResistanceCapdu : DataElem
         return new TerminalExpectedTransmissionTimeForRelayResistanceCapdu(result);
     }
 
-    public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => _Codec.EncodeValue(EncodingId, _Value, length);
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode((ushort)_Value, _ByteLength);
+    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode((ushort)_Value, length);
 
     #endregion
 
@@ -63,6 +63,8 @@ public record TerminalExpectedTransmissionTimeForRelayResistanceCapdu : DataElem
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
+
+    public override ushort GetValueByteCount() => PlayCodec.BinaryCodec.GetByteCount((ushort)_Value);
 
     #endregion
 }

@@ -48,7 +48,7 @@ public record LanguagePreference : DataElement<Alpha2LanguageCode[]>
         const ushort minByteLength = 2;
         const ushort maxByteLength = 8;
 
-        if (value.Length is < minByteLength and <= maxByteLength)
+        if (value.Length is < minByteLength or >= maxByteLength)
         {
             throw new DataElementParsingException(
                 $"The Primitive Value {nameof(LanguagePreference)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
@@ -59,7 +59,7 @@ public record LanguagePreference : DataElement<Alpha2LanguageCode[]>
 
     public override byte[] EncodeValue()
     {
-        Span<byte> buffer = stackalloc byte[_Value.Length];
+        Span<byte> buffer = stackalloc byte[_Value.Length * 2];
 
         for (int i = 0, j = 0; i < _Value.Length;)
         {
@@ -70,6 +70,8 @@ public record LanguagePreference : DataElement<Alpha2LanguageCode[]>
 
         return buffer.ToArray();
     }
+
+    public override ushort GetValueByteCount() => (ushort)(_Value.Length * 2);
 
     #endregion
 
@@ -108,8 +110,8 @@ public record LanguagePreference : DataElement<Alpha2LanguageCode[]>
 
         Span<Alpha2LanguageCode> buffer = stackalloc Alpha2LanguageCode[value.Length / 2];
 
-        for (int i = 0; i < value.Length; i++)
-            buffer[i] = new Alpha2LanguageCode(value[i], value[++i]);
+        for (int i = 0, j = 0; i < value.Length; i += 2, j++)
+            buffer[j] = new Alpha2LanguageCode(value[i], value[i+1]);
 
         return buffer.ToArray();
     }
@@ -133,7 +135,7 @@ public record LanguagePreference : DataElement<Alpha2LanguageCode[]>
     public Alpha2LanguageCode[] GetLanguageCodes() => _Value;
     public Alpha2LanguageCode GetPreferredLanguage() => _Value[0];
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => checked((ushort)(_Value.Length * 2));
 
     public static bool StaticEquals(LanguagePreference? x, LanguagePreference? y)
     {

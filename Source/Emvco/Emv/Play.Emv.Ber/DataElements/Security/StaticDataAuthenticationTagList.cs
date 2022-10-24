@@ -46,6 +46,8 @@ public record StaticDataAuthenticationTagList : DataElement<Tag[]>, IEqualityCom
         return new StaticDataAuthenticationTagList(_Codec.DecodeTags(value));
     }
 
+    public override byte[] EncodeValue() => _Value.SelectMany(tag => tag.Serialize()).ToArray();
+
     #endregion
 
     #region Equality

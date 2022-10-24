@@ -56,6 +56,8 @@ public record ApplicationIdentifier : DataElement<BigInteger>, IEqualityComparer
         return true;
     }
 
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
+
     #endregion
 
     #region Serialization

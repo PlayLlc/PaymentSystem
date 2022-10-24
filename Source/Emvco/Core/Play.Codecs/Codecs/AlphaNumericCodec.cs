@@ -166,7 +166,7 @@ public class AlphaNumericCodec : PlayCodec
     }
 
     // DEPRECATING: This method will eventually be deprecated in favor of strongly typed arguments
-
+    // Warning: This method has a infinite circular reference to itself. Use other explicit methods instead.
     /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T[] value, int length) where T : struct
     {

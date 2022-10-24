@@ -20,7 +20,7 @@ public record ReferenceControlParameter : DataElement<byte>, IEqualityComparer<R
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF8114;
     private const byte _ByteLength = 1;
-    private const byte _CdaRequestedFlag = (byte) Bits.Five;
+    private const Bits _CdaRequestedFlag = Bits.Five;
 
     #endregion
 
@@ -99,7 +99,7 @@ public record ReferenceControlParameter : DataElement<byte>, IEqualityComparer<R
     private static byte Create(CryptogramType cryptogramTypes, bool isCdaSignatureRequested)
     {
         if (isCdaSignatureRequested)
-            return (byte) ((byte) cryptogramTypes | _CdaRequestedFlag);
+            return (byte) ((byte) cryptogramTypes | (byte)_CdaRequestedFlag);
 
         return (byte) cryptogramTypes;
     }

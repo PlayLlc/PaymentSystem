@@ -19,8 +19,7 @@ public record HoldTimeValue : DataElement<Deciseconds>, IEqualityComparer<HoldTi
     private static readonly Deciseconds _MinimumValue = new(0);
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF8130;
-    private const byte _ByteLength = 3;
-    private const byte _CharLength = 6;
+    private const byte _ByteLength = 1;
 
     #endregion
 
@@ -57,13 +56,11 @@ public record HoldTimeValue : DataElement<Deciseconds>, IEqualityComparer<HoldTi
 
         ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
 
-        Check.Primitive.ForMaxCharLength(result.GetNumberOfDigits(), _CharLength, Tag);
-
         return new HoldTimeValue((Deciseconds) result);
     }
 
-    public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => _Codec.EncodeValue(EncodingId, _Value, length);
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode((byte)_Value);
+    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode((byte)_Value, length);
 
     #endregion
 
@@ -92,7 +89,7 @@ public record HoldTimeValue : DataElement<Deciseconds>, IEqualityComparer<HoldTi
 
     #region Instance Members
 
-    public Milliseconds AsMilliseconds() => _Value;
+    public Milliseconds AsMilliseconds() => _Value.AsMilliseconds();
     public override PlayEncodingId GetEncodingId() => EncodingId;
 
     /// <summary>
@@ -101,6 +98,8 @@ public record HoldTimeValue : DataElement<Deciseconds>, IEqualityComparer<HoldTi
     public Deciseconds GetHoldTime() => _Value;
 
     public override Tag GetTag() => Tag;
+
+    public override ushort GetValueByteCount() => PlayCodec.BinaryCodec.GetByteCount((byte)_Value);
 
     #endregion
 }
