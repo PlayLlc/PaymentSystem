@@ -3,6 +3,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
+using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -17,7 +18,8 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
 
     public static readonly Tag Tag = 0x9F15;
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
-    private const byte _ByteLength = 4;
+    private const byte _ByteLength = 2;
+    private const byte _CharLength = 4;
 
     #endregion
 
@@ -41,6 +43,8 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         ushort result = PlayCodec.NumericCodec.DecodeToUInt16(value);
+
+        Check.Primitive.ForCharLength(result.GetNumberOfDigits(), _CharLength, Tag);
 
         return new MerchantCategoryCode(result);
     }

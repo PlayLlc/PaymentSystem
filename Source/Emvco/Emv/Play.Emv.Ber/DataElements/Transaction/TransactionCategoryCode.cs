@@ -1,4 +1,5 @@
-﻿using Play.Ber.DataObjects;
+﻿using Play.Ber.Codecs;
+using Play.Ber.DataObjects;
 using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
@@ -49,6 +50,8 @@ public record TransactionCategoryCode : PlayProprietaryDataElement<char[]>
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount() => (ushort) PlayCodec.AlphaNumericCodec.GetByteCount(_Value);
+    public override ushort GetValueByteCount(BerCodec codec) => (ushort) PlayCodec.AlphaNumericCodec.GetByteCount(_Value);
 
     #endregion
 }

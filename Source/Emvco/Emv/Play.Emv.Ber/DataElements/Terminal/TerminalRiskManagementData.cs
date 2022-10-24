@@ -47,8 +47,8 @@ public record TerminalRiskManagementData : DataElement<ulong>, IEqualityComparer
         return new TerminalRiskManagementData(result);
     }
 
-    public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => _Codec.EncodeValue(EncodingId, _Value, length);
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value, _ByteLength);
+    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode(_Value, length);
 
     #endregion
 

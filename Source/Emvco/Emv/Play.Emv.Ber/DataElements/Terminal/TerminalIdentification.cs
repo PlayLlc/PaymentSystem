@@ -26,7 +26,7 @@ public record TerminalIdentification : DataElement<char[]>, IEqualityComparer<Te
     /// <exception cref="DataElementParsingException"></exception>
     public TerminalIdentification(ReadOnlySpan<char> value) : base(value.ToArray())
     {
-        if (value.Length > 8)
+        if (value.Length != 8)
             throw new DataElementParsingException($"The argument {nameof(value)} must have 8 digits or less");
     }
 
@@ -51,8 +51,8 @@ public record TerminalIdentification : DataElement<char[]>, IEqualityComparer<Te
         return new TerminalIdentification(result);
     }
 
-    public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => _Codec.EncodeValue(EncodingId, _Value, length);
+    public override byte[] EncodeValue() => PlayCodec.AlphaNumericCodec.Encode(_Value);
+    public override byte[] EncodeValue(int length) => PlayCodec.AlphaNumericCodec.Encode(_Value);
 
     #endregion
 

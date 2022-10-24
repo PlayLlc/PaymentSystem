@@ -105,6 +105,7 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
     /// <exception cref="DataElementParsingException"></exception>
     public bool IsValid(IReadTlvDatabase database)
     {
+        //This will always be true. Desired behaviour ?
         if (_Value.AreBitsSet(CryptogramTypes.ApplicationAuthenticationCryptogram))
             return true;
 

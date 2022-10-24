@@ -48,8 +48,8 @@ public record TerminalFloorLimit : DataElement<uint>, IEqualityComparer<Terminal
         return new TerminalFloorLimit(result);
     }
 
-    public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => _Codec.EncodeValue(EncodingId, _Value, length);
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value, _ByteLength);
+    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode(_Value, length);
 
     #endregion
 
@@ -88,6 +88,7 @@ public record TerminalFloorLimit : DataElement<uint>, IEqualityComparer<Terminal
 
     #region Instance Members
 
+    public Money AsMoney(NumericCurrencyCode numericCurrencyCode) => new(_Value, numericCurrencyCode);
     public Money AsMoney(CultureProfile cultureProfile) => new(_Value, cultureProfile.GetNumericCurrencyCode());
     public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
     public override PlayEncodingId GetEncodingId() => EncodingId;

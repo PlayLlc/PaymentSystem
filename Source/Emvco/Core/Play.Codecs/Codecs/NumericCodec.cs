@@ -47,7 +47,37 @@ public class NumericCodec : PlayCodec
     }
 
     // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
-    public override ushort GetByteCount<T>(T value) where T : struct => checked((ushort) Unsafe.SizeOf<T>());
+    public override ushort GetByteCount<_T>(_T value) where _T : struct
+    {
+        Type type = typeof(_T);
+
+        if (!type.IsNumericType())
+            throw new CodecParsingException(this, type);
+
+        nint byteSize = Unsafe.SizeOf<_T>();
+
+        if (byteSize == Specs.Integer.UInt8.ByteCount)
+            return GetByteCount(Unsafe.As<_T, byte>(ref value));
+        if (byteSize == Specs.Integer.UInt16.ByteCount)
+            return GetByteCount(Unsafe.As<_T, ushort>(ref value));
+        if (byteSize <= Specs.Integer.UInt32.ByteCount)
+            return GetByteCount(Unsafe.As<_T, uint>(ref value));
+        if (byteSize <= Specs.Integer.UInt64.ByteCount)
+            return GetByteCount(Unsafe.As<_T, ulong>(ref value));
+
+        return GetByteCount(Unsafe.As<_T, BigInteger>(ref value));
+    }
+
+    public ushort GetByteCount(byte value) => (ushort)(value.GetNumberOfDigits() / 2 + value.GetNumberOfDigits() % 2);
+
+    public ushort GetByteCount(ushort value) => (ushort)(value.GetNumberOfDigits() / 2 + value.GetNumberOfDigits() % 2);
+
+    public ushort GetByteCount(uint value) => (ushort)(value.GetNumberOfDigits() / 2 + value.GetNumberOfDigits() % 2);
+
+    public ushort GetByteCount(ulong value) => (ushort)(value.GetNumberOfDigits() / 2 + value.GetNumberOfDigits() % 2);
+
+    public ushort GetByteCount(BigInteger value) => unchecked((ushort)(value.GetNumberOfDigits() / 2 + value.GetNumberOfDigits() % 2));
+
     public int GetMaxByteCount(int charCount) => charCount / 2;
 
     public int GetCharCount(ReadOnlySpan<byte> value)
@@ -739,7 +769,7 @@ public class NumericCodec : PlayCodec
     {
         CheckCore.ForExactLength(value, 1, nameof(value));
 
-        return DecodeToByte(value);
+        return value[0];
     }
 
     /// <summary>

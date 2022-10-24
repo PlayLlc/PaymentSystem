@@ -22,12 +22,6 @@ public record TransactionCertificateHashValue : DataElement<BigInteger>, IEquali
 
     #endregion
 
-    #region Instance Values
-
-    private readonly BigInteger _Value;
-
-    #endregion
-
     #region Constructor
 
     public TransactionCertificateHashValue(BigInteger value) : base(value)

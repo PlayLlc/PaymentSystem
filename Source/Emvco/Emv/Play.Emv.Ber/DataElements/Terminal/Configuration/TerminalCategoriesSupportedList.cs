@@ -47,8 +47,8 @@ public record TerminalCategoriesSupportedList : DataElement<BigInteger>, IEquali
         return new TerminalCategoriesSupportedList(result);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec) => PlayCodec.BinaryCodec.Encode(_Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => PlayCodec.BinaryCodec.Encode(_Value, length);
 
     #endregion
 
@@ -79,15 +79,17 @@ public record TerminalCategoriesSupportedList : DataElement<BigInteger>, IEquali
         if (_Value == 0)
             return Array.Empty<TerminalCategoryCodes>();
 
-        BigInteger temp = _Value;
-        TerminalCategoryCodes[] result = (_Value.GetByteCount() % Specs.Integer.UInt16.ByteCount) == 0
-            ? new TerminalCategoryCodes[_Value.GetByteCount() / Specs.Integer.UInt16.ByteCount]
-            : new TerminalCategoryCodes[(_Value.GetByteCount() / Specs.Integer.UInt16.ByteCount) + 1];
+        byte[] buffer = _Value.ToByteArray(true);
 
-        for (int i = 0; temp > 0; i++)
+        TerminalCategoryCodes[] result = (buffer.Length % Specs.Integer.UInt16.ByteCount) == 0
+            ? new TerminalCategoryCodes[buffer.Length / Specs.Integer.UInt16.ByteCount]
+            : new TerminalCategoryCodes[(buffer.Length / Specs.Integer.UInt16.ByteCount) + 1];
+
+        for (int i = 0, j = 0; i < result.Length ; i++)
         {
-            result[i] = TerminalCategoryCodes.Get((ushort) temp);
-            temp >>= 16;
+            ushort categoryCode = PlayCodec.BinaryCodec.DecodeToUInt16(buffer[j..(j + 2)]);
+            result[i] = TerminalCategoryCodes.Get((ushort)categoryCode);
+            j+=2;
         }
 
         return result;

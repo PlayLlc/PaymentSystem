@@ -52,6 +52,8 @@ public record IssuerApplicationData : DataElement<BigInteger>, IEqualityComparer
         return new IssuerApplicationData(result);
     }
 
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
+
     #endregion
 
     #region Equality
@@ -65,7 +67,9 @@ public record IssuerApplicationData : DataElement<BigInteger>, IEqualityComparer
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => PlayCodec.BinaryCodec.GetByteCount(_Value);
+
+    public override ushort GetValueByteCount() => PlayCodec.BinaryCodec.GetByteCount(_Value);
 
     public static bool EqualsStatic(IssuerApplicationData? x, IssuerApplicationData? y)
     {
