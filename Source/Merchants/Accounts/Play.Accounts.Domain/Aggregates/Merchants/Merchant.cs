@@ -26,6 +26,10 @@ public class Merchant : Aggregate<string>
 
     #region Constructor
 
+    // Constructor for Entity Framework
+    private Merchant()
+    { }
+
     public Merchant(string id, Name companyName, Address address, BusinessInfo businessInfo, bool isActive)
     {
         _Id = id;

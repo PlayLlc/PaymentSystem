@@ -27,6 +27,10 @@ public class MerchantRegistration : Aggregate<string>
 
     #region Constructor
 
+    // Constructor for Entity Framework
+    private MerchantRegistration()
+    { }
+
     private MerchantRegistration(string id, Name companyName, MerchantRegistrationStatus status, DateTimeUtc registrationDate)
     {
         _Id = id;

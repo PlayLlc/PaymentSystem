@@ -29,10 +29,9 @@ public class User : Aggregate<string>
 
     #region Constructor
 
+    // Constructor for Entity Framework
     private User()
-    {
-        // Entity Framework only
-    }
+    { }
 
     public User(
         string id, string merchantId, string terminalId, Password password, Address address, Contact contact, PersonalDetail personalDetail, bool isActive)

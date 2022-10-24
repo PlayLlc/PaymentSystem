@@ -41,7 +41,7 @@ internal class AccountsEntityConfiguration : IEntityTypeConfiguration<UserRegist
     {
         builder.ToTable($"{nameof(Merchant)}s");
         builder.HasKey("_Id");
-        builder.Property<string>("_CompanyName").HasColumnName("CompanyName").HasConversion<string>();
+        builder.Property<Name>("_CompanyName").HasColumnName("CompanyName").HasConversion<string>(x => x, y => new Name(y));
         builder.Property<bool>("_IsActive").HasColumnName("IsActive");
 
         builder.HasOne<Address>("_Address");
@@ -53,7 +53,7 @@ internal class AccountsEntityConfiguration : IEntityTypeConfiguration<UserRegist
         builder.ToTable($"{nameof(MerchantRegistration)}s");
         builder.HasKey("_Id");
         builder.Property<DateTimeUtc>("_RegistrationDate").HasColumnName("RegistrationDate").HasConversion<DateTime>(_DateTimeUtcConverter);
-        builder.Property<string>("_CompanyName").HasColumnName("CompanyName");
+        builder.Property<Name?>("_CompanyName").HasColumnName("CompanyName").HasConversion<string>(x => x ?? string.Empty, y => new Name(y));
         builder.Property<MerchantRegistrationStatus>("_Status").HasColumnName("Status").HasConversion<string>(x => x, y => new MerchantRegistrationStatus(y));
 
         builder.HasOne<Address>("_Address");

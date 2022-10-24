@@ -39,6 +39,10 @@ public class UserRegistration : Aggregate<string>
 
     #region Constructor
 
+    // Constructor for Entity Framework
+    private UserRegistration()
+    { }
+
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="ValueObjectException"></exception>
     private UserRegistration(string id, string username, string hashedPassword)
