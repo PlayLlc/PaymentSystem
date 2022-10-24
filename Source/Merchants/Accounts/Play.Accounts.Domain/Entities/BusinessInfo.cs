@@ -1,13 +1,6 @@
 ﻿using Play.Accounts.Contracts.Dtos;
 using Play.Accounts.Domain.ValueObjects;
 using Play.Domain.Entities;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Play.Domain.ValueObjects;
 
 namespace Play.Accounts.Domain.Entities;

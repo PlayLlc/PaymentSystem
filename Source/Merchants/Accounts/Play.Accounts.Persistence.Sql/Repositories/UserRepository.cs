@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +7,7 @@ using Play.Accounts.Domain.Aggregates;
 using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Repositories;
 using Play.Accounts.Persistence.Sql.Entities;
+using Play.Accounts.Persistence.Sql.Persistence;
 using Play.Domain.Exceptions;
 
 namespace Play.Accounts.Persistence.Sql.Repositories;
@@ -24,7 +24,7 @@ public class UserRepository : IUserRepository
 
     #region Constructor
 
-    public UserRepository(IMapper mapper, UserManager<UserIdentity> userManager, DbContext context)
+    public UserRepository(IMapper mapper, UserManager<UserIdentity> userManager, UserIdentityDbContext context)
     {
         _Mapper = mapper;
         _UserManager = userManager;
@@ -45,7 +45,7 @@ public class UserRepository : IUserRepository
 
         UserIdentity userIdentity = _Mapper.Map<UserIdentity>(user);
 
-        await _UserManager.AddToRolesAsync(userIdentity, roles.Select(a => a.Value)).ConfigureAwait(false);
+        await _UserManager.AddToRolesAsync(userIdentity, roles.Select(a => a.Name)).ConfigureAwait(false);
     }
 
     /// <exception cref="OperationCanceledException"></exception>

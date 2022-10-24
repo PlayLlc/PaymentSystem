@@ -40,12 +40,12 @@ public class Address : Entity<string>
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    public Address(string id, string streetAddress, string zipcode, string stateAbbreviation, string city)
+    public Address(string id, string streetAddress, string zipcode, string state, string city)
     {
         Id = id;
         StreetAddress = streetAddress;
         Zipcode = new Zipcode(zipcode);
-        State = new State(stateAbbreviation);
+        State = new State(state);
         City = city;
     }
 

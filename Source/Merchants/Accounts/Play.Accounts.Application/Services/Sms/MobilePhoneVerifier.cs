@@ -4,11 +4,8 @@ using Play.Telecom.SendGrid.Sms;
 using Microsoft.Extensions.Logging;
 
 using Play.Accounts.Application.Services.Sms;
-using Play.Accounts.Domain.ValueObjects;
 using Play.Core;
 using Play.Telecom.Twilio.Sms;
-
-using static Duende.IdentityServer.Models.IdentityResources;
 
 namespace Play.Accounts.Application.Services;
 

@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-
-using Play.Accounts.Contracts.Commands;
+﻿using Play.Accounts.Contracts.Commands;
 using Play.Accounts.Contracts.Commands.Merchant;
 using Play.Accounts.Contracts.Dtos;
 using Play.Accounts.Domain.Entities;

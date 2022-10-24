@@ -1,6 +1,9 @@
 ﻿using Duende.IdentityServer.AspNetIdentity;
 using Duende.IdentityServer.Services;
 
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
+
 using Play.Accounts.Application.Services.Emails;
 using Play.Accounts.Application.Services;
 using Play.Accounts.Domain.Aggregates;
@@ -13,54 +16,67 @@ using Play.Identity.Api.Services;
 using Play.Persistence.Sql;
 using Play.Telecom.SendGrid.Email;
 using Play.Telecom.SendGrid.Sms;
-using Play.Identity.Api.Identity;
 
-namespace Play.Identity.Api.Extensions
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+
+using Play.Accounts.Persistence.Sql.Persistence;
+
+namespace Play.Identity.Api.Extensions;
+
+public static partial class WebApplicationBuilderExtensions
 {
-    public static partial class WebApplicationBuilderExtensions
+    #region Instance Members
+
+    internal static WebApplicationBuilder ConfigureServices(this WebApplicationBuilder builder)
     {
-        #region Instance Members
+        var configurationManager = builder.Configuration;
 
-        internal static WebApplicationBuilder ConfigureServices(this WebApplicationBuilder builder)
+        TwilioSmsConfiguration? twilioSmsConfiguration = configurationManager.GetSection(nameof(TwilioSmsConfiguration)).Get<TwilioSmsConfiguration>();
+        SendGridConfiguration? sendGridConfiguration = configurationManager.GetSection(nameof(SendGridConfiguration)).Get<SendGridConfiguration>();
+
+        builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+        builder.Services.AddScoped<IUrlHelper>(x =>
         {
-            var configurationManager = builder.Configuration;
+            var actionContext = x.GetService<IActionContextAccessor>().ActionContext;
 
-            TwilioSmsConfiguration? twilioSmsConfiguration = configurationManager.GetSection(nameof(TwilioSmsConfiguration)).Get<TwilioSmsConfiguration>();
-            SendGridConfiguration? sendGridConfiguration = configurationManager.GetSection(nameof(SendGridConfiguration)).Get<SendGridConfiguration>();
+            return new UrlHelper(actionContext);
+        });
 
-            // Configuration
-            builder.Services.AddScoped((a) => twilioSmsConfiguration);
-            builder.Services.AddScoped((a) => sendGridConfiguration);
-            builder.Services.AddScoped<ISendSmsMessages, SmsClient>();
-            builder.Services.AddScoped<ISendEmail, EmailClient>();
+        // Configuration
+        builder.Services.AddScoped((a) => twilioSmsConfiguration);
+        builder.Services.AddScoped((a) => sendGridConfiguration);
+        builder.Services.AddScoped<ISendSmsMessages, SmsClient>();
+        builder.Services.AddScoped<ISendEmail, EmailClient>();
 
-            //  builder.Services.AddTransient<IRegisterUsers, UserRegistrationService>();
-            builder.Services.AddScoped<IBuildLoginViewModel, LoginViewModelBuilder>();
+        // Repositories
+        builder.Services.AddScoped<DbContext, UserIdentityDbContext>();
 
-            // Infrastructure Services
-            builder.Services.AddScoped<ISendSmsMessages, SmsClient>();
-            builder.Services.AddScoped<ISendEmail, EmailClient>();
+        builder.Services.AddScoped<IUserRegistrationRepository, UserRegistrationRepository>();
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<IRepository<MerchantRegistration, string>, Repository<MerchantRegistration, string>>();
+        builder.Services.AddScoped<IRepository<Merchant, string>, Repository<Merchant, string>>();
 
-            // Domain Services
-            builder.Services.AddScoped<IEnsureUniqueEmails, UniqueEmailChecker>();
-            builder.Services.AddScoped<IHashPasswords, PasswordHasher>();
-            builder.Services.AddScoped<IUnderwriteMerchants, MerchantUnderwriter>();
-            builder.Services.AddScoped<IVerifyEmailAccounts, EmailAccountVerifier>();
-            builder.Services.AddScoped<IVerifyMobilePhones, MobilePhoneVerifier>();
-            builder.Services.AddScoped<ICreateEmailVerificationReturnUrl, EmailVerificationReturnUrlGenerator>();
+        //  builder.Services.AddTransient<IRegisterUsers, UserRegistrationService>();
+        builder.Services.AddScoped<IBuildLoginViewModel, LoginViewModelBuilder>();
 
-            // Repositories
-            builder.Services.AddScoped<IUserRegistrationRepository, UserRegistrationRepository>();
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
-            builder.Services.AddScoped<IRepository<MerchantRegistration, string>, Repository<MerchantRegistration, string>>();
-            builder.Services.AddScoped<IRepository<Merchant, string>, Repository<Merchant, string>>();
+        // Infrastructure Services
+        builder.Services.AddScoped<ISendSmsMessages, SmsClient>();
+        builder.Services.AddScoped<ISendEmail, EmailClient>();
 
-            // Identity Server
-            builder.Services.AddScoped<IProfileService, ProfileService<UserIdentity>>();
+        // Domain Services
+        builder.Services.AddScoped<IEnsureUniqueEmails, UniqueEmailChecker>();
+        builder.Services.AddScoped<IHashPasswords, PasswordHasher>();
+        builder.Services.AddScoped<IUnderwriteMerchants, MerchantUnderwriter>();
+        builder.Services.AddScoped<IVerifyEmailAccounts, EmailAccountVerifier>();
+        builder.Services.AddScoped<IVerifyMobilePhones, MobilePhoneVerifier>();
+        builder.Services.AddScoped<ICreateEmailVerificationReturnUrl, EmailVerificationReturnUrlGenerator>();
 
-            return builder;
-        }
+        // Identity Server
+        builder.Services.AddScoped<IProfileService, ProfileService<UserIdentity>>();
 
-        #endregion
+        return builder;
     }
+
+    #endregion
 }

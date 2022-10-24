@@ -24,13 +24,13 @@ public class UserDto : IDto
     public PasswordDto Password { get; set; } = new();
 
     [Required]
-    public AddressDto AddressDto { get; set; } = new();
+    public AddressDto Address { get; set; } = new();
 
     [Required]
-    public ContactDto ContactDto { get; set; } = new();
+    public ContactDto Contact { get; set; } = new();
 
     [Required]
-    public PersonalDetailDto PersonalDetailDto { get; set; } = new();
+    public PersonalDetailDto PersonalDetail { get; set; } = new();
 
     public bool IsActive { get; set; }
 

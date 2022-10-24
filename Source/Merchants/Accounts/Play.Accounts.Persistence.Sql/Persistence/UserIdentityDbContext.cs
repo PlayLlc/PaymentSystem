@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,10 +6,10 @@ using Play.Accounts.Domain.Aggregates;
 using Play.Accounts.Domain.Entities;
 using Play.Accounts.Persistence.Sql.Configuration;
 using Play.Accounts.Persistence.Sql.Entities;
-using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.ValueObjects;
 using Play.Globalization.Time;
-using Play.Randoms;
+
+using System.Diagnostics;
 
 namespace Play.Accounts.Persistence.Sql.Persistence;
 
@@ -28,6 +26,7 @@ public class UserIdentityDbContext : IdentityDbContext<UserIdentity, RoleIdentit
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        Debugger.Launch();
         AccountsEntityConfiguration accountEntityConfiguration = new AccountsEntityConfiguration();
 
         // Enums

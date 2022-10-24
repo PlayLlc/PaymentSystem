@@ -2,6 +2,7 @@
 
 using Play.Accounts.Domain.Aggregates;
 using Play.Accounts.Domain.Repositories;
+using Play.Accounts.Persistence.Sql.Persistence;
 using Play.Persistence.Sql;
 
 namespace Play.Accounts.Persistence.Sql.Repositories;
@@ -16,7 +17,7 @@ public class UserRegistrationRepository : Repository<UserRegistration, string>, 
 
     #region Constructor
 
-    public UserRegistrationRepository(DbContext dbContext) : base(dbContext)
+    public UserRegistrationRepository(UserIdentityDbContext dbContext) : base(dbContext)
     {
         _Set = dbContext.Set<UserRegistration>();
     }

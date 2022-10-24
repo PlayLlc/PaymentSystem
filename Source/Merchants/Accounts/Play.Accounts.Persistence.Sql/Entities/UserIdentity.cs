@@ -53,9 +53,9 @@ public sealed class UserIdentity : IdentityUser
         TerminalId = dto.TerminalId;
         Password = new Password(dto.Password);
         PasswordHash = dto.Password.HashedPassword;
-        Address = new Address(dto.AddressDto);
-        Contact = new Contact(dto.ContactDto);
-        PersonalDetail = new PersonalDetail(dto.PersonalDetailDto);
+        Address = new Address(dto.Address);
+        Contact = new Contact(dto.Contact);
+        PersonalDetail = new PersonalDetail(dto.PersonalDetail);
     }
 
     public UserIdentity(string id, string merchantId, string terminalId, Password password, Contact contact, Address address, PersonalDetail personalDetail)
@@ -84,6 +84,21 @@ public sealed class UserIdentity : IdentityUser
             new(JwtClaimTypes.Email, Contact.Email),
             new(JwtClaimTypes.BirthDate, PersonalDetail.DateOfBirth.ToShortDateFormat()),
             new(JwtClaimTypes.Address, Address.Normalize())
+        };
+    }
+
+    public UserDto AsDto()
+    {
+        return new UserDto
+        {
+            Id = Id,
+            MerchantId = MerchantId,
+            TerminalId = TerminalId,
+            Address = Address.AsDto(),
+            Contact = Contact.AsDto(),
+            PersonalDetail = PersonalDetail.AsDto(),
+            IsActive = IsActive,
+            Password = Password.AsDto()
         };
     }
 

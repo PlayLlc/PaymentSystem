@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 using Play.Accounts.Domain.Aggregates;
 using Play.Accounts.Domain.Entities;
-using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.ValueObjects;
 using Play.Accounts.Persistence.Sql.Entities;
 using Play.Globalization.Time;
@@ -27,9 +26,9 @@ internal class AccountsEntityConfiguration : IEntityTypeConfiguration<UserRegist
         builder.ToTable($"{nameof(User)}s");
         builder.HasKey(x => x.Id);
 
-        builder.Property<string>("_MerchantId").HasColumnName("MerchantId");
-        builder.Property<string>("_TerminalId").HasColumnName("MerchantId");
-        builder.Property<bool>("_IsActive").HasColumnName("IsActive");
+        builder.Property<string>(x => x.MerchantId).HasColumnName("MerchantId");
+        builder.Property<string>(x => x.TerminalId).HasColumnName("TerminalId");
+        builder.Property<bool>(x => x.IsActive).HasColumnName("IsActive");
 
         builder.HasOne<Password>(nameof(Password));
         builder.HasOne<Address>(nameof(Address));

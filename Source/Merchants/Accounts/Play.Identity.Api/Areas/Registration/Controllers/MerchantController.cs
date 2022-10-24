@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Toolkit.HighPerformance.Helpers;
 
 using Play.Accounts.Contracts.Commands.MerchantRegistration;
 using Play.Accounts.Contracts.Dtos;

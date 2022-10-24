@@ -5,7 +5,6 @@ using IdentityModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 using Play.Accounts.Contracts.Dtos;
 using Play.Accounts.Domain.Entities;

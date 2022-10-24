@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Play.Accounts.Domain.Entities;
 using Play.Domain;
-using Play.Globalization.Time;
 
 namespace Play.Accounts.Contracts.Dtos;
 

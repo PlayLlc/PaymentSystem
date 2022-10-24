@@ -2,7 +2,7 @@
 
 using Play.Domain;
 
-namespace Play.Accounts.Domain.Entities;
+namespace Play.Accounts.Contracts.Dtos;
 
 public record BusinessInfoDto : IDto
 {

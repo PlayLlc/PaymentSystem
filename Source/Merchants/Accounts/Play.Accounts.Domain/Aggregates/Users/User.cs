@@ -34,6 +34,18 @@ public class User : Aggregate<string>
     private User()
     { }
 
+    public User(UserDto dto)
+    {
+        _Id = dto.Id;
+        _MerchantId = dto.MerchantId;
+        _TerminalId = dto.TerminalId;
+        _Password = new Password(dto.Password);
+        _Address = new Address(dto.Address);
+        _Contact = new Contact(dto.Contact);
+        _PersonalDetail = new PersonalDetail(dto.PersonalDetail);
+        _IsActive = dto.IsActive;
+    }
+
     public User(
         string id, string merchantId, string terminalId, Password password, Address address, Contact contact, PersonalDetail personalDetail, bool isActive)
     {
@@ -175,9 +187,9 @@ public class User : Aggregate<string>
             Id = _Id,
             MerchantId = _MerchantId,
             TerminalId = _TerminalId,
-            AddressDto = _Address.AsDto(),
-            ContactDto = _Contact.AsDto(),
-            PersonalDetailDto = _PersonalDetail.AsDto(),
+            Address = _Address.AsDto(),
+            Contact = _Contact.AsDto(),
+            PersonalDetail = _PersonalDetail.AsDto(),
             IsActive = _IsActive,
             Password = _Password.AsDto()
         };

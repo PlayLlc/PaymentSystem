@@ -4,17 +4,19 @@ using Play.Identity.Api.Filters;
 using Serilog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+builder.ConfigureAutoMapper();
 builder.ConfigureEntityFramework();
 builder.ConfigureIdentityServer();
 builder.ConfigureServices();
-await builder.SeedDb().ConfigureAwait(false);
+
+//await builder.SeedDb().ConfigureAwait(false);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews(options =>
 {
     options.Filters.Add<ApiExceptionFilterAttribute>();
 });
-
 builder.Services.AddSwaggerGen();
 builder.Host.UseSerilog((ctx, lc) => lc.ReadFrom.Configuration(ctx.Configuration));
 

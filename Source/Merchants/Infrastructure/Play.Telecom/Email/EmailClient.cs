@@ -1,13 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Net;
-using System.Net.Mail;
 
 using Microsoft.Extensions.Logging;
 
 using SendGrid;
 using SendGrid.Helpers.Mail;
-
-using Twilio.TwiML.Messaging;
 
 namespace Play.Telecom.SendGrid.Email;
 

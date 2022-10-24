@@ -2,24 +2,32 @@
 
 using Play.Accounts.Persistence.Sql.Persistence;
 
-namespace Play.Identity.Api.Extensions
+namespace Play.Identity.Api.Extensions;
+/*
+ * var mapperConfig = new MapperConfiguration(cfg =>
 {
-    public static partial class WebApplicationBuilderExtensions
+cfg.AddProfile(new AccountMappingProfile());
+});
+var mapper = mapperConfig.CreateMapper();
+
+builder.Services.AddSingleton(mapper);
+ */
+
+public static partial class WebApplicationBuilderExtensions
+{
+    #region Instance Members
+
+    internal static WebApplicationBuilder ConfigureEntityFramework(this WebApplicationBuilder builder)
     {
-        #region Instance Members
+        string? identityConnectionString = builder.Configuration.GetConnectionString("Identity");
 
-        internal static WebApplicationBuilder ConfigureEntityFramework(this WebApplicationBuilder builder)
+        builder.Services.AddDbContext<UserIdentityDbContext>(options =>
         {
-            string? identityConnectionString = builder.Configuration.GetConnectionString("Identity");
+            options.UseSqlServer(identityConnectionString);
+        });
 
-            builder.Services.AddDbContext<UserIdentityDbContext>(options =>
-            {
-                options.UseSqlServer(identityConnectionString);
-            });
-
-            return builder;
-        }
-
-        #endregion
+        return builder;
     }
+
+    #endregion
 }
