@@ -8,6 +8,10 @@ public record BusinessType : ValueObject<string>
 {
     #region Constructor
 
+    // Constructor for Entity Framework
+    private BusinessType()
+    { }
+
     /// <exception cref="ValueObjectException"></exception>
     public BusinessType(string value) : base(value)
     {

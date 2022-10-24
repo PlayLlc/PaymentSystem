@@ -8,6 +8,7 @@ using Play.Domain;
 using Play.Domain.Aggregates;
 using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
+using Play.Globalization.Time;
 
 namespace Play.Accounts.Domain.Aggregates;
 
@@ -153,7 +154,7 @@ public class User : Aggregate<string>
         Enforce(new UserPasswordMustBeStrong(password));
         string hashedPassword = passwordHasher.GeneratePasswordHash(password);
         Enforce(new LastFourUserPasswordsMustBeUnique(uniquePasswordChecker, _Id, hashedPassword));
-        _Password = new Password(GenerateSimpleStringId(), hashedPassword, DateTime.UtcNow);
+        _Password = new Password(GenerateSimpleStringId(), hashedPassword, DateTimeUtc.Now);
         Publish(new UserPasswordHasBeenUpdated(this));
     }
 

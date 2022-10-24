@@ -31,11 +31,11 @@ public class UserIdentityDbContext : IdentityDbContext<UserIdentity, RoleIdentit
         AccountsEntityConfiguration accountEntityConfiguration = new AccountsEntityConfiguration();
 
         // Enums
-        builder.Entity<BusinessType>().HasData(BusinessTypes.Empty.GetAll().Select(e => new BusinessType(e)));
-        builder.Entity<MerchantCategoryCode>().HasData(MerchantCategoryCodes.Empty.GetAll().Select(e => new MerchantCategoryCode(e)));
-        builder.Entity<MerchantRegistrationStatus>().HasData(MerchantRegistrationStatuses.Empty.GetAll().Select(e => new MerchantRegistrationStatus(e)));
-        builder.Entity<State>().HasData(States.Empty.GetAll().Select(e => new State(e)));
-        builder.Entity<UserRegistrationStatus>().HasData(UserRegistrationStatuses.Empty.GetAll().Select(e => new UserRegistrationStatus(e)));
+        //builder.Entity<BusinessType>().HasData(BusinessTypes.Empty.GetAll().Select(e => new BusinessType(e)));
+        //builder.Entity<MerchantCategoryCode>().HasData(MerchantCategoryCodes.Empty.GetAll().Select(e => new MerchantCategoryCode(e)));
+        //builder.Entity<MerchantRegistrationStatus>().HasData(MerchantRegistrationStatuses.Empty.GetAll().Select(e => new MerchantRegistrationStatus(e)));
+        //builder.Entity<State>().HasData(States.Empty.GetAll().Select(e => new State(e)));
+        //builder.Entity<UserRegistrationStatus>().HasData(UserRegistrationStatuses.Empty.GetAll().Select(e => new UserRegistrationStatus(e)));
 
         // Entities 
         builder.Entity<Address>().ToTable($"{nameof(Address)}es").Property(x => x.Id).ValueGeneratedOnAdd();
@@ -46,6 +46,7 @@ public class UserIdentityDbContext : IdentityDbContext<UserIdentity, RoleIdentit
         builder.Entity<BusinessInfo>().ToTable($"{nameof(BusinessInfo)}s").Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<BusinessInfo>().HasKey(x => x.Id);
         builder.Entity<BusinessInfo>().Property<BusinessType>(x => x.BusinessType).HasConversion<string>(x => x, y => new BusinessType(y));
+
         builder.Entity<BusinessInfo>()
             .Property<MerchantCategoryCode>(x => x.MerchantCategoryCode)
             .HasConversion<ushort>(x => x, y => new MerchantCategoryCode(y));
