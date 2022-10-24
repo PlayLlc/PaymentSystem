@@ -161,7 +161,7 @@ public class TerminalCategoriesSupportedListTests
     [Fact]
     public void TerminalCategoriesSupportedList_GetTerminalCategoryCodes_ReturnsExpectedResult()
     {
-        TerminalCategoriesSupportedListTestTlv testData = new(new byte[] { 0x02, 0x01, 0x00 });
+        TerminalCategoriesSupportedListTestTlv testData = new(new byte[] { 0, 2, 0, 1, 0, 33 });
         TerminalCategoriesSupportedList sut = TerminalCategoriesSupportedList.Decode(testData.EncodeValue().AsSpan());
 
         TerminalCategoryCodes[] expected = new[] { TerminalCategoryCodes.Loyalty, TerminalCategoryCodes.TransitGate, TerminalCategoryCodes.Unknown };

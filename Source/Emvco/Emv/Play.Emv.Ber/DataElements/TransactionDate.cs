@@ -83,6 +83,14 @@ public record TransactionDate : DataElement<uint>, IEqualityComparer<Transaction
 
     #region Instance Members
 
+    public DateTimeUtc GetDateTimeUtc()
+    {
+        byte[] encodedValue = PlayCodec.NumericCodec.Encode(_Value, _ByteLength);
+
+        return new DateTimeUtc(encodedValue[0], encodedValue[1], encodedValue[2]);
+    }
+
+
     private static uint GetNumeric(DateTimeUtc value)
     {
         int result = value.Year;

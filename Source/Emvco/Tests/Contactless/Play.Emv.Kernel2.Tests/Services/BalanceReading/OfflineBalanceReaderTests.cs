@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 using AutoFixture;
 
@@ -18,7 +19,6 @@ using Play.Emv.Pcd.Contracts;
 using Play.Messaging;
 using Play.Testing.Emv.Ber.Primitive;
 using Play.Testing.Emv.Contactless.AutoFixture;
-using System;
 
 using Xunit;
 

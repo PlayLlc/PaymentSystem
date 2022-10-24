@@ -1,4 +1,5 @@
-﻿using Play.Ber.DataObjects;
+﻿using Play.Ber.Codecs;
+using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.InternalFactories;
 using Play.Ber.Tags;
@@ -93,7 +94,7 @@ public abstract record DataObjectList : DataElement<TagLength[]>
             if (!database.IsKnown(item.GetTag()))
                 return false;
 
-            if (database.IsPresent(item.GetTag()))
+            if (!database.IsPresent(item.GetTag()))
                 return false;
         }
 
@@ -108,7 +109,7 @@ public abstract record DataObjectList : DataElement<TagLength[]>
 
         foreach (TagLength item in _Value)
         {
-            if (!database.IsPresentAndNotEmpty(item.GetTag()))
+            if (database.IsPresentAndNotEmpty(item.GetTag()))
                 result.Add(item.GetTag());
         }
 
@@ -160,10 +161,7 @@ public abstract record DataObjectList : DataElement<TagLength[]>
     /// </summary>
     /// <returns></returns>
     /// <exception cref="BerParsingException"></exception>
-    public override ushort GetValueByteCount()
-    {
-        return (ushort) _Value.Sum(a => a.GetTagLengthByteCount());
-    }
+    public override ushort GetValueByteCount(BerCodec codec) => base.GetValueByteCount();
 
     public TagLength[] GetRequestedItems() => _Value;
 

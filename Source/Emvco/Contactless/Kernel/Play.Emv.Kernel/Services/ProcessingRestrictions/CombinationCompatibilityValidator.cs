@@ -5,6 +5,7 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Kernel.Databases;
+using Play.Globalization.Time;
 
 namespace Play.Emv.Kernel.Services;
 
@@ -66,7 +67,7 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
     {
         ApplicationEffectiveDate applicationEffectiveDate = database.Get<ApplicationEffectiveDate>(ApplicationEffectiveDate.Tag);
 
-        if ((uint) transactionDate < (uint) applicationEffectiveDate)
+        if (transactionDate.GetDateTimeUtc() < (DateTimeUtc)applicationEffectiveDate)
             database.Set(TerminalVerificationResultCodes.ExpiredApplication);
     }
 
@@ -77,7 +78,7 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
     {
         ApplicationExpirationDate applicationExpirationDate = database.Get<ApplicationExpirationDate>(ApplicationExpirationDate.Tag);
 
-        if ((uint) transactionDate > (uint) applicationExpirationDate)
+        if (transactionDate.GetDateTimeUtc() > (DateTimeUtc)applicationExpirationDate)
             database.Set(TerminalVerificationResultCodes.ExpiredApplication);
     }
 

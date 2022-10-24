@@ -27,7 +27,7 @@ public class ApplicationExpirationDateBuilder : PrimitiveValueSpecimenBuilder<Ap
 
     #region Instance Members
 
-    private static byte[] GetContentOctets() => new byte[] {0X12, 0X21, 0X22};
+    private static byte[] GetContentOctets() => new byte[] { 22, 12, 22 };
     public override SpecimenBuilderId GetId() => Id;
 
     /// <exception cref="Play.Emv.Ber.Exceptions.DataElementParsingException"></exception>
@@ -41,7 +41,7 @@ public class ApplicationExpirationDateBuilder : PrimitiveValueSpecimenBuilder<Ap
         if (type != typeof(ApplicationExpirationDate))
             return new NoSpecimen();
 
-        return new ApplicationExpirationDate(ShortDate.Today.AsYyMm());
+        return new ApplicationExpirationDate(DateTimeUtc.Today);
     }
 
     #endregion
