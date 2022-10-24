@@ -11,6 +11,7 @@ public class IssuerCodeTableIndexTestTlv : TestTlv
 
     public IssuerCodeTableIndexTestTlv(byte[] contentOctets) : base(contentOctets)
     {
+
     }
 
     public override Tag GetTag() => IssuerCodeTableIndex.Tag;

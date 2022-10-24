@@ -1,4 +1,5 @@
 ﻿using Play.Core.Extensions;
+using Play.Emv.Ber.DataElements;
 
 namespace Play.Emv.Ber.ValueTypes;
 
@@ -66,6 +67,8 @@ public struct TerminalVerificationResult
     #region Operator Overrides
 
     public static explicit operator ulong(TerminalVerificationResult value) => value._Value;
+    public static explicit operator TerminalVerificationResult(TerminalVerificationResults v) => throw new NotImplementedException();
+
 
     #endregion
 }

@@ -40,7 +40,7 @@ public record ReaderCvmRequiredLimit : DataElement<ulong>, IEqualityComparer<Rea
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        ushort result = PlayCodec.NumericCodec.DecodeToUInt16(value);
+        ulong result = PlayCodec.NumericCodec.DecodeToUInt64(value);
 
         return new ReaderCvmRequiredLimit(result);
     }
@@ -72,6 +72,8 @@ public record ReaderCvmRequiredLimit : DataElement<ulong>, IEqualityComparer<Rea
     public Money AsMoney(NumericCurrencyCode currencyCode) => new(_Value, currencyCode);
     public override Tag GetTag() => Tag;
     public override PlayEncodingId GetEncodingId() => EncodingId;
+
+    public override ushort GetValueByteCount() => PlayCodec.NumericCodec.GetByteCount(_Value);
 
     #endregion
 }

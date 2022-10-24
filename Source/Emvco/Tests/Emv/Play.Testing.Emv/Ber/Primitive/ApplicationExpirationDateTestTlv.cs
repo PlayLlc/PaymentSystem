@@ -8,7 +8,7 @@ public class ApplicationExpirationDateTestTlv : TestTlv
 {
     #region Static Metadata
 
-    private static readonly byte[] _DefaultContentOctets = {0X12, 0X21, 0X22};
+    private static readonly byte[] _DefaultContentOctets = { 22, 12, 21 };
 
     #endregion
 

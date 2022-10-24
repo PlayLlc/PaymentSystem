@@ -78,6 +78,7 @@ public record IssuerCountryCode : DataElement<NumericCountryCode>, IEqualityComp
 
     #region Instance Members
 
+    public override ushort GetValueByteCount() => PlayCodec.NumericCodec.GetByteCount((ushort)_Value);
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
