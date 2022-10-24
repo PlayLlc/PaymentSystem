@@ -49,7 +49,7 @@ public class UserController : Controller
 
     [HttpGet]
     [ValidateAntiForgeryToken]
-    public async Task<UserRegistrationDto> Index(string id)
+    public async Task<UserRegistrationDto> Index([FromQuery] string id)
     {
         UserRegistration userRegistration = await _UserRegistrationRepository.GetByIdAsync(id).ConfigureAwait(false)
                                             ?? throw new NotFoundException(typeof(UserRegistration), id);
@@ -71,7 +71,7 @@ public class UserController : Controller
 
     [HttpGet]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EmailVerification(string id)
+    public async Task<IActionResult> EmailVerification([FromQuery] string id)
     {
         UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(id).ConfigureAwait(false)
                                              ?? throw new NotFoundException(typeof(UserRegistration), id);
@@ -113,7 +113,7 @@ public class UserController : Controller
 
     [HttpGet]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> PhoneVerification(string id)
+    public async Task<IActionResult> PhoneVerification([FromQuery] string id)
     {
         UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(id).ConfigureAwait(false)
                                              ?? throw new NotFoundException(typeof(UserRegistration), id);
@@ -153,7 +153,7 @@ public class UserController : Controller
 
     [HttpPut]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> PersonalDetail(UpdatePersonalDetailCommand command)
+    public async Task<IActionResult> PersonalDetail([FromBody] UpdatePersonalDetailCommand command)
     {
         this.ValidateModel();
 
@@ -167,7 +167,7 @@ public class UserController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Approve(string id)
+    public async Task<IActionResult> Approve([FromQuery] string id)
     {
         this.ValidateModel();
 

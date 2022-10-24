@@ -44,7 +44,7 @@ public class MerchantController : Controller
 
     [HttpGet]
     [ValidateAntiForgeryToken]
-    public async Task<MerchantRegistrationDto> Index(string id)
+    public async Task<MerchantRegistrationDto> Index([FromQuery] string id)
     {
         MerchantRegistration merchantRegistration = await _MerchantRegistrationRepository.GetByIdAsync(id).ConfigureAwait(false)
                                                     ?? throw new NotFoundException(typeof(MerchantRegistration), id);
@@ -65,12 +65,12 @@ public class MerchantController : Controller
 
     [HttpGet]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Approve(string id)
+    public async Task<IActionResult> Approve([FromQuery] string id)
     {
         MerchantRegistration? merchantRegistration = await _MerchantRegistrationRepository.GetByIdAsync(id).ConfigureAwait(false)
                                                      ?? throw new NotFoundException(typeof(UserRegistration), id);
 
-        if (merchantRegistration.HasBeenApproved())
+        if (merchantRegistration.IsApproved())
             return View("RegistrationSuccessful");
 
         return View("RegistrationFailed");

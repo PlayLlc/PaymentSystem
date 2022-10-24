@@ -39,11 +39,6 @@ public class MerchantRegistration : Aggregate<string>
 
     #region Instance Members
 
-    public bool HasBeenApproved()
-    {
-        return _Status == MerchantRegistrationStatuses.Approved;
-    }
-
     public bool IsApproved()
     {
         return _Status == MerchantRegistrationStatuses.Approved;
