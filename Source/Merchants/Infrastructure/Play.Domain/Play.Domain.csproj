@@ -9,7 +9,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Emvco\Core\Play.Globalization\Play.Globalization.csproj" />
     <ProjectReference Include="..\..\..\Emvco\Core\Play.Randoms\Play.Randoms.csproj" />
-    <ProjectReference Include="..\Play.Logging\Play.Logging.csproj" />
   </ItemGroup>
 
 </Project>

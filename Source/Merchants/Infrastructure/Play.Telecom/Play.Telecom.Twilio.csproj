@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Emvco\Core\Play.Core\Play.Core.csproj" />
-    <ProjectReference Include="..\Play.Logging\Play.Logging.csproj" />
   </ItemGroup>
 
 </Project>

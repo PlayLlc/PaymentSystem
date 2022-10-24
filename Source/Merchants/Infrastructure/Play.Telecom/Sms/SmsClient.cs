@@ -13,7 +13,7 @@ public class SmsClient : ISendSmsMessages
 {
     #region Instance Values
 
-    private readonly SmsClientConfiguration _Configuration;
+    private readonly TwilioSmsConfiguration _Configuration;
     private readonly ITwilioRestClient _Client;
     private readonly ILogger<SmsClient> _Logger;
 
@@ -21,7 +21,7 @@ public class SmsClient : ISendSmsMessages
 
     #region Constructor
 
-    public SmsClient(SmsClientConfiguration configuration, ILogger<SmsClient> logger)
+    public SmsClient(TwilioSmsConfiguration configuration, ILogger<SmsClient> logger)
     {
         _Configuration = configuration;
         TwilioClient.Init(configuration.AccountSid, configuration.AuthToken);

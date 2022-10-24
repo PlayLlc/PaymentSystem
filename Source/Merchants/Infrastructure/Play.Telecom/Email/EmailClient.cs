@@ -12,18 +12,18 @@ public sealed class EmailClient : ISendEmail
     #region Instance Values
 
     private readonly SendGridClient _Client;
-    private readonly EmailClientConfig _Config;
+    private readonly SendGridConfiguration _Config;
     private readonly ILogger<EmailClient> _Logger;
 
     #endregion
 
     #region Constructor
 
-    public EmailClient(EmailClientConfig emailClientConfig, ILogger<EmailClient> logger)
+    public EmailClient(SendGridConfiguration sendGridConfiguration, ILogger<EmailClient> logger)
     {
         _Logger = logger;
-        SendGridClient client = new SendGridClient(emailClientConfig.ApiKey);
-        client.UrlPath = emailClientConfig.Server;
+        SendGridClient client = new SendGridClient(sendGridConfiguration.ApiKey);
+        client.UrlPath = sendGridConfiguration.Server;
     }
 
     #endregion

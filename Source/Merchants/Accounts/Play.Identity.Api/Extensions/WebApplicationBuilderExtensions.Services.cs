@@ -9,10 +9,11 @@ using Play.Accounts.Domain.Services;
 using Play.Accounts.Persistence.Sql.Entities;
 using Play.Accounts.Persistence.Sql.Repositories;
 using Play.Domain.Repositories;
-using Play.Identity.Api._TempServices;
+using Play.Identity.Api.Services;
 using Play.Persistence.Sql;
 using Play.Telecom.SendGrid.Email;
 using Play.Telecom.SendGrid.Sms;
+using Play.Identity.Api.Identity;
 
 namespace Play.Identity.Api.Extensions
 {
@@ -22,6 +23,17 @@ namespace Play.Identity.Api.Extensions
 
         internal static WebApplicationBuilder ConfigureServices(this WebApplicationBuilder builder)
         {
+            var configurationManager = builder.Configuration;
+
+            TwilioSmsConfiguration? twilioSmsConfiguration = configurationManager.GetSection(nameof(TwilioSmsConfiguration)).Get<TwilioSmsConfiguration>();
+            SendGridConfiguration? sendGridConfiguration = configurationManager.GetSection(nameof(SendGridConfiguration)).Get<SendGridConfiguration>();
+
+            // Configuration
+            builder.Services.AddScoped((a) => twilioSmsConfiguration);
+            builder.Services.AddScoped((a) => sendGridConfiguration);
+            builder.Services.AddScoped<ISendSmsMessages, SmsClient>();
+            builder.Services.AddScoped<ISendEmail, EmailClient>();
+
             //  builder.Services.AddTransient<IRegisterUsers, UserRegistrationService>();
             builder.Services.AddScoped<IBuildLoginViewModel, LoginViewModelBuilder>();
 

@@ -28,9 +28,10 @@ public class UserIdentityDbSeeder
 
     #region Constructor
 
-    public UserIdentityDbSeeder(UserIdentityDbContext context)
+    public UserIdentityDbSeeder(UserIdentityDbContext context, IHashPasswords passwordHasher)
     {
         _Context = context;
+        _PasswordHasher = passwordHasher;
     }
 
     #endregion
@@ -39,7 +40,7 @@ public class UserIdentityDbSeeder
 
     /// <exception cref="OperationCanceledException"></exception>
     /// <exception cref="DbUpdateException"></exception>
-    public async Task Seed(ConfigurationManager manager, UserManager<UserIdentity> userManager, RoleStore<RoleIdentity> roleStore)
+    public async Task Seed(UserManager<UserIdentity> userManager, RoleStore<RoleIdentity> roleStore)
     {
         if (!await roleStore.Roles.AnyAsync().ConfigureAwait(false))
             await SeedRoles(roleStore).ConfigureAwait(false);
