@@ -7,13 +7,18 @@ public class LoginInputModel
     #region Instance Values
 
     [Required]
-    public string Username { get; set; }
+    [EmailAddress]
+    public string Username { get; set; } = string.Empty;
 
     [Required]
-    public string Password { get; set; }
+    [MinLength(8)]
+    public string Password { get; set; } = string.Empty;
+
+    [Required]
+    [Url]
+    public string ReturnUrl { get; set; } = string.Empty;
 
     public bool RememberLogin { get; set; }
-    public string ReturnUrl { get; set; }
 
     #endregion
 }

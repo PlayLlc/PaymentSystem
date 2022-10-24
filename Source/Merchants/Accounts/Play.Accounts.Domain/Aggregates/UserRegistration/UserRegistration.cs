@@ -80,7 +80,8 @@ public class UserRegistration : Aggregate<string>
     public static UserRegistration CreateNewUserRegistration(
         IEnsureUniqueEmails uniqueEmailChecker, IHashPasswords passwordHasher, CreateUserRegistrationCommand command)
     {
-        var userRegistration = new UserRegistration(GenerateSimpleStringId(), command.Email, passwordHasher.GeneratePasswordHash(command.Password));
+        UserRegistration userRegistration =
+            new UserRegistration(GenerateSimpleStringId(), command.Email, passwordHasher.GeneratePasswordHash(command.Password));
 
         userRegistration.Enforce(new UserRegistrationUsernameMustBeAValidEmail(command.Email));
         userRegistration.Enforce(new UserRegistrationUsernameMustBeUnique(uniqueEmailChecker, command.Email));
@@ -266,7 +267,7 @@ public class UserRegistration : Aggregate<string>
         if (_Contact is null)
             throw new CommandOutOfSyncException($"The {nameof(Contact)} is required but could not be found");
 
-        var user = new User(_Id, GenerateSimpleStringId(), GenerateSimpleStringId(),
+        User user = new User(_Id, GenerateSimpleStringId(), GenerateSimpleStringId(),
             new Password(_Id, passwordHasher.GeneratePasswordHash(_HashedPassword), DateTimeUtc.Now), _Address!, _Contact!, _PersonalDetail!, true);
 
         Publish(new UserHasBeenCreated(user));

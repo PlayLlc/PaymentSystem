@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -51,6 +52,13 @@ public class UserRepository : IUserRepository
     public async Task<bool> IsEmailUnique(string email)
     {
         return await _UserManager.Users.AnyAsync(a => a.Email == email).ConfigureAwait(false);
+    }
+
+    public async Task<User?> GetByEmailAsync(string email)
+    {
+        UserIdentity? userIdentity = await _UserManager.FindByEmailAsync(email).ConfigureAwait(false);
+
+        return userIdentity is null ? null : _Mapper.Map<User>(userIdentity);
     }
 
     public async Task<User?> GetByIdAsync(string id)

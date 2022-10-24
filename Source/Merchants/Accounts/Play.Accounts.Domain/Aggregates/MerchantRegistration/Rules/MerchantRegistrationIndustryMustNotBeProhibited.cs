@@ -28,7 +28,7 @@ public class MerchantRegistrationIndustryMustNotBeProhibited : BusinessRule<Merc
     /// <exception cref="AggregateException"></exception>
     public bool IsProhibited(MerchantCategoryCode merchantCategoryCode, IUnderwriteMerchants underwritingService)
     {
-        var merchantCategoryTask = underwritingService.IsIndustryProhibited(merchantCategoryCode);
+        Task<bool> merchantCategoryTask = underwritingService.IsIndustryProhibited(merchantCategoryCode);
         Task.WhenAll(merchantCategoryTask);
 
         // ReSharper disable once RedundantSuppressNullableWarningExpression

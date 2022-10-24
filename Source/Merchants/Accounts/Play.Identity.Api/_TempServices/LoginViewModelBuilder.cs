@@ -57,8 +57,8 @@ public class LoginViewModelBuilder : IBuildLoginViewModel
         {
             AllowRememberLogin = AccountOptions.AllowRememberLogin,
             ReturnUrl = returnUrl,
-            Username = context?.LoginHint,
-            ExternalProviders = await GetExternalProvidersAsync(context).ConfigureAwait(false)
+            Username = context?.LoginHint ?? string.Empty,
+            ExternalProviders = await GetExternalProvidersAsync(context!).ConfigureAwait(false)
         };
     }
 
@@ -67,21 +67,20 @@ public class LoginViewModelBuilder : IBuildLoginViewModel
         if (context?.IdP == null)
             return null;
 
-        if (await _SchemeProvider.GetSchemeAsync(context.IdP) != null)
+        if (await _SchemeProvider.GetSchemeAsync(context.IdP) == null)
             return null;
 
         LoginViewModel vm = new LoginViewModel
         {
             ReturnUrl = returnUrl,
-            Username = context?.LoginHint ?? string.Empty
+            Username = context?.LoginHint ?? string.Empty,
+            ExternalProviders = new[] {new ExternalProviderModel {AuthenticationScheme = context?.IdP ?? string.Empty}}
         };
-
-        vm.ExternalProviders = new[] {new ExternalProviderModel {AuthenticationScheme = context?.IdP ?? string.Empty}};
 
         return vm;
     }
 
-    private async Task<HashSet<ExternalProviderModel>> GetExternalProvidersAsync(AuthorizationRequest context)
+    private async Task<HashSet<ExternalProviderModel>> GetExternalProvidersAsync(AuthorizationRequest authorizationRequest)
     {
         IEnumerable<AuthenticationScheme> schemes = await _SchemeProvider.GetAllSchemesAsync();
 
@@ -101,13 +100,13 @@ public class LoginViewModelBuilder : IBuildLoginViewModel
                 DisplayName = x.DisplayName
             });
 
-        foreach (var provider in identityProvidersSchemes)
+        foreach (ExternalProviderModel provider in identityProvidersSchemes)
             providers.Add(provider);
 
-        if (context?.Client.ClientId is null)
+        if (authorizationRequest?.Client.ClientId is null)
             return providers;
 
-        Client client = await _ClientStore.FindEnabledClientByIdAsync(context.Client.ClientId).ConfigureAwait(false);
+        Client client = await _ClientStore.FindEnabledClientByIdAsync(authorizationRequest.Client.ClientId).ConfigureAwait(false);
 
         if (client is null)
             return providers;

@@ -24,7 +24,7 @@ internal class UserMustNotBeProhibited : BusinessRule<User, string>
     /// <exception cref="AggregateException"></exception>
     internal UserMustNotBeProhibited(IUnderwriteMerchants merchantUnderwriter, PersonalDetail personalDetail, Address address, Contact contact)
     {
-        var isUserProhibited = merchantUnderwriter.IsUserProhibited(personalDetail, address, contact);
+        Task<bool> isUserProhibited = merchantUnderwriter.IsUserProhibited(personalDetail, address, contact);
         Task.WhenAll(isUserProhibited);
         _IsValid = isUserProhibited.Result;
     }

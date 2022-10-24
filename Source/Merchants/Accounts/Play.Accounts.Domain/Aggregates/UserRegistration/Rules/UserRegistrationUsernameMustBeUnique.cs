@@ -18,7 +18,7 @@ internal class UserRegistrationUsernameMustBeUnique : BusinessRule<UserRegistrat
     /// <exception cref="AggregateException"></exception>
     internal UserRegistrationUsernameMustBeUnique(IEnsureUniqueEmails uniqueEmailChecker, string email)
     {
-        var taskResult = uniqueEmailChecker.IsUnique(email);
+        Task<bool> taskResult = uniqueEmailChecker.IsUnique(email);
         Task.WhenAll(taskResult);
         _IsValid = taskResult.Result;
     }

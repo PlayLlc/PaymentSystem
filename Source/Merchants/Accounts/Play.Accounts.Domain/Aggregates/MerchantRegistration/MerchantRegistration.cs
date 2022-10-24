@@ -97,7 +97,7 @@ public class MerchantRegistration : Aggregate<string>
         if (_BusinessInfo is null)
             throw new CommandOutOfSyncException($"The {nameof(BusinessInfo)} of the Merchant is required but could not be found");
 
-        var merchant = new Merchant(_Id, _CompanyName, _Address, _BusinessInfo, true);
+        Merchant merchant = new Merchant(_Id, _CompanyName, _Address, _BusinessInfo, true);
         Publish(new MerchantHasBeenCreated(merchant));
 
         return merchant;

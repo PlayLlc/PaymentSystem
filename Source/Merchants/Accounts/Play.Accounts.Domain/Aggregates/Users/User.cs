@@ -64,6 +64,23 @@ public class User : Aggregate<string>
         Enforce(new UserMustUpdatePasswordEvery90Days(_Password));
     }
 
+    public bool IsPasswordValid(IHashPasswords passwordHasher, string password)
+    {
+        if (!GetEnforcementResult(new UserMustUpdatePasswordEvery90Days(_Password)).Succeeded)
+            return false;
+
+        // TODO: Generate rule
+        if (_Password.HashedPassword == passwordHasher.GeneratePasswordHash(password))
+            return false;
+
+        return true;
+    }
+
+    public bool IsPasswordExpired()
+    {
+        return !GetEnforcementResult(new UserMustUpdatePasswordEvery90Days(_Password)).Succeeded;
+    }
+
     /// <exception cref="AggregateException"></exception>
     /// <exception cref="CommandOutOfSyncException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
@@ -144,6 +161,11 @@ public class User : Aggregate<string>
     public override string GetId()
     {
         return _Id;
+    }
+
+    public string GetEmail()
+    {
+        return _Contact.Email.Value;
     }
 
     public override UserDto AsDto()

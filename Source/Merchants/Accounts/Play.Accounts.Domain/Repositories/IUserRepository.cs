@@ -9,7 +9,7 @@ public interface IUserRepository : IRepository<User, string>
     #region Instance Members
 
     public Task<bool> IsEmailUnique(string email);
-
+    public Task<User?> GetByEmailAsync(string email);
     public Task UpdateUserRoles(string userId, params UserRole[] roles);
 
     #endregion

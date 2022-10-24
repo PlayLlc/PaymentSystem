@@ -28,7 +28,7 @@ namespace Play.Accounts.Domain.Aggregates.Merchants.Rules
         /// <exception cref="AggregateException"></exception>
         internal MerchantCategoryCodeMustNotBeProhibited(IUnderwriteMerchants merchantUnderwriter, MerchantCategoryCode categoryCode)
         {
-            var result = merchantUnderwriter.IsIndustryProhibited(categoryCode);
+            Task<bool> result = merchantUnderwriter.IsIndustryProhibited(categoryCode);
             Task.WhenAll(result);
             _IsValid = result.Result;
         }

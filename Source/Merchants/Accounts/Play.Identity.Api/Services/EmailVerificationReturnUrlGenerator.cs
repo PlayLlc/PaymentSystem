@@ -10,7 +10,7 @@ using Play.Accounts.Contracts.Commands;
 
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
-namespace Play.Identity.Api._TempServices
+namespace Play.Identity.Api.Services
 {
     public class EmailVerificationReturnUrlGenerator : ICreateEmailVerificationReturnUrl
     {

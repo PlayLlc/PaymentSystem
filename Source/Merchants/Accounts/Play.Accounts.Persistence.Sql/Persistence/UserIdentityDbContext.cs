@@ -25,7 +25,7 @@ public class UserIdentityDbContext : IdentityDbContext<UserIdentity, RoleIdentit
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        var accountEntityConfiguration = new AccountsEntityConfiguration();
+        AccountsEntityConfiguration accountEntityConfiguration = new AccountsEntityConfiguration();
 
         // Enums
         builder.Entity<BusinessTypes>().HasData(BusinessTypes.Empty.GetAll().Select(e => new BusinessType(e)));

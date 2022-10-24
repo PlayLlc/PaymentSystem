@@ -30,7 +30,7 @@ internal class MerchantMustNotBeProhibited : BusinessRule<Merchant, string>
     /// <exception cref="AggregateException"></exception>
     public bool IsProhibited(IUnderwriteMerchants merchantUnderwriter, Name companyName, Address address)
     {
-        var merchantProhibitedTask = merchantUnderwriter.IsMerchantProhibited(companyName, address);
+        Task<bool> merchantProhibitedTask = merchantUnderwriter.IsMerchantProhibited(companyName, address);
         Task.WhenAll(merchantProhibitedTask);
 
         // ReSharper disable once RedundantSuppressNullableWarningExpression
