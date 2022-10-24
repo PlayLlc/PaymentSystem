@@ -23,6 +23,10 @@ public class PersonalDetail : Entity<string>
 
     #region Constructor
 
+    // Constructor for Entity Framework
+    private PersonalDetail()
+    { }
+
     /// <exception cref="ValueObjectException"></exception>
     public PersonalDetail(PersonalDetailDto dto)
     {

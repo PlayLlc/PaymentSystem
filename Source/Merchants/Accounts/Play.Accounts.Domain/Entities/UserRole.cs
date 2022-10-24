@@ -16,6 +16,10 @@ public record UserRole
 
     #region Constructor
 
+    // Constructor for Entity Framework
+    private UserRole()
+    { }
+
     public UserRole(UserRoles userRole)
     {
         Id = userRole;

@@ -20,6 +20,10 @@ public class Contact : Entity<string>
 
     #region Constructor
 
+    // Constructor for Entity Framework
+    private Contact()
+    { }
+
     /// <exception cref="ValueObjectException"></exception>
     public Contact(string id, string firstName, string lastName, string phone, string email)
     {

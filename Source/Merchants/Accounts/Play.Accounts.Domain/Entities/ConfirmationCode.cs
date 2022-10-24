@@ -19,6 +19,10 @@ public class ConfirmationCode : Entity<string>
 
     #region Constructor
 
+    // Constructor for Entity Framework
+    private ConfirmationCode()
+    { }
+
     /// <exception cref="ValueObjectException"></exception>
     public ConfirmationCode(ConfirmationCodeDto dto)
     {

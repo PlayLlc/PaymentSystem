@@ -10,6 +10,7 @@ using Play.Accounts.Persistence.Sql.Configuration;
 using Play.Accounts.Persistence.Sql.Entities;
 using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.ValueObjects;
+using Play.Globalization.Time;
 using Play.Randoms;
 
 namespace Play.Accounts.Persistence.Sql.Persistence;
@@ -40,31 +41,34 @@ public class UserIdentityDbContext : IdentityDbContext<UserIdentity, RoleIdentit
         builder.Entity<Address>().ToTable($"{nameof(Address)}es").Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<Address>().HasKey(x => x.Id);
         builder.Entity<Address>().Property<Zipcode>(nameof(Zipcode)).HasColumnName(nameof(Zipcode)).HasConversion<string>(x => x.Value, y => new Zipcode(y));
-        builder.Entity<Address>().Property(nameof(State)).HasConversion<string>();
+        builder.Entity<Address>().Property<State>(nameof(State)).HasConversion<string>(x => x, y => new State(y));
 
         builder.Entity<BusinessInfo>().ToTable($"{nameof(BusinessInfo)}s").Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<BusinessInfo>().HasKey(x => x.Id);
-        builder.Entity<BusinessInfo>().Property(x => x.BusinessType).HasConversion<string>();
-        builder.Entity<BusinessInfo>().Property(x => x.MerchantCategoryCode).HasConversion<ushort>();
+        builder.Entity<BusinessInfo>().Property<BusinessType>(x => x.BusinessType).HasConversion<string>(x => x, y => new BusinessType(y));
+        builder.Entity<BusinessInfo>()
+            .Property<MerchantCategoryCode>(x => x.MerchantCategoryCode)
+            .HasConversion<ushort>(x => x, y => new MerchantCategoryCode(y));
 
         builder.Entity<ConfirmationCode>().ToTable($"{nameof(ConfirmationCode)}s").Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<ConfirmationCode>().HasKey(x => x.Id);
-        builder.Entity<ConfirmationCode>().Property(x => x.SentDate).HasConversion<DateTime>();
+        builder.Entity<ConfirmationCode>().Property<DateTimeUtc>(x => x.SentDate).HasConversion<DateTime>(x => x, y => new DateTimeUtc(y));
 
         builder.Entity<Contact>().ToTable($"{nameof(Contact)}s").Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<Contact>().HasKey(x => x.Id);
-        builder.Entity<Contact>().Property(x => x.Email).HasConversion<string>();
-        builder.Entity<Contact>().Property(x => x.FirstName).HasConversion<string>();
-        builder.Entity<Contact>().Property(x => x.LastName).HasConversion<string>();
-        builder.Entity<Contact>().Property(x => x.Email).HasConversion<string>();
-        builder.Entity<Contact>().Property(x => x.Phone).HasConversion<string>();
+        builder.Entity<Contact>().Property<Email>(x => x.Email).HasConversion<string>(x => x, y => new Email(y));
+        builder.Entity<Contact>().Property<Name>(x => x.FirstName).HasConversion<string>(x => x, y => new Name(y));
+        builder.Entity<Contact>().Property<Name>(x => x.LastName).HasConversion<string>(x => x, y => new Name(y));
+        builder.Entity<Contact>().Property<Email>(x => x.Email).HasConversion<string>(x => x, y => new Email(y));
+        builder.Entity<Contact>().Property<Phone>(x => x.Phone).HasConversion<string>(x => x, y => new Phone(y));
 
         builder.Entity<Password>().ToTable($"{nameof(Password)}s").Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<Password>().HasKey(x => x.Id);
+        builder.Entity<Password>().Property<DateTimeUtc>(x => x.CreatedOn).HasConversion<DateTime>(x => x, y => new DateTimeUtc(y));
 
         builder.Entity<PersonalDetail>().ToTable($"{nameof(PersonalDetail)}s").Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<PersonalDetail>().HasKey(x => x.Id);
-        builder.Entity<PersonalDetail>().Property(x => x.DateOfBirth).HasConversion<DateTime>();
+        builder.Entity<PersonalDetail>().Property<DateTimeUtc>(x => x.DateOfBirth).HasConversion<DateTime>(x => x, y => new DateTimeUtc(y));
 
         // Aggregates 
         accountEntityConfiguration.Configure(builder.Entity<UserRegistration>());

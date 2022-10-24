@@ -25,6 +25,10 @@ public class BusinessInfo : Entity<string>
 
     #region Constructor
 
+    // Constructor for Entity Framework
+    private BusinessInfo()
+    { }
+
     /// <exception cref="ValueObjectException"></exception>
     public BusinessInfo(BusinessInfoDto dto)
     {

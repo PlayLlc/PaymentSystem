@@ -10,7 +10,7 @@ public class Password : Entity<string>
     #region Instance Values
 
     public string HashedPassword;
-    public DateTime CreatedOn;
+    public DateTimeUtc CreatedOn;
 
     public string Id { get; }
 
@@ -18,12 +18,13 @@ public class Password : Entity<string>
 
     #region Constructor
 
-    /// <exception cref="ValueObjectException"></exception>
-    public Password(string id, string hashedPassword, DateTime createdOn)
-    {
-        if (createdOn.Kind != DateTimeKind.Utc)
-            throw new ValueObjectException($"The {nameof(createdOn)} date must be in UTC format");
+    // Constructor for Entity Framework
+    private Password()
+    { }
 
+    /// <exception cref="ValueObjectException"></exception>
+    public Password(string id, string hashedPassword, DateTimeUtc createdOn)
+    {
         Id = id;
         HashedPassword = hashedPassword;
         CreatedOn = createdOn;
@@ -37,7 +38,7 @@ public class Password : Entity<string>
 
         Id = dto.Id;
         HashedPassword = dto.HashedPassword;
-        CreatedOn = dto.CreatedOn;
+        CreatedOn = new DateTimeUtc(dto.CreatedOn);
     }
 
     #endregion

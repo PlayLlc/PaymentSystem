@@ -23,6 +23,10 @@ public class Address : Entity<string>
 
     #region Constructor
 
+    // Constructor for Entity Framework
+    private Address()
+    { }
+
     /// <exception cref="ValueObjectException"></exception>
     public Address(AddressDto dto)
     {
