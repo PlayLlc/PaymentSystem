@@ -36,4 +36,13 @@ public record Zipcode : ValueObject<string>
     }
 
     #endregion
+
+    #region Operator Overrides
+
+    public static implicit operator string(Zipcode value)
+    {
+        return value.Value;
+    }
+
+    #endregion
 }

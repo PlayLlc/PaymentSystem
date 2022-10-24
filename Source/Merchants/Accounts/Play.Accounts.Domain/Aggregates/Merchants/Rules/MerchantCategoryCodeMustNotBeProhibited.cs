@@ -1,17 +1,8 @@
-﻿using Play.Accounts.Domain.Enums;
+﻿using Play.Accounts.Domain.Services;
 using Play.Accounts.Domain.ValueObjects;
 using Play.Domain.Aggregates;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Accounts.Domain.Aggregates.Merchants.Events;
-using Play.Accounts.Domain.Services;
-
-namespace Play.Accounts.Domain.Aggregates.Merchants.Rules
+namespace Play.Accounts.Domain.Aggregates
 {
     internal class MerchantCategoryCodeMustNotBeProhibited : BusinessRule<Merchant, string>
     {

@@ -21,4 +21,13 @@ public record State : ValueObject<string>
     }
 
     #endregion
+
+    #region Operator Overrides
+
+    public static implicit operator string(State value)
+    {
+        return value.Value;
+    }
+
+    #endregion
 }
