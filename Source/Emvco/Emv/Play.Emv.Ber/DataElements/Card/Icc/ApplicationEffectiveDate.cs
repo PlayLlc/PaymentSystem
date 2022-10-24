@@ -2,23 +2,28 @@
 using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
+using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
+using Play.Globalization.Time;
 
 namespace Play.Emv.Ber.DataElements;
 
-public record ApplicationEffectiveDate : DataElement<uint>, IEqualityComparer<ApplicationEffectiveDate>
+public record ApplicationEffectiveDate : DataElement<DateTimeUtc>, IEqualityComparer<ApplicationEffectiveDate>
 {
     #region Static Metadata
 
     public static readonly Tag Tag = 0x5F25;
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
+    private const string _DateFormat = "yyMMdd";
+    private const string _DateTimeFormat = "yyyyMMddHHmmss";
     private const byte _ByteLength = 3;
+    private const byte _CharLength = 6;
 
     #endregion
 
     #region Constructor
 
-    public ApplicationEffectiveDate(uint value) : base(value)
+    public ApplicationEffectiveDate(DateTimeUtc value) : base(value)
     { }
 
     #endregion
@@ -37,11 +42,15 @@ public record ApplicationEffectiveDate : DataElement<uint>, IEqualityComparer<Ap
 
         uint result = PlayCodec.NumericCodec.DecodeToUInt32(value);
 
-        return new ApplicationEffectiveDate(result);
+        nint charLength = result.GetNumberOfDigits();
+
+        Check.Primitive.ForCharLength(charLength, _CharLength, Tag);
+
+        return new ApplicationEffectiveDate(new DateTimeUtc(value[0], value[1], value[2]));
     }
 
-    public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(_Value, length);
+    public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(DecodeDateToUInt32(_Value), _ByteLength);
+    public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(DecodeDateToUInt32(_Value), length);
 
     #endregion
 
@@ -64,7 +73,7 @@ public record ApplicationEffectiveDate : DataElement<uint>, IEqualityComparer<Ap
 
     #region Operator Overrides
 
-    public static explicit operator uint(ApplicationEffectiveDate value) => value._Value;
+    public static explicit operator DateTimeUtc(ApplicationEffectiveDate value) => value._Value;
 
     #endregion
 
@@ -72,6 +81,8 @@ public record ApplicationEffectiveDate : DataElement<uint>, IEqualityComparer<Ap
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
+    private uint DecodeDateToUInt32(DateTimeUtc value) => uint.Parse(value.ToString(_DateFormat));
+    private ulong DecodeDateTimeToUInt32(DateTimeUtc value) => ulong.Parse(value.ToString(_DateTimeFormat));
 
     #endregion
 }

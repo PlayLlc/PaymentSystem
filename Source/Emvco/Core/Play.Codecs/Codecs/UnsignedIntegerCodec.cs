@@ -407,7 +407,7 @@ public class UnsignedIntegerCodec : PlayCodec
         }
     }
 
-    public void Encode(BigInteger value, Span<byte> buffer) => value.ToByteArray().AsSpan().CopyTo(buffer);
+    public void Encode(BigInteger value, Span<byte> buffer) => value.ToByteArray(true).AsSpan().CopyTo(buffer);
 
     // DEPRECATING: This method will eventually be deprecated in favor of using strongly typed arguments instead of generic constraints. We will also include a Span<byte> in the argument as a buffer as opposed to returning a new byte[]
     /// <exception cref="CodecParsingException"></exception>
