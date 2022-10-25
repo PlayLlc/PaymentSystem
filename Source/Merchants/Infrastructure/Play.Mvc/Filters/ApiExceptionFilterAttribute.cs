@@ -1,14 +1,15 @@
 ﻿using System.Net;
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Logging;
 
 using Play.Core.Exceptions;
 using Play.Domain;
 using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
-
-using SendGrid.Helpers.Errors.Model;
+using Play.Identity.Api.Extensions;
 
 using NotFoundException = Play.Domain.Exceptions.NotFoundException;
 
@@ -30,7 +31,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         _Logger = loggerFactory.CreateLogger<ApiExceptionFilterAttribute>();
         _ExceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>()
         {
-            {typeof(BadRequestException), HandleBadRequestException},
+            {typeof(ModelValidationException), HandleModelValidationException},
             {typeof(BusinessRuleValidationException), HandleBusinessRuleValidationException},
             {typeof(ValueObjectException), HandleValueObjectException},
             {typeof(RepositoryException), HandleRepositoryException},
@@ -46,9 +47,9 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
     #region Instance Members
 
-    private void HandleBadRequestException(ExceptionContext context)
+    private void HandleModelValidationException(ExceptionContext context)
     {
-        BadRequestException exception = (BadRequestException) context.Exception;
+        ModelValidationException exception = (ModelValidationException) context.Exception;
 
         ValidationProblemDetails details = new ValidationProblemDetails(context.ModelState)
         {

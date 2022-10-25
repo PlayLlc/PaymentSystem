@@ -8,11 +8,12 @@ using Play.Accounts.Domain.Repositories;
 using Play.Accounts.Domain.Services;
 using Play.Domain.Exceptions;
 using Play.Identity.Api.Extensions;
+using Play.Mvc.Extensions;
 
 namespace Play.Identity.Api.Areas.Registration.Controllers;
 
 [Area($"{nameof(Registration)}")]
-[Route("[area]/[controller]")]
+[Route("[area]/[controller]/[action]")]
 [ApiController]
 public class UserController : Controller
 {
@@ -47,7 +48,7 @@ public class UserController : Controller
 
     #region Instance Members
 
-    [HttpGet]
+    [HttpGet("")]
     [ValidateAntiForgeryToken]
     public async Task<UserRegistrationDto> Index([FromQuery] string id)
     {
@@ -57,7 +58,7 @@ public class UserController : Controller
         return userRegistration.AsDto();
     }
 
-    [HttpPost]
+    [HttpPost("")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Index([FromBody] CreateUserRegistrationCommand command)
     {

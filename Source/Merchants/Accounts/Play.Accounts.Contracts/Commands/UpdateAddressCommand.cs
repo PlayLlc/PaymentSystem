@@ -4,6 +4,9 @@ using Play.Accounts.Contracts.Dtos;
 
 namespace Play.Accounts.Contracts.Commands;
 
+/// <summary>
+///     Update the address of the intended resource
+/// </summary>
 public record UpdateAddressCommand
 {
     #region Instance Values

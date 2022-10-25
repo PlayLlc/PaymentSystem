@@ -47,6 +47,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Portal", "Portal", "{80F844
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_DeleteMe.MerchantPortal.DeleteMe", "Portal\_DeleteMe.MerchantPortal.DeleteMe\_DeleteMe.MerchantPortal.DeleteMe.csproj", "{F06EED84-2F34-4136-978C-7CA3873E2BC8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Mvc", "Infrastructure\Play.Mvc\Play.Mvc.csproj", "{0DF6E768-4EAF-4023-90BA-CFC1BB03FAB2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -125,6 +127,10 @@ Global
 		{F06EED84-2F34-4136-978C-7CA3873E2BC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F06EED84-2F34-4136-978C-7CA3873E2BC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F06EED84-2F34-4136-978C-7CA3873E2BC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DF6E768-4EAF-4023-90BA-CFC1BB03FAB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DF6E768-4EAF-4023-90BA-CFC1BB03FAB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DF6E768-4EAF-4023-90BA-CFC1BB03FAB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DF6E768-4EAF-4023-90BA-CFC1BB03FAB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -148,6 +154,7 @@ Global
 		{A5F05D2E-8E7D-493C-94B1-D8A3F92CB344} = {460B0CC6-3EFF-4FC8-B4E0-A01349EE3803}
 		{8E4CBF7D-DD4D-4BAF-B6D9-550D2401765B} = {460B0CC6-3EFF-4FC8-B4E0-A01349EE3803}
 		{F06EED84-2F34-4136-978C-7CA3873E2BC8} = {80F844CF-229E-44FB-98D3-5BE625E2BF5C}
+		{0DF6E768-4EAF-4023-90BA-CFC1BB03FAB2} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6833603-DD22-4624-AB4A-235C51671F62}

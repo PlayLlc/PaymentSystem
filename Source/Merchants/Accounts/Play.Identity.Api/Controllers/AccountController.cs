@@ -68,20 +68,13 @@ public class AccountController : Controller
     /// <exception cref="Exception"></exception>
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login([FromForm] LoginInputModel model, [FromForm] string button)
+    public async Task<IActionResult> Login([FromForm] LoginInputModel model)
     {
         AuthorizationRequest? context = await _InteractionService.GetAuthorizationContextAsync(model.ReturnUrl);
 
         // if we don't have a valid context then we will reload the login page
         if (context is null)
             return await Login(model.ReturnUrl);
-
-        if (button != "login")
-        {
-            await _InteractionService.DenyAuthorizationAsync(context, AuthorizationError.AccessDenied);
-
-            return Redirect(model.ReturnUrl);
-        }
 
         // Something went wrong. Show form with error
         if (!ModelState.IsValid)

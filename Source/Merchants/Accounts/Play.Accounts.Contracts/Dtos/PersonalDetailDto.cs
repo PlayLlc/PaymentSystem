@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 using Play.Domain;
+using Play.Mvc.Attributes;
 
 namespace Play.Accounts.Contracts.Dtos;
 
@@ -23,6 +24,7 @@ public class PersonalDetailDto : IDto
     ///     The user's date of birth in UTC
     /// </summary>
     [Required]
+    [DateTimeUtc]
     public DateTime DateOfBirth { get; set; }
 
     #endregion

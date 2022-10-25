@@ -22,7 +22,7 @@ public record Zipcode : ValueObject<string>
     /// <exception cref="ValueObjectException"></exception>
     private static void ValidateDigitRange(ReadOnlySpan<char> value)
     {
-        if (IsValid(value))
+        if (!IsValid(value))
             throw new ValueObjectException($"The {nameof(Zipcode)} contained an invalid character");
     }
 

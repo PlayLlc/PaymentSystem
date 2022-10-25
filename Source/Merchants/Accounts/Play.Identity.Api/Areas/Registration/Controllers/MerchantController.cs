@@ -6,13 +6,14 @@ using Play.Accounts.Domain.Aggregates;
 using Play.Accounts.Domain.Services;
 using Play.Domain.Repositories;
 using Play.Identity.Api.Extensions;
+using Play.Mvc.Extensions;
 
 using NotFoundException = Play.Domain.Exceptions.NotFoundException;
 
 namespace Play.Identity.Api.Areas.Registration.Controllers;
 
 [Area($"{nameof(Registration)}")]
-[Route("[area]/[controller]")]
+[Route("[area]/[controller]/[action]")]
 [ApiController]
 public class MerchantController : Controller
 {
@@ -41,7 +42,7 @@ public class MerchantController : Controller
 
     #region Instance Members
 
-    [HttpGet]
+    [HttpGet("")]
     [ValidateAntiForgeryToken]
     public async Task<MerchantRegistrationDto> Index([FromQuery] string id)
     {
@@ -51,7 +52,7 @@ public class MerchantController : Controller
         return merchantRegistration.AsDto();
     }
 
-    [HttpPost]
+    [HttpPost("")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Index([FromBody] CreateMerchantRegistrationCommand command)
     {

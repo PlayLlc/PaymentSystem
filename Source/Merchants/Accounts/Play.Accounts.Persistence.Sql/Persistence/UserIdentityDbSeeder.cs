@@ -7,12 +7,15 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 using Play.Accounts.Contracts.Dtos;
+using Play.Accounts.Domain.Aggregates;
 using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.Services;
 using Play.Accounts.Persistence.Sql.Entities;
 using Play.Globalization.Time;
 using Play.Randoms;
+
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Play.Accounts.Persistence.Sql.Persistence;
 
@@ -64,6 +67,7 @@ public class UserIdentityDbSeeder
         List<RoleIdentity> roles = UserRoles.Empty.GetAll()
             .Select(a => new RoleIdentity
             {
+                Id = a,
                 Name = a,
                 NormalizedName = ((string) a).ToUpper()
             })
@@ -104,13 +108,13 @@ public class UserIdentityDbSeeder
         });
 
         string clearTextPassword = "Password1!";
-
         string passwordId = Randomize.AlphaNumericSpecial.String(20);
         string userId = Randomize.AlphaNumericSpecial.String(20);
         string merchantId = Randomize.AlphaNumericSpecial.String(20);
         string terminalId = Randomize.AlphaNumericSpecial.String(20);
 
-        Password password = new Password(passwordId, _PasswordHasher.GeneratePasswordHash(clearTextPassword), DateTimeUtc.Now);
+        string hashedPassword = _PasswordHasher.GeneratePasswordHash(clearTextPassword);
+        Password password = new Password(passwordId, hashedPassword, DateTimeUtc.Now);
 
         // TODO: Create Merchant
 
@@ -133,8 +137,8 @@ public class UserIdentityDbSeeder
         await userManager.AddClaimsAsync(user,
             new Claim[]
             {
-                new(JwtClaimTypes.Name, "Admin"), new(JwtClaimTypes.GivenName, "Play Admin"), new(JwtClaimTypes.FamilyName, "Play Family"),
-                new(JwtClaimTypes.Email, "playadmin@paywithplay.com"), new(JwtClaimTypes.WebSite, "https://notused.com")
+                new(JwtClaimTypes.Name, user.Contact.GetFullName()), new(JwtClaimTypes.GivenName, user.Contact.FirstName),
+                new(JwtClaimTypes.FamilyName, user.Contact.LastName), new(JwtClaimTypes.Email, user.Contact.Email)
             });
     }
 

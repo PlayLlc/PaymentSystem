@@ -30,6 +30,7 @@ public class HomeController : Controller
     #region Instance Members
 
     [HttpGet]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public IActionResult Index()
     {
         // only show in development
@@ -41,11 +42,13 @@ public class HomeController : Controller
         return NotFound();
     }
 
+    [ApiExplorerSettings(IgnoreApi = true)]
     public IActionResult Privacy()
     {
         return View();
     }
 
+    [ApiExplorerSettings(IgnoreApi = true)]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

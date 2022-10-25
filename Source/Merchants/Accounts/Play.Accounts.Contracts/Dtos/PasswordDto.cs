@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 using Play.Domain;
+using Play.Mvc.Attributes;
 
 namespace Play.Accounts.Contracts.Dtos;
 
@@ -17,7 +18,7 @@ public class PasswordDto : IDto
     public string HashedPassword { get; set; } = string.Empty;
 
     [Required]
-    [MinLength(1)]
+    [DateTimeUtc]
     public DateTime CreatedOn { get; set; }
 
     #endregion

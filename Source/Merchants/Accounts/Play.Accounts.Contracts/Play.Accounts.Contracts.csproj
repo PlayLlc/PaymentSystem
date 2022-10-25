@@ -3,16 +3,16 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>enable</Nullable> 
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\Play.Domain\Play.Domain.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Play.Messaging.NServiceBus\Play.Messaging.NServiceBus.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Play.Mvc\Play.Mvc.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\UserRegistration\" />
     <Folder Include="Common\" />
   </ItemGroup>
 

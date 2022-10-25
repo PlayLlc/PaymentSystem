@@ -44,14 +44,14 @@ public class PersonalDetail : Entity<string>
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    public PersonalDetail(string id, string lastFourOfSocial, DateTime dateOfBirth)
+    public PersonalDetail(string id, string lastFourOfSocial, DateTimeUtc dateOfBirth)
     {
         Id = id;
         LastFourOfSocial = lastFourOfSocial;
 
         try
         {
-            DateOfBirth = new DateTimeUtc(dateOfBirth);
+            DateOfBirth = dateOfBirth;
         }
         catch (PlayInternalException e)
         {
