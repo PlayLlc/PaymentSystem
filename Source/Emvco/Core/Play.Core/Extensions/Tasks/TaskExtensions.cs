@@ -15,7 +15,7 @@ public static class TaskExtensions
     /// <param name="timeout"></param>
     /// <returns></returns>
     /// <exception cref="TimeoutException"></exception>
-    public static async Task<TResult> TimeoutAfter<TResult>(this Task<TResult> task, TimeSpan timeout)
+    public static async Task<_Result> TimeoutAfter<_Result>(this Task<_Result> task, TimeSpan timeout)
     {
         using (CancellationTokenSource? timeoutCancellationTokenSource = new())
         {
@@ -39,7 +39,7 @@ public static class TaskExtensions
     /// <param name="timeout"></param>
     /// <returns></returns>
     /// <exception cref="TimeoutException"></exception>
-    public static async Task<TResult> WithTimeout<TResult>(this Task<TResult> task, TimeSpan timeout)
+    public static async Task<_Result> WithTimeout<_Result>(this Task<_Result> task, TimeSpan timeout)
     {
         if (await Task.WhenAny(task, Task.Delay(timeout)) != task)
             throw new TimeoutException();
@@ -47,7 +47,7 @@ public static class TaskExtensions
         return await task;
     }
 
-    public static async Task<TResult> WithTimeout<TResult>(this Task<TResult> task, TimeSpan timeout, Func<TResult> timeoutHandler)
+    public static async Task<_Result> WithTimeout<_Result>(this Task<_Result> task, TimeSpan timeout, Func<_Result> timeoutHandler)
     {
         using CancellationTokenSource timeoutCancellationTokenSource = new();
 
@@ -59,7 +59,7 @@ public static class TaskExtensions
         return await task;
     }
 
-    public static async Task<TResult> WithTimeout<TResult>(this Task<TResult> task, TimeSpan timeout, Func<Task<TResult>> timeoutHandler)
+    public static async Task<_Result> WithTimeout<_Result>(this Task<_Result> task, TimeSpan timeout, Func<Task<_Result>> timeoutHandler)
     {
         using CancellationTokenSource timeoutCancellationTokenSource = new();
 

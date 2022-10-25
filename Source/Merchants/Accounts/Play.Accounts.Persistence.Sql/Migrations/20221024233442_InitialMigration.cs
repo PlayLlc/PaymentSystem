@@ -36,6 +36,17 @@ namespace Play.Accounts.Persistence.Sql.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BusinessTypes",
+                columns: table => new
+                {
+                    Value = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BusinessTypes", x => x.Value);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ConfirmationCodes",
                 columns: table => new
                 {
@@ -77,6 +88,30 @@ namespace Play.Accounts.Persistence.Sql.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_IdentityProviders", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MerchantCategoryCodes",
+                columns: table => new
+                {
+                    Value = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MerchantCategoryCodes", x => x.Value);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MerchantRegistrationStatuses",
+                columns: table => new
+                {
+                    Value = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MerchantRegistrationStatuses", x => x.Value);
                 });
 
             migrationBuilder.CreateTable(
@@ -133,6 +168,17 @@ namespace Play.Accounts.Persistence.Sql.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "States",
+                columns: table => new
+                {
+                    Value = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_States", x => x.Value);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserClaims",
                 columns: table => new
                 {
@@ -159,6 +205,17 @@ namespace Play.Accounts.Persistence.Sql.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserLogins", x => x.UserId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserRegistrationStatuses",
+                columns: table => new
+                {
+                    Value = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRegistrationStatuses", x => x.Value);
                 });
 
             migrationBuilder.CreateTable(
@@ -338,6 +395,129 @@ namespace Play.Accounts.Persistence.Sql.Migrations
                         principalColumn: "Id");
                 });
 
+            migrationBuilder.InsertData(
+                table: "BusinessTypes",
+                column: "Value",
+                values: new object[]
+                {
+                    "Exempt",
+                    "LimitedLiability",
+                    "NonProfit",
+                    "Partnership",
+                    "SoleProprietorship"
+                });
+
+            migrationBuilder.InsertData(
+                table: "MerchantCategoryCodes",
+                columns: new[] { "Value", "Name" },
+                values: new object[,]
+                {
+                    { 4214, "Delivery" },
+                    { 7392, "Consulting" },
+                    { 8111, "LegalServices" },
+                    { 8351, "Childcare" },
+                    { 8931, "Accounting" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "MerchantRegistrationStatuses",
+                column: "Value",
+                values: new object[]
+                {
+                    "Approved",
+                    "Expired",
+                    "Rejected",
+                    "WaitingForRiskAnalysis"
+                });
+
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "Administrator", "2a575df4-6a72-4353-a7db-ec3cc214c592", "Administrator", "ADMINISTRATOR" },
+                    { "SalesAssociate", "d06b300f-cb32-4340-b556-4c80cf5c1e97", "SalesAssociate", "SALESASSOCIATE" },
+                    { "SuperAdmin", "358af4cf-0237-4ae8-bad3-d4f0d99bf0ce", "SuperAdmin", "SUPERADMIN" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "States",
+                column: "Value",
+                values: new object[]
+                {
+                    "Alabama",
+                    "Alaska",
+                    "Arizona",
+                    "Arkansas",
+                    "California",
+                    "Colorado",
+                    "Connecticut",
+                    "Delaware",
+                    "DistrictOfColumbia",
+                    "Florida",
+                    "Georgia",
+                    "Hawaii",
+                    "Idaho",
+                    "Illinois",
+                    "Indiana",
+                    "Iowa",
+                    "Kansas",
+                    "Kentucky",
+                    "Louisiana",
+                    "Maine",
+                    "Maryland",
+                    "Massachusetts",
+                    "Michigan",
+                    "Minnesota",
+                    "Mississippi"
+                });
+
+            migrationBuilder.InsertData(
+                table: "States",
+                column: "Value",
+                values: new object[]
+                {
+                    "Missouri",
+                    "Montana",
+                    "Nebraska",
+                    "Nevada",
+                    "NewHampshire",
+                    "NewJersey",
+                    "NewMexico",
+                    "NewYork",
+                    "NorthCarolina",
+                    "NorthDakota",
+                    "Ohio",
+                    "Oklahoma",
+                    "Oregon",
+                    "Pennsylvania",
+                    "RhodeIsland",
+                    "SouthCarolina",
+                    "SouthDakota",
+                    "Tennessee",
+                    "Texas",
+                    "Utah",
+                    "Vermont",
+                    "Virginia",
+                    "Washington",
+                    "WestVirginia",
+                    "Wisconsin",
+                    "Wyoming"
+                });
+
+            migrationBuilder.InsertData(
+                table: "UserRegistrationStatuses",
+                column: "Value",
+                values: new object[]
+                {
+                    "Approved",
+                    "Expired",
+                    "Rejected",
+                    "WaitingForEmailVerification",
+                    "WaitingForRiskAnalysis",
+                    "WaitingForSmsVerification"
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_MerchantRegistrations__AddressId",
                 table: "MerchantRegistrations",
@@ -407,10 +587,19 @@ namespace Play.Accounts.Persistence.Sql.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "BusinessTypes");
+
+            migrationBuilder.DropTable(
                 name: "IdentityProviders");
 
             migrationBuilder.DropTable(
+                name: "MerchantCategoryCodes");
+
+            migrationBuilder.DropTable(
                 name: "MerchantRegistrations");
+
+            migrationBuilder.DropTable(
+                name: "MerchantRegistrationStatuses");
 
             migrationBuilder.DropTable(
                 name: "Merchants");
@@ -422,6 +611,9 @@ namespace Play.Accounts.Persistence.Sql.Migrations
                 name: "Roles");
 
             migrationBuilder.DropTable(
+                name: "States");
+
+            migrationBuilder.DropTable(
                 name: "UserClaims");
 
             migrationBuilder.DropTable(
@@ -429,6 +621,9 @@ namespace Play.Accounts.Persistence.Sql.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserRegistrations");
+
+            migrationBuilder.DropTable(
+                name: "UserRegistrationStatuses");
 
             migrationBuilder.DropTable(
                 name: "UserRoles");

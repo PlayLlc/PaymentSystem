@@ -124,7 +124,7 @@ public static partial class Randomize
             return new string(buffer);
         }
 
-        private static char GetRandomChar() => _CharMap[(byte) _Random.Next(0, 9)];
+        private static char GetRandomChar() => _CharMap[(byte) Random.Next(0, 9)];
 
         private static byte GetRandomByte()
         {

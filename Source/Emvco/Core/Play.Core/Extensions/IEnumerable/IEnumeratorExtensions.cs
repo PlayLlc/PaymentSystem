@@ -3,11 +3,11 @@ using System.Text;
 
 namespace Play.Core.Extensions.IEnumerable;
 
-public static class IEnumeratorExtensions
+public static class EnumeratorExtensions
 {
     #region Instance Members
 
-    public static IEnumerator<T> GetEnumerator<T>(this IEnumerator<T> enumerator) => enumerator;
+    public static IEnumerator<_> GetEnumerator<_>(this IEnumerator<_> enumerator) => enumerator;
 
     public static string ToStringAsConcatenatedValues(this IEnumerator<string> enumerator)
     {

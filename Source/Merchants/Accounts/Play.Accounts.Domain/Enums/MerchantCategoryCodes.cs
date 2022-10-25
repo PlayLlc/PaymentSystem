@@ -14,25 +14,31 @@ public record MerchantCategoryCodes : EnumObject<ushort>
     public static MerchantCategoryCodes Childcare;
     public static MerchantCategoryCodes Consulting;
     public static MerchantCategoryCodes Delivery;
-    public static MerchantCategoryCodes Design;
-    public static MerchantCategoryCodes InteriorDesign;
     public static MerchantCategoryCodes LegalServices;
+
+    #endregion
+
+    #region Instance Values
+
+    public readonly string Name;
 
     #endregion
 
     #region Constructor
 
-    private MerchantCategoryCodes(ushort value) : base(value)
-    { }
+    private MerchantCategoryCodes(string name, ushort value) : base(value)
+    {
+        Name = name;
+    }
 
     static MerchantCategoryCodes()
     {
-        Empty = new MerchantCategoryCodes(0);
-        Accounting = new MerchantCategoryCodes(8931);
-        Childcare = new MerchantCategoryCodes(8351);
-        Consulting = new MerchantCategoryCodes(7392);
-        Delivery = new MerchantCategoryCodes(4214);
-        LegalServices = new MerchantCategoryCodes(8111);
+        Empty = new MerchantCategoryCodes(nameof(Empty), 0);
+        Accounting = new MerchantCategoryCodes(nameof(Accounting), 8931);
+        Childcare = new MerchantCategoryCodes(nameof(Childcare), 8351);
+        Consulting = new MerchantCategoryCodes(nameof(Consulting), 7392);
+        Delivery = new MerchantCategoryCodes(nameof(Delivery), 4214);
+        LegalServices = new MerchantCategoryCodes(nameof(LegalServices), 8111);
 
         // ...
         _ValueObjectMap = new Dictionary<ushort, MerchantCategoryCodes>

@@ -12,8 +12,8 @@ public class HomeController : Controller
 {
     #region Instance Values
 
-    private readonly IWebHostEnvironment _environment;
-    private readonly ILogger _logger;
+    private readonly IWebHostEnvironment _Environment;
+    private readonly ILogger _Logger;
 
     #endregion
 
@@ -21,8 +21,8 @@ public class HomeController : Controller
 
     public HomeController(IWebHostEnvironment environment, ILogger<HomeController> logger)
     {
-        _environment = environment;
-        _logger = logger;
+        _Environment = environment;
+        _Logger = logger;
     }
 
     #endregion
@@ -33,10 +33,10 @@ public class HomeController : Controller
     public IActionResult Index()
     {
         // only show in development
-        if (_environment.IsDevelopment())
+        if (_Environment.IsDevelopment())
             return View();
 
-        _logger.LogInformation("Homepage is disabled in production. Returning 404.");
+        _Logger.LogInformation("Homepage is disabled in production. Returning 404.");
 
         return NotFound();
     }

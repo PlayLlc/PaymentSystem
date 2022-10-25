@@ -61,8 +61,8 @@ public static partial class Randomize
             return new string(buffer);
         }
 
-        private static char GetRandomHexChar() => HexValues[_Random.Next(0, HexValues.Length - 1)];
-        public static byte GetRandomHexByte() => (byte) HexValues[_Random.Next(0, HexValues.Length - 1)];
+        private static char GetRandomHexChar() => HexValues[Random.Next(0, HexValues.Length - 1)];
+        public static byte GetRandomHexByte() => (byte) HexValues[Random.Next(0, HexValues.Length - 1)];
 
         #endregion
     }

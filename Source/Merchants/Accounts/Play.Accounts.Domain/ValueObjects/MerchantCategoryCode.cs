@@ -6,6 +6,12 @@ namespace Play.Accounts.Domain.ValueObjects;
 
 public record MerchantCategoryCode : ValueObject<ushort>
 {
+    #region Instance Values
+
+    public readonly string Name;
+
+    #endregion
+
     #region Constructor
 
     /// <exception cref="ValueObjectException"></exception>
@@ -13,6 +19,8 @@ public record MerchantCategoryCode : ValueObject<ushort>
     {
         if (!MerchantCategoryCodes.Empty.TryGet(value, out EnumObject<ushort>? result))
             throw new ValueObjectException($"The {nameof(BusinessType)} provided was invalid: [{value}]");
+
+        Name = ((MerchantCategoryCodes) result!).Name;
     }
 
     #endregion

@@ -8,7 +8,7 @@ public static partial class Randomize
 
         private static int GetRandomDecimal()
         {
-            int decimalValue = _Random.Next(char.MinValue, char.MaxValue);
+            int decimalValue = Random.Next(char.MinValue, char.MaxValue);
             if ((decimalValue >= 55296) && (decimalValue <= 57343))
                 GetRandomDecimal();
 
@@ -27,7 +27,7 @@ public static partial class Randomize
             if ((minRange < char.MinValue) || (maxRange > char.MaxValue))
                 throw new Exception();
 
-            int decimalValue = _Random.Next(minRange, maxRange);
+            int decimalValue = Random.Next(minRange, maxRange);
             if ((decimalValue >= 55296) && (decimalValue <= 57343))
                 GetRandomDecimal();
 
@@ -54,7 +54,7 @@ public static partial class Randomize
         {
             char[] result = new char[length];
             for (int i = 0; i <= (length - 1); i++)
-                result[i] = Char(_Random);
+                result[i] = Char(Random);
 
             return result;
         }
@@ -84,7 +84,7 @@ public static partial class Randomize
         {
             char[] result = new char[length];
             for (int i = 0; i <= (length - 1); i++)
-                result[i] = Char(_Random);
+                result[i] = Char(Random);
 
             return new string(result);
         }
@@ -104,22 +104,22 @@ public static partial class Randomize
 
         public static string GetRandomStringInRanges(int minRange1, int maxRange1, int minRange2, int maxRange2)
         {
-            int chunks = _Random.Next(2, 10);
-            int hexadecimalChunks = _Random.Next(1, chunks - 1);
+            int chunks = Random.Next(2, 10);
+            int hexadecimalChunks = Random.Next(1, chunks - 1);
             int unicodeChunks = chunks - hexadecimalChunks;
 
             char[][] range1 = new char[hexadecimalChunks][];
             char[][] range2 = new char[unicodeChunks][];
 
             for (int i = 0; i <= (hexadecimalChunks - 1); i++)
-                range1[i] = Chars(_Random.Next(1, 10), minRange1, maxRange1);
+                range1[i] = Chars(Random.Next(1, 10), minRange1, maxRange1);
 
             for (int i = 0; i <= (unicodeChunks - 1); i++)
-                range2[i] = Chars(_Random.Next(1, 10), minRange2, maxRange2);
+                range2[i] = Chars(Random.Next(1, 10), minRange2, maxRange2);
 
             IEnumerable<char> flat = range1.SelectMany(a => a).ToArray().Concat(range2.SelectMany(a => a).ToArray());
 
-            return new string(flat.OrderBy(s => (_Random.Next(2) % 2) == 0).ToArray());
+            return new string(flat.OrderBy(s => (Random.Next(2) % 2) == 0).ToArray());
         }
 
         #endregion

@@ -348,6 +348,362 @@ namespace Play.Accounts.Persistence.Sql.Migrations
                     b.ToTable("PersonalDetails", (string)null);
                 });
 
+            modelBuilder.Entity("Play.Accounts.Domain.ValueObjects.BusinessType", b =>
+                {
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Value");
+
+                    b.ToTable("BusinessTypes", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Value = "Exempt"
+                        },
+                        new
+                        {
+                            Value = "LimitedLiability"
+                        },
+                        new
+                        {
+                            Value = "NonProfit"
+                        },
+                        new
+                        {
+                            Value = "Partnership"
+                        },
+                        new
+                        {
+                            Value = "SoleProprietorship"
+                        });
+                });
+
+            modelBuilder.Entity("Play.Accounts.Domain.ValueObjects.MerchantCategoryCode", b =>
+                {
+                    b.Property<int>("Value")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Value"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Value");
+
+                    b.ToTable("MerchantCategoryCodes", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Value = 4214,
+                            Name = "Delivery"
+                        },
+                        new
+                        {
+                            Value = 7392,
+                            Name = "Consulting"
+                        },
+                        new
+                        {
+                            Value = 8111,
+                            Name = "LegalServices"
+                        },
+                        new
+                        {
+                            Value = 8351,
+                            Name = "Childcare"
+                        },
+                        new
+                        {
+                            Value = 8931,
+                            Name = "Accounting"
+                        });
+                });
+
+            modelBuilder.Entity("Play.Accounts.Domain.ValueObjects.MerchantRegistrationStatus", b =>
+                {
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Value");
+
+                    b.ToTable("MerchantRegistrationStatuses", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Value = "Approved"
+                        },
+                        new
+                        {
+                            Value = "Expired"
+                        },
+                        new
+                        {
+                            Value = "Rejected"
+                        },
+                        new
+                        {
+                            Value = "WaitingForRiskAnalysis"
+                        });
+                });
+
+            modelBuilder.Entity("Play.Accounts.Domain.ValueObjects.State", b =>
+                {
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Value");
+
+                    b.ToTable("States", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Value = "Alabama"
+                        },
+                        new
+                        {
+                            Value = "Alaska"
+                        },
+                        new
+                        {
+                            Value = "Arizona"
+                        },
+                        new
+                        {
+                            Value = "Arkansas"
+                        },
+                        new
+                        {
+                            Value = "California"
+                        },
+                        new
+                        {
+                            Value = "Colorado"
+                        },
+                        new
+                        {
+                            Value = "Connecticut"
+                        },
+                        new
+                        {
+                            Value = "Delaware"
+                        },
+                        new
+                        {
+                            Value = "DistrictOfColumbia"
+                        },
+                        new
+                        {
+                            Value = "Florida"
+                        },
+                        new
+                        {
+                            Value = "Georgia"
+                        },
+                        new
+                        {
+                            Value = "Hawaii"
+                        },
+                        new
+                        {
+                            Value = "Idaho"
+                        },
+                        new
+                        {
+                            Value = "Illinois"
+                        },
+                        new
+                        {
+                            Value = "Indiana"
+                        },
+                        new
+                        {
+                            Value = "Iowa"
+                        },
+                        new
+                        {
+                            Value = "Kansas"
+                        },
+                        new
+                        {
+                            Value = "Kentucky"
+                        },
+                        new
+                        {
+                            Value = "Louisiana"
+                        },
+                        new
+                        {
+                            Value = "Maine"
+                        },
+                        new
+                        {
+                            Value = "Maryland"
+                        },
+                        new
+                        {
+                            Value = "Massachusetts"
+                        },
+                        new
+                        {
+                            Value = "Michigan"
+                        },
+                        new
+                        {
+                            Value = "Minnesota"
+                        },
+                        new
+                        {
+                            Value = "Mississippi"
+                        },
+                        new
+                        {
+                            Value = "Missouri"
+                        },
+                        new
+                        {
+                            Value = "Montana"
+                        },
+                        new
+                        {
+                            Value = "Nebraska"
+                        },
+                        new
+                        {
+                            Value = "Nevada"
+                        },
+                        new
+                        {
+                            Value = "NewHampshire"
+                        },
+                        new
+                        {
+                            Value = "NewJersey"
+                        },
+                        new
+                        {
+                            Value = "NewMexico"
+                        },
+                        new
+                        {
+                            Value = "NewYork"
+                        },
+                        new
+                        {
+                            Value = "NorthCarolina"
+                        },
+                        new
+                        {
+                            Value = "NorthDakota"
+                        },
+                        new
+                        {
+                            Value = "Ohio"
+                        },
+                        new
+                        {
+                            Value = "Oklahoma"
+                        },
+                        new
+                        {
+                            Value = "Oregon"
+                        },
+                        new
+                        {
+                            Value = "Pennsylvania"
+                        },
+                        new
+                        {
+                            Value = "RhodeIsland"
+                        },
+                        new
+                        {
+                            Value = "SouthCarolina"
+                        },
+                        new
+                        {
+                            Value = "SouthDakota"
+                        },
+                        new
+                        {
+                            Value = "Tennessee"
+                        },
+                        new
+                        {
+                            Value = "Texas"
+                        },
+                        new
+                        {
+                            Value = "Utah"
+                        },
+                        new
+                        {
+                            Value = "Vermont"
+                        },
+                        new
+                        {
+                            Value = "Virginia"
+                        },
+                        new
+                        {
+                            Value = "Washington"
+                        },
+                        new
+                        {
+                            Value = "WestVirginia"
+                        },
+                        new
+                        {
+                            Value = "Wisconsin"
+                        },
+                        new
+                        {
+                            Value = "Wyoming"
+                        });
+                });
+
+            modelBuilder.Entity("Play.Accounts.Domain.ValueObjects.UserRegistrationStatus", b =>
+                {
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Value");
+
+                    b.ToTable("UserRegistrationStatuses", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Value = "Approved"
+                        },
+                        new
+                        {
+                            Value = "Expired"
+                        },
+                        new
+                        {
+                            Value = "Rejected"
+                        },
+                        new
+                        {
+                            Value = "WaitingForEmailVerification"
+                        },
+                        new
+                        {
+                            Value = "WaitingForRiskAnalysis"
+                        },
+                        new
+                        {
+                            Value = "WaitingForSmsVerification"
+                        });
+                });
+
             modelBuilder.Entity("Play.Accounts.Persistence.Sql.Entities.IdentityProviders", b =>
                 {
                     b.Property<int>("Id")
@@ -396,6 +752,29 @@ namespace Play.Accounts.Persistence.Sql.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "Administrator",
+                            ConcurrencyStamp = "2a575df4-6a72-4353-a7db-ec3cc214c592",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = "SalesAssociate",
+                            ConcurrencyStamp = "d06b300f-cb32-4340-b556-4c80cf5c1e97",
+                            Name = "SalesAssociate",
+                            NormalizedName = "SALESASSOCIATE"
+                        },
+                        new
+                        {
+                            Id = "SuperAdmin",
+                            ConcurrencyStamp = "358af4cf-0237-4ae8-bad3-d4f0d99bf0ce",
+                            Name = "SuperAdmin",
+                            NormalizedName = "SUPERADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Play.Accounts.Persistence.Sql.Entities.UserIdentity", b =>

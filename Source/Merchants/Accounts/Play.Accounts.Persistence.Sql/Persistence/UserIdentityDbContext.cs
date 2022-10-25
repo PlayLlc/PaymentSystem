@@ -10,6 +10,9 @@ using Play.Accounts.Domain.ValueObjects;
 using Play.Globalization.Time;
 
 using System.Diagnostics;
+using System.Linq;
+
+using Play.Accounts.Domain.Enums;
 
 namespace Play.Accounts.Persistence.Sql.Persistence;
 
@@ -26,17 +29,32 @@ public class UserIdentityDbContext : IdentityDbContext<UserIdentity, RoleIdentit
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        Debugger.Launch();
         AccountsEntityConfiguration accountEntityConfiguration = new AccountsEntityConfiguration();
 
         // Enums
-        //builder.Entity<BusinessType>().HasData(BusinessTypes.Empty.GetAll().Select(e => new BusinessType(e)));
-        //builder.Entity<MerchantCategoryCode>().HasData(MerchantCategoryCodes.Empty.GetAll().Select(e => new MerchantCategoryCode(e)));
-        //builder.Entity<MerchantRegistrationStatus>().HasData(MerchantRegistrationStatuses.Empty.GetAll().Select(e => new MerchantRegistrationStatus(e)));
-        //builder.Entity<State>().HasData(States.Empty.GetAll().Select(e => new State(e)));
-        //builder.Entity<UserRegistrationStatus>().HasData(UserRegistrationStatuses.Empty.GetAll().Select(e => new UserRegistrationStatus(e)));
 
-        // Entities 
+        #region Enums
+
+        builder.Entity<BusinessType>().ToTable($"{nameof(BusinessTypes)}").HasKey(a => a.Value);
+        builder.Entity<BusinessType>().HasData(BusinessTypes.Empty.GetAll().Select(e => new BusinessType(e)));
+
+        builder.Entity<MerchantCategoryCode>().ToTable($"{nameof(MerchantCategoryCodes)}").HasKey(a => a.Value);
+        builder.Entity<MerchantCategoryCode>().Property<string>(a => a.Name);
+        builder.Entity<MerchantCategoryCode>().HasData(MerchantCategoryCodes.Empty.GetAll().Select(e => new MerchantCategoryCode(e)));
+
+        builder.Entity<MerchantRegistrationStatus>().ToTable($"{nameof(MerchantRegistrationStatuses)}").HasKey(a => a.Value);
+        builder.Entity<MerchantRegistrationStatus>().HasData(MerchantRegistrationStatuses.Empty.GetAll().Select(e => new MerchantRegistrationStatus(e)));
+
+        builder.Entity<State>().ToTable($"{nameof(States)}").HasKey(a => a.Value);
+        builder.Entity<State>().HasData(States.Empty.GetAll().Select(e => new State(e)));
+
+        builder.Entity<UserRegistrationStatus>().ToTable($"{nameof(UserRegistrationStatuses)}").HasKey(a => a.Value);
+        builder.Entity<UserRegistrationStatus>().HasData(UserRegistrationStatuses.Empty.GetAll().Select(e => new UserRegistrationStatus(e)));
+
+        #endregion
+
+        #region Entities
+
         builder.Entity<Address>().ToTable($"{nameof(Address)}es").Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<Address>().HasKey(x => x.Id);
         builder.Entity<Address>().Property<Zipcode>(nameof(Zipcode)).HasColumnName(nameof(Zipcode)).HasConversion<string>(x => x.Value, y => new Zipcode(y));
@@ -70,13 +88,29 @@ public class UserIdentityDbContext : IdentityDbContext<UserIdentity, RoleIdentit
         builder.Entity<PersonalDetail>().HasKey(x => x.Id);
         builder.Entity<PersonalDetail>().Property<DateTimeUtc>(x => x.DateOfBirth).HasConversion<DateTime>(x => x, y => new DateTimeUtc(y));
 
+        #endregion
+
+        #region Aggregates
+
         // Aggregates 
         accountEntityConfiguration.Configure(builder.Entity<UserRegistration>());
         accountEntityConfiguration.Configure(builder.Entity<MerchantRegistration>());
         accountEntityConfiguration.Configure(builder.Entity<Merchant>());
         accountEntityConfiguration.Configure(builder.Entity<UserIdentity>());
 
-        builder.Entity<RoleIdentity>().ToTable("Roles");
+        #endregion
+
+        #region Identity
+
+        builder.Entity<RoleIdentity>()
+        .ToTable("Roles")
+        .HasData(Domain.Enums.UserRoles.Empty.GetAll()
+        .Select(e => new RoleIdentity(e.Name)
+        {
+            Id = e.Name,
+            NormalizedName = e.Name.ToUpper()
+        }));
+
         builder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
         builder.Entity<IdentityUserRole<string>>()
         .ToTable("UserRoles")
@@ -89,6 +123,8 @@ public class UserIdentityDbContext : IdentityDbContext<UserIdentity, RoleIdentit
         builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims").HasKey(k => k.Id);
         builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens").HasKey(k => k.UserId);
         builder.Entity<IdentityProviders>();
+
+        #endregion
     }
 
     #endregion

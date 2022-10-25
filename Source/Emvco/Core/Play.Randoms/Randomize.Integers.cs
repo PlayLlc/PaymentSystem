@@ -11,62 +11,62 @@ public static partial class Randomize
     {
         #region Instance Members
 
-        public static sbyte SByte() => (sbyte) _Random.Next(sbyte.MinValue, sbyte.MaxValue);
+        public static sbyte SByte() => (sbyte) Random.Next(sbyte.MinValue, sbyte.MaxValue);
 
         public static sbyte SByte(byte min, byte max)
         {
             if (min > max)
                 throw new ArgumentOutOfRangeException();
 
-            return (sbyte) _Random.Next(min, max);
+            return (sbyte) Random.Next(min, max);
         }
 
-        public static byte Byte() => (byte) _Random.Next(byte.MinValue, byte.MaxValue);
+        public static byte Byte() => (byte) Random.Next(byte.MinValue, byte.MaxValue);
 
         public static byte Byte(byte min, byte max)
         {
             if (min > max)
                 throw new ArgumentOutOfRangeException();
 
-            return (byte) _Random.Next(min, max);
+            return (byte) Random.Next(min, max);
         }
 
-        public static short Short() => (short) _Random.Next(short.MinValue, short.MaxValue);
+        public static short Short() => (short) Random.Next(short.MinValue, short.MaxValue);
 
         public static short Short(short min, short max)
         {
             if (min > max)
                 throw new ArgumentOutOfRangeException();
 
-            return (short) _Random.Next(min, max);
+            return (short) Random.Next(min, max);
         }
 
-        public static ushort UShort() => (ushort) _Random.Next(ushort.MinValue, ushort.MaxValue);
+        public static ushort UShort() => (ushort) Random.Next(ushort.MinValue, ushort.MaxValue);
 
         public static ushort UShort(ushort min, ushort max)
         {
             if (min > max)
                 throw new ArgumentOutOfRangeException();
 
-            return (ushort) _Random.Next(min, max);
+            return (ushort) Random.Next(min, max);
         }
 
-        public static int Int() => _Random.Next(int.MinValue, int.MaxValue);
+        public static int Int() => Random.Next(int.MinValue, int.MaxValue);
 
         public static int Int(int min, int max)
         {
             if (min > max)
                 throw new ArgumentOutOfRangeException();
 
-            return _Random.Next(min, max);
+            return Random.Next(min, max);
         }
 
         public static uint UInt()
         {
             unchecked
             {
-                uint result = (uint) _Random.Next(ushort.MinValue, int.MaxValue);
-                result += (uint) _Random.Next(ushort.MinValue, int.MaxValue);
+                uint result = (uint) Random.Next(ushort.MinValue, int.MaxValue);
+                result += (uint) Random.Next(ushort.MinValue, int.MaxValue);
 
                 return result;
             }
@@ -82,29 +82,29 @@ public static partial class Randomize
             if (min > int.MaxValue)
             {
                 result += int.MaxValue;
-                result += (uint) _Random.Next(0, (int) (max - min));
+                result += (uint) Random.Next(0, (int) (max - min));
 
                 return result;
             }
 
             if (max > int.MaxValue)
             {
-                result += (uint) _Random.Next(0, int.MaxValue);
+                result += (uint) Random.Next(0, int.MaxValue);
                 int maxCeiling = (int) ((max - result) > int.MaxValue ? int.MaxValue : max - result);
-                result += (uint) _Random.Next(0, maxCeiling);
+                result += (uint) Random.Next(0, maxCeiling);
 
                 return result;
             }
 
-            return (uint) _Random.Next((int) min, (int) max);
+            return (uint) Random.Next((int) min, (int) max);
         }
 
         public static long Long()
         {
             unchecked
             {
-                long result = (long) _Random.Next(int.MinValue, int.MaxValue) << 32;
-                result += _Random.Next(int.MinValue, int.MaxValue);
+                long result = (long) Random.Next(int.MinValue, int.MaxValue) << 32;
+                result += Random.Next(int.MinValue, int.MaxValue);
 
                 return result;
             }
@@ -124,23 +124,23 @@ public static partial class Randomize
         public static ulong ULong()
         {
             Span<byte> randNumberBuffer = stackalloc byte[8];
-            _Random.NextBytes(randNumberBuffer);
+            Random.NextBytes(randNumberBuffer);
 
             return PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(randNumberBuffer);
         }
 
         public static BigInteger BigInteger(int minByteCount, int maxByteCount)
         {
-            byte[] a = new byte[_Random.Next(minByteCount, maxByteCount)];
-            _Random.NextBytes(a);
+            byte[] a = new byte[Random.Next(minByteCount, maxByteCount)];
+            Random.NextBytes(a);
 
             return new BigInteger(a);
         }
 
         public static BigInteger BigInteger()
         {
-            byte[] a = new byte[_Random.Next(1, 50)];
-            _Random.NextBytes(a);
+            byte[] a = new byte[Random.Next(1, 50)];
+            Random.NextBytes(a);
 
             return new BigInteger(a);
         }
@@ -152,7 +152,7 @@ public static partial class Randomize
             ulong randomNumberMask = absoluteDistance.GetMaskAfterMostSignificantBit();
 
             Span<byte> randNumberBuffer = stackalloc byte[absoluteDistance.GetMostSignificantByte()];
-            _Random.NextBytes(randNumberBuffer);
+            Random.NextBytes(randNumberBuffer);
             long correction = (long) PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(randNumberBuffer).GetMaskedValue(randomNumberMask);
 
             return distanceData.MinMax == MinMax.Min ? hash - correction : hash + correction;
