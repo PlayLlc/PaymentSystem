@@ -17,6 +17,7 @@ public abstract record BrokenBusinessRuleDomainEvent<_Aggregate, _TId> : DomainE
 
     protected static string GetRuleDescription(_Aggregate aggregate, IBusinessRule rule)
     {
+#if DEBUG
         try
         {
             return
@@ -27,6 +28,9 @@ public abstract record BrokenBusinessRuleDomainEvent<_Aggregate, _TId> : DomainE
             return
                 $"The {nameof(_Aggregate)} with has violated the [{nameof(IBusinessRule)} business rule: [{rule.Message}]; {nameof(_Aggregate)}: [WARNING-{nameof(JsonSerializer)} not supported-WARNING]";
         }
+#else
+     return $"The {nameof(_Aggregate)} with has violated the [{nameof(IBusinessRule)} business rule: [{rule.Message}]; {nameof(_Aggregate)}: [{aggregate.GetId()}]";
+#endif
     }
 
     #endregion

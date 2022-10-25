@@ -2,6 +2,7 @@
 
 namespace Play.Domain.Events;
 
+// TODO: Figure out how to correlate domain events with the Aggregate instance
 public abstract record DomainEvent
 {
     #region Instance Values

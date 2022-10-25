@@ -48,7 +48,7 @@ public class UserController : Controller
 
     #region Instance Members
 
-    [HttpGet("")]
+    [HttpGet]
     [ValidateAntiForgeryToken]
     public async Task<UserRegistrationDto> Index([FromQuery] string id)
     {
@@ -58,7 +58,7 @@ public class UserController : Controller
         return userRegistration.AsDto();
     }
 
-    [HttpPost("")]
+    [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Index([FromBody] CreateUserRegistrationCommand command)
     {
