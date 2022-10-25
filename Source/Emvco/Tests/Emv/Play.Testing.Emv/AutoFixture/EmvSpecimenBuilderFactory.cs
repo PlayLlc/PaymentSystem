@@ -1,5 +1,7 @@
-﻿using Play.Testing.Emv.AutoFixture.Builders.DataElements;
+﻿using Play.Emv.Ber.Templates;
+using Play.Testing.Emv.AutoFixture.Builders.DataElements;
 using Play.Testing.Emv.AutoFixture.Builders.Globalization;
+using Play.Testing.Emv.AutoFixture.Builders.Templates;
 using Play.Testing.Infrastructure.AutoFixture;
 
 namespace Play.Testing.Emv;
@@ -36,7 +38,10 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
         DirectoryEntryBuilder = new DirectoryEntryBuilder();
         FileControlInformationAdfBuilder = new FileControlInformationAdfBuilder();
         FileControlInformationIssuerDiscretionaryDataAdfBuilder = new FileControlInformationIssuerDiscretionaryDataAdfBuilder();
-        FileControlInformationIssuerDiscretionaryPpseBuilder = new FileControlInformationIssuerDiscretionaryPpseBuilder();
+        FileControlInformationProprietaryAdfBuilder = new FileControlInformationProprietaryAdfBuilder();
+        FileControlInformationProprietaryDdfBuilder = new FileControlInformationProprietaryDdfBuilder();
+        FileControlInformationDdfBuilder = new FileControlInformationDdfBuilder();
+        FileControlInformationIssuerDiscretionaryDataPpseBuilder = new FileControlInformationIssuerDiscretionaryDataPpseBuilder();
     }
 
     public EmvSpecimenBuilderFactory() : base(CreateSpecimenBuilders())
@@ -96,7 +101,10 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
             DirectoryEntryBuilder,
             FileControlInformationAdfBuilder,
             FileControlInformationIssuerDiscretionaryDataAdfBuilder,
-            FileControlInformationIssuerDiscretionaryPpseBuilder,
+            FileControlInformationIssuerDiscretionaryDataPpseBuilder,
+            FileControlInformationProprietaryAdfBuilder,
+            FileControlInformationProprietaryDdfBuilder,
+            FileControlInformationDdfBuilder,
             LanguagePreferenceBuilder
         });
 
@@ -135,7 +143,10 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
     public static readonly DirectoryEntryBuilder DirectoryEntryBuilder;
     public static readonly FileControlInformationAdfBuilder FileControlInformationAdfBuilder;
     public static readonly FileControlInformationIssuerDiscretionaryDataAdfBuilder FileControlInformationIssuerDiscretionaryDataAdfBuilder;
-    public static readonly FileControlInformationIssuerDiscretionaryPpseBuilder FileControlInformationIssuerDiscretionaryPpseBuilder;
+    public static readonly FileControlInformationProprietaryAdfBuilder FileControlInformationProprietaryAdfBuilder;
+    public static readonly FileControlInformationProprietaryDdfBuilder FileControlInformationProprietaryDdfBuilder;
+    public static readonly FileControlInformationDdfBuilder FileControlInformationDdfBuilder;
+    public static readonly FileControlInformationIssuerDiscretionaryDataPpseBuilder FileControlInformationIssuerDiscretionaryDataPpseBuilder;
 
     #endregion
 }

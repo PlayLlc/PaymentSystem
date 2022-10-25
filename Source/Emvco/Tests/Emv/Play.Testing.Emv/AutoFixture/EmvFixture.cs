@@ -9,7 +9,7 @@ using Play.Emv.Security;
 using Play.Encryption.Certificates;
 using Play.Encryption.Ciphers.Hashing;
 using Play.Testing.Emv.AutoFixture.Builders.DataElements;
-using Play.Testing.Emv.AutoFixture.Builders.Globalization;
+using Play.Testing.Emv.AutoFixture.Builders.Templates;
 using Play.Testing.Emv.Ber.Constructed;
 using Play.Testing.Extensions;
 using Play.Testing.Infrastructure.AutoFixture;
@@ -79,11 +79,14 @@ public class EmvFixture : TestingFixture
         factory.Build(KernelIdentifierBuilder.Id);
         factory.Build(MerchantIdentifierBuilder.Id);
         factory.Build(TransactionDateBuilder.Id);
-        factory.Build(FileControlInformationIssuerDiscretionaryPpseBuilder.Id);
+        factory.Build(FileControlInformationProprietaryAdfBuilder.Id);
+        factory.Build(FileControlInformationProprietaryDdfBuilder.Id);
+        factory.Build(FileControlInformationIssuerDiscretionaryDataPpseBuilder.Id);
         factory.Build(LanguagePreferenceBuilder.Id);
         factory.Build(InterfaceDeviceSerialNumberBuilder.Id);
         factory.Build(TerminalIdentificationBuilder.Id);
         factory.Build(TerminalTransactionQualifiersBuilder.Id);
+        factory.Build(FileControlInformationDdfBuilder.Id);
     }
 
     #region Customize Fixture
@@ -234,8 +237,16 @@ public class EmvFixture : TestingFixture
     public static readonly FileControlInformationIssuerDiscretionaryDataAdfBuilder FileControlInformationIssuerDiscretionaryDataAdfBuilder =
         EmvSpecimenBuilderFactory.FileControlInformationIssuerDiscretionaryDataAdfBuilder;
 
-    public static readonly FileControlInformationIssuerDiscretionaryPpseBuilder FileControlInformationIssuerDiscretionaryPpseBuilder =
-        EmvSpecimenBuilderFactory.FileControlInformationIssuerDiscretionaryPpseBuilder;
+    public static readonly FileControlInformationProprietaryAdfBuilder FileControlInformationProprietaryAdfBuilder =
+        EmvSpecimenBuilderFactory.FileControlInformationProprietaryAdfBuilder;
+
+    public static readonly FileControlInformationProprietaryDdfBuilder FileControlInformationProprietaryDdfBuilder =
+        EmvSpecimenBuilderFactory.FileControlInformationProprietaryDdfBuilder;
+
+    public static readonly FileControlInformationDdfBuilder FileControlInformationDdfBuilder = EmvSpecimenBuilderFactory.FileControlInformationDdfBuilder;
+
+    public static readonly FileControlInformationIssuerDiscretionaryDataPpseBuilder FileControlInformationIssuerDiscretionaryDataPpseBuilder =
+        EmvSpecimenBuilderFactory.FileControlInformationIssuerDiscretionaryDataPpseBuilder;
 
     #endregion
 }

@@ -3,7 +3,6 @@
 using AutoFixture;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Exceptions;
 using Play.Emv.Ber.Templates;
 using Play.Testing.BaseTestClasses;
 using Play.Testing.Emv;
@@ -11,9 +10,9 @@ using Play.Testing.Emv.Ber.Constructed;
 
 using Xunit;
 
-namespace Play.Emv.Ber.Tests.Templates;
+namespace Play.Emv.Ber.Tests.Templates.FileControlInformation.Ddf;
 
-public class FileControlInformationIssuerDiscretionaryDataAdfTests : TestBase
+public class FileControlInformationIssuerDiscretionaryDataDdfTests : TestBase
 {
     #region Instance Values
 
@@ -23,9 +22,7 @@ public class FileControlInformationIssuerDiscretionaryDataAdfTests : TestBase
 
     #region Constructor
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public FileControlInformationIssuerDiscretionaryDataAdfTests()
+    public FileControlInformationIssuerDiscretionaryDataDdfTests()
     {
         _Fixture = new EmvFixture().Create();
     }
@@ -72,7 +69,7 @@ public class FileControlInformationIssuerDiscretionaryDataAdfTests : TestBase
     [Fact]
     public void BerEncoding_DeserializingTemplate_CreatesConstructedValue()
     {
-        FileControlInformationIssuerDiscretionaryDataAdfTestTlv testData = new();
+        FileControlInformationIssuerDiscretionaryDataDdfTestTlv testData = new();
         FileControlInformationIssuerDiscretionaryDataDdf sut = FileControlInformationIssuerDiscretionaryDataDdf.Decode(testData.EncodeTagLengthValue());
         Assert.NotNull(sut);
     }
@@ -84,7 +81,7 @@ public class FileControlInformationIssuerDiscretionaryDataAdfTests : TestBase
     [Fact]
     public void BerEncoding_DeserializingTemplate_CorrectlyEncodesTlvWithChildDataElements()
     {
-        FileControlInformationIssuerDiscretionaryDataAdfTestTlv testData = new();
+        FileControlInformationIssuerDiscretionaryDataDdfTestTlv testData = new();
         FileControlInformationIssuerDiscretionaryDataDdf sut = FileControlInformationIssuerDiscretionaryDataDdf.Decode(testData.EncodeTagLengthValue());
         byte[]? expected = testData.EncodeTagLengthValue();
         byte[] actual = sut.EncodeTagLengthValue();
@@ -98,7 +95,7 @@ public class FileControlInformationIssuerDiscretionaryDataAdfTests : TestBase
     [Fact]
     public void BerEncoding_DeserializingTemplate_CorrectlyEncodesChildDataElements()
     {
-        FileControlInformationIssuerDiscretionaryDataAdfTestTlv testData = new();
+        FileControlInformationIssuerDiscretionaryDataDdfTestTlv testData = new();
         FileControlInformationIssuerDiscretionaryDataDdf sut = FileControlInformationIssuerDiscretionaryDataDdf.Decode(testData.EncodeTagLengthValue());
         byte[]? expected = testData.EncodeValue();
         byte[] actual = sut.EncodeValue();
@@ -112,7 +109,7 @@ public class FileControlInformationIssuerDiscretionaryDataAdfTests : TestBase
     [Fact]
     public void Template_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        FileControlInformationIssuerDiscretionaryDataAdfTestTlv testData = new();
+        FileControlInformationIssuerDiscretionaryDataDdfTestTlv testData = new();
         FileControlInformationIssuerDiscretionaryDataDdf sut = FileControlInformationIssuerDiscretionaryDataDdf.Decode(testData.EncodeTagLengthValue());
         Assert.True(sut.GetTagLengthValueByteCount() == testData.GetTagLengthValueByteCount());
         Assert.NotNull(sut);
@@ -125,7 +122,7 @@ public class FileControlInformationIssuerDiscretionaryDataAdfTests : TestBase
     [Fact]
     public void Template_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        FileControlInformationIssuerDiscretionaryDataAdfTestTlv testData = new();
+        FileControlInformationIssuerDiscretionaryDataDdfTestTlv testData = new();
         FileControlInformationIssuerDiscretionaryDataDdf sut = FileControlInformationIssuerDiscretionaryDataDdf.Decode(testData.EncodeTagLengthValue());
         Assert.True(sut.GetValueByteCount() == testData.EncodeValue().Length);
     }
@@ -137,7 +134,7 @@ public class FileControlInformationIssuerDiscretionaryDataAdfTests : TestBase
     [Fact]
     public void Template_InvokingAsTagLengthValue_ReturnsExpectedResult()
     {
-        FileControlInformationIssuerDiscretionaryDataAdfTestTlv testData = new();
+        FileControlInformationIssuerDiscretionaryDataDdfTestTlv testData = new();
         TagLengthValue expected = testData.AsTagLengthValue();
         FileControlInformationIssuerDiscretionaryDataDdf sut = FileControlInformationIssuerDiscretionaryDataDdf.Decode(expected.EncodeTagLengthValue());
         TagLengthValue actual = sut.AsTagLengthValue();
