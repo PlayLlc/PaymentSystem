@@ -1,5 +1,5 @@
 ﻿using Play.Testing.Emv.AutoFixture.Builders.DataElements;
-using Play.Testing.Emv.AutoFixture.Builders.Globalization;
+using Play.Testing.Emv.AutoFixture.Builders.Templates;
 using Play.Testing.Infrastructure.AutoFixture;
 
 namespace Play.Testing.Emv;
@@ -37,6 +37,7 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
         FileControlInformationAdfBuilder = new FileControlInformationAdfBuilder();
         FileControlInformationIssuerDiscretionaryDataAdfBuilder = new FileControlInformationIssuerDiscretionaryDataAdfBuilder();
         FileControlInformationIssuerDiscretionaryPpseBuilder = new FileControlInformationIssuerDiscretionaryPpseBuilder();
+        ResponseMessageTemplateFormat2Builder = new ResponseMessageTemplateFormat2Builder();
     }
 
     public EmvSpecimenBuilderFactory() : base(CreateSpecimenBuilders())
@@ -97,7 +98,8 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
             FileControlInformationAdfBuilder,
             FileControlInformationIssuerDiscretionaryDataAdfBuilder,
             FileControlInformationIssuerDiscretionaryPpseBuilder,
-            LanguagePreferenceBuilder
+            LanguagePreferenceBuilder,
+            ResponseMessageTemplateFormat2Builder,
         });
 
         return currentModuleBuilders;
@@ -136,6 +138,7 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
     public static readonly FileControlInformationAdfBuilder FileControlInformationAdfBuilder;
     public static readonly FileControlInformationIssuerDiscretionaryDataAdfBuilder FileControlInformationIssuerDiscretionaryDataAdfBuilder;
     public static readonly FileControlInformationIssuerDiscretionaryPpseBuilder FileControlInformationIssuerDiscretionaryPpseBuilder;
+    public static readonly ResponseMessageTemplateFormat2Builder ResponseMessageTemplateFormat2Builder;
 
     #endregion
 }

@@ -9,7 +9,7 @@ using Play.Emv.Security;
 using Play.Encryption.Certificates;
 using Play.Encryption.Ciphers.Hashing;
 using Play.Testing.Emv.AutoFixture.Builders.DataElements;
-using Play.Testing.Emv.AutoFixture.Builders.Globalization;
+using Play.Testing.Emv.AutoFixture.Builders.Templates;
 using Play.Testing.Emv.Ber.Constructed;
 using Play.Testing.Extensions;
 using Play.Testing.Infrastructure.AutoFixture;
@@ -84,6 +84,7 @@ public class EmvFixture : TestingFixture
         factory.Build(InterfaceDeviceSerialNumberBuilder.Id);
         factory.Build(TerminalIdentificationBuilder.Id);
         factory.Build(TerminalTransactionQualifiersBuilder.Id);
+        factory.Build(ResponseMessageTemplateFormat2Builder.Id);
     }
 
     #region Customize Fixture
@@ -236,6 +237,9 @@ public class EmvFixture : TestingFixture
 
     public static readonly FileControlInformationIssuerDiscretionaryPpseBuilder FileControlInformationIssuerDiscretionaryPpseBuilder =
         EmvSpecimenBuilderFactory.FileControlInformationIssuerDiscretionaryPpseBuilder;
+
+    public static readonly ResponseMessageTemplateFormat2Builder ResponseMessageTemplateFormat2Builder =
+        EmvSpecimenBuilderFactory.ResponseMessageTemplateFormat2Builder;
 
     #endregion
 }
