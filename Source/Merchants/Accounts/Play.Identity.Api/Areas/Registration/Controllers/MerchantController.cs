@@ -6,6 +6,7 @@ using Play.Accounts.Domain.Aggregates;
 using Play.Accounts.Domain.Services;
 using Play.Domain.Repositories;
 using Play.Identity.Api.Extensions;
+using Play.Identity.Api.Filters;
 using Play.Mvc.Extensions;
 
 using NotFoundException = Play.Domain.Exceptions.NotFoundException;
@@ -14,7 +15,8 @@ namespace Play.Identity.Api.Areas.Registration.Controllers;
 
 [Area($"{nameof(Registration)}")]
 [Route("[area]/[controller]/[action]")]
-[ApiController]
+
+//[ApiController]
 public class MerchantController : Controller
 {
     #region Instance Values

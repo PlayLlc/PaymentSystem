@@ -3,6 +3,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Logging;
 
 using Play.Core.Exceptions;
@@ -13,7 +15,7 @@ using Play.Identity.Api.Extensions;
 
 using NotFoundException = Play.Domain.Exceptions.NotFoundException;
 
-namespace Play.Identity.Api.Filters;
+namespace Play.Mvc.Filters.Exceptions;
 
 public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 {
@@ -132,7 +134,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
     private void HandleUncaughtException(ExceptionContext context)
     {
-        Exception exception = (Exception) context.Exception;
+        Exception exception = context.Exception;
 
         ProblemDetails details = new ProblemDetails()
         {

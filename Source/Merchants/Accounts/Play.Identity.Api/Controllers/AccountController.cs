@@ -10,16 +10,16 @@ using Microsoft.AspNetCore.Mvc;
 using Play.Accounts.Persistence.Sql.Entities;
 using Play.Identity.Api.Attributes;
 using Play.Identity.Api.Models;
+using Play.Mvc.Filters.Exceptions;
 
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace Play.Identity.Api.Controllers;
 // TODO: Add logging
 
+//[ApiController]
 [SecurityHeaders]
 [AllowAnonymous]
-
-//[ApiController]
 [Route("[controller]/[action]")]
 public class AccountController : Controller
 {

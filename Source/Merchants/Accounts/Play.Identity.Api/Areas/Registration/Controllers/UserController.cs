@@ -8,13 +8,15 @@ using Play.Accounts.Domain.Repositories;
 using Play.Accounts.Domain.Services;
 using Play.Domain.Exceptions;
 using Play.Identity.Api.Extensions;
+using Play.Identity.Api.Filters;
 using Play.Mvc.Extensions;
 
 namespace Play.Identity.Api.Areas.Registration.Controllers;
 
 [Area($"{nameof(Registration)}")]
 [Route("[area]/[controller]/[action]")]
-[ApiController]
+
+//[ApiController]
 public class UserController : Controller
 {
     #region Instance Values
@@ -65,6 +67,7 @@ public class UserController : Controller
         this.ValidateModel();
 
         UserRegistration userRegistration = UserRegistration.CreateNewUserRegistration(_UniqueEmailChecker, _PasswordHasher, command);
+
         await userRegistration.SendEmailVerificationCode(_EmailVerifier).ConfigureAwait(false);
 
         return Created(Url.Action("Index", $"{nameof(User)}", userRegistration.GetId())!, userRegistration.AsDto());

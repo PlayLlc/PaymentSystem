@@ -3,7 +3,7 @@ using ES.PurchaseAdjustment.Configuration;
 using Microsoft.OpenApi.Models;
 
 using Play.Identity.Api.Extensions;
-using Play.Identity.Api.Filters;
+using Play.Mvc.Filters.Exceptions;
 
 using Serilog;
 
@@ -22,7 +22,7 @@ await builder.SeedDb().ConfigureAwait(false);
 // Add services to the container.
 builder.Services.AddControllersWithViews(options =>
 {
-    //options.Filters.Add<ApiExceptionFilterAttribute>();
+    options.Filters.Add<ApiExceptionFilterAttribute>();
 });
 
 builder.Services.AddSwaggerGen();
