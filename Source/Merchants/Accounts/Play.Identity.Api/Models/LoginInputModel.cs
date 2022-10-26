@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using Play.Mvc.Attributes.Validation;
+
 namespace Play.Identity.Api.Models;
 
 public class LoginInputModel
@@ -15,7 +17,7 @@ public class LoginInputModel
     public string Password { get; set; } = string.Empty;
 
     [Required]
-    [Url]
+    [Http]
     public string ReturnUrl { get; set; } = string.Empty;
 
     public bool RememberLogin { get; set; }

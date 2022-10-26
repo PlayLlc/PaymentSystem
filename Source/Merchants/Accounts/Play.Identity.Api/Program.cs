@@ -22,7 +22,7 @@ await builder.SeedDb().ConfigureAwait(false);
 // Add services to the container.
 builder.Services.AddControllersWithViews(options =>
 {
-    options.Filters.Add<ApiExceptionFilterAttribute>();
+    //options.Filters.Add<ApiExceptionFilterAttribute>();
 });
 
 builder.Services.AddSwaggerGen();

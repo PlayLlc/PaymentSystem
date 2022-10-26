@@ -18,7 +18,8 @@ namespace Play.Identity.Api.Controllers;
 
 [SecurityHeaders]
 [AllowAnonymous]
-[ApiController]
+
+//[ApiController]
 [Route("[controller]/[action]")]
 public class AccountController : Controller
 {

@@ -26,9 +26,11 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
     #region Constructor
 
-    public ApiExceptionFilterAttribute(ILoggerFactory loggerFactory)
+    public ApiExceptionFilterAttribute()
     {
-        _Logger = loggerFactory.CreateLogger<ApiExceptionFilterAttribute>();
+        var a = new LoggerFactory();
+
+        _Logger = a.CreateLogger<ApiExceptionFilterAttribute>();
         _ExceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>()
         {
             {typeof(ModelValidationException), HandleModelValidationException},
@@ -39,6 +41,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
             {typeof(NotFoundException), HandleNotFoundException},
             {typeof(CommandOutOfSyncException), HandleCommandOutOfSyncException},
             {typeof(PlayInternalException), HandlePlayInternalException},
+            {typeof(InvalidOperationException), HandleInvalidOperationExceptionException},
             {typeof(Exception), HandleUncaughtException}
         };
     }
@@ -46,6 +49,22 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     #endregion
 
     #region Instance Members
+
+    private void HandleInvalidOperationExceptionException(ExceptionContext context)
+    {
+        InvalidOperationException exception = (InvalidOperationException) context.Exception;
+
+        ValidationProblemDetails details = new ValidationProblemDetails(context.ModelState)
+        {
+            Title = "An invalid operation was attempted resulting in an Internal Server Error",
+            Detail = exception.Message,
+            Status = (int) HttpStatusCode.InternalServerError
+        };
+        context.Result = new ObjectResult(details);
+        context.ExceptionHandled = true;
+
+        _Logger.Log(LogLevel.Error, details.Detail, details);
+    }
 
     private void HandleModelValidationException(ExceptionContext context)
     {
@@ -207,7 +226,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
         HandleException(context);
 
-        base.OnException(context);
+        //base.OnException(context);
     }
 
     private void HandleException(ExceptionContext context)
@@ -230,4 +249,6 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     }
 
     #endregion
+
+    //InvalidOperationException
 }
