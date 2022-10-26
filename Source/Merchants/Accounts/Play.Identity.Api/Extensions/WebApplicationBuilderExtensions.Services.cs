@@ -4,7 +4,6 @@ using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 
-using Play.Accounts.Application.Services.Emails;
 using Play.Accounts.Application.Services;
 using Play.Accounts.Domain.Aggregates;
 using Play.Accounts.Domain.Repositories;
@@ -14,13 +13,14 @@ using Play.Accounts.Persistence.Sql.Repositories;
 using Play.Domain.Repositories;
 using Play.Identity.Api.Services;
 using Play.Persistence.Sql;
-using Play.Telecom.SendGrid.Email;
-using Play.Telecom.SendGrid.Sms;
 
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
+using Play.Accounts.Application.Services.Sms;
 using Play.Accounts.Persistence.Sql.Persistence;
+using Play.Telecom.Twilio.Email;
+using Play.Telecom.Twilio.Sms;
 
 namespace Play.Identity.Api.Extensions;
 
@@ -51,14 +51,15 @@ public static partial class WebApplicationBuilderExtensions
 
         // Repositories
         builder.Services.AddScoped<DbContext, UserIdentityDbContext>();
+        builder.Services.AddScoped<IPasswordRepository, PasswordRepository>();
 
         builder.Services.AddScoped<IUserRegistrationRepository, UserRegistrationRepository>();
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<IRepository<MerchantRegistration, string>, Repository<MerchantRegistration, string>>();
         builder.Services.AddScoped<IRepository<Merchant, string>, Repository<Merchant, string>>();
 
-        //  builder.Services.AddTransient<IRegisterUsers, UserRegistrationService>();
         builder.Services.AddScoped<IBuildLoginViewModel, LoginViewModelBuilder>();
+        builder.Services.AddScoped<ILoginUsers, UserLoginService>();
 
         // Infrastructure Services
         builder.Services.AddScoped<ISendSmsMessages, SmsClient>();

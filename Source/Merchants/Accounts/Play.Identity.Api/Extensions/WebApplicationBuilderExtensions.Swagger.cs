@@ -1,37 +1,34 @@
-﻿using ES.PurchaseAdjustment.Configuration;
-
-using Microsoft.OpenApi.Models;
-
-using Play.Telecom.SendGrid.Sms;
+﻿using Microsoft.OpenApi.Models;
 
 using System.Reflection;
 
-namespace Play.Identity.Api.Extensions
+using Play.Mvc.Swagger;
+
+namespace Play.Identity.Api.Extensions;
+
+public static partial class WebApplicationBuilderExtensions
 {
-    public static partial class WebApplicationBuilderExtensions
+    #region Instance Members
+
+    internal static WebApplicationBuilder ConfigureSwagger(this WebApplicationBuilder builder)
     {
-        #region Instance Members
+        SwaggerConfiguration swaggerConfiguration = builder.Configuration.GetSection(nameof(SwaggerConfiguration)).Get<SwaggerConfiguration>();
 
-        internal static WebApplicationBuilder ConfigureSwagger(this WebApplicationBuilder builder)
+        builder.Services.AddSwaggerGen(c =>
         {
-            SwaggerConfiguration swaggerConfiguration = builder.Configuration.GetSection(nameof(SwaggerConfiguration)).Get<SwaggerConfiguration>();
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            c.IncludeXmlComments(xmlPath);
+            foreach (var version in swaggerConfiguration.Versions)
+                c.SwaggerDoc(version, new OpenApiInfo()
+                {
+                    Title = swaggerConfiguration.ApplicationTitle,
+                    Version = version
+                });
+        });
 
-            builder.Services.AddSwaggerGen(c =>
-            {
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
-                foreach (var version in swaggerConfiguration.Versions)
-                    c.SwaggerDoc(version, new OpenApiInfo()
-                    {
-                        Title = swaggerConfiguration.ApplicationTitle,
-                        Version = version
-                    });
-            });
-
-            return builder;
-        }
-
-        #endregion
+        return builder;
     }
+
+    #endregion
 }

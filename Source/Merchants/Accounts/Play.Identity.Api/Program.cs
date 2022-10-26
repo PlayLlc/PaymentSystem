@@ -1,13 +1,8 @@
-using ES.PurchaseAdjustment.Configuration;
-
-using Microsoft.OpenApi.Models;
-
 using Play.Identity.Api.Extensions;
-using Play.Mvc.Filters.Exceptions;
+using Play.Mvc.Filters;
+using Play.Mvc.Swagger;
 
 using Serilog;
-
-using System.Reflection;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 SwaggerConfiguration swaggerConfiguration = builder.Configuration.GetSection(nameof(SwaggerConfiguration)).Get<SwaggerConfiguration>();

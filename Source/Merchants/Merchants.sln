@@ -44,10 +44,13 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Identity.Api", "Accounts\Play.Identity.Api\Play.Identity.Api.csproj", "{8E4CBF7D-DD4D-4BAF-B6D9-550D2401765B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Portal", "Portal", "{80F844CF-229E-44FB-98D3-5BE625E2BF5C}"
+	ProjectSection(SolutionItems) = preProject
+		Notes.txt = Notes.txt
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_DeleteMe.MerchantPortal.DeleteMe", "Portal\_DeleteMe.MerchantPortal.DeleteMe\_DeleteMe.MerchantPortal.DeleteMe.csproj", "{F06EED84-2F34-4136-978C-7CA3873E2BC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Mvc", "Infrastructure\Play.Mvc\Play.Mvc.csproj", "{0DF6E768-4EAF-4023-90BA-CFC1BB03FAB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Mvc", "Infrastructure\Play.Mvc\Play.Mvc.csproj", "{0DF6E768-4EAF-4023-90BA-CFC1BB03FAB2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

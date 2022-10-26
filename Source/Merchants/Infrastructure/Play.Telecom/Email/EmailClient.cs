@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
-namespace Play.Telecom.SendGrid.Email;
+namespace Play.Telecom.Twilio.Email;
 
 public sealed class EmailClient : ISendEmail
 {

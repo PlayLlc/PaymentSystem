@@ -1,4 +1,4 @@
-﻿namespace ES.PurchaseAdjustment.Configuration;
+﻿namespace Play.Mvc.Swagger;
 
 public class OpenApiSpecification
 {

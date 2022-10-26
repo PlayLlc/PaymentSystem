@@ -1,17 +1,26 @@
-﻿namespace Play.Identity.Api.Models;
+﻿using Play.Mvc.Attributes.Validation;
 
-public class LoginViewModel : LoginInputModel
+using System.ComponentModel.DataAnnotations;
+
+namespace Play.Identity.Api.Models;
+
+public class LoginViewModel
 {
     #region Instance Values
 
-    public IEnumerable<ExternalProviderModel> VisibleExternalProviders => ExternalProviders.Where(x => !string.IsNullOrWhiteSpace(x.DisplayName));
-
-    public bool IsExternalLoginOnly => (EnableLocalLogin == false) && (ExternalProviders?.Count() == 1);
-    public string ExternalLoginScheme => IsExternalLoginOnly ? ExternalProviders?.SingleOrDefault()?.AuthenticationScheme ?? string.Empty : string.Empty;
-    public bool AllowRememberLogin { get; set; } = true;
-    public bool EnableLocalLogin { get; set; } = true;
-
     public IEnumerable<ExternalProviderModel> ExternalProviders { get; set; } = Enumerable.Empty<ExternalProviderModel>();
+
+    [Required]
+    [EmailAddress]
+    public string Username { get; set; } = string.Empty;
+
+    [Required]
+    [MinLength(8)]
+    public string Password { get; set; } = string.Empty;
+
+    [Required]
+    [Http]
+    public string ReturnUrl { get; set; } = string.Empty;
 
     #endregion
 }

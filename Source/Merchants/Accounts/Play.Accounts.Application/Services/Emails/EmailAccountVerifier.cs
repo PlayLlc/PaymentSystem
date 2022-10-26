@@ -3,11 +3,10 @@ using System.Net;
 
 using Microsoft.Extensions.Logging;
 
-using Play.Accounts.Application.Services.Emails;
 using Play.Accounts.Domain.Services;
 using Play.Core;
 using Play.Core.Extensions.IEnumerable;
-using Play.Telecom.SendGrid.Email;
+using Play.Telecom.Twilio.Email;
 
 namespace Play.Accounts.Application.Services;
 

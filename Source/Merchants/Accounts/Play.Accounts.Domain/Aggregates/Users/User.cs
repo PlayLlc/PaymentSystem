@@ -1,9 +1,9 @@
 ﻿using Play.Accounts.Contracts.Commands;
-using Play.Accounts.Contracts.Commands.User;
 using Play.Accounts.Contracts.Dtos;
 using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Repositories;
 using Play.Accounts.Domain.Services;
+using Play.Core;
 using Play.Domain;
 using Play.Domain.Aggregates;
 using Play.Domain.Exceptions;
@@ -63,34 +63,31 @@ public class User : Aggregate<string>
 
     #region Instance Members
 
-    internal string GetMerchantId()
+    internal string GetHashedPassword()
     {
-        return _MerchantId;
+        return _Password.HashedPassword;
     }
 
-    // HACK: What's going on here?
-    /// <exception cref="BusinessRuleValidationException"></exception>
-    public void LoginValidation()
+    public Result LoginValidation(IHashPasswords passwordHasher, string clearTextPassword)
     {
-        Enforce(new UserMustBeActive(_IsActive));
-        Enforce(new UserMustUpdatePasswordEvery90Days(_Password));
-    }
+        // TODO: User account must be temporarily locked after 6 login attempts for a minimum of 30..
 
-    public bool IsPasswordValid(IHashPasswords passwordHasher, string password)
-    {
-        if (!GetEnforcementResult(new UserMustUpdatePasswordEvery90Days(_Password)).Succeeded)
-            return false;
+        var userMustBeActive = GetEnforcementResult(new UserMustBeActive(_IsActive));
 
-        // TODO: Generate rule
-        if (_Password.HashedPassword == passwordHasher.GeneratePasswordHash(password))
-            return false;
+        if (!userMustBeActive.Succeeded)
+            return new Result(userMustBeActive.Errors);
 
-        return true;
-    }
+        var expiredPassword = GetEnforcementResult(new UserMustUpdatePasswordEvery90Days(_Password));
 
-    public bool IsPasswordExpired()
-    {
-        return !GetEnforcementResult(new UserMustUpdatePasswordEvery90Days(_Password)).Succeeded;
+        if (!expiredPassword.Succeeded)
+            return new Result(expiredPassword.Errors);
+
+        var passwordValidation = GetEnforcementResult(new PasswordMustBeCorrectToLogin(passwordHasher, _Password.HashedPassword, clearTextPassword));
+
+        if (!passwordValidation.Succeeded)
+            return new Result(passwordValidation.Errors);
+
+        return new Result();
     }
 
     /// <exception cref="AggregateException"></exception>

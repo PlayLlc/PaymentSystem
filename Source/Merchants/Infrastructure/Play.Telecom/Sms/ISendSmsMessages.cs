@@ -1,6 +1,4 @@
-﻿using Play.Telecom.Twilio.Sms;
-
-namespace Play.Telecom.SendGrid.Sms;
+﻿namespace Play.Telecom.Twilio.Sms;
 
 public interface ISendSmsMessages
 {

@@ -1,4 +1,4 @@
-﻿using Play.Telecom.SendGrid.Sms;
+﻿using Play.Telecom.Twilio.Sms;
 
 namespace Play.Accounts.Application.Services.Sms;
 

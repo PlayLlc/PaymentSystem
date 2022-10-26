@@ -7,15 +7,12 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 using Play.Accounts.Contracts.Dtos;
-using Play.Accounts.Domain.Aggregates;
 using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Enums;
 using Play.Accounts.Domain.Services;
 using Play.Accounts.Persistence.Sql.Entities;
 using Play.Globalization.Time;
 using Play.Randoms;
-
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Play.Accounts.Persistence.Sql.Persistence;
 

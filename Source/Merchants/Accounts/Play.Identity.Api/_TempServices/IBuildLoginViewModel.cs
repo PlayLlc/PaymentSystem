@@ -7,7 +7,7 @@ public interface IBuildLoginViewModel
     #region Instance Members
 
     public Task<LoginViewModel> BuildLoginViewModelAsync(string returnUrl);
-    public Task<LoginViewModel> BuildLoginViewModelAsync(LoginInputModel model);
+    public Task<LoginViewModel> BuildLoginViewModelAsync(LoginViewModel model);
 
     #endregion
 }

@@ -1,6 +1,6 @@
 ﻿namespace Play.Domain.Entities;
 
-public abstract class Entity<_TId> where _TId : IEquatable<_TId>
+public abstract class Entity<_TId> : IEntity where _TId : IEquatable<_TId>
 {
     #region Instance Members
 

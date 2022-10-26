@@ -1,4 +1,5 @@
-﻿using Play.Accounts.Domain.Services;
+﻿using Play.Accounts.Domain.Entities;
+using Play.Accounts.Domain.Services;
 using Play.Domain.Aggregates;
 
 namespace Play.Accounts.Domain.Aggregates;
@@ -27,9 +28,9 @@ internal class LastFourUserPasswordsMustBeUnique : BusinessRule<User, string>
 
     #region Instance Members
 
-    public override UserPasswordWasTooWeak CreateBusinessRuleViolationDomainEvent(User merchant)
+    public override UserPasswordWasTooWeak CreateBusinessRuleViolationDomainEvent(User user)
     {
-        return new UserPasswordWasTooWeak(merchant, this);
+        return new UserPasswordWasTooWeak(user, this);
     }
 
     public override bool IsBroken()

@@ -25,7 +25,7 @@ public static partial class WebApplicationBuilderExtensions
                 options.SignIn.RequireConfirmedPhoneNumber = true;
 
                 // PCI-DSS: Lock the user account after not more than 6 logon attempts
-                options.Lockout.MaxFailedAccessAttempts = 4;
+                options.Lockout.MaxFailedAccessAttempts = 6;
 
                 // PCI-DSS Set the lockout period to a minimum of 30 minutes or until the administrator enables the User Id
                 options.Lockout.DefaultLockoutTimeSpan = new TimeSpan(0, 30, 0);
@@ -94,7 +94,6 @@ public static partial class WebApplicationBuilderExtensions
             .AddGoogle("Google", options =>
             {
                 options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-
                 options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
                 options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
             })

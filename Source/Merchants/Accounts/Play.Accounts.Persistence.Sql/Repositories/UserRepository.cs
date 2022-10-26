@@ -41,7 +41,7 @@ public class UserRepository : IUserRepository
         User? user = await GetByIdAsync(userId).ConfigureAwait(false);
 
         if (user is null)
-            throw new NotFoundException(typeof(User), userId);
+            throw new NotFoundException(typeof(User));
 
         UserIdentity userIdentity = _Mapper.Map<UserIdentity>(user);
 

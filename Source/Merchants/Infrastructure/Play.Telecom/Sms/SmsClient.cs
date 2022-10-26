@@ -1,13 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
 
-using Play.Telecom.Twilio.Sms;
-
 using Twilio;
 using Twilio.Clients;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
 
-namespace Play.Telecom.SendGrid.Sms;
+namespace Play.Telecom.Twilio.Sms;
 
 public class SmsClient : ISendSmsMessages
 {

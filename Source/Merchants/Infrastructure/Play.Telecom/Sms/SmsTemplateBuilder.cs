@@ -1,4 +1,4 @@
-﻿namespace Play.Telecom.SendGrid.Sms;
+﻿namespace Play.Telecom.Twilio.Sms;
 
 public abstract class SmsTemplateBuilder
 {

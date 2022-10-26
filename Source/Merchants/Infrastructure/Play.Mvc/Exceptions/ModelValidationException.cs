@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 using Play.Core.Exceptions;
 
-namespace Play.Identity.Api.Extensions;
+namespace Play.Mvc.Exceptions;
 
 public class ModelValidationException : PlayException
 {

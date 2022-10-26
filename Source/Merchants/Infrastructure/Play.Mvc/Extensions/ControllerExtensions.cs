@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-using Play.Identity.Api.Extensions;
+using Play.Mvc.Exceptions;
 
 namespace Play.Mvc.Extensions;
 

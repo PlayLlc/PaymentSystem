@@ -11,7 +11,6 @@ using Play.Accounts.Domain.ValueObjects;
 using Play.Core.Exceptions;
 using Play.Randoms;
 using Play.Domain.Exceptions;
-using Play.Accounts.Contracts.Commands.User;
 using Play.Accounts.Contracts.Commands;
 
 namespace Play.Accounts.Domain.Aggregates;

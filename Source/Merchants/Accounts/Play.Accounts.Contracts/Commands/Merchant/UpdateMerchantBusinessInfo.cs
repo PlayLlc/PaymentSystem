@@ -2,7 +2,7 @@
 
 using Play.Accounts.Contracts.Dtos;
 
-namespace Play.Accounts.Contracts.Commands.Merchant;
+namespace Play.Accounts.Contracts.Commands;
 
 public record UpdateMerchantBusinessInfo
 {

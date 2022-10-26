@@ -1,13 +1,10 @@
-﻿using Play.Accounts.Domain.Services;
-using Play.Telecom.SendGrid.Sms;
+﻿using Microsoft.Extensions.Logging;
 
-using Microsoft.Extensions.Logging;
-
-using Play.Accounts.Application.Services.Sms;
+using Play.Accounts.Domain.Services;
 using Play.Core;
 using Play.Telecom.Twilio.Sms;
 
-namespace Play.Accounts.Application.Services;
+namespace Play.Accounts.Application.Services.Sms;
 
 public class MobilePhoneVerifier : IVerifyMobilePhones
 {

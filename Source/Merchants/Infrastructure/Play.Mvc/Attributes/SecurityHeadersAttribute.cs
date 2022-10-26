@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Play.Identity.Api.Attributes;
+namespace Play.Mvc.Attributes;
 
 public class SecurityHeadersAttribute : ActionFilterAttribute
 {

@@ -7,10 +7,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
+using Play.Accounts.Domain.Aggregates;
+using Play.Accounts.Domain.Entities;
+using Play.Accounts.Domain.Repositories;
+using Play.Accounts.Domain.Services;
 using Play.Accounts.Persistence.Sql.Entities;
-using Play.Identity.Api.Attributes;
+using Play.Accounts.Persistence.Sql.Repositories;
+using Play.Domain.Exceptions;
 using Play.Identity.Api.Models;
-using Play.Mvc.Filters.Exceptions;
+using Play.Identity.Api.Services;
+using Play.Mvc.Attributes;
 
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
@@ -27,7 +33,10 @@ public class AccountController : Controller
 
     private readonly IBuildLoginViewModel _LoginViewModelBuilder;
     private readonly IIdentityServerInteractionService _InteractionService;
-    private readonly SignInManager<UserIdentity> _SignInManager;
+
+    private readonly IUserRepository _UserRepository;
+    private readonly IHashPasswords _PasswordHasher;
+    private readonly ILoginUsers _UserLoginService;
     private readonly ILogger<AccountController> _Logger;
 
     #endregion
@@ -35,12 +44,14 @@ public class AccountController : Controller
     #region Constructor
 
     public AccountController(
-        IBuildLoginViewModel loginViewModelBuilder, IIdentityServerInteractionService interactionService, SignInManager<UserIdentity> signInManager,
-        ILogger<AccountController> logger)
+        IBuildLoginViewModel loginViewModelBuilder, IIdentityServerInteractionService interactionService, IUserRepository userRepository,
+        IHashPasswords passwordHasher, ILoginUsers userLoginService, ILogger<AccountController> logger)
     {
         _LoginViewModelBuilder = loginViewModelBuilder;
         _InteractionService = interactionService;
-        _SignInManager = signInManager;
+        _UserRepository = userRepository;
+        _PasswordHasher = passwordHasher;
+        _UserLoginService = userLoginService;
         _Logger = logger;
     }
 
@@ -51,17 +62,7 @@ public class AccountController : Controller
     [HttpGet]
     public async Task<IActionResult> Login(string returnUrl)
     {
-        // build a model so we know what to show on the login page
         LoginViewModel vm = await _LoginViewModelBuilder.BuildLoginViewModelAsync(returnUrl).ConfigureAwait(false);
-
-        if (vm.IsExternalLoginOnly)
-
-            // we only have one option for logging in and it's an external provider
-            return RedirectToAction("Challenge", "External", new
-            {
-                scheme = vm.ExternalLoginScheme,
-                returnUrl
-            });
 
         return View(vm);
     }
@@ -69,7 +70,7 @@ public class AccountController : Controller
     /// <exception cref="Exception"></exception>
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login([FromForm] LoginInputModel model)
+    public async Task<IActionResult> Login([FromForm] LoginViewModel model)
     {
         AuthorizationRequest? context = await _InteractionService.GetAuthorizationContextAsync(model.ReturnUrl);
 
@@ -77,46 +78,25 @@ public class AccountController : Controller
         if (context is null)
             return await Login(model.ReturnUrl);
 
-        // Something went wrong. Show form with error
         if (!ModelState.IsValid)
             return View(await _LoginViewModelBuilder.BuildLoginViewModelAsync(model).ConfigureAwait(false));
 
-        UserIdentity? user = await _SignInManager.UserManager.FindByNameAsync(model.Username);
+        User user = await _UserRepository.GetByEmailAsync(model.Username).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
 
-        if (!await IsUsernameAndPasswordValid(user, model.Password).ConfigureAwait(false))
+        var loginResult = await _UserLoginService.LoginAsync(HttpContext, user, model.Password).ConfigureAwait(false);
+
+        if (!loginResult.Succeeded)
         {
-            ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
+            foreach (var error in loginResult.Errors)
+                ModelState.AddModelError(string.Empty, error);
 
             return View(await _LoginViewModelBuilder.BuildLoginViewModelAsync(model).ConfigureAwait(false));
         }
 
-        AuthenticationProperties? props = AccountOptions.AllowRememberLogin && model.RememberLogin
-            ? new AuthenticationProperties
-            {
-                IsPersistent = true,
-                ExpiresUtc = DateTimeOffset.UtcNow.Add(AccountOptions.RememberMeLoginDuration)
-            }
-            : null;
-
-        IdentityServerUser issuer = new IdentityServerUser(user!.Id) {DisplayName = user!.UserName};
-
-        await HttpContext.SignInAsync(issuer, props);
-
         return Redirect(model.ReturnUrl);
     }
 
-    private async Task<bool> IsUsernameAndPasswordValid(UserIdentity? user, string password)
-    {
-        if (user is null)
-            return false;
-
-        SignInResult? result = await _SignInManager.PasswordSignInAsync(user.UserName, password, false, false /* HACK CHANGE THIS */);
-
-        if (result.Succeeded != SignInResult.Success.Succeeded)
-            return false;
-
-        return true;
-    }
-
     #endregion
+
+    // TODO: Logout 
 }

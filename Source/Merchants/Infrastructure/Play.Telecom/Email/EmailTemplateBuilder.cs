@@ -1,4 +1,4 @@
-﻿namespace Play.Telecom.SendGrid.Email;
+﻿namespace Play.Telecom.Twilio.Email;
 
 public abstract class EmailTemplateBuilder
 {

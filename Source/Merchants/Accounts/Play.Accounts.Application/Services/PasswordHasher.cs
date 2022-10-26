@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-using Play.Accounts.Contracts.Dtos;
-using Play.Accounts.Domain.Aggregates;
 using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Services;
 using Play.Accounts.Persistence.Sql.Entities;

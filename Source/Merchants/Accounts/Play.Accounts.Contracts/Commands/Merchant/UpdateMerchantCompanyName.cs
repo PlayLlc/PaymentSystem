@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Play.Accounts.Contracts.Commands.Merchant;
+namespace Play.Accounts.Contracts.Commands;
 
 public record UpdateMerchantCompanyName
 {

@@ -1,6 +1,4 @@
-﻿using Play.Accounts.Domain.Aggregates;
-
-namespace Play.Accounts.Domain.Services;
+﻿namespace Play.Accounts.Domain.Services;
 
 public interface IHashPasswords
 {

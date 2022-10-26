@@ -8,10 +8,6 @@ using Play.Accounts.Persistence.Sql.Configuration;
 using Play.Accounts.Persistence.Sql.Entities;
 using Play.Accounts.Domain.ValueObjects;
 using Play.Globalization.Time;
-
-using System.Diagnostics;
-using System.Linq;
-
 using Play.Accounts.Domain.Enums;
 
 namespace Play.Accounts.Persistence.Sql.Persistence;

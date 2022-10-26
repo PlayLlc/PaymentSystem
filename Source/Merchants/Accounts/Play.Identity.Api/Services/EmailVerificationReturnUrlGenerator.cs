@@ -2,7 +2,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 
-using Play.Accounts.Application.Services.Emails;
+using Play.Accounts.Application.Services;
 using Play.Accounts.Contracts.Commands;
 
 namespace Play.Identity.Api.Services;

@@ -1,4 +1,4 @@
-﻿using Play.Telecom.SendGrid.Email;
+﻿using Play.Telecom.Twilio.Email;
 
 namespace Play.Accounts.Application.Services;
 

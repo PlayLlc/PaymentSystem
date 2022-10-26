@@ -2,7 +2,7 @@
 
 using Play.Core;
 
-namespace Play.Telecom.SendGrid.Email;
+namespace Play.Telecom.Twilio.Email;
 
 public class EmailDeliveryResult : Result
 {

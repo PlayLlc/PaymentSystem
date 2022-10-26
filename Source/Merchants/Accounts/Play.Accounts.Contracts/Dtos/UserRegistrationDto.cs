@@ -1,8 +1,9 @@
 ﻿using Play.Domain;
-using Play.Globalization.Time;
 using Play.Mvc.Attributes;
 
 using System.ComponentModel.DataAnnotations;
+
+using Play.Globalization.Time;
 
 namespace Play.Accounts.Contracts.Dtos;
 

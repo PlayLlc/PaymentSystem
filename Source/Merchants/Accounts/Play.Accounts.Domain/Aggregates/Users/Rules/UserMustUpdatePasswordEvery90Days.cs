@@ -9,7 +9,7 @@ internal class UserMustUpdatePasswordEvery90Days : BusinessRule<User, string>
 
     private readonly bool _IsValid;
     private readonly TimeSpan _ValidityPeriod = new(90);
-    public override string Message => "The user must update their password every 90 days";
+    public override string Message => "The login attempt has failed because the user's password has expired";
 
     #endregion
 

@@ -8,7 +8,7 @@ internal class UserMustBeActive : BusinessRule<User, string>
 
     private readonly bool _IsValid;
 
-    public override string Message => "Passwords must be at least 7 characters, contain numeric, alphabetic, and special characters";
+    public override string Message => "The user cannot perform the requested action because they have been deactivated";
 
     #endregion
 

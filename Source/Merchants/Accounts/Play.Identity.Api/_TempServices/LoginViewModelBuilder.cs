@@ -13,7 +13,11 @@ public class LoginViewModelBuilder : IBuildLoginViewModel
     #region Instance Values
 
     private readonly IIdentityServerInteractionService _InteractionService;
+
+    // in memory
     private readonly IAuthenticationSchemeProvider _SchemeProvider;
+
+    // persistence
     private readonly IIdentityProviderStore _IdentityProviderStore;
     private readonly IClientStore _ClientStore;
 
@@ -35,11 +39,10 @@ public class LoginViewModelBuilder : IBuildLoginViewModel
 
     #region Instance Members
 
-    public async Task<LoginViewModel> BuildLoginViewModelAsync(LoginInputModel model)
+    public async Task<LoginViewModel> BuildLoginViewModelAsync(LoginViewModel model)
     {
         LoginViewModel vm = await BuildLoginViewModelAsync(model.ReturnUrl);
         vm.Username = model.Username;
-        vm.RememberLogin = model.RememberLogin;
 
         return vm;
     }
@@ -48,60 +51,32 @@ public class LoginViewModelBuilder : IBuildLoginViewModel
     {
         AuthorizationRequest context = await _InteractionService.GetAuthorizationContextAsync(returnUrl);
 
-        LoginViewModel? modelFromScheme = await TryGetLoginViewModelFromScheme(context, returnUrl).ConfigureAwait(false);
-
-        if (modelFromScheme is not null)
-            return modelFromScheme;
-
         return new LoginViewModel
         {
-            AllowRememberLogin = AccountOptions.AllowRememberLogin,
             ReturnUrl = returnUrl,
             Username = context?.LoginHint ?? string.Empty,
             ExternalProviders = await GetExternalProvidersAsync(context!).ConfigureAwait(false)
         };
     }
 
-    private async Task<LoginViewModel?> TryGetLoginViewModelFromScheme(AuthorizationRequest context, string returnUrl)
+    private async Task<IEnumerable<ExternalProviderModel>> GetExternalProvidersAsync(AuthorizationRequest authorizationRequest)
     {
-        if (context?.IdP == null)
-            return null;
+        List<ExternalProviderModel> providers = new();
 
-        if (await _SchemeProvider.GetSchemeAsync(context.IdP) == null)
-            return null;
-
-        LoginViewModel vm = new LoginViewModel
-        {
-            ReturnUrl = returnUrl,
-            Username = context?.LoginHint ?? string.Empty,
-            ExternalProviders = new[] {new ExternalProviderModel {AuthenticationScheme = context?.IdP ?? string.Empty}}
-        };
-
-        return vm;
-    }
-
-    private async Task<HashSet<ExternalProviderModel>> GetExternalProvidersAsync(AuthorizationRequest authorizationRequest)
-    {
-        IEnumerable<AuthenticationScheme> schemes = await _SchemeProvider.GetAllSchemesAsync();
-
-        HashSet<ExternalProviderModel> providers = schemes.Where(x => x.DisplayName != null)
+        providers.AddRange((await _SchemeProvider.GetAllSchemesAsync().ConfigureAwait(false)).Where(x => x.DisplayName != null)
             .Select(x => new ExternalProviderModel
             {
                 DisplayName = x.DisplayName ?? x.Name,
                 AuthenticationScheme = x.Name
             })
-            .ToHashSet();
+            .ToList());
 
-        IEnumerable<ExternalProviderModel> identityProvidersSchemes = (await _IdentityProviderStore.GetAllSchemeNamesAsync())
-            .Where(x => x.Enabled && !string.IsNullOrWhiteSpace(x.DisplayName))
+        providers.AddRange((await _IdentityProviderStore.GetAllSchemeNamesAsync()).Where(x => x.Enabled && !string.IsNullOrWhiteSpace(x.DisplayName))
             .Select(x => new ExternalProviderModel
             {
                 AuthenticationScheme = x.Scheme,
                 DisplayName = x.DisplayName
-            });
-
-        foreach (ExternalProviderModel provider in identityProvidersSchemes)
-            providers.Add(provider);
+            }));
 
         if (authorizationRequest?.Client.ClientId is null)
             return providers;
@@ -117,7 +92,7 @@ public class LoginViewModelBuilder : IBuildLoginViewModel
         if (!client.IdentityProviderRestrictions.Any())
             return providers;
 
-        return providers.Where(provider => client.IdentityProviderRestrictions.Contains(provider.AuthenticationScheme)).ToHashSet();
+        return providers.Where(provider => client.IdentityProviderRestrictions.Contains(provider.AuthenticationScheme));
     }
 
     #endregion

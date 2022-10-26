@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Play.Telecom.SendGrid.Email;
+namespace Play.Telecom.Twilio.Email;
 
 public class SendGridConfiguration
 {
