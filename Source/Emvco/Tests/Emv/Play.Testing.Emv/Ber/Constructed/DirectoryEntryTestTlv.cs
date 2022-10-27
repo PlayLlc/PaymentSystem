@@ -1,11 +1,10 @@
-﻿using Play.Ber.DataObjects;
-using Play.Ber.Tags;
+﻿using Play.Ber.Tags;
 using Play.Emv.Ber.Templates;
 using Play.Testing.Emv.Ber.Primitive;
 
 namespace Play.Testing.Emv.Ber.Constructed;
 
-public class DirectoryEntryTestTlv : TestTlv
+public class DirectoryEntryTestTlv : ConstructedTlv
 {
     #region Static Metadata
 
@@ -21,14 +20,16 @@ public class DirectoryEntryTestTlv : TestTlv
         0x01, 0x01, 0x9F, 0x2A, 0x01, 0x03
     };
 
-    private static readonly Tag[] _ChildIndex = DirectoryEntry.ChildTags;
-    private static readonly Tag Tag = DirectoryEntry.Tag;
+    private static readonly TestTlv[] _DefaultChildren =
+    {
+        new ApplicationDedicatedFileNameTestTlv(), new ApplicationLabelTestTlv(), new ApplicationPriorityIndicatorTestTlv(), new ExtendedSelectionTestTlv(), new KernelIdentifierTestTlv()
+    };
 
     #endregion
 
     #region Constructor
 
-    public DirectoryEntryTestTlv() : base(_DefaultContentOctets)
+    public DirectoryEntryTestTlv() : base(DirectoryEntry.ChildTags, _DefaultChildren)
     { }
 
     public DirectoryEntryTestTlv(byte[] value) : base(value)

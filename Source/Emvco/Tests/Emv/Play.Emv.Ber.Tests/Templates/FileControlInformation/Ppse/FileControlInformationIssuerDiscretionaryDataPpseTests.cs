@@ -32,7 +32,7 @@ public class FileControlInformationIssuerDiscretionaryDataPpseTests : TestBase
     #region Instance Members
 
     [Fact]
-    public void PrimitiveValue_EncodingTagLengthValue_ReturnsExpectedResult()
+    public void ConstructedValue_EncodingTagLengthValue_ReturnsExpectedResult()
     {
         byte[] expected = EmvFixture.FileControlInformationIssuerDiscretionaryDataPpseBuilder.GetDefaultEncodedTagLengthValue();
         FileControlInformationIssuerDiscretionaryDataPpse sut = _Fixture.Create<FileControlInformationIssuerDiscretionaryDataPpse>();
@@ -42,7 +42,7 @@ public class FileControlInformationIssuerDiscretionaryDataPpseTests : TestBase
     }
 
     [Fact]
-    public void PrimitiveValue_EncodingValue_ReturnsExpectedResult()
+    public void ConstructedValue_EncodingValue_ReturnsExpectedResult()
     {
         byte[] expected = EmvFixture.FileControlInformationIssuerDiscretionaryDataPpseBuilder.GetDefaultEncodedValue();
         FileControlInformationIssuerDiscretionaryDataPpse sut = _Fixture.Create<FileControlInformationIssuerDiscretionaryDataPpse>();
@@ -52,7 +52,7 @@ public class FileControlInformationIssuerDiscretionaryDataPpseTests : TestBase
     }
 
     [Fact]
-    public void PrimitiveValue_DecodingValue_ReturnsExpectedResult()
+    public void ConstructedValue_DecodingValue_ReturnsExpectedResult()
     {
         FileControlInformationIssuerDiscretionaryDataPpse expected = _Fixture.Create<FileControlInformationIssuerDiscretionaryDataPpse>();
         FileControlInformationIssuerDiscretionaryDataPpse actual =

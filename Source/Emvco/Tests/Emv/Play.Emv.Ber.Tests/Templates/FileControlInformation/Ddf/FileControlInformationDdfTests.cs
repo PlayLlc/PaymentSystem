@@ -32,7 +32,7 @@ public class FileControlInformationDdfTests : TestBase
     #region Instance Members
 
     [Fact]
-    public void PrimitiveValue_EncodingTagLengthValue_ReturnsExpectedResult()
+    public void ConstructedValue_EncodingTagLengthValue_ReturnsExpectedResult()
     {
         byte[] expected = EmvFixture.FileControlInformationDdfBuilder.GetDefaultEncodedTagLengthValue();
         FileControlInformationDdf sut = _Fixture.Create<FileControlInformationDdf>();
@@ -42,7 +42,7 @@ public class FileControlInformationDdfTests : TestBase
     }
 
     [Fact]
-    public void PrimitiveValue_EncodingValue_ReturnsExpectedResult()
+    public void ConstructedValue_EncodingValue_ReturnsExpectedResult()
     {
         byte[] expected = EmvFixture.FileControlInformationDdfBuilder.GetDefaultEncodedValue();
         FileControlInformationDdf sut = _Fixture.Create<FileControlInformationDdf>();
@@ -52,7 +52,7 @@ public class FileControlInformationDdfTests : TestBase
     }
 
     [Fact]
-    public void PrimitiveValue_DecodingValue_ReturnsExpectedResult()
+    public void ConstructedValue_DecodingValue_ReturnsExpectedResult()
     {
         FileControlInformationDdf expected = _Fixture.Create<FileControlInformationDdf>();
         FileControlInformationDdf actual =

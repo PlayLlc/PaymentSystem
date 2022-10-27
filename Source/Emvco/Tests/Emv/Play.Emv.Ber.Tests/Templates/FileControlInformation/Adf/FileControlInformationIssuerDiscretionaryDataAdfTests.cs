@@ -35,7 +35,7 @@ public class FileControlInformationIssuerDiscretionaryDataAdfTests : TestBase
     #region Instance Members
 
     [Fact]
-    public void PrimitiveValue_EncodingTagLengthValue_ReturnsExpectedResult()
+    public void ConstructedValue_EncodingTagLengthValue_ReturnsExpectedResult()
     {
         byte[] expected = EmvFixture.FileControlInformationIssuerDiscretionaryDataAdfBuilder.GetDefaultEncodedTagLengthValue();
         FileControlInformationIssuerDiscretionaryDataDdf sut = _Fixture.Create<FileControlInformationIssuerDiscretionaryDataDdf>();
@@ -45,7 +45,7 @@ public class FileControlInformationIssuerDiscretionaryDataAdfTests : TestBase
     }
 
     [Fact]
-    public void PrimitiveValue_EncodingValue_ReturnsExpectedResult()
+    public void ConstructedValue_EncodingValue_ReturnsExpectedResult()
     {
         byte[] expected = EmvFixture.FileControlInformationIssuerDiscretionaryDataAdfBuilder.GetDefaultEncodedTagLengthValue();
         FileControlInformationIssuerDiscretionaryDataDdf sut = _Fixture.Create<FileControlInformationIssuerDiscretionaryDataDdf>();
@@ -55,7 +55,7 @@ public class FileControlInformationIssuerDiscretionaryDataAdfTests : TestBase
     }
 
     [Fact]
-    public void PrimitiveValue_DecodingValue_ReturnsExpectedResult()
+    public void ConstructedValue_DecodingValue_ReturnsExpectedResult()
     {
         FileControlInformationIssuerDiscretionaryDataDdf expected = _Fixture.Create<FileControlInformationIssuerDiscretionaryDataDdf>();
         FileControlInformationIssuerDiscretionaryDataDdf actual =
