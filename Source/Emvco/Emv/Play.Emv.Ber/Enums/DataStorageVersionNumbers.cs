@@ -11,8 +11,8 @@ public sealed record DataStorageVersionNumbers : EnumObject<byte>
 
     public static readonly DataStorageVersionNumbers Empty = new();
     public static readonly DataStorageVersionNumbers NotSupported = new(0);
-    public static readonly DataStorageVersionNumbers Version1 = new(0b100_0000);
-    public static readonly DataStorageVersionNumbers Version2 = new(0b1000_0000);
+    public static readonly DataStorageVersionNumbers Version1 = new(0b1);
+    public static readonly DataStorageVersionNumbers Version2 = new(0b10);
 
     private static readonly Dictionary<byte, DataStorageVersionNumbers> _ValueObjectMap = new()
     {

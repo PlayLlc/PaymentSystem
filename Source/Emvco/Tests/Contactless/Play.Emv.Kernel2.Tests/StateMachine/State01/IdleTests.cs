@@ -52,15 +52,9 @@ public class IdleTests
 
     public IdleTests()
     {
-        _Fixture = new ContactlessFixture().Create();
-        KernelId masterCardKernel = new KernelId(2);
-        _Fixture.Register(() => masterCardKernel);
+        _Fixture = FixtureSetup.CreateAndSetupKernel2Fixture();
 
-        _Database = ContactlessFixture.CreateDefaultDatabase(_Fixture, new ContactlessFixtureBuilderOptions
-        {
-             InitializeDefaultConfigurationData = false,
-              ActivateKernelDbOnInitialization = false
-        });
+        _Database = ContactlessFixture.CreateDefaultDatabase(_Fixture, false);
 
         _KernelStateResolver = new Mock<IGetKernelState>(MockBehavior.Strict);
         _EndpointClient = new Mock<IEndpointClient>(MockBehavior.Strict);
@@ -225,7 +219,7 @@ public class IdleTests
         SelectApplicationDefinitionFileInfoResponse rapdu = ContactlessFixture.CreateSelectApplicationDefinitionFileInfoResponse(_Fixture);
 
         CardholderName tlv = new("testuser");
-        ApplicationCapabilitiesInformation applicationCapabilitiesInformation = new(0b0100_0000_0000_0000_0000_0000);
+        ApplicationCapabilitiesInformation applicationCapabilitiesInformation = new(0b010_0000_0000_0000_0000);
         DataStorageId dataStorageId = new DataStorageId(123);
 
         ActivateKernelRequest activeKernelRequest = new(kernelSessionId, new PrimitiveValue[] { tlv, applicationCapabilitiesInformation, dataStorageId }, rapdu);
