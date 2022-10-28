@@ -1,5 +1,6 @@
 ﻿using AutoFixture.Kernel;
 
+using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.ValueTypes;
 
 namespace Play.Testing.Emv;
@@ -23,10 +24,10 @@ public class SdsSchemeIndicatorBuilder : SpecimenBuilder
         if (type == null)
             return new NoSpecimen();
 
-        if (type != typeof(SdsSchemeIndicator))
+        if (type != typeof(SdsSchemeIndicators))
             return new NoSpecimen();
 
-        SdsSchemeIndicator[] all = SdsSchemeIndicator.GetAll();
+        SdsSchemeIndicators[] all = new SdsSchemeIndicators().GetAll();
 
         return all[new Random().Next(0, all.Length - 1)];
     }

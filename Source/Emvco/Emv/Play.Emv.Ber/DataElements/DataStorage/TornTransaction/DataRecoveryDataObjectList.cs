@@ -58,7 +58,7 @@ public record DataRecoveryDataObjectList : DataObjectList
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => base.GetValueByteCount();
 
     #endregion
 }

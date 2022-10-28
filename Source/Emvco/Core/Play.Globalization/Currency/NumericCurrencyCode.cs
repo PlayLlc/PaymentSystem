@@ -1,4 +1,6 @@
-﻿namespace Play.Globalization.Currency;
+﻿using Play.Codecs;
+
+namespace Play.Globalization.Currency;
 
 public readonly record struct NumericCurrencyCode
 {
@@ -33,6 +35,12 @@ public readonly record struct NumericCurrencyCode
     #region Operator Overrides
 
     public static implicit operator ushort(NumericCurrencyCode value) => value._Value;
+
+    #endregion
+
+    #region Serialization
+
+    public byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value);
 
     #endregion
 }

@@ -15,6 +15,7 @@ public record UnpredictableNumberNumeric : DataElement<uint>, IEqualityComparer<
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x9F6A;
     private const byte _ByteLength = 4;
+    private const byte _CharLength = 8;
 
     #endregion
 
@@ -39,9 +40,11 @@ public record UnpredictableNumberNumeric : DataElement<uint>, IEqualityComparer<
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        PlayCodec.NumericCodec.DecodeToByte(value);
+        uint result = PlayCodec.NumericCodec.DecodeToUInt32(value);
 
-        return new UnpredictableNumberNumeric(PlayCodec.NumericCodec.DecodeToUInt32(value));
+        Check.Primitive.ForCharLength(result.GetNumberOfDigits(), _CharLength, Tag);
+
+        return new UnpredictableNumberNumeric(result);
     }
 
     public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value, _ByteLength);
@@ -92,6 +95,8 @@ public record UnpredictableNumberNumeric : DataElement<uint>, IEqualityComparer<
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
+
+    public override ushort GetValueByteCount() => PlayCodec.NumericCodec.GetByteCount(_Value);
 
     #endregion
 }

@@ -16,6 +16,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
 
     private readonly S3R1 _S3R1;
     private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
+    private readonly IValidateRelayResistanceProtocol _ValidateRelayResistanceProtocol;
 
     #endregion
 
@@ -28,6 +29,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     {
         _S3R1 = s3R1;
         _UnpredictableNumberGenerator = unpredictableNumberGenerator;
+        _ValidateRelayResistanceProtocol = new RelayResistanceProtocolValidator(database.GetTransactionSessionId()!.Value, 2);
     }
 
     #endregion

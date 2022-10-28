@@ -3,6 +3,7 @@ using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
+using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.ValueTypes;
 
@@ -16,7 +17,7 @@ public record ApplicationCapabilitiesInformation : DataElement<uint>, IEqualityC
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F5D;
-    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     private const byte _ByteLength = 3;
 
     #endregion
@@ -40,13 +41,13 @@ public record ApplicationCapabilitiesInformation : DataElement<uint>, IEqualityC
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        ushort result = PlayCodec.NumericCodec.DecodeToUInt16(value);
+        uint result = PlayCodec.BinaryCodec.DecodeToUInt32(value);
 
         return new ApplicationCapabilitiesInformation(result);
     }
 
-    public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(_Value, length);
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value, _ByteLength);
+    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode(_Value, length);
 
     #endregion
 
@@ -72,17 +73,17 @@ public record ApplicationCapabilitiesInformation : DataElement<uint>, IEqualityC
     public bool CombinedDataAuthenticationIndicator() => _Value.IsBitSet(9);
     public override PlayEncodingId GetEncodingId() => EncodingId;
 
-    public SdsSchemeIndicator GetSdsSchemeIndicator()
+    public SdsSchemeIndicators GetSdsSchemeIndicator()
     {
-        const byte bitOffset = 1;
+        const byte bitMask = 0b11110000;
 
-        return SdsSchemeIndicator.Get((byte) (_Value >> bitOffset));
+        return SdsSchemeIndicators.Get((byte) (_Value).GetMaskedValue(bitMask));
     }
 
     public DataStorageVersionNumber GetDataStorageVersionNumber()
     {
         const byte bitOffset = 16;
-        const byte bitMask = 0b00111111;
+        const byte bitMask = 0b11111100;
 
         return new DataStorageVersionNumber(((byte) (_Value >> bitOffset)).GetMaskedValue(bitMask));
     }
