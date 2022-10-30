@@ -33,7 +33,7 @@ public class AccountController : Controller
 
     private readonly IBuildLoginViewModel _LoginViewModelBuilder;
     private readonly IIdentityServerInteractionService _InteractionService;
-
+    private readonly UserManager<UserIdentity> _UserManager;
     private readonly IUserRepository _UserRepository;
     private readonly IHashPasswords _PasswordHasher;
     private readonly ILoginUsers _UserLoginService;
@@ -44,11 +44,12 @@ public class AccountController : Controller
     #region Constructor
 
     public AccountController(
-        IBuildLoginViewModel loginViewModelBuilder, IIdentityServerInteractionService interactionService, IUserRepository userRepository,
-        IHashPasswords passwordHasher, ILoginUsers userLoginService, ILogger<AccountController> logger)
+        IBuildLoginViewModel loginViewModelBuilder, IIdentityServerInteractionService interactionService, UserManager<UserIdentity> userManager,
+        IUserRepository userRepository, IHashPasswords passwordHasher, ILoginUsers userLoginService, ILogger<AccountController> logger)
     {
         _LoginViewModelBuilder = loginViewModelBuilder;
         _InteractionService = interactionService;
+        _UserManager = userManager;
         _UserRepository = userRepository;
         _PasswordHasher = passwordHasher;
         _UserLoginService = userLoginService;
@@ -62,6 +63,10 @@ public class AccountController : Controller
     [HttpGet]
     public async Task<IActionResult> Login(string returnUrl)
     {
+        IPasswordHasher<UserIdentity> hasher = _UserManager.PasswordHasher;
+
+        User user = await _UserRepository.GetByEmailAsync("test@aol.com").ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
+
         LoginViewModel vm = await _LoginViewModelBuilder.BuildLoginViewModelAsync(returnUrl).ConfigureAwait(false);
 
         return View(vm);

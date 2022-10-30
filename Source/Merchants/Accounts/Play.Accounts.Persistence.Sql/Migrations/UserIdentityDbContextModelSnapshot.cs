@@ -247,14 +247,24 @@ namespace Play.Accounts.Persistence.Sql.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("ApartmentNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StreetAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Zipcode")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("Zipcode");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -285,7 +295,14 @@ namespace Play.Accounts.Persistence.Sql.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<long>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Code"), 1L, 1);
+
                     b.Property<DateTime>("SentDate")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -324,12 +341,19 @@ namespace Play.Accounts.Persistence.Sql.Migrations
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("UserId");
 
                     b.Property<DateTime>("CreatedOn")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.Property<string>("HashedPassword")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id", "CreatedOn");
 
                     b.ToTable("Passwords", (string)null);
                 });
@@ -341,7 +365,13 @@ namespace Play.Accounts.Persistence.Sql.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("DateOfBirth")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("LastFourOfSocial")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -757,21 +787,21 @@ namespace Play.Accounts.Persistence.Sql.Migrations
                         new
                         {
                             Id = "Administrator",
-                            ConcurrencyStamp = "2a575df4-6a72-4353-a7db-ec3cc214c592",
+                            ConcurrencyStamp = "aaa433d1-cb4c-4d8e-be9d-453e56145758",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "SalesAssociate",
-                            ConcurrencyStamp = "d06b300f-cb32-4340-b556-4c80cf5c1e97",
+                            ConcurrencyStamp = "51e30897-4096-47cf-a65e-0f580908ef64",
                             Name = "SalesAssociate",
                             NormalizedName = "SALESASSOCIATE"
                         },
                         new
                         {
                             Id = "SuperAdmin",
-                            ConcurrencyStamp = "358af4cf-0237-4ae8-bad3-d4f0d99bf0ce",
+                            ConcurrencyStamp = "045784f8-0708-461c-b511-de280bf5c4d5",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         });
@@ -822,6 +852,9 @@ namespace Play.Accounts.Persistence.Sql.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("PasswordCreatedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
@@ -857,9 +890,9 @@ namespace Play.Accounts.Persistence.Sql.Migrations
 
                     b.HasIndex("ContactId");
 
-                    b.HasIndex("PasswordId");
-
                     b.HasIndex("PersonalDetailId");
+
+                    b.HasIndex("PasswordId", "PasswordCreatedOn");
 
                     b.ToTable("Users", (string)null);
                 });
@@ -939,13 +972,13 @@ namespace Play.Accounts.Persistence.Sql.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Play.Accounts.Domain.Entities.Password", "Password")
-                        .WithMany()
-                        .HasForeignKey("PasswordId");
-
                     b.HasOne("Play.Accounts.Domain.Entities.PersonalDetail", "PersonalDetail")
                         .WithMany()
                         .HasForeignKey("PersonalDetailId");
+
+                    b.HasOne("Play.Accounts.Domain.Entities.Password", "Password")
+                        .WithMany()
+                        .HasForeignKey("PasswordId", "PasswordCreatedOn");
 
                     b.Navigation("Address");
 

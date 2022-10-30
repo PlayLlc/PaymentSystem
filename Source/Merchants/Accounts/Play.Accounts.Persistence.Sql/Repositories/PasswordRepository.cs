@@ -17,6 +17,7 @@ public class PasswordRepository : IPasswordRepository
 
     public PasswordRepository(DbContext context)
     {
+        context.ChangeTracker.LazyLoadingEnabled = false;
         _Set = context.Set<Password>();
     }
 

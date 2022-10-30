@@ -10,6 +10,10 @@ using Play.Accounts.Domain.ValueObjects;
 using Play.Globalization.Time;
 using Play.Accounts.Domain.Enums;
 
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+
+using Play.Persistence.Sql;
+
 namespace Play.Accounts.Persistence.Sql.Persistence;
 
 public class UserIdentityDbContext : IdentityDbContext<UserIdentity, RoleIdentity, string>
@@ -35,7 +39,7 @@ public class UserIdentityDbContext : IdentityDbContext<UserIdentity, RoleIdentit
         builder.Entity<BusinessType>().HasData(BusinessTypes.Empty.GetAll().Select(e => new BusinessType(e)));
 
         builder.Entity<MerchantCategoryCode>().ToTable($"{nameof(MerchantCategoryCodes)}").HasKey(a => a.Value);
-        builder.Entity<MerchantCategoryCode>().Property<string>(a => a.Name);
+        builder.Entity<MerchantCategoryCode>().Property(a => a.Name);
         builder.Entity<MerchantCategoryCode>().HasData(MerchantCategoryCodes.Empty.GetAll().Select(e => new MerchantCategoryCode(e)));
 
         builder.Entity<MerchantRegistrationStatus>().ToTable($"{nameof(MerchantRegistrationStatuses)}").HasKey(a => a.Value);
@@ -51,38 +55,47 @@ public class UserIdentityDbContext : IdentityDbContext<UserIdentity, RoleIdentit
 
         #region Entities
 
+        // HACK: Right now we are explicitly declaring each property as a column. How do we automate this to reduce the plumbing
+
         builder.Entity<Address>().ToTable($"{nameof(Address)}es").Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<Address>().HasKey(x => x.Id);
-        builder.Entity<Address>().Property<Zipcode>(nameof(Zipcode)).HasColumnName(nameof(Zipcode)).HasConversion<string>(x => x.Value, y => new Zipcode(y));
+        builder.Entity<Address>().Property(x => x.StreetAddress);
+        builder.Entity<Address>().Property(x => x.ApartmentNumber);
+        builder.Entity<Address>().Property<Zipcode>(nameof(Zipcode)).HasConversion(x => x.Value, y => new Zipcode(y));
         builder.Entity<Address>().Property<State>(nameof(State)).HasConversion<string>(x => x, y => new State(y));
+        builder.Entity<Address>().Property(x => x.City);
 
         builder.Entity<BusinessInfo>().ToTable($"{nameof(BusinessInfo)}s").Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<BusinessInfo>().HasKey(x => x.Id);
-        builder.Entity<BusinessInfo>().Property<BusinessType>(x => x.BusinessType).HasConversion<string>(x => x, y => new BusinessType(y));
-
-        builder.Entity<BusinessInfo>()
-            .Property<MerchantCategoryCode>(x => x.MerchantCategoryCode)
-            .HasConversion<ushort>(x => x, y => new MerchantCategoryCode(y));
-
-        builder.Entity<ConfirmationCode>().ToTable($"{nameof(ConfirmationCode)}s").Property(x => x.Id).ValueGeneratedOnAdd();
-        builder.Entity<ConfirmationCode>().HasKey(x => x.Id);
-        builder.Entity<ConfirmationCode>().Property<DateTimeUtc>(x => x.SentDate).HasConversion<DateTime>(x => x, y => new DateTimeUtc(y));
+        builder.Entity<BusinessInfo>().Property(x => x.BusinessType).HasConversion<string>(x => x, y => new BusinessType(y));
+        builder.Entity<BusinessInfo>().Property(x => x.MerchantCategoryCode).HasConversion<ushort>(x => x, y => new MerchantCategoryCode(y));
 
         builder.Entity<Contact>().ToTable($"{nameof(Contact)}s").Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<Contact>().HasKey(x => x.Id);
-        builder.Entity<Contact>().Property<Email>(x => x.Email).HasConversion<string>(x => x, y => new Email(y));
-        builder.Entity<Contact>().Property<Name>(x => x.FirstName).HasConversion<string>(x => x, y => new Name(y));
-        builder.Entity<Contact>().Property<Name>(x => x.LastName).HasConversion<string>(x => x, y => new Name(y));
-        builder.Entity<Contact>().Property<Email>(x => x.Email).HasConversion<string>(x => x, y => new Email(y));
-        builder.Entity<Contact>().Property<Phone>(x => x.Phone).HasConversion<string>(x => x, y => new Phone(y));
+        builder.Entity<Contact>().Property(x => x.FirstName).HasConversion<string>(x => x, y => new Name(y));
+        builder.Entity<Contact>().Property(x => x.LastName).HasConversion<string>(x => x, y => new Name(y));
+        builder.Entity<Contact>().Property(x => x.Phone).HasConversion<string>(x => x, y => new Phone(y));
+        builder.Entity<Contact>().Property(x => x.Email).HasConversion<string>(x => x, y => new Email(y));
 
-        builder.Entity<Password>().ToTable($"{nameof(Password)}s").Property(x => x.Id).ValueGeneratedOnAdd();
-        builder.Entity<Password>().HasKey(x => x.Id);
-        builder.Entity<Password>().Property<DateTimeUtc>(x => x.CreatedOn).HasConversion<DateTime>(x => x, y => new DateTimeUtc(y));
+        builder.Entity<Password>().ToTable($"{nameof(Password)}s").Property(x => x.Id).HasColumnName($"{nameof(User)}Id").ValueGeneratedOnAdd();
+        builder.Entity<Password>().Property(x => x.CreatedOn).HasConversion(ValueConverters.FromDateTimeUtc.Convert).ValueGeneratedOnAdd();
+        builder.Entity<Password>()
+        .HasKey(x => new
+        {
+            x.Id,
+            x.CreatedOn
+        });
+        builder.Entity<Password>().Property(x => x.HashedPassword).ValueGeneratedOnAdd();
 
         builder.Entity<PersonalDetail>().ToTable($"{nameof(PersonalDetail)}s").Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<PersonalDetail>().HasKey(x => x.Id);
-        builder.Entity<PersonalDetail>().Property<DateTimeUtc>(x => x.DateOfBirth).HasConversion<DateTime>(x => x, y => new DateTimeUtc(y));
+        builder.Entity<PersonalDetail>().Property<string>(x => x.LastFourOfSocial).ValueGeneratedOnAdd();
+        builder.Entity<PersonalDetail>().Property(x => x.DateOfBirth).HasConversion(ValueConverters.FromDateTimeUtc.Convert).ValueGeneratedOnAdd();
+
+        builder.Entity<ConfirmationCode>().ToTable($"{nameof(ConfirmationCode)}s").Property(x => x.Id).ValueGeneratedOnAdd();
+        builder.Entity<ConfirmationCode>().HasKey(x => x.Id);
+        builder.Entity<ConfirmationCode>().Property(x => x.SentDate).HasConversion(ValueConverters.FromDateTimeUtc.Convert).ValueGeneratedOnAdd();
+        builder.Entity<ConfirmationCode>().Property(x => x.Code).ValueGeneratedOnAdd();
 
         #endregion
 
@@ -104,6 +117,7 @@ public class UserIdentityDbContext : IdentityDbContext<UserIdentity, RoleIdentit
         .Select(e => new RoleIdentity(e.Name)
         {
             Id = e.Name,
+            Name = e.Name,
             NormalizedName = e.Name.ToUpper()
         }));
 

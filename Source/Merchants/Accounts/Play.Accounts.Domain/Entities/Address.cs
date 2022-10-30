@@ -62,6 +62,7 @@ public class Address : Entity<string>
     {
         return new AddressDto
         {
+            Id = Id,
             ApartmentNumber = ApartmentNumber,
             City = City,
             State = State.Value,

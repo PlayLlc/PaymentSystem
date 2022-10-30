@@ -51,6 +51,7 @@ public static partial class WebApplicationBuilderExtensions
 
         // Repositories
         builder.Services.AddScoped<DbContext, UserIdentityDbContext>();
+
         builder.Services.AddScoped<IPasswordRepository, PasswordRepository>();
 
         builder.Services.AddScoped<IUserRegistrationRepository, UserRegistrationRepository>();

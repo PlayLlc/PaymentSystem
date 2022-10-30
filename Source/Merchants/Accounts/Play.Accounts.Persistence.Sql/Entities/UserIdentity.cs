@@ -64,6 +64,7 @@ public sealed class UserIdentity : IdentityUser
         MerchantId = merchantId;
         TerminalId = terminalId;
         Password = password;
+        PasswordHash = password.HashedPassword;
         Contact = contact;
         Address = address;
         PersonalDetail = personalDetail;
@@ -89,16 +90,21 @@ public sealed class UserIdentity : IdentityUser
 
     public UserDto AsDto()
     {
+        var address = Address.AsDto();
+        var contact = Contact.AsDto();
+        var personal = PersonalDetail.AsDto();
+        var password = Password.AsDto();
+
         return new UserDto
         {
             Id = Id,
             MerchantId = MerchantId,
             TerminalId = TerminalId,
-            Address = Address.AsDto(),
-            Contact = Contact.AsDto(),
-            PersonalDetail = PersonalDetail.AsDto(),
-            IsActive = IsActive,
-            Password = Password.AsDto()
+            Password = password,
+            Address = address,
+            Contact = contact,
+            PersonalDetail = personal,
+            IsActive = IsActive
         };
     }
 

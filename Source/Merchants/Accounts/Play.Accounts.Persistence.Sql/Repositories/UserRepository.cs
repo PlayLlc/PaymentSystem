@@ -18,7 +18,7 @@ public class UserRepository : IUserRepository
 
     private readonly IMapper _Mapper;
     private readonly UserManager<UserIdentity> _UserManager;
-    private readonly DbContext _Context;
+    private readonly UserIdentityDbContext _Context;
 
     #endregion
 
@@ -26,6 +26,7 @@ public class UserRepository : IUserRepository
 
     public UserRepository(IMapper mapper, UserManager<UserIdentity> userManager, UserIdentityDbContext context)
     {
+        context.ChangeTracker.LazyLoadingEnabled = false;
         _Mapper = mapper;
         _UserManager = userManager;
         _Context = context;
@@ -57,8 +58,38 @@ public class UserRepository : IUserRepository
     public async Task<User?> GetByEmailAsync(string email)
     {
         UserIdentity? userIdentity = await _UserManager.FindByEmailAsync(email).ConfigureAwait(false);
+        var aa = await _Context.Set<UserIdentity>().FirstOrDefaultAsync(a => a.Email == email).ConfigureAwait(false);
 
-        return userIdentity is null ? null : _Mapper.Map<User>(userIdentity);
+        var bb = await _Context.Set<UserIdentity>()
+            .AsNoTracking()
+            .AsQueryable()
+            .FirstOrDefaultAsync(a => a.Email == email)
+            .ConfigureAwait(false); //.LoadAsync()
+
+        //  var bb = await _Context.Set<UserIdentity>().AsQueryable().FirstOrDefaultAsync(a => a.Email == email).FirstOrDefaultAsync().ConfigureAwait(false);//.LoadAsync()
+
+        return new User(userIdentity!.AsDto());
+
+        //var test = await _Context.Set<UserIdentity>()
+        //    .AsNoTracking()
+        //    .Where(a => a.Email == email)
+        //    .AsQueryable()
+        //    .Include(x => x.Address)
+        //    .Include(x => x.Password)
+        //    .Include(x => x.PersonalDetail)
+        //    .Include(x => x.Contact)
+        //    .FirstOrDefaultAsync()
+        //    .ConfigureAwait(false);
+
+        //var dto = test.AsDto();
+
+        //return new User(dto);
+
+        //UserIdentity? userIdentity = await _UserManager.FindByEmailAsync(email).ConfigureAwait(false);
+
+        //var dto = userIdentity.AsDto();
+
+        //return new User(userIdentity.AsDto());
     }
 
     public async Task<User?> GetByIdAsync(string id)
