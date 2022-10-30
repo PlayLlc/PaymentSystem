@@ -21,6 +21,7 @@ using Play.Accounts.Application.Services.Sms;
 using Play.Accounts.Persistence.Sql.Persistence;
 using Play.Telecom.Twilio.Email;
 using Play.Telecom.Twilio.Sms;
+using Play.Accounts.Persistence.Sql.Repositoriesd;
 
 namespace Play.Identity.Api.Extensions;
 
@@ -53,10 +54,9 @@ public static partial class WebApplicationBuilderExtensions
         builder.Services.AddScoped<DbContext, UserIdentityDbContext>();
 
         builder.Services.AddScoped<IPasswordRepository, PasswordRepository>();
-
         builder.Services.AddScoped<IUserRegistrationRepository, UserRegistrationRepository>();
         builder.Services.AddScoped<IUserRepository, UserRepository>();
-        builder.Services.AddScoped<IRepository<MerchantRegistration, string>, Repository<MerchantRegistration, string>>();
+        builder.Services.AddScoped<IRepository<MerchantRegistration, string>, MerchantRegistrationRepository>();
         builder.Services.AddScoped<IRepository<Merchant, string>, Repository<Merchant, string>>();
 
         builder.Services.AddScoped<IBuildLoginViewModel, LoginViewModelBuilder>();

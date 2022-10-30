@@ -38,5 +38,47 @@ public class UserRegistrationRepository : Repository<UserRegistration, string>, 
         return await _Set.FirstOrDefaultAsync(a => a.GetEmail() == email);
     }
 
+    /// <exception cref="EntityFrameworkRepositoryException"></exception>
+    public override UserRegistration? GetById(string id)
+    {
+        try
+        {
+            return _DbSet.AsNoTracking()
+                .Include("_Address")
+                .Include("_Contact")
+                .Include("_PersonalDetail")
+                .Include("_EmailConfirmation")
+                .Include("_SmsConfirmation")
+                .FirstOrDefault(a => a.GetId().Equals(id));
+        }
+        catch (Exception ex)
+        {
+            // logging
+            throw new EntityFrameworkRepositoryException(
+                $"The {nameof(UserRegistrationRepository)} encountered an exception retrieving {nameof(UserRegistration)} with the Identifier: [{id}]", ex);
+        }
+    }
+
+    /// <exception cref="EntityFrameworkRepositoryException"></exception>
+    public override async Task<UserRegistration?> GetByIdAsync(string id)
+    {
+        try
+        {
+            return await _DbSet.Include("_Address")
+                .Include("_Contact")
+                .Include("_PersonalDetail")
+                .Include("_EmailConfirmation")
+                .Include("_SmsConfirmation")
+                .FirstOrDefaultAsync(a => a.GetId()!.Equals(id))
+                .ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            // logging
+            throw new EntityFrameworkRepositoryException(
+                $"The {nameof(UserRegistrationRepository)} encountered an exception retrieving {nameof(UserRegistration)} with the Identifier: [{id}]", ex);
+        }
+    }
+
     #endregion
 }

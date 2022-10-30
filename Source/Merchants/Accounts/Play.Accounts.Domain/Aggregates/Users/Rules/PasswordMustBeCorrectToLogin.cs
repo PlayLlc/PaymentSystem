@@ -31,7 +31,7 @@ internal class PasswordMustBeCorrectToLogin : BusinessRule<User, string>
 
     public override bool IsBroken()
     {
-        return _IsValid;
+        return !_IsValid;
     }
 
     #endregion

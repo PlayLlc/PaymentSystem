@@ -21,6 +21,8 @@ public class Repository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where 
         _DbContext = dbContext;
         _DbSet = dbContext.Set<_Aggregate>();
         dbContext.ChangeTracker.LazyLoadingEnabled = false;
+
+        // dbContext.ChangeTracker.AutoDetectChangesEnabled = false;
     }
 
     #endregion
@@ -28,7 +30,7 @@ public class Repository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where 
     #region Synchronous
 
     /// <exception cref="EntityFrameworkRepositoryException"></exception>
-    public _Aggregate? GetById(_TId id)
+    public virtual _Aggregate? GetById(_TId id)
     {
         try
         {
@@ -80,7 +82,7 @@ public class Repository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where 
 
     /// <exception cref="EntityFrameworkRepositoryException"></exception>
     /// <exception cref="ArgumentNullException"></exception>
-    public async Task<_Aggregate?> GetByIdAsync(_TId id)
+    public virtual async Task<_Aggregate?> GetByIdAsync(_TId id)
     {
         try
         {

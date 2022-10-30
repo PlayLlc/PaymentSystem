@@ -63,9 +63,8 @@ public class AccountController : Controller
     [HttpGet]
     public async Task<IActionResult> Login(string returnUrl)
     {
-        IPasswordHasher<UserIdentity> hasher = _UserManager.PasswordHasher;
-
         User user = await _UserRepository.GetByEmailAsync("test@aol.com").ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
+        var test = await _UserManager.FindByEmailAsync("test@aol.com").ConfigureAwait(false);
 
         LoginViewModel vm = await _LoginViewModelBuilder.BuildLoginViewModelAsync(returnUrl).ConfigureAwait(false);
 

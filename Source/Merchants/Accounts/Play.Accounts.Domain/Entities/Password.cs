@@ -47,7 +47,7 @@ public class Password : Entity<string>
 
     public bool IsExpired(TimeSpan validityPeriod)
     {
-        return (DateTimeUtc.Now - CreatedOn) <= validityPeriod;
+        return (DateTimeUtc.Now - CreatedOn) > validityPeriod;
     }
 
     public override string GetId()

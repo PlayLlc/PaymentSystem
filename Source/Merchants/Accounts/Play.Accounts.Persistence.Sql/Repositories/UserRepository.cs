@@ -6,9 +6,13 @@ using Microsoft.EntityFrameworkCore;
 using Play.Accounts.Domain.Aggregates;
 using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Repositories;
+using Play.Accounts.Domain.ValueObjects;
 using Play.Accounts.Persistence.Sql.Entities;
 using Play.Accounts.Persistence.Sql.Persistence;
 using Play.Domain.Exceptions;
+using Play.Persistence.Sql;
+
+using System.Data;
 
 namespace Play.Accounts.Persistence.Sql.Repositories;
 
@@ -18,7 +22,7 @@ public class UserRepository : IUserRepository
 
     private readonly IMapper _Mapper;
 
-    //private readonly UserManager<UserIdentity> _UserManager;
+    private readonly UserManager<UserIdentity> _UserManager;
     private readonly DbSet<UserIdentity> _Users;
     private readonly UserIdentityDbContext _Context;
 
@@ -39,109 +43,157 @@ public class UserRepository : IUserRepository
 
     #region Instance Members
 
-    /// <exception cref="NotFoundException"></exception>
+    /// <exception cref="EntityFrameworkRepositoryException"></exception>
     public async Task UpdateUserRoles(string userId, params UserRole[] roles)
     {
-        User? user = await GetByIdAsync(userId).ConfigureAwait(false);
+        try
+        {
+            User? user = await GetByIdAsync(userId).ConfigureAwait(false);
 
-        if (user is null)
-            throw new NotFoundException(typeof(User));
+            if (user is null)
+                throw new NotFoundException(typeof(User));
 
-        UserIdentity userIdentity = _Mapper.Map<UserIdentity>(user);
+            UserIdentity userIdentity = _Mapper.Map<UserIdentity>(user);
 
-        await _UserManager.AddToRolesAsync(userIdentity, roles.Select(a => a.Name)).ConfigureAwait(false);
+            await _UserManager.AddToRolesAsync(userIdentity, roles.Select(a => a.Name)).ConfigureAwait(false);
+            await _Context.SaveChangesAsync().ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            throw new EntityFrameworkRepositoryException(
+                $"The {nameof(UserRepository)} encountered an exception attempting to {nameof(UpdateUserRoles)} for the {nameof(User)} with the Identifier: [{userId}];",
+                ex);
+        }
     }
 
-    /// <exception cref="OperationCanceledException"></exception>
+    /// <exception cref="EntityFrameworkRepositoryException"></exception>
     public async Task<bool> IsEmailUnique(string email)
     {
-        return await _Context.Set<UserIdentity>().AnyAsync(a => a.Email == email).ConfigureAwait(false);
+        try
+        {
+            return await _Context.Set<UserIdentity>().AnyAsync(a => a.Email == email).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            throw new EntityFrameworkRepositoryException(
+                $"The {nameof(UserRepository)} encountered an exception attempting to invoke {nameof(IsEmailUnique)} for the {nameof(email)}: [{email}];", ex);
+        }
     }
 
+    /// <exception cref="EntityFrameworkRepositoryException"></exception>
     public async Task<User?> GetByEmailAsync(string email)
     {
-        UserIdentity? userIdentity = await _UserManager.FindByEmailAsync(email).ConfigureAwait(false);
+        try
+        {
+            var userIdentity = await _Users.AsNoTracking().FirstOrDefaultAsync(a => a.Email == email).ConfigureAwait(false);
 
-        var aa = await _Context.Set<UserIdentity>().AsNoTracking().FirstOrDefaultAsync(a => a.Email == email).ConfigureAwait(false);
-
-        var bb = await _Context.Set<UserIdentity>()
-            .AsNoTracking()
-            .AsQueryable()
-            .FirstOrDefaultAsync(a => a.Email == email)
-            .ConfigureAwait(false); //.LoadAsync()
-
-        //  var bb = await _Context.Set<UserIdentity>().AsQueryable().FirstOrDefaultAsync(a => a.Email == email).FirstOrDefaultAsync().ConfigureAwait(false);//.LoadAsync()
-
-        return new User(userIdentity!.AsDto());
-
-        //var test = await _Context.Set<UserIdentity>()
-        //    .AsNoTracking()
-        //    .Where(a => a.Email == email)
-        //    .AsQueryable()
-        //    .Include(x => x.Address)
-        //    .Include(x => x.Password)
-        //    .Include(x => x.PersonalDetail)
-        //    .Include(x => x.Contact)
-        //    .FirstOrDefaultAsync()
-        //    .ConfigureAwait(false);
-
-        //var dto = test.AsDto();
-
-        //return new User(dto);
-
-        //UserIdentity? userIdentity = await _UserManager.FindByEmailAsync(email).ConfigureAwait(false);
-
-        //var dto = userIdentity.AsDto();
-
-        //return new User(userIdentity.AsDto());
+            return userIdentity is null ? null : new User(userIdentity.AsDto());
+        }
+        catch (Exception ex)
+        {
+            throw new EntityFrameworkRepositoryException(
+                $"The {nameof(UserRepository)} encountered an exception attempting to invoke {nameof(GetByEmailAsync)} for the {nameof(email)}: [{email}];",
+                ex);
+        }
     }
 
+    /// <exception cref="EntityFrameworkRepositoryException"></exception>
     public async Task<User?> GetByIdAsync(string id)
     {
-        var result = await _Users.FirstOrDefaultAsync(a => a.Id == id).ConfigureAwait(false);
+        try
+        {
+            var result = await _Users.AsNoTracking().FirstOrDefaultAsync(a => a.Id == id).ConfigureAwait(false);
 
-        return result is null ? null : new User(result.AsDto());
+            return result is null ? null : new User(result.AsDto());
+        }
+        catch (Exception ex)
+        {
+            throw new EntityFrameworkRepositoryException(
+                $"The {nameof(UserRepository)} encountered an exception attempting to invoke {nameof(GetByIdAsync)} for the {nameof(id)}: [{id}];", ex);
+        }
     }
 
-    /// <exception cref="DbUpdateException"></exception>
-    /// <exception cref="OperationCanceledException"></exception>
+    /// <exception cref="EntityFrameworkRepositoryException"></exception>
     public async Task SaveAsync(User user)
     {
-        UserIdentity userIdentity = new UserIdentity(user.AsDto());
-        _Users.Update(userIdentity);
-        await _Context.SaveChangesAsync().ConfigureAwait(false);
+        try
+        {
+            UserIdentity userIdentity = new UserIdentity(user.AsDto());
+            _Users.Update(userIdentity);
+            await _Context.SaveChangesAsync().ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            throw new EntityFrameworkRepositoryException(
+                $"The {nameof(UserRepository)} encountered an exception attempting to invoke {nameof(SaveAsync)} for the {nameof(User)} with Id: [{user.GetId()}];",
+                ex);
+        }
     }
 
-    /// <exception cref="DbUpdateException"></exception>
-    /// <exception cref="OperationCanceledException"></exception>
+    /// <exception cref="EntityFrameworkRepositoryException"></exception>
     public async Task RemoveAsync(User user)
     {
-        UserIdentity? userIdentity = _Mapper.Map<UserIdentity>(user);
-        await _UserManager.DeleteAsync(userIdentity).ConfigureAwait(false);
-        await _Context.SaveChangesAsync().ConfigureAwait(false);
+        try
+        {
+            _Users.Remove(new UserIdentity(user.AsDto()));
+            await _Context.SaveChangesAsync().ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            throw new EntityFrameworkRepositoryException(
+                $"The {nameof(UserRepository)} encountered an exception attempting to invoke {nameof(RemoveAsync)} for the {nameof(User)} with Id: [{user.GetId()}];",
+                ex);
+        }
     }
 
-    /// <exception cref="AggregateException"></exception>
+    /// <exception cref="EntityFrameworkRepositoryException"></exception>
     public User? GetById(string id)
     {
-        Task<UserIdentity> userTask = _UserManager.FindByIdAsync(id);
-        Task.WhenAll(userTask);
+        try
+        {
+            var result = _Users.AsNoTracking().FirstOrDefault(a => a.Id == id);
 
-        return _Mapper.Map<User>(userTask.Result);
+            return result is null ? null : new User(result.AsDto());
+        }
+        catch (Exception ex)
+        {
+            throw new EntityFrameworkRepositoryException(
+                $"The {nameof(UserRepository)} encountered an exception attempting to invoke {nameof(GetById)} for the {nameof(User)} with Id: [{id}];", ex);
+        }
     }
 
+    /// <exception cref="EntityFrameworkRepositoryException"></exception>
     public void Save(User user)
     {
-        UserIdentity? userIdentity = _Mapper.Map<UserIdentity>(user);
-        Task.WhenAll(_UserManager.UpdateAsync(userIdentity));
-        Task.WhenAll(_Context.SaveChangesAsync());
+        try
+        {
+            UserIdentity userIdentity = new UserIdentity(user.AsDto());
+            _Users.Update(userIdentity);
+            _Context.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            throw new EntityFrameworkRepositoryException(
+                $"The {nameof(UserRepository)} encountered an exception attempting to invoke {nameof(Save)} for the {nameof(User)} with Id: [{user.GetId()}];",
+                ex);
+        }
     }
 
+    /// <exception cref="EntityFrameworkRepositoryException"></exception>
     public void Remove(User user)
     {
-        UserIdentity? userIdentity = _Mapper.Map<UserIdentity>(user);
-        Task.WhenAll(_UserManager.DeleteAsync(userIdentity));
-        Task.WhenAll(_Context.SaveChangesAsync());
+        try
+        {
+            UserIdentity? userIdentity = new UserIdentity(user.AsDto());
+            _Users.Remove(userIdentity);
+            _Context.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            throw new EntityFrameworkRepositoryException(
+                $"The {nameof(UserRepository)} encountered an exception attempting to invoke {nameof(Remove)} for the {nameof(User)} with Id: [{user.GetId()}];",
+                ex);
+        }
     }
 
     #endregion

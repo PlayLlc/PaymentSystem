@@ -13,12 +13,20 @@ using Play.Domain;
 
 namespace Play.Identity.Api.Services;
 
-public class UserLoginService : ILoginUsers
+internal class UserLoginService : ILoginUsers
 {
     #region Instance Values
 
-    private readonly TimeSpan _ExpirationDate = new(30, 0, 0, 0);
     private readonly IHashPasswords _PasswordHasher;
+
+    #endregion
+
+    #region Constructor
+
+    public UserLoginService(IHashPasswords passwordHasher)
+    {
+        _PasswordHasher = passwordHasher;
+    }
 
     #endregion
 
