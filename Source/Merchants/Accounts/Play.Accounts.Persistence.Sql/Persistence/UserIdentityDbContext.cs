@@ -21,7 +21,9 @@ public class UserIdentityDbContext : IdentityDbContext<UserIdentity, RoleIdentit
     #region Constructor
 
     public UserIdentityDbContext(DbContextOptions<UserIdentityDbContext> options) : base(options)
-    { }
+    {
+        ChangeTracker.LazyLoadingEnabled = false;
+    }
 
     #endregion
 

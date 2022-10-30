@@ -17,7 +17,9 @@ public class UserRepository : IUserRepository
     #region Instance Values
 
     private readonly IMapper _Mapper;
-    private readonly UserManager<UserIdentity> _UserManager;
+
+    //private readonly UserManager<UserIdentity> _UserManager;
+    private readonly DbSet<UserIdentity> _Users;
     private readonly UserIdentityDbContext _Context;
 
     #endregion
@@ -30,6 +32,7 @@ public class UserRepository : IUserRepository
         _Mapper = mapper;
         _UserManager = userManager;
         _Context = context;
+        _Users = context.Users;
     }
 
     #endregion
@@ -52,13 +55,14 @@ public class UserRepository : IUserRepository
     /// <exception cref="OperationCanceledException"></exception>
     public async Task<bool> IsEmailUnique(string email)
     {
-        return await _UserManager.Users.AnyAsync(a => a.Email == email).ConfigureAwait(false);
+        return await _Context.Set<UserIdentity>().AnyAsync(a => a.Email == email).ConfigureAwait(false);
     }
 
     public async Task<User?> GetByEmailAsync(string email)
     {
         UserIdentity? userIdentity = await _UserManager.FindByEmailAsync(email).ConfigureAwait(false);
-        var aa = await _Context.Set<UserIdentity>().FirstOrDefaultAsync(a => a.Email == email).ConfigureAwait(false);
+
+        var aa = await _Context.Set<UserIdentity>().AsNoTracking().FirstOrDefaultAsync(a => a.Email == email).ConfigureAwait(false);
 
         var bb = await _Context.Set<UserIdentity>()
             .AsNoTracking()
@@ -94,17 +98,17 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> GetByIdAsync(string id)
     {
-        UserIdentity userIdentity = await _UserManager.FindByIdAsync(id).ConfigureAwait(false);
+        var result = await _Users.FirstOrDefaultAsync(a => a.Id == id).ConfigureAwait(false);
 
-        return _Mapper.Map<User>(userIdentity);
+        return result is null ? null : new User(result.AsDto());
     }
 
     /// <exception cref="DbUpdateException"></exception>
     /// <exception cref="OperationCanceledException"></exception>
     public async Task SaveAsync(User user)
     {
-        UserIdentity? userIdentity = _Mapper.Map<UserIdentity>(user);
-        await _UserManager.UpdateAsync(userIdentity).ConfigureAwait(false);
+        UserIdentity userIdentity = new UserIdentity(user.AsDto());
+        _Users.Update(userIdentity);
         await _Context.SaveChangesAsync().ConfigureAwait(false);
     }
 
