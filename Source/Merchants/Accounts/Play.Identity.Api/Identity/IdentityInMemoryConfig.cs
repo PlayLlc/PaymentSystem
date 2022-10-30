@@ -99,10 +99,9 @@ public static class IdentityInMemoryConfig
                 AllowedScopes =
                 {
                     IdentitySpecs.ApiScopes.OpenId,
-                    IdentityServerConstants.StandardScopes.Profile
-
-                    //Specs.ApiScopes.IdentityServer,
-                    //Specs.ApiScopes.ExternalApi
+                    IdentityServerConstants.StandardScopes.Profile,
+                    IdentitySpecs.ApiScopes.IdentityServer,
+                    IdentitySpecs.ApiScopes.ExternalApi
                 }
             }
         };

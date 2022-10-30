@@ -14,14 +14,18 @@ builder.Services.AddAuthentication(options =>
     .AddCookie("Cookies")
     .AddOpenIdConnect("oidc", options =>
     {
-        options.Authority = "https://localhost:7012";
+        options.Authority = "https://localhost:5000";
         options.ClientId = "MerchantPortal";
         options.ClientSecret = "secret";
         options.ResponseType = "code";
 
         options.SaveTokens = true;
+        options.Scope.Clear();
+        options.Scope.Add("openid");
+        options.Scope.Add("profile");
     });
 WebApplication app = builder.Build();
+
 if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 else

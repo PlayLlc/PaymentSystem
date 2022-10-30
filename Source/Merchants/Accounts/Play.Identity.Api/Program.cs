@@ -20,6 +20,7 @@ builder.Services.AddControllersWithViews(options =>
     options.Filters.Add<ApiExceptionFilterAttribute>();
 });
 
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Host.UseSerilog((ctx, lc) => lc.ReadFrom.Configuration(ctx.Configuration));
 
@@ -39,9 +40,11 @@ if (app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseIdentityServer();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseRouting();
+
+//app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllerRoute("areas", "{area:exists}/{controller=User}/{action=Index}/{id?}");
