@@ -443,9 +443,9 @@ namespace Play.Accounts.Persistence.Sql.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "Administrator", "aaa433d1-cb4c-4d8e-be9d-453e56145758", "Administrator", "ADMINISTRATOR" },
-                    { "SalesAssociate", "51e30897-4096-47cf-a65e-0f580908ef64", "SalesAssociate", "SALESASSOCIATE" },
-                    { "SuperAdmin", "045784f8-0708-461c-b511-de280bf5c4d5", "SuperAdmin", "SUPERADMIN" }
+                    { "Administrator", "d4829940-9b47-46fb-8738-ba171d50470c", "Administrator", "ADMINISTRATOR" },
+                    { "SalesAssociate", "9cf863b5-69fd-4a0f-b65e-0fc325974b26", "SalesAssociate", "SALESASSOCIATE" },
+                    { "SuperAdmin", "b34e9c8d-c810-44f3-8c56-4032b3980565", "SuperAdmin", "SUPERADMIN" }
                 });
 
             migrationBuilder.InsertData(

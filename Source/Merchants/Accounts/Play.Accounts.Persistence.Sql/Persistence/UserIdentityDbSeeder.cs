@@ -105,8 +105,8 @@ public class UserIdentityDbSeeder
         });
 
         string clearTextPassword = "Password1!";
-        string passwordId = Randomize.AlphaNumericSpecial.String(20);
         string userId = Randomize.AlphaNumericSpecial.String(20);
+        string passwordId = userId;
         string merchantId = Randomize.AlphaNumericSpecial.String(20);
         string terminalId = Randomize.AlphaNumericSpecial.String(20);
 

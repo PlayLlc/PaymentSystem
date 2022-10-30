@@ -10,11 +10,11 @@ public static partial class WebApplicationBuilderExtensions
 
     internal static WebApplicationBuilder ConfigureAutoMapper(this WebApplicationBuilder builder)
     {
-        var mapperConfig = new MapperConfiguration(cfg =>
+        MapperConfiguration mapperConfig = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile(new AccountMappingProfile());
         });
-        var mapper = mapperConfig.CreateMapper();
+        IMapper? mapper = mapperConfig.CreateMapper();
 
         builder.Services.AddSingleton(mapper);
 

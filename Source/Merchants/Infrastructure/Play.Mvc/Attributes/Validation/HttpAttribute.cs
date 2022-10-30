@@ -75,7 +75,7 @@ public class HttpAttribute : ValidationAttribute
         static bool HasControlCharacter(ReadOnlySpan<char> readOnlySpan)
         {
             // URLs may not contain ASCII control characters.
-            for (var i = 0; i < readOnlySpan.Length; i++)
+            for (int i = 0; i < readOnlySpan.Length; i++)
                 if (char.IsControl(readOnlySpan[i]))
                     return true;
 

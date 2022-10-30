@@ -85,7 +85,7 @@ public class UserRepository : IUserRepository
     {
         try
         {
-            var userIdentity = await _Users.AsNoTracking().FirstOrDefaultAsync(a => a.Email == email).ConfigureAwait(false);
+            UserIdentity? userIdentity = await _Users.AsNoTracking().FirstOrDefaultAsync(a => a.Email == email).ConfigureAwait(false);
 
             return userIdentity is null ? null : new User(userIdentity.AsDto());
         }
@@ -102,7 +102,7 @@ public class UserRepository : IUserRepository
     {
         try
         {
-            var result = await _Users.AsNoTracking().FirstOrDefaultAsync(a => a.Id == id).ConfigureAwait(false);
+            UserIdentity? result = await _Users.AsNoTracking().FirstOrDefaultAsync(a => a.Id == id).ConfigureAwait(false);
 
             return result is null ? null : new User(result.AsDto());
         }
@@ -151,7 +151,7 @@ public class UserRepository : IUserRepository
     {
         try
         {
-            var result = _Users.AsNoTracking().FirstOrDefault(a => a.Id == id);
+            UserIdentity? result = _Users.AsNoTracking().FirstOrDefault(a => a.Id == id);
 
             return result is null ? null : new User(result.AsDto());
         }

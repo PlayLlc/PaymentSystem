@@ -34,8 +34,12 @@ public class User : Aggregate<string>
     private User()
     { }
 
+    /// <exception cref="ArgumentException"></exception>
     public User(UserDto dto)
     {
+        if (dto.Id != dto.Password.Id)
+            throw new ArgumentException($"The {nameof(Password)} ID must match the {nameof(User)} ID");
+
         _Id = dto.Id;
         _MerchantId = dto.MerchantId;
         _TerminalId = dto.TerminalId;
@@ -46,9 +50,13 @@ public class User : Aggregate<string>
         _IsActive = dto.IsActive;
     }
 
+    /// <exception cref="ArgumentException"></exception>
     public User(
         string id, string merchantId, string terminalId, Password password, Address address, Contact contact, PersonalDetail personalDetail, bool isActive)
     {
+        if (password.Id != id)
+            throw new ArgumentException($"The {nameof(Password)} ID must match the {nameof(User)} ID");
+
         _Id = id;
         _MerchantId = merchantId;
         _TerminalId = terminalId;
@@ -72,17 +80,18 @@ public class User : Aggregate<string>
     {
         // TODO: User account must be temporarily locked after 6 login attempts for a minimum of 30..
 
-        var userMustBeActive = GetEnforcementResult(new UserMustBeActive(_IsActive));
+        Result<IBusinessRule> userMustBeActive = GetEnforcementResult(new UserMustBeActive(_IsActive));
 
         if (!userMustBeActive.Succeeded)
             return new Result(userMustBeActive.Errors);
 
-        var expiredPassword = GetEnforcementResult(new UserMustUpdatePasswordEvery90Days(_Password));
+        Result<IBusinessRule> expiredPassword = GetEnforcementResult(new UserMustUpdatePasswordEvery90Days(_Password));
 
         if (!expiredPassword.Succeeded)
             return new Result(expiredPassword.Errors);
 
-        var passwordValidation = GetEnforcementResult(new PasswordMustBeCorrectToLogin(passwordHasher, _Password.HashedPassword, clearTextPassword));
+        Result<IBusinessRule> passwordValidation =
+            GetEnforcementResult(new PasswordMustBeCorrectToLogin(passwordHasher, _Password.HashedPassword, clearTextPassword));
 
         if (!passwordValidation.Succeeded)
             return new Result(passwordValidation.Errors);

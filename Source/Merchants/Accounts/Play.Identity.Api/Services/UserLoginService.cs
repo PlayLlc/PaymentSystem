@@ -41,7 +41,7 @@ internal class UserLoginService : ILoginUsers
     /// <returns></returns>
     public async Task<Result> LoginAsync(HttpContext context, User user, string clearTextPassword)
     {
-        var result = user.LoginValidation(_PasswordHasher, clearTextPassword);
+        Result result = user.LoginValidation(_PasswordHasher, clearTextPassword);
 
         if (!result.Succeeded)
             return result;

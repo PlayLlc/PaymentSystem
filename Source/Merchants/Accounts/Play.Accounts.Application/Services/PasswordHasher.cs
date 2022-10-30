@@ -56,7 +56,7 @@ public class PasswordHasher : IHashPasswords
 
     public bool ValidateHashedPassword(string hashedPassword, string clearTextPassword)
     {
-        var result = _PasswordHasher.VerifyHashedPassword(_MockUser, hashedPassword, clearTextPassword);
+        PasswordVerificationResult result = _PasswordHasher.VerifyHashedPassword(_MockUser, hashedPassword, clearTextPassword);
 
         if (result == PasswordVerificationResult.Success)
             return true;

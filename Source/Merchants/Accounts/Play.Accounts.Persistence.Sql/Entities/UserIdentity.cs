@@ -90,10 +90,10 @@ public sealed class UserIdentity : IdentityUser
 
     public UserDto AsDto()
     {
-        var address = Address.AsDto();
-        var contact = Contact.AsDto();
-        var personal = PersonalDetail.AsDto();
-        var password = Password.AsDto();
+        AddressDto address = Address.AsDto();
+        ContactDto contact = Contact.AsDto();
+        PersonalDetailDto personal = PersonalDetail.AsDto();
+        PasswordDto password = Password.AsDto();
 
         return new UserDto
         {

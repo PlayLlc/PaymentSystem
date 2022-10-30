@@ -2,6 +2,7 @@
 using Play.Accounts.Contracts.Dtos;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Time;
+using Play.Accounts.Domain.Aggregates;
 
 namespace Play.Accounts.Domain.Entities;
 
@@ -12,6 +13,9 @@ public class Password : Entity<string>
     public string HashedPassword;
     public DateTimeUtc CreatedOn;
 
+    /// <summary>
+    ///     A foreign key to the <see cref="User" /> object
+    /// </summary>
     public string Id { get; }
 
     #endregion

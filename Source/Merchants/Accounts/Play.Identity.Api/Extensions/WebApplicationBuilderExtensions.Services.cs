@@ -31,7 +31,7 @@ public static partial class WebApplicationBuilderExtensions
 
     internal static WebApplicationBuilder ConfigureServices(this WebApplicationBuilder builder)
     {
-        var configurationManager = builder.Configuration;
+        ConfigurationManager configurationManager = builder.Configuration;
 
         TwilioSmsConfiguration? twilioSmsConfiguration = configurationManager.GetSection(nameof(TwilioSmsConfiguration)).Get<TwilioSmsConfiguration>();
         SendGridConfiguration? sendGridConfiguration = configurationManager.GetSection(nameof(SendGridConfiguration)).Get<SendGridConfiguration>();
@@ -39,7 +39,7 @@ public static partial class WebApplicationBuilderExtensions
         builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
         builder.Services.AddScoped<IUrlHelper>(x =>
         {
-            var actionContext = x.GetService<IActionContextAccessor>().ActionContext;
+            ActionContext? actionContext = x.GetService<IActionContextAccessor>().ActionContext;
 
             return new UrlHelper(actionContext);
         });
@@ -59,7 +59,6 @@ public static partial class WebApplicationBuilderExtensions
         builder.Services.AddScoped<IRepository<MerchantRegistration, string>, MerchantRegistrationRepository>();
         builder.Services.AddScoped<IRepository<Merchant, string>, Repository<Merchant, string>>();
 
-        builder.Services.AddScoped<IBuildLoginViewModel, LoginViewModelBuilder>();
         builder.Services.AddScoped<ILoginUsers, UserLoginService>();
 
         // Infrastructure Services

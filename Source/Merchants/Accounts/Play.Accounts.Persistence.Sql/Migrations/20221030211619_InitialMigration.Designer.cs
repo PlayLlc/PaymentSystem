@@ -12,7 +12,7 @@ using Play.Accounts.Persistence.Sql.Persistence;
 namespace Play.Accounts.Persistence.Sql.Migrations
 {
     [DbContext(typeof(UserIdentityDbContext))]
-    [Migration("20221030103143_InitialMigration")]
+    [Migration("20221030211619_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -789,21 +789,21 @@ namespace Play.Accounts.Persistence.Sql.Migrations
                         new
                         {
                             Id = "Administrator",
-                            ConcurrencyStamp = "aaa433d1-cb4c-4d8e-be9d-453e56145758",
+                            ConcurrencyStamp = "d4829940-9b47-46fb-8738-ba171d50470c",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "SalesAssociate",
-                            ConcurrencyStamp = "51e30897-4096-47cf-a65e-0f580908ef64",
+                            ConcurrencyStamp = "9cf863b5-69fd-4a0f-b65e-0fc325974b26",
                             Name = "SalesAssociate",
                             NormalizedName = "SALESASSOCIATE"
                         },
                         new
                         {
                             Id = "SuperAdmin",
-                            ConcurrencyStamp = "045784f8-0708-461c-b511-de280bf5c4d5",
+                            ConcurrencyStamp = "b34e9c8d-c810-44f3-8c56-4032b3980565",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         });

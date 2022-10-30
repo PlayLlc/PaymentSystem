@@ -16,10 +16,10 @@ public static partial class WebApplicationBuilderExtensions
 
         builder.Services.AddSwaggerGen(c =>
         {
-            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
             c.IncludeXmlComments(xmlPath);
-            foreach (var version in swaggerConfiguration.Versions)
+            foreach (string version in swaggerConfiguration.Versions)
                 c.SwaggerDoc(version, new OpenApiInfo()
                 {
                     Title = swaggerConfiguration.ApplicationTitle,

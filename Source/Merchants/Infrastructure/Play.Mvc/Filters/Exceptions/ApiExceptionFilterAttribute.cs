@@ -28,7 +28,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
     public ApiExceptionFilterAttribute()
     {
-        var a = new LoggerFactory();
+        LoggerFactory a = new LoggerFactory();
 
         _Logger = a.CreateLogger<ApiExceptionFilterAttribute>();
         _ExceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>()
