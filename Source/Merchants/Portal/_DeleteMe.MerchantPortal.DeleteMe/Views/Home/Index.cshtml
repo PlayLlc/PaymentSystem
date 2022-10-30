@@ -17,7 +17,7 @@
 <dl>
     @foreach (KeyValuePair<string, string?> prop in (await Context.AuthenticateAsync()).Properties?.Items ?? ImmutableDictionary<string, string?>.Empty)
     {
-        <dt>@prop.Key</dt>
+        <dt>@prop.Key</dt> 
         <dd>@prop.Value</dd>
     }
 </dl>
