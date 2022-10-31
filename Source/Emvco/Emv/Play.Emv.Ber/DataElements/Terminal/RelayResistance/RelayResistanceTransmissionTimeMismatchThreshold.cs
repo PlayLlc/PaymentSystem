@@ -12,7 +12,7 @@ namespace Play.Emv.Ber.DataElements;
 ///     For Relay Resistance R-APDU and Terminal Expected Transmission Time For Relay Resistance R-APDU no longer
 ///     acceptable. The Relay Resistance Transmission Time Mismatch Threshold is a percentage and expressed as an integer.
 /// </summary>
-public record RelayResistanceTransmissionTimeMismatchThreshold : DataElement<RelaySeconds>
+public record RelayResistanceTransmissionTimeMismatchThreshold : DataElement<byte>
 {
     #region Static Metadata
 
@@ -24,7 +24,7 @@ public record RelayResistanceTransmissionTimeMismatchThreshold : DataElement<Rel
 
     #region Constructor
 
-    public RelayResistanceTransmissionTimeMismatchThreshold(RelaySeconds value) : base(value)
+    public RelayResistanceTransmissionTimeMismatchThreshold(byte value) : base(value)
     { }
 
     #endregion
@@ -43,13 +43,13 @@ public record RelayResistanceTransmissionTimeMismatchThreshold : DataElement<Rel
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
+        byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
 
         return new RelayResistanceTransmissionTimeMismatchThreshold(result);
     }
 
-    public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => _Codec.EncodeValue(EncodingId, _Value, length);
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value);
+    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode(_Value);
 
     #endregion
 
@@ -63,6 +63,8 @@ public record RelayResistanceTransmissionTimeMismatchThreshold : DataElement<Rel
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
+
+    public override ushort GetValueByteCount() => PlayCodec.BinaryCodec.GetByteCount(_Value);
 
     #endregion
 }

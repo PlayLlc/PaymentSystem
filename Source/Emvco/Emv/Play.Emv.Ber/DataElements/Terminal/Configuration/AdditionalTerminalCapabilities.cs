@@ -74,7 +74,7 @@ public record AdditionalTerminalCapabilities : DataElement<ulong>, IEqualityComp
     public bool Administrative() => _Value.IsBitSet(33);
     public bool AlphabeticalAndSpecialCharactersKeys() => _Value.IsBitSet(23);
     public bool Cash() => _Value.IsBitSet(40);
-    public bool Cashback() => _Value.IsBitSet(47);
+    public bool Cashback() => _Value.IsBitSet(37);
     public bool CashDeposit() => _Value.IsBitSet(32);
     public bool CodeTable1() => _Value.IsBitSet(1);
     public bool CodeTable10() => _Value.IsBitSet(10);

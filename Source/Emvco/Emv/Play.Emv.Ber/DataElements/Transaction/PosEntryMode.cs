@@ -3,6 +3,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
+using Play.Core.Extensions;
 using Play.Emv.Ber.Enums.Interchange;
 using Play.Emv.Ber.Exceptions;
 
@@ -15,6 +16,7 @@ public record PosEntryMode : DataElement<byte>, IEqualityComparer<PosEntryMode>
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x9F39;
     private const byte _ByteLength = 1;
+    private const byte _DigitsLength = 2;
 
     #endregion
 
@@ -41,6 +43,8 @@ public record PosEntryMode : DataElement<byte>, IEqualityComparer<PosEntryMode>
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         byte result = PlayCodec.NumericCodec.DecodeToByte(value);
+
+        Check.Primitive.ForCharLength(result.GetNumberOfDigits(), _DigitsLength, Tag);
 
         return new PosEntryMode(result);
     }
@@ -77,7 +81,8 @@ public record PosEntryMode : DataElement<byte>, IEqualityComparer<PosEntryMode>
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => PlayCodec.NumericCodec.GetByteCount(_Value);
+    public override ushort GetValueByteCount() => PlayCodec.NumericCodec.GetByteCount(_Value);
 
     #endregion
 }

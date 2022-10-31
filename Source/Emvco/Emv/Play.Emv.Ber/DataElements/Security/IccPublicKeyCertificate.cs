@@ -42,7 +42,7 @@ public record IccPublicKeyCertificate : DataElement<BigInteger>, IEqualityCompar
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
         return new IccPublicKeyCertificate(result);
     }

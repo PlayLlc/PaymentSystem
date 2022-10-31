@@ -71,7 +71,7 @@ public class PreProcessingIndicatorsTests
         PreProcessingIndicators sut = new(new[] {transactionProfile});
 
         //Assert
-        Assert.Equal(1, sut.Count);
+        Assert.Equal(1, sut?.Count);
     }
 
     [Fact]
@@ -158,7 +158,7 @@ public class PreProcessingIndicatorsTests
         KernelId[] kernelIds = sut.GetKernelIds();
 
         //Assert
-        Assert.Equal(1, kernelIds.Length);
+        Assert.Equal(1, kernelIds?.Length);
         Assert.Equal((KernelId) transactionProfile.GetKernelId(), kernelIds[0]);
     }
 

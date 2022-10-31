@@ -41,7 +41,7 @@ public record IccPinEnciphermentPublicKeyExponent : DataElement<uint>, IEquality
     public static IccPinEnciphermentPublicKeyExponent Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
-        Check.Primitive.ForMinimumLength(value, _MaxByteLength, Tag);
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
         uint result = PlayCodec.BinaryCodec.DecodeToUInt32(value);
 

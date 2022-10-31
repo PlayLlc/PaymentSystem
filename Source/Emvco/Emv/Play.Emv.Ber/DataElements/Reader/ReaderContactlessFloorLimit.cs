@@ -2,6 +2,7 @@
 using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
+using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 using Play.Globalization.Currency;
 
@@ -44,7 +45,7 @@ public record ReaderContactlessFloorLimit : DataElement<ulong>, IEqualityCompare
 
         ulong result = PlayCodec.NumericCodec.DecodeToUInt64(value);
 
-        Check.Primitive.ForMaxCharLength(result, _CharLength, Tag);
+        Check.Primitive.ForMaxCharLength(result.GetNumberOfDigits(), _CharLength, Tag);
 
         return new ReaderContactlessFloorLimit(result);
     }
@@ -76,6 +77,7 @@ public record ReaderContactlessFloorLimit : DataElement<ulong>, IEqualityCompare
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public Money AsMoney(NumericCurrencyCode numericCurrencyCode) => new(_Value, numericCurrencyCode);
+    public override ushort GetValueByteCount() => PlayCodec.NumericCodec.GetByteCount(_Value);
 
     #endregion
 }

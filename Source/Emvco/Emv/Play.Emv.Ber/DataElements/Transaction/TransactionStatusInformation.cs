@@ -79,4 +79,40 @@ public record TransactionStatusInformation : DataElement<ushort>
     public bool TerminalRiskManagementWasPerformed() => _Value.IsBitSet(4);
 
     #endregion
+
+    public class Builder : PrimitiveValueBuilder<ushort>
+    {
+        #region Constructor
+
+        internal Builder(TransactionStatusInformation outcomeParameterSet)
+        {
+            _Value = outcomeParameterSet._Value;
+        }
+
+        internal Builder()
+        { }
+
+        #endregion
+
+        #region Instance Members
+
+        public void Reset(TransactionStatusInformation value)
+        {
+            _Value = value._Value;
+        }
+
+        public override TransactionStatusInformation Complete() => new(_Value);
+
+        public void Set(TransactionStatusInformationFlags value)
+        {
+            _Value |= value;
+        }
+
+        protected override void Set(ushort bitsToSet)
+        {
+            _Value |= bitsToSet;
+        }
+
+        #endregion
+    }
 }

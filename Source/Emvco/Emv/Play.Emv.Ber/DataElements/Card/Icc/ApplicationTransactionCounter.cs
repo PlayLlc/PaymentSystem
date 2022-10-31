@@ -46,8 +46,8 @@ public record ApplicationTransactionCounter : DataElement<ushort>, IEqualityComp
         return new ApplicationTransactionCounter(result);
     }
 
-    public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => _Codec.EncodeValue(EncodingId, _Value, length);
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode(_Value, _ByteLength);
+    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode(_Value, length);
 
     #endregion
 
@@ -81,4 +81,11 @@ public record ApplicationTransactionCounter : DataElement<ushort>, IEqualityComp
     public char[] AsCharArray() => PlayCodec.NumericCodec.DecodeToChars(EncodeValue());
 
     #endregion
+
+    #region Operator Overrides
+
+    public static implicit operator ushort(ApplicationTransactionCounter value) => value._Value;
+
+    #endregion
+
 }

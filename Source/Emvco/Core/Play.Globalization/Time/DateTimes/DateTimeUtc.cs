@@ -16,7 +16,7 @@ public readonly record struct DateTimeUtc
     public int Minute => _Value.Minute;
     public int Second => _Value.Second;
     public long Ticks => _Value.Ticks;
-    public static DateTimeUtc Now => new(DateTime.UtcNow.Date);
+    public static DateTimeUtc Now => new(DateTime.UtcNow);
     public static DateTimeUtc Today => new(DateTime.UtcNow);
 
     #endregion
@@ -55,7 +55,6 @@ public readonly record struct DateTimeUtc
 
         if (dateTimeValue.Kind != DateTimeKind.Utc)
             throw new ArgumentOutOfRangeException($"The argument {nameof(value)} was not in UTC format");
-
         _Value = dateTimeValue;
     }
 
@@ -82,6 +81,12 @@ public readonly record struct DateTimeUtc
     public static bool operator >=(DateTimeUtc left, DateTimeUtc right) => left._Value >= right._Value;
     public static Ticks operator -(DateTimeUtc left, DateTimeUtc right) => (Ticks) (left._Value - right._Value);
     public static implicit operator DateTime(DateTimeUtc value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public string ToString(string format) => _Value.ToString(format);
 
     #endregion
 }

@@ -15,7 +15,7 @@ public abstract record ReaderContactlessTransactionLimit : DataElement<ulong>
     #region Static Metadata
 
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
-    protected const byte _ByteLength = 12;
+    protected const byte _ByteLength = 6;
 
     #endregion
 
@@ -32,7 +32,7 @@ public abstract record ReaderContactlessTransactionLimit : DataElement<ulong>
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public abstract override Tag GetTag();
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
+    public override ushort GetValueByteCount() => PlayCodec.NumericCodec.GetByteCount(_Value);
     #endregion
 
     #region Serialization

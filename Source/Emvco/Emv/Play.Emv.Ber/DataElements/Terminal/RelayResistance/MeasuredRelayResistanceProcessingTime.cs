@@ -48,8 +48,8 @@ public record MeasuredRelayResistanceProcessingTime : DataElement<RelaySeconds>
         return new MeasuredRelayResistanceProcessingTime(result);
     }
 
-    public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-    public override byte[] EncodeValue(int length) => _Codec.EncodeValue(EncodingId, _Value, length);
+    public override byte[] EncodeValue() => PlayCodec.BinaryCodec.Encode((ushort)_Value, _ByteLength);
+    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode((ushort)_Value, length);
 
     #endregion
 
@@ -73,14 +73,16 @@ public record MeasuredRelayResistanceProcessingTime : DataElement<RelaySeconds>
         RelaySeconds timeElapsedInRelaySeconds = new(timeElapsed);
 
         RelaySeconds fastestExpectedTransmissionTime = terminalExpectedRapduTransmissionTime < (RelaySeconds) deviceEstimatedTransmissionTime
-            ? deviceEstimatedTransmissionTime
-            : terminalExpectedRapduTransmissionTime;
+            ? terminalExpectedRapduTransmissionTime
+            : deviceEstimatedTransmissionTime;
 
         RelaySeconds expectedResponseTime = new(terminalExpectedCapduTransmissionTime - fastestExpectedTransmissionTime);
         RelaySeconds processingTime = timeElapsedInRelaySeconds - expectedResponseTime;
 
         return new MeasuredRelayResistanceProcessingTime(processingTime < RelaySeconds.Zero ? 0 : (ushort) processingTime);
     }
+
+    public override ushort GetValueByteCount() => PlayCodec.BinaryCodec.GetByteCount((ushort)_Value);
 
     #endregion
 }
