@@ -103,9 +103,12 @@ public class AccountController : Controller
     {
         AuthorizationRequest? context = await _InteractionService.GetAuthorizationContextAsync(model.ReturnUrl);
 
-        // if we don't have a valid context then we will reload the login page
         if (context is null)
-            return await Login(model.ReturnUrl);
+        {
+            await _InteractionService.DenyAuthorizationAsync(context, AuthorizationError.AccessDenied);
+
+            return View("AccessDenied");
+        }
 
         if (!ModelState.IsValid)
             return View(await BuildLoginViewModelAsync(model).ConfigureAwait(false));
