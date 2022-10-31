@@ -17,8 +17,4 @@
     <ProjectReference Include="..\Play.Accounts.Persistence.Sql\Play.Accounts.Persistence.Sql.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\Login\" />
-  </ItemGroup>
-
 </Project>
