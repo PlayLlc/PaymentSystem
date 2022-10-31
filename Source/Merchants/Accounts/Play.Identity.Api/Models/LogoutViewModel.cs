@@ -3,11 +3,11 @@
 
 namespace Play.Identity.Api.Models
 {
-    public class LogoutViewModel : LogoutInputModel
+    public class LogoutViewModel
     {
         #region Instance Values
 
-        public bool ShowLogoutPrompt { get; set; } = true;
+        public string LogoutId { get; set; } = string.Empty;
 
         #endregion
     }

@@ -78,7 +78,6 @@ public static class IdentityInMemoryConfig
                 ClientSecrets = new List<Secret> {new(businessPayConfig.ClientSecret.Sha256())},
                 RedirectUris = {businessPayConfig.RedirectUris},
                 PostLogoutRedirectUris = {businessPayConfig.PostLogoutRedirectUris},
-                FrontChannelLogoutUri = "https://dogpile.com",
                 AllowedScopes =
                 {
                     IdentitySpecs.ApiScopes.IdentityServer,
@@ -97,7 +96,6 @@ public static class IdentityInMemoryConfig
                 ClientSecrets = new List<Secret> {new(merchantPortalConfig.ClientSecret.Sha256())},
                 RedirectUris = {merchantPortalConfig.RedirectUris},
                 PostLogoutRedirectUris = {merchantPortalConfig.PostLogoutRedirectUris},
-                FrontChannelLogoutUri = "https://dogpile.com",
                 AllowedScopes =
                 {
                     IdentitySpecs.ApiScopes.OpenId,

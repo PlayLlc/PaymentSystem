@@ -24,6 +24,8 @@ using Play.Identity.Api.Models;
 using Play.Identity.Api.Services;
 using Play.Mvc.Attributes;
 
+using System.Security.Policy;
+
 namespace Play.Identity.Api.Controllers;
 
 /// <summary>
@@ -193,119 +195,67 @@ public class AccountController : Controller
     [HttpGet]
     public async Task<IActionResult> Logout(string logoutId)
     {
-        // build a model so the logout page knows what to display
-        var vm = await BuildLogoutViewModelAsync(logoutId);
-
-        if (vm.ShowLogoutPrompt == false)
-
-            // if the request for logout was properly authenticated from IdentityServer, then
-            // we don't need to show the prompt and can just log the user out directly.
-            return await Logout(vm);
-
-        return View(vm);
-    }
-
-    /// <summary>
-    ///     Handle logout page postback
-    /// </summary>
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Logout(LogoutInputModel model)
-    {
-        // build a model so the logged out page knows what to display
-        LoggedOutViewModel vm = await BuildLoggedOutViewModelAsync(model.LogoutId);
-
-        if (User?.Identity.IsAuthenticated == true)
-
-            // delete local authentication cookie
-            await HttpContext.SignOutAsync();
-
-        //// raise the logout event
-        //await _events.RaiseAsync(new UserLogoutSuccessEvent(User.GetSubjectId(), User.GetDisplayName()));
-
-        // check if we need to trigger sign-out at an upstream identity provider
-        if (vm.TriggerExternalSignout)
-        {
-            // build a return URL so the upstream provider will redirect back
-            // to us after the user has logged out. this allows us to then
-            // complete our single sign-out processing.
-            string url = Url.Action("Logout", new {logoutId = vm.LogoutId});
-
-            // this triggers a redirect to the external provider for sign-out
-            return SignOut(new AuthenticationProperties {RedirectUri = url}, vm.ExternalAuthenticationScheme);
-        }
-
-        return View("LoggedOut", vm);
-    }
-
-    private async Task<LoggedOutViewModel> BuildLoggedOutViewModelAsync(string logoutId)
-    {
-        // get context information (client name, post logout redirect URI and iframe for federated signout)
-        LogoutRequest? logout = await _InteractionService.GetLogoutContextAsync(logoutId);
-
-        LoggedOutViewModel vm = new LoggedOutViewModel
-        {
-            AutomaticRedirectAfterSignOut = AccountOptions.AutomaticRedirectAfterSignOut,
-            PostLogoutRedirectUri = logout?.PostLogoutRedirectUri,
-            ClientName = string.IsNullOrEmpty(logout?.ClientName) ? logout?.ClientId : logout?.ClientName,
-            SignOutIframeUrl = logout?.SignOutIFrameUrl,
-            LogoutId = logoutId
-        };
-
-        if (User?.Identity.IsAuthenticated == true)
-        {
-            string? idp = User.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
-
-            if ((idp != null) && (idp != IdentityServerConstants.LocalIdentityProvider))
-            {
-                bool providerSupportsSignout = await HttpContext.GetSchemeSupportsSignOutAsync(idp);
-
-                if (providerSupportsSignout)
-                {
-                    if (vm.LogoutId == null)
-
-                        // if there's no current logout context, we need to create one
-                        // this captures necessary info from the current logged in user
-                        // before we signout and redirect away to the external IdP for signout
-                        vm.LogoutId = await _InteractionService.CreateLogoutContextAsync();
-
-                    vm.ExternalAuthenticationScheme = idp;
-                }
-            }
-        }
-
-        return vm;
-    }
-
-    private async Task<LogoutViewModel> BuildLogoutViewModelAsync(string logoutId)
-    {
-        LogoutViewModel vm = new LogoutViewModel
-        {
-            LogoutId = logoutId,
-            ShowLogoutPrompt = AccountOptions.ShowLogoutPrompt
-        };
-
-        if (User?.Identity.IsAuthenticated != true)
-        {
-            // if the user is not authenticated, then just show logged out page
-            vm.ShowLogoutPrompt = false;
-
-            return vm;
-        }
+        if ((User?.Identity?.IsAuthenticated ?? false) == false)
+            return View("LoggedOut");
 
         LogoutRequest? context = await _InteractionService.GetLogoutContextAsync(logoutId);
 
-        if (context?.ShowSignoutPrompt == false)
-        {
-            // it's safe to automatically sign-out
-            vm.ShowLogoutPrompt = false;
+        if (context.ClientId is null)
+            return View("LoggedOut");
 
-            return vm;
-        }
+        if (context.ShowSignoutPrompt)
+            return View(new LogoutViewModel() {LogoutId = logoutId});
 
-        // show the logout prompt. this prevents attacks where the user
-        // is automatically signed out by another malicious web page.
-        return vm;
+        await HttpContext.SignOutAsync();
+
+        if (context.PostLogoutRedirectUri is not null)
+            Redirect(context.PostLogoutRedirectUri);
+
+        return await Logout(new LogoutViewModel() {LogoutId = logoutId});
+    }
+
+    /// <summary>
+    ///     Handles the response from the Logout confirmation page
+    /// </summary>
+    /// <exception cref="AggregateException"></exception>
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Logout(LogoutViewModel model)
+    {
+        if (TryGetExternalAuthenticateScheme(out string? externalScheme))
+            return SignOut(
+                new AuthenticationProperties
+                {
+                    RedirectUri = Url.Action("Logout", new {logoutId = await _InteractionService.CreateLogoutContextAsync().ConfigureAwait(false)})
+                }, externalScheme!);
+
+        if (User?.Identity?.IsAuthenticated == true)
+            await HttpContext.SignOutAsync();
+
+        return View("LoggedOut");
+    }
+
+    /// <exception cref="AggregateException"></exception>
+    private bool TryGetExternalAuthenticateScheme(out string? externalScheme)
+    {
+        externalScheme = null;
+        string? idp = User.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
+
+        if (idp is null)
+            return false;
+
+        if (idp == IdentityServerConstants.LocalIdentityProvider)
+            return false;
+
+        var supportsSignOutTask = HttpContext.GetSchemeSupportsSignOutAsync(idp);
+        Task.WhenAll(supportsSignOutTask);
+
+        if (!supportsSignOutTask.Result)
+            return false;
+
+        externalScheme = idp;
+
+        return true;
     }
 
     #endregion
