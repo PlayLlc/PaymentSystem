@@ -1,18 +1,17 @@
 ﻿using Microsoft.Extensions.Logging;
 
-using Play.Domain.Events;
-
 using NServiceBus;
 
 using Play.Accounts.Contracts.Events;
 using Play.Accounts.Domain.Aggregates;
+using Play.Domain.Events;
 using Play.Domain.Repositories;
 
-namespace Play.Accounts.Application.Handlers.Domain;
+namespace Play.Accounts.Application.Handlers;
 
-public class MerchantRegistrationHandler : DomainEventHandler, IHandleDomainEvents<MerchantRegistrationHasExpired>,
-    IHandleDomainEvents<MerchantRegistrationHasBeenRejected>, IHandleDomainEvents<MerchantRegistrationHasNotBeenApproved>,
-    IHandleDomainEvents<MerchantHasBeenCreated>, IHandleDomainEvents<MerchantRegistrationApproved>, IHandleDomainEvents<MerchantRegistrationRejected>
+public partial class MerchantRegistrationHandler : DomainEventHandler, IHandleDomainEvents<MerchantRegistrationHasBeenRejected>,
+    IHandleDomainEvents<MerchantRegistrationHasExpired>, IHandleDomainEvents<MerchantRegistrationHasNotBeenApproved>,
+    IHandleDomainEvents<MerchantRegistrationHasBeenCreated>, IHandleDomainEvents<MerchantRegistrationApproved>
 {
     #region Instance Values
 
@@ -31,14 +30,6 @@ public class MerchantRegistrationHandler : DomainEventHandler, IHandleDomainEven
         _MessageHandlerContext = messageHandler;
         _MerchantRepository = merchantRepository;
         _MerchantRegistrationRepository = merchantRegistrationRepository;
-
-        // TODO: Find a way to automate this so there's not a runtime exception
-        Subscribe((IHandleDomainEvents<MerchantRegistrationHasExpired>) this);
-        Subscribe((IHandleDomainEvents<MerchantRegistrationHasBeenRejected>) this);
-        Subscribe((IHandleDomainEvents<MerchantRegistrationHasNotBeenApproved>) this);
-        Subscribe((IHandleDomainEvents<MerchantHasBeenCreated>) this);
-        Subscribe((IHandleDomainEvents<MerchantRegistrationApproved>) this);
-        Subscribe((IHandleDomainEvents<MerchantRegistrationRejected>) this);
     }
 
     #endregion
@@ -84,13 +75,7 @@ public class MerchantRegistrationHandler : DomainEventHandler, IHandleDomainEven
         await _MerchantRepository.SaveAsync(domainEvent.MerchantRegistration.CreateMerchant()).ConfigureAwait(false);
     }
 
-    public async Task Handle(MerchantRegistrationCreated domainEvent)
-    {
-        Log(domainEvent);
-        await _MerchantRegistrationRepository.SaveAsync(domainEvent.MerchantRegistration).ConfigureAwait(false);
-    }
-
-    public async Task Handle(MerchantRegistrationRejected domainEvent)
+    public async Task Handle(MerchantRegistrationHasBeenCreated domainEvent)
     {
         Log(domainEvent);
         await _MerchantRegistrationRepository.SaveAsync(domainEvent.MerchantRegistration).ConfigureAwait(false);

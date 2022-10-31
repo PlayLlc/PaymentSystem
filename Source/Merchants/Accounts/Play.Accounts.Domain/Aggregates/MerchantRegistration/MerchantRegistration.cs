@@ -54,7 +54,7 @@ public class MerchantRegistration : Aggregate<string>
         MerchantRegistration registration = new MerchantRegistration(command.User.MerchantId, new Name(command.Name),
             MerchantRegistrationStatuses.WaitingForRiskAnalysis, DateTimeUtc.Now) {_Status = MerchantRegistrationStatuses.WaitingForRiskAnalysis};
 
-        registration.Publish(new MerchantRegistrationCreated(registration));
+        registration.Publish(new MerchantRegistrationHasBeenCreated(registration));
 
         return registration;
     }

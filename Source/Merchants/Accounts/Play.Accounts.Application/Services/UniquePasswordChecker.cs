@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Accounts.Domain.Entities;
+﻿using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Repositories;
 using Play.Accounts.Domain.Services;
-using Play.Domain.Repositories;
 
 namespace Play.Accounts.Application.Services;
 

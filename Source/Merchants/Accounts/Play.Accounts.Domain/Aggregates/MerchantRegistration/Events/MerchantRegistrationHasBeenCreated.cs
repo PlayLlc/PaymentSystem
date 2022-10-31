@@ -2,7 +2,7 @@
 
 namespace Play.Accounts.Domain.Aggregates;
 
-public record MerchantRegistrationCreated : DomainEvent
+public record MerchantRegistrationHasBeenCreated : DomainEvent
 {
     #region Instance Values
 
@@ -12,7 +12,7 @@ public record MerchantRegistrationCreated : DomainEvent
 
     #region Constructor
 
-    public MerchantRegistrationCreated(MerchantRegistration merchantRegistration) : base(
+    public MerchantRegistrationHasBeenCreated(MerchantRegistration merchantRegistration) : base(
         $"The {nameof(MerchantRegistration)} process has begun for the {nameof(Merchant)} with ID: [{merchantRegistration.GetId()}].")
     {
         MerchantRegistration = merchantRegistration;

@@ -1,15 +1,13 @@
-﻿using Play.Domain.Events;
-
-using Microsoft.Extensions.Logging;
-
-using Play.Accounts.Domain.Aggregates;
+﻿using Microsoft.Extensions.Logging;
 
 using NServiceBus;
 
-using Play.Domain.Repositories;
 using Play.Accounts.Contracts.Events;
+using Play.Accounts.Domain.Aggregates;
+using Play.Domain.Events;
+using Play.Domain.Repositories;
 
-namespace Play.Accounts.Application.Handlers.Domain;
+namespace Play.Accounts.Application.Handlers;
 
 public class UserHandler : DomainEventHandler, IHandleDomainEvents<UserHasBeenCreated>
 {
