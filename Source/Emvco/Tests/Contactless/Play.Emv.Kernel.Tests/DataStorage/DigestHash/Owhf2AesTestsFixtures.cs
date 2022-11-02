@@ -19,7 +19,7 @@ public static class Owhf2AesTestsFixtures
 
     public static void RegisterDefaultBlockCypherConfiguration(IFixture fixture)
     {
-        byte[] initializationVector = GetRandomArray(8);
+        byte[] initializationVector = GetRandomArray(16);
 
         BlockCipherConfiguration configuration = new(BlockCipherMode.Cbc, BlockPaddingMode.None, KeySize._128, BlockSize._16,
         new Iso7816PlainTextPreprocessor(BlockSize._16), initializationVector);

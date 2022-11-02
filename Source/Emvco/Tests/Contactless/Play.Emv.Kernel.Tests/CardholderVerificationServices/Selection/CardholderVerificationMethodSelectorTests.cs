@@ -136,13 +136,20 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         ReadOnlySpan<byte> cvmListEncodedContent = stackalloc byte[]
         {
             //xAmount
-            12, 13, 14, 15,
+            12,
+            13,
+            14,
+            15,
 
             //yAmount
-            16, 17, 18, 19,
+            16,
+            17,
+            18,
+            19,
 
             // CvmRules
-            17, 16
+            17,
+            16
         };
 
         CvmList cvmList = CvmList.Decode(cvmListEncodedContent);
@@ -176,13 +183,20 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         ReadOnlySpan<byte> cvmListEncodedContent = stackalloc byte[]
         {
             //xAmount
-            12, 13, 14, 15,
+            12,
+            13,
+            14,
+            15,
 
             //yAmount
-            16, 17, 18, 19,
+            16,
+            17,
+            18,
+            19,
 
             // CvmRules
-            17, 4 //cvm condition code = manual cash condition
+            17,
+            4 //cvm condition code = manual cash condition
         };
 
         CvmList cvmList = CvmList.Decode(cvmListEncodedContent);
@@ -216,13 +230,20 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         ReadOnlySpan<byte> cvmListEncodedContent = stackalloc byte[]
         {
             //xAmount
-            0, 0, 12, 34,
+            0,
+            0,
+            12,
+            34,
 
             //yAmount
-            0, 0, 13, 63,
+            0,
+            0,
+            13,
+            63,
 
             // CvmRules
-            17, 7 //cvm condition code = AmountInApplicationCurrencyAndOverXValueCondition
+            17,
+            7 //cvm condition code = AmountInApplicationCurrencyAndOverXValueCondition
         };
 
         CvmList cvmList = CvmList.Decode(cvmListEncodedContent);
@@ -256,13 +277,20 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         ReadOnlySpan<byte> cvmListEncodedContent = stackalloc byte[]
         {
             //xAmount
-            0, 0, 12, 34,
+            0,
+            0,
+            12,
+            34,
 
             //yAmount
-            0, 0, 13, 63,
+            0,
+            0,
+            13,
+            63,
 
             // CvmRules
-            17, 9 //cvm condition code = AmountInApplicationCurrencyAndOverYValueCondition
+            17,
+            9 //cvm condition code = AmountInApplicationCurrencyAndOverYValueCondition
         };
 
         CvmList cvmList = CvmList.Decode(cvmListEncodedContent);
@@ -296,13 +324,20 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         ReadOnlySpan<byte> cvmListEncodedContent = stackalloc byte[]
         {
             //xAmount
-            0, 0, 12, 34,
+            0,
+            0,
+            12,
+            34,
 
             //yAmount
-            0, 0, 13, 63,
+            0,
+            0,
+            13,
+            63,
 
             // CvmRules
-            17, 6 //cvm condition code = AmountInApplicationCurrencyAndUnderXValueCondition
+            17,
+            6 //cvm condition code = AmountInApplicationCurrencyAndUnderXValueCondition
         };
 
         CvmList cvmList = CvmList.Decode(cvmListEncodedContent);
@@ -336,13 +371,20 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         ReadOnlySpan<byte> cvmListEncodedContent = stackalloc byte[]
         {
             //xAmount
-            0, 0, 12, 34,
+            0,
+            0,
+            12,
+            34,
 
             //yAmount
-            0, 0, 13, 63,
+            0,
+            0,
+            13,
+            63,
 
             // CvmRules
-            17, 8 //cvm condition code = AmountInApplicationCurrencyAndUnderXValueCondition
+            17,
+            8 //cvm condition code = AmountInApplicationCurrencyAndUnderXValueCondition
         };
 
         CvmList cvmList = CvmList.Decode(cvmListEncodedContent);
@@ -376,13 +418,20 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         ReadOnlySpan<byte> cvmListEncodedContent = stackalloc byte[]
         {
             //xAmount
-            0, 0, 12, 34,
+            0,
+            0,
+            12,
+            34,
 
             //yAmount
-            0, 0, 13, 63,
+            0,
+            0,
+            13,
+            63,
 
             // CvmRules
-            17, 4 //cvm condition code = AmountInApplicationCurrencyAndUnderXValueCondition
+            17,
+            4 //cvm condition code = AmountInApplicationCurrencyAndUnderXValueCondition
         };
 
         _Database.Update(TransactionTypes.CardVerification);
@@ -420,13 +469,20 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         ReadOnlySpan<byte> cvmListEncodedContent = stackalloc byte[]
         {
             //xAmount
-            0, 0, 12, 34,
+            0,
+            0,
+            12,
+            34,
 
             //yAmount
-            0, 0, 13, 63,
+            0,
+            0,
+            13,
+            63,
 
             // CvmRules
-            17, 2 //cvm condition code = NotUnattendedCashOrManualCashOrPurchaseWithCashback
+            17,
+            2 //cvm condition code = NotUnattendedCashOrManualCashOrPurchaseWithCashback
         };
 
         _Database.Update(TransactionTypes.CashAdvance);
@@ -462,13 +518,20 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         ReadOnlySpan<byte> cvmListEncodedContent = stackalloc byte[]
         {
             //xAmount
-            0, 0, 12, 34,
+            0,
+            0,
+            12,
+            34,
 
             //yAmount
-            0, 0, 13, 63,
+            0,
+            0,
+            13,
+            63,
 
             // CvmRules
-            17, 3 //cvm condition code = NotUnattendedCashOrManualCashOrPurchaseWithCashback
+            17,
+            3 //cvm condition code = NotUnattendedCashOrManualCashOrPurchaseWithCashback
         };
 
         CvmList cvmList = CvmList.Decode(cvmListEncodedContent);
@@ -501,10 +564,16 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         ReadOnlySpan<byte> cvmListEncodedContent = stackalloc byte[]
         {
             //xAmount
-            0, 0, 12, 34,
+            0,
+            0,
+            12,
+            34,
 
             //yAmount
-            0, 0, 13, 63,
+            0,
+            0,
+            13,
+            63,
 
             // CvmRules
             0b0100_1000, //cvm code -> invalid cvm code but with b7 set.
@@ -545,10 +614,16 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         ReadOnlySpan<byte> cvmListEncodedContent = stackalloc byte[]
         {
             //xAmount
-            0, 0, 12, 34,
+            0,
+            0,
+            12,
+            34,
 
             //yAmount
-            0, 0, 13, 63,
+            0,
+            0,
+            13,
+            63,
 
             // CvmRules
             2, //cvm code -> Online Enciphered pin.
@@ -590,10 +665,16 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         ReadOnlySpan<byte> cvmListEncodedContent = stackalloc byte[]
         {
             //xAmount
-            0, 0, 12, 34,
+            0,
+            0,
+            12,
+            34,
 
             //yAmount
-            0, 0, 13, 63,
+            0,
+            0,
+            13,
+            63,
 
             // CvmRules
             2, //cvm code -> Online Enciphered pin.
@@ -634,10 +715,16 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         ReadOnlySpan<byte> cvmListEncodedContent = stackalloc byte[]
         {
             //xAmount
-            0, 0, 12, 34,
+            0,
+            0,
+            12,
+            34,
 
             //yAmount
-            0, 0, 13, 63,
+            0,
+            0,
+            13,
+            63,
 
             // CvmRules
             30, //cvm code -> Signature Paper.
@@ -672,10 +759,16 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         ReadOnlySpan<byte> cvmListEncodedContent = stackalloc byte[]
         {
             //xAmount
-            0, 0, 12, 34,
+            0,
+            0,
+            12,
+            34,
 
             //yAmount
-            0, 0, 13, 63,
+            0,
+            0,
+            13,
+            63,
 
             // CvmRules
             63, //cvm code -> None.
@@ -710,10 +803,16 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         ReadOnlySpan<byte> cvmListEncodedContent = stackalloc byte[]
         {
             //xAmount
-            0, 0, 12, 34,
+            0,
+            0,
+            12,
+            34,
 
             //yAmount
-            0, 0, 13, 63,
+            0,
+            0,
+            13,
+            63,
 
             // CvmRules
             1, //cvm code -> OfflinePlaintextPin.
@@ -749,10 +848,16 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         ReadOnlySpan<byte> cvmListEncodedContent = stackalloc byte[]
         {
             //xAmount
-            0, 0, 12, 34,
+            0,
+            0,
+            12,
+            34,
 
             //yAmount
-            0, 0, 13, 63,
+            0,
+            0,
+            13,
+            63,
 
             // CvmRules
             3, //cvm code -> OfflinePlaintextPin.
@@ -787,10 +892,16 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         ReadOnlySpan<byte> cvmListEncodedContent = stackalloc byte[]
         {
             //xAmount
-            0, 0, 12, 34,
+            0,
+            0,
+            12,
+            34,
 
             //yAmount
-            0, 0, 13, 63,
+            0,
+            0,
+            13,
+            63,
 
             // CvmRules
             5, //cvm code -> OfflinePlaintextPin.
@@ -825,10 +936,16 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         ReadOnlySpan<byte> cvmListEncodedContent = stackalloc byte[]
         {
             //xAmount
-            0, 0, 12, 34,
+            0,
+            0,
+            12,
+            34,
 
             //yAmount
-            0, 0, 13, 63,
+            0,
+            0,
+            13,
+            63,
 
             // CvmRules
             0, //cvm code -> OfflinePlaintextPin.
@@ -869,13 +986,21 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         ReadOnlySpan<byte> cvmListEncodedContent = stackalloc byte[]
         {
             //xAmount
-            0, 0, 12, 34,
+            0,
+            0,
+            12,
+            34,
 
             //yAmount
-            0, 0, 13, 63,
+            0,
+            0,
+            13,
+            63,
 
             // CvmRules
-            0b0100_1010, 3, 4, //cvm code -> OfflineEncipheredPin.
+            0b0100_1010,
+            3,
+            4, //cvm code -> OfflineEncipheredPin.
             3 //cvm condition code = SupportsCvmCondition
         };
 
@@ -907,13 +1032,21 @@ public class CardholderVerificationMethodSelectorTests : TestBase
         ReadOnlySpan<byte> cvmListEncodedContent = stackalloc byte[]
         {
             //xAmount
-            0, 0, 12, 34,
+            0,
+            0,
+            12,
+            34,
 
             //yAmount
-            0, 0, 13, 63,
+            0,
+            0,
+            13,
+            63,
 
             // CvmRules
-            0b0000_1010, 3, 4, //cvm code -> OfflineEncipheredPin.
+            0b0000_1010,
+            3,
+            4, //cvm code -> OfflineEncipheredPin.
             3 //cvm condition code = SupportsCvmCondition
         };
 
@@ -941,7 +1074,7 @@ public class CardholderVerificationMethodSelectorTests : TestBase
     private void AssertExpectedTvr(TerminalVerificationResult tvr)
     {
         TerminalVerificationResults expectedTvr = _Database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
-        Assert.Equal(tvr, (TerminalVerificationResult) expectedTvr);
+        Assert.Equal(tvr, (TerminalVerificationResult)expectedTvr);
     }
 
     #endregion

@@ -91,6 +91,8 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
     public static TerminalVerificationResults operator |(TerminalVerificationResults left, TerminalVerificationResults right) =>
         new(left._Value | right._Value);
 
+
+
     #endregion
 
     #region Instance Members

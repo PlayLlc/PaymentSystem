@@ -43,7 +43,8 @@ public class PreprocessorTests
         //Arrange
 
         _Fixture.RegisterTerminalTransactionQualifiers();
-        _Fixture.RegisterReaderContactlessTransactionLimit(1234);
+        _Fixture.RegisterReaderContactlessTransactionLimitWhenCvmIsOnDevice(1234);
+        _Fixture.RegisterReaderContactlessTransactionLimitWhenCvmIsNotOnDevice(1234);
         _Fixture.RegisterReaderCvmRequiredLimit(1234);
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
@@ -79,7 +80,7 @@ public class PreprocessorTests
     {
         //Arrange
         _Fixture.RegisterTerminalTransactionQualifiers(0b0010_1100_1010_1011);
-        _Fixture.RegisterReaderContactlessTransactionLimit(1234);
+        _Fixture.RegisterReaderContactlessTransactionLimitWhenCvmIsOnDevice(1234);
         _Fixture.RegisterReaderCvmRequiredLimit(1234);
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
@@ -93,7 +94,7 @@ public class PreprocessorTests
         CultureProfile cultureProfile = _Fixture.Create<CultureProfile>();
 
         Transaction transaction = _Fixture.Create<Transaction>();
-        OutcomeParameterSet expectedOutcomeParameterSet = SetOutcomeParameter(transaction.GetOutcome().GetOutcomeParameterSet());
+        OutcomeParameterSet expectedOutcomeParameterSet = SetOutcomeParameter(transaction.GetOutcome());
         UserInterfaceRequestData expectedUserInterfaceRequestData = SetUserInterfaceRequestData();
 
         //Act
@@ -118,7 +119,7 @@ public class PreprocessorTests
     {
         //Arrange
         _Fixture.RegisterTerminalTransactionQualifiers(0b0010_1100_1010_1011);
-        _Fixture.RegisterReaderContactlessTransactionLimit(1234);
+        _Fixture.RegisterReaderContactlessTransactionLimitWhenCvmIsOnDevice(1234);
         _Fixture.RegisterReaderCvmRequiredLimit(1234);
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
@@ -132,7 +133,7 @@ public class PreprocessorTests
         CultureProfile cultureProfile = _Fixture.Create<CultureProfile>();
 
         Transaction transaction = _Fixture.Create<Transaction>();
-        OutcomeParameterSet expectedOutcomeParameterSet = SetOutcomeParameter(transaction.GetOutcome().GetOutcomeParameterSet());
+        OutcomeParameterSet expectedOutcomeParameterSet = SetOutcomeParameter(transaction.GetOutcome());
         UserInterfaceRequestData expectedUserInterfaceRequestData = SetUserInterfaceRequestData();
 
         //Act
@@ -151,8 +152,9 @@ public class PreprocessorTests
         Assert.Equal(expectedOutcomeParameterSet, outcomeParameterSet);
     }
 
-    private OutcomeParameterSet SetOutcomeParameter(OutcomeParameterSet outcomeParameter)
+    private OutcomeParameterSet SetOutcomeParameter(Outcome outcome)
     {
+        OutcomeParameterSet outcomeParameter = outcome.GetOutcomeParameterSet();
         OutcomeParameterSet.Builder outcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
 
         outcomeParameterSetBuilder.Reset(outcomeParameter);
@@ -163,7 +165,9 @@ public class PreprocessorTests
         outcomeParameterSetBuilder.SetIsDiscretionaryDataPresent(false);
         outcomeParameterSetBuilder.Set(new Milliseconds(0));
 
-        return outcomeParameterSetBuilder.Complete();
+        outcome.Update(outcomeParameterSetBuilder);
+
+        return outcome.GetOutcomeParameterSet();
     }
 
     private UserInterfaceRequestData SetUserInterfaceRequestData()
