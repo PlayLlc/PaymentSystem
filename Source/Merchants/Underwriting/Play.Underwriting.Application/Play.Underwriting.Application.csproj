@@ -11,8 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Emvco\Core\Play.Core\Play.Core.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Play.Domain\Play.Domain.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Play.Scheduling\Play.Scheduling.csproj" />
-    <ProjectReference Include="..\..\Play.Underwriting.Domain\Play.Underwriting.Domain.csproj" />
+    <ProjectReference Include="..\Play.Underwriting.Domain\Play.Underwriting.Domain.csproj" />
   </ItemGroup>
 
 </Project>

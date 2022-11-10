@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\Play.Persistence.Sql\Play.Persistence.Sql.csproj" />
-    <ProjectReference Include="..\..\Play.Underwriting.Domain\Play.Underwriting.Domain.csproj" />
+    <ProjectReference Include="..\Play.Underwriting.Domain\Play.Underwriting.Domain.csproj" />
   </ItemGroup>
 
 </Project>
