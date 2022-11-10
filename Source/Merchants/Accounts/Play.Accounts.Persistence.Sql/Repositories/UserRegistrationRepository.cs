@@ -27,7 +27,7 @@ public class UserRegistrationRepository : Repository<UserRegistration, string>, 
     /// <exception cref="OperationCanceledException"></exception>
     public async Task<UserRegistration?> GetByEmailAsync(string email)
     {
-        return await _Set.FirstOrDefaultAsync(a => a.GetEmail() == email);
+        return await _DbSet.FirstOrDefaultAsync(a => a.GetEmail() == email);
     }
 
     /// <exception cref="EntityFrameworkRepositoryException"></exception>

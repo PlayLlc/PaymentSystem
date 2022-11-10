@@ -58,7 +58,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Underwriting.Persisten
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Underwriting.Application", "Underwriting\Play.Underwriting.Application\Play.Underwriting.Application.csproj", "{8EA4772F-36F3-4784-B375-A11EF575174F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Underwriting.ConsoleApp", "Underwriting\Play.Underwriting.ConsoleApp\Play.Underwriting.ConsoleApp.csproj", "{2D69E008-76D8-4FD7-AD52-8EF4C1602044}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Underwriting.Api", "Underwriting\Play.Underwriting.ConsoleApp\Play.Underwriting.Api.csproj", "{2D69E008-76D8-4FD7-AD52-8EF4C1602044}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Underwriting.Domain", "Underwriting\Play.Underwriting.Domain\Play.Underwriting.Domain.csproj", "{FEC887CC-E68F-48F3-9C8C-043756D440FB}"
 EndProject

@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Play.Underwriting.Api": {
+      "commandName": "Dev",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:55611;http://localhost:55612"
+    }
+  }
+}
