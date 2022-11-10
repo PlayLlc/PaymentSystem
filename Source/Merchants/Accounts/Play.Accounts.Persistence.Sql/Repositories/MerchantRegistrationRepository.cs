@@ -11,22 +11,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Play.Accounts.Persistence.Sql.Repositoriesd
+namespace Play.Accounts.Persistence.Sql.Repositories
 {
     public class MerchantRegistrationRepository : Repository<MerchantRegistration, string>
     {
-        #region Instance Values
-
-        private readonly DbSet<MerchantRegistration> _Set;
-
-        #endregion
-
         #region Constructor
 
         public MerchantRegistrationRepository(UserIdentityDbContext dbContext) : base(dbContext)
-        {
-            _Set = dbContext.Set<MerchantRegistration>();
-        }
+        { }
 
         #endregion
 

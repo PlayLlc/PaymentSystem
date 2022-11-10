@@ -10,6 +10,10 @@ using Play.Telecom.Twilio.Email;
 
 namespace Play.Accounts.Application.Services;
 
+/// <summary>
+///     This class sends a link containing a verification code to an email account to verify that the account is real
+/// </summary>
+/// and the user has control of the account
 public class EmailAccountVerifier : IVerifyEmailAccounts
 {
     #region Instance Values
