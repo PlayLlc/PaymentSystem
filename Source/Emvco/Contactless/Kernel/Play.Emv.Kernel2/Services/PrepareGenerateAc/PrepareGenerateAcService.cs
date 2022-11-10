@@ -187,7 +187,7 @@ public partial class PrepareGenerateAcService : CommonProcessing
 
             return true;
         }
-        //GAC-9 - DS ODS Info for Reader indicates DS ODS Term is usable for AC Type ?
+
         if (IsDsOdsTermUsableForAcType(session, dsOdsInfoForReader))
         {
             result = _WriteIds.Process(currentStateIdRetriever, session, message);
