@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 
 using Play.Codecs;
 
@@ -8,7 +9,7 @@ public readonly record struct StateId
 {
     #region Instance Values
 
-    private readonly uint _Value;
+    private readonly BigInteger _Value;
 
     #endregion
 
@@ -16,14 +17,14 @@ public readonly record struct StateId
 
     public StateId(ReadOnlySpan<char> value)
     {
-        _Value = PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(PlayCodec.UnicodeCodec.Encode(value));
+        _Value = PlayCodec.UnsignedIntegerCodec.DecodeToBigInteger(PlayCodec.UnicodeCodec.Encode(value));
     }
 
     #endregion
 
     #region Operator Overrides
 
-    public static explicit operator uint(StateId value) => value._Value;
+    public static explicit operator BigInteger(StateId value) => value._Value;
 
     #endregion
 }

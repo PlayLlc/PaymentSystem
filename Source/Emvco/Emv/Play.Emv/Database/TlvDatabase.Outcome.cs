@@ -53,7 +53,7 @@ public abstract partial class TlvDatabase
     /// <exception cref="TerminalDataException"></exception>
     public UserInterfaceRequestData GetUserInterfaceRequestData()
     {
-        if (IsPresentAndNotEmpty(UserInterfaceRequestData.Tag))
+        if (!IsPresentAndNotEmpty(UserInterfaceRequestData.Tag))
         {
             UserInterfaceRequestData.Builder builder = UserInterfaceRequestData.GetBuilder();
 
@@ -75,7 +75,7 @@ public abstract partial class TlvDatabase
     /// <exception cref="TerminalDataException"></exception>
     public bool IsSet(TerminalVerificationResultCodes value)
     {
-        if (IsPresentAndNotEmpty(TerminalVerificationResults.Tag))
+        if (!IsPresentAndNotEmpty(TerminalVerificationResults.Tag))
             return false;
 
         return ((TerminalVerificationResults) Get(TerminalVerificationResults.Tag)).IsSet(value);
