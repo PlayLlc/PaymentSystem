@@ -194,14 +194,14 @@ public class Record : IEqualityComparer<Record>, IEquatable<Record>
         if (!siblings.TryGetValueOctetsOfSibling(ApplicationPan.Tag, out ReadOnlySpan<byte> applicationPanRaw))
             throw new TerminalDataException($"The {nameof(Record)} could not {nameof(Decode)} because the {nameof(ApplicationPan)} was not present");
 
-        if (!siblings.TryGetValueOctetsOfSibling(ApplicationPan.Tag, out ReadOnlySpan<byte> applicationPanSequenceNumberRaw))
+        if (!siblings.TryGetValueOctetsOfSibling(ApplicationPanSequenceNumber.Tag, out ReadOnlySpan<byte> applicationPanSequenceNumberRaw))
         {
             throw new TerminalDataException(
                 $"The {nameof(Record)} could not {nameof(Decode)} because the {nameof(ApplicationPanSequenceNumber)} was not present");
         }
 
         ApplicationPan applicationPan = ApplicationPan.Decode(applicationPanRaw);
-        ApplicationPanSequenceNumber applicationPanSequenceNumber = ApplicationPanSequenceNumber.Decode(applicationPanRaw);
+        ApplicationPanSequenceNumber applicationPanSequenceNumber = ApplicationPanSequenceNumber.Decode(applicationPanSequenceNumberRaw);
 
         buffer.Add(applicationPan);
         buffer.Add(applicationPanSequenceNumber);
