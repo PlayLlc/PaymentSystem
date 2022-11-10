@@ -7,15 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-<<<<<<<< HEAD:Source/Merchants/Terminals/Play.Terminals.Domain/Play.Terminals.Domain.csproj
     <ProjectReference Include="..\Play.Terminals.Contracts\Play.Terminals.Contracts.csproj" />
-========
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.8" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Play.Domain\Play.Domain.csproj" />
->>>>>>>> main:Source/Merchants/Infrastructure/Play.Mvc/Play.Mvc.csproj
   </ItemGroup>
 
 </Project>

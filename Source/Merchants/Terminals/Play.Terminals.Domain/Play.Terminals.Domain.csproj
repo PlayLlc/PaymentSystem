@@ -7,11 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-<<<<<<<< HEAD:Source/Merchants/Accounts/Play.Accounts.Domain/Play.Accounts.Domain.csproj
     <ProjectReference Include="..\Play.Accounts.Contracts\Play.Accounts.Contracts.csproj" />
-========
     <ProjectReference Include="..\Play.Terminals.Contracts\Play.Terminals.Contracts.csproj" />
->>>>>>>> main:Source/Merchants/Terminals/Play.Terminals.Domain/Play.Terminals.Domain.csproj
   </ItemGroup>
 
 </Project>
