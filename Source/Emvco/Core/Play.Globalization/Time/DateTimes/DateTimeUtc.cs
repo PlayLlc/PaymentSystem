@@ -15,6 +15,7 @@ public readonly record struct DateTimeUtc
     public int Hour => _Value.Hour;
     public int Minute => _Value.Minute;
     public int Second => _Value.Second;
+    public long Ticks => _Value.Ticks;
     public static DateTimeUtc Now => new(DateTime.UtcNow);
     public static DateTimeUtc Today => new(DateTime.UtcNow);
 
@@ -56,6 +57,12 @@ public readonly record struct DateTimeUtc
             throw new ArgumentOutOfRangeException($"The argument {nameof(value)} was not in UTC format");
         _Value = dateTimeValue;
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public string ToShortDateFormat() => $"{_Value.Year}-{_Value.Month}-{_Value.Day:00}";
 
     #endregion
 
