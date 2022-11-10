@@ -119,4 +119,82 @@ public class TornRecordTests
     }
 
     #endregion
+
+    #region TornRecord Tests
+
+    [Fact]
+    public void TornRecord_TryGetRecordItem_NoItemFound()
+    {
+        TornRecordTestTlv testData = new();
+        TornRecord testValue = TornRecord.Decode(testData.EncodeValue().AsMemory());
+
+        bool result = testValue.TryGetRecordItem(ApplicationCapabilitiesInformation.Tag, out PrimitiveValue? primitive);
+
+        Assert.False(result);
+        Assert.Null(primitive);
+    }
+
+    [Fact]
+    public void TornRecord_TryGetRecordItem_ItemFound()
+    {
+        TornRecordTestTlv testData = new();
+        TornRecord testValue = TornRecord.Decode(testData.EncodeValue().AsMemory());
+
+        bool result = testValue.TryGetRecordItem(new Play.Ber.Tags.Tag(0x5A), out PrimitiveValue? primitive);
+
+        Assert.True(result);
+        Assert.NotNull(primitive);
+    }
+
+    [Fact]
+    public void TornRecord_TryGetOldestRecord_ItemFound()
+    {
+        TornRecordTestTlv testData = new();
+        TornRecord testValue = TornRecord.Decode(testData.EncodeValue().AsMemory());
+
+        bool found = TornRecord.TryGetOldestRecord(new TornRecord[] { testValue }, out TornRecord? result);
+
+        Assert.True(found);
+        Assert.NotNull(result);
+        Assert.Equal(result, testValue);
+    }
+
+    [Fact]
+    public void TornRecord_TryGetOldestRecord_ReturnsOldestRecord()
+    {
+        TornRecordTestTlv anotherTestData = new(new byte[] {
+            0x5F, 0x34, //Pan Sequence Number
+            1,
+            12,
+            0x5A, // Tag
+            9, // Length
+            12, 23, 33, 13, 15, 12, 23, 33, 13, //Value,
+        });
+        TornRecord anotherTornRecord = TornRecord.Decode(anotherTestData.EncodeValue().AsMemory());
+
+        TornRecordTestTlv testData = new();
+        TornRecord tornRecord = TornRecord.Decode(testData.EncodeValue().AsMemory());
+
+        bool found = TornRecord.TryGetOldestRecord(new TornRecord[] { anotherTornRecord, tornRecord }, out TornRecord? result);
+
+        Assert.True(found);
+        Assert.NotNull(result);
+        Assert.Equal(result, anotherTornRecord);
+    }
+
+    [Fact]
+    public void TornRecord_CreateEmptyTornRecord_CreatesExpectedItem()
+    {
+        TornRecord sut = TornRecord.CreateEmptyTornRecord();
+
+        Assert.NotNull(sut);
+
+        sut.TryGetRecordItem(ApplicationPan.Tag, out PrimitiveValue? applicationPan);
+        Assert.NotNull(applicationPan);
+
+        sut.TryGetRecordItem(ApplicationPanSequenceNumber.Tag, out PrimitiveValue? applicationPanSequenceNumber);
+        Assert.NotNull(applicationPanSequenceNumber);
+    }
+
+    #endregion
 }

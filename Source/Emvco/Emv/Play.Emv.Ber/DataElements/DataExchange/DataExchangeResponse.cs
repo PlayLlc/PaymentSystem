@@ -50,14 +50,7 @@ public abstract record DataExchangeResponse : DataExchangeList<PrimitiveValue>
             j += (int)_Value.ElementAt(i).GetTagLengthValueByteCount(_Codec);
         }
 
-        TagLength tagLength = new(GetTag(), result);
-
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(tagLength.GetTagLengthValueByteCount());
-        Span<byte> buffer = spanOwner.Span;
-        tagLength.Encode().CopyTo(buffer);
-        result.CopyTo(buffer[tagLength.GetValueOffset()..]);
-
-        return buffer.ToArray();
+        return result.ToArray();
     }
 
     #endregion

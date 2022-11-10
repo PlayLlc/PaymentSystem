@@ -95,18 +95,5 @@ public record TagsToWriteBeforeGeneratingApplicationCryptogram : DataExchangeRes
         return result;
     }
 
-    public override byte[] EncodeTagLengthValue()
-    {
-        byte[] contentOctets = this.EncodeValue();
-        TagLength tagLength = new(this.GetTag(), contentOctets);
-
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(tagLength.GetTagLengthValueByteCount());
-        Span<byte> buffer = spanOwner.Span;
-        tagLength.Encode().CopyTo(buffer);
-        contentOctets.CopyTo(buffer[tagLength.GetValueOffset()..]);
-
-        return buffer.ToArray();
-    }
-
     #endregion
 }
