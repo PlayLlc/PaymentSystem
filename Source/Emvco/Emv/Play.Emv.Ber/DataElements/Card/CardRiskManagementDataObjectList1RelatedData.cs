@@ -28,12 +28,14 @@ public record CardRiskManagementDataObjectList1RelatedData : DataElement<TagLeng
 
     #region Serialization
 
-    public static CardRiskManagementDataObjectList1 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-    public override CardRiskManagementDataObjectList1 Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public static CardRiskManagementDataObjectList1RelatedData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public override CardRiskManagementDataObjectList1RelatedData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static CardRiskManagementDataObjectList1 Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodeTagLengths(value.ToArray()));
+    public static CardRiskManagementDataObjectList1RelatedData Decode(ReadOnlySpan<byte> value) => new(new DataObjectListResult(_Codec.DecodeTagLengthValues(value.ToArray().AsSpan())));
+
+    public override byte[] EncodeValue() => _Value.SelectMany(x => x.EncodeTagLengthValue()).ToArray();
 
     #endregion
 

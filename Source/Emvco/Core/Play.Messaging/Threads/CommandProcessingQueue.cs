@@ -1,7 +1,5 @@
 ﻿using System.Collections.Concurrent;
 
-using Microsoft.Extensions.Logging;
-
 namespace Play.Messaging.Threads;
 
 /// <summary>
@@ -13,10 +11,8 @@ public abstract class CommandProcessingQueue<T>
 {
     #region Instance Values
 
-    private readonly ILogger _Logger;
-
     protected readonly CancellationTokenSource _CancellationTokenSource;
-    private readonly ConcurrentQueue<T> _Queue;
+    protected readonly ConcurrentQueue<T> _Queue;
     private readonly SignalSwitch _SignalSwitch;
 
     private static readonly object _SyncLock = new object();
@@ -78,8 +74,6 @@ public abstract class CommandProcessingQueue<T>
 
                 while (TryDequeue(out T? command))
                 {
-                    _Logger.LogInformation("Processing command :" + command.ToString());
-
                     Handle(command);
                 }
 
@@ -88,7 +82,6 @@ public abstract class CommandProcessingQueue<T>
         }
         catch(Exception e)
         {
-            _Logger.LogError(e, "Processing command exception");
         }
     }
 

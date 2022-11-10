@@ -50,18 +50,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Mvc", "Infrastructure\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MockWebClient", "Portal\MockWebClient\MockWebClient.csproj", "{7AAF0609-BCBD-4FED-B67B-B553F205A5FF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Underwriting", "Underwriting", "{78428D96-A538-4F58-A955-9993063A6BAB}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Scheduling", "Infrastructure\Play.Scheduling\Play.Scheduling.csproj", "{763E8D7D-3E31-4386-A456-C263CF32C24C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Underwriting.Persistence.Sql", "Underwriting\Play.Underwriting.Persistence.Sql\Play.Underwriting.Persistence.Sql.csproj", "{F540BE88-745E-43BC-864B-703813060DEE}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Underwriting.Domain", "Play.Underwriting.Domain\Play.Underwriting.Domain.csproj", "{F7684155-E855-4B5C-8851-1355CD34D3D1}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Underwriting.Application", "Underwriting\Play.Underwriting.Application\Play.Underwriting.Application.csproj", "{8EA4772F-36F3-4784-B375-A11EF575174F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Underwriting.ConsoleApp", "Underwriting\Play.Underwriting.ConsoleApp\Play.Underwriting.ConsoleApp.csproj", "{2D69E008-76D8-4FD7-AD52-8EF4C1602044}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -140,26 +128,6 @@ Global
 		{7AAF0609-BCBD-4FED-B67B-B553F205A5FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AAF0609-BCBD-4FED-B67B-B553F205A5FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AAF0609-BCBD-4FED-B67B-B553F205A5FF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{763E8D7D-3E31-4386-A456-C263CF32C24C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{763E8D7D-3E31-4386-A456-C263CF32C24C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{763E8D7D-3E31-4386-A456-C263CF32C24C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{763E8D7D-3E31-4386-A456-C263CF32C24C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F540BE88-745E-43BC-864B-703813060DEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F540BE88-745E-43BC-864B-703813060DEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F540BE88-745E-43BC-864B-703813060DEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F540BE88-745E-43BC-864B-703813060DEE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F7684155-E855-4B5C-8851-1355CD34D3D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F7684155-E855-4B5C-8851-1355CD34D3D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F7684155-E855-4B5C-8851-1355CD34D3D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F7684155-E855-4B5C-8851-1355CD34D3D1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8EA4772F-36F3-4784-B375-A11EF575174F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8EA4772F-36F3-4784-B375-A11EF575174F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8EA4772F-36F3-4784-B375-A11EF575174F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8EA4772F-36F3-4784-B375-A11EF575174F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2D69E008-76D8-4FD7-AD52-8EF4C1602044}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D69E008-76D8-4FD7-AD52-8EF4C1602044}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D69E008-76D8-4FD7-AD52-8EF4C1602044}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2D69E008-76D8-4FD7-AD52-8EF4C1602044}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -183,11 +151,6 @@ Global
 		{8E4CBF7D-DD4D-4BAF-B6D9-550D2401765B} = {460B0CC6-3EFF-4FC8-B4E0-A01349EE3803}
 		{0DF6E768-4EAF-4023-90BA-CFC1BB03FAB2} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
 		{7AAF0609-BCBD-4FED-B67B-B553F205A5FF} = {80F844CF-229E-44FB-98D3-5BE625E2BF5C}
-		{763E8D7D-3E31-4386-A456-C263CF32C24C} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
-		{F540BE88-745E-43BC-864B-703813060DEE} = {78428D96-A538-4F58-A955-9993063A6BAB}
-		{F7684155-E855-4B5C-8851-1355CD34D3D1} = {78428D96-A538-4F58-A955-9993063A6BAB}
-		{8EA4772F-36F3-4784-B375-A11EF575174F} = {78428D96-A538-4F58-A955-9993063A6BAB}
-		{2D69E008-76D8-4FD7-AD52-8EF4C1602044} = {78428D96-A538-4F58-A955-9993063A6BAB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6833603-DD22-4624-AB4A-235C51671F62}

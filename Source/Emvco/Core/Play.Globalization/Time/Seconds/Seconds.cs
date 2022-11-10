@@ -47,6 +47,11 @@ public readonly record struct Seconds
         _Value = value;
     }
 
+    public Seconds(ushort value)
+    {
+        _Value = value;
+    }
+
     public Seconds(int value)
     {
         _Value = value;

@@ -1,5 +1,8 @@
-﻿using Play.Ber.DataObjects;
+﻿using Microsoft.Toolkit.HighPerformance.Buffers;
+
+using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
+using Play.Ber.InternalFactories;
 using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
@@ -31,13 +34,13 @@ public record TagsToWriteBeforeGeneratingApplicationCryptogram : DataExchangeRes
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    public static TagsToWriteAfterGeneratingApplicationCryptogram Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public static TagsToWriteBeforeGeneratingApplicationCryptogram Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    public override TagsToWriteAfterGeneratingApplicationCryptogram Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override TagsToWriteBeforeGeneratingApplicationCryptogram Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    public static TagsToWriteAfterGeneratingApplicationCryptogram Decode(ReadOnlySpan<byte> value) => new(ResolveTagsToWrite(value).ToArray());
+    public static TagsToWriteBeforeGeneratingApplicationCryptogram Decode(ReadOnlySpan<byte> value) => new(ResolveTagsToWrite(value).ToArray());
 
     #endregion
 

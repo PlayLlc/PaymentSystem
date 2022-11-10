@@ -44,7 +44,7 @@ public abstract class TestTlv : IDecodeDataElement
     /// </summary>
     /// <returns></returns>
     /// <exception cref="BerParsingException"></exception>
-    public byte[] EncodeTagLengthValue()
+    public virtual byte[] EncodeTagLengthValue()
     {
         TagLength tagLength = GetTagLength();
         Span<byte> result = stackalloc byte[tagLength.GetTagLengthValueByteCount()];
@@ -65,7 +65,7 @@ public abstract class TestTlv : IDecodeDataElement
     public abstract Tag GetTag();
     protected TagLength GetTagLength() => new(GetTag(), EncodeValue());
     public int GetTagLengthValueByteCount() => new TagLength(GetTag(), EncodeValue()).GetTagLengthValueByteCount();
-    public int GetValueByteCount() => _ContentOctets.Length;
+    public virtual int GetValueByteCount() => _ContentOctets.Length;
 
     /// <summary>
     ///     ParseChildren

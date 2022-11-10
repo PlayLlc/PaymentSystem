@@ -31,8 +31,7 @@ public record ClearTextPassword : ValueObject<string>
 
     private static bool IsSpecialCharacterPresent(string password)
     {
-        //return password.Any(a => SpecialCodec.SpecialCodec.IsValid(a));
-        return true;
+        return password.Any(a => SpecialCodec.SpecialCodec.IsValid(a));
     }
 
     private static bool IsAlphabeticCharacterPresent(string password)
