@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\" />
-    <Folder Include="ValueObjects\" />
+    <ProjectReference Include="..\..\Accounts\Play.Accounts.Contracts\Play.Accounts.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

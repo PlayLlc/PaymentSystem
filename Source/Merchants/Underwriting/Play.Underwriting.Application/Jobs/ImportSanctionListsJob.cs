@@ -18,7 +18,7 @@ namespace Play.Underwriting.Jobs;
 public class ImportSanctionListsJob : IScheduledCronJob
 {
     private readonly IUsTreasuryClient _DataServiceClient;
-    private readonly IUnderwritingRepository _UnderwritingRepository;
+    private readonly IImportIndividualsRepository _UnderwritingRepository;
     private readonly ILogger<ImportSanctionListsJob> _Logger;
 
     private const string prim_file = "sdn.csv";
@@ -29,7 +29,7 @@ public class ImportSanctionListsJob : IScheduledCronJob
     private const string cons_addr_file = "cons_add.csv";
     private const string cons_alt_file = "cons_alt.csv";
 
-    public ImportSanctionListsJob(IUsTreasuryClient usTreasuryClient, IUnderwritingRepository underwritingRepository, ILogger<ImportSanctionListsJob> logger)
+    public ImportSanctionListsJob(IUsTreasuryClient usTreasuryClient, IImportIndividualsRepository underwritingRepository, ILogger<ImportSanctionListsJob> logger)
     {
         _DataServiceClient = usTreasuryClient;
         _UnderwritingRepository = underwritingRepository;

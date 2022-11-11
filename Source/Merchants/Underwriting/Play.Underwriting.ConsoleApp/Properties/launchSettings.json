@@ -1,7 +1,7 @@
 {
   "profiles": {
     "Play.Underwriting.Api": {
-      "commandName": "Dev",
+      "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

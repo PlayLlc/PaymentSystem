@@ -62,6 +62,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Underwriting.Api", "Un
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Underwriting.Domain", "Underwriting\Play.Underwriting.Domain\Play.Underwriting.Domain.csproj", "{FEC887CC-E68F-48F3-9C8C-043756D440FB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Underwriting.Contracts", "Underwriting\Play.Underwriting.Contracts\Play.Underwriting.Contracts.csproj", "{F966273E-3F39-429E-98CC-38571E31FA5A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -160,6 +162,10 @@ Global
 		{FEC887CC-E68F-48F3-9C8C-043756D440FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEC887CC-E68F-48F3-9C8C-043756D440FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEC887CC-E68F-48F3-9C8C-043756D440FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F966273E-3F39-429E-98CC-38571E31FA5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F966273E-3F39-429E-98CC-38571E31FA5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F966273E-3F39-429E-98CC-38571E31FA5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F966273E-3F39-429E-98CC-38571E31FA5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -188,6 +194,7 @@ Global
 		{8EA4772F-36F3-4784-B375-A11EF575174F} = {78428D96-A538-4F58-A955-9993063A6BAB}
 		{2D69E008-76D8-4FD7-AD52-8EF4C1602044} = {78428D96-A538-4F58-A955-9993063A6BAB}
 		{FEC887CC-E68F-48F3-9C8C-043756D440FB} = {78428D96-A538-4F58-A955-9993063A6BAB}
+		{F966273E-3F39-429E-98CC-38571E31FA5A} = {78428D96-A538-4F58-A955-9993063A6BAB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6833603-DD22-4624-AB4A-235C51671F62}
