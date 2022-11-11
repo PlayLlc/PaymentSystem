@@ -13,9 +13,14 @@ public class Address
 
     public string State { get; set; } = string.Empty;
 
-    public string PostalCode { get; set; } = string.Empty;
+    public string ZipCode { get; set; } = string.Empty;
 
     public string Country { get; set; } = string.Empty;
 
     public string Remarks { get; set; } = string.Empty;
+
+    public bool IsEqual(string streetAddress, string zipCode, string city, string state)
+    {
+        return this.StreetAddress == streetAddress && this.ZipCode == zipCode && this.City == city && this.State == state;
+    }
 }

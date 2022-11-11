@@ -1,4 +1,4 @@
-﻿using Play.Underwriting.Domain.Entities;
+﻿using Play.Underwriting.Domain.Aggregates;
 
 namespace Play.Underwriting.Domain.Repositories;
 

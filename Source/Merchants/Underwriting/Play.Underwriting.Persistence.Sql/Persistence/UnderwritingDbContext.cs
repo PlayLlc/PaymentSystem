@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Play.Merchants.Underwriting.Persistence.Configuration;
+using Play.Underwriting.Domain.Aggregates;
 using Play.Underwriting.Domain.Entities;
 
 namespace Play.Merchants.Underwriting.Persistence.Persistence;

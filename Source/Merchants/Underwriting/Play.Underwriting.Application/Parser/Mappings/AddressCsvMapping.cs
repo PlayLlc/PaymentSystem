@@ -31,14 +31,14 @@ internal sealed class AddressCsvMapping : CsvMapping<Address>
             if (addressItems.Length == 2)
             {
                 mapping.City = addressItems[0];
-                mapping.PostalCode = addressItems[1];
+                mapping.ZipCode = addressItems[1];
             }
 
             if (addressItems.Length == 3)
             {
                 mapping.City = addressItems[0];
                 mapping.State = addressItems[1];
-                mapping.PostalCode = addressItems[2];
+                mapping.ZipCode = addressItems[2];
             }
 
             return true;

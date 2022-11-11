@@ -1,16 +1,19 @@
-﻿namespace Play.Underwriting.Domain.Entities;
+﻿using Play.Underwriting.Domain.Entities;
+using Play.Underwriting.Domain.Enums;
+
+namespace Play.Underwriting.Domain.Aggregates;
 
 public class Individual
 {
     private readonly List<Address> _addresses = new();
 
-    private readonly List<Alias> _alternateIdentities = new();
+    private readonly List<Alias> _aliases = new();
 
     public ulong Number { get; set; }
 
     public string Name { get; set; } = string.Empty;
 
-    public string EntityType { get; set; } = string.Empty;
+    public EntityType EntityType { get; set; } = EntityType.Empty;
 
     public string Program { get; set; } = string.Empty;
 
@@ -32,7 +35,7 @@ public class Individual
 
     public IReadOnlyList<Address> Addresses => _addresses.AsReadOnly();
 
-    public IReadOnlyList<Alias> AlternateIdentities => _alternateIdentities.AsReadOnly();
+    public IReadOnlyList<Alias> Aliases => _aliases.AsReadOnly();
 
     public void AddAddresses(Address[] addresses)
     {
@@ -41,6 +44,6 @@ public class Individual
 
     public void AddAlternateIdentities(Alias[] alternateIdentities)
     {
-        _alternateIdentities.AddRange(alternateIdentities);
+        _aliases.AddRange(alternateIdentities);
     }
 }

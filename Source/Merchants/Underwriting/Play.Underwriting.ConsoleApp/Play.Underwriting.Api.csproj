@@ -22,7 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\Play.Mvc\Play.Mvc.csproj" />
     <ProjectReference Include="..\Play.Underwriting.Application\Play.Underwriting.Application.csproj" />
+    <ProjectReference Include="..\Play.Underwriting.Contracts\Play.Underwriting.Contracts.csproj" />
     <ProjectReference Include="..\Play.Underwriting.Persistence.Sql\Play.Underwriting.Persistence.Sql.csproj" />
   </ItemGroup>
 

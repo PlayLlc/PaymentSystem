@@ -8,7 +8,10 @@
 
   <ItemGroup>
     <Folder Include="Entities\" />
-    <Folder Include="ValueObjects\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Emvco\Core\Play.Core\Play.Core.csproj" />
   </ItemGroup>
 
 </Project>

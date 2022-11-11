@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Play.Merchants.Underwriting.Persistence.Persistence;
 using Play.Persistence.Sql;
-using Play.Underwriting.Domain.Entities;
+using Play.Underwriting.Domain.Aggregates;
 using Play.Underwriting.Domain.Repositories;
 
 namespace Play.Underwriting.Persistence.Sql.Repositories;

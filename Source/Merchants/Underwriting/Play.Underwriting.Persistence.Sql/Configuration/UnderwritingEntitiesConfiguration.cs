@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Play.Underwriting.Domain.Aggregates;
 using Play.Underwriting.Domain.Entities;
+using Play.Underwriting.Domain.Enums;
 
 namespace Play.Merchants.Underwriting.Persistence.Configuration;
 /// <summary>
@@ -16,7 +18,7 @@ internal class UnderwritingEntitiesConfiguration : IEntityTypeConfiguration<Indi
         builder.Property(x => x.Number).ValueGeneratedNever();
 
         builder.Property(x => x.Name).HasMaxLength(350);
-        builder.Property(x => x.EntityType).HasMaxLength(12);
+        builder.Property(x => x.EntityType).HasConversion<string>(x => x, y => new EntityType(y)).HasMaxLength(8);
         builder.Property(x => x.Program).HasMaxLength(200);
         builder.Property(x => x.Title).HasMaxLength(200);
         builder.Property(x => x.VesselCallSign).HasMaxLength(8);
@@ -27,11 +29,11 @@ internal class UnderwritingEntitiesConfiguration : IEntityTypeConfiguration<Indi
         builder.Property(x => x.VesselOwner).HasMaxLength(150);
         builder.Property(x => x.Remarks).HasMaxLength(1000);
 
-        builder.HasMany<Address>("Addresses");
-        builder.HasMany<Alias>("AlternateIdentities");
+        builder.HasMany<Address>($"{nameof(Address)}es");
+        builder.HasMany<Alias>($"{nameof(Alias)}es");
 
         builder.Navigation(x => x.Addresses).AutoInclude();
-        builder.Navigation(x => x.AlternateIdentities).AutoInclude();
+        builder.Navigation(x => x.Aliases).AutoInclude();
     }
 
     public void Configure(EntityTypeBuilder<Address> builder)
@@ -47,11 +49,18 @@ internal class UnderwritingEntitiesConfiguration : IEntityTypeConfiguration<Indi
 
     public void Configure(EntityTypeBuilder<Alias> builder)
     {
-        builder.ToTable("AlternateIdentities");
+        builder.ToTable($"{nameof(Alias)}es");
         builder.HasKey(x => x.Number);
         builder.Property(x => x.Number).ValueGeneratedNever();
 
-        builder.Property(x => x.Type).HasMaxLength(8);
+        var aliasNameBuilder = builder.OwnsOne(x => x.AliasName);
+
+        aliasNameBuilder.Property(x => x.Type)
+            .HasColumnName("Type");
+
+        aliasNameBuilder.Property(x => x.Name)
+            .HasColumnName("Name");
+
         builder.Property(x => x.Remarks).HasMaxLength(200);
     }
 }

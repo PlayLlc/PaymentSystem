@@ -1,4 +1,6 @@
-﻿namespace Play.Underwriting.Domain.Entities;
+﻿using Play.Underwriting.Domain.ValueObjects;
+
+namespace Play.Underwriting.Domain.Entities;
 
 public class Alias
 {
@@ -6,9 +8,7 @@ public class Alias
 
     public ulong Number { get; set; }
 
-    public string Type { get; set; } = string.Empty;
-
-    public string Name { get; set; } = string.Empty;
+    public AliasName AliasName { get; set; } = default!;
 
     public string Remarks { get; set; } = string.Empty;
 }

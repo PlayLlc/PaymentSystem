@@ -1,6 +1,6 @@
 ﻿namespace Play.Underwriting.Domain.ValueObjects;
 
-public class AlternateName
+public class AliasName
 {
     public string Name { get; set; }
 
