@@ -11,7 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Aggregates\MerchantRegistration\Events\Rules\" />
     <Folder Include="Aggregates\UserRegistration\Events\BrokenRuleEvents\" />
+    <Folder Include="Aggregates\UserRegistration\Events\Rules\" />
   </ItemGroup>
 
 </Project>
