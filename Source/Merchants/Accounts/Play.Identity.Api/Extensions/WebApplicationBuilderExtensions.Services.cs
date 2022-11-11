@@ -63,7 +63,7 @@ public static partial class WebApplicationBuilderExtensions
         // Domain Services
         builder.Services.AddScoped<IEnsureUniqueEmails, UniqueEmailChecker>();
         builder.Services.AddScoped<IHashPasswords, PasswordHasher>();
-        builder.Services.AddScoped<IUnderwriteMerchants, MerchantUnderwriter>();
+        builder.Services.AddHttpClient<IUnderwriteMerchants, MerchantUnderwriter>();
         builder.Services.AddScoped<IVerifyEmailAccounts, EmailAccountVerifier>();
         builder.Services.AddScoped<IVerifyMobilePhones, MobilePhoneVerifier>();
         builder.Services.AddScoped<ICreateEmailVerificationReturnUrl, EmailVerificationReturnUrlGenerator>();
