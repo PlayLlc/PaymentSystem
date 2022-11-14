@@ -19,7 +19,7 @@ namespace Play.Underwriting.Jobs;
 public class ImportSanctionListsJob : IScheduledCronJob
 {
     private readonly IUsTreasuryClient _DataServiceClient;
-    private readonly IImportIndividualsRepository _UnderwritingRepository;
+    private readonly IImportIndividualsRepository _ImportRepository;
     private readonly ILogger<ImportSanctionListsJob> _Logger;
 
     private const string prim_file = "sdn.csv";
@@ -30,10 +30,10 @@ public class ImportSanctionListsJob : IScheduledCronJob
     private const string cons_addr_file = "cons_add.csv";
     private const string cons_alt_file = "cons_alt.csv";
 
-    public ImportSanctionListsJob(IUsTreasuryClient usTreasuryClient, IImportIndividualsRepository underwritingRepository, ILogger<ImportSanctionListsJob> logger)
+    public ImportSanctionListsJob(IUsTreasuryClient usTreasuryClient, IImportIndividualsRepository importRepository, ILogger<ImportSanctionListsJob> logger)
     {
         _DataServiceClient = usTreasuryClient;
-        _UnderwritingRepository = underwritingRepository;
+        _ImportRepository = importRepository;
         _Logger = logger;
     }
 
@@ -43,7 +43,7 @@ public class ImportSanctionListsJob : IScheduledCronJob
 
         try
         {
-            await _UnderwritingRepository.BackupAndResetData();
+            await _ImportRepository.BackupAndResetData();
 
             Task<IEnumerable<Individual>> individualsTask = ImportAndProcessSanctionLists();
 
@@ -64,7 +64,7 @@ public class ImportSanctionListsJob : IScheduledCronJob
         {
             _Logger.LogError(ex, "Job {jobKey}: could not request the necessary data !", context.JobDetail.Key);
 
-            await _UnderwritingRepository.RestoreData().ConfigureAwait(false);
+            await _ImportRepository.RestoreData().ConfigureAwait(false);
 
             if (context.RefireCount < 3)
                 throw new JobExecutionException(ex, true);
@@ -75,7 +75,7 @@ public class ImportSanctionListsJob : IScheduledCronJob
         {
             _Logger.LogError(ex, "Job {jobKey}: could not parse the imported sanctions lists", context.JobDetail.Key);
 
-            await _UnderwritingRepository.RestoreData().ConfigureAwait(false);
+            await _ImportRepository.RestoreData().ConfigureAwait(false);
 
             throw new JobExecutionException(ex, false) { UnscheduleAllTriggers = true };
         }
@@ -83,7 +83,7 @@ public class ImportSanctionListsJob : IScheduledCronJob
         {
             _Logger.LogError(ex, "Job {jobKey}: could not persist the imported sanctions lists", context.JobDetail.Key);
 
-            await _UnderwritingRepository.RestoreData().ConfigureAwait(false);
+            await _ImportRepository.RestoreData().ConfigureAwait(false);
 
             throw new JobExecutionException(ex, false) { UnscheduleAllTriggers = true };
         }
@@ -91,13 +91,13 @@ public class ImportSanctionListsJob : IScheduledCronJob
         {
             _Logger.LogError(ex, "Job {jobKey}: something wrong happened", context.JobDetail.Key);
 
-            await _UnderwritingRepository.RestoreData().ConfigureAwait(false);
+            await _ImportRepository.RestoreData().ConfigureAwait(false);
 
             throw new JobExecutionException(ex, false) { UnscheduleAllTriggers = true };
         }
         finally
         {
-            await _UnderwritingRepository.CleanBackups().ConfigureAwait(false);
+            await _ImportRepository.CleanBackups().ConfigureAwait(false);
         }
     }
 
@@ -156,9 +156,9 @@ public class ImportSanctionListsJob : IScheduledCronJob
 
     private async Task SaveItems(Dictionary<ulong, Individual> individuals)
     {
-        await _UnderwritingRepository.AddIndividuals(individuals.Select(x => x.Value));
+        await _ImportRepository.AddIndividuals(individuals.Select(x => x.Value));
 
-        await _UnderwritingRepository.SaveChangesAsync();
+        await _ImportRepository.SaveChangesAsync();
     }
 
     private async Task<IEnumerable<Individual>> ImportIndividuals(CsvParserOptions parserOptions, string fileName, bool isConsolidatedFile = false)

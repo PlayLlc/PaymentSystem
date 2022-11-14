@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\Play.Mvc\Play.Mvc.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Play.Shared\Play.Shared.csproj" />
     <ProjectReference Include="..\Play.Accounts.Application\Play.Accounts.Application.csproj" />
   </ItemGroup>
 

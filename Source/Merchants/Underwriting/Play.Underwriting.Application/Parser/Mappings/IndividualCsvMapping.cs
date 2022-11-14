@@ -1,4 +1,7 @@
 ﻿using Play.Underwriting.Domain.Aggregates;
+using Play.Underwriting.Parser.TypeConverters;
+using System;
+using System.Reflection;
 using TinyCsvParser.Mapping;
 using TinyCsvParser.TypeConverter;
 
@@ -11,7 +14,22 @@ public sealed class IndividualCsvMapping : CsvMapping<Individual>
     {
         MapProperty(0, x => x.Number);
         MapProperty(1, x => x.Name, CsvParser.DefaultStringConverter);
-        MapProperty(2, x => x.EntityType, CsvParser.DefaultStringConverter);
+
+        MapUsing((mapping, row) =>
+        {
+            const int colIndex = 2;
+
+            if (string.IsNullOrEmpty(row.Tokens[colIndex]))
+                return false;
+
+            if (row.Tokens[colIndex].Equals(CustomStringTypeConverter.@null))
+                return true;
+
+            mapping.EntityType = new Domain.Enums.EntityType(row.Tokens[colIndex]);
+
+            return true;
+        });
+
         MapProperty(3, x => x.Program, CsvParser.DefaultStringConverter);
         MapProperty(4, x => x.Title, CsvParser.DefaultStringConverter);
         MapProperty(5, x => x.VesselCallSign, CsvParser.DefaultStringConverter);

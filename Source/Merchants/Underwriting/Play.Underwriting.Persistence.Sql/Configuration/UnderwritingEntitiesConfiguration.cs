@@ -4,7 +4,7 @@ using Play.Underwriting.Domain.Aggregates;
 using Play.Underwriting.Domain.Entities;
 using Play.Underwriting.Domain.Enums;
 
-namespace Play.Merchants.Underwriting.Persistence.Configuration;
+namespace Play.Underwriting.Persistence.Configuration;
 /// <summary>
 /// Specifications taken from : https://home.treasury.gov/system/files/126/dat_spec.txt
 /// </summary>
@@ -18,7 +18,7 @@ internal class UnderwritingEntitiesConfiguration : IEntityTypeConfiguration<Indi
         builder.Property(x => x.Number).ValueGeneratedNever();
 
         builder.Property(x => x.Name).HasMaxLength(350);
-        builder.Property(x => x.EntityType).HasConversion<string>(x => x, y => new EntityType(y)).HasMaxLength(8);
+        builder.Property(x => x.EntityType).HasConversion<string>(x => x, y => new EntityType(y)).HasMaxLength(12);
         builder.Property(x => x.Program).HasMaxLength(200);
         builder.Property(x => x.Title).HasMaxLength(200);
         builder.Property(x => x.VesselCallSign).HasMaxLength(8);

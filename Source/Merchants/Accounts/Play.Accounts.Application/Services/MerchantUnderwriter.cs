@@ -1,6 +1,12 @@
-﻿using Play.Accounts.Domain.Entities;
+﻿using Microsoft.Extensions.Options;
+using Play.Accounts.Domain.Entities;
 using Play.Accounts.Domain.Services;
 using Play.Accounts.Domain.ValueObjects;
+using Play.Core.Exceptions;
+using Play.Underwriting.Contracts.Requests;
+using Play.Underwriting.Contracts.Responses;
+using System.Net.Http.Json;
+using System.Text.Json;
 
 namespace Play.Accounts.Application.Services;
 
@@ -9,33 +15,83 @@ public class MerchantUnderwriter : IUnderwriteMerchants
     #region Instance Values
 
     private readonly HttpClient _Client;
+    private readonly JsonSerializerOptions _Options;
 
     #endregion
 
     #region Constructor
 
-    public MerchantUnderwriter(HttpClient client)
+    public MerchantUnderwriter(HttpClient client, IOptions<JsonSerializerOptions> options)
     {
         _Client = client;
+        _Options = options.Value;
     }
 
     #endregion
 
     #region Instance Members
 
-    public Task<bool> IsMerchantProhibited(Name name, Address address)
+    public async Task<bool> IsMerchantProhibited(Name name, Address address)
     {
-        return Task.FromResult(false);
+        VerifyMerchantIsProhibitedRequest request = new()
+        {
+            Name = name.Value,
+            Address = address.AsDto()
+        };
+
+        try
+        {
+            HttpResponseMessage response = await _Client.PostAsJsonAsync<VerifyMerchantIsProhibitedRequest>("api/underwriting/merchant", request, _Options);
+
+            VerifyResult? result = await response.Content.ReadFromJsonAsync<VerifyResult>(_Options);
+
+            return result!.IsProhibited;
+        }
+        catch (Exception ex)
+        {
+            throw new PlayInternalException(ex);
+        }
     }
 
-    public Task<bool> IsIndustryProhibited(MerchantCategoryCode categoryCodes)
+    public async Task<bool> IsIndustryProhibited(MerchantCategoryCode categoryCode)
     {
-        return Task.FromResult(false);
+        VerifyIndustryIsProhibitedRequest request = new() { MerchantCategoryCode = categoryCode };
+
+        try
+        {
+            HttpResponseMessage response = await _Client.PostAsJsonAsync("api/underwriting/industry", request, _Options);
+
+            VerifyResult? result = await response.Content.ReadFromJsonAsync<VerifyResult>(_Options);
+
+            return result!.IsProhibited;
+        }
+        catch (Exception ex)
+        {
+            throw new PlayInternalException(ex);
+        }
     }
 
-    public Task<bool> IsUserProhibited(PersonalDetail personalDetail, Address address, Contact contact)
+    public async Task<bool> IsUserProhibited(PersonalDetail personalDetail, Address address, Contact contact)
     {
-        return Task.FromResult(false);
+        VerifyUserIsProhibitedRequest request = new()
+        {
+            Address = address.AsDto(),
+            PersonalDetails = personalDetail.AsDto(),
+            Contact = contact.AsDto()
+        };
+
+        try
+        {
+            HttpResponseMessage response = await _Client.PostAsJsonAsync("api/underwriting/user", request, _Options);
+
+            VerifyResult? result = await response.Content.ReadFromJsonAsync<VerifyResult>(_Options);
+
+            return result!.IsProhibited;
+        }
+        catch(Exception ex)
+        {
+            throw new PlayInternalException(ex);
+        }
     }
 
     #endregion

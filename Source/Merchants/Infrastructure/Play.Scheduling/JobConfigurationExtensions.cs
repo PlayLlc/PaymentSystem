@@ -1,10 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Play.Scheduling;
 using Quartz;
 using System.Configuration;
 
-namespace Play.Merchants.Underwriting.Scheduled.Extensions;
+namespace Play.Scheduling;
 
 public static class JobConfigurationExtensions
 {

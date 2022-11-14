@@ -15,8 +15,10 @@ using Play.Accounts.Persistence.Sql.Repositories;
 using Play.Domain.Repositories;
 using Play.Identity.Api.Services;
 using Play.Persistence.Sql;
+using Play.Shared.Serializing;
 using Play.Telecom.Twilio.Email;
 using Play.Telecom.Twilio.Sms;
+using System.Text.Json;
 
 namespace Play.Identity.Api.Extensions;
 
@@ -44,6 +46,7 @@ public static partial class WebApplicationBuilderExtensions
         builder.Services.AddScoped((a) => sendGridConfiguration);
         builder.Services.AddScoped<ISendSmsMessages, SmsClient>();
         builder.Services.AddScoped<ISendEmail, EmailClient>();
+        builder.Services.Configure<JsonSerializerOptions>(_ => new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 
         // Repositories
         builder.Services.AddScoped<DbContext, UserIdentityDbContext>();
@@ -57,13 +60,17 @@ public static partial class WebApplicationBuilderExtensions
         builder.Services.AddScoped<ILoginUsers, UserLoginService>();
 
         // Infrastructure Services
+        builder.Services.AddSingleton<IJSonSerializer, SystemTexJsonSerializer>();
         builder.Services.AddScoped<ISendSmsMessages, SmsClient>();
         builder.Services.AddScoped<ISendEmail, EmailClient>();
 
         // Domain Services
         builder.Services.AddScoped<IEnsureUniqueEmails, UniqueEmailChecker>();
         builder.Services.AddScoped<IHashPasswords, PasswordHasher>();
-        builder.Services.AddHttpClient<IUnderwriteMerchants, MerchantUnderwriter>();
+        builder.Services.AddHttpClient<IUnderwriteMerchants, MerchantUnderwriter>(options =>
+        {
+            options.BaseAddress = new Uri(builder.Configuration["UnderwritingServiceBaseAddress"]);
+        });
         builder.Services.AddScoped<IVerifyEmailAccounts, EmailAccountVerifier>();
         builder.Services.AddScoped<IVerifyMobilePhones, MobilePhoneVerifier>();
         builder.Services.AddScoped<ICreateEmailVerificationReturnUrl, EmailVerificationReturnUrlGenerator>();

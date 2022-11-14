@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Play.Merchants.Underwriting.Persistence.Configuration;
 using Play.Underwriting.Domain.Aggregates;
 using Play.Underwriting.Domain.Entities;
+using Play.Underwriting.Persistence.Configuration;
 
-namespace Play.Merchants.Underwriting.Persistence.Persistence;
+namespace Play.Underwriting.Persistence.Persistence;
 
 public class UnderwritingDbContext : DbContext
 {

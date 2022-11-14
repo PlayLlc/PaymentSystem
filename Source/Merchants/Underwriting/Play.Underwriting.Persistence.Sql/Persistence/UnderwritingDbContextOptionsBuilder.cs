@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
-using Play.Merchants.Underwriting.Persistence.Persistence;
+using Play.Underwriting.Persistence.Persistence;
 
 namespace Play.Underwriting.Persistence.Sql.Persistence;
 

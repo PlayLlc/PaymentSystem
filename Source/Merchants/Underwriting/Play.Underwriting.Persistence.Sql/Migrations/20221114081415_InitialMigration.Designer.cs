@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Play.Merchants.Underwriting.Persistence.Persistence;
+using Play.Underwriting.Persistence.Persistence;
 
 #nullable disable
 
 namespace Play.Underwriting.Persistence.Sql.Migrations
 {
     [DbContext(typeof(UnderwritingDbContext))]
-    [Migration("20221111135418_InitialMigration")]
+    [Migration("20221114081415_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,8 +30,8 @@ namespace Play.Underwriting.Persistence.Sql.Migrations
 
                     b.Property<string>("EntityType")
                         .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("nvarchar(8)");
+                        .HasMaxLength(12)
+                        .HasColumnType("nvarchar(12)");
 
                     b.Property<string>("GrossRegisteredTonnage")
                         .IsRequired()

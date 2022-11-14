@@ -12,7 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\Play.Shared\Play.Shared.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Play.Telecom\Play.Telecom.Twilio.csproj" />
+    <ProjectReference Include="..\..\Underwriting\Play.Underwriting.Contracts\Play.Underwriting.Contracts.csproj" />
     <ProjectReference Include="..\Play.Accounts.Domain\Play.Accounts.Domain.csproj" />
     <ProjectReference Include="..\Play.Accounts.Persistence.Sql\Play.Accounts.Persistence.Sql.csproj" />
   </ItemGroup>

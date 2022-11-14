@@ -14,7 +14,7 @@ namespace Play.Underwriting.Persistence.Sql.Migrations
                 {
                     Number = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
-                    EntityType = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
+                    EntityType = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false),
                     Program = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     VesselCallSign = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
