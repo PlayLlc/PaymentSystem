@@ -21,7 +21,6 @@ builder.Services.AddControllersWithViews(options =>
 });
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 builder.Host.UseSerilog((ctx, lc) => lc.ReadFrom.Configuration(ctx.Configuration));
 
 WebApplication app = builder.Build();
