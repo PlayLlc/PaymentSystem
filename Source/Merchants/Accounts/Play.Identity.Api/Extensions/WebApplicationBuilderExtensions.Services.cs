@@ -1,27 +1,22 @@
 ﻿using Duende.IdentityServer.AspNetIdentity;
 using Duende.IdentityServer.Services;
-
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
-
+using Microsoft.EntityFrameworkCore;
 using Play.Accounts.Application.Services;
+using Play.Accounts.Application.Services.Sms;
 using Play.Accounts.Domain.Aggregates;
 using Play.Accounts.Domain.Repositories;
 using Play.Accounts.Domain.Services;
 using Play.Accounts.Persistence.Sql.Entities;
+using Play.Accounts.Persistence.Sql.Persistence;
 using Play.Accounts.Persistence.Sql.Repositories;
 using Play.Domain.Repositories;
 using Play.Identity.Api.Services;
 using Play.Persistence.Sql;
-
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.EntityFrameworkCore;
-
-using Play.Accounts.Application.Services.Sms;
-using Play.Accounts.Persistence.Sql.Persistence;
 using Play.Telecom.Twilio.Email;
 using Play.Telecom.Twilio.Sms;
-using Play.Accounts.Persistence.Sql.Repositoriesd;
 
 namespace Play.Identity.Api.Extensions;
 
