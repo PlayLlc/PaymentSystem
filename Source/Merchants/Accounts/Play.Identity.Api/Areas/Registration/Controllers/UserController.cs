@@ -6,6 +6,7 @@ using Play.Accounts.Domain.Aggregates;
 using Play.Accounts.Domain.Repositories;
 using Play.Accounts.Domain.Services;
 using Play.Domain.Exceptions;
+using Play.Mvc.Attributes;
 using Play.Mvc.Extensions;
 
 namespace Play.Identity.Api.Areas.Registration.Controllers;
@@ -48,7 +49,7 @@ public class UserController : Controller
     #region Instance Members
 
     [HttpGet]
-    [ValidateAntiForgeryToken]
+    [HideInSwagger]
     public async Task<UserRegistrationDto> Index([FromQuery] string id)
     {
         UserRegistration userRegistration = await _UserRegistrationRepository.GetByIdAsync(id).ConfigureAwait(false)
@@ -58,6 +59,7 @@ public class UserController : Controller
     }
 
     [HttpPost]
+    [HideInSwagger]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Index([FromBody] CreateUserRegistrationCommand command)
     {
@@ -71,7 +73,6 @@ public class UserController : Controller
     }
 
     [HttpGet]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> EmailVerification([FromQuery] string id)
     {
         UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(id).ConfigureAwait(false)
@@ -113,7 +114,6 @@ public class UserController : Controller
     }
 
     [HttpGet]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> PhoneVerification([FromQuery] string id)
     {
         UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(id).ConfigureAwait(false)

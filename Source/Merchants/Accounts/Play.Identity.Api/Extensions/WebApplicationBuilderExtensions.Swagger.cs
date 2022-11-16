@@ -3,6 +3,8 @@
 using System.Reflection;
 
 using Play.Mvc.Swagger;
+using Play.Mvc.Attributes;
+using Play.Mvc.Filters;
 
 namespace Play.Identity.Api.Extensions;
 
@@ -16,6 +18,8 @@ public static partial class WebApplicationBuilderExtensions
 
         builder.Services.AddSwaggerGen(c =>
         {
+            c.DocumentFilter<SwaggerFilter>();
+
             string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
             c.IncludeXmlComments(xmlPath);

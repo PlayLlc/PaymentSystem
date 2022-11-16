@@ -5,6 +5,7 @@ using Play.Accounts.Contracts.Dtos;
 using Play.Accounts.Domain.Aggregates;
 using Play.Accounts.Domain.Services;
 using Play.Domain.Repositories;
+using Play.Mvc.Attributes;
 using Play.Mvc.Extensions;
 
 using NotFoundException = Play.Domain.Exceptions.NotFoundException;
@@ -42,8 +43,8 @@ public class MerchantController : Controller
 
     #region Instance Members
 
-    [HttpGet("")]
-    [ValidateAntiForgeryToken]
+    [HttpGet]
+    [HideInSwagger]
     public async Task<MerchantRegistrationDto> Index([FromQuery] string id)
     {
         MerchantRegistration merchantRegistration = await _MerchantRegistrationRepository.GetByIdAsync(id).ConfigureAwait(false)
@@ -52,7 +53,8 @@ public class MerchantController : Controller
         return merchantRegistration.AsDto();
     }
 
-    [HttpPost("")]
+    [HttpPost]
+    [HideInSwagger]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Index([FromBody] CreateMerchantRegistrationCommand command)
     {
@@ -64,7 +66,6 @@ public class MerchantController : Controller
     }
 
     [HttpGet]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Approve([FromQuery] string id)
     {
         MerchantRegistration? merchantRegistration = await _MerchantRegistrationRepository.GetByIdAsync(id).ConfigureAwait(false)
