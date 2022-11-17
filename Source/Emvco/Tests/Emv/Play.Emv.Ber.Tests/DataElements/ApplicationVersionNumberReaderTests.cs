@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -97,7 +98,7 @@ public class ApplicationVersionNumberReaderTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        ApplicationVersionNumberReaderTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        ApplicationVersionNumberReaderTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => ApplicationVersionNumberReader.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -142,7 +143,7 @@ public class ApplicationVersionNumberReaderTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        ApplicationVersionNumberReaderTestTlv testData = new(new byte[] { 0x08, 0x32 });
+        ApplicationVersionNumberReaderTestTlv testData = new(new byte[] {0x08, 0x32});
         ApplicationVersionNumberReader sut = ApplicationVersionNumberReader.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -158,7 +159,7 @@ public class ApplicationVersionNumberReaderTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        ApplicationVersionNumberReaderTestTlv testData = new(new byte[] { 0x79, 0xEF });
+        ApplicationVersionNumberReaderTestTlv testData = new(new byte[] {0x79, 0xEF});
 
         ApplicationVersionNumberReader sut = ApplicationVersionNumberReader.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -174,7 +175,7 @@ public class ApplicationVersionNumberReaderTests
     [Fact]
     public void ApplicationVersionNumberReader_IsCardholderVerificationIsSupported_ReturnsTrue()
     {
-        ApplicationVersionNumberReaderTestTlv testData = new(new byte[] { 0b0, 0b0011_0000 });
+        ApplicationVersionNumberReaderTestTlv testData = new(new byte[] {0b0, 0b0011_0000});
         ApplicationVersionNumberReader sut = ApplicationVersionNumberReader.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.IsCardholderVerificationIsSupported());
@@ -183,7 +184,7 @@ public class ApplicationVersionNumberReaderTests
     [Fact]
     public void ApplicationVersionNumberReader_IsCdaSupported_ReturnsTrue()
     {
-        ApplicationVersionNumberReaderTestTlv testData = new(new byte[] { 0b0, 0b0011_0001 });
+        ApplicationVersionNumberReaderTestTlv testData = new(new byte[] {0b0, 0b0011_0001});
         ApplicationVersionNumberReader sut = ApplicationVersionNumberReader.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.IsCdaSupported());
@@ -192,7 +193,7 @@ public class ApplicationVersionNumberReaderTests
     [Fact]
     public void ApplicationVersionNumberReader_IsDdaSupported_ReturnsTrue()
     {
-        ApplicationVersionNumberReaderTestTlv testData = new(new byte[] { 0b0, 0b0011_0001 });
+        ApplicationVersionNumberReaderTestTlv testData = new(new byte[] {0b0, 0b0011_0001});
         ApplicationVersionNumberReader sut = ApplicationVersionNumberReader.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.IsDdaSupported());
@@ -201,7 +202,7 @@ public class ApplicationVersionNumberReaderTests
     [Fact]
     public void ApplicationVersionNumberReader_IsIssuerAuthenticationIsSupported19_ReturnsTrue()
     {
-        ApplicationVersionNumberReaderTestTlv testData = new(new byte[] { 0b0, 0b101 });
+        ApplicationVersionNumberReaderTestTlv testData = new(new byte[] {0b0, 0b101});
         ApplicationVersionNumberReader sut = ApplicationVersionNumberReader.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.IsIssuerAuthenticationIsSupported19());
@@ -210,7 +211,7 @@ public class ApplicationVersionNumberReaderTests
     [Fact]
     public void ApplicationVersionNumberReader_IsSdaSupported_ReturnsTrue()
     {
-        ApplicationVersionNumberReaderTestTlv testData = new(new byte[] { 0b0, 0b110_0101 });
+        ApplicationVersionNumberReaderTestTlv testData = new(new byte[] {0b0, 0b110_0101});
         ApplicationVersionNumberReader sut = ApplicationVersionNumberReader.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.IsSdaSupported());
@@ -219,7 +220,7 @@ public class ApplicationVersionNumberReaderTests
     [Fact]
     public void ApplicationVersionNumberReader_TerminalRiskManagementIsToBePerformed_ReturnsTrue()
     {
-        ApplicationVersionNumberReaderTestTlv testData = new(new byte[] { 0b0, 0b1101 });
+        ApplicationVersionNumberReaderTestTlv testData = new(new byte[] {0b0, 0b1101});
         ApplicationVersionNumberReader sut = ApplicationVersionNumberReader.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.TerminalRiskManagementIsToBePerformed());

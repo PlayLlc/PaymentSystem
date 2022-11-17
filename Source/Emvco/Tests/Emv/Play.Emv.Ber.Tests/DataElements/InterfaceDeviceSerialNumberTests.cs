@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -97,7 +98,7 @@ public class InterfaceDeviceSerialNumberTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        InterfaceDeviceSerialNumberTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        InterfaceDeviceSerialNumberTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => InterfaceDeviceSerialNumber.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -142,7 +143,8 @@ public class InterfaceDeviceSerialNumberTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        InterfaceDeviceSerialNumberTestTlv testData = new(new byte[] { (byte)'6', (byte)'Z', (byte)'C', (byte)'d', (byte)'e', (byte)'5', (byte)'0', (byte)'9' });
+        InterfaceDeviceSerialNumberTestTlv testData =
+            new(new byte[] {(byte) '6', (byte) 'Z', (byte) 'C', (byte) 'd', (byte) 'e', (byte) '5', (byte) '0', (byte) '9'});
         InterfaceDeviceSerialNumber sut = InterfaceDeviceSerialNumber.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -158,7 +160,8 @@ public class InterfaceDeviceSerialNumberTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        InterfaceDeviceSerialNumberTestTlv testData = new(new byte[] { (byte)'6', (byte)'Z', (byte)'C', (byte)'d', (byte)'e', (byte)'5', (byte)'0', (byte)'9' });
+        InterfaceDeviceSerialNumberTestTlv testData =
+            new(new byte[] {(byte) '6', (byte) 'Z', (byte) 'C', (byte) 'd', (byte) 'e', (byte) '5', (byte) '0', (byte) '9'});
 
         InterfaceDeviceSerialNumber sut = InterfaceDeviceSerialNumber.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();

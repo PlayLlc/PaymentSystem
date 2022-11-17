@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Globalization.Language;
@@ -130,7 +131,7 @@ public class LanguagePreferenceTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        LanguagePreferenceTestTlv testData = new(new byte[] { (byte)'D', (byte)'E', (byte)'R', (byte)'O' });
+        LanguagePreferenceTestTlv testData = new(new byte[] {(byte) 'D', (byte) 'E', (byte) 'R', (byte) 'O'});
         LanguagePreference sut = LanguagePreference.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -146,7 +147,7 @@ public class LanguagePreferenceTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        LanguagePreferenceTestTlv testData = new(new byte[] { (byte)'D', (byte)'E', (byte)'R', (byte)'O' });
+        LanguagePreferenceTestTlv testData = new(new byte[] {(byte) 'D', (byte) 'E', (byte) 'R', (byte) 'O'});
         LanguagePreference sut = LanguagePreference.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
         ushort testResult = sut.GetTagLengthValueByteCount();
@@ -161,7 +162,7 @@ public class LanguagePreferenceTests
         {
             0x4d, 0x34, 0x78, 0x4d, 0xef, 0x2a, 0x3c, 0x16, 0xef, 0xaf,
             0x4d, 0x34, 0x78, 0x4d, 0xef, 0x2a, 0x3c, 0x16, 0xef, 0xaf,
-            0x4d, 0x34, 0x78, 0x4d, 0xef, 0x2a, 0x3c, 0x16, 0xef, 0xaf,
+            0x4d, 0x34, 0x78, 0x4d, 0xef, 0x2a, 0x3c, 0x16, 0xef, 0xaf
         });
 
         Assert.Throws<DataElementParsingException>(() => LanguagePreference.Decode(testData.EncodeValue().AsSpan()));
@@ -177,7 +178,7 @@ public class LanguagePreferenceTests
         LanguagePreferenceTestTlv testData = new();
         LanguagePreference sut = LanguagePreference.Decode(testData.EncodeValue().AsSpan());
 
-        Alpha2LanguageCode[] expected = new[] { new Alpha2LanguageCode((byte)'R', (byte)'O'), new Alpha2LanguageCode((byte)'U', (byte)'S') };
+        Alpha2LanguageCode[] expected = new[] {new Alpha2LanguageCode((byte) 'R', (byte) 'O'), new Alpha2LanguageCode((byte) 'U', (byte) 'S')};
         Assert.Equal(expected, sut.GetLanguageCodes());
     }
 
@@ -187,7 +188,7 @@ public class LanguagePreferenceTests
         LanguagePreferenceTestTlv testData = new();
         LanguagePreference sut = LanguagePreference.Decode(testData.EncodeValue().AsSpan());
 
-        Alpha2LanguageCode expected = new Alpha2LanguageCode((byte)'R', (byte)'O');
+        Alpha2LanguageCode expected = new((byte) 'R', (byte) 'O');
         Assert.Equal(expected, sut.GetPreferredLanguage());
     }
 

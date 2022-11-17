@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Testing.Emv.Ber.Primitive;
 
@@ -128,7 +129,7 @@ public class DataRecoveryDataObjectListRelatedDataTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        DataRecoveryDataObjectListRelatedDataTestTlv testData = new(new byte[] { 8, 23 });
+        DataRecoveryDataObjectListRelatedDataTestTlv testData = new(new byte[] {8, 23});
         DataRecoveryDataObjectListRelatedData sut = DataRecoveryDataObjectListRelatedData.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -144,7 +145,7 @@ public class DataRecoveryDataObjectListRelatedDataTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        DataRecoveryDataObjectListRelatedDataTestTlv testData = new(new byte[] { 8, 13 });
+        DataRecoveryDataObjectListRelatedDataTestTlv testData = new(new byte[] {8, 13});
 
         DataRecoveryDataObjectListRelatedData sut = DataRecoveryDataObjectListRelatedData.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();

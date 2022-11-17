@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Testing.Emv.Ber.Primitive;
 
@@ -65,7 +66,7 @@ public class TagsToWriteAfterGeneratingApplicationCryptogramTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        TagsToWriteAfterGeneratingApplicationCryptogramTestTlv testData = new(new byte[] { 2, 12, 1 });
+        TagsToWriteAfterGeneratingApplicationCryptogramTestTlv testData = new(new byte[] {2, 12, 1});
 
         Assert.Throws<ArgumentOutOfRangeException>(() => TagsToWriteAfterGeneratingApplicationCryptogram.Decode(testData.EncodeValue().AsSpan()));
     }

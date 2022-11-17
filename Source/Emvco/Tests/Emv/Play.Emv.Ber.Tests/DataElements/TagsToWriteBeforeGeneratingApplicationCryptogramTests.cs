@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Testing.Emv.Ber.Primitive;
 
@@ -65,7 +66,7 @@ public class TagsToWriteBeforeGeneratingApplicationCryptogramTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        TagsToWriteBeforeGeneratingApplicationCryptogramTestTlv testData = new(new byte[] { 2, 12, 1 });
+        TagsToWriteBeforeGeneratingApplicationCryptogramTestTlv testData = new(new byte[] {2, 12, 1});
 
         Assert.Throws<ArgumentOutOfRangeException>(() => TagsToWriteBeforeGeneratingApplicationCryptogram.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -141,10 +142,7 @@ public class TagsToWriteBeforeGeneratingApplicationCryptogramTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        TagsToWriteBeforeGeneratingApplicationCryptogramTestTlv testData = new(new byte[] {
-        0x9F, 0x76,
-        3,
-        1,1,1});
+        TagsToWriteBeforeGeneratingApplicationCryptogramTestTlv testData = new(new byte[] {0x9F, 0x76, 3, 1, 1, 1});
 
         TagsToWriteBeforeGeneratingApplicationCryptogram sut = TagsToWriteBeforeGeneratingApplicationCryptogram.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();

@@ -34,7 +34,7 @@ public record Currency
     public NumericCurrencyCode GetNumericCode() => _Numeric;
     public int GetMinorUnitLength() => _Precision;
     public string GetCurrencySymbol() => _CurrencySymbol;
-    public decimal ToLocalDecimalAmount(int amount) => (decimal) (amount / Math.Pow(10, _Precision));
+    public decimal ToLocalDecimalAmount(ulong amount) => (decimal) (amount / Math.Pow(10, _Precision));
 
     #endregion
 

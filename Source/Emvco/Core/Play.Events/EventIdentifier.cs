@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using Play.Messaging;
+
 namespace Play.Events;
 
 public record EventIdentifier : IEqualityComparer<EventIdentifier>

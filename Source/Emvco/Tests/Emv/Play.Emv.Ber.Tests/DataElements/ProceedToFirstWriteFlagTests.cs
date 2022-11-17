@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -97,7 +98,7 @@ public class ProceedToFirstWriteFlagTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        ProceedToFirstWriteFlagTestTlv testData = new(new byte[] { 13, 24 });
+        ProceedToFirstWriteFlagTestTlv testData = new(new byte[] {13, 24});
 
         Assert.Throws<DataElementParsingException>(() => ProceedToFirstWriteFlag.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -142,7 +143,7 @@ public class ProceedToFirstWriteFlagTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        ProceedToFirstWriteFlagTestTlv testData = new(new byte[] { 0x32 });
+        ProceedToFirstWriteFlagTestTlv testData = new(new byte[] {0x32});
         ProceedToFirstWriteFlag sut = ProceedToFirstWriteFlag.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -158,7 +159,7 @@ public class ProceedToFirstWriteFlagTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        ProceedToFirstWriteFlagTestTlv testData = new(new byte[] { 0xEF });
+        ProceedToFirstWriteFlagTestTlv testData = new(new byte[] {0xEF});
 
         ProceedToFirstWriteFlag sut = ProceedToFirstWriteFlag.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();

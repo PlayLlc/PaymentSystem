@@ -1,4 +1,6 @@
 using Play.Inventory.Api.Extensions;
+using Play.Inventory.Contracts.Dtos;
+using Play.Mvc.Extensions;
 using Play.Mvc.Filters;
 using Play.Mvc.Swagger;
 
@@ -9,7 +11,7 @@ SwaggerConfiguration swaggerConfiguration = builder.Configuration.GetSection(nam
 
 builder.ConfigureEntityFramework();
 builder.ConfigureServices();
-builder.ConfigureSwagger();
+builder.ConfigureSwagger(typeof(Program).Assembly, typeof(ItemDto).Assembly);
 await builder.SeedDb().ConfigureAwait(false);
 
 // Add services to the container.

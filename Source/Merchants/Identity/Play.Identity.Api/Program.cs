@@ -1,4 +1,5 @@
 using Play.Identity.Api.Extensions;
+using Play.Identity.Contracts.Dtos;
 using Play.Mvc.Filters;
 using Play.Mvc.Swagger;
 using Play.Mvc.Extensions;
@@ -12,7 +13,7 @@ builder.ConfigureAutoMapper();
 builder.ConfigureEntityFramework();
 builder.ConfigureIdentityServer();
 builder.ConfigureServices();
-builder.ConfigureSwagger(typeof(Program).Assembly);
+builder.ConfigureSwagger(typeof(Program).Assembly, typeof(UserDto).Assembly);
 await builder.SeedDb().ConfigureAwait(false);
 
 // Add services to the container.
@@ -22,8 +23,6 @@ builder.Services.AddControllersWithViews(options =>
 });
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-    { });
 builder.Host.UseSerilog((ctx, lc) => lc.ReadFrom.Configuration(ctx.Configuration));
 
 WebApplication app = builder.Build();

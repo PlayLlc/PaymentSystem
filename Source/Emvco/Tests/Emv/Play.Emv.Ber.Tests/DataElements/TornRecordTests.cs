@@ -1,6 +1,8 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
+using Play.Ber.Tags;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -50,7 +52,7 @@ public class TornRecordTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        TornRecordTestTlv testData = new(new byte[] { 2, 12, 1 });
+        TornRecordTestTlv testData = new(new byte[] {2, 12, 1});
 
         Assert.Throws<TerminalDataException>(() => TornRecord.Decode(testData.EncodeValue().AsMemory()));
     }
@@ -140,7 +142,7 @@ public class TornRecordTests
         TornRecordTestTlv testData = new();
         TornRecord testValue = TornRecord.Decode(testData.EncodeValue().AsMemory());
 
-        bool result = testValue.TryGetRecordItem(new Play.Ber.Tags.Tag(0x5A), out PrimitiveValue? primitive);
+        bool result = testValue.TryGetRecordItem(new Tag(0x5A), out PrimitiveValue? primitive);
 
         Assert.True(result);
         Assert.NotNull(primitive);
@@ -152,7 +154,7 @@ public class TornRecordTests
         TornRecordTestTlv testData = new();
         TornRecord testValue = TornRecord.Decode(testData.EncodeValue().AsMemory());
 
-        bool found = TornRecord.TryGetOldestRecord(new TornRecord[] { testValue }, out TornRecord? result);
+        bool found = TornRecord.TryGetOldestRecord(new TornRecord[] {testValue}, out TornRecord? result);
 
         Assert.True(found);
         Assert.NotNull(result);
@@ -162,20 +164,19 @@ public class TornRecordTests
     [Fact]
     public void TornRecord_TryGetOldestRecord_ReturnsOldestRecord()
     {
-        TornRecordTestTlv anotherTestData = new(new byte[] {
+        TornRecordTestTlv anotherTestData = new(new byte[]
+        {
             0x5F, 0x34, //Pan Sequence Number
-            1,
-            12,
-            0x5A, // Tag
+            1, 12, 0x5A, // Tag
             9, // Length
-            12, 23, 33, 13, 15, 12, 23, 33, 13, //Value,
+            12, 23, 33, 13, 15, 12, 23, 33, 13 //Value,
         });
         TornRecord anotherTornRecord = TornRecord.Decode(anotherTestData.EncodeValue().AsMemory());
 
         TornRecordTestTlv testData = new();
         TornRecord tornRecord = TornRecord.Decode(testData.EncodeValue().AsMemory());
 
-        bool found = TornRecord.TryGetOldestRecord(new TornRecord[] { anotherTornRecord, tornRecord }, out TornRecord? result);
+        bool found = TornRecord.TryGetOldestRecord(new TornRecord[] {anotherTornRecord, tornRecord}, out TornRecord? result);
 
         Assert.True(found);
         Assert.NotNull(result);

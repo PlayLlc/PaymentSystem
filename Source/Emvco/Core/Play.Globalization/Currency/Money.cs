@@ -16,26 +16,26 @@ public record Money : IEqualityComparer<Money>
     #region Instance Values
 
     // BUG: What about negative values my bro?
-    private readonly int _Amount;
+    private readonly ulong _Amount;
     private readonly Currency _Currency;
 
     #endregion
 
     #region Constructor
 
-    public Money(int amount, Alpha3CurrencyCode currencyCode)
+    public Money(ulong amount, Alpha3CurrencyCode currencyCode)
     {
         _Amount = amount;
         _Currency = CurrencyCodeRepository.Get(currencyCode);
     }
 
-    public Money(int amount, NumericCurrencyCode currencyCode)
+    public Money(ulong amount, NumericCurrencyCode currencyCode)
     {
         _Amount = amount;
         _Currency = CurrencyCodeRepository.Get(currencyCode);
     }
 
-    private Money(int amount, Currency currency)
+    private Money(ulong amount, Currency currency)
     {
         _Amount = amount;
         _Currency = currency;
@@ -45,7 +45,7 @@ public record Money : IEqualityComparer<Money>
 
     #region Instance Members
 
-    public int GetAmount() => _Amount;
+    public ulong GetAmount() => _Amount;
     public bool IsPositiveNonZeroAmount() => _Amount > 0;
 
     /// <summary>
@@ -76,7 +76,7 @@ public record Money : IEqualityComparer<Money>
     /// <returns></returns>
     public string AsLocalFormat() => $"{_Currency.GetCurrencySymbol()}{_Currency.ToLocalDecimalAmount(_Amount)}";
 
-    public static string AsLocalFormat(int amount, NumericCurrencyCode currencyCode)
+    public static string AsLocalFormat(ulong amount, NumericCurrencyCode currencyCode)
     {
         Currency? currency = CurrencyCodeRepository.Get(currencyCode);
 
@@ -140,7 +140,7 @@ public record Money : IEqualityComparer<Money>
         return new Money(left._Amount + right._Amount, left._Currency);
     }
 
-    public static explicit operator int(Money value) => value._Amount;
+    public static explicit operator ulong(Money value) => value._Amount;
 
     /// <exception cref="InvalidOperationException"></exception>
     public static bool operator >(Money left, Money right)

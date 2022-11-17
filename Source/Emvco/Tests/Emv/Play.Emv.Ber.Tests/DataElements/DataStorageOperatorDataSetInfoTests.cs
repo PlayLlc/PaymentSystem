@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -97,7 +98,7 @@ public class DataStorageOperatorDataSetInfoTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        DataStorageOperatorDataSetInfoTestTlv testData = new(new byte[] { 0x13, 0x28 });
+        DataStorageOperatorDataSetInfoTestTlv testData = new(new byte[] {0x13, 0x28});
 
         Assert.Throws<DataElementParsingException>(() => DataStorageOperatorDataSetInfo.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -142,7 +143,7 @@ public class DataStorageOperatorDataSetInfoTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        DataStorageOperatorDataSetInfoTestTlv testData = new(new byte[] { 0x7d });
+        DataStorageOperatorDataSetInfoTestTlv testData = new(new byte[] {0x7d});
         DataStorageOperatorDataSetInfo sut = DataStorageOperatorDataSetInfo.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -158,7 +159,7 @@ public class DataStorageOperatorDataSetInfoTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        DataStorageOperatorDataSetInfoTestTlv testData = new(new byte[] { 0xe });
+        DataStorageOperatorDataSetInfoTestTlv testData = new(new byte[] {0xe});
 
         DataStorageOperatorDataSetInfo sut = DataStorageOperatorDataSetInfo.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -174,7 +175,7 @@ public class DataStorageOperatorDataSetInfoTests
     [Fact]
     public void DataStorageOperatorDataSetInfo_IsVolatile_ReturnsTrue()
     {
-        DataStorageOperatorDataSetInfoTestTlv testData = new(new byte[] { 0b1111_1111 });
+        DataStorageOperatorDataSetInfoTestTlv testData = new(new byte[] {0b1111_1111});
 
         DataStorageOperatorDataSetInfo sut = DataStorageOperatorDataSetInfo.Decode(testData.EncodeValue().AsSpan());
 
@@ -184,7 +185,7 @@ public class DataStorageOperatorDataSetInfoTests
     [Fact]
     public void DataStorageOperatorDataSetInfo_IsVolatile_ReturnsFalse()
     {
-        DataStorageOperatorDataSetInfoTestTlv testData = new(new byte[] { 0b1011_1111 });
+        DataStorageOperatorDataSetInfoTestTlv testData = new(new byte[] {0b1011_1111});
 
         DataStorageOperatorDataSetInfo sut = DataStorageOperatorDataSetInfo.Decode(testData.EncodeValue().AsSpan());
 
@@ -194,7 +195,7 @@ public class DataStorageOperatorDataSetInfoTests
     [Fact]
     public void DataStorageOperatorDataSetInfo_IsPermanent_ReturnsTrue()
     {
-        DataStorageOperatorDataSetInfoTestTlv testData = new(new byte[] { 0b1111_1111 });
+        DataStorageOperatorDataSetInfoTestTlv testData = new(new byte[] {0b1111_1111});
 
         DataStorageOperatorDataSetInfo sut = DataStorageOperatorDataSetInfo.Decode(testData.EncodeValue().AsSpan());
 
@@ -204,7 +205,7 @@ public class DataStorageOperatorDataSetInfoTests
     [Fact]
     public void DataStorageOperatorDataSetInfo_IsPermanent_ReturnsFalse()
     {
-        DataStorageOperatorDataSetInfoTestTlv testData = new(new byte[] { 0b0111_1111 });
+        DataStorageOperatorDataSetInfoTestTlv testData = new(new byte[] {0b0111_1111});
 
         DataStorageOperatorDataSetInfo sut = DataStorageOperatorDataSetInfo.Decode(testData.EncodeValue().AsSpan());
 
@@ -214,7 +215,7 @@ public class DataStorageOperatorDataSetInfoTests
     [Fact]
     public void DataStorageOperatorDataSetInfo_IsLowVolatility_ReturnsTrue()
     {
-        DataStorageOperatorDataSetInfoTestTlv testData = new(new byte[] { 0b1111_1111 });
+        DataStorageOperatorDataSetInfoTestTlv testData = new(new byte[] {0b1111_1111});
 
         DataStorageOperatorDataSetInfo sut = DataStorageOperatorDataSetInfo.Decode(testData.EncodeValue().AsSpan());
 
@@ -224,7 +225,7 @@ public class DataStorageOperatorDataSetInfoTests
     [Fact]
     public void DataStorageOperatorDataSetInfo_IsLowVolatility_ReturnsFalse()
     {
-        DataStorageOperatorDataSetInfoTestTlv testData = new(new byte[] { 0b1101_1111 });
+        DataStorageOperatorDataSetInfoTestTlv testData = new(new byte[] {0b1101_1111});
 
         DataStorageOperatorDataSetInfo sut = DataStorageOperatorDataSetInfo.Decode(testData.EncodeValue().AsSpan());
 
@@ -234,7 +235,7 @@ public class DataStorageOperatorDataSetInfoTests
     [Fact]
     public void DataStorageOperatorDataSetInfo_IsDeclineOnDataStorageErrorSet_ReturnsTrue()
     {
-        DataStorageOperatorDataSetInfoTestTlv testData = new(new byte[] { 0b1111_1111 });
+        DataStorageOperatorDataSetInfoTestTlv testData = new(new byte[] {0b1111_1111});
 
         DataStorageOperatorDataSetInfo sut = DataStorageOperatorDataSetInfo.Decode(testData.EncodeValue().AsSpan());
 
@@ -244,7 +245,7 @@ public class DataStorageOperatorDataSetInfoTests
     [Fact]
     public void DataStorageOperatorDataSetInfo_IsDeclineOnDataStorageErrorSet_ReturnsFalse()
     {
-        DataStorageOperatorDataSetInfoTestTlv testData = new(new byte[] { 0b1101_0111 });
+        DataStorageOperatorDataSetInfoTestTlv testData = new(new byte[] {0b1101_0111});
 
         DataStorageOperatorDataSetInfo sut = DataStorageOperatorDataSetInfo.Decode(testData.EncodeValue().AsSpan());
 
