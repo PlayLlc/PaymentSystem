@@ -132,13 +132,12 @@ public readonly record struct Microseconds
     public static bool operator <=(Microseconds left, Microseconds right) => left._Value <= right._Value;
     public static bool operator <=(Microseconds left, TimeSpan right) => left.AsTimeSpan() <= right;
     public static bool operator <=(TimeSpan left, Microseconds right) => right.AsTimeSpan() <= left;
-
     public static explicit operator long(Microseconds value) => value._Value;
     public static implicit operator Microseconds(Seconds value) => new(value);
     public static implicit operator Microseconds(Deciseconds value) => new(value);
     public static implicit operator TimeSpan(Microseconds value) => value.AsTimeSpan();
     public static implicit operator Microseconds(TimeSpan value) => new(value);
-    public static implicit operator Microseconds(int value) => new((uint)value);
+    public static implicit operator Microseconds(int value) => new((uint) value);
 
     #endregion
 }

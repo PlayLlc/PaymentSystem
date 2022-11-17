@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 using Play.Core;
-using Play.Core.Extensions;
 
 namespace Play.Globalization.Currency;
 
@@ -17,26 +16,26 @@ public record Money : IEqualityComparer<Money>
     #region Instance Values
 
     // BUG: What about negative values my bro?
-    private readonly ulong _Amount;
+    private readonly int _Amount;
     private readonly Currency _Currency;
 
     #endregion
 
     #region Constructor
 
-    public Money(ulong amount, Alpha3CurrencyCode currencyCode)
+    public Money(int amount, Alpha3CurrencyCode currencyCode)
     {
         _Amount = amount;
         _Currency = CurrencyCodeRepository.Get(currencyCode);
     }
 
-    public Money(ulong amount, NumericCurrencyCode currencyCode)
+    public Money(int amount, NumericCurrencyCode currencyCode)
     {
         _Amount = amount;
         _Currency = CurrencyCodeRepository.Get(currencyCode);
     }
 
-    private Money(ulong amount, Currency currency)
+    private Money(int amount, Currency currency)
     {
         _Amount = amount;
         _Currency = currency;
@@ -45,6 +44,9 @@ public record Money : IEqualityComparer<Money>
     #endregion
 
     #region Instance Members
+
+    public int GetAmount() => _Amount;
+    public bool IsPositiveNonZeroAmount() => _Amount > 0;
 
     /// <summary>
     ///     Add
@@ -68,7 +70,20 @@ public record Money : IEqualityComparer<Money>
     /// </summary>
     public string AsLocalFormat(CultureProfile cultureProfile) => cultureProfile.GetFiatFormat(this);
 
-    public NumericCurrencyCode GetCurrencyCode(CultureProfile cultureProfile) => cultureProfile.GetNumericCurrencyCode();
+    /// <summary>
+    ///     This is a less precise way to format this Money object as a string
+    /// </summary>
+    /// <returns></returns>
+    public string AsLocalFormat() => $"{_Currency.GetCurrencySymbol()}{_Currency.ToLocalDecimalAmount(_Amount)}";
+
+    public static string AsLocalFormat(int amount, NumericCurrencyCode currencyCode)
+    {
+        Currency? currency = CurrencyCodeRepository.Get(currencyCode);
+
+        return $"{currency.GetCurrencySymbol()}{currency.ToLocalDecimalAmount(amount)}";
+    }
+
+    public NumericCurrencyCode GetNumericCurrencyCode() => _Currency.GetNumericCode();
 
     public bool IsBaseAmount()
     {
@@ -90,29 +105,7 @@ public record Money : IEqualityComparer<Money>
     /// <summary>
     ///     Formats the money value to string according to the local culture of this type
     /// </summary>
-    public override string ToString()
-    {
-        int precision = _Currency.GetMinorUnitLength();
-        string yourValue = $"{_Currency.GetCurrencySymbol()}{_Amount / Math.Pow(10, precision)}";
-
-        return yourValue;
-    }
-
-    public string ToString(CultureProfile profile) => profile.GetFiatFormat(this);
-
-    /// <summary>
-    ///     Splits currency amounts based on the percentage provided by the argument
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="probabilitySplit"></param>
-    /// <returns></returns>
-    public static (Money Remaining, Money Split) Split(Money value, Probability probabilitySplit)
-    {
-        ulong remaining = value._Amount / (byte) probabilitySplit;
-        ulong split = value._Amount - remaining;
-
-        return (Remaining: new Money(remaining, value._Currency), new Money(split, value._Currency));
-    }
+    public override string ToString() => AsLocalFormat();
 
     #endregion
 
@@ -147,7 +140,7 @@ public record Money : IEqualityComparer<Money>
         return new Money(left._Amount + right._Amount, left._Currency);
     }
 
-    public static explicit operator ulong(Money value) => value._Amount;
+    public static explicit operator int(Money value) => value._Amount;
 
     /// <exception cref="InvalidOperationException"></exception>
     public static bool operator >(Money left, Money right)

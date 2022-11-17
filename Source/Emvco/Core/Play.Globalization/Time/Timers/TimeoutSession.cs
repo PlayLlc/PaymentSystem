@@ -42,11 +42,7 @@ internal class TimeoutSession
         if (_TimeoutBuddy != null)
             throw new InvalidOperationException($"The {nameof(TimeoutSession)} could not be started because there is already a session running");
 
-        Task.Run(() =>
-        {
-            _TimeoutBuddy = new TimerInstance(timeout);
-        })
-        .WithTimeout(timeout, () =>
+        Task.Run(() => { _TimeoutBuddy = new TimerInstance(timeout); }).WithTimeout(timeout, () =>
         {
             _TimeoutBuddy = null;
             if (timeoutHandler is not null)

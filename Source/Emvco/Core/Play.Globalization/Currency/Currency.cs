@@ -1,4 +1,6 @@
-﻿namespace Play.Globalization.Currency;
+﻿using System;
+
+namespace Play.Globalization.Currency;
 
 /// <summary>
 ///     Identifies a currency according to ISO 4217
@@ -32,6 +34,7 @@ public record Currency
     public NumericCurrencyCode GetNumericCode() => _Numeric;
     public int GetMinorUnitLength() => _Precision;
     public string GetCurrencySymbol() => _CurrencySymbol;
+    public decimal ToLocalDecimalAmount(int amount) => (decimal) (amount / Math.Pow(10, _Precision));
 
     #endregion
 

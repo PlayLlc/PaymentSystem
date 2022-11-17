@@ -8,10 +8,16 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.8" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Play.Domain\Play.Domain.csproj" />
+    <ProjectReference Include="..\Play.Restful\Play.Restful.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Attributes\Validation\" />
   </ItemGroup>
 
 </Project>

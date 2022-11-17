@@ -22,8 +22,6 @@ public partial class DataExchangeKernelService : IQueryDek, IWriteToDek, IDekEnd
         _TlvDatabase = kernelDatabase;
     }
 
-    public DataExchangeKernelService() { }
-
     #endregion
 
     #region Instance Members

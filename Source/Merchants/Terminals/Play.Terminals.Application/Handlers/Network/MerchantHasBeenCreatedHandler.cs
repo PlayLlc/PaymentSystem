@@ -1,6 +1,6 @@
 ﻿using NServiceBus;
 
-using Play.Accounts.Contracts.Events;
+using Play.Identity.Contracts.Events;
 
 namespace Play.Terminals.Application.Handlers.Network;
 
