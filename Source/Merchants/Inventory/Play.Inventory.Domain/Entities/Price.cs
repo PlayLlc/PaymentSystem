@@ -11,7 +11,7 @@ public class Price : Entity<SimpleStringId>
 {
     #region Instance Values
 
-    public int Amount;
+    public ulong Amount;
     public NumericCurrencyCode NumericCurrencyCode;
     public override SimpleStringId Id { get; }
 

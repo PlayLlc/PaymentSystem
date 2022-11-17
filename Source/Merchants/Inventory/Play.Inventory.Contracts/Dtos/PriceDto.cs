@@ -17,7 +17,7 @@ public record PriceDto : IDto
     public ushort NumericCurrencyCode { get; set; }
 
     [Required]
-    public int Amount { get; set; }
+    public ulong Amount { get; set; }
 
     #endregion
 }
