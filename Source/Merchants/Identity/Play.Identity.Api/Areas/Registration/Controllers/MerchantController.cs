@@ -6,6 +6,7 @@ using Play.Identity.Domain.Aggregates;
 using Play.Identity.Domain.Services;
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Repositories;
+using Play.Identity.Domain.Repositories;
 using Play.Mvc.Extensions;
 
 using NotFoundException = Play.Domain.Exceptions.NotFoundException;
@@ -19,6 +20,7 @@ public class MerchantController : Controller
 {
     #region Instance Values
 
+    private readonly IUserRegistrationRepository _UserRegistrationRepository;
     private readonly IRepository<MerchantRegistration, SimpleStringId> _MerchantRegistrationRepository;
     private readonly IRepository<Merchant, SimpleStringId> _MerchantRepository;
     private readonly IUnderwriteMerchants _MerchantUnderwriter;
@@ -29,18 +31,19 @@ public class MerchantController : Controller
 
     public MerchantController(
         IRepository<MerchantRegistration, SimpleStringId> merchantRegistrationRepository, IRepository<Merchant, SimpleStringId> merchantRepository,
-        IUnderwriteMerchants merchantUnderwriter)
+        IUnderwriteMerchants merchantUnderwriter, IUserRegistrationRepository userRegistrationRepository)
     {
         _MerchantRegistrationRepository = merchantRegistrationRepository;
         _MerchantRepository = merchantRepository;
         _MerchantUnderwriter = merchantUnderwriter;
+        _UserRegistrationRepository = userRegistrationRepository;
     }
 
     #endregion
 
     #region Instance Members
 
-    [Route("~/[area]/[controller]")]
+    [Route("~/[area]/[controller]/{id=id}")]
     [HttpGet]
     [ValidateAntiForgeryToken]
     public async Task<MerchantRegistrationDto> Index([FromQuery] string id)
@@ -58,9 +61,13 @@ public class MerchantController : Controller
     {
         this.ValidateModel();
 
-        MerchantRegistration merchantRegistration = MerchantRegistration.CreateNewMerchantRegistration(command);
+        MerchantRegistration merchantRegistration = MerchantRegistration.CreateNewMerchantRegistration(_UserRegistrationRepository, command);
 
-        return Created(Url.Action("Index", $"{nameof(Merchant)}", merchantRegistration.GetId())!, merchantRegistration.AsDto());
+        return Created(@Url.Action("Index", "Merchant", new
+        {
+            area = nameof(Registration),
+            id = merchantRegistration.Id
+        })!, merchantRegistration.AsDto());
     }
 
     [HttpPost]
@@ -70,7 +77,7 @@ public class MerchantController : Controller
         this.ValidateModel();
 
         MerchantRegistration? merchantRegistration = await _MerchantRegistrationRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
-                                                     ?? throw new NotFoundException(typeof(MerchantRegistration), command.Id);
+                                                     ?? throw new NotFoundException(typeof(MerchantRegistration));
 
         merchantRegistration.VerifyMerchantAccount(_MerchantUnderwriter, command);
 
@@ -78,7 +85,7 @@ public class MerchantController : Controller
             return new ForbidResult();
 
         Merchant merchant = await _MerchantRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
-                            ?? throw new NotFoundException(typeof(Merchant), command.Id);
+                            ?? throw new NotFoundException(typeof(Merchant));
 
         return Created(Url.Action("Index", $"{nameof(Merchant)}", merchant.GetId())!, merchant.AsDto());
     }

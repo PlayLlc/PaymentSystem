@@ -22,6 +22,7 @@ public static partial class WebApplicationBuilderExtensions
         builder.Services.AddSwaggerGen(c =>
         {
             c.DocumentFilter<SwaggerDocumentFilter>();
+            c.OperationFilter<SwaggerTagByAreaOperationFilter>();
 
             foreach (var file in xmlFileAssemblies)
             {

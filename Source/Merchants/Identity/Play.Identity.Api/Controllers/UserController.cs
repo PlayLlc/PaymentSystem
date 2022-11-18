@@ -10,6 +10,7 @@ using Play.Identity.Contracts.Dtos;
 using Play.Identity.Domain.Aggregates;
 using Play.Identity.Domain.Repositories;
 using Play.Identity.Domain.Services;
+using Play.Identity.Persistence.Sql.Repositories;
 using Play.Mvc.Attributes;
 using Play.Mvc.Extensions;
 
@@ -40,7 +41,7 @@ namespace Play.Identity.Api.Controllers
 
         #region Instance Members
 
-        [Route("~/[area]/[controller]")]
+        [Route("~/[controller]/{id=id}")]
         [HttpGet]
         [ValidateAntiForgeryToken]
         public async Task<UserDto> Index([FromQuery] string id)

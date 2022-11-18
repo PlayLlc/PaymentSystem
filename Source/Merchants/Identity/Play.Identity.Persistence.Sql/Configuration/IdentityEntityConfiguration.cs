@@ -14,7 +14,7 @@ namespace Play.Identity.Persistence.Sql.Configuration;
 
 // You can configure a navigation in the model to be included every time the entity is loaded from the database using AutoInclude method
 // https://learn.microsoft.com/en-us/ef/core/querying/related-data/eager
-internal class AccountsEntityConfiguration : IEntityTypeConfiguration<UserRegistration>, IEntityTypeConfiguration<MerchantRegistration>,
+internal class IdentityEntityConfiguration : IEntityTypeConfiguration<UserRegistration>, IEntityTypeConfiguration<MerchantRegistration>,
     IEntityTypeConfiguration<Merchant>, IEntityTypeConfiguration<UserIdentity>
 {
     #region Instance Members
@@ -63,6 +63,7 @@ internal class AccountsEntityConfiguration : IEntityTypeConfiguration<UserRegist
     {
         builder.ToTable($"{nameof(UserRegistration)}s").Property(x => x.Id).ValueGeneratedOnAdd();
         builder.HasKey(x => x.Id);
+        builder.Property<SimpleStringId>("_MerchantId").HasColumnName("MerchantId").ValueGeneratedOnAdd();
         builder.Property<DateTimeUtc>("_RegistrationDate").HasColumnName("RegistrationDate").ValueGeneratedOnAdd();
         builder.Property<string>("_Username").HasColumnName("Username");
         builder.Property<string>("_HashedPassword").HasColumnName("HashedPassword");

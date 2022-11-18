@@ -36,7 +36,7 @@ public sealed class UserIdentityDbContext : IdentityDbContext<UserIdentity, Role
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        AccountsEntityConfiguration accountEntityConfiguration = new AccountsEntityConfiguration();
+        IdentityEntityConfiguration identityEntityConfiguration = new IdentityEntityConfiguration();
 
         #region Enums
 
@@ -108,10 +108,10 @@ public sealed class UserIdentityDbContext : IdentityDbContext<UserIdentity, Role
         #region Aggregates
 
         // Aggregates 
-        accountEntityConfiguration.Configure(builder.Entity<UserRegistration>());
-        accountEntityConfiguration.Configure(builder.Entity<MerchantRegistration>());
-        accountEntityConfiguration.Configure(builder.Entity<Merchant>());
-        accountEntityConfiguration.Configure(builder.Entity<UserIdentity>());
+        identityEntityConfiguration.Configure(builder.Entity<UserRegistration>());
+        identityEntityConfiguration.Configure(builder.Entity<MerchantRegistration>());
+        identityEntityConfiguration.Configure(builder.Entity<Merchant>());
+        identityEntityConfiguration.Configure(builder.Entity<UserIdentity>());
 
         #endregion
 

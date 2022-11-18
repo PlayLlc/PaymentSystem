@@ -48,7 +48,7 @@ public class UserController : Controller
 
     #region Instance Members
 
-    [Route("~/[area]/[controller]")]
+    [Route("~/[area]/[controller]/{id=id}")]
     [HttpGet]
     [ValidateAntiForgeryToken]
     public async Task<UserRegistrationDto> Index([FromQuery] string id)
@@ -70,7 +70,11 @@ public class UserController : Controller
 
         await userRegistration.SendEmailVerificationCode(_EmailVerifier).ConfigureAwait(false);
 
-        return Created(Url.Action("Index", $"{nameof(User)}", userRegistration.GetId())!, userRegistration.AsDto());
+        return Created(@Url.Action("Index", "User", new
+        {
+            area = nameof(Registration),
+            id = userRegistration.Id
+        })!, userRegistration.AsDto());
     }
 
     [HttpGet]

@@ -24,6 +24,7 @@ public class UserRegistration : Aggregate<SimpleStringId>
 {
     #region Instance Values
 
+    private readonly SimpleStringId _MerchantId;
     private readonly string _Username;
     private readonly string _HashedPassword;
     private readonly DateTimeUtc _RegistrationDate;
@@ -50,11 +51,12 @@ public class UserRegistration : Aggregate<SimpleStringId>
 
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="ValueObjectException"></exception>
-    private UserRegistration(string id, string username, string hashedPassword)
+    private UserRegistration(CreateUserRegistrationCommand command, IHashPasswords passwordHasher)
     {
-        Id = new SimpleStringId(id);
-        _Username = username;
-        _HashedPassword = hashedPassword;
+        Id = new SimpleStringId(GenerateSimpleStringId());
+        _MerchantId = new SimpleStringId(GenerateSimpleStringId());
+        _Username = command.Email;
+        _HashedPassword = passwordHasher.GeneratePasswordHash(command.Password);
         _RegistrationDate = DateTimeUtc.Now;
         _Status = UserRegistrationStatuses.WaitingForEmailVerification;
     }
@@ -62,6 +64,11 @@ public class UserRegistration : Aggregate<SimpleStringId>
     #endregion
 
     #region Instance Members
+
+    public string GetMerchantId()
+    {
+        return _MerchantId;
+    }
 
     public string GetEmail()
     {
@@ -89,8 +96,7 @@ public class UserRegistration : Aggregate<SimpleStringId>
     public static UserRegistration CreateNewUserRegistration(
         IEnsureUniqueEmails uniqueEmailChecker, IHashPasswords passwordHasher, CreateUserRegistrationCommand command)
     {
-        UserRegistration userRegistration =
-            new UserRegistration(GenerateSimpleStringId(), command.Email, passwordHasher.GeneratePasswordHash(command.Password));
+        UserRegistration userRegistration = new UserRegistration(command, passwordHasher);
 
         userRegistration.Enforce(new UserRegistrationUsernameMustBeAValidEmail(command.Email));
         userRegistration.Enforce(new UserRegistrationUsernameMustBeUnique(uniqueEmailChecker, command.Email));
@@ -266,7 +272,7 @@ public class UserRegistration : Aggregate<SimpleStringId>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="CommandOutOfSyncException"></exception>
-    public User CreateUser(IHashPasswords passwordHasher)
+    public User CreateUser()
     {
         Enforce(new UserCannotBeCreatedWithoutApproval(_Status));
 
@@ -277,8 +283,8 @@ public class UserRegistration : Aggregate<SimpleStringId>
         if (_Contact is null)
             throw new CommandOutOfSyncException($"The {nameof(Contact)} is required but could not be found");
 
-        User user = new User(Id, GenerateSimpleStringId(), GenerateSimpleStringId(),
-            new Password(Id, passwordHasher.GeneratePasswordHash(_HashedPassword), DateTimeUtc.Now), _Address!, _Contact!, _PersonalDetail!, true);
+        User user = new User(Id, GenerateSimpleStringId(), GenerateSimpleStringId(), new Password(Id, _HashedPassword, DateTimeUtc.Now), _Address!, _Contact!,
+            _PersonalDetail!, true);
 
         Publish(new UserHasBeenCreated(user));
 
@@ -296,6 +302,7 @@ public class UserRegistration : Aggregate<SimpleStringId>
         return new UserRegistrationDto
         {
             Id = Id,
+            MerchantId = _MerchantId,
             Address = _Address?.AsDto(),
             ContactInfo = _Contact?.AsDto() ?? new ContactDto(),
             PersonalInfo = _PersonalDetail?.AsDto(),

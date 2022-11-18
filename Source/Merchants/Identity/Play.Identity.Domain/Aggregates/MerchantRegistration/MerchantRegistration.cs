@@ -9,6 +9,7 @@ using Play.Identity.Contracts.Commands.MerchantRegistration;
 using Play.Identity.Contracts.Dtos;
 using Play.Identity.Domain.Entities;
 using Play.Identity.Domain.Enums;
+using Play.Identity.Domain.Repositories;
 using Play.Identity.Domain.Services;
 using Play.Identity.Domain.ValueObjects;
 
@@ -53,9 +54,14 @@ public class MerchantRegistration : Aggregate<SimpleStringId>
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    public static MerchantRegistration CreateNewMerchantRegistration(CreateMerchantRegistrationCommand command)
+    /// <exception cref="NotFoundException"></exception>
+    public static MerchantRegistration CreateNewMerchantRegistration(
+        IUserRegistrationRepository userRegistrationRepository, CreateMerchantRegistrationCommand command)
     {
-        MerchantRegistration registration = new MerchantRegistration(command.User.MerchantId, new Name(command.Name),
+        UserRegistration? userRegistration = userRegistrationRepository.GetById(new SimpleStringId(command.UserId))
+                                             ?? throw new NotFoundException(typeof(UserRegistration));
+
+        MerchantRegistration registration = new MerchantRegistration(userRegistration.GetMerchantId(), new Name(command.CompanyName),
             MerchantRegistrationStatuses.WaitingForRiskAnalysis, DateTimeUtc.Now) {_Status = MerchantRegistrationStatuses.WaitingForRiskAnalysis};
 
         registration.Publish(new MerchantRegistrationHasBeenCreated(registration));

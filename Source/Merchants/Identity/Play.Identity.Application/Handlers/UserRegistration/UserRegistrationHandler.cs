@@ -77,7 +77,7 @@ public partial class UserRegistrationHandler : DomainEventHandler, IHandleDomain
     {
         Log(domainEvent);
         await _UserRegistrationRepository.SaveAsync(domainEvent.UserRegistration).ConfigureAwait(false);
-        await _UserRepository.SaveAsync(domainEvent.UserRegistration.CreateUser(_PasswordHasher)).ConfigureAwait(false);
+        await _UserRepository.SaveAsync(domainEvent.UserRegistration.CreateUser()).ConfigureAwait(false);
     }
 
     #endregion

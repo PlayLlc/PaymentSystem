@@ -23,6 +23,7 @@ using Play.Identity.Persistence.Sql.Persistence;
 using Play.Telecom.Twilio.Email;
 using Play.Telecom.Twilio.Sms;
 using Play.Domain.Common.ValueObjects;
+using Play.Identity.Application.Handlers;
 
 namespace Play.Identity.Api.Extensions;
 
@@ -53,13 +54,11 @@ public static partial class WebApplicationBuilderExtensions
 
         // Repositories
         builder.Services.AddScoped<DbContext, UserIdentityDbContext>();
-
         builder.Services.AddScoped<IPasswordRepository, PasswordRepository>();
         builder.Services.AddScoped<IUserRegistrationRepository, UserRegistrationRepository>();
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<IRepository<MerchantRegistration, SimpleStringId>, MerchantRegistrationRepository>();
         builder.Services.AddScoped<IRepository<Merchant, SimpleStringId>, Repository<Merchant, SimpleStringId>>();
-
         builder.Services.AddScoped<ILoginUsers, UserLoginService>();
 
         // Infrastructure Services
@@ -73,6 +72,16 @@ public static partial class WebApplicationBuilderExtensions
         builder.Services.AddScoped<IVerifyEmailAccounts, EmailAccountVerifier>();
         builder.Services.AddScoped<IVerifyMobilePhones, MobilePhoneVerifier>();
         builder.Services.AddScoped<ICreateEmailVerificationReturnUrl, EmailVerificationReturnUrlGenerator>();
+
+        // HACK: Should we make these scoped per request? That would mean that we would have to add them to EVERY controller.
+        // HACK: Will this introduce race conditions? There are only Write methods so we're not tracking entity changes
+        // HACK: so there shouldn't be any entities that are out of sync. Need to test and validate that singleton is the
+        // HACK: right move here
+        // Application Handlers
+        //builder.Services.AddSingleton<MerchantHandler>();
+        //builder.Services.AddSingleton<MerchantRegistrationHandler>();
+        //builder.Services.AddSingleton<UserHandler>();
+        //builder.Services.AddSingleton<UserRegistrationHandler>();
 
         // Identity Server
         builder.Services.AddScoped<IProfileService, ProfileService<UserIdentity>>();

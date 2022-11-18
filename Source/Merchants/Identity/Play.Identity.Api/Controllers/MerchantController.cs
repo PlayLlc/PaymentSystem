@@ -39,8 +39,8 @@ namespace Play.Identity.Api.Controllers
 
         #region Instance Members
 
-        [Route("~/[area]/[controller]")]
         [HttpGet]
+        [Route("~/[controller]/{id=id}")]
         [ValidateAntiForgeryToken]
         public async Task<MerchantDto> Index([FromQuery] string id)
         {
