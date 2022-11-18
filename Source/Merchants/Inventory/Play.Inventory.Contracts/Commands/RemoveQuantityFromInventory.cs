@@ -13,10 +13,6 @@ public record RemoveQuantityFromInventory
 
     [Required]
     [StringLength(20)]
-    public string ItemId { get; set; } = string.Empty;
-
-    [Required]
-    [StringLength(20)]
     public string StoreId { get; set; } = string.Empty;
 
     [Required]

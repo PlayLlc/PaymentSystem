@@ -1,6 +1,7 @@
-﻿using IO.Swagger;
+﻿using System.Net;
 
 using Play.Domain.Common.ValueObjects;
+using Play.Domain.Exceptions;
 using Play.Identity.Api.Client;
 using Play.Identity.Contracts.Dtos;
 using Play.Inventory.Domain.Entities;
@@ -28,14 +29,36 @@ public class MerchantRetriever : IRetrieveMerchants
 
     #region Instance Members
 
+    /// <exception cref="ApiException"></exception>
     public async Task<Merchant> GetByIdAsync(string id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var dto = await _MerchantApi.MerchantGetAsync(id).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Merchant));
+
+            return new Merchant(dto.Id, dto.CompanyName, dto.IsActive);
+        }
+
+        catch (Exception e)
+        {
+            throw new ApiException(HttpStatusCode.InternalServerError, e);
+        }
     }
 
+    /// <exception cref="ApiException"></exception>
     public Merchant GetById(string id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var dto = _MerchantApi.MerchantGet(id) ?? throw new NotFoundException(typeof(Merchant));
+
+            return new Merchant(dto.Id, dto.CompanyName, dto.IsActive);
+        }
+
+        catch (Exception e)
+        {
+            throw new ApiException(500, e);
+        }
     }
 
     #endregion

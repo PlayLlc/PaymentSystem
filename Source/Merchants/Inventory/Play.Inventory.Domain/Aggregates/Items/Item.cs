@@ -39,9 +39,10 @@ public partial class Item : Aggregate<SimpleStringId>
     /// </summary>
     private readonly Alerts _Alerts;
 
+    private readonly Price _Price;
+
     private string _Description;
     private Name _Name;
-    private readonly Price _Price;
     private Sku? _Sku;
     private int _Quantity;
 
@@ -92,6 +93,15 @@ public partial class Item : Aggregate<SimpleStringId>
     #endregion
 
     #region Instance Members
+
+    /// <exception cref="BusinessRuleValidationException"></exception>
+    public async Task RemoveItem(IRetrieveUsers userService, RemoveItem command)
+    {
+        User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
+        Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));
+        Enforce(new AggregateMustBeUpdatedByKnownUser<Item>(_MerchantId, user));
+        Publish(new ItemRemoved(this, user.GetId()));
+    }
 
     /// <exception cref="NotFoundException"></exception>
     /// <exception cref="ValueObjectException"></exception>

@@ -18,7 +18,7 @@ public class Configuration
         int status = (int) response.StatusCode;
 
         if (status >= 400)
-            return new ApiException(status, string.Format("Error calling {0}: {1}", methodName, response.Content), response.Content);
+            return new ApiException(status, $"Error calling {methodName}: {response.Content} {response.Content}");
 
         return null;
     };
@@ -108,6 +108,11 @@ public class Configuration
 
     #region Constructor
 
+    //public Configuration(ApiConfiguration configuration)
+    //{
+    // TODO: Determine if the ApiConfiguration is using Basic or OAuth2 auth and set those values in this class
+    //}
+
     public Configuration(string basePath)
     {
         BasePath = basePath;
@@ -163,7 +168,7 @@ public class Configuration
 
     /// <exception cref="ApiException"></exception>
     public Configuration(
-        string basePath = "/", string userAgent = "Swagger-Codegen/1.0.0/csharp", string? username = null, string? password = null, string? accessToken = null,
+        string basePath, string userAgent = "Swagger-Codegen/1.0.0/csharp", string? username = null, string? password = null, string? accessToken = null,
         int? timeout = null, string? dateTimeFormat = null, string? tempFolderPath = null, IDictionary<string, string>? apiKey = null,
         IDictionary<string, string>? apiKeyPrefix = null, IDictionary<string, string>? defaultHeader = null)
     {

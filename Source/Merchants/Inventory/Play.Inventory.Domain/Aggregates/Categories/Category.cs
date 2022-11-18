@@ -62,7 +62,7 @@ public class Category : Aggregate<SimpleStringId>
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="AggregateException"></exception>
     /// <exception cref="ValueObjectException"></exception>
-    public static async Task CreateCategory(
+    public static async Task<Category> CreateCategory(
         IRetrieveUsers userService, IRetrieveMerchants merchantService, ICategoryRepository categoryRepository, CreateCategory command)
     {
         User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
@@ -75,6 +75,8 @@ public class Category : Aggregate<SimpleStringId>
         category.Enforce(new CategoryMustNotAlreadyExist(categoryRepository, merchant.Id, category._Name));
 
         category.Publish(new CategoryHasBeenCreated(category, merchant.Id, user.GetId()));
+
+        return category;
     }
 
     /// <exception cref="NotFoundException"></exception>

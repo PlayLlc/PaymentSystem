@@ -12,7 +12,7 @@ using Play.Inventory.Domain.Events;
 
 namespace Play.Inventory.Application.Handlers;
 
-internal partial class ItemHandlers : DomainEventHandler, IHandleDomainEvents<ItemCreated>, IHandleDomainEvents<AggregateUpdateWasAttemptedByUnknownUser<Item>>,
+public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemCreated>, IHandleDomainEvents<AggregateUpdateWasAttemptedByUnknownUser<Item>>,
     IHandleDomainEvents<DeactivatedMerchantAttemptedToCreateAggregate<Item>>, IHandleDomainEvents<DeactivatedUserAttemptedToUpdateAggregate<Item>>
 {
     #region Instance Values
@@ -24,8 +24,8 @@ internal partial class ItemHandlers : DomainEventHandler, IHandleDomainEvents<It
 
     #region Constructor
 
-    public ItemHandlers(
-        ILogger<ItemHandlers> logger, IMessageHandlerContext messageHandlerContext, IRepository<Item, SimpleStringId> itemRepository) : base(logger)
+    public ItemHandler(
+        ILogger<ItemHandler> logger, IMessageHandlerContext messageHandlerContext, IRepository<Item, SimpleStringId> itemRepository) : base(logger)
     {
         _MessageHandlerContext = messageHandlerContext;
         _ItemRepository = itemRepository;

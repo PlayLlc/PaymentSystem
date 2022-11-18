@@ -12,8 +12,4 @@
     <ProjectReference Include="..\Play.Inventory.Persistence.Sql\Play.Inventory.Persistence.Sql.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Clients\" />
-  </ItemGroup>
-
 </Project>

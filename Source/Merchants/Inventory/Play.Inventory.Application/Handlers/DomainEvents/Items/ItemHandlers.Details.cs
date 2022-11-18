@@ -3,7 +3,7 @@ using Play.Inventory.Domain;
 
 namespace Play.Inventory.Application.Handlers;
 
-internal partial class ItemHandlers : DomainEventHandler, IHandleDomainEvents<ItemDescriptionUpdated>, IHandleDomainEvents<ItemNameUpdated>,
+public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemDescriptionUpdated>, IHandleDomainEvents<ItemNameUpdated>,
     IHandleDomainEvents<ItemPriceUpdated>, IHandleDomainEvents<ItemPriceWasNotPositive>, IHandleDomainEvents<ItemSkuUpdated>
 {
     #region Instance Members

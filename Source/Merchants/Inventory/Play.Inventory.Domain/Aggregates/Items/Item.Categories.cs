@@ -21,37 +21,62 @@ public partial class Item : Aggregate<SimpleStringId>
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="NotFoundException"></exception>
-    public async Task AddCategory(IRetrieveUsers userService, ICategoryRepository categoryRepository, UpdateCategory command)
+    public async Task AddCategories(IRetrieveUsers userService, ICategoryRepository categoryRepository, UpdateItemCategories command)
     {
         User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
-        Category category = await categoryRepository.GetByIdAsync(new SimpleStringId(command.CategoryId)).ConfigureAwait(false)
-                            ?? throw new NotFoundException(typeof(Category));
 
         Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Item>(_MerchantId, user));
-        Enforce(new CategoryMustHaveTheSameMerchant(category, _MerchantId));
 
-        if (!_Categories.Add(category))
+        List<Category> categoriesAdded = new List<Category>();
+
+        foreach (var categoryId in command.CategoryIds)
+        {
+            Category category = await categoryRepository.GetByIdAsync(new SimpleStringId(categoryId)).ConfigureAwait(false)
+                                ?? throw new NotFoundException(typeof(Category));
+
+            Enforce(new CategoryMustHaveTheSameMerchant(category, _MerchantId));
+
+            if (!_Categories.Add(category))
+                continue;
+
+            categoriesAdded.Add(category);
+        }
+
+        if (categoriesAdded.Count == 0)
             return;
 
-        Publish(new ItemCategoryAdded(this, category!, user.GetId()));
+        Publish(new ItemCategoriesAdded(this, command.UserId, categoriesAdded.ToArray()));
     }
 
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="AggregateException"></exception>
     /// <exception cref="NotFoundException"></exception>
-    public async Task RemoveCategory(IRetrieveUsers userService, UpdateCategory command)
+    public async Task RemoveCategories(IRetrieveUsers userService, UpdateItemCategories command)
     {
         User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
 
         Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Item>(_MerchantId, user));
 
-        if (_Categories.RemoveWhere(a => a.Id == command.CategoryId) == 0)
+        List<Category> categoriesRemoved = new List<Category>();
+
+        foreach (var categoryId in command.CategoryIds)
+        {
+            Category? category = _Categories.FirstOrDefault(c => c.Id == categoryId);
+
+            if (category is null)
+                continue;
+
+            categoriesRemoved.Add(category);
+            _Categories.RemoveWhere(a => a.Id == categoryId);
+        }
+
+        if (categoriesRemoved.Count == 0)
             return;
 
-        Publish(new ItemCategoryRemoved(this, user.GetId(), command.CategoryId));
+        Publish(new ItemCategoriesRemoved(this, user.GetId(), categoriesRemoved.ToArray()));
     }
 
     #endregion

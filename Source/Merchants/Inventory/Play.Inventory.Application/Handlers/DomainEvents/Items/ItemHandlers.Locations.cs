@@ -3,7 +3,7 @@ using Play.Inventory.Domain;
 
 namespace Play.Inventory.Application.Handlers;
 
-internal partial class ItemHandlers : DomainEventHandler, IHandleDomainEvents<ItemIsAvailableForAllLocations>, IHandleDomainEvents<ItemLocationAdded>,
+public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemIsAvailableForAllLocations>, IHandleDomainEvents<ItemLocationAdded>,
     IHandleDomainEvents<ItemLocationRemoved>
 {
     #region Instance Members

@@ -14,23 +14,6 @@ namespace Play.Inventory.Domain;
 /// </summary>
 public partial class Item : Aggregate<SimpleStringId>
 {
-    #region Instance Members
-
-    #region Create/Remove
-
-    /// <exception cref="BusinessRuleValidationException"></exception>
-    public async Task RemoveItem(IRetrieveUsers userService, RemoveItem command)
-    {
-        User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
-        Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));
-        Enforce(new AggregateMustBeUpdatedByKnownUser<Item>(_MerchantId, user));
-        Publish(new ItemRemoved(this, user.GetId()));
-    }
-
-    #endregion
-
-    #endregion
-
     #region Item Details
 
     /// <exception cref="NotFoundException"></exception>

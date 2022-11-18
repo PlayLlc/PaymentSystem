@@ -56,9 +56,9 @@ public partial class Item : Aggregate<SimpleStringId>
 
     /// <exception cref="NotFoundException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
-    public async Task ActivateAlert(IRetrieveUsers userService, string userId)
+    public async Task ActivateAlerts(IRetrieveUsers userService, UpdateItemAlerts command)
     {
-        User user = await userService.GetByIdAsync(userId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
+        User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Item>(_MerchantId, user));
         _Alerts.ActivateAlerts();
@@ -67,9 +67,9 @@ public partial class Item : Aggregate<SimpleStringId>
 
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="NotFoundException"></exception>
-    public async Task DeactivateAlert(IRetrieveUsers userService, string userId)
+    public async Task DeactivateAlerts(IRetrieveUsers userService, UpdateItemAlerts command)
     {
-        User user = await userService.GetByIdAsync(userId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
+        User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
 
         Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Item>(_MerchantId, user));

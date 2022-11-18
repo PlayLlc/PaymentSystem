@@ -4,39 +4,39 @@ using Play.Inventory.Api.Models;
 
 using System.Diagnostics;
 
+using Play.Inventory.Domain.Repositories;
+using Play.Inventory.Domain.Services;
+
 namespace Play.Inventory.Api.Controllers;
 
 [ApiController]
-[Route("Inventory/[action]")]
-public class HomeController : Controller
+[Route("[action]")]
+public class HomeController : InventoryController
 {
-    #region Instance Values
-
-    private readonly ILogger<HomeController> _logger;
-
-    #endregion
-
     #region Constructor
 
-    public HomeController(ILogger<HomeController> logger)
-    {
-        _logger = logger;
-    }
+    public HomeController(
+        IRetrieveUsers userRetriever, IRetrieveMerchants merchantsRetriever, IItemRepository itemsRepository, ICategoryRepository categoryRepository) : base(
+        userRetriever, merchantsRetriever, itemsRepository, categoryRepository)
+    { }
 
     #endregion
 
     #region Instance Members
 
+    [HttpGet]
     public IActionResult Index()
     {
         return View();
     }
 
+    [HttpGet]
     public IActionResult Privacy()
     {
         return View();
     }
 
+    [HttpGet]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

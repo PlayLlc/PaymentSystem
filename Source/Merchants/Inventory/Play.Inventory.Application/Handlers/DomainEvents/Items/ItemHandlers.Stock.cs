@@ -8,7 +8,7 @@ using Play.Inventory.Domain;
 
 namespace Play.Inventory.Application.Handlers;
 
-internal partial class ItemHandlers : DomainEventHandler, IHandleDomainEvents<ItemAlertsHaveBeenActivated>, IHandleDomainEvents<ItemAlertsHaveBeenDeactivated>,
+public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemAlertsHaveBeenActivated>, IHandleDomainEvents<ItemAlertsHaveBeenDeactivated>,
     IHandleDomainEvents<ItemStockUpdated>, IHandleDomainEvents<LowInventoryAlert>, IHandleDomainEvents<LowInventoryItemThresholdUpdated>,
     IHandleDomainEvents<NoInventoryAlert>, IHandleDomainEvents<StockActionWasIncorrect>
 

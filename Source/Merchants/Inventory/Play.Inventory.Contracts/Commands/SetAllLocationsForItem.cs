@@ -8,10 +8,6 @@ public record SetAllLocationsForItem
 
     [Required]
     [StringLength(20)]
-    public string ItemId { get; set; } = string.Empty;
-
-    [Required]
-    [StringLength(20)]
     public string UserId { get; set; } = string.Empty;
 
     #endregion

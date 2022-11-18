@@ -9,7 +9,7 @@ using Play.Inventory.Domain.Repositories;
 
 namespace Play.Inventory.Application.Handlers;
 
-public class CategoryHandlers : DomainEventHandler, IHandleDomainEvents<AggregateUpdateWasAttemptedByUnknownUser<Category>>,
+public class CategoryHandler : DomainEventHandler, IHandleDomainEvents<AggregateUpdateWasAttemptedByUnknownUser<Category>>,
     IHandleDomainEvents<DeactivatedMerchantAttemptedToCreateAggregate<Category>>, IHandleDomainEvents<CategoryAlreadyExists>,
     IHandleDomainEvents<CategoryHasBeenCreated>, IHandleDomainEvents<CategoryHasBeenRemoved>
 {
@@ -22,8 +22,7 @@ public class CategoryHandlers : DomainEventHandler, IHandleDomainEvents<Aggregat
 
     #region Constructor
 
-    public CategoryHandlers(
-        IMessageHandlerContext messageHandlerContext, ICategoryRepository categoryRepository, ILogger<CategoryHandlers> logger) : base(logger)
+    public CategoryHandler(IMessageHandlerContext messageHandlerContext, ICategoryRepository categoryRepository, ILogger<CategoryHandler> logger) : base(logger)
     {
         _MessageHandlerContext = messageHandlerContext;
         _CategoryRepository = categoryRepository;

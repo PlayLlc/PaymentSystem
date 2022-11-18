@@ -10,7 +10,7 @@ using Play.Inventory.Domain;
 
 namespace Play.Inventory.Application.Handlers;
 
-internal partial class ItemHandlers : DomainEventHandler, IHandleDomainEvents<ItemVariationAlreadyExists>, IHandleDomainEvents<ItemVariationCreated>,
+public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemVariationAlreadyExists>, IHandleDomainEvents<ItemVariationCreated>,
     IHandleDomainEvents<ItemVariationDoesNotExist>, IHandleDomainEvents<ItemVariationRemoved>, IHandleDomainEvents<VariationNameUpdated>,
     IHandleDomainEvents<VariationPriceUpdated>, IHandleDomainEvents<VariationSkuUpdated>, IHandleDomainEvents<VariationStockUpdated>
 {
