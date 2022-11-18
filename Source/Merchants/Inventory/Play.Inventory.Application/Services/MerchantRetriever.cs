@@ -1,4 +1,6 @@
-﻿using Play.Domain.Common.ValueObjects;
+﻿using IO.Swagger;
+
+using Play.Domain.Common.ValueObjects;
 using Play.Identity.Api.Client;
 using Play.Identity.Contracts.Dtos;
 using Play.Inventory.Domain.Entities;

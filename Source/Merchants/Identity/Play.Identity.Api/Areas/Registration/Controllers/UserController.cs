@@ -48,7 +48,7 @@ public class UserController : Controller
 
     #region Instance Members
 
-    [Route("~/[area]/[controller]/{id=id}")]
+    [Route("~/[area]/[controller]")]
     [HttpGet]
     [ValidateAntiForgeryToken]
     public async Task<UserRegistrationDto> Index([FromQuery] string id)

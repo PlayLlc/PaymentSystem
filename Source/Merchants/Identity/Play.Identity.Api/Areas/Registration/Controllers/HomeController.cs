@@ -34,11 +34,11 @@ namespace Play.Identity.Api.Areas.Registration.Controllers
         #region Instance Members
 
         [HttpPost]
-        [Route("~/[area]/[action]/{userRegistration=userRegistration}")]
+        [Route("~/[area]/[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Complete(string userId)
+        public async Task<IActionResult> Complete([FromQuery] string userRegistrationId)
         {
-            UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(new SimpleStringId(userId)).ConfigureAwait(false)
+            UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(new SimpleStringId(userRegistrationId)).ConfigureAwait(false)
                                                  ?? throw new NotFoundException(typeof(UserRegistration));
             MerchantRegistration? merchantRegistration =
                 await _MerchantRegistrationRepository.GetByIdAsync(new SimpleStringId(userRegistration!.GetMerchantId()))

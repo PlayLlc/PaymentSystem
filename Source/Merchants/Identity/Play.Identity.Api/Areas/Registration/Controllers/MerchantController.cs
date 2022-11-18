@@ -43,7 +43,7 @@ public class MerchantController : Controller
 
     #region Instance Members
 
-    [Route("~/[area]/[controller]/{id=id}")]
+    [Route("~/[area]/[controller]")]
     [HttpGet]
     [ValidateAntiForgeryToken]
     public async Task<MerchantRegistrationDto> Index([FromQuery] string id)
