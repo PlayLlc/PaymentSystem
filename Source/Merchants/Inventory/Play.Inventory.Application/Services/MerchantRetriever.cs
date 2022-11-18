@@ -1,9 +1,7 @@
 ﻿using System.Net;
 
-using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
 using Play.Identity.Api.Client;
-using Play.Identity.Contracts.Dtos;
 using Play.Inventory.Domain.Entities;
 using Play.Inventory.Domain.Services;
 using Play.Restful.Clients;

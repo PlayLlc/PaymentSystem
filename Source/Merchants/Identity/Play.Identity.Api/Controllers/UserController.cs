@@ -3,14 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
-using Play.Domain.Repositories;
-using Play.Identity.Application.Services;
 using Play.Identity.Contracts.Commands;
 using Play.Identity.Contracts.Dtos;
 using Play.Identity.Domain.Aggregates;
 using Play.Identity.Domain.Repositories;
 using Play.Identity.Domain.Services;
-using Play.Identity.Persistence.Sql.Repositories;
 using Play.Mvc.Attributes;
 using Play.Mvc.Extensions;
 

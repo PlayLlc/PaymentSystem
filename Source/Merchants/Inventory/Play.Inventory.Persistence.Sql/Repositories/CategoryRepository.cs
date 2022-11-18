@@ -6,8 +6,6 @@ using Play.Persistence.Sql;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-using Play.Inventory.Contracts.Dtos;
-
 namespace Play.Inventory.Persistence.Sql.Repositories;
 
 public class CategoryRepository : Repository<Category, SimpleStringId>, ICategoryRepository

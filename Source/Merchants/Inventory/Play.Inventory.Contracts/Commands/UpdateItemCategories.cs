@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Linq.Expressions;
 
 namespace Play.Inventory.Contracts.Commands;
 

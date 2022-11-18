@@ -1,5 +1,4 @@
-﻿using Play.Domain.Common.ValueObjects;
-using Play.Domain.Exceptions;
+﻿using Play.Domain.Exceptions;
 using Play.Identity.Api.Client;
 using Play.Identity.Contracts.Dtos;
 using Play.Inventory.Domain.Entities;

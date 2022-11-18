@@ -1,21 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-using Play.Domain.Common.ValueObjects;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Play.Inventory.Domain.ValueObjects;
 
 using Microsoft.EntityFrameworkCore;
-
-using Play.Globalization.Currency;
-using Play.Globalization.Time;
-
-using static Play.Persistence.Sql.ValueConverters;
 
 namespace Play.Inventory.Persistence.Sql.Configuration;
 

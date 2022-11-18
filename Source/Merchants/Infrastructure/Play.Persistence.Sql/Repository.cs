@@ -3,9 +3,6 @@ using Microsoft.Extensions.Logging;
 
 using Play.Domain.Repositories;
 using Play.Domain.Aggregates;
-using Play.Globalization.Time;
-
-using System;
 
 namespace Play.Persistence.Sql;
 

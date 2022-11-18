@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Play.Identity.Contracts.Dtos;
-
 namespace Play.Identity.Contracts.Commands.MerchantRegistration;
 
 public record CreateMerchantRegistrationCommand

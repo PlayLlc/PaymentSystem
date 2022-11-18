@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authentication;
 using Play.Identity.Domain.Aggregates;
 using Play.Identity.Domain.Services;
 using Play.Core;
-using Play.Identity.Domain.Entities;
 
 namespace Play.Identity.Api.Services;
 

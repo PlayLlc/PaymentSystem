@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
-using Play.Domain.Repositories;
 using Play.Inventory.Api.Controllers;
 using Play.Inventory.Contracts.Commands;
 using Play.Inventory.Domain;

@@ -2,8 +2,6 @@
 
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
-using Play.Domain.Repositories;
-using Play.Identity.Contracts.Dtos;
 using Play.Inventory.Contracts.Commands;
 using Play.Inventory.Contracts.Dtos;
 using Play.Inventory.Domain;

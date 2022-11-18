@@ -1,11 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using Play.Identity.Api.Client;
-using Play.Inventory.Application.Handlers;
 using Play.Inventory.Domain.Repositories;
 using Play.Inventory.Persistence.Sql.Persistence;
 using Play.Inventory.Persistence.Sql.Repositories;
-using Play.Mvc.Swagger;
 using Play.Restful.Clients;
 
 namespace Play.Inventory.Api.Extensions;

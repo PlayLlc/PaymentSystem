@@ -1,7 +1,6 @@
 ﻿using Duende.IdentityServer.AspNetIdentity;
 using Duende.IdentityServer.Services;
 
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 
@@ -23,7 +22,6 @@ using Play.Identity.Persistence.Sql.Persistence;
 using Play.Telecom.Twilio.Email;
 using Play.Telecom.Twilio.Sms;
 using Play.Domain.Common.ValueObjects;
-using Play.Identity.Application.Handlers;
 
 namespace Play.Identity.Api.Extensions;
 

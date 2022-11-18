@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-using Play.Inventory.Domain;
 using Play.Inventory.Domain.Repositories;
 using Play.Inventory.Domain.Services;
 

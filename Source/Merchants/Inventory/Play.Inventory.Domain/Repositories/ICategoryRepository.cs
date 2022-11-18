@@ -1,6 +1,5 @@
 ﻿using Play.Domain.Common.ValueObjects;
 using Play.Domain.Repositories;
-using Play.Inventory.Contracts.Dtos;
 
 namespace Play.Inventory.Domain.Repositories;
 
