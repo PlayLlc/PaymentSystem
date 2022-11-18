@@ -2,7 +2,7 @@ using Play.Inventory.Contracts.Commands;
 using Play.Inventory.Contracts.Dtos;
 using Play.Restful.Clients;
 
-namespace IO.Swagger;
+namespace Play.Inventory.Api.Client;
 
 /// <summary>
 ///     Represents a collection of functions to interact with the API endpoints

@@ -16,7 +16,7 @@ using Play.Restful.Clients;
 
 using RestSharp.Portable;
 
-namespace IO.Swagger
+namespace Play.Inventory.Api.Client
 {
     /// <summary>
     ///     Represents a collection of functions to interact with the API endpoints
