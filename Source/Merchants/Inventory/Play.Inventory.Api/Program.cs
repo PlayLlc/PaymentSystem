@@ -52,6 +52,6 @@ app.UseStaticFiles();
 //app.UseRouting();
 app.UseAuthorization();
 
-app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute("default", "{controller=Categories}/{action=Index}/{merchantId}");
 app.MapAreaControllerRoute("areas", "Items", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 app.Run();

@@ -10,11 +10,7 @@ public record UpdateQuantityToInventoryForVariation
 
     [Required]
     [StringLength(20)]
-    public string ItemId { get; set; } = string.Empty;
-
-    [Required]
-    [StringLength(20)]
-    public string VariationItemId { get; set; } = string.Empty;
+    public string VariationId { get; set; } = string.Empty;
 
     [Required]
     [StringLength(20)]

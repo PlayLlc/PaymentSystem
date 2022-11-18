@@ -6,6 +6,8 @@ using Play.Persistence.Sql;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
+using Play.Inventory.Contracts.Dtos;
+
 namespace Play.Inventory.Persistence.Sql.Repositories;
 
 public class CategoryRepository : Repository<Category, SimpleStringId>, ICategoryRepository
@@ -18,6 +20,38 @@ public class CategoryRepository : Repository<Category, SimpleStringId>, ICategor
     #endregion
 
     #region Instance Members
+
+    /// <exception cref="EntityFrameworkRepositoryException"></exception>
+    public async Task<bool> DoesCategoryAlreadyExist(SimpleStringId merchantId, Name categoryName)
+    {
+        try
+        {
+            return await _DbSet
+                .AnyAsync(a => (EF.Property<string>(a, $"_MerchantId") == merchantId) && (EF.Property<string>(a, $"_Name") == categoryName.Value))
+                .ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            throw new EntityFrameworkRepositoryException(
+                $"The {nameof(CategoryRepository)} encountered an exception trying to determine {nameof(DoesCategoryAlreadyExist)} for the specified Merchant",
+                ex);
+        }
+    }
+
+    /// <exception cref="EntityFrameworkRepositoryException"></exception>
+    public async Task<IEnumerable<Category>> GetCategoriesAsync(SimpleStringId merchantId)
+    {
+        try
+        {
+            return await _DbSet.AsNoTracking().Where(a => EF.Property<SimpleStringId>(a, "_MerchantId") == merchantId).ToListAsync().ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            throw new EntityFrameworkRepositoryException(
+                $"The {nameof(ItemRepository)} encountered an exception attempting to invoke {nameof(GetCategoriesAsync)} for the {nameof(merchantId)}: [{merchantId.Value}];",
+                ex);
+        }
+    }
 
     /// <exception cref="EntityFrameworkRepositoryException"></exception>
     public override async Task<Category?> GetByIdAsync(SimpleStringId id)
@@ -44,23 +78,6 @@ public class CategoryRepository : Repository<Category, SimpleStringId>, ICategor
         {
             throw new EntityFrameworkRepositoryException(
                 $"The {nameof(ItemRepository)} encountered an exception attempting to invoke {nameof(GetByIdAsync)} for the {nameof(id)}: [{id}];", ex);
-        }
-    }
-
-    /// <exception cref="EntityFrameworkRepositoryException"></exception>
-    public async Task<bool> DoesCategoryAlreadyExist(string merchantId, Name categoryName)
-    {
-        try
-        {
-            return await _DbSet
-                .AnyAsync(a => (EF.Property<string>(a, $"_MerchantId") == merchantId) && (EF.Property<string>(a, $"_Name") == categoryName.Value))
-                .ConfigureAwait(false);
-        }
-        catch (Exception ex)
-        {
-            throw new EntityFrameworkRepositoryException(
-                $"The {nameof(CategoryRepository)} encountered an exception trying to determine {nameof(DoesCategoryAlreadyExist)} for the specified Merchant",
-                ex);
         }
     }
 

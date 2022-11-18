@@ -17,20 +17,12 @@ namespace Play.Inventory.Api.Controllers;
 [Route("[controller]/[action]")]
 public class CategoriesController : InventoryController
 {
-    #region Instance Values
-
-    private readonly ILogger<CategoriesController> _Logger;
-
-    #endregion
-
     #region Constructor
 
     public CategoriesController(
-        IRetrieveUsers userRetriever, IRetrieveMerchants merchantsRetriever, IItemRepository itemsRepository, ICategoryRepository categoryRepository,
-        ILogger<CategoriesController> logger) : base(userRetriever, merchantsRetriever, itemsRepository, categoryRepository)
-    {
-        _Logger = logger;
-    }
+        IRetrieveUsers userRetriever, IRetrieveMerchants merchantsRetriever, IItemRepository itemsRepository, ICategoryRepository categoryRepository) : base(
+        userRetriever, merchantsRetriever, itemsRepository, categoryRepository)
+    { }
 
     #endregion
 
@@ -38,9 +30,19 @@ public class CategoriesController : InventoryController
 
     [HttpGet]
     [ValidateAntiForgeryToken]
-    public async Task<CategoryDto> Index([FromQuery] string id)
+    [Route("/Inventory/[controller]")]
+    public async Task<IEnumerable<CategoryDto>> Index([FromQuery] string merchantId)
     {
-        Category merchantRegistration = await _CategoryRepository.GetByIdAsync(new SimpleStringId(id)).ConfigureAwait(false)
+        return (await _CategoryRepository.GetCategoriesAsync(new SimpleStringId(merchantId)).ConfigureAwait(false)).Select(a => a.AsDto())
+               ?? Array.Empty<CategoryDto>();
+    }
+
+    [HttpGet]
+    [ValidateAntiForgeryToken]
+    [Route("/Inventory/[controller]/{categoryId}")]
+    public async Task<CategoryDto> GetCategory(string categoryId)
+    {
+        Category merchantRegistration = await _CategoryRepository.GetByIdAsync(new SimpleStringId(categoryId)).ConfigureAwait(false)
                                         ?? throw new NotFoundException(typeof(Category));
 
         return merchantRegistration.AsDto();
@@ -54,7 +56,7 @@ public class CategoriesController : InventoryController
 
         Category category = await Category.CreateCategory(_UserRetriever, _MerchantsRetriever, _CategoryRepository, command).ConfigureAwait(false);
 
-        return Created(@Url.Action("Index", "Categories", new {id = category.Id})!, category.AsDto());
+        return Created(@Url.Action("GetCategory", "Categories", new {id = category.Id})!, category.AsDto());
     }
 
     [HttpDelete]

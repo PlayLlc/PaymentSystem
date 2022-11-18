@@ -10,10 +10,6 @@ public record UpdateItemVariationSku
 
     [Required]
     [StringLength(20)]
-    public string ItemId { get; set; } = string.Empty;
-
-    [Required]
-    [StringLength(20)]
     public string VariationId { get; set; } = string.Empty;
 
     [Required]

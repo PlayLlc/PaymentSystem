@@ -118,9 +118,9 @@ public partial class Item : Aggregate<SimpleStringId>
         User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Item>(_MerchantId, user));
-        Enforce(new ItemVariationMustExist(_Variations, command.VariationItemId));
+        Enforce(new ItemVariationMustExist(_Variations, command.VariationId));
         Enforce(new StockActionMustAddQuantity(command.Action));
-        Variation variation = _Variations.First(a => a.GetId() == command.VariationItemId);
+        Variation variation = _Variations.First(a => a.GetId() == command.VariationId);
 
         StockAction stockAction = new StockAction(command.Action);
         variation.Quantity += command.Quantity;
@@ -135,10 +135,10 @@ public partial class Item : Aggregate<SimpleStringId>
         User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Item>(_MerchantId, user));
-        Enforce(new ItemVariationMustExist(_Variations, command.VariationItemId));
+        Enforce(new ItemVariationMustExist(_Variations, command.VariationId));
         Enforce(new StockActionMustRemoveQuantity(command.Action));
         StockAction stockAction = new StockAction(command.Action);
-        Variation variation = _Variations.First(a => a.GetId() == command.VariationItemId);
+        Variation variation = _Variations.First(a => a.GetId() == command.VariationId);
 
         variation.Quantity -= command.Quantity;
         _ = IsEnforced(new ItemStockMustNotFallBeLow(_Alerts, _Quantity));
