@@ -1,11 +1,12 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.Entities;
+using Play.Domain.Common.ValueObjects;
 using Play.Identity.Domain.Entities;
 using Play.Identity.Domain.Services;
 
 namespace Play.Identity.Domain.Aggregates;
 
-internal class UserRegistrationMustNotBeProhibited : BusinessRule<UserRegistration, string>
+internal class UserRegistrationMustNotBeProhibited : BusinessRule<UserRegistration, SimpleStringId>
 {
     #region Instance Values
 

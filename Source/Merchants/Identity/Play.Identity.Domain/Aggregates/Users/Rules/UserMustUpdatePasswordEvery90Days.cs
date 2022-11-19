@@ -1,10 +1,11 @@
 ﻿using Play.Domain.Aggregates;
+using Play.Domain.Common.ValueObjects;
 using Play.Identity.Domain.Aggregates.Events;
 using Play.Identity.Domain.Entities;
 
 namespace Play.Identity.Domain.Aggregates.Rules;
 
-internal class UserMustUpdatePasswordEvery90Days : BusinessRule<User, string>
+internal class UserMustUpdatePasswordEvery90Days : BusinessRule<User, SimpleStringId>
 {
     #region Instance Values
 

@@ -1,11 +1,12 @@
 ﻿using Play.Domain.Aggregates;
+using Play.Domain.Common.ValueObjects;
 using Play.Globalization.Time;
 using Play.Identity.Domain.Enums;
 using Play.Identity.Domain.ValueObjects;
 
 namespace Play.Identity.Domain.Aggregates;
 
-internal class UserRegistrationMustNotExpire : BusinessRule<UserRegistration, string>
+internal class UserRegistrationMustNotExpire : BusinessRule<UserRegistration, SimpleStringId>
 {
     #region Instance Values
 

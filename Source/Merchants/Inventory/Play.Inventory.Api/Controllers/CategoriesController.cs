@@ -19,8 +19,8 @@ public class CategoriesController : InventoryController
     #region Constructor
 
     public CategoriesController(
-        IRetrieveUsers userRetriever, IRetrieveMerchants merchantsRetriever, IItemRepository itemsRepository, ICategoryRepository categoryRepository) : base(
-        userRetriever, merchantsRetriever, itemsRepository, categoryRepository)
+        IRetrieveUsers userRetriever, IRetrieveMerchants merchantsRetriever, IItemRepository itemsRepository, ICategoryRepository categoryRepository,
+        IInventoryRepository inventoryRepository) : base(userRetriever, merchantsRetriever, itemsRepository, categoryRepository, inventoryRepository)
     { }
 
     #endregion

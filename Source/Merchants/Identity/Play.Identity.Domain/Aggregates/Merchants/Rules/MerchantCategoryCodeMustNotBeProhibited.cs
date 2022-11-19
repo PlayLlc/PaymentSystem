@@ -1,10 +1,11 @@
 ﻿using Play.Domain.Aggregates;
+using Play.Domain.Common.ValueObjects;
 using Play.Identity.Domain.Services;
 using Play.Identity.Domain.ValueObjects;
 
 namespace Play.Identity.Domain.Aggregates;
 
-internal class MerchantCategoryCodeMustNotBeProhibited : BusinessRule<Merchant, string>
+internal class MerchantCategoryCodeMustNotBeProhibited : BusinessRule<Merchant, SimpleStringId>
 {
     #region Instance Values
 

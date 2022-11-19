@@ -1,10 +1,11 @@
 ﻿using Play.Domain.Aggregates;
+using Play.Domain.Common.ValueObjects;
 using Play.Identity.Domain.Enums;
 using Play.Identity.Domain.ValueObjects;
 
 namespace Play.Identity.Domain.Aggregates;
 
-internal class MerchantRegistrationCannotBeCreatedWithoutApproval : BusinessRule<MerchantRegistration, string>
+internal class MerchantRegistrationCannotBeCreatedWithoutApproval : BusinessRule<MerchantRegistration, SimpleStringId>
 {
     #region Instance Values
 

@@ -1,10 +1,11 @@
 ﻿using Play.Domain.Aggregates;
+using Play.Domain.Common.ValueObjects;
 using Play.Identity.Domain.Services;
 using Play.Identity.Domain.ValueObjects;
 
 namespace Play.Identity.Domain.Aggregates;
 
-public class MerchantRegistrationIndustryMustNotBeProhibited : BusinessRule<MerchantRegistration, string>
+public class MerchantRegistrationIndustryMustNotBeProhibited : BusinessRule<MerchantRegistration, SimpleStringId>
 {
     #region Instance Values
 

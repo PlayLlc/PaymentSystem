@@ -1,5 +1,6 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.Entities;
+using Play.Domain.Common.ValueObjects;
 using Play.Identity.Domain.Aggregates.Events;
 using Play.Identity.Domain.Entities;
 using Play.Identity.Domain.Services;
@@ -11,7 +12,7 @@ namespace Play.Identity.Domain.Aggregates.Rules;
 ///     the location has not been flagged by government or regulatory bodies for sanctions, terrorism, money laundering,
 ///     and other prohibited behavior
 /// </summary>
-internal class UserMustNotBeProhibited : BusinessRule<User, string>
+internal class UserMustNotBeProhibited : BusinessRule<User, SimpleStringId>
 {
     #region Instance Values
 

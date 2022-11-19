@@ -1,9 +1,10 @@
 ﻿using Play.Domain.Aggregates;
+using Play.Domain.Common.ValueObjects;
 using Play.Identity.Domain.Aggregates.Events;
 
 namespace Play.Identity.Domain.Aggregates.Rules;
 
-internal class UserMustBeActive : BusinessRule<User, string>
+internal class UserMustBeActive : BusinessRule<User, SimpleStringId>
 {
     #region Instance Values
 

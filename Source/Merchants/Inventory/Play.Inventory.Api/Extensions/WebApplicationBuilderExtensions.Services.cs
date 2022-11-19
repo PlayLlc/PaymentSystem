@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-using Play.Identity.Api.Client;
 using Play.Inventory.Domain.Repositories;
 using Play.Inventory.Persistence.Sql.Persistence;
 using Play.Inventory.Persistence.Sql.Repositories;
@@ -29,7 +28,7 @@ public static partial class WebApplicationBuilderExtensions
         // Api Clients 
         //builder.Services.AddScoped<IMerchantApi, MerchantApi>(a => new MerchantApi(new Configuration(identityApiConfiguration.BasePath)));
         //builder.Services.AddScoped<IUserApi, UserApi>(a => new UserApi(new Configuration(identityApiConfiguration.BasePath)));
-        builder.Services.AddScoped<IRegistrationApi, RegistrationApi>(a => new RegistrationApi(new Configuration(identityApiConfiguration.BasePath)));
+        //builder.Services.AddScoped<IRegistrationApi, RegistrationApi>(a => new RegistrationApi(new Configuration(identityApiConfiguration.BasePath)));
 
         // Repositories
         builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();

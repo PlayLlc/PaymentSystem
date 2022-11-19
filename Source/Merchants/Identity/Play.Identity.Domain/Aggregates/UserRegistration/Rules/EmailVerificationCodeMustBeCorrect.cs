@@ -1,4 +1,5 @@
 ﻿using Play.Domain.Aggregates;
+using Play.Domain.Common.ValueObjects;
 using Play.Identity.Domain.Entities;
 
 namespace Play.Identity.Domain.Aggregates;
@@ -6,7 +7,7 @@ namespace Play.Identity.Domain.Aggregates;
 /// <summary>
 ///     The user's email must be verified during registration
 /// </summary>
-internal class EmailVerificationCodeMustBeCorrect : BusinessRule<UserRegistration, string>
+internal class EmailVerificationCodeMustBeCorrect : BusinessRule<UserRegistration, SimpleStringId>
 {
     #region Instance Values
 

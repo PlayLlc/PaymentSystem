@@ -1,9 +1,10 @@
 ﻿using Play.Domain.Aggregates;
+using Play.Domain.Common.ValueObjects;
 using Play.Identity.Domain.Services;
 
 namespace Play.Identity.Domain.Aggregates;
 
-internal class UserRegistrationUsernameMustBeUnique : BusinessRule<UserRegistration, string>
+internal class UserRegistrationUsernameMustBeUnique : BusinessRule<UserRegistration, SimpleStringId>
 {
     #region Instance Values
 
