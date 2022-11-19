@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -129,7 +130,7 @@ public class TerminalCountryCodeTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        TerminalCountryCodeTestTlv testData = new(new byte[] { 5, 81 });
+        TerminalCountryCodeTestTlv testData = new(new byte[] {5, 81});
         TerminalCountryCode sut = TerminalCountryCode.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -145,7 +146,7 @@ public class TerminalCountryCodeTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        TerminalCountryCodeTestTlv testData = new(new byte[] { 5, 81 });
+        TerminalCountryCodeTestTlv testData = new(new byte[] {5, 81});
         TerminalCountryCode sut = TerminalCountryCode.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
         ushort testResult = sut.GetTagLengthValueByteCount();
@@ -156,7 +157,7 @@ public class TerminalCountryCodeTests
     [Fact]
     public void InvalidBerEncoding_Encoding_Throws()
     {
-        TerminalCountryCodeTestTlv testData = new(new byte[] { 0x8f, 0x8f, 0x8f, 0x8f });
+        TerminalCountryCodeTestTlv testData = new(new byte[] {0x8f, 0x8f, 0x8f, 0x8f});
 
         Assert.Throws<DataElementParsingException>(() => TerminalCountryCode.Decode(testData.EncodeValue().AsSpan()));
     }

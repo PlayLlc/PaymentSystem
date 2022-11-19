@@ -1,4 +1,6 @@
-﻿namespace Play.Codecs;
+﻿using System.Text;
+
+namespace Play.Codecs;
 
 /// <summary>
 ///     A simple codec base class that can be inherited to customize an encoding class specific to the encoding rules of
@@ -15,6 +17,7 @@ public abstract class PlayCodec : IGetPlayCodecMetadata, IEncodeStructs, IEncode
     /// </summary>
     public static StrictAsciiCodec AsciiCodec => new();
 
+    public static SpecialCodec SpecialCodec => new();
     public static UnicodeCodec UnicodeCodec => new();
     public static BinaryCodec BinaryCodec => new();
     public static HexadecimalCodec HexadecimalCodec => new();

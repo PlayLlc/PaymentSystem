@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -97,7 +98,7 @@ public class ApplicationIdentifierTests
     [Fact]
     public void InvalidValueInput_DeserializingDataElement_Throws()
     {
-        ApplicationIdentifierTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03 });
+        ApplicationIdentifierTestTlv testData = new(new byte[] {0x08, 0x01, 0x03});
 
         Assert.Throws<DataElementParsingException>(() => ApplicationIdentifier.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -142,7 +143,7 @@ public class ApplicationIdentifierTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        ApplicationIdentifierTestTlv testData = new(new byte[] { 0x08, 0x32, 0x1C, 0x01, 0xC, 0x1E });
+        ApplicationIdentifierTestTlv testData = new(new byte[] {0x08, 0x32, 0x1C, 0x01, 0xC, 0x1E});
         ApplicationIdentifier sut = ApplicationIdentifier.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -176,7 +177,7 @@ public class ApplicationIdentifierTests
         ApplicationIdentifierTestTlv testData = new();
         ApplicationIdentifier sut = ApplicationIdentifier.Decode(testData.EncodeValue().AsSpan());
 
-        ApplicationIdentifierTestTlv testData2 = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01, 0x12 });
+        ApplicationIdentifierTestTlv testData2 = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01, 0x12});
         ApplicationIdentifier sut2 = ApplicationIdentifier.Decode(testData2.EncodeValue().AsSpan());
 
         Assert.True(sut.IsPartialMatch(sut2));
@@ -188,7 +189,7 @@ public class ApplicationIdentifierTests
         ApplicationIdentifierTestTlv testData = new();
         ApplicationIdentifier sut = ApplicationIdentifier.Decode(testData.EncodeValue().AsSpan());
 
-        ApplicationIdentifierTestTlv testData2 = new(new byte[] { 0x08, 0x01, 0x03, 0x01, 0x01, 0x12 });
+        ApplicationIdentifierTestTlv testData2 = new(new byte[] {0x08, 0x01, 0x03, 0x01, 0x01, 0x12});
         ApplicationIdentifier sut2 = ApplicationIdentifier.Decode(testData2.EncodeValue().AsSpan());
 
         Assert.False(sut.IsPartialMatch(sut2));

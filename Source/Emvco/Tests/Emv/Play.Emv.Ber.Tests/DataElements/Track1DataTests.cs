@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.ValueTypes;
@@ -98,7 +99,7 @@ public class Track1DataTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        Track1DataTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        Track1DataTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => Track1Data.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -143,10 +144,7 @@ public class Track1DataTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        Track1DataTestTlv testData = new(new byte[]
-        {
-            114, 120, 43, 54, 55
-        });
+        Track1DataTestTlv testData = new(new byte[] {114, 120, 43, 54, 55});
         Track1Data sut = Track1Data.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -162,10 +160,7 @@ public class Track1DataTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        Track1DataTestTlv testData = new(new byte[]
-        {
-            33, 34, 44, 45, 64, 67
-        });
+        Track1DataTestTlv testData = new(new byte[] {33, 34, 44, 45, 64, 67});
 
         Track1Data sut = Track1Data.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -187,8 +182,8 @@ public class Track1DataTests
 
         ReadOnlySpan<byte> expectedDiscretionaryDecodedData = stackalloc byte[]
         {
-            61, 84, 98, 62, (byte)'^', 44, 92, 42, 80, 64,
-            62, 83, 99, 61, (byte)'^', 44, 92, 43, 80, 65,
+            61, 84, 98, 62, (byte) '^', 44, 92, 42, 80, 64,
+            62, 83, 99, 61, (byte) '^', 44, 92, 43, 80, 65
         };
 
         Track1DiscretionaryData actual = sut.GetTrack1DiscretionaryData();
@@ -203,10 +198,7 @@ public class Track1DataTests
 
         Track1Data sut = Track1Data.Decode(testData.EncodeValue().AsSpan());
 
-        ReadOnlySpan<byte> expectedPrimaryAccountNumberDecodedData = stackalloc byte[]
-        {
-            84, 98, 62, 33, 44, 92, 42, 80, 64
-        };
+        ReadOnlySpan<byte> expectedPrimaryAccountNumberDecodedData = stackalloc byte[] {84, 98, 62, 33, 44, 92, 42, 80, 64};
 
         TrackPrimaryAccountNumber actual = sut.GetPrimaryAccountNumber();
 

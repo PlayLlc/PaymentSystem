@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -97,7 +98,7 @@ public class TransactionCurrencyExponentTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        TransactionCurrencyExponentTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        TransactionCurrencyExponentTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => TransactionCurrencyExponent.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -142,7 +143,7 @@ public class TransactionCurrencyExponentTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        TransactionCurrencyExponentTestTlv testData = new(new byte[] { 8 });
+        TransactionCurrencyExponentTestTlv testData = new(new byte[] {8});
         TransactionCurrencyExponent sut = TransactionCurrencyExponent.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -158,7 +159,7 @@ public class TransactionCurrencyExponentTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        TransactionCurrencyExponentTestTlv testData = new(new byte[] { 3 });
+        TransactionCurrencyExponentTestTlv testData = new(new byte[] {3});
 
         TransactionCurrencyExponent sut = TransactionCurrencyExponent.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -168,5 +169,4 @@ public class TransactionCurrencyExponentTests
     }
 
     #endregion
-
 }

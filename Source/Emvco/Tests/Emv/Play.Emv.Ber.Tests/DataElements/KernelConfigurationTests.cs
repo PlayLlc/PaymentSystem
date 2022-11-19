@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -97,7 +98,7 @@ public class KernelConfigurationTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        KernelConfigurationTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        KernelConfigurationTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => KernelConfiguration.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -142,7 +143,7 @@ public class KernelConfigurationTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        KernelConfigurationTestTlv testData = new(new byte[] { 0x32 });
+        KernelConfigurationTestTlv testData = new(new byte[] {0x32});
         KernelConfiguration sut = KernelConfiguration.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -158,10 +159,7 @@ public class KernelConfigurationTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        KernelConfigurationTestTlv testData = new(new byte[]
-        {
-            0x08
-        });
+        KernelConfigurationTestTlv testData = new(new byte[] {0x08});
 
         KernelConfiguration sut = KernelConfiguration.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -176,7 +174,7 @@ public class KernelConfigurationTests
 
     [Fact]
     public void KernelConfiguration_IsEmvModeSupported_ReturnsTrue()
-    { 
+    {
         KernelConfigurationTestTlv testData = new(new byte[] {0b1000_1000});
         KernelConfiguration sut = KernelConfiguration.Decode(testData.EncodeValue().AsSpan());
 
@@ -186,7 +184,7 @@ public class KernelConfigurationTests
     [Fact]
     public void KernelConfiguration_IsEmvModeSupported_ReturnsFalse()
     {
-        KernelConfigurationTestTlv testData = new(new byte[] { 0b1100_1000 });
+        KernelConfigurationTestTlv testData = new(new byte[] {0b1100_1000});
         KernelConfiguration sut = KernelConfiguration.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.IsEmvModeSupported());
@@ -195,7 +193,7 @@ public class KernelConfigurationTests
     [Fact]
     public void KernelConfiguration_IsMagstripeModeSupported_ReturnsTrue()
     {
-        KernelConfigurationTestTlv testData = new(new byte[] { 0b0100_1000 });
+        KernelConfigurationTestTlv testData = new(new byte[] {0b0100_1000});
         KernelConfiguration sut = KernelConfiguration.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.IsMagstripeModeSupported());
@@ -204,7 +202,7 @@ public class KernelConfigurationTests
     [Fact]
     public void KernelConfiguration_IsMagstripeModeSupported_ReturnsFalse()
     {
-        KernelConfigurationTestTlv testData = new(new byte[] { 0b1100_1000 });
+        KernelConfigurationTestTlv testData = new(new byte[] {0b1100_1000});
         KernelConfiguration sut = KernelConfiguration.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.IsMagstripeModeSupported());
@@ -213,7 +211,7 @@ public class KernelConfigurationTests
     [Fact]
     public void KernelConfiguration_IsOnDeviceCardholderVerificationSupported_ReturnsTrue()
     {
-        KernelConfigurationTestTlv testData = new(new byte[] { 0b0110_1000 });
+        KernelConfigurationTestTlv testData = new(new byte[] {0b0110_1000});
         KernelConfiguration sut = KernelConfiguration.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.IsOnDeviceCardholderVerificationSupported());
@@ -222,7 +220,7 @@ public class KernelConfigurationTests
     [Fact]
     public void KernelConfiguration_IsOnDeviceCardholderVerificationSupported_ReturnsFalse()
     {
-        KernelConfigurationTestTlv testData = new(new byte[] { 0b1100_1000 });
+        KernelConfigurationTestTlv testData = new(new byte[] {0b1100_1000});
         KernelConfiguration sut = KernelConfiguration.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.IsOnDeviceCardholderVerificationSupported());
@@ -231,7 +229,7 @@ public class KernelConfigurationTests
     [Fact]
     public void KernelConfiguration_IsReadAllRecordsActivated_ReturnsTrue()
     {
-        KernelConfigurationTestTlv testData = new(new byte[] { 0b0110_1100 });
+        KernelConfigurationTestTlv testData = new(new byte[] {0b0110_1100});
         KernelConfiguration sut = KernelConfiguration.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.IsReadAllRecordsActivated());
@@ -240,7 +238,7 @@ public class KernelConfigurationTests
     [Fact]
     public void KernelConfiguration_IsReadAllRecordsActivated_ReturnsFalse()
     {
-        KernelConfigurationTestTlv testData = new(new byte[] { 0b1100_1000 });
+        KernelConfigurationTestTlv testData = new(new byte[] {0b1100_1000});
         KernelConfiguration sut = KernelConfiguration.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.IsReadAllRecordsActivated());
@@ -249,7 +247,7 @@ public class KernelConfigurationTests
     [Fact]
     public void KernelConfiguration_IsRelayResistanceProtocolSupported_ReturnsTrue()
     {
-        KernelConfigurationTestTlv testData = new(new byte[] { 0b0111_1100 });
+        KernelConfigurationTestTlv testData = new(new byte[] {0b0111_1100});
         KernelConfiguration sut = KernelConfiguration.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.IsRelayResistanceProtocolSupported());
@@ -258,7 +256,7 @@ public class KernelConfigurationTests
     [Fact]
     public void KernelConfiguration_IsRelayResistanceProtocolSupported_ReturnsFalse()
     {
-        KernelConfigurationTestTlv testData = new(new byte[] { 0b1100_1000 });
+        KernelConfigurationTestTlv testData = new(new byte[] {0b1100_1000});
         KernelConfiguration sut = KernelConfiguration.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.IsRelayResistanceProtocolSupported());
@@ -267,7 +265,7 @@ public class KernelConfigurationTests
     [Fact]
     public void KernelConfiguration_IsReservedForPaymentSystem_ReturnsTrue()
     {
-        KernelConfigurationTestTlv testData = new(new byte[] { 0b0111_1100 });
+        KernelConfigurationTestTlv testData = new(new byte[] {0b0111_1100});
         KernelConfiguration sut = KernelConfiguration.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.IsReservedForPaymentSystem());
@@ -276,10 +274,11 @@ public class KernelConfigurationTests
     [Fact]
     public void KernelConfiguration_IsReservedForPaymentSystem_ReturnsFalse()
     {
-        KernelConfigurationTestTlv testData = new(new byte[] { 0b1100_0110 });
+        KernelConfigurationTestTlv testData = new(new byte[] {0b1100_0110});
         KernelConfiguration sut = KernelConfiguration.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.IsReservedForPaymentSystem());
     }
+
     #endregion
 }

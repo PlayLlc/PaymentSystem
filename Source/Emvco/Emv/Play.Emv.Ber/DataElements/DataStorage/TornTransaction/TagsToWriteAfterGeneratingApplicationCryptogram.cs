@@ -1,5 +1,8 @@
-﻿using Play.Ber.DataObjects;
+﻿using Microsoft.Toolkit.HighPerformance.Buffers;
+
+using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
+using Play.Ber.InternalFactories;
 using Play.Ber.Tags;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
@@ -63,6 +66,8 @@ public record TagsToWriteAfterGeneratingApplicationCryptogram : DataExchangeResp
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
+
+    public override ushort GetValueByteCount() => (ushort) _Value.ToArray().Sum(x => x.GetValueByteCount(_Codec));
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>

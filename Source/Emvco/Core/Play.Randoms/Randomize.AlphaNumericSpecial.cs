@@ -2,7 +2,7 @@
 
 namespace Play.Randoms;
 
-public partial class Randomize
+public static partial class Randomize
 {
     public class AlphaNumericSpecial
     {
@@ -51,7 +51,7 @@ public partial class Randomize
             return new string(result);
         }
 
-        private static char GetRandomChar() => _CharMap[(byte) _Random.Next(32, 126)];
+        private static char GetRandomChar() => _CharMap[(byte) Random.Next(32, 126)];
         public static byte GetRandomByte() => _ByteMap[GetRandomChar()];
 
         #endregion

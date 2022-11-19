@@ -9,7 +9,7 @@ using Play.Core.Specifications;
 
 namespace Play.Randoms;
 
-public partial class Randomize
+public static partial class Randomize
 {
     /// <summary>
     ///     CompressedNumeric data elements consist of two numeric digits (having values in the range Hex '0' – '9') per byte.
@@ -75,7 +75,7 @@ public partial class Randomize
             using SpanOwner<Nibble> spanOwner = SpanOwner<Nibble>.Allocate(nibbleCount);
             Span<Nibble> buffer = spanOwner.Span;
 
-            int padCount = _Random.Next(1, nibbleCount);
+            int padCount = Random.Next(1, nibbleCount);
 
             for (int i = 0; i < (nibbleCount - padCount); i++)
                 buffer[i] = GetRandomNibble();
@@ -84,7 +84,7 @@ public partial class Randomize
                 buffer[i] = _PaddedNibble;
 
             if (buffer[0] == 0)
-                buffer[0] = (byte) _Random.Next(1, 9);
+                buffer[0] = (byte) Random.Next(1, 9);
 
             return buffer.AsByteArray().ToArray();
         }
@@ -104,7 +104,7 @@ public partial class Randomize
             using SpanOwner<char> spanOwner = SpanOwner<char>.Allocate(length);
             Span<char> buffer = spanOwner.Span;
 
-            int padCount = _Random.Next(1, length);
+            int padCount = Random.Next(1, length);
 
             for (int i = 0; i < padCount; i++)
                 buffer[i] = GetRandomChar();
@@ -144,7 +144,7 @@ public partial class Randomize
             return buffer.ToString();
         }
 
-        private static char GetRandomChar() => _CharMap[(byte) _Random.Next(0, _CharMap.Count)];
+        private static char GetRandomChar() => _CharMap[(byte) Random.Next(0, _CharMap.Count)];
         private static byte GetRandomNibble() => _ByteMap[GetRandomChar()];
 
         #endregion

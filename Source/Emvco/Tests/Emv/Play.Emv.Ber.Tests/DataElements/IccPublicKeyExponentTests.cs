@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Encryption.Certificates;
@@ -130,7 +131,7 @@ public class IccPublicKeyExponentTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        IccPublicKeyExponentTestTlv testData = new(new byte[] { 0xe3, 0x8f });
+        IccPublicKeyExponentTestTlv testData = new(new byte[] {0xe3, 0x8f});
         IccPublicKeyExponent sut = IccPublicKeyExponent.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -146,10 +147,7 @@ public class IccPublicKeyExponentTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        IccPublicKeyExponentTestTlv testData = new(new byte[]
-        {
-            0x4d, 0x2c
-        });
+        IccPublicKeyExponentTestTlv testData = new(new byte[] {0x4d, 0x2c});
 
         IccPublicKeyExponent sut = IccPublicKeyExponent.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -161,7 +159,7 @@ public class IccPublicKeyExponentTests
     [Fact]
     public void InvalidBerEncoding_Decoding_ThrowsException()
     {
-        IccPublicKeyExponentTestTlv testData = new(new byte[] { 13, 55, 77, 84, 134 });
+        IccPublicKeyExponentTestTlv testData = new(new byte[] {13, 55, 77, 84, 134});
 
         Assert.Throws<DataElementParsingException>(() => IccPublicKeyExponent.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -173,7 +171,7 @@ public class IccPublicKeyExponentTests
     [Fact]
     public void IccPublicKeyExponent_AsPublicKeyExponent_ReturnsExpectedResult()
     {
-        IccPublicKeyExponentTestTlv testData = new(new byte[] { 3 });
+        IccPublicKeyExponentTestTlv testData = new(new byte[] {3});
 
         IccPublicKeyExponent sut = IccPublicKeyExponent.Decode(testData.EncodeValue().AsSpan());
 
@@ -185,7 +183,7 @@ public class IccPublicKeyExponentTests
     [Fact]
     public void IccPublicKeyExponent_AsPublicKeyExponent_Throws()
     {
-        IccPublicKeyExponentTestTlv testData = new(new byte[] { 3, 33 });
+        IccPublicKeyExponentTestTlv testData = new(new byte[] {3, 33});
 
         IccPublicKeyExponent sut = IccPublicKeyExponent.Decode(testData.EncodeValue().AsSpan());
 

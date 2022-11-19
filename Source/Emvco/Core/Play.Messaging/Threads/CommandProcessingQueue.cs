@@ -16,7 +16,7 @@ public abstract class CommandProcessingQueue<T>
     private readonly ILogger _Logger;
 
     protected readonly CancellationTokenSource _CancellationTokenSource;
-    private readonly ConcurrentQueue<T> _Queue;
+    protected readonly ConcurrentQueue<T> _Queue;
     private readonly SignalSwitch _SignalSwitch;
 
     private static readonly object _SyncLock = new object();

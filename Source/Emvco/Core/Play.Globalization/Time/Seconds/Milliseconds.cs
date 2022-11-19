@@ -60,7 +60,7 @@ public readonly record struct Milliseconds
 
     public Milliseconds(Microseconds value)
     {
-        _Value = (long)value / Precision;
+        _Value = (long) value / Precision;
     }
 
     public Milliseconds(TimeSpan value)
@@ -70,7 +70,7 @@ public readonly record struct Milliseconds
 
     public Milliseconds(Ticks value)
     {
-        _Value = (long)value / (Ticks.Precision / Precision);
+        _Value = (long) value / (Ticks.Precision / Precision);
     }
 
     #endregion
@@ -79,11 +79,8 @@ public readonly record struct Milliseconds
 
     public TimeSpan AsTimeSpan() => new(_Value * (Ticks.Precision / Precision));
     public Seconds AsSeconds() => new(this);
-
     public Ticks AsTicks() => new(this);
-
     public Deciseconds AsDeciSeconds() => new(this);
-
     public Microseconds AsMicroseconds() => new(this);
 
     #endregion

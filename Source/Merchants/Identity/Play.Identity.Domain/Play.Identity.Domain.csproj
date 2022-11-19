@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\Play.Domain.Common\Play.Domain.Common.csproj" />
+    <ProjectReference Include="..\Play.Identity.Contracts\Play.Identity.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Aggregates\Stores\Events\" />
+    <Folder Include="Aggregates\Stores\Rules\" />
+  </ItemGroup>
+
+</Project>

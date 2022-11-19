@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Globalization.Country;
@@ -98,7 +99,7 @@ public class ThirdPartyDataTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElementInvalidByteLength_Throws()
     {
-        ThirdPartyDataTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03 });
+        ThirdPartyDataTestTlv testData = new(new byte[] {0x08, 0x01, 0x03});
 
         Assert.Throws<DataElementParsingException>(() => ThirdPartyData.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -143,10 +144,7 @@ public class ThirdPartyDataTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        ThirdPartyDataTestTlv testData = new(new byte[]
-        {
-            0x08, 0x64, 0x4c, 0x3e, 0x0f, 0x12, 0x15
-        });
+        ThirdPartyDataTestTlv testData = new(new byte[] {0x08, 0x64, 0x4c, 0x3e, 0x0f, 0x12, 0x15});
         ThirdPartyData sut = ThirdPartyData.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -162,10 +160,7 @@ public class ThirdPartyDataTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        ThirdPartyDataTestTlv testData = new(new byte[]
-        {
-            0x08, 0x64, 0x4c, 0x3e, 0x0f, 0x12, 0x15
-        });
+        ThirdPartyDataTestTlv testData = new(new byte[] {0x08, 0x64, 0x4c, 0x3e, 0x0f, 0x12, 0x15});
 
         ThirdPartyData sut = ThirdPartyData.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -178,16 +173,13 @@ public class ThirdPartyDataTests
     public void ThirdPartyData_InvokesGetCountryCode_ReturnsExpectedResult()
     {
         //US Country Code.
-        ThirdPartyDataTestTlv testData = new(new byte[]
-        {
-            85, 83, 0x4c, 0x3e, 0x0f, 0x12, 0x15
-        });
+        ThirdPartyDataTestTlv testData = new(new byte[] {85, 83, 0x4c, 0x3e, 0x0f, 0x12, 0x15});
 
         ThirdPartyData sut = ThirdPartyData.Decode(testData.EncodeValue().AsSpan());
 
-        ReadOnlySpan<char> input = stackalloc char[] { 'U', 'S' };
+        ReadOnlySpan<char> input = stackalloc char[] {'U', 'S'};
 
-        Alpha2CountryCode expected = new Alpha2CountryCode(input);
+        Alpha2CountryCode expected = new(input);
         Alpha2CountryCode countryCode = sut.GetCountryCode();
 
         Assert.Equal(expected, countryCode);
@@ -197,10 +189,7 @@ public class ThirdPartyDataTests
     public void ThirdPartyData_InvokesGetUniqueIdentifier_ReturnsExpectedResult()
     {
         //US Country Code.
-        ThirdPartyDataTestTlv testData = new(new byte[]
-        {
-            85, 83, 0x4c, 0x3e, 0x0f, 0x12, 0x15
-        });
+        ThirdPartyDataTestTlv testData = new(new byte[] {85, 83, 0x4c, 0x3e, 0x0f, 0x12, 0x15});
 
         ThirdPartyData sut = ThirdPartyData.Decode(testData.EncodeValue().AsSpan());
 
@@ -214,10 +203,7 @@ public class ThirdPartyDataTests
     public void ThirdPartyData_InvokesTryGetDeviceTypeDeviceIsPresent_ReturnsExpectedResult()
     {
         //US Country Code.
-        ThirdPartyDataTestTlv testData = new(new byte[]
-        {
-            85, 83, 0b1000_1000, 0b1010_1010, 12, 13,
-        });
+        ThirdPartyDataTestTlv testData = new(new byte[] {85, 83, 0b1000_1000, 0b1010_1010, 12, 13});
 
         ThirdPartyData sut = ThirdPartyData.Decode(testData.EncodeValue().AsSpan());
 
@@ -230,4 +216,3 @@ public class ThirdPartyDataTests
 
     #endregion
 }
-

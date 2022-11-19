@@ -1,5 +1,8 @@
-﻿using Play.Ber.DataObjects;
+﻿using Microsoft.Toolkit.HighPerformance.Buffers;
+
+using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
+using Play.Ber.InternalFactories;
 using Play.Ber.Tags;
 
 namespace Play.Emv.Ber.DataElements;
@@ -37,14 +40,14 @@ public abstract record DataExchangeResponse : DataExchangeList<PrimitiveValue>
     /// <exception cref="OverflowException"></exception>
     public override byte[] EncodeTagLengthValue()
     {
-        int byteCount = (int) _Value.Sum(a => a.GetTagLengthValueByteCount(_Codec));
+        int byteCount = (int)_Value.Sum(a => a.GetTagLengthValueByteCount(_Codec));
 
         Span<byte> result = stackalloc byte[byteCount];
 
         for (int i = 0, j = 0; i < _Value.Count; i++)
         {
             _Value.ElementAt(i).EncodeTagLengthValue(_Codec).AsSpan().CopyTo(result[j..]);
-            j += (int) _Value.ElementAt(i).GetTagLengthValueByteCount(_Codec);
+            j += (int)_Value.ElementAt(i).GetTagLengthValueByteCount(_Codec);
         }
 
         return result.ToArray();

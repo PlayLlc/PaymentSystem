@@ -1,6 +1,6 @@
 ﻿namespace Play.Randoms;
 
-public partial class Randomize
+public static partial class Randomize
 {
     public class AlphaNumeric
     {
@@ -44,8 +44,8 @@ public partial class Randomize
             return new string(result);
         }
 
-        private static char GetRandomChar() => _AlphaNumeric[_Random.Next(0, _AlphaNumeric.Length - 1)];
-        public static byte GetRandomByte() => (byte) _AlphaNumeric[_Random.Next(0, _AlphaNumeric.Length - 1)];
+        private static char GetRandomChar() => _AlphaNumeric[Random.Next(0, _AlphaNumeric.Length - 1)];
+        public static byte GetRandomByte() => (byte) _AlphaNumeric[Random.Next(0, _AlphaNumeric.Length - 1)];
 
         #endregion
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
@@ -130,7 +131,7 @@ public class ReferenceControlParameterTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        ReferenceControlParameterTestTlv testData = new(new byte[] { 0x8f });
+        ReferenceControlParameterTestTlv testData = new(new byte[] {0x8f});
         ReferenceControlParameter sut = ReferenceControlParameter.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -146,10 +147,7 @@ public class ReferenceControlParameterTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        ReferenceControlParameterTestTlv testData = new(new byte[]
-        {
-            0x4d
-        });
+        ReferenceControlParameterTestTlv testData = new(new byte[] {0x4d});
 
         ReferenceControlParameter sut = ReferenceControlParameter.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -161,10 +159,7 @@ public class ReferenceControlParameterTests
     [Fact]
     public void InvalidBerEncoding_EncodingDataElement_ThrowsException()
     {
-        ReferenceControlParameterTestTlv testData = new(new byte[]
-        {
-            0x4d, 0x7A
-        });
+        ReferenceControlParameterTestTlv testData = new(new byte[] {0x4d, 0x7A});
 
         Assert.Throws<DataElementParsingException>(() => ReferenceControlParameter.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -176,10 +171,7 @@ public class ReferenceControlParameterTests
     [Fact]
     public void ReferenceControlParameter_IsCdaSignatureRequested_ReturnsTrue()
     {
-        ReferenceControlParameterTestTlv testData = new(new byte[]
-        {
-            0b1001_1001
-        });
+        ReferenceControlParameterTestTlv testData = new(new byte[] {0b1001_1001});
 
         ReferenceControlParameter sut = ReferenceControlParameter.Decode(testData.EncodeValue().AsSpan());
 
@@ -189,10 +181,7 @@ public class ReferenceControlParameterTests
     [Fact]
     public void ReferenceControlParameter_IsCdaSignatureRequested_ReturnsFalse()
     {
-        ReferenceControlParameterTestTlv testData = new(new byte[]
-        {
-            0b1010_1001
-        });
+        ReferenceControlParameterTestTlv testData = new(new byte[] {0b1010_1001});
 
         ReferenceControlParameter sut = ReferenceControlParameter.Decode(testData.EncodeValue().AsSpan());
 
@@ -202,10 +191,7 @@ public class ReferenceControlParameterTests
     [Fact]
     public void ReferenceControlParameter_GetCryptogramType_ReturnsExpectedResult()
     {
-        ReferenceControlParameterTestTlv testData = new(new byte[]
-        {
-            0x80
-        });
+        ReferenceControlParameterTestTlv testData = new(new byte[] {0x80});
 
         ReferenceControlParameter sut = ReferenceControlParameter.Decode(testData.EncodeValue().AsSpan());
 

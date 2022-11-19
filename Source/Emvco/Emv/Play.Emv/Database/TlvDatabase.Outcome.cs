@@ -75,7 +75,7 @@ public abstract partial class TlvDatabase
     /// <exception cref="TerminalDataException"></exception>
     public bool IsSet(TerminalVerificationResultCodes value)
     {
-        if (IsPresentAndNotEmpty(TerminalVerificationResults.Tag))
+        if (!IsPresentAndNotEmpty(TerminalVerificationResults.Tag))
             return false;
 
         return ((TerminalVerificationResults) Get(TerminalVerificationResults.Tag)).IsSet(value);

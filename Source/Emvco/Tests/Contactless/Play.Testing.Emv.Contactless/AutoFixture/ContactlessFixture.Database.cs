@@ -8,6 +8,7 @@ using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Templates;
+using Play.Emv.Database;
 using Play.Emv.Icc;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;

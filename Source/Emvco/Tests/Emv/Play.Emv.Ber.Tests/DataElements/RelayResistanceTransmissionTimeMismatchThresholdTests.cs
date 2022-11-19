@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -97,7 +98,7 @@ public class RelayResistanceTransmissionTimeMismatchThresholdTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        RelayResistanceTransmissionTimeMismatchThresholdTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        RelayResistanceTransmissionTimeMismatchThresholdTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => RelayResistanceTransmissionTimeMismatchThreshold.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -142,7 +143,7 @@ public class RelayResistanceTransmissionTimeMismatchThresholdTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        RelayResistanceTransmissionTimeMismatchThresholdTestTlv testData = new(new byte[] { 0x08 });
+        RelayResistanceTransmissionTimeMismatchThresholdTestTlv testData = new(new byte[] {0x08});
         RelayResistanceTransmissionTimeMismatchThreshold sut = RelayResistanceTransmissionTimeMismatchThreshold.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -158,7 +159,7 @@ public class RelayResistanceTransmissionTimeMismatchThresholdTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        RelayResistanceTransmissionTimeMismatchThresholdTestTlv testData = new(new byte[] { 0xEF });
+        RelayResistanceTransmissionTimeMismatchThresholdTestTlv testData = new(new byte[] {0xEF});
 
         RelayResistanceTransmissionTimeMismatchThreshold sut = RelayResistanceTransmissionTimeMismatchThreshold.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();

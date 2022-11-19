@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Play.Globalization\Play.Globalization.csproj" />
+    <ProjectReference Include="..\Play.Icc\Play.Icc.csproj" />
     <ProjectReference Include="..\Play.Randoms\Play.Randoms.csproj" />
   </ItemGroup>
 

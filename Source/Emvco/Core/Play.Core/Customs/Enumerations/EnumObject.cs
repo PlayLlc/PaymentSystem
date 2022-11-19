@@ -9,12 +9,12 @@ namespace Play.Core;
 ///     The concrete implementation of this base class must not expose a constructor. There should only be publicly static
 ///     instances. No instantiation from outside the derived class should be allowed
 /// </remarks>
-public abstract record EnumObject<T> : IEquatable<T>, IEqualityComparer<T>, IComparable<T>, IEqualityComparer<EnumObject<T>>, IComparable<EnumObject<T>>
-    where T : unmanaged
+public abstract record EnumObject<_> : IEquatable<_>, IEqualityComparer<_>, IComparable<_>, IEqualityComparer<EnumObject<_>>, IComparable<EnumObject<_>>
+    where _ : unmanaged
 {
     #region Instance Values
 
-    protected readonly T _Value;
+    protected readonly _ _Value;
 
     #endregion
 
@@ -25,7 +25,7 @@ public abstract record EnumObject<T> : IEquatable<T>, IEqualityComparer<T>, ICom
         _Value = default;
     }
 
-    protected EnumObject(T value)
+    protected EnumObject(_ value)
     {
         _Value = value;
     }
@@ -34,16 +34,16 @@ public abstract record EnumObject<T> : IEquatable<T>, IEqualityComparer<T>, ICom
 
     #region Instance Members
 
-    public abstract EnumObject<T>[] GetAll();
-    public abstract bool TryGet(T value, out EnumObject<T>? result);
+    public abstract EnumObject<_>[] GetAll();
+    public abstract bool TryGet(_ value, out EnumObject<_>? result);
 
     #endregion
 
     #region Equality
 
-    public bool Equals(T x, T y) => UnmanagedConverter.Equals(x, y);
+    public bool Equals(_ x, _ y) => UnmanagedConverter.Equals(x, y);
 
-    public bool Equals(EnumObject<T>? x, EnumObject<T>? y)
+    public bool Equals(EnumObject<_>? x, EnumObject<_>? y)
     {
         if (x is null)
             return y is null;
@@ -54,13 +54,13 @@ public abstract record EnumObject<T> : IEquatable<T>, IEqualityComparer<T>, ICom
         return UnmanagedConverter.Equals(x._Value, y._Value);
     }
 
-    public bool Equals(T other) => UnmanagedConverter.Equals(other, _Value);
-    public int GetHashCode(T obj) => UnmanagedConverter.GetHashCode(obj);
-    public int GetHashCode(EnumObject<T> obj) => UnmanagedConverter.GetHashCode(obj._Value);
+    public bool Equals(_ other) => UnmanagedConverter.Equals(other, _Value);
+    public int GetHashCode(_ obj) => UnmanagedConverter.GetHashCode(obj);
+    public int GetHashCode(EnumObject<_> obj) => UnmanagedConverter.GetHashCode(obj._Value);
     public int GetHashCode(int hash) => unchecked(hash * _Value.GetHashCode());
-    public int CompareTo(T other) => UnmanagedConverter.CompareTo(_Value, other);
+    public int CompareTo(_ other) => UnmanagedConverter.CompareTo(_Value, other);
 
-    public int CompareTo(EnumObject<T>? other)
+    public int CompareTo(EnumObject<_>? other)
     {
         if (other is null)
             return 1;
@@ -72,11 +72,11 @@ public abstract record EnumObject<T> : IEquatable<T>, IEqualityComparer<T>, ICom
 
     #region Operator Overrides
 
-    public static bool operator ==(EnumObject<T> left, T right) => left!._Value.Equals(right);
-    public static bool operator ==(T left, EnumObject<T> right) => right!._Value.Equals(left);
-    public static implicit operator T(EnumObject<T> enumObject) => enumObject._Value;
-    public static bool operator !=(EnumObject<T> left, T right) => !left!._Value.Equals(right);
-    public static bool operator !=(T left, EnumObject<T> right) => !right!._Value.Equals(left);
+    public static bool operator ==(EnumObject<_> left, _ right) => left!._Value.Equals(right);
+    public static bool operator ==(_ left, EnumObject<_> right) => right!._Value.Equals(left);
+    public static implicit operator _(EnumObject<_> enumObject) => enumObject._Value;
+    public static bool operator !=(EnumObject<_> left, _ right) => !left!._Value.Equals(right);
+    public static bool operator !=(_ left, EnumObject<_> right) => !right!._Value.Equals(left);
 
     #endregion
 }

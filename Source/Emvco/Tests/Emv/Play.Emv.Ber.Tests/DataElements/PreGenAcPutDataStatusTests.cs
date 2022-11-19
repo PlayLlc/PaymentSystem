@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -129,7 +130,7 @@ public class PreGenAcPutDataStatusTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        PreGenAcPutDataStatusTestTlv testData = new(new byte[] { 0x8f });
+        PreGenAcPutDataStatusTestTlv testData = new(new byte[] {0x8f});
         PreGenAcPutDataStatus sut = PreGenAcPutDataStatus.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -145,10 +146,7 @@ public class PreGenAcPutDataStatusTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        PreGenAcPutDataStatusTestTlv testData = new(new byte[]
-        {
-            0x4d
-        });
+        PreGenAcPutDataStatusTestTlv testData = new(new byte[] {0x4d});
 
         PreGenAcPutDataStatus sut = PreGenAcPutDataStatus.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -160,10 +158,7 @@ public class PreGenAcPutDataStatusTests
     [Fact]
     public void InvalidBerEncoding_EncodingDataElement_ThrowsException()
     {
-        PreGenAcPutDataStatusTestTlv testData = new(new byte[]
-        {
-            0x4d, 0x7A
-        });
+        PreGenAcPutDataStatusTestTlv testData = new(new byte[] {0x4d, 0x7A});
 
         Assert.Throws<DataElementParsingException>(() => PreGenAcPutDataStatus.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -175,10 +170,7 @@ public class PreGenAcPutDataStatusTests
     [Fact]
     public void PreGenAcPutDataStatus_IsCompleted_ReturnsTrue()
     {
-        PreGenAcPutDataStatusTestTlv testData = new(new byte[]
-        {
-            0b1000_0000
-        });
+        PreGenAcPutDataStatusTestTlv testData = new(new byte[] {0b1000_0000});
 
         PreGenAcPutDataStatus sut = PreGenAcPutDataStatus.Decode(testData.EncodeValue().AsSpan());
 
@@ -188,10 +180,7 @@ public class PreGenAcPutDataStatusTests
     [Fact]
     public void PreGenAcPutDataStatus_IsCompleted_ReturnsFalse()
     {
-        PreGenAcPutDataStatusTestTlv testData = new(new byte[]
-        {
-            0b0110_0000
-        });
+        PreGenAcPutDataStatusTestTlv testData = new(new byte[] {0b0110_0000});
 
         PreGenAcPutDataStatus sut = PreGenAcPutDataStatus.Decode(testData.EncodeValue().AsSpan());
 

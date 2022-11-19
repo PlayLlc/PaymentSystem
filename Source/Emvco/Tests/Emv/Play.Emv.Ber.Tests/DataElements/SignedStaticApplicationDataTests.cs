@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Testing.Emv.Ber.Primitive;
 
@@ -128,7 +129,7 @@ public class SignedStaticApplicationDataTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        SignedStaticApplicationDataTestTlv testData = new(new byte[] { 0x8f });
+        SignedStaticApplicationDataTestTlv testData = new(new byte[] {0x8f});
         SignedStaticApplicationData sut = SignedStaticApplicationData.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -144,10 +145,7 @@ public class SignedStaticApplicationDataTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        SignedStaticApplicationDataTestTlv testData = new(new byte[]
-        {
-            0x4d
-        });
+        SignedStaticApplicationDataTestTlv testData = new(new byte[] {0x4d});
 
         SignedStaticApplicationData sut = SignedStaticApplicationData.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();

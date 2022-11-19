@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -129,7 +130,7 @@ public class ExtendedSelectionTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        ExtendedSelectionTestTlv testData = new(new byte[] { 0x08, 0x32 });
+        ExtendedSelectionTestTlv testData = new(new byte[] {0x08, 0x32});
         ExtendedSelection sut = ExtendedSelection.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         int testResult = sut.GetValueByteCount();
@@ -145,10 +146,7 @@ public class ExtendedSelectionTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        ExtendedSelectionTestTlv testData = new(new byte[]
-        {
-            0x08, 0x32
-        });
+        ExtendedSelectionTestTlv testData = new(new byte[] {0x08, 0x32});
 
         ExtendedSelection sut = ExtendedSelection.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -159,4 +157,3 @@ public class ExtendedSelectionTests
 
     #endregion
 }
-
