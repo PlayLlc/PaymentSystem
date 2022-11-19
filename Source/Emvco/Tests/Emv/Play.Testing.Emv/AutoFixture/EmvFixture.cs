@@ -86,7 +86,7 @@ public class EmvFixture : TestingFixture
         factory.Build(InterfaceDeviceSerialNumberBuilder.Id);
         factory.Build(TerminalIdentificationBuilder.Id);
         factory.Build(TerminalTransactionQualifiersBuilder.Id);
-        factory.Build(FileControlInformationDdfBuilder.Id);
+        factory.Build(ResponseMessageTemplateFormat2Builder.Id);
     }
 
     #region Customize Fixture
@@ -247,6 +247,9 @@ public class EmvFixture : TestingFixture
 
     public static readonly FileControlInformationIssuerDiscretionaryDataPpseBuilder FileControlInformationIssuerDiscretionaryDataPpseBuilder =
         EmvSpecimenBuilderFactory.FileControlInformationIssuerDiscretionaryDataPpseBuilder;
+
+    public static readonly ResponseMessageTemplateFormat2Builder ResponseMessageTemplateFormat2Builder =
+        EmvSpecimenBuilderFactory.ResponseMessageTemplateFormat2Builder;
 
     #endregion
 }
