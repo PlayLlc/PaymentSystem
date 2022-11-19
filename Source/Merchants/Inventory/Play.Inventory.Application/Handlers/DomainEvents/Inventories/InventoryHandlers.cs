@@ -3,6 +3,7 @@
 using NServiceBus;
 
 using Play.Domain.Events;
+using Play.Globalization.Time;
 using Play.Inventory.Contracts.Events;
 using Play.Inventory.Domain.Aggregates;
 using Play.Inventory.Domain.Repositories;
@@ -90,6 +91,18 @@ namespace Play.Inventory.Application.Handlers.Inventories
         {
             Log(domainEvent);
             await _InventoryRepository.SaveAsync(domainEvent.Inventory).ConfigureAwait(false);
+
+            await _MessageHandlerContext.Publish<StockItemUpdatedEvent>((a) =>
+                {
+                    a.InventoryId = domainEvent.Inventory.Id;
+                    a.StockId = domainEvent.StockId;
+                    a.Action = domainEvent.StockAction;
+                    a.QuantityUpdated = domainEvent.Quantity;
+                    a.TotalQuantity = domainEvent.Quantity;
+                    a.TotalQuantity = domainEvent.Item.GetQuantityInStock();
+                    a.UpdatedAt = DateTimeUtc.Now;
+                })
+                .ConfigureAwait(false);
         }
 
         public async Task Handle(InventoryItemHasBeenRemoved domainEvent)

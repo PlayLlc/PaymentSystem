@@ -66,6 +66,11 @@ namespace Play.Inventory.Domain.Entities
             return Id;
         }
 
+        public int GetQuantity()
+        {
+            return _Quantity;
+        }
+
         public override StockItemDto AsDto()
         {
             return new StockItemDto()

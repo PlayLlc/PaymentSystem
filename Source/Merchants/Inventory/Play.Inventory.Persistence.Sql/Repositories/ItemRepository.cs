@@ -28,8 +28,7 @@ public class ItemRepository : Repository<Item, SimpleStringId>, IItemRepository
     {
         try
         {
-            Item? result = await _DbSet.AsNoTracking()
-                .Include("_Categories")
+            Item? result = await _DbSet.Include("_Categories")
                 .Include("_Locations")
                 .Include("_Variations")
                 .Include("_Alerts")
@@ -50,13 +49,11 @@ public class ItemRepository : Repository<Item, SimpleStringId>, IItemRepository
     {
         try
         {
-            Item? result = _DbSet.AsNoTracking()
-                .AsQueryable()
+            Item? result = _DbSet.AsQueryable()
                 .Include("_Variations")
                 .Include("_Categories")
                 .Include("_Locations")
                 .Include("_Alerts")
-                .Include("_Price")
                 .FirstOrDefault(a => a.Id == id);
 
             return result;
@@ -73,13 +70,11 @@ public class ItemRepository : Repository<Item, SimpleStringId>, IItemRepository
     {
         try
         {
-            return await _DbSet.AsNoTracking()
-                .AsQueryable()
+            return await _DbSet.AsQueryable()
                 .Include("_Variations")
                 .Include("_Categories")
                 .Include("_Locations")
                 .Include("_Alerts")
-                .Include("_Price")
                 .Where(a => EF.Property<SimpleStringId>(a, "_MerchantId") == merchantId)
                 .ToListAsync()
                 .ConfigureAwait(false);
@@ -101,7 +96,6 @@ public class ItemRepository : Repository<Item, SimpleStringId>, IItemRepository
                 .Include("_Categories")
                 .Include("_Locations")
                 .Include("_Alerts")
-                .Include("_Price")
                 .Where(a => (EF.Property<SimpleStringId>(a, "_MerchantId") == merchantId)
                             && EF.Property<HashSet<Store>>(a, "_Locations._Stores").Any(a => a.Id == storeId))
                 .ToListAsync()
@@ -120,16 +114,36 @@ public class ItemRepository : Repository<Item, SimpleStringId>, IItemRepository
     {
         try
         {
-            List<Item> result = await _DbSet.AsNoTracking()
-                .AsQueryable()
-                .Include("_Variations")
+            List<Item> result = await _DbSet.Include("_Variations")
                 .Include("_Categories")
                 .Include("_Locations")
                 .Include("_Alerts")
-                .Include("_Price")
                 .Where(a => EF.Property<SimpleStringId>(a, "_MerchantId") == merchantId)
                 .Skip(position)
                 .Take(pageSize)
+                .ToListAsync()
+                .ConfigureAwait(false);
+
+            return result;
+        }
+        catch (Exception ex)
+        {
+            throw new EntityFrameworkRepositoryException(
+                $"The {nameof(ItemRepository)} encountered an exception attempting to invoke {nameof(GetByIdAsync)} for the {nameof(merchantId)}: [{merchantId.Value}];",
+                ex);
+        }
+    }
+
+    /// <exception cref="EntityFrameworkRepositoryException"></exception>
+    public async Task<IEnumerable<Item>> GetItemsWithAllLocationsSet(SimpleStringId merchantId)
+    {
+        try
+        {
+            List<Item> result = await _DbSet.Include("_Variations")
+                .Include("_Categories")
+                .Include("_Locations")
+                .Include("_Alerts")
+                .Where(a => (EF.Property<SimpleStringId>(a, "_MerchantId") == merchantId) && EF.Property<bool>(a, "_Locations._AllLocations"))
                 .ToListAsync()
                 .ConfigureAwait(false);
 

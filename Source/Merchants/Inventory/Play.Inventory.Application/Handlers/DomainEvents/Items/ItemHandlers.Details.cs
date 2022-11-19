@@ -5,7 +5,7 @@ using Play.Inventory.Domain.Aggregates;
 namespace Play.Inventory.Application.Handlers;
 
 public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemDescriptionUpdated>, IHandleDomainEvents<ItemNameUpdated>,
-    IHandleDomainEvents<ItemPriceUpdated>, IHandleDomainEvents<ItemPriceWasNotPositive>, IHandleDomainEvents<ItemSkuUpdated>
+    IHandleDomainEvents<ItemPriceWasNotPositive>, IHandleDomainEvents<SkuUpdated>
 {
     #region Instance Members
 
@@ -21,13 +21,7 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemD
         await _ItemRepository.SaveAsync(domainEvent.Item).ConfigureAwait(false);
     }
 
-    public async Task Handle(ItemPriceUpdated domainEvent)
-    {
-        Log(domainEvent);
-        await _ItemRepository.SaveAsync(domainEvent.Item).ConfigureAwait(false);
-    }
-
-    public async Task Handle(ItemSkuUpdated domainEvent)
+    public async Task Handle(SkuUpdated domainEvent)
     {
         Log(domainEvent);
         await _ItemRepository.SaveAsync(domainEvent.Item).ConfigureAwait(false);

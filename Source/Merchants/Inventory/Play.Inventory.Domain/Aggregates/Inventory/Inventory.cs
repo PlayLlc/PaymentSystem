@@ -138,7 +138,7 @@ namespace Play.Inventory.Domain.Aggregates
             StockAction stockAction = new StockAction(command.Action);
             StockItem stockItem = _StockItems.First(a => a.GetId() == command.VariationId);
             stockItem.AddQuantity(command.Quantity);
-            Publish(new StockItemUpdatedQuantity(this, stockItem, stockAction, command.Quantity));
+            Publish(new StockItemUpdatedQuantity(this, stockItem.Id, stockAction, command.Quantity, stockItem.GetQuantity()));
         }
 
         /// <exception cref="ValueObjectException"></exception>
@@ -161,7 +161,7 @@ namespace Play.Inventory.Domain.Aggregates
             _ = IsEnforced(new StockItemMustNotFallBelowThreshold(item, stockItem.Id, command.Quantity));
             _ = IsEnforced(new StockItemMustNotBeEmpty(item, stockItem.Id, command.Quantity));
 
-            Publish(new StockItemUpdatedQuantity(this, stockItem, stockAction, command.Quantity));
+            Publish(new StockItemUpdatedQuantity(this, stockItem.Id, stockAction, command.Quantity, stockItem.GetQuantity()));
         }
 
         #endregion

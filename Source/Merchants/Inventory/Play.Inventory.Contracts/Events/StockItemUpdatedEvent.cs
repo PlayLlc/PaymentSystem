@@ -6,17 +6,17 @@ using Play.Messaging.NServiceBus;
 
 namespace Play.Inventory.Contracts.Events;
 
-public class VariationStockUpdatedEvent : NetworkEvent
+public class StockItemUpdatedEvent : NetworkEvent
 {
     #region Instance Values
 
     [Required]
     [StringLength(20)]
-    public string ItemId { get; set; } = string.Empty;
+    public string InventoryId { get; set; } = string.Empty;
 
     [Required]
     [StringLength(20)]
-    public string VariationId { get; set; } = string.Empty;
+    public string StockId { get; set; } = string.Empty;
 
     [Required]
     public StockActions Action { get; set; } = StockActions.Empty;
@@ -24,12 +24,12 @@ public class VariationStockUpdatedEvent : NetworkEvent
     /// <summary>
     ///     The quantity that was updated for the Item
     /// </summary>
-    public ushort Quantity { get; set; }
+    public ushort QuantityUpdated { get; set; }
 
     /// <summary>
     ///     The current running subtotal of the Item's quantity
     /// </summary>
-    public int QuantitySubtotal { get; set; }
+    public int TotalQuantity { get; set; }
 
     public DateTimeUtc UpdatedAt { get; set; }
 
