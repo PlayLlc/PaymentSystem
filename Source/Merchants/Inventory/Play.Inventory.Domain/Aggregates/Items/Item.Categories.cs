@@ -7,7 +7,7 @@ using Play.Inventory.Domain.Entities;
 using Play.Inventory.Domain.Repositories;
 using Play.Inventory.Domain.Services;
 
-namespace Play.Inventory.Domain;
+namespace Play.Inventory.Domain.Aggregates;
 
 /// <summary>
 ///     This partial represents the Inventory Item's behavior related to creating and managing Categories associated with

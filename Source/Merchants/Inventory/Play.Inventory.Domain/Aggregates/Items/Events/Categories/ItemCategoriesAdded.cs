@@ -1,7 +1,7 @@
-﻿using Play.Domain.Events;
-using Play.Core.Extensions.IEnumerable;
+﻿using Play.Core.Extensions.IEnumerable;
+using Play.Domain.Events;
 
-namespace Play.Inventory.Domain;
+namespace Play.Inventory.Domain.Aggregates;
 
 public record ItemCategoriesAdded : DomainEvent
 {

@@ -1,9 +1,10 @@
 ﻿using Play.Domain.Aggregates;
+using Play.Domain.Common.ValueObjects;
 using Play.Inventory.Domain.Entities;
 
-namespace Play.Inventory.Domain;
+namespace Play.Inventory.Domain.Aggregates;
 
-public class ItemVariationMustExist : BusinessRule<Item, int>
+public class ItemVariationMustExist : BusinessRule<Item, SimpleStringId>
 {
     #region Instance Values
 
@@ -26,39 +27,6 @@ public class ItemVariationMustExist : BusinessRule<Item, int>
     public override ItemVariationDoesNotExist CreateBusinessRuleViolationDomainEvent(Item item)
     {
         return new ItemVariationDoesNotExist(item, this);
-    }
-
-    public override bool IsBroken()
-    {
-        return !_IsValid;
-    }
-
-    #endregion
-}
-
-public class StockItemMustExist : BusinessRule<Inventory, int>
-{
-    #region Instance Values
-
-    private readonly bool _IsValid;
-    public override string Message => $"An attempt to update a {nameof(StockItem)} but failed because it does not exist";
-
-    #endregion
-
-    #region Constructor
-
-    internal StockItemMustExist(IEnumerable<StockItem> stockItems, string variationId)
-    {
-        _IsValid = stockItems.Any(a => a.VariationId == variationId);
-    }
-
-    #endregion
-
-    #region Instance Members
-
-    public override StockItemDoesNotExist CreateBusinessRuleViolationDomainEvent(Inventory inventory)
-    {
-        return new StockItemDoesNotExist(inventory, this);
     }
 
     public override bool IsBroken()

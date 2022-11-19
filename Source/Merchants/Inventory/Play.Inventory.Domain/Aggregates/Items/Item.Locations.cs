@@ -6,7 +6,7 @@ using Play.Inventory.Contracts.Commands;
 using Play.Inventory.Domain.Entities;
 using Play.Inventory.Domain.Services;
 
-namespace Play.Inventory.Domain;
+namespace Play.Inventory.Domain.Aggregates;
 
 /// <summary>
 ///     This partial takes care of managing which stores receives and manages a stock of this Inventory Item

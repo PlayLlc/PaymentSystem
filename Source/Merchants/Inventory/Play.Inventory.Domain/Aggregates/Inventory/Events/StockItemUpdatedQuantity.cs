@@ -2,7 +2,7 @@
 using Play.Inventory.Domain.Entities;
 using Play.Inventory.Domain.ValueObjects;
 
-namespace Play.Inventory.Domain;
+namespace Play.Inventory.Domain.Aggregates;
 
 public record StockItemUpdatedQuantity : DomainEvent
 {

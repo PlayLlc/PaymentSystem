@@ -2,7 +2,7 @@
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Events;
 
-namespace Play.Inventory.Domain;
+namespace Play.Inventory.Domain.Aggregates;
 
 public record CategoryAlreadyExists : BrokenRuleOrPolicyDomainEvent<Category, SimpleStringId>
 {

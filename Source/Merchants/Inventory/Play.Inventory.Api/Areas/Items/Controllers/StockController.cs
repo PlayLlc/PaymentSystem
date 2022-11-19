@@ -5,6 +5,7 @@ using Play.Domain.Exceptions;
 using Play.Inventory.Api.Controllers;
 using Play.Inventory.Contracts.Commands;
 using Play.Inventory.Domain;
+using Play.Inventory.Domain.Aggregates;
 using Play.Inventory.Domain.Repositories;
 using Play.Inventory.Domain.Services;
 using Play.Mvc.Extensions;
@@ -26,6 +27,19 @@ public class StockController : InventoryController
     #endregion
 
     #region Instance Members
+
+    [HttpPut]
+    [ValidateAntiForgeryToken]
+    [Route("{itemId}/[controller]/[action]")]
+    public async Task<IActionResult> UpdateLowInventoryThreshold(string itemId, UpdateLowInventoryThresholdAlert command)
+    {
+        this.ValidateModel();
+        Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(command.ItemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
+
+        await item.UpdateLowInventoryThreshold(_UserRetriever, command).ConfigureAwait(false);
+
+        return Ok();
+    }
 
     [HttpPut]
     [ValidateAntiForgeryToken]

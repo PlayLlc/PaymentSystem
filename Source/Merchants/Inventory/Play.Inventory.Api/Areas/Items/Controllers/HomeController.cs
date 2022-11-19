@@ -9,6 +9,7 @@ using Play.Inventory.Domain;
 using Play.Inventory.Contracts.Commands;
 using Play.Mvc.Extensions;
 using Play.Inventory.Api.Controllers;
+using Play.Inventory.Domain.Aggregates;
 
 namespace Play.Inventory.Api.Areas.Items.Controllers
 {

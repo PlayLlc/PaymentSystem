@@ -9,7 +9,7 @@ using Play.Inventory.Domain.Repositories;
 using Play.Inventory.Domain.Services;
 using Play.Inventory.Domain.ValueObjects;
 
-namespace Play.Inventory.Domain
+namespace Play.Inventory.Domain.Aggregates
 {
     public class Inventory : Aggregate<SimpleStringId>
     {
@@ -66,17 +66,16 @@ namespace Play.Inventory.Domain
         /// <exception cref="BusinessRuleValidationException"></exception>
         /// <exception cref="NotFoundException"></exception>
         /// <exception cref="ValueObjectException"></exception>
-        public async Task CreateStockItem(IRetrieveUsers userService, CreateStockItem command)
+        public async Task CreateStockItem(CreateStockItem command)
         {
-            User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
-            Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));
-            Enforce(new AggregateMustBeUpdatedByKnownUser<Item>(_MerchantId, user));
+            Aggregate<SimpleStringId> hello = this;
+
             Enforce(new StockItemMustNotAlreadyExist(_StockItems, command.VariationId));
 
             StockItem stockItem = new StockItem(GenerateSimpleStringId(), command.ItemId, command.VariationId, 0);
             _ = _StockItems.Add(stockItem);
 
-            Publish(new StockItemCreated(this, stockItem, user.GetId()));
+            Publish(new StockItemCreated(this, stockItem));
         }
 
         /// <exception cref="ValueObjectException"></exception>
@@ -85,8 +84,8 @@ namespace Play.Inventory.Domain
         public async Task RemoveStockItem(IRetrieveUsers userService, RemoveVariation command)
         {
             User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
-            Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));
-            Enforce(new AggregateMustBeUpdatedByKnownUser<Item>(_MerchantId, user));
+            Enforce(new UserMustBeActiveToUpdateAggregate<Inventory>(user));
+            Enforce(new AggregateMustBeUpdatedByKnownUser<Inventory>(_MerchantId, user));
             StockItem? stockItem = _StockItems.FirstOrDefault(a => a.VariationId == command.VariationId);
 
             if (stockItem is null)
@@ -102,8 +101,8 @@ namespace Play.Inventory.Domain
         public async Task AddQuantity(IRetrieveUsers userService, UpdateStockItemQuantity command)
         {
             User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
-            Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));
-            Enforce(new AggregateMustBeUpdatedByKnownUser<Item>(_MerchantId, user));
+            Enforce(new UserMustBeActiveToUpdateAggregate<Inventory>(user));
+            Enforce(new AggregateMustBeUpdatedByKnownUser<Inventory>(_MerchantId, user));
             Enforce(new StockItemMustExist(_StockItems, command.VariationId));
             Enforce(new StockActionMustAddQuantity(command.Action));
             StockAction stockAction = new StockAction(command.Action);
@@ -122,8 +121,8 @@ namespace Play.Inventory.Domain
                         ?? throw new NotFoundException(typeof(Item));
 
             User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
-            Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));
-            Enforce(new AggregateMustBeUpdatedByKnownUser<Item>(_MerchantId, user));
+            Enforce(new UserMustBeActiveToUpdateAggregate<Inventory>(user));
+            Enforce(new AggregateMustBeUpdatedByKnownUser<Inventory>(_MerchantId, user));
             Enforce(new StockItemMustExist(_StockItems, command.VariationId));
             Enforce(new StockActionMustRemoveQuantity(command.Action));
             StockAction stockAction = new StockAction(command.Action);

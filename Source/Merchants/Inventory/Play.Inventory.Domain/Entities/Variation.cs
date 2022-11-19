@@ -4,6 +4,7 @@ using Play.Domain.ValueObjects;
 using Play.Globalization.Currency;
 using Play.Inventory.Contracts.Dtos;
 using Play.Inventory.Contracts.Enums;
+using Play.Inventory.Domain.Aggregates;
 using Play.Inventory.Domain.ValueObjects;
 
 namespace Play.Inventory.Domain.Entities;

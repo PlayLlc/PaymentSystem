@@ -7,7 +7,7 @@ using Play.Inventory.Domain.Entities;
 using Play.Inventory.Domain.Services;
 using Play.Inventory.Domain.ValueObjects;
 
-namespace Play.Inventory.Domain;
+namespace Play.Inventory.Domain.Aggregates;
 
 /// <summary>
 ///     This partial represents the Inventory Item's behavior related to managing Item Variations. For example, variations
@@ -32,12 +32,12 @@ public partial class Item : Aggregate<SimpleStringId>
         Sku? sku = command.Sku is null ? null : new Sku(command.Sku);
         Price price = new Price(GenerateSimpleStringId(), command.Price);
         SimpleStringId id = new(GenerateSimpleStringId());
-        Variation variation = new Variation(id, name, price, 0, sku);
+        Variation variation = new Variation(new SimpleStringId(id), name, price, sku);
 
         if (!_Variations.Add(variation))
             return;
 
-        Publish(new ItemVariationCreated(this, variation, user.GetId()));
+        Publish(new VariationCreated(this, variation, user.GetId()));
     }
 
     /// <exception cref="ValueObjectException"></exception>
@@ -53,7 +53,7 @@ public partial class Item : Aggregate<SimpleStringId>
         if (_Variations.RemoveWhere(a => a.GetId() == command.VariationId) == 0)
             return;
 
-        Publish(new ItemVariationRemoved(this, command.VariationId, user.GetId()));
+        Publish(new VariationRemoved(this, command.VariationId, user.GetId()));
     }
 
     #endregion
@@ -87,7 +87,7 @@ public partial class Item : Aggregate<SimpleStringId>
 
         Variation variation = _Variations.First(a => a.Id == command.VariationId);
         variation.UpdatePrice(command.Price);
-        Publish(new VariationPriceUpdated(this, variation, user.GetId(), command.Price));
+        Publish(new PriceUpdated(this, variation, user.GetId(), command.Price));
     }
 
     /// <exception cref="NotFoundException"></exception>
@@ -103,7 +103,7 @@ public partial class Item : Aggregate<SimpleStringId>
         Variation variation = _Variations.First(a => a.GetId() == command.VariationId);
         Sku sku = new Sku(command.Sku);
         variation.UpdateSku(sku);
-        Publish(new VariationSkuUpdated(this, variation, user.GetId(), sku));
+        Publish(new SkuUpdated(this, variation, user.GetId(), sku));
     }
 
     #endregion

@@ -3,7 +3,7 @@ using Play.Domain.Common.ValueObjects;
 using Play.Domain.ValueObjects;
 using Play.Inventory.Domain.Entities;
 
-namespace Play.Inventory.Domain;
+namespace Play.Inventory.Domain.Aggregates;
 
 public class CategoryMustHaveTheSameMerchant : BusinessRule<Item, SimpleStringId>
 {

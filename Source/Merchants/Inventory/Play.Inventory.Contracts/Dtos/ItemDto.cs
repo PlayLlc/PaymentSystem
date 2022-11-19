@@ -20,9 +20,6 @@ public record ItemDto : IDto
     public string Name { get; set; } = string.Empty;
 
     [Required]
-    public int Quantity { get; set; }
-
-    [Required]
     public LocationsDto Locations { get; set; } = null!;
 
     public string Description { get; set; } = string.Empty;

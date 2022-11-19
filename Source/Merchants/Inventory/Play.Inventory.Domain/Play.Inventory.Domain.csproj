@@ -11,8 +11,4 @@
     <ProjectReference Include="..\Play.Inventory.Contracts\Play.Inventory.Contracts.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Aggregates\Inventory\Events\" />
-  </ItemGroup>
-
 </Project>

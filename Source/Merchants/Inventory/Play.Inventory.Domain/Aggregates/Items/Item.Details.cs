@@ -5,9 +5,8 @@ using Play.Domain.ValueObjects;
 using Play.Inventory.Contracts.Commands;
 using Play.Inventory.Domain.Entities;
 using Play.Inventory.Domain.Services;
-using Play.Inventory.Domain.ValueObjects;
 
-namespace Play.Inventory.Domain;
+namespace Play.Inventory.Domain.Aggregates;
 
 /// <summary>
 ///     This partial takes care of the Inventory Item's basic details, like Name, SKU, Price, etc

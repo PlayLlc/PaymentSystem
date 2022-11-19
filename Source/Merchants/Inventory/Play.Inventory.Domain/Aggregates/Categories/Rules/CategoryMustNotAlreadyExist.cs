@@ -3,7 +3,7 @@ using Play.Domain.Common.ValueObjects;
 using Play.Inventory.Domain.Entities;
 using Play.Inventory.Domain.Repositories;
 
-namespace Play.Inventory.Domain;
+namespace Play.Inventory.Domain.Aggregates;
 
 public class CategoryMustNotAlreadyExist : BusinessRule<Category, SimpleStringId>
 {

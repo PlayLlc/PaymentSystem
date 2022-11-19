@@ -8,7 +8,9 @@ using NServiceBus;
 using Play.Domain.Common.ValueObjects;
 using Play.Inventory.Contracts.Events;
 using Play.Inventory.Domain;
-using Play.Inventory.Domain.Events;
+using Play.Inventory.Domain.Aggregates;
+using Play.Inventory.Domain.Aggregates.Events;
+using Play.Inventory.Domain.Repositories;
 
 namespace Play.Inventory.Application.Handlers;
 
@@ -18,6 +20,7 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemC
     #region Instance Values
 
     private readonly IMessageHandlerContext _MessageHandlerContext;
+    private readonly IInventoryRepository _InventoryRepository;
     private readonly IRepository<Item, SimpleStringId> _ItemRepository;
 
     #endregion
@@ -25,10 +28,12 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemC
     #region Constructor
 
     public ItemHandler(
-        ILogger<ItemHandler> logger, IMessageHandlerContext messageHandlerContext, IRepository<Item, SimpleStringId> itemRepository) : base(logger)
+        ILogger<ItemHandler> logger, IMessageHandlerContext messageHandlerContext, IRepository<Item, SimpleStringId> itemRepository,
+        IRepository<Domain.Aggregates.Inventory, SimpleStringId> inventoryRepository) : base(logger)
     {
         _MessageHandlerContext = messageHandlerContext;
         _ItemRepository = itemRepository;
+        _InventoryRepository = inventoryRepository;
     }
 
     #endregion

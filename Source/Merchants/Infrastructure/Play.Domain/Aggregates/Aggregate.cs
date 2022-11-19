@@ -33,7 +33,7 @@ public abstract class Aggregate<_TId> : Entity<_TId>, IAggregate, IEquatable<Agg
         if (!rule.IsBroken())
             return;
 
-        Publish(((BusinessRule<Aggregate<_TId>, _TId>) rule).CreateBusinessRuleViolationDomainEvent(this));
+        Publish(((IBusinessRule<Aggregate<_TId>>) rule).CreateBusinessRuleViolationDomainEvent(this));
 
         throw new BusinessRuleValidationException(rule);
     }

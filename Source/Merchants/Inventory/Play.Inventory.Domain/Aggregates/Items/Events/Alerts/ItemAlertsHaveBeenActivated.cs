@@ -1,7 +1,7 @@
 ﻿using Play.Domain.Events;
 using Play.Inventory.Domain.Entities;
 
-namespace Play.Inventory.Domain;
+namespace Play.Inventory.Domain.Aggregates;
 
 public record ItemAlertsHaveBeenActivated : DomainEvent
 {

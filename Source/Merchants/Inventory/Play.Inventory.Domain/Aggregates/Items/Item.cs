@@ -8,7 +8,7 @@ using Play.Inventory.Domain.Entities;
 using Play.Inventory.Domain.Services;
 using Play.Inventory.Domain.ValueObjects;
 
-namespace Play.Inventory.Domain;
+namespace Play.Inventory.Domain.Aggregates;
 
 /// <summary>
 ///     This partial takes care of the base class implementation and class constructors
@@ -37,8 +37,6 @@ public partial class Item : Aggregate<SimpleStringId>
     /// </summary>
     private readonly Alerts _Alerts;
 
-    private readonly int _Quantity;
-
     private string _Description;
     private Name _Name;
 
@@ -58,7 +56,6 @@ public partial class Item : Aggregate<SimpleStringId>
         Id = new SimpleStringId(value.Id);
         _MerchantId = new SimpleStringId(value.Id);
         _Name = new Name(value.Name);
-        _Quantity = value.Quantity;
         _Description = value.Description;
         _Alerts = new Alerts(value.Alerts);
         _Locations = new Locations(value.Locations);
@@ -68,13 +65,12 @@ public partial class Item : Aggregate<SimpleStringId>
 
     /// <exception cref="ValueObjectException"></exception>
     public Item(
-        string id, string merchantId, Name name, Price price, string description, Alerts alerts, Locations locations, Sku? sku = null, short quantity = 0,
+        string id, string merchantId, Name name, Price price, string description, Alerts alerts, Locations locations, Sku? sku = null,
         IEnumerable<Category>? categories = null, IEnumerable<Variation>? variations = null)
     {
         Id = new SimpleStringId(id);
         _MerchantId = new SimpleStringId(merchantId);
         _Name = name;
-        _Quantity = quantity;
         _Description = description;
         _Alerts = alerts;
         _Locations = locations;
@@ -85,11 +81,6 @@ public partial class Item : Aggregate<SimpleStringId>
     #endregion
 
     #region Instance Members
-
-    public bool IsOutOfStockAlertRequired(int quantity, out IEnumerable<User>? subscribers)
-    {
-        return _Alerts.IsOutOfStockAlertRequired(quantity, out subscribers);
-    }
 
     /// <exception cref="BusinessRuleValidationException"></exception>
     public async Task RemoveItem(IRetrieveUsers userService, RemoveItem command)
@@ -117,7 +108,7 @@ public partial class Item : Aggregate<SimpleStringId>
 
         Variation variation = new Variation(new SimpleStringId(GenerateSimpleStringId()), new Name("Original"), price);
 
-        Item item = new Item(GenerateSimpleStringId(), merchant.Id, name, price, command.Description ?? string.Empty, alerts, locations, sku, 0, categories,
+        Item item = new Item(GenerateSimpleStringId(), merchant.Id, name, price, command.Description ?? string.Empty, alerts, locations, sku, categories,
             new List<Variation>() {variation});
 
         item.Enforce(new MerchantMustBeActiveToCreateAggregate<Item>(merchant));
@@ -131,21 +122,6 @@ public partial class Item : Aggregate<SimpleStringId>
     internal SimpleStringId GetMerchantId()
     {
         return _MerchantId;
-    }
-
-    internal string GetName()
-    {
-        return _Name.Value;
-    }
-
-    public bool IsLowInventoryAlertRequired(int quantity, out IEnumerable<User>? subscribers)
-    {
-        return _Alerts.IsLowInventoryAlertRequired(quantity, out subscribers);
-    }
-
-    public int GetQuantityInStock()
-    {
-        return _Quantity;
     }
 
     public override SimpleStringId GetId()
@@ -162,8 +138,7 @@ public partial class Item : Aggregate<SimpleStringId>
             Description = _Description,
             Categories = _Categories.Select(a => a.AsDto()),
             MerchantId = _MerchantId,
-            Locations = _Locations.AsDto(),
-            Quantity = _Quantity
+            Locations = _Locations.AsDto()
         };
     }
 

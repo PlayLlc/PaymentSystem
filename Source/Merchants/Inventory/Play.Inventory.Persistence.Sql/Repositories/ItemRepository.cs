@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 
 using Play.Inventory.Contracts.Dtos;
 using Play.Inventory.Domain;
+using Play.Inventory.Domain.Aggregates;
 using Play.Inventory.Domain.Repositories;
 
 namespace Play.Inventory.Persistence.Sql.Repositories;

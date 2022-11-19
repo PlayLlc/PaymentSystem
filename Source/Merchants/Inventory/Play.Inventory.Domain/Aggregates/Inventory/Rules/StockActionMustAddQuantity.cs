@@ -1,10 +1,11 @@
 ﻿using Play.Domain.Aggregates;
+using Play.Domain.Common.ValueObjects;
 using Play.Inventory.Contracts.Enums;
 using Play.Inventory.Domain.ValueObjects;
 
-namespace Play.Inventory.Domain;
+namespace Play.Inventory.Domain.Aggregates;
 
-public class StockActionMustAddQuantity : BusinessRule<Item, int>
+public class StockActionMustAddQuantity : BusinessRule<Inventory, SimpleStringId>
 {
     #region Instance Values
 
@@ -24,9 +25,9 @@ public class StockActionMustAddQuantity : BusinessRule<Item, int>
 
     #region Instance Members
 
-    public override StockActionWasIncorrect CreateBusinessRuleViolationDomainEvent(Item item)
+    public override StockActionWasIncorrect CreateBusinessRuleViolationDomainEvent(Inventory inventory)
     {
-        return new StockActionWasIncorrect(item, this);
+        return new StockActionWasIncorrect(inventory, this);
     }
 
     public override bool IsBroken()

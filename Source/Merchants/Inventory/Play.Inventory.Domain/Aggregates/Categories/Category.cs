@@ -8,7 +8,7 @@ using Play.Inventory.Domain.Entities;
 using Play.Inventory.Domain.Repositories;
 using Play.Inventory.Domain.Services;
 
-namespace Play.Inventory.Domain;
+namespace Play.Inventory.Domain.Aggregates;
 
 public class Category : Aggregate<SimpleStringId>
 {

@@ -1,9 +1,10 @@
 ﻿using Play.Domain.Aggregates;
+using Play.Domain.Common.ValueObjects;
 using Play.Globalization.Currency;
 
-namespace Play.Inventory.Domain;
+namespace Play.Inventory.Domain.Aggregates;
 
-public class ItemPriceMustBePositive : BusinessRule<Item, int>
+public class ItemPriceMustBePositive : BusinessRule<Item, SimpleStringId>
 {
     #region Instance Values
 
@@ -27,7 +28,7 @@ public class ItemPriceMustBePositive : BusinessRule<Item, int>
 
     public override ItemPriceWasNotPositive CreateBusinessRuleViolationDomainEvent(Item item)
     {
-        return new ItemPriceWasNotPositive(item, _Price, this);
+        return new ItemPriceWasNotPositive(item, this);
     }
 
     public override bool IsBroken()

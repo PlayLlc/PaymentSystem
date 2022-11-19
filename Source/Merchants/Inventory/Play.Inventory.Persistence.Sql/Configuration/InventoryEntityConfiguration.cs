@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using Play.Domain.Common.ValueObjects;
 using Play.Inventory.Domain;
+using Play.Inventory.Domain.Aggregates;
 using Play.Inventory.Domain.Entities;
 using Play.Inventory.Domain.ValueObjects;
 using Play.Persistence.Sql;

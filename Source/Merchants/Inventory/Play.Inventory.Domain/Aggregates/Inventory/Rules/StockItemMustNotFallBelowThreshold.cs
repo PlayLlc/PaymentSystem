@@ -1,9 +1,10 @@
 ﻿using Play.Domain.Aggregates;
+using Play.Domain.Common.ValueObjects;
 using Play.Inventory.Domain.Entities;
 
-namespace Play.Inventory.Domain
+namespace Play.Inventory.Domain.Aggregates
 {
-    public class StockItemMustNotFallBelowThreshold : BusinessRule<Inventory, string>
+    public class StockItemMustNotFallBelowThreshold : BusinessRule<Inventory, SimpleStringId>
     {
         #region Instance Values
 

@@ -8,7 +8,7 @@ namespace Play.Domain.Common.ValueObjects;
 /// <summary>
 ///     This value object represents a simple string identifier that Aggregates have the ability to generate on creation
 /// </summary>
-public record SimpleStringId : ValueObject<string>
+public record SimpleStringId : ValueObject<string>, IEquatable<SimpleStringId>
 {
     #region Constructor
 

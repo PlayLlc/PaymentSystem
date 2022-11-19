@@ -1,9 +1,9 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
+using Play.Inventory.Domain.Aggregates.Events;
 using Play.Inventory.Domain.Entities;
-using Play.Inventory.Domain.Events;
 
-namespace Play.Inventory.Domain;
+namespace Play.Inventory.Domain.Aggregates;
 
 public class UserMustBeActiveToUpdateAggregate<_Aggregate> : BusinessRule<_Aggregate, SimpleStringId> where _Aggregate : Aggregate<SimpleStringId>
 {

@@ -2,6 +2,7 @@
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
 using Play.Inventory.Contracts.Dtos;
+using Play.Inventory.Domain.Aggregates;
 
 namespace Play.Inventory.Domain.Entities
 {

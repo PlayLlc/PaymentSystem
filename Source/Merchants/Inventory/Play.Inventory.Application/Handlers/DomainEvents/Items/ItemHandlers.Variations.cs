@@ -7,16 +7,17 @@ using NServiceBus;
 using Play.Globalization.Time;
 using Play.Inventory.Contracts.Events;
 using Play.Inventory.Domain;
+using Play.Inventory.Domain.Aggregates;
 
 namespace Play.Inventory.Application.Handlers;
 
-public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemVariationAlreadyExists>, IHandleDomainEvents<ItemVariationCreated>,
-    IHandleDomainEvents<ItemVariationDoesNotExist>, IHandleDomainEvents<ItemVariationRemoved>, IHandleDomainEvents<VariationNameUpdated>,
-    IHandleDomainEvents<VariationPriceUpdated>, IHandleDomainEvents<VariationSkuUpdated>, IHandleDomainEvents<StockUpdated>
+public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemVariationAlreadyExists>, IHandleDomainEvents<VariationCreated>,
+    IHandleDomainEvents<ItemVariationDoesNotExist>, IHandleDomainEvents<VariationRemoved>, IHandleDomainEvents<VariationNameUpdated>,
+    IHandleDomainEvents<PriceUpdated>, IHandleDomainEvents<SkuUpdated>, IHandleDomainEvents<StockUpdated>
 {
     #region Instance Members
 
-    public async Task Handle(ItemVariationCreated domainEvent)
+    public async Task Handle(VariationCreated domainEvent)
     {
         Log(domainEvent);
         await _ItemRepository.SaveAsync(domainEvent.Item).ConfigureAwait(false);
@@ -30,7 +31,7 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemV
             .ConfigureAwait(false);
     }
 
-    public async Task Handle(ItemVariationRemoved domainEvent)
+    public async Task Handle(VariationRemoved domainEvent)
     {
         Log(domainEvent);
         await _ItemRepository.SaveAsync(domainEvent.Item).ConfigureAwait(false);
@@ -67,13 +68,13 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemV
         await _ItemRepository.SaveAsync(domainEvent.Item).ConfigureAwait(false);
     }
 
-    public async Task Handle(VariationPriceUpdated domainEvent)
+    public async Task Handle(PriceUpdated domainEvent)
     {
         Log(domainEvent);
         await _ItemRepository.SaveAsync(domainEvent.Item).ConfigureAwait(false);
     }
 
-    public async Task Handle(VariationSkuUpdated domainEvent)
+    public async Task Handle(SkuUpdated domainEvent)
     {
         Log(domainEvent);
         await _ItemRepository.SaveAsync(domainEvent.Item).ConfigureAwait(false);
