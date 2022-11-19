@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Emvco\Core\Play.Core\Play.Core.csproj" />
+    <ProjectReference Include="..\Play.Underwriting.Contracts\Play.Underwriting.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

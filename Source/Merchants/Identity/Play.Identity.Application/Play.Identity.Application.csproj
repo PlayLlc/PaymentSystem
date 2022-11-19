@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Infrastructure\Play.Shared\Play.Shared.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Play.Telecom\Play.Telecom.Twilio.csproj" />
     <ProjectReference Include="..\Play.Identity.Persistence.Sql\Play.Identity.Persistence.Sql.csproj" />
   </ItemGroup>

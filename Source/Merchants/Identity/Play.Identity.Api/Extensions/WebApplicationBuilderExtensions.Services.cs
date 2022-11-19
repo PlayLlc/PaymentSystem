@@ -1,5 +1,8 @@
-﻿using Duende.IdentityServer.AspNetIdentity;
+﻿using System.Text.Json;
+
+using Duende.IdentityServer.AspNetIdentity;
 using Duende.IdentityServer.Services;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -49,7 +52,7 @@ public static partial class WebApplicationBuilderExtensions
         builder.Services.AddScoped((a) => sendGridConfiguration);
         builder.Services.AddScoped<ISendSmsMessages, SmsClient>();
         builder.Services.AddScoped<ISendEmail, EmailClient>();
-        builder.Services.Configure<JsonSerializerOptions>(_ => new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+        builder.Services.Configure<JsonSerializerOptions>(_ => new JsonSerializerOptions {PropertyNamingPolicy = JsonNamingPolicy.CamelCase});
 
         // Repositories
         builder.Services.AddScoped<DbContext, UserIdentityDbContext>();
@@ -60,8 +63,7 @@ public static partial class WebApplicationBuilderExtensions
         builder.Services.AddScoped<IRepository<Merchant, SimpleStringId>, Repository<Merchant, SimpleStringId>>();
         builder.Services.AddScoped<ILoginUsers, UserLoginService>();
 
-        // Infrastructure Services
-        builder.Services.AddSingleton<IJSonSerializer, SystemTexJsonSerializer>();
+        // Infrastructure Services 
         builder.Services.AddScoped<ISendSmsMessages, SmsClient>();
         builder.Services.AddScoped<ISendEmail, EmailClient>();
 

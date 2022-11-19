@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Play.Accounts.Contracts.Dtos;
+
+using Play.Domain.Common.Dtos;
 using Play.Mvc.Attributes;
 using Play.Mvc.Extensions;
-
 using Play.Underwriting.Contracts.Requests;
 using Play.Underwriting.Contracts.Responses;
 using Play.Underwriting.Domain.Entities;
@@ -15,12 +15,22 @@ namespace Play.Underwriting.Api.Controllers;
 [ApiController]
 public class UnderwritingController : ControllerBase
 {
+    #region Instance Values
+
     private readonly IUnderwritingRepository _UnderwritingRepository;
+
+    #endregion
+
+    #region Constructor
 
     public UnderwritingController(IUnderwritingRepository underwritingRepository)
     {
         _UnderwritingRepository = underwritingRepository;
     }
+
+    #endregion
+
+    #region Instance Members
 
     [HttpPost("merchant")]
     public async Task<IActionResult> VerifyMerchant([FromBody] VerifyMerchantIsProhibitedRequest request)
@@ -31,7 +41,7 @@ public class UnderwritingController : ControllerBase
 
         var result = await _UnderwritingRepository.IsMerchantFound(request.Name, merchantAddress);
 
-        return Ok(new VerifyResult { IsProhibited = result });
+        return Ok(new VerifyResult {IsProhibited = result});
     }
 
     [HttpPost("industry")]
@@ -41,7 +51,7 @@ public class UnderwritingController : ControllerBase
 
         var result = await _UnderwritingRepository.IsIndustryFound(request.MerchantCategoryCode);
 
-        return Ok(new VerifyResult { IsProhibited = result });
+        return Ok(new VerifyResult {IsProhibited = result});
     }
 
     [HttpPost("user")]
@@ -54,7 +64,7 @@ public class UnderwritingController : ControllerBase
 
         var result = await _UnderwritingRepository.IsUserFound(fullName, userAddress);
 
-        return Ok(new VerifyResult { IsProhibited = result });
+        return Ok(new VerifyResult {IsProhibited = result});
     }
 
     private static Address ToAddress(AddressDto? addressDto)
@@ -67,4 +77,6 @@ public class UnderwritingController : ControllerBase
             ZipCode = addressDto.Zipcode
         };
     }
+
+    #endregion
 }

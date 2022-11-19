@@ -1,12 +1,15 @@
 ﻿using Microsoft.Extensions.Options;
-using Play.Accounts.Domain.Entities;
-using Play.Accounts.Domain.Services;
-using Play.Accounts.Domain.ValueObjects;
+
 using Play.Core.Exceptions;
-using Play.Underwriting.Contracts.Requests;
-using Play.Underwriting.Contracts.Responses;
+
 using System.Net.Http.Json;
 using System.Text.Json;
+
+using Play.Domain.Common.Entities;
+using Play.Domain.Common.ValueObjects;
+using Play.Identity.Domain.Entities;
+using Play.Identity.Domain.Services;
+using Play.Identity.Domain.ValueObjects;
 
 namespace Play.Identity.Application.Services;
 
@@ -33,65 +36,71 @@ public class MerchantUnderwriter : IUnderwriteMerchants
 
     public async Task<bool> IsMerchantProhibited(Name name, Address address)
     {
-        VerifyMerchantIsProhibitedRequest request = new()
-        {
-            Name = name.Value,
-            Address = address.AsDto()
-        };
+        return false;
 
-        try
-        {
-            HttpResponseMessage response = await _Client.PostAsJsonAsync<VerifyMerchantIsProhibitedRequest>("api/underwriting/merchant", request, _Options);
+        //VerifyMerchantIsProhibitedRequest request = new()
+        //{
+        //    Name = name.Value,
+        //    Address = address.AsDto()
+        //};
 
-            VerifyResult? result = await response.Content.ReadFromJsonAsync<VerifyResult>(_Options);
+        //try
+        //{
+        //    HttpResponseMessage response = await _Client.PostAsJsonAsync<VerifyMerchantIsProhibitedRequest>("api/underwriting/merchant", request, _Options);
 
-            return result!.IsProhibited;
-        }
-        catch (Exception ex)
-        {
-            throw new PlayInternalException(ex);
-        }
+        //    VerifyResult? result = await response.Content.ReadFromJsonAsync<VerifyResult>(_Options);
+
+        //    return result!.IsProhibited;
+        //}
+        //catch (Exception ex)
+        //{
+        //    throw new PlayInternalException(ex);
+        //}
     }
 
     public async Task<bool> IsIndustryProhibited(MerchantCategoryCode categoryCode)
     {
-        VerifyIndustryIsProhibitedRequest request = new() { MerchantCategoryCode = categoryCode };
+        return false;
 
-        try
-        {
-            HttpResponseMessage response = await _Client.PostAsJsonAsync("api/underwriting/industry", request, _Options);
+        //VerifyIndustryIsProhibitedRequest request = new() {MerchantCategoryCode = categoryCode};
 
-            VerifyResult? result = await response.Content.ReadFromJsonAsync<VerifyResult>(_Options);
+        //try
+        //{
+        //    HttpResponseMessage response = await _Client.PostAsJsonAsync("api/underwriting/industry", request, _Options);
 
-            return result!.IsProhibited;
-        }
-        catch (Exception ex)
-        {
-            throw new PlayInternalException(ex);
-        }
+        //    VerifyResult? result = await response.Content.ReadFromJsonAsync<VerifyResult>(_Options);
+
+        //    return result!.IsProhibited;
+        //}
+        //catch (Exception ex)
+        //{
+        //    throw new PlayInternalException(ex);
+        //}
     }
 
     public async Task<bool> IsUserProhibited(PersonalDetail personalDetail, Address address, Contact contact)
     {
-        VerifyUserIsProhibitedRequest request = new()
-        {
-            Address = address.AsDto(),
-            PersonalDetails = personalDetail.AsDto(),
-            Contact = contact.AsDto()
-        };
+        return false;
 
-        try
-        {
-            HttpResponseMessage response = await _Client.PostAsJsonAsync("api/underwriting/user", request, _Options);
+        //VerifyUserIsProhibitedRequest request = new()
+        //{
+        //    Address = address.AsDto(),
+        //    PersonalDetails = personalDetail.AsDto(),
+        //    Contact = contact.AsDto()
+        //};
 
-            VerifyResult? result = await response.Content.ReadFromJsonAsync<VerifyResult>(_Options);
+        //try
+        //{
+        //    HttpResponseMessage response = await _Client.PostAsJsonAsync("api/underwriting/user", request, _Options);
 
-            return result!.IsProhibited;
-        }
-        catch(Exception ex)
-        {
-            throw new PlayInternalException(ex);
-        }
+        //    VerifyResult? result = await response.Content.ReadFromJsonAsync<VerifyResult>(_Options);
+
+        //    return result!.IsProhibited;
+        //}
+        //catch (Exception ex)
+        //{
+        //    throw new PlayInternalException(ex);
+        //}
     }
 
     #endregion

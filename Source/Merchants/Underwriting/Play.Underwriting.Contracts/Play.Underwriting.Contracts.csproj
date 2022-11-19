@@ -6,8 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Accounts\Play.Accounts.Contracts\Play.Accounts.Contracts.csproj" />
+  <ItemGroup> 
+    <ProjectReference Include="..\..\Infrastructure\Play.Domain.Common\Play.Domain.Common.csproj" />
   </ItemGroup>
 
 </Project>
