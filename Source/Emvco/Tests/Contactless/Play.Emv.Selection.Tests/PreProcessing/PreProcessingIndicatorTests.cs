@@ -38,7 +38,7 @@ public class PreProcessingIndicatorTests
     {
         //Arrange
         _Fixture.RegisterTerminalTransactionQualifiers();
-        _Fixture.RegisterReaderContactlessTransactionLimit(1234);
+        _Fixture.RegisterReaderContactlessTransactionLimitWhenCvmIsOnDevice(1234);
         _Fixture.RegisterReaderCvmRequiredLimit(1234);
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
@@ -57,7 +57,7 @@ public class PreProcessingIndicatorTests
     {
         //Arrange
         _Fixture.RegisterTerminalTransactionQualifiers();
-        _Fixture.RegisterReaderContactlessTransactionLimit(1234);
+        _Fixture.RegisterReaderContactlessTransactionLimitWhenCvmIsOnDevice(1234);
         _Fixture.RegisterReaderCvmRequiredLimit(1234);
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
@@ -82,7 +82,7 @@ public class PreProcessingIndicatorTests
     {
         //Arrange
         _Fixture.RegisterTerminalTransactionQualifiers(0b1110_1100_1010_0011);
-        _Fixture.RegisterReaderContactlessTransactionLimit(1234);
+        _Fixture.RegisterReaderContactlessTransactionLimitWhenCvmIsOnDevice(1234);
         _Fixture.RegisterReaderCvmRequiredLimit(1234);
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
@@ -105,7 +105,7 @@ public class PreProcessingIndicatorTests
     {
         //Arrange
         _Fixture.RegisterTerminalTransactionQualifiers(0b0010_1100_1010_0011);
-        _Fixture.RegisterReaderContactlessTransactionLimit(1234);
+        _Fixture.RegisterReaderContactlessTransactionLimitWhenCvmIsOnDevice(1234);
         _Fixture.RegisterReaderCvmRequiredLimit(1234);
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
@@ -130,7 +130,7 @@ public class PreProcessingIndicatorTests
     {
         //Arrange
         _Fixture.RegisterTerminalTransactionQualifiers(0b0010_1100_1010_0011);
-        _Fixture.RegisterReaderContactlessTransactionLimit(1234);
+        _Fixture.RegisterReaderContactlessTransactionLimitWhenCvmIsOnDevice(1234);
         _Fixture.RegisterReaderCvmRequiredLimit(1234);
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
@@ -155,7 +155,7 @@ public class PreProcessingIndicatorTests
     {
         //Arrange
         _Fixture.RegisterTerminalTransactionQualifiers(0b0010_1100_1010_0011);
-        _Fixture.RegisterReaderContactlessTransactionLimit(1234);
+        _Fixture.RegisterReaderContactlessTransactionLimitWhenCvmIsOnDevice(1234);
         _Fixture.RegisterReaderCvmRequiredLimit(1234);
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
@@ -181,7 +181,7 @@ public class PreProcessingIndicatorTests
     {
         //Arrange
         _Fixture.RegisterTerminalTransactionQualifiers(0b0010_1100_1010_1011); //IsBitSet(4);
-        _Fixture.RegisterReaderContactlessTransactionLimit(1234);
+        _Fixture.RegisterReaderContactlessTransactionLimitWhenCvmIsOnDevice(1234);
         _Fixture.RegisterReaderCvmRequiredLimit(1234);
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
@@ -207,7 +207,7 @@ public class PreProcessingIndicatorTests
     {
         //Arrange
         _Fixture.RegisterTerminalTransactionQualifiers(0b0010_1100_1010_1011); //IsBitSet(4);
-        _Fixture.RegisterReaderContactlessTransactionLimit(1234);
+        _Fixture.RegisterReaderContactlessTransactionLimitWhenCvmIsOnDevice(1234);
         _Fixture.RegisterReaderCvmRequiredLimit(1234);
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();
@@ -232,7 +232,7 @@ public class PreProcessingIndicatorTests
     {
         //Arrange
         _Fixture.RegisterTerminalTransactionQualifiers(0b0010_1100_1010_1011); //IsBitSet(4);
-        _Fixture.RegisterReaderContactlessTransactionLimit(1234);
+        _Fixture.RegisterReaderContactlessTransactionLimitWhenCvmIsOnDevice(1234);
         _Fixture.RegisterReaderCvmRequiredLimit(1234);
         _Fixture.RegisterTerminalFloorLimit(123);
         _Fixture.RegisterTerminalCategoriesSupportedList();

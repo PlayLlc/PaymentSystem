@@ -17,6 +17,8 @@ public record TimeoutValue : DataElement<Milliseconds>, IEqualityComparer<Timeou
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF8127;
+    public static readonly TimeoutValue Default = new(0x01F4); //C-2-4.5.1
+
     private const byte _ByteLength = 2;
 
     #endregion

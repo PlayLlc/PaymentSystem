@@ -79,6 +79,5 @@ public record MaxLifetimeOfTornTransactionLogRecords : DataElement<Seconds>
     public override Tag GetTag() => Tag;
 
     public override ushort GetValueByteCount() => PlayCodec.BinaryCodec.GetByteCount((ushort)_Value);
-
     #endregion
 }

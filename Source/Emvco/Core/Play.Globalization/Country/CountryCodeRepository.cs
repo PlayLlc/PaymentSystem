@@ -18,6 +18,7 @@ internal class CountryCodeRepository
     #endregion
 
     #region Constructor
+
     static CountryCodeRepository()
     {
         _NumericCountryMap = GetCurrencyCodes().ToImmutableDictionary(a => a.GetNumericCode(), b => b);

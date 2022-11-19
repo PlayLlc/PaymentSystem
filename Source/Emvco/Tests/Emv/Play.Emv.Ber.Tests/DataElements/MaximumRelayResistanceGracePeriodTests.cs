@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -129,7 +130,7 @@ public class MaximumRelayResistanceGracePeriodTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        MaximumRelayResistanceGracePeriodTestTlv testData = new(new byte[] { 0x3c, 0x4d });
+        MaximumRelayResistanceGracePeriodTestTlv testData = new(new byte[] {0x3c, 0x4d});
         MaximumRelayResistanceGracePeriod sut = MaximumRelayResistanceGracePeriod.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -145,7 +146,7 @@ public class MaximumRelayResistanceGracePeriodTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        MaximumRelayResistanceGracePeriodTestTlv testData = new(new byte[] { 0x3c, 0x4d });
+        MaximumRelayResistanceGracePeriodTestTlv testData = new(new byte[] {0x3c, 0x4d});
         MaximumRelayResistanceGracePeriod sut = MaximumRelayResistanceGracePeriod.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
         ushort testResult = sut.GetTagLengthValueByteCount();
@@ -160,7 +161,7 @@ public class MaximumRelayResistanceGracePeriodTests
         {
             0x4d, 0x34, 0x78, 0x4d, 0xef, 0x2a, 0x3c, 0x16, 0xef, 0xaf,
             0x4d, 0x34, 0x78, 0x4d, 0xef, 0x2a, 0x3c, 0x16, 0xef, 0xaf,
-            0x4d, 0x34, 0x78, 0x4d, 0xef, 0x2a, 0x3c, 0x16, 0xef, 0xaf,
+            0x4d, 0x34, 0x78, 0x4d, 0xef, 0x2a, 0x3c, 0x16, 0xef, 0xaf
         });
 
         Assert.Throws<DataElementParsingException>(() => MaximumRelayResistanceGracePeriod.Decode(testData.EncodeValue().AsSpan()));

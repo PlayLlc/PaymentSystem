@@ -22,13 +22,9 @@ public partial class DataExchangeKernelService : IQueryDek, IWriteToDek, IDekEnd
         _TlvDatabase = kernelDatabase;
     }
 
-    public DataExchangeKernelService() { }
-
     #endregion
 
     #region Instance Members
-
-    #region Instnace Members
 
     public void Clear()
     {
@@ -38,8 +34,6 @@ public partial class DataExchangeKernelService : IQueryDek, IWriteToDek, IDekEnd
             _Lock.Requests.Clear();
         }
     }
-
-    #endregion
 
     #endregion
 }

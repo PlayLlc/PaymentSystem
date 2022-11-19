@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Accounts\Play.Accounts.Contracts\Play.Accounts.Contracts.csproj" />
+    <ProjectReference Include="..\..\Identity\Play.Identity.Contracts\Play.Identity.Contracts.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Play.Messaging.NServiceBus\Play.Messaging.NServiceBus.csproj" />
   </ItemGroup>
 

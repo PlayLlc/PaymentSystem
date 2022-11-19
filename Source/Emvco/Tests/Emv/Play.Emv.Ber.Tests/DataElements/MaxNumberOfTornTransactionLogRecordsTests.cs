@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -66,7 +67,7 @@ public class MaxNumberOfTornTransactionLogRecordsTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        MaxNumberOfTornTransactionLogRecordsTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        MaxNumberOfTornTransactionLogRecordsTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => MaxNumberOfTornTransactionLogRecords.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -142,7 +143,7 @@ public class MaxNumberOfTornTransactionLogRecordsTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        MaxNumberOfTornTransactionLogRecordsTestTlv testData = new(new byte[] { 8 });
+        MaxNumberOfTornTransactionLogRecordsTestTlv testData = new(new byte[] {8});
         MaxNumberOfTornTransactionLogRecords sut = MaxNumberOfTornTransactionLogRecords.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -158,7 +159,7 @@ public class MaxNumberOfTornTransactionLogRecordsTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        MaxNumberOfTornTransactionLogRecordsTestTlv testData = new(new byte[] { 13 });
+        MaxNumberOfTornTransactionLogRecordsTestTlv testData = new(new byte[] {13});
 
         MaxNumberOfTornTransactionLogRecords sut = MaxNumberOfTornTransactionLogRecords.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();

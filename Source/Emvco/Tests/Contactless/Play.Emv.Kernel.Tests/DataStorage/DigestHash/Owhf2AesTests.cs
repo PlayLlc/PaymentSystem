@@ -35,8 +35,8 @@ public class Owhf2AesTests
         Owhf2AesTestsFixtures.RegisterDefaultBlockCypherConfiguration(_Fixture);
 
         BlockCipherConfiguration configuration = _Fixture.Create<BlockCipherConfiguration>();
-        _AesCodec = new AesCodec(configuration);
 
+        _AesCodec = new AesCodec(configuration);
         _SystemUnderTest = new Owhf2Aes(configuration);
 
     }

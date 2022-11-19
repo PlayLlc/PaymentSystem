@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 using Play.Domain.Repositories;
 using Play.Domain.Aggregates;
@@ -11,13 +12,15 @@ public class Repository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where 
 
     protected readonly DbContext _DbContext;
     protected readonly DbSet<_Aggregate> _DbSet;
+    private readonly ILogger<Repository<_Aggregate, _TId>> _Logger;
 
     #endregion
 
     #region Constructor
 
-    public Repository(DbContext dbContext)
+    public Repository(DbContext dbContext, ILogger<Repository<_Aggregate, _TId>> logger)
     {
+        _Logger = logger;
         _DbContext = dbContext;
         _DbSet = dbContext.Set<_Aggregate>();
         dbContext.ChangeTracker.LazyLoadingEnabled = false;
@@ -34,13 +37,16 @@ public class Repository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where 
     {
         try
         {
-            return _DbSet.FirstOrDefault(a => a.GetId()!.Equals(id));
+            return _DbSet.FirstOrDefault(a => a.Id.Equals(id));
         }
         catch (Exception ex)
         {
-            // logging
-            throw new EntityFrameworkRepositoryException(
+            var exception = new EntityFrameworkRepositoryException(
                 $"The {nameof(Repository<_Aggregate, _TId>)} encountered an exception retrieving {nameof(_Aggregate)} with the Identifier: [{id}]", ex);
+            _Logger.LogError(new EventId(id.GetHashCode(), $"{nameof(Repository<_Aggregate, _TId>)}-{nameof(_Aggregate)}-{nameof(GetById)}"), exception,
+                exception.Message);
+
+            throw exception;
         }
     }
 
@@ -54,9 +60,12 @@ public class Repository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where 
         }
         catch (Exception ex)
         {
-            // logging
-            throw new EntityFrameworkRepositoryException(
+            var exception = new EntityFrameworkRepositoryException(
                 $"The {nameof(Repository<_Aggregate, _TId>)} encountered an exception retrieving the {nameof(_Aggregate)}: [{aggregate}]", ex);
+            _Logger.LogError(new EventId(aggregate.GetHashCode(), $"{nameof(Repository<_Aggregate, _TId>)}-{nameof(_Aggregate)}-{nameof(Remove)}"), exception,
+                exception.Message);
+
+            throw exception;
         }
     }
 
@@ -65,14 +74,20 @@ public class Repository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where 
     {
         try
         {
-            _DbSet.Update(aggregate);
+            if (_DbContext.Entry(aggregate).State == EntityState.Detached)
+                _DbSet.Add(aggregate);
+            else
+                _DbSet.Update(aggregate);
             _DbContext.SaveChanges();
         }
         catch (Exception ex)
         {
-            // logging
-            throw new EntityFrameworkRepositoryException(
+            var exception = new EntityFrameworkRepositoryException(
                 $"The {nameof(Repository<_Aggregate, _TId>)} encountered an exception saving the {nameof(_Aggregate)}: [{aggregate}]", ex);
+            _Logger.LogError(new EventId(aggregate.GetHashCode(), $"{nameof(Repository<_Aggregate, _TId>)}-{nameof(_Aggregate)}-{nameof(Save)}"), exception,
+                exception.Message);
+
+            throw exception;
         }
     }
 
@@ -86,13 +101,16 @@ public class Repository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where 
     {
         try
         {
-            return await _DbSet.Where(a => a.GetId()!.Equals(id)).FirstAsync().ConfigureAwait(false);
+            return await _DbSet.Where(a => a.Id.Equals(id)).FirstOrDefaultAsync().ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            // logging
-            throw new EntityFrameworkRepositoryException(
+            var exception = new EntityFrameworkRepositoryException(
                 $"The {nameof(Repository<_Aggregate, _TId>)} encountered an exception retrieving {nameof(_Aggregate)} with the Identifier: [{id}]", ex);
+            _Logger.LogError(new EventId(id.GetHashCode(), $"{nameof(Repository<_Aggregate, _TId>)}-{nameof(_Aggregate)}-{nameof(GetByIdAsync)}"), exception,
+                exception.Message);
+
+            throw exception;
         }
     }
 
@@ -101,14 +119,21 @@ public class Repository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where 
     {
         try
         {
-            _DbSet.Update(aggregate);
+            if (_DbContext.Entry(aggregate).State == EntityState.Detached)
+                _DbSet.Add(aggregate);
+            else
+                _DbSet.Update(aggregate);
+
             await _DbContext.SaveChangesAsync();
         }
         catch (Exception ex)
         {
-            // logging
-            throw new EntityFrameworkRepositoryException(
+            var exception = new EntityFrameworkRepositoryException(
                 $"The {nameof(Repository<_Aggregate, _TId>)} encountered an exception saving the {nameof(_Aggregate)}: [{aggregate}]", ex);
+            _Logger.LogError(new EventId(aggregate.GetHashCode(), $"{nameof(Repository<_Aggregate, _TId>)}-{nameof(_Aggregate)}-{nameof(SaveAsync)}"),
+                exception, exception.Message);
+
+            throw exception;
         }
     }
 
@@ -122,9 +147,12 @@ public class Repository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where 
         }
         catch (Exception ex)
         {
-            // logging
-            throw new EntityFrameworkRepositoryException(
+            var exception = new EntityFrameworkRepositoryException(
                 $"The {nameof(Repository<_Aggregate, _TId>)} encountered an exception retrieving the {nameof(_Aggregate)}: [{aggregate}]", ex);
+            _Logger.LogError(new EventId(aggregate.GetHashCode(), $"{nameof(Repository<_Aggregate, _TId>)}-{nameof(_Aggregate)}-{nameof(RemoveAsync)}"),
+                exception, exception.Message);
+
+            throw exception;
         }
     }
 

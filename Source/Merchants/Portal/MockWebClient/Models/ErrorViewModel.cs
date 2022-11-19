@@ -1,4 +1,4 @@
-namespace _DeleteMe.MerchantPortal.DeleteMe.Models;
+namespace MockWebClient.Models;
 
 public class ErrorViewModel
 {

@@ -1,6 +1,7 @@
 ﻿using Play.Core;
 using Play.Domain.Entities;
 using Play.Domain.Events;
+using Play.Domain.Exceptions;
 using Play.Randoms;
 
 namespace Play.Domain.Aggregates;
@@ -29,8 +30,10 @@ public abstract class Aggregate<_TId> : Entity<_TId>, IAggregate, IEquatable<Agg
     /// <exception cref="BusinessRuleValidationException"></exception>
     protected void Enforce(IBusinessRule rule)
     {
-        if (rule.IsBroken())
-            Publish(((BusinessRule<Aggregate<_TId>, _TId>) rule).CreateBusinessRuleViolationDomainEvent(this));
+        if (!rule.IsBroken())
+            return;
+
+        Publish(((BusinessRule<Aggregate<_TId>, _TId>) rule).CreateBusinessRuleViolationDomainEvent(this));
 
         throw new BusinessRuleValidationException(rule);
     }
@@ -38,16 +41,16 @@ public abstract class Aggregate<_TId> : Entity<_TId>, IAggregate, IEquatable<Agg
     /// <exception cref="BusinessRuleValidationException"></exception>
     protected void Enforce(IBusinessRule rule, Action brokenRuleCallbackAction)
     {
-        if (rule.IsBroken())
-        {
-            brokenRuleCallbackAction.Invoke();
-            Publish(((BusinessRule<Aggregate<_TId>, _TId>) rule).CreateBusinessRuleViolationDomainEvent(this));
-        }
+        if (!rule.IsBroken())
+            return;
+
+        brokenRuleCallbackAction.Invoke();
+        Publish(((BusinessRule<Aggregate<_TId>, _TId>) rule).CreateBusinessRuleViolationDomainEvent(this));
 
         throw new BusinessRuleValidationException(rule);
     }
 
-    protected Result<IBusinessRule> GetEnforcementResult(IBusinessRule rule)
+    protected Result<IBusinessRule> IsEnforced(IBusinessRule rule)
     {
         if (!rule.IsBroken())
             return new Result<IBusinessRule>(rule);
@@ -66,7 +69,12 @@ public abstract class Aggregate<_TId> : Entity<_TId>, IAggregate, IEquatable<Agg
         if (other is null)
             return false;
 
-        if (other.GetId()!.Equals(GetId()))
+        // Cover for string reference equality
+        if (other.Id is string otherId)
+            return otherId == Id as string;
+
+        // managed type has value equality for IEquatable
+        if (other.Id!.Equals(Id))
             return true;
 
         return false;

@@ -81,7 +81,7 @@ public static class ByteExtensions
 
     public static byte GetByteWithBitSet(this byte input, Bits pos) => (byte) ((byte) pos | input);
     public static byte GetLeftNibble(this byte value) => value.GetMaskedValue(0b00001111);
-    public static byte GetMaskedValue(this byte value, byte bitsToMask) => (byte) (value & ~bitsToMask);
+    public static byte GetMaskedValue(this byte value, byte bitsToMask) => (byte) (value & (byte)~bitsToMask);
 
     public static byte GetMaskedValue(this byte value, params Bits[] bitsToMask)
     {

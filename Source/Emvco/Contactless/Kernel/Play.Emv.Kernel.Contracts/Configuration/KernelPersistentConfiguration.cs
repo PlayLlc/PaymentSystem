@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 
 using Play.Ber.DataObjects;
-using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 
 namespace Play.Emv.Kernel.Contracts;

@@ -1,10 +1,10 @@
-﻿using _DeleteMe.MerchantPortal.DeleteMe.Models;
+﻿using System.Diagnostics;
 
 using Microsoft.AspNetCore.Mvc;
 
-using System.Diagnostics;
+using MockWebClient.Models;
 
-namespace _DeleteMe.MerchantPortal.DeleteMe.Controllers;
+namespace MockWebClient.Controllers;
 
 public class HomeController : Controller
 {

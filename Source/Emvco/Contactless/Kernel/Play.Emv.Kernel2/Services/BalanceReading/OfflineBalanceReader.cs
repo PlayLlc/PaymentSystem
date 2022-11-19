@@ -55,10 +55,9 @@ internal partial class OfflineBalanceReader : CommonProcessing, IReadOfflineBala
     /// >
     public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message)
     {
-        StateId currentStateId = currentStateIdRetriever.GetStateId();
-        HandleRequestOutOfSync(currentStateId);
+        HandleRequestOutOfSync(currentStateIdRetriever.GetStateId());
 
-        if (_PreGenAcBalanceReader.GetValidStateIds().Any(a => a == currentStateId))
+        if (_PreGenAcBalanceReader.GetValidStateIds().Any(a => a == currentStateIdRetriever.GetStateId()))
             return _PreGenAcBalanceReader.Process(currentStateIdRetriever, session, message);
 
         return _PostGenAcBalanceReader.Process(currentStateIdRetriever, session, message);

@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -11,6 +12,8 @@ namespace Play.Emv.Ber.Tests.DataElements;
 
 public class ApplicationCurrencyExponentTests
 {
+    #region Instance Members
+
     /// <summary>
     ///     BerEncoding_DeserializingDataElement_CreatesPrimitiveValue
     /// </summary>
@@ -29,7 +32,7 @@ public class ApplicationCurrencyExponentTests
     {
         Assert.Throws<DataElementParsingException>(() =>
         {
-            ReadOnlySpan<byte> input = stackalloc byte[] { 2, 3 };
+            ReadOnlySpan<byte> input = stackalloc byte[] {2, 3};
             ApplicationCurrencyExponent testValue = ApplicationCurrencyExponent.Decode(input);
         });
     }
@@ -101,4 +104,6 @@ public class ApplicationCurrencyExponentTests
 
         Assert.Equal(testValue, expectedResult);
     }
+
+    #endregion
 }

@@ -23,11 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Play.Domain\Play.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ValueConverters\" />
+    <ProjectReference Include="..\Play.Domain.Common\Play.Domain.Common.csproj" />
   </ItemGroup>
 
 </Project>

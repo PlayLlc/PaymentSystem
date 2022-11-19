@@ -32,12 +32,10 @@ public abstract partial class TlvDatabase : IManageTlvDatabaseLifetime
     #region Instance Members
 
     /// <summary>
-    ///     Activate 
+    ///     Activate
     /// </summary>
     /// <param name="transactionSessionId"></param>
-    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="TerminalDataException"></exception>
     public virtual void Activate(TransactionSessionId transactionSessionId)
     {
         if (IsActive())

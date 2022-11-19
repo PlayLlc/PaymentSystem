@@ -2,6 +2,7 @@
 using System.Linq;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -12,9 +13,9 @@ namespace Play.Emv.Ber.Tests.DataElements;
 
 public class PoiInformationTests
 {
-    #region Instance Values
+    #region Static Metadata
 
-    private static readonly Random _Random = new Random();
+    private static readonly Random _Random = new();
 
     #endregion
 
@@ -104,7 +105,7 @@ public class PoiInformationTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        PoiInformationTestTlv testData = new(Enumerable.Range(0, 66).Select(_ => (byte)_Random.Next(0, byte.MaxValue)).ToArray());
+        PoiInformationTestTlv testData = new(Enumerable.Range(0, 66).Select(_ => (byte) _Random.Next(0, byte.MaxValue)).ToArray());
 
         Assert.Throws<DataElementParsingException>(() => PoiInformation.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -149,7 +150,7 @@ public class PoiInformationTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        PoiInformationTestTlv testData = new(new byte[] { 0x32 });
+        PoiInformationTestTlv testData = new(new byte[] {0x32});
         PoiInformation sut = PoiInformation.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -165,7 +166,7 @@ public class PoiInformationTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        PoiInformationTestTlv testData = new(new byte[] { 0xEF });
+        PoiInformationTestTlv testData = new(new byte[] {0xEF});
 
         PoiInformation sut = PoiInformation.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();

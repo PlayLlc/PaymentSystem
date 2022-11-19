@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -97,7 +98,7 @@ public class DataStorageSummaryStatusTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        DataStorageSummaryStatusTestTlv testData = new(new byte[] { 1, 2, 3, 4, 5, 6, 7 });
+        DataStorageSummaryStatusTestTlv testData = new(new byte[] {1, 2, 3, 4, 5, 6, 7});
 
         Assert.Throws<DataElementParsingException>(() => DataStorageSummaryStatus.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -142,7 +143,7 @@ public class DataStorageSummaryStatusTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        DataStorageSummaryStatusTestTlv testData = new(new byte[] { 0x7d });
+        DataStorageSummaryStatusTestTlv testData = new(new byte[] {0x7d});
         DataStorageSummaryStatus sut = DataStorageSummaryStatus.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -158,7 +159,7 @@ public class DataStorageSummaryStatusTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        DataStorageSummaryStatusTestTlv testData = new(new byte[] { 0x17 });
+        DataStorageSummaryStatusTestTlv testData = new(new byte[] {0x17});
 
         DataStorageSummaryStatus sut = DataStorageSummaryStatus.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -174,7 +175,7 @@ public class DataStorageSummaryStatusTests
     [Fact]
     public void DataStorageSummaryStatus_InvokingIsReadSuccessful_ReturnsTrue()
     {
-        DataStorageSummaryStatusTestTlv testData = new(new byte[] { 0b1111_1111 });
+        DataStorageSummaryStatusTestTlv testData = new(new byte[] {0b1111_1111});
 
         DataStorageSummaryStatus sut = DataStorageSummaryStatus.Decode(testData.EncodeValue().AsSpan());
 
@@ -184,7 +185,7 @@ public class DataStorageSummaryStatusTests
     [Fact]
     public void DataStorageSummaryStatus_InvokingIsReadSuccessful_ReturnsFalse()
     {
-        DataStorageSummaryStatusTestTlv testData = new(new byte[] { 0b0111_1111 });
+        DataStorageSummaryStatusTestTlv testData = new(new byte[] {0b0111_1111});
 
         DataStorageSummaryStatus sut = DataStorageSummaryStatus.Decode(testData.EncodeValue().AsSpan());
 
@@ -194,7 +195,7 @@ public class DataStorageSummaryStatusTests
     [Fact]
     public void DataStorageSummaryStatus_InvokingIsSuccessfulWrite_ReturnsTrue()
     {
-        DataStorageSummaryStatusTestTlv testData = new(new byte[] { 0b1111_1111 });
+        DataStorageSummaryStatusTestTlv testData = new(new byte[] {0b1111_1111});
 
         DataStorageSummaryStatus sut = DataStorageSummaryStatus.Decode(testData.EncodeValue().AsSpan());
 
@@ -204,7 +205,7 @@ public class DataStorageSummaryStatusTests
     [Fact]
     public void DataStorageSummaryStatus_InvokingIsSuccessfulWrite_ReturnsFalse()
     {
-        DataStorageSummaryStatusTestTlv testData = new(new byte[] { 0b1011_1111 });
+        DataStorageSummaryStatusTestTlv testData = new(new byte[] {0b1011_1111});
 
         DataStorageSummaryStatus sut = DataStorageSummaryStatus.Decode(testData.EncodeValue().AsSpan());
 
@@ -214,7 +215,7 @@ public class DataStorageSummaryStatusTests
     [Fact]
     public void DataStorageSummaryStatus_GetBuilder_ReturnsExpectedResult()
     {
-        DataStorageSummaryStatusTestTlv testData = new(new byte[] { 0b1011_1111 });
+        DataStorageSummaryStatusTestTlv testData = new(new byte[] {0b1011_1111});
 
         DataStorageSummaryStatus sut = DataStorageSummaryStatus.Decode(testData.EncodeValue().AsSpan());
 
