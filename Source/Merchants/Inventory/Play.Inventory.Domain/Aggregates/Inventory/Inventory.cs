@@ -1,4 +1,6 @@
-﻿using Play.Domain.Aggregates;
+﻿using NServiceBus;
+
+using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
@@ -28,12 +30,12 @@ namespace Play.Inventory.Domain.Aggregates
         #region Constructor
 
         /// <exception cref="ValueObjectException"></exception>
-        public Inventory(string id, string merchantId, string storeId, HashSet<StockItem> stockItems)
+        public Inventory(string id, string merchantId, string storeId, IEnumerable<StockItem> stockItems)
         {
             Id = new SimpleStringId(id);
             _MerchantId = new SimpleStringId(merchantId);
             _StoreId = new SimpleStringId(storeId);
-            _StockItems = stockItems;
+            _StockItems = stockItems.ToHashSet();
         }
 
         /// <exception cref="ValueObjectException"></exception>
@@ -48,6 +50,11 @@ namespace Play.Inventory.Domain.Aggregates
 
         #region Instance Members
 
+        internal string GetStoreId()
+        {
+            return _StoreId;
+        }
+
         public override SimpleStringId GetId()
         {
             return Id;
@@ -61,6 +68,19 @@ namespace Play.Inventory.Domain.Aggregates
                 StoreId = _StoreId,
                 StockItems = _StockItems.Select(a => a.AsDto())
             };
+        }
+
+        public static Task CreateInventory(string merchantId, string storeId, Dictionary<string, IEnumerable<string>> itemVariations)
+        {
+            List<StockItem> stockItems = new();
+            foreach (var keyValue in itemVariations)
+                stockItems.AddRange(keyValue.Value.Select(a => new StockItem(GenerateSimpleStringId(), keyValue.Key, a, 0)));
+
+            var inventory = new Inventory(GenerateSimpleStringId(), merchantId, storeId, stockItems);
+
+            inventory.Publish(new InventoryCreated(inventory));
+
+            return Task.CompletedTask;
         }
 
         /// <exception cref="BusinessRuleValidationException"></exception>
@@ -93,6 +113,16 @@ namespace Play.Inventory.Domain.Aggregates
 
             _StockItems.RemoveWhere(a => a.Id == stockItem.Id);
             Publish(new StockItemHasBeenRemoved(this, stockItem.Id));
+        }
+
+        /// <exception cref="ValueObjectException"></exception>
+        /// <exception cref="BusinessRuleValidationException"></exception>
+        /// <exception cref="NotFoundException"></exception>
+        public Task DeleteInventory()
+        {
+            Publish(new InventoryItemHasBeenRemoved(this));
+
+            return Task.CompletedTask;
         }
 
         /// <exception cref="ValueObjectException"></exception>

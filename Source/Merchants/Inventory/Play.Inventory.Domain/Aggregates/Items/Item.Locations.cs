@@ -15,6 +15,11 @@ public partial class Item : Aggregate<SimpleStringId>
 {
     #region Locations
 
+    public bool IsAvailableInLocation(string storeId)
+    {
+        return _Locations.DoesLocationExist(storeId);
+    }
+
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="NotFoundException"></exception>
     public async Task SetAllLocations(IRetrieveUsers userService, SetAllLocationsForItem command)
@@ -42,7 +47,7 @@ public partial class Item : Aggregate<SimpleStringId>
         if (_Locations.AddLocations(command.StoreIds.Select(a => new SimpleStringId(a))) == 0)
             return;
 
-        Publish(new ItemLocationAdded(this, user.GetId(), command.StoreIds));
+        Publish(new ItemLocationAdded(this, user.GetId(), command.StoreIds, _Variations.Select(a => a.Id.Value)));
     }
 
     /// <exception cref="NotFoundException"></exception>

@@ -12,7 +12,8 @@ namespace Play.Inventory.Application.Handlers.Inventories
 {
     public class InventoryHandlers : DomainEventHandler, IHandleDomainEvents<LowInventoryAlert>, IHandleDomainEvents<NoInventoryAlert>,
         IHandleDomainEvents<StockActionWasIncorrect>, IHandleDomainEvents<StockItemAlreadyExists>, IHandleDomainEvents<StockItemCreated>,
-        IHandleDomainEvents<StockItemDoesNotExist>, IHandleDomainEvents<StockItemHasBeenRemoved>, IHandleDomainEvents<StockItemUpdatedQuantity>
+        IHandleDomainEvents<StockItemDoesNotExist>, IHandleDomainEvents<StockItemHasBeenRemoved>, IHandleDomainEvents<StockItemUpdatedQuantity>,
+        IHandleDomainEvents<InventoryItemHasBeenRemoved>
     {
         #region Instance Values
 
@@ -89,6 +90,12 @@ namespace Play.Inventory.Application.Handlers.Inventories
         {
             Log(domainEvent);
             await _InventoryRepository.SaveAsync(domainEvent.Inventory).ConfigureAwait(false);
+        }
+
+        public async Task Handle(InventoryItemHasBeenRemoved domainEvent)
+        {
+            Log(domainEvent);
+            await _InventoryRepository.RemoveByStoreIdAsync(domainEvent.Inventory.Id).ConfigureAwait(false);
         }
 
         #endregion

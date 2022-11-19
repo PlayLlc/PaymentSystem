@@ -14,6 +14,7 @@ namespace Play.Inventory.Domain.Repositories
         #region Instance Members
 
         public Task<Aggregates.Inventory?> GetByStoreIdAsync(SimpleStringId storeId);
+        public Task RemoveByStoreIdAsync(SimpleStringId storeId);
 
         #endregion
     }

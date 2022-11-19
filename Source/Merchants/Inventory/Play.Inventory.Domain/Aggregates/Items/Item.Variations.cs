@@ -60,6 +60,11 @@ public partial class Item : Aggregate<SimpleStringId>
 
     #region Variation Item Details
 
+    public IEnumerable<string> GetVariationIds()
+    {
+        return _Variations.Select(a => a.Id.Value);
+    }
+
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="NotFoundException"></exception>

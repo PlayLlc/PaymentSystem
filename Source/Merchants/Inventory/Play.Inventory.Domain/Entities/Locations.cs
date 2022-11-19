@@ -44,6 +44,11 @@ public class Locations : Entity<SimpleStringId>
 
     #region Instance Members
 
+    public bool DoesLocationExist(string storeId)
+    {
+        return _Stores.Any(a => a.Id == new SimpleStringId(storeId));
+    }
+
     internal bool IsAllLocationsSet()
     {
         return _AllLocations;

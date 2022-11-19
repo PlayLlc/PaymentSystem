@@ -11,6 +11,7 @@ namespace Play.Inventory.Domain.Aggregates
         private readonly bool _IsValid;
         private readonly string _StockItemId;
         private readonly IEnumerable<User> _Subscriptions;
+        private readonly int _Quantity;
         public override string Message => $"The {nameof(Item)} has fallen below the low inventory threshold";
 
         #endregion
@@ -30,7 +31,7 @@ namespace Play.Inventory.Domain.Aggregates
 
         public override LowInventoryAlert CreateBusinessRuleViolationDomainEvent(Inventory inventory)
         {
-            return new LowInventoryAlert(inventory, _StockItemId, _Subscriptions, this);
+            return new LowInventoryAlert(inventory, _StockItemId, _Subscriptions, _Quantity, this);
         }
 
         public override bool IsBroken()

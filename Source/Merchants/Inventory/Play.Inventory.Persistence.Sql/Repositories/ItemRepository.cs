@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Play.Inventory.Contracts.Dtos;
 using Play.Inventory.Domain;
 using Play.Inventory.Domain.Aggregates;
+using Play.Inventory.Domain.Entities;
 using Play.Inventory.Domain.Repositories;
 
 namespace Play.Inventory.Persistence.Sql.Repositories;
@@ -68,11 +69,11 @@ public class ItemRepository : Repository<Item, SimpleStringId>, IItemRepository
     }
 
     /// <exception cref="EntityFrameworkRepositoryException"></exception>
-    public async Task<IEnumerable<ItemDto>> GetItemsAsync(SimpleStringId merchantId)
+    public async Task<IEnumerable<Item>> GetItemsAsync(SimpleStringId merchantId)
     {
         try
         {
-            List<Item> result = await _DbSet.AsNoTracking()
+            return await _DbSet.AsNoTracking()
                 .AsQueryable()
                 .Include("_Variations")
                 .Include("_Categories")
@@ -82,8 +83,6 @@ public class ItemRepository : Repository<Item, SimpleStringId>, IItemRepository
                 .Where(a => EF.Property<SimpleStringId>(a, "_MerchantId") == merchantId)
                 .ToListAsync()
                 .ConfigureAwait(false);
-
-            return result.Select(a => a.AsDto());
         }
         catch (Exception ex)
         {
@@ -94,7 +93,30 @@ public class ItemRepository : Repository<Item, SimpleStringId>, IItemRepository
     }
 
     /// <exception cref="EntityFrameworkRepositoryException"></exception>
-    public async Task<IEnumerable<ItemDto>> GetItemsAsync(SimpleStringId merchantId, int pageSize, int position)
+    public async Task<IEnumerable<Item>> GetItemsAsync(SimpleStringId merchantId, SimpleStringId storeId)
+    {
+        try
+        {
+            return await _DbSet.Include("_Variations")
+                .Include("_Categories")
+                .Include("_Locations")
+                .Include("_Alerts")
+                .Include("_Price")
+                .Where(a => (EF.Property<SimpleStringId>(a, "_MerchantId") == merchantId)
+                            && EF.Property<HashSet<Store>>(a, "_Locations._Stores").Any(a => a.Id == storeId))
+                .ToListAsync()
+                .ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            throw new EntityFrameworkRepositoryException(
+                $"The {nameof(ItemRepository)} encountered an exception attempting to invoke {nameof(GetByIdAsync)} for the {nameof(merchantId)}: [{merchantId.Value}];",
+                ex);
+        }
+    }
+
+    /// <exception cref="EntityFrameworkRepositoryException"></exception>
+    public async Task<IEnumerable<Item>> GetItemsAsync(SimpleStringId merchantId, int pageSize, int position)
     {
         try
         {
@@ -111,7 +133,7 @@ public class ItemRepository : Repository<Item, SimpleStringId>, IItemRepository
                 .ToListAsync()
                 .ConfigureAwait(false);
 
-            return result.Select(a => a.AsDto());
+            return result;
         }
         catch (Exception ex)
         {

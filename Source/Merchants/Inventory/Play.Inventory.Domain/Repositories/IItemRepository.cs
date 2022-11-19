@@ -9,8 +9,11 @@ public interface IItemRepository : IRepository<Item, SimpleStringId>
 {
     #region Instance Members
 
-    public Task<IEnumerable<ItemDto>> GetItemsAsync(SimpleStringId merchantId);
-    public Task<IEnumerable<ItemDto>> GetItemsAsync(SimpleStringId merchantId, int pageSize, int position);
+    public Task<IEnumerable<Item>> GetItemsAsync(SimpleStringId merchantId);
+    public Task<IEnumerable<Item>> GetItemsAsync(SimpleStringId merchantId, SimpleStringId storeId);
+    public Task<IEnumerable<Item>> GetItemsAsync(SimpleStringId merchantId, int pageSize, int position);
+
+    public Task<IEnumerable<Item>> GetItemsWithAllLocationsSet(SimpleStringId merchant);
 
     #endregion
 }
