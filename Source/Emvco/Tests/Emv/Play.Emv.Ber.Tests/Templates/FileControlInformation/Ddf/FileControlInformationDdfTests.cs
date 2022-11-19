@@ -133,7 +133,7 @@ public class FileControlInformationDdfTests : TestBase
     /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void Template_InvokingAsTagLengthValue_ReturnsExpectedResult()
-    {
+{
         FileControlInformationDdfTestTlv testData = new();
         TagLengthValue expected = testData.AsTagLengthValue();
         FileControlInformationDdf sut = FileControlInformationDdf.Decode(expected.EncodeTagLengthValue());

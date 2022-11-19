@@ -6,6 +6,7 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.ValueTypes;
+using Play.Globalization.Time;
 using Play.Testing.Emv.Ber.Primitive;
 
 using Xunit;
@@ -293,6 +294,187 @@ public class OutcomeParameterSetTests
         OutcomeParameterSet sut = new(0b11_0000_0010_0000_0010_0000_0010_0000_0000_0110_0110_0110_0110_0110_0110_0110);
 
         Assert.Equal(StatusOutcomes.OnlineRequest, sut.GetStatusOutcome());
+    }
+
+    #endregion
+
+    #region Builder
+
+    [Fact]
+    public void OutcomeParameterSetBuilder_Instantiate_BuilderInstantiated()
+    {
+        OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
+
+        Assert.NotNull(builder);
+    }
+
+    [Fact]
+    public void ErrorIndicationBuilder_Reset_ReturnsExpectedResult()
+    {
+        OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
+
+        builder.Reset(OutcomeParameterSet.Default);
+        Assert.Equal(OutcomeParameterSet.Default, builder.Complete());
+    }
+
+    [Fact]
+    public void ErrorIndicationBuilder_SetStatusOutcomes_ReturnsExpectedResult()
+    {
+        //{ 0, 240, 0, 240, 255, 15, 0, 0 } -> Default OutcomeParameterSet
+        OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
+        byte[] testValue = { 16, 240, 0, 240, 255, 15, 0, 0 };
+        OutcomeParameterSet expected = OutcomeParameterSet.Decode(testValue.AsSpan());
+
+        builder.Set(StatusOutcomes.Approved);
+        Assert.Equal(expected, builder.Complete());
+    }
+
+    [Fact]
+    public void ErrorIndicationBuilder_SetStartOutcomes_ReturnsExpectedResult()
+    {
+        //{ 0, 240, 0, 240, 255, 15, 0, 0 } -> Default OutcomeParameterSet
+        OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
+        byte[] testValue = { 0, 32, 0, 240, 255, 15, 0, 0 };
+        OutcomeParameterSet expected = OutcomeParameterSet.Decode(testValue.AsSpan());
+
+        builder.Set(StartOutcomes.C);
+        Assert.Equal(expected, builder.Complete());
+    }
+
+    [Fact]
+    public void ErrorIndicationBuilder_SetOnlineResponseOutcome_ReturnsExpectedResult()
+    {
+        //{ 0, 240, 0, 240, 255, 15, 0, 0 } -> Default OutcomeParameterSet
+        OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
+        byte[] testValue = { 0, 240, 0, 240, 255, 15, 0, 0 };
+        OutcomeParameterSet expected = OutcomeParameterSet.Decode(testValue.AsSpan());
+
+        builder.Set(OnlineResponseOutcome.NotAvailable);
+        Assert.Equal(expected, builder.Complete());
+    }
+
+    [Fact]
+    public void ErrorIndicationBuilder_SetCvmPerformedOutcome_ReturnsExpectedResult()
+    {
+        //{ 0, 240, 0, 240, 255, 15, 0, 0 } -> Default OutcomeParameterSet
+        OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
+        byte[] testValue = { 0, 240, 0, 16, 255, 15, 0, 0 };
+        OutcomeParameterSet expected = OutcomeParameterSet.Decode(testValue.AsSpan());
+
+        builder.Set(CvmPerformedOutcome.ObtainSignature);
+        Assert.Equal(expected, builder.Complete());
+    }
+
+    [Fact]
+    public void ErrorIndicationBuilder_SetAlternateInterfacePreferenceOutcome_ReturnsExpectedResult()
+    {
+        //{ 0, 240, 0, 240, 255, 15, 0, 0 } -> Default OutcomeParameterSet
+        OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
+        byte[] testValue = { 0, 240, 0, 240, 255, 15, 0, 0 };
+        OutcomeParameterSet expected = OutcomeParameterSet.Decode(testValue.AsSpan());
+
+        builder.Set(AlternateInterfacePreferenceOutcome.NotAvailable);
+        Assert.Equal(expected, builder.Complete());
+    }
+
+    [Fact]
+    public void ErrorIndicationBuilder_SetFieldOffRequestOutcome_ReturnsExpectedResult()
+    {
+        //{ 0, 240, 0, 240, 255, 15, 0, 0 } -> Default OutcomeParameterSet
+        OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
+        byte[] testValue = { 0, 240, 0, 240, 255, 15, 0, 0 };
+        OutcomeParameterSet expected = OutcomeParameterSet.Decode(testValue.AsSpan());
+
+        builder.Set(FieldOffRequestOutcome.NotAvailable);
+        Assert.Equal(expected, builder.Complete());
+    }
+
+    [Fact]
+    public void ErrorIndicationBuilder_SetMilliseconds_ReturnsExpectedResult()
+    {
+        //{ 0, 240, 0, 240, 255, 15, 0, 0 } -> Default OutcomeParameterSet
+        OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
+        byte[] testValue = { 150, 240, 0, 240, 255, 15, 0, 0 };
+        OutcomeParameterSet expected = OutcomeParameterSet.Decode(testValue.AsSpan());
+
+        Milliseconds milliseconds = new(150);
+        builder.Set(milliseconds);
+        Assert.Equal(expected, builder.Complete());
+    }
+
+    [Fact]
+    public void ErrorIndicationBuilder_SetSetIsDataRecordPresent_ReturnsExpectedResult()
+    {
+        OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
+        OutcomeParameterSet empty = new OutcomeParameterSet(0);
+        builder.Reset(empty);
+
+        byte[] testValue = { 0, 0, 0, 0b0010_0000, 0, 0, 0, 0 };
+        OutcomeParameterSet expected = OutcomeParameterSet.Decode(testValue.AsSpan());
+
+        builder.SetIsDataRecordPresent(true);
+        OutcomeParameterSet actual = builder.Complete();
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void ErrorIndicationBuilder_SetSetIsDiscretionaryDataPresent_ReturnsExpectedResult()
+    {
+        OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
+        OutcomeParameterSet empty = new OutcomeParameterSet(0);
+        builder.Reset(empty);
+
+        byte[] testValue = { 0, 0, 0, 0b0001_0000, 0, 0, 0, 0 };
+        OutcomeParameterSet expected = OutcomeParameterSet.Decode(testValue.AsSpan());
+
+        builder.SetIsDiscretionaryDataPresent(true);
+        OutcomeParameterSet actual = builder.Complete();
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void ErrorIndicationBuilder_SetSetIsReceiptPresent_ReturnsExpectedResult()
+    {
+        OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
+        OutcomeParameterSet empty = new OutcomeParameterSet(0);
+        builder.Reset(empty);
+
+        byte[] testValue = { 0, 0, 0, 0b0000_1000, 0, 0, 0, 0 };
+        OutcomeParameterSet expected = OutcomeParameterSet.Decode(testValue.AsSpan());
+
+        builder.SetIsReceiptPresent(true);
+        OutcomeParameterSet actual = builder.Complete();
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void ErrorIndicationBuilder_SetSetIsUiRequestOnOutcomePresent_ReturnsExpectedResult()
+    {
+        OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
+        OutcomeParameterSet empty = new OutcomeParameterSet(0);
+        builder.Reset(empty);
+
+        byte[] testValue = { 0, 0, 0, 0b1000_0000, 0, 0, 0, 0 };
+        OutcomeParameterSet expected = OutcomeParameterSet.Decode(testValue.AsSpan());
+
+        builder.SetIsUiRequestOnOutcomePresent(true);
+        OutcomeParameterSet actual = builder.Complete();
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void ErrorIndicationBuilder_SetSetIsUiRequestOnRestartPresent_ReturnsExpectedResult()
+    {
+        OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
+        OutcomeParameterSet empty = new OutcomeParameterSet(0);
+        builder.Reset(empty);
+
+        byte[] testValue = { 0, 0, 0, 0b0100_0000, 0, 0, 0, 0 };
+        OutcomeParameterSet expected = OutcomeParameterSet.Decode(testValue.AsSpan());
+
+        builder.SetIsUiRequestOnRestartPresent(true);
+        OutcomeParameterSet actual = builder.Complete();
+        Assert.Equal(expected, actual);
     }
 
     #endregion
