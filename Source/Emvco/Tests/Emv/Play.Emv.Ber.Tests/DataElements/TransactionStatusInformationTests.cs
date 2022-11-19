@@ -1,9 +1,12 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
+
 using Xunit;
 
 namespace Play.Emv.Ber.Tests.DataElements;
@@ -96,7 +99,7 @@ public class TransactionStatusInformationTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        TransactionStatusInformationTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        TransactionStatusInformationTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => TransactionStatusInformation.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -141,7 +144,7 @@ public class TransactionStatusInformationTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        TransactionStatusInformationTestTlv testData = new(new byte[] { 3, 216 });
+        TransactionStatusInformationTestTlv testData = new(new byte[] {3, 216});
         TransactionStatusInformation sut = TransactionStatusInformation.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -157,7 +160,7 @@ public class TransactionStatusInformationTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        TransactionStatusInformationTestTlv testData = new(new byte[] { 255, 255 });
+        TransactionStatusInformationTestTlv testData = new(new byte[] {255, 255});
 
         TransactionStatusInformation sut = TransactionStatusInformation.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -173,7 +176,7 @@ public class TransactionStatusInformationTests
     [Fact]
     public void TransactionStatusInformation_CardholderVerificationWasPerformed_ReturnsTrue()
     {
-        TransactionStatusInformationTestTlv testData = new(new byte[] { 255, 0b1000000 });
+        TransactionStatusInformationTestTlv testData = new(new byte[] {255, 0b1000000});
         TransactionStatusInformation sut = TransactionStatusInformation.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.CardholderVerificationWasPerformed());
@@ -182,7 +185,7 @@ public class TransactionStatusInformationTests
     [Fact]
     public void TransactionStatusInformation_CardRiskManagementWasPerformed_ReturnsTrue()
     {
-        TransactionStatusInformationTestTlv testData = new(new byte[] { 255, 0b100000 });
+        TransactionStatusInformationTestTlv testData = new(new byte[] {255, 0b100000});
         TransactionStatusInformation sut = TransactionStatusInformation.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.CardRiskManagementWasPerformed());
@@ -191,7 +194,7 @@ public class TransactionStatusInformationTests
     [Fact]
     public void TransactionStatusInformation_IssuerAuthenticationWasPerformed_ReturnsTrue()
     {
-        TransactionStatusInformationTestTlv testData = new(new byte[] { 255, 0b10000 });
+        TransactionStatusInformationTestTlv testData = new(new byte[] {255, 0b10000});
         TransactionStatusInformation sut = TransactionStatusInformation.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.IssuerAuthenticationWasPerformed());
@@ -200,7 +203,7 @@ public class TransactionStatusInformationTests
     [Fact]
     public void TransactionStatusInformation_OfflineDataAuthenticationWasPerformed_ReturnsTrue()
     {
-        TransactionStatusInformationTestTlv testData = new(new byte[] { 255, 0b10000000 });
+        TransactionStatusInformationTestTlv testData = new(new byte[] {255, 0b10000000});
         TransactionStatusInformation sut = TransactionStatusInformation.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.OfflineDataAuthenticationWasPerformed());
@@ -209,7 +212,7 @@ public class TransactionStatusInformationTests
     [Fact]
     public void TransactionStatusInformation_ScriptProcessingWasPerformed_ReturnsTrue()
     {
-        TransactionStatusInformationTestTlv testData = new(new byte[] { 255, 0b100 });
+        TransactionStatusInformationTestTlv testData = new(new byte[] {255, 0b100});
         TransactionStatusInformation sut = TransactionStatusInformation.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.ScriptProcessingWasPerformed());
@@ -218,7 +221,7 @@ public class TransactionStatusInformationTests
     [Fact]
     public void TransactionStatusInformation_TerminalRiskManagementWasPerformed_ReturnsTrue()
     {
-        TransactionStatusInformationTestTlv testData = new(new byte[] { 255, 0b1000 });
+        TransactionStatusInformationTestTlv testData = new(new byte[] {255, 0b1000});
         TransactionStatusInformation sut = TransactionStatusInformation.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.TerminalRiskManagementWasPerformed());
@@ -227,10 +230,10 @@ public class TransactionStatusInformationTests
     [Fact]
     public void TransactionStatusInformation_SetTransactionStatusInformationFlagsNotAvailable_NothingIsSet()
     {
-        TransactionStatusInformationTestTlv testData = new(new byte[] { 255, 0b1000 });
+        TransactionStatusInformationTestTlv testData = new(new byte[] {255, 0b1000});
         TransactionStatusInformation sut = TransactionStatusInformation.Decode(testData.EncodeValue().AsSpan());
 
-        sut.Set(Enums.TransactionStatusInformationFlags.NotAvailable);
+        sut.Set(TransactionStatusInformationFlags.NotAvailable);
 
         byte[] expectedResult = testData.EncodeValue();
         byte[]? testValue = sut.EncodeValue();
@@ -241,12 +244,12 @@ public class TransactionStatusInformationTests
     [Fact]
     public void TransactionStatusInformation_SetTransactionStatusInformationFlags_FlagIsSet()
     {
-        TransactionStatusInformationTestTlv testData = new(new byte[] { 0b0, 0b0 });
+        TransactionStatusInformationTestTlv testData = new(new byte[] {0b0, 0b0});
         TransactionStatusInformation sut = TransactionStatusInformation.Decode(testData.EncodeValue().AsSpan());
 
-        sut = sut.Set(Enums.TransactionStatusInformationFlags.OfflineDataAuthenticationPerformed);
+        sut = sut.Set(TransactionStatusInformationFlags.OfflineDataAuthenticationPerformed);
 
-        byte[] expected = { 08, 0 };
+        byte[] expected = {08, 0};
 
         Assert.Equal(expected, sut.EncodeValue());
     }

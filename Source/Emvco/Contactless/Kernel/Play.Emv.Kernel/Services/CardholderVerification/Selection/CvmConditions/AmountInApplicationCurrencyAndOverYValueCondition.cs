@@ -21,7 +21,7 @@ internal record AmountInApplicationCurrencyAndOverYValueCondition : CvmCondition
 
     #region Instance Values
 
-    protected override Tag[] _RequiredData => _RequiredData;
+    protected override Tag[] _RequiredData => _RequiredTags;
 
     #endregion
 

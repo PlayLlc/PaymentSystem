@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Globalization.Currency;
@@ -98,7 +99,7 @@ public class ReaderContactlessFloorLimitTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        ReaderContactlessFloorLimitTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        ReaderContactlessFloorLimitTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => ReaderContactlessFloorLimit.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -143,7 +144,7 @@ public class ReaderContactlessFloorLimitTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        ReaderContactlessFloorLimitTestTlv testData = new(new byte[] { 44, 15, 64, 12, 22, 31 });
+        ReaderContactlessFloorLimitTestTlv testData = new(new byte[] {44, 15, 64, 12, 22, 31});
         ReaderContactlessFloorLimit sut = ReaderContactlessFloorLimit.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -159,10 +160,7 @@ public class ReaderContactlessFloorLimitTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        ReaderContactlessFloorLimitTestTlv testData = new(new byte[]
-        {
-            44, 15, 64, 12, 22, 31
-        });
+        ReaderContactlessFloorLimitTestTlv testData = new(new byte[] {44, 15, 64, 12, 22, 31});
 
         ReaderContactlessFloorLimit sut = ReaderContactlessFloorLimit.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -170,8 +168,6 @@ public class ReaderContactlessFloorLimitTests
 
         Assert.Equal(expectedResult, testResult);
     }
-
-    #endregion
 
     #region ReaderContactlessFloorLimit
 
@@ -181,11 +177,13 @@ public class ReaderContactlessFloorLimitTests
         ReaderContactlessFloorLimitTestTlv testData = new();
         ReaderContactlessFloorLimit sut = ReaderContactlessFloorLimit.Decode(testData.EncodeValue().AsSpan());
 
-        Money expected = new Money(122231441564, new Alpha3CurrencyCode("USD"));
+        Money expected = new(122231441564, new Alpha3CurrencyCode("USD"));
         Money money = sut.AsMoney(new NumericCurrencyCode(840));
 
         Assert.Equal(expected, money);
     }
+
+    #endregion
 
     #endregion
 }

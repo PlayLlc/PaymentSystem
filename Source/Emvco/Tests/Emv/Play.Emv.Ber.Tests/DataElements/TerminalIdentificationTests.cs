@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -97,7 +98,7 @@ public class TerminalIdentificationTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        TerminalIdentificationTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        TerminalIdentificationTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => TerminalIdentification.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -142,7 +143,8 @@ public class TerminalIdentificationTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        TerminalIdentificationTestTlv testData = new(new byte[] { (byte)'0', (byte)'A', (byte)'z', (byte)'Z', (byte)'X', (byte)'x', (byte)'1', (byte)'c' });
+        TerminalIdentificationTestTlv testData =
+            new(new byte[] {(byte) '0', (byte) 'A', (byte) 'z', (byte) 'Z', (byte) 'X', (byte) 'x', (byte) '1', (byte) 'c'});
         TerminalIdentification sut = TerminalIdentification.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -158,7 +160,8 @@ public class TerminalIdentificationTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        TerminalIdentificationTestTlv testData = new(new byte[] { (byte)'0', (byte)'A', (byte)'z', (byte)'Z', (byte)'X', (byte)'x', (byte)'1', (byte)'c' });
+        TerminalIdentificationTestTlv testData =
+            new(new byte[] {(byte) '0', (byte) 'A', (byte) 'z', (byte) 'Z', (byte) 'X', (byte) 'x', (byte) '1', (byte) 'c'});
 
         TerminalIdentification sut = TerminalIdentification.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -166,8 +169,6 @@ public class TerminalIdentificationTests
 
         Assert.Equal(expectedResult, testResult);
     }
-
-    #endregion
 
     //AsToken
 
@@ -182,6 +183,8 @@ public class TerminalIdentificationTests
         string expected = "aAzZ091c";
         Assert.Equal(sut.AsToken(), expected);
     }
+
+    #endregion
 
     #endregion
 }

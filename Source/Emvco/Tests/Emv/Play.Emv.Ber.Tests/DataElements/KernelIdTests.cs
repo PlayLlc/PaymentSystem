@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
@@ -98,7 +99,7 @@ public class KernelIdTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        KernelIdTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        KernelIdTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => KernelId.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -143,7 +144,7 @@ public class KernelIdTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        KernelIdTestTlv testData = new(new byte[] { 0x32 });
+        KernelIdTestTlv testData = new(new byte[] {0x32});
         KernelId sut = KernelId.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -159,10 +160,7 @@ public class KernelIdTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        KernelIdTestTlv testData = new(new byte[]
-        {
-            0x08
-        });
+        KernelIdTestTlv testData = new(new byte[] {0x08});
 
         KernelId sut = KernelId.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -178,7 +176,7 @@ public class KernelIdTests
     [Fact]
     public void KernelId_GetShortKernelType_ReturnsExpectedResult()
     {
-        KernelIdTestTlv testData = new(new byte[] { ShortKernelIdTypes.Kernel1 });
+        KernelIdTestTlv testData = new(new byte[] {ShortKernelIdTypes.Kernel1});
         KernelId sut = KernelId.Decode(testData.EncodeValue().AsSpan());
 
         Assert.Equal(ShortKernelIdTypes.Kernel1, sut.GetShortKernelId());
@@ -187,7 +185,7 @@ public class KernelIdTests
     [Fact]
     public void KernelId_GetShortKernelTypeForUknownKernelId_ThrowsException()
     {
-        KernelIdTestTlv testData = new(new byte[] { 11 });
+        KernelIdTestTlv testData = new(new byte[] {11});
         KernelId sut = KernelId.Decode(testData.EncodeValue().AsSpan());
 
         Assert.Throws<DataElementParsingException>(() =>

@@ -21,6 +21,8 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x95;
+    public static readonly TerminalVerificationResults Default = new(0);
+
     private const byte _ByteLength = 5;
 
     #endregion
@@ -89,6 +91,8 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
     public static TerminalVerificationResults operator |(TerminalVerificationResults left, TerminalVerificationResults right) =>
         new(left._Value | right._Value);
 
+
+
     #endregion
 
     #region Instance Members
@@ -98,7 +102,7 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
     public bool CardAppearsOnTerminalExceptionFile() => _Value.IsBitSet(37);
     public bool CardholderVerificationWasNotSuccessful() => _Value.IsBitSet(24);
     public bool CombinationDataAuthenticationFailed() => _Value.IsBitSet(35);
-    public bool DefaultTransactionCertificateDataObjectListUsed() => _Value.IsBitSet(8);
+    public bool DefaultTransactionCertificateDataObjectListUsed() => _Value.IsBitSet(40);
     public bool DynamicDataAuthenticationFailed() => _Value.IsBitSet(36);
     public bool ExpiredApplication() => _Value.IsBitSet(31);
     public override PlayEncodingId GetEncodingId() => EncodingId;
@@ -140,9 +144,9 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
     {
         #region Constructor
 
-        internal Builder(TerminalVerificationResults outcomeParameterSet)
+        internal Builder(TerminalVerificationResults tvr)
         {
-            _Value = outcomeParameterSet._Value;
+            _Value = tvr._Value;
         }
 
         internal Builder()
@@ -164,7 +168,7 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
 
         public void Clear(TerminalVerificationResult bitToClear)
         {
-            _Value.ClearBits((ulong) bitToClear);
+            _Value = _Value.ClearBits((ulong) bitToClear);
         }
 
         public override TerminalVerificationResults Complete() => new(_Value);

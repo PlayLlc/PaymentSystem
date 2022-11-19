@@ -69,10 +69,10 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
     public static Builder GetBuilder() => new();
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public Level1Error GetL1() => !Level1Error.Empty.TryGet((byte) (_Value >> 40), out EnumObject<byte>? result) ? Level1Error.Ok : (Level1Error) result!;
-    public Level2Error GetL2() => !Level2Error.Empty.TryGet((byte) (_Value >> 40), out EnumObject<byte>? result) ? Level2Error.Ok : (Level2Error) result!;
-    public Level3Error GetL3() => !Level3Error.Empty.TryGet((byte) (_Value >> 40), out EnumObject<byte>? result) ? Level3Error.Ok : (Level3Error) result!;
+    public Level2Error GetL2() => !Level2Error.Empty.TryGet((byte) (_Value >> 32), out EnumObject<byte>? result) ? Level2Error.Ok : (Level2Error) result!;
+    public Level3Error GetL3() => !Level3Error.Empty.TryGet((byte) (_Value >> 24), out EnumObject<byte>? result) ? Level3Error.Ok : (Level3Error) result!;
     public DisplayMessageOnErrorIdentifiers GetMessageIdentifier() => (DisplayMessageOnErrorIdentifiers) DisplayMessageOnErrorIdentifiers.Get((byte) _Value);
-    public StatusWords GetStatusWords() => new(new StatusWord((byte) (_Value >> 16)), new StatusWord((byte) (_Value >> 8)));
+    public StatusWords GetStatusWords() => new(new StatusWord((byte) (_Value >> 8)), new StatusWord((byte) (_Value >> 8)));
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
     public bool IsErrorPresent() => (GetL1() != Level1Error.Ok) || (GetL2() != Level2Error.Ok) || (GetL3() != Level3Error.Ok);
@@ -170,21 +170,21 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
         public void Set(Level2Error error)
         {
             const byte offset = 32;
-            _Value.ClearBits(byte.MaxValue << offset);
+            _Value = _Value.ClearBits(byte.MaxValue << offset);
             _Value |= (ulong) error << offset;
         }
 
         public void Set(Level3Error error)
         {
-            const byte offset = 24;
-
+            const byte offset =  4;
+            _Value = _Value.ClearBits(byte.MaxValue << offset);
             _Value |= (ulong) error << offset;
         }
 
         public void Set(StatusWords statusWords)
         {
             const byte offset = 8;
-            _Value.ClearBits(ushort.MaxValue << offset);
+            _Value = _Value.ClearBits(ushort.MaxValue << offset);
             _Value |= (ulong) statusWords << offset;
         }
 

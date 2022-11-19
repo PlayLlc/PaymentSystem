@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.ValueTypes;
@@ -98,7 +99,7 @@ public class TerminalActionCodeOnlineTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        TerminalActionCodeOnlineTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        TerminalActionCodeOnlineTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => TerminalActionCodeOnline.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -143,7 +144,7 @@ public class TerminalActionCodeOnlineTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        TerminalActionCodeOnlineTestTlv testData = new(new byte[] { 0x08, 0xEF, 0x47, 0x3C, 0x44 });
+        TerminalActionCodeOnlineTestTlv testData = new(new byte[] {0x08, 0xEF, 0x47, 0x3C, 0x44});
         TerminalActionCodeOnline sut = TerminalActionCodeOnline.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -159,7 +160,7 @@ public class TerminalActionCodeOnlineTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        TerminalActionCodeOnlineTestTlv testData = new(new byte[] { 0x08, 0xEF, 0xF, 0x8D, 0x3F });
+        TerminalActionCodeOnlineTestTlv testData = new(new byte[] {0x08, 0xEF, 0xF, 0x8D, 0x3F});
 
         TerminalActionCodeOnline sut = TerminalActionCodeOnline.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -167,8 +168,6 @@ public class TerminalActionCodeOnlineTests
 
         Assert.Equal(expectedResult, testResult);
     }
-
-    #endregion
 
     #region TerminalActionCodeOnline
 
@@ -178,9 +177,11 @@ public class TerminalActionCodeOnlineTests
         TerminalActionCodeOnlineTestTlv testData = new();
         TerminalActionCodeOnline sut = TerminalActionCodeOnline.Decode(testData.EncodeValue().AsSpan());
 
-        ActionCodes expected = new ActionCodes(493252378906);
+        ActionCodes expected = new(493252378906);
         Assert.Equal(expected, sut.AsActionCodes());
     }
+
+    #endregion
 
     #endregion
 }

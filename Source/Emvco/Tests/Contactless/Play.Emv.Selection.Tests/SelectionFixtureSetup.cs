@@ -46,11 +46,18 @@ public static class SelectionFixtureSetup
         fixture.Register(() => ttq);
     }
 
-    public static void RegisterReaderContactlessTransactionLimit(this IFixture fixture, ulong amount)
+    public static void RegisterReaderContactlessTransactionLimitWhenCvmIsOnDevice(this IFixture fixture, ulong amount)
     {
         ReaderContactlessTransactionLimitWhenCvmIsOnDevice readerContactlessTransactionLimit = new(amount);
 
         fixture.Register<ReaderContactlessTransactionLimit>(() => readerContactlessTransactionLimit);
+    }
+
+    public static void RegisterReaderContactlessTransactionLimitWhenCvmIsNotOnDevice(this IFixture fixture, ulong amount)
+    {
+        ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice readerContactlessTransactionLimitWhenCvmIsNotOnDevice = new(amount);
+
+        fixture.Register<ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice>(() => readerContactlessTransactionLimitWhenCvmIsNotOnDevice);
     }
 
     public static void RegisterReaderCvmRequiredLimit(this IFixture fixture, ulong amount)

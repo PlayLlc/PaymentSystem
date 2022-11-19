@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Play.Core;
-using Play.Core.Extensions;
-
 namespace Play.Globalization.Currency;
 
 // WARNING:==========================================================================================================================================================================================================================================
@@ -46,6 +43,9 @@ public record Money : IEqualityComparer<Money>
 
     #region Instance Members
 
+    public ulong GetAmount() => _Amount;
+    public bool IsPositiveNonZeroAmount() => _Amount > 0;
+
     /// <summary>
     ///     Add
     /// </summary>
@@ -68,7 +68,20 @@ public record Money : IEqualityComparer<Money>
     /// </summary>
     public string AsLocalFormat(CultureProfile cultureProfile) => cultureProfile.GetFiatFormat(this);
 
-    public NumericCurrencyCode GetCurrencyCode(CultureProfile cultureProfile) => cultureProfile.GetNumericCurrencyCode();
+    /// <summary>
+    ///     This is a less precise way to format this Money object as a string
+    /// </summary>
+    /// <returns></returns>
+    public string AsLocalFormat() => $"{_Currency.GetCurrencySymbol()}{_Currency.ToLocalDecimalAmount(_Amount)}";
+
+    public static string AsLocalFormat(ulong amount, NumericCurrencyCode currencyCode)
+    {
+        Currency? currency = CurrencyCodeRepository.Get(currencyCode);
+
+        return $"{currency.GetCurrencySymbol()}{currency.ToLocalDecimalAmount(amount)}";
+    }
+
+    public NumericCurrencyCode GetNumericCurrencyCode() => _Currency.GetNumericCode();
 
     public bool IsBaseAmount()
     {
@@ -90,29 +103,7 @@ public record Money : IEqualityComparer<Money>
     /// <summary>
     ///     Formats the money value to string according to the local culture of this type
     /// </summary>
-    public override string ToString()
-    {
-        int precision = _Currency.GetMinorUnitLength();
-        string yourValue = $"{_Currency.GetCurrencySymbol()}{_Amount / Math.Pow(10, precision)}";
-
-        return yourValue;
-    }
-
-    public string ToString(CultureProfile profile) => profile.GetFiatFormat(this);
-
-    /// <summary>
-    ///     Splits currency amounts based on the percentage provided by the argument
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="probabilitySplit"></param>
-    /// <returns></returns>
-    public static (Money Remaining, Money Split) Split(Money value, Probability probabilitySplit)
-    {
-        ulong remaining = value._Amount / (byte) probabilitySplit;
-        ulong split = value._Amount - remaining;
-
-        return (Remaining: new Money(remaining, value._Currency), new Money(split, value._Currency));
-    }
+    public override string ToString() => AsLocalFormat();
 
     #endregion
 

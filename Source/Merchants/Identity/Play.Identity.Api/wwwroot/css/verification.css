@@ -1,0 +1,116 @@
+﻿.backgroundColor { background-color: #f9f9f9; }
+
+.formBackgroundColor { background-color: #F4F6F9; }
+
+.formText { font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; }
+
+.footerText {
+    color: #213848;
+    font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #213848;
+    font-weight: 300;
+    line-height: normal;
+}
+
+h1 {
+    color: #213848;
+    font-size: 3em;
+}
+
+h2 {
+    color: #213848;
+    font-size: 2em;
+}
+
+p {
+    color: #213848;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 24px;
+}
+
+.titleText {
+    color: #213848;
+    font-family: 'Open Sans', sans-serif;
+}
+
+@media screen {
+    @font-face {
+        font-family: 'Source Sans Pro';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url(https://fonts.gstatic.com/s/sourcesanspro/v10/ODelI1aHBYDBqgeIAH2zlBM0YzuT7MdOe03otPbuUS0.woff) format('woff');
+    }
+
+    @font-face {
+        font-family: 'Source Sans Pro';
+        font-style: normal;
+        font-weight: 700;
+        src: local('Source Sans Pro Bold'), local('SourceSansPro-Bold'), url(https://fonts.gstatic.com/s/sourcesanspro/v10/toadOcfmlt9b38dHJxOBGFkQc6VGVFSmCnC_l7QZG60.woff) format('woff');
+    }
+}
+
+body,
+table,
+td,
+a {
+    -ms-text-size-adjust: 100%; /* 1 */
+    -webkit-text-size-adjust: 100%; /* 2 */
+}
+
+table,
+td {
+    mso-table-lspace: 0pt;
+    mso-table-rspace: 0pt;
+}
+
+img { -ms-interpolation-mode: bicubic; }
+
+a.simpleButton:hover, a:active, a:focus {
+    background: #00C3D9;
+    color: #ffffff;
+    outline: none;
+}
+
+.simpleButton {
+    background: #29ca8e;
+    border: 0;
+    border-radius: 50px;
+    color: #ffffff;
+    font-family: 'Open Sans', sans-serif !important;
+    font-size: 16px;
+    font-weight: normal;
+    padding: 12px 30px;
+}
+
+a {
+    color: #00C3D9;
+    text-decoration: none !important;
+}
+
+a:hover, a:active, a:focus {
+    color: #00D994;
+    outline: none;
+}
+
+div[style*="margin: 16px 0;"] { margin: 0 !important; }
+
+body {
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+}
+
+table { border-collapse: collapse !important; }
+
+img {
+    border: 0;
+    height: auto;
+    line-height: 100%;
+    outline: none;
+    text-decoration: none;
+}

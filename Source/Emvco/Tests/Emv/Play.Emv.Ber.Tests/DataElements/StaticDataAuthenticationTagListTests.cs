@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Ber.Tags;
 using Play.Emv.Ber.DataElements;
 using Play.Testing.Emv.Ber.Primitive;
@@ -129,7 +130,7 @@ public class StaticDataAuthenticationTagListTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        StaticDataAuthenticationTagListTestTlv testData = new(new byte[] { 0x8f });
+        StaticDataAuthenticationTagListTestTlv testData = new(new byte[] {0x8f});
         StaticDataAuthenticationTagList sut = StaticDataAuthenticationTagList.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -145,10 +146,7 @@ public class StaticDataAuthenticationTagListTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        StaticDataAuthenticationTagListTestTlv testData = new(new byte[]
-        {
-            0x4d
-        });
+        StaticDataAuthenticationTagListTestTlv testData = new(new byte[] {0x4d});
 
         StaticDataAuthenticationTagList sut = StaticDataAuthenticationTagList.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -157,23 +155,20 @@ public class StaticDataAuthenticationTagListTests
         Assert.Equal(expectedResult, testResult);
     }
 
-    #endregion
-
     #region StaticDataAuthenticationTagList
 
     [Fact]
     public void StaticDataAuthenticationTagList_GetTags_ReturnsExpectedResult()
     {
-        StaticDataAuthenticationTagListTestTlv testData = new(new byte[]
-        {
-            22, 47
-        });
+        StaticDataAuthenticationTagListTestTlv testData = new(new byte[] {22, 47});
         StaticDataAuthenticationTagList sut = StaticDataAuthenticationTagList.Decode(testData.EncodeValue().AsSpan());
 
-        Tag[] expected = new[] { new Tag(22), new Tag(47) };
+        Tag[] expected = new[] {new Tag(22), new Tag(47)};
 
         Assert.Equal(expected, sut.GetRequiredTags());
     }
+
+    #endregion
 
     #endregion
 }

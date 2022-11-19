@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -129,7 +130,7 @@ public class IccPinEnciphermentPublicKeyCertificateTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        IccPinEnciphermentPublicKeyCertificateTestTlv testData = new(new byte[] { 0x32, 0x8e });
+        IccPinEnciphermentPublicKeyCertificateTestTlv testData = new(new byte[] {0x32, 0x8e});
         IccPinEnciphermentPublicKeyCertificate sut = IccPinEnciphermentPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -145,10 +146,7 @@ public class IccPinEnciphermentPublicKeyCertificateTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        IccPinEnciphermentPublicKeyCertificateTestTlv testData = new(new byte[]
-        {
-            0x08, 0x13,
-        });
+        IccPinEnciphermentPublicKeyCertificateTestTlv testData = new(new byte[] {0x08, 0x13});
 
         IccPinEnciphermentPublicKeyCertificate sut = IccPinEnciphermentPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();

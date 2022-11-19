@@ -1,4 +1,5 @@
 ﻿using AutoFixture;
+using AutoFixture.Kernel;
 
 using Play.Ber.DataObjects;
 using Play.Core;
@@ -7,6 +8,7 @@ using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Templates;
+using Play.Emv.Database;
 using Play.Emv.Icc;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
@@ -18,6 +20,7 @@ using Play.Emv.Pcd.Contracts;
 using Play.Icc.FileSystem.DedicatedFiles;
 using Play.Icc.Messaging.Apdu;
 using Play.Messaging;
+using Play.Testing.Emv.Contactless.AutoFixture.Configuration;
 
 namespace Play.Testing.Emv.Contactless.AutoFixture;
 
@@ -25,33 +28,33 @@ public partial class ContactlessFixture
 {
     #region Database Customization
 
-    public static void RegisterDefaultDatabase(IFixture fixture)
+    public static void RegisterDefaultDatabase(IFixture fixture, ContactlessFixtureBuilderOptions options)
     {
-        CreateDatabase(fixture);
+        RegisterDefaultDatabaseConfigurationValues(fixture, options.DefaultPrimitiveValues);
     }
 
-    public static KernelDatabase CreateDefaultDatabase(IFixture fixture) => SetupDatabase(fixture);
-
-    private static void CreateDatabase(IFixture fixture)
+    private static void RegisterDefaultDatabaseConfigurationValues(IFixture fixture, PrimitiveValue[] defaultPrimitiveValues)
     {
         fixture.Freeze<TransactionSessionId>();
         fixture.Freeze<KernelSessionId>();
         fixture.Register<KernelPersistentConfiguration>(() => new Kernel2KernelPersistentConfiguration(Array.Empty<PrimitiveValue>(), new EmvRuntimeCodec()));
         fixture.Register<KnownObjects>(fixture.Create<Kernel2KnownObjects>);
         fixture.Register(() => new SequenceCounterThreshold(0, int.MaxValue, 1));
-        fixture.Register(() => new KernelDatabase(new CertificateAuthorityDataset[0], GetDefaultPrimitiveValues(), fixture.Create<KnownObjects>(), null));
+        fixture.Register(() => new KernelDatabase(new CertificateAuthorityDataset[0], defaultPrimitiveValues, fixture.Create<KnownObjects>(), null));
     }
 
-    private static PrimitiveValue[] GetDefaultPrimitiveValues()
-    {
-        return new PrimitiveValue[0];
-    }
+    public static KernelDatabase CreateDefaultDatabase(IFixture fixture, bool activateDbOnInitialization = true) => SetupDatabase(fixture, activateDbOnInitialization);
 
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
-    private static KernelDatabase SetupDatabase(IFixture fixture)
+    private static KernelDatabase SetupDatabase(IFixture fixture, bool activateDbOnInitialization)
     {
         KernelDatabase database = fixture.Create<KernelDatabase>();
+
+        if (!activateDbOnInitialization)
+            return database;
+
         database.Activate(fixture.Create<TransactionSessionId>());
+
         TagsToRead tagsToRead = new();
         TerminalTransactionQualifiers ttq = fixture.Create<TerminalTransactionQualifiers>();
         SelectApplicationDefinitionFileInfoResponse rapdu = CreateSelectApplicationDefinitionFileInfoResponse(fixture);
@@ -75,7 +78,7 @@ public partial class ContactlessFixture
         return new CombinationCompositeKey(dedicatedFileName, kernelType, transaction.GetTransactionType());
     }
 
-    private static SelectApplicationDefinitionFileInfoResponse CreateSelectApplicationDefinitionFileInfoResponse(IFixture fixture)
+    public static SelectApplicationDefinitionFileInfoResponse CreateSelectApplicationDefinitionFileInfoResponse(IFixture fixture)
     {
         CorrelationId correlationId = fixture.Create<CorrelationId>();
 

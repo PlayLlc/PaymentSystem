@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -97,7 +98,11 @@ public class DataStorageSlotManagementControlTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        DataStorageSlotManagementControlTestTlv testData = new(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 });
+        DataStorageSlotManagementControlTestTlv testData = new(new byte[]
+        {
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+            11
+        });
 
         Assert.Throws<DataElementParsingException>(() => DataStorageSlotManagementControl.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -142,7 +147,7 @@ public class DataStorageSlotManagementControlTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        DataStorageSlotManagementControlTestTlv testData = new(new byte[] { 0x7d });
+        DataStorageSlotManagementControlTestTlv testData = new(new byte[] {0x7d});
         DataStorageSlotManagementControl sut = DataStorageSlotManagementControl.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -158,7 +163,7 @@ public class DataStorageSlotManagementControlTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        DataStorageSlotManagementControlTestTlv testData = new(new byte[] { 0xFF });
+        DataStorageSlotManagementControlTestTlv testData = new(new byte[] {0xFF});
 
         DataStorageSlotManagementControl sut = DataStorageSlotManagementControl.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -174,7 +179,7 @@ public class DataStorageSlotManagementControlTests
     [Fact]
     public void DataStorageSlotManagementControl_InvokingIsPermanent_ReturnsTrue()
     {
-        DataStorageSlotManagementControlTestTlv testData = new(new byte[] { 0b1111_1111 });
+        DataStorageSlotManagementControlTestTlv testData = new(new byte[] {0b1111_1111});
 
         DataStorageSlotManagementControl sut = DataStorageSlotManagementControl.Decode(testData.EncodeValue().AsSpan());
 
@@ -184,7 +189,7 @@ public class DataStorageSlotManagementControlTests
     [Fact]
     public void DataStorageSlotManagementControl_InvokingIsPermanent_ReturnsFalse()
     {
-        DataStorageSlotManagementControlTestTlv testData = new(new byte[] { 0b0111_1111 });
+        DataStorageSlotManagementControlTestTlv testData = new(new byte[] {0b0111_1111});
 
         DataStorageSlotManagementControl sut = DataStorageSlotManagementControl.Decode(testData.EncodeValue().AsSpan());
 
@@ -195,7 +200,7 @@ public class DataStorageSlotManagementControlTests
     [Fact]
     public void DataStorageSlotManagementControl_InvokingIsVolatile_ReturnsTrue()
     {
-        DataStorageSlotManagementControlTestTlv testData = new(new byte[] { 0b1111_1111 });
+        DataStorageSlotManagementControlTestTlv testData = new(new byte[] {0b1111_1111});
 
         DataStorageSlotManagementControl sut = DataStorageSlotManagementControl.Decode(testData.EncodeValue().AsSpan());
 
@@ -205,7 +210,7 @@ public class DataStorageSlotManagementControlTests
     [Fact]
     public void DataStorageSlotManagementControl_InvokingIsVolatile_ReturnsFalse()
     {
-        DataStorageSlotManagementControlTestTlv testData = new(new byte[] { 0b1011_1111 });
+        DataStorageSlotManagementControlTestTlv testData = new(new byte[] {0b1011_1111});
 
         DataStorageSlotManagementControl sut = DataStorageSlotManagementControl.Decode(testData.EncodeValue().AsSpan());
 
@@ -216,7 +221,7 @@ public class DataStorageSlotManagementControlTests
     [Fact]
     public void DataStorageSlotManagementControl_InvokingIsLowVolatility_ReturnsTrue()
     {
-        DataStorageSlotManagementControlTestTlv testData = new(new byte[] { 0b1111_1111 });
+        DataStorageSlotManagementControlTestTlv testData = new(new byte[] {0b1111_1111});
 
         DataStorageSlotManagementControl sut = DataStorageSlotManagementControl.Decode(testData.EncodeValue().AsSpan());
 
@@ -226,7 +231,7 @@ public class DataStorageSlotManagementControlTests
     [Fact]
     public void DataStorageSlotManagementControl_InvokingIsLowVolatility_ReturnsFalse()
     {
-        DataStorageSlotManagementControlTestTlv testData = new(new byte[] { 0b1101_1111 });
+        DataStorageSlotManagementControlTestTlv testData = new(new byte[] {0b1101_1111});
 
         DataStorageSlotManagementControl sut = DataStorageSlotManagementControl.Decode(testData.EncodeValue().AsSpan());
 
@@ -237,7 +242,7 @@ public class DataStorageSlotManagementControlTests
     [Fact]
     public void DataStorageSlotManagementControl_InvokingIsLocked_ReturnsTrue()
     {
-        DataStorageSlotManagementControlTestTlv testData = new(new byte[] { 0b1111_1111 });
+        DataStorageSlotManagementControlTestTlv testData = new(new byte[] {0b1111_1111});
 
         DataStorageSlotManagementControl sut = DataStorageSlotManagementControl.Decode(testData.EncodeValue().AsSpan());
 
@@ -247,7 +252,7 @@ public class DataStorageSlotManagementControlTests
     [Fact]
     public void DataStorageSlotManagementControl_InvokingIsLocked_ReturnsFalse()
     {
-        DataStorageSlotManagementControlTestTlv testData = new(new byte[] { 0b1110_1111 });
+        DataStorageSlotManagementControlTestTlv testData = new(new byte[] {0b1110_1111});
 
         DataStorageSlotManagementControl sut = DataStorageSlotManagementControl.Decode(testData.EncodeValue().AsSpan());
 
@@ -258,7 +263,7 @@ public class DataStorageSlotManagementControlTests
     [Fact]
     public void DataStorageSlotManagementControl_InvokingIsDeactivated_ReturnsTrue()
     {
-        DataStorageSlotManagementControlTestTlv testData = new(new byte[] { 0b1111_1111 });
+        DataStorageSlotManagementControlTestTlv testData = new(new byte[] {0b1111_1111});
 
         DataStorageSlotManagementControl sut = DataStorageSlotManagementControl.Decode(testData.EncodeValue().AsSpan());
 
@@ -268,7 +273,7 @@ public class DataStorageSlotManagementControlTests
     [Fact]
     public void DataStorageSlotManagementControl_InvokingIsDeactivated_ReturnsFalse()
     {
-        DataStorageSlotManagementControlTestTlv testData = new(new byte[] { 0b1111_1110 });
+        DataStorageSlotManagementControlTestTlv testData = new(new byte[] {0b1111_1110});
 
         DataStorageSlotManagementControl sut = DataStorageSlotManagementControl.Decode(testData.EncodeValue().AsSpan());
 

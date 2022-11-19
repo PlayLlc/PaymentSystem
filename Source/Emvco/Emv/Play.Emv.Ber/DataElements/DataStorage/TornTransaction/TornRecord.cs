@@ -148,7 +148,7 @@ public record TornRecord : DataExchangeResponse
     {
         result = _Value.FirstOrDefault(a => a.GetTag() == tag);
 
-        return result is null;
+        return result is not null;
     }
 
     #endregion

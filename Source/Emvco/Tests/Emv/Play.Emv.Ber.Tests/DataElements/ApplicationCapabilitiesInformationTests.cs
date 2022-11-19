@@ -293,7 +293,7 @@ public class ApplicationCapabilitiesInformationTests
     {
         ReadOnlySpan<byte> contentOctets = stackalloc byte[]
         {
-            7, 21,
+            4, 21,
 
             //undefined sds configuration
             8
@@ -301,7 +301,7 @@ public class ApplicationCapabilitiesInformationTests
 
         ApplicationCapabilitiesInformation sut = ApplicationCapabilitiesInformation.Decode(contentOctets);
 
-        DataStorageVersionNumber expected = new(3);
+        DataStorageVersionNumber expected = new(0);
         DataStorageVersionNumber actual = sut.GetDataStorageVersionNumber();
 
         Assert.Equal(expected, actual);

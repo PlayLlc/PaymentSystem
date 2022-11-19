@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -97,7 +98,7 @@ public class TerminalRelayResistanceEntropyTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        TerminalRelayResistanceEntropyTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        TerminalRelayResistanceEntropyTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => TerminalRelayResistanceEntropy.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -142,7 +143,7 @@ public class TerminalRelayResistanceEntropyTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        TerminalRelayResistanceEntropyTestTlv testData = new(new byte[] { 0x08, 0xEF, 0x3f, 0x8c });
+        TerminalRelayResistanceEntropyTestTlv testData = new(new byte[] {0x08, 0xEF, 0x3f, 0x8c});
         TerminalRelayResistanceEntropy sut = TerminalRelayResistanceEntropy.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -158,7 +159,7 @@ public class TerminalRelayResistanceEntropyTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        TerminalRelayResistanceEntropyTestTlv testData = new(new byte[] { 0x08, 0xEF, 0x32, 0x1A });
+        TerminalRelayResistanceEntropyTestTlv testData = new(new byte[] {0x08, 0xEF, 0x32, 0x1A});
 
         TerminalRelayResistanceEntropy sut = TerminalRelayResistanceEntropy.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();

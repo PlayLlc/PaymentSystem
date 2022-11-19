@@ -133,7 +133,7 @@ public partial class PrepareGenerateAcService : CommonProcessing
 
     /// <remarks>EMV Book C-2 GAC.4</remarks>
     /// <exception cref="TerminalDataException"></exception>
-    private bool IsDsdolEmpty() => _Database.IsPresentAndNotEmpty(DataStorageDataObjectList.Tag);
+    private bool IsDsdolEmpty() => !_Database.IsPresentAndNotEmpty(DataStorageDataObjectList.Tag);
 
     #endregion
 

@@ -72,5 +72,7 @@ public record GetProcessingOptionsRequest : QueryPcdRequest
     public static GetProcessingOptionsRequest Create(CommandTemplate commandTemplate, TransactionSessionId transactionSessionId) =>
         new(commandTemplate, GetProcessingOptionsCApduSignal.Create(commandTemplate), transactionSessionId);
 
+    public CommandTemplate? GetCommandTemplate() => _CommandTemplate;
+
     #endregion
 }

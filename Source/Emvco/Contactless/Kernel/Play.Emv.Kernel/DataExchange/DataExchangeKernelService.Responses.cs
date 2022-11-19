@@ -27,7 +27,7 @@ public partial class DataExchangeKernelService
         lock (_Lock)
         {
             // BUG: We need to resolve the way we're going to correlate the DET requests and the DEK responses. It's not always going to be a 1 - 1, and we might not even want to always correlate the response with the request
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
 
             if (!_Lock.Responses.ContainsKey(DekResponseType.DataToSend))
             {
@@ -123,10 +123,10 @@ public partial class DataExchangeKernelService
             }
 
             // if the list is already initialized, but isn't empty, then something went wrong. We'll throw here
+            // Book Emv C-2: 4.3 Lists. -> Initialize
             if (!dataExchangeResponse.IsEmpty())
             {
-                throw new TerminalDataException(
-                    $"The {nameof(DataExchangeKernelService)} cannot {nameof(Initialize)} because a non empty list already exists for the {nameof(DekResponseType)} with the tag {dekResponseType}");
+                dataExchangeResponse.Clear();
             }
         }
     }

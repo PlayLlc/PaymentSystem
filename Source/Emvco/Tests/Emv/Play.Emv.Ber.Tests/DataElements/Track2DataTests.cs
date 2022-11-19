@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.ValueTypes;
@@ -98,8 +99,12 @@ public class Track2DataTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        Track2DataTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01, 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01,
-        0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
+        Track2DataTestTlv testData = new(new byte[]
+        {
+            0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01, 0x08, 0x01, 0x03,
+            0x00, 0x10, 0x01, 0x01, 0x08, 0x01, 0x03, 0x00, 0x10, 0x01,
+            0x01
+        });
 
         Assert.Throws<DataElementParsingException>(() => Track2Data.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -144,10 +149,7 @@ public class Track2DataTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        Track2DataTestTlv testData = new(new byte[]
-        {
-            114, 120, 43, 54, 55
-        });
+        Track2DataTestTlv testData = new(new byte[] {114, 120, 43, 54, 55});
         Track2Data sut = Track2Data.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -163,10 +165,7 @@ public class Track2DataTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        Track2DataTestTlv testData = new(new byte[]
-        {
-            33, 34, 44, 45, 64, 67
-        });
+        Track2DataTestTlv testData = new(new byte[] {33, 34, 44, 45, 64, 67});
 
         Track2Data sut = Track2Data.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -174,8 +173,6 @@ public class Track2DataTests
 
         Assert.Equal(expectedResult, testResult);
     }
-
-    #endregion
 
     #region Track2Data
 
@@ -186,15 +183,14 @@ public class Track2DataTests
 
         Track2Data sut = Track2Data.Decode(testData.EncodeValue().AsSpan());
 
-        ReadOnlySpan<byte> expectedPrimaryAccountNumberDecodedData = stackalloc byte[]
-        {
-            84, 98, 62, 33, 44, 92,
-        };
+        ReadOnlySpan<byte> expectedPrimaryAccountNumberDecodedData = stackalloc byte[] {84, 98, 62, 33, 44, 92};
 
         TrackPrimaryAccountNumber actual = sut.GetPrimaryAccountNumber();
 
         Assert.Equal(expectedPrimaryAccountNumberDecodedData.ToArray(), actual.Encode());
     }
+
+    #endregion
 
     #endregion
 }

@@ -26,6 +26,12 @@ public readonly record struct NumericCurrencyCode
 
     #endregion
 
+    #region Serialization
+
+    public byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value);
+
+    #endregion
+
     #region Equality
 
     public int CompareTo(NumericCurrencyCode other) => _Value.CompareTo(other._Value);
@@ -35,12 +41,6 @@ public readonly record struct NumericCurrencyCode
     #region Operator Overrides
 
     public static implicit operator ushort(NumericCurrencyCode value) => value._Value;
-
-    #endregion
-
-    #region Serialization
-
-    public byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value);
 
     #endregion
 }

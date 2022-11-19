@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.ValueTypes;
@@ -98,7 +99,7 @@ public class TerminalActionCodeDenialTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        TerminalActionCodeDenialTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        TerminalActionCodeDenialTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => TerminalActionCodeDenial.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -143,7 +144,7 @@ public class TerminalActionCodeDenialTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        TerminalActionCodeDenialTestTlv testData = new(new byte[] { 0x08, 0xEF, 0x47, 0x3C, 0x44 });
+        TerminalActionCodeDenialTestTlv testData = new(new byte[] {0x08, 0xEF, 0x47, 0x3C, 0x44});
         TerminalActionCodeDenial sut = TerminalActionCodeDenial.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -159,7 +160,7 @@ public class TerminalActionCodeDenialTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        TerminalActionCodeDenialTestTlv testData = new(new byte[] { 0x08, 0xEF, 0xF, 0x8D, 0x3F });
+        TerminalActionCodeDenialTestTlv testData = new(new byte[] {0x08, 0xEF, 0xF, 0x8D, 0x3F});
 
         TerminalActionCodeDenial sut = TerminalActionCodeDenial.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -175,7 +176,7 @@ public class TerminalActionCodeDenialTests
     [Fact]
     public void TerminalActionCodeDenial_Initialize_ReturnsExpectedResult()
     {
-        TerminalActionCodeDenial sut = new TerminalActionCodeDenial(0x840000000C);
+        TerminalActionCodeDenial sut = new(0x840000000C);
 
         Assert.Equal(TerminalActionCodeDenial.Default, sut);
     }
@@ -186,7 +187,7 @@ public class TerminalActionCodeDenialTests
         TerminalActionCodeDenialTestTlv testData = new();
         TerminalActionCodeDenial sut = TerminalActionCodeDenial.Decode(testData.EncodeValue().AsSpan());
 
-        ActionCodes expected = new ActionCodes(493252378906);
+        ActionCodes expected = new(493252378906);
         Assert.Equal(expected, sut.AsActionCodes());
     }
 
