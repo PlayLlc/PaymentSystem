@@ -69,10 +69,10 @@ public sealed class InventoryDbContext : DbContext
 
         builder.Entity<Variation>().ToTable($"{nameof(Variation)}s").HasKey(x => x.Id);
         builder.Entity<Variation>().Property(x => x.Id).ValueGeneratedOnAdd();
-        builder.Entity<Variation>().Property(x => x.Sku);
-        builder.Entity<Variation>().Property(x => x.Name);
+        builder.Entity<Variation>().Property(x => x._Sku);
+        builder.Entity<Variation>().Property(x => x._Name);
         builder.Entity<Variation>().HasOne(x => x.Price);
-        builder.Entity<Variation>().Property(x => x.Quantity);
+        builder.Entity<Variation>().Property(x => x._Quantity);
 
         inventoryEntityConfiguration.Configure(builder.Entity<Category>());
         inventoryEntityConfiguration.Configure(builder.Entity<Item>());

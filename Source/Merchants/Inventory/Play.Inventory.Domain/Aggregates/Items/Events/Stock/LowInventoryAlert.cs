@@ -5,20 +5,22 @@ using Play.Inventory.Domain.Entities;
 
 namespace Play.Inventory.Domain;
 
-public record LowInventoryAlert : BrokenRuleOrPolicyDomainEvent<Item, SimpleStringId>
+public record LowInventoryAlert : BrokenRuleOrPolicyDomainEvent<Inventory, SimpleStringId>
 {
     #region Instance Values
 
-    public readonly Item Item;
+    public readonly Inventory Inventory;
+    public readonly string StockItemId;
     public readonly IEnumerable<User> Subscriptions;
 
     #endregion
 
     #region Constructor
 
-    public LowInventoryAlert(Item item, IEnumerable<User> subscriptions, IBusinessRule rule) : base(item, rule)
+    public LowInventoryAlert(Inventory inventory, string stockItemId, IEnumerable<User> subscriptions, IBusinessRule rule) : base(inventory, rule)
     {
-        Item = item;
+        Inventory = inventory;
+        StockItemId = stockItemId;
         Subscriptions = subscriptions;
     }
 

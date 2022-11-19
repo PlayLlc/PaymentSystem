@@ -23,13 +23,9 @@ public record ItemDto : IDto
     public int Quantity { get; set; }
 
     [Required]
-    public PriceDto Price { get; set; } = null!;
-
-    [Required]
     public LocationsDto Locations { get; set; } = null!;
 
     public string Description { get; set; } = string.Empty;
-    public string? Sku { get; set; } = null;
     public AlertsDto Alerts { get; set; } = new();
     public IEnumerable<CategoryDto> Categories { get; set; } = new List<CategoryDto>();
     public IEnumerable<VariationDto> Variations { get; set; } = new List<VariationDto>();

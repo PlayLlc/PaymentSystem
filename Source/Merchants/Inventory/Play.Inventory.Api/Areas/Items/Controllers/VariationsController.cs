@@ -100,7 +100,7 @@ public class VariationsController : InventoryController
         this.ValidateModel();
         Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
 
-        await item.AddQuantityToVariation(_UserRetriever, command).ConfigureAwait(false);
+        await item.AddQuantity(_UserRetriever, command).ConfigureAwait(false);
 
         return Ok();
     }
@@ -113,7 +113,7 @@ public class VariationsController : InventoryController
         this.ValidateModel();
         Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
 
-        await item.RemoveQuantityFromVariation(_UserRetriever, command).ConfigureAwait(false);
+        await item.RemoveQuantity(_UserRetriever, command).ConfigureAwait(false);
 
         return Ok();
     }

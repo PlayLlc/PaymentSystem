@@ -22,7 +22,5 @@ public record VariationDto : IDto
     [Required]
     public PriceDto Price { get; set; } = null!;
 
-    public int Quantity { get; set; }
-
     #endregion
 }

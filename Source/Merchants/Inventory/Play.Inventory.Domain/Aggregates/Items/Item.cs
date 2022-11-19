@@ -18,7 +18,6 @@ public partial class Item : Aggregate<SimpleStringId>
     #region Instance Values
 
     private readonly SimpleStringId _MerchantId;
-
     private readonly HashSet<Category> _Categories = new();
 
     /// <summary>
@@ -38,12 +37,10 @@ public partial class Item : Aggregate<SimpleStringId>
     /// </summary>
     private readonly Alerts _Alerts;
 
-    private readonly Price _Price;
+    private readonly int _Quantity;
 
     private string _Description;
     private Name _Name;
-    private Sku? _Sku;
-    private int _Quantity;
 
     public override SimpleStringId Id { get; }
 
@@ -61,10 +58,8 @@ public partial class Item : Aggregate<SimpleStringId>
         Id = new SimpleStringId(value.Id);
         _MerchantId = new SimpleStringId(value.Id);
         _Name = new Name(value.Name);
-        _Price = new Price(value.Price);
         _Quantity = value.Quantity;
         _Description = value.Description;
-        _Sku = value.Sku is null ? null : new Sku(value.Sku);
         _Alerts = new Alerts(value.Alerts);
         _Locations = new Locations(value.Locations);
         _Categories = new HashSet<Category>(value.Categories.Select(a => new Category(a)));
@@ -79,10 +74,8 @@ public partial class Item : Aggregate<SimpleStringId>
         Id = new SimpleStringId(id);
         _MerchantId = new SimpleStringId(merchantId);
         _Name = name;
-        _Price = price;
         _Quantity = quantity;
         _Description = description;
-        _Sku = sku;
         _Alerts = alerts;
         _Locations = locations;
         _Categories = categories?.ToHashSet() ?? new HashSet<Category>();
@@ -92,6 +85,11 @@ public partial class Item : Aggregate<SimpleStringId>
     #endregion
 
     #region Instance Members
+
+    public bool IsOutOfStockAlertRequired(int quantity, out IEnumerable<User>? subscribers)
+    {
+        return _Alerts.IsOutOfStockAlertRequired(quantity, out subscribers);
+    }
 
     /// <exception cref="BusinessRuleValidationException"></exception>
     public async Task RemoveItem(IRetrieveUsers userService, RemoveItem command)
@@ -117,7 +115,10 @@ public partial class Item : Aggregate<SimpleStringId>
         IEnumerable<Category> categories = command.Categories.Select(a => new Category(a));
         Price price = new Price(GenerateSimpleStringId(), command.Price);
 
-        Item item = new Item(GenerateSimpleStringId(), merchant.Id, name, price, command.Description ?? string.Empty, alerts, locations, sku, 0, categories);
+        Variation variation = new Variation(new SimpleStringId(GenerateSimpleStringId()), new Name("Original"), price);
+
+        Item item = new Item(GenerateSimpleStringId(), merchant.Id, name, price, command.Description ?? string.Empty, alerts, locations, sku, 0, categories,
+            new List<Variation>() {variation});
 
         item.Enforce(new MerchantMustBeActiveToCreateAggregate<Item>(merchant));
         item.Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));
@@ -135,6 +136,11 @@ public partial class Item : Aggregate<SimpleStringId>
     internal string GetName()
     {
         return _Name.Value;
+    }
+
+    public bool IsLowInventoryAlertRequired(int quantity, out IEnumerable<User>? subscribers)
+    {
+        return _Alerts.IsLowInventoryAlertRequired(quantity, out subscribers);
     }
 
     public int GetQuantityInStock()
@@ -157,9 +163,7 @@ public partial class Item : Aggregate<SimpleStringId>
             Categories = _Categories.Select(a => a.AsDto()),
             MerchantId = _MerchantId,
             Locations = _Locations.AsDto(),
-            Price = _Price.AsDto(),
-            Quantity = _Quantity,
-            Sku = _Sku?.Value
+            Quantity = _Quantity
         };
     }
 

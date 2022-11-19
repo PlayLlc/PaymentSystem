@@ -25,3 +25,26 @@ public record ItemVariationCreated : DomainEvent
 
     #endregion
 }
+
+public record StockItemCreated : DomainEvent
+{
+    #region Instance Values
+
+    public readonly Inventory Inventory;
+    public readonly StockItem StockItem;
+    public readonly string UserId;
+
+    #endregion
+
+    #region Constructor
+
+    public StockItemCreated(Inventory inventory, StockItem stockItem, string userId) : base(
+        $"The {nameof(Inventory)} with the ID: [{inventory.GetId()}] created a {nameof(StockItem)} with the ID: [{stockItem.GetId()}];")
+    {
+        Inventory = inventory;
+        StockItem = stockItem;
+        UserId = userId;
+    }
+
+    #endregion
+}

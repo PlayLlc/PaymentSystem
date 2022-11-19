@@ -71,30 +71,29 @@ public partial class Item : Aggregate<SimpleStringId>
         Enforce(new ItemVariationMustExist(_Variations, command.VariationId));
 
         Variation variation = _Variations.First(a => a.GetId() == command.VariationId);
-        variation.Name = new Name(command.Name);
-        Publish(new VariationNameUpdated(this, variation, user.GetId(), _Name));
+        variation.UpdateName(command.Name);
+        Publish(new VariationNameUpdated(this, variation, user.GetId(), command.Name));
     }
 
-    /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="NotFoundException"></exception>
-    /// <exception cref="ValueObjectException"></exception>
-    public async Task UpdateVariationPrice(IRetrieveUsers userService, UpdateItemVariationPrice command)
+    /// <exception cref="BusinessRuleValidationException"></exception>
+    public async Task UpdatePrice(IRetrieveUsers userService, UpdateItemPrice command)
     {
         User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Item>(_MerchantId, user));
-        Enforce(new ItemVariationMustExist(_Variations, command.VariationId));
         Enforce(new ItemPriceMustBePositive(command.Price));
+        Enforce(new ItemVariationMustExist(_Variations, command.VariationId));
 
-        Variation variation = _Variations.First(a => a.GetId() == command.VariationId);
-        variation.Price.Amount = command.Price.GetAmount();
+        Variation variation = _Variations.First(a => a.Id == command.VariationId);
+        variation.UpdatePrice(command.Price);
         Publish(new VariationPriceUpdated(this, variation, user.GetId(), command.Price));
     }
 
+    /// <exception cref="NotFoundException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="ValueObjectException"></exception>
-    /// <exception cref="NotFoundException"></exception>
-    public async Task UpdateVariationSku(IRetrieveUsers userService, UpdateItemVariationSku command)
+    public async Task UpdateSku(IRetrieveUsers userService, UpdateItemSku command)
     {
         User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));
@@ -102,49 +101,9 @@ public partial class Item : Aggregate<SimpleStringId>
         Enforce(new ItemVariationMustExist(_Variations, command.VariationId));
 
         Variation variation = _Variations.First(a => a.GetId() == command.VariationId);
-        variation.Sku = new Sku(command.Sku);
-        Publish(new VariationSkuUpdated(this, variation, user.GetId(), _Sku));
-    }
-
-    #endregion
-
-    #region Variation Quantity
-
-    /// <exception cref="ValueObjectException"></exception>
-    /// <exception cref="BusinessRuleValidationException"></exception>
-    /// <exception cref="NotFoundException"></exception>
-    public async Task AddQuantityToVariation(IRetrieveUsers userService, UpdateQuantityToInventoryForVariation command)
-    {
-        User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
-        Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));
-        Enforce(new AggregateMustBeUpdatedByKnownUser<Item>(_MerchantId, user));
-        Enforce(new ItemVariationMustExist(_Variations, command.VariationId));
-        Enforce(new StockActionMustAddQuantity(command.Action));
-        Variation variation = _Variations.First(a => a.GetId() == command.VariationId);
-
-        StockAction stockAction = new StockAction(command.Action);
-        variation.Quantity += command.Quantity;
-        Publish(new VariationStockUpdated(this, variation, user.GetId(), stockAction, command.Quantity));
-    }
-
-    /// <exception cref="ValueObjectException"></exception>
-    /// <exception cref="BusinessRuleValidationException"></exception>
-    /// <exception cref="NotFoundException"></exception>
-    public async Task RemoveQuantityFromVariation(IRetrieveUsers userService, UpdateQuantityToInventoryForVariation command)
-    {
-        User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
-        Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));
-        Enforce(new AggregateMustBeUpdatedByKnownUser<Item>(_MerchantId, user));
-        Enforce(new ItemVariationMustExist(_Variations, command.VariationId));
-        Enforce(new StockActionMustRemoveQuantity(command.Action));
-        StockAction stockAction = new StockAction(command.Action);
-        Variation variation = _Variations.First(a => a.GetId() == command.VariationId);
-
-        variation.Quantity -= command.Quantity;
-        _ = IsEnforced(new ItemStockMustNotFallBeLow(_Alerts, _Quantity));
-        _ = IsEnforced(new ItemStockMustNotBeEmpty(_Alerts, _Quantity));
-
-        Publish(new VariationStockUpdated(this, variation, user.GetId(), stockAction, command.Quantity));
+        Sku sku = new Sku(command.Sku);
+        variation.UpdateSku(sku);
+        Publish(new VariationSkuUpdated(this, variation, user.GetId(), sku));
     }
 
     #endregion

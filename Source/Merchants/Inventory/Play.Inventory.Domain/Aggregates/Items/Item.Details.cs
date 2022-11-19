@@ -40,29 +40,5 @@ public partial class Item : Aggregate<SimpleStringId>
         Publish(new ItemNameUpdated(this, user.GetId(), _Name));
     }
 
-    /// <exception cref="NotFoundException"></exception>
-    /// <exception cref="BusinessRuleValidationException"></exception>
-    public async Task UpdatePrice(IRetrieveUsers userService, UpdateItemPrice command)
-    {
-        User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
-        Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));
-        Enforce(new AggregateMustBeUpdatedByKnownUser<Item>(_MerchantId, user));
-        Enforce(new ItemPriceMustBePositive(command.Price));
-        _Price.Amount = command.Price.GetAmount();
-        Publish(new ItemPriceUpdated(this, user.GetId(), command.Price));
-    }
-
-    /// <exception cref="NotFoundException"></exception>
-    /// <exception cref="BusinessRuleValidationException"></exception>
-    /// <exception cref="ValueObjectException"></exception>
-    public async Task UpdateSku(IRetrieveUsers userService, UpdateItemSku command)
-    {
-        User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
-        Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));
-        Enforce(new AggregateMustBeUpdatedByKnownUser<Item>(_MerchantId, user));
-        _Sku = new Sku(command.Sku);
-        Publish(new ItemSkuUpdated(this, user.GetId(), _Sku));
-    }
-
     #endregion
 }

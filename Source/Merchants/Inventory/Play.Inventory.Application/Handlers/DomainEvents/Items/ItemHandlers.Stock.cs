@@ -39,8 +39,8 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemA
 
         await _MessageHandlerContext.Publish<LowInventoryAlertEvent>((a) =>
             {
-                a.ItemId = domainEvent.Item.GetId();
-                a.QuantitySubtotal = domainEvent.Item.GetQuantityInStock();
+                a.ItemId = domainEvent.Inventory.GetId();
+                a.QuantitySubtotal = domainEvent.Inventory.GetQuantityInStock();
             })
             .ConfigureAwait(false);
     }

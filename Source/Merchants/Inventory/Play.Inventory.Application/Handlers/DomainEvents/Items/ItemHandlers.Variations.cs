@@ -12,7 +12,7 @@ namespace Play.Inventory.Application.Handlers;
 
 public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemVariationAlreadyExists>, IHandleDomainEvents<ItemVariationCreated>,
     IHandleDomainEvents<ItemVariationDoesNotExist>, IHandleDomainEvents<ItemVariationRemoved>, IHandleDomainEvents<VariationNameUpdated>,
-    IHandleDomainEvents<VariationPriceUpdated>, IHandleDomainEvents<VariationSkuUpdated>, IHandleDomainEvents<VariationStockUpdated>
+    IHandleDomainEvents<VariationPriceUpdated>, IHandleDomainEvents<VariationSkuUpdated>, IHandleDomainEvents<StockUpdated>
 {
     #region Instance Members
 
@@ -44,7 +44,7 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemV
             .ConfigureAwait(false);
     }
 
-    public async Task Handle(VariationStockUpdated domainEvent)
+    public async Task Handle(StockUpdated domainEvent)
     {
         Log(domainEvent);
         await _ItemRepository.SaveAsync(domainEvent.Item).ConfigureAwait(false);

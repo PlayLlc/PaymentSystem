@@ -5,20 +5,22 @@ using Play.Inventory.Domain.Entities;
 
 namespace Play.Inventory.Domain;
 
-public record NoInventoryAlert : BrokenRuleOrPolicyDomainEvent<Item, SimpleStringId>
+public record NoInventoryAlert : BrokenRuleOrPolicyDomainEvent<Inventory, SimpleStringId>
 {
     #region Instance Values
 
-    public readonly Item Item;
+    public readonly Inventory Item;
+    public readonly string StockItemId;
     public readonly IEnumerable<User> Subscriptions;
 
     #endregion
 
     #region Constructor
 
-    public NoInventoryAlert(Item item, IEnumerable<User> subscriptions, IBusinessRule rule) : base(item, rule)
+    public NoInventoryAlert(Inventory item, string stockItemId, IEnumerable<User> subscriptions, IBusinessRule rule) : base(item, rule)
     {
         Item = item;
+        StockItemId = stockItemId;
         Subscriptions = subscriptions;
     }
 

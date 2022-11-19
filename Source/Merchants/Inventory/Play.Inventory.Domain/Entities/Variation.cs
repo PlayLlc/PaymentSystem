@@ -1,20 +1,29 @@
 ﻿using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
+using Play.Globalization.Currency;
 using Play.Inventory.Contracts.Dtos;
+using Play.Inventory.Contracts.Enums;
 using Play.Inventory.Domain.ValueObjects;
 
 namespace Play.Inventory.Domain.Entities;
 
+/// <summary>
+///     A <see cref="Variation" /> is a distinct type of an <see cref="Item" />. For example, an <see cref="Item" /> can
+///     have <see cref="Variation" /> objects for XSmall, Small, Medium to distinguish an <see cref="Item" /> from another
+/// </summary>
 public class Variation : Entity<SimpleStringId>
 {
     #region Instance Values
 
-    public Price Price;
-    public int Quantity;
+    private readonly Price _Price;
 
-    public Name Name;
-    public Sku? Sku = null;
+    /// <summary>
+    ///     The name of this <see cref="Variation" />. For example, XSmall, Small, Medium or Red, Blue, Green
+    /// </summary>
+    private Name _Name;
+
+    private Sku? _Sku = null;
 
     public override SimpleStringId Id { get; }
 
@@ -26,28 +35,46 @@ public class Variation : Entity<SimpleStringId>
     private Variation()
     { }
 
-    internal Variation(SimpleStringId id, Name name, Price price, int quantity = 0, Sku? sku = null)
+    internal Variation(SimpleStringId id, Name name, Price price, Sku? sku = null)
     {
         Id = id;
-        Name = name;
-        Price = price;
-        Quantity = quantity;
-        Sku = sku;
+        _Name = name;
+        _Price = price;
+        _Sku = sku;
     }
 
     /// <exception cref="ValueObjectException"></exception>
     internal Variation(VariationDto dto)
     {
         Id = new SimpleStringId(dto.Id);
-        Name = new Name(dto.Name);
-        Price = new Price(dto.Price);
-        Quantity = dto.Quantity;
-        Sku = string.IsNullOrEmpty(dto.Sku) ? null : new Sku(dto.Sku);
+        _Name = new Name(dto.Name);
+        _Price = new Price(dto.Price);
+        _Sku = string.IsNullOrEmpty(dto.Sku) ? null : new Sku(dto.Sku);
     }
 
     #endregion
 
     #region Instance Members
+
+    public string GetName()
+    {
+        return _Name;
+    }
+
+    internal void UpdatePrice(Money price)
+    {
+        _Price.Amount = price.GetAmount();
+    }
+
+    internal void UpdateSku(string sku)
+    {
+        _Sku = new Sku(sku);
+    }
+
+    internal void UpdateName(string name)
+    {
+        _Name = new Name(name);
+    }
 
     public override SimpleStringId GetId()
     {
@@ -59,9 +86,8 @@ public class Variation : Entity<SimpleStringId>
         return new VariationDto()
         {
             Id = Id,
-            Name = Name,
-            Price = Price.AsDto(),
-            Quantity = Quantity
+            Name = _Name,
+            Price = _Price.AsDto()
         };
     }
 
