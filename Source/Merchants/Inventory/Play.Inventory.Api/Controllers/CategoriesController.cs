@@ -8,6 +8,7 @@ using Play.Inventory.Domain;
 using Play.Inventory.Domain.Aggregates;
 using Play.Inventory.Domain.Repositories;
 using Play.Inventory.Domain.Services;
+using Play.Mvc.Attributes;
 using Play.Mvc.Extensions;
 
 namespace Play.Inventory.Api.Controllers;
@@ -27,7 +28,7 @@ public class CategoriesController : BaseController
 
     #region Instance Members
 
-    [HttpGet]
+    [HttpGetSwagger]
     [ValidateAntiForgeryToken]
     [Route("/Inventory/[controller]")]
     public async Task<IEnumerable<CategoryDto>> Index([FromQuery] string merchantId)
@@ -36,7 +37,7 @@ public class CategoriesController : BaseController
                ?? Array.Empty<CategoryDto>();
     }
 
-    [HttpGet]
+    [HttpGetSwagger]
     [ValidateAntiForgeryToken]
     [Route("/Inventory/[controller]/{categoryId}")]
     public async Task<CategoryDto> GetCategory(string categoryId)
@@ -47,7 +48,7 @@ public class CategoriesController : BaseController
         return merchantRegistration.AsDto();
     }
 
-    [HttpPost]
+    [HttpPostSwagger]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CreateCategory command)
     {
@@ -58,7 +59,7 @@ public class CategoriesController : BaseController
         return Created(@Url.Action("GetCategory", "Categories", new {id = category.Id})!, category.AsDto());
     }
 
-    [HttpDelete]
+    [HttpDeleteSwagger]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Remove(RemoveCategory command)
     {

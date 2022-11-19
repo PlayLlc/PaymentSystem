@@ -13,6 +13,8 @@ using Play.Mvc.Extensions;
 
 using System.Runtime.CompilerServices;
 
+using Play.Mvc.Attributes;
+
 namespace Play.Inventory.Api.Areas.Items.Controllers;
 
 [ApiController]
@@ -31,7 +33,7 @@ public class AlertsController : BaseController
 
     #region Instance Members
 
-    [HttpPut]
+    [HttpPutSwagger]
     [ValidateAntiForgeryToken]
     [Route("{itemId}/[controller]/[action]")]
     public async Task<IActionResult> ActivateAlerts(string itemId, UpdateItemAlerts command)
@@ -44,7 +46,7 @@ public class AlertsController : BaseController
         return Ok();
     }
 
-    [HttpPut]
+    [HttpPutSwagger]
     [ValidateAntiForgeryToken]
     [Route("{itemId}/[controller]/[action]")]
     public async Task<IActionResult> DeaticvateAlerts(string itemId, UpdateItemAlerts command)
@@ -57,7 +59,7 @@ public class AlertsController : BaseController
         return Ok();
     }
 
-    [HttpPut]
+    [HttpPutSwagger]
     [ValidateAntiForgeryToken]
     [Route("{itemId}/[controller]/[action]")]
     public async Task<IActionResult> UpdateLowInventoryThreshold(string itemId, UpdateLowInventoryThresholdAlert command)

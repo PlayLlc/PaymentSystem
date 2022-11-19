@@ -10,6 +10,7 @@ using Play.Inventory.Contracts.Commands;
 using Play.Mvc.Extensions;
 using Play.Inventory.Api.Controllers;
 using Play.Inventory.Domain.Aggregates;
+using Play.Mvc.Attributes;
 
 namespace Play.Inventory.Api.Areas.Items.Controllers
 {
@@ -30,7 +31,7 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
 
         #region Instance Members
 
-        [HttpGet]
+        [HttpGetSwagger]
         [ValidateAntiForgeryToken]
         [Route("{itemId}")]
         public async Task<ItemDto> Index(string itemId)
@@ -40,7 +41,7 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
             return item.AsDto();
         }
 
-        [HttpGet]
+        [HttpGetSwagger]
         [ValidateAntiForgeryToken]
         public async Task<IEnumerable<ItemDto>> Index([FromQuery] string merchantId, [FromQuery] int? pageSize, [FromQuery] int? position) // paging and shit
         {
@@ -57,7 +58,7 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
         }
 
         [Route("{itemId}")]
-        [HttpDelete]
+        [HttpDeleteSwagger]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Remove(string itemId, RemoveItem command)
         {
@@ -68,7 +69,7 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
             return NoContent();
         }
 
-        [HttpPut]
+        [HttpPutSwagger]
         [ValidateAntiForgeryToken]
         [Route("{itemId}/[action]")]
         public async Task<IActionResult> Description(string itemId, UpdateItemDescription command)
@@ -81,7 +82,7 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPutSwagger]
         [ValidateAntiForgeryToken]
         [Route("{itemId}/[action]")]
         public async Task<IActionResult> Name(string itemId, UpdateItemName command)

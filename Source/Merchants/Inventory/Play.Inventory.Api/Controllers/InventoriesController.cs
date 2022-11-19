@@ -5,6 +5,7 @@ using Play.Domain.Exceptions;
 using Play.Inventory.Contracts.Dtos;
 using Play.Inventory.Domain.Repositories;
 using Play.Inventory.Domain.Services;
+using Play.Mvc.Attributes;
 using Play.Mvc.Extensions;
 
 namespace Play.Inventory.Api.Controllers
@@ -25,7 +26,7 @@ namespace Play.Inventory.Api.Controllers
         #region Instance Members
 
         [Route("{storeId}")]
-        [HttpDelete]
+        [HttpDeleteSwagger]
         [ValidateAntiForgeryToken]
         public async Task<InventoryDto> Index(string storeId)
         {

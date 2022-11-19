@@ -8,6 +8,7 @@ using Play.Domain.Exceptions;
 using Play.Inventory.Contracts.Commands;
 using Play.Inventory.Domain.Aggregates;
 using Play.Inventory.Domain.Repositories;
+using Play.Mvc.Attributes;
 using Play.Mvc.Extensions;
 
 namespace Play.Inventory.Api.Areas.Items.Controllers
@@ -28,7 +29,7 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
 
         #region Instance Members
 
-        [HttpPost]
+        [HttpPostSwagger]
         [ValidateAntiForgeryToken]
         [Route("{itemId}/[controller]")]
         public async Task<IActionResult> Add(string itemId, UpdateItemCategories command)
@@ -41,7 +42,7 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDeleteSwagger]
         [ValidateAntiForgeryToken]
         [Route("{itemId}/[controller]")]
         public async Task<IActionResult> Remove(string itemId, UpdateItemCategories command)

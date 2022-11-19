@@ -8,6 +8,7 @@ using Play.Inventory.Domain;
 using Play.Inventory.Domain.Aggregates;
 using Play.Inventory.Domain.Repositories;
 using Play.Inventory.Domain.Services;
+using Play.Mvc.Attributes;
 using Play.Mvc.Extensions;
 
 namespace Play.Inventory.Api.Areas.Items.Controllers;
@@ -28,7 +29,7 @@ public class LocationsController : BaseController
 
     #region Instance Members
 
-    [HttpPut]
+    [HttpPutSwagger]
     [ValidateAntiForgeryToken]
     [Route("{itemId}/[controller]/[action]")]
     public async Task<IActionResult> SetAll(string itemId, SetAllLocationsForItem command)
@@ -41,7 +42,7 @@ public class LocationsController : BaseController
         return Ok();
     }
 
-    [HttpPost]
+    [HttpPostSwagger]
     [ValidateAntiForgeryToken]
     [Route("{itemId}/[controller]")]
     public async Task<IActionResult> Add(string itemId, UpdateItemLocations command)
@@ -54,7 +55,7 @@ public class LocationsController : BaseController
         return Ok();
     }
 
-    [HttpDelete]
+    [HttpDeleteSwagger]
     [ValidateAntiForgeryToken]
     [Route("{itemId}/[controller]")]
     public async Task<IActionResult> Remove(string itemId, UpdateItemLocations command)
