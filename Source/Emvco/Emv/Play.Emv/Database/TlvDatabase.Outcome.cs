@@ -66,7 +66,7 @@ public abstract partial class TlvDatabase
     /// <exception cref="TerminalDataException"></exception>
     private DataRecord? GetDataRecord()
     {
-        if (IsPresentAndNotEmpty(DataRecord.Tag))
+        if (!IsPresentAndNotEmpty(DataRecord.Tag))
             return null;
 
         return (DataRecord) Get(DataRecord.Tag);
@@ -195,6 +195,33 @@ public abstract partial class TlvDatabase
 
     /// <exception cref="TerminalDataException"></exception>
     public void Update(MessageHoldTime value)
+    {
+        try
+        {
+            _UserInterfaceRequestDataBuilder.Reset(GetUserInterfaceRequestData());
+            _UserInterfaceRequestDataBuilder.Set(value);
+            Update(_UserInterfaceRequestDataBuilder.Complete());
+        }
+        catch (DataElementParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}", exception);
+        }
+        catch (CodecParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}", exception);
+        }
+        catch (Exception exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}", exception);
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="TerminalDataException"></exception>
+    public void Update(LanguagePreference value)
     {
         try
         {

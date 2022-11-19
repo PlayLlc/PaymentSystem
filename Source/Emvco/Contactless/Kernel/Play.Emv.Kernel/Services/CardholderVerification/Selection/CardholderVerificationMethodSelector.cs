@@ -48,7 +48,6 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
 
             return;
         }
-            
 
         Select(database, cvmList!, currencyCode);
     }
@@ -64,13 +63,13 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
 
         ApplicationCurrencyCode applicationCurrencyCode = database.Get<ApplicationCurrencyCode>(ApplicationCurrencyCode.Tag);
 
-        if ((NumericCurrencyCode) transactionCurrencyCode == (NumericCurrencyCode) applicationCurrencyCode)
-            return (NumericCurrencyCode) transactionCurrencyCode;
+        if ((NumericCurrencyCode)transactionCurrencyCode == (NumericCurrencyCode)applicationCurrencyCode)
+            return (NumericCurrencyCode)transactionCurrencyCode;
 
         TransactionReferenceCurrencyCode transactionReferenceCurrencyCode =
             database.Get<TransactionReferenceCurrencyCode>(TransactionReferenceCurrencyCode.Tag);
 
-        return (NumericCurrencyCode) transactionReferenceCurrencyCode;
+        return (NumericCurrencyCode)transactionReferenceCurrencyCode;
     }
 
     #region CVM.1
@@ -146,7 +145,8 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
 
     #region CVM.5
 
-    public static bool IsCardholderVerificationSupported(KernelDatabase database) => database.IsOnDeviceCardholderVerificationSupported();
+    public static bool IsCardholderVerificationSupported(KernelDatabase database) =>
+        database.Get<ApplicationInterchangeProfile>(ApplicationInterchangeProfile.Tag).IsOnDeviceCardholderVerificationSupported();
 
     #endregion
 
