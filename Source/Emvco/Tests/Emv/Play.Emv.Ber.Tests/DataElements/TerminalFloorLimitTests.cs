@@ -1,8 +1,10 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
+using Play.Globalization;
 using Play.Globalization.Country;
 using Play.Globalization.Currency;
 using Play.Globalization.Language;
@@ -132,7 +134,7 @@ public class TerminalFloorLimitTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        TerminalFloorLimitTestTlv testData = new(new byte[] { 5, 81, 113, 61 });
+        TerminalFloorLimitTestTlv testData = new(new byte[] {5, 81, 113, 61});
         TerminalFloorLimit sut = TerminalFloorLimit.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -148,7 +150,7 @@ public class TerminalFloorLimitTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        TerminalFloorLimitTestTlv testData = new(new byte[] { 5, 81, 78, 196 });
+        TerminalFloorLimitTestTlv testData = new(new byte[] {5, 81, 78, 196});
         TerminalFloorLimit sut = TerminalFloorLimit.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
         ushort testResult = sut.GetTagLengthValueByteCount();
@@ -159,12 +161,10 @@ public class TerminalFloorLimitTests
     [Fact]
     public void InvalidBerEncoding_Encoding_Throws()
     {
-        TerminalFloorLimitTestTlv testData = new(new byte[] { 0x8f, 0x8f, 0x8f, 0x8f, 116 });
+        TerminalFloorLimitTestTlv testData = new(new byte[] {0x8f, 0x8f, 0x8f, 0x8f, 116});
 
         Assert.Throws<DataElementParsingException>(() => TerminalFloorLimit.Decode(testData.EncodeValue().AsSpan()));
     }
-
-    #endregion
 
     #region TerminalFloorLimit
 
@@ -174,16 +174,18 @@ public class TerminalFloorLimitTests
         TerminalFloorLimitTestTlv testData = new();
         TerminalFloorLimit sut = TerminalFloorLimit.Decode(testData.EncodeValue().AsSpan());
 
-        Alpha2CountryCode alpha2CountryCode = new Alpha2CountryCode((byte)'U', (byte)'S');
-        Alpha2LanguageCode alpha2LanguageCode = new Alpha2LanguageCode((byte)'e', (byte)'n');
+        Alpha2CountryCode alpha2CountryCode = new((byte) 'U', (byte) 'S');
+        Alpha2LanguageCode alpha2LanguageCode = new((byte) 'e', (byte) 'n');
 
-        Globalization.CultureProfile culture = new(alpha2CountryCode, alpha2LanguageCode);
+        CultureProfile culture = new(alpha2CountryCode, alpha2LanguageCode);
 
         ulong expectedAmount = 243800142;
-        Money expectedFloorLimit = new Money(expectedAmount, culture.GetNumericCurrencyCode());
+        Money expectedFloorLimit = new(expectedAmount, culture.GetNumericCurrencyCode());
 
         Assert.Equal(expectedFloorLimit, sut.AsMoney(culture));
     }
+
+    #endregion
 
     #endregion
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Globalization.Time;
@@ -130,7 +131,7 @@ public class MeasuredRelayResistanceProcessingTimeTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        MeasuredRelayResistanceProcessingTimeTestTlv testData = new(new byte[] { 0x3c, 0x4d });
+        MeasuredRelayResistanceProcessingTimeTestTlv testData = new(new byte[] {0x3c, 0x4d});
         MeasuredRelayResistanceProcessingTime sut = MeasuredRelayResistanceProcessingTime.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -146,7 +147,7 @@ public class MeasuredRelayResistanceProcessingTimeTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        MeasuredRelayResistanceProcessingTimeTestTlv testData = new(new byte[] { 0x3c, 0x4d });
+        MeasuredRelayResistanceProcessingTimeTestTlv testData = new(new byte[] {0x3c, 0x4d});
         MeasuredRelayResistanceProcessingTime sut = MeasuredRelayResistanceProcessingTime.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
         ushort testResult = sut.GetTagLengthValueByteCount();
@@ -161,7 +162,7 @@ public class MeasuredRelayResistanceProcessingTimeTests
         {
             0x4d, 0x34, 0x78, 0x4d, 0xef, 0x2a, 0x3c, 0x16, 0xef, 0xaf,
             0x4d, 0x34, 0x78, 0x4d, 0xef, 0x2a, 0x3c, 0x16, 0xef, 0xaf,
-            0x4d, 0x34, 0x78, 0x4d, 0xef, 0x2a, 0x3c, 0x16, 0xef, 0xaf,
+            0x4d, 0x34, 0x78, 0x4d, 0xef, 0x2a, 0x3c, 0x16, 0xef, 0xaf
         });
 
         Assert.Throws<DataElementParsingException>(() => MeasuredRelayResistanceProcessingTime.Decode(testData.EncodeValue().AsSpan()));
@@ -180,7 +181,8 @@ public class MeasuredRelayResistanceProcessingTimeTests
         DeviceEstimatedTransmissionTimeForRelayResistanceRapdu deviceEstimatedTransmissionTime = new(300);
 
         MeasuredRelayResistanceProcessingTime expected = new(0);
-        var actual = MeasuredRelayResistanceProcessingTime.Create(timeElapsed, terminalExpectedCapduTransmissionTime, terminalExpectedRapduTransmissionTime, deviceEstimatedTransmissionTime);
+        var actual = MeasuredRelayResistanceProcessingTime.Create(timeElapsed, terminalExpectedCapduTransmissionTime, terminalExpectedRapduTransmissionTime,
+            deviceEstimatedTransmissionTime);
 
         Assert.Equal(expected, actual);
     }
@@ -194,7 +196,8 @@ public class MeasuredRelayResistanceProcessingTimeTests
         DeviceEstimatedTransmissionTimeForRelayResistanceRapdu deviceEstimatedTransmissionTime = new(300);
 
         MeasuredRelayResistanceProcessingTime expected = new(100);
-        var actual = MeasuredRelayResistanceProcessingTime.Create(timeElapsed, terminalExpectedCapduTransmissionTime, terminalExpectedRapduTransmissionTime, deviceEstimatedTransmissionTime);
+        var actual = MeasuredRelayResistanceProcessingTime.Create(timeElapsed, terminalExpectedCapduTransmissionTime, terminalExpectedRapduTransmissionTime,
+            deviceEstimatedTransmissionTime);
 
         Assert.Equal(expected, actual);
     }

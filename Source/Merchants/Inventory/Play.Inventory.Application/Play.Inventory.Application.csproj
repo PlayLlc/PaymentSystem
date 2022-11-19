@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Identity\Play.Identity.Api.Client\Play.Identity.Api.Client.csproj" />
+    <ProjectReference Include="..\..\Identity\Play.Identity.Contracts\Play.Identity.Contracts.csproj" />
+    <ProjectReference Include="..\Play.Inventory.Persistence.Sql\Play.Inventory.Persistence.Sql.csproj" />
+  </ItemGroup>
+
+</Project>

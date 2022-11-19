@@ -7,7 +7,7 @@ using Play.Core.Specifications;
 
 namespace Play.Randoms;
 
-public partial class Randomize
+public static partial class Randomize
 {
     /// <summary>
     ///     NumericCodec data elements consist of two numeric digits (having values in the range Hex '0' – '9') per byte.
@@ -124,7 +124,7 @@ public partial class Randomize
             return new string(buffer);
         }
 
-        private static char GetRandomChar() => _CharMap[(byte) _Random.Next(0, 9)];
+        private static char GetRandomChar() => _CharMap[(byte) Random.Next(0, 9)];
 
         private static byte GetRandomByte()
         {

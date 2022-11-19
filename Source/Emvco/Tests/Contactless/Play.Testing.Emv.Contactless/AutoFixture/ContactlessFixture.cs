@@ -2,19 +2,28 @@
 using AutoFixture.AutoMoq;
 using AutoFixture.Kernel;
 
+using Play.Ber.DataObjects;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Services;
 using Play.Testing.Emv.Ber.Constructed;
+using Play.Testing.Emv.Contactless.AutoFixture.Configuration;
 using Play.Testing.Extensions;
 
 namespace Play.Testing.Emv.Contactless.AutoFixture;
 
 public partial class ContactlessFixture : EmvFixture
 {
+    private readonly ContactlessFixtureBuilderOptions _Options;
+
     #region Instance Members
+
+    public ContactlessFixture(ContactlessFixtureBuilderOptions? contactlessFixtureBuilderOptions = null)
+    {
+        _Options = contactlessFixtureBuilderOptions ?? ContactlessFixtureBuilderOptions.Default;
+    }
 
     public new IFixture Create()
     {
@@ -45,15 +54,26 @@ public partial class ContactlessFixture : EmvFixture
         foreach (ISpecimenBuilder item in factory.Create())
             fixture.Customizations.Add(item);
 
+        if (_Options.RegisterKernelSpecificFixtureValues != null)
+            _Options.RegisterKernelSpecificFixtureValues(fixture);
+
         CustomizePrimitives(fixture);
         CustomizeTemplates(fixture);
         CustomizeObjects(fixture);
-        RegisterDefaultDatabase(fixture);
+        RegisterDefaultDatabase(fixture,  _Options);
     }
 
     #endregion
 
     #region Customize Primitive Values
+
+    private static void CustomizeKernelSpecificPrimitives(IFixture fixture, PrimitiveValue[] primitiveValues)
+    {
+        foreach (PrimitiveValue kernelSpecificPrimitiveValue in primitiveValues)
+        {
+            fixture.Register(() => kernelSpecificPrimitiveValue);
+        }
+    }
 
     private static void CustomizePrimitives(IFixture fixture)
     {

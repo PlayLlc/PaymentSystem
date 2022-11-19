@@ -1,9 +1,11 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
+
 using Xunit;
 
 namespace Play.Emv.Ber.Tests.DataElements;
@@ -96,7 +98,7 @@ public class TerminalTypeTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        TerminalTypeTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        TerminalTypeTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => TerminalType.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -141,7 +143,7 @@ public class TerminalTypeTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        TerminalTypeTestTlv testData = new(new byte[] { 74 });
+        TerminalTypeTestTlv testData = new(new byte[] {74});
         TerminalType sut = TerminalType.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -157,7 +159,7 @@ public class TerminalTypeTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        TerminalTypeTestTlv testData = new(new byte[] { 97 });
+        TerminalTypeTestTlv testData = new(new byte[] {97});
 
         TerminalType sut = TerminalType.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -173,7 +175,7 @@ public class TerminalTypeTests
     [Fact]
     public void TerminalType_GetCommunicationType_ReturnsExpectedResult()
     {
-        TerminalTypeTestTlv testData = new(new byte[] { 43 });
+        TerminalTypeTestTlv testData = new(new byte[] {43});
         TerminalType sut = TerminalType.Decode(testData.EncodeValue().AsSpan());
 
         Assert.Equal(TerminalType.CommunicationType.OfflineOnly, sut.GetCommunicationType());
@@ -182,7 +184,7 @@ public class TerminalTypeTests
     [Fact]
     public void TerminalType_GetCommunicationType_ReturnsExpectedResult2()
     {
-        TerminalTypeTestTlv testData = new(new byte[] { 42 });
+        TerminalTypeTestTlv testData = new(new byte[] {42});
         TerminalType sut = TerminalType.Decode(testData.EncodeValue().AsSpan());
 
         Assert.Equal(TerminalType.CommunicationType.OnlineAndOfflineCapable, sut.GetCommunicationType());
@@ -191,7 +193,7 @@ public class TerminalTypeTests
     [Fact]
     public void TerminalType_IsCommunicatioType_ReturnsTrue()
     {
-        TerminalTypeTestTlv testData = new(new byte[] { 42 });
+        TerminalTypeTestTlv testData = new(new byte[] {42});
         TerminalType sut = TerminalType.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.IsCommunicationType(TerminalType.CommunicationType.OnlineAndOfflineCapable));
@@ -204,7 +206,7 @@ public class TerminalTypeTests
     [Fact]
     public void TerminalType_GetEnvironment_ReturnsUnattended()
     {
-        TerminalTypeTestTlv testData = new(new byte[] { 44 });
+        TerminalTypeTestTlv testData = new(new byte[] {44});
         TerminalType sut = TerminalType.Decode(testData.EncodeValue().AsSpan());
 
         Assert.Equal(TerminalType.EnvironmentType.Unattended, sut.GetEnvironment());
@@ -213,7 +215,7 @@ public class TerminalTypeTests
     [Fact]
     public void TerminalType_GetEnvironment_ReturnsAttended()
     {
-        TerminalTypeTestTlv testData = new(new byte[] { 43 });
+        TerminalTypeTestTlv testData = new(new byte[] {43});
         TerminalType sut = TerminalType.Decode(testData.EncodeValue().AsSpan());
 
         Assert.Equal(TerminalType.EnvironmentType.Attended, sut.GetEnvironment());
@@ -222,7 +224,7 @@ public class TerminalTypeTests
     [Fact]
     public void TerminalType_IsEnvironmentType_ReturnsTrue()
     {
-        TerminalTypeTestTlv testData = new(new byte[] { 43 });
+        TerminalTypeTestTlv testData = new(new byte[] {43});
         TerminalType sut = TerminalType.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.IsEnvironmentType(TerminalType.EnvironmentType.Attended));
@@ -235,7 +237,7 @@ public class TerminalTypeTests
     [Fact]
     public void TerminalType_GetTerminalOperatorType_ReturnsExpectedResult()
     {
-        TerminalTypeTestTlv testData = new(new byte[] { 23 });
+        TerminalTypeTestTlv testData = new(new byte[] {23});
         TerminalType sut = TerminalType.Decode(testData.EncodeValue().AsSpan());
 
         Assert.Equal(TerminalType.TerminalOperatorType.Merchant, sut.GetTerminalOperatorType());
@@ -244,7 +246,7 @@ public class TerminalTypeTests
     [Fact]
     public void TerminalType_IsOperatorType_ReturnsTrue()
     {
-        TerminalTypeTestTlv testData = new(new byte[] { 23 });
+        TerminalTypeTestTlv testData = new(new byte[] {23});
         TerminalType sut = TerminalType.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.IsOperatorType(TerminalType.TerminalOperatorType.Merchant));

@@ -16,10 +16,8 @@ public static partial class ReadOnlySpanExtensions
             return false;
 
         for (int i = 0; i < value.Length; i++)
-        {
             if (value[i] != other[i])
                 return false;
-        }
 
         return true;
     }

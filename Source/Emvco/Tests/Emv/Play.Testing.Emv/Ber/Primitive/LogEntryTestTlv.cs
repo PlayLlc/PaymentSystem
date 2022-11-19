@@ -5,7 +5,7 @@ namespace Play.Testing.Emv.Ber.Primitive;
 
 public class LogEntryTestTlv : TestTlv
 {
-    private static readonly byte[] _DefaultContentOctets = { 32, 46 };
+    private static readonly byte[] _DefaultContentOctets = { 24, 46 };
 
     public LogEntryTestTlv() : base(_DefaultContentOctets) { }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -97,7 +98,7 @@ public class HoldTimeValueTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        HoldTimeValueTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        HoldTimeValueTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => HoldTimeValue.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -142,7 +143,7 @@ public class HoldTimeValueTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        HoldTimeValueTestTlv testData = new(new byte[] { 0x3E });
+        HoldTimeValueTestTlv testData = new(new byte[] {0x3E});
         HoldTimeValue sut = HoldTimeValue.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -158,10 +159,7 @@ public class HoldTimeValueTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        HoldTimeValueTestTlv testData = new(new byte[]
-        {
-            0x4C
-        });
+        HoldTimeValueTestTlv testData = new(new byte[] {0x4C});
 
         HoldTimeValue sut = HoldTimeValue.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();

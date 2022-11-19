@@ -83,7 +83,7 @@ public class Owhf2Tests
 
         Owhf2TestsConfigurationSetup.RegisterDefaultConfiguration(_Database);
 
-        byte[] expectedKey = { 22, 24, 42, 64, 74, 84, 5, 6, 24, 42, 64, 74, 84, 106, 7, 8 };
+        byte[] expectedKey = { 22, 24, 42, 64, 74, 84, 5, 6, 42, 64, 74, 84, 106, 116, 7, 8 };
         byte[] expectedMessage = ComputeExpectedMessage(message.ToArray(), _Database.Get<DataStorageRequestedOperatorId>(DataStorageRequestedOperatorId.Tag));
         byte[] encryption = _DesCodec.Encrypt(expectedMessage, expectedKey);
         byte[] expectedOwhf2Encryption = ComputeExpectedEncryptedResult(encryption, message.ToArray());
@@ -103,7 +103,7 @@ public class Owhf2Tests
         //Arrange
         Owhf2TestsConfigurationSetup.RegisterDefaultConfiguration(_Database);
 
-        byte[] expectedKey = { 22, 24, 42, 64, 74, 84, 5, 6, 24, 42, 64, 74, 84, 106, 7, 8 };
+        byte[] expectedKey = { 22, 24, 42, 64, 74, 84, 5, 6, 42, 64, 74, 84, 106, 116, 7, 8 };
         byte[] expectedMessage = ComputeExpectedMessage(inputPD, _Database.Get<DataStorageRequestedOperatorId>(DataStorageRequestedOperatorId.Tag));
         byte[] encryption = _DesCodec.Encrypt(expectedMessage, expectedKey);
         byte[] expectedOwhf2Encryption = ComputeExpectedEncryptedResult(encryption, inputPD);

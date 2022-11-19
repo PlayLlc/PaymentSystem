@@ -4,7 +4,7 @@ using Play.Core.Specifications;
 
 namespace Play.Randoms;
 
-public partial class Randomize
+public static partial class Randomize
 {
     public class Alpha
     {
@@ -65,8 +65,8 @@ public partial class Randomize
         }
 
         public static string String(int length) => new(Chars(length));
-        private static char GetRandomChar() => _AlphabeticValues[_Random.Next(0, _AlphabeticValues.Length - 1)];
-        public static byte GetRandomByte() => (byte) _AlphabeticValues[_Random.Next(0, _AlphabeticValues.Length - 1)];
+        private static char GetRandomChar() => _AlphabeticValues[Random.Next(0, _AlphabeticValues.Length - 1)];
+        public static byte GetRandomByte() => (byte) _AlphabeticValues[Random.Next(0, _AlphabeticValues.Length - 1)];
 
         #endregion
     }

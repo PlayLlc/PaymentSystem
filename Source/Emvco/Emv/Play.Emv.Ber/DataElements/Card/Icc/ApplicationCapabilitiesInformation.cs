@@ -85,7 +85,7 @@ public record ApplicationCapabilitiesInformation : DataElement<uint>, IEqualityC
         const byte bitOffset = 16;
         const byte bitMask = 0b11111100;
 
-        return new DataStorageVersionNumber((byte) (_Value >> bitOffset).GetMaskedValue(bitMask));
+        return new DataStorageVersionNumber(((byte) (_Value >> bitOffset)).GetMaskedValue(bitMask));
     }
 
     public override Tag GetTag() => Tag;

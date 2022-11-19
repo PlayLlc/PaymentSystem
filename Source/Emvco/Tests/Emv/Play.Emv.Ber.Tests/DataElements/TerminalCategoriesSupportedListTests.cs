@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
@@ -130,7 +131,7 @@ public class TerminalCategoriesSupportedListTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        TerminalCategoriesSupportedListTestTlv testData = new(new byte[] { 0x7d });
+        TerminalCategoriesSupportedListTestTlv testData = new(new byte[] {0x7d});
         TerminalCategoriesSupportedList sut = TerminalCategoriesSupportedList.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -146,7 +147,7 @@ public class TerminalCategoriesSupportedListTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        TerminalCategoriesSupportedListTestTlv testData = new(new byte[] { 0x8f });
+        TerminalCategoriesSupportedListTestTlv testData = new(new byte[] {0x8f});
         TerminalCategoriesSupportedList sut = TerminalCategoriesSupportedList.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
         ushort testResult = sut.GetTagLengthValueByteCount();
@@ -154,20 +155,20 @@ public class TerminalCategoriesSupportedListTests
         Assert.Equal(expectedResult, testResult);
     }
 
-    #endregion
-
     #region TerminalCategoriesSupportedList
 
     [Fact]
     public void TerminalCategoriesSupportedList_GetTerminalCategoryCodes_ReturnsExpectedResult()
     {
-        TerminalCategoriesSupportedListTestTlv testData = new(new byte[] { 0, 2, 0, 1, 0, 33 });
+        TerminalCategoriesSupportedListTestTlv testData = new(new byte[] {0, 2, 0, 1, 0, 33});
         TerminalCategoriesSupportedList sut = TerminalCategoriesSupportedList.Decode(testData.EncodeValue().AsSpan());
 
-        TerminalCategoryCodes[] expected = new[] { TerminalCategoryCodes.Loyalty, TerminalCategoryCodes.TransitGate, TerminalCategoryCodes.Unknown };
+        TerminalCategoryCodes[] expected = new[] {TerminalCategoryCodes.Loyalty, TerminalCategoryCodes.TransitGate, TerminalCategoryCodes.Unknown};
 
         Assert.Equal(expected, sut.GetTerminalCategoryCodes());
     }
+
+    #endregion
 
     #endregion
 }

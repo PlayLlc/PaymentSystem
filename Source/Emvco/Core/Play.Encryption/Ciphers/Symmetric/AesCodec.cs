@@ -39,6 +39,7 @@ public class AesCodec : IBlockCipher
         _PaddingMode = configuration.GetBlockPaddingMode();
         _KeySize = configuration.GetKeySize();
         _BlockSize = configuration.GetBlockSize();
+        _InitializationVector = configuration.GetInitializationVector();
     }
 
     #endregion

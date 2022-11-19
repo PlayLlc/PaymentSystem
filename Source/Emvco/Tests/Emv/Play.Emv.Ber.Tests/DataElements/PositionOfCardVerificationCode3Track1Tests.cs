@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Core;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
@@ -98,7 +99,7 @@ public class PositionOfCardVerificationCode3Track1Tests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        PositionOfCardVerificationCode3Track1TestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        PositionOfCardVerificationCode3Track1TestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => PositionOfCardVerificationCode3Track1.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -143,7 +144,7 @@ public class PositionOfCardVerificationCode3Track1Tests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        PositionOfCardVerificationCode3Track1TestTlv testData = new(new byte[] { 0x32, 0x8e, 0x12, 0x7f, 0x18, 0x8b });
+        PositionOfCardVerificationCode3Track1TestTlv testData = new(new byte[] {0x32, 0x8e, 0x12, 0x7f, 0x18, 0x8b});
         PositionOfCardVerificationCode3Track1 sut = PositionOfCardVerificationCode3Track1.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -159,10 +160,7 @@ public class PositionOfCardVerificationCode3Track1Tests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        PositionOfCardVerificationCode3Track1TestTlv testData = new(new byte[]
-        {
-            0x08, 0x13, 0x9c, 0x0A, 0x16, 0xc3
-        });
+        PositionOfCardVerificationCode3Track1TestTlv testData = new(new byte[] {0x08, 0x13, 0x9c, 0x0A, 0x16, 0xc3});
 
         PositionOfCardVerificationCode3Track1 sut = PositionOfCardVerificationCode3Track1.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -185,15 +183,7 @@ public class PositionOfCardVerificationCode3Track1Tests
     [Fact]
     public void CustomDataElement_GetSetBitCount_ReturnsExpectedResult()
     {
-        PositionOfCardVerificationCode3Track1TestTlv testData = new(new byte[]
-        {
-            0b1010_1010,
-            0b1010_1010,
-            0b1010_1010,
-            0b1010_1010,
-            0b1010_1010,
-            0b1010_1010,
-        });
+        PositionOfCardVerificationCode3Track1TestTlv testData = new(new byte[] {0b1010_1010, 0b1010_1010, 0b1010_1010, 0b1010_1010, 0b1010_1010, 0b1010_1010});
         PositionOfCardVerificationCode3Track1 sut = PositionOfCardVerificationCode3Track1.Decode(testData.EncodeValue().AsSpan());
         int expected = 24;
         int actual = sut.GetSetBitCount();

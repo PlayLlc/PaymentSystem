@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -97,10 +98,12 @@ public class MerchantCategoryCodeTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        MerchantCategoryCodeTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        MerchantCategoryCodeTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => MerchantCategoryCode.Decode(testData.EncodeValue().AsSpan()));
     }
+
+    #endregion
 
     ///// <summary>
     /////     DataElement_InvokingGetValueByteCount_ReturnsExpectedResult
@@ -133,7 +136,6 @@ public class MerchantCategoryCodeTests
 
     //    Assert.Equal(expectedResult, testResult);
     //}
-
     /// <summary>
     ///     CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult
     /// </summary>
@@ -169,6 +171,4 @@ public class MerchantCategoryCodeTests
 
     //    Assert.Equal(expectedResult, testResult);
     //}
-
-    #endregion
 }

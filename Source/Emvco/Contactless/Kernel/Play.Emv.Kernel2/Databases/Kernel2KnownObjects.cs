@@ -58,6 +58,7 @@ public sealed record Kernel2KnownObjects : KnownObjects
             {ApplicationVersionNumberCard.Tag, new(ApplicationVersionNumberCard.Tag)},
             {ApplicationVersionNumberReader.Tag, new(ApplicationVersionNumberReader.Tag)},
             {BalanceReadAfterGenAc.Tag, new(BalanceReadAfterGenAc.Tag)},
+            {BalanceReadBeforeGenAc.Tag, new(BalanceReadBeforeGenAc.Tag)},
             {CardDataInputCapability.Tag, new(CardDataInputCapability.Tag)},
             {CardRiskManagementDataObjectList1.Tag, new(CardRiskManagementDataObjectList1.Tag)},
             {CardRiskManagementDataObjectList1RelatedData.Tag, new(CardRiskManagementDataObjectList1RelatedData.Tag)},

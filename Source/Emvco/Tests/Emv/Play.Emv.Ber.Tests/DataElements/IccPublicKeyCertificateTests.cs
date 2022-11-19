@@ -2,6 +2,7 @@
 using System.Linq;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -12,9 +13,9 @@ namespace Play.Emv.Ber.Tests.DataElements;
 
 public class IccPublicKeyCertificateTests
 {
-    #region Instance Values
+    #region Static Metadata
 
-    private static readonly Random _Random = new Random();
+    private static readonly Random _Random = new();
 
     #endregion
 
@@ -136,7 +137,7 @@ public class IccPublicKeyCertificateTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        IccPublicKeyCertificateTestTlv testData = new(new byte[] { 0xe3, 0x8f });
+        IccPublicKeyCertificateTestTlv testData = new(new byte[] {0xe3, 0x8f});
         IccPublicKeyCertificate sut = IccPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -152,10 +153,7 @@ public class IccPublicKeyCertificateTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        IccPublicKeyCertificateTestTlv testData = new(new byte[]
-        {
-            0x4d, 0x2c
-        });
+        IccPublicKeyCertificateTestTlv testData = new(new byte[] {0x4d, 0x2c});
 
         IccPublicKeyCertificate sut = IccPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -167,7 +165,7 @@ public class IccPublicKeyCertificateTests
     [Fact]
     public void InvalidBerEncoding_Decoding_ThrowsException()
     {
-        IccPublicKeyCertificateTestTlv testData = new(Enumerable.Range(0,250).Select(_ => (byte)_Random.Next(0, byte.MaxValue)).ToArray());
+        IccPublicKeyCertificateTestTlv testData = new(Enumerable.Range(0, 250).Select(_ => (byte) _Random.Next(0, byte.MaxValue)).ToArray());
 
         Assert.Throws<DataElementParsingException>(() => IccPublicKeyCertificate.Decode(testData.EncodeValue().AsSpan()));
     }

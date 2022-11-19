@@ -65,7 +65,6 @@ public readonly record struct Seconds
     public Microseconds AsMicroseconds() => new(this);
     public Deciseconds AsDeciSeconds() => new(this);
     public Milliseconds AsMilliseconds() => new(this);
-
     public TimeSpan AsTimeSpan() => GetTimeSpan(_Value);
     private static TimeSpan GetTimeSpan(long value) => new(GetDays(value), GetHours(value), GetMinutes(value), GetSeconds(value));
     private static int GetDays(long value) => GetHours(value) / 24;

@@ -55,7 +55,7 @@ public readonly record struct Ticks
 
     public Ticks(Microseconds value)
     {
-        _Value = (long)value * (Precision / Microseconds.Precision);
+        _Value = (long) value * (Precision / Microseconds.Precision);
     }
 
     public Ticks(Deciseconds value)

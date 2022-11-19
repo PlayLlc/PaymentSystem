@@ -20,18 +20,18 @@ public partial class DataExchangeKernelService
 
     #region Endpoint
 
-    public void SendRequest(KernelSessionId sessionId)
+    public void SendRequest(KernelSessionId sessionId)                
     {
         lock (_Lock)
         {
-            if (!_Lock.Responses.ContainsKey(DekRequestType.DataNeeded))
+            if (!_Lock.Requests.ContainsKey(DekRequestType.DataNeeded))
                 return;
 
-            QueryTerminalRequest queryKernelResponse = new(new DataExchangeKernelId(sessionId.GetKernelId(), sessionId),
+            QueryTerminalRequest queryTerminalRequest = new(new DataExchangeKernelId(sessionId.GetKernelId(), sessionId),
                 (DataNeeded) _Lock.Requests[DekRequestType.DataNeeded]);
 
-            _EndpointClient.Send(queryKernelResponse);
-            _Lock.Responses[DekRequestType.DataNeeded].Clear();
+            _EndpointClient.Send(queryTerminalRequest);
+            _Lock.Requests[DekRequestType.DataNeeded].Clear();
         }
     }
 
@@ -46,9 +46,6 @@ public partial class DataExchangeKernelService
     {
         lock (_Lock.Requests)
         {
-            if (!_Lock.Requests.ContainsKey(type))
-                throw new InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
-
             if (!_Lock.Requests.ContainsKey(type))
                 return true;
 
@@ -112,11 +109,9 @@ public partial class DataExchangeKernelService
                 return;
             }
 
-            // if the list is already initialized, but isn't empty, then something went wrong. We'll throw here
             if (!dataExchangeRequest.IsEmpty())
             {
-                throw new TerminalDataException(
-                    $"The {nameof(DataExchangeKernelService)} cannot {nameof(Initialize)} because a non empty list already exists for the {nameof(DekRequestType)} with the tag {dekRequestType}");
+                dataExchangeRequest.Clear();
             }
 
             // otherwise we'll just enqueue the empty list
@@ -140,8 +135,7 @@ public partial class DataExchangeKernelService
             // if the list is already initialized, but isn't empty, then something went wrong. We'll throw here
             if (!dataExchangeRequest.IsEmpty())
             {
-                throw new TerminalDataException(
-                    $"The {nameof(DataExchangeKernelService)} cannot {nameof(Initialize)} because a non empty list already exists for the {nameof(DekRequestType)} with the tag {dekRequestType}");
+                dataExchangeRequest.Clear();
             }
         }
     }
