@@ -29,7 +29,7 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemC
 
     public ItemHandler(
         ILogger<ItemHandler> logger, IMessageHandlerContext messageHandlerContext, IRepository<Item, SimpleStringId> itemRepository,
-        IRepository<Domain.Aggregates.Inventory, SimpleStringId> inventoryRepository) : base(logger)
+        IInventoryRepository inventoryRepository) : base(logger)
     {
         _MessageHandlerContext = messageHandlerContext;
         _ItemRepository = itemRepository;

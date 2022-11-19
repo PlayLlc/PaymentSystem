@@ -15,7 +15,7 @@ public class LowInventoryAlertEvent : NetworkEvent
     /// <summary>
     ///     The current running subtotal of the Item's quantity
     /// </summary>
-    public int QuantitySubtotal { get; set; }
+    public int Quantity { get; set; }
 
     #endregion
 }

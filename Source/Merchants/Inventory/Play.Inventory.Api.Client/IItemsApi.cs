@@ -1,4 +1,5 @@
 using Play.Inventory.Contracts.Commands;
+using Play.Inventory.Contracts.Commands.Items;
 using Play.Inventory.Contracts.Dtos;
 using Play.Restful.Clients;
 

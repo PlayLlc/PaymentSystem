@@ -10,8 +10,7 @@ using Play.Inventory.Domain.Aggregates;
 namespace Play.Inventory.Application.Handlers;
 
 public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemAlertsHaveBeenActivated>, IHandleDomainEvents<ItemAlertsHaveBeenDeactivated>,
-    IHandleDomainEvents<ItemStockUpdated>, IHandleDomainEvents<LowInventoryAlert>, IHandleDomainEvents<LowInventoryItemThresholdUpdated>,
-    IHandleDomainEvents<NoInventoryAlert>, IHandleDomainEvents<StockActionWasIncorrect>
+    IHandleDomainEvents<LowInventoryItemThresholdUpdated>, IHandleDomainEvents<NoInventoryAlert>, IHandleDomainEvents<StockActionWasIncorrect>
 
 {
     #region Instance Members
@@ -34,41 +33,12 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemA
         await _ItemRepository.SaveAsync(domainEvent.Item).ConfigureAwait(false);
     }
 
-    public async Task Handle(LowInventoryAlert domainEvent)
-    {
-        Log(domainEvent);
-
-        await _MessageHandlerContext.Publish<LowInventoryAlertEvent>((a) =>
-            {
-                a.ItemId = domainEvent.Inventory.GetId();
-                a.QuantitySubtotal = domainEvent.Inventory.GetQuantityInStock();
-            })
-            .ConfigureAwait(false);
-    }
-
     public async Task Handle(NoInventoryAlert domainEvent)
     {
         Log(domainEvent);
         await _MessageHandlerContext.Publish<NoInventoryAlertEvent>((a) =>
             {
                 a.ItemId = domainEvent.Item.GetId();
-            })
-            .ConfigureAwait(false);
-    }
-
-    public async Task Handle(ItemStockUpdated domainEvent)
-    {
-        Log(domainEvent);
-
-        await _ItemRepository.SaveAsync(domainEvent.Item).ConfigureAwait(false);
-
-        await _MessageHandlerContext.Publish<ItemStockUpdatedEvent>((a) =>
-            {
-                a.ItemId = domainEvent.Item.GetId();
-                a.Action = domainEvent.Action;
-                a.Quantity = domainEvent.Quantity;
-                a.QuantitySubtotal = domainEvent.Item.GetQuantityInStock();
-                a.UpdatedAt = DateTimeUtc.Now;
             })
             .ConfigureAwait(false);
     }

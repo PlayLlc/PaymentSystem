@@ -42,7 +42,7 @@ namespace Play.Inventory.Application.Handlers.Inventories
             await _MessageHandlerContext.Publish<LowInventoryAlertEvent>((a) =>
                 {
                     a.ItemId = domainEvent.Inventory.GetId();
-                    a.QuantitySubtotal = domainEvent.Quantity;
+                    a.Quantity = domainEvent.Quantity;
                 })
                 .ConfigureAwait(false);
         }
@@ -97,9 +97,8 @@ namespace Play.Inventory.Application.Handlers.Inventories
                     a.InventoryId = domainEvent.Inventory.Id;
                     a.StockId = domainEvent.StockId;
                     a.Action = domainEvent.StockAction;
-                    a.QuantityUpdated = domainEvent.Quantity;
-                    a.TotalQuantity = domainEvent.Quantity;
-                    a.TotalQuantity = domainEvent.Item.GetQuantityInStock();
+                    a.QuantityUpdated = domainEvent.QuantityUpdated;
+                    a.TotalQuantity = domainEvent.TotalQuantity;
                     a.UpdatedAt = DateTimeUtc.Now;
                 })
                 .ConfigureAwait(false);

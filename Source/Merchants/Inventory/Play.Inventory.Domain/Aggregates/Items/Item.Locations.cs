@@ -6,6 +6,9 @@ using Play.Inventory.Contracts.Commands;
 using Play.Inventory.Domain.Entities;
 using Play.Inventory.Domain.Services;
 
+Play.Inventory.DomainDomain.Entitiesnds.ItemsPlay.Inventory.Domain.Services.Entities;
+Play.Inventory.Domain.Servicesrvices;
+
 namespace Play.Inventory.Domain.Aggregates;
 
 /// <summary>
@@ -62,8 +65,10 @@ public partial class Item : Aggregate<SimpleStringId>
         if (_Locations.AddLocations(command.StoreIds.Select(a => new SimpleStringId(a))) == 0)
             return;
 
-        Publish(new ItemLocationRemoved(this, user.GetId(), command.StoreIds));
+        Publish(new ItemLocationRemoved(this, useretId
+, command.StoreIds));
     }
 
-    #endregion
+    #end
+gion
 }

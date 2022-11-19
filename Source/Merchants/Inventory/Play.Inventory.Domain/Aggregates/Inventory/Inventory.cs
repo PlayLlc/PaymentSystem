@@ -101,7 +101,7 @@ namespace Play.Inventory.Domain.Aggregates
         /// <exception cref="ValueObjectException"></exception>
         /// <exception cref="BusinessRuleValidationException"></exception>
         /// <exception cref="NotFoundException"></exception>
-        public async Task RemoveStockItem(IRetrieveUsers userService, RemoveVariation command)
+        public async Task RemoveStockItem(IRetrieveUsers userService, RemoveStockItem command)
         {
             User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
             Enforce(new UserMustBeActiveToUpdateAggregate<Inventory>(user));

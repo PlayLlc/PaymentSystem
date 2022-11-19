@@ -15,7 +15,7 @@ namespace Play.Inventory.Domain.Aggregates;
 /// </summary>
 public partial class Item : Aggregate<SimpleStringId>
 {
-    #region Category
+    #region Instance Members
 
     /// <exception cref="AggregateException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>

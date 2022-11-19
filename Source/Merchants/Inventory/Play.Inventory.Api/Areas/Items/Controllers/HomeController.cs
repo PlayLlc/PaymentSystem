@@ -34,10 +34,13 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
         public async Task<IEnumerable<ItemDto>> Index([FromQuery] string merchantId, [FromQuery] int? pageSize, [FromQuery] int? position) // paging and shit
         {
             if (pageSize is null || position is null)
-                return await _ItemsRepository.GetItemsAsync(new SimpleStringId(merchantId)).ConfigureAwait(false) ?? Array.Empty<ItemDto>();
+                return (await _ItemsRepository.GetItemsAsync(new SimpleStringId(merchantId)).ConfigureAwait(false)).Select(a => a.AsDto())
+                       ?? Array.Empty<ItemDto>();
 
-            var items = await _ItemsRepository.GetItemsAsync(new SimpleStringId(merchantId), pageSize!.Value, position!.Value).ConfigureAwait(false)
-                        ?? Array.Empty<ItemDto>();
+            var items =
+                (await _ItemsRepository.GetItemsAsync(new SimpleStringId(merchantId), pageSize!.Value, position!.Value).ConfigureAwait(false)).Select(a =>
+                    a.AsDto())
+                ?? Array.Empty<ItemDto>();
 
             return items;
         }
@@ -64,32 +67,6 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
             Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
 
             await item.UpdateName(_UserRetriever, command).ConfigureAwait(false);
-
-            return Ok();
-        }
-
-        [HttpPut]
-        [ValidateAntiForgeryToken]
-        [Route("{itemId}/[action]")]
-        public async Task<IActionResult> Price(string itemId, UpdateItemPrice command)
-        {
-            this.ValidateModel();
-            Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
-
-            await item.UpdatePrice(_UserRetriever, command).ConfigureAwait(false);
-
-            return Ok();
-        }
-
-        [HttpPut]
-        [ValidateAntiForgeryToken]
-        [Route("{itemId}/[action]")]
-        public async Task<IActionResult> Sku(string itemId, UpdateItemSku command)
-        {
-            this.ValidateModel();
-            Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
-
-            await item.UpdateSku(_UserRetriever, command).ConfigureAwait(false);
 
             return Ok();
         }

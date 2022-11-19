@@ -44,23 +44,6 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemV
             .ConfigureAwait(false);
     }
 
-    public async Task Handle(StockUpdated domainEvent)
-    {
-        Log(domainEvent);
-        await _ItemRepository.SaveAsync(domainEvent.Item).ConfigureAwait(false);
-
-        await _MessageHandlerContext.Publish<StockItemUpdatedEvent>((a) =>
-            {
-                a.ItemId = domainEvent.Item.GetId();
-                a.VariationId = domainEvent.Variation.Id;
-                a.Action = domainEvent.Action;
-                a.QuantityUpdated = domainEvent.Quantity;
-                a.TotalQuantity = domainEvent.Item.GetQuantityInStock();
-                a.UpdatedAt = DateTimeUtc.Now;
-            })
-            .ConfigureAwait(false);
-    }
-
     public async Task Handle(VariationNameUpdated domainEvent)
     {
         Log(domainEvent);

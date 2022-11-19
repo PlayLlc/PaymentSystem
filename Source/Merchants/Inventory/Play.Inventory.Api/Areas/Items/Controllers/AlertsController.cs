@@ -15,11 +15,11 @@ namespace Play.Inventory.Api.Areas.Items.Controllers;
 [ApiController]
 [Area($"{nameof(Items)}")]
 [Route("[area]")]
-public class StockController : InventoryController
+public class AlertsController : InventoryController
 {
     #region Constructor
 
-    public StockController(
+    public AlertsController(
         IRetrieveUsers userRetriever, IRetrieveMerchants merchantsRetriever, IItemRepository itemsRepository, ICategoryRepository categoryRepository) : base(
         userRetriever, merchantsRetriever, itemsRepository, categoryRepository)
     { }
@@ -37,32 +37,6 @@ public class StockController : InventoryController
         Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(command.ItemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
 
         await item.UpdateLowInventoryThreshold(_UserRetriever, command).ConfigureAwait(false);
-
-        return Ok();
-    }
-
-    [HttpPut]
-    [ValidateAntiForgeryToken]
-    [Route("{itemId}/[controller]/[action]")]
-    public async Task<IActionResult> AddQuantity(string itemId, AddQuantityToInventory command)
-    {
-        this.ValidateModel();
-        Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(command.ItemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
-
-        await item.AddQuantity(_UserRetriever, command).ConfigureAwait(false);
-
-        return Ok();
-    }
-
-    [HttpPut]
-    [ValidateAntiForgeryToken]
-    [Route("{itemId}/[controller]/[action]")]
-    public async Task<IActionResult> RemoveQuantity(string itemId, RemoveQuantityFromInventory command)
-    {
-        this.ValidateModel();
-        Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
-
-        await item.RemoveQuantity(_UserRetriever, command).ConfigureAwait(false);
 
         return Ok();
     }
