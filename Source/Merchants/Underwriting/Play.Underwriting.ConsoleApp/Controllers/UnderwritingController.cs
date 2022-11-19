@@ -39,7 +39,7 @@ public class UnderwritingController : ControllerBase
 
         Address merchantAddress = ToAddress(request.Address);
 
-        var result = await _UnderwritingRepository.IsMerchantFound(request.Name, merchantAddress);
+        bool result = await _UnderwritingRepository.IsMerchantFound(request.Name, merchantAddress);
 
         return Ok(new VerifyResult {IsProhibited = result});
     }
@@ -49,7 +49,7 @@ public class UnderwritingController : ControllerBase
     {
         this.ValidateModel();
 
-        var result = await _UnderwritingRepository.IsIndustryFound(request.MerchantCategoryCode);
+        bool result = await _UnderwritingRepository.IsIndustryFound(request.MerchantCategoryCode);
 
         return Ok(new VerifyResult {IsProhibited = result});
     }
@@ -62,7 +62,7 @@ public class UnderwritingController : ControllerBase
         Address userAddress = ToAddress(request.Address);
         string fullName = $"{request.Contact?.LastName}, {request.Contact?.FirstName}";
 
-        var result = await _UnderwritingRepository.IsUserFound(fullName, userAddress);
+        bool result = await _UnderwritingRepository.IsUserFound(fullName, userAddress);
 
         return Ok(new VerifyResult {IsProhibited = result});
     }

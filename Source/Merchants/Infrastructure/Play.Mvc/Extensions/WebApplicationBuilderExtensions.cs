@@ -25,7 +25,7 @@ public static partial class WebApplicationBuilderExtensions
 
             c.OperationFilter<SwaggerTagByAreaOperationFilter>();
 
-            foreach (var file in xmlFileAssemblies)
+            foreach (Assembly file in xmlFileAssemblies)
             {
                 string xmlFile = $"{file.GetName().Name}.xml";
                 string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);

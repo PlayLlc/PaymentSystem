@@ -54,8 +54,8 @@ namespace Play.Identity.Api.Controllers
         {
             this.ValidateModel();
 
-            var merchant = await _MerchantRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
-                           ?? throw new NotFoundException(typeof(MerchantRegistration), command.Id);
+            Merchant merchant = await _MerchantRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
+                                ?? throw new NotFoundException(typeof(MerchantRegistration), command.Id);
             merchant.Update(_MerchantUnderwriter, command);
 
             return Ok();
@@ -67,8 +67,8 @@ namespace Play.Identity.Api.Controllers
         {
             this.ValidateModel();
 
-            var merchant = await _MerchantRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
-                           ?? throw new NotFoundException(typeof(MerchantRegistration), command.Id);
+            Merchant merchant = await _MerchantRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
+                                ?? throw new NotFoundException(typeof(MerchantRegistration), command.Id);
             merchant.Update(_MerchantUnderwriter, command);
 
             return Ok();
@@ -80,8 +80,8 @@ namespace Play.Identity.Api.Controllers
         {
             this.ValidateModel();
 
-            var merchant = await _MerchantRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
-                           ?? throw new NotFoundException(typeof(MerchantRegistration), command.Id);
+            Merchant merchant = await _MerchantRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
+                                ?? throw new NotFoundException(typeof(MerchantRegistration), command.Id);
             merchant.Update(_MerchantUnderwriter, command);
 
             return Ok();

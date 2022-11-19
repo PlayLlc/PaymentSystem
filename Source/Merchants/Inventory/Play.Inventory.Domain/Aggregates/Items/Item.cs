@@ -83,7 +83,7 @@ public partial class Item : Aggregate<SimpleStringId>
     #region Instance Members
 
     /// <exception cref="BusinessRuleValidationException"></exception>
-    public async Task RemoveItem(IRetrieveUsers userService, RemoveItem command)
+    public async Task Remove(IRetrieveUsers userService, RemoveItem command)
     {
         User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));

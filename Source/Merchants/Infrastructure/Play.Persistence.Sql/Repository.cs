@@ -41,7 +41,7 @@ public class Repository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where 
         }
         catch (Exception ex)
         {
-            var exception = new EntityFrameworkRepositoryException(
+            EntityFrameworkRepositoryException exception = new EntityFrameworkRepositoryException(
                 $"The {nameof(Repository<_Aggregate, _TId>)} encountered an exception retrieving {nameof(_Aggregate)} with the Identifier: [{id}]", ex);
             _Logger.LogError(new EventId(id.GetHashCode(), $"{nameof(Repository<_Aggregate, _TId>)}-{nameof(_Aggregate)}-{nameof(GetById)}"), exception,
                 exception.Message);

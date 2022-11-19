@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Identity\Play.Identity.Api.Client\Play.Identity.Api.Client.csproj" />
     <ProjectReference Include="..\..\Identity\Play.Identity.Contracts\Play.Identity.Contracts.csproj" />
     <ProjectReference Include="..\Play.Inventory.Persistence.Sql\Play.Inventory.Persistence.Sql.csproj" />
   </ItemGroup>

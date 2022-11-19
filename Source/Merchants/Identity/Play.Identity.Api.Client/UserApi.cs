@@ -126,12 +126,12 @@ namespace Play.Identity.Api.Client
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<object> UserAddressPutWithHttpInfo(UpdateAddressCommand body = null)
         {
-            var localVarPath = "./User/Address";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./User/Address";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -183,12 +183,12 @@ namespace Play.Identity.Api.Client
         /// <returns>Task of ApiResponse</returns>
         public async Task<ApiResponse<object>> UserAddressPutAsyncWithHttpInfo(UpdateAddressCommand body = null)
         {
-            var localVarPath = "./User/Address";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            varstringcalVarPath = "./User/Address";
+            varDictionary<string, string> calVarPathParams = new Dictionary<string, string>();
+            varList<KeyValuePair<string, string>> calVarQueryParams = new List<KeyValuePair<string, string>>();
+            varDictionary<string, string> calVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            varDictionary<string, string> calVarFormParams = new Dictionary<string, string>();
+            varDictionary<string, FileParameter> calVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -240,12 +240,12 @@ namespace Play.Identity.Api.Client
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<object> UserContactInfoPutWithHttpInfo(UpdateContactCommand body = null)
         {
-            var localVarPath = "./User/ContactInfo";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            varstringcalVarPath = "./User/ContactInfo";
+            varDictionary<string, string> calVarPathParams = new Dictionary<string, string>();
+            varList<KeyValuePair<string, string>> calVarQueryParams = new List<KeyValuePair<string, string>>();
+            varDictionary<string, string> calVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            varDictionary<string, string> calVarFormParams = new Dictionary<string, string>();
+            varDictionary<string, FileParameter> calVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -297,12 +297,12 @@ namespace Play.Identity.Api.Client
         /// <returns>Task of ApiResponse</returns>
         public async Task<ApiResponse<object>> UserContactInfoPutAsyncWithHttpInfo(UpdateContactCommand body = null)
         {
-            var localVarPath = "./User/ContactInfo";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            varstringcalVarPath = "./User/ContactInfo";
+            varDictionary<string, string> calVarPathParams = new Dictionary<string, string>();
+            varList<KeyValuePair<string, string>> calVarQueryParams = new List<KeyValuePair<string, string>>();
+            varDictionary<string, string> calVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            varDictionary<string, string> calVarFormParams = new Dictionary<string, string>();
+            varDictionary<string, FileParameter> calVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -356,12 +356,12 @@ namespace Play.Identity.Api.Client
         /// <returns>ApiResponse of UserDto</returns>
         public ApiResponse<UserDto> UserGetWithHttpInfo(string id = null)
         {
-            var localVarPath = "./User";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            varstringcalVarPath = "./User";
+            varDictionary<string, string> calVarPathParams = new Dictionary<string, string>();
+            varList<KeyValuePair<string, string>> calVarQueryParams = new List<KeyValuePair<string, string>>();
+            varDictionary<string, string> calVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            varDictionary<string, string> calVarFormParams = new Dictionary<string, string>();
+            varDictionary<string, FileParameter> calVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -414,12 +414,12 @@ namespace Play.Identity.Api.Client
         /// <returns>Task of ApiResponse (UserDto)</returns>
         public async Task<ApiResponse<UserDto>> UserGetAsyncWithHttpInfo(string id = null)
         {
-            var localVarPath = "./User";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            varstringcalVarPath = "./User";
+            varDictionary<string, string> calVarPathParams = new Dictionary<string, string>();
+            varList<KeyValuePair<string, string>> calVarQueryParams = new List<KeyValuePair<string, string>>();
+            varDictionary<string, string> calVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            varDictionary<string, string> calVarFormParams = new Dictionary<string, string>();
+            varDictionary<string, FileParameter> calVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -470,12 +470,12 @@ namespace Play.Identity.Api.Client
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<object> UserPersonalDetailsPutWithHttpInfo(UpdatePersonalDetailCommand body = null)
         {
-            var localVarPath = "./User/PersonalDetails";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            varstringcalVarPath = "./User/PersonalDetails";
+            varDictionary<string, string> calVarPathParams = new Dictionary<string, string>();
+            varList<KeyValuePair<string, string>> calVarQueryParams = new List<KeyValuePair<string, string>>();
+            varDictionary<string, string> calVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            varDictionary<string, string> calVarFormParams = new Dictionary<string, string>();
+            varDictionary<string, FileParameter> calVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -527,12 +527,12 @@ namespace Play.Identity.Api.Client
         /// <returns>Task of ApiResponse</returns>
         public async Task<ApiResponse<object>> UserPersonalDetailsPutAsyncWithHttpInfo(UpdatePersonalDetailCommand body = null)
         {
-            var localVarPath = "./User/PersonalDetails";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            varstringcalVarPath = "./User/PersonalDetails";
+            varDictionary<string, string> calVarPathParams = new Dictionary<string, string>();
+            varList<KeyValuePair<string, string>> calVarQueryParams = new List<KeyValuePair<string, string>>();
+            varDictionary<string, string> calVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            varDictionary<string, string> calVarFormParams = new Dictionary<string, string>();
+            varDictionary<string, FileParameter> calVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header

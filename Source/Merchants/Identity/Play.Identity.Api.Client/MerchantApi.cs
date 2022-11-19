@@ -126,12 +126,12 @@ namespace Play.Identity.Api.Client
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<object> MerchantAddressPutWithHttpInfo(UpdateAddressCommand body = null)
         {
-            var localVarPath = "./Merchant/Address";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Merchant/Address";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -183,12 +183,12 @@ namespace Play.Identity.Api.Client
         /// <returns>Task of ApiResponse</returns>
         public async Task<ApiResponse<object>> MerchantAddressPutAsyncWithHttpInfo(UpdateAddressCommand body = null)
         {
-            var localVarPath = "./Merchant/Address";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            varstringcalVarPath = "./Merchant/Address";
+            varDictionary<string, string> calVarPathParams = new Dictionary<string, string>();
+            varList<KeyValuePair<string, string>> calVarQueryParams = new List<KeyValuePair<string, string>>();
+            varDictionary<string, string> calVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            varDictionary<string, string> calVarFormParams = new Dictionary<string, string>();
+            varDictionary<string, FileParameter> calVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -240,12 +240,12 @@ namespace Play.Identity.Api.Client
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<object> MerchantBusinessInfoPutWithHttpInfo(UpdateMerchantBusinessInfo body = null)
         {
-            var localVarPath = "./Merchant/BusinessInfo";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            varstringcalVarPath = "./Merchant/BusinessInfo";
+            varDictionary<string, string> calVarPathParams = new Dictionary<string, string>();
+            varList<KeyValuePair<string, string>> calVarQueryParams = new List<KeyValuePair<string, string>>();
+            varDictionary<string, string> calVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            varDictionary<string, string> calVarFormParams = new Dictionary<string, string>();
+            varDictionary<string, FileParameter> calVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -297,12 +297,12 @@ namespace Play.Identity.Api.Client
         /// <returns>Task of ApiResponse</returns>
         public async Task<ApiResponse<object>> MerchantBusinessInfoPutAsyncWithHttpInfo(UpdateMerchantBusinessInfo body = null)
         {
-            var localVarPath = "./Merchant/BusinessInfo";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            varstringcalVarPath = "./Merchant/BusinessInfo";
+            varDictionary<string, string> calVarPathParams = new Dictionary<string, string>();
+            varList<KeyValuePair<string, string>> calVarQueryParams = new List<KeyValuePair<string, string>>();
+            varDictionary<string, string> calVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            varDictionary<string, string> calVarFormParams = new Dictionary<string, string>();
+            varDictionary<string, FileParameter> calVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -354,12 +354,12 @@ namespace Play.Identity.Api.Client
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<object> MerchantCompanyNamePutWithHttpInfo(UpdateMerchantCompanyName body = null)
         {
-            var localVarPath = "./Merchant/CompanyName";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            varstringcalVarPath = "./Merchant/CompanyName";
+            varDictionary<string, string> calVarPathParams = new Dictionary<string, string>();
+            varList<KeyValuePair<string, string>> calVarQueryParams = new List<KeyValuePair<string, string>>();
+            varDictionary<string, string> calVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            varDictionary<string, string> calVarFormParams = new Dictionary<string, string>();
+            varDictionary<string, FileParameter> calVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -411,12 +411,12 @@ namespace Play.Identity.Api.Client
         /// <returns>Task of ApiResponse</returns>
         public async Task<ApiResponse<object>> MerchantCompanyNamePutAsyncWithHttpInfo(UpdateMerchantCompanyName body = null)
         {
-            var localVarPath = "./Merchant/CompanyName";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            varstringcalVarPath = "./Merchant/CompanyName";
+            varDictionary<string, string> calVarPathParams = new Dictionary<string, string>();
+            varList<KeyValuePair<string, string>> calVarQueryParams = new List<KeyValuePair<string, string>>();
+            varDictionary<string, string> calVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            varDictionary<string, string> calVarFormParams = new Dictionary<string, string>();
+            varDictionary<string, FileParameter> calVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -470,12 +470,12 @@ namespace Play.Identity.Api.Client
         /// <returns>ApiResponse of MerchantDto</returns>
         public ApiResponse<MerchantDto> MerchantGetWithHttpInfo(string id = null)
         {
-            var localVarPath = "./Merchant";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            varstringcalVarPath = "./Merchant";
+            varDictionary<string, string> calVarPathParams = new Dictionary<string, string>();
+            varList<KeyValuePair<string, string>> calVarQueryParams = new List<KeyValuePair<string, string>>();
+            varDictionary<string, string> calVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            varDictionary<string, string> calVarFormParams = new Dictionary<string, string>();
+            varDictionary<string, FileParameter> calVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -528,12 +528,12 @@ namespace Play.Identity.Api.Client
         /// <returns>Task of ApiResponse (MerchantDto)</returns>
         public async Task<ApiResponse<MerchantDto>> MerchantGetAsyncWithHttpInfo(string id = null)
         {
-            var localVarPath = "./Merchant";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            varstringcalVarPath = "./Merchant";
+            varDictionary<string, string> calVarPathParams = new Dictionary<string, string>();
+            varList<KeyValuePair<string, string>> calVarQueryParams = new List<KeyValuePair<string, string>>();
+            varDictionary<string, string> calVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            varDictionary<string, string> calVarFormParams = new Dictionary<string, string>();
+            varDictionary<string, FileParameter> calVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header

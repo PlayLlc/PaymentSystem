@@ -55,7 +55,7 @@ public partial class Item : Aggregate<SimpleStringId>
         Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Item>(_MerchantId, user));
         _Alerts.UpdateLowInventoryThreshold(command.Quantity);
-        Publish(new LowInventoryItemThresholdUpdated(this, user.GetId, command.Quantity));
+        Publish(new LowInventoryItemThresholdUpdated(this, user.GetId(), command.Quantity));
     }
 
     #endregion

@@ -21,13 +21,23 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
         #region Constructor
 
         public HomeController(
-            IRetrieveUsers userRetriever, IRetrieveMerchants merchantsRetriever, IItemRepository itemsRepository, ICategoryRepository categoryRepository) :
-            base(userRetriever, merchantsRetriever, itemsRepository, categoryRepository)
+            IRetrieveUsers userRetriever, IRetrieveMerchants merchantsRetriever, IItemRepository itemsRepository, ICategoryRepository categoryRepository,
+            IInventoryRepository inventoryRepository) : base(userRetriever, merchantsRetriever, itemsRepository, categoryRepository, inventoryRepository)
         { }
 
         #endregion
 
         #region Instance Members
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("{itemId:itemsId:string}")]
+        public async Task<ItemDto> Index(string itemId)
+        {
+            Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(ItemDto));
+
+            return item.AsDto();
+        }
 
         [HttpGet]
         [ValidateAntiForgeryToken]
@@ -37,12 +47,24 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
                 return (await _ItemsRepository.GetItemsAsync(new SimpleStringId(merchantId)).ConfigureAwait(false)).Select(a => a.AsDto())
                        ?? Array.Empty<ItemDto>();
 
-            var items =
+            IEnumerable<ItemDto> items =
                 (await _ItemsRepository.GetItemsAsync(new SimpleStringId(merchantId), pageSize!.Value, position!.Value).ConfigureAwait(false)).Select(a =>
                     a.AsDto())
                 ?? Array.Empty<ItemDto>();
 
             return items;
+        }
+
+        [Route("{itemsId:itemsId:string}")]
+        [HttpDelete]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Remove(string itemsId, RemoveItem command)
+        {
+            Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemsId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(ItemDto));
+
+            await item.Remove(_UserRetriever, command).ConfigureAwait(false);
+
+            return NoContent();
         }
 
         [HttpPut]

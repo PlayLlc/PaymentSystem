@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+
 using Play.Core.Exceptions;
 using Play.Domain.Exceptions;
 using Play.Globalization.Time;
@@ -10,17 +11,19 @@ using Play.Underwriting.Domain.Entities;
 using Play.Underwriting.Domain.Repositories;
 using Play.Underwriting.Parser;
 using Play.Underwriting.Parser.Mappings;
+
 using Quartz;
+
 using System.Data;
+
 using TinyCsvParser;
+using TinyCsvParser.Mapping;
 
 namespace Play.Underwriting.Jobs;
 
 public class ImportSanctionListsJob : IScheduledCronJob
 {
-    private readonly IUsTreasuryClient _DataServiceClient;
-    private readonly IImportIndividualsRepository _ImportRepository;
-    private readonly ILogger<ImportSanctionListsJob> _Logger;
+    #region Static Metadata
 
     private const string prim_file = "sdn.csv";
     private const string addr_file = "add.csv";
@@ -30,12 +33,28 @@ public class ImportSanctionListsJob : IScheduledCronJob
     private const string cons_addr_file = "cons_add.csv";
     private const string cons_alt_file = "cons_alt.csv";
 
+    #endregion
+
+    #region Instance Values
+
+    private readonly IUsTreasuryClient _DataServiceClient;
+    private readonly IImportIndividualsRepository _ImportRepository;
+    private readonly ILogger<ImportSanctionListsJob> _Logger;
+
+    #endregion
+
+    #region Constructor
+
     public ImportSanctionListsJob(IUsTreasuryClient usTreasuryClient, IImportIndividualsRepository importRepository, ILogger<ImportSanctionListsJob> logger)
     {
         _DataServiceClient = usTreasuryClient;
         _ImportRepository = importRepository;
         _Logger = logger;
     }
+
+    #endregion
+
+    #region Instance Members
 
     public async Task Execute(IJobExecutionContext context)
     {
@@ -54,13 +73,15 @@ public class ImportSanctionListsJob : IScheduledCronJob
             IEnumerable<Individual> individuals = individualsTask.Result;
             IEnumerable<Individual> consolidatedIndividuals = consolidatedIndividualsTask.Result;
 
-            var result = individuals.Concat(consolidatedIndividuals).ToLookup(pair => pair.Number, pair => pair).ToDictionary(group => group.Key, group => group.First());
+            Dictionary<ulong, Individual> result = individuals.Concat(consolidatedIndividuals)
+                .ToLookup(pair => pair.Number, pair => pair)
+                .ToDictionary(group => group.Key, group => group.First());
 
             await SaveItems(result);
 
             _Logger.LogInformation("Job {jobKey}: job finished running successfully at {dateTime}", context.JobDetail.Key, DateTimeUtc.Now);
         }
-        catch (Exception ex) when(ex is HttpRequestException || ex is InvalidOperationException)
+        catch (Exception ex) when (ex is HttpRequestException || ex is InvalidOperationException)
         {
             _Logger.LogError(ex, "Job {jobKey}: could not request the necessary data !", context.JobDetail.Key);
 
@@ -71,29 +92,29 @@ public class ImportSanctionListsJob : IScheduledCronJob
 
             throw new JobExecutionException(ex, true);
         }
-        catch(ParsingException ex)
+        catch (ParsingException ex)
         {
             _Logger.LogError(ex, "Job {jobKey}: could not parse the imported sanctions lists", context.JobDetail.Key);
 
             await _ImportRepository.RestoreData().ConfigureAwait(false);
 
-            throw new JobExecutionException(ex, false) { UnscheduleAllTriggers = true };
+            throw new JobExecutionException(ex, false) {UnscheduleAllTriggers = true};
         }
-        catch(RepositoryException ex)
+        catch (RepositoryException ex)
         {
             _Logger.LogError(ex, "Job {jobKey}: could not persist the imported sanctions lists", context.JobDetail.Key);
 
             await _ImportRepository.RestoreData().ConfigureAwait(false);
 
-            throw new JobExecutionException(ex, false) { UnscheduleAllTriggers = true };
+            throw new JobExecutionException(ex, false) {UnscheduleAllTriggers = true};
         }
-        catch(PlayInternalException ex)
+        catch (PlayInternalException ex)
         {
             _Logger.LogError(ex, "Job {jobKey}: something wrong happened", context.JobDetail.Key);
 
             await _ImportRepository.RestoreData().ConfigureAwait(false);
 
-            throw new JobExecutionException(ex, false) { UnscheduleAllTriggers = true };
+            throw new JobExecutionException(ex, false) {UnscheduleAllTriggers = true};
         }
         finally
         {
@@ -103,7 +124,7 @@ public class ImportSanctionListsJob : IScheduledCronJob
 
     private async Task<IEnumerable<Individual>> ImportAndProcessSanctionLists()
     {
-        CsvParserOptions options = new CsvParserOptions(skipHeader: false, ',');
+        CsvParserOptions options = new CsvParserOptions(false, ',');
 
         Task<IEnumerable<Individual>> individualsTask = ImportIndividuals(options, prim_file);
         Task<IEnumerable<Address>> addressesTask = ImportAddresses(options, addr_file);
@@ -122,7 +143,7 @@ public class ImportSanctionListsJob : IScheduledCronJob
 
     private async Task<IEnumerable<Individual>> ImportAndProcessConsolidatedSanctionLists()
     {
-        CsvParserOptions options = new CsvParserOptions(skipHeader: false, ',');
+        CsvParserOptions options = new CsvParserOptions(false, ',');
 
         Task<IEnumerable<Individual>> individualsTask = ImportIndividuals(options, cons_prim_file, true);
         Task<IEnumerable<Address>> addressesTask = ImportAddresses(options, cons_addr_file, true);
@@ -142,7 +163,8 @@ public class ImportSanctionListsJob : IScheduledCronJob
     private void UpdateIndividuals(IEnumerable<Individual> individuals, IEnumerable<Address> addresses, IEnumerable<Alias> alternateIdentities)
     {
         Dictionary<ulong, Address[]> individualsAddresses = addresses.GroupBy(o => o.IndividualNumber).ToDictionary(g => g.Key, g => g.ToArray());
-        Dictionary<ulong, Alias[]> individualsAlternateIdentities = alternateIdentities.GroupBy(o => o.IndividualNumber).ToDictionary(g => g.Key, g => g.ToArray());
+        Dictionary<ulong, Alias[]> individualsAlternateIdentities =
+            alternateIdentities.GroupBy(o => o.IndividualNumber).ToDictionary(g => g.Key, g => g.ToArray());
 
         foreach (Individual individual in individuals)
         {
@@ -170,7 +192,9 @@ public class ImportSanctionListsJob : IScheduledCronJob
         else
             content = await _DataServiceClient.GetCsvFile(fileName).ConfigureAwait(false);
 
-        var result = CsvParser.ParseFromString(FileHelper.SanitizeConsolidatedCsvListFile(content, fileName), parserOptions, new IndividualCsvMapping(), fileName).ToList();
+        List<CsvMappingResult<Individual>> result = CsvParser.ParseFromString(FileHelper.SanitizeConsolidatedCsvListFile(content, fileName), parserOptions,
+                new IndividualCsvMapping(), fileName)
+            .ToList();
 
         return result.Select(x => x.Result);
     }
@@ -184,7 +208,9 @@ public class ImportSanctionListsJob : IScheduledCronJob
         else
             content = await _DataServiceClient.GetCsvFile(fileName).ConfigureAwait(false);
 
-        var result = CsvParser.ParseFromString(FileHelper.SanitizeConsolidatedCsvListFile(content, fileName), parserOptions, new AddressCsvMapping(), fileName).ToList();
+        List<CsvMappingResult<Address>> result = CsvParser
+            .ParseFromString(FileHelper.SanitizeConsolidatedCsvListFile(content, fileName), parserOptions, new AddressCsvMapping(), fileName)
+            .ToList();
 
         return result.Select(x => x.Result);
     }
@@ -198,7 +224,9 @@ public class ImportSanctionListsJob : IScheduledCronJob
         else
             content = await _DataServiceClient.GetCsvFile(fileName).ConfigureAwait(false);
 
-        var result = CsvParser.ParseFromString(FileHelper.SanitizeConsolidatedCsvListFile(content, fileName), parserOptions, new AliasCsvMapping(), fileName).ToList();
+        List<CsvMappingResult<Alias>> result = CsvParser
+            .ParseFromString(FileHelper.SanitizeConsolidatedCsvListFile(content, fileName), parserOptions, new AliasCsvMapping(), fileName)
+            .ToList();
 
         return result.Select(x => x.Result);
     }
@@ -212,4 +240,6 @@ public class ImportSanctionListsJob : IScheduledCronJob
     {
         throw new NotImplementedException();
     }
+
+    #endregion
 }

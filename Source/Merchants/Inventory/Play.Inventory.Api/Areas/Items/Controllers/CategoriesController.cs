@@ -20,8 +20,8 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
         #region Constructor
 
         public CategoriesController(
-            IRetrieveUsers userRetriever, IRetrieveMerchants merchantsRetriever, IItemRepository itemsRepository, ICategoryRepository categoryRepository) :
-            base(userRetriever, merchantsRetriever, itemsRepository, categoryRepository)
+            IRetrieveUsers userRetriever, IRetrieveMerchants merchantsRetriever, IItemRepository itemsRepository, ICategoryRepository categoryRepository,
+            IInventoryRepository inventoryRepository) : base(userRetriever, merchantsRetriever, itemsRepository, categoryRepository, inventoryRepository)
         { }
 
         #endregion
@@ -30,7 +30,7 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("{itemId}/[controller]")]
+        [Route("{itemId:itemId:string}/[controller]")]
         public async Task<IActionResult> Add(string itemId, UpdateItemCategories command)
         {
             this.ValidateModel();
@@ -43,7 +43,7 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
 
         [HttpDelete]
         [ValidateAntiForgeryToken]
-        [Route("{itemId}/[controller]")]
+        [Route("{itemId:itemId:string}/[controller]")]
         public async Task<IActionResult> Remove(string itemId, UpdateItemCategories command)
         {
             this.ValidateModel();

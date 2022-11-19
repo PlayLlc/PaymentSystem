@@ -132,12 +132,12 @@ namespace Play.Inventory.Api.Client
         /// <returns>ApiResponse of List&lt;ItemDto&gt;</returns>
         public ApiResponse<List<ItemDto>> ItemsGetWithHttpInfo(string merchantId = null, int? pageSize = null, int? position = null)
         {
-            var localVarPath = "./Items";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -198,12 +198,12 @@ namespace Play.Inventory.Api.Client
         /// <returns>Task of ApiResponse (List&lt;ItemDto&gt;)</returns>
         public async Task<ApiResponse<List<ItemDto>>> ItemsGetAsyncWithHttpInfo(string merchantId = null, int? pageSize = null, int? position = null)
         {
-            var localVarPath = "./Items";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -264,12 +264,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdCategoriesDelete");
 
-            var localVarPath = "./Items/{itemId}/Categories";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Categories";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -329,12 +329,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdCategoriesDelete");
 
-            var localVarPath = "./Items/{itemId}/Categories";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Categories";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -394,12 +394,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdCategoriesPost");
 
-            var localVarPath = "./Items/{itemId}/Categories";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Categories";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -459,12 +459,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdCategoriesPost");
 
-            var localVarPath = "./Items/{itemId}/Categories";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Categories";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -524,12 +524,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdDescriptionPut");
 
-            var localVarPath = "./Items/{itemId}/Description";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Description";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -589,12 +589,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdDescriptionPut");
 
-            var localVarPath = "./Items/{itemId}/Description";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Description";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -654,12 +654,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdLocationsDelete");
 
-            var localVarPath = "./Items/{itemId}/Locations";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Locations";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -719,12 +719,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdLocationsDelete");
 
-            var localVarPath = "./Items/{itemId}/Locations";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Locations";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -784,12 +784,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdLocationsPost");
 
-            var localVarPath = "./Items/{itemId}/Locations";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Locations";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -849,12 +849,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdLocationsPost");
 
-            var localVarPath = "./Items/{itemId}/Locations";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Locations";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -914,12 +914,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdLocationsSetAllPut");
 
-            var localVarPath = "./Items/{itemId}/Locations/SetAll";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Locations/SetAll";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -979,12 +979,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdLocationsSetAllPut");
 
-            var localVarPath = "./Items/{itemId}/Locations/SetAll";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Locations/SetAll";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1044,12 +1044,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdNamePut");
 
-            var localVarPath = "./Items/{itemId}/Name";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Name";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1109,12 +1109,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdNamePut");
 
-            var localVarPath = "./Items/{itemId}/Name";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Name";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1174,12 +1174,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdPricePut");
 
-            var localVarPath = "./Items/{itemId}/Price";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Price";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1239,12 +1239,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdPricePut");
 
-            var localVarPath = "./Items/{itemId}/Price";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Price";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1304,12 +1304,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdSkuPut");
 
-            var localVarPath = "./Items/{itemId}/Sku";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Sku";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1369,12 +1369,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdSkuPut");
 
-            var localVarPath = "./Items/{itemId}/Sku";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Sku";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1434,12 +1434,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdStockActivateAlertsPut");
 
-            var localVarPath = "./Items/{itemId}/Stock/ActivateAlerts";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Stock/ActivateAlerts";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1499,12 +1499,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdStockActivateAlertsPut");
 
-            var localVarPath = "./Items/{itemId}/Stock/ActivateAlerts";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Stock/ActivateAlerts";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1564,12 +1564,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdStockAddQuantityPut");
 
-            var localVarPath = "./Items/{itemId}/Stock/AddQuantity";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Stock/AddQuantity";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1629,12 +1629,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdStockAddQuantityPut");
 
-            var localVarPath = "./Items/{itemId}/Stock/AddQuantity";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Stock/AddQuantity";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1694,12 +1694,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdStockDeativateAlertsPut");
 
-            var localVarPath = "./Items/{itemId}/Stock/DeativateAlerts";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Stock/DeativateAlerts";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1759,12 +1759,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdStockDeativateAlertsPut");
 
-            var localVarPath = "./Items/{itemId}/Stock/DeativateAlerts";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Stock/DeativateAlerts";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1824,12 +1824,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdStockRemoveQuantityPut");
 
-            var localVarPath = "./Items/{itemId}/Stock/RemoveQuantity";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Stock/RemoveQuantity";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1889,12 +1889,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdStockRemoveQuantityPut");
 
-            var localVarPath = "./Items/{itemId}/Stock/RemoveQuantity";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Stock/RemoveQuantity";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1954,12 +1954,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdVariationsPost");
 
-            var localVarPath = "./Items/{itemId}/Variations";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Variations";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -2019,12 +2019,12 @@ namespace Play.Inventory.Api.Client
             if (itemId == null)
                 throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsItemIdVariationsPost");
 
-            var localVarPath = "./Items/{itemId}/Variations";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Variations";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -2091,12 +2091,12 @@ namespace Play.Inventory.Api.Client
             if (variationId == null)
                 throw new ApiException(400, "Missing required parameter 'variationId' when calling ItemsApi->ItemsItemIdVariationsVariationIdAddQuantityPut");
 
-            var localVarPath = "./Items/{itemId}/Variations/{variationId}/AddQuantity";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Variations/{variationId}/AddQuantity";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -2166,12 +2166,12 @@ namespace Play.Inventory.Api.Client
             if (variationId == null)
                 throw new ApiException(400, "Missing required parameter 'variationId' when calling ItemsApi->ItemsItemIdVariationsVariationIdAddQuantityPut");
 
-            var localVarPath = "./Items/{itemId}/Variations/{variationId}/AddQuantity";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Variations/{variationId}/AddQuantity";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -2239,12 +2239,12 @@ namespace Play.Inventory.Api.Client
             if (variationId == null)
                 throw new ApiException(400, "Missing required parameter 'variationId' when calling ItemsApi->ItemsItemIdVariationsVariationIdDelete");
 
-            var localVarPath = "./Items/{itemId}/Variations/{variationId}";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Variations/{variationId}";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -2313,12 +2313,12 @@ namespace Play.Inventory.Api.Client
             if (variationId == null)
                 throw new ApiException(400, "Missing required parameter 'variationId' when calling ItemsApi->ItemsItemIdVariationsVariationIdDelete");
 
-            var localVarPath = "./Items/{itemId}/Variations/{variationId}";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Variations/{variationId}";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -2386,12 +2386,12 @@ namespace Play.Inventory.Api.Client
             if (variationId == null)
                 throw new ApiException(400, "Missing required parameter 'variationId' when calling ItemsApi->ItemsItemIdVariationsVariationIdNamePut");
 
-            var localVarPath = "./Items/{itemId}/Variations/{variationId}/Name";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Variations/{variationId}/Name";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -2460,12 +2460,12 @@ namespace Play.Inventory.Api.Client
             if (variationId == null)
                 throw new ApiException(400, "Missing required parameter 'variationId' when calling ItemsApi->ItemsItemIdVariationsVariationIdNamePut");
 
-            var localVarPath = "./Items/{itemId}/Variations/{variationId}/Name";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Variations/{variationId}/Name";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -2533,12 +2533,12 @@ namespace Play.Inventory.Api.Client
             if (variationId == null)
                 throw new ApiException(400, "Missing required parameter 'variationId' when calling ItemsApi->ItemsItemIdVariationsVariationIdPricePut");
 
-            var localVarPath = "./Items/{itemId}/Variations/{variationId}/Price";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Variations/{variationId}/Price";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -2607,12 +2607,12 @@ namespace Play.Inventory.Api.Client
             if (variationId == null)
                 throw new ApiException(400, "Missing required parameter 'variationId' when calling ItemsApi->ItemsItemIdVariationsVariationIdPricePut");
 
-            var localVarPath = "./Items/{itemId}/Variations/{variationId}/Price";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Variations/{variationId}/Price";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -2682,12 +2682,12 @@ namespace Play.Inventory.Api.Client
                 throw new ApiException(400,
                     "Missing required parameter 'variationId' when calling ItemsApi->ItemsItemIdVariationsVariationIdRemoveQuantityPut");
 
-            var localVarPath = "./Items/{itemId}/Variations/{variationId}/RemoveQuantity";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Variations/{variationId}/RemoveQuantity";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -2758,12 +2758,12 @@ namespace Play.Inventory.Api.Client
                 throw new ApiException(400,
                     "Missing required parameter 'variationId' when calling ItemsApi->ItemsItemIdVariationsVariationIdRemoveQuantityPut");
 
-            var localVarPath = "./Items/{itemId}/Variations/{variationId}/RemoveQuantity";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Variations/{variationId}/RemoveQuantity";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -2831,12 +2831,12 @@ namespace Play.Inventory.Api.Client
             if (variationId == null)
                 throw new ApiException(400, "Missing required parameter 'variationId' when calling ItemsApi->ItemsItemIdVariationsVariationIdSkuPut");
 
-            var localVarPath = "./Items/{itemId}/Variations/{variationId}/Sku";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Variations/{variationId}/Sku";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -2905,12 +2905,12 @@ namespace Play.Inventory.Api.Client
             if (variationId == null)
                 throw new ApiException(400, "Missing required parameter 'variationId' when calling ItemsApi->ItemsItemIdVariationsVariationIdSkuPut");
 
-            var localVarPath = "./Items/{itemId}/Variations/{variationId}/Sku";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Items/{itemId}/Variations/{variationId}/Sku";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header

@@ -128,12 +128,12 @@ namespace Play.Identity.Api.Client
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<object> RegistrationCompletePostWithHttpInfo(string userRegistrationId = null)
         {
-            var localVarPath = "./Registration/Complete";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/Complete";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -183,12 +183,12 @@ namespace Play.Identity.Api.Client
         /// <returns>Task of ApiResponse</returns>
         public async Task<ApiResponse<object>> RegistrationCompletePostAsyncWithHttpInfo(string userRegistrationId = null)
         {
-            var localVarPath = "./Registration/Complete";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/Complete";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -238,12 +238,12 @@ namespace Play.Identity.Api.Client
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<object> RegistrationMerchantApprovePostWithHttpInfo(UpdateMerchantRegistrationCommand body = null)
         {
-            var localVarPath = "./Registration/Merchant/Approve";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/Merchant/Approve";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -295,12 +295,12 @@ namespace Play.Identity.Api.Client
         /// <returns>Task of ApiResponse</returns>
         public async Task<ApiResponse<object>> RegistrationMerchantApprovePostAsyncWithHttpInfo(UpdateMerchantRegistrationCommand body = null)
         {
-            var localVarPath = "./Registration/Merchant/Approve";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/Merchant/Approve";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -354,12 +354,12 @@ namespace Play.Identity.Api.Client
         /// <returns>ApiResponse of MerchantRegistrationDto</returns>
         public ApiResponse<MerchantRegistrationDto> RegistrationMerchantGetWithHttpInfo(string id = null)
         {
-            var localVarPath = "./Registration/Merchant";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/Merchant";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -413,12 +413,12 @@ namespace Play.Identity.Api.Client
         /// <returns>Task of ApiResponse (MerchantRegistrationDto)</returns>
         public async Task<ApiResponse<MerchantRegistrationDto>> RegistrationMerchantGetAsyncWithHttpInfo(string id = null)
         {
-            var localVarPath = "./Registration/Merchant";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/Merchant";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -470,12 +470,12 @@ namespace Play.Identity.Api.Client
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<object> RegistrationMerchantPostWithHttpInfo(CreateMerchantRegistrationCommand body = null)
         {
-            var localVarPath = "./Registration/Merchant";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/Merchant";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -527,12 +527,12 @@ namespace Play.Identity.Api.Client
         /// <returns>Task of ApiResponse</returns>
         public async Task<ApiResponse<object>> RegistrationMerchantPostAsyncWithHttpInfo(CreateMerchantRegistrationCommand body = null)
         {
-            var localVarPath = "./Registration/Merchant";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/Merchant";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -584,12 +584,12 @@ namespace Play.Identity.Api.Client
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<object> RegistrationUserAddressPutWithHttpInfo(UpdateAddressCommand body = null)
         {
-            var localVarPath = "./Registration/User/Address";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/User/Address";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -641,12 +641,12 @@ namespace Play.Identity.Api.Client
         /// <returns>Task of ApiResponse</returns>
         public async Task<ApiResponse<object>> RegistrationUserAddressPutAsyncWithHttpInfo(UpdateAddressCommand body = null)
         {
-            var localVarPath = "./Registration/User/Address";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/User/Address";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -698,12 +698,12 @@ namespace Play.Identity.Api.Client
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<object> RegistrationUserApprovePostWithHttpInfo(string id = null)
         {
-            var localVarPath = "./Registration/User/Approve";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/User/Approve";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -753,12 +753,12 @@ namespace Play.Identity.Api.Client
         /// <returns>Task of ApiResponse</returns>
         public async Task<ApiResponse<object>> RegistrationUserApprovePostAsyncWithHttpInfo(string id = null)
         {
-            var localVarPath = "./Registration/User/Approve";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/User/Approve";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -808,12 +808,12 @@ namespace Play.Identity.Api.Client
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<object> RegistrationUserContactPutWithHttpInfo(UpdateContactCommand body = null)
         {
-            var localVarPath = "./Registration/User/Contact";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/User/Contact";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -865,12 +865,12 @@ namespace Play.Identity.Api.Client
         /// <returns>Task of ApiResponse</returns>
         public async Task<ApiResponse<object>> RegistrationUserContactPutAsyncWithHttpInfo(UpdateContactCommand body = null)
         {
-            var localVarPath = "./Registration/User/Contact";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/User/Contact";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -922,12 +922,12 @@ namespace Play.Identity.Api.Client
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<object> RegistrationUserEmailVerificationGetWithHttpInfo(string id = null)
         {
-            var localVarPath = "./Registration/User/EmailVerification";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/User/EmailVerification";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -977,12 +977,12 @@ namespace Play.Identity.Api.Client
         /// <returns>Task of ApiResponse</returns>
         public async Task<ApiResponse<object>> RegistrationUserEmailVerificationGetAsyncWithHttpInfo(string id = null)
         {
-            var localVarPath = "./Registration/User/EmailVerification";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/User/EmailVerification";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1032,12 +1032,12 @@ namespace Play.Identity.Api.Client
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<object> RegistrationUserEmailVerificationPutWithHttpInfo(VerifyConfirmationCodeCommand body = null)
         {
-            var localVarPath = "./Registration/User/EmailVerification";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/User/EmailVerification";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1089,12 +1089,12 @@ namespace Play.Identity.Api.Client
         /// <returns>Task of ApiResponse</returns>
         public async Task<ApiResponse<object>> RegistrationUserEmailVerificationPutAsyncWithHttpInfo(VerifyConfirmationCodeCommand body = null)
         {
-            var localVarPath = "./Registration/User/EmailVerification";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/User/EmailVerification";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1148,12 +1148,12 @@ namespace Play.Identity.Api.Client
         /// <returns>ApiResponse of UserRegistrationDto</returns>
         public ApiResponse<UserRegistrationDto> RegistrationUserGetWithHttpInfo(string id = null)
         {
-            var localVarPath = "./Registration/User";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/User";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1206,12 +1206,12 @@ namespace Play.Identity.Api.Client
         /// <returns>Task of ApiResponse (UserRegistrationDto)</returns>
         public async Task<ApiResponse<UserRegistrationDto>> RegistrationUserGetAsyncWithHttpInfo(string id = null)
         {
-            var localVarPath = "./Registration/User";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/User";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1262,12 +1262,12 @@ namespace Play.Identity.Api.Client
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<object> RegistrationUserPersonalDetailPutWithHttpInfo(UpdatePersonalDetailCommand body = null)
         {
-            var localVarPath = "./Registration/User/PersonalDetail";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/User/PersonalDetail";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1319,12 +1319,12 @@ namespace Play.Identity.Api.Client
         /// <returns>Task of ApiResponse</returns>
         public async Task<ApiResponse<object>> RegistrationUserPersonalDetailPutAsyncWithHttpInfo(UpdatePersonalDetailCommand body = null)
         {
-            var localVarPath = "./Registration/User/PersonalDetail";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/User/PersonalDetail";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1376,12 +1376,12 @@ namespace Play.Identity.Api.Client
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<object> RegistrationUserPhoneVerificationGetWithHttpInfo(string id = null)
         {
-            var localVarPath = "./Registration/User/PhoneVerification";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/User/PhoneVerification";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1431,12 +1431,12 @@ namespace Play.Identity.Api.Client
         /// <returns>Task of ApiResponse</returns>
         public async Task<ApiResponse<object>> RegistrationUserPhoneVerificationGetAsyncWithHttpInfo(string id = null)
         {
-            var localVarPath = "./Registration/User/PhoneVerification";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/User/PhoneVerification";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1486,12 +1486,12 @@ namespace Play.Identity.Api.Client
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<object> RegistrationUserPhoneVerificationPutWithHttpInfo(VerifyConfirmationCodeCommand body = null)
         {
-            var localVarPath = "./Registration/User/PhoneVerification";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/User/PhoneVerification";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1543,12 +1543,12 @@ namespace Play.Identity.Api.Client
         /// <returns>Task of ApiResponse</returns>
         public async Task<ApiResponse<object>> RegistrationUserPhoneVerificationPutAsyncWithHttpInfo(VerifyConfirmationCodeCommand body = null)
         {
-            var localVarPath = "./Registration/User/PhoneVerification";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/User/PhoneVerification";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1600,12 +1600,12 @@ namespace Play.Identity.Api.Client
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<object> RegistrationUserPostWithHttpInfo(CreateUserRegistrationCommand body = null)
         {
-            var localVarPath = "./Registration/User";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/User";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -1657,12 +1657,12 @@ namespace Play.Identity.Api.Client
         /// <returns>Task of ApiResponse</returns>
         public async Task<ApiResponse<object>> RegistrationUserPostAsyncWithHttpInfo(CreateUserRegistrationCommand body = null)
         {
-            var localVarPath = "./Registration/User";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Registration/User";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header

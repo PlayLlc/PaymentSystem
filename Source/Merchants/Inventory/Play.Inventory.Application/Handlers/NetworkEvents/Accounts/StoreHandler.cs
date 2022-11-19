@@ -44,7 +44,7 @@ public class StoreHandler : IHandleMessages<StoreHasBeenDeletedEvent>, IHandleMe
         IEnumerable<Item> inventoryItems = await _ItemRepository.GetItemsAsync(new SimpleStringId(message.MerchantId), new SimpleStringId(message.StoreId))
             .ConfigureAwait(false);
 
-        foreach (var item in inventoryItems)
+        foreach (Item item in inventoryItems)
             await item.RemoveStore(_UserRetriever, new UpdateItemLocations() {StoreIds = new List<string>() {message.StoreId}}).ConfigureAwait(false);
 
         Domain.Aggregates.Inventory? inventory = await _InventoryRepository.GetByStoreIdAsync(new SimpleStringId(message.StoreId)).ConfigureAwait(false);

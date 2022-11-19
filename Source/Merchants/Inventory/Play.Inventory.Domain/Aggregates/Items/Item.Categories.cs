@@ -30,7 +30,7 @@ public partial class Item : Aggregate<SimpleStringId>
 
         List<Category> categoriesAdded = new List<Category>();
 
-        foreach (var categoryId in command.CategoryIds)
+        foreach (string categoryId in command.CategoryIds)
         {
             Category category = await categoryRepository.GetByIdAsync(new SimpleStringId(categoryId)).ConfigureAwait(false)
                                 ?? throw new NotFoundException(typeof(Category));
@@ -62,7 +62,7 @@ public partial class Item : Aggregate<SimpleStringId>
 
         List<Category> categoriesRemoved = new List<Category>();
 
-        foreach (var categoryId in command.CategoryIds)
+        foreach (string categoryId in command.CategoryIds)
         {
             Category? category = _Categories.FirstOrDefault(c => c.Id == categoryId);
 

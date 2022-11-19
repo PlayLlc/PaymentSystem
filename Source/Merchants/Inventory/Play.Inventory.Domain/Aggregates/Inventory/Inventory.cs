@@ -73,10 +73,10 @@ namespace Play.Inventory.Domain.Aggregates
         public static Task CreateInventory(string merchantId, string storeId, Dictionary<string, IEnumerable<string>> itemVariations)
         {
             List<StockItem> stockItems = new();
-            foreach (var keyValue in itemVariations)
+            foreach (KeyValuePair<string, IEnumerable<string>> keyValue in itemVariations)
                 stockItems.AddRange(keyValue.Value.Select(a => new StockItem(GenerateSimpleStringId(), keyValue.Key, a, 0)));
 
-            var inventory = new Inventory(GenerateSimpleStringId(), merchantId, storeId, stockItems);
+            Inventory inventory = new Inventory(GenerateSimpleStringId(), merchantId, storeId, stockItems);
 
             inventory.Publish(new InventoryCreated(inventory));
 

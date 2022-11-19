@@ -11,54 +11,54 @@ namespace Play.Inventory.Application.Services;
 
 public class UserRetriever : IRetrieveUsers
 {
-    #region Instance Values
-
-    private readonly IUserApi _UserApi;
-
-    #endregion
-
-    #region Constructor
-
-    public UserRetriever(IUserApi userApi)
-    {
-        _UserApi = userApi;
-    }
-
-    #endregion
-
     #region Instance Members
 
     /// <exception cref="ApiException"></exception>
     public async Task<User> GetByIdAsync(string id)
     {
-        try
-        {
-            UserDto dto = await _UserApi.UserGetAsync(id).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
+        throw new NotImplementedException();
 
-            return new User(dto.Id, dto.MerchantId, dto.IsActive);
-        }
+        //try
+        //{
+        //    UserDto dto = await _UserApi.UserGetAsync(id).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
 
-        catch (Exception e)
-        {
-            throw new ApiException(HttpStatusCode.InternalServerError, e);
-        }
+        //    return new User(dto.Id, dto.MerchantId, dto.IsActive);
+        //}
+
+        //catch (Exception e)
+        //{
+        //    throw new ApiException(HttpStatusCode.InternalServerError, e);
+        //}
     }
 
     /// <exception cref="ApiException"></exception>
     public User GetById(string id)
     {
-        try
-        {
-            UserDto dto = _UserApi.UserGet(id) ?? throw new NotFoundException(typeof(User));
+        throw new NotImplementedException();
 
-            return new User(dto.Id, dto.MerchantId, dto.IsActive);
-        }
+        //try
+        //{
+        //    UserDto dto = _UserApi.UserGet(id) ?? throw new NotFoundException(typeof(User));
 
-        catch (Exception e)
-        {
-            throw new ApiException(HttpStatusCode.InternalServerError, e);
-        }
+        //    return new User(dto.Id, dto.MerchantId, dto.IsActive);
+        //}
+
+        //catch (Exception e)
+        //{
+        //    throw new ApiException(HttpStatusCode.InternalServerError, e);
+        //}
     }
 
     #endregion
+
+    //#region Instance Values
+
+    //private readonly IUserApi _UserApi;
+
+    //#endregion
+
+    //public UserRetriever(IUserApi userApi)
+    //{
+    //    _UserApi = userApi;
+    //}
 }

@@ -14,7 +14,7 @@ namespace Play.Mvc.Filters
         {
             if (context.ApiDescription.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
             {
-                var areaName = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttributes(typeof(AreaAttribute), true)
+                AreaAttribute? areaName = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttributes(typeof(AreaAttribute), true)
                     .Cast<AreaAttribute>()
                     .FirstOrDefault();
                 if (areaName != null)

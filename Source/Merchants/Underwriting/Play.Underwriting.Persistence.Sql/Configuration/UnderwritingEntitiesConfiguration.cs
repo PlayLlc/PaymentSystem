@@ -1,16 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 using Play.Underwriting.Domain.Aggregates;
 using Play.Underwriting.Domain.Entities;
 using Play.Underwriting.Domain.Enums;
+using Play.Underwriting.Domain.ValueObjects;
 
 namespace Play.Underwriting.Persistence.Configuration;
+
 /// <summary>
-/// Specifications taken from : https://home.treasury.gov/system/files/126/dat_spec.txt
+///     Specifications taken from : https://home.treasury.gov/system/files/126/dat_spec.txt
 /// </summary>
-internal class UnderwritingEntitiesConfiguration : IEntityTypeConfiguration<Individual>, IEntityTypeConfiguration<Address>, 
-    IEntityTypeConfiguration<Alias>
+internal class UnderwritingEntitiesConfiguration : IEntityTypeConfiguration<Individual>, IEntityTypeConfiguration<Address>, IEntityTypeConfiguration<Alias>
 {
+    #region Instance Members
+
     public void Configure(EntityTypeBuilder<Individual> builder)
     {
         builder.ToTable($"{nameof(Individual)}s");
@@ -53,14 +57,14 @@ internal class UnderwritingEntitiesConfiguration : IEntityTypeConfiguration<Indi
         builder.HasKey(x => x.Number);
         builder.Property(x => x.Number).ValueGeneratedNever();
 
-        var aliasNameBuilder = builder.OwnsOne(x => x.AliasName);
+        OwnedNavigationBuilder<Alias, AliasName> aliasNameBuilder = builder.OwnsOne(x => x.AliasName);
 
-        aliasNameBuilder.Property(x => x.Type)
-            .HasColumnName("Type");
+        aliasNameBuilder.Property(x => x.Type).HasColumnName("Type");
 
-        aliasNameBuilder.Property(x => x.Name)
-            .HasColumnName("Name");
+        aliasNameBuilder.Property(x => x.Name).HasColumnName("Name");
 
         builder.Property(x => x.Remarks).HasMaxLength(200);
     }
+
+    #endregion
 }

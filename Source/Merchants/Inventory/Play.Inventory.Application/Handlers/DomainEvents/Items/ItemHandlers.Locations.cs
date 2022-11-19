@@ -16,7 +16,7 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemI
     {
         Log(domainEvent);
 
-        foreach (var storeId in domainEvent.StoreIds)
+        foreach (string storeId in domainEvent.StoreIds)
             await CreateStockItemsForStoreInventory(storeId, domainEvent.Item.Id, domainEvent.VariationIds).ConfigureAwait(false);
     }
 
@@ -25,7 +25,7 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemI
         Domain.Aggregates.Inventory? inventory = await _InventoryRepository.GetByStoreIdAsync(new SimpleStringId(storeId)).ConfigureAwait(false)
                                                  ?? throw new NotFoundException(typeof(Domain.Aggregates.Inventory));
 
-        foreach (var variation in variationIds)
+        foreach (string variation in variationIds)
             await inventory.CreateStockItem(new CreateStockItem()
                 {
                     ItemId = itemId,

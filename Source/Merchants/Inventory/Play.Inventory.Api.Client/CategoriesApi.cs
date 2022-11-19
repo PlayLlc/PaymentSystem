@@ -126,12 +126,12 @@ namespace Play.Inventory.Api.Client
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<object> CategoriesCreatePostWithHttpInfo(CreateCategory body = null)
         {
-            var localVarPath = "./Categories/Create";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Categories/Create";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -183,12 +183,12 @@ namespace Play.Inventory.Api.Client
         /// <returns>Task of ApiResponse</returns>
         public async Task<ApiResponse<object>> CategoriesCreatePostAsyncWithHttpInfo(CreateCategory body = null)
         {
-            var localVarPath = "./Categories/Create";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Categories/Create";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -240,12 +240,12 @@ namespace Play.Inventory.Api.Client
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<object> CategoriesRemoveDeleteWithHttpInfo(RemoveCategory body = null)
         {
-            var localVarPath = "./Categories/Remove";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Categories/Remove";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -297,12 +297,12 @@ namespace Play.Inventory.Api.Client
         /// <returns>Task of ApiResponse</returns>
         public async Task<ApiResponse<object>> CategoriesRemoveDeleteAsyncWithHttpInfo(RemoveCategory body = null)
         {
-            var localVarPath = "./Categories/Remove";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Categories/Remove";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -360,12 +360,12 @@ namespace Play.Inventory.Api.Client
             if (categoryId == null)
                 throw new ApiException(400, "Missing required parameter 'categoryId' when calling CategoriesApi->InventoryCategoriesCategoryIdGet");
 
-            var localVarPath = "./Inventory/Categories/{categoryId}";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Inventory/Categories/{categoryId}";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -422,12 +422,12 @@ namespace Play.Inventory.Api.Client
             if (categoryId == null)
                 throw new ApiException(400, "Missing required parameter 'categoryId' when calling CategoriesApi->InventoryCategoriesCategoryIdGet");
 
-            var localVarPath = "./Inventory/Categories/{categoryId}";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Inventory/Categories/{categoryId}";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -480,12 +480,12 @@ namespace Play.Inventory.Api.Client
         /// <returns>ApiResponse of List&lt;CategoryDto&gt;</returns>
         public ApiResponse<List<CategoryDto>> InventoryCategoriesGetWithHttpInfo(string merchantId = null)
         {
-            var localVarPath = "./Inventory/Categories";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Inventory/Categories";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header
@@ -538,12 +538,12 @@ namespace Play.Inventory.Api.Client
         /// <returns>Task of ApiResponse (List&lt;CategoryDto&gt;)</returns>
         public async Task<ApiResponse<List<CategoryDto>>> InventoryCategoriesGetAsyncWithHttpInfo(string merchantId = null)
         {
-            var localVarPath = "./Inventory/Categories";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
+            string localVarPath = "./Inventory/Categories";
+            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
             object localVarPostBody = null;
 
             // to determine the Content-Type header

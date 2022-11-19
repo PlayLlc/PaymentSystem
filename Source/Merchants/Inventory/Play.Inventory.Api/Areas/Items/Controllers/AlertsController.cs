@@ -20,26 +20,13 @@ public class AlertsController : InventoryController
     #region Constructor
 
     public AlertsController(
-        IRetrieveUsers userRetriever, IRetrieveMerchants merchantsRetriever, IItemRepository itemsRepository, ICategoryRepository categoryRepository) : base(
-        userRetriever, merchantsRetriever, itemsRepository, categoryRepository)
+        IRetrieveUsers userRetriever, IRetrieveMerchants merchantsRetriever, IItemRepository itemsRepository, ICategoryRepository categoryRepository,
+        IInventoryRepository inventoryRepository) : base(userRetriever, merchantsRetriever, itemsRepository, categoryRepository, inventoryRepository)
     { }
 
     #endregion
 
     #region Instance Members
-
-    [HttpPut]
-    [ValidateAntiForgeryToken]
-    [Route("{itemId}/[controller]/[action]")]
-    public async Task<IActionResult> UpdateLowInventoryThreshold(string itemId, UpdateLowInventoryThresholdAlert command)
-    {
-        this.ValidateModel();
-        Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(command.ItemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
-
-        await item.UpdateLowInventoryThreshold(_UserRetriever, command).ConfigureAwait(false);
-
-        return Ok();
-    }
 
     [HttpPut]
     [ValidateAntiForgeryToken]
@@ -63,6 +50,19 @@ public class AlertsController : InventoryController
         Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
 
         await item.DeactivateAlerts(_UserRetriever, command).ConfigureAwait(false);
+
+        return Ok();
+    }
+
+    [HttpPut]
+    [ValidateAntiForgeryToken]
+    [Route("{itemId}/[controller]/[action]")]
+    public async Task<IActionResult> UpdateLowInventoryThreshold(string itemId, UpdateLowInventoryThresholdAlert command)
+    {
+        this.ValidateModel();
+        Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(command.ItemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
+
+        await item.UpdateLowInventoryThreshold(_UserRetriever, command).ConfigureAwait(false);
 
         return Ok();
     }

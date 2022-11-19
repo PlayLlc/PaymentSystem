@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
+
 using Play.Persistence.Sql;
 using Play.Underwriting.Domain.Aggregates;
 using Play.Underwriting.Domain.Repositories;
@@ -45,8 +47,8 @@ public class ImportIndividualsRepository : IImportIndividualsRepository
         }
         catch (Exception ex)
         {
-            throw new EntityFrameworkRepositoryException(
-                    $"The {nameof(ImportIndividualsRepository)} encountered an exception while {nameof(SaveChangesAsync)}", ex);
+            throw new EntityFrameworkRepositoryException($"The {nameof(ImportIndividualsRepository)} encountered an exception while {nameof(SaveChangesAsync)}",
+                ex);
         }
     }
 
@@ -64,7 +66,7 @@ public class ImportIndividualsRepository : IImportIndividualsRepository
 
     private async Task ResetData()
     {
-        using var transaction = _DbContext.Database.BeginTransaction();
+        using IDbContextTransaction transaction = _DbContext.Database.BeginTransaction();
 
         try
         {
@@ -76,9 +78,8 @@ public class ImportIndividualsRepository : IImportIndividualsRepository
         {
             await transaction.RollbackAsync();
 
-            throw new EntityFrameworkRepositoryException(
-                    $"The {nameof(ImportIndividualsRepository)} encountered an exception while {nameof(SaveChangesAsync)}", ex);
-
+            throw new EntityFrameworkRepositoryException($"The {nameof(ImportIndividualsRepository)} encountered an exception while {nameof(SaveChangesAsync)}",
+                ex);
         }
         finally
         {
@@ -88,7 +89,7 @@ public class ImportIndividualsRepository : IImportIndividualsRepository
 
     private async Task BackupData()
     {
-        using var transaction = _DbContext.Database.BeginTransaction();
+        using IDbContextTransaction transaction = _DbContext.Database.BeginTransaction();
 
         try
         {
@@ -100,9 +101,8 @@ public class ImportIndividualsRepository : IImportIndividualsRepository
         {
             await transaction.RollbackAsync();
 
-            throw new EntityFrameworkRepositoryException(
-                    $"The {nameof(ImportIndividualsRepository)} encountered an exception while {nameof(SaveChangesAsync)}", ex);
-
+            throw new EntityFrameworkRepositoryException($"The {nameof(ImportIndividualsRepository)} encountered an exception while {nameof(SaveChangesAsync)}",
+                ex);
         }
         finally
         {
@@ -112,7 +112,7 @@ public class ImportIndividualsRepository : IImportIndividualsRepository
 
     public async Task RestoreData()
     {
-        using var transaction = _DbContext.Database.BeginTransaction();
+        using IDbContextTransaction transaction = _DbContext.Database.BeginTransaction();
 
         try
         {
@@ -128,9 +128,8 @@ public class ImportIndividualsRepository : IImportIndividualsRepository
         {
             await transaction.RollbackAsync();
 
-            throw new EntityFrameworkRepositoryException(
-                    $"The {nameof(ImportIndividualsRepository)} encountered an exception while {nameof(SaveChangesAsync)}", ex);
-
+            throw new EntityFrameworkRepositoryException($"The {nameof(ImportIndividualsRepository)} encountered an exception while {nameof(SaveChangesAsync)}",
+                ex);
         }
         finally
         {
@@ -140,7 +139,7 @@ public class ImportIndividualsRepository : IImportIndividualsRepository
 
     public async Task CleanBackups()
     {
-        using var transaction = _DbContext.Database.BeginTransaction();
+        using IDbContextTransaction transaction = _DbContext.Database.BeginTransaction();
 
         try
         {
@@ -148,12 +147,12 @@ public class ImportIndividualsRepository : IImportIndividualsRepository
             await _DbContext.Database.ExecuteSqlRawAsync($"DROP TABLE Aliases_Backup");
             await _DbContext.Database.ExecuteSqlRawAsync($"DROP TABLE Individuals_Backup");
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             await transaction.RollbackAsync();
 
-            throw new EntityFrameworkRepositoryException(
-                $"The {nameof(ImportIndividualsRepository)} encountered an exception while {nameof(SaveChangesAsync)}", ex);
+            throw new EntityFrameworkRepositoryException($"The {nameof(ImportIndividualsRepository)} encountered an exception while {nameof(SaveChangesAsync)}",
+                ex);
         }
         finally
         {

@@ -44,7 +44,7 @@ namespace Play.Identity.Api.Areas.Registration.Controllers
                 await _MerchantRegistrationRepository.GetByIdAsync(new SimpleStringId(userRegistration!.GetMerchantId()))
                 ?? throw new NotFoundException(typeof(MerchantRegistration));
 
-            var user = userRegistration.CreateUser();
+            User user = userRegistration.CreateUser();
             _ = merchantRegistration.CreateMerchant();
 
             // TODO: Create Store

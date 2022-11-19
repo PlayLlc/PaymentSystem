@@ -27,8 +27,8 @@ public static partial class WebApplicationBuilderExtensions
         //builder.Services.AddScoped<IRetrieveUsers, UserRetriever>();
 
         // Api Clients 
-        builder.Services.AddScoped<IMerchantApi, MerchantApi>(a => new MerchantApi(new Configuration(identityApiConfiguration.BasePath)));
-        builder.Services.AddScoped<IUserApi, UserApi>(a => new UserApi(new Configuration(identityApiConfiguration.BasePath)));
+        //builder.Services.AddScoped<IMerchantApi, MerchantApi>(a => new MerchantApi(new Configuration(identityApiConfiguration.BasePath)));
+        //builder.Services.AddScoped<IUserApi, UserApi>(a => new UserApi(new Configuration(identityApiConfiguration.BasePath)));
         builder.Services.AddScoped<IRegistrationApi, RegistrationApi>(a => new RegistrationApi(new Configuration(identityApiConfiguration.BasePath)));
 
         // Repositories

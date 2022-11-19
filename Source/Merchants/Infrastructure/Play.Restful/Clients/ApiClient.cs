@@ -109,29 +109,29 @@ public partial class ApiClient
     {
         try
         {
-            var request = new RestRequest(path, method);
+            RestRequest request = new RestRequest(path, method);
 
             // disable ResetSharp.Portable built-in serialization
             request.Serializer = null;
 
             // add path parameter, if any
-            foreach (var param in pathParams)
+            foreach (KeyValuePair<string, string> param in pathParams)
                 request.AddParameter(param.Key, param.Value, ParameterType.UrlSegment);
 
             // add header parameter, if any
-            foreach (var param in headerParams)
+            foreach (KeyValuePair<string, string> param in headerParams)
                 request.AddHeader(param.Key, param.Value);
 
             // add query parameter, if any
-            foreach (var param in queryParams)
+            foreach (KeyValuePair<string, string> param in queryParams)
                 request.AddQueryParameter(param.Key, param.Value);
 
             // add form parameter, if any
-            foreach (var param in formParams)
+            foreach (KeyValuePair<string, string> param in formParams)
                 request.AddParameter(param.Key, param.Value);
 
             // add file parameter, if any
-            foreach (var param in fileParams)
+            foreach (KeyValuePair<string, FileParameter> param in fileParams)
                 request.AddFile(param.Value);
 
             if (postBody != null) // http body (model or byte[]) parameter

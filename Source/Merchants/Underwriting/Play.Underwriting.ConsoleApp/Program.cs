@@ -1,16 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
 using Play.Mvc.Filters;
 using Play.Scheduling;
 using Play.Underwriting.DataServices.USTreasury;
 using Play.Underwriting.Domain.Repositories;
 using Play.Underwriting.Persistence.Persistence;
 using Play.Underwriting.Persistence.Sql.Repositories;
+
 using Serilog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 //Configure Services
-var services = builder.Services;
+IServiceCollection services = builder.Services;
 string? connectionString = builder.Configuration.GetConnectionString("Underwriting");
 
 builder.Services.AddControllers();
@@ -38,7 +40,7 @@ if (builder.Environment.IsDevelopment())
     builder.Services.AddSwaggerGen();
 
 //Configure pipeline.
-var app = builder.Build();
+WebApplication app = builder.Build();
 {
     if (app.Environment.IsDevelopment())
     {
@@ -47,9 +49,12 @@ var app = builder.Build();
         app.UseSwaggerUI();
     }
     else
+    {
         app.UseExceptionHandler("/error");
+    }
 
     app.UseHttpsRedirection();
+
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
     app.MapControllers();
