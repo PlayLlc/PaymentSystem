@@ -120,10 +120,10 @@ public record TerminalCapabilities : DataElement<uint>, IEqualityComparer<Termin
 
         public void SetCardVerificationMethodNotRequired(bool value)
         {
-            if (value)
-                _Value.SetBit(12);
+            _Value = _Value.ClearBit(Bits.Four, 2);
 
-            _Value.ClearBit(Bits.Four, 2);
+            if (value)
+                _Value = _Value.SetBit(12);
         }
 
         protected override void Set(uint bitsToSet)

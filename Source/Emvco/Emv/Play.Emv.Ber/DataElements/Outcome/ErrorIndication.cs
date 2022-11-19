@@ -170,21 +170,21 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
         public void Set(Level2Error error)
         {
             const byte offset = 32;
-            _Value.ClearBits(byte.MaxValue << offset);
+            _Value = _Value.ClearBits(byte.MaxValue << offset);
             _Value |= (ulong) error << offset;
         }
 
         public void Set(Level3Error error)
         {
-            const byte offset = 24;
-
+            const byte offset =  4;
+            _Value = _Value.ClearBits(byte.MaxValue << offset);
             _Value |= (ulong) error << offset;
         }
 
         public void Set(StatusWords statusWords)
         {
             const byte offset = 8;
-            _Value.ClearBits(ushort.MaxValue << offset);
+            _Value = _Value.ClearBits(ushort.MaxValue << offset);
             _Value |= (ulong) statusWords << offset;
         }
 
