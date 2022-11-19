@@ -162,7 +162,7 @@ namespace Play.Inventory.Domain.Aggregates
             _ = IsEnforced(new StockItemMustNotBeEmpty(item, stockItem.Id, command.Quantity));
 
             Publish(new StockItemUpdatedQuantity(this, stockItem.Id, stockAction, command.Quantity, stockItem.GetQuantity()));
-        }
+        } //
 
         #endregion
     }
