@@ -4,6 +4,7 @@ using Play.Ber.Exceptions;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.Templates;
+using Play.Testing.Emv.Ber.Constructed;
 
 namespace Play.Testing.Emv;
 
@@ -39,6 +40,8 @@ public class DirectoryEntryBuilder : ConstructedValueSpecimenBuilder<DirectoryEn
         0x9F, 0x2A, 0x01, 0x03
     };
 
+    private static readonly DirectoryEntryTestTlv _DefaultTestTlv = new DirectoryEntryTestTlv();
+
     #endregion
 
     #region Constructor
@@ -46,7 +49,7 @@ public class DirectoryEntryBuilder : ConstructedValueSpecimenBuilder<DirectoryEn
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public DirectoryEntryBuilder() : base(
-        new DefaultConstructedValueSpecimen<DirectoryEntry>(DirectoryEntry.Decode(_RawTagLengthValue.AsMemory()), _ContentOctets))
+        new DefaultConstructedValueSpecimen<DirectoryEntry>(DirectoryEntry.Decode(_DefaultTestTlv.EncodeTagLengthValue()), _DefaultTestTlv.EncodeValue()))
     { }
 
     #endregion

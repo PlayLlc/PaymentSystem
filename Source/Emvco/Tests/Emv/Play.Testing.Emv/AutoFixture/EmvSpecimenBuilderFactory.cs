@@ -1,4 +1,6 @@
-﻿using Play.Testing.Emv.AutoFixture.Builders.DataElements;
+﻿using Play.Emv.Ber.Templates;
+using Play.Testing.Emv.AutoFixture.Builders.DataElements;
+using Play.Testing.Emv.AutoFixture.Builders.Globalization;
 using Play.Testing.Emv.AutoFixture.Builders.Templates;
 using Play.Testing.Infrastructure.AutoFixture;
 
@@ -36,6 +38,10 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
         DirectoryEntryBuilder = new DirectoryEntryBuilder();
         FileControlInformationAdfBuilder = new FileControlInformationAdfBuilder();
         FileControlInformationIssuerDiscretionaryDataAdfBuilder = new FileControlInformationIssuerDiscretionaryDataAdfBuilder();
+        FileControlInformationProprietaryAdfBuilder = new FileControlInformationProprietaryAdfBuilder();
+        FileControlInformationProprietaryDdfBuilder = new FileControlInformationProprietaryDdfBuilder();
+        FileControlInformationDdfBuilder = new FileControlInformationDdfBuilder();
+        FileControlInformationIssuerDiscretionaryDataPpseBuilder = new FileControlInformationIssuerDiscretionaryDataPpseBuilder();
         FileControlInformationIssuerDiscretionaryPpseBuilder = new FileControlInformationIssuerDiscretionaryPpseBuilder();
         ResponseMessageTemplateFormat2Builder = new ResponseMessageTemplateFormat2Builder();
     }
@@ -97,6 +103,11 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
             DirectoryEntryBuilder,
             FileControlInformationAdfBuilder,
             FileControlInformationIssuerDiscretionaryDataAdfBuilder,
+            FileControlInformationIssuerDiscretionaryDataPpseBuilder,
+            FileControlInformationProprietaryAdfBuilder,
+            FileControlInformationProprietaryDdfBuilder,
+            FileControlInformationDdfBuilder,
+            LanguagePreferenceBuilder
             FileControlInformationIssuerDiscretionaryPpseBuilder,
             LanguagePreferenceBuilder,
             ResponseMessageTemplateFormat2Builder,
@@ -137,6 +148,10 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
     public static readonly DirectoryEntryBuilder DirectoryEntryBuilder;
     public static readonly FileControlInformationAdfBuilder FileControlInformationAdfBuilder;
     public static readonly FileControlInformationIssuerDiscretionaryDataAdfBuilder FileControlInformationIssuerDiscretionaryDataAdfBuilder;
+    public static readonly FileControlInformationProprietaryAdfBuilder FileControlInformationProprietaryAdfBuilder;
+    public static readonly FileControlInformationProprietaryDdfBuilder FileControlInformationProprietaryDdfBuilder;
+    public static readonly FileControlInformationDdfBuilder FileControlInformationDdfBuilder;
+    public static readonly FileControlInformationIssuerDiscretionaryDataPpseBuilder FileControlInformationIssuerDiscretionaryDataPpseBuilder;
     public static readonly FileControlInformationIssuerDiscretionaryPpseBuilder FileControlInformationIssuerDiscretionaryPpseBuilder;
     public static readonly ResponseMessageTemplateFormat2Builder ResponseMessageTemplateFormat2Builder;
 

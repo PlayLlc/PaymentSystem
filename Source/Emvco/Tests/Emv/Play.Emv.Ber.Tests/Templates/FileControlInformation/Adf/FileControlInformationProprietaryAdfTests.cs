@@ -10,9 +10,9 @@ using Play.Testing.Emv.Ber.Constructed;
 
 using Xunit;
 
-namespace Play.Emv.Ber.Tests.Templates.FileControlInformation.Ddf;
+namespace Play.Emv.Ber.Tests.Templates.FileControlInformation.Adf;
 
-public class FileControlInformationIssuerDiscretionaryDataDdfTests : TestBase
+public class FileControlInformationProprietaryAdfTests : TestBase
 {
     #region Instance Values
 
@@ -22,7 +22,7 @@ public class FileControlInformationIssuerDiscretionaryDataDdfTests : TestBase
 
     #region Constructor
 
-    public FileControlInformationIssuerDiscretionaryDataDdfTests()
+    public FileControlInformationProprietaryAdfTests()
     {
         _Fixture = new EmvFixture().Create();
     }
@@ -34,8 +34,8 @@ public class FileControlInformationIssuerDiscretionaryDataDdfTests : TestBase
     [Fact]
     public void ConstructedValue_EncodingTagLengthValue_ReturnsExpectedResult()
     {
-        byte[] expected = EmvFixture.FileControlInformationIssuerDiscretionaryDataAdfBuilder.GetDefaultEncodedTagLengthValue();
-        FileControlInformationIssuerDiscretionaryDataDdf sut = _Fixture.Create<FileControlInformationIssuerDiscretionaryDataDdf>();
+        byte[] expected = EmvFixture.FileControlInformationProprietaryAdfBuilder.GetDefaultEncodedTagLengthValue();
+        FileControlInformationProprietaryAdf sut = _Fixture.Create<FileControlInformationProprietaryAdf>();
         byte[] actual = sut.EncodeTagLengthValue();
 
         Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
@@ -44,22 +44,11 @@ public class FileControlInformationIssuerDiscretionaryDataDdfTests : TestBase
     [Fact]
     public void ConstructedValue_EncodingValue_ReturnsExpectedResult()
     {
-        byte[] expected = EmvFixture.FileControlInformationIssuerDiscretionaryDataAdfBuilder.GetDefaultEncodedTagLengthValue();
-        FileControlInformationIssuerDiscretionaryDataDdf sut = _Fixture.Create<FileControlInformationIssuerDiscretionaryDataDdf>();
+        byte[] expected = EmvFixture.FileControlInformationProprietaryAdfBuilder.GetDefaultEncodedValue();
+        FileControlInformationProprietaryAdf sut = _Fixture.Create<FileControlInformationProprietaryAdf>();
         byte[] actual = sut.EncodeValue();
 
         Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
-    }
-
-    [Fact]
-    public void ConstructedValue_DecodingValue_ReturnsExpectedResult()
-    {
-        FileControlInformationIssuerDiscretionaryDataDdf expected = _Fixture.Create<FileControlInformationIssuerDiscretionaryDataDdf>();
-        FileControlInformationIssuerDiscretionaryDataDdf actual =
-            FileControlInformationIssuerDiscretionaryDataDdf.Decode(EmvFixture.FileControlInformationIssuerDiscretionaryDataAdfBuilder
-                .GetDefaultEncodedTagLengthValue().AsMemory());
-
-        Assertion(() => Assert.Equal(expected, actual));
     }
 
     /// <summary>
@@ -69,8 +58,8 @@ public class FileControlInformationIssuerDiscretionaryDataDdfTests : TestBase
     [Fact]
     public void BerEncoding_DeserializingTemplate_CreatesConstructedValue()
     {
-        FileControlInformationIssuerDiscretionaryDataDdfTestTlv testData = new();
-        FileControlInformationIssuerDiscretionaryDataDdf sut = FileControlInformationIssuerDiscretionaryDataDdf.Decode(testData.EncodeTagLengthValue());
+        FileControlInformationProprietaryAdfTestTlv testData = new();
+        FileControlInformationProprietaryAdf sut = FileControlInformationProprietaryAdf.Decode(testData.EncodeTagLengthValue());
         Assert.NotNull(sut);
     }
 
@@ -81,8 +70,8 @@ public class FileControlInformationIssuerDiscretionaryDataDdfTests : TestBase
     [Fact]
     public void BerEncoding_DeserializingTemplate_CorrectlyEncodesTlvWithChildDataElements()
     {
-        FileControlInformationIssuerDiscretionaryDataDdfTestTlv testData = new();
-        FileControlInformationIssuerDiscretionaryDataDdf sut = FileControlInformationIssuerDiscretionaryDataDdf.Decode(testData.EncodeTagLengthValue());
+        FileControlInformationProprietaryAdfTestTlv testData = new();
+        FileControlInformationProprietaryAdf sut = FileControlInformationProprietaryAdf.Decode(testData.EncodeTagLengthValue());
         byte[]? expected = testData.EncodeTagLengthValue();
         byte[] actual = sut.EncodeTagLengthValue();
         Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
@@ -95,8 +84,8 @@ public class FileControlInformationIssuerDiscretionaryDataDdfTests : TestBase
     [Fact]
     public void BerEncoding_DeserializingTemplate_CorrectlyEncodesChildDataElements()
     {
-        FileControlInformationIssuerDiscretionaryDataDdfTestTlv testData = new();
-        FileControlInformationIssuerDiscretionaryDataDdf sut = FileControlInformationIssuerDiscretionaryDataDdf.Decode(testData.EncodeTagLengthValue());
+        FileControlInformationProprietaryAdfTestTlv testData = new();
+        FileControlInformationProprietaryAdf sut = FileControlInformationProprietaryAdf.Decode(testData.EncodeTagLengthValue());
         byte[]? expected = testData.EncodeValue();
         byte[] actual = sut.EncodeValue();
         Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
@@ -109,8 +98,8 @@ public class FileControlInformationIssuerDiscretionaryDataDdfTests : TestBase
     [Fact]
     public void Template_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        FileControlInformationIssuerDiscretionaryDataDdfTestTlv testData = new();
-        FileControlInformationIssuerDiscretionaryDataDdf sut = FileControlInformationIssuerDiscretionaryDataDdf.Decode(testData.EncodeTagLengthValue());
+        FileControlInformationProprietaryAdfTestTlv testData = new();
+        FileControlInformationProprietaryAdf sut = FileControlInformationProprietaryAdf.Decode(testData.EncodeTagLengthValue());
         Assert.True(sut.GetTagLengthValueByteCount() == testData.GetTagLengthValueByteCount());
         Assert.NotNull(sut);
     }
@@ -122,8 +111,8 @@ public class FileControlInformationIssuerDiscretionaryDataDdfTests : TestBase
     [Fact]
     public void Template_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        FileControlInformationIssuerDiscretionaryDataDdfTestTlv testData = new();
-        FileControlInformationIssuerDiscretionaryDataDdf sut = FileControlInformationIssuerDiscretionaryDataDdf.Decode(testData.EncodeTagLengthValue());
+        FileControlInformationProprietaryAdfTestTlv testData = new();
+        FileControlInformationProprietaryAdf sut = FileControlInformationProprietaryAdf.Decode(testData.EncodeTagLengthValue());
         Assert.True(sut.GetValueByteCount() == testData.EncodeValue().Length);
     }
 
@@ -133,10 +122,10 @@ public class FileControlInformationIssuerDiscretionaryDataDdfTests : TestBase
     /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void Template_InvokingAsTagLengthValue_ReturnsExpectedResult()
-{
-        FileControlInformationIssuerDiscretionaryDataDdfTestTlv testData = new();
+    {
+        FileControlInformationProprietaryAdfTestTlv testData = new();
         TagLengthValue expected = testData.AsTagLengthValue();
-        FileControlInformationIssuerDiscretionaryDataDdf sut = FileControlInformationIssuerDiscretionaryDataDdf.Decode(expected.EncodeTagLengthValue());
+        FileControlInformationProprietaryAdf sut = FileControlInformationProprietaryAdf.Decode(expected.EncodeTagLengthValue());
         TagLengthValue actual = sut.AsTagLengthValue();
 
         Assert.Equal(expected, actual);

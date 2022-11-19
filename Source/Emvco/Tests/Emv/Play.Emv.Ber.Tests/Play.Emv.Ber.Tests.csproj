@@ -25,8 +25,4 @@
 	  <ProjectReference Include="..\Play.Testing.Emv\Play.Testing.Emv.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Templates\FileControlInformation\Ppse\" />
-	</ItemGroup>
-
 </Project>

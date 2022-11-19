@@ -98,7 +98,7 @@ public class IssuerCodeTableIndexTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        IssuerCodeTableIndexTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
+        IssuerCodeTableIndexTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
 
         Assert.Throws<DataElementParsingException>(() => IssuerCodeTableIndex.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -143,7 +143,7 @@ public class IssuerCodeTableIndexTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        IssuerCodeTableIndexTestTlv testData = new(new byte[] {23});
+        IssuerCodeTableIndexTestTlv testData = new(new byte[] { 47 });
         IssuerCodeTableIndex sut = IssuerCodeTableIndex.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -159,7 +159,7 @@ public class IssuerCodeTableIndexTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        IssuerCodeTableIndexTestTlv testData = new(new byte[] {77});
+        IssuerCodeTableIndexTestTlv testData = new(new byte[] { 55 });
 
         IssuerCodeTableIndex sut = IssuerCodeTableIndex.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();

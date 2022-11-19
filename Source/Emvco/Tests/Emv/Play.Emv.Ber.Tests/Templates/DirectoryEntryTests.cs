@@ -1,7 +1,12 @@
-﻿using Play.Ber.DataObjects;
+﻿using System;
+
+using AutoFixture;
+
+using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Emv.Ber.Templates;
 using Play.Testing.BaseTestClasses;
+using Play.Testing.Emv;
 using Play.Testing.Emv.Ber.Constructed;
 
 using Xunit;
@@ -10,6 +15,21 @@ namespace Play.Emv.Ber.Tests.Templates;
 
 public class DirectoryEntryTests : TestBase
 {
+    #region Instance Values
+
+    private readonly IFixture _Fixture;
+
+    #endregion
+
+    #region Constructor
+
+    public DirectoryEntryTests()
+    {
+        _Fixture = new EmvFixture().Create();
+    }
+
+    #endregion 
+
     #region Instance Members
 
     /// <summary>
@@ -70,11 +90,43 @@ public class DirectoryEntryTests : TestBase
     [Fact]
     public void Template_InvokingAsTagLengthValue_ReturnsExpectedResult()
     {
-        TagLengthValue expected = DirectoryEntryTestTlv.AsTagLengthValue();
+        DirectoryEntryTestTlv testData = new();
+        TagLengthValue expected = testData.AsTagLengthValue();
         DirectoryEntry sut = DirectoryEntry.Decode(expected.EncodeTagLengthValue());
         TagLengthValue actual = sut.AsTagLengthValue();
 
         Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void ConstructedeValue_EncodingTagLengthValue_ReturnsExpectedResult()
+    {
+        byte[] expected = EmvFixture.DirectoryEntryBuilder.GetDefaultEncodedTagLengthValue();
+        DirectoryEntry sut = _Fixture.Create<DirectoryEntry>();
+        byte[] actual = sut.EncodeTagLengthValue();
+
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
+    }
+
+    [Fact]
+    public void ConstructedValue_EncodingValue_ReturnsExpectedResult()
+    {
+        byte[] expected = EmvFixture.DirectoryEntryBuilder.GetDefaultEncodedValue();
+        DirectoryEntry sut = _Fixture.Create<DirectoryEntry>();
+        byte[] actual = sut.EncodeValue();
+
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
+    }
+
+    [Fact]
+    public void ConstructedValue_DecodingValue_ReturnsExpectedResult()
+    {
+        DirectoryEntry expected = _Fixture.Create<DirectoryEntry>();
+        DirectoryEntry actual =
+            DirectoryEntry.Decode(EmvFixture.DirectoryEntryBuilder
+                .GetDefaultEncodedTagLengthValue().AsMemory());
+
+        Assertion(() => Assert.Equal(expected, actual));
     }
 
     #endregion

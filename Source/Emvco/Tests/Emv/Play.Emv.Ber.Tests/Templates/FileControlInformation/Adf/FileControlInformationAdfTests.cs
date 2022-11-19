@@ -33,7 +33,7 @@ public class FileControlInformationAdfTests : TestBase
     #region Instance Members
 
     [Fact]
-    public void PrimitiveValue_EncodingTagLengthValue_ReturnsExpectedResult()
+    public void ConstructedValue_EncodingTagLengthValue_ReturnsExpectedResult()
     {
         byte[] expected = EmvFixture.FileControlInformationAdfBuilder.GetDefaultEncodedTagLengthValue();
         FileControlInformationAdf sut = _Fixture.Create<FileControlInformationAdf>();
@@ -43,7 +43,7 @@ public class FileControlInformationAdfTests : TestBase
     }
 
     [Fact]
-    public void PrimitiveValue_EncodingValue_ReturnsExpectedResult()
+    public void ConstructedValue_EncodingValue_ReturnsExpectedResult()
     {
         byte[] expected = EmvFixture.FileControlInformationAdfBuilder.GetDefaultEncodedValue();
         FileControlInformationAdf sut = _Fixture.Create<FileControlInformationAdf>();
