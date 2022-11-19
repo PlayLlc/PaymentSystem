@@ -12,7 +12,7 @@ public record FileControlInformationProprietaryAdf : FileControlInformationPropr
 {
     #region Instance Values
 
-    private readonly FileControlInformationIssuerDiscretionaryDataAdf _FileControlInformationIssuerDiscretionaryDataAdf;
+    private readonly FileControlInformationIssuerDiscretionaryDataDdf _FileControlInformationIssuerDiscretionaryDataAdf;
     private readonly ApplicationLabel? _ApplicationLabel;
     private readonly ApplicationPreferredName? _ApplicationPreferredName;
     private readonly ApplicationPriorityIndicator? _ApplicationPriorityIndicator;
@@ -25,7 +25,7 @@ public record FileControlInformationProprietaryAdf : FileControlInformationPropr
     #region Constructor
 
     public FileControlInformationProprietaryAdf(
-        FileControlInformationIssuerDiscretionaryDataAdf fileControlInformationIssuerDiscretionaryData, ApplicationLabel? applicationLabel,
+        FileControlInformationIssuerDiscretionaryDataDdf fileControlInformationIssuerDiscretionaryData, ApplicationLabel? applicationLabel,
         ApplicationPriorityIndicator? applicationPriorityIndicator, ProcessingOptionsDataObjectList? processingOptionsDataObjectList,
         LanguagePreference? languagePreference, IssuerCodeTableIndex? issuerCodeTableIndex, ApplicationPreferredName? applicationPreferredName)
     {
@@ -60,10 +60,10 @@ public record FileControlInformationProprietaryAdf : FileControlInformationPropr
     /// <exception cref="CodecParsingException"></exception>
     public static FileControlInformationProprietaryAdf Decode(EncodedTlvSiblings encodedChildren)
     {
-        FileControlInformationIssuerDiscretionaryDataAdf fciProprietaryTemplate =
-            _Codec.AsConstructed(FileControlInformationIssuerDiscretionaryDataAdf.Decode, FileControlInformationIssuerDiscretionaryDataAdf.Tag, encodedChildren)
+        FileControlInformationIssuerDiscretionaryDataDdf fciProprietaryTemplate =
+            _Codec.AsConstructed(FileControlInformationIssuerDiscretionaryDataDdf.Decode, FileControlInformationIssuerDiscretionaryDataDdf.Tag, encodedChildren)
             ?? throw new CardDataMissingException(
-                $"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataAdf)}. A {nameof(FileControlInformationIssuerDiscretionaryDataAdf)} was expected but could not be found");
+                $"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataDdf)}. A {nameof(FileControlInformationIssuerDiscretionaryDataDdf)} was expected but could not be found");
 
         ApplicationLabel? applicationLabel = null;
         ApplicationPreferredName? applicationPreferredName = null;
@@ -104,7 +104,7 @@ public record FileControlInformationProprietaryAdf : FileControlInformationPropr
 
     #region Instance Members
 
-    public override FileControlInformationIssuerDiscretionaryDataAdf GetFileControlInformationIssuerDiscretionaryData() =>
+    public override FileControlInformationIssuerDiscretionaryDataDdf GetFileControlInformationIssuerDiscretionaryData() =>
         _FileControlInformationIssuerDiscretionaryDataAdf;
 
     public override Tag GetTag() => Tag;
@@ -168,7 +168,7 @@ public record FileControlInformationProprietaryAdf : FileControlInformationPropr
     {
         return new[]
         {
-            ApplicationLabel.Tag, ApplicationPreferredName.Tag, ApplicationPriorityIndicator.Tag, FileControlInformationIssuerDiscretionaryDataAdf.Tag,
+            ApplicationLabel.Tag, ApplicationPreferredName.Tag, ApplicationPriorityIndicator.Tag, FileControlInformationIssuerDiscretionaryDataDdf.Tag,
             IssuerCodeTableIndex.Tag, LanguagePreference.Tag, ProcessingOptionsDataObjectList.Tag
         };
     }

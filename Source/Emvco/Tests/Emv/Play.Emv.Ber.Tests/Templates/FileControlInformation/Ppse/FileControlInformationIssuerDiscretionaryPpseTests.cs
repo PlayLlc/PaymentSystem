@@ -5,9 +5,9 @@ using Play.Testing.Emv.Ber.Constructed;
 
 using Xunit;
 
-namespace Play.Emv.Ber.Tests.Templates;
+namespace Play.Emv.Ber.Tests.Templates.FileControlInformation.Ppse;
 
-public class FileControlInformationProprietaryPpseTests
+public class FileControlInformationIssuerDiscretionaryPpseTests
 {
     #region Instance Members
 
@@ -18,9 +18,9 @@ public class FileControlInformationProprietaryPpseTests
     [Fact]
     public void BerEncoding_DeserializingTemplate_CreatesConstructedValue()
     {
-        FileControlInformationProprietaryPpseTestTlv testData = new();
-        FileControlInformationProprietaryPpse sut = FileControlInformationProprietaryPpse.Decode(testData.EncodeTagLengthValue());
-        Assert.NotNull(sut);
+        FileControlInformationIssuerDiscretionaryDataPpseTestTlv testData = new();
+        FileControlInformationIssuerDiscretionaryDataPpse testValue = FileControlInformationIssuerDiscretionaryDataPpse.Decode(testData.EncodeTagLengthValue());
+        Assert.NotNull(testValue);
     }
 
     /// <summary>
@@ -30,10 +30,13 @@ public class FileControlInformationProprietaryPpseTests
     [Fact]
     public void BerEncoding_DeserializingDTemplate_CorrectlyCreatesChildDataElements()
     {
-        FileControlInformationProprietaryPpseTestTlv testData = new();
-        FileControlInformationProprietaryPpse sut = FileControlInformationProprietaryPpse.Decode(testData.EncodeTagLengthValue());
-        byte[] testValue = sut.EncodeTagLengthValue();
+        FileControlInformationIssuerDiscretionaryDataPpseTestTlv testData = new();
+        FileControlInformationIssuerDiscretionaryDataPpse sut = FileControlInformationIssuerDiscretionaryDataPpse.Decode(testData.EncodeTagLengthValue());
+
+        sut.GetTagLengthValueByteCount();
+
         byte[] expectedResult = testData.EncodeTagLengthValue();
+        byte[] testValue = sut.EncodeTagLengthValue();
 
         Assert.Equal(expectedResult, testValue);
     }
@@ -45,8 +48,8 @@ public class FileControlInformationProprietaryPpseTests
     [Fact]
     public void Template_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        FileControlInformationProprietaryPpseTestTlv testData = new();
-        FileControlInformationProprietaryPpse sut = FileControlInformationProprietaryPpse.Decode(testData.EncodeTagLengthValue());
+        FileControlInformationIssuerDiscretionaryDataPpseTestTlv testData = new();
+        FileControlInformationIssuerDiscretionaryDataPpse sut = FileControlInformationIssuerDiscretionaryDataPpse.Decode(testData.EncodeTagLengthValue());
 
         Assert.True(sut.GetTagLengthValueByteCount() == testData.GetTagLengthValueByteCount());
         Assert.NotNull(sut);
@@ -59,8 +62,8 @@ public class FileControlInformationProprietaryPpseTests
     [Fact]
     public void Template_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        FileControlInformationProprietaryPpseTestTlv testData = new();
-        FileControlInformationProprietaryPpse sut = FileControlInformationProprietaryPpse.Decode(testData.EncodeTagLengthValue());
+        FileControlInformationIssuerDiscretionaryDataPpseTestTlv testData = new();
+        FileControlInformationIssuerDiscretionaryDataPpse sut = FileControlInformationIssuerDiscretionaryDataPpse.Decode(testData.EncodeTagLengthValue());
 
         Assert.True(sut.GetValueByteCount() == testData.EncodeValue().Length);
     }
@@ -72,8 +75,8 @@ public class FileControlInformationProprietaryPpseTests
     [Fact]
     public void Template_InvokingAsTagLengthValue_ReturnsExpectedResult()
     {
-        ConstructedTlv testData = new FileControlInformationProprietaryPpseTestTlv();
-        FileControlInformationProprietaryPpse sut = FileControlInformationProprietaryPpse.Decode(testData.EncodeTagLengthValue());
+        FileControlInformationIssuerDiscretionaryDataPpseTestTlv testData = new();
+        FileControlInformationIssuerDiscretionaryDataPpse sut = FileControlInformationIssuerDiscretionaryDataPpse.Decode(testData.EncodeTagLengthValue());
 
         TagLengthValue testValue = sut.AsTagLengthValue();
 

@@ -6,7 +6,7 @@ using Play.Emv.Ber.Templates;
 
 namespace Play.Testing.Emv;
 
-public class FileControlInformationIssuerDiscretionaryDataAdfBuilder : ConstructedValueSpecimenBuilder<FileControlInformationIssuerDiscretionaryDataAdf>
+public class FileControlInformationIssuerDiscretionaryDataAdfBuilder : ConstructedValueSpecimenBuilder<FileControlInformationIssuerDiscretionaryDataDdf>
 {
     #region Static Metadata
 
@@ -21,8 +21,8 @@ public class FileControlInformationIssuerDiscretionaryDataAdfBuilder : Construct
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public FileControlInformationIssuerDiscretionaryDataAdfBuilder() : base(
-        new DefaultConstructedValueSpecimen<FileControlInformationIssuerDiscretionaryDataAdf>(
-            FileControlInformationIssuerDiscretionaryDataAdf.Decode(_RawTagLengthValue.AsMemory()), _ContentOctets))
+        new DefaultConstructedValueSpecimen<FileControlInformationIssuerDiscretionaryDataDdf>(
+            FileControlInformationIssuerDiscretionaryDataDdf.Decode(_RawTagLengthValue.AsMemory()), _ContentOctets))
     { }
 
     #endregion
@@ -39,7 +39,7 @@ public class FileControlInformationIssuerDiscretionaryDataAdfBuilder : Construct
         if (type == null)
             return new NoSpecimen();
 
-        if (type != typeof(FileControlInformationIssuerDiscretionaryDataAdf))
+        if (type != typeof(FileControlInformationIssuerDiscretionaryDataDdf))
             return new NoSpecimen();
 
         return GetDefault();

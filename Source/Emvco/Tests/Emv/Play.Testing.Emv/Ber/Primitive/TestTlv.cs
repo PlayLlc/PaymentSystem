@@ -67,6 +67,8 @@ public abstract class TestTlv : IDecodeDataElement
     public int GetTagLengthValueByteCount() => new TagLength(GetTag(), EncodeValue()).GetTagLengthValueByteCount();
     public virtual int GetValueByteCount() => _ContentOctets.Length;
 
+    public TagLengthValue AsTagLengthValue() => new(GetTag(), _ContentOctets);
+
     /// <summary>
     ///     ParseChildren
     /// </summary>

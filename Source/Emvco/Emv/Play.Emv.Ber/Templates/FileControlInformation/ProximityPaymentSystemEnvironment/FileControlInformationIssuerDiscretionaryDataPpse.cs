@@ -91,18 +91,21 @@ public record FileControlInformationIssuerDiscretionaryDataPpse : FileControlInf
 
         SetOf<DirectoryEntry> directoryEntry = new(sequenceOfResult.ToArray().Select(DirectoryEntry.Decode).ToArray());
 
-        if (encodedTlvSiblings.TryGetValueOctetsOfSibling(TerminalCategoriesSupportedList.Tag, out ReadOnlyMemory<byte> rawTerminalCategoriesSupportedList))
-        {
-            terminalCategoriesSupportedList =
-                (_Codec.Decode(TerminalCategoriesSupportedList.EncodingId, rawTerminalCategoriesSupportedList.Span) as
-                    DecodedResult<TerminalCategoriesSupportedList>)!.Value;
-        }
+        //if (encodedTlvSiblings.TryGetValueOctetsOfSibling(TerminalCategoriesSupportedList.Tag, out ReadOnlyMemory<byte> rawTerminalCategoriesSupportedList))
+        //{
+        //    terminalCategoriesSupportedList =
+        //        (_Codec.Decode(TerminalCategoriesSupportedList.EncodingId, rawTerminalCategoriesSupportedList.Span) as
+        //            DecodedResult<TerminalCategoriesSupportedList>)?.Value;
+        //}
 
-        if (encodedTlvSiblings.TryGetValueOctetsOfSibling(SelectionDataObjectList.Tag, out ReadOnlyMemory<byte> rawSelectionDataObjectList))
-        {
-            selectionDataObjectList =
-                ((DecodedResult<SelectionDataObjectList>) _Codec.Decode(SelectionDataObjectList.EncodingId, rawSelectionDataObjectList.Span)).Value;
-        }
+        //if (encodedTlvSiblings.TryGetValueOctetsOfSibling(SelectionDataObjectList.Tag, out ReadOnlyMemory<byte> rawSelectionDataObjectList))
+        //{
+        //    selectionDataObjectList = (_Codec.Decode(SelectionDataObjectList.EncodingId, rawSelectionDataObjectList.Span) as
+        //        DecodedResult<SelectionDataObjectList>)?.Value;
+        //}
+
+        terminalCategoriesSupportedList = _Codec.AsPrimitive(TerminalCategoriesSupportedList.Decode, TerminalCategoriesSupportedList.Tag, encodedTlvSiblings);
+        selectionDataObjectList = _Codec.AsPrimitive(SelectionDataObjectList.Decode, SelectionDataObjectList.Tag, encodedTlvSiblings);
 
         return new FileControlInformationIssuerDiscretionaryDataPpse(directoryEntry, terminalCategoriesSupportedList, selectionDataObjectList);
     }
@@ -222,7 +225,7 @@ public record FileControlInformationIssuerDiscretionaryDataPpse : FileControlInf
 
     protected override IEncodeBerDataObjects?[] GetChildren()
     {
-        return new IEncodeBerDataObjects?[] {_DirectoryEntry, _TerminalCategoriesSupportedList, _SelectionDataObjectList};
+        return new IEncodeBerDataObjects?[] {_DirectoryEntry, _SelectionDataObjectList, _TerminalCategoriesSupportedList };
     }
 
     #endregion
