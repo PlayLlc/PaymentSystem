@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -129,7 +130,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0x4d, 0x3c, 0x2b, 0x1a, 0x9b });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0x4d, 0x3c, 0x2b, 0x1a, 0x9b});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -145,10 +146,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[]
-        {
-            0x4d, 0x3c, 0x2b, 0x1a, 0x4f
-        });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0x4d, 0x3c, 0x2b, 0x1a, 0x4f});
 
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -164,7 +162,7 @@ public class AdditionalTerminalCapabilitiesTests
         {
             0x4d, 0x34, 0x78, 0x4d, 0xef, 0x2a, 0x3c, 0x16, 0xef, 0xaf,
             0x4d, 0x34, 0x78, 0x4d, 0xef, 0x2a, 0x3c, 0x16, 0xef, 0xaf,
-            0x4d, 0x34, 0x78, 0x4d, 0xef, 0x2a, 0x3c, 0x16, 0xef, 0xaf,
+            0x4d, 0x34, 0x78, 0x4d, 0xef, 0x2a, 0x3c, 0x16, 0xef, 0xaf
         });
 
         Assert.Throws<DataElementParsingException>(() => AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan()));
@@ -178,7 +176,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_Administrative_ReturnsTrue()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 1, 2, 3, 4, 5 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {1, 2, 3, 4, 5});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.Administrative());
@@ -187,7 +185,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_Administrative_ReturnsFalse()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 2, 2, 3, 4, 5 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {2, 2, 3, 4, 5});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.Administrative());
@@ -196,7 +194,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_AlphabeticalAndSpecialCharactersKeys_ReturnsTrue()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 1, 2, 0b0110_0000, 4, 5 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {1, 2, 0b0110_0000, 4, 5});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.AlphabeticalAndSpecialCharactersKeys());
@@ -205,7 +203,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_AlphabeticalAndSpecialCharactersKeys_ReturnsFalse()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 2, 2, 0b1001_0000, 4, 5 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {2, 2, 0b1001_0000, 4, 5});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.AlphabeticalAndSpecialCharactersKeys());
@@ -214,7 +212,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_Cash_ReturnsTrue()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1000_0000, 2, 0b0110_0000, 4, 5 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1000_0000, 2, 0b0110_0000, 4, 5});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.Cash());
@@ -223,7 +221,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_Cash_ReturnsFalse()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b0100_0000, 2, 0b1001_0000, 4, 5 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b0100_0000, 2, 0b1001_0000, 4, 5});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.Cash());
@@ -232,7 +230,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_Cashback_ReturnsTrue()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1001_0000, 2, 0b0110_0000, 4, 5 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1001_0000, 2, 0b0110_0000, 4, 5});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.Cashback());
@@ -241,7 +239,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_Cashback_ReturnsFalse()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b0100_0000, 2, 0b1001_0000, 4, 5 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b0100_0000, 2, 0b1001_0000, 4, 5});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.Cashback());
@@ -250,7 +248,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_CashDeposit_ReturnsTrue()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1001_0000, 0b1000_0000, 0b0110_0000, 4, 5 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1001_0000, 0b1000_0000, 0b0110_0000, 4, 5});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.CashDeposit());
@@ -259,7 +257,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_CashDeposit_ReturnsFalse()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b0100_0000, 0b0100_0000, 0b1001_0000, 4, 5 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b0100_0000, 0b0100_0000, 0b1001_0000, 4, 5});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.CashDeposit());
@@ -268,7 +266,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_CodeTable1_ReturnsTrue()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1001_0000, 0b1000_0000, 0b0110_0000, 4, 1 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1001_0000, 0b1000_0000, 0b0110_0000, 4, 1});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.CodeTable1());
@@ -277,7 +275,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_CodeTable1_ReturnsFalse()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b0100_0000, 0b0100_0000, 0b1001_0000, 4, 2 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b0100_0000, 0b0100_0000, 0b1001_0000, 4, 2});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.CodeTable1());
@@ -286,7 +284,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_CodeTable10_ReturnsTrue()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1001_0000, 0b1000_0000, 0b0110_0000, 0b0110, 1 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1001_0000, 0b1000_0000, 0b0110_0000, 0b0110, 1});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.CodeTable10());
@@ -295,7 +293,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_CodeTable10_ReturnsFalse()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b0100_0000, 0b0100_0000, 0b1001_0000, 0b0100, 2 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b0100_0000, 0b0100_0000, 0b1001_0000, 0b0100, 2});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.CodeTable10());
@@ -304,7 +302,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_CodeTable2_ReturnsTrue()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1001_0000, 0b1000_0000, 0b0110_0000, 0b0110, 2 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1001_0000, 0b1000_0000, 0b0110_0000, 0b0110, 2});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.CodeTable2());
@@ -313,7 +311,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_CodeTable2_ReturnsFalse()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b0100_0000, 0b0100_0000, 0b1001_0000, 0b0100, 1 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b0100_0000, 0b0100_0000, 0b1001_0000, 0b0100, 1});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.CodeTable2());
@@ -322,7 +320,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_CodeTable3_ReturnsTrue()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1001_0000, 0b1000_0000, 0b0110_0000, 0b0110, 4 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1001_0000, 0b1000_0000, 0b0110_0000, 0b0110, 4});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.CodeTable3());
@@ -331,7 +329,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_CodeTable3_ReturnsFalse()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b0100_0000, 0b0100_0000, 0b1001_0000, 0b0100, 3 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b0100_0000, 0b0100_0000, 0b1001_0000, 0b0100, 3});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.CodeTable3());
@@ -340,7 +338,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_CodeTable4_ReturnsTrue()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1001_0000, 0b1000_0000, 0b0110_0000, 0b0110, 0b1000 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1001_0000, 0b1000_0000, 0b0110_0000, 0b0110, 0b1000});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.CodeTable4());
@@ -349,7 +347,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_CodeTable4_ReturnsFalse()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b0100_0000, 0b0100_0000, 0b1001_0000, 0b0100, 3 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b0100_0000, 0b0100_0000, 0b1001_0000, 0b0100, 3});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.CodeTable4());
@@ -358,7 +356,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_CodeTable5_ReturnsTrue()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1001_0000, 0b1000_0000, 0b0110_0000, 0b0110, 0b1_1000 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1001_0000, 0b1000_0000, 0b0110_0000, 0b0110, 0b1_1000});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.CodeTable5());
@@ -367,7 +365,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_CodeTable5_ReturnsFalse()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b0100_0000, 0b0100_0000, 0b1001_0000, 0b0100, 3 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b0100_0000, 0b0100_0000, 0b1001_0000, 0b0100, 3});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.CodeTable5());
@@ -376,7 +374,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_CodeTable6_ReturnsTrue()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1001_0000, 0b1000_0000, 0b0110_0000, 0b0110, 0b11_1000 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1001_0000, 0b1000_0000, 0b0110_0000, 0b0110, 0b11_1000});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.CodeTable6());
@@ -385,7 +383,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_CodeTable6_ReturnsFalse()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b0100_0000, 0b0100_0000, 0b1001_0000, 0b0100, 3 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b0100_0000, 0b0100_0000, 0b1001_0000, 0b0100, 3});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.CodeTable6());
@@ -394,7 +392,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_CodeTable7_ReturnsTrue()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1001_0000, 0b1000_0000, 0b0110_0000, 0b0110, 0b111_1000 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1001_0000, 0b1000_0000, 0b0110_0000, 0b0110, 0b111_1000});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.CodeTable7());
@@ -403,7 +401,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_CodeTable7_ReturnsFalse()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b0100_0000, 0b0100_0000, 0b1001_0000, 0b0100, 3 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b0100_0000, 0b0100_0000, 0b1001_0000, 0b0100, 3});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.CodeTable7());
@@ -412,7 +410,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_CodeTable8_ReturnsTrue()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1001_0000, 0b1000_0000, 0b0110_0000, 0b0110, 0b1111_1000 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1001_0000, 0b1000_0000, 0b0110_0000, 0b0110, 0b1111_1000});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.CodeTable8());
@@ -421,7 +419,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_CodeTable8_ReturnsFalse()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b0100_0000, 0b0100_0000, 0b1001_0000, 0b0100, 3 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b0100_0000, 0b0100_0000, 0b1001_0000, 0b0100, 3});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.CodeTable8());
@@ -430,7 +428,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_CodeTable9_ReturnsTrue()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1001_0000, 0b1000_0000, 0b0110_0000, 0b0111, 0b1111_1000 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1001_0000, 0b1000_0000, 0b0110_0000, 0b0111, 0b1111_1000});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.CodeTable9());
@@ -439,7 +437,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_CodeTable9_ReturnsFalse()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b0100_0000, 0b0100_0000, 0b1001_0000, 0b0100, 3 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b0100_0000, 0b0100_0000, 0b1001_0000, 0b0100, 3});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.CodeTable9());
@@ -448,7 +446,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_CommandKeys_ReturnsTrue()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1001_0000, 0b1000_0000, 0b0110_0000, 0b0111, 0b1111_1000 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1001_0000, 0b1000_0000, 0b0110_0000, 0b0111, 0b1111_1000});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.CommandKeys());
@@ -457,7 +455,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_CommandKeys_ReturnsFalse()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b0100_0000, 0b0100_0000, 0b1001_0000, 0b0100, 3 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b0100_0000, 0b0100_0000, 0b1001_0000, 0b0100, 3});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.CommandKeys());
@@ -466,7 +464,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_DisplayAttendant_ReturnsTrue()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1001_0000, 0b1000_0000, 0b0110_0000, 0b1010_0111, 0b1111_1000 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1001_0000, 0b1000_0000, 0b0110_0000, 0b1010_0111, 0b1111_1000});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.DisplayAttendant());
@@ -475,7 +473,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_DisplayAttendant_ReturnsFalse()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b0100_0000, 0b0100_0000, 0b1001_0000, 0b0100, 3 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b0100_0000, 0b0100_0000, 0b1001_0000, 0b0100, 3});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.DisplayAttendant());
@@ -484,7 +482,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_DisplayCardholder_ReturnsTrue()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1001_0000, 0b1000_0000, 0b0110_0000, 0b1011_0111, 0b1111_1000 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1001_0000, 0b1000_0000, 0b0110_0000, 0b1011_0111, 0b1111_1000});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.DisplayCardholder());
@@ -493,7 +491,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_DisplayCardholder_ReturnsFalse()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b0100_0000, 0b0100_0000, 0b1001_0000, 0b0100, 3 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b0100_0000, 0b0100_0000, 0b1001_0000, 0b0100, 3});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.DisplayCardholder());
@@ -502,7 +500,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_FunctionKeys_ReturnsTrue()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1001_0000, 0b1000_0000, 0b0111_0000, 0b1011_0111, 0b1111_1000 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1001_0000, 0b1000_0000, 0b0111_0000, 0b1011_0111, 0b1111_1000});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.FunctionKeys());
@@ -511,7 +509,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_FunctionKeys_ReturnsFalse()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b0100_0000, 0b0100_0000, 0b1100_0000, 0b0100, 3 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b0100_0000, 0b0100_0000, 0b1100_0000, 0b0100, 3});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.FunctionKeys());
@@ -520,7 +518,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_Goods_ReturnsTrue()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1101_0000, 0b1000_0000, 0b0111_0000, 0b1011_0111, 0b1111_1000 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1101_0000, 0b1000_0000, 0b0111_0000, 0b1011_0111, 0b1111_1000});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.Goods());
@@ -529,7 +527,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_Goods_ReturnsFalse()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1000_0000, 0b0100_0000, 0b1100_0000, 0b0100, 3 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1000_0000, 0b0100_0000, 0b1100_0000, 0b0100, 3});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.Goods());
@@ -538,7 +536,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_Inquiry_ReturnsTrue()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1101_1000, 0b1000_0000, 0b0111_0000, 0b1011_0111, 0b1111_1000 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1101_1000, 0b1000_0000, 0b0111_0000, 0b1011_0111, 0b1111_1000});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.Inquiry());
@@ -547,7 +545,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_Inquiry_ReturnsFalse()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1000_0000, 0b0100_0000, 0b1100_0000, 0b0100, 3 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1000_0000, 0b0100_0000, 0b1100_0000, 0b0100, 3});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.Inquiry());
@@ -556,7 +554,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_NumericKeys_ReturnsTrue()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1101_1000, 0b1000_0000, 0b1111_0000, 0b1011_0111, 0b1111_1000 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1101_1000, 0b1000_0000, 0b1111_0000, 0b1011_0111, 0b1111_1000});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.NumericKeys());
@@ -565,7 +563,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_NumericKeys_ReturnsFalse()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1000_0000, 0b0100_0000, 0b0011_0000, 0b0100, 3 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1000_0000, 0b0100_0000, 0b0011_0000, 0b0100, 3});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.NumericKeys());
@@ -574,7 +572,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_Payment_ReturnsTrue()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1101_1010, 0b1000_0000, 0b1111_0000, 0b1011_0111, 0b1111_1000 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1101_1010, 0b1000_0000, 0b1111_0000, 0b1011_0111, 0b1111_1000});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.Payment());
@@ -583,7 +581,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_Payment_ReturnsFalse()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1000_0000, 0b0100_0000, 0b0011_0000, 0b0100, 3 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1000_0000, 0b0100_0000, 0b0011_0000, 0b0100, 3});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.Payment());
@@ -592,7 +590,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_PrintAttendant_ReturnsTrue()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1101_1010, 0b1000_0000, 0b1111_0000, 0b1011_0111, 0b1111_1000 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1101_1010, 0b1000_0000, 0b1111_0000, 0b1011_0111, 0b1111_1000});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.PrintAttendant());
@@ -601,7 +599,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_PrintAttendant_ReturnsFalse()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1000_0000, 0b0100_0000, 0b0011_0000, 0b0100, 3 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1000_0000, 0b0100_0000, 0b0011_0000, 0b0100, 3});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.PrintAttendant());
@@ -610,7 +608,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_PrintCardholder_ReturnsTrue()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1101_1010, 0b1000_0000, 0b1111_0000, 0b1111_0111, 0b1111_1000 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1101_1010, 0b1000_0000, 0b1111_0000, 0b1111_0111, 0b1111_1000});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.True(sut.PrintCardholder());
@@ -619,7 +617,7 @@ public class AdditionalTerminalCapabilitiesTests
     [Fact]
     public void AdditionalTerminalCapabilities_PrintCardholder_ReturnsFalse()
     {
-        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] { 0b1000_0000, 0b0100_0000, 0b0011_0000, 0b0100, 3 });
+        AdditionalTerminalCapabilitiesTestTlv testData = new(new byte[] {0b1000_0000, 0b0100_0000, 0b0011_0000, 0b0100, 3});
         AdditionalTerminalCapabilities sut = AdditionalTerminalCapabilities.Decode(testData.EncodeValue().AsSpan());
 
         Assert.False(sut.PrintCardholder());

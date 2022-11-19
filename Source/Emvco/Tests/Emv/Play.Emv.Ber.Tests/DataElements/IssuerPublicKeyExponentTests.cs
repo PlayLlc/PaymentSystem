@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -129,7 +130,7 @@ public class IssuerPublicKeyExponentTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        IssuerPublicKeyExponentTestTlv testData = new(new byte[] { 0xe3, 0x8f });
+        IssuerPublicKeyExponentTestTlv testData = new(new byte[] {0xe3, 0x8f});
         IssuerPublicKeyExponent sut = IssuerPublicKeyExponent.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -145,10 +146,7 @@ public class IssuerPublicKeyExponentTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        IssuerPublicKeyExponentTestTlv testData = new(new byte[]
-        {
-            0x4d, 0x2c
-        });
+        IssuerPublicKeyExponentTestTlv testData = new(new byte[] {0x4d, 0x2c});
 
         IssuerPublicKeyExponent sut = IssuerPublicKeyExponent.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -160,7 +158,7 @@ public class IssuerPublicKeyExponentTests
     [Fact]
     public void InvalidBerEncoding_Decoding_ThrowsException()
     {
-        IssuerPublicKeyExponentTestTlv testData = new(new byte[] { 13, 55, 77, 84, 134 });
+        IssuerPublicKeyExponentTestTlv testData = new(new byte[] {13, 55, 77, 84, 134});
 
         Assert.Throws<DataElementParsingException>(() => IssuerPublicKeyExponent.Decode(testData.EncodeValue().AsSpan()));
     }

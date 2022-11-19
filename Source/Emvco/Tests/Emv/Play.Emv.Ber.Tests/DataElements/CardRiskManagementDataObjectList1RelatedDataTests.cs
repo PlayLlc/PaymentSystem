@@ -30,8 +30,8 @@ public class CardRiskManagementDataObjectList1RelatedDataTests
     [Fact]
     public void BerEncoding_DeserializingDataElement_CreatesPrimitiveValue()
     {
-        CardRiskManagementDataObjectList1TestTlv testData = new();
-        CardRiskManagementDataObjectList1 testValue = CardRiskManagementDataObjectList1RelatedData.Decode(testData.EncodeValue().AsSpan());
+        CardRiskManagementDataObjectList1RelatedDataTestTlv testData = new();
+        CardRiskManagementDataObjectList1RelatedData testValue = CardRiskManagementDataObjectList1RelatedData.Decode(testData.EncodeValue().AsSpan());
 
         Assert.NotNull(testValue);
     }
@@ -45,8 +45,8 @@ public class CardRiskManagementDataObjectList1RelatedDataTests
     [Fact]
     public void BerEncoding_EncodingDataElement_SerializesExpectedValue()
     {
-        CardRiskManagementDataObjectList1TestTlv testData = new();
-        CardRiskManagementDataObjectList1 sut = CardRiskManagementDataObjectList1RelatedData.Decode(testData.EncodeValue().AsSpan());
+        CardRiskManagementDataObjectList1RelatedDataTestTlv testData = new();
+        CardRiskManagementDataObjectList1RelatedData sut = CardRiskManagementDataObjectList1RelatedData.Decode(testData.EncodeValue().AsSpan());
         byte[] expectedResult = testData.EncodeValue();
         byte[]? actual = sut.EncodeValue();
 
@@ -62,8 +62,8 @@ public class CardRiskManagementDataObjectList1RelatedDataTests
     [Fact]
     public void BerEncoding_EncodingDataElementTlv_SerializesExpectedValue()
     {
-        CardRiskManagementDataObjectList1TestTlv testData = new();
-        CardRiskManagementDataObjectList1 sut = CardRiskManagementDataObjectList1RelatedData.Decode(testData.EncodeValue().AsSpan());
+        CardRiskManagementDataObjectList1RelatedDataTestTlv testData = new();
+        CardRiskManagementDataObjectList1RelatedData sut = CardRiskManagementDataObjectList1RelatedData.Decode(testData.EncodeValue().AsSpan());
         byte[] expectedResult = testData.EncodeTagLengthValue();
         byte[]? actual = sut.EncodeTagLengthValue();
 
@@ -73,10 +73,10 @@ public class CardRiskManagementDataObjectList1RelatedDataTests
     [Fact]
     public void BerEncoding_EncodeCardRiskManagementDataObjectList1_SerializesExpectedValue()
     {
-        CardRiskManagementDataObjectList1TestTlv testData = new();
+        CardRiskManagementDataObjectList1RelatedDataTestTlv testData = new();
 
-        CardRiskManagementDataObjectList1 expectedDol = CardRiskManagementDataObjectList1.Decode(testData.EncodeValue().AsSpan());
-        CardRiskManagementDataObjectList1 sut = CardRiskManagementDataObjectList1RelatedData.Decode(testData.EncodeValue().AsSpan());
+        CardRiskManagementDataObjectList1RelatedData expectedDol = CardRiskManagementDataObjectList1RelatedData.Decode(testData.EncodeValue().AsSpan());
+        CardRiskManagementDataObjectList1RelatedData sut = CardRiskManagementDataObjectList1RelatedData.Decode(testData.EncodeValue().AsSpan());
 
         byte[] expected = expectedDol.EncodeValue();
         byte[] actual = sut.EncodeValue();
@@ -93,10 +93,10 @@ public class CardRiskManagementDataObjectList1RelatedDataTests
     [Fact]
     public void BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue()
     {
-        CardRiskManagementDataObjectList1TestTlv testData = new();
-        CardRiskManagementDataObjectList1 sut = CardRiskManagementDataObjectList1RelatedData.Decode(testData.EncodeValue().AsSpan());
+        CardRiskManagementDataObjectList1RelatedDataTestTlv testData = new();
+        CardRiskManagementDataObjectList1RelatedData sut = CardRiskManagementDataObjectList1RelatedData.Decode(testData.EncodeValue().AsSpan());
         TagLengthValue? testValue = sut.AsTagLengthValue();
-        TagLengthValue expectedResult = new(CardRiskManagementDataObjectList1.Tag, testData.EncodeValue());
+        TagLengthValue expectedResult = new(CardRiskManagementDataObjectList1RelatedData.Tag, testData.EncodeValue());
         Assert.Equal(expectedResult, testValue);
     }
 
@@ -109,9 +109,9 @@ public class CardRiskManagementDataObjectList1RelatedDataTests
     [Fact]
     public void TagLengthValue_SerializingToBer_ReturnsExpectedResult()
     {
-        CardRiskManagementDataObjectList1TestTlv testData = new();
+        CardRiskManagementDataObjectList1RelatedDataTestTlv testData = new();
 
-        CardRiskManagementDataObjectList1 sut = CardRiskManagementDataObjectList1RelatedData.Decode(testData.EncodeValue().AsSpan());
+        CardRiskManagementDataObjectList1RelatedData sut = CardRiskManagementDataObjectList1RelatedData.Decode(testData.EncodeValue().AsSpan());
         byte[]? encoded = sut.EncodeValue();
         TagLengthValue? tlv = sut.AsTagLengthValue();
         byte[]? tlvRaw = tlv.EncodeTagLengthValue();

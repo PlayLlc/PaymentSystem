@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -97,7 +98,7 @@ public class PosEntryModeTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        PosEntryModeTestTlv testData = new(new byte[] { 13, 24 });
+        PosEntryModeTestTlv testData = new(new byte[] {13, 24});
 
         Assert.Throws<DataElementParsingException>(() => PosEntryMode.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -142,7 +143,7 @@ public class PosEntryModeTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        PosEntryModeTestTlv testData = new(new byte[] { 32 });
+        PosEntryModeTestTlv testData = new(new byte[] {32});
         PosEntryMode sut = PosEntryMode.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -158,7 +159,7 @@ public class PosEntryModeTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        PosEntryModeTestTlv testData = new(new byte[] { 91 });
+        PosEntryModeTestTlv testData = new(new byte[] {91});
 
         PosEntryMode sut = PosEntryMode.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();

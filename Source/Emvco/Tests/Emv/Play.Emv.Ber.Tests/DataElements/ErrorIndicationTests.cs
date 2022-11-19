@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
@@ -99,7 +100,7 @@ public class ErrorIndicationTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        ErrorIndicationTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        ErrorIndicationTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => ErrorIndication.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -144,7 +145,7 @@ public class ErrorIndicationTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        ErrorIndicationTestTlv testData = new(new byte[] { 0x08, 0x12, 0x9F, 0x15, 0x28, 0x3E });
+        ErrorIndicationTestTlv testData = new(new byte[] {0x08, 0x12, 0x9F, 0x15, 0x28, 0x3E});
         ErrorIndication sut = ErrorIndication.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -160,10 +161,7 @@ public class ErrorIndicationTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        ErrorIndicationTestTlv testData = new(new byte[]
-        {
-            0x08, 0x12, 0x9F, 0x15, 0x28, 0x3E
-        });
+        ErrorIndicationTestTlv testData = new(new byte[] {0x08, 0x12, 0x9F, 0x15, 0x28, 0x3E});
 
         ErrorIndication sut = ErrorIndication.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();

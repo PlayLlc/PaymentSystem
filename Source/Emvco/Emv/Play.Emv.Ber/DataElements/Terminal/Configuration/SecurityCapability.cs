@@ -16,6 +16,8 @@ public record SecurityCapability : DataElement<byte>, IEqualityComparer<Security
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF811F;
+    public static readonly SecurityCapability Default = new(0b0);
+
     private const byte _ByteLength = 1;
 
     #endregion

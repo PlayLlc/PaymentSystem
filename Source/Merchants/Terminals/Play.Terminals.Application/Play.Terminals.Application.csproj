@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Identity\Play.Identity.Contracts\Play.Identity.Contracts.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Play.Messaging.NServiceBus\Play.Messaging.NServiceBus.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Handlers\Domain\" />
+  </ItemGroup>
+
+</Project>

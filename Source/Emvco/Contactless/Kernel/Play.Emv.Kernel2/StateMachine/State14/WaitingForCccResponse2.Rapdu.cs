@@ -36,6 +36,7 @@ public partial class WaitingForCccResponse2
         if (TryHandlingL1Error(session.GetKernelSessionId(), rapdu))
             return _KernelStateResolver.GetKernelState(StateId);
 
+        // BUG: This is the same as above
         // S13.9 - S13.10
         if (TryHandlingL1Error(session.GetKernelSessionId(), rapdu))
             return _KernelStateResolver.GetKernelState(StateId);

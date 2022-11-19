@@ -39,6 +39,16 @@ public readonly struct Alpha2CountryCode
 
     #endregion
 
+    #region Instance Members
+
+    public char[] AsCharArray() => new[] {(char) _FirstChar, (char) _SecondChar};
+    public ReadOnlySpan<char> AsReadOnlySpan() => AsCharArray();
+    public string AsString() => new(AsReadOnlySpan());
+    public override string ToString() => AsString();
+    public byte[] Encode() => new byte[] {_FirstChar, _SecondChar};
+
+    #endregion
+
     #region Equality
 
     public override bool Equals(object? obj) => obj is Alpha2CountryCode countryCodeAlpha2 && Equals(countryCodeAlpha2);
@@ -83,16 +93,6 @@ public readonly struct Alpha2CountryCode
     }
 
     public static bool operator !=(Alpha2CountryCode left, Alpha2CountryCode right) => !left.Equals(right);
-
-    #endregion
-
-    #region Instance Members
-     
-    public char[] AsCharArray() => new[] { (char)_FirstChar, (char)_SecondChar };
-    public ReadOnlySpan<char> AsReadOnlySpan() => AsCharArray();
-    public string AsString() => new(AsReadOnlySpan());
-    public override string ToString() => AsString();
-    public byte[] Encode() => new byte[] { _FirstChar, _SecondChar };
 
     #endregion
 }

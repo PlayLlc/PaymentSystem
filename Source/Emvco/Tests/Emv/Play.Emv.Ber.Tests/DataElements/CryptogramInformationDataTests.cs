@@ -3,6 +3,7 @@
 using Moq;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -16,6 +17,10 @@ public class CryptogramInformationDataTests
     #region Instance Values
 
     private readonly Mock<IReadTlvDatabase> _Database;
+
+    #endregion
+
+    #region Constructor
 
     public CryptogramInformationDataTests()
     {
@@ -110,7 +115,7 @@ public class CryptogramInformationDataTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        CryptogramInformationDataTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        CryptogramInformationDataTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => CryptogramInformationData.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -155,7 +160,7 @@ public class CryptogramInformationDataTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        CryptogramInformationDataTestTlv testData = new(new byte[] { 0x8f });
+        CryptogramInformationDataTestTlv testData = new(new byte[] {0x8f});
         CryptogramInformationData sut = CryptogramInformationData.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -171,10 +176,7 @@ public class CryptogramInformationDataTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        CryptogramInformationDataTestTlv testData = new(new byte[]
-        {
-            0x2c
-        });
+        CryptogramInformationDataTestTlv testData = new(new byte[] {0x2c});
 
         CryptogramInformationData sut = CryptogramInformationData.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -190,10 +192,7 @@ public class CryptogramInformationDataTests
     [Fact]
     public void CryptogramInformationData_IsCdaSignatureRequested_ReturnsTrue()
     {
-        CryptogramInformationDataTestTlv testData = new(new byte[]
-        {
-            0b0001_1001
-        });
+        CryptogramInformationDataTestTlv testData = new(new byte[] {0b0001_1001});
 
         CryptogramInformationData sut = CryptogramInformationData.Decode(testData.EncodeValue().AsSpan());
         Assert.True(sut.IsCdaSignatureRequested());
@@ -202,10 +201,7 @@ public class CryptogramInformationDataTests
     [Fact]
     public void CryptogramInformationData_IsCdaSignatureRequested_ReturnsFalse()
     {
-        CryptogramInformationDataTestTlv testData = new(new byte[]
-        {
-            0b0010_1001
-        });
+        CryptogramInformationDataTestTlv testData = new(new byte[] {0b0010_1001});
 
         CryptogramInformationData sut = CryptogramInformationData.Decode(testData.EncodeValue().AsSpan());
         Assert.False(sut.IsCdaSignatureRequested());
@@ -214,10 +210,7 @@ public class CryptogramInformationDataTests
     [Fact]
     public void CryptogramInformationData_IsValid_ReturnsTrue()
     {
-        CryptogramInformationDataTestTlv testData = new(new byte[]
-        {
-            0b0
-        });
+        CryptogramInformationDataTestTlv testData = new(new byte[] {0b0});
 
         CryptogramInformationData sut = CryptogramInformationData.Decode(testData.EncodeValue().AsSpan());
 

@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -97,7 +98,7 @@ public class MobileSupportIndicatorTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        MobileSupportIndicatorTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        MobileSupportIndicatorTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => MobileSupportIndicator.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -142,7 +143,7 @@ public class MobileSupportIndicatorTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        MobileSupportIndicatorTestTlv testData = new(new byte[] { 0x32 });
+        MobileSupportIndicatorTestTlv testData = new(new byte[] {0x32});
         MobileSupportIndicator sut = MobileSupportIndicator.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -158,7 +159,7 @@ public class MobileSupportIndicatorTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        MobileSupportIndicatorTestTlv testData = new(new byte[] { 0xEF });
+        MobileSupportIndicatorTestTlv testData = new(new byte[] {0xEF});
 
         MobileSupportIndicator sut = MobileSupportIndicator.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -174,7 +175,7 @@ public class MobileSupportIndicatorTests
     [Fact]
     public void MobileSupportIndicator_IsOnDeviceCvmRequired_ReturnsTrue()
     {
-        MobileSupportIndicatorTestTlv testData = new(new byte[] { 0b10 });
+        MobileSupportIndicatorTestTlv testData = new(new byte[] {0b10});
 
         MobileSupportIndicator sut = MobileSupportIndicator.Decode(testData.EncodeValue().AsSpan());
 
@@ -184,7 +185,7 @@ public class MobileSupportIndicatorTests
     [Fact]
     public void MobileSupportIndicator_IsMobileSupported_ReturnsTrue()
     {
-        MobileSupportIndicatorTestTlv testData = new(new byte[] { 0b1 });
+        MobileSupportIndicatorTestTlv testData = new(new byte[] {0b1});
 
         MobileSupportIndicator sut = MobileSupportIndicator.Decode(testData.EncodeValue().AsSpan());
 
@@ -216,7 +217,7 @@ public class MobileSupportIndicatorTests
     public void MobileSupportIndicatorBuilder_SetOnDeviceCvmRequired_ReturnsExpectedResult()
     {
         MobileSupportIndicator.Builder builder = MobileSupportIndicator.GetBuilder();
-        MobileSupportIndicator expected = new MobileSupportIndicator(0b10);
+        MobileSupportIndicator expected = new(0b10);
 
         builder.SetOnDeviceCvmRequired(true);
         Assert.Equal(expected, builder.Complete());
@@ -226,7 +227,7 @@ public class MobileSupportIndicatorTests
     public void MobileSupportIndicatorBuilder_SetMobileSupported_ReturnsExpectedResult()
     {
         MobileSupportIndicator.Builder builder = MobileSupportIndicator.GetBuilder();
-        MobileSupportIndicator expected = new MobileSupportIndicator(0b1);
+        MobileSupportIndicator expected = new(0b1);
 
         builder.SetMobileSupported(true);
         Assert.Equal(expected, builder.Complete());

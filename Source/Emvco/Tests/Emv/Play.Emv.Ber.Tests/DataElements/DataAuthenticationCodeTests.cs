@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -97,7 +98,7 @@ public class DataAuthenticationCodeTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        DataAuthenticationCodeTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        DataAuthenticationCodeTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => DataAuthenticationCode.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -142,7 +143,7 @@ public class DataAuthenticationCodeTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        DataAuthenticationCodeTestTlv testData = new(new byte[] { 0xe3, 0x8f });
+        DataAuthenticationCodeTestTlv testData = new(new byte[] {0xe3, 0x8f});
         DataAuthenticationCode sut = DataAuthenticationCode.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -158,10 +159,7 @@ public class DataAuthenticationCodeTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        DataAuthenticationCodeTestTlv testData = new(new byte[]
-        {
-            0x4d, 0x2c
-        });
+        DataAuthenticationCodeTestTlv testData = new(new byte[] {0x4d, 0x2c});
 
         DataAuthenticationCode sut = DataAuthenticationCode.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -169,8 +167,6 @@ public class DataAuthenticationCodeTests
 
         Assert.Equal(expectedResult, testResult);
     }
-
-    #endregion
 
     #region DataAuthenticationCode
 
@@ -182,6 +178,8 @@ public class DataAuthenticationCodeTests
 
         Assert.Equal(testData.EncodeValue(), sut.AsBytes());
     }
+
+    #endregion
 
     #endregion
 }

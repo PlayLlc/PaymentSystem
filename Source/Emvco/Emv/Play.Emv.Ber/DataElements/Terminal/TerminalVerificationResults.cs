@@ -21,6 +21,8 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x95;
+    public static readonly TerminalVerificationResults Default = new(0);
+
     private const byte _ByteLength = 5;
 
     #endregion
@@ -88,6 +90,8 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
 
     public static TerminalVerificationResults operator |(TerminalVerificationResults left, TerminalVerificationResults right) =>
         new(left._Value | right._Value);
+
+
 
     #endregion
 

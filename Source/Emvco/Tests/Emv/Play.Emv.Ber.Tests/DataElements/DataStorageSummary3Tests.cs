@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -97,7 +98,7 @@ public class DataStorageSummary3Tests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        DataStorageSummary3TestTlv testData = new(new byte[] { 1, 2, 3, 4, 5, 6, 7 });
+        DataStorageSummary3TestTlv testData = new(new byte[] {1, 2, 3, 4, 5, 6, 7});
 
         Assert.Throws<DataElementParsingException>(() => DataStorageSummary3.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -142,7 +143,7 @@ public class DataStorageSummary3Tests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        DataStorageSummary3TestTlv testData = new(new byte[] { 0x7d, 0x18, 0x40, 0x09, 0x32, 0x49, 0x28, 0x17 });
+        DataStorageSummary3TestTlv testData = new(new byte[] {0x7d, 0x18, 0x40, 0x09, 0x32, 0x49, 0x28, 0x17});
         DataStorageSummary3 sut = DataStorageSummary3.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -158,7 +159,7 @@ public class DataStorageSummary3Tests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        DataStorageSummary3TestTlv testData = new(new byte[] { 0x7d, 0x18, 0x40, 0x09, 0x32, 0x49, 0x28, 0x17 });
+        DataStorageSummary3TestTlv testData = new(new byte[] {0x7d, 0x18, 0x40, 0x09, 0x32, 0x49, 0x28, 0x17});
 
         DataStorageSummary3 sut = DataStorageSummary3.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();

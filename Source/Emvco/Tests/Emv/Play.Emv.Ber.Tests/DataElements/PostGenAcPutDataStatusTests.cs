@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -129,7 +130,7 @@ public class PostGenAcPutDataStatusTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        PostGenAcPutDataStatusTestTlv testData = new(new byte[] { 0x8f });
+        PostGenAcPutDataStatusTestTlv testData = new(new byte[] {0x8f});
         PostGenAcPutDataStatus sut = PostGenAcPutDataStatus.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -145,10 +146,7 @@ public class PostGenAcPutDataStatusTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        PostGenAcPutDataStatusTestTlv testData = new(new byte[]
-        {
-            0x4d
-        });
+        PostGenAcPutDataStatusTestTlv testData = new(new byte[] {0x4d});
 
         PostGenAcPutDataStatus sut = PostGenAcPutDataStatus.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -160,10 +158,7 @@ public class PostGenAcPutDataStatusTests
     [Fact]
     public void InvalidBerEncoding_EncodingDataElement_ThrowsException()
     {
-        PostGenAcPutDataStatusTestTlv testData = new(new byte[]
-        {
-            0x4d, 0x7A
-        });
+        PostGenAcPutDataStatusTestTlv testData = new(new byte[] {0x4d, 0x7A});
 
         Assert.Throws<DataElementParsingException>(() => PostGenAcPutDataStatus.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -175,10 +170,7 @@ public class PostGenAcPutDataStatusTests
     [Fact]
     public void PostGenAcPutDataStatus_IsCompleted_ReturnsTrue()
     {
-        PostGenAcPutDataStatusTestTlv testData = new(new byte[]
-        {
-            0b1000_0000
-        });
+        PostGenAcPutDataStatusTestTlv testData = new(new byte[] {0b1000_0000});
 
         PostGenAcPutDataStatus sut = PostGenAcPutDataStatus.Decode(testData.EncodeValue().AsSpan());
 
@@ -188,10 +180,7 @@ public class PostGenAcPutDataStatusTests
     [Fact]
     public void PostGenAcPutDataStatus_IsCompleted_ReturnsFalse()
     {
-        PostGenAcPutDataStatusTestTlv testData = new(new byte[]
-        {
-            0b0110_0000
-        });
+        PostGenAcPutDataStatusTestTlv testData = new(new byte[] {0b0110_0000});
 
         PostGenAcPutDataStatus sut = PostGenAcPutDataStatus.Decode(testData.EncodeValue().AsSpan());
 

@@ -13,5 +13,7 @@ public interface IManageTornTransactions
     public bool TryGet(TornEntry tornEntry, out TornRecord? result);
     public void Remove(IWriteToDek dataExchangeKernel, TornEntry tornEntry);
 
+    public void CleanOldRecords(IWriteToDek dataExchangeKernel, DekResponseType dekResponseType);
+
     #endregion
 }

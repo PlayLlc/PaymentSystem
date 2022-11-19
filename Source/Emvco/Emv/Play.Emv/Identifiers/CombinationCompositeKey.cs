@@ -86,7 +86,7 @@ public class CombinationCompositeKey : IEquatable<CombinationCompositeKey>, IEqu
 
     #region Operator Overrides
 
-    public static bool operator ==(CombinationCompositeKey left, CombinationCompositeKey right) => left.Equals(right);
+    public static bool operator ==(CombinationCompositeKey left, CombinationCompositeKey right) => !left.Equals(right);
     public static bool operator !=(CombinationCompositeKey left, CombinationCompositeKey right) => !left.Equals(right);
 
     #endregion

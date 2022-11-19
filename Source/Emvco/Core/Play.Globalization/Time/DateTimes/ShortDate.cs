@@ -102,6 +102,36 @@ public readonly struct ShortDate
 
     #endregion
 
+    #region Instance Members
+
+    private static int GetYear(int value) => value / 100;
+    private static int GetMonth(int value) => value % 100;
+
+    public Nibble[] AsNibbleArray()
+    {
+        Nibble[] result = new Nibble[4];
+
+        result[0] = (Nibble) ((_Value.Year % 100) / 10);
+        result[1] = (Nibble) (_Value.Year % 100 % 10);
+
+        if (_Value.Month <= 9)
+        {
+            result[2] = 0;
+            result[3] = (Nibble) _Value.Month;
+        }
+        else
+        {
+            result[2] = (Nibble) (_Value.Month / 10);
+            result[3] = (Nibble) (_Value.Month % 10);
+        }
+
+        return result;
+    }
+
+    public ushort AsYyMm() => (ushort) (((byte) (_Value.Year % 100) * 100) + _Value.Month);
+
+    #endregion
+
     #region Equality
 
     public bool Equals(ShortDate other) => _Value == other._Value;
@@ -138,36 +168,6 @@ public readonly struct ShortDate
     public static bool operator <=(ShortDate x, DateTime y) => x._Value <= y;
     public static bool operator <=(DateTime x, ShortDate y) => x <= y._Value;
     public static implicit operator DateTime(ShortDate value) => value._Value;
-
-    #endregion
-
-    #region Instance Members
-
-    private static int GetYear(int value) => value / 100;
-    private static int GetMonth(int value) => value % 100;
-
-    public Nibble[] AsNibbleArray()
-    {
-        Nibble[] result = new Nibble[4];
-
-        result[0] = (Nibble) ((_Value.Year % 100) / 10);
-        result[1] = (Nibble) (_Value.Year % 100 % 10);
-
-        if (_Value.Month <= 9)
-        {
-            result[2] = 0;
-            result[3] = (Nibble) _Value.Month;
-        }
-        else
-        {
-            result[2] = (Nibble) (_Value.Month / 10);
-            result[3] = (Nibble) (_Value.Month % 10);
-        }
-
-        return result;
-    }
-
-    public ushort AsYyMm() => (ushort) (((byte) (_Value.Year % 100) * 100) + _Value.Month);
 
     #endregion
 }

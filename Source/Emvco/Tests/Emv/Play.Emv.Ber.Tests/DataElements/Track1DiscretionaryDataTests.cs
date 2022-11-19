@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -98,10 +99,7 @@ public class Track1DiscretionaryDataTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElementWithBytesNotPresentInCharMap_ThrowsKeyNotFoundException()
     {
-        Track1DiscretionaryDataTestTlv testData = new(new byte[]
-        {
-            0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01
-        });
+        Track1DiscretionaryDataTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<KeyNotFoundException>(() => Track1DiscretionaryData.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -116,7 +114,7 @@ public class Track1DiscretionaryDataTests
             63, 82, 100, 60, 35, 44, 92, 44, 80, 66,
             61, 84, 98, 62, 33, 44, 92, 42, 80, 64,
             62, 83, 99, 61, 34, 44, 92, 43, 80, 65,
-            63, 82, 100, 60, 35, 44, 92, 44, 80, 66,
+            63, 82, 100, 60, 35, 44, 92, 44, 80, 66
         });
 
         Assert.Throws<DataElementParsingException>(() => Track1DiscretionaryData.Decode(testData.EncodeValue().AsSpan()));
@@ -165,7 +163,7 @@ public class Track1DiscretionaryDataTests
         Track1DiscretionaryDataTestTlv testData = new(new byte[]
         {
             62, 83, 99, 61, 34, 44, 92, 43, 80, 65,
-            72, 73, 99, 101, 102, 103, 111, 112, 113, 114,
+            72, 73, 99, 101, 102, 103, 111, 112, 113, 114
         });
         Track1DiscretionaryData sut = Track1DiscretionaryData.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
@@ -182,10 +180,7 @@ public class Track1DiscretionaryDataTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        Track1DiscretionaryDataTestTlv testData = new(new byte[]
-        {
-            62, 83, 99, 61, 34, 44, 92, 43, 80, 65,
-        });
+        Track1DiscretionaryDataTestTlv testData = new(new byte[] {62, 83, 99, 61, 34, 44, 92, 43, 80, 65});
 
         Track1DiscretionaryData sut = Track1DiscretionaryData.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();

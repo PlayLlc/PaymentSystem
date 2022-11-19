@@ -9,29 +9,16 @@ namespace Play.Core.Exceptions;
 /// </summary>
 public class CheckCore
 {
-    #region Equality
-
-    public static void Equals(int expectedValue, int value, string name)
-    {
-        if (value != expectedValue)
-            throw new PlayInternalException(new ArgumentOutOfRangeException(name));
-
-        if (value != expectedValue)
-            throw new PlayInternalException(new ArgumentOutOfRangeException(name));
-    }
-
-    #endregion
-
     #region Instance Members
 
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public static void ForEmptySequence<T>(T[] value, string name) where T : struct
+    public static void ForEmptySequence<_>(_[] value, string name) where _ : struct
     {
         if (value.Length == 0)
             throw new PlayInternalException(new ArgumentOutOfRangeException(name));
     }
 
-    public static void ForEmptySequence<T, TK>(IDictionary<T, TK> value, string name)
+    public static void ForEmptySequence<_, _Tk>(IDictionary<_, _Tk> value, string name)
     {
         if (value.Count == 0)
             throw new PlayInternalException(new ArgumentOutOfRangeException(name));
@@ -39,17 +26,17 @@ public class CheckCore
 
     /// <summary>
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="_"></typeparam>
     /// <param name="value"></param>
     /// <param name="name"></param>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public static void ForEmptySequence<T>(HashSet<T> value, string name)
+    public static void ForEmptySequence<_>(HashSet<_> value, string name)
     {
         if (value.Count == 0)
             throw new PlayInternalException(new ArgumentOutOfRangeException(name));
     }
 
-    public static void ForEmptySequence<T>(ReadOnlySpan<T> value, string name) where T : struct
+    public static void ForEmptySequence<_>(ReadOnlySpan<_> value, string name) where _ : struct
     {
         if (value == null)
             throw new PlayInternalException(new ArgumentNullException(name));
@@ -60,11 +47,11 @@ public class CheckCore
 
     /// <summary>
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="_"></typeparam>
     /// <param name="value"></param>
     /// <param name="name"></param>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public static void ForEmptySequence<T>(Span<T> value, string name) where T : struct
+    public static void ForEmptySequence<_>(Span<_> value, string name) where _ : struct
     {
         if (value.Length == 0)
             throw new PlayInternalException(new ArgumentOutOfRangeException(name));
@@ -72,39 +59,39 @@ public class CheckCore
 
     /// <summary>
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="_"></typeparam>
     /// <param name="value"></param>
     /// <param name="name"></param>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public static void ForEmptySequence<T>(ReadOnlyMemory<T> value, string name) where T : struct
+    public static void ForEmptySequence<_>(ReadOnlyMemory<_> value, string name) where _ : struct
     {
         if (value.Length == 0)
             throw new PlayInternalException(new ArgumentOutOfRangeException(name));
     }
 
     /// <exception cref="PlayInternalException"></exception>
-    public static void ForEmptySequence<T>(Memory<T> value, string name) where T : struct
+    public static void ForEmptySequence<_>(Memory<_> value, string name) where _ : struct
     {
         if (value.Length == 0)
             throw new PlayInternalException(new ArgumentOutOfRangeException(name));
     }
 
     /// <exception cref="PlayInternalException"></exception>
-    public static void ForExactLength<T>(T[] value, int length, string name) where T : struct
+    public static void ForExactLength<_>(_[] value, int length, string name) where _ : struct
     {
         if (value.Length != length)
             throw new PlayInternalException(new ArgumentOutOfRangeException(name));
     }
 
     /// <exception cref="PlayInternalException"></exception>
-    public static void ForExactLength<T>(ReadOnlySpan<T> value, int length, string name) where T : struct
+    public static void ForExactLength<_>(ReadOnlySpan<_> value, int length, string name) where _ : struct
     {
         if (value.Length != length)
             throw new PlayInternalException(new ArgumentOutOfRangeException(name));
     }
 
     /// <exception cref="PlayInternalException"></exception>
-    public static void ForExactLength<T>(Span<T> value, int length, string name) where T : struct
+    public static void ForExactLength<_>(Span<_> value, int length, string name) where _ : struct
     {
         if (value.Length != length)
             throw new PlayInternalException(new ArgumentOutOfRangeException(name));
@@ -114,7 +101,7 @@ public class CheckCore
     ///     Throws an exception if the sequence's length is greater than the maximum length allowed
     /// </summary>
     /// <exception cref="PlayInternalException"></exception>
-    public static void ForMaximumLength<T>(ICollection<T> value, int maxLength, string name)
+    public static void ForMaximumLength<_>(ICollection<_> value, int maxLength, string name)
     {
         if (value.Count > maxLength)
         {
@@ -127,7 +114,7 @@ public class CheckCore
     ///     Throws an exception if the sequence's length is greater than the maximum length allowed
     /// </summary>
     /// <exception cref="PlayInternalException"></exception>
-    public static void ForMaximumLength<T>(T[] value, int maxLength, string name) where T : struct
+    public static void ForMaximumLength<_>(_[] value, int maxLength, string name) where _ : struct
     {
         if (value.Length > maxLength)
         {
@@ -140,7 +127,7 @@ public class CheckCore
     ///     Throws an exception if the sequence's length is greater than the maximum length allowed
     /// </summary>
     /// <exception cref="PlayInternalException"></exception>
-    public static void ForMaximumLength<T>(Span<T> value, int maxLength, string name) where T : struct
+    public static void ForMaximumLength<_>(Span<_> value, int maxLength, string name) where _ : struct
     {
         if (value.Length > maxLength)
         {
@@ -153,7 +140,7 @@ public class CheckCore
     ///     Throws an exception if the sequence's length is greater than the maximum length allowed
     /// </summary>
     /// <exception cref="PlayInternalException"></exception>
-    public static void ForMaximumLength<T>(ReadOnlySpan<T> value, int maxLength, string name) where T : struct
+    public static void ForMaximumLength<_>(ReadOnlySpan<_> value, int maxLength, string name) where _ : struct
     {
         if (value.Length > maxLength)
         {
@@ -166,7 +153,7 @@ public class CheckCore
     ///     Throws an exception if the sequence's length is less than the minimum length allowed
     /// </summary>
     /// <exception cref="PlayInternalException"></exception>
-    public static void ForMinimumLength<T>(T[] value, int minLength, string name) where T : struct
+    public static void ForMinimumLength<_>(_[] value, int minLength, string name) where _ : struct
     {
         if (value.Length < minLength)
         {
@@ -179,18 +166,20 @@ public class CheckCore
     ///     Throws an exception if the sequence's length is less than the minimum length allowed
     /// </summary>
     /// <exception cref="PlayInternalException"></exception>
-    public static void ForMinimumLength<T>(ICollection<T> value, int minLength, string name) where T : struct
+    public static void ForMinimumLength<_>(ICollection<_> value, int minLength, string name) where _ : struct
     {
         if (value.Count < minLength)
+        {
             throw new PlayInternalException(new ArgumentOutOfRangeException(name,
                 $"The argument {name} was expected to have a minimum length of {minLength} but did not"));
+        }
     }
 
     /// <summary>
     ///     Throws an exception if the sequence's length is less than the minimum length allowed
     /// </summary>
     /// <exception cref="PlayInternalException"></exception>
-    public static void ForMinimumLength<T>(Span<T> value, int minLength, string name) where T : struct
+    public static void ForMinimumLength<_>(Span<_> value, int minLength, string name) where _ : struct
     {
         if (value.Length < minLength)
         {
@@ -203,7 +192,7 @@ public class CheckCore
     ///     Throws an exception if the sequence's length is less than the minimum length allowed
     /// </summary>
     /// <exception cref="PlayInternalException"></exception>
-    public static void ForMinimumLength<T>(ReadOnlySpan<T> value, int minLength, string name) where T : struct
+    public static void ForMinimumLength<_>(ReadOnlySpan<_> value, int minLength, string name) where _ : struct
     {
         if (value.Length < minLength)
         {
@@ -214,7 +203,7 @@ public class CheckCore
 
     /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public static void ForNullOrEmptySequence<T>(T[] value, string name)
+    public static void ForNullOrEmptySequence<_>(_[] value, string name)
     {
         if (value == null)
             throw new PlayInternalException(new ArgumentNullException(name));
@@ -223,7 +212,7 @@ public class CheckCore
     }
 
     /// <exception cref="PlayInternalException"></exception>
-    public static void ForNullOrEmptySequence<T>(ICollection<T> value, string name)
+    public static void ForNullOrEmptySequence<_>(ICollection<_> value, string name)
     {
         if (value == null)
             throw new PlayInternalException(new ArgumentNullException(name));
@@ -253,7 +242,7 @@ public class CheckCore
     ///     value type, or you want to use it with an unconstrained type parameter.
     /// </remarks>
     /// <exception cref="PlayInternalException"></exception>
-    internal static void ForNullValueType<T>(T value, string name)
+    internal static void ForNullValueType<_>(_ value, string name)
     {
         if (value == null)
             throw new PlayInternalException(new ArgumentNullException(name));
@@ -276,6 +265,19 @@ public class CheckCore
             throw new PlayInternalException(new ArgumentOutOfRangeException(name));
 
         if (value < minValue)
+            throw new PlayInternalException(new ArgumentOutOfRangeException(name));
+    }
+
+    #endregion
+
+    #region Equality
+
+    public static void Equals(int expectedValue, int value, string name)
+    {
+        if (value != expectedValue)
+            throw new PlayInternalException(new ArgumentOutOfRangeException(name));
+
+        if (value != expectedValue)
             throw new PlayInternalException(new ArgumentOutOfRangeException(name));
     }
 

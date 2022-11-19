@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -97,7 +98,7 @@ public class PunatcTrack1Tests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        PunatcTrack1TestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        PunatcTrack1TestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => PunatcTrack1.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -142,7 +143,7 @@ public class PunatcTrack1Tests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        PunatcTrack1TestTlv testData = new(new byte[] { 0x32, 0x8e, 0x12, 0x7f, 0x18, 0x8b });
+        PunatcTrack1TestTlv testData = new(new byte[] {0x32, 0x8e, 0x12, 0x7f, 0x18, 0x8b});
         PunatcTrack1 sut = PunatcTrack1.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -158,10 +159,7 @@ public class PunatcTrack1Tests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        PunatcTrack1TestTlv testData = new(new byte[]
-        {
-            0x08, 0x13, 0x9c, 0x0A, 0x16, 0xc3
-        });
+        PunatcTrack1TestTlv testData = new(new byte[] {0x08, 0x13, 0x9c, 0x0A, 0x16, 0xc3});
 
         PunatcTrack1 sut = PunatcTrack1.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -184,15 +182,7 @@ public class PunatcTrack1Tests
     [Fact]
     public void CustomDataElement_GetSetBitCount_ReturnsExpectedResult()
     {
-        PunatcTrack1TestTlv testData = new(new byte[]
-        {
-            0b1010_1010,
-            0b1010_1010,
-            0b1010_1010,
-            0b1010_1010,
-            0b1010_1010,
-            0b1010_1010,
-        });
+        PunatcTrack1TestTlv testData = new(new byte[] {0b1010_1010, 0b1010_1010, 0b1010_1010, 0b1010_1010, 0b1010_1010, 0b1010_1010});
         PunatcTrack1 sut = PunatcTrack1.Decode(testData.EncodeValue().AsSpan());
         int expected = 24;
         int actual = sut.GetSetBitCount();

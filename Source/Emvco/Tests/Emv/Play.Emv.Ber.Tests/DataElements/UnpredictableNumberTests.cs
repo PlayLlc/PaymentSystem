@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -129,7 +130,7 @@ public class UnpredictableNumberTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        UnpredictableNumberTestTlv testData = new(new byte[] { 0x4d, 0x3c, 0x2b, 0x1a });
+        UnpredictableNumberTestTlv testData = new(new byte[] {0x4d, 0x3c, 0x2b, 0x1a});
         UnpredictableNumber sut = UnpredictableNumber.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -145,10 +146,7 @@ public class UnpredictableNumberTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        UnpredictableNumberTestTlv testData = new(new byte[]
-        {
-            0x4d, 0x3c, 0x2b, 0x1a
-        });
+        UnpredictableNumberTestTlv testData = new(new byte[] {0x4d, 0x3c, 0x2b, 0x1a});
 
         UnpredictableNumber sut = UnpredictableNumber.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -164,29 +162,26 @@ public class UnpredictableNumberTests
         {
             0x4d, 0x34, 0x78, 0x4d, 0xef, 0x2a, 0x3c, 0x16, 0xef, 0xaf,
             0x4d, 0x34, 0x78, 0x4d, 0xef, 0x2a, 0x3c, 0x16, 0xef, 0xaf,
-            0x4d, 0x34, 0x78, 0x4d, 0xef, 0x2a, 0x3c, 0x16, 0xef, 0xaf,
+            0x4d, 0x34, 0x78, 0x4d, 0xef, 0x2a, 0x3c, 0x16, 0xef, 0xaf
         });
 
         Assert.Throws<DataElementParsingException>(() => UnpredictableNumber.Decode(testData.EncodeValue().AsSpan()));
     }
-
-    #endregion
 
     #region UnpredictableNumber
 
     [Fact]
     public void UnpredictableNumber_GetSetBitCount_ReturnsExpectedResult()
     {
-        UnpredictableNumberTestTlv testData = new(new byte[]
-        {
-            0x4d, 0x3c, 0x2b, 0x1a
-        });
+        UnpredictableNumberTestTlv testData = new(new byte[] {0x4d, 0x3c, 0x2b, 0x1a});
 
         UnpredictableNumber sut = UnpredictableNumber.Decode(testData.EncodeValue().AsSpan());
 
         int expected = 15;
         Assert.Equal(expected, sut.GetSetBitCount());
     }
+
+    #endregion
 
     #endregion
 }

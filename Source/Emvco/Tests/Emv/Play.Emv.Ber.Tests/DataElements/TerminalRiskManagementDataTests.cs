@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
@@ -97,7 +98,7 @@ public class TerminalRiskManagementDataTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
-        TerminalRiskManagementDataTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01 });
+        TerminalRiskManagementDataTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => TerminalRiskManagementData.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -142,7 +143,7 @@ public class TerminalRiskManagementDataTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        TerminalRiskManagementDataTestTlv testData = new(new byte[] { 0x08, 0xEF, 0x3f, 0x8c, 0x08, 0xEF, 0x3f, 0x8c });
+        TerminalRiskManagementDataTestTlv testData = new(new byte[] {0x08, 0xEF, 0x3f, 0x8c, 0x08, 0xEF, 0x3f, 0x8c});
         TerminalRiskManagementData sut = TerminalRiskManagementData.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
         ushort testResult = sut.GetValueByteCount();
@@ -158,7 +159,7 @@ public class TerminalRiskManagementDataTests
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
-        TerminalRiskManagementDataTestTlv testData = new(new byte[] { 0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0x32, 0x1A });
+        TerminalRiskManagementDataTestTlv testData = new(new byte[] {0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0x32, 0x1A});
 
         TerminalRiskManagementData sut = TerminalRiskManagementData.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();
@@ -173,11 +174,10 @@ public class TerminalRiskManagementDataTests
 
     #region #region Byte 1
 
-
     [Fact]
     public void TerminalRiskManagementData_PresentAndHoldSupported_ReturnsTrue()
     {
-        TerminalRiskManagementDataTestTlv testData = new(new byte[] { 0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0x32, 0b1 });
+        TerminalRiskManagementDataTestTlv testData = new(new byte[] {0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0x32, 0b1});
 
         TerminalRiskManagementData sut = TerminalRiskManagementData.Decode(testData.EncodeValue().AsSpan());
 
@@ -187,7 +187,7 @@ public class TerminalRiskManagementDataTests
     [Fact]
     public void TerminalRiskManagementData_PlaintextPinVerificationPerformedByIccForContactless_ReturnsTrue()
     {
-        TerminalRiskManagementDataTestTlv testData = new(new byte[] { 0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0x32, 0b10 });
+        TerminalRiskManagementDataTestTlv testData = new(new byte[] {0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0x32, 0b10});
 
         TerminalRiskManagementData sut = TerminalRiskManagementData.Decode(testData.EncodeValue().AsSpan());
 
@@ -197,7 +197,7 @@ public class TerminalRiskManagementDataTests
     [Fact]
     public void TerminalRiskManagementData_CdCvmForContactless_ReturnsTrue()
     {
-        TerminalRiskManagementDataTestTlv testData = new(new byte[] { 0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0x32, 0b100 });
+        TerminalRiskManagementDataTestTlv testData = new(new byte[] {0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0x32, 0b100});
 
         TerminalRiskManagementData sut = TerminalRiskManagementData.Decode(testData.EncodeValue().AsSpan());
 
@@ -207,7 +207,7 @@ public class TerminalRiskManagementDataTests
     [Fact]
     public void TerminalRiskManagementData_NoCardVerificationMethodRequiredForContactless_ReturnsTrue()
     {
-        TerminalRiskManagementDataTestTlv testData = new(new byte[] { 0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0x32, 0b1000 });
+        TerminalRiskManagementDataTestTlv testData = new(new byte[] {0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0x32, 0b1000});
 
         TerminalRiskManagementData sut = TerminalRiskManagementData.Decode(testData.EncodeValue().AsSpan());
 
@@ -217,7 +217,7 @@ public class TerminalRiskManagementDataTests
     [Fact]
     public void TerminalRiskManagementData_EncipheredPinVerificationPerformedByIccForContactless_ReturnsTrue()
     {
-        TerminalRiskManagementDataTestTlv testData = new(new byte[] { 0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0x32, 0b10000 });
+        TerminalRiskManagementDataTestTlv testData = new(new byte[] {0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0x32, 0b10000});
 
         TerminalRiskManagementData sut = TerminalRiskManagementData.Decode(testData.EncodeValue().AsSpan());
 
@@ -227,7 +227,7 @@ public class TerminalRiskManagementDataTests
     [Fact]
     public void TerminalRiskManagementData_SignaturePaperForContactless_ReturnsTrue()
     {
-        TerminalRiskManagementDataTestTlv testData = new(new byte[] { 0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0x32, 0b100000 });
+        TerminalRiskManagementDataTestTlv testData = new(new byte[] {0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0x32, 0b100000});
 
         TerminalRiskManagementData sut = TerminalRiskManagementData.Decode(testData.EncodeValue().AsSpan());
 
@@ -237,7 +237,7 @@ public class TerminalRiskManagementDataTests
     [Fact]
     public void TerminalRiskManagementData_EncipheredPinVerifiedOnlineForContactless_ReturnsTrue()
     {
-        TerminalRiskManagementDataTestTlv testData = new(new byte[] { 0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0x32, 0b1000000 });
+        TerminalRiskManagementDataTestTlv testData = new(new byte[] {0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0x32, 0b1000000});
 
         TerminalRiskManagementData sut = TerminalRiskManagementData.Decode(testData.EncodeValue().AsSpan());
 
@@ -247,7 +247,7 @@ public class TerminalRiskManagementDataTests
     [Fact]
     public void TerminalRiskManagementData_IsRestartSupported_ReturnsTrue()
     {
-        TerminalRiskManagementDataTestTlv testData = new(new byte[] { 0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0x32, 0b10000000 });
+        TerminalRiskManagementDataTestTlv testData = new(new byte[] {0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0x32, 0b10000000});
 
         TerminalRiskManagementData sut = TerminalRiskManagementData.Decode(testData.EncodeValue().AsSpan());
 
@@ -261,7 +261,7 @@ public class TerminalRiskManagementDataTests
     [Fact]
     public void TerminalRiskManagementData_PlaintextPinVerificationPerformedByIccForContact_ReturnsTrue()
     {
-        TerminalRiskManagementDataTestTlv testData = new(new byte[] { 0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0b10, 0b10000000 });
+        TerminalRiskManagementDataTestTlv testData = new(new byte[] {0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0b10, 0b10000000});
 
         TerminalRiskManagementData sut = TerminalRiskManagementData.Decode(testData.EncodeValue().AsSpan());
 
@@ -271,7 +271,7 @@ public class TerminalRiskManagementDataTests
     [Fact]
     public void TerminalRiskManagementData_CdCvmForContact_ReturnsTrue()
     {
-        TerminalRiskManagementDataTestTlv testData = new(new byte[] { 0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0b100, 0b10000000 });
+        TerminalRiskManagementDataTestTlv testData = new(new byte[] {0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0b100, 0b10000000});
 
         TerminalRiskManagementData sut = TerminalRiskManagementData.Decode(testData.EncodeValue().AsSpan());
 
@@ -281,7 +281,7 @@ public class TerminalRiskManagementDataTests
     [Fact]
     public void TerminalRiskManagementData_NoCardholderVerificationMethodRequiredForContact_ReturnsTrue()
     {
-        TerminalRiskManagementDataTestTlv testData = new(new byte[] { 0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0b1000, 0b10000000 });
+        TerminalRiskManagementDataTestTlv testData = new(new byte[] {0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0b1000, 0b10000000});
 
         TerminalRiskManagementData sut = TerminalRiskManagementData.Decode(testData.EncodeValue().AsSpan());
 
@@ -291,7 +291,7 @@ public class TerminalRiskManagementDataTests
     [Fact]
     public void TerminalRiskManagementData_EncipheredPinVerificationPerformedByIccForContact_ReturnsTrue()
     {
-        TerminalRiskManagementDataTestTlv testData = new(new byte[] { 0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0b10000, 0b10000000 });
+        TerminalRiskManagementDataTestTlv testData = new(new byte[] {0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0b10000, 0b10000000});
 
         TerminalRiskManagementData sut = TerminalRiskManagementData.Decode(testData.EncodeValue().AsSpan());
 
@@ -301,7 +301,7 @@ public class TerminalRiskManagementDataTests
     [Fact]
     public void TerminalRiskManagementData_SignaturePaperForContact_ReturnsTrue()
     {
-        TerminalRiskManagementDataTestTlv testData = new(new byte[] { 0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0b100000, 0b10000000 });
+        TerminalRiskManagementDataTestTlv testData = new(new byte[] {0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0b100000, 0b10000000});
 
         TerminalRiskManagementData sut = TerminalRiskManagementData.Decode(testData.EncodeValue().AsSpan());
 
@@ -311,7 +311,7 @@ public class TerminalRiskManagementDataTests
     [Fact]
     public void TerminalRiskManagementData_EncipheredPinVerifiedOnlineForContact_ReturnsTrue()
     {
-        TerminalRiskManagementDataTestTlv testData = new(new byte[] { 0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0b1000000, 0b10000000 });
+        TerminalRiskManagementDataTestTlv testData = new(new byte[] {0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0b1000000, 0b10000000});
 
         TerminalRiskManagementData sut = TerminalRiskManagementData.Decode(testData.EncodeValue().AsSpan());
 
@@ -321,7 +321,7 @@ public class TerminalRiskManagementDataTests
     [Fact]
     public void TerminalRiskManagementData_CvmLimitExceeded_ReturnsTrue()
     {
-        TerminalRiskManagementDataTestTlv testData = new(new byte[] { 0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0b10000000, 0b10000000 });
+        TerminalRiskManagementDataTestTlv testData = new(new byte[] {0x08, 0xEF, 0x32, 0x1A, 0x08, 0xEF, 0b10000000, 0b10000000});
 
         TerminalRiskManagementData sut = TerminalRiskManagementData.Decode(testData.EncodeValue().AsSpan());
 
@@ -335,7 +335,7 @@ public class TerminalRiskManagementDataTests
     [Fact]
     public void TerminalRiskManagementData_CdCvmWithoutCdaSupported_ReturnsTrue()
     {
-        TerminalRiskManagementDataTestTlv testData = new(new byte[] { 0x08, 0xEF, 0x32, 0x1A, 0x08, 0b10_0000, 0b10000000, 0b10000000 });
+        TerminalRiskManagementDataTestTlv testData = new(new byte[] {0x08, 0xEF, 0x32, 0x1A, 0x08, 0b10_0000, 0b10000000, 0b10000000});
 
         TerminalRiskManagementData sut = TerminalRiskManagementData.Decode(testData.EncodeValue().AsSpan());
 
@@ -345,7 +345,7 @@ public class TerminalRiskManagementDataTests
     [Fact]
     public void TerminalRiskManagementData_EmvModeContactlessTransactionsNotSupported_ReturnsTrue()
     {
-        TerminalRiskManagementDataTestTlv testData = new(new byte[] { 0x08, 0xEF, 0x32, 0x1A, 0x08, 0b100_0000, 0b10000000, 0b10000000 });
+        TerminalRiskManagementDataTestTlv testData = new(new byte[] {0x08, 0xEF, 0x32, 0x1A, 0x08, 0b100_0000, 0b10000000, 0b10000000});
 
         TerminalRiskManagementData sut = TerminalRiskManagementData.Decode(testData.EncodeValue().AsSpan());
 
@@ -355,7 +355,7 @@ public class TerminalRiskManagementDataTests
     [Fact]
     public void TerminalRiskManagementData_MagstripeModeContactlessTransactionsNotSupported_ReturnsTrue()
     {
-        TerminalRiskManagementDataTestTlv testData = new(new byte[] { 0x08, 0xEF, 0x32, 0x1A, 0x08, 0b1000_0000, 0b10000000, 0b10000000 });
+        TerminalRiskManagementDataTestTlv testData = new(new byte[] {0x08, 0xEF, 0x32, 0x1A, 0x08, 0b1000_0000, 0b10000000, 0b10000000});
 
         TerminalRiskManagementData sut = TerminalRiskManagementData.Decode(testData.EncodeValue().AsSpan());
 
@@ -369,7 +369,7 @@ public class TerminalRiskManagementDataTests
     [Fact]
     public void TerminalRiskManagementData_ScaExempt_ReturnsTrue()
     {
-        TerminalRiskManagementDataTestTlv testData = new(new byte[] { 0x08, 0xEF, 0x32, 0x1A, 0b100_0000, 0b1000_0000, 0b10000000, 0b10000000 });
+        TerminalRiskManagementDataTestTlv testData = new(new byte[] {0x08, 0xEF, 0x32, 0x1A, 0b100_0000, 0b1000_0000, 0b10000000, 0b10000000});
 
         TerminalRiskManagementData sut = TerminalRiskManagementData.Decode(testData.EncodeValue().AsSpan());
 
@@ -379,7 +379,7 @@ public class TerminalRiskManagementDataTests
     [Fact]
     public void TerminalRiskManagementData_CdCvmBypassRequested_ReturnsTrue()
     {
-        TerminalRiskManagementDataTestTlv testData = new(new byte[] { 0x08, 0xEF, 0x32, 0x1A, 0b1000_0000, 0b1000_0000, 0b10000000, 0b10000000 });
+        TerminalRiskManagementDataTestTlv testData = new(new byte[] {0x08, 0xEF, 0x32, 0x1A, 0b1000_0000, 0b1000_0000, 0b10000000, 0b10000000});
 
         TerminalRiskManagementData sut = TerminalRiskManagementData.Decode(testData.EncodeValue().AsSpan());
 
