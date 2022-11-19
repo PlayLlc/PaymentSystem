@@ -15,7 +15,7 @@ namespace Play.Inventory.Api.Areas.Items.Controllers;
 [ApiController]
 [Area($"{nameof(Items)}")]
 [Route("[area]")]
-public class VariationsController : InventoryController
+public class VariationsController : BaseController
 {
     #region Constructor
 
@@ -60,9 +60,9 @@ public class VariationsController : InventoryController
     public async Task<IActionResult> Name(string itemId, string variationId, UpdateItemVariationName command)
     {
         this.ValidateModel();
-        Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(command.ItemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
+        Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
 
-        await item.UpdateVariationName(_UserRetriever, command).ConfigureAwait(false);
+        await item.UpdateVariationName(variationId, _UserRetriever, command).ConfigureAwait(false);
 
         return Ok();
     }

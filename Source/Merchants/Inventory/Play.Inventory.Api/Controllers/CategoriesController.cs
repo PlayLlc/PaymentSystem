@@ -14,7 +14,7 @@ namespace Play.Inventory.Api.Controllers;
 
 [ApiController]
 [Route("[controller]/[action]")]
-public class CategoriesController : InventoryController
+public class CategoriesController : BaseController
 {
     #region Constructor
 

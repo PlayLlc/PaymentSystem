@@ -15,7 +15,7 @@ namespace Play.Inventory.Api.Areas.Items.Controllers;
 [ApiController]
 [Area($"{nameof(Items)}")]
 [Route("[area]")]
-public class LocationsController : InventoryController
+public class LocationsController : BaseController
 {
     #region Constructor
 

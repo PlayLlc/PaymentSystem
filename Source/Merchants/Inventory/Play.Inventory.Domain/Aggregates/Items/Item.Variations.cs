@@ -68,14 +68,14 @@ public partial class Item : Aggregate<SimpleStringId>
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="NotFoundException"></exception>
-    public async Task UpdateVariationName(IRetrieveUsers userService, UpdateItemVariationName command)
+    public async Task UpdateVariationName(string variationId, IRetrieveUsers userService, UpdateItemVariationName command)
     {
         User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Item>(_MerchantId, user));
-        Enforce(new ItemVariationMustExist(_Variations, command.VariationId));
+        Enforce(new ItemVariationMustExist(_Variations, variationId));
 
-        Variation variation = _Variations.First(a => a.GetId() == command.VariationId);
+        Variation variation = _Variations.First(a => a.GetId() == variationId);
         variation.UpdateName(command.Name);
         Publish(new VariationNameUpdated(this, variation, user.GetId(), command.Name));
     }

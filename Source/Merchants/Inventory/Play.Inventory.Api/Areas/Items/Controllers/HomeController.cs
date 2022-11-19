@@ -13,10 +13,11 @@ using Play.Inventory.Domain.Aggregates;
 
 namespace Play.Inventory.Api.Areas.Items.Controllers
 {
+    [ApiExplorerSettings(GroupName = @"Items")]
     [ApiController]
     [Area($"{nameof(Items)}")]
     [Route("[area]")]
-    public class HomeController : InventoryController
+    public class HomeController : BaseController
     {
         #region Constructor
 
@@ -29,9 +30,9 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
 
         #region Instance Members
 
-        [HttpPost]
+        [HttpGet]
         [ValidateAntiForgeryToken]
-        [Route("{itemId:itemsId:string}")]
+        [Route("{itemId}")]
         public async Task<ItemDto> Index(string itemId)
         {
             Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(ItemDto));
@@ -55,12 +56,12 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
             return items;
         }
 
-        [Route("{itemsId:itemsId:string}")]
+        [Route("{itemId}")]
         [HttpDelete]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Remove(string itemsId, RemoveItem command)
+        public async Task<IActionResult> Remove(string itemId, RemoveItem command)
         {
-            Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemsId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(ItemDto));
+            Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(ItemDto));
 
             await item.Remove(_UserRetriever, command).ConfigureAwait(false);
 

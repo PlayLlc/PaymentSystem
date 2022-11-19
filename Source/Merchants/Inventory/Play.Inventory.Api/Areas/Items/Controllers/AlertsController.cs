@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
@@ -10,12 +11,14 @@ using Play.Inventory.Domain.Repositories;
 using Play.Inventory.Domain.Services;
 using Play.Mvc.Extensions;
 
+using System.Runtime.CompilerServices;
+
 namespace Play.Inventory.Api.Areas.Items.Controllers;
 
 [ApiController]
 [Area($"{nameof(Items)}")]
 [Route("[area]")]
-public class AlertsController : InventoryController
+public class AlertsController : BaseController
 {
     #region Constructor
 
@@ -44,7 +47,7 @@ public class AlertsController : InventoryController
     [HttpPut]
     [ValidateAntiForgeryToken]
     [Route("{itemId}/[controller]/[action]")]
-    public async Task<IActionResult> DeativateAlerts(string itemId, UpdateItemAlerts command)
+    public async Task<IActionResult> DeaticvateAlerts(string itemId, UpdateItemAlerts command)
     {
         this.ValidateModel();
         Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
