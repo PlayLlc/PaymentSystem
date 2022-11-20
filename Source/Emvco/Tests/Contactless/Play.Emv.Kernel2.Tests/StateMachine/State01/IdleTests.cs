@@ -38,12 +38,10 @@ public class IdleTests
     private readonly IFixture _Fixture;
     private readonly KernelDatabase _Database;
     private readonly Mock<IGenerateUnpredictableNumber> _UnpredictableNumberGenerator;
-
     private readonly DataExchangeKernelService _DataExchangeKernelService;
     private readonly Mock<IGetKernelState> _KernelStateResolver;
     private readonly Mock<IEndpointClient> _EndpointClient;
     private readonly Mock<IManageTornTransactions> _TornTransactionLog;
-
     private readonly Idle _SystemUnderTest;
 
     #endregion
@@ -59,11 +57,12 @@ public class IdleTests
         _KernelStateResolver = new Mock<IGetKernelState>(MockBehavior.Strict);
         _EndpointClient = new Mock<IEndpointClient>(MockBehavior.Strict);
         _TornTransactionLog = new Mock<IManageTornTransactions>(MockBehavior.Strict);
-        _DataExchangeKernelService = new(_EndpointClient.Object, _Database);
+        _DataExchangeKernelService = new DataExchangeKernelService(_EndpointClient.Object, _Database);
 
         _UnpredictableNumberGenerator = new Mock<IGenerateUnpredictableNumber>(MockBehavior.Strict);
 
-        _SystemUnderTest = new Idle(_Database, _DataExchangeKernelService, _EndpointClient.Object, _TornTransactionLog.Object, _KernelStateResolver.Object, _UnpredictableNumberGenerator.Object);
+        _SystemUnderTest = new Idle(_Database, _DataExchangeKernelService, _EndpointClient.Object, _TornTransactionLog.Object, _KernelStateResolver.Object,
+            _UnpredictableNumberGenerator.Object);
         _KernelStateResolver.Setup(m => m.GetKernelState(Idle.StateId)).Returns(_SystemUnderTest);
     }
 
@@ -80,10 +79,10 @@ public class IdleTests
         KernelSession session = _Fixture.Create<KernelSession>();
         KernelId kernelId = _Fixture.Create<KernelId>();
 
-        KernelSessionId outofSyncSessionId = new KernelSessionId(kernelId, new TransactionSessionId(new TransactionType(34)));
+        KernelSessionId outofSyncSessionId = new(kernelId, new TransactionSessionId(new TransactionType(34)));
 
         SelectApplicationDefinitionFileInfoResponse rapdu = ContactlessFixture.CreateSelectApplicationDefinitionFileInfoResponse(_Fixture);
-        ActivateKernelRequest activeKernelRequest = new ActivateKernelRequest(outofSyncSessionId, new Play.Ber.DataObjects.PrimitiveValue[0], rapdu);
+        ActivateKernelRequest activeKernelRequest = new(outofSyncSessionId, Array.Empty<PrimitiveValue>(), rapdu);
 
         //Act & Assert
         Assert.Throws<RequestOutOfSyncException>(() => _SystemUnderTest.Handle(session, activeKernelRequest));
@@ -97,9 +96,10 @@ public class IdleTests
         KernelSessionId kernelSessionId = _Fixture.Create<KernelSessionId>();
 
         SelectApplicationDefinitionFileInfoResponse rapdu = ContactlessFixture.CreateSelectApplicationDefinitionFileInfoResponse(_Fixture);
-        ActivateKernelRequest activeKernelRequest = new ActivateKernelRequest(kernelSessionId, new Play.Ber.DataObjects.PrimitiveValue[0], rapdu);
+        ActivateKernelRequest activeKernelRequest = new(kernelSessionId, Array.Empty<PrimitiveValue>(), rapdu);
 
-        _EndpointClient.Setup(m => m.Send(It.Is<OutKernelResponse>(response => response.GetTransaction().GetTransactionSessionId() == session.GetTransactionSessionId())));
+        _EndpointClient.Setup(m =>
+            m.Send(It.Is<OutKernelResponse>(response => response.GetTransaction().GetTransactionSessionId() == session.GetTransactionSessionId())));
 
         _Database.Activate(session.GetTransactionSessionId());
 
@@ -119,7 +119,7 @@ public class IdleTests
         CardholderName tlv = new("testuser");
         ApplicationCapabilitiesInformation applicationCapabilitiesInformation = new(0b10);
 
-        ActivateKernelRequest activeKernelRequest = new(kernelSessionId, new PrimitiveValue[] { tlv, applicationCapabilitiesInformation }, rapdu);
+        ActivateKernelRequest activeKernelRequest = new(kernelSessionId, new PrimitiveValue[] {tlv, applicationCapabilitiesInformation}, rapdu);
 
         _UnpredictableNumberGenerator.Setup(m => m.GenerateUnpredictableNumber()).Returns(new UnpredictableNumber(314));
 
@@ -154,7 +154,7 @@ public class IdleTests
         CardholderName tlv = new("testuser");
         ApplicationCapabilitiesInformation applicationCapabilitiesInformation = new(0b10);
 
-        ActivateKernelRequest activeKernelRequest = new(kernelSessionId, new PrimitiveValue[] { tlv, applicationCapabilitiesInformation }, rapdu);
+        ActivateKernelRequest activeKernelRequest = new(kernelSessionId, new PrimitiveValue[] {tlv, applicationCapabilitiesInformation}, rapdu);
 
         _UnpredictableNumberGenerator.Setup(m => m.GenerateUnpredictableNumber()).Returns(new UnpredictableNumber(314));
 
@@ -187,7 +187,7 @@ public class IdleTests
         CardholderName tlv = new("testuser");
         ApplicationCapabilitiesInformation applicationCapabilitiesInformation = new(0b10);
 
-        ActivateKernelRequest activeKernelRequest = new(kernelSessionId, new PrimitiveValue[] { tlv, applicationCapabilitiesInformation }, rapdu);
+        ActivateKernelRequest activeKernelRequest = new(kernelSessionId, new PrimitiveValue[] {tlv, applicationCapabilitiesInformation}, rapdu);
 
         _UnpredictableNumberGenerator.Setup(m => m.GenerateUnpredictableNumber()).Returns(new UnpredictableNumber(314));
 
@@ -220,9 +220,9 @@ public class IdleTests
 
         CardholderName tlv = new("testuser");
         ApplicationCapabilitiesInformation applicationCapabilitiesInformation = new(0b010_0000_0000_0000_0000);
-        DataStorageId dataStorageId = new DataStorageId(123);
+        DataStorageId dataStorageId = new(123);
 
-        ActivateKernelRequest activeKernelRequest = new(kernelSessionId, new PrimitiveValue[] { tlv, applicationCapabilitiesInformation, dataStorageId }, rapdu);
+        ActivateKernelRequest activeKernelRequest = new(kernelSessionId, new PrimitiveValue[] {tlv, applicationCapabilitiesInformation, dataStorageId}, rapdu);
 
         _UnpredictableNumberGenerator.Setup(m => m.GenerateUnpredictableNumber()).Returns(new UnpredictableNumber(314));
 
@@ -254,13 +254,14 @@ public class IdleTests
 
         CardholderName tlv = new("testuser");
         ApplicationCapabilitiesInformation applicationCapabilitiesInformation = new(0b0100_0000_0000_0000_0000_0000);
-        DataStorageId dataStorageId = new DataStorageId(123);
+        DataStorageId dataStorageId = new(123);
 
-        ActivateKernelRequest activeKernelRequest = new(kernelSessionId, new PrimitiveValue[] { tlv, applicationCapabilitiesInformation, dataStorageId }, rapdu);
+        ActivateKernelRequest activeKernelRequest = new(kernelSessionId, new PrimitiveValue[] {tlv, applicationCapabilitiesInformation, dataStorageId}, rapdu);
 
         _UnpredictableNumberGenerator.Setup(m => m.GenerateUnpredictableNumber()).Returns(new UnpredictableNumber(314));
 
-        GetProcessingOptionsRequest expectedProcessingOptRequestWithEmptyCommandTemplate = GetProcessingOptionsRequest.Create(session.GetTransactionSessionId());
+        GetProcessingOptionsRequest expectedProcessingOptRequestWithEmptyCommandTemplate =
+            GetProcessingOptionsRequest.Create(session.GetTransactionSessionId());
         _EndpointClient.Setup(m => m.Send(It.Is<GetProcessingOptionsRequest>(request => request.GetCommandTemplate() == null)));
         _EndpointClient.Setup(m => m.Send(It.IsAny<QueryKernelResponse>()));
         _EndpointClient.Setup(m => m.Send(It.IsAny<QueryTerminalRequest>()));
@@ -285,20 +286,22 @@ public class IdleTests
 
         CardholderName cardHolderName = new("testuser");
         ApplicationCapabilitiesInformation applicationCapabilitiesInformation = new(0b0100_0000_0000_0000_0000_0000);
-        DataStorageId dataStorageId = new DataStorageId(123);
+        DataStorageId dataStorageId = new(123);
 
-        ActivateKernelRequest activeKernelRequest = new(kernelSessionId, new PrimitiveValue[] { cardHolderName, applicationCapabilitiesInformation, dataStorageId }, rapdu);
+        ActivateKernelRequest activeKernelRequest =
+            new(kernelSessionId, new PrimitiveValue[] {cardHolderName, applicationCapabilitiesInformation, dataStorageId}, rapdu);
 
         _UnpredictableNumberGenerator.Setup(m => m.GenerateUnpredictableNumber()).Returns(new UnpredictableNumber(314));
 
-        GetProcessingOptionsRequest expectedProcessingOptRequestWithEmptyCommandTemplate = GetProcessingOptionsRequest.Create(session.GetTransactionSessionId());
+        GetProcessingOptionsRequest expectedProcessingOptRequestWithEmptyCommandTemplate =
+            GetProcessingOptionsRequest.Create(session.GetTransactionSessionId());
         _EndpointClient.Setup(m => m.Send(It.Is<GetProcessingOptionsRequest>(request => request.GetCommandTemplate() == null)));
 
         EmvCodec codec = EmvCodec.GetCodec();
 
         _EndpointClient.Setup(m => m.Send(It.IsAny<QueryTerminalRequest>()));
 
-        PrimitiveValue[] expectedPrimitivesToSend = new PrimitiveValue[] { dataStorageId, applicationCapabilitiesInformation };
+        PrimitiveValue[] expectedPrimitivesToSend = new PrimitiveValue[] {dataStorageId, applicationCapabilitiesInformation};
         byte[] expectedEncodedValue = expectedPrimitivesToSend.SelectMany(a => a.EncodeTagLengthValue(codec)).ToArray();
 
         _EndpointClient.Setup(m => m.Send(It.Is<QueryKernelResponse>(response => response.GetDataToSend().EncodeValue().SequenceEqual(expectedEncodedValue))));
@@ -309,7 +312,8 @@ public class IdleTests
         KernelState expectedState = _SystemUnderTest.Handle(session, activeKernelRequest);
 
         //Assert
-        _EndpointClient.Verify(m => m.Send(It.Is<QueryKernelResponse>(response => response.GetTransactionSessionId() == session.GetTransactionSessionId())), Times.Once);
+        _EndpointClient.Verify(m => m.Send(It.Is<QueryKernelResponse>(response => response.GetTransactionSessionId() == session.GetTransactionSessionId())),
+            Times.Once);
     }
 
     [Fact]
@@ -323,20 +327,22 @@ public class IdleTests
 
         CardholderName cardHolderName = new("testuser");
         ApplicationCapabilitiesInformation applicationCapabilitiesInformation = new(0b0100_0000_0000_0000_0000_0000);
-        DataStorageId dataStorageId = new DataStorageId(123);
+        DataStorageId dataStorageId = new(123);
 
-        ActivateKernelRequest activeKernelRequest = new(kernelSessionId, new PrimitiveValue[] { cardHolderName, applicationCapabilitiesInformation, dataStorageId }, rapdu);
+        ActivateKernelRequest activeKernelRequest =
+            new(kernelSessionId, new PrimitiveValue[] {cardHolderName, applicationCapabilitiesInformation, dataStorageId}, rapdu);
 
         _UnpredictableNumberGenerator.Setup(m => m.GenerateUnpredictableNumber()).Returns(new UnpredictableNumber(314));
 
-        GetProcessingOptionsRequest expectedProcessingOptRequestWithEmptyCommandTemplate = GetProcessingOptionsRequest.Create(session.GetTransactionSessionId());
+        GetProcessingOptionsRequest expectedProcessingOptRequestWithEmptyCommandTemplate =
+            GetProcessingOptionsRequest.Create(session.GetTransactionSessionId());
         _EndpointClient.Setup(m => m.Send(It.Is<GetProcessingOptionsRequest>(request => request.GetCommandTemplate() == null)));
 
         EmvCodec codec = EmvCodec.GetCodec();
 
         _EndpointClient.Setup(m => m.Send(It.IsAny<QueryKernelResponse>()));
 
-        Tag[] expectedDataNeeded = new[] { TagsToRead.Tag, TagsToWriteBeforeGeneratingApplicationCryptogram.Tag };
+        Tag[] expectedDataNeeded = new[] {TagsToRead.Tag, TagsToWriteBeforeGeneratingApplicationCryptogram.Tag};
 
         _EndpointClient.Setup(m => m.Send(It.Is<QueryTerminalRequest>(request => request.GetDataNeeded().GetDataObjects().SequenceEqual(expectedDataNeeded))));
 
@@ -346,7 +352,8 @@ public class IdleTests
         KernelState expectedState = _SystemUnderTest.Handle(session, activeKernelRequest);
 
         //Assert
-        _EndpointClient.Verify(m => m.Send(It.Is<QueryTerminalRequest>(request => request.GetTransactionSessionId() == session.GetTransactionSessionId())), Times.Once);
+        _EndpointClient.Verify(m => m.Send(It.Is<QueryTerminalRequest>(request => request.GetTransactionSessionId() == session.GetTransactionSessionId())),
+            Times.Once);
     }
 
     #endregion
@@ -358,7 +365,7 @@ public class IdleTests
     {
         //Arrange
         KernelSessionId kernelSessionId = _Fixture.Create<KernelSessionId>();
-        CleanKernelRequest cleanKernelRequest = new CleanKernelRequest(kernelSessionId);
+        CleanKernelRequest cleanKernelRequest = new(kernelSessionId);
 
         _Database.Activate(kernelSessionId.GetTransactionSessionId());
 
@@ -384,9 +391,9 @@ public class IdleTests
         KernelSession session = _Fixture.Create<KernelSession>();
         KernelId kernelId = _Fixture.Create<KernelId>();
 
-        KernelSessionId outofSyncSessionId = new KernelSessionId(kernelId, new TransactionSessionId(new TransactionType(34)));
+        KernelSessionId outofSyncSessionId = new(kernelId, new TransactionSessionId(new TransactionType(34)));
 
-        StopKernelRequest stopKernelRequest = new StopKernelRequest(outofSyncSessionId);
+        StopKernelRequest stopKernelRequest = new(outofSyncSessionId);
 
         //Act & Assert
         Assert.Throws<RequestOutOfSyncException>(() => _SystemUnderTest.Handle(session, stopKernelRequest));
@@ -401,7 +408,7 @@ public class IdleTests
 
         _Database.Activate(kernelSessionId.GetTransactionSessionId());
 
-        StopKernelRequest stopKernelRequest = new StopKernelRequest(kernelSessionId);
+        StopKernelRequest stopKernelRequest = new(kernelSessionId);
         _EndpointClient.Setup(m => m.Send(It.Is<OutKernelResponse>(i => i.GetKernelSessionId() == kernelSessionId)));
 
         //Act

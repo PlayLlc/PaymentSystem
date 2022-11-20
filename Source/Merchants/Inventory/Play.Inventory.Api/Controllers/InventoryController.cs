@@ -11,12 +11,11 @@ using Play.Mvc.Extensions;
 namespace Play.Inventory.Api.Controllers
 {
     [ApiController]
-    [Route("~/Inventory")]
-    public class InventoriesController : BaseController
+    public class InventoryController : BaseController
     {
         #region Constructor
 
-        public InventoriesController(
+        public InventoryController(
             IRetrieveUsers userRetriever, IRetrieveMerchants merchantsRetriever, IItemRepository itemsRepository, ICategoryRepository categoryRepository,
             IInventoryRepository inventoryRepository) : base(userRetriever, merchantsRetriever, itemsRepository, categoryRepository, inventoryRepository)
         { }
@@ -25,9 +24,9 @@ namespace Play.Inventory.Api.Controllers
 
         #region Instance Members
 
-        [HttpDeleteSwagger(template: "{storeId}")]
+        [HttpDeleteSwagger(template: "/Inventory/{storeId}")]
         [ValidateAntiForgeryToken]
-        public async Task<InventoryDto> GetInventory(string storeId)
+        public async Task<InventoryDto> Get(string storeId)
         {
             this.ValidateModel();
 

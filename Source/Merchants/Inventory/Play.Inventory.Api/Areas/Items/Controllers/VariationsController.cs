@@ -15,7 +15,6 @@ namespace Play.Inventory.Api.Areas.Items.Controllers;
 
 [ApiController]
 [Area($"{nameof(Items)}")]
-[Route("[area]")]
 public class VariationsController : BaseController
 {
     #region Constructor
@@ -31,7 +30,7 @@ public class VariationsController : BaseController
 
     [HttpPostSwagger(template: "/Inventory/[area]/{itemId}/[controller]")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreateVariation(CreateVariation command)
+    public async Task<IActionResult> Create(CreateVariation command)
     {
         this.ValidateModel();
         Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(command.ItemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
@@ -43,7 +42,7 @@ public class VariationsController : BaseController
 
     [HttpDeleteSwagger(template: "/Inventory/[area]/{itemId}/[controller]/{variationId}")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> RemoveVariation(string itemId, string variationId, RemoveVariation command)
+    public async Task<IActionResult> Remove(string itemId, string variationId, RemoveVariation command)
     {
         this.ValidateModel();
         Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
@@ -55,7 +54,7 @@ public class VariationsController : BaseController
 
     [HttpPutSwagger(template: "/Inventory/[area]/{itemId}/[controller]/{variationId}/[action]")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Name(string itemId, string variationId, UpdateItemVariationName command)
+    public async Task<IActionResult> UpdateName(string itemId, string variationId, UpdateItemVariationName command)
     {
         this.ValidateModel();
         Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));

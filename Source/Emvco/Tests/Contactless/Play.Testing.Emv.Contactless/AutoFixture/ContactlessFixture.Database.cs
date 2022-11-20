@@ -40,10 +40,11 @@ public partial class ContactlessFixture
         fixture.Register<KernelPersistentConfiguration>(() => new Kernel2KernelPersistentConfiguration(Array.Empty<PrimitiveValue>(), new EmvRuntimeCodec()));
         fixture.Register<KnownObjects>(fixture.Create<Kernel2KnownObjects>);
         fixture.Register(() => new SequenceCounterThreshold(0, int.MaxValue, 1));
-        fixture.Register(() => new KernelDatabase(new CertificateAuthorityDataset[0], defaultPrimitiveValues, fixture.Create<KnownObjects>(), null));
+        fixture.Register(() => new KernelDatabase(Array.Empty<CertificateAuthorityDataset>(), defaultPrimitiveValues, fixture.Create<KnownObjects>(), null));
     }
 
-    public static KernelDatabase CreateDefaultDatabase(IFixture fixture, bool activateDbOnInitialization = true) => SetupDatabase(fixture, activateDbOnInitialization);
+    public static KernelDatabase CreateDefaultDatabase(IFixture fixture, bool activateDbOnInitialization = true) =>
+        SetupDatabase(fixture, activateDbOnInitialization);
 
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     private static KernelDatabase SetupDatabase(IFixture fixture, bool activateDbOnInitialization)

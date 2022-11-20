@@ -34,7 +34,7 @@ public class AlertsController : BaseController
 
     [HttpPutSwagger(template: "/Inventory/[area]/{itemId}/[controller]/[action]")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> ActivateAlerts(string itemId, UpdateItemAlerts command)
+    public async Task<IActionResult> Activate(string itemId, UpdateItemAlerts command)
     {
         this.ValidateModel();
         Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
@@ -46,7 +46,7 @@ public class AlertsController : BaseController
 
     [HttpPutSwagger(template: "/Inventory/[area]/{itemId}/[controller]/[action]")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeaticvateAlerts(string itemId, UpdateItemAlerts command)
+    public async Task<IActionResult> Deaticvate(string itemId, UpdateItemAlerts command)
     {
         this.ValidateModel();
         Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));

@@ -14,7 +14,6 @@ using Play.Mvc.Extensions;
 namespace Play.Inventory.Api.Controllers;
 
 [ApiController]
-[Route("[controller]/[action]")]
 public class CategoriesController : BaseController
 {
     #region Constructor
@@ -30,7 +29,7 @@ public class CategoriesController : BaseController
 
     [HttpGetSwagger(template: "/Inventory/[controller]")]
     [ValidateAntiForgeryToken]
-    public async Task<IEnumerable<CategoryDto>> GetCategories([FromQuery] string merchantId)
+    public async Task<IEnumerable<CategoryDto>> GetAll([FromQuery] string merchantId)
     {
         return (await _CategoryRepository.GetCategoriesAsync(new SimpleStringId(merchantId)).ConfigureAwait(false)).Select(a => a.AsDto())
                ?? Array.Empty<CategoryDto>();
@@ -38,7 +37,7 @@ public class CategoriesController : BaseController
 
     [HttpGetSwagger(template: "/Inventory/[controller]/{categoryId}")]
     [ValidateAntiForgeryToken]
-    public async Task<CategoryDto> GetCategory(string categoryId)
+    public async Task<CategoryDto> Get(string categoryId)
     {
         Category merchantRegistration = await _CategoryRepository.GetByIdAsync(new SimpleStringId(categoryId)).ConfigureAwait(false)
                                         ?? throw new NotFoundException(typeof(Category));
@@ -46,7 +45,7 @@ public class CategoriesController : BaseController
         return merchantRegistration.AsDto();
     }
 
-    [HttpPostSwagger]
+    [HttpPostSwagger(template: "/Inventory/[controller]")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CreateCategory command)
     {
@@ -54,10 +53,10 @@ public class CategoriesController : BaseController
 
         Category category = await Category.CreateCategory(_UserRetriever, _MerchantsRetriever, _CategoryRepository, command).ConfigureAwait(false);
 
-        return Created(@Url.Action("GetCategory", "Categories", new {id = category.Id})!, category.AsDto());
+        return Created(@Url.Action("Get", "Categories", new {id = category.Id})!, category.AsDto());
     }
 
-    [HttpDeleteSwagger]
+    [HttpDeleteSwagger(template: "/Inventory/[controller]")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Remove(RemoveCategory command)
     {

@@ -21,26 +21,12 @@ public class HttpPutSwaggerAttribute : HttpPutAttribute
 
     public HttpPutSwaggerAttribute([CallerFilePath] string callerFilePath = "", [CallerMemberName] string memberName = "")
     {
-        if (!TryCapturingAreasName(callerFilePath, out string? areasName))
-        {
-            Name = $"{FormatControllerName(Path.GetFileNameWithoutExtension(callerFilePath))}_{memberName}_Put";
-
-            return;
-        }
-
-        Name = $"{areasName}_{FormatControllerName(Path.GetFileNameWithoutExtension(callerFilePath))}_{memberName}_Put";
+        Name = CreateOpenApiName(callerFilePath, memberName);
     }
 
     public HttpPutSwaggerAttribute(string template, [CallerFilePath] string callerFilePath = "", [CallerMemberName] string memberName = "") : base(template)
     {
-        if (!TryCapturingAreasName(callerFilePath, out string? areasName))
-        {
-            Name = $"{FormatControllerName(Path.GetFileNameWithoutExtension(callerFilePath))}_{memberName}_Put";
-
-            return;
-        }
-
-        Name = $"{areasName}_{FormatControllerName(Path.GetFileNameWithoutExtension(callerFilePath))}_{memberName}_Put";
+        Name = CreateOpenApiName(callerFilePath, memberName);
     }
 
     public HttpPutSwaggerAttribute(
@@ -52,6 +38,24 @@ public class HttpPutSwaggerAttribute : HttpPutAttribute
     #endregion
 
     #region Instance Members
+
+    private static string CreateOpenApiName(string callerFilePath, string memberName)
+    {
+        var controller = Path.GetFileNameWithoutExtension(callerFilePath);
+        TryCapturingAreasName(callerFilePath, out string? areasName);
+
+        return areasName is null ? CreateWithoutAreas(controller, memberName) : CreateWithAreas(controller, memberName, areasName!);
+    }
+
+    private static string CreateWithAreas(string controller, string actionMethod, string areas)
+    {
+        return $"{areas}_{actionMethod}_{FormatControllerName(controller, areas)}";
+    }
+
+    private static string CreateWithoutAreas(string controller, string actionMethod)
+    {
+        return $"{actionMethod}_{FormatControllerName(controller)}";
+    }
 
     private static bool TryCapturingAreasName(string value, out string? areasName)
     {
@@ -67,9 +71,17 @@ public class HttpPutSwaggerAttribute : HttpPutAttribute
         return true;
     }
 
-    private static string FormatControllerName(string value)
+    private static string FormatControllerName(string value, string? areas = null)
     {
-        return value.EndsWith("Controller") ? value.Substring(0, value.Length - 10) : value;
+        static string ReplaceControllerSubstring(string value)
+        {
+            return value.EndsWith("Controller") ? value.Substring(0, value.Length - 10) : value;
+        }
+
+        if (areas is null)
+            return ReplaceControllerSubstring(value);
+
+        return value == "HomeController" ? areas : ReplaceControllerSubstring(value);
     }
 
     #endregion

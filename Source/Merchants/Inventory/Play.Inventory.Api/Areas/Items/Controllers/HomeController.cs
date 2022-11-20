@@ -31,7 +31,7 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
 
         [HttpGetSwagger(template: "/Inventory/[area]/{itemId}")]
         [ValidateAntiForgeryToken]
-        public async Task<ItemDto> GetItem(string itemId)
+        public async Task<ItemDto> Get(string itemId)
         {
             Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(ItemDto));
 
@@ -40,7 +40,7 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
 
         [HttpGetSwagger(template: "/Inventory/[area]")]
         [ValidateAntiForgeryToken]
-        public async Task<IEnumerable<ItemDto>> GetItems([FromQuery] string merchantId, [FromQuery] int? pageSize, [FromQuery] int? position) // paging and shit
+        public async Task<IEnumerable<ItemDto>> GetAll([FromQuery] string merchantId, [FromQuery] int? pageSize, [FromQuery] int? position) // paging and shit
         {
             if (pageSize is null || position is null)
                 return (await _ItemsRepository.GetItemsAsync(new SimpleStringId(merchantId)).ConfigureAwait(false)).Select(a => a.AsDto())
@@ -67,7 +67,7 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
 
         [HttpPutSwagger(template: "/Inventory/[area]/{itemId}/[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Description(string itemId, UpdateItemDescription command)
+        public async Task<IActionResult> UpdateDescription(string itemId, UpdateItemDescription command)
         {
             this.ValidateModel();
             Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
@@ -79,7 +79,7 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
 
         [HttpPutSwagger(template: "/Inventory/[area]/{itemId}/[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Name(string itemId, UpdateItemName command)
+        public async Task<IActionResult> UpdateName(string itemId, UpdateItemName command)
         {
             this.ValidateModel();
             Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));

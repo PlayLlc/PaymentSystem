@@ -35,12 +35,10 @@ public class PrepareGenerateAcServiceTests
 
     private readonly IFixture _Fixture;
     private readonly KernelDatabase _Database;
-
     private readonly Mock<DataExchangeKernelService> _DataExchangeKernelService;
     private readonly Mock<IGetKernelState> _KernelStateResolver;
     private readonly Mock<IEndpointClient> _EndpointClient;
     private readonly Mock<IGetKernelStateId> _KernelStateIdRetriever;
-
     private readonly PrepareGenerateAcService _SystemUnderTest;
 
     #endregion
@@ -52,7 +50,7 @@ public class PrepareGenerateAcServiceTests
         _Fixture = new ContactlessFixture().Create();
         _Database = ContactlessFixture.CreateDefaultDatabase(_Fixture);
 
-        MaxNumberOfTornTransactionLogRecords maxNumberOfTornTransactionLogRecords = new MaxNumberOfTornTransactionLogRecords(2);
+        MaxNumberOfTornTransactionLogRecords maxNumberOfTornTransactionLogRecords = new(2);
         _Database.Update(maxNumberOfTornTransactionLogRecords);
 
         _Fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList().ForEach(b => _Fixture.Behaviors.Remove(b));
@@ -74,7 +72,7 @@ public class PrepareGenerateAcServiceTests
     public void PrepareGenerateAcService_ProcessOutOfSyncRequest_ThrowsRequestOutOfSyncException()
     {
         //Arrange
-        StateId currentStateId = new StateId(new char[] { 's', 't', 'a', 't', 'e', '1', });
+        StateId currentStateId = new(new char[] {'s', 't', 'a', 't', 'e', '1'});
         _KernelStateIdRetriever.Setup(m => m.GetStateId()).Returns(currentStateId);
 
         Kernel2Session kernel2Session = _Fixture.Create<Kernel2Session>();
@@ -104,8 +102,10 @@ public class PrepareGenerateAcServiceTests
         ReferenceControlParameter referenceControlParameter = ReferenceControlParameter.Decode(referenceControlParameterTestTlv.EncodeValue().AsSpan());
         _Database.Update(referenceControlParameter);
 
-        GenerateApplicationCryptogramRequest expectedGenerateACRequest = GenerateApplicationCryptogramRequest.Create(kernel2Session.GetTransactionSessionId(), referenceControlParameter, crmdrol);
-        _EndpointClient.Setup(m => m.Send(It.Is<GenerateApplicationCryptogramRequest>(x => x.GetTransactionSessionId() == expectedGenerateACRequest.GetTransactionSessionId())));
+        GenerateApplicationCryptogramRequest expectedGenerateACRequest =
+            GenerateApplicationCryptogramRequest.Create(kernel2Session.GetTransactionSessionId(), referenceControlParameter, crmdrol);
+        _EndpointClient.Setup(m =>
+            m.Send(It.Is<GenerateApplicationCryptogramRequest>(x => x.GetTransactionSessionId() == expectedGenerateACRequest.GetTransactionSessionId())));
 
         //Act
         StateId actual = _SystemUnderTest.Process(_KernelStateIdRetriever.Object, kernel2Session, message);
@@ -139,8 +139,10 @@ public class PrepareGenerateAcServiceTests
         ReferenceControlParameter referenceControlParameter = ReferenceControlParameter.Decode(referenceControlParameterTestTlv.EncodeValue().AsSpan());
         _Database.Update(referenceControlParameter);
 
-        GenerateApplicationCryptogramRequest expectedGenerateACRequest = GenerateApplicationCryptogramRequest.Create(kernel2Session.GetTransactionSessionId(), referenceControlParameter, crmdrol);
-        _EndpointClient.Setup(m => m.Send(It.Is<GenerateApplicationCryptogramRequest>(x => x.GetTransactionSessionId() == expectedGenerateACRequest.GetTransactionSessionId())));
+        GenerateApplicationCryptogramRequest expectedGenerateACRequest =
+            GenerateApplicationCryptogramRequest.Create(kernel2Session.GetTransactionSessionId(), referenceControlParameter, crmdrol);
+        _EndpointClient.Setup(m =>
+            m.Send(It.Is<GenerateApplicationCryptogramRequest>(x => x.GetTransactionSessionId() == expectedGenerateACRequest.GetTransactionSessionId())));
 
         //Act
         StateId actual = _SystemUnderTest.Process(_KernelStateIdRetriever.Object, kernel2Session, message);
@@ -165,17 +167,20 @@ public class PrepareGenerateAcServiceTests
 
         _Database.Update(KernelConfiguration.Default);
 
-        CardRiskManagementDataObjectList1 cardRiskManagementDataObjectList = CardRiskManagementDataObjectList1.Decode(new byte[] { 13, 2, 12, 38 }.AsSpan());
+        CardRiskManagementDataObjectList1 cardRiskManagementDataObjectList = CardRiskManagementDataObjectList1.Decode(new byte[] {13, 2, 12, 38}.AsSpan());
         _Database.Update(cardRiskManagementDataObjectList);
 
         ReferenceControlParameterTestTlv referenceControlParameterTestTlv = new();
         ReferenceControlParameter referenceControlParameter = ReferenceControlParameter.Decode(referenceControlParameterTestTlv.EncodeValue().AsSpan());
         _Database.Update(referenceControlParameter);
 
-        CardRiskManagementDataObjectList1RelatedData cardRiskManagementDataObjectList1RelatedData = new(cardRiskManagementDataObjectList.AsDataObjectListResult(_Database));
+        CardRiskManagementDataObjectList1RelatedData cardRiskManagementDataObjectList1RelatedData =
+            new(cardRiskManagementDataObjectList.AsDataObjectListResult(_Database));
 
-        GenerateApplicationCryptogramRequest expectedGenerateACRequest = GenerateApplicationCryptogramRequest.Create(kernel2Session.GetTransactionSessionId(), referenceControlParameter, cardRiskManagementDataObjectList1RelatedData);
-        _EndpointClient.Setup(m => m.Send(It.Is<GenerateApplicationCryptogramRequest>(x => x.GetTransactionSessionId() == expectedGenerateACRequest.GetTransactionSessionId())));
+        GenerateApplicationCryptogramRequest expectedGenerateACRequest = GenerateApplicationCryptogramRequest.Create(kernel2Session.GetTransactionSessionId(),
+            referenceControlParameter, cardRiskManagementDataObjectList1RelatedData);
+        _EndpointClient.Setup(m =>
+            m.Send(It.Is<GenerateApplicationCryptogramRequest>(x => x.GetTransactionSessionId() == expectedGenerateACRequest.GetTransactionSessionId())));
 
         //Act
         StateId actual = _SystemUnderTest.Process(_KernelStateIdRetriever.Object, kernel2Session, message);
@@ -199,20 +204,23 @@ public class PrepareGenerateAcServiceTests
 
         _Database.Update(KernelConfiguration.Default);
 
-        ApplicationCapabilitiesInformation applicationCapabilitiesInformation =  new ApplicationCapabilitiesInformation(0b1_0000_0000);
+        ApplicationCapabilitiesInformation applicationCapabilitiesInformation = new(0b1_0000_0000);
         _Database.Update(applicationCapabilitiesInformation);
 
-        CardRiskManagementDataObjectList1 cardRiskManagementDataObjectList = CardRiskManagementDataObjectList1.Decode(new byte[] { 13, 2, 12, 38 }.AsSpan());
+        CardRiskManagementDataObjectList1 cardRiskManagementDataObjectList = CardRiskManagementDataObjectList1.Decode(new byte[] {13, 2, 12, 38}.AsSpan());
         _Database.Update(cardRiskManagementDataObjectList);
 
         ReferenceControlParameterTestTlv referenceControlParameterTestTlv = new();
         ReferenceControlParameter referenceControlParameter = ReferenceControlParameter.Decode(referenceControlParameterTestTlv.EncodeValue().AsSpan());
         _Database.Update(referenceControlParameter);
 
-        CardRiskManagementDataObjectList1RelatedData cardRiskManagementDataObjectList1RelatedData = new(cardRiskManagementDataObjectList.AsDataObjectListResult(_Database));
+        CardRiskManagementDataObjectList1RelatedData cardRiskManagementDataObjectList1RelatedData =
+            new(cardRiskManagementDataObjectList.AsDataObjectListResult(_Database));
 
-        GenerateApplicationCryptogramRequest expectedGenerateACRequest = GenerateApplicationCryptogramRequest.Create(kernel2Session.GetTransactionSessionId(), referenceControlParameter, cardRiskManagementDataObjectList1RelatedData);
-        _EndpointClient.Setup(m => m.Send(It.Is<GenerateApplicationCryptogramRequest>(x => x.GetTransactionSessionId() == expectedGenerateACRequest.GetTransactionSessionId())));
+        GenerateApplicationCryptogramRequest expectedGenerateACRequest = GenerateApplicationCryptogramRequest.Create(kernel2Session.GetTransactionSessionId(),
+            referenceControlParameter, cardRiskManagementDataObjectList1RelatedData);
+        _EndpointClient.Setup(m =>
+            m.Send(It.Is<GenerateApplicationCryptogramRequest>(x => x.GetTransactionSessionId() == expectedGenerateACRequest.GetTransactionSessionId())));
 
         //Act
         StateId actual = _SystemUnderTest.Process(_KernelStateIdRetriever.Object, kernel2Session, message);
@@ -236,19 +244,22 @@ public class PrepareGenerateAcServiceTests
 
         _Database.Update(KernelConfiguration.Default);
 
-        ApplicationCapabilitiesInformation applicationCapabilitiesInformation = new ApplicationCapabilitiesInformation(0b1_000_0000);
+        ApplicationCapabilitiesInformation applicationCapabilitiesInformation = new(0b1_000_0000);
         _Database.Update(applicationCapabilitiesInformation);
 
         CardRiskManagementDataObjectList1RelatedDataTestTlv testProcessingData = new();
-        CardRiskManagementDataObjectList1RelatedData cardRiskManagementDataObjectList1RelatedData = CardRiskManagementDataObjectList1RelatedData.Decode(testProcessingData.EncodeValue().AsSpan());
+        CardRiskManagementDataObjectList1RelatedData cardRiskManagementDataObjectList1RelatedData =
+            CardRiskManagementDataObjectList1RelatedData.Decode(testProcessingData.EncodeValue().AsSpan());
         _Database.Update(cardRiskManagementDataObjectList1RelatedData);
 
         ReferenceControlParameterTestTlv referenceControlParameterTestTlv = new();
         ReferenceControlParameter referenceControlParameter = ReferenceControlParameter.Decode(referenceControlParameterTestTlv.EncodeValue().AsSpan());
         _Database.Update(referenceControlParameter);
 
-        GenerateApplicationCryptogramRequest expectedGenerateACRequest = GenerateApplicationCryptogramRequest.Create(kernel2Session.GetTransactionSessionId(), referenceControlParameter, cardRiskManagementDataObjectList1RelatedData);
-        _EndpointClient.Setup(m => m.Send(It.Is<GenerateApplicationCryptogramRequest>(x => x.GetTransactionSessionId() == expectedGenerateACRequest.GetTransactionSessionId())));
+        GenerateApplicationCryptogramRequest expectedGenerateACRequest = GenerateApplicationCryptogramRequest.Create(kernel2Session.GetTransactionSessionId(),
+            referenceControlParameter, cardRiskManagementDataObjectList1RelatedData);
+        _EndpointClient.Setup(m =>
+            m.Send(It.Is<GenerateApplicationCryptogramRequest>(x => x.GetTransactionSessionId() == expectedGenerateACRequest.GetTransactionSessionId())));
 
         //Act
         StateId actual = _SystemUnderTest.Process(_KernelStateIdRetriever.Object, kernel2Session, message);
@@ -259,7 +270,8 @@ public class PrepareGenerateAcServiceTests
 
     //  GAC.2
     [Fact]
-    public void PrepareGenerateAcServiceWithIdsFlagSetAndCDAFailedAndCardholderVerificationSupported_Process_SendGenerateAcCommandAndUpdateReferenceControlParameter()
+    public void
+        PrepareGenerateAcServiceWithIdsFlagSetAndCDAFailedAndCardholderVerificationSupported_Process_SendGenerateAcCommandAndUpdateReferenceControlParameter()
     {
         //Arrange
         StateId currentStateId = WaitingForEmvReadRecordResponse.StateId;
@@ -285,21 +297,24 @@ public class PrepareGenerateAcServiceTests
         _Database.Update(applicationCapabilitiesInformation);
 
         //Cardholder Verification Supported
-        KernelConfiguration kernelConfiguration = new KernelConfiguration(0b100_000);
+        KernelConfiguration kernelConfiguration = new(0b100_000);
         _Database.Update(kernelConfiguration);
-        ApplicationInterchangeProfile applicationInterchangeProfile = new ApplicationInterchangeProfile(0b10_0000_0000);
+        ApplicationInterchangeProfile applicationInterchangeProfile = new(0b10_0000_0000);
         _Database.Update(applicationInterchangeProfile);
 
         CardRiskManagementDataObjectList1RelatedDataTestTlv testProcessingData = new();
-        CardRiskManagementDataObjectList1RelatedData cardRiskManagementDataObjectList1RelatedData = CardRiskManagementDataObjectList1RelatedData.Decode(testProcessingData.EncodeValue().AsSpan());
+        CardRiskManagementDataObjectList1RelatedData cardRiskManagementDataObjectList1RelatedData =
+            CardRiskManagementDataObjectList1RelatedData.Decode(testProcessingData.EncodeValue().AsSpan());
         _Database.Update(cardRiskManagementDataObjectList1RelatedData);
 
         ReferenceControlParameterTestTlv referenceControlParameterTestTlv = new();
         ReferenceControlParameter referenceControlParameter = ReferenceControlParameter.Decode(referenceControlParameterTestTlv.EncodeValue().AsSpan());
         _Database.Update(referenceControlParameter);
 
-        GenerateApplicationCryptogramRequest expectedGenerateACRequest = GenerateApplicationCryptogramRequest.Create(kernel2Session.GetTransactionSessionId(), referenceControlParameter, cardRiskManagementDataObjectList1RelatedData);
-        _EndpointClient.Setup(m => m.Send(It.Is<GenerateApplicationCryptogramRequest>(x => x.GetTransactionSessionId() == expectedGenerateACRequest.GetTransactionSessionId())));
+        GenerateApplicationCryptogramRequest expectedGenerateACRequest = GenerateApplicationCryptogramRequest.Create(kernel2Session.GetTransactionSessionId(),
+            referenceControlParameter, cardRiskManagementDataObjectList1RelatedData);
+        _EndpointClient.Setup(m =>
+            m.Send(It.Is<GenerateApplicationCryptogramRequest>(x => x.GetTransactionSessionId() == expectedGenerateACRequest.GetTransactionSessionId())));
 
         //Act
         StateId actual = _SystemUnderTest.Process(_KernelStateIdRetriever.Object, kernel2Session, message);
@@ -311,7 +326,8 @@ public class PrepareGenerateAcServiceTests
 
     //  GAC.3
     [Fact]
-    public void PrepareGenerateAcServiceWithIdsFlagSetAndCDAFailedAndIsIntegratedDataStorageReadOnly_ProcessReadIds_SendGenerateAcCommandAndUpdateReferenceControlParameter()
+    public void
+        PrepareGenerateAcServiceWithIdsFlagSetAndCDAFailedAndIsIntegratedDataStorageReadOnly_ProcessReadIds_SendGenerateAcCommandAndUpdateReferenceControlParameter()
     {
         //Arrange
         StateId currentStateId = WaitingForEmvReadRecordResponse.StateId;
@@ -330,17 +346,20 @@ public class PrepareGenerateAcServiceTests
         IntegratedDataStorageStatus integratedDataStorageStatus = new(0b1000_0000);
         _Database.Update(integratedDataStorageStatus);
 
-        CardRiskManagementDataObjectList1 cardRiskManagementDataObjectList = CardRiskManagementDataObjectList1.Decode(new byte[] { 13, 2, 12, 38 }.AsSpan());
+        CardRiskManagementDataObjectList1 cardRiskManagementDataObjectList = CardRiskManagementDataObjectList1.Decode(new byte[] {13, 2, 12, 38}.AsSpan());
         _Database.Update(cardRiskManagementDataObjectList);
 
         ReferenceControlParameterTestTlv referenceControlParameterTestTlv = new();
         ReferenceControlParameter referenceControlParameter = ReferenceControlParameter.Decode(referenceControlParameterTestTlv.EncodeValue().AsSpan());
         _Database.Update(referenceControlParameter);
 
-        CardRiskManagementDataObjectList1RelatedData cardRiskManagementDataObjectList1RelatedData = new(cardRiskManagementDataObjectList.AsDataObjectListResult(_Database));
+        CardRiskManagementDataObjectList1RelatedData cardRiskManagementDataObjectList1RelatedData =
+            new(cardRiskManagementDataObjectList.AsDataObjectListResult(_Database));
 
-        GenerateApplicationCryptogramRequest expectedGenerateACRequest = GenerateApplicationCryptogramRequest.Create(kernel2Session.GetTransactionSessionId(), referenceControlParameter, cardRiskManagementDataObjectList1RelatedData);
-        _EndpointClient.Setup(m => m.Send(It.Is<GenerateApplicationCryptogramRequest>(x => x.GetTransactionSessionId() == expectedGenerateACRequest.GetTransactionSessionId())));
+        GenerateApplicationCryptogramRequest expectedGenerateACRequest = GenerateApplicationCryptogramRequest.Create(kernel2Session.GetTransactionSessionId(),
+            referenceControlParameter, cardRiskManagementDataObjectList1RelatedData);
+        _EndpointClient.Setup(m =>
+            m.Send(It.Is<GenerateApplicationCryptogramRequest>(x => x.GetTransactionSessionId() == expectedGenerateACRequest.GetTransactionSessionId())));
 
         //Act
         StateId actual = _SystemUnderTest.Process(_KernelStateIdRetriever.Object, kernel2Session, message);
@@ -352,7 +371,8 @@ public class PrepareGenerateAcServiceTests
 
     //  GAC.5-GAC.6
     [Fact]
-    public void PrepareGenerateAcServiceWithIdsFlagSetAndCDAFailedAndDataStorageApplicationCryptogramTypeIsMissing_ProcessAndHandleError_CurrentStateIdIsReturned()
+    public void
+        PrepareGenerateAcServiceWithIdsFlagSetAndCDAFailedAndDataStorageApplicationCryptogramTypeIsMissing_ProcessAndHandleError_CurrentStateIdIsReturned()
     {
         //Arrange
         StateId currentStateId = WaitingForEmvReadRecordResponse.StateId;
@@ -362,7 +382,7 @@ public class PrepareGenerateAcServiceTests
         kernel2Session.Update(OdaStatusTypes.Cda);
 
         Message message = _Fixture.Create<Message>();
-        
+
         //Set Ids Flags
         DataStorageRequestedOperatorId dataStorageRequestedOperatorId = new(12);
         _Database.Update(dataStorageRequestedOperatorId);
@@ -371,26 +391,29 @@ public class PrepareGenerateAcServiceTests
         IntegratedDataStorageStatus integratedDataStorageStatus = new(0b1000_0000);
         _Database.Update(integratedDataStorageStatus);
 
-        CardRiskManagementDataObjectList1 cardRiskManagementDataObjectList = CardRiskManagementDataObjectList1.Decode(new byte[] { 13, 2, 12, 38 }.AsSpan());
+        CardRiskManagementDataObjectList1 cardRiskManagementDataObjectList = CardRiskManagementDataObjectList1.Decode(new byte[] {13, 2, 12, 38}.AsSpan());
         _Database.Update(cardRiskManagementDataObjectList);
 
         ReferenceControlParameterTestTlv referenceControlParameterTestTlv = new();
         ReferenceControlParameter referenceControlParameter = ReferenceControlParameter.Decode(referenceControlParameterTestTlv.EncodeValue().AsSpan());
         _Database.Update(referenceControlParameter);
 
-        CardRiskManagementDataObjectList1RelatedData cardRiskManagementDataObjectList1RelatedData = new(cardRiskManagementDataObjectList.AsDataObjectListResult(_Database));
+        CardRiskManagementDataObjectList1RelatedData cardRiskManagementDataObjectList1RelatedData =
+            new(cardRiskManagementDataObjectList.AsDataObjectListResult(_Database));
 
-        GenerateApplicationCryptogramRequest expectedGenerateACRequest = GenerateApplicationCryptogramRequest.Create(kernel2Session.GetTransactionSessionId(), referenceControlParameter, cardRiskManagementDataObjectList1RelatedData);
-        _EndpointClient.Setup(m => m.Send(It.Is<GenerateApplicationCryptogramRequest>(x => x.GetTransactionSessionId() == expectedGenerateACRequest.GetTransactionSessionId())));
+        GenerateApplicationCryptogramRequest expectedGenerateACRequest = GenerateApplicationCryptogramRequest.Create(kernel2Session.GetTransactionSessionId(),
+            referenceControlParameter, cardRiskManagementDataObjectList1RelatedData);
+        _EndpointClient.Setup(m =>
+            m.Send(It.Is<GenerateApplicationCryptogramRequest>(x => x.GetTransactionSessionId() == expectedGenerateACRequest.GetTransactionSessionId())));
 
         //GAC.5-GAC.6
-        DataStorageApplicationCryptogramType dataStorageApplicationCryptogramType = new DataStorageApplicationCryptogramType(12);
+        DataStorageApplicationCryptogramType dataStorageApplicationCryptogramType = new(12);
         _Database.Update(dataStorageApplicationCryptogramType);
 
-        DataStorageOperatorDataSetInfo dataStorageOperatorDataSetInfo = new DataStorageOperatorDataSetInfo(12);
+        DataStorageOperatorDataSetInfo dataStorageOperatorDataSetInfo = new(12);
         _Database.Update(dataStorageOperatorDataSetInfo);
 
-        DataStorageDataObjectList dataStorageDataObjectList = new DataStorageDataObjectList(new TagLength[0]);
+        DataStorageDataObjectList dataStorageDataObjectList = new(Array.Empty<TagLength>());
         _Database.Update(dataStorageDataObjectList);
 
         //Act
@@ -428,20 +451,23 @@ public class PrepareGenerateAcServiceTests
         _Database.Update(referenceControlParameter);
 
         //CardRiskManagementDataObjectList1RelatedData
-        CardRiskManagementDataObjectList1 cardRiskManagementDataObjectList = CardRiskManagementDataObjectList1.Decode(new byte[] { 13, 2, 12, 38 }.AsSpan());
+        CardRiskManagementDataObjectList1 cardRiskManagementDataObjectList = CardRiskManagementDataObjectList1.Decode(new byte[] {13, 2, 12, 38}.AsSpan());
         _Database.Update(cardRiskManagementDataObjectList);
 
-        CardRiskManagementDataObjectList1RelatedData cardRiskManagementDataObjectList1RelatedData = new(cardRiskManagementDataObjectList.AsDataObjectListResult(_Database));
+        CardRiskManagementDataObjectList1RelatedData cardRiskManagementDataObjectList1RelatedData =
+            new(cardRiskManagementDataObjectList.AsDataObjectListResult(_Database));
         _Database.Update(cardRiskManagementDataObjectList1RelatedData);
 
-        GenerateApplicationCryptogramRequest expectedGenerateACRequest = GenerateApplicationCryptogramRequest.Create(kernel2Session.GetTransactionSessionId(), referenceControlParameter, cardRiskManagementDataObjectList1RelatedData);
+        GenerateApplicationCryptogramRequest expectedGenerateACRequest = GenerateApplicationCryptogramRequest.Create(kernel2Session.GetTransactionSessionId(),
+            referenceControlParameter, cardRiskManagementDataObjectList1RelatedData);
 
-        _EndpointClient.Setup(m => m.Send(It.Is<GenerateApplicationCryptogramRequest>(x => x.GetTransactionSessionId() == expectedGenerateACRequest.GetTransactionSessionId())));
+        _EndpointClient.Setup(m =>
+            m.Send(It.Is<GenerateApplicationCryptogramRequest>(x => x.GetTransactionSessionId() == expectedGenerateACRequest.GetTransactionSessionId())));
 
         DataStorageOperatorDataSetInfo dataStorageOperatorDataSetInfo = new(12);
         _Database.Update(dataStorageOperatorDataSetInfo);
 
-        DataStorageDataObjectList dataStorageDataObjectList = new(new TagLength[0]);
+        DataStorageDataObjectList dataStorageDataObjectList = new(Array.Empty<TagLength>());
         _Database.Update(dataStorageDataObjectList);
 
         DataStorageOperatorDataSetInfoForReader dataStorageOperatorDataSetInfoForReader = new(0b10);
@@ -457,7 +483,8 @@ public class PrepareGenerateAcServiceTests
         //Assert
         Assert.Equal(currentStateId, stateId);
 
-        DataStorageApplicationCryptogramType savedStoredDsAcType = _Database.Get<DataStorageApplicationCryptogramType>(DataStorageApplicationCryptogramType.Tag);
+        DataStorageApplicationCryptogramType savedStoredDsAcType =
+            _Database.Get<DataStorageApplicationCryptogramType>(DataStorageApplicationCryptogramType.Tag);
         Assert.Equal(dataStorageApplicationCryptogramType, savedStoredDsAcType);
     }
 
@@ -486,20 +513,23 @@ public class PrepareGenerateAcServiceTests
         _Database.Update(referenceControlParameter);
 
         //CardRiskManagementDataObjectList1RelatedData
-        CardRiskManagementDataObjectList1 cardRiskManagementDataObjectList = CardRiskManagementDataObjectList1.Decode(new byte[] { 13, 2, 12, 38 }.AsSpan());
+        CardRiskManagementDataObjectList1 cardRiskManagementDataObjectList = CardRiskManagementDataObjectList1.Decode(new byte[] {13, 2, 12, 38}.AsSpan());
         _Database.Update(cardRiskManagementDataObjectList);
 
-        CardRiskManagementDataObjectList1RelatedData cardRiskManagementDataObjectList1RelatedData = new(cardRiskManagementDataObjectList.AsDataObjectListResult(_Database));
+        CardRiskManagementDataObjectList1RelatedData cardRiskManagementDataObjectList1RelatedData =
+            new(cardRiskManagementDataObjectList.AsDataObjectListResult(_Database));
         _Database.Update(cardRiskManagementDataObjectList1RelatedData);
 
-        GenerateApplicationCryptogramRequest expectedGenerateACRequest = GenerateApplicationCryptogramRequest.Create(kernel2Session.GetTransactionSessionId(), referenceControlParameter, cardRiskManagementDataObjectList1RelatedData);
+        GenerateApplicationCryptogramRequest expectedGenerateACRequest = GenerateApplicationCryptogramRequest.Create(kernel2Session.GetTransactionSessionId(),
+            referenceControlParameter, cardRiskManagementDataObjectList1RelatedData);
 
-        _EndpointClient.Setup(m => m.Send(It.Is<GenerateApplicationCryptogramRequest>(x => x.GetTransactionSessionId() == expectedGenerateACRequest.GetTransactionSessionId())));
+        _EndpointClient.Setup(m =>
+            m.Send(It.Is<GenerateApplicationCryptogramRequest>(x => x.GetTransactionSessionId() == expectedGenerateACRequest.GetTransactionSessionId())));
 
         DataStorageOperatorDataSetInfo dataStorageOperatorDataSetInfo = new(12);
         _Database.Update(dataStorageOperatorDataSetInfo);
 
-        DataStorageDataObjectList dataStorageDataObjectList = new(new TagLength[0]);
+        DataStorageDataObjectList dataStorageDataObjectList = new(Array.Empty<TagLength>());
         _Database.Update(dataStorageDataObjectList);
 
         DataStorageOperatorDataSetInfoForReader dataStorageOperatorDataSetInfoForReader = new(0b100010);
@@ -515,7 +545,8 @@ public class PrepareGenerateAcServiceTests
         //Assert
         Assert.Equal(currentStateId, stateId);
 
-        DataStorageApplicationCryptogramType savedStoredDsAcType = _Database.Get<DataStorageApplicationCryptogramType>(DataStorageApplicationCryptogramType.Tag);
+        DataStorageApplicationCryptogramType savedStoredDsAcType =
+            _Database.Get<DataStorageApplicationCryptogramType>(DataStorageApplicationCryptogramType.Tag);
         Assert.Equal(dataStorageApplicationCryptogramType, savedStoredDsAcType);
     }
 
@@ -544,20 +575,21 @@ public class PrepareGenerateAcServiceTests
         _Database.Update(referenceControlParameter);
 
         //CardRiskManagementDataObjectList1RelatedData
-        CardRiskManagementDataObjectList1 cardRiskManagementDataObjectList = CardRiskManagementDataObjectList1.Decode(new byte[] { 13, 2, 12, 38 }.AsSpan());
+        CardRiskManagementDataObjectList1 cardRiskManagementDataObjectList = CardRiskManagementDataObjectList1.Decode(new byte[] {13, 2, 12, 38}.AsSpan());
         _Database.Update(cardRiskManagementDataObjectList);
 
-        CardRiskManagementDataObjectList1RelatedData cardRiskManagementDataObjectList1RelatedData = new(cardRiskManagementDataObjectList.AsDataObjectListResult(_Database));
+        CardRiskManagementDataObjectList1RelatedData cardRiskManagementDataObjectList1RelatedData =
+            new(cardRiskManagementDataObjectList.AsDataObjectListResult(_Database));
         _Database.Update(cardRiskManagementDataObjectList1RelatedData);
 
-        StopKernelRequest expectedStopKernelRequest = new StopKernelRequest(kernel2Session.GetKernelSessionId());
+        StopKernelRequest expectedStopKernelRequest = new(kernel2Session.GetKernelSessionId());
 
         _EndpointClient.Setup(m => m.Send(It.Is<RequestMessage>(x => x is GenerateApplicationCryptogramRequest || x is StopKernelRequest)));
 
         DataStorageOperatorDataSetInfo dataStorageOperatorDataSetInfo = new(12);
         _Database.Update(dataStorageOperatorDataSetInfo);
 
-        DataStorageDataObjectList dataStorageDataObjectList = new(new TagLength[0]);
+        DataStorageDataObjectList dataStorageDataObjectList = new(Array.Empty<TagLength>());
         _Database.Update(dataStorageDataObjectList);
 
         //StopIfNoDataStorageOperatorSetTerminalSet
@@ -575,7 +607,8 @@ public class PrepareGenerateAcServiceTests
         _EndpointClient.Verify(m => m.Send(It.Is<RequestMessage>(x => x is GenerateApplicationCryptogramRequest || x is StopKernelRequest)), Times.AtLeast(2));
         Assert.Equal(currentStateId, stateId);
 
-        DataStorageApplicationCryptogramType savedStoredDsAcType = _Database.Get<DataStorageApplicationCryptogramType>(DataStorageApplicationCryptogramType.Tag);
+        DataStorageApplicationCryptogramType savedStoredDsAcType =
+            _Database.Get<DataStorageApplicationCryptogramType>(DataStorageApplicationCryptogramType.Tag);
         Assert.Equal(dataStorageApplicationCryptogramType, savedStoredDsAcType);
     }
 

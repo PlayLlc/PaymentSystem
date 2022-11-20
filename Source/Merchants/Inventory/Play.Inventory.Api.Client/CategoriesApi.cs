@@ -12,14 +12,15 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-
-using RestSharp.Portable;
+using System.Threading.Tasks;
 
 using Play.Inventory.Contracts.Commands;
 using Play.Inventory.Contracts.Dtos;
 using Play.Restful.Clients;
 
-namespace IO.Swagger.Api
+using RestSharp.Portable;
+
+namespace IO.Swagger
 {
     /// <summary>
     ///     Represents a collection of functions to interact with the API endpoints
@@ -35,7 +36,7 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns></returns>
-        void CategoriesCreatePost(CreateCategory body = null);
+        void CreateCategories(CreateCategory body = null);
 
         /// <summary>
         /// </summary>
@@ -44,7 +45,7 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> CategoriesCreatePostWithHttpInfo(CreateCategory body = null);
+        ApiResponse<object> CreateCategoriesWithHttpInfo(CreateCategory body = null);
 
         /// <summary>
         /// </summary>
@@ -53,7 +54,7 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="merchantId"> (optional)</param>
         /// <returns>List&lt;CategoryDto&gt;</returns>
-        List<CategoryDto> CategoriesGetCategoriesGet(string merchantId = null);
+        List<CategoryDto> GetAllCategories(string merchantId = null);
 
         /// <summary>
         /// </summary>
@@ -62,7 +63,7 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="merchantId"> (optional)</param>
         /// <returns>ApiResponse of List&lt;CategoryDto&gt;</returns>
-        ApiResponse<List<CategoryDto>> CategoriesGetCategoriesGetWithHttpInfo(string merchantId = null);
+        ApiResponse<List<CategoryDto>> GetAllCategoriesWithHttpInfo(string merchantId = null);
 
         /// <summary>
         /// </summary>
@@ -71,7 +72,7 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="categoryId"></param>
         /// <returns>CategoryDto</returns>
-        CategoryDto CategoriesGetCategoryGet(string categoryId);
+        CategoryDto GetCategories(string categoryId);
 
         /// <summary>
         /// </summary>
@@ -80,7 +81,7 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="categoryId"></param>
         /// <returns>ApiResponse of CategoryDto</returns>
-        ApiResponse<CategoryDto> CategoriesGetCategoryGetWithHttpInfo(string categoryId);
+        ApiResponse<CategoryDto> GetCategoriesWithHttpInfo(string categoryId);
 
         /// <summary>
         /// </summary>
@@ -89,7 +90,7 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns></returns>
-        void CategoriesRemoveDelete(RemoveCategory body = null);
+        void RemoveCategories(RemoveCategory body = null);
 
         /// <summary>
         /// </summary>
@@ -98,7 +99,7 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> CategoriesRemoveDeleteWithHttpInfo(RemoveCategory body = null);
+        ApiResponse<object> RemoveCategoriesWithHttpInfo(RemoveCategory body = null);
 
         #endregion Synchronous Operations
 
@@ -111,7 +112,7 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of void</returns>
-        Task CategoriesCreatePostAsync(CreateCategory body = null);
+        Task CreateCategoriesAsync(CreateCategory body = null);
 
         /// <summary>
         /// </summary>
@@ -120,7 +121,7 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        Task<ApiResponse<object>> CategoriesCreatePostAsyncWithHttpInfo(CreateCategory body = null);
+        Task<ApiResponse<object>> CreateCategoriesAsyncWithHttpInfo(CreateCategory body = null);
 
         /// <summary>
         /// </summary>
@@ -129,7 +130,7 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="merchantId"> (optional)</param>
         /// <returns>Task of List&lt;CategoryDto&gt;</returns>
-        Task<List<CategoryDto>> CategoriesGetCategoriesGetAsync(string merchantId = null);
+        Task<List<CategoryDto>> GetAllCategoriesAsync(string merchantId = null);
 
         /// <summary>
         /// </summary>
@@ -138,7 +139,7 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="merchantId"> (optional)</param>
         /// <returns>Task of ApiResponse (List&lt;CategoryDto&gt;)</returns>
-        Task<ApiResponse<List<CategoryDto>>> CategoriesGetCategoriesGetAsyncWithHttpInfo(string merchantId = null);
+        Task<ApiResponse<List<CategoryDto>>> GetAllCategoriesAsyncWithHttpInfo(string merchantId = null);
 
         /// <summary>
         /// </summary>
@@ -147,7 +148,7 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="categoryId"></param>
         /// <returns>Task of CategoryDto</returns>
-        Task<CategoryDto> CategoriesGetCategoryGetAsync(string categoryId);
+        Task<CategoryDto> GetCategoriesAsync(string categoryId);
 
         /// <summary>
         /// </summary>
@@ -156,7 +157,7 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="categoryId"></param>
         /// <returns>Task of ApiResponse (CategoryDto)</returns>
-        Task<ApiResponse<CategoryDto>> CategoriesGetCategoryGetAsyncWithHttpInfo(string categoryId);
+        Task<ApiResponse<CategoryDto>> GetCategoriesAsyncWithHttpInfo(string categoryId);
 
         /// <summary>
         /// </summary>
@@ -165,7 +166,7 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of void</returns>
-        Task CategoriesRemoveDeleteAsync(RemoveCategory body = null);
+        Task RemoveCategoriesAsync(RemoveCategory body = null);
 
         /// <summary>
         /// </summary>
@@ -174,7 +175,7 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        Task<ApiResponse<object>> CategoriesRemoveDeleteAsyncWithHttpInfo(RemoveCategory body = null);
+        Task<ApiResponse<object>> RemoveCategoriesAsyncWithHttpInfo(RemoveCategory body = null);
 
         #endregion Asynchronous Operations
     }
@@ -275,9 +276,9 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns></returns>
-        public void CategoriesCreatePost(CreateCategory body = null)
+        public void CreateCategories(CreateCategory body = null)
         {
-            CategoriesCreatePostWithHttpInfo(body);
+            CreateCategoriesWithHttpInfo(body);
         }
 
         /// <summary>
@@ -285,9 +286,9 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> CategoriesCreatePostWithHttpInfo(CreateCategory body = null)
+        public ApiResponse<object> CreateCategoriesWithHttpInfo(CreateCategory body = null)
         {
-            var localVarPath = "./Categories/Create";
+            var localVarPath = "./Inventory/Categories";
             var localVarPathParams = new Dictionary<string, string>();
             var localVarQueryParams = new List<KeyValuePair<string, string>>();
             var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
@@ -318,7 +319,7 @@ namespace IO.Swagger.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("CategoriesCreatePost", localVarResponse);
+                Exception exception = ExceptionFactory("CreateCategories", localVarResponse);
 
                 if (exception != null)
                     throw exception;
@@ -332,9 +333,9 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of void</returns>
-        public async Task CategoriesCreatePostAsync(CreateCategory body = null)
+        public async Task CreateCategoriesAsync(CreateCategory body = null)
         {
-            await CategoriesCreatePostAsyncWithHttpInfo(body);
+            await CreateCategoriesAsyncWithHttpInfo(body);
         }
 
         /// <summary>
@@ -342,9 +343,9 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> CategoriesCreatePostAsyncWithHttpInfo(CreateCategory body = null)
+        public async Task<ApiResponse<object>> CreateCategoriesAsyncWithHttpInfo(CreateCategory body = null)
         {
-            var localVarPath = "./Categories/Create";
+            var localVarPath = "./Inventory/Categories";
             var localVarPathParams = new Dictionary<string, string>();
             var localVarQueryParams = new List<KeyValuePair<string, string>>();
             var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
@@ -375,7 +376,7 @@ namespace IO.Swagger.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("CategoriesCreatePost", localVarResponse);
+                Exception exception = ExceptionFactory("CreateCategories", localVarResponse);
 
                 if (exception != null)
                     throw exception;
@@ -389,9 +390,9 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="merchantId"> (optional)</param>
         /// <returns>List&lt;CategoryDto&gt;</returns>
-        public List<CategoryDto> CategoriesGetCategoriesGet(string merchantId = null)
+        public List<CategoryDto> GetAllCategories(string merchantId = null)
         {
-            ApiResponse<List<CategoryDto>> localVarResponse = CategoriesGetCategoriesGetWithHttpInfo(merchantId);
+            ApiResponse<List<CategoryDto>> localVarResponse = GetAllCategoriesWithHttpInfo(merchantId);
 
             return localVarResponse.Data;
         }
@@ -401,7 +402,7 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="merchantId"> (optional)</param>
         /// <returns>ApiResponse of List&lt;CategoryDto&gt;</returns>
-        public ApiResponse<List<CategoryDto>> CategoriesGetCategoriesGetWithHttpInfo(string merchantId = null)
+        public ApiResponse<List<CategoryDto>> GetAllCategoriesWithHttpInfo(string merchantId = null)
         {
             var localVarPath = "./Inventory/Categories";
             var localVarPathParams = new Dictionary<string, string>();
@@ -432,7 +433,7 @@ namespace IO.Swagger.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("CategoriesGetCategoriesGet", localVarResponse);
+                Exception exception = ExceptionFactory("GetAllCategories", localVarResponse);
 
                 if (exception != null)
                     throw exception;
@@ -447,9 +448,9 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="merchantId"> (optional)</param>
         /// <returns>Task of List&lt;CategoryDto&gt;</returns>
-        public async Task<List<CategoryDto>> CategoriesGetCategoriesGetAsync(string merchantId = null)
+        public async Task<List<CategoryDto>> GetAllCategoriesAsync(string merchantId = null)
         {
-            ApiResponse<List<CategoryDto>> localVarResponse = await CategoriesGetCategoriesGetAsyncWithHttpInfo(merchantId);
+            ApiResponse<List<CategoryDto>> localVarResponse = await GetAllCategoriesAsyncWithHttpInfo(merchantId);
 
             return localVarResponse.Data;
         }
@@ -459,7 +460,7 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="merchantId"> (optional)</param>
         /// <returns>Task of ApiResponse (List&lt;CategoryDto&gt;)</returns>
-        public async Task<ApiResponse<List<CategoryDto>>> CategoriesGetCategoriesGetAsyncWithHttpInfo(string merchantId = null)
+        public async Task<ApiResponse<List<CategoryDto>>> GetAllCategoriesAsyncWithHttpInfo(string merchantId = null)
         {
             var localVarPath = "./Inventory/Categories";
             var localVarPathParams = new Dictionary<string, string>();
@@ -490,7 +491,7 @@ namespace IO.Swagger.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("CategoriesGetCategoriesGet", localVarResponse);
+                Exception exception = ExceptionFactory("GetAllCategories", localVarResponse);
 
                 if (exception != null)
                     throw exception;
@@ -505,9 +506,9 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="categoryId"></param>
         /// <returns>CategoryDto</returns>
-        public CategoryDto CategoriesGetCategoryGet(string categoryId)
+        public CategoryDto GetCategories(string categoryId)
         {
-            ApiResponse<CategoryDto> localVarResponse = CategoriesGetCategoryGetWithHttpInfo(categoryId);
+            ApiResponse<CategoryDto> localVarResponse = GetCategoriesWithHttpInfo(categoryId);
 
             return localVarResponse.Data;
         }
@@ -517,11 +518,11 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="categoryId"></param>
         /// <returns>ApiResponse of CategoryDto</returns>
-        public ApiResponse<CategoryDto> CategoriesGetCategoryGetWithHttpInfo(string categoryId)
+        public ApiResponse<CategoryDto> GetCategoriesWithHttpInfo(string categoryId)
         {
             // verify the required parameter 'categoryId' is set
             if (categoryId == null)
-                throw new ApiException(400, "Missing required parameter 'categoryId' when calling CategoriesApi->CategoriesGetCategoryGet");
+                throw new ApiException(400, "Missing required parameter 'categoryId' when calling CategoriesApi->GetCategories");
 
             var localVarPath = "./Inventory/Categories/{categoryId}";
             var localVarPathParams = new Dictionary<string, string>();
@@ -552,7 +553,7 @@ namespace IO.Swagger.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("CategoriesGetCategoryGet", localVarResponse);
+                Exception exception = ExceptionFactory("GetCategories", localVarResponse);
 
                 if (exception != null)
                     throw exception;
@@ -567,9 +568,9 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="categoryId"></param>
         /// <returns>Task of CategoryDto</returns>
-        public async Task<CategoryDto> CategoriesGetCategoryGetAsync(string categoryId)
+        public async Task<CategoryDto> GetCategoriesAsync(string categoryId)
         {
-            ApiResponse<CategoryDto> localVarResponse = await CategoriesGetCategoryGetAsyncWithHttpInfo(categoryId);
+            ApiResponse<CategoryDto> localVarResponse = await GetCategoriesAsyncWithHttpInfo(categoryId);
 
             return localVarResponse.Data;
         }
@@ -579,11 +580,11 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="categoryId"></param>
         /// <returns>Task of ApiResponse (CategoryDto)</returns>
-        public async Task<ApiResponse<CategoryDto>> CategoriesGetCategoryGetAsyncWithHttpInfo(string categoryId)
+        public async Task<ApiResponse<CategoryDto>> GetCategoriesAsyncWithHttpInfo(string categoryId)
         {
             // verify the required parameter 'categoryId' is set
             if (categoryId == null)
-                throw new ApiException(400, "Missing required parameter 'categoryId' when calling CategoriesApi->CategoriesGetCategoryGet");
+                throw new ApiException(400, "Missing required parameter 'categoryId' when calling CategoriesApi->GetCategories");
 
             var localVarPath = "./Inventory/Categories/{categoryId}";
             var localVarPathParams = new Dictionary<string, string>();
@@ -614,7 +615,7 @@ namespace IO.Swagger.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("CategoriesGetCategoryGet", localVarResponse);
+                Exception exception = ExceptionFactory("GetCategories", localVarResponse);
 
                 if (exception != null)
                     throw exception;
@@ -629,9 +630,9 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns></returns>
-        public void CategoriesRemoveDelete(RemoveCategory body = null)
+        public void RemoveCategories(RemoveCategory body = null)
         {
-            CategoriesRemoveDeleteWithHttpInfo(body);
+            RemoveCategoriesWithHttpInfo(body);
         }
 
         /// <summary>
@@ -639,9 +640,9 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> CategoriesRemoveDeleteWithHttpInfo(RemoveCategory body = null)
+        public ApiResponse<object> RemoveCategoriesWithHttpInfo(RemoveCategory body = null)
         {
-            var localVarPath = "./Categories/Remove";
+            var localVarPath = "./Inventory/Categories";
             var localVarPathParams = new Dictionary<string, string>();
             var localVarQueryParams = new List<KeyValuePair<string, string>>();
             var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
@@ -672,7 +673,7 @@ namespace IO.Swagger.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("CategoriesRemoveDelete", localVarResponse);
+                Exception exception = ExceptionFactory("RemoveCategories", localVarResponse);
 
                 if (exception != null)
                     throw exception;
@@ -686,9 +687,9 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of void</returns>
-        public async Task CategoriesRemoveDeleteAsync(RemoveCategory body = null)
+        public async Task RemoveCategoriesAsync(RemoveCategory body = null)
         {
-            await CategoriesRemoveDeleteAsyncWithHttpInfo(body);
+            await RemoveCategoriesAsyncWithHttpInfo(body);
         }
 
         /// <summary>
@@ -696,9 +697,9 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> CategoriesRemoveDeleteAsyncWithHttpInfo(RemoveCategory body = null)
+        public async Task<ApiResponse<object>> RemoveCategoriesAsyncWithHttpInfo(RemoveCategory body = null)
         {
-            var localVarPath = "./Categories/Remove";
+            var localVarPath = "./Inventory/Categories";
             var localVarPathParams = new Dictionary<string, string>();
             var localVarQueryParams = new List<KeyValuePair<string, string>>();
             var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
@@ -729,7 +730,7 @@ namespace IO.Swagger.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("CategoriesRemoveDelete", localVarResponse);
+                Exception exception = ExceptionFactory("RemoveCategories", localVarResponse);
 
                 if (exception != null)
                     throw exception;

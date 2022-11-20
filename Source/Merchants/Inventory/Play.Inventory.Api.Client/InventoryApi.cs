@@ -12,18 +12,19 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-
-using RestSharp.Portable;
+using System.Threading.Tasks;
 
 using Play.Inventory.Contracts.Dtos;
 using Play.Restful.Clients;
 
-namespace IO.Swagger.Api
+using RestSharp.Portable;
+
+namespace IO.Swagger
 {
     /// <summary>
     ///     Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IInventoriesApi : IApiAccessor
+    public interface IInventoryApi : IApiAccessor
     {
         #region Synchronous Operations
 
@@ -34,7 +35,7 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="storeId"></param>
         /// <returns>InventoryDto</returns>
-        InventoryDto InventoriesGetInventoryDelete(string storeId);
+        InventoryDto GetInventory(string storeId);
 
         /// <summary>
         /// </summary>
@@ -43,7 +44,7 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="storeId"></param>
         /// <returns>ApiResponse of InventoryDto</returns>
-        ApiResponse<InventoryDto> InventoriesGetInventoryDeleteWithHttpInfo(string storeId);
+        ApiResponse<InventoryDto> GetInventoryWithHttpInfo(string storeId);
 
         #endregion Synchronous Operations
 
@@ -56,7 +57,7 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="storeId"></param>
         /// <returns>Task of InventoryDto</returns>
-        Task<InventoryDto> InventoriesGetInventoryDeleteAsync(string storeId);
+        Task<InventoryDto> GetInventoryAsync(string storeId);
 
         /// <summary>
         /// </summary>
@@ -65,7 +66,7 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="storeId"></param>
         /// <returns>Task of ApiResponse (InventoryDto)</returns>
-        Task<ApiResponse<InventoryDto>> InventoriesGetInventoryDeleteAsyncWithHttpInfo(string storeId);
+        Task<ApiResponse<InventoryDto>> GetInventoryAsyncWithHttpInfo(string storeId);
 
         #endregion Asynchronous Operations
     }
@@ -73,7 +74,7 @@ namespace IO.Swagger.Api
     /// <summary>
     ///     Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public partial class InventoriesApi : IInventoriesApi
+    public partial class InventoryApi : IInventoryApi
     {
         #region Instance Values
 
@@ -105,10 +106,10 @@ namespace IO.Swagger.Api
         #region Constructor
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="InventoriesApi" /> class.
+        ///     Initializes a new instance of the <see cref="InventoryApi" /> class.
         /// </summary>
         /// <returns></returns>
-        public InventoriesApi(string basePath)
+        public InventoryApi(string basePath)
         {
             Configuration = new Configuration(basePath);
 
@@ -116,12 +117,12 @@ namespace IO.Swagger.Api
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="InventoriesApi" /> class
+        ///     Initializes a new instance of the <see cref="InventoryApi" /> class
         ///     using Configuration object
         /// </summary>
         /// <param name="configuration">An instance of Configuration</param>
         /// <returns></returns>
-        public InventoriesApi(Configuration configuration)
+        public InventoryApi(Configuration configuration)
         {
             Configuration = configuration;
 
@@ -166,9 +167,9 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="storeId"></param>
         /// <returns>InventoryDto</returns>
-        public InventoryDto InventoriesGetInventoryDelete(string storeId)
+        public InventoryDto GetInventory(string storeId)
         {
-            ApiResponse<InventoryDto> localVarResponse = InventoriesGetInventoryDeleteWithHttpInfo(storeId);
+            ApiResponse<InventoryDto> localVarResponse = GetInventoryWithHttpInfo(storeId);
 
             return localVarResponse.Data;
         }
@@ -178,11 +179,11 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="storeId"></param>
         /// <returns>ApiResponse of InventoryDto</returns>
-        public ApiResponse<InventoryDto> InventoriesGetInventoryDeleteWithHttpInfo(string storeId)
+        public ApiResponse<InventoryDto> GetInventoryWithHttpInfo(string storeId)
         {
             // verify the required parameter 'storeId' is set
             if (storeId == null)
-                throw new ApiException(400, "Missing required parameter 'storeId' when calling InventoriesApi->InventoriesGetInventoryDelete");
+                throw new ApiException(400, "Missing required parameter 'storeId' when calling InventoryApi->GetInventory");
 
             var localVarPath = "./Inventory/{storeId}";
             var localVarPathParams = new Dictionary<string, string>();
@@ -213,7 +214,7 @@ namespace IO.Swagger.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("InventoriesGetInventoryDelete", localVarResponse);
+                Exception exception = ExceptionFactory("GetInventory", localVarResponse);
 
                 if (exception != null)
                     throw exception;
@@ -228,9 +229,9 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="storeId"></param>
         /// <returns>Task of InventoryDto</returns>
-        public async Task<InventoryDto> InventoriesGetInventoryDeleteAsync(string storeId)
+        public async Task<InventoryDto> GetInventoryAsync(string storeId)
         {
-            ApiResponse<InventoryDto> localVarResponse = await InventoriesGetInventoryDeleteAsyncWithHttpInfo(storeId);
+            ApiResponse<InventoryDto> localVarResponse = await GetInventoryAsyncWithHttpInfo(storeId);
 
             return localVarResponse.Data;
         }
@@ -240,11 +241,11 @@ namespace IO.Swagger.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="storeId"></param>
         /// <returns>Task of ApiResponse (InventoryDto)</returns>
-        public async Task<ApiResponse<InventoryDto>> InventoriesGetInventoryDeleteAsyncWithHttpInfo(string storeId)
+        public async Task<ApiResponse<InventoryDto>> GetInventoryAsyncWithHttpInfo(string storeId)
         {
             // verify the required parameter 'storeId' is set
             if (storeId == null)
-                throw new ApiException(400, "Missing required parameter 'storeId' when calling InventoriesApi->InventoriesGetInventoryDelete");
+                throw new ApiException(400, "Missing required parameter 'storeId' when calling InventoryApi->GetInventory");
 
             var localVarPath = "./Inventory/{storeId}";
             var localVarPathParams = new Dictionary<string, string>();
@@ -275,7 +276,7 @@ namespace IO.Swagger.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("InventoriesGetInventoryDelete", localVarResponse);
+                Exception exception = ExceptionFactory("GetInventory", localVarResponse);
 
                 if (exception != null)
                     throw exception;
