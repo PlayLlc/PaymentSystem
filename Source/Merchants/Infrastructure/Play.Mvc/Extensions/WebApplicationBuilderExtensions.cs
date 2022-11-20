@@ -23,7 +23,7 @@ public static partial class WebApplicationBuilderExtensions
         {
             c.DocumentFilter<SwaggerDocumentFilter>();
 
-            //  c.OperationFilter<SwaggerTagByAreaOperationFilter>();
+            c.OperationFilter<SwaggerTagByAreaOperationFilter>();
 
             foreach (Assembly file in xmlFileAssemblies)
             {

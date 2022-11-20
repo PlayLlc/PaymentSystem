@@ -29,9 +29,8 @@ public class VariationsController : BaseController
 
     #region Instance Members
 
-    [HttpPostSwagger]
+    [HttpPostSwagger(template: "/Inventory/[area]/{itemId}/[controller]")]
     [ValidateAntiForgeryToken]
-    [Route("{itemId}/[controller]")]
     public async Task<IActionResult> CreateVariation(CreateVariation command)
     {
         this.ValidateModel();
@@ -42,9 +41,8 @@ public class VariationsController : BaseController
         return Ok();
     }
 
-    [HttpDeleteSwagger]
+    [HttpDeleteSwagger(template: "/Inventory/[area]/{itemId}/[controller]/{variationId}")]
     [ValidateAntiForgeryToken]
-    [Route("{itemId}/[controller]/{variationId}")]
     public async Task<IActionResult> RemoveVariation(string itemId, string variationId, RemoveVariation command)
     {
         this.ValidateModel();
@@ -55,9 +53,8 @@ public class VariationsController : BaseController
         return NoContent();
     }
 
-    [HttpPutSwagger]
+    [HttpPutSwagger(template: "/Inventory/[area]/{itemId}/[controller]/{variationId}/[action]")]
     [ValidateAntiForgeryToken]
-    [Route("{itemId}/[controller]/{variationId}/[action]")]
     public async Task<IActionResult> Name(string itemId, string variationId, UpdateItemVariationName command)
     {
         this.ValidateModel();

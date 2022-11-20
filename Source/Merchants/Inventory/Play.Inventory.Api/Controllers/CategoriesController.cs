@@ -28,18 +28,16 @@ public class CategoriesController : BaseController
 
     #region Instance Members
 
-    [HttpGetSwagger]
+    [HttpGetSwagger(template: "/Inventory/[controller]")]
     [ValidateAntiForgeryToken]
-    [Route("/Inventory/[controller]")]
-    public async Task<IEnumerable<CategoryDto>> Index([FromQuery] string merchantId)
+    public async Task<IEnumerable<CategoryDto>> GetCategories([FromQuery] string merchantId)
     {
         return (await _CategoryRepository.GetCategoriesAsync(new SimpleStringId(merchantId)).ConfigureAwait(false)).Select(a => a.AsDto())
                ?? Array.Empty<CategoryDto>();
     }
 
-    [HttpGetSwagger]
+    [HttpGetSwagger(template: "/Inventory/[controller]/{categoryId}")]
     [ValidateAntiForgeryToken]
-    [Route("/Inventory/[controller]/{categoryId}")]
     public async Task<CategoryDto> GetCategory(string categoryId)
     {
         Category merchantRegistration = await _CategoryRepository.GetByIdAsync(new SimpleStringId(categoryId)).ConfigureAwait(false)

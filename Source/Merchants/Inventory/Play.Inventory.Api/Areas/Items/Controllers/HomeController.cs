@@ -14,10 +14,8 @@ using Play.Mvc.Attributes;
 
 namespace Play.Inventory.Api.Areas.Items.Controllers
 {
-    [ApiExplorerSettings(GroupName = @"Items")]
     [ApiController]
     [Area($"{nameof(Items)}")]
-    [Route("[area]")]
     public class HomeController : BaseController
     {
         #region Constructor
@@ -31,19 +29,18 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
 
         #region Instance Members
 
-        [HttpGetSwagger]
+        [HttpGetSwagger(template: "/Inventory/[area]/{itemId}")]
         [ValidateAntiForgeryToken]
-        [Route("{itemId}")]
-        public async Task<ItemDto> Index(string itemId)
+        public async Task<ItemDto> GetItem(string itemId)
         {
             Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(ItemDto));
 
             return item.AsDto();
         }
 
-        [HttpGetSwagger]
+        [HttpGetSwagger(template: "/Inventory/[area]")]
         [ValidateAntiForgeryToken]
-        public async Task<IEnumerable<ItemDto>> Index([FromQuery] string merchantId, [FromQuery] int? pageSize, [FromQuery] int? position) // paging and shit
+        public async Task<IEnumerable<ItemDto>> GetItems([FromQuery] string merchantId, [FromQuery] int? pageSize, [FromQuery] int? position) // paging and shit
         {
             if (pageSize is null || position is null)
                 return (await _ItemsRepository.GetItemsAsync(new SimpleStringId(merchantId)).ConfigureAwait(false)).Select(a => a.AsDto())
@@ -57,8 +54,7 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
             return items;
         }
 
-        [Route("{itemId}")]
-        [HttpDeleteSwagger]
+        [HttpDeleteSwagger(template: "/Inventory/[area]/{itemId}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Remove(string itemId, RemoveItem command)
         {
@@ -69,9 +65,8 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
             return NoContent();
         }
 
-        [HttpPutSwagger]
+        [HttpPutSwagger(template: "/Inventory/[area]/{itemId}/[action]")]
         [ValidateAntiForgeryToken]
-        [Route("{itemId}/[action]")]
         public async Task<IActionResult> Description(string itemId, UpdateItemDescription command)
         {
             this.ValidateModel();
@@ -82,9 +77,8 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
             return Ok();
         }
 
-        [HttpPutSwagger]
+        [HttpPutSwagger(template: "/Inventory/[area]/{itemId}/[action]")]
         [ValidateAntiForgeryToken]
-        [Route("{itemId}/[action]")]
         public async Task<IActionResult> Name(string itemId, UpdateItemName command)
         {
             this.ValidateModel();

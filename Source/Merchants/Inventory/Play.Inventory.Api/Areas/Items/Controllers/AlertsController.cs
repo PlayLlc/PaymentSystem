@@ -19,7 +19,6 @@ namespace Play.Inventory.Api.Areas.Items.Controllers;
 
 [ApiController]
 [Area($"{nameof(Items)}")]
-[Route("[area]")]
 public class AlertsController : BaseController
 {
     #region Constructor
@@ -33,9 +32,8 @@ public class AlertsController : BaseController
 
     #region Instance Members
 
-    [HttpPutSwagger]
+    [HttpPutSwagger(template: "/Inventory/[area]/{itemId}/[controller]/[action]")]
     [ValidateAntiForgeryToken]
-    [Route("{itemId}/[controller]/[action]")]
     public async Task<IActionResult> ActivateAlerts(string itemId, UpdateItemAlerts command)
     {
         this.ValidateModel();
@@ -46,9 +44,8 @@ public class AlertsController : BaseController
         return Ok();
     }
 
-    [HttpPutSwagger]
+    [HttpPutSwagger(template: "/Inventory/[area]/{itemId}/[controller]/[action]")]
     [ValidateAntiForgeryToken]
-    [Route("{itemId}/[controller]/[action]")]
     public async Task<IActionResult> DeaticvateAlerts(string itemId, UpdateItemAlerts command)
     {
         this.ValidateModel();
@@ -59,9 +56,8 @@ public class AlertsController : BaseController
         return Ok();
     }
 
-    [HttpPutSwagger]
+    [HttpPutSwagger(template: "/Inventory/[area]/{itemId}/[controller]/[action]")]
     [ValidateAntiForgeryToken]
-    [Route("{itemId}/[controller]/[action]")]
     public async Task<IActionResult> UpdateLowInventoryThreshold(string itemId, UpdateLowInventoryThresholdAlert command)
     {
         this.ValidateModel();

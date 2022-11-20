@@ -25,10 +25,9 @@ namespace Play.Inventory.Api.Controllers
 
         #region Instance Members
 
-        [Route("{storeId}")]
-        [HttpDeleteSwagger]
+        [HttpDeleteSwagger(template: "{storeId}")]
         [ValidateAntiForgeryToken]
-        public async Task<InventoryDto> Index(string storeId)
+        public async Task<InventoryDto> GetInventory(string storeId)
         {
             this.ValidateModel();
 

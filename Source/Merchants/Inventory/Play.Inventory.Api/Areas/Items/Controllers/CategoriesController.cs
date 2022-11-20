@@ -15,7 +15,6 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
 {
     [ApiController]
     [Area($"{nameof(Items)}")]
-    [Route("[area]")]
     public class CategoriesController : BaseController
     {
         #region Constructor
@@ -29,9 +28,8 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
 
         #region Instance Members
 
-        [HttpPostSwagger]
+        [HttpPostSwagger(template: "/Inventory/[area]/{itemId}/[controller]")]
         [ValidateAntiForgeryToken]
-        [Route("{itemId}/[controller]")]
         public async Task<IActionResult> Add(string itemId, UpdateItemCategories command)
         {
             this.ValidateModel();
@@ -42,9 +40,8 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
             return Ok();
         }
 
-        [HttpDeleteSwagger]
+        [HttpDeleteSwagger(template: "/Inventory/[area]/{itemId}/[controller]")]
         [ValidateAntiForgeryToken]
-        [Route("{itemId}/[controller]")]
         public async Task<IActionResult> Remove(string itemId, UpdateItemCategories command)
         {
             this.ValidateModel();

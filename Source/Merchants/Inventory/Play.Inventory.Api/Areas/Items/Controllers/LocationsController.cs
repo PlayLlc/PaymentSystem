@@ -15,7 +15,6 @@ namespace Play.Inventory.Api.Areas.Items.Controllers;
 
 [ApiController]
 [Area($"{nameof(Items)}")]
-[Route("[area]")]
 public class LocationsController : BaseController
 {
     #region Constructor
@@ -29,9 +28,8 @@ public class LocationsController : BaseController
 
     #region Instance Members
 
-    [HttpPutSwagger]
+    [HttpPutSwagger(template: "/Inventory/[area]/{itemId}/[controller]/[action]")]
     [ValidateAntiForgeryToken]
-    [Route("{itemId}/[controller]/[action]")]
     public async Task<IActionResult> SetAll(string itemId, SetAllLocationsForItem command)
     {
         this.ValidateModel();
@@ -42,9 +40,8 @@ public class LocationsController : BaseController
         return Ok();
     }
 
-    [HttpPostSwagger]
+    [HttpPostSwagger(template: "/Inventory/[area]/{itemId}/[controller]")]
     [ValidateAntiForgeryToken]
-    [Route("{itemId}/[controller]")]
     public async Task<IActionResult> Add(string itemId, UpdateItemLocations command)
     {
         this.ValidateModel();
@@ -55,9 +52,8 @@ public class LocationsController : BaseController
         return Ok();
     }
 
-    [HttpDeleteSwagger]
+    [HttpDeleteSwagger(template: "/Inventory/[area]/{itemId}/[controller]")]
     [ValidateAntiForgeryToken]
-    [Route("{itemId}/[controller]")]
     public async Task<IActionResult> Remove(string itemId, UpdateItemLocations command)
     {
         this.ValidateModel();
