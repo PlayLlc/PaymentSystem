@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Play.Mvc.Attributes;
 
 /// <summary>
-/// This attribute implements <see cref="HttpDeleteAttribute"/> and automatically beautifies the Open API Name of the resource that implements it 
+///     This attribute implements <see cref="HttpDeleteAttribute" /> and automatically beautifies the Open API Name of the
+///     resource that implements it
 /// </summary>
 [AttributeUsage(AttributeTargets.Method)]
 public class HttpDeleteSwaggerAttribute : HttpDeleteAttribute
