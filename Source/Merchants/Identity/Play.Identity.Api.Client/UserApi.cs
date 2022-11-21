@@ -58,7 +58,18 @@ namespace Play.Identity.Api.Client
         /// <returns></returns>
         public UserApi(string basePath)
         {
-            Configuration = new Configuration(basePath);
+            Configuration = new Configuration {BasePath = basePath};
+
+            ExceptionFactory = Configuration.DefaultExceptionFactory;
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="UserApi" /> class
+        /// </summary>
+        /// <returns></returns>
+        public UserApi()
+        {
+            Configuration = Configuration.Default;
 
             ExceptionFactory = Configuration.DefaultExceptionFactory;
         }
@@ -69,9 +80,12 @@ namespace Play.Identity.Api.Client
         /// </summary>
         /// <param name="configuration">An instance of Configuration</param>
         /// <returns></returns>
-        public UserApi(Configuration configuration)
+        public UserApi(Configuration configuration = null)
         {
-            Configuration = configuration;
+            if (configuration == null) // use the default one in Configuration
+                Configuration = Configuration.Default;
+            else
+                Configuration = configuration;
 
             ExceptionFactory = Configuration.DefaultExceptionFactory;
         }
@@ -110,231 +124,15 @@ namespace Play.Identity.Api.Client
         }
 
         /// <summary>
+        ///     Add default header.
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
+        /// <param name="key">Header field name.</param>
+        /// <param name="value">Header field value.</param>
         /// <returns></returns>
-        public void UserAddressPut(UpdateAddressCommand body = null)
+        [Obsolete("AddDefaultHeader is deprecated, please use Configuration.AddDefaultHeader instead.")]
+        public void AddDefaultHeader(string key, string value)
         {
-            UserAddressPutWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> UserAddressPutWithHttpInfo(UpdateAddressCommand body = null)
-        {
-            var localVarPath = "./User/Address";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("UserAddressPut", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task UserAddressPutAsync(UpdateAddressCommand body = null)
-        {
-            await UserAddressPutAsyncWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> UserAddressPutAsyncWithHttpInfo(UpdateAddressCommand body = null)
-        {
-            var localVarPath = "./User/Address";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("UserAddressPut", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void UserContactInfoPut(UpdateContactCommand body = null)
-        {
-            UserContactInfoPutWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> UserContactInfoPutWithHttpInfo(UpdateContactCommand body = null)
-        {
-            var localVarPath = "./User/ContactInfo";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("UserContactInfoPut", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task UserContactInfoPutAsync(UpdateContactCommand body = null)
-        {
-            await UserContactInfoPutAsyncWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> UserContactInfoPutAsyncWithHttpInfo(UpdateContactCommand body = null)
-        {
-            var localVarPath = "./User/ContactInfo";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("UserContactInfoPut", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+            Configuration.AddDefaultHeader(key, value);
         }
 
         /// <summary>
@@ -342,9 +140,9 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"> (optional)</param>
         /// <returns>UserDto</returns>
-        public UserDto UserGet(string id = null)
+        public UserDto IndexUser(string id = null)
         {
-            ApiResponse<UserDto> localVarResponse = UserGetWithHttpInfo(id);
+            ApiResponse<UserDto> localVarResponse = IndexUserWithHttpInfo(id);
 
             return localVarResponse.Data;
         }
@@ -354,7 +152,7 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"> (optional)</param>
         /// <returns>ApiResponse of UserDto</returns>
-        public ApiResponse<UserDto> UserGetWithHttpInfo(string id = null)
+        public ApiResponse<UserDto> IndexUserWithHttpInfo(string id = null)
         {
             var localVarPath = "./User";
             var localVarPathParams = new Dictionary<string, string>();
@@ -385,7 +183,7 @@ namespace Play.Identity.Api.Client
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("UserGet", localVarResponse);
+                Exception exception = ExceptionFactory("IndexUser", localVarResponse);
 
                 if (exception != null)
                     throw exception;
@@ -400,9 +198,9 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"> (optional)</param>
         /// <returns>Task of UserDto</returns>
-        public async Task<UserDto> UserGetAsync(string id = null)
+        public async Task<UserDto> IndexUserAsync(string id = null)
         {
-            ApiResponse<UserDto> localVarResponse = await UserGetAsyncWithHttpInfo(id);
+            ApiResponse<UserDto> localVarResponse = await IndexUserAsyncWithHttpInfo(id);
 
             return localVarResponse.Data;
         }
@@ -412,7 +210,7 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"> (optional)</param>
         /// <returns>Task of ApiResponse (UserDto)</returns>
-        public async Task<ApiResponse<UserDto>> UserGetAsyncWithHttpInfo(string id = null)
+        public async Task<ApiResponse<UserDto>> IndexUserAsyncWithHttpInfo(string id = null)
         {
             var localVarPath = "./User";
             var localVarPathParams = new Dictionary<string, string>();
@@ -443,7 +241,7 @@ namespace Play.Identity.Api.Client
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("UserGet", localVarResponse);
+                Exception exception = ExceptionFactory("IndexUser", localVarResponse);
 
                 if (exception != null)
                     throw exception;
@@ -458,9 +256,9 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns></returns>
-        public void UserPersonalDetailsPut(UpdatePersonalDetailCommand body = null)
+        public void UpdateAddressForUser(UpdateAddressCommand body = null)
         {
-            UserPersonalDetailsPutWithHttpInfo(body);
+            UpdateAddressForUserWithHttpInfo(body);
         }
 
         /// <summary>
@@ -468,7 +266,235 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> UserPersonalDetailsPutWithHttpInfo(UpdatePersonalDetailCommand body = null)
+        public ApiResponse<object> UpdateAddressForUserWithHttpInfo(UpdateAddressCommand body = null)
+        {
+            var localVarPath = "./User/Address";
+            var localVarPathParams = new Dictionary<string, string>();
+            var localVarQueryParams = new List<KeyValuePair<string, string>>();
+            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<string, string>();
+            var localVarFileParams = new Dictionary<string, FileParameter>();
+            object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            string[] localVarHttpHeaderAccepts = new string[] { };
+            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if ((body != null) && (body.GetType() != typeof(byte[])))
+                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+            else
+                localVarPostBody = body; // byte array
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
+                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("UpdateAddressForUser", localVarResponse);
+
+                if (exception != null)
+                    throw exception;
+            }
+
+            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body"> (optional)</param>
+        /// <returns>Task of void</returns>
+        public async Task UpdateAddressForUserAsync(UpdateAddressCommand body = null)
+        {
+            await UpdateAddressForUserAsyncWithHttpInfo(body);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body"> (optional)</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async Task<ApiResponse<object>> UpdateAddressForUserAsyncWithHttpInfo(UpdateAddressCommand body = null)
+        {
+            var localVarPath = "./User/Address";
+            var localVarPathParams = new Dictionary<string, string>();
+            var localVarQueryParams = new List<KeyValuePair<string, string>>();
+            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<string, string>();
+            var localVarFileParams = new Dictionary<string, FileParameter>();
+            object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            string[] localVarHttpHeaderAccepts = new string[] { };
+            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if ((body != null) && (body.GetType() != typeof(byte[])))
+                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+            else
+                localVarPostBody = body; // byte array
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
+                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("UpdateAddressForUser", localVarResponse);
+
+                if (exception != null)
+                    throw exception;
+            }
+
+            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body"> (optional)</param>
+        /// <returns></returns>
+        public void UpdateContactInfosForUser(UpdateContactCommand body = null)
+        {
+            UpdateContactInfosForUserWithHttpInfo(body);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body"> (optional)</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        public ApiResponse<object> UpdateContactInfosForUserWithHttpInfo(UpdateContactCommand body = null)
+        {
+            var localVarPath = "./User/ContactInfo";
+            var localVarPathParams = new Dictionary<string, string>();
+            var localVarQueryParams = new List<KeyValuePair<string, string>>();
+            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<string, string>();
+            var localVarFileParams = new Dictionary<string, FileParameter>();
+            object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            string[] localVarHttpHeaderAccepts = new string[] { };
+            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if ((body != null) && (body.GetType() != typeof(byte[])))
+                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+            else
+                localVarPostBody = body; // byte array
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
+                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("UpdateContactInfosForUser", localVarResponse);
+
+                if (exception != null)
+                    throw exception;
+            }
+
+            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body"> (optional)</param>
+        /// <returns>Task of void</returns>
+        public async Task UpdateContactInfosForUserAsync(UpdateContactCommand body = null)
+        {
+            await UpdateContactInfosForUserAsyncWithHttpInfo(body);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body"> (optional)</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async Task<ApiResponse<object>> UpdateContactInfosForUserAsyncWithHttpInfo(UpdateContactCommand body = null)
+        {
+            var localVarPath = "./User/ContactInfo";
+            var localVarPathParams = new Dictionary<string, string>();
+            var localVarQueryParams = new List<KeyValuePair<string, string>>();
+            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<string, string>();
+            var localVarFileParams = new Dictionary<string, FileParameter>();
+            object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            string[] localVarHttpHeaderAccepts = new string[] { };
+            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if ((body != null) && (body.GetType() != typeof(byte[])))
+                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+            else
+                localVarPostBody = body; // byte array
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
+                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("UpdateContactInfosForUser", localVarResponse);
+
+                if (exception != null)
+                    throw exception;
+            }
+
+            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body"> (optional)</param>
+        /// <returns></returns>
+        public void UpdatePersonalDetailsForUser(UpdatePersonalDetailCommand body = null)
+        {
+            UpdatePersonalDetailsForUserWithHttpInfo(body);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body"> (optional)</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        public ApiResponse<object> UpdatePersonalDetailsForUserWithHttpInfo(UpdatePersonalDetailCommand body = null)
         {
             var localVarPath = "./User/PersonalDetails";
             var localVarPathParams = new Dictionary<string, string>();
@@ -501,7 +527,7 @@ namespace Play.Identity.Api.Client
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("UserPersonalDetailsPut", localVarResponse);
+                Exception exception = ExceptionFactory("UpdatePersonalDetailsForUser", localVarResponse);
 
                 if (exception != null)
                     throw exception;
@@ -515,9 +541,9 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of void</returns>
-        public async Task UserPersonalDetailsPutAsync(UpdatePersonalDetailCommand body = null)
+        public async Task UpdatePersonalDetailsForUserAsync(UpdatePersonalDetailCommand body = null)
         {
-            await UserPersonalDetailsPutAsyncWithHttpInfo(body);
+            await UpdatePersonalDetailsForUserAsyncWithHttpInfo(body);
         }
 
         /// <summary>
@@ -525,7 +551,7 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> UserPersonalDetailsPutAsyncWithHttpInfo(UpdatePersonalDetailCommand body = null)
+        public async Task<ApiResponse<object>> UpdatePersonalDetailsForUserAsyncWithHttpInfo(UpdatePersonalDetailCommand body = null)
         {
             var localVarPath = "./User/PersonalDetails";
             var localVarPathParams = new Dictionary<string, string>();
@@ -558,7 +584,7 @@ namespace Play.Identity.Api.Client
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("UserPersonalDetailsPut", localVarResponse);
+                Exception exception = ExceptionFactory("UpdatePersonalDetailsForUser", localVarResponse);
 
                 if (exception != null)
                     throw exception;

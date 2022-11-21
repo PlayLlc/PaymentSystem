@@ -18,7 +18,7 @@ public interface IMerchantApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns></returns>
-    void MerchantAddressPut(UpdateAddressCommand body = null);
+    void AddressMerchant(UpdateAddressCommand body = null);
 
     /// <summary>
     /// </summary>
@@ -27,7 +27,7 @@ public interface IMerchantApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns>ApiResponse of Object(void)</returns>
-    ApiResponse<object> MerchantAddressPutWithHttpInfo(UpdateAddressCommand body = null);
+    ApiResponse<object> AddressMerchantWithHttpInfo(UpdateAddressCommand body = null);
 
     /// <summary>
     /// </summary>
@@ -36,7 +36,7 @@ public interface IMerchantApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns></returns>
-    void MerchantBusinessInfoPut(UpdateMerchantBusinessInfo body = null);
+    void BusinessInfoMerchant(UpdateMerchantBusinessInfo body = null);
 
     /// <summary>
     /// </summary>
@@ -45,7 +45,7 @@ public interface IMerchantApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns>ApiResponse of Object(void)</returns>
-    ApiResponse<object> MerchantBusinessInfoPutWithHttpInfo(UpdateMerchantBusinessInfo body = null);
+    ApiResponse<object> BusinessInfoMerchantWithHttpInfo(UpdateMerchantBusinessInfo body = null);
 
     /// <summary>
     /// </summary>
@@ -54,7 +54,7 @@ public interface IMerchantApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns></returns>
-    void MerchantCompanyNamePut(UpdateMerchantCompanyName body = null);
+    void CompanyNameMerchant(UpdateMerchantCompanyName body = null);
 
     /// <summary>
     /// </summary>
@@ -63,7 +63,7 @@ public interface IMerchantApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns>ApiResponse of Object(void)</returns>
-    ApiResponse<object> MerchantCompanyNamePutWithHttpInfo(UpdateMerchantCompanyName body = null);
+    ApiResponse<object> CompanyNameMerchantWithHttpInfo(UpdateMerchantCompanyName body = null);
 
     /// <summary>
     /// </summary>
@@ -72,7 +72,7 @@ public interface IMerchantApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>MerchantDto</returns>
-    MerchantDto MerchantGet(string id = null);
+    MerchantDto IndexMerchant(string id = null);
 
     /// <summary>
     /// </summary>
@@ -81,7 +81,7 @@ public interface IMerchantApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>ApiResponse of MerchantDto</returns>
-    ApiResponse<MerchantDto> MerchantGetWithHttpInfo(string id = null);
+    ApiResponse<MerchantDto> IndexMerchantWithHttpInfo(string id = null);
 
     #endregion Synchronous Operations
 
@@ -94,7 +94,7 @@ public interface IMerchantApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns>Task of void</returns>
-    Task MerchantAddressPutAsync(UpdateAddressCommand body = null);
+    Task AddressMerchantAsync(UpdateAddressCommand body = null);
 
     /// <summary>
     /// </summary>
@@ -103,7 +103,7 @@ public interface IMerchantApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns>Task of ApiResponse</returns>
-    Task<ApiResponse<object>> MerchantAddressPutAsyncWithHttpInfo(UpdateAddressCommand body = null);
+    Task<ApiResponse<object>> AddressMerchantAsyncWithHttpInfo(UpdateAddressCommand body = null);
 
     /// <summary>
     /// </summary>
@@ -112,7 +112,7 @@ public interface IMerchantApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns>Task of void</returns>
-    Task MerchantBusinessInfoPutAsync(UpdateMerchantBusinessInfo body = null);
+    Task BusinessInfoMerchantAsync(UpdateMerchantBusinessInfo body = null);
 
     /// <summary>
     /// </summary>
@@ -121,7 +121,7 @@ public interface IMerchantApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns>Task of ApiResponse</returns>
-    Task<ApiResponse<object>> MerchantBusinessInfoPutAsyncWithHttpInfo(UpdateMerchantBusinessInfo body = null);
+    Task<ApiResponse<object>> BusinessInfoMerchantAsyncWithHttpInfo(UpdateMerchantBusinessInfo body = null);
 
     /// <summary>
     /// </summary>
@@ -130,7 +130,7 @@ public interface IMerchantApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns>Task of void</returns>
-    Task MerchantCompanyNamePutAsync(UpdateMerchantCompanyName body = null);
+    Task CompanyNameMerchantAsync(UpdateMerchantCompanyName body = null);
 
     /// <summary>
     /// </summary>
@@ -139,7 +139,7 @@ public interface IMerchantApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns>Task of ApiResponse</returns>
-    Task<ApiResponse<object>> MerchantCompanyNamePutAsyncWithHttpInfo(UpdateMerchantCompanyName body = null);
+    Task<ApiResponse<object>> CompanyNameMerchantAsyncWithHttpInfo(UpdateMerchantCompanyName body = null);
 
     /// <summary>
     /// </summary>
@@ -148,7 +148,7 @@ public interface IMerchantApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>Task of MerchantDto</returns>
-    Task<MerchantDto> MerchantGetAsync(string id = null);
+    Task<MerchantDto> IndexMerchantAsync(string id = null);
 
     /// <summary>
     /// </summary>
@@ -157,7 +157,7 @@ public interface IMerchantApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>Task of ApiResponse (MerchantDto)</returns>
-    Task<ApiResponse<MerchantDto>> MerchantGetAsyncWithHttpInfo(string id = null);
+    Task<ApiResponse<MerchantDto>> IndexMerchantAsyncWithHttpInfo(string id = null);
 
     #endregion Asynchronous Operations
 }

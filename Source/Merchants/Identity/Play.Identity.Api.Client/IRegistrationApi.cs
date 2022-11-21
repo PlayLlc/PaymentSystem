@@ -18,27 +18,9 @@ public interface IRegistrationApi : IApiAccessor
     /// <remarks>
     /// </remarks>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="userRegistrationId"> (optional)</param>
-    /// <returns></returns>
-    void RegistrationCompletePost(string userRegistrationId = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="userRegistrationId"> (optional)</param>
-    /// <returns>ApiResponse of Object(void)</returns>
-    ApiResponse<object> RegistrationCompletePostWithHttpInfo(string userRegistrationId = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns></returns>
-    void RegistrationMerchantApprovePost(UpdateMerchantRegistrationCommand body = null);
+    void RegistrationApproveMerchant(UpdateMerchantRegistrationCommand body = null);
 
     /// <summary>
     /// </summary>
@@ -47,7 +29,97 @@ public interface IRegistrationApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns>ApiResponse of Object(void)</returns>
-    ApiResponse<object> RegistrationMerchantApprovePostWithHttpInfo(UpdateMerchantRegistrationCommand body = null);
+    ApiResponse<object> RegistrationApproveMerchantWithHttpInfo(UpdateMerchantRegistrationCommand body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns></returns>
+    void RegistrationApproveUser(string id = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    ApiResponse<object> RegistrationApproveUserWithHttpInfo(string id = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="userRegistrationId"> (optional)</param>
+    /// <returns></returns>
+    void RegistrationCompleteRegistration(string userRegistrationId = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="userRegistrationId"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    ApiResponse<object> RegistrationCompleteRegistrationWithHttpInfo(string userRegistrationId = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    void RegistrationCreateMerchant(CreateMerchantRegistrationCommand body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    ApiResponse<object> RegistrationCreateMerchantWithHttpInfo(CreateMerchantRegistrationCommand body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    void RegistrationCreateUser(CreateUserRegistrationCommand body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    ApiResponse<object> RegistrationCreateUserWithHttpInfo(CreateUserRegistrationCommand body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns></returns>
+    void RegistrationGetEmailVerificationForUser(string id = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    ApiResponse<object> RegistrationGetEmailVerificationForUserWithHttpInfo(string id = null);
 
     /// <summary>
     /// </summary>
@@ -56,7 +128,7 @@ public interface IRegistrationApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>MerchantRegistrationDto</returns>
-    MerchantRegistrationDto RegistrationMerchantGet(string id = null);
+    MerchantRegistrationDto RegistrationGetMerchant(string id = null);
 
     /// <summary>
     /// </summary>
@@ -65,43 +137,7 @@ public interface IRegistrationApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>ApiResponse of MerchantRegistrationDto</returns>
-    ApiResponse<MerchantRegistrationDto> RegistrationMerchantGetWithHttpInfo(string id = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="body"> (optional)</param>
-    /// <returns></returns>
-    void RegistrationMerchantPost(CreateMerchantRegistrationCommand body = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="body"> (optional)</param>
-    /// <returns>ApiResponse of Object(void)</returns>
-    ApiResponse<object> RegistrationMerchantPostWithHttpInfo(CreateMerchantRegistrationCommand body = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="body"> (optional)</param>
-    /// <returns></returns>
-    void RegistrationUserAddressPut(UpdateAddressCommand body = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="body"> (optional)</param>
-    /// <returns>ApiResponse of Object(void)</returns>
-    ApiResponse<object> RegistrationUserAddressPutWithHttpInfo(UpdateAddressCommand body = null);
+    ApiResponse<MerchantRegistrationDto> RegistrationGetMerchantWithHttpInfo(string id = null);
 
     /// <summary>
     /// </summary>
@@ -110,7 +146,7 @@ public interface IRegistrationApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns></returns>
-    void RegistrationUserApprovePost(string id = null);
+    void RegistrationGetPhoneVerificationForUser(string id = null);
 
     /// <summary>
     /// </summary>
@@ -119,61 +155,7 @@ public interface IRegistrationApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>ApiResponse of Object(void)</returns>
-    ApiResponse<object> RegistrationUserApprovePostWithHttpInfo(string id = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="body"> (optional)</param>
-    /// <returns></returns>
-    void RegistrationUserContactPut(UpdateContactCommand body = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="body"> (optional)</param>
-    /// <returns>ApiResponse of Object(void)</returns>
-    ApiResponse<object> RegistrationUserContactPutWithHttpInfo(UpdateContactCommand body = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="id"> (optional)</param>
-    /// <returns></returns>
-    void RegistrationUserEmailVerificationGet(string id = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="id"> (optional)</param>
-    /// <returns>ApiResponse of Object(void)</returns>
-    ApiResponse<object> RegistrationUserEmailVerificationGetWithHttpInfo(string id = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="body"> (optional)</param>
-    /// <returns></returns>
-    void RegistrationUserEmailVerificationPut(VerifyConfirmationCodeCommand body = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="body"> (optional)</param>
-    /// <returns>ApiResponse of Object(void)</returns>
-    ApiResponse<object> RegistrationUserEmailVerificationPutWithHttpInfo(VerifyConfirmationCodeCommand body = null);
+    ApiResponse<object> RegistrationGetPhoneVerificationForUserWithHttpInfo(string id = null);
 
     /// <summary>
     /// </summary>
@@ -182,7 +164,7 @@ public interface IRegistrationApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>UserRegistrationDto</returns>
-    UserRegistrationDto RegistrationUserGet(string id = null);
+    UserRegistrationDto RegistrationGetUser(string id = null);
 
     /// <summary>
     /// </summary>
@@ -191,7 +173,7 @@ public interface IRegistrationApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>ApiResponse of UserRegistrationDto</returns>
-    ApiResponse<UserRegistrationDto> RegistrationUserGetWithHttpInfo(string id = null);
+    ApiResponse<UserRegistrationDto> RegistrationGetUserWithHttpInfo(string id = null);
 
     /// <summary>
     /// </summary>
@@ -200,7 +182,7 @@ public interface IRegistrationApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns></returns>
-    void RegistrationUserPersonalDetailPut(UpdatePersonalDetailCommand body = null);
+    void RegistrationUpdateAddressForUser(UpdateAddressCommand body = null);
 
     /// <summary>
     /// </summary>
@@ -209,25 +191,7 @@ public interface IRegistrationApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns>ApiResponse of Object(void)</returns>
-    ApiResponse<object> RegistrationUserPersonalDetailPutWithHttpInfo(UpdatePersonalDetailCommand body = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="id"> (optional)</param>
-    /// <returns></returns>
-    void RegistrationUserPhoneVerificationGet(string id = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="id"> (optional)</param>
-    /// <returns>ApiResponse of Object(void)</returns>
-    ApiResponse<object> RegistrationUserPhoneVerificationGetWithHttpInfo(string id = null);
+    ApiResponse<object> RegistrationUpdateAddressForUserWithHttpInfo(UpdateAddressCommand body = null);
 
     /// <summary>
     /// </summary>
@@ -236,7 +200,7 @@ public interface IRegistrationApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns></returns>
-    void RegistrationUserPhoneVerificationPut(VerifyConfirmationCodeCommand body = null);
+    void RegistrationUpdateContactForUser(UpdateContactCommand body = null);
 
     /// <summary>
     /// </summary>
@@ -245,7 +209,7 @@ public interface IRegistrationApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns>ApiResponse of Object(void)</returns>
-    ApiResponse<object> RegistrationUserPhoneVerificationPutWithHttpInfo(VerifyConfirmationCodeCommand body = null);
+    ApiResponse<object> RegistrationUpdateContactForUserWithHttpInfo(UpdateContactCommand body = null);
 
     /// <summary>
     /// </summary>
@@ -254,7 +218,7 @@ public interface IRegistrationApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns></returns>
-    void RegistrationUserPost(CreateUserRegistrationCommand body = null);
+    void RegistrationUpdateEmailVerificationForUser(VerifyConfirmationCodeCommand body = null);
 
     /// <summary>
     /// </summary>
@@ -263,7 +227,43 @@ public interface IRegistrationApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns>ApiResponse of Object(void)</returns>
-    ApiResponse<object> RegistrationUserPostWithHttpInfo(CreateUserRegistrationCommand body = null);
+    ApiResponse<object> RegistrationUpdateEmailVerificationForUserWithHttpInfo(VerifyConfirmationCodeCommand body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    void RegistrationUpdatePersonalDetailsForUser(UpdatePersonalDetailCommand body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    ApiResponse<object> RegistrationUpdatePersonalDetailsForUserWithHttpInfo(UpdatePersonalDetailCommand body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    void RegistrationUpdatePhoneVerificationForUser(VerifyConfirmationCodeCommand body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    ApiResponse<object> RegistrationUpdatePhoneVerificationForUserWithHttpInfo(VerifyConfirmationCodeCommand body = null);
 
     #endregion Synchronous Operations
 
@@ -274,27 +274,9 @@ public interface IRegistrationApi : IApiAccessor
     /// <remarks>
     /// </remarks>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="userRegistrationId"> (optional)</param>
-    /// <returns>Task of void</returns>
-    Task RegistrationCompletePostAsync(string userRegistrationId = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="userRegistrationId"> (optional)</param>
-    /// <returns>Task of ApiResponse</returns>
-    Task<ApiResponse<object>> RegistrationCompletePostAsyncWithHttpInfo(string userRegistrationId = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns>Task of void</returns>
-    Task RegistrationMerchantApprovePostAsync(UpdateMerchantRegistrationCommand body = null);
+    Task RegistrationApproveMerchantAsync(UpdateMerchantRegistrationCommand body = null);
 
     /// <summary>
     /// </summary>
@@ -303,7 +285,97 @@ public interface IRegistrationApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns>Task of ApiResponse</returns>
-    Task<ApiResponse<object>> RegistrationMerchantApprovePostAsyncWithHttpInfo(UpdateMerchantRegistrationCommand body = null);
+    Task<ApiResponse<object>> RegistrationApproveMerchantAsyncWithHttpInfo(UpdateMerchantRegistrationCommand body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>Task of void</returns>
+    Task RegistrationApproveUserAsync(string id = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    Task<ApiResponse<object>> RegistrationApproveUserAsyncWithHttpInfo(string id = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="userRegistrationId"> (optional)</param>
+    /// <returns>Task of void</returns>
+    Task RegistrationCompleteRegistrationAsync(string userRegistrationId = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="userRegistrationId"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    Task<ApiResponse<object>> RegistrationCompleteRegistrationAsyncWithHttpInfo(string userRegistrationId = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    Task RegistrationCreateMerchantAsync(CreateMerchantRegistrationCommand body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    Task<ApiResponse<object>> RegistrationCreateMerchantAsyncWithHttpInfo(CreateMerchantRegistrationCommand body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    Task RegistrationCreateUserAsync(CreateUserRegistrationCommand body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    Task<ApiResponse<object>> RegistrationCreateUserAsyncWithHttpInfo(CreateUserRegistrationCommand body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>Task of void</returns>
+    Task RegistrationGetEmailVerificationForUserAsync(string id = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    Task<ApiResponse<object>> RegistrationGetEmailVerificationForUserAsyncWithHttpInfo(string id = null);
 
     /// <summary>
     /// </summary>
@@ -312,7 +384,7 @@ public interface IRegistrationApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>Task of MerchantRegistrationDto</returns>
-    Task<MerchantRegistrationDto> RegistrationMerchantGetAsync(string id = null);
+    Task<MerchantRegistrationDto> RegistrationGetMerchantAsync(string id = null);
 
     /// <summary>
     /// </summary>
@@ -321,43 +393,7 @@ public interface IRegistrationApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>Task of ApiResponse (MerchantRegistrationDto)</returns>
-    Task<ApiResponse<MerchantRegistrationDto>> RegistrationMerchantGetAsyncWithHttpInfo(string id = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="body"> (optional)</param>
-    /// <returns>Task of void</returns>
-    Task RegistrationMerchantPostAsync(CreateMerchantRegistrationCommand body = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="body"> (optional)</param>
-    /// <returns>Task of ApiResponse</returns>
-    Task<ApiResponse<object>> RegistrationMerchantPostAsyncWithHttpInfo(CreateMerchantRegistrationCommand body = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="body"> (optional)</param>
-    /// <returns>Task of void</returns>
-    Task RegistrationUserAddressPutAsync(UpdateAddressCommand body = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="body"> (optional)</param>
-    /// <returns>Task of ApiResponse</returns>
-    Task<ApiResponse<object>> RegistrationUserAddressPutAsyncWithHttpInfo(UpdateAddressCommand body = null);
+    Task<ApiResponse<MerchantRegistrationDto>> RegistrationGetMerchantAsyncWithHttpInfo(string id = null);
 
     /// <summary>
     /// </summary>
@@ -366,7 +402,7 @@ public interface IRegistrationApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>Task of void</returns>
-    Task RegistrationUserApprovePostAsync(string id = null);
+    Task RegistrationGetPhoneVerificationForUserAsync(string id = null);
 
     /// <summary>
     /// </summary>
@@ -375,61 +411,7 @@ public interface IRegistrationApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>Task of ApiResponse</returns>
-    Task<ApiResponse<object>> RegistrationUserApprovePostAsyncWithHttpInfo(string id = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="body"> (optional)</param>
-    /// <returns>Task of void</returns>
-    Task RegistrationUserContactPutAsync(UpdateContactCommand body = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="body"> (optional)</param>
-    /// <returns>Task of ApiResponse</returns>
-    Task<ApiResponse<object>> RegistrationUserContactPutAsyncWithHttpInfo(UpdateContactCommand body = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="id"> (optional)</param>
-    /// <returns>Task of void</returns>
-    Task RegistrationUserEmailVerificationGetAsync(string id = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="id"> (optional)</param>
-    /// <returns>Task of ApiResponse</returns>
-    Task<ApiResponse<object>> RegistrationUserEmailVerificationGetAsyncWithHttpInfo(string id = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="body"> (optional)</param>
-    /// <returns>Task of void</returns>
-    Task RegistrationUserEmailVerificationPutAsync(VerifyConfirmationCodeCommand body = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="body"> (optional)</param>
-    /// <returns>Task of ApiResponse</returns>
-    Task<ApiResponse<object>> RegistrationUserEmailVerificationPutAsyncWithHttpInfo(VerifyConfirmationCodeCommand body = null);
+    Task<ApiResponse<object>> RegistrationGetPhoneVerificationForUserAsyncWithHttpInfo(string id = null);
 
     /// <summary>
     /// </summary>
@@ -438,7 +420,7 @@ public interface IRegistrationApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>Task of UserRegistrationDto</returns>
-    Task<UserRegistrationDto> RegistrationUserGetAsync(string id = null);
+    Task<UserRegistrationDto> RegistrationGetUserAsync(string id = null);
 
     /// <summary>
     /// </summary>
@@ -447,7 +429,7 @@ public interface IRegistrationApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>Task of ApiResponse (UserRegistrationDto)</returns>
-    Task<ApiResponse<UserRegistrationDto>> RegistrationUserGetAsyncWithHttpInfo(string id = null);
+    Task<ApiResponse<UserRegistrationDto>> RegistrationGetUserAsyncWithHttpInfo(string id = null);
 
     /// <summary>
     /// </summary>
@@ -456,7 +438,7 @@ public interface IRegistrationApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns>Task of void</returns>
-    Task RegistrationUserPersonalDetailPutAsync(UpdatePersonalDetailCommand body = null);
+    Task RegistrationUpdateAddressForUserAsync(UpdateAddressCommand body = null);
 
     /// <summary>
     /// </summary>
@@ -465,25 +447,7 @@ public interface IRegistrationApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns>Task of ApiResponse</returns>
-    Task<ApiResponse<object>> RegistrationUserPersonalDetailPutAsyncWithHttpInfo(UpdatePersonalDetailCommand body = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="id"> (optional)</param>
-    /// <returns>Task of void</returns>
-    Task RegistrationUserPhoneVerificationGetAsync(string id = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="id"> (optional)</param>
-    /// <returns>Task of ApiResponse</returns>
-    Task<ApiResponse<object>> RegistrationUserPhoneVerificationGetAsyncWithHttpInfo(string id = null);
+    Task<ApiResponse<object>> RegistrationUpdateAddressForUserAsyncWithHttpInfo(UpdateAddressCommand body = null);
 
     /// <summary>
     /// </summary>
@@ -492,7 +456,7 @@ public interface IRegistrationApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns>Task of void</returns>
-    Task RegistrationUserPhoneVerificationPutAsync(VerifyConfirmationCodeCommand body = null);
+    Task RegistrationUpdateContactForUserAsync(UpdateContactCommand body = null);
 
     /// <summary>
     /// </summary>
@@ -501,7 +465,7 @@ public interface IRegistrationApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns>Task of ApiResponse</returns>
-    Task<ApiResponse<object>> RegistrationUserPhoneVerificationPutAsyncWithHttpInfo(VerifyConfirmationCodeCommand body = null);
+    Task<ApiResponse<object>> RegistrationUpdateContactForUserAsyncWithHttpInfo(UpdateContactCommand body = null);
 
     /// <summary>
     /// </summary>
@@ -510,7 +474,7 @@ public interface IRegistrationApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns>Task of void</returns>
-    Task RegistrationUserPostAsync(CreateUserRegistrationCommand body = null);
+    Task RegistrationUpdateEmailVerificationForUserAsync(VerifyConfirmationCodeCommand body = null);
 
     /// <summary>
     /// </summary>
@@ -519,7 +483,43 @@ public interface IRegistrationApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns>Task of ApiResponse</returns>
-    Task<ApiResponse<object>> RegistrationUserPostAsyncWithHttpInfo(CreateUserRegistrationCommand body = null);
+    Task<ApiResponse<object>> RegistrationUpdateEmailVerificationForUserAsyncWithHttpInfo(VerifyConfirmationCodeCommand body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    Task RegistrationUpdatePersonalDetailsForUserAsync(UpdatePersonalDetailCommand body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    Task<ApiResponse<object>> RegistrationUpdatePersonalDetailsForUserAsyncWithHttpInfo(UpdatePersonalDetailCommand body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    Task RegistrationUpdatePhoneVerificationForUserAsync(VerifyConfirmationCodeCommand body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    Task<ApiResponse<object>> RegistrationUpdatePhoneVerificationForUserAsyncWithHttpInfo(VerifyConfirmationCodeCommand body = null);
 
     #endregion Asynchronous Operations
 }

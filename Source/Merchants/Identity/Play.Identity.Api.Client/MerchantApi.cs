@@ -114,9 +114,9 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns></returns>
-        public void MerchantAddressPut(UpdateAddressCommand body = null)
+        public void AddressMerchant(UpdateAddressCommand body = null)
         {
-            MerchantAddressPutWithHttpInfo(body);
+            AddressMerchantWithHttpInfo(body);
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> MerchantAddressPutWithHttpInfo(UpdateAddressCommand body = null)
+        public ApiResponse<object> AddressMerchantWithHttpInfo(UpdateAddressCommand body = null)
         {
             var localVarPath = "./Merchant/Address";
             var localVarPathParams = new Dictionary<string, string>();
@@ -157,7 +157,7 @@ namespace Play.Identity.Api.Client
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("MerchantAddressPut", localVarResponse);
+                Exception exception = ExceptionFactory("AddressMerchant", localVarResponse);
 
                 if (exception != null)
                     throw exception;
@@ -171,9 +171,9 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of void</returns>
-        public async Task MerchantAddressPutAsync(UpdateAddressCommand body = null)
+        public async Task AddressMerchantAsync(UpdateAddressCommand body = null)
         {
-            await MerchantAddressPutAsyncWithHttpInfo(body);
+            await AddressMerchantAsyncWithHttpInfo(body);
         }
 
         /// <summary>
@@ -181,7 +181,7 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> MerchantAddressPutAsyncWithHttpInfo(UpdateAddressCommand body = null)
+        public async Task<ApiResponse<object>> AddressMerchantAsyncWithHttpInfo(UpdateAddressCommand body = null)
         {
             var localVarPath = "./Merchant/Address";
             var localVarPathParams = new Dictionary<string, string>();
@@ -214,7 +214,7 @@ namespace Play.Identity.Api.Client
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("MerchantAddressPut", localVarResponse);
+                Exception exception = ExceptionFactory("AddressMerchant", localVarResponse);
 
                 if (exception != null)
                     throw exception;
@@ -228,9 +228,9 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns></returns>
-        public void MerchantBusinessInfoPut(UpdateMerchantBusinessInfo body = null)
+        public void BusinessInfoMerchant(UpdateMerchantBusinessInfo body = null)
         {
-            MerchantBusinessInfoPutWithHttpInfo(body);
+            BusinessInfoMerchantWithHttpInfo(body);
         }
 
         /// <summary>
@@ -238,7 +238,7 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> MerchantBusinessInfoPutWithHttpInfo(UpdateMerchantBusinessInfo body = null)
+        public ApiResponse<object> BusinessInfoMerchantWithHttpInfo(UpdateMerchantBusinessInfo body = null)
         {
             var localVarPath = "./Merchant/BusinessInfo";
             var localVarPathParams = new Dictionary<string, string>();
@@ -271,7 +271,7 @@ namespace Play.Identity.Api.Client
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("MerchantBusinessInfoPut", localVarResponse);
+                Exception exception = ExceptionFactory("BusinessInfoMerchant", localVarResponse);
 
                 if (exception != null)
                     throw exception;
@@ -285,9 +285,9 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of void</returns>
-        public async Task MerchantBusinessInfoPutAsync(UpdateMerchantBusinessInfo body = null)
+        public async Task BusinessInfoMerchantAsync(UpdateMerchantBusinessInfo body = null)
         {
-            await MerchantBusinessInfoPutAsyncWithHttpInfo(body);
+            await BusinessInfoMerchantAsyncWithHttpInfo(body);
         }
 
         /// <summary>
@@ -295,7 +295,7 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> MerchantBusinessInfoPutAsyncWithHttpInfo(UpdateMerchantBusinessInfo body = null)
+        public async Task<ApiResponse<object>> BusinessInfoMerchantAsyncWithHttpInfo(UpdateMerchantBusinessInfo body = null)
         {
             var localVarPath = "./Merchant/BusinessInfo";
             var localVarPathParams = new Dictionary<string, string>();
@@ -328,7 +328,7 @@ namespace Play.Identity.Api.Client
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("MerchantBusinessInfoPut", localVarResponse);
+                Exception exception = ExceptionFactory("BusinessInfoMerchant", localVarResponse);
 
                 if (exception != null)
                     throw exception;
@@ -342,9 +342,9 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns></returns>
-        public void MerchantCompanyNamePut(UpdateMerchantCompanyName body = null)
+        public void CompanyNameMerchant(UpdateMerchantCompanyName body = null)
         {
-            MerchantCompanyNamePutWithHttpInfo(body);
+            CompanyNameMerchantWithHttpInfo(body);
         }
 
         /// <summary>
@@ -352,7 +352,7 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> MerchantCompanyNamePutWithHttpInfo(UpdateMerchantCompanyName body = null)
+        public ApiResponse<object> CompanyNameMerchantWithHttpInfo(UpdateMerchantCompanyName body = null)
         {
             var localVarPath = "./Merchant/CompanyName";
             var localVarPathParams = new Dictionary<string, string>();
@@ -385,7 +385,7 @@ namespace Play.Identity.Api.Client
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("MerchantCompanyNamePut", localVarResponse);
+                Exception exception = ExceptionFactory("CompanyNameMerchant", localVarResponse);
 
                 if (exception != null)
                     throw exception;
@@ -399,9 +399,9 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of void</returns>
-        public async Task MerchantCompanyNamePutAsync(UpdateMerchantCompanyName body = null)
+        public async Task CompanyNameMerchantAsync(UpdateMerchantCompanyName body = null)
         {
-            await MerchantCompanyNamePutAsyncWithHttpInfo(body);
+            await CompanyNameMerchantAsyncWithHttpInfo(body);
         }
 
         /// <summary>
@@ -409,7 +409,7 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> MerchantCompanyNamePutAsyncWithHttpInfo(UpdateMerchantCompanyName body = null)
+        public async Task<ApiResponse<object>> CompanyNameMerchantAsyncWithHttpInfo(UpdateMerchantCompanyName body = null)
         {
             var localVarPath = "./Merchant/CompanyName";
             var localVarPathParams = new Dictionary<string, string>();
@@ -442,7 +442,7 @@ namespace Play.Identity.Api.Client
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("MerchantCompanyNamePut", localVarResponse);
+                Exception exception = ExceptionFactory("CompanyNameMerchant", localVarResponse);
 
                 if (exception != null)
                     throw exception;
@@ -456,9 +456,9 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"> (optional)</param>
         /// <returns>MerchantDto</returns>
-        public MerchantDto MerchantGet(string id = null)
+        public MerchantDto IndexMerchant(string id = null)
         {
-            ApiResponse<MerchantDto> localVarResponse = MerchantGetWithHttpInfo(id);
+            ApiResponse<MerchantDto> localVarResponse = IndexMerchantWithHttpInfo(id);
 
             return localVarResponse.Data;
         }
@@ -468,7 +468,7 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"> (optional)</param>
         /// <returns>ApiResponse of MerchantDto</returns>
-        public ApiResponse<MerchantDto> MerchantGetWithHttpInfo(string id = null)
+        public ApiResponse<MerchantDto> IndexMerchantWithHttpInfo(string id = null)
         {
             var localVarPath = "./Merchant";
             var localVarPathParams = new Dictionary<string, string>();
@@ -499,7 +499,7 @@ namespace Play.Identity.Api.Client
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("MerchantGet", localVarResponse);
+                Exception exception = ExceptionFactory("IndexMerchant", localVarResponse);
 
                 if (exception != null)
                     throw exception;
@@ -514,9 +514,9 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"> (optional)</param>
         /// <returns>Task of MerchantDto</returns>
-        public async Task<MerchantDto> MerchantGetAsync(string id = null)
+        public async Task<MerchantDto> IndexMerchantAsync(string id = null)
         {
-            ApiResponse<MerchantDto> localVarResponse = await MerchantGetAsyncWithHttpInfo(id);
+            ApiResponse<MerchantDto> localVarResponse = await IndexMerchantAsyncWithHttpInfo(id);
 
             return localVarResponse.Data;
         }
@@ -526,7 +526,7 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"> (optional)</param>
         /// <returns>Task of ApiResponse (MerchantDto)</returns>
-        public async Task<ApiResponse<MerchantDto>> MerchantGetAsyncWithHttpInfo(string id = null)
+        public async Task<ApiResponse<MerchantDto>> IndexMerchantAsyncWithHttpInfo(string id = null)
         {
             var localVarPath = "./Merchant";
             var localVarPathParams = new Dictionary<string, string>();
@@ -557,7 +557,7 @@ namespace Play.Identity.Api.Client
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("MerchantGet", localVarResponse);
+                Exception exception = ExceptionFactory("IndexMerchant", localVarResponse);
 
                 if (exception != null)
                     throw exception;

@@ -48,7 +48,7 @@ namespace Play.Identity.Api.Controllers
             return user.AsDto();
         }
 
-        [HttpPutSwagger]
+        [HttpPutSwagger("UpdateAddressForUser")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Address([FromBody] UpdateAddressCommand command)
         {
@@ -62,7 +62,7 @@ namespace Play.Identity.Api.Controllers
             return Ok();
         }
 
-        [HttpPutSwagger]
+        [HttpPutSwagger("UpdateContactInfosForUser")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ContactInfo([FromBody] UpdateContactCommand command)
         {
@@ -76,7 +76,7 @@ namespace Play.Identity.Api.Controllers
             return Ok();
         }
 
-        [HttpPutSwagger]
+        [HttpPutSwagger("UpdatePersonalDetailsForUser")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PersonalDetails([FromBody] UpdatePersonalDetailCommand command)
         {

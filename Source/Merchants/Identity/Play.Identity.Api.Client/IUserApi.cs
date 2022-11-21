@@ -16,45 +16,9 @@ public interface IUserApi : IApiAccessor
     /// <remarks>
     /// </remarks>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="body"> (optional)</param>
-    /// <returns></returns>
-    void UserAddressPut(UpdateAddressCommand body = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="body"> (optional)</param>
-    /// <returns>ApiResponse of Object(void)</returns>
-    ApiResponse<object> UserAddressPutWithHttpInfo(UpdateAddressCommand body = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="body"> (optional)</param>
-    /// <returns></returns>
-    void UserContactInfoPut(UpdateContactCommand body = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="body"> (optional)</param>
-    /// <returns>ApiResponse of Object(void)</returns>
-    ApiResponse<object> UserContactInfoPutWithHttpInfo(UpdateContactCommand body = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>UserDto</returns>
-    UserDto UserGet(string id = null);
+    UserDto IndexUser(string id = null);
 
     /// <summary>
     /// </summary>
@@ -63,7 +27,7 @@ public interface IUserApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>ApiResponse of UserDto</returns>
-    ApiResponse<UserDto> UserGetWithHttpInfo(string id = null);
+    ApiResponse<UserDto> IndexUserWithHttpInfo(string id = null);
 
     /// <summary>
     /// </summary>
@@ -72,7 +36,7 @@ public interface IUserApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns></returns>
-    void UserPersonalDetailsPut(UpdatePersonalDetailCommand body = null);
+    void UpdateAddressForUser(UpdateAddressCommand body = null);
 
     /// <summary>
     /// </summary>
@@ -81,7 +45,43 @@ public interface IUserApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns>ApiResponse of Object(void)</returns>
-    ApiResponse<object> UserPersonalDetailsPutWithHttpInfo(UpdatePersonalDetailCommand body = null);
+    ApiResponse<object> UpdateAddressForUserWithHttpInfo(UpdateAddressCommand body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    void UpdateContactInfosForUser(UpdateContactCommand body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    ApiResponse<object> UpdateContactInfosForUserWithHttpInfo(UpdateContactCommand body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    void UpdatePersonalDetailsForUser(UpdatePersonalDetailCommand body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    ApiResponse<object> UpdatePersonalDetailsForUserWithHttpInfo(UpdatePersonalDetailCommand body = null);
 
     #endregion Synchronous Operations
 
@@ -92,45 +92,9 @@ public interface IUserApi : IApiAccessor
     /// <remarks>
     /// </remarks>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="body"> (optional)</param>
-    /// <returns>Task of void</returns>
-    Task UserAddressPutAsync(UpdateAddressCommand body = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="body"> (optional)</param>
-    /// <returns>Task of ApiResponse</returns>
-    Task<ApiResponse<object>> UserAddressPutAsyncWithHttpInfo(UpdateAddressCommand body = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="body"> (optional)</param>
-    /// <returns>Task of void</returns>
-    Task UserContactInfoPutAsync(UpdateContactCommand body = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-    /// <param name="body"> (optional)</param>
-    /// <returns>Task of ApiResponse</returns>
-    Task<ApiResponse<object>> UserContactInfoPutAsyncWithHttpInfo(UpdateContactCommand body = null);
-
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>Task of UserDto</returns>
-    Task<UserDto> UserGetAsync(string id = null);
+    Task<UserDto> IndexUserAsync(string id = null);
 
     /// <summary>
     /// </summary>
@@ -139,7 +103,7 @@ public interface IUserApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>Task of ApiResponse (UserDto)</returns>
-    Task<ApiResponse<UserDto>> UserGetAsyncWithHttpInfo(string id = null);
+    Task<ApiResponse<UserDto>> IndexUserAsyncWithHttpInfo(string id = null);
 
     /// <summary>
     /// </summary>
@@ -148,7 +112,7 @@ public interface IUserApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns>Task of void</returns>
-    Task UserPersonalDetailsPutAsync(UpdatePersonalDetailCommand body = null);
+    Task UpdateAddressForUserAsync(UpdateAddressCommand body = null);
 
     /// <summary>
     /// </summary>
@@ -157,7 +121,43 @@ public interface IUserApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"> (optional)</param>
     /// <returns>Task of ApiResponse</returns>
-    Task<ApiResponse<object>> UserPersonalDetailsPutAsyncWithHttpInfo(UpdatePersonalDetailCommand body = null);
+    Task<ApiResponse<object>> UpdateAddressForUserAsyncWithHttpInfo(UpdateAddressCommand body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    Task UpdateContactInfosForUserAsync(UpdateContactCommand body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    Task<ApiResponse<object>> UpdateContactInfosForUserAsyncWithHttpInfo(UpdateContactCommand body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    Task UpdatePersonalDetailsForUserAsync(UpdatePersonalDetailCommand body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    Task<ApiResponse<object>> UpdatePersonalDetailsForUserAsyncWithHttpInfo(UpdatePersonalDetailCommand body = null);
 
     #endregion Asynchronous Operations
 }

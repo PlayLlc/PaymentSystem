@@ -78,7 +78,7 @@ public class UserController : Controller
 
     [HttpGetSwagger("RegistrationGetEmailVerificationForUser")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> GetEmailVerification([FromQuery] string id)
+    public async Task<IActionResult> EmailVerification([FromQuery] string id)
     {
         UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(new SimpleStringId(id)).ConfigureAwait(false)
                                              ?? throw new NotFoundException(typeof(UserRegistration));
@@ -91,7 +91,7 @@ public class UserController : Controller
 
     [HttpPutSwagger("RegistrationUpdateEmailVerificationForUser")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> UpdateEmailVerification([FromBody] VerifyConfirmationCodeCommand command)
+    public async Task<IActionResult> EmailVerification([FromBody] VerifyConfirmationCodeCommand command)
     {
         this.ValidateModel();
 
@@ -106,7 +106,7 @@ public class UserController : Controller
 
     [HttpPutSwagger("RegistrationUpdateContactForUser")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> UpdateContact([FromBody] UpdateContactCommand command)
+    public async Task<IActionResult> Contact([FromBody] UpdateContactCommand command)
     {
         this.ValidateModel();
 
@@ -121,7 +121,7 @@ public class UserController : Controller
 
     [HttpGetSwagger("RegistrationGetPhoneVerificationForUser")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> GetPhoneVerification([FromQuery] string id)
+    public async Task<IActionResult> PhoneVerification([FromQuery] string id)
     {
         UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(new SimpleStringId(id)).ConfigureAwait(false)
                                              ?? throw new NotFoundException(typeof(UserRegistration));
@@ -134,7 +134,7 @@ public class UserController : Controller
 
     [HttpPutSwagger("RegistrationUpdatePhoneVerificationForUser")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> UpdatePhoneVerification([FromBody] VerifyConfirmationCodeCommand command)
+    public async Task<IActionResult> PhoneVerification([FromBody] VerifyConfirmationCodeCommand command)
     {
         this.ValidateModel();
 
@@ -149,7 +149,7 @@ public class UserController : Controller
 
     [HttpPutSwagger("RegistrationUpdateAddressForUser")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> UpdateAddress([FromBody] UpdateAddressCommand command)
+    public async Task<IActionResult> Address([FromBody] UpdateAddressCommand command)
     {
         this.ValidateModel();
         UserRegistration userRegistration = await _UserRegistrationRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
@@ -162,7 +162,7 @@ public class UserController : Controller
 
     [HttpPutSwagger("RegistrationUpdatePersonalDetailsForUser")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> UpdatePersonalDetails([FromBody] UpdatePersonalDetailCommand command)
+    public async Task<IActionResult> PersonalDetails([FromBody] UpdatePersonalDetailCommand command)
     {
         this.ValidateModel();
 
