@@ -7,6 +7,7 @@ using Play.Identity.Domain.Services;
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Repositories;
 using Play.Identity.Domain.Repositories;
+using Play.Mvc.Attributes;
 using Play.Mvc.Extensions;
 
 using NotFoundException = Play.Domain.Exceptions.NotFoundException;
@@ -43,10 +44,9 @@ public class MerchantController : Controller
 
     #region Instance Members
 
-    [Route("~/[area]/[controller]")]
-    [HttpGet]
+    [HttpGetSwagger(template: "~/[area]/[controller]")]
     [ValidateAntiForgeryToken]
-    public async Task<MerchantRegistrationDto> Index([FromQuery] string id)
+    public async Task<MerchantRegistrationDto> Get([FromQuery] string id)
     {
         MerchantRegistration merchantRegistration = await _MerchantRegistrationRepository.GetByIdAsync(new SimpleStringId(id)).ConfigureAwait(false)
                                                     ?? throw new NotFoundException(typeof(MerchantRegistration), id);
@@ -54,10 +54,9 @@ public class MerchantController : Controller
         return merchantRegistration.AsDto();
     }
 
-    [Route("~/[area]/[controller]")]
-    [HttpPost]
+    [HttpPostSwagger(template: "~/[area]/[controller]")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Index([FromBody] CreateMerchantRegistrationCommand command)
+    public async Task<IActionResult> Create([FromBody] CreateMerchantRegistrationCommand command)
     {
         this.ValidateModel();
 
@@ -70,7 +69,7 @@ public class MerchantController : Controller
         })!, merchantRegistration.AsDto());
     }
 
-    [HttpPost]
+    [HttpPostSwagger]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Approve([FromBody] UpdateMerchantRegistrationCommand command)
     {

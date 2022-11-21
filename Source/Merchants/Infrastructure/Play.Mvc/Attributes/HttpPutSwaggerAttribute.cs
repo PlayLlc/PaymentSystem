@@ -24,15 +24,19 @@ public class HttpPutSwaggerAttribute : HttpPutAttribute
         Name = CreateOpenApiName(callerFilePath, memberName);
     }
 
-    public HttpPutSwaggerAttribute(string template, [CallerFilePath] string callerFilePath = "", [CallerMemberName] string memberName = "") : base(template)
+    public HttpPutSwaggerAttribute(
+        string template, string name = "", [CallerFilePath] string callerFilePath = "", [CallerMemberName] string memberName = "") : base(template)
     {
-        Name = CreateOpenApiName(callerFilePath, memberName);
+        if (!string.IsNullOrEmpty(name))
+            Name = name;
+        else
+            Name = CreateOpenApiName(callerFilePath, memberName);
     }
 
-    public HttpPutSwaggerAttribute(
-        string template, string name, [CallerFilePath] string callerFilePath = "", [CallerMemberName] string memberName = "") : base(template)
+    public HttpPutSwaggerAttribute(string name)
     {
-        Name = name;
+        if (!string.IsNullOrEmpty(name))
+            Name = name;
     }
 
     #endregion

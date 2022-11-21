@@ -9,6 +9,7 @@ using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
 using Play.Mvc.Extensions;
 using Play.Identity.Contracts.Commands.UserRegistration;
+using Play.Mvc.Attributes;
 
 namespace Play.Identity.Api.Areas.Registration.Controllers;
 
@@ -48,10 +49,9 @@ public class UserController : Controller
 
     #region Instance Members
 
-    [Route("~/[area]/[controller]")]
-    [HttpGet]
+    [HttpGetSwagger(template: "~/[area]/[controller]")]
     [ValidateAntiForgeryToken]
-    public async Task<UserRegistrationDto> Index([FromQuery] string id)
+    public async Task<UserRegistrationDto> Get([FromQuery] string id)
     {
         UserRegistration userRegistration = await _UserRegistrationRepository.GetByIdAsync(new SimpleStringId(id)).ConfigureAwait(false)
                                             ?? throw new NotFoundException(typeof(UserRegistration));
@@ -59,10 +59,9 @@ public class UserController : Controller
         return userRegistration.AsDto();
     }
 
-    [Route("~/[area]/[controller]")]
-    [HttpPost]
+    [HttpPostSwagger(template: "~/[area]/[controller]")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Index([FromBody] CreateUserRegistrationCommand command)
+    public async Task<IActionResult> Create([FromBody] CreateUserRegistrationCommand command)
     {
         this.ValidateModel();
 
@@ -77,9 +76,9 @@ public class UserController : Controller
         })!, userRegistration.AsDto());
     }
 
-    [HttpGet]
+    [HttpGetSwagger("RegistrationGetEmailVerificationForUser")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EmailVerification([FromQuery] string id)
+    public async Task<IActionResult> GetEmailVerification([FromQuery] string id)
     {
         UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(new SimpleStringId(id)).ConfigureAwait(false)
                                              ?? throw new NotFoundException(typeof(UserRegistration));
@@ -90,9 +89,9 @@ public class UserController : Controller
         return View("EmailVerificationFailed");
     }
 
-    [HttpPut]
+    [HttpPutSwagger("RegistrationUpdateEmailVerificationForUser")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EmailVerification([FromBody] VerifyConfirmationCodeCommand command)
+    public async Task<IActionResult> UpdateEmailVerification([FromBody] VerifyConfirmationCodeCommand command)
     {
         this.ValidateModel();
 
@@ -105,9 +104,9 @@ public class UserController : Controller
         return Ok();
     }
 
-    [HttpPut]
+    [HttpPutSwagger("RegistrationUpdateContactForUser")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Contact([FromBody] UpdateContactCommand command)
+    public async Task<IActionResult> UpdateContact([FromBody] UpdateContactCommand command)
     {
         this.ValidateModel();
 
@@ -120,9 +119,9 @@ public class UserController : Controller
         return Ok();
     }
 
-    [HttpGet]
+    [HttpGetSwagger("RegistrationGetPhoneVerificationForUser")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> PhoneVerification([FromQuery] string id)
+    public async Task<IActionResult> GetPhoneVerification([FromQuery] string id)
     {
         UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(new SimpleStringId(id)).ConfigureAwait(false)
                                              ?? throw new NotFoundException(typeof(UserRegistration));
@@ -133,9 +132,9 @@ public class UserController : Controller
         return View("EmailVerificationFailed");
     }
 
-    [HttpPut]
+    [HttpPutSwagger("RegistrationUpdatePhoneVerificationForUser")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> PhoneVerification([FromBody] VerifyConfirmationCodeCommand command)
+    public async Task<IActionResult> UpdatePhoneVerification([FromBody] VerifyConfirmationCodeCommand command)
     {
         this.ValidateModel();
 
@@ -148,9 +147,9 @@ public class UserController : Controller
         return Ok();
     }
 
-    [HttpPut]
+    [HttpPutSwagger("RegistrationUpdateAddressForUser")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Address([FromBody] UpdateAddressCommand command)
+    public async Task<IActionResult> UpdateAddress([FromBody] UpdateAddressCommand command)
     {
         this.ValidateModel();
         UserRegistration userRegistration = await _UserRegistrationRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
@@ -161,9 +160,9 @@ public class UserController : Controller
         return Ok();
     }
 
-    [HttpPut]
+    [HttpPutSwagger("RegistrationUpdatePersonalDetailsForUser")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> PersonalDetail([FromBody] UpdatePersonalDetailCommand command)
+    public async Task<IActionResult> UpdatePersonalDetails([FromBody] UpdatePersonalDetailCommand command)
     {
         this.ValidateModel();
 
@@ -175,7 +174,7 @@ public class UserController : Controller
         return Ok();
     }
 
-    [HttpPost]
+    [HttpPostSwagger]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Approve([FromQuery] string id)
     {

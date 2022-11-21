@@ -37,8 +37,7 @@ namespace Play.Identity.Api.Controllers
 
         #region Instance Members
 
-        [HttpGet]
-        [Route("~/[controller]")]
+        [HttpGetSwagger(template: "~/[controller]")]
         [ValidateAntiForgeryToken]
         public async Task<MerchantDto> Index([FromQuery] string id)
         {
@@ -48,7 +47,7 @@ namespace Play.Identity.Api.Controllers
             return merchant.AsDto();
         }
 
-        [HttpPut]
+        [HttpPutSwagger]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> BusinessInfo([FromBody] UpdateMerchantBusinessInfo command)
         {
@@ -61,7 +60,7 @@ namespace Play.Identity.Api.Controllers
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPutSwagger]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CompanyName([FromBody] UpdateMerchantCompanyName command)
         {
@@ -74,7 +73,7 @@ namespace Play.Identity.Api.Controllers
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPutSwagger]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Address([FromBody] UpdateAddressCommand command)
         {

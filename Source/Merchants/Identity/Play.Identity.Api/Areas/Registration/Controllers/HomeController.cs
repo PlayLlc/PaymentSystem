@@ -5,6 +5,7 @@ using Play.Domain.Exceptions;
 using Play.Domain.Repositories;
 using Play.Identity.Domain.Aggregates;
 using Play.Identity.Domain.Repositories;
+using Play.Mvc.Attributes;
 
 namespace Play.Identity.Api.Areas.Registration.Controllers
 {
@@ -33,8 +34,7 @@ namespace Play.Identity.Api.Areas.Registration.Controllers
 
         #region Instance Members
 
-        [HttpPost]
-        [Route("~/[area]/[action]")]
+        [HttpPostSwagger(template: "/[area]/[action]")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Complete([FromQuery] string userRegistrationId)
         {

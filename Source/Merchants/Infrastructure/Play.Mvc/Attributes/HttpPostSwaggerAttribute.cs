@@ -19,15 +19,19 @@ public class HttpPostSwaggerAttribute : HttpPostAttribute
         Name = CreateOpenApiName(callerFilePath, memberName);
     }
 
-    public HttpPostSwaggerAttribute(string template, [CallerFilePath] string callerFilePath = "", [CallerMemberName] string memberName = "") : base(template)
+    public HttpPostSwaggerAttribute(
+        string template, string name = "", [CallerFilePath] string callerFilePath = "", [CallerMemberName] string memberName = "") : base(template)
     {
-        Name = CreateOpenApiName(callerFilePath, memberName);
+        if (!string.IsNullOrEmpty(name))
+            Name = name;
+        else
+            Name = CreateOpenApiName(callerFilePath, memberName);
     }
 
-    public HttpPostSwaggerAttribute(
-        string template, string name, [CallerFilePath] string callerFilePath = "", [CallerMemberName] string memberName = "") : base(template)
+    public HttpPostSwaggerAttribute(string name)
     {
-        Name = name;
+        if (!string.IsNullOrEmpty(name))
+            Name = name;
     }
 
     #endregion

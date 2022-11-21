@@ -38,8 +38,7 @@ namespace Play.Identity.Api.Controllers
 
         #region Instance Members
 
-        [Route("~/[controller]")]
-        [HttpGet]
+        [HttpGetSwagger(template: "~/[controller]")]
         [ValidateAntiForgeryToken]
         public async Task<UserDto> Index([FromQuery] string id)
         {
@@ -49,7 +48,7 @@ namespace Play.Identity.Api.Controllers
             return user.AsDto();
         }
 
-        [HttpPut]
+        [HttpPutSwagger]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Address([FromBody] UpdateAddressCommand command)
         {
@@ -63,7 +62,7 @@ namespace Play.Identity.Api.Controllers
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPutSwagger]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ContactInfo([FromBody] UpdateContactCommand command)
         {
@@ -77,7 +76,7 @@ namespace Play.Identity.Api.Controllers
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPutSwagger]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PersonalDetails([FromBody] UpdatePersonalDetailCommand command)
         {

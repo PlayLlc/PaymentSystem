@@ -19,15 +19,19 @@ public class HttpDeleteSwaggerAttribute : HttpDeleteAttribute
         Name = CreateOpenApiName(callerFilePath, memberName);
     }
 
-    public HttpDeleteSwaggerAttribute(string template, [CallerFilePath] string callerFilePath = "", [CallerMemberName] string memberName = "") : base(template)
+    public HttpDeleteSwaggerAttribute(
+        string template, string name = "", [CallerFilePath] string callerFilePath = "", [CallerMemberName] string memberName = "") : base(template)
     {
-        Name = CreateOpenApiName(callerFilePath, memberName);
+        if (!string.IsNullOrEmpty(name))
+            Name = name;
+        else
+            Name = CreateOpenApiName(callerFilePath, memberName);
     }
 
-    public HttpDeleteSwaggerAttribute(
-        string template, string name, [CallerFilePath] string callerFilePath = "", [CallerMemberName] string memberName = "") : base(template)
+    public HttpDeleteSwaggerAttribute(string name)
     {
-        Name = name;
+        if (!string.IsNullOrEmpty(name))
+            Name = name;
     }
 
     #endregion
