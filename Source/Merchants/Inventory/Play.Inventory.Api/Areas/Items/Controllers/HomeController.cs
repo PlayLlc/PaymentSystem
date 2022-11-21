@@ -16,6 +16,7 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
 {
     [ApiController]
     [Area($"{nameof(Items)}")]
+    [Route("/Inventory/[area]")]
     public class HomeController : BaseController
     {
         #region Constructor
@@ -29,7 +30,7 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
 
         #region Instance Members
 
-        [HttpGetSwagger(template: "/Inventory/[area]/{itemId}")]
+        [HttpGetSwagger(template: "{itemId}")]
         [ValidateAntiForgeryToken]
         public async Task<ItemDto> Get(string itemId)
         {
@@ -38,7 +39,7 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
             return item.AsDto();
         }
 
-        [HttpGetSwagger(template: "/Inventory/[area]")]
+        [HttpGetSwagger]
         [ValidateAntiForgeryToken]
         public async Task<IEnumerable<ItemDto>> GetAll([FromQuery] string merchantId, [FromQuery] int? pageSize, [FromQuery] int? position) // paging and shit
         {
@@ -54,7 +55,7 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
             return items;
         }
 
-        [HttpDeleteSwagger(template: "/Inventory/[area]/{itemId}")]
+        [HttpDeleteSwagger(template: "{itemId}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Remove(string itemId, RemoveItem command)
         {
@@ -65,7 +66,7 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
             return NoContent();
         }
 
-        [HttpPutSwagger(template: "/Inventory/[area]/{itemId}/[action]")]
+        [HttpPutSwagger(template: "{itemId}/[action]")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateDescription(string itemId, UpdateItemDescription command)
         {
@@ -77,7 +78,7 @@ namespace Play.Inventory.Api.Areas.Items.Controllers
             return Ok();
         }
 
-        [HttpPutSwagger(template: "/Inventory/[area]/{itemId}/[action]")]
+        [HttpPutSwagger(template: "{itemId}/[action]")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateName(string itemId, UpdateItemName command)
         {

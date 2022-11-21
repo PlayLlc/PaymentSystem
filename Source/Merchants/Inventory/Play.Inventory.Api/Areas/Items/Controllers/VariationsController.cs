@@ -15,6 +15,7 @@ namespace Play.Inventory.Api.Areas.Items.Controllers;
 
 [ApiController]
 [Area($"{nameof(Items)}")]
+[Route("/Inventory/[area]")]
 public class VariationsController : BaseController
 {
     #region Constructor
@@ -28,7 +29,7 @@ public class VariationsController : BaseController
 
     #region Instance Members
 
-    [HttpPostSwagger(template: "/Inventory/[area]/{itemId}/[controller]")]
+    [HttpPostSwagger(template: "{itemId}/[controller]")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CreateVariation command)
     {
@@ -40,7 +41,7 @@ public class VariationsController : BaseController
         return Ok();
     }
 
-    [HttpDeleteSwagger(template: "/Inventory/[area]/{itemId}/[controller]/{variationId}")]
+    [HttpDeleteSwagger(template: "{itemId}/[controller]/{variationId}")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Remove(string itemId, string variationId, RemoveVariation command)
     {
@@ -52,7 +53,7 @@ public class VariationsController : BaseController
         return NoContent();
     }
 
-    [HttpPutSwagger(template: "/Inventory/[area]/{itemId}/[controller]/{variationId}/[action]")]
+    [HttpPutSwagger(template: "{itemId}/[controller]/{variationId}/[action]")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> UpdateName(string itemId, string variationId, UpdateItemVariationName command)
     {

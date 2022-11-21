@@ -11,6 +11,7 @@ using Play.Mvc.Extensions;
 namespace Play.Inventory.Api.Controllers
 {
     [ApiController]
+    [Route("/Inventory")]
     public class InventoryController : BaseController
     {
         #region Constructor
@@ -24,7 +25,7 @@ namespace Play.Inventory.Api.Controllers
 
         #region Instance Members
 
-        [HttpDeleteSwagger(template: "/Inventory/{storeId}")]
+        [HttpDeleteSwagger(template: "{storeId}")]
         [ValidateAntiForgeryToken]
         public async Task<InventoryDto> Get(string storeId)
         {

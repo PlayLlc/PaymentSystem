@@ -14,6 +14,7 @@ using Play.Mvc.Extensions;
 namespace Play.Inventory.Api.Controllers;
 
 [ApiController]
+[Route("/Inventory/[controller]")]
 public class CategoriesController : BaseController
 {
     #region Constructor
@@ -27,7 +28,7 @@ public class CategoriesController : BaseController
 
     #region Instance Members
 
-    [HttpGetSwagger(template: "/Inventory/[controller]")]
+    [HttpGetSwagger]
     [ValidateAntiForgeryToken]
     public async Task<IEnumerable<CategoryDto>> GetAll([FromQuery] string merchantId)
     {
@@ -35,7 +36,7 @@ public class CategoriesController : BaseController
                ?? Array.Empty<CategoryDto>();
     }
 
-    [HttpGetSwagger(template: "/Inventory/[controller]/{categoryId}")]
+    [HttpGetSwagger(template: "{categoryId}")]
     [ValidateAntiForgeryToken]
     public async Task<CategoryDto> Get(string categoryId)
     {
@@ -45,7 +46,7 @@ public class CategoriesController : BaseController
         return merchantRegistration.AsDto();
     }
 
-    [HttpPostSwagger(template: "/Inventory/[controller]")]
+    [HttpPostSwagger]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CreateCategory command)
     {
@@ -56,7 +57,7 @@ public class CategoriesController : BaseController
         return Created(@Url.Action("Get", "Categories", new {id = category.Id})!, category.AsDto());
     }
 
-    [HttpDeleteSwagger(template: "/Inventory/[controller]")]
+    [HttpDeleteSwagger]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Remove(RemoveCategory command)
     {
