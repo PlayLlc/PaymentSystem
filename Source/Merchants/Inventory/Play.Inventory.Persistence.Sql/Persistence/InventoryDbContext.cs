@@ -2,7 +2,6 @@
 
 using Play.Domain.Common.Entities;
 using Play.Inventory.Contracts.Enums;
-using Play.Inventory.Domain;
 using Play.Inventory.Domain.Aggregates;
 using Play.Inventory.Domain.Entities;
 using Play.Inventory.Domain.ValueObjects;

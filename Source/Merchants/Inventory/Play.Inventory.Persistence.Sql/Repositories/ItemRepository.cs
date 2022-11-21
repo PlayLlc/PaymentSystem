@@ -4,8 +4,6 @@ using Play.Persistence.Sql;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-using Play.Inventory.Contracts.Dtos;
-using Play.Inventory.Domain;
 using Play.Inventory.Domain.Aggregates;
 using Play.Inventory.Domain.Entities;
 using Play.Inventory.Domain.Repositories;

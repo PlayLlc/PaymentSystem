@@ -3,7 +3,6 @@
 using Play.Domain.Common.ValueObjects;
 using Play.Inventory.Api.Controllers;
 using Play.Inventory.Domain.Services;
-using Play.Inventory.Domain;
 using Play.Domain.Exceptions;
 using Play.Inventory.Contracts.Commands;
 using Play.Inventory.Domain.Aggregates;

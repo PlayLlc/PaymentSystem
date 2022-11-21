@@ -4,7 +4,6 @@ using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
 using Play.Inventory.Contracts.Commands;
 using Play.Inventory.Contracts.Dtos;
-using Play.Inventory.Domain;
 using Play.Inventory.Domain.Aggregates;
 using Play.Inventory.Domain.Repositories;
 using Play.Inventory.Domain.Services;

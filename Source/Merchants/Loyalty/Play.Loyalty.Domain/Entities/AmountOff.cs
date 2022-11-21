@@ -2,14 +2,6 @@
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
 using Play.Globalization.Currency;
-using Play.Inventory.Contracts.Dtos;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Play.Domain.ValueObjects;
 using Play.Domain.Exceptions;
 

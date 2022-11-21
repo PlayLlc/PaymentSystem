@@ -17,7 +17,6 @@ using Play.Domain.Repositories;
 using Play.Identity.Api.Services;
 using Play.Persistence.Sql;
 
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 using Play.Identity.Application.Services.Sms;

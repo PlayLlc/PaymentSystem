@@ -1,6 +1,5 @@
 ﻿using Play.Domain.Common.ValueObjects;
 using Play.Inventory.Domain.Repositories;
-using Play.Inventory.Domain;
 using Play.Persistence.Sql;
 
 using Microsoft.EntityFrameworkCore;

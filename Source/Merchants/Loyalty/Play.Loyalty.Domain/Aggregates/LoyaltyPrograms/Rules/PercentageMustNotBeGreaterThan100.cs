@@ -4,11 +4,7 @@ using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
 using Play.Globalization.Currency;
 using Play.Inventory.Domain.Aggregates;
-using Play.Inventory.Domain.Entities;
-using Play.Inventory.Domain.Repositories;
 using Play.Loyalty.Domain.Aggregates;
-using Play.Loyalty.Domain.Entities;
-using Play.Loyalty.Domain.Entitiesddd;
 using Play.Loyalty.Domain.Entitiessss;
 
 namespace Play.Inventory.Domain.Aggregatesd;

@@ -7,7 +7,6 @@ using Play.Globalization.Time;
 using Play.Inventory.Contracts.Events;
 using Play.Inventory.Domain.Aggregates;
 using Play.Inventory.Domain.Repositories;
-using Play.Inventory.Persistence.Sql.Repositories;
 
 namespace Play.Inventory.Application.Handlers.Inventories;
 

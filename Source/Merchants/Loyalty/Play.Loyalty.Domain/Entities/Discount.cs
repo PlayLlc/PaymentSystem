@@ -1,12 +1,4 @@
 ﻿using Play.Domain.Common.ValueObjects;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Domain.Common.Entities;
 using Play.Domain.Entities;
 using Play.Domain.Common.Entitiesd;
 using Play.Domain.Exceptions;

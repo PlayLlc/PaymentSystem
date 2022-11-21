@@ -2,7 +2,6 @@
 using Play.Domain.Events;
 using Play.Domain.Exceptions;
 using Play.Inventory.Contracts.Commands;
-using Play.Inventory.Domain;
 using Play.Inventory.Domain.Aggregates;
 
 namespace Play.Inventory.Application.Handlers;

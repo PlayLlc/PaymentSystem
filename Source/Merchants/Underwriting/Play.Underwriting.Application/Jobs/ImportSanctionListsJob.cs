@@ -14,8 +14,6 @@ using Play.Underwriting.Parser.Mappings;
 
 using Quartz;
 
-using System.Data;
-
 using TinyCsvParser;
 using TinyCsvParser.Mapping;
 

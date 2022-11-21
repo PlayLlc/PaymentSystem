@@ -1,20 +1,10 @@
 ﻿using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
 using Play.Globalization.Currency;
-using Play.Inventory.Contracts.Dtos;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Play.Loyalty.Domain.Entities;
 using Play.Loyalty.Domain.Entitiessss;
 using Play.Loyalty.Domain.ValueObjects;
 using Play.Loyalty.Contracts.Dtos;
-using Play.Domain;
-using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
 using Play.Loyalty.Domain.Enums;
 

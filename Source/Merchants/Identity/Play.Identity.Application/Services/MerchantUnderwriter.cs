@@ -1,8 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
 
-using Play.Core.Exceptions;
-
-using System.Net.Http.Json;
 using System.Text.Json;
 
 using Play.Domain.Common.Entities;

@@ -1,6 +1,4 @@
-﻿using NServiceBus;
-
-using Play.Domain.Aggregates;
+﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;

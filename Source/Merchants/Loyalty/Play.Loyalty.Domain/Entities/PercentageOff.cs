@@ -1,10 +1,7 @@
 ﻿using Play.Core;
-using Play.Domain;
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
-using Play.Globalization.Currency;
-using Play.Inventory.Contracts.Dtos;
 using Play.Loyalty.Contracts.Dtos;
 
 namespace Play.Loyalty.Domain.Entitiessss;

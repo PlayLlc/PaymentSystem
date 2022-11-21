@@ -2,7 +2,6 @@
 
 using System.ComponentModel.DataAnnotations;
 
-using Play.Globalization.Currency;
 using Play.Inventory.Contracts.Dtos;
 
 namespace Play.Loyalty.Contracts.Dtos;

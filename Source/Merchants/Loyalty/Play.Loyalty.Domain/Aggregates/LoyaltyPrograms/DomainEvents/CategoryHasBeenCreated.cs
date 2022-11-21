@@ -1,6 +1,5 @@
 ﻿using Play.Domain.Events;
 using Play.Globalization.Currency;
-using Play.Inventory.Domain.Entities;
 using Play.Loyalty.Domain.Aggregates;
 using Play.Loyalty.Domain.Entities;
 using Play.Loyalty.Domain.Entitiesddd;

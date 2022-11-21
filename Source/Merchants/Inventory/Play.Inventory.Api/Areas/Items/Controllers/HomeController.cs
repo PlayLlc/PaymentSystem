@@ -5,7 +5,6 @@ using Play.Domain.Exceptions;
 using Play.Inventory.Contracts.Dtos;
 using Play.Inventory.Domain.Repositories;
 using Play.Inventory.Domain.Services;
-using Play.Inventory.Domain;
 using Play.Inventory.Contracts.Commands;
 using Play.Mvc.Extensions;
 using Play.Inventory.Api.Controllers;

@@ -2,13 +2,6 @@
 using Play.Inventory.Contracts.Commands;
 using Play.Inventory.Domain.Aggregates;
 using Play.Inventory.Domain.Aggregatesd;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Play.Domain.ValueObjects;
 using Play.Loyalty.Domain.Aggregates._Shared.Rules;
 using Play.Loyalty.Domain.Entities;

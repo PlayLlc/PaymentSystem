@@ -9,8 +9,6 @@ using Play.Inventory.Domain.Aggregates;
 using Play.Inventory.Domain.Repositories;
 using Play.Inventory.Domain.Services;
 
-using System.Linq;
-
 namespace Play.Inventory.Application.Handlers;
 
 public class StoreHandler : IHandleMessages<StoreHasBeenDeletedEvent>, IHandleMessages<StoreHasBeenCreatedEvent>

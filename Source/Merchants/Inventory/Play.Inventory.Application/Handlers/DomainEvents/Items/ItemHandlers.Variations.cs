@@ -4,9 +4,7 @@ using Play.Domain.Events;
 
 using NServiceBus;
 
-using Play.Globalization.Time;
 using Play.Inventory.Contracts.Events;
-using Play.Inventory.Domain;
 using Play.Inventory.Domain.Aggregates;
 
 namespace Play.Inventory.Application.Handlers;

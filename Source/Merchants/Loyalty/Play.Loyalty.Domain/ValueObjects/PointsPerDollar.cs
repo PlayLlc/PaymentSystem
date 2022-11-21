@@ -1,13 +1,4 @@
-﻿using Play.Core;
-using Play.Domain.ValueObjects;
-using Play.Loyalty.Domain.Enums;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using Play.Domain.ValueObjects;
 using Play.Globalization.Currency;
 
 namespace Play.Loyalty.Domain.ValueObjects;

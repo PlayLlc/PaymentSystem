@@ -1,7 +1,7 @@
 ﻿using Play.Underwriting.Domain.Aggregates;
+using Play.Underwriting.Domain.Enums;
 using Play.Underwriting.Parser.TypeConverters;
-using System;
-using System.Reflection;
+
 using TinyCsvParser.Mapping;
 using TinyCsvParser.TypeConverter;
 
@@ -9,6 +9,7 @@ namespace Play.Underwriting.Parser.Mappings;
 
 public sealed class IndividualCsvMapping : CsvMapping<Individual>
 {
+    #region Constructor
 
     public IndividualCsvMapping() : base()
     {
@@ -25,7 +26,7 @@ public sealed class IndividualCsvMapping : CsvMapping<Individual>
             if (row.Tokens[colIndex].Equals(CustomStringTypeConverter.@null))
                 return true;
 
-            mapping.EntityType = new Domain.Enums.EntityType(row.Tokens[colIndex]);
+            mapping.EntityType = new EntityType(row.Tokens[colIndex]);
 
             return true;
         });
@@ -42,7 +43,7 @@ public sealed class IndividualCsvMapping : CsvMapping<Individual>
     }
 
     public IndividualCsvMapping(ITypeConverterProvider typeConverterProvider) : base(typeConverterProvider)
-    {
+    { }
 
-    }
+    #endregion
 }

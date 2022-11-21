@@ -7,7 +7,6 @@ using NServiceBus;
 
 using Play.Domain.Common.ValueObjects;
 using Play.Inventory.Contracts.Events;
-using Play.Inventory.Domain;
 using Play.Inventory.Domain.Aggregates;
 using Play.Inventory.Domain.Repositories;
 
