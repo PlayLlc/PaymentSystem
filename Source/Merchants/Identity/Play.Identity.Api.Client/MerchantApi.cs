@@ -456,9 +456,9 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"> (optional)</param>
         /// <returns>MerchantDto</returns>
-        public MerchantDto IndexMerchant(string id = null)
+        public MerchantDto GetMerchant(string id = null)
         {
-            ApiResponse<MerchantDto> localVarResponse = IndexMerchantWithHttpInfo(id);
+            ApiResponse<MerchantDto> localVarResponse = GetMerchantWithHttpInfo(id);
 
             return localVarResponse.Data;
         }
@@ -468,7 +468,7 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"> (optional)</param>
         /// <returns>ApiResponse of MerchantDto</returns>
-        public ApiResponse<MerchantDto> IndexMerchantWithHttpInfo(string id = null)
+        public ApiResponse<MerchantDto> GetMerchantWithHttpInfo(string id = null)
         {
             var localVarPath = "./Merchant";
             var localVarPathParams = new Dictionary<string, string>();
@@ -514,9 +514,9 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"> (optional)</param>
         /// <returns>Task of MerchantDto</returns>
-        public async Task<MerchantDto> IndexMerchantAsync(string id = null)
+        public async Task<MerchantDto> GetMerchantAsync(string id = null)
         {
-            ApiResponse<MerchantDto> localVarResponse = await IndexMerchantAsyncWithHttpInfo(id);
+            ApiResponse<MerchantDto> localVarResponse = await GetMerchantAsyncWithHttpInfo(id);
 
             return localVarResponse.Data;
         }
@@ -526,7 +526,7 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"> (optional)</param>
         /// <returns>Task of ApiResponse (MerchantDto)</returns>
-        public async Task<ApiResponse<MerchantDto>> IndexMerchantAsyncWithHttpInfo(string id = null)
+        public async Task<ApiResponse<MerchantDto>> GetMerchantAsyncWithHttpInfo(string id = null)
         {
             var localVarPath = "./Merchant";
             var localVarPathParams = new Dictionary<string, string>();

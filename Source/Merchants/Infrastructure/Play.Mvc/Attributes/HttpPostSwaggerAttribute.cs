@@ -38,6 +38,14 @@ public class HttpPostSwaggerAttribute : HttpPostAttribute
 
     #region Instance Members
 
+    private static string FormatActionMethodName(string actionMethod)
+    {
+        if (actionMethod == "Index")
+            return "Create";
+
+        return actionMethod;
+    }
+
     private static string CreateOpenApiName(string callerFilePath, string memberName)
     {
         var controller = Path.GetFileNameWithoutExtension(callerFilePath);
@@ -48,12 +56,12 @@ public class HttpPostSwaggerAttribute : HttpPostAttribute
 
     private static string CreateWithAreas(string controller, string actionMethod, string areas)
     {
-        return $"{areas}_{actionMethod}_{FormatControllerName(controller, areas)}";
+        return $"{areas}_{FormatActionMethodName(actionMethod)}_{FormatControllerName(controller, areas)}";
     }
 
     private static string CreateWithoutAreas(string controller, string actionMethod)
     {
-        return $"{actionMethod}_{FormatControllerName(controller)}";
+        return $"{FormatActionMethodName(actionMethod)}_{FormatControllerName(controller)}";
     }
 
     private static bool TryCapturingAreasName(string value, out string? areasName)

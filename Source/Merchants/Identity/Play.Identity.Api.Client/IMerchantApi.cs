@@ -72,7 +72,7 @@ public interface IMerchantApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>MerchantDto</returns>
-    MerchantDto IndexMerchant(string id = null);
+    MerchantDto GetMerchant(string id = null);
 
     /// <summary>
     /// </summary>
@@ -81,7 +81,7 @@ public interface IMerchantApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>ApiResponse of MerchantDto</returns>
-    ApiResponse<MerchantDto> IndexMerchantWithHttpInfo(string id = null);
+    ApiResponse<MerchantDto> GetMerchantWithHttpInfo(string id = null);
 
     #endregion Synchronous Operations
 
@@ -148,7 +148,7 @@ public interface IMerchantApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>Task of MerchantDto</returns>
-    Task<MerchantDto> IndexMerchantAsync(string id = null);
+    Task<MerchantDto> GetMerchantAsync(string id = null);
 
     /// <summary>
     /// </summary>
@@ -157,7 +157,7 @@ public interface IMerchantApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>Task of ApiResponse (MerchantDto)</returns>
-    Task<ApiResponse<MerchantDto>> IndexMerchantAsyncWithHttpInfo(string id = null);
+    Task<ApiResponse<MerchantDto>> GetMerchantAsyncWithHttpInfo(string id = null);
 
     #endregion Asynchronous Operations
 }

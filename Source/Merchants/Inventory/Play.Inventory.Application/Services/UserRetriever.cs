@@ -5,6 +5,8 @@ using Play.Inventory.Domain.Services;
 
 using System.Net;
 
+using Play.Restful.Clients;
+
 namespace Play.Inventory.Application.Services;
 
 public class UserRetriever : IRetrieveUsers
