@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
+using Play.Identity.Api.Client;
+using Play.Inventory.Application.Services;
 using Play.Inventory.Domain.Repositories;
+using Play.Inventory.Domain.Services;
 using Play.Inventory.Persistence.Sql.Persistence;
 using Play.Inventory.Persistence.Sql.Repositories;
 using Play.Restful.Clients;
@@ -17,22 +20,17 @@ public static partial class WebApplicationBuilderExtensions
 
         builder.Services.AddScoped<DbContext, InventoryDbContext>();
 
-        //builder.Services.AddScoped<DbContext, InventoryDbContext>();
-        //builder.Services.AddScoped<IRepository<Item, SimpleStringId>, ItemRepository>();
-        //builder.Services.AddScoped<IItemRepository, ItemRepository>();
-        //builder.Services.AddScoped<Repository<Item, SimpleStringId>, ItemRepository>();
-        //builder.Services.AddScoped<IStoreRepository, StoreRepository>();
-        //builder.Services.AddScoped<IRetrieveMerchants, MerchantRetriever>();
-        //builder.Services.AddScoped<IRetrieveUsers, UserRetriever>();
-
         // Api Clients 
-        //builder.Services.AddScoped<IMerchantApi, MerchantApi>(a => new MerchantApi(new Configuration(identityApiConfiguration.BasePath)));
-        //builder.Services.AddScoped<IUserApi, UserApi>(a => new UserApi(new Configuration(identityApiConfiguration.BasePath)));
-        //builder.Services.AddScoped<IRegistrationApi, RegistrationApi>(a => new RegistrationApi(new Configuration(identityApiConfiguration.BasePath)));
+        builder.Services.AddScoped<IMerchantApi, MerchantApi>(a => new MerchantApi(new Configuration(identityApiConfiguration.BasePath)));
+        builder.Services.AddScoped<IUserApi, UserApi>(a => new UserApi(new Configuration(identityApiConfiguration.BasePath)));
 
         // Repositories
         builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
         builder.Services.AddScoped<IItemRepository, ItemRepository>();
+
+        // Services
+        builder.Services.AddScoped<IRetrieveMerchants, MerchantRetriever>();
+        builder.Services.AddScoped<IRetrieveUsers, UserRetriever>();
 
         // HACK: Should we make these scoped per request? That would mean that we would have to add them to EVERY controller.
         // HACK: Will this introduce race conditions? There are only Write methods so we're not tracking entity changes
