@@ -18,1685 +18,1682 @@ using Play.Restful.Clients;
 
 using RestSharp.Portable;
 
-namespace Play.Identity.Api.Client
+namespace Play.Identity.Api.Client;
+
+/// <summary>
+///     Represents a collection of functions to interact with the API endpoints
+/// </summary>
+public partial class RegistrationApi : IRegistrationApi
 {
+    #region Instance Values
+
+    private ExceptionFactory _exceptionFactory = (name, response) => null;
+
     /// <summary>
-    ///     Represents a collection of functions to interact with the API endpoints
+    ///     Gets or sets the configuration object
     /// </summary>
-    public partial class RegistrationApi : IRegistrationApi
+    /// <value>An instance of the Configuration</value>
+    public Configuration Configuration { get; set; }
+
+    /// <summary>
+    ///     Provides a factory method hook for the creation of exceptions.
+    /// </summary>
+    public ExceptionFactory ExceptionFactory
     {
-        #region Instance Values
-
-        private ExceptionFactory _exceptionFactory = (name, response) => null;
-
-        /// <summary>
-        ///     Gets or sets the configuration object
-        /// </summary>
-        /// <value>An instance of the Configuration</value>
-        public Configuration Configuration { get; set; }
-
-        /// <summary>
-        ///     Provides a factory method hook for the creation of exceptions.
-        /// </summary>
-        public ExceptionFactory ExceptionFactory
+        get
         {
-            get
-            {
-                if ((_exceptionFactory != null) && (_exceptionFactory.GetInvocationList().Length > 1))
-                    throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.");
+            if ((_exceptionFactory != null) && (_exceptionFactory.GetInvocationList().Length > 1))
+                throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.");
 
-                return _exceptionFactory;
-            }
-            set => _exceptionFactory = value;
+            return _exceptionFactory;
         }
-
-        #endregion
-
-        #region Constructor
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="RegistrationApi" /> class.
-        /// </summary>
-        /// <returns></returns>
-        public RegistrationApi(string basePath)
-        {
-            Configuration = new Configuration(basePath);
-
-            ExceptionFactory = Configuration.DefaultExceptionFactory;
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="RegistrationApi" /> class
-        ///     using Configuration object
-        /// </summary>
-        /// <param name="configuration">An instance of Configuration</param>
-        /// <returns></returns>
-        public RegistrationApi(Configuration configuration)
-        {
-            Configuration = configuration;
-
-            ExceptionFactory = Configuration.DefaultExceptionFactory;
-        }
-
-        #endregion
-
-        #region Instance Members
-
-        /// <summary>
-        ///     Gets the base path of the API client.
-        /// </summary>
-        /// <value>The base path</value>
-        public string GetBasePath()
-        {
-            return Configuration.ApiClient.RestClient.BaseUrl.ToString();
-        }
-
-        /// <summary>
-        ///     Sets the base path of the API client.
-        /// </summary>
-        /// <value>The base path</value>
-        [Obsolete("SetBasePath is deprecated, please do 'Configuration.ApiClient = new ApiClient(\"http://new-path\")' instead.")]
-        public void SetBasePath(string basePath)
-        {
-            // do nothing
-        }
-
-        /// <summary>
-        ///     Gets the default header.
-        /// </summary>
-        /// <returns>Dictionary of HTTP header</returns>
-        [Obsolete("DefaultHeader is deprecated, please use Configuration.DefaultHeader instead.")]
-        public IDictionary<string, string> DefaultHeader()
-        {
-            return new ReadOnlyDictionary<string, string>(Configuration.DefaultHeader);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void RegistrationApproveMerchant(UpdateMerchantRegistrationCommand body = null)
-        {
-            RegistrationApproveMerchantWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> RegistrationApproveMerchantWithHttpInfo(UpdateMerchantRegistrationCommand body = null)
-        {
-            var localVarPath = "./Registration/Merchant/Approve";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.POST, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationApproveMerchant", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task RegistrationApproveMerchantAsync(UpdateMerchantRegistrationCommand body = null)
-        {
-            await RegistrationApproveMerchantAsyncWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> RegistrationApproveMerchantAsyncWithHttpInfo(UpdateMerchantRegistrationCommand body = null)
-        {
-            var localVarPath = "./Registration/Merchant/Approve";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.POST, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationApproveMerchant", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id"> (optional)</param>
-        /// <returns></returns>
-        public void RegistrationApproveUser(string id = null)
-        {
-            RegistrationApproveUserWithHttpInfo(id);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> RegistrationApproveUserWithHttpInfo(string id = null)
-        {
-            var localVarPath = "./Registration/User/Approve";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] { };
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (id != null)
-                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "id", id)); // query parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.POST, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationApproveUser", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task RegistrationApproveUserAsync(string id = null)
-        {
-            await RegistrationApproveUserAsyncWithHttpInfo(id);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> RegistrationApproveUserAsyncWithHttpInfo(string id = null)
-        {
-            var localVarPath = "./Registration/User/Approve";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] { };
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (id != null)
-                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "id", id)); // query parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.POST, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationApproveUser", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="userRegistrationId"> (optional)</param>
-        /// <returns></returns>
-        public void RegistrationCompleteRegistration(string userRegistrationId = null)
-        {
-            RegistrationCompleteRegistrationWithHttpInfo(userRegistrationId);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="userRegistrationId"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> RegistrationCompleteRegistrationWithHttpInfo(string userRegistrationId = null)
-        {
-            var localVarPath = "./Registration/Complete";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] { };
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (userRegistrationId != null)
-                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "userRegistrationId", userRegistrationId)); // query parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.POST, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationCompleteRegistration", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="userRegistrationId"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task RegistrationCompleteRegistrationAsync(string userRegistrationId = null)
-        {
-            await RegistrationCompleteRegistrationAsyncWithHttpInfo(userRegistrationId);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="userRegistrationId"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> RegistrationCompleteRegistrationAsyncWithHttpInfo(string userRegistrationId = null)
-        {
-            var localVarPath = "./Registration/Complete";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] { };
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (userRegistrationId != null)
-                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "userRegistrationId", userRegistrationId)); // query parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.POST, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationCompleteRegistration", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void RegistrationCreateMerchant(CreateMerchantRegistrationCommand body = null)
-        {
-            RegistrationCreateMerchantWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> RegistrationCreateMerchantWithHttpInfo(CreateMerchantRegistrationCommand body = null)
-        {
-            var localVarPath = "./Registration/Merchant";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.POST, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationCreateMerchant", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task RegistrationCreateMerchantAsync(CreateMerchantRegistrationCommand body = null)
-        {
-            await RegistrationCreateMerchantAsyncWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> RegistrationCreateMerchantAsyncWithHttpInfo(CreateMerchantRegistrationCommand body = null)
-        {
-            var localVarPath = "./Registration/Merchant";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.POST, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationCreateMerchant", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void RegistrationCreateUser(CreateUserRegistrationCommand body = null)
-        {
-            RegistrationCreateUserWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> RegistrationCreateUserWithHttpInfo(CreateUserRegistrationCommand body = null)
-        {
-            var localVarPath = "./Registration/User";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.POST, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationCreateUser", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task RegistrationCreateUserAsync(CreateUserRegistrationCommand body = null)
-        {
-            await RegistrationCreateUserAsyncWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> RegistrationCreateUserAsyncWithHttpInfo(CreateUserRegistrationCommand body = null)
-        {
-            var localVarPath = "./Registration/User";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.POST, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationCreateUser", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id"> (optional)</param>
-        /// <returns></returns>
-        public void RegistrationGetEmailVerificationForUser(string id = null)
-        {
-            RegistrationGetEmailVerificationForUserWithHttpInfo(id);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> RegistrationGetEmailVerificationForUserWithHttpInfo(string id = null)
-        {
-            var localVarPath = "./Registration/User/EmailVerification";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] { };
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (id != null)
-                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "id", id)); // query parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.GET, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationGetEmailVerificationForUser", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task RegistrationGetEmailVerificationForUserAsync(string id = null)
-        {
-            await RegistrationGetEmailVerificationForUserAsyncWithHttpInfo(id);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> RegistrationGetEmailVerificationForUserAsyncWithHttpInfo(string id = null)
-        {
-            var localVarPath = "./Registration/User/EmailVerification";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] { };
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (id != null)
-                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "id", id)); // query parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.GET, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationGetEmailVerificationForUser", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id"> (optional)</param>
-        /// <returns>MerchantRegistrationDto</returns>
-        public MerchantRegistrationDto RegistrationGetMerchant(string id = null)
-        {
-            ApiResponse<MerchantRegistrationDto> localVarResponse = RegistrationGetMerchantWithHttpInfo(id);
-
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id"> (optional)</param>
-        /// <returns>ApiResponse of MerchantRegistrationDto</returns>
-        public ApiResponse<MerchantRegistrationDto> RegistrationGetMerchantWithHttpInfo(string id = null)
-        {
-            var localVarPath = "./Registration/Merchant";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] { };
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (id != null)
-                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "id", id)); // query parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.GET, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationGetMerchant", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<MerchantRegistrationDto>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
-                (MerchantRegistrationDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(MerchantRegistrationDto)));
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id"> (optional)</param>
-        /// <returns>Task of MerchantRegistrationDto</returns>
-        public async Task<MerchantRegistrationDto> RegistrationGetMerchantAsync(string id = null)
-        {
-            ApiResponse<MerchantRegistrationDto> localVarResponse = await RegistrationGetMerchantAsyncWithHttpInfo(id);
-
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id"> (optional)</param>
-        /// <returns>Task of ApiResponse (MerchantRegistrationDto)</returns>
-        public async Task<ApiResponse<MerchantRegistrationDto>> RegistrationGetMerchantAsyncWithHttpInfo(string id = null)
-        {
-            var localVarPath = "./Registration/Merchant";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] { };
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (id != null)
-                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "id", id)); // query parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.GET, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationGetMerchant", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<MerchantRegistrationDto>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
-                (MerchantRegistrationDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(MerchantRegistrationDto)));
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id"> (optional)</param>
-        /// <returns></returns>
-        public void RegistrationGetPhoneVerificationForUser(string id = null)
-        {
-            RegistrationGetPhoneVerificationForUserWithHttpInfo(id);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> RegistrationGetPhoneVerificationForUserWithHttpInfo(string id = null)
-        {
-            var localVarPath = "./Registration/User/PhoneVerification";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] { };
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (id != null)
-                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "id", id)); // query parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.GET, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationGetPhoneVerificationForUser", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task RegistrationGetPhoneVerificationForUserAsync(string id = null)
-        {
-            await RegistrationGetPhoneVerificationForUserAsyncWithHttpInfo(id);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> RegistrationGetPhoneVerificationForUserAsyncWithHttpInfo(string id = null)
-        {
-            var localVarPath = "./Registration/User/PhoneVerification";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] { };
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (id != null)
-                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "id", id)); // query parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.GET, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationGetPhoneVerificationForUser", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id"> (optional)</param>
-        /// <returns>UserRegistrationDto</returns>
-        public UserRegistrationDto RegistrationGetUser(string id = null)
-        {
-            ApiResponse<UserRegistrationDto> localVarResponse = RegistrationGetUserWithHttpInfo(id);
-
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id"> (optional)</param>
-        /// <returns>ApiResponse of UserRegistrationDto</returns>
-        public ApiResponse<UserRegistrationDto> RegistrationGetUserWithHttpInfo(string id = null)
-        {
-            var localVarPath = "./Registration/User";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] { };
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (id != null)
-                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "id", id)); // query parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.GET, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationGetUser", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<UserRegistrationDto>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
-                (UserRegistrationDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(UserRegistrationDto)));
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id"> (optional)</param>
-        /// <returns>Task of UserRegistrationDto</returns>
-        public async Task<UserRegistrationDto> RegistrationGetUserAsync(string id = null)
-        {
-            ApiResponse<UserRegistrationDto> localVarResponse = await RegistrationGetUserAsyncWithHttpInfo(id);
-
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id"> (optional)</param>
-        /// <returns>Task of ApiResponse (UserRegistrationDto)</returns>
-        public async Task<ApiResponse<UserRegistrationDto>> RegistrationGetUserAsyncWithHttpInfo(string id = null)
-        {
-            var localVarPath = "./Registration/User";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] { };
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (id != null)
-                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "id", id)); // query parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.GET, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationGetUser", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<UserRegistrationDto>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
-                (UserRegistrationDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(UserRegistrationDto)));
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void RegistrationUpdateAddressForUser(UpdateAddressCommand body = null)
-        {
-            RegistrationUpdateAddressForUserWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> RegistrationUpdateAddressForUserWithHttpInfo(UpdateAddressCommand body = null)
-        {
-            var localVarPath = "./Registration/User/Address";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationUpdateAddressForUser", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task RegistrationUpdateAddressForUserAsync(UpdateAddressCommand body = null)
-        {
-            await RegistrationUpdateAddressForUserAsyncWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> RegistrationUpdateAddressForUserAsyncWithHttpInfo(UpdateAddressCommand body = null)
-        {
-            var localVarPath = "./Registration/User/Address";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationUpdateAddressForUser", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void RegistrationUpdateContactForUser(UpdateContactCommand body = null)
-        {
-            RegistrationUpdateContactForUserWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> RegistrationUpdateContactForUserWithHttpInfo(UpdateContactCommand body = null)
-        {
-            var localVarPath = "./Registration/User/Contact";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationUpdateContactForUser", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task RegistrationUpdateContactForUserAsync(UpdateContactCommand body = null)
-        {
-            await RegistrationUpdateContactForUserAsyncWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> RegistrationUpdateContactForUserAsyncWithHttpInfo(UpdateContactCommand body = null)
-        {
-            var localVarPath = "./Registration/User/Contact";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationUpdateContactForUser", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void RegistrationUpdateEmailVerificationForUser(VerifyConfirmationCodeCommand body = null)
-        {
-            RegistrationUpdateEmailVerificationForUserWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> RegistrationUpdateEmailVerificationForUserWithHttpInfo(VerifyConfirmationCodeCommand body = null)
-        {
-            var localVarPath = "./Registration/User/EmailVerification";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationUpdateEmailVerificationForUser", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task RegistrationUpdateEmailVerificationForUserAsync(VerifyConfirmationCodeCommand body = null)
-        {
-            await RegistrationUpdateEmailVerificationForUserAsyncWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> RegistrationUpdateEmailVerificationForUserAsyncWithHttpInfo(VerifyConfirmationCodeCommand body = null)
-        {
-            var localVarPath = "./Registration/User/EmailVerification";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationUpdateEmailVerificationForUser", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void RegistrationUpdatePersonalDetailsForUser(UpdatePersonalDetailCommand body = null)
-        {
-            RegistrationUpdatePersonalDetailsForUserWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> RegistrationUpdatePersonalDetailsForUserWithHttpInfo(UpdatePersonalDetailCommand body = null)
-        {
-            var localVarPath = "./Registration/User/PersonalDetails";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationUpdatePersonalDetailsForUser", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task RegistrationUpdatePersonalDetailsForUserAsync(UpdatePersonalDetailCommand body = null)
-        {
-            await RegistrationUpdatePersonalDetailsForUserAsyncWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> RegistrationUpdatePersonalDetailsForUserAsyncWithHttpInfo(UpdatePersonalDetailCommand body = null)
-        {
-            var localVarPath = "./Registration/User/PersonalDetails";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationUpdatePersonalDetailsForUser", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void RegistrationUpdatePhoneVerificationForUser(VerifyConfirmationCodeCommand body = null)
-        {
-            RegistrationUpdatePhoneVerificationForUserWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> RegistrationUpdatePhoneVerificationForUserWithHttpInfo(VerifyConfirmationCodeCommand body = null)
-        {
-            var localVarPath = "./Registration/User/PhoneVerification";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationUpdatePhoneVerificationForUser", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task RegistrationUpdatePhoneVerificationForUserAsync(VerifyConfirmationCodeCommand body = null)
-        {
-            await RegistrationUpdatePhoneVerificationForUserAsyncWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> RegistrationUpdatePhoneVerificationForUserAsyncWithHttpInfo(VerifyConfirmationCodeCommand body = null)
-        {
-            var localVarPath = "./Registration/User/PhoneVerification";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("RegistrationUpdatePhoneVerificationForUser", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        #endregion
+        set => _exceptionFactory = value;
     }
+
+    #endregion
+
+    #region Constructor
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="RegistrationApi" /> class.
+    /// </summary>
+    /// <returns></returns>
+    public RegistrationApi(string basePath)
+    {
+        Configuration = new Configuration(basePath);
+
+        ExceptionFactory = Configuration.DefaultExceptionFactory;
+    }
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="RegistrationApi" /> class
+    ///     using Configuration object
+    /// </summary>
+    /// <param name="configuration">An instance of Configuration</param>
+    /// <returns></returns>
+    public RegistrationApi(Configuration configuration)
+    {
+        Configuration = configuration;
+
+        ExceptionFactory = Configuration.DefaultExceptionFactory;
+    }
+
+    #endregion
+
+    #region Instance Members
+
+    /// <summary>
+    ///     Gets the base path of the API client.
+    /// </summary>
+    /// <value>The base path</value>
+    public string GetBasePath()
+    {
+        return Configuration.ApiClient.RestClient.BaseUrl.ToString();
+    }
+
+    /// <summary>
+    ///     Sets the base path of the API client.
+    /// </summary>
+    /// <value>The base path</value>
+    [Obsolete("SetBasePath is deprecated, please do 'Configuration.ApiClient = new ApiClient(\"http://new-path\")' instead.")]
+    public void SetBasePath(string basePath)
+    {
+        // do nothing
+    }
+
+    /// <summary>
+    ///     Gets the default header.
+    /// </summary>
+    /// <returns>Dictionary of HTTP header</returns>
+    [Obsolete("DefaultHeader is deprecated, please use Configuration.DefaultHeader instead.")]
+    public IDictionary<string, string> DefaultHeader()
+    {
+        return new ReadOnlyDictionary<string, string>(Configuration.DefaultHeader);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void RegistrationApproveMerchant(UpdateMerchantRegistrationCommand body = null)
+    {
+        RegistrationApproveMerchantWithHttpInfo(body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> RegistrationApproveMerchantWithHttpInfo(UpdateMerchantRegistrationCommand body = null)
+    {
+        var localVarPath = "./Registration/Merchant/Approve";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.POST, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationApproveMerchant", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task RegistrationApproveMerchantAsync(UpdateMerchantRegistrationCommand body = null)
+    {
+        await RegistrationApproveMerchantAsyncWithHttpInfo(body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> RegistrationApproveMerchantAsyncWithHttpInfo(UpdateMerchantRegistrationCommand body = null)
+    {
+        var localVarPath = "./Registration/Merchant/Approve";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.POST, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationApproveMerchant", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns></returns>
+    public void RegistrationApproveUser(string id = null)
+    {
+        RegistrationApproveUserWithHttpInfo(id);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> RegistrationApproveUserWithHttpInfo(string id = null)
+    {
+        var localVarPath = "./Registration/User/Approve";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] { };
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (id != null)
+            localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "id", id)); // query parameter
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.POST, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationApproveUser", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task RegistrationApproveUserAsync(string id = null)
+    {
+        await RegistrationApproveUserAsyncWithHttpInfo(id);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> RegistrationApproveUserAsyncWithHttpInfo(string id = null)
+    {
+        var localVarPath = "./Registration/User/Approve";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] { };
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (id != null)
+            localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "id", id)); // query parameter
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.POST, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationApproveUser", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="userRegistrationId"> (optional)</param>
+    /// <returns></returns>
+    public void RegistrationCompleteRegistration(string userRegistrationId = null)
+    {
+        RegistrationCompleteRegistrationWithHttpInfo(userRegistrationId);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="userRegistrationId"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> RegistrationCompleteRegistrationWithHttpInfo(string userRegistrationId = null)
+    {
+        var localVarPath = "./Registration/Complete";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] { };
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (userRegistrationId != null)
+            localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "userRegistrationId", userRegistrationId)); // query parameter
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.POST, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationCompleteRegistration", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="userRegistrationId"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task RegistrationCompleteRegistrationAsync(string userRegistrationId = null)
+    {
+        await RegistrationCompleteRegistrationAsyncWithHttpInfo(userRegistrationId);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="userRegistrationId"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> RegistrationCompleteRegistrationAsyncWithHttpInfo(string userRegistrationId = null)
+    {
+        var localVarPath = "./Registration/Complete";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] { };
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (userRegistrationId != null)
+            localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "userRegistrationId", userRegistrationId)); // query parameter
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.POST, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationCompleteRegistration", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void RegistrationCreateMerchant(CreateMerchantRegistrationCommand body = null)
+    {
+        RegistrationCreateMerchantWithHttpInfo(body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> RegistrationCreateMerchantWithHttpInfo(CreateMerchantRegistrationCommand body = null)
+    {
+        var localVarPath = "./Registration/Merchant";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.POST, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationCreateMerchant", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task RegistrationCreateMerchantAsync(CreateMerchantRegistrationCommand body = null)
+    {
+        await RegistrationCreateMerchantAsyncWithHttpInfo(body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> RegistrationCreateMerchantAsyncWithHttpInfo(CreateMerchantRegistrationCommand body = null)
+    {
+        var localVarPath = "./Registration/Merchant";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.POST, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationCreateMerchant", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void RegistrationCreateUser(CreateUserRegistrationCommand body = null)
+    {
+        RegistrationCreateUserWithHttpInfo(body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> RegistrationCreateUserWithHttpInfo(CreateUserRegistrationCommand body = null)
+    {
+        var localVarPath = "./Registration/User";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.POST, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationCreateUser", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task RegistrationCreateUserAsync(CreateUserRegistrationCommand body = null)
+    {
+        await RegistrationCreateUserAsyncWithHttpInfo(body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> RegistrationCreateUserAsyncWithHttpInfo(CreateUserRegistrationCommand body = null)
+    {
+        var localVarPath = "./Registration/User";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.POST, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationCreateUser", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns></returns>
+    public void RegistrationGetEmailVerificationForUser(string id = null)
+    {
+        RegistrationGetEmailVerificationForUserWithHttpInfo(id);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> RegistrationGetEmailVerificationForUserWithHttpInfo(string id = null)
+    {
+        var localVarPath = "./Registration/User/EmailVerification";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] { };
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (id != null)
+            localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "id", id)); // query parameter
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.GET, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationGetEmailVerificationForUser", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task RegistrationGetEmailVerificationForUserAsync(string id = null)
+    {
+        await RegistrationGetEmailVerificationForUserAsyncWithHttpInfo(id);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> RegistrationGetEmailVerificationForUserAsyncWithHttpInfo(string id = null)
+    {
+        var localVarPath = "./Registration/User/EmailVerification";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] { };
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (id != null)
+            localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "id", id)); // query parameter
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.GET, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationGetEmailVerificationForUser", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>MerchantRegistrationDto</returns>
+    public MerchantRegistrationDto RegistrationGetMerchant(string id = null)
+    {
+        ApiResponse<MerchantRegistrationDto> localVarResponse = RegistrationGetMerchantWithHttpInfo(id);
+
+        return localVarResponse.Data;
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>ApiResponse of MerchantRegistrationDto</returns>
+    public ApiResponse<MerchantRegistrationDto> RegistrationGetMerchantWithHttpInfo(string id = null)
+    {
+        var localVarPath = "./Registration/Merchant";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] { };
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (id != null)
+            localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "id", id)); // query parameter
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.GET, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationGetMerchant", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<MerchantRegistrationDto>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
+            (MerchantRegistrationDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(MerchantRegistrationDto)));
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>Task of MerchantRegistrationDto</returns>
+    public async Task<MerchantRegistrationDto> RegistrationGetMerchantAsync(string id = null)
+    {
+        ApiResponse<MerchantRegistrationDto> localVarResponse = await RegistrationGetMerchantAsyncWithHttpInfo(id);
+
+        return localVarResponse.Data;
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>Task of ApiResponse (MerchantRegistrationDto)</returns>
+    public async Task<ApiResponse<MerchantRegistrationDto>> RegistrationGetMerchantAsyncWithHttpInfo(string id = null)
+    {
+        var localVarPath = "./Registration/Merchant";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] { };
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (id != null)
+            localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "id", id)); // query parameter
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.GET, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationGetMerchant", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<MerchantRegistrationDto>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
+            (MerchantRegistrationDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(MerchantRegistrationDto)));
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns></returns>
+    public void RegistrationGetPhoneVerificationForUser(string id = null)
+    {
+        RegistrationGetPhoneVerificationForUserWithHttpInfo(id);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> RegistrationGetPhoneVerificationForUserWithHttpInfo(string id = null)
+    {
+        var localVarPath = "./Registration/User/PhoneVerification";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] { };
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (id != null)
+            localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "id", id)); // query parameter
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.GET, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationGetPhoneVerificationForUser", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task RegistrationGetPhoneVerificationForUserAsync(string id = null)
+    {
+        await RegistrationGetPhoneVerificationForUserAsyncWithHttpInfo(id);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> RegistrationGetPhoneVerificationForUserAsyncWithHttpInfo(string id = null)
+    {
+        var localVarPath = "./Registration/User/PhoneVerification";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] { };
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (id != null)
+            localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "id", id)); // query parameter
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.GET, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationGetPhoneVerificationForUser", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>UserRegistrationDto</returns>
+    public UserRegistrationDto RegistrationGetUser(string id = null)
+    {
+        ApiResponse<UserRegistrationDto> localVarResponse = RegistrationGetUserWithHttpInfo(id);
+
+        return localVarResponse.Data;
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>ApiResponse of UserRegistrationDto</returns>
+    public ApiResponse<UserRegistrationDto> RegistrationGetUserWithHttpInfo(string id = null)
+    {
+        var localVarPath = "./Registration/User";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] { };
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (id != null)
+            localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "id", id)); // query parameter
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.GET, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationGetUser", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<UserRegistrationDto>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
+            (UserRegistrationDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(UserRegistrationDto)));
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>Task of UserRegistrationDto</returns>
+    public async Task<UserRegistrationDto> RegistrationGetUserAsync(string id = null)
+    {
+        ApiResponse<UserRegistrationDto> localVarResponse = await RegistrationGetUserAsyncWithHttpInfo(id);
+
+        return localVarResponse.Data;
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>Task of ApiResponse (UserRegistrationDto)</returns>
+    public async Task<ApiResponse<UserRegistrationDto>> RegistrationGetUserAsyncWithHttpInfo(string id = null)
+    {
+        var localVarPath = "./Registration/User";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] { };
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (id != null)
+            localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "id", id)); // query parameter
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.GET, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationGetUser", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<UserRegistrationDto>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
+            (UserRegistrationDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(UserRegistrationDto)));
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void RegistrationUpdateAddressForUser(UpdateAddressCommand body = null)
+    {
+        RegistrationUpdateAddressForUserWithHttpInfo(body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> RegistrationUpdateAddressForUserWithHttpInfo(UpdateAddressCommand body = null)
+    {
+        var localVarPath = "./Registration/User/Address";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationUpdateAddressForUser", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task RegistrationUpdateAddressForUserAsync(UpdateAddressCommand body = null)
+    {
+        await RegistrationUpdateAddressForUserAsyncWithHttpInfo(body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> RegistrationUpdateAddressForUserAsyncWithHttpInfo(UpdateAddressCommand body = null)
+    {
+        var localVarPath = "./Registration/User/Address";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationUpdateAddressForUser", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void RegistrationUpdateContactForUser(UpdateContactCommand body = null)
+    {
+        RegistrationUpdateContactForUserWithHttpInfo(body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> RegistrationUpdateContactForUserWithHttpInfo(UpdateContactCommand body = null)
+    {
+        var localVarPath = "./Registration/User/Contact";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationUpdateContactForUser", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task RegistrationUpdateContactForUserAsync(UpdateContactCommand body = null)
+    {
+        await RegistrationUpdateContactForUserAsyncWithHttpInfo(body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> RegistrationUpdateContactForUserAsyncWithHttpInfo(UpdateContactCommand body = null)
+    {
+        var localVarPath = "./Registration/User/Contact";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationUpdateContactForUser", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void RegistrationUpdateEmailVerificationForUser(VerifyConfirmationCodeCommand body = null)
+    {
+        RegistrationUpdateEmailVerificationForUserWithHttpInfo(body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> RegistrationUpdateEmailVerificationForUserWithHttpInfo(VerifyConfirmationCodeCommand body = null)
+    {
+        var localVarPath = "./Registration/User/EmailVerification";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationUpdateEmailVerificationForUser", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task RegistrationUpdateEmailVerificationForUserAsync(VerifyConfirmationCodeCommand body = null)
+    {
+        await RegistrationUpdateEmailVerificationForUserAsyncWithHttpInfo(body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> RegistrationUpdateEmailVerificationForUserAsyncWithHttpInfo(VerifyConfirmationCodeCommand body = null)
+    {
+        var localVarPath = "./Registration/User/EmailVerification";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationUpdateEmailVerificationForUser", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void RegistrationUpdatePersonalDetailsForUser(UpdatePersonalDetailCommand body = null)
+    {
+        RegistrationUpdatePersonalDetailsForUserWithHttpInfo(body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> RegistrationUpdatePersonalDetailsForUserWithHttpInfo(UpdatePersonalDetailCommand body = null)
+    {
+        var localVarPath = "./Registration/User/PersonalDetails";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationUpdatePersonalDetailsForUser", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task RegistrationUpdatePersonalDetailsForUserAsync(UpdatePersonalDetailCommand body = null)
+    {
+        await RegistrationUpdatePersonalDetailsForUserAsyncWithHttpInfo(body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> RegistrationUpdatePersonalDetailsForUserAsyncWithHttpInfo(UpdatePersonalDetailCommand body = null)
+    {
+        var localVarPath = "./Registration/User/PersonalDetails";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationUpdatePersonalDetailsForUser", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void RegistrationUpdatePhoneVerificationForUser(VerifyConfirmationCodeCommand body = null)
+    {
+        RegistrationUpdatePhoneVerificationForUserWithHttpInfo(body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> RegistrationUpdatePhoneVerificationForUserWithHttpInfo(VerifyConfirmationCodeCommand body = null)
+    {
+        var localVarPath = "./Registration/User/PhoneVerification";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationUpdatePhoneVerificationForUser", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task RegistrationUpdatePhoneVerificationForUserAsync(VerifyConfirmationCodeCommand body = null)
+    {
+        await RegistrationUpdatePhoneVerificationForUserAsyncWithHttpInfo(body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> RegistrationUpdatePhoneVerificationForUserAsyncWithHttpInfo(VerifyConfirmationCodeCommand body = null)
+    {
+        var localVarPath = "./Registration/User/PhoneVerification";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("RegistrationUpdatePhoneVerificationForUser", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    #endregion
 }

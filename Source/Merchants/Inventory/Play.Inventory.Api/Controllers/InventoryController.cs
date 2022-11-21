@@ -8,33 +8,32 @@ using Play.Inventory.Domain.Services;
 using Play.Mvc.Attributes;
 using Play.Mvc.Extensions;
 
-namespace Play.Inventory.Api.Controllers
+namespace Play.Inventory.Api.Controllers;
+
+[ApiController]
+[Route("/Inventory")]
+public class InventoryController : BaseController
 {
-    [ApiController]
-    [Route("/Inventory")]
-    public class InventoryController : BaseController
+    #region Constructor
+
+    public InventoryController(
+        IRetrieveUsers userRetriever, IRetrieveMerchants merchantsRetriever, IItemRepository itemsRepository, ICategoryRepository categoryRepository,
+        IInventoryRepository inventoryRepository) : base(userRetriever, merchantsRetriever, itemsRepository, categoryRepository, inventoryRepository)
+    { }
+
+    #endregion
+
+    #region Instance Members
+
+    [HttpDeleteSwagger(template: "{storeId}")]
+    [ValidateAntiForgeryToken]
+    public async Task<InventoryDto> Get(string storeId)
     {
-        #region Constructor
+        this.ValidateModel();
 
-        public InventoryController(
-            IRetrieveUsers userRetriever, IRetrieveMerchants merchantsRetriever, IItemRepository itemsRepository, ICategoryRepository categoryRepository,
-            IInventoryRepository inventoryRepository) : base(userRetriever, merchantsRetriever, itemsRepository, categoryRepository, inventoryRepository)
-        { }
-
-        #endregion
-
-        #region Instance Members
-
-        [HttpDeleteSwagger(template: "{storeId}")]
-        [ValidateAntiForgeryToken]
-        public async Task<InventoryDto> Get(string storeId)
-        {
-            this.ValidateModel();
-
-            return (await _InventoryRepository.GetByStoreIdAsync(new SimpleStringId(storeId)).ConfigureAwait(false))?.AsDto()
-                   ?? throw new NotFoundException(typeof(InventoryDto));
-        }
-
-        #endregion
+        return (await _InventoryRepository.GetByStoreIdAsync(new SimpleStringId(storeId)).ConfigureAwait(false))?.AsDto()
+               ?? throw new NotFoundException(typeof(InventoryDto));
     }
+
+    #endregion
 }

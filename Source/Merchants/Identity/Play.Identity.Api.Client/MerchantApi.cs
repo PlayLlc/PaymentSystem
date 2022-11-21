@@ -16,557 +16,556 @@ using Play.Restful.Clients;
 
 using RestSharp.Portable;
 
-namespace Play.Identity.Api.Client
+namespace Play.Identity.Api.Client;
+
+/// <summary>
+///     Represents a collection of functions to interact with the API endpoints
+/// </summary>
+public partial class MerchantApi : IMerchantApi
 {
+    #region Instance Values
+
+    private ExceptionFactory _exceptionFactory = (name, response) => null;
+
     /// <summary>
-    ///     Represents a collection of functions to interact with the API endpoints
+    ///     Gets or sets the configuration object
     /// </summary>
-    public partial class MerchantApi : IMerchantApi
+    /// <value>An instance of the Configuration</value>
+    public Configuration Configuration { get; set; }
+
+    /// <summary>
+    ///     Provides a factory method hook for the creation of exceptions.
+    /// </summary>
+    public ExceptionFactory ExceptionFactory
     {
-        #region Instance Values
-
-        private ExceptionFactory _exceptionFactory = (name, response) => null;
-
-        /// <summary>
-        ///     Gets or sets the configuration object
-        /// </summary>
-        /// <value>An instance of the Configuration</value>
-        public Configuration Configuration { get; set; }
-
-        /// <summary>
-        ///     Provides a factory method hook for the creation of exceptions.
-        /// </summary>
-        public ExceptionFactory ExceptionFactory
+        get
         {
-            get
-            {
-                if ((_exceptionFactory != null) && (_exceptionFactory.GetInvocationList().Length > 1))
-                    throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.");
+            if ((_exceptionFactory != null) && (_exceptionFactory.GetInvocationList().Length > 1))
+                throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.");
 
-                return _exceptionFactory;
-            }
-            set => _exceptionFactory = value;
+            return _exceptionFactory;
         }
-
-        #endregion
-
-        #region Constructor
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="MerchantApi" /> class.
-        /// </summary>
-        /// <returns></returns>
-        public MerchantApi(string basePath)
-        {
-            Configuration = new Configuration(basePath);
-
-            ExceptionFactory = Configuration.DefaultExceptionFactory;
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="MerchantApi" /> class
-        ///     using Configuration object
-        /// </summary>
-        /// <param name="configuration">An instance of Configuration</param>
-        /// <returns></returns>
-        public MerchantApi(Configuration configuration)
-        {
-            Configuration = configuration;
-
-            ExceptionFactory = Configuration.DefaultExceptionFactory;
-        }
-
-        #endregion
-
-        #region Instance Members
-
-        /// <summary>
-        ///     Gets the base path of the API client.
-        /// </summary>
-        /// <value>The base path</value>
-        public string GetBasePath()
-        {
-            return Configuration.ApiClient.RestClient.BaseUrl.ToString();
-        }
-
-        /// <summary>
-        ///     Sets the base path of the API client.
-        /// </summary>
-        /// <value>The base path</value>
-        [Obsolete("SetBasePath is deprecated, please do 'Configuration.ApiClient = new ApiClient(\"http://new-path\")' instead.")]
-        public void SetBasePath(string basePath)
-        {
-            // do nothing
-        }
-
-        /// <summary>
-        ///     Gets the default header.
-        /// </summary>
-        /// <returns>Dictionary of HTTP header</returns>
-        [Obsolete("DefaultHeader is deprecated, please use Configuration.DefaultHeader instead.")]
-        public IDictionary<string, string> DefaultHeader()
-        {
-            return new ReadOnlyDictionary<string, string>(Configuration.DefaultHeader);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void AddressMerchant(UpdateAddressCommand body = null)
-        {
-            AddressMerchantWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> AddressMerchantWithHttpInfo(UpdateAddressCommand body = null)
-        {
-            var localVarPath = "./Merchant/Address";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("AddressMerchant", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task AddressMerchantAsync(UpdateAddressCommand body = null)
-        {
-            await AddressMerchantAsyncWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> AddressMerchantAsyncWithHttpInfo(UpdateAddressCommand body = null)
-        {
-            var localVarPath = "./Merchant/Address";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("AddressMerchant", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void BusinessInfoMerchant(UpdateMerchantBusinessInfo body = null)
-        {
-            BusinessInfoMerchantWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> BusinessInfoMerchantWithHttpInfo(UpdateMerchantBusinessInfo body = null)
-        {
-            var localVarPath = "./Merchant/BusinessInfo";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("BusinessInfoMerchant", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task BusinessInfoMerchantAsync(UpdateMerchantBusinessInfo body = null)
-        {
-            await BusinessInfoMerchantAsyncWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> BusinessInfoMerchantAsyncWithHttpInfo(UpdateMerchantBusinessInfo body = null)
-        {
-            var localVarPath = "./Merchant/BusinessInfo";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("BusinessInfoMerchant", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void CompanyNameMerchant(UpdateMerchantCompanyName body = null)
-        {
-            CompanyNameMerchantWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> CompanyNameMerchantWithHttpInfo(UpdateMerchantCompanyName body = null)
-        {
-            var localVarPath = "./Merchant/CompanyName";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("CompanyNameMerchant", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task CompanyNameMerchantAsync(UpdateMerchantCompanyName body = null)
-        {
-            await CompanyNameMerchantAsyncWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> CompanyNameMerchantAsyncWithHttpInfo(UpdateMerchantCompanyName body = null)
-        {
-            var localVarPath = "./Merchant/CompanyName";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("CompanyNameMerchant", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id"> (optional)</param>
-        /// <returns>MerchantDto</returns>
-        public MerchantDto GetMerchant(string id = null)
-        {
-            ApiResponse<MerchantDto> localVarResponse = GetMerchantWithHttpInfo(id);
-
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id"> (optional)</param>
-        /// <returns>ApiResponse of MerchantDto</returns>
-        public ApiResponse<MerchantDto> GetMerchantWithHttpInfo(string id = null)
-        {
-            var localVarPath = "./Merchant";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] { };
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (id != null)
-                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "id", id)); // query parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.GET, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("IndexMerchant", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<MerchantDto>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
-                (MerchantDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(MerchantDto)));
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id"> (optional)</param>
-        /// <returns>Task of MerchantDto</returns>
-        public async Task<MerchantDto> GetMerchantAsync(string id = null)
-        {
-            ApiResponse<MerchantDto> localVarResponse = await GetMerchantAsyncWithHttpInfo(id);
-
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id"> (optional)</param>
-        /// <returns>Task of ApiResponse (MerchantDto)</returns>
-        public async Task<ApiResponse<MerchantDto>> GetMerchantAsyncWithHttpInfo(string id = null)
-        {
-            var localVarPath = "./Merchant";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] { };
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (id != null)
-                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "id", id)); // query parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.GET, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("IndexMerchant", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<MerchantDto>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
-                (MerchantDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(MerchantDto)));
-        }
-
-        #endregion
+        set => _exceptionFactory = value;
     }
+
+    #endregion
+
+    #region Constructor
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="MerchantApi" /> class.
+    /// </summary>
+    /// <returns></returns>
+    public MerchantApi(string basePath)
+    {
+        Configuration = new Configuration(basePath);
+
+        ExceptionFactory = Configuration.DefaultExceptionFactory;
+    }
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="MerchantApi" /> class
+    ///     using Configuration object
+    /// </summary>
+    /// <param name="configuration">An instance of Configuration</param>
+    /// <returns></returns>
+    public MerchantApi(Configuration configuration)
+    {
+        Configuration = configuration;
+
+        ExceptionFactory = Configuration.DefaultExceptionFactory;
+    }
+
+    #endregion
+
+    #region Instance Members
+
+    /// <summary>
+    ///     Gets the base path of the API client.
+    /// </summary>
+    /// <value>The base path</value>
+    public string GetBasePath()
+    {
+        return Configuration.ApiClient.RestClient.BaseUrl.ToString();
+    }
+
+    /// <summary>
+    ///     Sets the base path of the API client.
+    /// </summary>
+    /// <value>The base path</value>
+    [Obsolete("SetBasePath is deprecated, please do 'Configuration.ApiClient = new ApiClient(\"http://new-path\")' instead.")]
+    public void SetBasePath(string basePath)
+    {
+        // do nothing
+    }
+
+    /// <summary>
+    ///     Gets the default header.
+    /// </summary>
+    /// <returns>Dictionary of HTTP header</returns>
+    [Obsolete("DefaultHeader is deprecated, please use Configuration.DefaultHeader instead.")]
+    public IDictionary<string, string> DefaultHeader()
+    {
+        return new ReadOnlyDictionary<string, string>(Configuration.DefaultHeader);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void AddressMerchant(UpdateAddressCommand body = null)
+    {
+        AddressMerchantWithHttpInfo(body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> AddressMerchantWithHttpInfo(UpdateAddressCommand body = null)
+    {
+        var localVarPath = "./Merchant/Address";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("AddressMerchant", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task AddressMerchantAsync(UpdateAddressCommand body = null)
+    {
+        await AddressMerchantAsyncWithHttpInfo(body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> AddressMerchantAsyncWithHttpInfo(UpdateAddressCommand body = null)
+    {
+        var localVarPath = "./Merchant/Address";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("AddressMerchant", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void BusinessInfoMerchant(UpdateMerchantBusinessInfo body = null)
+    {
+        BusinessInfoMerchantWithHttpInfo(body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> BusinessInfoMerchantWithHttpInfo(UpdateMerchantBusinessInfo body = null)
+    {
+        var localVarPath = "./Merchant/BusinessInfo";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("BusinessInfoMerchant", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task BusinessInfoMerchantAsync(UpdateMerchantBusinessInfo body = null)
+    {
+        await BusinessInfoMerchantAsyncWithHttpInfo(body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> BusinessInfoMerchantAsyncWithHttpInfo(UpdateMerchantBusinessInfo body = null)
+    {
+        var localVarPath = "./Merchant/BusinessInfo";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("BusinessInfoMerchant", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void CompanyNameMerchant(UpdateMerchantCompanyName body = null)
+    {
+        CompanyNameMerchantWithHttpInfo(body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> CompanyNameMerchantWithHttpInfo(UpdateMerchantCompanyName body = null)
+    {
+        var localVarPath = "./Merchant/CompanyName";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("CompanyNameMerchant", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task CompanyNameMerchantAsync(UpdateMerchantCompanyName body = null)
+    {
+        await CompanyNameMerchantAsyncWithHttpInfo(body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> CompanyNameMerchantAsyncWithHttpInfo(UpdateMerchantCompanyName body = null)
+    {
+        var localVarPath = "./Merchant/CompanyName";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("CompanyNameMerchant", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>MerchantDto</returns>
+    public MerchantDto GetMerchant(string id = null)
+    {
+        ApiResponse<MerchantDto> localVarResponse = GetMerchantWithHttpInfo(id);
+
+        return localVarResponse.Data;
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>ApiResponse of MerchantDto</returns>
+    public ApiResponse<MerchantDto> GetMerchantWithHttpInfo(string id = null)
+    {
+        var localVarPath = "./Merchant";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] { };
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (id != null)
+            localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "id", id)); // query parameter
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.GET, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("IndexMerchant", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<MerchantDto>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
+            (MerchantDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(MerchantDto)));
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>Task of MerchantDto</returns>
+    public async Task<MerchantDto> GetMerchantAsync(string id = null)
+    {
+        ApiResponse<MerchantDto> localVarResponse = await GetMerchantAsyncWithHttpInfo(id);
+
+        return localVarResponse.Data;
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="id"> (optional)</param>
+    /// <returns>Task of ApiResponse (MerchantDto)</returns>
+    public async Task<ApiResponse<MerchantDto>> GetMerchantAsyncWithHttpInfo(string id = null)
+    {
+        var localVarPath = "./Merchant";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] { };
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (id != null)
+            localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "id", id)); // query parameter
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.GET, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("IndexMerchant", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<MerchantDto>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
+            (MerchantDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(MerchantDto)));
+    }
+
+    #endregion
 }

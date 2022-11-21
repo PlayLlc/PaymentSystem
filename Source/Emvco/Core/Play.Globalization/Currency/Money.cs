@@ -43,6 +43,13 @@ public record Money : IEqualityComparer<Money>
 
     #region Instance Members
 
+    /// <summary>
+    ///     Gets the major currency amount without the minor currency. For example, for USD we would return the dollar amount
+    ///     without the cents
+    /// </summary>
+    /// <returns></returns>
+    public ulong GetMajorCurrencyAmount() => (ulong) (_Amount % Math.Pow(10, _Currency.GetMinorUnitLength()));
+
     public ulong GetAmount() => _Amount;
     public bool IsPositiveNonZeroAmount() => _Amount > 0;
 

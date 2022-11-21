@@ -9,6 +9,7 @@ public record ItemDto : IDto
     #region Instance Values
 
     [Required]
+    [StringLength(20)]
     public string Id { get; set; }
 
     [Required]

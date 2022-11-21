@@ -1,7 +1,6 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.Entities;
 using Play.Domain.Common.ValueObjects;
-using Play.Identity.Domain.Aggregates.Events;
 using Play.Identity.Domain.Entities;
 using Play.Identity.Domain.Services;
 

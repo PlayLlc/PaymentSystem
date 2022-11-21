@@ -24,11 +24,6 @@ internal static class DomainEventBus
         _DomainEventRouter.Subscribe(domainEventHandler);
     }
 
-    public static void Unsubscribe<_Event>(IHandleDomainEvents<_Event> domainEventHandler) where _Event : DomainEvent
-    {
-        _DomainEventRouter.Unsubscribe(domainEventHandler);
-    }
-
     public static void Publish<_Event>(_Event domainEvent) where _Event : DomainEvent
     {
         _DomainEventRouter.Publish(domainEvent);

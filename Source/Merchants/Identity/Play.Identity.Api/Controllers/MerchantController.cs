@@ -11,81 +11,80 @@ using Play.Identity.Domain.Services;
 using Play.Mvc.Attributes;
 using Play.Mvc.Extensions;
 
-namespace Play.Identity.Api.Controllers
+namespace Play.Identity.Api.Controllers;
+
+[Authorize]
+[SecurityHeaders]
+[Route("[controller]/[action]")]
+public class MerchantController : Controller
 {
-    [Authorize]
-    [SecurityHeaders]
-    [Route("[controller]/[action]")]
-    public class MerchantController : Controller
+    #region Instance Values
+
+    private readonly IRepository<Merchant, SimpleStringId> _MerchantRepository;
+    private readonly IUnderwriteMerchants _MerchantUnderwriter;
+
+    #endregion
+
+    #region Constructor
+
+    public MerchantController(IRepository<Merchant, SimpleStringId> merchantRepository, IUnderwriteMerchants merchantUnderwriter)
     {
-        #region Instance Values
-
-        private readonly IRepository<Merchant, SimpleStringId> _MerchantRepository;
-        private readonly IUnderwriteMerchants _MerchantUnderwriter;
-
-        #endregion
-
-        #region Constructor
-
-        public MerchantController(IRepository<Merchant, SimpleStringId> merchantRepository, IUnderwriteMerchants merchantUnderwriter)
-        {
-            _MerchantRepository = merchantRepository;
-            _MerchantUnderwriter = merchantUnderwriter;
-        }
-
-        #endregion
-
-        #region Instance Members
-
-        [HttpGetSwagger(template: "~/[controller]")]
-        [ValidateAntiForgeryToken]
-        public async Task<MerchantDto> Index([FromQuery] string id)
-        {
-            Merchant merchant = await _MerchantRepository.GetByIdAsync(new SimpleStringId(id)).ConfigureAwait(false)
-                                ?? throw new NotFoundException(typeof(MerchantRegistration), id);
-
-            return merchant.AsDto();
-        }
-
-        [HttpPutSwagger]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> BusinessInfo([FromBody] UpdateMerchantBusinessInfo command)
-        {
-            this.ValidateModel();
-
-            Merchant merchant = await _MerchantRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
-                                ?? throw new NotFoundException(typeof(MerchantRegistration), command.Id);
-            merchant.Update(_MerchantUnderwriter, command);
-
-            return Ok();
-        }
-
-        [HttpPutSwagger]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CompanyName([FromBody] UpdateMerchantCompanyName command)
-        {
-            this.ValidateModel();
-
-            Merchant merchant = await _MerchantRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
-                                ?? throw new NotFoundException(typeof(MerchantRegistration), command.Id);
-            merchant.Update(_MerchantUnderwriter, command);
-
-            return Ok();
-        }
-
-        [HttpPutSwagger]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Address([FromBody] UpdateAddressCommand command)
-        {
-            this.ValidateModel();
-
-            Merchant merchant = await _MerchantRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
-                                ?? throw new NotFoundException(typeof(MerchantRegistration), command.Id);
-            merchant.Update(_MerchantUnderwriter, command);
-
-            return Ok();
-        }
-
-        #endregion
+        _MerchantRepository = merchantRepository;
+        _MerchantUnderwriter = merchantUnderwriter;
     }
+
+    #endregion
+
+    #region Instance Members
+
+    [HttpGetSwagger(template: "~/[controller]")]
+    [ValidateAntiForgeryToken]
+    public async Task<MerchantDto> Index([FromQuery] string id)
+    {
+        Merchant merchant = await _MerchantRepository.GetByIdAsync(new SimpleStringId(id)).ConfigureAwait(false)
+                            ?? throw new NotFoundException(typeof(MerchantRegistration), id);
+
+        return merchant.AsDto();
+    }
+
+    [HttpPutSwagger]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> BusinessInfo([FromBody] UpdateMerchantBusinessInfo command)
+    {
+        this.ValidateModel();
+
+        Merchant merchant = await _MerchantRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
+                            ?? throw new NotFoundException(typeof(MerchantRegistration), command.Id);
+        merchant.Update(_MerchantUnderwriter, command);
+
+        return Ok();
+    }
+
+    [HttpPutSwagger]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CompanyName([FromBody] UpdateMerchantCompanyName command)
+    {
+        this.ValidateModel();
+
+        Merchant merchant = await _MerchantRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
+                            ?? throw new NotFoundException(typeof(MerchantRegistration), command.Id);
+        merchant.Update(_MerchantUnderwriter, command);
+
+        return Ok();
+    }
+
+    [HttpPutSwagger]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Address([FromBody] UpdateAddressCommand command)
+    {
+        this.ValidateModel();
+
+        Merchant merchant = await _MerchantRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
+                            ?? throw new NotFoundException(typeof(MerchantRegistration), command.Id);
+        merchant.Update(_MerchantUnderwriter, command);
+
+        return Ok();
+    }
+
+    #endregion
 }

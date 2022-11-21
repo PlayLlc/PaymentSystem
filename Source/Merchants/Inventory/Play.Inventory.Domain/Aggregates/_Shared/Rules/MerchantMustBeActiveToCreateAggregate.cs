@@ -1,6 +1,5 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
-using Play.Inventory.Domain.Aggregates.Events;
 using Play.Inventory.Domain.Entities;
 
 namespace Play.Inventory.Domain.Aggregates;

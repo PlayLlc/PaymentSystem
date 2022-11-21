@@ -1,4 +1,6 @@
-﻿namespace Play.Core;
+﻿using Play.Core.Exceptions;
+
+namespace Play.Core;
 
 /// <summary>
 ///     Represents a percentage in the range of 0 to 100. In other words, this class is a proper fraction
@@ -20,12 +22,13 @@ public readonly struct Probability
     #region Constructor
 
     /// <param name="value">
-    ///     Must be a value between 0 and 99
+    ///     Must be a value between 0 and 100
     /// </param>
+    /// <exception cref="PlayInternalException"></exception>
     public Probability(byte value)
     {
         if (value > _MaxValue)
-            _Value = _MaxValue;
+            throw new PlayInternalException($"The {nameof(Probability)} must be a number between 0 and 100 but was: [{value}]");
 
         _Value = value;
     }

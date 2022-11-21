@@ -16,2871 +16,2206 @@ using Play.Restful.Clients;
 
 using RestSharp.Portable;
 
-namespace Play.Inventory.Api.Client
+namespace Play.Inventory.Api.Client;
+
+/// <summary>
+///     Represents a collection of functions to interact with the API endpoints
+/// </summary>
+public partial class ItemsApi : IItemsApi
 {
+    #region Instance Values
+
+    private ExceptionFactory _exceptionFactory = (name, response) => null;
+
     /// <summary>
-    ///     Represents a collection of functions to interact with the API endpoints
+    ///     Gets or sets the configuration object
     /// </summary>
-    public interface IItemsApi : IApiAccessor
+    /// <value>An instance of the Configuration</value>
+    public Configuration Configuration { get; set; }
+
+    /// <summary>
+    ///     Provides a factory method hook for the creation of exceptions.
+    /// </summary>
+    public ExceptionFactory ExceptionFactory
     {
-        #region Synchronous Operations
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        void ItemsActivateAlerts(string itemId, UpdateItemAlerts body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> ItemsActivateAlertsWithHttpInfo(string itemId, UpdateItemAlerts body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        void ItemsAddCategories(string itemId, UpdateItemCategories body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> ItemsAddCategoriesWithHttpInfo(string itemId, UpdateItemCategories body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        void ItemsAddLocations(string itemId, UpdateItemLocations body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> ItemsAddLocationsWithHttpInfo(string itemId, UpdateItemLocations body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        void ItemsCreateVariations(string itemId, CreateVariation body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> ItemsCreateVariationsWithHttpInfo(string itemId, CreateVariation body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        void ItemsDeaticvateAlerts(string itemId, UpdateItemAlerts body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> ItemsDeaticvateAlertsWithHttpInfo(string itemId, UpdateItemAlerts body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="merchantId"> (optional)</param>
-        /// <param name="pageSize"> (optional)</param>
-        /// <param name="position"> (optional)</param>
-        /// <returns>List&lt;ItemDto&gt;</returns>
-        List<ItemDto> ItemsGetAllItems(string merchantId = null, int? pageSize = null, int? position = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="merchantId"> (optional)</param>
-        /// <param name="pageSize"> (optional)</param>
-        /// <param name="position"> (optional)</param>
-        /// <returns>ApiResponse of List&lt;ItemDto&gt;</returns>
-        ApiResponse<List<ItemDto>> ItemsGetAllItemsWithHttpInfo(string merchantId = null, int? pageSize = null, int? position = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <returns>ItemDto</returns>
-        ItemDto ItemsGetItems(string itemId);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <returns>ApiResponse of ItemDto</returns>
-        ApiResponse<ItemDto> ItemsGetItemsWithHttpInfo(string itemId);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        void ItemsRemoveCategories(string itemId, UpdateItemCategories body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> ItemsRemoveCategoriesWithHttpInfo(string itemId, UpdateItemCategories body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        void ItemsRemoveItems(string itemId, RemoveItem body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> ItemsRemoveItemsWithHttpInfo(string itemId, RemoveItem body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        void ItemsRemoveLocations(string itemId, UpdateItemLocations body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> ItemsRemoveLocationsWithHttpInfo(string itemId, UpdateItemLocations body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="variationId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        void ItemsRemoveVariations(string itemId, string variationId, RemoveVariation body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="variationId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> ItemsRemoveVariationsWithHttpInfo(string itemId, string variationId, RemoveVariation body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        void ItemsSetAllLocations(string itemId, SetAllLocationsForItem body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> ItemsSetAllLocationsWithHttpInfo(string itemId, SetAllLocationsForItem body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        void ItemsUpdateDescriptionItems(string itemId, UpdateItemDescription body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> ItemsUpdateDescriptionItemsWithHttpInfo(string itemId, UpdateItemDescription body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        void ItemsUpdateLowInventoryThresholdAlerts(string itemId, UpdateLowInventoryThresholdAlert body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> ItemsUpdateLowInventoryThresholdAlertsWithHttpInfo(string itemId, UpdateLowInventoryThresholdAlert body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        void ItemsUpdateNameItems(string itemId, UpdateItemName body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> ItemsUpdateNameItemsWithHttpInfo(string itemId, UpdateItemName body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="variationId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        void ItemsUpdateNameVariations(string itemId, string variationId, UpdateItemVariationName body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="variationId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> ItemsUpdateNameVariationsWithHttpInfo(string itemId, string variationId, UpdateItemVariationName body = null);
-
-        #endregion Synchronous Operations
-
-        #region Asynchronous Operations
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        Task ItemsActivateAlertsAsync(string itemId, UpdateItemAlerts body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        Task<ApiResponse<object>> ItemsActivateAlertsAsyncWithHttpInfo(string itemId, UpdateItemAlerts body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        Task ItemsAddCategoriesAsync(string itemId, UpdateItemCategories body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        Task<ApiResponse<object>> ItemsAddCategoriesAsyncWithHttpInfo(string itemId, UpdateItemCategories body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        Task ItemsAddLocationsAsync(string itemId, UpdateItemLocations body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        Task<ApiResponse<object>> ItemsAddLocationsAsyncWithHttpInfo(string itemId, UpdateItemLocations body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        Task ItemsCreateVariationsAsync(string itemId, CreateVariation body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        Task<ApiResponse<object>> ItemsCreateVariationsAsyncWithHttpInfo(string itemId, CreateVariation body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        Task ItemsDeaticvateAlertsAsync(string itemId, UpdateItemAlerts body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        Task<ApiResponse<object>> ItemsDeaticvateAlertsAsyncWithHttpInfo(string itemId, UpdateItemAlerts body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="merchantId"> (optional)</param>
-        /// <param name="pageSize"> (optional)</param>
-        /// <param name="position"> (optional)</param>
-        /// <returns>Task of List&lt;ItemDto&gt;</returns>
-        Task<List<ItemDto>> ItemsGetAllItemsAsync(string merchantId = null, int? pageSize = null, int? position = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="merchantId"> (optional)</param>
-        /// <param name="pageSize"> (optional)</param>
-        /// <param name="position"> (optional)</param>
-        /// <returns>Task of ApiResponse (List&lt;ItemDto&gt;)</returns>
-        Task<ApiResponse<List<ItemDto>>> ItemsGetAllItemsAsyncWithHttpInfo(string merchantId = null, int? pageSize = null, int? position = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <returns>Task of ItemDto</returns>
-        Task<ItemDto> ItemsGetItemsAsync(string itemId);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <returns>Task of ApiResponse (ItemDto)</returns>
-        Task<ApiResponse<ItemDto>> ItemsGetItemsAsyncWithHttpInfo(string itemId);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        Task ItemsRemoveCategoriesAsync(string itemId, UpdateItemCategories body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        Task<ApiResponse<object>> ItemsRemoveCategoriesAsyncWithHttpInfo(string itemId, UpdateItemCategories body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        Task ItemsRemoveItemsAsync(string itemId, RemoveItem body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        Task<ApiResponse<object>> ItemsRemoveItemsAsyncWithHttpInfo(string itemId, RemoveItem body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        Task ItemsRemoveLocationsAsync(string itemId, UpdateItemLocations body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        Task<ApiResponse<object>> ItemsRemoveLocationsAsyncWithHttpInfo(string itemId, UpdateItemLocations body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="variationId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        Task ItemsRemoveVariationsAsync(string itemId, string variationId, RemoveVariation body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="variationId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        Task<ApiResponse<object>> ItemsRemoveVariationsAsyncWithHttpInfo(string itemId, string variationId, RemoveVariation body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        Task ItemsSetAllLocationsAsync(string itemId, SetAllLocationsForItem body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        Task<ApiResponse<object>> ItemsSetAllLocationsAsyncWithHttpInfo(string itemId, SetAllLocationsForItem body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        Task ItemsUpdateDescriptionItemsAsync(string itemId, UpdateItemDescription body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        Task<ApiResponse<object>> ItemsUpdateDescriptionItemsAsyncWithHttpInfo(string itemId, UpdateItemDescription body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        Task ItemsUpdateLowInventoryThresholdAlertsAsync(string itemId, UpdateLowInventoryThresholdAlert body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        Task<ApiResponse<object>> ItemsUpdateLowInventoryThresholdAlertsAsyncWithHttpInfo(string itemId, UpdateLowInventoryThresholdAlert body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        Task ItemsUpdateNameItemsAsync(string itemId, UpdateItemName body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        Task<ApiResponse<object>> ItemsUpdateNameItemsAsyncWithHttpInfo(string itemId, UpdateItemName body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="variationId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        Task ItemsUpdateNameVariationsAsync(string itemId, string variationId, UpdateItemVariationName body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="variationId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        Task<ApiResponse<object>> ItemsUpdateNameVariationsAsyncWithHttpInfo(string itemId, string variationId, UpdateItemVariationName body = null);
-
-        #endregion Asynchronous Operations
+        get
+        {
+            if ((_exceptionFactory != null) && (_exceptionFactory.GetInvocationList().Length > 1))
+                throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.");
+
+            return _exceptionFactory;
+        }
+        set => _exceptionFactory = value;
+    }
+
+    #endregion
+
+    #region Constructor
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ItemsApi" /> class.
+    /// </summary>
+    /// <returns></returns>
+    public ItemsApi(string basePath)
+    {
+        Configuration = new Configuration(basePath);
+
+        ExceptionFactory = Configuration.DefaultExceptionFactory;
     }
 
     /// <summary>
-    ///     Represents a collection of functions to interact with the API endpoints
+    ///     Initializes a new instance of the <see cref="ItemsApi" /> class
+    ///     using Configuration object
     /// </summary>
-    public partial class ItemsApi : IItemsApi
+    /// <param name="configuration">An instance of Configuration</param>
+    /// <returns></returns>
+    public ItemsApi(Configuration configuration)
     {
-        #region Instance Values
+        Configuration = configuration;
 
-        private ExceptionFactory _exceptionFactory = (name, response) => null;
-
-        /// <summary>
-        ///     Gets or sets the configuration object
-        /// </summary>
-        /// <value>An instance of the Configuration</value>
-        public Configuration Configuration { get; set; }
-
-        /// <summary>
-        ///     Provides a factory method hook for the creation of exceptions.
-        /// </summary>
-        public ExceptionFactory ExceptionFactory
-        {
-            get
-            {
-                if ((_exceptionFactory != null) && (_exceptionFactory.GetInvocationList().Length > 1))
-                    throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.");
-
-                return _exceptionFactory;
-            }
-            set => _exceptionFactory = value;
-        }
-
-        #endregion
-
-        #region Constructor
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="ItemsApi" /> class.
-        /// </summary>
-        /// <returns></returns>
-        public ItemsApi(string basePath)
-        {
-            Configuration = new Configuration(basePath);
-
-            ExceptionFactory = Configuration.DefaultExceptionFactory;
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="ItemsApi" /> class
-        ///     using Configuration object
-        /// </summary>
-        /// <param name="configuration">An instance of Configuration</param>
-        /// <returns></returns>
-        public ItemsApi(Configuration configuration)
-        {
-            Configuration = configuration;
-
-            ExceptionFactory = Configuration.DefaultExceptionFactory;
-        }
-
-        #endregion
-
-        #region Instance Members
-
-        /// <summary>
-        ///     Gets the base path of the API client.
-        /// </summary>
-        /// <value>The base path</value>
-        public string GetBasePath()
-        {
-            return Configuration.ApiClient.RestClient.BaseUrl.ToString();
-        }
-
-        /// <summary>
-        ///     Sets the base path of the API client.
-        /// </summary>
-        /// <value>The base path</value>
-        [Obsolete("SetBasePath is deprecated, please do 'Configuration.ApiClient = new ApiClient(\"http://new-path\")' instead.")]
-        public void SetBasePath(string basePath)
-        {
-            // do nothing
-        }
-
-        /// <summary>
-        ///     Gets the default header.
-        /// </summary>
-        /// <returns>Dictionary of HTTP header</returns>
-        [Obsolete("DefaultHeader is deprecated, please use Configuration.DefaultHeader instead.")]
-        public IDictionary<string, string> DefaultHeader()
-        {
-            return new ReadOnlyDictionary<string, string>(Configuration.DefaultHeader);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void ItemsActivateAlerts(string itemId, UpdateItemAlerts body = null)
-        {
-            ItemsActivateAlertsWithHttpInfo(itemId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> ItemsActivateAlertsWithHttpInfo(string itemId, UpdateItemAlerts body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsActivateAlerts");
-
-            var localVarPath = "./Inventory/Items/{itemId}/Alerts/Activate";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsActivateAlerts", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task ItemsActivateAlertsAsync(string itemId, UpdateItemAlerts body = null)
-        {
-            await ItemsActivateAlertsAsyncWithHttpInfo(itemId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> ItemsActivateAlertsAsyncWithHttpInfo(string itemId, UpdateItemAlerts body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsActivateAlerts");
-
-            var localVarPath = "./Inventory/Items/{itemId}/Alerts/Activate";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsActivateAlerts", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void ItemsAddCategories(string itemId, UpdateItemCategories body = null)
-        {
-            ItemsAddCategoriesWithHttpInfo(itemId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> ItemsAddCategoriesWithHttpInfo(string itemId, UpdateItemCategories body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsAddCategories");
-
-            var localVarPath = "./Inventory/Items/{itemId}/Categories";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.POST, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsAddCategories", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task ItemsAddCategoriesAsync(string itemId, UpdateItemCategories body = null)
-        {
-            await ItemsAddCategoriesAsyncWithHttpInfo(itemId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> ItemsAddCategoriesAsyncWithHttpInfo(string itemId, UpdateItemCategories body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsAddCategories");
-
-            var localVarPath = "./Inventory/Items/{itemId}/Categories";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.POST, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsAddCategories", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void ItemsAddLocations(string itemId, UpdateItemLocations body = null)
-        {
-            ItemsAddLocationsWithHttpInfo(itemId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> ItemsAddLocationsWithHttpInfo(string itemId, UpdateItemLocations body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsAddLocations");
-
-            var localVarPath = "./Inventory/Items/{itemId}/Locations";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.POST, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsAddLocations", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task ItemsAddLocationsAsync(string itemId, UpdateItemLocations body = null)
-        {
-            await ItemsAddLocationsAsyncWithHttpInfo(itemId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> ItemsAddLocationsAsyncWithHttpInfo(string itemId, UpdateItemLocations body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsAddLocations");
-
-            var localVarPath = "./Inventory/Items/{itemId}/Locations";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.POST, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsAddLocations", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void ItemsCreateVariations(string itemId, CreateVariation body = null)
-        {
-            ItemsCreateVariationsWithHttpInfo(itemId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> ItemsCreateVariationsWithHttpInfo(string itemId, CreateVariation body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsCreateVariations");
-
-            var localVarPath = "./Inventory/Items/{itemId}/Variations";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.POST, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsCreateVariations", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task ItemsCreateVariationsAsync(string itemId, CreateVariation body = null)
-        {
-            await ItemsCreateVariationsAsyncWithHttpInfo(itemId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> ItemsCreateVariationsAsyncWithHttpInfo(string itemId, CreateVariation body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsCreateVariations");
-
-            var localVarPath = "./Inventory/Items/{itemId}/Variations";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.POST, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsCreateVariations", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void ItemsDeaticvateAlerts(string itemId, UpdateItemAlerts body = null)
-        {
-            ItemsDeaticvateAlertsWithHttpInfo(itemId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> ItemsDeaticvateAlertsWithHttpInfo(string itemId, UpdateItemAlerts body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsDeaticvateAlerts");
-
-            var localVarPath = "./Inventory/Items/{itemId}/Alerts/Deaticvate";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsDeaticvateAlerts", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task ItemsDeaticvateAlertsAsync(string itemId, UpdateItemAlerts body = null)
-        {
-            await ItemsDeaticvateAlertsAsyncWithHttpInfo(itemId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> ItemsDeaticvateAlertsAsyncWithHttpInfo(string itemId, UpdateItemAlerts body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsDeaticvateAlerts");
-
-            var localVarPath = "./Inventory/Items/{itemId}/Alerts/Deaticvate";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsDeaticvateAlerts", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="merchantId"> (optional)</param>
-        /// <param name="pageSize"> (optional)</param>
-        /// <param name="position"> (optional)</param>
-        /// <returns>List&lt;ItemDto&gt;</returns>
-        public List<ItemDto> ItemsGetAllItems(string merchantId = null, int? pageSize = null, int? position = null)
-        {
-            ApiResponse<List<ItemDto>> localVarResponse = ItemsGetAllItemsWithHttpInfo(merchantId, pageSize, position);
-
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="merchantId"> (optional)</param>
-        /// <param name="pageSize"> (optional)</param>
-        /// <param name="position"> (optional)</param>
-        /// <returns>ApiResponse of List&lt;ItemDto&gt;</returns>
-        public ApiResponse<List<ItemDto>> ItemsGetAllItemsWithHttpInfo(string merchantId = null, int? pageSize = null, int? position = null)
-        {
-            var localVarPath = "./Inventory/Items";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] { };
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (merchantId != null)
-                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "merchantId", merchantId)); // query parameter
-            if (pageSize != null)
-                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "pageSize", pageSize)); // query parameter
-            if (position != null)
-                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "position", position)); // query parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.GET, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsGetAllItems", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<List<ItemDto>>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
-                (List<ItemDto>) Configuration.ApiClient.Deserialize(localVarResponse, typeof(List<ItemDto>)));
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="merchantId"> (optional)</param>
-        /// <param name="pageSize"> (optional)</param>
-        /// <param name="position"> (optional)</param>
-        /// <returns>Task of List&lt;ItemDto&gt;</returns>
-        public async Task<List<ItemDto>> ItemsGetAllItemsAsync(string merchantId = null, int? pageSize = null, int? position = null)
-        {
-            ApiResponse<List<ItemDto>> localVarResponse = await ItemsGetAllItemsAsyncWithHttpInfo(merchantId, pageSize, position);
-
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="merchantId"> (optional)</param>
-        /// <param name="pageSize"> (optional)</param>
-        /// <param name="position"> (optional)</param>
-        /// <returns>Task of ApiResponse (List&lt;ItemDto&gt;)</returns>
-        public async Task<ApiResponse<List<ItemDto>>> ItemsGetAllItemsAsyncWithHttpInfo(string merchantId = null, int? pageSize = null, int? position = null)
-        {
-            var localVarPath = "./Inventory/Items";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] { };
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (merchantId != null)
-                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "merchantId", merchantId)); // query parameter
-            if (pageSize != null)
-                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "pageSize", pageSize)); // query parameter
-            if (position != null)
-                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "position", position)); // query parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.GET, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsGetAllItems", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<List<ItemDto>>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
-                (List<ItemDto>) Configuration.ApiClient.Deserialize(localVarResponse, typeof(List<ItemDto>)));
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <returns>ItemDto</returns>
-        public ItemDto ItemsGetItems(string itemId)
-        {
-            ApiResponse<ItemDto> localVarResponse = ItemsGetItemsWithHttpInfo(itemId);
-
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <returns>ApiResponse of ItemDto</returns>
-        public ApiResponse<ItemDto> ItemsGetItemsWithHttpInfo(string itemId)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsGetItems");
-
-            var localVarPath = "./Inventory/Items/{itemId}";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] { };
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.GET, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsGetItems", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<ItemDto>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
-                (ItemDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(ItemDto)));
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <returns>Task of ItemDto</returns>
-        public async Task<ItemDto> ItemsGetItemsAsync(string itemId)
-        {
-            ApiResponse<ItemDto> localVarResponse = await ItemsGetItemsAsyncWithHttpInfo(itemId);
-
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <returns>Task of ApiResponse (ItemDto)</returns>
-        public async Task<ApiResponse<ItemDto>> ItemsGetItemsAsyncWithHttpInfo(string itemId)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsGetItems");
-
-            var localVarPath = "./Inventory/Items/{itemId}";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] { };
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.GET, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsGetItems", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<ItemDto>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
-                (ItemDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(ItemDto)));
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void ItemsRemoveCategories(string itemId, UpdateItemCategories body = null)
-        {
-            ItemsRemoveCategoriesWithHttpInfo(itemId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> ItemsRemoveCategoriesWithHttpInfo(string itemId, UpdateItemCategories body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsRemoveCategories");
-
-            var localVarPath = "./Inventory/Items/{itemId}/Categories";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.DELETE, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsRemoveCategories", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task ItemsRemoveCategoriesAsync(string itemId, UpdateItemCategories body = null)
-        {
-            await ItemsRemoveCategoriesAsyncWithHttpInfo(itemId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> ItemsRemoveCategoriesAsyncWithHttpInfo(string itemId, UpdateItemCategories body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsRemoveCategories");
-
-            var localVarPath = "./Inventory/Items/{itemId}/Categories";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.DELETE, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsRemoveCategories", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void ItemsRemoveItems(string itemId, RemoveItem body = null)
-        {
-            ItemsRemoveItemsWithHttpInfo(itemId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> ItemsRemoveItemsWithHttpInfo(string itemId, RemoveItem body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsRemoveItems");
-
-            var localVarPath = "./Inventory/Items/{itemId}";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.DELETE, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsRemoveItems", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task ItemsRemoveItemsAsync(string itemId, RemoveItem body = null)
-        {
-            await ItemsRemoveItemsAsyncWithHttpInfo(itemId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> ItemsRemoveItemsAsyncWithHttpInfo(string itemId, RemoveItem body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsRemoveItems");
-
-            var localVarPath = "./Inventory/Items/{itemId}";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.DELETE, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsRemoveItems", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void ItemsRemoveLocations(string itemId, UpdateItemLocations body = null)
-        {
-            ItemsRemoveLocationsWithHttpInfo(itemId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> ItemsRemoveLocationsWithHttpInfo(string itemId, UpdateItemLocations body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsRemoveLocations");
-
-            var localVarPath = "./Inventory/Items/{itemId}/Locations";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.DELETE, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsRemoveLocations", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task ItemsRemoveLocationsAsync(string itemId, UpdateItemLocations body = null)
-        {
-            await ItemsRemoveLocationsAsyncWithHttpInfo(itemId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> ItemsRemoveLocationsAsyncWithHttpInfo(string itemId, UpdateItemLocations body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsRemoveLocations");
-
-            var localVarPath = "./Inventory/Items/{itemId}/Locations";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.DELETE, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsRemoveLocations", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="variationId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void ItemsRemoveVariations(string itemId, string variationId, RemoveVariation body = null)
-        {
-            ItemsRemoveVariationsWithHttpInfo(itemId, variationId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="variationId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> ItemsRemoveVariationsWithHttpInfo(string itemId, string variationId, RemoveVariation body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsRemoveVariations");
-
-            // verify the required parameter 'variationId' is set
-            if (variationId == null)
-                throw new ApiException(400, "Missing required parameter 'variationId' when calling ItemsApi->ItemsRemoveVariations");
-
-            var localVarPath = "./Inventory/Items/{itemId}/Variations/{variationId}";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if (variationId != null)
-                localVarPathParams.Add("variationId", Configuration.ApiClient.ParameterToString(variationId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.DELETE, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsRemoveVariations", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="variationId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task ItemsRemoveVariationsAsync(string itemId, string variationId, RemoveVariation body = null)
-        {
-            await ItemsRemoveVariationsAsyncWithHttpInfo(itemId, variationId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="variationId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> ItemsRemoveVariationsAsyncWithHttpInfo(string itemId, string variationId, RemoveVariation body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsRemoveVariations");
-
-            // verify the required parameter 'variationId' is set
-            if (variationId == null)
-                throw new ApiException(400, "Missing required parameter 'variationId' when calling ItemsApi->ItemsRemoveVariations");
-
-            var localVarPath = "./Inventory/Items/{itemId}/Variations/{variationId}";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if (variationId != null)
-                localVarPathParams.Add("variationId", Configuration.ApiClient.ParameterToString(variationId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.DELETE, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsRemoveVariations", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void ItemsSetAllLocations(string itemId, SetAllLocationsForItem body = null)
-        {
-            ItemsSetAllLocationsWithHttpInfo(itemId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> ItemsSetAllLocationsWithHttpInfo(string itemId, SetAllLocationsForItem body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsSetAllLocations");
-
-            var localVarPath = "./Inventory/Items/{itemId}/Locations/SetAll";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsSetAllLocations", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task ItemsSetAllLocationsAsync(string itemId, SetAllLocationsForItem body = null)
-        {
-            await ItemsSetAllLocationsAsyncWithHttpInfo(itemId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> ItemsSetAllLocationsAsyncWithHttpInfo(string itemId, SetAllLocationsForItem body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsSetAllLocations");
-
-            var localVarPath = "./Inventory/Items/{itemId}/Locations/SetAll";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsSetAllLocations", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void ItemsUpdateDescriptionItems(string itemId, UpdateItemDescription body = null)
-        {
-            ItemsUpdateDescriptionItemsWithHttpInfo(itemId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> ItemsUpdateDescriptionItemsWithHttpInfo(string itemId, UpdateItemDescription body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsUpdateDescriptionItems");
-
-            var localVarPath = "./Inventory/Items/{itemId}/UpdateDescription";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsUpdateDescriptionItems", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task ItemsUpdateDescriptionItemsAsync(string itemId, UpdateItemDescription body = null)
-        {
-            await ItemsUpdateDescriptionItemsAsyncWithHttpInfo(itemId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> ItemsUpdateDescriptionItemsAsyncWithHttpInfo(string itemId, UpdateItemDescription body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsUpdateDescriptionItems");
-
-            var localVarPath = "./Inventory/Items/{itemId}/UpdateDescription";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsUpdateDescriptionItems", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void ItemsUpdateLowInventoryThresholdAlerts(string itemId, UpdateLowInventoryThresholdAlert body = null)
-        {
-            ItemsUpdateLowInventoryThresholdAlertsWithHttpInfo(itemId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> ItemsUpdateLowInventoryThresholdAlertsWithHttpInfo(string itemId, UpdateLowInventoryThresholdAlert body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsUpdateLowInventoryThresholdAlerts");
-
-            var localVarPath = "./Inventory/Items/{itemId}/Alerts/UpdateLowInventoryThreshold";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsUpdateLowInventoryThresholdAlerts", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task ItemsUpdateLowInventoryThresholdAlertsAsync(string itemId, UpdateLowInventoryThresholdAlert body = null)
-        {
-            await ItemsUpdateLowInventoryThresholdAlertsAsyncWithHttpInfo(itemId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> ItemsUpdateLowInventoryThresholdAlertsAsyncWithHttpInfo(
-            string itemId, UpdateLowInventoryThresholdAlert body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsUpdateLowInventoryThresholdAlerts");
-
-            var localVarPath = "./Inventory/Items/{itemId}/Alerts/UpdateLowInventoryThreshold";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsUpdateLowInventoryThresholdAlerts", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void ItemsUpdateNameItems(string itemId, UpdateItemName body = null)
-        {
-            ItemsUpdateNameItemsWithHttpInfo(itemId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> ItemsUpdateNameItemsWithHttpInfo(string itemId, UpdateItemName body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsUpdateNameItems");
-
-            var localVarPath = "./Inventory/Items/{itemId}/UpdateName";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsUpdateNameItems", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task ItemsUpdateNameItemsAsync(string itemId, UpdateItemName body = null)
-        {
-            await ItemsUpdateNameItemsAsyncWithHttpInfo(itemId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> ItemsUpdateNameItemsAsyncWithHttpInfo(string itemId, UpdateItemName body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsUpdateNameItems");
-
-            var localVarPath = "./Inventory/Items/{itemId}/UpdateName";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsUpdateNameItems", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="variationId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void ItemsUpdateNameVariations(string itemId, string variationId, UpdateItemVariationName body = null)
-        {
-            ItemsUpdateNameVariationsWithHttpInfo(itemId, variationId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="variationId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> ItemsUpdateNameVariationsWithHttpInfo(string itemId, string variationId, UpdateItemVariationName body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsUpdateNameVariations");
-
-            // verify the required parameter 'variationId' is set
-            if (variationId == null)
-                throw new ApiException(400, "Missing required parameter 'variationId' when calling ItemsApi->ItemsUpdateNameVariations");
-
-            var localVarPath = "./Inventory/Items/{itemId}/Variations/{variationId}/UpdateName";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if (variationId != null)
-                localVarPathParams.Add("variationId", Configuration.ApiClient.ParameterToString(variationId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsUpdateNameVariations", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="variationId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task ItemsUpdateNameVariationsAsync(string itemId, string variationId, UpdateItemVariationName body = null)
-        {
-            await ItemsUpdateNameVariationsAsyncWithHttpInfo(itemId, variationId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="itemId"></param>
-        /// <param name="variationId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> ItemsUpdateNameVariationsAsyncWithHttpInfo(
-            string itemId, string variationId, UpdateItemVariationName body = null)
-        {
-            // verify the required parameter 'itemId' is set
-            if (itemId == null)
-                throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsUpdateNameVariations");
-
-            // verify the required parameter 'variationId' is set
-            if (variationId == null)
-                throw new ApiException(400, "Missing required parameter 'variationId' when calling ItemsApi->ItemsUpdateNameVariations");
-
-            var localVarPath = "./Inventory/Items/{itemId}/Variations/{variationId}/UpdateName";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (itemId != null)
-                localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
-            if (variationId != null)
-                localVarPathParams.Add("variationId", Configuration.ApiClient.ParameterToString(variationId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ItemsUpdateNameVariations", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        #endregion
+        ExceptionFactory = Configuration.DefaultExceptionFactory;
     }
+
+    #endregion
+
+    #region Instance Members
+
+    /// <summary>
+    ///     Gets the base path of the API client.
+    /// </summary>
+    /// <value>The base path</value>
+    public string GetBasePath()
+    {
+        return Configuration.ApiClient.RestClient.BaseUrl.ToString();
+    }
+
+    /// <summary>
+    ///     Sets the base path of the API client.
+    /// </summary>
+    /// <value>The base path</value>
+    [Obsolete("SetBasePath is deprecated, please do 'Configuration.ApiClient = new ApiClient(\"http://new-path\")' instead.")]
+    public void SetBasePath(string basePath)
+    {
+        // do nothing
+    }
+
+    /// <summary>
+    ///     Gets the default header.
+    /// </summary>
+    /// <returns>Dictionary of HTTP header</returns>
+    [Obsolete("DefaultHeader is deprecated, please use Configuration.DefaultHeader instead.")]
+    public IDictionary<string, string> DefaultHeader()
+    {
+        return new ReadOnlyDictionary<string, string>(Configuration.DefaultHeader);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void ItemsActivateAlerts(string itemId, UpdateItemAlerts body = null)
+    {
+        ItemsActivateAlertsWithHttpInfo(itemId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> ItemsActivateAlertsWithHttpInfo(string itemId, UpdateItemAlerts body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsActivateAlerts");
+
+        var localVarPath = "./Inventory/Items/{itemId}/Alerts/Activate";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsActivateAlerts", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task ItemsActivateAlertsAsync(string itemId, UpdateItemAlerts body = null)
+    {
+        await ItemsActivateAlertsAsyncWithHttpInfo(itemId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> ItemsActivateAlertsAsyncWithHttpInfo(string itemId, UpdateItemAlerts body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsActivateAlerts");
+
+        var localVarPath = "./Inventory/Items/{itemId}/Alerts/Activate";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsActivateAlerts", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void ItemsAddCategories(string itemId, UpdateItemCategories body = null)
+    {
+        ItemsAddCategoriesWithHttpInfo(itemId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> ItemsAddCategoriesWithHttpInfo(string itemId, UpdateItemCategories body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsAddCategories");
+
+        var localVarPath = "./Inventory/Items/{itemId}/Categories";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.POST, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsAddCategories", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task ItemsAddCategoriesAsync(string itemId, UpdateItemCategories body = null)
+    {
+        await ItemsAddCategoriesAsyncWithHttpInfo(itemId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> ItemsAddCategoriesAsyncWithHttpInfo(string itemId, UpdateItemCategories body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsAddCategories");
+
+        var localVarPath = "./Inventory/Items/{itemId}/Categories";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.POST, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsAddCategories", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void ItemsAddLocations(string itemId, UpdateItemLocations body = null)
+    {
+        ItemsAddLocationsWithHttpInfo(itemId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> ItemsAddLocationsWithHttpInfo(string itemId, UpdateItemLocations body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsAddLocations");
+
+        var localVarPath = "./Inventory/Items/{itemId}/Locations";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.POST, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsAddLocations", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task ItemsAddLocationsAsync(string itemId, UpdateItemLocations body = null)
+    {
+        await ItemsAddLocationsAsyncWithHttpInfo(itemId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> ItemsAddLocationsAsyncWithHttpInfo(string itemId, UpdateItemLocations body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsAddLocations");
+
+        var localVarPath = "./Inventory/Items/{itemId}/Locations";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.POST, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsAddLocations", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void ItemsCreateVariations(string itemId, CreateVariation body = null)
+    {
+        ItemsCreateVariationsWithHttpInfo(itemId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> ItemsCreateVariationsWithHttpInfo(string itemId, CreateVariation body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsCreateVariations");
+
+        var localVarPath = "./Inventory/Items/{itemId}/Variations";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.POST, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsCreateVariations", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task ItemsCreateVariationsAsync(string itemId, CreateVariation body = null)
+    {
+        await ItemsCreateVariationsAsyncWithHttpInfo(itemId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> ItemsCreateVariationsAsyncWithHttpInfo(string itemId, CreateVariation body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsCreateVariations");
+
+        var localVarPath = "./Inventory/Items/{itemId}/Variations";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.POST, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsCreateVariations", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void ItemsDeaticvateAlerts(string itemId, UpdateItemAlerts body = null)
+    {
+        ItemsDeaticvateAlertsWithHttpInfo(itemId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> ItemsDeaticvateAlertsWithHttpInfo(string itemId, UpdateItemAlerts body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsDeaticvateAlerts");
+
+        var localVarPath = "./Inventory/Items/{itemId}/Alerts/Deaticvate";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsDeaticvateAlerts", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task ItemsDeaticvateAlertsAsync(string itemId, UpdateItemAlerts body = null)
+    {
+        await ItemsDeaticvateAlertsAsyncWithHttpInfo(itemId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> ItemsDeaticvateAlertsAsyncWithHttpInfo(string itemId, UpdateItemAlerts body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsDeaticvateAlerts");
+
+        var localVarPath = "./Inventory/Items/{itemId}/Alerts/Deaticvate";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsDeaticvateAlerts", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="merchantId"> (optional)</param>
+    /// <param name="pageSize"> (optional)</param>
+    /// <param name="position"> (optional)</param>
+    /// <returns>List&lt;ItemDto&gt;</returns>
+    public List<ItemDto> ItemsGetAllItems(string merchantId = null, int? pageSize = null, int? position = null)
+    {
+        ApiResponse<List<ItemDto>> localVarResponse = ItemsGetAllItemsWithHttpInfo(merchantId, pageSize, position);
+
+        return localVarResponse.Data;
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="merchantId"> (optional)</param>
+    /// <param name="pageSize"> (optional)</param>
+    /// <param name="position"> (optional)</param>
+    /// <returns>ApiResponse of List&lt;ItemDto&gt;</returns>
+    public ApiResponse<List<ItemDto>> ItemsGetAllItemsWithHttpInfo(string merchantId = null, int? pageSize = null, int? position = null)
+    {
+        var localVarPath = "./Inventory/Items";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] { };
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (merchantId != null)
+            localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "merchantId", merchantId)); // query parameter
+        if (pageSize != null)
+            localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "pageSize", pageSize)); // query parameter
+        if (position != null)
+            localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "position", position)); // query parameter
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.GET, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsGetAllItems", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<List<ItemDto>>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
+            (List<ItemDto>) Configuration.ApiClient.Deserialize(localVarResponse, typeof(List<ItemDto>)));
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="merchantId"> (optional)</param>
+    /// <param name="pageSize"> (optional)</param>
+    /// <param name="position"> (optional)</param>
+    /// <returns>Task of List&lt;ItemDto&gt;</returns>
+    public async Task<List<ItemDto>> ItemsGetAllItemsAsync(string merchantId = null, int? pageSize = null, int? position = null)
+    {
+        ApiResponse<List<ItemDto>> localVarResponse = await ItemsGetAllItemsAsyncWithHttpInfo(merchantId, pageSize, position);
+
+        return localVarResponse.Data;
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="merchantId"> (optional)</param>
+    /// <param name="pageSize"> (optional)</param>
+    /// <param name="position"> (optional)</param>
+    /// <returns>Task of ApiResponse (List&lt;ItemDto&gt;)</returns>
+    public async Task<ApiResponse<List<ItemDto>>> ItemsGetAllItemsAsyncWithHttpInfo(string merchantId = null, int? pageSize = null, int? position = null)
+    {
+        var localVarPath = "./Inventory/Items";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] { };
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (merchantId != null)
+            localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "merchantId", merchantId)); // query parameter
+        if (pageSize != null)
+            localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "pageSize", pageSize)); // query parameter
+        if (position != null)
+            localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "position", position)); // query parameter
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.GET, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsGetAllItems", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<List<ItemDto>>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
+            (List<ItemDto>) Configuration.ApiClient.Deserialize(localVarResponse, typeof(List<ItemDto>)));
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <returns>ItemDto</returns>
+    public ItemDto ItemsGetItems(string itemId)
+    {
+        ApiResponse<ItemDto> localVarResponse = ItemsGetItemsWithHttpInfo(itemId);
+
+        return localVarResponse.Data;
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <returns>ApiResponse of ItemDto</returns>
+    public ApiResponse<ItemDto> ItemsGetItemsWithHttpInfo(string itemId)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsGetItems");
+
+        var localVarPath = "./Inventory/Items/{itemId}";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] { };
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.GET, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsGetItems", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<ItemDto>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
+            (ItemDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(ItemDto)));
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <returns>Task of ItemDto</returns>
+    public async Task<ItemDto> ItemsGetItemsAsync(string itemId)
+    {
+        ApiResponse<ItemDto> localVarResponse = await ItemsGetItemsAsyncWithHttpInfo(itemId);
+
+        return localVarResponse.Data;
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <returns>Task of ApiResponse (ItemDto)</returns>
+    public async Task<ApiResponse<ItemDto>> ItemsGetItemsAsyncWithHttpInfo(string itemId)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsGetItems");
+
+        var localVarPath = "./Inventory/Items/{itemId}";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] { };
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.GET, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsGetItems", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<ItemDto>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
+            (ItemDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(ItemDto)));
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void ItemsRemoveCategories(string itemId, UpdateItemCategories body = null)
+    {
+        ItemsRemoveCategoriesWithHttpInfo(itemId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> ItemsRemoveCategoriesWithHttpInfo(string itemId, UpdateItemCategories body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsRemoveCategories");
+
+        var localVarPath = "./Inventory/Items/{itemId}/Categories";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.DELETE, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsRemoveCategories", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task ItemsRemoveCategoriesAsync(string itemId, UpdateItemCategories body = null)
+    {
+        await ItemsRemoveCategoriesAsyncWithHttpInfo(itemId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> ItemsRemoveCategoriesAsyncWithHttpInfo(string itemId, UpdateItemCategories body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsRemoveCategories");
+
+        var localVarPath = "./Inventory/Items/{itemId}/Categories";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.DELETE, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsRemoveCategories", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void ItemsRemoveItems(string itemId, RemoveItem body = null)
+    {
+        ItemsRemoveItemsWithHttpInfo(itemId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> ItemsRemoveItemsWithHttpInfo(string itemId, RemoveItem body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsRemoveItems");
+
+        var localVarPath = "./Inventory/Items/{itemId}";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.DELETE, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsRemoveItems", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task ItemsRemoveItemsAsync(string itemId, RemoveItem body = null)
+    {
+        await ItemsRemoveItemsAsyncWithHttpInfo(itemId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> ItemsRemoveItemsAsyncWithHttpInfo(string itemId, RemoveItem body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsRemoveItems");
+
+        var localVarPath = "./Inventory/Items/{itemId}";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.DELETE, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsRemoveItems", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void ItemsRemoveLocations(string itemId, UpdateItemLocations body = null)
+    {
+        ItemsRemoveLocationsWithHttpInfo(itemId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> ItemsRemoveLocationsWithHttpInfo(string itemId, UpdateItemLocations body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsRemoveLocations");
+
+        var localVarPath = "./Inventory/Items/{itemId}/Locations";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.DELETE, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsRemoveLocations", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task ItemsRemoveLocationsAsync(string itemId, UpdateItemLocations body = null)
+    {
+        await ItemsRemoveLocationsAsyncWithHttpInfo(itemId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> ItemsRemoveLocationsAsyncWithHttpInfo(string itemId, UpdateItemLocations body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsRemoveLocations");
+
+        var localVarPath = "./Inventory/Items/{itemId}/Locations";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.DELETE, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsRemoveLocations", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="variationId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void ItemsRemoveVariations(string itemId, string variationId, RemoveVariation body = null)
+    {
+        ItemsRemoveVariationsWithHttpInfo(itemId, variationId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="variationId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> ItemsRemoveVariationsWithHttpInfo(string itemId, string variationId, RemoveVariation body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsRemoveVariations");
+
+        // verify the required parameter 'variationId' is set
+        if (variationId == null)
+            throw new ApiException(400, "Missing required parameter 'variationId' when calling ItemsApi->ItemsRemoveVariations");
+
+        var localVarPath = "./Inventory/Items/{itemId}/Variations/{variationId}";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if (variationId != null)
+            localVarPathParams.Add("variationId", Configuration.ApiClient.ParameterToString(variationId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.DELETE, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsRemoveVariations", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="variationId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task ItemsRemoveVariationsAsync(string itemId, string variationId, RemoveVariation body = null)
+    {
+        await ItemsRemoveVariationsAsyncWithHttpInfo(itemId, variationId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="variationId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> ItemsRemoveVariationsAsyncWithHttpInfo(string itemId, string variationId, RemoveVariation body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsRemoveVariations");
+
+        // verify the required parameter 'variationId' is set
+        if (variationId == null)
+            throw new ApiException(400, "Missing required parameter 'variationId' when calling ItemsApi->ItemsRemoveVariations");
+
+        var localVarPath = "./Inventory/Items/{itemId}/Variations/{variationId}";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if (variationId != null)
+            localVarPathParams.Add("variationId", Configuration.ApiClient.ParameterToString(variationId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.DELETE, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsRemoveVariations", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void ItemsSetAllLocations(string itemId, SetAllLocationsForItem body = null)
+    {
+        ItemsSetAllLocationsWithHttpInfo(itemId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> ItemsSetAllLocationsWithHttpInfo(string itemId, SetAllLocationsForItem body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsSetAllLocations");
+
+        var localVarPath = "./Inventory/Items/{itemId}/Locations/SetAll";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsSetAllLocations", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task ItemsSetAllLocationsAsync(string itemId, SetAllLocationsForItem body = null)
+    {
+        await ItemsSetAllLocationsAsyncWithHttpInfo(itemId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> ItemsSetAllLocationsAsyncWithHttpInfo(string itemId, SetAllLocationsForItem body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsSetAllLocations");
+
+        var localVarPath = "./Inventory/Items/{itemId}/Locations/SetAll";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsSetAllLocations", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void ItemsUpdateDescriptionItems(string itemId, UpdateItemDescription body = null)
+    {
+        ItemsUpdateDescriptionItemsWithHttpInfo(itemId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> ItemsUpdateDescriptionItemsWithHttpInfo(string itemId, UpdateItemDescription body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsUpdateDescriptionItems");
+
+        var localVarPath = "./Inventory/Items/{itemId}/UpdateDescription";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsUpdateDescriptionItems", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task ItemsUpdateDescriptionItemsAsync(string itemId, UpdateItemDescription body = null)
+    {
+        await ItemsUpdateDescriptionItemsAsyncWithHttpInfo(itemId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> ItemsUpdateDescriptionItemsAsyncWithHttpInfo(string itemId, UpdateItemDescription body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsUpdateDescriptionItems");
+
+        var localVarPath = "./Inventory/Items/{itemId}/UpdateDescription";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsUpdateDescriptionItems", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void ItemsUpdateLowInventoryThresholdAlerts(string itemId, UpdateLowInventoryThresholdAlert body = null)
+    {
+        ItemsUpdateLowInventoryThresholdAlertsWithHttpInfo(itemId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> ItemsUpdateLowInventoryThresholdAlertsWithHttpInfo(string itemId, UpdateLowInventoryThresholdAlert body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsUpdateLowInventoryThresholdAlerts");
+
+        var localVarPath = "./Inventory/Items/{itemId}/Alerts/UpdateLowInventoryThreshold";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsUpdateLowInventoryThresholdAlerts", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task ItemsUpdateLowInventoryThresholdAlertsAsync(string itemId, UpdateLowInventoryThresholdAlert body = null)
+    {
+        await ItemsUpdateLowInventoryThresholdAlertsAsyncWithHttpInfo(itemId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> ItemsUpdateLowInventoryThresholdAlertsAsyncWithHttpInfo(string itemId, UpdateLowInventoryThresholdAlert body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsUpdateLowInventoryThresholdAlerts");
+
+        var localVarPath = "./Inventory/Items/{itemId}/Alerts/UpdateLowInventoryThreshold";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsUpdateLowInventoryThresholdAlerts", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void ItemsUpdateNameItems(string itemId, UpdateItemName body = null)
+    {
+        ItemsUpdateNameItemsWithHttpInfo(itemId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> ItemsUpdateNameItemsWithHttpInfo(string itemId, UpdateItemName body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsUpdateNameItems");
+
+        var localVarPath = "./Inventory/Items/{itemId}/UpdateName";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsUpdateNameItems", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task ItemsUpdateNameItemsAsync(string itemId, UpdateItemName body = null)
+    {
+        await ItemsUpdateNameItemsAsyncWithHttpInfo(itemId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> ItemsUpdateNameItemsAsyncWithHttpInfo(string itemId, UpdateItemName body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsUpdateNameItems");
+
+        var localVarPath = "./Inventory/Items/{itemId}/UpdateName";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsUpdateNameItems", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="variationId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void ItemsUpdateNameVariations(string itemId, string variationId, UpdateItemVariationName body = null)
+    {
+        ItemsUpdateNameVariationsWithHttpInfo(itemId, variationId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="variationId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> ItemsUpdateNameVariationsWithHttpInfo(string itemId, string variationId, UpdateItemVariationName body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsUpdateNameVariations");
+
+        // verify the required parameter 'variationId' is set
+        if (variationId == null)
+            throw new ApiException(400, "Missing required parameter 'variationId' when calling ItemsApi->ItemsUpdateNameVariations");
+
+        var localVarPath = "./Inventory/Items/{itemId}/Variations/{variationId}/UpdateName";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if (variationId != null)
+            localVarPathParams.Add("variationId", Configuration.ApiClient.ParameterToString(variationId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsUpdateNameVariations", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="variationId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task ItemsUpdateNameVariationsAsync(string itemId, string variationId, UpdateItemVariationName body = null)
+    {
+        await ItemsUpdateNameVariationsAsyncWithHttpInfo(itemId, variationId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="itemId"></param>
+    /// <param name="variationId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> ItemsUpdateNameVariationsAsyncWithHttpInfo(string itemId, string variationId, UpdateItemVariationName body = null)
+    {
+        // verify the required parameter 'itemId' is set
+        if (itemId == null)
+            throw new ApiException(400, "Missing required parameter 'itemId' when calling ItemsApi->ItemsUpdateNameVariations");
+
+        // verify the required parameter 'variationId' is set
+        if (variationId == null)
+            throw new ApiException(400, "Missing required parameter 'variationId' when calling ItemsApi->ItemsUpdateNameVariations");
+
+        var localVarPath = "./Inventory/Items/{itemId}/Variations/{variationId}/UpdateName";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (itemId != null)
+            localVarPathParams.Add("itemId", Configuration.ApiClient.ParameterToString(itemId)); // path parameter
+        if (variationId != null)
+            localVarPathParams.Add("variationId", Configuration.ApiClient.ParameterToString(variationId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("ItemsUpdateNameVariations", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    #endregion
 }

@@ -7,13 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Infrastructure\Play.Domain.Common\Play.Domain.Common.csproj" />
-    <ProjectReference Include="..\Play.Identity.Contracts\Play.Identity.Contracts.csproj" />
+    <Compile Remove="Aggregates\Stores\Events\**" />
+    <Compile Remove="Aggregates\Stores\Rules\**" />
+    <EmbeddedResource Remove="Aggregates\Stores\Events\**" />
+    <EmbeddedResource Remove="Aggregates\Stores\Rules\**" />
+    <None Remove="Aggregates\Stores\Events\**" />
+    <None Remove="Aggregates\Stores\Rules\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Aggregates\Stores\Events\" />
-    <Folder Include="Aggregates\Stores\Rules\" />
+    <ProjectReference Include="..\..\Infrastructure\Play.Domain.Common\Play.Domain.Common.csproj" />
+    <ProjectReference Include="..\Play.Identity.Contracts\Play.Identity.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

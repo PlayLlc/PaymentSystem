@@ -9,7 +9,6 @@ using Play.Domain.Common.ValueObjects;
 using Play.Inventory.Contracts.Events;
 using Play.Inventory.Domain;
 using Play.Inventory.Domain.Aggregates;
-using Play.Inventory.Domain.Aggregates.Events;
 using Play.Inventory.Domain.Repositories;
 
 namespace Play.Inventory.Application.Handlers;

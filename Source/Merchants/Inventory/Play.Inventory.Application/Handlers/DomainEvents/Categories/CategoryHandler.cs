@@ -5,7 +5,6 @@ using NServiceBus;
 using Play.Domain.Events;
 using Play.Inventory.Domain;
 using Play.Inventory.Domain.Aggregates;
-using Play.Inventory.Domain.Aggregates.Events;
 using Play.Inventory.Domain.Repositories;
 
 namespace Play.Inventory.Application.Handlers;

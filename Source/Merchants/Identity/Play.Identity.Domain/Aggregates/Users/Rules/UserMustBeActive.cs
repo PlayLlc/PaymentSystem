@@ -1,6 +1,5 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
-using Play.Identity.Domain.Aggregates.Events;
 
 namespace Play.Identity.Domain.Aggregates.Rules;
 

@@ -10,7 +10,6 @@ using Play.Globalization.Time;
 using Play.Identity.Contracts.Commands;
 using Play.Identity.Contracts.Commands.UserRegistration;
 using Play.Identity.Contracts.Dtos;
-using Play.Identity.Domain.Aggregates.Events;
 using Play.Identity.Domain.Aggregates.Rules;
 using Play.Identity.Domain.Entities;
 using Play.Identity.Domain.Enums;

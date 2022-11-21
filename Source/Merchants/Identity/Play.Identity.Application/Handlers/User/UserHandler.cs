@@ -7,7 +7,6 @@ using Play.Domain.Events;
 using Play.Domain.Repositories;
 using Play.Identity.Contracts.Events;
 using Play.Identity.Domain.Aggregates;
-using Play.Identity.Domain.Aggregates.Events;
 
 namespace Play.Identity.Application.Handlers;
 

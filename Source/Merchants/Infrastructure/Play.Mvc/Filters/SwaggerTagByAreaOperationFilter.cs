@@ -4,26 +4,25 @@ using Microsoft.OpenApi.Models;
 
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Play.Mvc.Filters
+namespace Play.Mvc.Filters;
+
+public class SwaggerTagByAreaOperationFilter : IOperationFilter
 {
-    public class SwaggerTagByAreaOperationFilter : IOperationFilter
+    #region Instance Members
+
+    public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        #region Instance Members
-
-        public void Apply(OpenApiOperation operation, OperationFilterContext context)
+        if (context.ApiDescription.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
         {
-            if (context.ApiDescription.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
-            {
-                AreaAttribute? areaName = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttributes(typeof(AreaAttribute), true)
-                    .Cast<AreaAttribute>()
-                    .FirstOrDefault();
-                if (areaName != null)
-                    operation.Tags = new List<OpenApiTag> {new() {Name = areaName.RouteValue}};
-                else
-                    operation.Tags = new List<OpenApiTag> {new() {Name = controllerActionDescriptor.ControllerName}};
-            }
+            AreaAttribute? areaName = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttributes(typeof(AreaAttribute), true)
+                .Cast<AreaAttribute>()
+                .FirstOrDefault();
+            if (areaName != null)
+                operation.Tags = new List<OpenApiTag> {new() {Name = areaName.RouteValue}};
+            else
+                operation.Tags = new List<OpenApiTag> {new() {Name = controllerActionDescriptor.ControllerName}};
         }
-
-        #endregion
     }
+
+    #endregion
 }
