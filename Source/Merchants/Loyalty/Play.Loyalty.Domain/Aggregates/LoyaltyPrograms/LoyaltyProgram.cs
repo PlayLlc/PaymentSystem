@@ -13,7 +13,7 @@ public partial class LoyaltyProgram : Aggregate<SimpleStringId>
 
     private readonly SimpleStringId _MerchantId;
 
-    private readonly RewardProgram _RewardProgram;
+    private readonly RewardsProgram _RewardsProgram;
     private readonly HashSet<Discount> _Discounts;
     public override SimpleStringId Id { get; }
 
@@ -30,16 +30,16 @@ public partial class LoyaltyProgram : Aggregate<SimpleStringId>
     {
         Id = new SimpleStringId(dto.Id);
         _MerchantId = new SimpleStringId(dto.MerchantId);
-        _RewardProgram = new RewardProgram(dto.RewardProgram);
+        _RewardsProgram = new RewardsProgram(dto.RewardProgram);
         _Discounts = new HashSet<Discount>(dto.Discounts.Select(a => new Discount(a)));
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    internal LoyaltyProgram(string id, string merchantId, RewardProgram rewardProgram, IEnumerable<Discount> discounts)
+    internal LoyaltyProgram(string id, string merchantId, RewardsProgram rewardsProgram, IEnumerable<Discount> discounts)
     {
         Id = new SimpleStringId(id);
         _MerchantId = new SimpleStringId(merchantId);
-        _RewardProgram = rewardProgram;
+        _RewardsProgram = rewardsProgram;
         _Discounts = discounts.ToHashSet();
     }
 
@@ -59,7 +59,7 @@ public partial class LoyaltyProgram : Aggregate<SimpleStringId>
             Id = Id,
             MerchantId = _MerchantId,
             Discounts = _Discounts.Select(a => a.AsDto()),
-            RewardProgram = _RewardProgram.AsDto()
+            RewardProgram = _RewardsProgram.AsDto()
         };
     }
 

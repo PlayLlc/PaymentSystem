@@ -1,11 +1,10 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Events;
-using Play.Loyalty.Domain.Aggregates;
 
-namespace Play.Inventory.Domain.Aggregates;
+namespace Play.Loyalty.Domain.Aggregates;
 
-public record PercentageWasInvalid : BrokenRuleOrPolicyDomainEvent<LoyaltyProgram, SimpleStringId>
+public record DiscountItemDoesNotExist : BrokenRuleOrPolicyDomainEvent<LoyaltyProgram, SimpleStringId>
 {
     #region Instance Values
 
@@ -15,7 +14,7 @@ public record PercentageWasInvalid : BrokenRuleOrPolicyDomainEvent<LoyaltyProgra
 
     #region Constructor
 
-    public PercentageWasInvalid(LoyaltyProgram loyaltyProgram, IBusinessRule rule) : base(loyaltyProgram, rule)
+    public DiscountItemDoesNotExist(LoyaltyProgram loyaltyProgram, IBusinessRule rule) : base(loyaltyProgram, rule)
     {
         LoyaltyProgram = loyaltyProgram;
     }

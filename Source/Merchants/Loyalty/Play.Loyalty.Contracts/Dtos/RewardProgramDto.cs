@@ -17,16 +17,10 @@ public record RewardProgramDto : IDto
     public AmountOffDto AmountOff { get; set; } = null!;
 
     [Required]
-    public PercentageOffDto PercentageOff { get; set; } = null!;
-
-    [Required]
     public uint PointsPerDollar { get; set; }
 
     [Required]
     public uint RewardThreshold { get; set; }
-
-    [Required]
-    public string RewardType { get; set; } = string.Empty;
 
     #endregion
 }

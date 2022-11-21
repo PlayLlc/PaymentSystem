@@ -7,7 +7,7 @@ using Play.Domain.Exceptions;
 
 namespace Play.Loyalty.Domain.Entities;
 
-public class AmountOff : Entity<SimpleStringId>
+public class RewardAmount : Entity<SimpleStringId>
 {
     #region Instance Values
 
@@ -21,11 +21,11 @@ public class AmountOff : Entity<SimpleStringId>
     #region Constructor
 
     // Constructor for EF only
-    private AmountOff()
+    private RewardAmount()
     { }
 
     /// <exception cref="ValueObjectException"></exception>
-    internal AmountOff(AmountOffDto dto)
+    internal RewardAmount(AmountOffDto dto)
     {
         Id = new SimpleStringId(dto.Id);
         _Amount = dto.Amount.GetAmount();
@@ -33,7 +33,7 @@ public class AmountOff : Entity<SimpleStringId>
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    internal AmountOff(string id, Money amount)
+    internal RewardAmount(string id, Money amount)
     {
         Id = new SimpleStringId(id);
         _Amount = amount.GetAmount();
@@ -49,7 +49,6 @@ public class AmountOff : Entity<SimpleStringId>
         return _NumericCurrencyCode;
     }
 
-    /// <exception cref="BusinessRuleValidationException"></exception>
     public void UpdateAmount(Money amount)
     {
         _Amount = amount.GetAmount();
