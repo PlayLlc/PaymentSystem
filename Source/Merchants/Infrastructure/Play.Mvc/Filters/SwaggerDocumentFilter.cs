@@ -2,16 +2,14 @@
 
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.OpenApi.Models;
-
-using Play.Mvc.Attributes;
-
-using Swashbuckle.AspNetCore.SwaggerGen;
+using PlPlay.Mvc.Attributeswagger;
+usSwashbuckle.AspNetCore.SwaggerGenrGen;
 
 namespace Play.Mvc.Filters
 {
     public class SwaggerDocumentFilter : IDocumentFilter
-    {
-        #region Instance Members
+ 
+        #region Instance Membersbers
 
         public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
         {
@@ -43,8 +41,8 @@ namespace Play.Mvc.Filters
                 return true;
 
             return false;
-        }
+     
 
         #endregion
-    }
+        }
 }

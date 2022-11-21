@@ -16,6 +16,15 @@ public class MerchantRetriever : IRetrieveMerchants
 
     #endregion
 
+    #region Constructor
+
+    public MerchantRetriever(IMerchantApi merchantApi)
+    {
+        _MerchantApi = merchantApi;
+    }
+
+    #endregion
+
     #region Instance Members
 
     /// <exception cref="ApiException"></exception>
@@ -51,9 +60,4 @@ public class MerchantRetriever : IRetrieveMerchants
     }
 
     #endregion
-
-    //public MerchantRetriever(IMerchantApi merchantApi)
-    //{
-    //    _MerchantApi = merchantApi;
-    //}
 }

@@ -18,7 +18,7 @@ public interface IUserApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>UserDto</returns>
-    UserDto IndexUser(string id = null);
+    UserDto GetUser(string id = null);
 
     /// <summary>
     /// </summary>
@@ -27,7 +27,7 @@ public interface IUserApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>ApiResponse of UserDto</returns>
-    ApiResponse<UserDto> IndexUserWithHttpInfo(string id = null);
+    ApiResponse<UserDto> GetUserWithHttpInfo(string id = null);
 
     /// <summary>
     /// </summary>
@@ -94,7 +94,7 @@ public interface IUserApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>Task of UserDto</returns>
-    Task<UserDto> IndexUserAsync(string id = null);
+    Task<UserDto> GetUserAsync(string id = null);
 
     /// <summary>
     /// </summary>
@@ -103,7 +103,7 @@ public interface IUserApi : IApiAccessor
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="id"> (optional)</param>
     /// <returns>Task of ApiResponse (UserDto)</returns>
-    Task<ApiResponse<UserDto>> IndexUserAsyncWithHttpInfo(string id = null);
+    Task<ApiResponse<UserDto>> GetUserAsyncWithHttpInfo(string id = null);
 
     /// <summary>
     /// </summary>

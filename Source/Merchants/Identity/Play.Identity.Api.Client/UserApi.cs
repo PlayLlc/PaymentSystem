@@ -140,9 +140,9 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"> (optional)</param>
         /// <returns>UserDto</returns>
-        public UserDto IndexUser(string id = null)
+        public UserDto GetUser(string id = null)
         {
-            ApiResponse<UserDto> localVarResponse = IndexUserWithHttpInfo(id);
+            ApiResponse<UserDto> localVarResponse = GetUserWithHttpInfo(id);
 
             return localVarResponse.Data;
         }
@@ -152,7 +152,7 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"> (optional)</param>
         /// <returns>ApiResponse of UserDto</returns>
-        public ApiResponse<UserDto> IndexUserWithHttpInfo(string id = null)
+        public ApiResponse<UserDto> GetUserWithHttpInfo(string id = null)
         {
             var localVarPath = "./User";
             var localVarPathParams = new Dictionary<string, string>();
@@ -198,9 +198,9 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"> (optional)</param>
         /// <returns>Task of UserDto</returns>
-        public async Task<UserDto> IndexUserAsync(string id = null)
+        public async Task<UserDto> GetUserAsync(string id = null)
         {
-            ApiResponse<UserDto> localVarResponse = await IndexUserAsyncWithHttpInfo(id);
+            ApiResponse<UserDto> localVarResponse = await GetUserAsyncWithHttpInfo(id);
 
             return localVarResponse.Data;
         }
@@ -210,7 +210,7 @@ namespace Play.Identity.Api.Client
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"> (optional)</param>
         /// <returns>Task of ApiResponse (UserDto)</returns>
-        public async Task<ApiResponse<UserDto>> IndexUserAsyncWithHttpInfo(string id = null)
+        public async Task<ApiResponse<UserDto>> GetUserAsyncWithHttpInfo(string id = null)
         {
             var localVarPath = "./User";
             var localVarPathParams = new Dictionary<string, string>();
