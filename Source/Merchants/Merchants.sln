@@ -103,6 +103,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Loyalty.Api", "Loyalty
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Transactions", "Transactions", "{C2A3983A-634E-477B-A8D1-859B24193969}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Loyalty.Api.Client", "Loyalty\Play.Loyalty.Api.Client\Play.Loyalty.Api.Client.csproj", "{ECC7334D-3690-49E3-A810-2D2936768BA0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -257,6 +259,10 @@ Global
 		{60FC008B-DDCB-4686-8E08-5FB11B42C044}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60FC008B-DDCB-4686-8E08-5FB11B42C044}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60FC008B-DDCB-4686-8E08-5FB11B42C044}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECC7334D-3690-49E3-A810-2D2936768BA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECC7334D-3690-49E3-A810-2D2936768BA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECC7334D-3690-49E3-A810-2D2936768BA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECC7334D-3690-49E3-A810-2D2936768BA0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -300,6 +306,7 @@ Global
 		{A65446B2-9EFB-4CF3-AEBD-2636677BE248} = {D90B1335-FA53-4B1A-AEF6-8A37C89CB3A8}
 		{039A6632-5999-4FD1-A98D-EF7736643A7E} = {D90B1335-FA53-4B1A-AEF6-8A37C89CB3A8}
 		{60FC008B-DDCB-4686-8E08-5FB11B42C044} = {D90B1335-FA53-4B1A-AEF6-8A37C89CB3A8}
+		{ECC7334D-3690-49E3-A810-2D2936768BA0} = {D90B1335-FA53-4B1A-AEF6-8A37C89CB3A8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6833603-DD22-4624-AB4A-235C51671F62}
