@@ -4,7 +4,7 @@ public static class ShortSpec
 {
     #region Static Metadata
 
-    public const ushort SignedBit = 1 << 15;
+    public const ushort _SignedBit = 1 << 15;
 
     #endregion
 }

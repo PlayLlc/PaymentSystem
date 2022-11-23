@@ -25,7 +25,7 @@ public static class IdentityInMemoryConfig
     {
         return new List<ApiScope>
         {
-            new(IdentitySpecs.ApiScopes.IdentityServer, "This scope represents any client that is authorized to use an Identity Server resource",
+            new(IdentitySpecs.ApiScopes._IdentityServer, "This scope represents any client that is authorized to use an Identity Server resource",
                 new List<string>
                 {
                     JwtClaimTypes.Id,
@@ -34,7 +34,7 @@ public static class IdentityInMemoryConfig
                     JwtClaimTypes.Address,
                     JwtClaimTypes.Email
                 }),
-            new(IdentitySpecs.ApiScopes.ExternalApi, "This scope represents clients calling from an external web api", new List<string>
+            new(IdentitySpecs.ApiScopes._ExternalApi, "This scope represents clients calling from an external web api", new List<string>
             {
                 JwtClaimTypes.Id,
                 JwtClaimTypes.ClientId,
@@ -42,7 +42,7 @@ public static class IdentityInMemoryConfig
                 JwtClaimTypes.Address,
                 JwtClaimTypes.Email
             }),
-            new(IdentitySpecs.ApiScopes.ExternalMobile, "This scope represents clients calling from a mobile application",
+            new(IdentitySpecs.ApiScopes._ExternalMobile, "This scope represents clients calling from a mobile application",
                 new List<string>
                 {
                     JwtClaimTypes.Id,
@@ -51,7 +51,7 @@ public static class IdentityInMemoryConfig
                     JwtClaimTypes.Address,
                     JwtClaimTypes.Email
                 }),
-            new(IdentitySpecs.ApiScopes.Verification, "This scope allows clients to see if the user's account information has been verified",
+            new(IdentitySpecs.ApiScopes._Verification, "This scope allows clients to see if the user's account information has been verified",
                 new List<string>
                 {
                     JwtClaimTypes.Id,
@@ -80,9 +80,9 @@ public static class IdentityInMemoryConfig
                 PostLogoutRedirectUris = {businessPayConfig.PostLogoutRedirectUris},
                 AllowedScopes =
                 {
-                    IdentitySpecs.ApiScopes.IdentityServer,
-                    IdentitySpecs.ApiScopes.ExternalMobile,
-                    IdentitySpecs.ApiScopes.OpenId
+                    IdentitySpecs.ApiScopes._IdentityServer,
+                    IdentitySpecs.ApiScopes._ExternalMobile,
+                    IdentitySpecs.ApiScopes._OpenId
                 }
             },
 
@@ -98,10 +98,10 @@ public static class IdentityInMemoryConfig
                 PostLogoutRedirectUris = {merchantPortalConfig.PostLogoutRedirectUris},
                 AllowedScopes =
                 {
-                    IdentitySpecs.ApiScopes.OpenId,
+                    IdentitySpecs.ApiScopes._OpenId,
                     IdentityServerConstants.StandardScopes.Profile,
-                    IdentitySpecs.ApiScopes.IdentityServer,
-                    IdentitySpecs.ApiScopes.ExternalApi
+                    IdentitySpecs.ApiScopes._IdentityServer,
+                    IdentitySpecs.ApiScopes._ExternalApi
                 }
             }
         };

@@ -23,7 +23,7 @@ public sealed class IndividualCsvMapping : CsvMapping<Individual>
             if (string.IsNullOrEmpty(row.Tokens[colIndex]))
                 return false;
 
-            if (row.Tokens[colIndex].Equals(CustomStringTypeConverter.@null))
+            if (row.Tokens[colIndex].Equals(CustomStringTypeConverter._Null))
                 return true;
 
             mapping.EntityType = new EntityType(row.Tokens[colIndex]);

@@ -11,7 +11,7 @@ public readonly record struct Milliseconds
     #region Static Metadata
 
     public static readonly Milliseconds Zero = new(0);
-    public const int Precision = 1000;
+    public const int _Precision = 1000;
 
     #endregion
 
@@ -50,17 +50,17 @@ public readonly record struct Milliseconds
 
     public Milliseconds(Deciseconds value)
     {
-        _Value = (long) value * (Precision / Deciseconds.Precision);
+        _Value = (long) value * (_Precision / Deciseconds._Precision);
     }
 
     public Milliseconds(Seconds value)
     {
-        _Value = (long) value * (Precision / Seconds.Precision);
+        _Value = (long) value * (_Precision / Seconds._Precision);
     }
 
     public Milliseconds(Microseconds value)
     {
-        _Value = (long) value / Precision;
+        _Value = (long) value / _Precision;
     }
 
     public Milliseconds(TimeSpan value)
@@ -70,14 +70,14 @@ public readonly record struct Milliseconds
 
     public Milliseconds(Ticks value)
     {
-        _Value = (long) value / (Ticks.Precision / Precision);
+        _Value = (long) value / (Ticks._Precision / _Precision);
     }
 
     #endregion
 
     #region Instance Members
 
-    public TimeSpan AsTimeSpan() => new(_Value * (Ticks.Precision / Precision));
+    public TimeSpan AsTimeSpan() => new(_Value * (Ticks._Precision / _Precision));
     public Seconds AsSeconds() => new(this);
     public Ticks AsTicks() => new(this);
     public Deciseconds AsDeciSeconds() => new(this);

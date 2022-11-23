@@ -12,7 +12,7 @@ public static partial class Randomize
 
         public static byte[] Bytes(int length)
         {
-            if (length < Specs.ByteArray.StackAllocateCeiling)
+            if (length < Specs.ByteArray._StackAllocateCeiling)
             {
                 Span<byte> buffer = stackalloc byte[length];
 

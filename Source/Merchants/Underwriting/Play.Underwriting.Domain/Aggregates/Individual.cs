@@ -5,9 +5,15 @@ namespace Play.Underwriting.Domain.Aggregates;
 
 public class Individual
 {
-    private readonly List<Address> _addresses = new();
+    #region Instance Values
 
-    private readonly List<Alias> _aliases = new();
+    private readonly List<Address> _Addresses = new();
+
+    private readonly List<Alias> _Aliases = new();
+
+    public IReadOnlyList<Address> Addresses => _Addresses.AsReadOnly();
+
+    public IReadOnlyList<Alias> Aliases => _Aliases.AsReadOnly();
 
     public ulong Number { get; set; }
 
@@ -33,17 +39,19 @@ public class Individual
 
     public string Remarks { get; set; } = string.Empty;
 
-    public IReadOnlyList<Address> Addresses => _addresses.AsReadOnly();
+    #endregion
 
-    public IReadOnlyList<Alias> Aliases => _aliases.AsReadOnly();
+    #region Instance Members
 
     public void AddAddresses(Address[] addresses)
     {
-        _addresses.AddRange(addresses);
+        _Addresses.AddRange(addresses);
     }
 
     public void AddAlternateIdentities(Alias[] alternateIdentities)
     {
-        _aliases.AddRange(alternateIdentities);
+        _Aliases.AddRange(alternateIdentities);
     }
+
+    #endregion
 }

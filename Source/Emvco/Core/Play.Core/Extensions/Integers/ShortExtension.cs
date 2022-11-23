@@ -41,7 +41,7 @@ public static class ShortExtension
             return 0;
 
         if (value < 0)
-            return Specs.Integer.Int16.BitCount;
+            return Specs.Integer.Int16._BitCount;
 
         int bitLog = (int) Math.Log(value, 2);
 

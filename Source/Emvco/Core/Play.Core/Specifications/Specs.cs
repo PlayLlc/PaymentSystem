@@ -10,7 +10,7 @@ public partial class Specs
         ///     The max byte count that would be acceptable to use stacalloc. If the byte count is greater
         ///     than this then a shared array pool of some sort should be used
         /// </summary>
-        public const int StackAllocateCeiling = 256;
+        public const int _StackAllocateCeiling = 256;
 
         #endregion
     }

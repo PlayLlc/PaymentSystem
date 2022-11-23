@@ -20,7 +20,7 @@ public static class IntExtension
             return 0;
 
         if (value < 0)
-            return Specs.Integer.Int32.BitCount;
+            return Specs.Integer.Int32._BitCount;
 
         int bitLog = (int) Math.Log(value, 2);
 

@@ -16,12 +16,12 @@ public class CsvParser
 
     #region Instance Members
 
-    public static IEnumerable<CsvMappingResult<T>> ParseFromString<T>(string input, CsvParserOptions options, CsvMapping<T> mapping, string fileName)
-        where T : class, new()
+    public static IEnumerable<CsvMappingResult<_>> ParseFromString<_>(string input, CsvParserOptions options, CsvMapping<_> mapping, string fileName)
+        where _ : class, new()
     {
-        CsvParser<T> parser = new CsvParser<T>(options, mapping);
+        CsvParser<_> parser = new CsvParser<_>(options, mapping);
 
-        List<CsvMappingResult<T>> result = parser.ReadFromString(new CsvReaderOptions(new[] {"\n"}), input).ToList();
+        List<CsvMappingResult<_>> result = parser.ReadFromString(new CsvReaderOptions(new[] {"\n"}), input).ToList();
 
         if (result.Any(x => !x.IsValid))
             throw new ParsingException($"The {nameof(CsvParser)} encountered an exception parsing {fileName} file with the following errors: "

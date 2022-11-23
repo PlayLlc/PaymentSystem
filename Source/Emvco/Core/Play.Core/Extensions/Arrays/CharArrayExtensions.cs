@@ -12,7 +12,7 @@ public static class CharArrayExtensions
 
     public static char[] CopyValue(this char[] value)
     {
-        if (value.Length > Specs.ByteArray.StackAllocateCeiling)
+        if (value.Length > Specs.ByteArray._StackAllocateCeiling)
         {
             using SpanOwner<char> spanOwner = SpanOwner<char>.Allocate(value.Length);
             Span<char> buffer = spanOwner.Span;

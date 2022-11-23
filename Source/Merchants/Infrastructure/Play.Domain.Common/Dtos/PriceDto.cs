@@ -13,11 +13,7 @@ public record PriceDto : IDto
     public string Id { get; set; } = string.Empty;
 
     [Required]
-    [StringLength(20)]
-    public ushort NumericCurrencyCode { get; set; }
-
-    [Required]
-    public ulong Amount { get; set; }
+    public MoneyDto Amount { get; set; } = null!;
 
     #endregion
 }

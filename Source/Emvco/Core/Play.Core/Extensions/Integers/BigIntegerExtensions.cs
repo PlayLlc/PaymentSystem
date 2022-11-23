@@ -43,7 +43,7 @@ public static class BigIntegerExtensions
         BigInteger buffer = value;
         int offset = 0;
 
-        for (int i = 0; i < Specs.Integer.Int64.BitCount; i++)
+        for (int i = 0; i < Specs.Integer.Int64._BitCount; i++)
         {
             if (buffer == 0)
                 return offset;

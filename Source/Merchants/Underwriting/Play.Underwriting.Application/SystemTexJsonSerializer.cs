@@ -25,16 +25,16 @@ public class SystemTexJsonSerializer : IJSonSerializer
 
     #region Instance Members
 
-    public T Deserialize<T>(string text)
+    public _ Deserialize<_>(string text)
     {
-        return JsonSerializer.Deserialize<T>(text, _Options) ?? throw new Exception("Something went wrong while deserializing");
+        return JsonSerializer.Deserialize<_>(text, _Options) ?? throw new Exception("Something went wrong while deserializing");
     }
 
     #endregion
 
     #region Serialization
 
-    public string Serialize<T>(T obj)
+    public string Serialize<_>(_ obj)
     {
         return JsonSerializer.Serialize(obj, _Options);
     }

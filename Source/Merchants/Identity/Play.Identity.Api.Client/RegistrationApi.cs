@@ -27,7 +27,7 @@ public partial class RegistrationApi : IRegistrationApi
 {
     #region Instance Values
 
-    private ExceptionFactory _exceptionFactory = (name, response) => null;
+    private ExceptionFactory _ExceptionFactory = (name, response) => null;
 
     /// <summary>
     ///     Gets or sets the configuration object
@@ -42,12 +42,12 @@ public partial class RegistrationApi : IRegistrationApi
     {
         get
         {
-            if ((_exceptionFactory != null) && (_exceptionFactory.GetInvocationList().Length > 1))
+            if ((_ExceptionFactory != null) && (_ExceptionFactory.GetInvocationList().Length > 1))
                 throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.");
 
-            return _exceptionFactory;
+            return _ExceptionFactory;
         }
-        set => _exceptionFactory = value;
+        set => _ExceptionFactory = value;
     }
 
     #endregion

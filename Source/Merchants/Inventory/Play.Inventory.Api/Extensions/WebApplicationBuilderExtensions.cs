@@ -10,7 +10,7 @@ public static partial class WebApplicationBuilderExtensions
 
     internal static WebApplicationBuilder ConfigureEntityFramework(this WebApplicationBuilder builder)
     {
-        string? connectionString = builder.Configuration.GetConnectionString(InventoryDbContext.DatabaseName);
+        string? connectionString = builder.Configuration.GetConnectionString(InventoryDbContext._DatabaseName);
 
         builder.Services.AddDbContext<InventoryDbContext>(options =>
         {

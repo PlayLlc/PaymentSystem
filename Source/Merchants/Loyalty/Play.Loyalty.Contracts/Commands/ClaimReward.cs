@@ -1,19 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Play.Loyalty.Domain.Enums;
+using Play.Inventory.Contracts.Dtos;
 
 namespace Play.Inventory.Contracts.Commands;
 
-public record SetRewardType
+public record ClaimReward
 {
     #region Instance Values
 
     [Required]
     [StringLength(20)]
-    public string UserId { get; set; }
+    public string RewardId { get; set; } = string.Empty;
 
     [Required]
-    public RewardTypes RewardType { get; set; } = null!;
+    public MoneyDto RewardAmount { get; set; } = null!;
 
     #endregion
 }

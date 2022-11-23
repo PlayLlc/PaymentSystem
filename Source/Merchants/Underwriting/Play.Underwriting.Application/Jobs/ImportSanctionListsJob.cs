@@ -23,13 +23,13 @@ public class ImportSanctionListsJob : IScheduledCronJob
 {
     #region Static Metadata
 
-    private const string prim_file = "sdn.csv";
-    private const string addr_file = "add.csv";
-    private const string alt_file = "alt.csv";
+    private const string _PrimFile = "sdn.csv";
+    private const string _AddrFile = "add.csv";
+    private const string _AltFile = "alt.csv";
 
-    private const string cons_prim_file = "cons_prim.csv";
-    private const string cons_addr_file = "cons_add.csv";
-    private const string cons_alt_file = "cons_alt.csv";
+    private const string _ConsPrimFile = "cons_prim.csv";
+    private const string _ConsAddrFile = "cons_add.csv";
+    private const string _ConsAltFile = "cons_alt.csv";
 
     #endregion
 
@@ -124,9 +124,9 @@ public class ImportSanctionListsJob : IScheduledCronJob
     {
         CsvParserOptions options = new CsvParserOptions(false, ',');
 
-        Task<IEnumerable<Individual>> individualsTask = ImportIndividuals(options, prim_file);
-        Task<IEnumerable<Address>> addressesTask = ImportAddresses(options, addr_file);
-        Task<IEnumerable<Alias>> alternateIdentitiesTask = ImportAliases(options, alt_file);
+        Task<IEnumerable<Individual>> individualsTask = ImportIndividuals(options, _PrimFile);
+        Task<IEnumerable<Address>> addressesTask = ImportAddresses(options, _AddrFile);
+        Task<IEnumerable<Alias>> alternateIdentitiesTask = ImportAliases(options, _AltFile);
 
         await Task.WhenAll(individualsTask, addressesTask, alternateIdentitiesTask);
 
@@ -143,9 +143,9 @@ public class ImportSanctionListsJob : IScheduledCronJob
     {
         CsvParserOptions options = new CsvParserOptions(false, ',');
 
-        Task<IEnumerable<Individual>> individualsTask = ImportIndividuals(options, cons_prim_file, true);
-        Task<IEnumerable<Address>> addressesTask = ImportAddresses(options, cons_addr_file, true);
-        Task<IEnumerable<Alias>> alternateIdentitiesTask = ImportAliases(options, cons_alt_file, true);
+        Task<IEnumerable<Individual>> individualsTask = ImportIndividuals(options, _ConsPrimFile, true);
+        Task<IEnumerable<Address>> addressesTask = ImportAddresses(options, _ConsAddrFile, true);
+        Task<IEnumerable<Alias>> alternateIdentitiesTask = ImportAliases(options, _ConsAltFile, true);
 
         await Task.WhenAll(individualsTask, addressesTask, alternateIdentitiesTask);
 

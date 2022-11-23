@@ -43,7 +43,7 @@ public static partial class SpanExtensions
         value[^result.Length..].CopyTo(result);
 
         if ((paddedNibbles % 2) != 0)
-            result[0] = result[0].GetMaskedValue(LeftNibble.MaxValue);
+            result[0] = result[0].GetMaskedValue(LeftNibble._MaxValue);
 
         return result;
     }

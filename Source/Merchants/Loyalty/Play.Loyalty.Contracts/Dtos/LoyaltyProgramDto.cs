@@ -25,25 +25,3 @@ public record LoyaltyProgramDto : IDto
 
     #endregion
 }
-
-public record LoyaltyMemberDto : IDto
-{
-    #region Instance Values
-
-    [Required]
-    [StringLength(20)]
-    public string Id { get; set; } = string.Empty;
-
-    [Required]
-    [StringLength(20)]
-    public string MerchantId { get; set; } = string.Empty;
-
-    [Required]
-    public string Name { get; set; } = string.Empty;
-
-    [Required]
-    [StringLength(10)]
-    public string RewardsNumber { get; set; } = string.Empty;
-
-    #endregion
-}

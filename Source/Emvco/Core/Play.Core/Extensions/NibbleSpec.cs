@@ -4,7 +4,7 @@ public static class NibbleSpec
 {
     #region Static Metadata
 
-    public const byte BitsInANibble = 4;
+    public const byte _BitsInANibble = 4;
 
     #endregion
 
@@ -12,8 +12,8 @@ public static class NibbleSpec
     {
         #region Static Metadata
 
-        public const byte MostSignificantBit = ByteSpec.MostSignificantBit;
-        public const byte LeastSignificantBit = ByteSpec.Five;
+        public const byte _MostSignificantBit = ByteSpec._MostSignificantBit;
+        public const byte _LeastSignificantBit = ByteSpec._Five;
 
         #endregion
     }
@@ -22,8 +22,8 @@ public static class NibbleSpec
     {
         #region Static Metadata
 
-        public const byte MostSignificantBit = ByteSpec.Four;
-        public const byte LeastSignificantBit = ByteSpec.One;
+        public const byte _MostSignificantBit = ByteSpec._Four;
+        public const byte _LeastSignificantBit = ByteSpec._One;
 
         #endregion
     }

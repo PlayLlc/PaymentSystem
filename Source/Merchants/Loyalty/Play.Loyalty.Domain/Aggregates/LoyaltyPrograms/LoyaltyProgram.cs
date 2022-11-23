@@ -1,6 +1,8 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.ValueObjects;
+using Play.Globalization.Currency;
+using Play.Loyalty.Contracts.Commands;
 using Play.Loyalty.Contracts.Dtos;
 using Play.Loyalty.Domain.Entities;
 using Play.Loyalty.Domain.Entitiesddd;
@@ -21,6 +23,15 @@ public partial class LoyaltyProgram : Aggregate<SimpleStringId>
 
     #region Constructor
 
+    /// <exception cref="ValueObjectException"></exception>
+    internal LoyaltyProgram(string id, string merchantId, RewardsProgram rewardsProgram, IEnumerable<Discount> discounts)
+    {
+        Id = new SimpleStringId(id);
+        _MerchantId = new SimpleStringId(merchantId);
+        _RewardsProgram = rewardsProgram;
+        _Discounts = discounts.ToHashSet();
+    }
+
     // Constructor for Entity Framework
     private LoyaltyProgram()
     { }
@@ -34,18 +45,27 @@ public partial class LoyaltyProgram : Aggregate<SimpleStringId>
         _Discounts = new HashSet<Discount>(dto.Discounts.Select(a => new Discount(a)));
     }
 
-    /// <exception cref="ValueObjectException"></exception>
-    internal LoyaltyProgram(string id, string merchantId, RewardsProgram rewardsProgram, IEnumerable<Discount> discounts)
-    {
-        Id = new SimpleStringId(id);
-        _MerchantId = new SimpleStringId(merchantId);
-        _RewardsProgram = rewardsProgram;
-        _Discounts = discounts.ToHashSet();
-    }
-
     #endregion
 
     #region Instance Members
+
+    internal bool IsRewardProgramActive()
+    {
+        return _RewardsProgram.IsActive();
+    }
+
+    /// <exception cref="ValueObjectException"></exception>
+    public static LoyaltyProgram CreateLoyaltyProgram(CreateLoyaltyProgram command)
+    {
+        RewardAmount rewardAmount = new RewardAmount(GenerateSimpleStringId(), new Money(RewardAmount._DefaultRewardAmount, command.NumericCurrencyCode));
+        RewardsProgram rewardsProgram = new RewardsProgram(GenerateSimpleStringId(), rewardAmount, RewardsProgram._DefaultPointsPerDollar,
+            RewardsProgram._DefaultPointsRequired);
+
+        var loyaltyProgram = new LoyaltyProgram(GenerateSimpleStringId(), command.MerchantId, rewardsProgram, Array.Empty<Discount>());
+        loyaltyProgram.Publish(new LoyaltyProgramHasBeenCreated(loyaltyProgram, command.MerchantId));
+
+        return loyaltyProgram;
+    }
 
     public override SimpleStringId GetId()
     {

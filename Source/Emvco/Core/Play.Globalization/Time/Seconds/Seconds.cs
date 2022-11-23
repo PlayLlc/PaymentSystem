@@ -10,7 +10,7 @@ public readonly record struct Seconds
     #region Static Metadata
 
     public static readonly Seconds Zero = new(0);
-    public const byte Precision = 1;
+    public const byte _Precision = 1;
 
     #endregion
 
@@ -24,22 +24,22 @@ public readonly record struct Seconds
 
     public Seconds(Deciseconds value)
     {
-        _Value = (long) value / (Deciseconds.Precision / Precision);
+        _Value = (long) value / (Deciseconds._Precision / _Precision);
     }
 
     public Seconds(Milliseconds value)
     {
-        _Value = (long) value / (Milliseconds.Precision / Precision);
+        _Value = (long) value / (Milliseconds._Precision / _Precision);
     }
 
     public Seconds(Microseconds value)
     {
-        _Value = (long) value / (Microseconds.Precision / Precision);
+        _Value = (long) value / (Microseconds._Precision / _Precision);
     }
 
     public Seconds(Ticks value)
     {
-        _Value = (long) value / (Ticks.Precision / Precision);
+        _Value = (long) value / (Ticks._Precision / _Precision);
     }
 
     public Seconds(byte value)

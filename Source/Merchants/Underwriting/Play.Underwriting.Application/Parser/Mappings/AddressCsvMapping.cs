@@ -1,5 +1,6 @@
 ﻿using Play.Underwriting.Domain.Entities;
 using Play.Underwriting.Parser.TypeConverters;
+
 using TinyCsvParser.Mapping;
 
 namespace Play.Underwriting.Parser.Mappings;
@@ -8,6 +9,8 @@ namespace Play.Underwriting.Parser.Mappings;
 //17013,52484,"43, bld.1, Vorontsovskaya str.","Moscow 109147","Russia",-0- 
 internal sealed class AddressCsvMapping : CsvMapping<Address>
 {
+    #region Constructor
+
     public AddressCsvMapping()
     {
         MapProperty(0, x => x.IndividualNumber);
@@ -20,10 +23,10 @@ internal sealed class AddressCsvMapping : CsvMapping<Address>
         {
             const int index = 3;
 
-            if (string.IsNullOrEmpty(row.Tokens[index])) 
+            if (string.IsNullOrEmpty(row.Tokens[index]))
                 return false;
 
-            if (row.Tokens[index].Equals(CustomStringTypeConverter.@null))
+            if (row.Tokens[index].Equals(CustomStringTypeConverter._Null))
                 return true;
 
             string[] addressItems = row.Tokens[index].Split(' ').Select(s => s.Trim()).ToArray();
@@ -44,4 +47,6 @@ internal sealed class AddressCsvMapping : CsvMapping<Address>
             return true;
         });
     }
+
+    #endregion
 }

@@ -2,6 +2,7 @@
 
 using Play.Domain;
 using Play.Domain.Common.Entitiesd;
+using Play.Inventory.Contracts.Dtos;
 
 namespace Play.Loyalty.Contracts.Dtos;
 
@@ -14,7 +15,7 @@ public record RewardProgramDto : IDto
     public string Id { get; set; } = string.Empty;
 
     [Required]
-    public AmountOffDto AmountOff { get; set; } = null!;
+    public MoneyDto RewardAmount { get; set; } = null!;
 
     [Required]
     public uint PointsPerDollar { get; set; }

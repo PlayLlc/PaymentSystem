@@ -6,14 +6,22 @@ using Play.Loyalty.Domain.ValueObjects;
 using Play.Loyalty.Contracts.Dtos;
 using Play.Domain.ValueObjects;
 using Play.Inventory.Contracts.Commands;
+using Play.Loyalty.Domain.Aggregates;
 
 namespace Play.Loyalty.Domain.Entitiesddd;
 
 public class RewardsProgram : Entity<SimpleStringId>
 {
+    #region Static Metadata
+
+    internal const uint _DefaultPointsRequired = 10000;
+    internal const uint _DefaultPointsPerDollar = 100;
+
+    #endregion
+
     #region Instance Values
 
-    private readonly RewardAmount _RewardAmount;
+    private Money _RewardAmount;
 
     private bool _IsActive;
     private uint _PointsRequired;
@@ -32,13 +40,13 @@ public class RewardsProgram : Entity<SimpleStringId>
     internal RewardsProgram(RewardProgramDto dto)
     {
         Id = new SimpleStringId(dto.Id);
-        _RewardAmount = new RewardAmount(dto.AmountOff);
+        _RewardAmount = dto.RewardAmount;
         _PointsPerDollar = new PointsPerDollar(dto.PointsPerDollar);
         _PointsRequired = dto.RewardThreshold;
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    internal RewardsProgram(string id, RewardAmount rewardAmount, uint pointsPerDollar, uint pointsRequired)
+    internal RewardsProgram(string id, Money rewardAmount, uint pointsPerDollar, uint pointsRequired)
     {
         Id = new SimpleStringId(id);
         _RewardAmount = rewardAmount;
@@ -50,13 +58,35 @@ public class RewardsProgram : Entity<SimpleStringId>
 
     #region Instance Members
 
+    internal bool IsActive() => _IsActive;
+
     /// <exception cref="ValueObjectException"></exception>
     public void Update(UpdateRewardsProgram command)
     {
         _IsActive = command.IsActive;
         _PointsPerDollar = new PointsPerDollar(command.PointsPerDollar);
         _PointsRequired = command.PointsRequired;
-        _RewardAmount.UpdateAmount(command.Reward);
+        _RewardAmount = command.RewardAmount;
+    }
+
+    public uint CalculateEarnedPoints(Money transactionAmount) => (uint) (_PointsPerDollar * transactionAmount.GetMajorCurrencyAmount());
+
+    /// <summary>
+    /// </summary>
+    /// <param name="points">The points earned by the <see cref="LoyaltyMember" /></param>
+    /// <param name="reward">New rewards that the <see cref="LoyaltyMember" /> has earned</param>
+    /// <returns></returns>
+    public uint CalculateRewards(uint points, out Money? reward)
+    {
+        reward = null;
+
+        if (_PointsRequired > points)
+            return points;
+
+        uint rewardCount = points / _PointsRequired;
+        reward = _RewardAmount * rewardCount;
+
+        return points - (rewardCount * _PointsRequired);
     }
 
     public void Activate(bool value)
@@ -64,35 +94,31 @@ public class RewardsProgram : Entity<SimpleStringId>
         _IsActive = value;
     }
 
-    internal RewardAmount GetRewardAmount()
-    {
-        return _RewardAmount;
-    }
+    internal Money GetRewardAmount() => _RewardAmount;
 
     internal void UpdatePointsRequired(uint pointsRequired)
     {
         _PointsRequired = pointsRequired;
     }
 
+    /// <exception cref="ValueObjectException"></exception>
     internal void UpdatePointsPerDollar(uint pointsPerDollar)
     {
         _PointsPerDollar = new PointsPerDollar(pointsPerDollar);
     }
 
+    /// <exception cref="ValueObjectException"></exception>
     internal void UpdateRewardAmount(Money amount)
     {
-        _RewardAmount.UpdateAmount(amount);
+        if (!amount.IsCommonCurrency(_RewardAmount))
+            throw new ValueObjectException($"The {_RewardAmount} could not be updated because the {nameof(amount)} specified was in a different currency");
+
+        _RewardAmount = amount;
     }
 
-    public override SimpleStringId GetId()
-    {
-        return Id;
-    }
+    public override SimpleStringId GetId() => Id;
 
-    public override RewardProgramDto AsDto()
-    {
-        return new RewardProgramDto() {Id = Id};
-    }
+    public override RewardProgramDto AsDto() => new RewardProgramDto() {Id = Id};
 
     #endregion
 }

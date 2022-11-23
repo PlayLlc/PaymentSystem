@@ -22,12 +22,10 @@ public static class NibbleArrayExtensions
         byte[] result = new byte[(value.Length / 2) + (value.Length % 2)];
 
         for (int i = 0; i < value.Length; i++)
-        {
             if ((i % 2) == 0)
                 result[i / 2] = (byte) (value[i] << 4);
             else
                 result[i / 2] |= value[i];
-        }
 
         return result;
     }
@@ -35,7 +33,7 @@ public static class NibbleArrayExtensions
     /// <exception cref="OverflowException"></exception>
     public static Nibble[] CopyValue(this Nibble[] value)
     {
-        if (value.Length > Specs.ByteArray.StackAllocateCeiling)
+        if (value.Length > Specs.ByteArray._StackAllocateCeiling)
         {
             using SpanOwner<Nibble> spanOwner = SpanOwner<Nibble>.Allocate(value.Length);
             Span<Nibble> buffer = spanOwner.Span;
@@ -67,12 +65,10 @@ public static class NibbleArrayExtensions
             throw new PlayInternalException($"The {nameof(buffer)} argument was too small to perform the {nameof(CopyTo)} sequence");
 
         for (int i = 0; i < value.Length; i++)
-        {
             if ((i % 2) == 0)
                 buffer[i / 2] = (byte) (value[i] << 4);
             else
                 buffer[i / 2] |= value[i];
-        }
     }
 
     #endregion

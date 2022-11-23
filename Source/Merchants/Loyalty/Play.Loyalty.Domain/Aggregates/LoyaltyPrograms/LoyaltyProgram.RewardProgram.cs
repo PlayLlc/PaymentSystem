@@ -7,6 +7,9 @@ using Play.Loyalty.Domain.Services;
 
 using System.Security.Policy;
 
+using Play.Globalization.Currency;
+using Play.Loyalty.Domain.ValueObjects;
+
 namespace Play.Loyalty.Domain.Aggregates;
 
 public partial class LoyaltyProgram
@@ -22,12 +25,16 @@ public partial class LoyaltyProgram
 
         Enforce(new UserMustBeActiveToUpdateAggregate<LoyaltyProgram>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<LoyaltyProgram>(_MerchantId, user));
-        Enforce(new CurrencyMustBeValid(_RewardsProgram.GetRewardAmount().GetNumericCurrencyCode(), command.Reward));
+        Enforce(new CurrencyMustBeValid(_RewardsProgram.GetRewardAmount().GetNumericCurrencyCode(), command.RewardAmount));
 
         _RewardsProgram.Update(command);
 
         Publish(new RewardsProgramHasBeenUpdated(this));
     }
+
+    internal uint CalculateEarnedPoints(Money transactionAmount) => _RewardsProgram.CalculateEarnedPoints(transactionAmount);
+
+    internal uint CalculateRewards(uint points, out Money? reward) => _RewardsProgram.CalculateRewards(points, out reward);
 
     #endregion
 }

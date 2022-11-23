@@ -10,7 +10,7 @@ public class HomeController : Controller
 {
     #region Instance Values
 
-    private readonly ILogger<HomeController> _logger;
+    private readonly ILogger<HomeController> _Logger;
 
     #endregion
 
@@ -18,7 +18,7 @@ public class HomeController : Controller
 
     public HomeController(ILogger<HomeController> logger)
     {
-        _logger = logger;
+        _Logger = logger;
     }
 
     #endregion

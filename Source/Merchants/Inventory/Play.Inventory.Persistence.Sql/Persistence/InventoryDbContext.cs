@@ -14,7 +14,7 @@ public sealed class InventoryDbContext : DbContext
 {
     #region Static Metadata
 
-    public const string DatabaseName = "Inventory";
+    public const string _DatabaseName = "Inventory";
 
     #endregion
 

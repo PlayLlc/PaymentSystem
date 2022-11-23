@@ -8,12 +8,13 @@ public record ToggleRewardProgramActivation
 
     [Required]
     [StringLength(20)]
-    public string MerchantId { get; set; }
+    public string MerchantId { get; set; } = string.Empty;
 
     [Required]
     [StringLength(20)]
-    public string UserId { get; set; }
+    public string UserId { get; set; } = string.Empty;
 
+    [Required]
     public bool Active { get; set; }
 
     #endregion

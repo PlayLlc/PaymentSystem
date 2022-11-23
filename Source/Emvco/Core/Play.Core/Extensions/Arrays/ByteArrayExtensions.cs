@@ -41,13 +41,13 @@ public static class ByteArrayExtensions
             paddedNibbles++;
         }
 
-        if (value.Length < Specs.ByteArray.StackAllocateCeiling)
+        if (value.Length < Specs.ByteArray._StackAllocateCeiling)
         {
             Span<byte> result = stackalloc byte[value.Length - (paddedNibbles / 2)];
             value[^result.Length..].CopyTo(result);
 
             if ((paddedNibbles % 2) != 0)
-                result[0] = result[0].GetMaskedValue(LeftNibble.MaxValue);
+                result[0] = result[0].GetMaskedValue(LeftNibble._MaxValue);
 
             return result.ToArray();
         }
@@ -58,7 +58,7 @@ public static class ByteArrayExtensions
             value[^result.Length..].CopyTo(result);
 
             if ((paddedNibbles % 2) != 0)
-                result[0] = result[0].GetMaskedValue(LeftNibble.MaxValue);
+                result[0] = result[0].GetMaskedValue(LeftNibble._MaxValue);
 
             return result.ToArray();
         }
@@ -66,7 +66,7 @@ public static class ByteArrayExtensions
 
     public static byte[] CopyValue(this byte[] value)
     {
-        if (value.Length > Specs.ByteArray.StackAllocateCeiling)
+        if (value.Length > Specs.ByteArray._StackAllocateCeiling)
         {
             using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(value.Length);
             Span<byte> buffer = spanOwner.Span;
@@ -90,12 +90,10 @@ public static class ByteArrayExtensions
         Nibble[] result = new Nibble[value.Length * 2];
 
         for (nint i = 0; i < result.Length; i++)
-        {
             if ((i % 2) == 0)
                 result[i] = new Nibble((byte) (value[i / 2] >> 4));
             else
                 result[i] = new Nibble(value[i / 2].GetMaskedValue(0xF0));
-        }
 
         return result;
     }

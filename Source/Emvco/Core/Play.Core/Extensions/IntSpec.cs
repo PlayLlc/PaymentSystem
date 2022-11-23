@@ -4,7 +4,7 @@ public static class IntSpec
 {
     #region Static Metadata
 
-    public const uint SignedBit = (uint) 1 << 31;
+    public const uint _SignedBit = (uint) 1 << 31;
 
     #endregion
 }

@@ -70,11 +70,9 @@ public static class UlongExtensions
     {
         int result = 0;
 
-        for (byte i = 0; i < Specs.Integer.UInt64.BitCount; i++)
-        {
+        for (byte i = 0; i < Specs.Integer.UInt64._BitCount; i++)
             if (value.IsBitSet((byte) i))
                 result++;
-        }
 
         return result;
     }
@@ -112,7 +110,7 @@ public static class UlongExtensions
 
     public static ulong ClearBit(this in ulong input, Bits bitToClear, byte bytePosition)
     {
-        if (bytePosition > Specs.Integer.UInt64.ByteCount)
+        if (bytePosition > Specs.Integer.UInt64._ByteCount)
             throw new ArgumentOutOfRangeException(nameof(bytePosition));
 
         return input & ~((ulong) bitToClear << ((bytePosition * 8) - 8));
@@ -120,7 +118,7 @@ public static class UlongExtensions
 
     public static ulong ClearBit(this in ulong input, byte bitToClear)
     {
-        if (bitToClear > Specs.Integer.UInt64.BitCount)
+        if (bitToClear > Specs.Integer.UInt64._BitCount)
             throw new ArgumentOutOfRangeException(nameof(bitToClear));
 
         return input & ~((ulong) 1 << (bitToClear - 1));
@@ -155,7 +153,7 @@ public static class UlongExtensions
         ulong buffer = value;
         int offset = 0;
 
-        for (int i = 0; i < Specs.Integer.Int64.BitCount; i++)
+        for (int i = 0; i < Specs.Integer.Int64._BitCount; i++)
         {
             if (buffer == 0)
                 return offset;
@@ -206,17 +204,15 @@ public static class UlongExtensions
         const byte numberOfBitsInUlong = 64;
 
         for (byte i = 0; i < numberOfBitsInUlong; i++)
-        {
             if ((value & (ulong) (1 << i)) != 0)
                 return i;
-        }
 
         return 0;
     }
 
     public static ulong SetBit(this in ulong input, byte bitPosition)
     {
-        if (bitPosition > Specs.Integer.UInt64.BitCount)
+        if (bitPosition > Specs.Integer.UInt64._BitCount)
             throw new ArgumentOutOfRangeException(nameof(bitPosition));
 
         return input | ((ulong) 1 << (bitPosition - 1));
@@ -241,7 +237,7 @@ public static class UlongExtensions
         int offset = mostSignificantBit;
         ulong result = 0;
 
-        for (; offset < Specs.Integer.UInt8.BitCount; offset -= Specs.Integer.UInt8.BitCount)
+        for (; offset < Specs.Integer.UInt8._BitCount; offset -= Specs.Integer.UInt8._BitCount)
         {
             result <<= 8;
             result |= byte.MaxValue;

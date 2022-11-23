@@ -8,7 +8,7 @@ public static partial class Randomize
     {
         #region Static Metadata
 
-        internal const string HexValues = "0123456789ABCDEF";
+        internal const string _HexValues = "0123456789ABCDEF";
 
         #endregion
 
@@ -61,8 +61,8 @@ public static partial class Randomize
             return new string(buffer);
         }
 
-        private static char GetRandomHexChar() => HexValues[Random.Next(0, HexValues.Length - 1)];
-        public static byte GetRandomHexByte() => (byte) HexValues[Random.Next(0, HexValues.Length - 1)];
+        private static char GetRandomHexChar() => _HexValues[Random.Next(0, _HexValues.Length - 1)];
+        public static byte GetRandomHexByte() => (byte) _HexValues[Random.Next(0, _HexValues.Length - 1)];
 
         #endregion
     }

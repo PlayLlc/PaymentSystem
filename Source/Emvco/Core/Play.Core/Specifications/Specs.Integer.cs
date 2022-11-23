@@ -70,12 +70,12 @@ public partial class Specs
         {
             #region Static Metadata
 
-            public const byte ByteCount = 8;
-            public const byte MaxDigits = 20;
-            public const byte BitCount = 64;
-            public const byte CompressedNumericByteSize = (MaxDigits / 2) + (MaxDigits % 2);
-            public const byte HexadecimalByteSize = (MaxDigits / 2) + (MaxDigits % 2);
-            public const byte BitStringByteSize = (MaxDigits / 2) + (MaxDigits % 2);
+            public const byte _ByteCount = 8;
+            public const byte _MaxDigits = 20;
+            public const byte _BitCount = 64;
+            public const byte _CompressedNumericByteSize = (_MaxDigits / 2) + (_MaxDigits % 2);
+            public const byte _HexadecimalByteSize = (_MaxDigits / 2) + (_MaxDigits % 2);
+            public const byte _BitStringByteSize = (_MaxDigits / 2) + (_MaxDigits % 2);
 
             #endregion
         }
@@ -84,13 +84,13 @@ public partial class Specs
         {
             #region Static Metadata
 
-            public const byte BitSize = 32;
-            public const byte ByteCount = 4;
-            public const byte MaxDigits = 10;
-            public const byte BitCount = 32;
-            public const byte CompressedNumericByteSize = (MaxDigits / 2) + (MaxDigits % 2);
-            public const byte HexadecimalByteSize = (MaxDigits / 2) + (MaxDigits % 2);
-            public const byte BitStringByteSize = (MaxDigits / 2) + (MaxDigits % 2);
+            public const byte _BitSize = 32;
+            public const byte _ByteCount = 4;
+            public const byte _MaxDigits = 10;
+            public const byte _BitCount = 32;
+            public const byte _CompressedNumericByteSize = (_MaxDigits / 2) + (_MaxDigits % 2);
+            public const byte _HexadecimalByteSize = (_MaxDigits / 2) + (_MaxDigits % 2);
+            public const byte _BitStringByteSize = (_MaxDigits / 2) + (_MaxDigits % 2);
 
             #endregion
         }
@@ -99,12 +99,12 @@ public partial class Specs
         {
             #region Static Metadata
 
-            public const byte ByteCount = 2;
-            public const byte MaxDigits = 5;
-            public const byte BitCount = 16;
-            public const byte CompressedNumericByteSize = (MaxDigits / 2) + (MaxDigits % 2);
-            public const byte HexadecimalByteSize = (MaxDigits / 2) + (MaxDigits % 2);
-            public const byte BitStringByteSize = (MaxDigits / 2) + (MaxDigits % 2);
+            public const byte _ByteCount = 2;
+            public const byte _MaxDigits = 5;
+            public const byte _BitCount = 16;
+            public const byte _CompressedNumericByteSize = (_MaxDigits / 2) + (_MaxDigits % 2);
+            public const byte _HexadecimalByteSize = (_MaxDigits / 2) + (_MaxDigits % 2);
+            public const byte _BitStringByteSize = (_MaxDigits / 2) + (_MaxDigits % 2);
 
             #endregion
         }
@@ -113,12 +113,12 @@ public partial class Specs
         {
             #region Static Metadata
 
-            public const byte ByteCount = 1;
-            public const byte MaxDigits = 3;
-            public const byte BitCount = 8;
-            public const byte CompressedNumericByteSize = (MaxDigits / 2) + (MaxDigits % 2);
-            public const byte HexadecimalByteSize = (MaxDigits / 2) + (MaxDigits % 2);
-            public const byte BitStringByteSize = (MaxDigits / 2) + (MaxDigits % 2);
+            public const byte _ByteCount = 1;
+            public const byte _MaxDigits = 3;
+            public const byte _BitCount = 8;
+            public const byte _CompressedNumericByteSize = (_MaxDigits / 2) + (_MaxDigits % 2);
+            public const byte _HexadecimalByteSize = (_MaxDigits / 2) + (_MaxDigits % 2);
+            public const byte _BitStringByteSize = (_MaxDigits / 2) + (_MaxDigits % 2);
 
             #endregion
         }
@@ -127,12 +127,12 @@ public partial class Specs
         {
             #region Static Metadata
 
-            public const byte ByteCount = 8;
-            public const byte MaxDigits = 19;
-            public const byte BitCount = 64;
-            public const byte CompressedNumericByteSize = (MaxDigits / 2) + (MaxDigits % 2);
-            public const byte HexadecimalByteSize = (MaxDigits / 2) + (MaxDigits % 2);
-            public const byte BitStringByteSize = (MaxDigits / 2) + (MaxDigits % 2);
+            public const byte _ByteCount = 8;
+            public const byte _MaxDigits = 19;
+            public const byte _BitCount = 64;
+            public const byte _CompressedNumericByteSize = (_MaxDigits / 2) + (_MaxDigits % 2);
+            public const byte _HexadecimalByteSize = (_MaxDigits / 2) + (_MaxDigits % 2);
+            public const byte _BitStringByteSize = (_MaxDigits / 2) + (_MaxDigits % 2);
 
             #endregion
         }
@@ -141,12 +141,12 @@ public partial class Specs
         {
             #region Static Metadata
 
-            public const byte ByteCount = 4;
-            public const byte MaxDigits = 10;
-            public const byte BitCount = 32;
-            public const byte CompressedNumericByteSize = (MaxDigits / 2) + (MaxDigits % 2);
-            public const byte HexadecimalByteSize = (MaxDigits / 2) + (MaxDigits % 2);
-            public const byte BitStringByteSize = (MaxDigits / 2) + (MaxDigits % 2);
+            public const byte _ByteCount = 4;
+            public const byte _MaxDigits = 10;
+            public const byte _BitCount = 32;
+            public const byte _CompressedNumericByteSize = (_MaxDigits / 2) + (_MaxDigits % 2);
+            public const byte _HexadecimalByteSize = (_MaxDigits / 2) + (_MaxDigits % 2);
+            public const byte _BitStringByteSize = (_MaxDigits / 2) + (_MaxDigits % 2);
 
             #endregion
         }
@@ -155,12 +155,12 @@ public partial class Specs
         {
             #region Static Metadata
 
-            public const byte ByteCount = 2;
-            public const byte MaxDigits = 5;
-            public const byte BitCount = 16;
-            public const byte CompressedNumericByteSize = (MaxDigits / 2) + (MaxDigits % 2);
-            public const byte HexadecimalByteSize = (MaxDigits / 2) + (MaxDigits % 2);
-            public const byte BitStringByteSize = (MaxDigits / 2) + (MaxDigits % 2);
+            public const byte _ByteCount = 2;
+            public const byte _MaxDigits = 5;
+            public const byte _BitCount = 16;
+            public const byte _CompressedNumericByteSize = (_MaxDigits / 2) + (_MaxDigits % 2);
+            public const byte _HexadecimalByteSize = (_MaxDigits / 2) + (_MaxDigits % 2);
+            public const byte _BitStringByteSize = (_MaxDigits / 2) + (_MaxDigits % 2);
 
             #endregion
         }
@@ -169,12 +169,12 @@ public partial class Specs
         {
             #region Static Metadata
 
-            public const byte ByteCount = 1;
-            public const byte MaxDigits = 2;
-            public const byte BitCount = 8;
-            public const byte CompressedNumericByteSize = (MaxDigits / 2) + (MaxDigits % 2);
-            public const byte HexadecimalByteSize = (MaxDigits / 2) + (MaxDigits % 2);
-            public const byte BitStringByteSize = (MaxDigits / 2) + (MaxDigits % 2);
+            public const byte _ByteCount = 1;
+            public const byte _MaxDigits = 2;
+            public const byte _BitCount = 8;
+            public const byte _CompressedNumericByteSize = (_MaxDigits / 2) + (_MaxDigits % 2);
+            public const byte _HexadecimalByteSize = (_MaxDigits / 2) + (_MaxDigits % 2);
+            public const byte _BitStringByteSize = (_MaxDigits / 2) + (_MaxDigits % 2);
 
             #endregion
         }
