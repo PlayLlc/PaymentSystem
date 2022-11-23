@@ -91,15 +91,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Archive", "_Archive", "{58
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Loyalty", "Loyalty", "{D90B1335-FA53-4B1A-AEF6-8A37C89CB3A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Loyalty.Domain", "Loyalty\Play.Loyalty.Domain\Play.Loyalty.Domain.csproj", "{06A8AE7C-6E47-43C9-941D-D40671AA37AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Loyalty.Domain", "Loyalty\Play.Loyalty.Domain\Play.Loyalty.Domain.csproj", "{06A8AE7C-6E47-43C9-941D-D40671AA37AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Loyalty.Contracts", "Loyalty\Play.Loyalty.Contracts\Play.Loyalty.Contracts.csproj", "{90A0200D-BDA8-4DF5-A790-2D5667F9EEE1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Loyalty.Contracts", "Loyalty\Play.Loyalty.Contracts\Play.Loyalty.Contracts.csproj", "{90A0200D-BDA8-4DF5-A790-2D5667F9EEE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Loyalty.Application", "Loyalty\Play.Loyalty.Application\Play.Loyalty.Application.csproj", "{A65446B2-9EFB-4CF3-AEBD-2636677BE248}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Loyalty.Application", "Loyalty\Play.Loyalty.Application\Play.Loyalty.Application.csproj", "{A65446B2-9EFB-4CF3-AEBD-2636677BE248}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Loyalty.Persistence.Sql", "Loyalty\Play.Loyalty.Persistence.Sql\Play.Loyalty.Persistence.Sql.csproj", "{039A6632-5999-4FD1-A98D-EF7736643A7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Loyalty.Persistence.Sql", "Loyalty\Play.Loyalty.Persistence.Sql\Play.Loyalty.Persistence.Sql.csproj", "{039A6632-5999-4FD1-A98D-EF7736643A7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Loyalty.Api", "Loyalty\Play.Loyalty.Api\Play.Loyalty.Api.csproj", "{60FC008B-DDCB-4686-8E08-5FB11B42C044}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Loyalty.Api", "Loyalty\Play.Loyalty.Api\Play.Loyalty.Api.csproj", "{60FC008B-DDCB-4686-8E08-5FB11B42C044}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Transactions", "Transactions", "{C2A3983A-634E-477B-A8D1-859B24193969}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

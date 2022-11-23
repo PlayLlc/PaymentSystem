@@ -25,15 +25,9 @@ public class DiscountMustNotExist : BusinessRule<LoyaltyProgram, SimpleStringId>
 
     #region Instance Members
 
-    public override bool IsBroken()
-    {
-        return !_IsValid;
-    }
+    public override bool IsBroken() => !_IsValid;
 
-    public override PercentageWasInvalid CreateBusinessRuleViolationDomainEvent(LoyaltyProgram aggregate)
-    {
-        return new PercentageWasInvalid(aggregate, this);
-    }
+    public override PercentageWasInvalid CreateBusinessRuleViolationDomainEvent(LoyaltyProgram aggregate) => new PercentageWasInvalid(aggregate, this);
 
     #endregion
 }

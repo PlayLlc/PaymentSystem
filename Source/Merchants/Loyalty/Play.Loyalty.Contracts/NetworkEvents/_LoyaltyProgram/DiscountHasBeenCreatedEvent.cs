@@ -5,14 +5,12 @@ using Play.Messaging.NServiceBus;
 
 namespace Play.Loyalty.Contracts;
 
-public class LoyaltyMemberCreatedEvent : NetworkEvent
+public class DiscountHasBeenCreatedEvent : NetworkEvent
 {
     #region Instance Values
 
     [Required]
-    public LoyaltyMemberDto LoyaltyMember { get; set; } = null!;
-
-    public uint TransactionId { get; set; }
+    public DiscountDto Discount { get; set; } = null!;
 
     #endregion
 }

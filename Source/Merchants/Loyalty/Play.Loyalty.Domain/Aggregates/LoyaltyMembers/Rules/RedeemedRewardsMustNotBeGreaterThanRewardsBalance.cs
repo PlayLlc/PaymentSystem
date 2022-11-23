@@ -5,7 +5,7 @@ using Play.Loyalty.Domain.Entities;
 
 namespace Play.Loyalty.Domain.Aggregates.Rules;
 
-public class RewardMustBeGreaterThanOrEqualToClaimAmount : BusinessRule<LoyaltyMember, SimpleStringId>
+public class RewardsBalanceMustBeGreaterThanOrEqualToRewardRedemption : BusinessRule<LoyaltyMember, SimpleStringId>
 {
     #region Instance Values
 
@@ -17,7 +17,7 @@ public class RewardMustBeGreaterThanOrEqualToClaimAmount : BusinessRule<LoyaltyM
 
     #region Constructor
 
-    internal RewardMustBeGreaterThanOrEqualToClaimAmount(Money amountToClaim, Money rewardsBalance)
+    internal RewardsBalanceMustBeGreaterThanOrEqualToRewardRedemption(Money amountToClaim, Money rewardsBalance)
     {
         _IsValid = rewardsBalance >= amountToClaim;
     }

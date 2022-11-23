@@ -1,11 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Play.Loyalty.Contracts.Dtos;
 
-namespace Play.Loyalty.Contracts.NetworkEvents
+using System.ComponentModel.DataAnnotations;
+
+using Play.Messaging.NServiceBus;
+
+namespace Play.Loyalty.Contracts;
+
+public class LoyaltyMemberLostPointsEvent : NetworkEvent
 {
-    public class LoyaltyMemberLostPointsEvent
-    { }
+    #region Instance Values
+
+    [Required]
+    public LoyaltyMemberDto LoyaltyMember { get; set; } = null!;
+
+    public uint TransactionId { get; set; }
+
+    #endregion
 }

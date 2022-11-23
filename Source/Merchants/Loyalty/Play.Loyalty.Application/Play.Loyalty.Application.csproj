@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Handlers\DomainEvents\LoyaltyPrograms\" />
     <Folder Include="Handlers\NetworkEvents\" />
   </ItemGroup>
 

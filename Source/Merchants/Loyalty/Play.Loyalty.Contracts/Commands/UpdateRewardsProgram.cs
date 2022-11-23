@@ -15,9 +15,6 @@ public record UpdateRewardsProgram
     public string UserId { get; set; } = string.Empty;
 
     [Required]
-    public bool IsActive { get; set; }
-
-    [Required]
     public uint PointsPerDollar { get; set; }
 
     [Required]
@@ -25,6 +22,21 @@ public record UpdateRewardsProgram
 
     [Required]
     public Money RewardAmount { get; set; } = null!;
+
+    #endregion
+}
+
+public record ToggleRewardsProgramActivation
+{
+    #region Instance Values
+
+    [Required]
+    [StringLength(20)]
+    [AlphaNumericSpecial]
+    public string UserId { get; set; } = string.Empty;
+
+    [Required]
+    public bool IsActive { get; set; }
 
     #endregion
 }

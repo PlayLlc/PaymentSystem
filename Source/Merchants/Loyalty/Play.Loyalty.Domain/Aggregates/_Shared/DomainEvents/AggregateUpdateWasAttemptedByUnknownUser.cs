@@ -2,7 +2,7 @@
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Events;
 
-namespace Play.Loyalty.Domain.Aggregates._Shared.DomainEvents;
+namespace Play.Loyalty.Domain.Aggregates;
 
 public record AggregateUpdateWasAttemptedByUnknownUser<_Aggregate> : BrokenRuleOrPolicyDomainEvent<_Aggregate, SimpleStringId>
     where _Aggregate : Aggregate<SimpleStringId>

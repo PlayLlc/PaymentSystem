@@ -1,6 +1,5 @@
 ﻿using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
-using Play.Loyalty.Domain.Aggregates._Shared.Rules;
 using Play.Loyalty.Domain.Entities;
 using Play.Loyalty.Domain.Services;
 
@@ -19,7 +18,7 @@ public partial class LoyaltyProgram
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="NotFoundException"></exception>
     /// <exception cref="ValueObjectException"></exception>
-    public async Task UpdateRewardsProgram(IRetrieveUsers userService, UpdateRewardsProgram command)
+    public async Task Update(IRetrieveUsers userService, UpdateRewardsProgram command)
     {
         User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
 
@@ -30,6 +29,19 @@ public partial class LoyaltyProgram
         _RewardsProgram.Update(command);
 
         Publish(new RewardsProgramHasBeenUpdated(this));
+    }
+
+    /// <exception cref="BusinessRuleValidationException"></exception>
+    /// <exception cref="NotFoundException"></exception>
+    public async Task SetIsActive(IRetrieveUsers userService, ToggleRewardsProgramActivation command)
+    {
+        User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
+
+        Enforce(new UserMustBeActiveToUpdateAggregate<LoyaltyProgram>(user));
+        Enforce(new AggregateMustBeUpdatedByKnownUser<LoyaltyProgram>(_MerchantId, user));
+        _RewardsProgram.Activate(command.IsActive);
+
+        Publish(new RewardsProgramActivationHasBeenToggled(this, command.UserId, command.IsActive));
     }
 
     internal uint CalculateEarnedPoints(Money transactionAmount) => _RewardsProgram.CalculateEarnedPoints(transactionAmount);

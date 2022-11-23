@@ -1,9 +1,8 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
-using Play.Loyalty.Domain.Aggregates._Shared.DomainEvents;
 using Play.Loyalty.Domain.Entities;
 
-namespace Play.Loyalty.Domain.Aggregates._Shared.Rules;
+namespace Play.Loyalty.Domain.Aggregates;
 
 public class AggregateMustBeUpdatedByKnownUser<_Aggregate> : BusinessRule<_Aggregate, SimpleStringId> where _Aggregate : Aggregate<SimpleStringId>
 {
@@ -27,15 +26,10 @@ public class AggregateMustBeUpdatedByKnownUser<_Aggregate> : BusinessRule<_Aggre
 
     #region Instance Members
 
-    public override bool IsBroken()
-    {
-        return !_IsValid;
-    }
+    public override bool IsBroken() => !_IsValid;
 
-    public override AggregateUpdateWasAttemptedByUnknownUser<_Aggregate> CreateBusinessRuleViolationDomainEvent(_Aggregate aggregate)
-    {
-        return new AggregateUpdateWasAttemptedByUnknownUser<_Aggregate>(aggregate, this);
-    }
+    public override AggregateUpdateWasAttemptedByUnknownUser<_Aggregate> CreateBusinessRuleViolationDomainEvent(_Aggregate aggregate) =>
+        new AggregateUpdateWasAttemptedByUnknownUser<_Aggregate>(aggregate, this);
 
     #endregion
 }

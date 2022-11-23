@@ -5,8 +5,9 @@ using Play.Domain.ValueObjects;
 using Play.Globalization.Currency;
 using Play.Loyalty.Contracts.Commands;
 using Play.Loyalty.Contracts.Dtos;
-using Play.Loyalty.Domain.Aggregates._Shared.Rules;
+using Play.Loyalty.Domain.Aggregates.Rules;
 using Play.Loyalty.Domain.Entities;
+using Play.Loyalty.Domain.Services;
 
 namespace Play.Loyalty.Domain.Aggregates;
 
@@ -15,7 +16,6 @@ public partial class LoyaltyProgram : Aggregate<SimpleStringId>
     #region Instance Values
 
     private readonly SimpleStringId _MerchantId;
-
     private readonly RewardsProgram _RewardsProgram;
     private readonly HashSet<Discount> _Discounts;
     public override SimpleStringId Id { get; }
@@ -53,18 +53,23 @@ public partial class LoyaltyProgram : Aggregate<SimpleStringId>
     internal bool IsRewardProgramActive() => _RewardsProgram.IsActive();
 
     /// <exception cref="ValueObjectException"></exception>
-    public static LoyaltyProgram CreateLoyaltyProgram(CreateLoyaltyProgram command)
+    /// <exception cref="NotFoundException"></exception>
+    /// <exception cref="BusinessRuleValidationException"></exception>
+    public static async Task<LoyaltyProgram> CreateLoyaltyProgram(
+        IRetrieveMerchants merchantRetriever, IRetrieveUsers userRetriever, CreateLoyaltyProgram command)
     {
-        // Enforce
-
         Money rewardAmount = new Money(RewardsProgram._DefaultRewardAmount, command.NumericCurrencyCode);
         RewardsProgram rewardsProgram = new RewardsProgram(GenerateSimpleStringId(), rewardAmount, RewardsProgram._DefaultPointsPerDollar,
             RewardsProgram._DefaultPointsRequired);
-
         LoyaltyProgram loyaltyProgram = new LoyaltyProgram(GenerateSimpleStringId(), command.MerchantId, rewardsProgram, Array.Empty<Discount>());
-        loyaltyProgram.Publish(new LoyaltyProgramHasBeenCreated(loyaltyProgram, command.MerchantId));
+        User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
+        Merchant merchant = await merchantRetriever.GetByIdAsync(command.MerchantId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Merchant));
 
-        // Publish
+        loyaltyProgram.Enforce(new UserMustBeActiveToUpdateAggregate<LoyaltyMember>(user));
+        loyaltyProgram.Enforce(new AggregateMustBeUpdatedByKnownUser<LoyaltyMember>(command.MerchantId, user));
+        loyaltyProgram.Enforce(new MerchantMustBeActiveToCreateAggregate<LoyaltyMember>(merchant));
+
+        loyaltyProgram.Publish(new LoyaltyProgramHasBeenCreated(loyaltyProgram, command.MerchantId));
 
         return loyaltyProgram;
     }

@@ -8,7 +8,7 @@ public interface ILoyaltyProgramRepository : IRepository<LoyaltyProgram, SimpleS
 {
     #region Instance Members
 
-    public Task<LoyaltyProgram> GetByMerchantIdAsync(SimpleStringId merchantId);
+    public Task<LoyaltyProgram?> GetByMerchantIdAsync(SimpleStringId merchantId);
 
     #endregion
 }

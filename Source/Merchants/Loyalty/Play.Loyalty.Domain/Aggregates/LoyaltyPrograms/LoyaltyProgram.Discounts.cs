@@ -1,7 +1,6 @@
 ﻿using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
 using Play.Loyalty.Contracts.Commands;
-using Play.Loyalty.Domain.Aggregates._Shared.Rules;
 using Play.Loyalty.Domain.Entities;
 using Play.Loyalty.Domain.Services;
 
@@ -23,7 +22,7 @@ public partial class LoyaltyProgram
 
         _ = _Discounts.Add(new Discount(new string(GenerateSimpleStringId()), command.ItemId, command.VariationId, command.DiscountedPrice));
 
-        Publish(new DiscountedItemHasBeenCreated(this, command.ItemId, command.VariationId, command.DiscountedPrice));
+        Publish(new DiscountHasBeenCreated(this, command.ItemId, command.VariationId, command.DiscountedPrice));
     }
 
     /// <exception cref="ValueObjectException"></exception>
@@ -38,7 +37,7 @@ public partial class LoyaltyProgram
 
         _Discounts.First(a => a.Id == command.DiscountId).UpdateDiscountPrice(command.DiscountedPrice);
 
-        Publish(new DiscountedItemHasBeenUpdated(this, command.DiscountId, command.DiscountedPrice));
+        Publish(new DiscountHasBeenUpdated(this, command.DiscountId, command.DiscountedPrice));
     }
 
     /// <exception cref="ValueObjectException"></exception>
@@ -52,7 +51,7 @@ public partial class LoyaltyProgram
 
         _Discounts.RemoveWhere(a => a.Id == command.DiscountId);
 
-        Publish(new DiscountHasBeenRemovedForItem(this, command.DiscountId));
+        Publish(new DiscountHasBeenRemoved(this, command.DiscountId));
     }
 
     #endregion

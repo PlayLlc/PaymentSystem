@@ -11,11 +11,12 @@ using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Currency;
 using Play.Loyalty.Contracts.Commands;
-using Play.Loyalty.Domain.Aggregates._Shared.Rules;
 using Play.Loyalty.Domain.Aggregates.Rules;
 using Play.Loyalty.Domain.Entities;
 using Play.Loyalty.Domain.Repositories;
 using Play.Loyalty.Domain.Services;
+
+using System.Transactions;
 
 namespace Play.Loyalty.Domain.Aggregates
 {
@@ -26,7 +27,7 @@ namespace Play.Loyalty.Domain.Aggregates
         /// <exception cref="NotFoundException"></exception>
         /// <exception cref="ValueObjectException"></exception>
         /// <exception cref="BusinessRuleValidationException"></exception>
-        public async Task AddRewards(IRetrieveUsers userRetriever, ILoyaltyProgramRepository loyaltyProgramRepository, UpdateRewardPoints command)
+        public async Task AddRewardPoints(IRetrieveUsers userRetriever, ILoyaltyProgramRepository loyaltyProgramRepository, UpdateRewardPoints command)
         {
             User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
             Enforce(new UserMustBeActiveToUpdateAggregate<LoyaltyMember>(user));
@@ -40,40 +41,21 @@ namespace Play.Loyalty.Domain.Aggregates
 
             uint points = loyaltyProgram.CalculateEarnedPoints(command.TransactionAmount) + _Rewards.GetPoints();
             _Rewards.UpdatePoints(loyaltyProgram.CalculateRewards(points, out Money? reward));
-            Publish(new LoyaltyMemberEarnedPoints(this, _MerchantId, user.Id, points));
+            Publish(new LoyaltyMemberEarnedPoints(this, _MerchantId, user.Id, command.TransactionId, points));
 
             if (reward is null)
                 return;
 
             _Rewards.AddToBalance(reward);
 
-            Publish(new LoyaltyMemberEarnedRewards(this, _MerchantId, user.Id, reward));
-        }
-
-        /// <exception cref="ValueObjectException"></exception>
-        /// <exception cref="NotFoundException"></exception>
-        /// <exception cref="BusinessRuleValidationException"></exception>
-        public async Task ClaimRewards(IRetrieveUsers userRetriever, ILoyaltyProgramRepository loyaltyProgramRepository, ClaimReward command)
-        {
-            User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
-            Enforce(new UserMustBeActiveToUpdateAggregate<LoyaltyMember>(user));
-            Enforce(new AggregateMustBeUpdatedByKnownUser<LoyaltyMember>(_MerchantId, user));
-            LoyaltyProgram loyaltyProgram = await loyaltyProgramRepository.GetByMerchantIdAsync(_MerchantId).ConfigureAwait(false)
-                                            ?? throw new NotFoundException(typeof(LoyaltyProgram));
-
-            Enforce(new RewardsProgramMustBeActiveToClaimReward(loyaltyProgram));
-            Enforce(new RewardMustBeGreaterThanOrEqualToClaimAmount(command.RewardAmount, _Rewards.GetRewardBalance()));
-
-            _Rewards.Claim(command.RewardAmount);
-            Publish(new LoyaltyMemberClaimedRewards(this, _MerchantId, user.Id, command.RewardAmount));
+            Publish(new LoyaltyMemberEarnedRewards(this, _MerchantId, user.Id, command.TransactionId, reward));
         }
 
         /// <exception cref="NotFoundException"></exception>
         /// <exception cref="ValueObjectException"></exception>
         /// <exception cref="BusinessRuleValidationException"></exception>
-        public async Task RemoveRewards(IRetrieveUsers userRetriever, ILoyaltyProgramRepository loyaltyProgramRepository, UpdateRewardPoints command)
+        public async Task RemoveRewardPoints(IRetrieveUsers userRetriever, ILoyaltyProgramRepository loyaltyProgramRepository, UpdateRewardPoints command)
         {
-            // Enforce rules
             User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
             Enforce(new UserMustBeActiveToUpdateAggregate<LoyaltyMember>(user));
             Enforce(new AggregateMustBeUpdatedByKnownUser<LoyaltyMember>(_MerchantId, user));
@@ -88,25 +70,43 @@ namespace Play.Loyalty.Domain.Aggregates
             if (lostPoints >= _Rewards.GetPoints())
             {
                 _Rewards.SubtractPoints(lostPoints);
-                Publish(new LoyaltyMemberLostPoints(this, _MerchantId, user.Id, lostPoints));
+                Publish(new LoyaltyMemberLostPoints(this, _MerchantId, user.Id, command.TransactionId, lostPoints));
             }
 
-            ConvertRewardsToPoints(loyaltyProgram, user.Id, lostPoints);
+            ConvertRewardsToPoints(loyaltyProgram, user.Id, command.TransactionId, lostPoints);
         }
 
-        private void ZeroOutRewards(string userId, uint points, Money rewardsBalance)
+        /// <exception cref="ValueObjectException"></exception>
+        /// <exception cref="NotFoundException"></exception>
+        /// <exception cref="BusinessRuleValidationException"></exception>
+        public async Task ClaimRewards(IRetrieveUsers userRetriever, ILoyaltyProgramRepository loyaltyProgramRepository, ClaimReward command)
+        {
+            User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
+            Enforce(new UserMustBeActiveToUpdateAggregate<LoyaltyMember>(user));
+            Enforce(new AggregateMustBeUpdatedByKnownUser<LoyaltyMember>(_MerchantId, user));
+            LoyaltyProgram loyaltyProgram = await loyaltyProgramRepository.GetByMerchantIdAsync(_MerchantId).ConfigureAwait(false)
+                                            ?? throw new NotFoundException(typeof(LoyaltyProgram));
+
+            Enforce(new RewardsProgramMustBeActiveToClaimReward(loyaltyProgram));
+            Enforce(new RewardsBalanceMustBeGreaterThanOrEqualToRewardRedemption(command.RewardAmount, _Rewards.GetRewardBalance()));
+
+            _Rewards.Claim(command.RewardAmount);
+            Publish(new LoyaltyMemberClaimedRewards(this, _MerchantId, user.Id, command.TransactionId, command.RewardAmount));
+        }
+
+        private void ZeroOutRewards(string userId, uint transactionId, uint points, Money rewardsBalance)
         {
             _Rewards.UpdatePoints(0);
-            Publish(new LoyaltyMemberLostPoints(this, _MerchantId, userId, points));
+            Publish(new LoyaltyMemberLostPoints(this, _MerchantId, userId, transactionId, points));
 
             if (rewardsBalance.GetAmount() == 0)
                 return;
 
             _Rewards.SubtractFromBalancce(rewardsBalance);
-            Publish(new LoyaltyMemberLostRewards(this, _MerchantId, userId, rewardsBalance));
+            Publish(new LoyaltyMemberLostRewards(this, _MerchantId, userId, transactionId, rewardsBalance));
         }
 
-        private void ConvertRewardsToPoints(LoyaltyProgram loyaltyProgram, string userId, uint lostPoints)
+        private void ConvertRewardsToPoints(LoyaltyProgram loyaltyProgram, string userId, uint transactionId, uint lostPoints)
         {
             uint points = _Rewards.GetPoints();
             Money rewardsBalance = _Rewards.GetRewardBalance();
@@ -116,14 +116,14 @@ namespace Play.Loyalty.Domain.Aggregates
             // points to compensate for the lost points, we'll just zero out their points and their Rewards Balance
             if (lostPoints > (rewardsAsPoints + points))
             {
-                ZeroOutRewards(userId, points, rewardsBalance);
+                ZeroOutRewards(userId, points, transactionId, rewardsBalance);
 
                 return;
             }
 
             // Calculate the Loyalty Member's new point total by subtracting the points they lost from a return 
             _Rewards.UpdatePoints(loyaltyProgram.CalculateRewards((rewardsAsPoints + points) - lostPoints, out Money? rewards));
-            Publish(new LoyaltyMemberLostPoints(this, _MerchantId, userId, points));
+            Publish(new LoyaltyMemberLostPoints(this, _MerchantId, userId, transactionId, points));
 
             // After calculating the Loyalty Member's new point total, if there is still a Rewards Balance, update
             // their new balance
@@ -131,7 +131,7 @@ namespace Play.Loyalty.Domain.Aggregates
                 return;
 
             _Rewards.UpdateBalance(rewards);
-            Publish(new LoyaltyMemberLostRewards(this, _MerchantId, userId, rewardsBalance));
+            Publish(new LoyaltyMemberLostRewards(this, _MerchantId, userId, transactionId, rewardsBalance));
         }
 
         #endregion

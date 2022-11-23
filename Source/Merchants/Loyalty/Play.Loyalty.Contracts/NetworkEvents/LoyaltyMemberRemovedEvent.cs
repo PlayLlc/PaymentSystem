@@ -6,7 +6,7 @@ using Play.Messaging.NServiceBus;
 
 namespace Play.Loyalty.Contracts;
 
-public class LoyaltyMemberRedeemedRewardsEvent : NetworkEvent
+public class LoyaltyMemberRemovedEvent : NetworkEvent
 {
     #region Instance Values
 
