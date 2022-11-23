@@ -9,8 +9,8 @@ public class Alerts : Entity<SimpleStringId>
 {
     #region Instance Values
 
-    public bool IsActive;
-    public ushort LowInventoryThreshold;
+    private bool _IsActive;
+    private ushort _LowInventoryThreshold;
     public override SimpleStringId Id { get; }
 
     #endregion
@@ -25,16 +25,16 @@ public class Alerts : Entity<SimpleStringId>
     public Alerts(AlertsDto dto)
     {
         Id = new SimpleStringId(dto.Id!);
-        IsActive = dto.IsActive;
-        LowInventoryThreshold = dto.LowInventoryThreshold;
+        _IsActive = dto.IsActive;
+        _LowInventoryThreshold = dto.LowInventoryThreshold;
     }
 
     /// <exception cref="ValueObjectException"></exception>
     public Alerts(string id, bool isActive, ushort lowInventoryThreshold)
     {
         Id = new SimpleStringId(id);
-        IsActive = isActive;
-        LowInventoryThreshold = lowInventoryThreshold;
+        _IsActive = isActive;
+        _LowInventoryThreshold = lowInventoryThreshold;
     }
 
     #endregion
@@ -45,17 +45,17 @@ public class Alerts : Entity<SimpleStringId>
     {
         subscribers = null;
 
-        if (!IsActive)
+        if (!_IsActive)
             return false;
 
-        return quantity <= LowInventoryThreshold;
+        return quantity <= _LowInventoryThreshold;
     }
 
     public bool IsOutOfStockAlertRequired(int quantity, out IEnumerable<User>? subscribers)
     {
         subscribers = null;
 
-        if (!IsActive)
+        if (!_IsActive)
             return false;
 
         return quantity <= 0;
@@ -63,33 +63,28 @@ public class Alerts : Entity<SimpleStringId>
 
     public void ActivateAlerts()
     {
-        IsActive = true;
+        _IsActive = true;
     }
 
     public void DeactivateAlerts()
     {
-        IsActive = false;
+        _IsActive = false;
     }
 
     public void UpdateLowInventoryThreshold(ushort quantity)
     {
-        LowInventoryThreshold = quantity;
+        _LowInventoryThreshold = quantity;
     }
 
-    public override SimpleStringId GetId()
-    {
-        return Id;
-    }
+    public override SimpleStringId GetId() => Id;
 
-    public override AlertsDto AsDto()
-    {
-        return new AlertsDto
+    public override AlertsDto AsDto() =>
+        new AlertsDto
         {
             Id = Id,
-            IsActive = IsActive,
-            LowInventoryThreshold = LowInventoryThreshold
+            IsActive = _IsActive,
+            LowInventoryThreshold = _LowInventoryThreshold
         };
-    }
 
     #endregion
 }

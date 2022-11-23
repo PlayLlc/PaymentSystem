@@ -12,7 +12,8 @@ namespace Play.Inventory.Persistence.Sql.Configuration;
 
 // You can configure a navigation in the model to be included every time the entity is loaded from the database using AutoInclude method
 // https://learn.microsoft.com/en-us/ef/core/querying/related-data/eager
-internal class InventoryEntityConfiguration : IEntityTypeConfiguration<Item>
+internal class InventoryEntityConfiguration : IEntityTypeConfiguration<Item>, IEntityTypeConfiguration<Category>,
+    IEntityTypeConfiguration<Domain.Aggregates.Inventory>
 {
     #region Instance Members
 
@@ -46,6 +47,19 @@ internal class InventoryEntityConfiguration : IEntityTypeConfiguration<Item>
         builder.Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Property<SimpleStringId>($"_MerchantId").HasColumnName($"MerchantId");
         builder.Property<Name>($"_Name").HasColumnName($"Name");
+    }
+
+    public void Configure(EntityTypeBuilder<Domain.Aggregates.Inventory> builder)
+    {
+        builder.ToTable($"Inventories").HasKey(x => x.Id);
+
+        // Simple Properties
+        builder.Property(x => x.Id).ValueGeneratedOnAdd();
+        builder.Property<SimpleStringId>($"_MerchantId").HasColumnName($"MerchantId");
+        builder.Property<SimpleStringId>($"_StoreId").HasColumnName($"_StoreId");
+        builder.HasMany<Domain.Aggregates.Inventory, StockItem, SimpleStringId>("_StockItems", "StockItemId");
+
+        // StockItems
     }
 
     #endregion

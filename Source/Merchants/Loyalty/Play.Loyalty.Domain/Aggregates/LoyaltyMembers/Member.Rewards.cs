@@ -102,7 +102,7 @@ public partial class LoyaltyMember : Aggregate<SimpleStringId>
         if (rewardsBalance.GetAmount() == 0)
             return;
 
-        _Rewards.SubtractFromBalancce(rewardsBalance);
+        _Rewards.SubtractFromBalance(rewardsBalance);
         Publish(new LoyaltyMemberLostRewards(this, _MerchantId, userId, transactionId, rewardsBalance));
     }
 

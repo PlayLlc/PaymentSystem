@@ -14,8 +14,7 @@ public class Discount : Entity<SimpleStringId>
 
     private readonly SimpleStringId _ItemId;
     private readonly SimpleStringId _VariationId;
-    private readonly NumericCurrencyCode _NumericCurrencyCode;
-    private ulong _Price;
+    private MoneyValueObject _Price;
 
     public override SimpleStringId Id { get; }
 
@@ -33,8 +32,7 @@ public class Discount : Entity<SimpleStringId>
         Id = new SimpleStringId(dto.Id);
         _VariationId = new SimpleStringId(dto.VariationId);
         _ItemId = new SimpleStringId(dto.ItemId);
-        _Price = dto.Price.GetAmount();
-        _NumericCurrencyCode = dto.Price.GetNumericCurrencyCode();
+        _Price = dto.Price.AsMoney();
     }
 
     /// <exception cref="ValueObjectException"></exception>
@@ -43,8 +41,7 @@ public class Discount : Entity<SimpleStringId>
         Id = new SimpleStringId(id);
         _ItemId = new SimpleStringId(itemId);
         _VariationId = new SimpleStringId(variationId);
-        _Price = discountPrice.GetAmount();
-        _NumericCurrencyCode = discountPrice.GetNumericCurrencyCode();
+        _Price = discountPrice;
     }
 
     #endregion
@@ -53,26 +50,26 @@ public class Discount : Entity<SimpleStringId>
 
     internal bool IsItemDiscounted(string itemId, string variationId) => (_ItemId == itemId) && (_VariationId == variationId);
 
-    internal Money GetDiscountPrice() => new Money(_Price, _NumericCurrencyCode);
+    internal Money GetDiscountPrice() => _Price;
 
     /// <exception cref="BusinessRuleValidationException"></exception>
     public void UpdateDiscountPrice(Money price)
     {
-        if (price.GetNumericCurrencyCode() != _NumericCurrencyCode)
+        if (!price.IsCommonCurrency(_Price))
             throw new BusinessRuleValidationException(
-                $"{nameof(Discount)} has the {nameof(NumericCurrencyCode)} {_NumericCurrencyCode} but an attempt was made to update the amount with a different {nameof(NumericCurrencyCode)} {price.GetNumericCurrencyCode()}");
+                $"{nameof(Discount)} has the {nameof(NumericCurrencyCode)} {_Price} but an attempt was made to update the amount with a different {nameof(NumericCurrencyCode)} {price.GetNumericCurrencyCode()}");
 
-        _Price = price.GetAmount();
+        _Price = price;
     }
 
     public override SimpleStringId GetId() => Id;
 
     public override DiscountDto AsDto() =>
-        new DiscountDto()
+        new()
         {
             Id = Id,
             VariationId = _VariationId,
-            Price = new Money(_Price, _NumericCurrencyCode)
+            Price = _Price.AsDto()
         };
 
     #endregion

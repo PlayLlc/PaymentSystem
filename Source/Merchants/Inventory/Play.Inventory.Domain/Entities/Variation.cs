@@ -57,16 +57,15 @@ public class Variation : Entity<SimpleStringId>
 
     #region Instance Members
 
-    public string GetName()
-    {
-        return _Name;
-    }
+    public string GetName() => _Name;
 
+    /// <exception cref="ValueObjectException"></exception>
     internal void UpdatePrice(Money price)
     {
-        _Price.Amount = price.GetAmount();
+        _Price.Update(price);
     }
 
+    /// <exception cref="ValueObjectException"></exception>
     internal void UpdateSku(string sku)
     {
         _Sku = new Sku(sku);
@@ -77,20 +76,15 @@ public class Variation : Entity<SimpleStringId>
         _Name = new Name(name);
     }
 
-    public override SimpleStringId GetId()
-    {
-        return Id;
-    }
+    public override SimpleStringId GetId() => Id;
 
-    public override VariationDto AsDto()
-    {
-        return new VariationDto()
+    public override VariationDto AsDto() =>
+        new()
         {
             Id = Id,
             Name = _Name,
             Price = _Price.AsDto()
         };
-    }
 
     #endregion
 }

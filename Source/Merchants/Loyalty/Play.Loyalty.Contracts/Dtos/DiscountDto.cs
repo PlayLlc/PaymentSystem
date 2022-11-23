@@ -3,6 +3,7 @@
 using Play.Domain;
 using Play.Domain.Common.Attributes;
 using Play.Globalization.Currency;
+using Play.Inventory.Contracts.Dtos;
 
 namespace Play.Loyalty.Contracts.Dtos;
 
@@ -29,7 +30,7 @@ public record DiscountDto : IDto
     ///     The discounted price of the inventory item
     /// </summary>
     [Required]
-    public Money Price { get; set; } = null!;
+    public MoneyDto Price { get; set; } = null!;
 
     #endregion
 }

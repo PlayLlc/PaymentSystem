@@ -1,5 +1,7 @@
 ﻿using NServiceBus;
 
+using Play.Identity.Contracts;
+
 namespace Play.Terminals.Application.Handlers.Network;
 
 public class MerchantHasBeenCreatedHandler : IHandleMessages<MerchantHasBeenCreatedEvent>

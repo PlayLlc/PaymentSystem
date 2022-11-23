@@ -5,6 +5,7 @@ using NServiceBus;
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Events;
 using Play.Domain.Repositories;
+using Play.Identity.Contracts;
 using Play.Identity.Domain.Aggregates;
 
 namespace Play.Identity.Application.Handlers;

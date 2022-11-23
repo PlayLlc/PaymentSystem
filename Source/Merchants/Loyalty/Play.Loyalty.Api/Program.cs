@@ -12,7 +12,7 @@ builder.ConfigureSwagger(typeof(Program).Assembly, typeof(LoyaltyProgramDto).Ass
 await builder.SeedDb().ConfigureAwait(false);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
 
 WebApplication app = builder.Build();
 

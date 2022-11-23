@@ -17,22 +17,16 @@ public class StockItemMustNotAlreadyExist : BusinessRule<Inventory, SimpleString
 
     internal StockItemMustNotAlreadyExist(IEnumerable<StockItem> variations, string variationId)
     {
-        _IsValid = variations.All(a => a.VariationId != variationId);
+        _IsValid = variations.All(a => a.GetVariationId() != variationId);
     }
 
     #endregion
 
     #region Instance Members
 
-    public override StockItemAlreadyExists CreateBusinessRuleViolationDomainEvent(Inventory inventory)
-    {
-        return new StockItemAlreadyExists(inventory, this);
-    }
+    public override StockItemAlreadyExists CreateBusinessRuleViolationDomainEvent(Inventory inventory) => new StockItemAlreadyExists(inventory, this);
 
-    public override bool IsBroken()
-    {
-        return !_IsValid;
-    }
+    public override bool IsBroken() => !_IsValid;
 
     #endregion
 }

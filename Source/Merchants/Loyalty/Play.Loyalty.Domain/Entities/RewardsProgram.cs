@@ -21,7 +21,7 @@ public class RewardsProgram : Entity<SimpleStringId>
 
     #region Instance Values
 
-    private Money _RewardAmount;
+    private MoneyValueObject _RewardAmount;
 
     private bool _IsActive;
     private uint _PointsRequired;
@@ -40,7 +40,7 @@ public class RewardsProgram : Entity<SimpleStringId>
     internal RewardsProgram(RewardProgramDto dto)
     {
         Id = new SimpleStringId(dto.Id);
-        _RewardAmount = dto.RewardAmount;
+        _RewardAmount = dto.RewardAmount.AsMoney();
         _PointsPerDollar = dto.PointsPerDollar;
         _PointsRequired = dto.RewardThreshold;
     }
@@ -83,7 +83,7 @@ public class RewardsProgram : Entity<SimpleStringId>
             return points;
 
         uint rewardCount = points / _PointsRequired;
-        reward = _RewardAmount * rewardCount;
+        reward = _RewardAmount.Value * rewardCount;
 
         return points - (rewardCount * _PointsRequired);
     }

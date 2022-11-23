@@ -48,15 +48,9 @@ public class Inventory : Aggregate<SimpleStringId>
 
     #region Instance Members
 
-    internal string GetStoreId()
-    {
-        return _StoreId;
-    }
+    internal string GetStoreId() => _StoreId;
 
-    public override SimpleStringId GetId()
-    {
-        return Id;
-    }
+    public override SimpleStringId GetId() => Id;
 
     public override InventoryDto AsDto()
     {
@@ -86,8 +80,6 @@ public class Inventory : Aggregate<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     public Task CreateStockItem(CreateStockItem command)
     {
-        Aggregate<SimpleStringId> hello = this;
-
         Enforce(new StockItemMustNotAlreadyExist(_StockItems, command.VariationId));
 
         StockItem stockItem = new StockItem(GenerateSimpleStringId(), command.ItemId, command.VariationId, 0);
@@ -106,7 +98,7 @@ public class Inventory : Aggregate<SimpleStringId>
         User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<Inventory>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Inventory>(_MerchantId, user));
-        StockItem? stockItem = _StockItems.FirstOrDefault(a => a.VariationId == command.VariationId);
+        StockItem? stockItem = _StockItems.FirstOrDefault(a => a.GetVariationId() == command.VariationId);
 
         if (stockItem is null)
             return;

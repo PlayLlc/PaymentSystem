@@ -5,6 +5,7 @@ using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
 using Play.Globalization.Currency;
 using Play.Globalization.Time;
+using Play.Inventory.Contracts.Dtos;
 
 namespace Play.Persistence.Sql;
 
@@ -21,6 +22,7 @@ public static class ValueConverters
         configurationBuilder.Properties<Email>().HaveConversion<EmailConverter>();
         configurationBuilder.Properties<Phone>().HaveConversion<PhoneConverter>();
         configurationBuilder.Properties<State>().HaveConversion<StateConverter>();
+        configurationBuilder.Properties<Money>().HaveConversion<MoneyConverter>();
         configurationBuilder.Properties<Zipcode>().HaveConversion<ZipcodeConverter>();
         configurationBuilder.Properties<DateTimeUtc>().HaveConversion<DateTimeUtcConverter>();
         configurationBuilder.Properties<NumericCurrencyCode>().HaveConversion<NumericCurrencyCodeConverter>();
@@ -144,6 +146,16 @@ public static class ValueConverters
         #region Constructor
 
         public NumericCurrencyCodeConverter() : base(x => (ushort) x, y => new NumericCurrencyCode(y))
+        { }
+
+        #endregion
+    }
+
+    public class MoneyConverter : ValueConverter<Money, MoneyDto>
+    {
+        #region Constructor
+
+        public MoneyConverter() : base(x => new MoneyDto(x), y => y.AsMoney())
         { }
 
         #endregion

@@ -10,8 +10,9 @@ public class Price : Entity<SimpleStringId>
 {
     #region Instance Values
 
-    public ulong Amount;
-    public NumericCurrencyCode NumericCurrencyCode;
+    private readonly NumericCurrencyCode _NumericCurrencyCode;
+
+    private ulong _Amount;
     public override SimpleStringId Id { get; }
 
     #endregion
@@ -22,44 +23,46 @@ public class Price : Entity<SimpleStringId>
     private Price()
     { }
 
+    /// <exception cref="ValueObjectException"></exception>
     public Price(PriceDto dto)
     {
         Id = new SimpleStringId(dto.Id);
-        NumericCurrencyCode = new NumericCurrencyCode(dto.NumericCurrencyCode);
-        Amount = dto.Amount;
+        _NumericCurrencyCode = new NumericCurrencyCode(dto.Amount.NumericCurrencyCode);
+        _Amount = dto.Amount.Amount;
     }
 
     /// <exception cref="ValueObjectException"></exception>
     public Price(string id, Money price)
     {
         Id = new SimpleStringId(id);
-        Amount = price.GetAmount();
-        NumericCurrencyCode = price.GetNumericCurrencyCode();
+        _Amount = price.GetAmount();
+        _NumericCurrencyCode = price.GetNumericCurrencyCode();
     }
 
     #endregion
 
     #region Instance Members
 
-    public override SimpleStringId GetId()
+    /// <exception cref="ValueObjectException"></exception>
+    public void Update(Money amount)
     {
-        return Id;
+        if (!amount.IsCommonCurrency(new Money(_Amount, _NumericCurrencyCode)))
+            throw new ValueObjectException(
+                $"The {nameof(Price)} couldn't be updated because the {nameof(amount)} provided has a {nameof(NumericCurrencyCode)} of: [{amount.GetNumericCurrencyCode()} but the {nameof(Price)} has a {nameof(NumericCurrencyCode)} of: [{_NumericCurrencyCode}];");
+
+        _Amount = amount.GetAmount();
     }
 
-    public override PriceDto AsDto()
-    {
-        return new PriceDto()
+    public override SimpleStringId GetId() => Id;
+
+    public override PriceDto AsDto() =>
+        new()
         {
             Id = Id,
-            Amount = Amount,
-            NumericCurrencyCode = NumericCurrencyCode
+            Amount = new MoneyDto(new Money(_Amount, _NumericCurrencyCode))
         };
-    }
 
-    public override string ToString()
-    {
-        return Money.AsLocalFormat(Amount, NumericCurrencyCode);
-    }
+    public override string ToString() => Money.AsLocalFormat(_Amount, _NumericCurrencyCode);
 
     #endregion
 }

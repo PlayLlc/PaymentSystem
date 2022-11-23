@@ -13,8 +13,8 @@ public class StockItem : Entity<SimpleStringId>
 {
     #region Instance Values
 
-    public readonly SimpleStringId ItemId;
-    public readonly SimpleStringId VariationId;
+    private readonly SimpleStringId _ItemId;
+    private readonly SimpleStringId _VariationId;
     private int _Quantity;
 
     public override SimpleStringId Id { get; }
@@ -33,8 +33,8 @@ public class StockItem : Entity<SimpleStringId>
     public StockItem(string id, string itemId, string variationId, int quantity)
     {
         Id = new SimpleStringId(id);
-        ItemId = new SimpleStringId(itemId);
-        VariationId = new SimpleStringId(variationId);
+        _ItemId = new SimpleStringId(itemId);
+        _VariationId = new SimpleStringId(variationId);
         _Quantity = quantity;
     }
 
@@ -46,10 +46,9 @@ public class StockItem : Entity<SimpleStringId>
 
     #region Instance Members
 
-    public string GetItemId()
-    {
-        return ItemId;
-    }
+    internal string GetVariationId() => _VariationId;
+
+    public string GetItemId() => _ItemId;
 
     internal void AddQuantity(ushort quantity)
     {
@@ -61,26 +60,18 @@ public class StockItem : Entity<SimpleStringId>
         _Quantity -= quantity;
     }
 
-    public override SimpleStringId GetId()
-    {
-        return Id;
-    }
+    public override SimpleStringId GetId() => Id;
 
-    public int GetQuantity()
-    {
-        return _Quantity;
-    }
+    public int GetQuantity() => _Quantity;
 
-    public override StockItemDto AsDto()
-    {
-        return new StockItemDto()
+    public override StockItemDto AsDto() =>
+        new()
         {
             Id = Id,
-            ItemId = ItemId,
-            VariationId = VariationId,
+            ItemId = _ItemId,
+            VariationId = _VariationId,
             Quantity = _Quantity
         };
-    }
 
     #endregion
 }
