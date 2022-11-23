@@ -2,7 +2,7 @@
 
 using Play.Globalization.Currency;
 
-namespace Play.Inventory.Contracts.Commands;
+namespace Play.Loyalty.Contracts.Commands;
 
 public record UpdateRewardsProgram
 {

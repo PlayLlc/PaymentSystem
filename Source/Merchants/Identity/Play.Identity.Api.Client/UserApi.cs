@@ -98,10 +98,7 @@ public partial class UserApi : IUserApi
     ///     Gets the base path of the API client.
     /// </summary>
     /// <value>The base path</value>
-    public string GetBasePath()
-    {
-        return Configuration.ApiClient.RestClient.BaseUrl.ToString();
-    }
+    public string GetBasePath() => Configuration.ApiClient.RestClient.BaseUrl.ToString();
 
     /// <summary>
     ///     Sets the base path of the API client.
@@ -118,10 +115,7 @@ public partial class UserApi : IUserApi
     /// </summary>
     /// <returns>Dictionary of HTTP header</returns>
     [Obsolete("DefaultHeader is deprecated, please use Configuration.DefaultHeader instead.")]
-    public IDictionary<string, string> DefaultHeader()
-    {
-        return new ReadOnlyDictionary<string, string>(Configuration.DefaultHeader);
-    }
+    public IDictionary<string, string> DefaultHeader() => new ReadOnlyDictionary<string, string>(Configuration.DefaultHeader);
 
     /// <summary>
     ///     Add default header.
@@ -154,12 +148,12 @@ public partial class UserApi : IUserApi
     /// <returns>ApiResponse of UserDto</returns>
     public ApiResponse<UserDto> GetUserWithHttpInfo(string id = null)
     {
-        var localVarPath = "./User";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./User";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -212,12 +206,12 @@ public partial class UserApi : IUserApi
     /// <returns>Task of ApiResponse (UserDto)</returns>
     public async Task<ApiResponse<UserDto>> GetUserAsyncWithHttpInfo(string id = null)
     {
-        var localVarPath = "./User";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./User";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -268,12 +262,12 @@ public partial class UserApi : IUserApi
     /// <returns>ApiResponse of Object(void)</returns>
     public ApiResponse<object> UpdateAddressForUserWithHttpInfo(UpdateAddressCommand body = null)
     {
-        var localVarPath = "./User/Address";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./User/Address";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -325,12 +319,12 @@ public partial class UserApi : IUserApi
     /// <returns>Task of ApiResponse</returns>
     public async Task<ApiResponse<object>> UpdateAddressForUserAsyncWithHttpInfo(UpdateAddressCommand body = null)
     {
-        var localVarPath = "./User/Address";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./User/Address";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -382,12 +376,12 @@ public partial class UserApi : IUserApi
     /// <returns>ApiResponse of Object(void)</returns>
     public ApiResponse<object> UpdateContactInfosForUserWithHttpInfo(UpdateContactCommand body = null)
     {
-        var localVarPath = "./User/ContactInfo";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./User/ContactInfo";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -439,12 +433,12 @@ public partial class UserApi : IUserApi
     /// <returns>Task of ApiResponse</returns>
     public async Task<ApiResponse<object>> UpdateContactInfosForUserAsyncWithHttpInfo(UpdateContactCommand body = null)
     {
-        var localVarPath = "./User/ContactInfo";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./User/ContactInfo";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -496,12 +490,12 @@ public partial class UserApi : IUserApi
     /// <returns>ApiResponse of Object(void)</returns>
     public ApiResponse<object> UpdatePersonalDetailsForUserWithHttpInfo(UpdatePersonalDetailCommand body = null)
     {
-        var localVarPath = "./User/PersonalDetails";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./User/PersonalDetails";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -553,12 +547,12 @@ public partial class UserApi : IUserApi
     /// <returns>Task of ApiResponse</returns>
     public async Task<ApiResponse<object>> UpdatePersonalDetailsForUserAsyncWithHttpInfo(UpdatePersonalDetailCommand body = null)
     {
-        var localVarPath = "./User/PersonalDetails";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./User/PersonalDetails";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header

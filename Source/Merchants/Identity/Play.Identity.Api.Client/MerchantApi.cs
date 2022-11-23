@@ -84,10 +84,7 @@ public partial class MerchantApi : IMerchantApi
     ///     Gets the base path of the API client.
     /// </summary>
     /// <value>The base path</value>
-    public string GetBasePath()
-    {
-        return Configuration.ApiClient.RestClient.BaseUrl.ToString();
-    }
+    public string GetBasePath() => Configuration.ApiClient.RestClient.BaseUrl.ToString();
 
     /// <summary>
     ///     Sets the base path of the API client.
@@ -104,10 +101,7 @@ public partial class MerchantApi : IMerchantApi
     /// </summary>
     /// <returns>Dictionary of HTTP header</returns>
     [Obsolete("DefaultHeader is deprecated, please use Configuration.DefaultHeader instead.")]
-    public IDictionary<string, string> DefaultHeader()
-    {
-        return new ReadOnlyDictionary<string, string>(Configuration.DefaultHeader);
-    }
+    public IDictionary<string, string> DefaultHeader() => new ReadOnlyDictionary<string, string>(Configuration.DefaultHeader);
 
     /// <summary>
     /// </summary>
@@ -126,12 +120,12 @@ public partial class MerchantApi : IMerchantApi
     /// <returns>ApiResponse of Object(void)</returns>
     public ApiResponse<object> AddressMerchantWithHttpInfo(UpdateAddressCommand body = null)
     {
-        var localVarPath = "./Merchant/Address";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Merchant/Address";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -183,12 +177,12 @@ public partial class MerchantApi : IMerchantApi
     /// <returns>Task of ApiResponse</returns>
     public async Task<ApiResponse<object>> AddressMerchantAsyncWithHttpInfo(UpdateAddressCommand body = null)
     {
-        var localVarPath = "./Merchant/Address";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Merchant/Address";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -240,12 +234,12 @@ public partial class MerchantApi : IMerchantApi
     /// <returns>ApiResponse of Object(void)</returns>
     public ApiResponse<object> BusinessInfoMerchantWithHttpInfo(UpdateMerchantBusinessInfo body = null)
     {
-        var localVarPath = "./Merchant/BusinessInfo";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Merchant/BusinessInfo";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -297,12 +291,12 @@ public partial class MerchantApi : IMerchantApi
     /// <returns>Task of ApiResponse</returns>
     public async Task<ApiResponse<object>> BusinessInfoMerchantAsyncWithHttpInfo(UpdateMerchantBusinessInfo body = null)
     {
-        var localVarPath = "./Merchant/BusinessInfo";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Merchant/BusinessInfo";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -354,12 +348,12 @@ public partial class MerchantApi : IMerchantApi
     /// <returns>ApiResponse of Object(void)</returns>
     public ApiResponse<object> CompanyNameMerchantWithHttpInfo(UpdateMerchantCompanyName body = null)
     {
-        var localVarPath = "./Merchant/CompanyName";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Merchant/CompanyName";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -411,12 +405,12 @@ public partial class MerchantApi : IMerchantApi
     /// <returns>Task of ApiResponse</returns>
     public async Task<ApiResponse<object>> CompanyNameMerchantAsyncWithHttpInfo(UpdateMerchantCompanyName body = null)
     {
-        var localVarPath = "./Merchant/CompanyName";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Merchant/CompanyName";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -470,12 +464,12 @@ public partial class MerchantApi : IMerchantApi
     /// <returns>ApiResponse of MerchantDto</returns>
     public ApiResponse<MerchantDto> GetMerchantWithHttpInfo(string id = null)
     {
-        var localVarPath = "./Merchant";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Merchant";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -528,12 +522,12 @@ public partial class MerchantApi : IMerchantApi
     /// <returns>Task of ApiResponse (MerchantDto)</returns>
     public async Task<ApiResponse<MerchantDto>> GetMerchantAsyncWithHttpInfo(string id = null)
     {
-        var localVarPath = "./Merchant";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Merchant";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header

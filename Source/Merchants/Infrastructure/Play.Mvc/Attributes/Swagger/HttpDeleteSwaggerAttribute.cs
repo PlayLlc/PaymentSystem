@@ -48,27 +48,23 @@ public class HttpDeleteSwaggerAttribute : HttpDeleteAttribute
 
     private static string CreateOpenApiName(string callerFilePath, string memberName)
     {
-        var controller = Path.GetFileNameWithoutExtension(callerFilePath);
+        string controller = Path.GetFileNameWithoutExtension(callerFilePath);
         TryCapturingAreasName(callerFilePath, out string? areasName);
 
         return areasName is null ? CreateWithoutAreas(controller, memberName) : CreateWithAreas(controller, memberName, areasName!);
     }
 
-    private static string CreateWithAreas(string controller, string actionMethod, string areas)
-    {
-        return $"{areas}_{FormatActionMethodName(actionMethod)}_{FormatControllerName(controller, areas)}";
-    }
+    private static string CreateWithAreas(string controller, string actionMethod, string areas) =>
+        $"{areas}_{FormatActionMethodName(actionMethod)}_{FormatControllerName(controller, areas)}";
 
-    private static string CreateWithoutAreas(string controller, string actionMethod)
-    {
-        return $"{FormatActionMethodName(actionMethod)}_{FormatControllerName(controller)}";
-    }
+    private static string CreateWithoutAreas(string controller, string actionMethod) =>
+        $"{FormatActionMethodName(actionMethod)}_{FormatControllerName(controller)}";
 
     private static bool TryCapturingAreasName(string value, out string? areasName)
     {
         areasName = null;
         Regex regex = new Regex(@"(?<areas>\\Areas\\)(?<areasName>(.*?))(?<controllers>\\Controllers\\)");
-        var match = regex.Match(value);
+        Match match = regex.Match(value);
 
         if (!match.Success)
             return false;

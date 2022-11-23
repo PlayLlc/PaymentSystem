@@ -1,9 +1,8 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Events;
-using Play.Loyalty.Domain.Aggregates;
 
-namespace Play.Inventory.Domain.Aggregates;
+namespace Play.Loyalty.Domain.Aggregates.DomainEvents;
 
 public record RewardProgramIsNotActive : BrokenRuleOrPolicyDomainEvent<LoyaltyMember, SimpleStringId>
 {

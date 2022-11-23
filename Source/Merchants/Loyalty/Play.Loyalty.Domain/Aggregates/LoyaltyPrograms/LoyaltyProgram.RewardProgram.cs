@@ -1,5 +1,4 @@
 ﻿using Play.Domain.Exceptions;
-using Play.Inventory.Contracts.Commands;
 using Play.Domain.ValueObjects;
 using Play.Loyalty.Domain.Aggregates._Shared.Rules;
 using Play.Loyalty.Domain.Entities;
@@ -8,6 +7,7 @@ using Play.Loyalty.Domain.Services;
 using System.Security.Policy;
 
 using Play.Globalization.Currency;
+using Play.Loyalty.Contracts.Commands;
 using Play.Loyalty.Domain.ValueObjects;
 
 namespace Play.Loyalty.Domain.Aggregates;

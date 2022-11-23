@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Play.Globalization.Currency;
 using Play.Inventory.Contracts.Dtos;
 
-namespace Play.Inventory.Contracts.Commands;
+namespace Play.Loyalty.Contracts.Commands;
 
 public record UpdateDiscountedPrice
 {

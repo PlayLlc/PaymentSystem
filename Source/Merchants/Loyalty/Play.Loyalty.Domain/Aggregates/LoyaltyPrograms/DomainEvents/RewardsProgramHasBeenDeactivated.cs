@@ -1,5 +1,5 @@
 ﻿using Play.Domain.Events;
-using Play.Loyalty.Domain.Entitiesddd;
+using Play.Loyalty.Domain.Entities;
 
 namespace Play.Loyalty.Domain.Aggregates;
 

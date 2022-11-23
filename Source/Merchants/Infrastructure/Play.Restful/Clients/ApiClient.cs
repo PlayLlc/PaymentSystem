@@ -170,7 +170,7 @@ public partial class ApiClient
     {
         try
         {
-            var request = PrepareRequest(path, method, queryParams, postBody, headerParams, formParams, fileParams, pathParams, contentType);
+            RestRequest request = PrepareRequest(path, method, queryParams, postBody, headerParams, formParams, fileParams, pathParams, contentType);
 
             // set timeout
             RestClient.Timeout = TimeSpan.FromMilliseconds(Configuration.Timeout);
@@ -179,7 +179,7 @@ public partial class ApiClient
             RestClient.UserAgent = Configuration.UserAgent;
 
             InterceptRequest(request);
-            var response = RestClient.Execute(request).Result;
+            IRestResponse? response = RestClient.Execute(request).Result;
             InterceptResponse(request, response);
 
             return (object) response;
@@ -208,9 +208,9 @@ public partial class ApiClient
         string path, Method method, List<KeyValuePair<string, string>> queryParams, object postBody, Dictionary<string, string> headerParams,
         Dictionary<string, string> formParams, Dictionary<string, FileParameter> fileParams, Dictionary<string, string> pathParams, string contentType)
     {
-        var request = PrepareRequest(path, method, queryParams, postBody, headerParams, formParams, fileParams, pathParams, contentType);
+        RestRequest request = PrepareRequest(path, method, queryParams, postBody, headerParams, formParams, fileParams, pathParams, contentType);
         InterceptRequest(request);
-        var response = await RestClient.Execute(request);
+        IRestResponse? response = await RestClient.Execute(request);
         InterceptResponse(request, response);
 
         return (object) response;
@@ -257,10 +257,7 @@ public partial class ApiClient
         }
     }
 
-    public FileParameter ParameterToFile(string name, byte[] stream)
-    {
-        return FileParameter.Create(name, stream, "no_file_name_provided");
-    }
+    public FileParameter ParameterToFile(string name, byte[] stream) => FileParameter.Create(name, stream, "no_file_name_provided");
 
     /// <summary>
     ///     If parameter is DateTime, output in a formatted string (default ISO 8601), customizable with
@@ -295,7 +292,7 @@ public partial class ApiClient
             }
             else if (obj is IList list)
             {
-                var flattenedString = new StringBuilder();
+                StringBuilder flattenedString = new StringBuilder();
 
                 foreach (object? param in list)
                 {
@@ -340,11 +337,11 @@ public partial class ApiClient
                 if (headers != null)
                 {
                     string filePath = string.IsNullOrEmpty(Configuration.TempFolderPath) ? Path.GetTempPath() : Configuration.TempFolderPath;
-                    var regex = new Regex(@"Content-Disposition=.*filename=['""]?([^'""\s]+)['""]?$");
+                    Regex regex = new Regex(@"Content-Disposition=.*filename=['""]?([^'""\s]+)['""]?$");
 
-                    foreach (var header in headers)
+                    foreach (KeyValuePair<string, IEnumerable<string>> header in headers)
                     {
-                        var match = regex.Match(header.ToString());
+                        Match match = regex.Match(header.ToString());
 
                         if (match.Success)
                         {
@@ -356,7 +353,7 @@ public partial class ApiClient
                     }
                 }
 
-                var stream = new MemoryStream(response.RawBytes);
+                MemoryStream stream = new MemoryStream(response.RawBytes);
 
                 return stream;
             }
@@ -391,7 +388,7 @@ public partial class ApiClient
     /// <exception cref="ApiException"></exception>
     public bool IsJsonMime(string? mime)
     {
-        var jsonRegex = new Regex("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
+        Regex jsonRegex = new Regex("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
 
         try
         {
@@ -596,11 +593,11 @@ public partial class ApiClient
     {
         try
         {
-            var parameters = new List<KeyValuePair<string, string>>();
+            List<KeyValuePair<string, string>> parameters = new List<KeyValuePair<string, string>>();
 
             if (IsCollection(value) && (collectionFormat == "multi"))
             {
-                var valueCollection = value as IEnumerable;
+                IEnumerable? valueCollection = value as IEnumerable;
                 parameters.AddRange(valueCollection?.Cast<object>().Select(item => new KeyValuePair<string, string>(name, ParameterToString(item)))
                                     ?? Array.Empty<KeyValuePair<string, string>>());
             }
@@ -623,10 +620,7 @@ public partial class ApiClient
     /// </summary>
     /// <param name="value"></param>
     /// <returns>True if object is a collection type</returns>
-    private static bool IsCollection(object value)
-    {
-        return value is IList or ICollection;
-    }
+    private static bool IsCollection(object value) => value is IList or ICollection;
 
     #endregion
 

@@ -55,7 +55,7 @@ public class ReadOnlyRepository<_Aggregate, _Dto, _TId> : IReadOnlyRepository<_D
         }
         catch (Exception ex)
         {
-            var exception = new EntityFrameworkRepositoryException(
+            EntityFrameworkRepositoryException exception = new EntityFrameworkRepositoryException(
                 $"The {nameof(ReadOnlyRepository<_Aggregate, _Dto, _TId>)} encountered an exception retrieving {nameof(_Dto)} with the Identifier: [{id}]", ex);
             _Logger.LogError(new EventId(id.GetHashCode(), $"{nameof(ReadOnlyRepository<_Aggregate, _Dto, _TId>)}-{nameof(_Aggregate)}-{nameof(GetByIdAsync)}"),
                 exception, exception.Message);

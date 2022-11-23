@@ -1,14 +1,13 @@
 ﻿using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
-using Play.Globalization.Currency;
-using Play.Loyalty.Domain.Entities;
-using Play.Loyalty.Domain.ValueObjects;
-using Play.Loyalty.Contracts.Dtos;
 using Play.Domain.ValueObjects;
-using Play.Inventory.Contracts.Commands;
+using Play.Globalization.Currency;
+using Play.Loyalty.Contracts.Commands;
+using Play.Loyalty.Contracts.Dtos;
 using Play.Loyalty.Domain.Aggregates;
+using Play.Loyalty.Domain.ValueObjects;
 
-namespace Play.Loyalty.Domain.Entitiesddd;
+namespace Play.Loyalty.Domain.Entities;
 
 public class RewardsProgram : Entity<SimpleStringId>
 {
@@ -16,6 +15,7 @@ public class RewardsProgram : Entity<SimpleStringId>
 
     internal const uint _DefaultPointsRequired = 10000;
     internal const uint _DefaultPointsPerDollar = 100;
+    internal const uint _DefaultRewardAmount = 20;
 
     #endregion
 
@@ -25,7 +25,7 @@ public class RewardsProgram : Entity<SimpleStringId>
 
     private bool _IsActive;
     private uint _PointsRequired;
-    private PointsPerDollar _PointsPerDollar;
+    private uint _PointsPerDollar;
     public override SimpleStringId Id { get; }
 
     #endregion
@@ -118,7 +118,7 @@ public class RewardsProgram : Entity<SimpleStringId>
 
     public override SimpleStringId GetId() => Id;
 
-    public override RewardProgramDto AsDto() => new RewardProgramDto() {Id = Id};
+    public override RewardProgramDto AsDto() => new() {Id = Id};
 
     #endregion
 }

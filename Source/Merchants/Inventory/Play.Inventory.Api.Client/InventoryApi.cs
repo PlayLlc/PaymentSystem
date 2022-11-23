@@ -83,10 +83,7 @@ public partial class InventoryApi : IInventoryApi
     ///     Gets the base path of the API client.
     /// </summary>
     /// <value>The base path</value>
-    public string GetBasePath()
-    {
-        return Configuration.ApiClient.RestClient.BaseUrl.ToString();
-    }
+    public string GetBasePath() => Configuration.ApiClient.RestClient.BaseUrl.ToString();
 
     /// <summary>
     ///     Sets the base path of the API client.
@@ -103,10 +100,7 @@ public partial class InventoryApi : IInventoryApi
     /// </summary>
     /// <returns>Dictionary of HTTP header</returns>
     [Obsolete("DefaultHeader is deprecated, please use Configuration.DefaultHeader instead.")]
-    public IDictionary<string, string> DefaultHeader()
-    {
-        return new ReadOnlyDictionary<string, string>(Configuration.DefaultHeader);
-    }
+    public IDictionary<string, string> DefaultHeader() => new ReadOnlyDictionary<string, string>(Configuration.DefaultHeader);
 
     /// <summary>
     /// </summary>
@@ -131,12 +125,12 @@ public partial class InventoryApi : IInventoryApi
         if (storeId == null)
             throw new ApiException(400, "Missing required parameter 'storeId' when calling InventoryApi->GetInventory");
 
-        var localVarPath = "./Inventory/{storeId}";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Inventory/{storeId}";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -193,12 +187,12 @@ public partial class InventoryApi : IInventoryApi
         if (storeId == null)
             throw new ApiException(400, "Missing required parameter 'storeId' when calling InventoryApi->GetInventory");
 
-        var localVarPath = "./Inventory/{storeId}";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Inventory/{storeId}";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header

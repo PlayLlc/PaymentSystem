@@ -14,7 +14,7 @@ await builder.SeedDb().ConfigureAwait(false);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

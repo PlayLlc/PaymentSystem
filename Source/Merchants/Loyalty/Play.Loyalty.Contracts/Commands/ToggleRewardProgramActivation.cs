@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Play.Inventory.Contracts.Commands;
+namespace Play.Loyalty.Contracts.Commands;
 
 public record ToggleRewardProgramActivation
 {

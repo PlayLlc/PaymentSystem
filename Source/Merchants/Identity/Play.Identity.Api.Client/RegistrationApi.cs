@@ -86,10 +86,7 @@ public partial class RegistrationApi : IRegistrationApi
     ///     Gets the base path of the API client.
     /// </summary>
     /// <value>The base path</value>
-    public string GetBasePath()
-    {
-        return Configuration.ApiClient.RestClient.BaseUrl.ToString();
-    }
+    public string GetBasePath() => Configuration.ApiClient.RestClient.BaseUrl.ToString();
 
     /// <summary>
     ///     Sets the base path of the API client.
@@ -106,10 +103,7 @@ public partial class RegistrationApi : IRegistrationApi
     /// </summary>
     /// <returns>Dictionary of HTTP header</returns>
     [Obsolete("DefaultHeader is deprecated, please use Configuration.DefaultHeader instead.")]
-    public IDictionary<string, string> DefaultHeader()
-    {
-        return new ReadOnlyDictionary<string, string>(Configuration.DefaultHeader);
-    }
+    public IDictionary<string, string> DefaultHeader() => new ReadOnlyDictionary<string, string>(Configuration.DefaultHeader);
 
     /// <summary>
     /// </summary>
@@ -128,12 +122,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>ApiResponse of Object(void)</returns>
     public ApiResponse<object> RegistrationApproveMerchantWithHttpInfo(UpdateMerchantRegistrationCommand body = null)
     {
-        var localVarPath = "./Registration/Merchant/Approve";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/Merchant/Approve";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -185,12 +179,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>Task of ApiResponse</returns>
     public async Task<ApiResponse<object>> RegistrationApproveMerchantAsyncWithHttpInfo(UpdateMerchantRegistrationCommand body = null)
     {
-        var localVarPath = "./Registration/Merchant/Approve";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/Merchant/Approve";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -242,12 +236,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>ApiResponse of Object(void)</returns>
     public ApiResponse<object> RegistrationApproveUserWithHttpInfo(string id = null)
     {
-        var localVarPath = "./Registration/User/Approve";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/User/Approve";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -297,12 +291,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>Task of ApiResponse</returns>
     public async Task<ApiResponse<object>> RegistrationApproveUserAsyncWithHttpInfo(string id = null)
     {
-        var localVarPath = "./Registration/User/Approve";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/User/Approve";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -352,12 +346,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>ApiResponse of Object(void)</returns>
     public ApiResponse<object> RegistrationCompleteRegistrationWithHttpInfo(string userRegistrationId = null)
     {
-        var localVarPath = "./Registration/Complete";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/Complete";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -407,12 +401,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>Task of ApiResponse</returns>
     public async Task<ApiResponse<object>> RegistrationCompleteRegistrationAsyncWithHttpInfo(string userRegistrationId = null)
     {
-        var localVarPath = "./Registration/Complete";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/Complete";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -462,12 +456,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>ApiResponse of Object(void)</returns>
     public ApiResponse<object> RegistrationCreateMerchantWithHttpInfo(CreateMerchantRegistrationCommand body = null)
     {
-        var localVarPath = "./Registration/Merchant";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/Merchant";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -519,12 +513,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>Task of ApiResponse</returns>
     public async Task<ApiResponse<object>> RegistrationCreateMerchantAsyncWithHttpInfo(CreateMerchantRegistrationCommand body = null)
     {
-        var localVarPath = "./Registration/Merchant";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/Merchant";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -576,12 +570,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>ApiResponse of Object(void)</returns>
     public ApiResponse<object> RegistrationCreateUserWithHttpInfo(CreateUserRegistrationCommand body = null)
     {
-        var localVarPath = "./Registration/User";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/User";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -633,12 +627,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>Task of ApiResponse</returns>
     public async Task<ApiResponse<object>> RegistrationCreateUserAsyncWithHttpInfo(CreateUserRegistrationCommand body = null)
     {
-        var localVarPath = "./Registration/User";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/User";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -690,12 +684,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>ApiResponse of Object(void)</returns>
     public ApiResponse<object> RegistrationGetEmailVerificationForUserWithHttpInfo(string id = null)
     {
-        var localVarPath = "./Registration/User/EmailVerification";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/User/EmailVerification";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -745,12 +739,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>Task of ApiResponse</returns>
     public async Task<ApiResponse<object>> RegistrationGetEmailVerificationForUserAsyncWithHttpInfo(string id = null)
     {
-        var localVarPath = "./Registration/User/EmailVerification";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/User/EmailVerification";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -802,12 +796,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>ApiResponse of MerchantRegistrationDto</returns>
     public ApiResponse<MerchantRegistrationDto> RegistrationGetMerchantWithHttpInfo(string id = null)
     {
-        var localVarPath = "./Registration/Merchant";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/Merchant";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -860,12 +854,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>Task of ApiResponse (MerchantRegistrationDto)</returns>
     public async Task<ApiResponse<MerchantRegistrationDto>> RegistrationGetMerchantAsyncWithHttpInfo(string id = null)
     {
-        var localVarPath = "./Registration/Merchant";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/Merchant";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -916,12 +910,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>ApiResponse of Object(void)</returns>
     public ApiResponse<object> RegistrationGetPhoneVerificationForUserWithHttpInfo(string id = null)
     {
-        var localVarPath = "./Registration/User/PhoneVerification";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/User/PhoneVerification";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -971,12 +965,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>Task of ApiResponse</returns>
     public async Task<ApiResponse<object>> RegistrationGetPhoneVerificationForUserAsyncWithHttpInfo(string id = null)
     {
-        var localVarPath = "./Registration/User/PhoneVerification";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/User/PhoneVerification";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -1028,12 +1022,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>ApiResponse of UserRegistrationDto</returns>
     public ApiResponse<UserRegistrationDto> RegistrationGetUserWithHttpInfo(string id = null)
     {
-        var localVarPath = "./Registration/User";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/User";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -1086,12 +1080,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>Task of ApiResponse (UserRegistrationDto)</returns>
     public async Task<ApiResponse<UserRegistrationDto>> RegistrationGetUserAsyncWithHttpInfo(string id = null)
     {
-        var localVarPath = "./Registration/User";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/User";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -1142,12 +1136,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>ApiResponse of Object(void)</returns>
     public ApiResponse<object> RegistrationUpdateAddressForUserWithHttpInfo(UpdateAddressCommand body = null)
     {
-        var localVarPath = "./Registration/User/Address";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/User/Address";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -1199,12 +1193,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>Task of ApiResponse</returns>
     public async Task<ApiResponse<object>> RegistrationUpdateAddressForUserAsyncWithHttpInfo(UpdateAddressCommand body = null)
     {
-        var localVarPath = "./Registration/User/Address";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/User/Address";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -1256,12 +1250,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>ApiResponse of Object(void)</returns>
     public ApiResponse<object> RegistrationUpdateContactForUserWithHttpInfo(UpdateContactCommand body = null)
     {
-        var localVarPath = "./Registration/User/Contact";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/User/Contact";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -1313,12 +1307,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>Task of ApiResponse</returns>
     public async Task<ApiResponse<object>> RegistrationUpdateContactForUserAsyncWithHttpInfo(UpdateContactCommand body = null)
     {
-        var localVarPath = "./Registration/User/Contact";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/User/Contact";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -1370,12 +1364,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>ApiResponse of Object(void)</returns>
     public ApiResponse<object> RegistrationUpdateEmailVerificationForUserWithHttpInfo(VerifyConfirmationCodeCommand body = null)
     {
-        var localVarPath = "./Registration/User/EmailVerification";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/User/EmailVerification";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -1427,12 +1421,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>Task of ApiResponse</returns>
     public async Task<ApiResponse<object>> RegistrationUpdateEmailVerificationForUserAsyncWithHttpInfo(VerifyConfirmationCodeCommand body = null)
     {
-        var localVarPath = "./Registration/User/EmailVerification";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/User/EmailVerification";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -1484,12 +1478,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>ApiResponse of Object(void)</returns>
     public ApiResponse<object> RegistrationUpdatePersonalDetailsForUserWithHttpInfo(UpdatePersonalDetailCommand body = null)
     {
-        var localVarPath = "./Registration/User/PersonalDetails";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/User/PersonalDetails";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -1541,12 +1535,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>Task of ApiResponse</returns>
     public async Task<ApiResponse<object>> RegistrationUpdatePersonalDetailsForUserAsyncWithHttpInfo(UpdatePersonalDetailCommand body = null)
     {
-        var localVarPath = "./Registration/User/PersonalDetails";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/User/PersonalDetails";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -1598,12 +1592,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>ApiResponse of Object(void)</returns>
     public ApiResponse<object> RegistrationUpdatePhoneVerificationForUserWithHttpInfo(VerifyConfirmationCodeCommand body = null)
     {
-        var localVarPath = "./Registration/User/PhoneVerification";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/User/PhoneVerification";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -1655,12 +1649,12 @@ public partial class RegistrationApi : IRegistrationApi
     /// <returns>Task of ApiResponse</returns>
     public async Task<ApiResponse<object>> RegistrationUpdatePhoneVerificationForUserAsyncWithHttpInfo(VerifyConfirmationCodeCommand body = null)
     {
-        var localVarPath = "./Registration/User/PhoneVerification";
-        var localVarPathParams = new Dictionary<string, string>();
-        var localVarQueryParams = new List<KeyValuePair<string, string>>();
-        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        var localVarFormParams = new Dictionary<string, string>();
-        var localVarFileParams = new Dictionary<string, FileParameter>();
+        string localVarPath = "./Registration/User/PhoneVerification";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
         object localVarPostBody = null;
 
         // to determine the Content-Type header

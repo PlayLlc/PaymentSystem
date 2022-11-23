@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using Play.Domain;
 using Play.Globalization.Currency;
 
-namespace Play.Domain.Common.Entitiesd;
+namespace Play.Loyalty.Contracts.Dtos;
 
 public record DiscountDto : IDto
 {

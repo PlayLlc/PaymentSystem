@@ -1,10 +1,10 @@
 ﻿using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
-using Play.Domain.Common.Entitiesd;
 using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Currency;
 using Play.Domain;
+using Play.Loyalty.Contracts.Dtos;
 
 namespace Play.Loyalty.Domain.Entities;
 
@@ -51,15 +51,9 @@ public class Discount : Entity<SimpleStringId>
 
     #region Instance Members
 
-    internal bool IsItemDiscounted(string itemId, string variationId)
-    {
-        return (_ItemId == itemId) && (_VariationId == variationId);
-    }
+    internal bool IsItemDiscounted(string itemId, string variationId) => (_ItemId == itemId) && (_VariationId == variationId);
 
-    internal Money GetDiscountPrice()
-    {
-        return new Money(_Price, _NumericCurrencyCode);
-    }
+    internal Money GetDiscountPrice() => new Money(_Price, _NumericCurrencyCode);
 
     /// <exception cref="BusinessRuleValidationException"></exception>
     public void UpdateDiscountPrice(Money price)
@@ -71,20 +65,15 @@ public class Discount : Entity<SimpleStringId>
         _Price = price.GetAmount();
     }
 
-    public override SimpleStringId GetId()
-    {
-        return Id;
-    }
+    public override SimpleStringId GetId() => Id;
 
-    public override DiscountDto AsDto()
-    {
-        return new DiscountDto()
+    public override DiscountDto AsDto() =>
+        new DiscountDto()
         {
             Id = Id,
             VariationId = _VariationId,
             Price = new Money(_Price, _NumericCurrencyCode)
         };
-    }
 
     #endregion
 }
