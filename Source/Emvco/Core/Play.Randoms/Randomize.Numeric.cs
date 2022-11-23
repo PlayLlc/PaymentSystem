@@ -34,7 +34,7 @@ public static partial class Randomize
 
         public static ushort UShort()
         {
-            Span<byte> buffer = Bytes(Specs.Integer.UInt16._ByteCount);
+            Span<byte> buffer = Bytes(Specs.Integer.UInt16.ByteCount);
 
             return PlayCodec.UnsignedIntegerCodec.DecodeToUInt16(buffer);
         }
@@ -48,14 +48,14 @@ public static partial class Randomize
 
         public static uint UInt()
         {
-            Span<byte> buffer = Bytes(Specs.Integer.UInt32._ByteCount);
+            Span<byte> buffer = Bytes(Specs.Integer.UInt32.ByteCount);
 
             return PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(buffer);
         }
 
         public static ulong ULong()
         {
-            Span<byte> buffer = Bytes(Specs.Integer.UInt64._ByteCount);
+            Span<byte> buffer = Bytes(Specs.Integer.UInt64.ByteCount);
 
             return PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(buffer);
         }

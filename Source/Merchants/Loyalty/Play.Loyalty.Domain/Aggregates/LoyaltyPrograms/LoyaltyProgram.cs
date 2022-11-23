@@ -74,6 +74,17 @@ public partial class LoyaltyProgram : Aggregate<SimpleStringId>
         return loyaltyProgram;
     }
 
+    /// <exception cref="NotFoundException"></exception>
+    /// <exception cref="BusinessRuleValidationException"></exception>
+    public async Task Remove(IRetrieveUsers userRetriever, RemoveLoyaltyProgram command)
+    {
+        User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
+        Enforce(new UserMustBeActiveToUpdateAggregate<LoyaltyMember>(user));
+        Enforce(new AggregateMustBeUpdatedByKnownUser<LoyaltyMember>(command.MerchantId, user));
+
+        Publish(new LoyaltyProgramHasBeenRemoved(this, _MerchantId));
+    }
+
     public override SimpleStringId GetId() => Id;
 
     public override LoyaltyProgramDto AsDto()

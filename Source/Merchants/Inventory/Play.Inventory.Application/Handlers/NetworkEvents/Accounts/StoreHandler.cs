@@ -3,7 +3,7 @@
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
-using Play.Identity.Contracts.Events;
+using Play.Identity.Contracts;
 using Play.Inventory.Contracts.Commands;
 using Play.Inventory.Domain.Aggregates;
 using Play.Inventory.Domain.Repositories;

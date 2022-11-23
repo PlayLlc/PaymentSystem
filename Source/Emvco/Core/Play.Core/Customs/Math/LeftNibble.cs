@@ -9,7 +9,7 @@ internal readonly record struct LeftNibble
     #region Static Metadata
 
     private const byte _UnrelatedBits = 0x0F;
-    public const byte _MaxValue = 0xF0;
+    public const byte MaxValue = 0xF0;
 
     #endregion
 

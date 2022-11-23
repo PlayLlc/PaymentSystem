@@ -5,7 +5,9 @@ using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
 using Play.Identity.Contracts.Commands;
 using Play.Identity.Contracts.Dtos;
+using Play.Identity.Domain.Aggregates._Shared.Rules;
 using Play.Identity.Domain.Entities;
+using Play.Identity.Domain.Repositories;
 using Play.Identity.Domain.Services;
 
 namespace Play.Identity.Domain.Aggregates;
@@ -43,9 +45,15 @@ public class Merchant : Aggregate<SimpleStringId>
 
     #region Instance Members
 
-    public bool IsActive()
+    public bool IsActive() => _IsActive;
+
+    public async Task Remove(IUserRepository userRepository, RemoveMerchant command)
     {
-        return _IsActive;
+        User user = await userRepository.GetByIdAsync(new SimpleStringId(command.UserId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
+        Enforce(new UserMustBeActiveToUpdateAggregate<Merchant>(user));
+        Enforce(new AggregateMustBeUpdatedByKnownUser<Merchant>(Id, user));
+
+        Publish(new MerchantHasBeenRemoved(this));
     }
 
     /// <exception cref="NotSupportedException"></exception>
@@ -82,14 +90,10 @@ public class Merchant : Aggregate<SimpleStringId>
         Publish(new MerchantCompanyNameBeenUpdated(this));
     }
 
-    public override SimpleStringId GetId()
-    {
-        return Id;
-    }
+    public override SimpleStringId GetId() => Id;
 
-    public override MerchantDto AsDto()
-    {
-        return new MerchantDto
+    public override MerchantDto AsDto() =>
+        new()
         {
             Id = Id,
             Address = _Address.AsDto(),
@@ -97,7 +101,6 @@ public class Merchant : Aggregate<SimpleStringId>
             CompanyName = _CompanyName.Value,
             IsActive = true
         };
-    }
 
     #endregion
 }

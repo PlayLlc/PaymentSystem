@@ -74,10 +74,9 @@ public class User : Aggregate<SimpleStringId>
 
     #region Instance Members
 
-    internal string GetHashedPassword()
-    {
-        return _Password.HashedPassword;
-    }
+    public bool DoesUserBelongToMerchant(string merchantId) => _MerchantId == merchantId;
+
+    internal string GetHashedPassword() => _Password.HashedPassword;
 
     public Result LoginValidation(IHashPasswords passwordHasher, string clearTextPassword)
     {
@@ -178,19 +177,12 @@ public class User : Aggregate<SimpleStringId>
         Publish(new UserPasswordHasBeenUpdated(this));
     }
 
-    public override SimpleStringId GetId()
-    {
-        return Id;
-    }
+    public override SimpleStringId GetId() => Id;
 
-    public string GetEmail()
-    {
-        return _Contact.Email.Value;
-    }
+    public string GetEmail() => _Contact.Email.Value;
 
-    public override UserDto AsDto()
-    {
-        return new UserDto
+    public override UserDto AsDto() =>
+        new()
         {
             Id = Id,
             MerchantId = _MerchantId,
@@ -201,7 +193,6 @@ public class User : Aggregate<SimpleStringId>
             IsActive = _IsActive,
             Password = _Password.AsDto()
         };
-    }
 
     #endregion
 }

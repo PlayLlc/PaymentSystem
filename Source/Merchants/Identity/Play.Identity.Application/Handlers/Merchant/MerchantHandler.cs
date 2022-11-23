@@ -5,14 +5,14 @@ using NServiceBus;
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Events;
 using Play.Domain.Repositories;
-using Play.Identity.Contracts.Events;
+using Play.Identity.Contracts;
 using Play.Identity.Domain.Aggregates;
 
 namespace Play.Identity.Application.Handlers;
 
 public class MerchantHandler : DomainEventHandler, IHandleDomainEvents<MerchantHasBeenCreated>, IHandleDomainEvents<MerchantAddressHasBeenUpdated>,
     IHandleDomainEvents<MerchantBusinessInfoHasBeenUpdated>, IHandleDomainEvents<MerchantCategoryCodeIsProhibited>,
-    IHandleDomainEvents<MerchantCompanyNameBeenUpdated>
+    IHandleDomainEvents<MerchantCompanyNameBeenUpdated>, IHandleDomainEvents<MerchantHasBeenRemoved>
 {
     #region Instance Values
 
@@ -69,6 +69,19 @@ public class MerchantHandler : DomainEventHandler, IHandleDomainEvents<MerchantH
     {
         Log(domainEvent);
         await _MerchantRepository.SaveAsync(domainEvent.Merchant).ConfigureAwait(false);
+    }
+
+    public async Task Handle(MerchantHasBeenRemoved domainEvent)
+    {
+        Log(domainEvent);
+        var merchantId = domainEvent.Merchant.Id;
+        await _MerchantRepository.RemoveAsync(domainEvent.Merchant).ConfigureAwait(false);
+
+        await _MessageHandlerContext.Publish<MerchantHasBeenRemovedEvent>((a) =>
+            {
+                a.MerchantId = merchantId;
+            }, null)
+            .ConfigureAwait(false);
     }
 
     #endregion

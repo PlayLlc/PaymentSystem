@@ -25,7 +25,7 @@ public static class UIntExtension
 
     public static uint ClearBit(this in uint input, Bits bitToClear, byte bytePosition)
     {
-        if (bytePosition > Specs.Integer.UInt32._ByteCount)
+        if (bytePosition > Specs.Integer.UInt32.ByteCount)
             throw new ArgumentOutOfRangeException(nameof(bytePosition));
 
         return input & ~((uint) bitToClear << ((bytePosition * 8) - 8));
@@ -54,9 +54,11 @@ public static class UIntExtension
     {
         int result = 0;
 
-        for (byte i = 1; i <= Specs.Integer.UInt32._BitCount; i++)
+        for (byte i = 1; i <= Specs.Integer.UInt32.BitCount; i++)
+        {
             if (value.IsBitSet((byte) i))
                 result++;
+        }
 
         return result;
     }
@@ -82,8 +84,10 @@ public static class UIntExtension
         const byte numberOfBitsInUlong = 32;
 
         for (byte i = 0; i < numberOfBitsInUlong; i++)
+        {
             if ((value & (ulong) (1 << i)) != 0)
                 return i;
+        }
 
         return 0;
     }
@@ -91,7 +95,7 @@ public static class UIntExtension
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static uint SetBit(this in uint input, byte bitPosition)
     {
-        if (bitPosition > Specs.Integer.UInt32._BitCount)
+        if (bitPosition > Specs.Integer.UInt32.BitCount)
             throw new ArgumentOutOfRangeException(nameof(bitPosition));
 
         return input | (uint) (1 << (bitPosition - 1));
@@ -131,7 +135,7 @@ public static class UIntExtension
         int offset = mostSignificantBit;
         uint result = 0;
 
-        for (; offset < Specs.Integer.UInt8._BitCount; offset -= Specs.Integer.UInt8._BitCount)
+        for (; offset < Specs.Integer.UInt8.BitCount; offset -= Specs.Integer.UInt8.BitCount)
         {
             result <<= 8;
             result |= byte.MaxValue;

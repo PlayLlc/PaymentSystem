@@ -35,25 +35,25 @@ public static partial class Randomize
 
         #region Instance Members
 
-        public static byte Byte() => Bytes(Specs.Integer.UInt8._ByteCount)[0];
+        public static byte Byte() => Bytes(Specs.Integer.UInt8.ByteCount)[0];
 
         public static ushort UShort()
         {
-            Span<byte> buffer = Bytes(Specs.Integer.UInt16._ByteCount);
+            Span<byte> buffer = Bytes(Specs.Integer.UInt16.ByteCount);
 
             return PlayCodec.CompressedNumericCodec.DecodeToUInt16(buffer);
         }
 
         public static uint UInt()
         {
-            Span<byte> buffer = Bytes(Specs.Integer.UInt32._ByteCount);
+            Span<byte> buffer = Bytes(Specs.Integer.UInt32.ByteCount);
 
             return PlayCodec.CompressedNumericCodec.DecodeToUInt16(buffer);
         }
 
         public static ulong ULong()
         {
-            Span<byte> buffer = Bytes(Specs.Integer.UInt64._ByteCount);
+            Span<byte> buffer = Bytes(Specs.Integer.UInt64.ByteCount);
 
             return PlayCodec.CompressedNumericCodec.DecodeToUInt16(buffer);
         }

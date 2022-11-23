@@ -47,7 +47,7 @@ public static class ByteArrayExtensions
             value[^result.Length..].CopyTo(result);
 
             if ((paddedNibbles % 2) != 0)
-                result[0] = result[0].GetMaskedValue(LeftNibble._MaxValue);
+                result[0] = result[0].GetMaskedValue(LeftNibble.MaxValue);
 
             return result.ToArray();
         }
@@ -58,7 +58,7 @@ public static class ByteArrayExtensions
             value[^result.Length..].CopyTo(result);
 
             if ((paddedNibbles % 2) != 0)
-                result[0] = result[0].GetMaskedValue(LeftNibble._MaxValue);
+                result[0] = result[0].GetMaskedValue(LeftNibble.MaxValue);
 
             return result.ToArray();
         }

@@ -11,8 +11,4 @@
     <ProjectReference Include="..\Play.Loyalty.Contracts\Play.Loyalty.Contracts.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Enums\" />
-  </ItemGroup>
-
 </Project>

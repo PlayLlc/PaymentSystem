@@ -9,7 +9,8 @@ using Play.Loyalty.Domain.Repositories;
 
 namespace Play.Loyalty.Application.Handlers.DomainEvents
 {
-    public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEvents<LoyaltyProgramHasBeenCreated>
+    public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEvents<LoyaltyProgramHasBeenCreated>,
+        IHandleDomainEvents<LoyaltyProgramHasBeenRemoved>
     {
         #region Instance Values
 
@@ -33,6 +34,12 @@ namespace Play.Loyalty.Application.Handlers.DomainEvents
         #region Instance Members
 
         public async Task Handle(LoyaltyProgramHasBeenCreated domainEvent)
+        {
+            Log(domainEvent);
+            await _LoyaltyProgramRepository.SaveAsync(domainEvent.LoyaltyProgram).ConfigureAwait(false);
+        }
+
+        public async Task Handle(LoyaltyProgramHasBeenRemoved domainEvent)
         {
             Log(domainEvent);
             await _LoyaltyProgramRepository.SaveAsync(domainEvent.LoyaltyProgram).ConfigureAwait(false);

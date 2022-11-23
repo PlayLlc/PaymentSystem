@@ -7,12 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Identity\Play.Identity.Contracts\Play.Identity.Contracts.csproj" />
     <ProjectReference Include="..\Play.Loyalty.Contracts\Play.Loyalty.Contracts.csproj" />
     <ProjectReference Include="..\Play.Loyalty.Persistence.Sql\Play.Loyalty.Persistence.Sql.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Handlers\NetworkEvents\" />
   </ItemGroup>
 
 </Project>

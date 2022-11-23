@@ -4,7 +4,7 @@ public static class LongSpec
 {
     #region Static Metadata
 
-    public const ulong _SignedBit = (ulong) 1 << 63;
+    public const ulong SignedBit = (ulong) 1 << 63;
 
     #endregion
 }

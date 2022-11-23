@@ -16,7 +16,7 @@ public static class LongExtension
             return 0;
 
         if (value < 0)
-            return Specs.Integer.Int64._BitCount;
+            return Specs.Integer.Int64.BitCount;
 
         if (value < uint.MaxValue)
             return (int) Math.Log(value, 2) + 1;
@@ -24,7 +24,7 @@ public static class LongExtension
         long buffer = value;
         int offset = 0;
 
-        for (int i = 0; i < Specs.Integer.Int64._BitCount; i++)
+        for (int i = 0; i < Specs.Integer.Int64.BitCount; i++)
         {
             if (buffer == 0)
                 return offset;

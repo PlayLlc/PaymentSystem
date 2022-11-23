@@ -1,6 +1,6 @@
 ﻿using Play.Messaging.NServiceBus;
 
-namespace Play.Identity.Contracts.Events;
+namespace Play.Identity.Contracts;
 
 public class UserHasBeenCreatedEvent : NetworkEvent
 {

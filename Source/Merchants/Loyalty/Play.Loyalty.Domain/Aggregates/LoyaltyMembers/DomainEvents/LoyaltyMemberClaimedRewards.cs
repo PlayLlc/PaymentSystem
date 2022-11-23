@@ -1,10 +1,9 @@
 ﻿using Play.Domain.Events;
-
-using System.ComponentModel.DataAnnotations;
+using Play.Globalization.Currency;
 
 namespace Play.Loyalty.Domain.Aggregates;
 
-public record LoyaltyMemberEarnedPoints : DomainEvent
+public record LoyaltyMemberClaimedRewards : DomainEvent
 {
     #region Instance Values
 
@@ -17,8 +16,8 @@ public record LoyaltyMemberEarnedPoints : DomainEvent
 
     #region Constructor
 
-    public LoyaltyMemberEarnedPoints(LoyaltyMember loyaltyMember, string merchantId, string userId, uint transactionId, uint points) : base(
-        $"The {nameof(LoyaltyMember)} with the ID: [{loyaltyMember.Id}] has earned [{points}] points;")
+    public LoyaltyMemberClaimedRewards(LoyaltyMember loyaltyMember, string merchantId, string userId, uint transactionId, Money claimedRewards) : base(
+        $"The {nameof(LoyaltyMember)} with the ID: [{loyaltyMember.Id}] has claimed [{claimedRewards}] in rewards;")
     {
         LoyaltyMember = loyaltyMember;
         MerchantId = merchantId;

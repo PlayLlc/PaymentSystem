@@ -1,8 +1,8 @@
 ﻿using Play.Messaging.NServiceBus;
 
-namespace Play.Identity.Contracts.Events;
+namespace Play.Identity.Contracts;
 
-public class MerchantHasBeenCreatedEvent : NetworkEvent
+public record MerchantHasBeenCreatedEvent : NetworkEvent
 {
     #region Instance Values
 

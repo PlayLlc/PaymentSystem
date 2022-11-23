@@ -43,9 +43,11 @@ public static class UShortExtension
     {
         int result = 0;
 
-        for (byte i = 1; i <= Specs.Integer.UInt16._BitCount; i++)
+        for (byte i = 1; i <= Specs.Integer.UInt16.BitCount; i++)
+        {
             if (value.IsBitSet((byte) i))
                 result++;
+        }
 
         return result;
     }
@@ -60,7 +62,7 @@ public static class UShortExtension
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static ushort SetBit(this in ushort input, byte bitPosition)
     {
-        if (bitPosition > Specs.Integer.UInt32._BitCount)
+        if (bitPosition > Specs.Integer.UInt32.BitCount)
             throw new ArgumentOutOfRangeException(nameof(bitPosition));
 
         return (ushort) (input | (1 << (bitPosition - 1)));

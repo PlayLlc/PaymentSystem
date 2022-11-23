@@ -17,8 +17,10 @@ public static partial class ReadOnlySpanExtensions
             return false;
 
         for (int i = 0; i < value.Length; i++)
+        {
             if (value[i] != other[i])
                 return false;
+        }
 
         return true;
     }
@@ -119,7 +121,7 @@ public static partial class ReadOnlySpanExtensions
         value[^result.Length..].CopyTo(result);
 
         if ((paddedNibbles % 2) != 0)
-            result[0] = result[0].GetMaskedValue(LeftNibble._MaxValue);
+            result[0] = result[0].GetMaskedValue(LeftNibble.MaxValue);
 
         return result;
     }
@@ -143,10 +145,12 @@ public static partial class ReadOnlySpanExtensions
         Nibble[] result = new Nibble[value.Length * 2];
 
         for (int i = 0; i < result.Length; i++)
+        {
             if ((i % 2) == 0)
                 result[i] = new Nibble((byte) (value[i / 2] >> 4));
             else
                 result[i] = new Nibble(value[i / 2].GetMaskedValue(0xF0));
+        }
 
         return result;
     }
