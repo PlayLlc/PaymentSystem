@@ -45,11 +45,11 @@ namespace Play.Loyalty.Domain.Entities
         }
 
         /// <exception cref="ValueObjectException"></exception>
-        /// <exception cref="PlayInternalException"></exception>
         internal Rewards(RewardsDto dto)
         {
             Id = new SimpleStringId(dto.Id);
             _Balance = dto.Balance;
+            _Points = dto.Points;
         }
 
         #endregion

@@ -11,7 +11,7 @@ public record Name : ValueObject<string>
     {
         if (value == string.Empty)
             throw new ValueObjectException($"The {nameof(Name)} provided was empty: [{value}]");
-        if (value.Length > 50)
+        if (value.Length > 200)
             throw new ValueObjectException($"The {nameof(Name)} provided was too long: [{value}]");
     }
 
@@ -19,10 +19,7 @@ public record Name : ValueObject<string>
 
     #region Operator Overrides
 
-    public static implicit operator string(Name value)
-    {
-        return value.Value;
-    }
+    public static implicit operator string(Name value) => value.Value;
 
     #endregion
 }

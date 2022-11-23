@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using Play.Domain.Common.Attributes;
 using Play.Inventory.Contracts.Dtos;
 
 namespace Play.Loyalty.Contracts.Commands;
@@ -10,14 +11,17 @@ public record CreateDiscountedItem
 
     [Required]
     [StringLength(20)]
+    [AlphaNumericSpecial]
     public string ItemId { get; set; } = string.Empty;
 
     [Required]
     [StringLength(20)]
+    [AlphaNumericSpecial]
     public string VariationId { get; set; } = string.Empty;
 
     [Required]
     [StringLength(20)]
+    [AlphaNumericSpecial]
     public string UserId { get; set; } = string.Empty;
 
     [Required]

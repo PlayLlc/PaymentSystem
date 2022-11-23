@@ -20,9 +20,17 @@ public class LoyaltyMember : Aggregate<SimpleStringId>
     #region Instance Values
 
     private readonly SimpleStringId _MerchantId;
-    private readonly Name _Name;
+
+    private readonly Rewards _Rewards;
+
+    /// <summary>
+    ///     The Loyalty Member Number
+    /// </summary>
     private readonly RewardsNumber _RewardsNumber;
-    private Rewards _Rewards;
+
+    private readonly Phone _Phone;
+    private Name _Name;
+    private Email? _Email;
     public override SimpleStringId Id { get; }
 
     #endregion
@@ -38,17 +46,23 @@ public class LoyaltyMember : Aggregate<SimpleStringId>
     {
         Id = new SimpleStringId(dto.Id);
         _MerchantId = new SimpleStringId(dto.MerchantId);
-        _Name = new Name(dto.Name);
         _RewardsNumber = new RewardsNumber(dto.RewardsNumber);
+        _Rewards = new Rewards(dto.Rewards);
+        _Name = new Name(dto.Name);
+        _Phone = new Phone(dto.Phone);
+        _Email = dto.Email is null ? null : new Email(dto.Email);
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    internal LoyaltyMember(string id, string merchantId, string name, string rewardsNumber)
+    internal LoyaltyMember(string id, string merchantId, string name, string phone, string rewardsNumber, Rewards rewards, string? email = null)
     {
         Id = new SimpleStringId(id);
         _MerchantId = new SimpleStringId(merchantId);
-        _Name = new Name(name);
         _RewardsNumber = new RewardsNumber(rewardsNumber);
+        _Rewards = rewards;
+        _Name = new Name(name);
+        _Phone = new Phone(phone);
+        _Email = email is null ? null : new Email(email);
     }
 
     #endregion
@@ -71,6 +85,16 @@ public class LoyaltyMember : Aggregate<SimpleStringId>
             return;
 
         _Rewards.AddToBalance(reward);
+
+        // Publish
+    }
+
+    public async Task Update(UpdateLoyaltyMember command)
+    {
+        // Enforce
+
+        _Name = new Name(command.Name);
+        _Email = command.Email is null ? null : new Email(command.Email);
 
         // Publish
     }
@@ -140,16 +164,22 @@ public class LoyaltyMember : Aggregate<SimpleStringId>
         {
             Id = Id,
             MerchantId = _MerchantId,
+            RewardsNumber = _RewardsNumber.Value,
+            Rewards = _Rewards.AsDto(),
             Name = _Name,
-            RewardsNumber = _RewardsNumber.Value
+            Email = _Email?.Value,
+            Phone = _Phone
         };
 
     /// <exception cref="ValueObjectException"></exception>
     public static LoyaltyMember Create(CreateLoyaltyMember command)
     {
-        LoyaltyMember loyaltyMember = new LoyaltyMember(GenerateSimpleStringId(), command.MerchantId, command.Name, command.RewardsNumber);
-
         // Enforce Rules
+        Rewards rewards = new Rewards(GenerateSimpleStringId(), 0, new Money(0, new NumericCurrencyCode(command.NumericCurrencyCode)));
+
+        LoyaltyMember loyaltyMember = new LoyaltyMember(GenerateSimpleStringId(), command.MerchantId, command.Name, command.Phone, command.RewardsNumber,
+            rewards, command.Email);
+
         // Publish Domain Event
 
         return loyaltyMember;
