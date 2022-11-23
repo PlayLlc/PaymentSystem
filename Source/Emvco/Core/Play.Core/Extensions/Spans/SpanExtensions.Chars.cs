@@ -12,7 +12,7 @@ public static partial class SpanExtensions
 
     public static char[] CopyValue(this Span<char> value)
     {
-        if (value.Length > Specs.ByteArray._StackAllocateCeiling)
+        if (value.Length > Specs.ByteArray.StackAllocateCeiling)
         {
             using SpanOwner<char> spanOwner = SpanOwner<char>.Allocate(value.Length);
             Span<char> buffer = spanOwner.Span;

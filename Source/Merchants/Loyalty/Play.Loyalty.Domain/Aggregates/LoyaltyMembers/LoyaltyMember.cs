@@ -1,21 +1,25 @@
-﻿using Play.Domain;
+﻿using NServiceBus;
+
+using Play.Domain;
 using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
 using Play.Domain.Repositories;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Currency;
+using Play.Identity.Domain.Serviceddds;
 using Play.Loyalty.Contracts.Commands;
 using Play.Loyalty.Contracts.Dtos;
 using Play.Loyalty.Domain.Aggregates._Shared.Rules;
 using Play.Loyalty.Domain.Aggregates.Rules;
 using Play.Loyalty.Domain.Entities;
 using Play.Loyalty.Domain.Repositories;
+using Play.Loyalty.Domain.Services;
 using Play.Loyalty.Domain.ValueObjects;
 
 namespace Play.Loyalty.Domain.Aggregates;
 
-public class LoyaltyMember : Aggregate<SimpleStringId>
+public partial class LoyaltyMember : Aggregate<SimpleStringId>
 {
     #region Instance Values
 
@@ -24,11 +28,12 @@ public class LoyaltyMember : Aggregate<SimpleStringId>
     private readonly Rewards _Rewards;
 
     /// <summary>
-    ///     The Loyalty Member Number
+    ///     The RewardsNumber is the number that the Loyalty Member provides to the merchant at the time of sale to earn
+    ///     rewards or to apply discounted items to the sale
     /// </summary>
     private readonly RewardsNumber _RewardsNumber;
 
-    private readonly Phone _Phone;
+    private Phone _Phone;
     private Name _Name;
     private Email? _Email;
     public override SimpleStringId Id { get; }
@@ -69,92 +74,54 @@ public class LoyaltyMember : Aggregate<SimpleStringId>
 
     #region Instance Members
 
-    /// <exception cref="NotFoundException"></exception>
     /// <exception cref="ValueObjectException"></exception>
-    public async Task AddRewards(IRepository<LoyaltyProgram, SimpleStringId> loyaltyProgramRepository, UpdateRewardPoints command)
-    {
-        // Enforce rules
-
-        LoyaltyProgram loyaltyProgram = await loyaltyProgramRepository.GetByIdAsync(new SimpleStringId(command.MerchantId)).ConfigureAwait(false)
-                                        ?? throw new NotFoundException(typeof(LoyaltyProgram));
-
-        uint points = loyaltyProgram.CalculateEarnedPoints(command.TransactionAmount) + _Rewards.GetPoints();
-        _Rewards.UpdatePoints(loyaltyProgram.CalculateRewards(points, out Money? reward));
-
-        if (reward is null)
-            return;
-
-        _Rewards.AddToBalance(reward);
-
-        // Publish
-    }
-
-    public async Task Update(UpdateLoyaltyMember command)
+    /// <exception cref="BusinessRuleValidationException"></exception>
+    /// <exception cref="NotFoundException"></exception>
+    public async Task Update(IRetrieveUsers userRetriever, UpdateLoyaltyMember command)
     {
         // Enforce
-
+        User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
+        Enforce(new UserMustBeActiveToUpdateAggregate<LoyaltyMember>(user));
+        Enforce(new AggregateMustBeUpdatedByKnownUser<LoyaltyMember>(_MerchantId, user));
         _Name = new Name(command.Name);
         _Email = command.Email is null ? null : new Email(command.Email);
+        _Phone = new Phone(command.Phone);
 
-        // Publish
-    }
-
-    /// <exception cref="NotFoundException"></exception>
-    /// <exception cref="ValueObjectException"></exception>
-    public async Task RemoveRewards(IRepository<LoyaltyProgram, SimpleStringId> loyaltyProgramRepository, UpdateRewardPoints command)
-    {
-        // Enforce rules
-
-        LoyaltyProgram loyaltyProgram = await loyaltyProgramRepository.GetByIdAsync(new SimpleStringId(command.MerchantId)).ConfigureAwait(false)
-                                        ?? throw new NotFoundException(typeof(LoyaltyProgram));
-
-        uint lostPoints = loyaltyProgram.CalculateEarnedPoints(command.TransactionAmount) + _Rewards.GetPoints();
-
-        if (lostPoints > 0)
-        {
-            ConvertRewardsToPoints(loyaltyProgram, lostPoints);
-
-            return;
-        }
-
-        _Rewards.SubtractPoints(lostPoints);
-
-        // Publish
-    }
-
-    private void ConvertRewardsToPoints(LoyaltyProgram loyaltyProgram, uint lostPoints)
-    {
-        uint rewardPoints = loyaltyProgram.CalculateEarnedPoints(_Rewards.GetRewardBalance());
-
-        if (lostPoints > rewardPoints)
-        {
-            _Rewards.UpdatePoints(0);
-            _Rewards.SubtractFromBalancce(_Rewards.GetRewardBalance());
-
-            return;
-        }
-
-        _Rewards.UpdatePoints(loyaltyProgram.CalculateRewards(rewardPoints - lostPoints, out Money? rewards));
-
-        if (rewards is null)
-            return;
-
-        _Rewards.UpdateBalance(rewards);
+        Publish(new LoyaltyMemberUpdated(this, _MerchantId, user.Id));
     }
 
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="NotFoundException"></exception>
-    public async Task ClaimReward(ILoyaltyProgramRepository loyaltyProgramRepository, ClaimReward command)
+    /// <exception cref="BusinessRuleValidationException"></exception>
+    public static async Task<LoyaltyMember> Create(
+        IRetrieveUsers userRetriever, IRetrieveMerchants merchantRetriever, IEnsureUniqueRewardNumbers uniqueRewardNumberChecker, CreateLoyaltyMember command)
     {
-        LoyaltyProgram loyaltyProgram = await loyaltyProgramRepository.GetByMerchantIdAsync(_MerchantId).ConfigureAwait(false)
-                                        ?? throw new NotFoundException(typeof(LoyaltyProgram));
+        Rewards rewards = new Rewards(GenerateSimpleStringId(), 0, new Money(0, new NumericCurrencyCode(command.NumericCurrencyCode)));
+        LoyaltyMember loyaltyMember = new LoyaltyMember(GenerateSimpleStringId(), command.MerchantId, command.Name, command.Phone, command.RewardsNumber,
+            rewards, command.Email);
 
-        Enforce(new RewardsProgramMustBeActiveToClaimReward(loyaltyProgram));
-        Enforce(new RewardMustBeGreaterThanOrEqualToClaimAmount(command.RewardAmount, _Rewards.GetRewardBalance()));
+        User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
+        Merchant merchant = await merchantRetriever.GetByIdAsync(command.MerchantId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Merchant));
+        loyaltyMember.Enforce(new UserMustBeActiveToUpdateAggregate<LoyaltyMember>(user));
+        loyaltyMember.Enforce(new AggregateMustBeUpdatedByKnownUser<LoyaltyMember>(command.MerchantId, user));
+        loyaltyMember.Enforce(new MerchantMustBeActiveToCreateAggregate<LoyaltyMember>(merchant));
+        loyaltyMember.Enforce(new RewardNumberMustNotAlreadyExist(uniqueRewardNumberChecker, merchant.Id, command.RewardsNumber));
 
-        _Rewards.Claim(command.RewardAmount);
+        loyaltyMember.Publish(new LoyaltyMemberCreated(loyaltyMember, merchant.Id, user.Id));
 
-        // Publish
+        return loyaltyMember;
+    }
+
+    /// <exception cref="NotFoundException"></exception>
+    /// <exception cref="BusinessRuleValidationException"></exception>
+    public async Task Remove(IRetrieveUsers userRetriever, IRetrieveMerchants merchantRetriever, CreateLoyaltyMember command)
+    {
+        User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
+        Merchant merchant = await merchantRetriever.GetByIdAsync(command.MerchantId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Merchant));
+        Enforce(new UserMustBeActiveToUpdateAggregate<LoyaltyMember>(user));
+        Enforce(new AggregateMustBeUpdatedByKnownUser<LoyaltyMember>(_MerchantId, user));
+
+        Publish(new LoyaltyMemberRemoved(this, command.MerchantId, command.UserId));
     }
 
     public override SimpleStringId GetId() => Id;
@@ -170,27 +137,6 @@ public class LoyaltyMember : Aggregate<SimpleStringId>
             Email = _Email?.Value,
             Phone = _Phone
         };
-
-    /// <exception cref="ValueObjectException"></exception>
-    public static LoyaltyMember Create(CreateLoyaltyMember command)
-    {
-        // Enforce Rules
-        Rewards rewards = new Rewards(GenerateSimpleStringId(), 0, new Money(0, new NumericCurrencyCode(command.NumericCurrencyCode)));
-
-        LoyaltyMember loyaltyMember = new LoyaltyMember(GenerateSimpleStringId(), command.MerchantId, command.Name, command.Phone, command.RewardsNumber,
-            rewards, command.Email);
-
-        // Publish Domain Event
-
-        return loyaltyMember;
-    }
-
-    public static void Remove()
-    {
-        // Enforce Rules
-
-        // Publish Domain Event
-    }
 
     #endregion
 }

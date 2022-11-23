@@ -11,4 +11,9 @@
     <ProjectReference Include="..\Play.Loyalty.Persistence.Sql\Play.Loyalty.Persistence.Sql.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Handlers\DomainEvents\LoyaltyPrograms\" />
+    <Folder Include="Handlers\NetworkEvents\" />
+  </ItemGroup>
+
 </Project>

@@ -12,3 +12,6 @@ public interface ILoyaltyProgramRepository : IRepository<LoyaltyProgram, SimpleS
 
     #endregion
 }
+
+public interface ILoyaltyMemberRepository : IRepository<LoyaltyMember, SimpleStringId>
+{ }

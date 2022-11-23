@@ -2,9 +2,9 @@
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Events;
 
-namespace Play.Loyalty.Domain.Aggregates.DomainEvents;
+namespace Play.Loyalty.Domain.Aggregates;
 
-public record RewardBalanceIsInsufficient : BrokenRuleOrPolicyDomainEvent<LoyaltyMember, SimpleStringId>
+public record RewardProgramIsNotActive : BrokenRuleOrPolicyDomainEvent<LoyaltyMember, SimpleStringId>
 {
     #region Instance Values
 
@@ -14,7 +14,7 @@ public record RewardBalanceIsInsufficient : BrokenRuleOrPolicyDomainEvent<Loyalt
 
     #region Constructor
 
-    public RewardBalanceIsInsufficient(LoyaltyMember loyaltyMember, IBusinessRule rule) : base(loyaltyMember, rule)
+    public RewardProgramIsNotActive(LoyaltyMember loyaltyMember, IBusinessRule rule) : base(loyaltyMember, rule)
     {
         LoyaltyMember = loyaltyMember;
     }

@@ -15,6 +15,11 @@ public record ClaimReward
     public string RewardId { get; set; } = string.Empty;
 
     [Required]
+    [StringLength(20)]
+    [AlphaNumericSpecial]
+    public string UserId { get; set; } = string.Empty;
+
+    [Required]
     public MoneyDto RewardAmount { get; set; } = null!;
 
     #endregion

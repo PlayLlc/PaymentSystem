@@ -1,11 +1,11 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
-using Play.Globalization.Currency;
+using Play.Identity.Domain.Serviceddds;
 using Play.Loyalty.Domain.Entities;
 
 namespace Play.Loyalty.Domain.Aggregates.Rules;
 
-public class RewardMustBeGreaterThanOrEqualToClaimAmount : BusinessRule<LoyaltyMember, SimpleStringId>
+public class RewardNumberMustNotAlreadyExist : BusinessRule<LoyaltyMember, SimpleStringId>
 {
     #region Instance Values
 
@@ -17,9 +17,9 @@ public class RewardMustBeGreaterThanOrEqualToClaimAmount : BusinessRule<LoyaltyM
 
     #region Constructor
 
-    internal RewardMustBeGreaterThanOrEqualToClaimAmount(Money amountToClaim, Money rewardsBalance)
+    internal RewardNumberMustNotAlreadyExist(IEnsureUniqueRewardNumbers uniqueRewardNumberChecker, string merchantId, string rewardNumber)
     {
-        _IsValid = rewardsBalance >= amountToClaim;
+        _IsValid = uniqueRewardNumberChecker.IsUnique(merchantId, rewardNumber);
     }
 
     #endregion
@@ -28,7 +28,7 @@ public class RewardMustBeGreaterThanOrEqualToClaimAmount : BusinessRule<LoyaltyM
 
     public override bool IsBroken() => !_IsValid;
 
-    public override RewardBalanceIsInsufficient CreateBusinessRuleViolationDomainEvent(LoyaltyMember aggregate) => new(aggregate, this);
+    public override RewardsNumberIsNotUnique CreateBusinessRuleViolationDomainEvent(LoyaltyMember aggregate) => new(aggregate, this);
 
     #endregion
 }

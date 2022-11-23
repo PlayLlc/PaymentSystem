@@ -2,9 +2,9 @@
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Events;
 
-namespace Play.Loyalty.Domain.Aggregates.DomainEvents;
+namespace Play.Loyalty.Domain.Aggregates;
 
-public record RewardProgramIsNotActive : BrokenRuleOrPolicyDomainEvent<LoyaltyMember, SimpleStringId>
+public record RewardsNumberIsNotUnique : BrokenRuleOrPolicyDomainEvent<LoyaltyMember, SimpleStringId>
 {
     #region Instance Values
 
@@ -14,7 +14,7 @@ public record RewardProgramIsNotActive : BrokenRuleOrPolicyDomainEvent<LoyaltyMe
 
     #region Constructor
 
-    public RewardProgramIsNotActive(LoyaltyMember loyaltyMember, IBusinessRule rule) : base(loyaltyMember, rule)
+    public RewardsNumberIsNotUnique(LoyaltyMember loyaltyMember, IBusinessRule rule) : base(loyaltyMember, rule)
     {
         LoyaltyMember = loyaltyMember;
     }

@@ -16,15 +16,17 @@ public static partial class ReadOnlySpanExtensions
             return false;
 
         for (int i = 0; i < value.Length; i++)
+        {
             if (value[i] != other[i])
                 return false;
+        }
 
         return true;
     }
 
     public static char[] CopyValue(this ReadOnlySpan<char> value)
     {
-        if (value.Length > Specs.ByteArray._StackAllocateCeiling)
+        if (value.Length > Specs.ByteArray.StackAllocateCeiling)
         {
             using SpanOwner<char> spanOwner = SpanOwner<char>.Allocate(value.Length);
             Span<char> buffer = spanOwner.Span;
