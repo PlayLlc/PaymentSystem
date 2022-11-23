@@ -16,6 +16,7 @@ public partial class LoyaltyProgram : Aggregate<SimpleStringId>
     #region Instance Values
 
     private readonly SimpleStringId _MerchantId;
+
     private readonly RewardsProgram _RewardsProgram;
     private readonly HashSet<Discount> _Discounts;
     public override SimpleStringId Id { get; }
@@ -55,8 +56,7 @@ public partial class LoyaltyProgram : Aggregate<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="NotFoundException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
-    public static async Task<LoyaltyProgram> CreateLoyaltyProgram(
-        IRetrieveMerchants merchantRetriever, IRetrieveUsers userRetriever, CreateLoyaltyProgram command)
+    public static async Task<LoyaltyProgram> Create(IRetrieveMerchants merchantRetriever, IRetrieveUsers userRetriever, CreateLoyaltyProgram command)
     {
         Money rewardAmount = new Money(RewardsProgram._DefaultRewardAmount, command.NumericCurrencyCode);
         RewardsProgram rewardsProgram = new RewardsProgram(GenerateSimpleStringId(), rewardAmount, RewardsProgram._DefaultPointsPerDollar,

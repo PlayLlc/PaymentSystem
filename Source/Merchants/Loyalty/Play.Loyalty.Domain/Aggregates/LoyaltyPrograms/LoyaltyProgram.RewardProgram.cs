@@ -18,7 +18,7 @@ public partial class LoyaltyProgram
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="NotFoundException"></exception>
     /// <exception cref="ValueObjectException"></exception>
-    public async Task Update(IRetrieveUsers userService, UpdateRewardsProgram command)
+    public async Task UpdateRewardsProgram(IRetrieveUsers userService, UpdateRewardsProgram command)
     {
         User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
 
@@ -33,7 +33,7 @@ public partial class LoyaltyProgram
 
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="NotFoundException"></exception>
-    public async Task SetIsActive(IRetrieveUsers userService, ToggleRewardsProgramActivation command)
+    public async Task ActivateRewardsProgram(IRetrieveUsers userService, ActivateRewardsProgram command)
     {
         User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
 

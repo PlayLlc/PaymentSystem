@@ -16,9 +16,7 @@ public record LoyaltyMemberEarnedRewards : DomainEvent
 
     #region Constructor
 
-    public LoyaltyMemberEarnedRewards(LoyaltyMember loyaltyMember, string merchantId, string userId, 
-        uint transactionId,
-        Money rewards) : base(
+    public LoyaltyMemberEarnedRewards(LoyaltyMember loyaltyMember, string merchantId, string userId, uint transactionId, Money rewards) : base(
         $"The {nameof(LoyaltyMember)} with the ID: [{loyaltyMember.Id}] has earned [{rewards.AsLocalFormat()}] in rewards;")
     {
         LoyaltyMember = loyaltyMember;
@@ -26,7 +24,6 @@ public record LoyaltyMemberEarnedRewards : DomainEvent
         UserId = userId;
         TransactionId = transactionId;
     }
-
 
     #endregion
 }

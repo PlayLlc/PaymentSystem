@@ -11,12 +11,12 @@ public record LoyaltyMemberLostRewards : DomainEvent
     public readonly string MerchantId;
     public readonly string UserId;
     public readonly uint TransactionId;
+
     #endregion
 
     #region Constructor
 
-    public LoyaltyMemberLostRewards(LoyaltyMember loyaltyMember, string merchantId, string userId,
-        uint transactionId, Money rewards) : base(
+    public LoyaltyMemberLostRewards(LoyaltyMember loyaltyMember, string merchantId, string userId, uint transactionId, Money rewards) : base(
         $"The {nameof(LoyaltyMember)} with the ID: [{loyaltyMember.Id}] has lost [{rewards.AsLocalFormat()}] in rewards;")
     {
         LoyaltyMember = loyaltyMember;

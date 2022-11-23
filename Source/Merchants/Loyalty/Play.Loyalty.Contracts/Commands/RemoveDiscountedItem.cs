@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Play.Loyalty.Contracts.Commands;
 
-public record RemoveDiscountedItemPrice
+public record RemoveDiscountedItem
 {
     #region Instance Values
 

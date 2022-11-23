@@ -41,7 +41,7 @@ public class RewardsProgram : Entity<SimpleStringId>
     {
         Id = new SimpleStringId(dto.Id);
         _RewardAmount = dto.RewardAmount;
-        _PointsPerDollar = new PointsPerDollar(dto.PointsPerDollar);
+        _PointsPerDollar = dto.PointsPerDollar;
         _PointsRequired = dto.RewardThreshold;
     }
 
@@ -50,7 +50,7 @@ public class RewardsProgram : Entity<SimpleStringId>
     {
         Id = new SimpleStringId(id);
         _RewardAmount = rewardAmount;
-        _PointsPerDollar = new PointsPerDollar(pointsPerDollar);
+        _PointsPerDollar = pointsPerDollar;
         _PointsRequired = pointsRequired;
     }
 
@@ -63,8 +63,7 @@ public class RewardsProgram : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     public void Update(UpdateRewardsProgram command)
     {
-        _IsActive = command.IsActive;
-        _PointsPerDollar = new PointsPerDollar(command.PointsPerDollar);
+        _PointsPerDollar = command.PointsPerDollar;
         _PointsRequired = command.PointsRequired;
         _RewardAmount = command.RewardAmount;
     }
@@ -104,7 +103,7 @@ public class RewardsProgram : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal void UpdatePointsPerDollar(uint pointsPerDollar)
     {
-        _PointsPerDollar = new PointsPerDollar(pointsPerDollar);
+        _PointsPerDollar = pointsPerDollar;
     }
 
     /// <exception cref="ValueObjectException"></exception>

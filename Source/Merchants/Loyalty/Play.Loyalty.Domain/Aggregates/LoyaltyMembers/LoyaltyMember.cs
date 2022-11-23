@@ -113,7 +113,7 @@ public partial class LoyaltyMember : Aggregate<SimpleStringId>
 
     /// <exception cref="NotFoundException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
-    public async Task Remove(IRetrieveUsers userRetriever, RemoveLoyaltyProgram command)
+    public async Task Remove(IRetrieveUsers userRetriever, RemoveLoyaltyMember command)
     {
         User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<LoyaltyMember>(user));

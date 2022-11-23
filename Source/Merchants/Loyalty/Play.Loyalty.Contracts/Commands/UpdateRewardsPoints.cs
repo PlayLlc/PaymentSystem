@@ -5,14 +5,17 @@ using Play.Inventory.Contracts.Dtos;
 
 namespace Play.Loyalty.Contracts.Commands;
 
-public record UpdateDiscountedPrice
+public record UpdateRewardsPoints
 {
     #region Instance Values
 
     [Required]
     [StringLength(20)]
     [AlphaNumericSpecial]
-    public string DiscountId { get; set; } = string.Empty;
+    public string MerchantId { get; set; } = string.Empty;
+
+    [Required]
+    public uint TransactionId { get; set; }
 
     [Required]
     [StringLength(20)]
@@ -20,7 +23,7 @@ public record UpdateDiscountedPrice
     public string UserId { get; set; } = string.Empty;
 
     [Required]
-    public MoneyDto DiscountedPrice { get; set; } = null!;
+    public MoneyDto TransactionAmount { get; set; } = null!;
 
     #endregion
 }

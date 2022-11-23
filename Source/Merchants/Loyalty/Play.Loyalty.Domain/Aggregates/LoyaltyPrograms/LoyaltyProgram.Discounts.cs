@@ -27,7 +27,7 @@ public partial class LoyaltyProgram
 
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
-    public async Task UpdateDiscountedPrice(IRetrieveUsers userService, UpdateDiscountedPrice command)
+    public async Task UpdateDiscountedItem(IRetrieveUsers userService, UpdateDiscountedItem command)
     {
         User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<LoyaltyProgram>(user));
@@ -42,7 +42,7 @@ public partial class LoyaltyProgram
 
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
-    public async Task RemoveDiscountedItemPrice(IRetrieveUsers userService, RemoveDiscountedItemPrice command)
+    public async Task RemoveDiscountedItem(IRetrieveUsers userService, RemoveDiscountedItem command)
     {
         User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<LoyaltyProgram>(user));
