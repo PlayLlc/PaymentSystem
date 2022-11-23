@@ -1,9 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
+using Play.Domain.Common.ValueObjects;
+using Play.Domain.Repositories;
 using Play.Identity.Api.Client;
 using Play.Loyalty.Application.Services;
+using Play.Loyalty.Domain.Aggregates;
 using Play.Loyalty.Domain.Repositories;
 using Play.Loyalty.Domain.Services;
+using Play.Loyalty.Persistence.Sql.Persistence;
+using Play.Loyalty.Persistence.Sql.Repositories;
 using Play.Restful.Clients;
 
 namespace Play.Loyalty.Api.Extensions;
@@ -16,15 +21,17 @@ public static partial class WebApplicationBuilderExtensions
     {
         ApiConfiguration identityApiConfiguration = builder.Configuration.GetSection("IdentityApi").Get<ApiConfiguration>();
 
-        builder.Services.AddScoped<DbContext, InventoryDbContext>();
+        builder.Services.AddScoped<DbContext, LoyaltyDbContext>();
 
         // Api Clients 
         builder.Services.AddScoped<IMerchantApi, MerchantApi>(a => new MerchantApi(new Configuration(identityApiConfiguration.BasePath)));
         builder.Services.AddScoped<IUserApi, UserApi>(a => new UserApi(new Configuration(identityApiConfiguration.BasePath)));
 
-        // Repositories
-        builder.Services.AddScoped<ILoyaltyMemberRepository, CategoryRepository>();
-        builder.Services.AddScoped<IItemRepository, ItemRepository>();
+        // Repositories 
+        builder.Services.AddScoped<IRepository<LoyaltyMember, SimpleStringId>, LoyaltyMemberRepository>();
+        builder.Services.AddScoped<IRepository<LoyaltyProgram, SimpleStringId>, LoyaltyProgramRepository>();
+        builder.Services.AddScoped<ILoyaltyMemberRepository, LoyaltyMemberRepository>();
+        builder.Services.AddScoped<ILoyaltyProgramRepository, LoyaltyProgramRepository>();
 
         // Services
         builder.Services.AddScoped<IRetrieveMerchants, MerchantRetriever>();
@@ -35,8 +42,8 @@ public static partial class WebApplicationBuilderExtensions
         // HACK: so there shouldn't be any entities that are out of sync. Need to test and validate that singleton is the
         // HACK: right move here
         // Application Handlers
-        //builder.Services.AddSingleton<CategoryHandler>();
-        //builder.Services.AddSingleton<ItemHandler>();
+        //builder.Services.AddSingleton<LoyaltyMemberHandler>();
+        //builder.Services.AddSingleton<LoyaltyProgramHandler>();
 
         return builder;
     }
