@@ -74,6 +74,7 @@ public class User : Aggregate<SimpleStringId>
 
     #region Instance Members
 
+    public bool IsActive() => _IsActive;
     public bool DoesUserBelongToMerchant(string merchantId) => _MerchantId == merchantId;
 
     internal string GetHashedPassword() => _Password.HashedPassword;

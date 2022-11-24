@@ -2,6 +2,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
+using Play.Domain.Common.Attributes;
 using Play.Messaging.NServiceBus;
 
 namespace Play.Loyalty.Contracts;
@@ -12,8 +13,6 @@ public class LoyaltyMemberUpdatedEvent : NetworkEvent
 
     [Required]
     public LoyaltyMemberDto LoyaltyMember { get; set; } = null!;
-
-    public uint TransactionId { get; set; }
 
     #endregion
 }

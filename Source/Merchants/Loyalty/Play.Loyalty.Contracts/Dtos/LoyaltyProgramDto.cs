@@ -20,7 +20,7 @@ public record LoyaltyProgramDto : IDto
     public IEnumerable<DiscountDto> Discounts { get; set; } = null!;
 
     [Required]
-    public RewardProgramDto RewardProgram { get; set; } = null!;
+    public RewardsProgramDto RewardsProgram { get; set; } = null!;
 
     #endregion
 }

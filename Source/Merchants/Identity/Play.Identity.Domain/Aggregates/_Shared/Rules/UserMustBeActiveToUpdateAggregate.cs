@@ -18,7 +18,7 @@ public class UserMustBeActiveToUpdateAggregate<_Aggregate> : BusinessRule<_Aggre
 
     internal UserMustBeActiveToUpdateAggregate(User user)
     {
-        _IsValid = user.IsActive;
+        _IsValid = user.IsActive();
     }
 
     #endregion

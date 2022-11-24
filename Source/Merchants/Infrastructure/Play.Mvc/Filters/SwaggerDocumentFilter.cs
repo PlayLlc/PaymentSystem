@@ -7,13 +7,11 @@ using Play.Mvc.Attributes;
 
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-usSwashbuckle.AspNetCore.SwaggerGenrGen;
-
 namespace Play.Mvc.Filters
 {
     public class SwaggerDocumentFilter : IDocumentFilter
- 
-        #region Instance Membersbers
+    {
+        #region Instance Members
 
         public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
         {
@@ -24,12 +22,12 @@ namespace Play.Mvc.Filters
                 if (!IsIgnoreAttributePresent(info))
                     continue;
 
-                string? kepath = description.RelativePath;
+                var kepath = description.RelativePath;
 
                 if (kepath is null)
                     continue;
 
-                List<KeyValuePair<string, OpenApiPathItem>> removeRoutes = swaggerDoc.Paths.Where(x => x.Key.ToLower().Contains(kepath.ToLower())).ToList();
+                var removeRoutes = swaggerDoc.Paths.Where(x => x.Key.ToLower().Contains(kepath.ToLower())).ToList();
 
                 removeRoutes.ForEach(x => { swaggerDoc.Paths.Remove(x.Key); });
             }
@@ -45,8 +43,8 @@ namespace Play.Mvc.Filters
                 return true;
 
             return false;
-     
+        }
 
         #endregion
-        }
+    }
 }

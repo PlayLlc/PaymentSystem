@@ -27,7 +27,7 @@ public class DiscountMustNotExist : BusinessRule<LoyaltyProgram, SimpleStringId>
 
     public override bool IsBroken() => !_IsValid;
 
-    public override PercentageWasInvalid CreateBusinessRuleViolationDomainEvent(LoyaltyProgram aggregate) => new PercentageWasInvalid(aggregate, this);
+    public override DiscountAlreadyExists CreateBusinessRuleViolationDomainEvent(LoyaltyProgram aggregate) => new(aggregate, this);
 
     #endregion
 }

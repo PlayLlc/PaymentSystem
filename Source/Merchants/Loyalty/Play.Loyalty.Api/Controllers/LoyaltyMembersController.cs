@@ -86,6 +86,7 @@ public class LoyaltyMembersController : Controller
         this.ValidateModel();
         var loyaltyMember = await _LoyaltyMemberRepository.GetByIdAsync(new SimpleStringId(loyaltyMemberId)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(LoyaltyMember));
+
         await loyaltyMember.Remove(_UserRetriever, command).ConfigureAwait(false);
 
         return NoContent();
@@ -98,6 +99,7 @@ public class LoyaltyMembersController : Controller
         this.ValidateModel();
         var loyaltyMember = await _LoyaltyMemberRepository.GetByIdAsync(new SimpleStringId(loyaltyMemberId)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(LoyaltyMember));
+
         await loyaltyMember.AddRewardPoints(_UserRetriever, _LoyaltyProgramRepository, command).ConfigureAwait(false);
 
         return Ok();
@@ -110,6 +112,7 @@ public class LoyaltyMembersController : Controller
         this.ValidateModel();
         var loyaltyMember = await _LoyaltyMemberRepository.GetByIdAsync(new SimpleStringId(loyaltyMemberId)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(LoyaltyMember));
+
         await loyaltyMember.RemoveReward(_UserRetriever, _LoyaltyProgramRepository, command).ConfigureAwait(false);
 
         return Ok();

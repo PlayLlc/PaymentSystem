@@ -58,18 +58,7 @@ public partial class UserApi : IUserApi
     /// <returns></returns>
     public UserApi(string basePath)
     {
-        Configuration = new Configuration {BasePath = basePath};
-
-        ExceptionFactory = Configuration.DefaultExceptionFactory;
-    }
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="UserApi" /> class
-    /// </summary>
-    /// <returns></returns>
-    public UserApi()
-    {
-        Configuration = Configuration.Default;
+        Configuration = new Configuration(basePath);
 
         ExceptionFactory = Configuration.DefaultExceptionFactory;
     }
@@ -80,12 +69,9 @@ public partial class UserApi : IUserApi
     /// </summary>
     /// <param name="configuration">An instance of Configuration</param>
     /// <returns></returns>
-    public UserApi(Configuration configuration = null)
+    public UserApi(Configuration configuration)
     {
-        if (configuration == null) // use the default one in Configuration
-            Configuration = Configuration.Default;
-        else
-            Configuration = configuration;
+        Configuration = configuration;
 
         ExceptionFactory = Configuration.DefaultExceptionFactory;
     }
@@ -116,18 +102,6 @@ public partial class UserApi : IUserApi
     /// <returns>Dictionary of HTTP header</returns>
     [Obsolete("DefaultHeader is deprecated, please use Configuration.DefaultHeader instead.")]
     public IDictionary<string, string> DefaultHeader() => new ReadOnlyDictionary<string, string>(Configuration.DefaultHeader);
-
-    /// <summary>
-    ///     Add default header.
-    /// </summary>
-    /// <param name="key">Header field name.</param>
-    /// <param name="value">Header field value.</param>
-    /// <returns></returns>
-    [Obsolete("AddDefaultHeader is deprecated, please use Configuration.AddDefaultHeader instead.")]
-    public void AddDefaultHeader(string key, string value)
-    {
-        Configuration.AddDefaultHeader(key, value);
-    }
 
     /// <summary>
     /// </summary>

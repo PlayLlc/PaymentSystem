@@ -18,7 +18,7 @@ public class MerchantMustBeActiveToCreateAggregate<_Aggregate> : BusinessRule<_A
 
     internal MerchantMustBeActiveToCreateAggregate(Merchant merchant)
     {
-        _IsValid = merchant.IsActive;
+        _IsValid = merchant.IsActive();
     }
 
     #endregion

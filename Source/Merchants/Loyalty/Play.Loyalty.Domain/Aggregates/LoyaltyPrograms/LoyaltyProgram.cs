@@ -43,7 +43,7 @@ public partial class LoyaltyProgram : Aggregate<SimpleStringId>
     {
         Id = new SimpleStringId(dto.Id);
         _MerchantId = new SimpleStringId(dto.MerchantId);
-        _RewardsProgram = new RewardsProgram(dto.RewardProgram);
+        _RewardsProgram = new RewardsProgram(dto.RewardsProgram);
         _Discounts = new HashSet<Discount>(dto.Discounts.Select(a => new Discount(a)));
     }
 
@@ -94,7 +94,7 @@ public partial class LoyaltyProgram : Aggregate<SimpleStringId>
             Id = Id,
             MerchantId = _MerchantId,
             Discounts = _Discounts.Select(a => a.AsDto()),
-            RewardProgram = _RewardsProgram.AsDto()
+            RewardsProgram = _RewardsProgram.AsDto()
         };
     }
 

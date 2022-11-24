@@ -3,7 +3,7 @@ using Play.Loyalty.Domain.Entities;
 
 namespace Play.Loyalty.Domain.Aggregates;
 
-public record RewardsProgramActivationHasBeenToggled : DomainEvent
+public record RewardsProgramActivationStatusUpdated : DomainEvent
 {
     #region Instance Values
 
@@ -15,7 +15,7 @@ public record RewardsProgramActivationHasBeenToggled : DomainEvent
 
     #region Constructor
 
-    public RewardsProgramActivationHasBeenToggled(LoyaltyProgram loyaltyProgram, string userId, bool isActive) : base(
+    public RewardsProgramActivationStatusUpdated(LoyaltyProgram loyaltyProgram, string userId, bool isActive) : base(
         $"The {nameof(RewardsProgram)} has updated its Activation status to: [{isActive}] by the {nameof(User)} with the ID: [{userId}];")
     {
         LoyaltyProgram = loyaltyProgram;

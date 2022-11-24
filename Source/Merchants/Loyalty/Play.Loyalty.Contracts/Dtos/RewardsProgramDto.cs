@@ -5,7 +5,7 @@ using Play.Inventory.Contracts.Dtos;
 
 namespace Play.Loyalty.Contracts.Dtos;
 
-public record RewardProgramDto : IDto
+public record RewardsProgramDto : IDto
 {
     #region Instance Values
 

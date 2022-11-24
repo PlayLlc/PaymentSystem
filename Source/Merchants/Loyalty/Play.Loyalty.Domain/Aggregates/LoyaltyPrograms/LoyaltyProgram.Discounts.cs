@@ -19,10 +19,10 @@ public partial class LoyaltyProgram
         Enforce(new AggregateMustBeUpdatedByKnownUser<LoyaltyProgram>(_MerchantId, user));
         Enforce(new CurrencyMustBeValid(_RewardsProgram.GetRewardAmount().GetNumericCurrencyCode(), command.DiscountedPrice));
         Enforce(new DiscountMustNotExist(_Discounts, command.ItemId, command.VariationId));
+        var discount = new Discount(new string(GenerateSimpleStringId()), command.ItemId, command.VariationId, command.DiscountedPrice);
+        _ = _Discounts.Add(discount);
 
-        _ = _Discounts.Add(new Discount(new string(GenerateSimpleStringId()), command.ItemId, command.VariationId, command.DiscountedPrice));
-
-        Publish(new DiscountHasBeenCreated(this, command.ItemId, command.VariationId, command.DiscountedPrice));
+        Publish(new DiscountHasBeenCreated(this, discount, command.ItemId, command.VariationId, command.DiscountedPrice));
     }
 
     /// <exception cref="ValueObjectException"></exception>
@@ -35,9 +35,11 @@ public partial class LoyaltyProgram
         Enforce(new CurrencyMustBeValid(_RewardsProgram.GetRewardAmount().GetNumericCurrencyCode(), command.DiscountedPrice));
         Enforce(new DiscountMustExist(_Discounts, command.DiscountId));
 
-        _Discounts.First(a => a.Id == command.DiscountId).UpdateDiscountPrice(command.DiscountedPrice);
+        var discount = _Discounts.First(a => a.Id == command.DiscountId);
 
-        Publish(new DiscountHasBeenUpdated(this, command.DiscountId, command.DiscountedPrice));
+        discount.UpdateDiscountPrice(command.DiscountedPrice);
+
+        Publish(new DiscountHasBeenUpdated(this, discount, command.DiscountedPrice));
     }
 
     /// <exception cref="ValueObjectException"></exception>
@@ -49,9 +51,11 @@ public partial class LoyaltyProgram
         Enforce(new AggregateMustBeUpdatedByKnownUser<LoyaltyProgram>(_MerchantId, user));
         Enforce(new DiscountMustExist(_Discounts, command.DiscountId));
 
+        Discount discount = _Discounts.First(a => a.Id == command.DiscountId);
+
         _Discounts.RemoveWhere(a => a.Id == command.DiscountId);
 
-        Publish(new DiscountHasBeenRemoved(this, command.DiscountId));
+        Publish(new DiscountHasBeenRemoved(this, discount));
     }
 
     #endregion

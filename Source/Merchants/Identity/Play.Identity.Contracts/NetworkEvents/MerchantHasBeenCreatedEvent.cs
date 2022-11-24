@@ -2,7 +2,7 @@
 
 namespace Play.Identity.Contracts;
 
-public record MerchantHasBeenCreatedEvent : NetworkEvent
+public class MerchantHasBeenCreatedEvent : NetworkEvent
 {
     #region Instance Values
 

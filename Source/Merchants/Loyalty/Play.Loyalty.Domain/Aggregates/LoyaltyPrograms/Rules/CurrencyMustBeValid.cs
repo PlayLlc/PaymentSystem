@@ -26,15 +26,9 @@ public class CurrencyMustBeValid : BusinessRule<LoyaltyProgram, SimpleStringId>
 
     #region Instance Members
 
-    public override bool IsBroken()
-    {
-        return !_IsValid;
-    }
+    public override bool IsBroken() => !_IsValid;
 
-    public override PercentageWasInvalid CreateBusinessRuleViolationDomainEvent(LoyaltyProgram aggregate)
-    {
-        return new PercentageWasInvalid(aggregate, this);
-    }
+    public override CurrencyWasInvalid CreateBusinessRuleViolationDomainEvent(LoyaltyProgram aggregate) => new CurrencyWasInvalid(aggregate, this);
 
     #endregion
 }
