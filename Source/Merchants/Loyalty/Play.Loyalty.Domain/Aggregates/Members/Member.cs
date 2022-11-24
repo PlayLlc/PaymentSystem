@@ -118,7 +118,7 @@ public partial class Member : Aggregate<SimpleStringId>
         Enforce(new UserMustBeActiveToUpdateAggregate<Member>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Member>(_MerchantId, user));
 
-        Publish(new LoyaltyMemberRemoved(this, command.MerchantId, command.UserId));
+        Publish(new LoyaltyMemberRemoved(this, command.UserId));
     }
 
     public override SimpleStringId GetId() => Id;

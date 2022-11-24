@@ -34,11 +34,10 @@ public static class EntityTypeBuilderExtensions
         builder.Property<_ForeignKey>($"{navigationName}Id").HasColumnName(fkColumnName);
     }
 
-    public static void PrivateProperty<_TEntity, _TProperty>(this EntityTypeBuilder<_TEntity> builder, string navigationProperty) where _TEntity : class
-    {
+    public static PropertyBuilder<_TProperty> PrivateProperty<_TEntity, _TProperty>(this EntityTypeBuilder<_TEntity> builder, string navigationProperty)
+        where _TEntity : class =>
         builder.Property<_TProperty>(navigationProperty)
             .HasColumnName(navigationProperty.StartsWith("_") ? navigationProperty.Substring(1) : navigationProperty);
-    }
 
     #endregion
 }

@@ -7,6 +7,7 @@ using Play.Globalization.Currency;
 using Play.Loyalty.Domain.Aggregates;
 using Play.Persistence.Sql;
 using Play.Loyalty.Domain.Entities;
+using Play.Loyalty.Domain.Entitiesd;
 using Play.Loyalty.Domain.ValueObjects;
 
 namespace Play.Loyalty.Persistence.Sql.Configuration;
@@ -23,9 +24,9 @@ internal class LoyaltyEntityConfiguration : IEntityTypeConfiguration<Programs>, 
 
         // Simple Properties
         builder.Property(x => x.Id).ValueGeneratedOnAdd();
-        builder.PrivateProperty<Programs, SimpleStringId>($"_MerchantId");
+        builder.PrivateProperty<Programs, SimpleStringId>($"_MerchantId").ValueGeneratedOnAdd();
         builder.HasOne<Programs, RewardProgram, SimpleStringId>($"_RewardsProgram", "RewardsProgramId");
-        builder.HasMany<Programs, Discount, SimpleStringId>("_Discounts", "Discount");
+        builder.HasOne<Programs, DiscountProgram, SimpleStringId>("_DiscountProgram", "DiscountProgramId");
     }
 
     public void Configure(EntityTypeBuilder<Member> builder)
@@ -34,10 +35,11 @@ internal class LoyaltyEntityConfiguration : IEntityTypeConfiguration<Programs>, 
 
         // Simple Properties
         builder.Property(x => x.Id).ValueGeneratedOnAdd();
-        builder.PrivateProperty<Member, SimpleStringId>($"_MerchantId");
+        builder.PrivateProperty<Member, SimpleStringId>($"_MerchantId").ValueGeneratedOnAdd();
         builder.HasOne<Member, Rewards, SimpleStringId>("_Rewards", "RewardsId");
-        builder.PrivateProperty<Member, RewardsNumber>($"_RewardsNumber");
+        builder.PrivateProperty<Member, RewardsNumber>($"_RewardsNumber").ValueGeneratedOnAdd();
         builder.PrivateProperty<Member, Phone>($"_Phone");
+        builder.PrivateProperty<Member, Name>($"_Name");
         builder.PrivateProperty<Member, Email?>($"_Email");
     }
 

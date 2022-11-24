@@ -7,6 +7,7 @@ using Play.Globalization.Currency;
 using Play.Inventory.Contracts.Dtos;
 using Play.Loyalty.Domain.Aggregates;
 using Play.Loyalty.Domain.Entities;
+using Play.Loyalty.Domain.Entitiesd;
 using Play.Loyalty.Persistence.Sql.Configuration;
 using Play.Persistence.Sql;
 
@@ -47,10 +48,11 @@ public sealed class LoyaltyDbContext : DbContext
 
         builder.Entity<Discount>().ToTable($"{nameof(Discount)}s").HasKey(a => a.Id);
         builder.Entity<Discount>().Property(x => x.Id).ValueGeneratedOnAdd();
-        builder.Entity<Discount>().PrivateProperty<Discount, SimpleStringId>("_ItemId");
-        builder.Entity<Discount>().PrivateProperty<Discount, SimpleStringId>("_VariationId");
+        builder.Entity<Discount>().PrivateProperty<Discount, SimpleStringId>("_ItemId").ValueGeneratedOnAdd();
+        builder.Entity<Discount>().PrivateProperty<Discount, SimpleStringId>("_VariationId").ValueGeneratedOnAdd();
         builder.Entity<Discount>().PrivateProperty<Discount, NumericCurrencyCode>("_NumericCurrencyCode");
-        builder.Entity<Discount>().PrivateProperty<Discount, ulong>("_Price");
+        builder.Entity<Discount>().Property(x => EF.Property<MoneyValueObject>(x, "_Price").Amount).HasColumnName("Amount");
+        builder.Entity<Discount>().Property(x => EF.Property<MoneyValueObject>(x, "_Price").NumericCurrencyCode).HasColumnName("NumericCurrencyCode");
 
         builder.Entity<Rewards>().ToTable($"{nameof(Rewards)}").HasKey(x => x.Id);
         builder.Entity<Rewards>().Property(x => x.Id).ValueGeneratedOnAdd();
@@ -67,6 +69,11 @@ public sealed class LoyaltyDbContext : DbContext
         builder.Entity<RewardProgram>()
             .Property(x => EF.Property<MoneyValueObject>(x, "_RewardAmount").NumericCurrencyCode)
             .HasColumnName("NumericCurrencyCode");
+
+        builder.Entity<DiscountProgram>().ToTable($"{nameof(Discount)}s").HasKey(a => a.Id);
+        builder.Entity<DiscountProgram>().Property(x => x.Id).ValueGeneratedOnAdd();
+        builder.Entity<DiscountProgram>().PrivateProperty<DiscountProgram, bool>("_IsActive");
+        builder.Entity<DiscountProgram>().HasMany<DiscountProgram, Discount, SimpleStringId>("_Discounts", "DiscountId");
 
         loyaltyEntityConfiguration.Configure(builder.Entity<Programs>());
         loyaltyEntityConfiguration.Configure(builder.Entity<Member>());
