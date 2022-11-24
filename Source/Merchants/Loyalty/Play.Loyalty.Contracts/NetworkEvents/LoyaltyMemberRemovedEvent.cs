@@ -3,6 +3,7 @@
 using System.ComponentModel.DataAnnotations;
 
 using Play.Messaging.NServiceBus;
+using Play.Domain.Common.Attributes;
 
 namespace Play.Loyalty.Contracts;
 
@@ -13,7 +14,10 @@ public class LoyaltyMemberRemovedEvent : NetworkEvent
     [Required]
     public LoyaltyMemberDto LoyaltyMember { get; set; } = null!;
 
-    public uint TransactionId { get; set; }
+    [Required]
+    [StringLength(20)]
+    [AlphaNumericSpecial]
+    public string UserId { get; set; } = string.Empty;
 
     #endregion
 }

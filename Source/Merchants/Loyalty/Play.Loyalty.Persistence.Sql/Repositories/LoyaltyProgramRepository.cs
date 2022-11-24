@@ -8,7 +8,7 @@ using Play.Persistence.Sql;
 
 namespace Play.Loyalty.Persistence.Sql.Repositories;
 
-public class LoyaltyProgramRepository : Repository<LoyaltyProgram, SimpleStringId>, ILoyaltyProgramRepository
+public class LoyaltyProgramRepository : Repository<Programs, SimpleStringId>, ILoyaltyProgramRepository
 {
     #region Constructor
 
@@ -20,7 +20,7 @@ public class LoyaltyProgramRepository : Repository<LoyaltyProgram, SimpleStringI
     #region Instance Members
 
     /// <exception cref="EntityFrameworkRepositoryException"></exception>
-    public override async Task<LoyaltyProgram?> GetByIdAsync(SimpleStringId id)
+    public override async Task<Programs?> GetByIdAsync(SimpleStringId id)
     {
         try
         {
@@ -35,7 +35,7 @@ public class LoyaltyProgramRepository : Repository<LoyaltyProgram, SimpleStringI
     }
 
     /// <exception cref="EntityFrameworkRepositoryException"></exception>
-    public override LoyaltyProgram? GetById(SimpleStringId id)
+    public override Programs? GetById(SimpleStringId id)
     {
         try
         {
@@ -50,7 +50,7 @@ public class LoyaltyProgramRepository : Repository<LoyaltyProgram, SimpleStringI
     }
 
     /// <exception cref="EntityFrameworkRepositoryException"></exception>
-    public async Task<LoyaltyProgram?> GetByMerchantIdAsync(SimpleStringId merchantId)
+    public async Task<Programs?> GetByMerchantIdAsync(SimpleStringId merchantId)
     {
         try
         {

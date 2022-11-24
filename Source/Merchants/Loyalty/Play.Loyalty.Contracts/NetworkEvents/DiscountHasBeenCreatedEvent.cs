@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using Play.Domain.Common.Attributes;
 using Play.Loyalty.Contracts.Dtos;
 using Play.Messaging.NServiceBus;
 
@@ -11,6 +12,11 @@ public class DiscountHasBeenCreatedEvent : NetworkEvent
 
     [Required]
     public DiscountDto Discount { get; set; } = null!;
+
+    [Required]
+    [StringLength(20)]
+    [AlphaNumericSpecial]
+    public string UserId { get; set; } = null!;
 
     #endregion
 }

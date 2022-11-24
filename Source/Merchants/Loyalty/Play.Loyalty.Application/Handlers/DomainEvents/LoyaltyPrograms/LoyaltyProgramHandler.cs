@@ -35,13 +35,13 @@ public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEv
     public async Task Handle(LoyaltyProgramHasBeenCreated domainEvent)
     {
         Log(domainEvent);
-        await _LoyaltyProgramRepository.SaveAsync(domainEvent.LoyaltyProgram).ConfigureAwait(false);
+        await _LoyaltyProgramRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
     }
 
     public async Task Handle(LoyaltyProgramHasBeenRemoved domainEvent)
     {
         Log(domainEvent);
-        await _LoyaltyProgramRepository.SaveAsync(domainEvent.LoyaltyProgram).ConfigureAwait(false);
+        await _LoyaltyProgramRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
     }
 
     #endregion

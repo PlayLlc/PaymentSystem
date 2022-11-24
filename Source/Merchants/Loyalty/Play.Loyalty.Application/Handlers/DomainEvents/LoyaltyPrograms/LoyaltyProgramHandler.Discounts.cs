@@ -1,36 +1,55 @@
 ﻿using Microsoft.Extensions.Logging;
 
 using Play.Domain.Events;
+using Play.Loyalty.Contracts;
 using Play.Loyalty.Contracts.NetworkEvents;
 using Play.Loyalty.Domain.Aggregates;
 
 namespace Play.Loyalty.Application.Handlers.DomainEvents;
 
-public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEvents<DiscountHasBeenCreated>, IHandleDomainEvents<DiscountHasBeenUpdated>,
-    IHandleDomainEvents<DiscountHasBeenRemoved>, IHandleDomainEvents<DiscountItemDoesNotExist>
+public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEvents<DiscountHasBeenCreated>, IHandleDomainEvents<DiscountPriceHasBeenUpdated>,
+    IHandleDomainEvents<DiscountHasBeenRemoved>, IHandleDomainEvents<DiscountItemDoesNotExist>, IHandleDomainEvents<DiscountProgramActiveStatusHasBeenUpdated>
 {
     #region Instance Members
 
-    public async Task Handle(DiscountHasBeenCreated domainEvent)
+    public async Task Handle(DiscountProgramActiveStatusHasBeenUpdated domainEvent)
     {
         Log(domainEvent);
-        await _LoyaltyProgramRepository.SaveAsync(domainEvent.LoyaltyProgram).ConfigureAwait(false);
 
-        await _MessageHandlerContext.Publish<DiscountHasBeenCreatedEvent>((a) =>
+        await _LoyaltyProgramRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
+
+        await _MessageHandlerContext.Publish<DiscountProgramActiveStatusHasBeenUpdatedEvent>((a) =>
             {
-                a.Discount = domainEvent.Discount.AsDto();
+                a.LoyaltyProgramId = domainEvent.Programs.Id;
+                a.UserId = domainEvent.UserId;
+                a.IsActive = domainEvent.IsActive;
             }, null)
             .ConfigureAwait(false);
     }
 
-    public async Task Handle(DiscountHasBeenUpdated domainEvent)
+    public async Task Handle(DiscountHasBeenCreated domainEvent)
     {
         Log(domainEvent);
-        await _LoyaltyProgramRepository.SaveAsync(domainEvent.LoyaltyProgram).ConfigureAwait(false);
+        await _LoyaltyProgramRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
+
+        await _MessageHandlerContext.Publish<DiscountHasBeenCreatedEvent>((a) =>
+            {
+                a.Discount = domainEvent.Discount.AsDto();
+                a.UserId = domainEvent.UserId;
+            }, null)
+            .ConfigureAwait(false);
+    }
+
+    public async Task Handle(DiscountPriceHasBeenUpdated domainEvent)
+    {
+        Log(domainEvent);
+        await _LoyaltyProgramRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
 
         await _MessageHandlerContext.Publish<DiscountHasBeenUpdatedEvent>((a) =>
             {
-                a.Discount = domainEvent.Discount.AsDto();
+                a.DiscountId = domainEvent.DiscountId;
+                a.Price = domainEvent.Price;
+                a.UserId = domainEvent.UserId;
             }, null)
             .ConfigureAwait(false);
     }
@@ -38,11 +57,12 @@ public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEv
     public async Task Handle(DiscountHasBeenRemoved domainEvent)
     {
         Log(domainEvent);
-        await _LoyaltyProgramRepository.SaveAsync(domainEvent.LoyaltyProgram).ConfigureAwait(false);
+        await _LoyaltyProgramRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
 
         await _MessageHandlerContext.Publish<DiscountHasBeenRemovedEvent>((a) =>
             {
-                a.Discount = domainEvent.Discount.AsDto();
+                a.DiscountId = domainEvent.DiscountId;
+                a.UserId = domainEvent.UserId;
             }, null)
             .ConfigureAwait(false);
     }

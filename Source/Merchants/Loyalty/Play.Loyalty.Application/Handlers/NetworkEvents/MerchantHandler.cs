@@ -48,11 +48,11 @@ public class MerchantHandler : IHandleMessages<MerchantHasBeenRemovedEvent>
     /// <exception cref=" ValueObjectException"></exception>
     public async Task Handle(MerchantHasBeenRemovedEvent message, IMessageHandlerContext context)
     {
-        LoyaltyProgram loyaltyProgram = await _LoyaltyProgramRepository.GetByMerchantIdAsync(new SimpleStringId(message.MerchantId)).ConfigureAwait(false)
-                                        ?? throw new NotFoundException(typeof(LoyaltyProgram));
+        Programs programs = await _LoyaltyProgramRepository.GetByMerchantIdAsync(new SimpleStringId(message.MerchantId)).ConfigureAwait(false)
+                            ?? throw new NotFoundException(typeof(Programs));
 
         await _LoyaltyMemberRepository.RemoveAll(new SimpleStringId(message.MerchantId)).ConfigureAwait(false);
-        await loyaltyProgram.Remove(_UserRetriever, new RemoveLoyaltyProgram() {MerchantId = message.MerchantId}).ConfigureAwait(false);
+        await programs.Remove(_UserRetriever, new RemoveLoyaltyProgram() {MerchantId = message.MerchantId}).ConfigureAwait(false);
     }
 
     #endregion

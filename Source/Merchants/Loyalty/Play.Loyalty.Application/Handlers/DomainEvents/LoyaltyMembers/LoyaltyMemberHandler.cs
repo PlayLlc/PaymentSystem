@@ -40,6 +40,7 @@ public partial class LoyaltyMemberHandler : DomainEventHandler, IHandleDomainEve
         await _MessageHandlerContext.Publish<LoyaltyMemberCreatedEvent>((a) =>
             {
                 a.LoyaltyMember = domainEvent.Member.AsDto();
+                a.UserId = domainEvent.UserId;
             })
             .ConfigureAwait(false);
     }
@@ -52,6 +53,7 @@ public partial class LoyaltyMemberHandler : DomainEventHandler, IHandleDomainEve
         await _MessageHandlerContext.Publish<LoyaltyMemberRemovedEvent>((a) =>
             {
                 a.LoyaltyMember = domainEvent.Member.AsDto();
+                a.UserId = domainEvent.UserId;
             })
             .ConfigureAwait(false);
     }
@@ -63,6 +65,7 @@ public partial class LoyaltyMemberHandler : DomainEventHandler, IHandleDomainEve
         await _MessageHandlerContext.Publish<LoyaltyMemberUpdatedEvent>((a) =>
             {
                 a.LoyaltyMember = domainEvent.Member.AsDto();
+                a.UserId = domainEvent.UserId;
             })
             .ConfigureAwait(false);
     }

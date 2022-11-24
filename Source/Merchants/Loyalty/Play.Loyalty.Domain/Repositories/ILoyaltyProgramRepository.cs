@@ -4,11 +4,11 @@ using Play.Loyalty.Domain.Aggregates;
 
 namespace Play.Loyalty.Domain.Repositories;
 
-public interface ILoyaltyProgramRepository : IRepository<LoyaltyProgram, SimpleStringId>
+public interface ILoyaltyProgramRepository : IRepository<Programs, SimpleStringId>
 {
     #region Instance Members
 
-    public Task<LoyaltyProgram?> GetByMerchantIdAsync(SimpleStringId merchantId);
+    public Task<Programs?> GetByMerchantIdAsync(SimpleStringId merchantId);
 
     #endregion
 }

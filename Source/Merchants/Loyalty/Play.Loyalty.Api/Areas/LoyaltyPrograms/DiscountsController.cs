@@ -22,10 +22,10 @@ namespace Play.Loyalty.Api.Areas.LoyaltyPrograms
         public async Task<IActionResult> CreateDiscountedItem(string loyaltyProgramId, CreateDiscountedItem command)
         {
             this.ValidateModel();
-            LoyaltyProgram loyaltyProgram = await _LoyaltyProgramRepository.GetByIdAsync(new SimpleStringId(loyaltyProgramId)).ConfigureAwait(false)
-                                            ?? throw new NotFoundException(typeof(LoyaltyProgram));
+            Programs programs = await _LoyaltyProgramRepository.GetByIdAsync(new SimpleStringId(loyaltyProgramId)).ConfigureAwait(false)
+                                ?? throw new NotFoundException(typeof(Programs));
 
-            await loyaltyProgram.CreateDiscountedItem(_UserRetriever, command).ConfigureAwait(false);
+            await programs.CreateDiscountedItem(_UserRetriever, command).ConfigureAwait(false);
 
             return Ok();
         }
@@ -35,10 +35,10 @@ namespace Play.Loyalty.Api.Areas.LoyaltyPrograms
         public async Task<IActionResult> RemoveDiscountedItem(string loyaltyProgramId, RemoveDiscountedItem command)
         {
             this.ValidateModel();
-            LoyaltyProgram loyaltyProgram = await _LoyaltyProgramRepository.GetByIdAsync(new SimpleStringId(loyaltyProgramId)).ConfigureAwait(false)
-                                            ?? throw new NotFoundException(typeof(LoyaltyProgram));
+            Programs programs = await _LoyaltyProgramRepository.GetByIdAsync(new SimpleStringId(loyaltyProgramId)).ConfigureAwait(false)
+                                ?? throw new NotFoundException(typeof(Programs));
 
-            await loyaltyProgram.RemoveDiscountedItem(_UserRetriever, command).ConfigureAwait(false);
+            await programs.RemoveDiscountedItem(_UserRetriever, command).ConfigureAwait(false);
 
             return Ok();
         }
@@ -48,10 +48,10 @@ namespace Play.Loyalty.Api.Areas.LoyaltyPrograms
         public async Task<IActionResult> UpdateDiscountedItem(string loyaltyProgramId, UpdateDiscountedItem command)
         {
             this.ValidateModel();
-            LoyaltyProgram loyaltyProgram = await _LoyaltyProgramRepository.GetByIdAsync(new SimpleStringId(loyaltyProgramId)).ConfigureAwait(false)
-                                            ?? throw new NotFoundException(typeof(LoyaltyProgram));
+            Programs programs = await _LoyaltyProgramRepository.GetByIdAsync(new SimpleStringId(loyaltyProgramId)).ConfigureAwait(false)
+                                ?? throw new NotFoundException(typeof(Programs));
 
-            await loyaltyProgram.UpdateDiscountedItem(_UserRetriever, command).ConfigureAwait(false);
+            await programs.UpdateDiscountedItem(_UserRetriever, command).ConfigureAwait(false);
 
             return Ok();
         }

@@ -58,17 +58,17 @@ public sealed class LoyaltyDbContext : DbContext
         builder.Entity<Rewards>().Property(x => EF.Property<MoneyValueObject>(x, "_Balance").Amount).HasColumnName("Amount");
         builder.Entity<Rewards>().Property(x => EF.Property<MoneyValueObject>(x, "_Balance").NumericCurrencyCode).HasColumnName("NumericCurrencyCode");
 
-        builder.Entity<RewardsProgram>().ToTable($"{nameof(RewardsProgram)}").HasKey(x => x.Id);
-        builder.Entity<RewardsProgram>().Property(x => x.Id).ValueGeneratedOnAdd();
-        builder.Entity<RewardsProgram>().PrivateProperty<RewardsProgram, bool>("_IsActive");
-        builder.Entity<RewardsProgram>().PrivateProperty<RewardsProgram, uint>("_PointsRequired");
-        builder.Entity<RewardsProgram>().PrivateProperty<RewardsProgram, uint>("_PointsPerDollar");
-        builder.Entity<RewardsProgram>().Property(x => EF.Property<MoneyValueObject>(x, "_RewardAmount").Amount).HasColumnName("Amount");
-        builder.Entity<RewardsProgram>()
+        builder.Entity<RewardProgram>().ToTable($"{nameof(RewardProgram)}").HasKey(x => x.Id);
+        builder.Entity<RewardProgram>().Property(x => x.Id).ValueGeneratedOnAdd();
+        builder.Entity<RewardProgram>().PrivateProperty<RewardProgram, bool>("_IsActive");
+        builder.Entity<RewardProgram>().PrivateProperty<RewardProgram, uint>("_PointsRequired");
+        builder.Entity<RewardProgram>().PrivateProperty<RewardProgram, uint>("_PointsPerDollar");
+        builder.Entity<RewardProgram>().Property(x => EF.Property<MoneyValueObject>(x, "_RewardAmount").Amount).HasColumnName("Amount");
+        builder.Entity<RewardProgram>()
             .Property(x => EF.Property<MoneyValueObject>(x, "_RewardAmount").NumericCurrencyCode)
             .HasColumnName("NumericCurrencyCode");
 
-        loyaltyEntityConfiguration.Configure(builder.Entity<LoyaltyProgram>());
+        loyaltyEntityConfiguration.Configure(builder.Entity<Programs>());
         loyaltyEntityConfiguration.Configure(builder.Entity<Member>());
 
         #endregion

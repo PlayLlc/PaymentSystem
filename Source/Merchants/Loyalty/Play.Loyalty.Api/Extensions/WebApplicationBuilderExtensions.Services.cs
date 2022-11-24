@@ -29,7 +29,7 @@ public static partial class WebApplicationBuilderExtensions
 
         // Repositories 
         builder.Services.AddScoped<IRepository<Member, SimpleStringId>, LoyaltyMemberRepository>();
-        builder.Services.AddScoped<IRepository<LoyaltyProgram, SimpleStringId>, LoyaltyProgramRepository>();
+        builder.Services.AddScoped<IRepository<Programs, SimpleStringId>, LoyaltyProgramRepository>();
         builder.Services.AddScoped<ILoyaltyMemberRepository, LoyaltyMemberRepository>();
         builder.Services.AddScoped<ILoyaltyProgramRepository, LoyaltyProgramRepository>();
 

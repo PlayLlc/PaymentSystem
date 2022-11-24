@@ -35,23 +35,23 @@ namespace Play.Loyalty.Api.Areas.LoyaltyPrograms
         public async Task<IActionResult> UpdateRewardsProgram(string loyaltyProgramId, UpdateRewardsProgram command)
         {
             this.ValidateModel();
-            LoyaltyProgram loyaltyProgram = await _LoyaltyProgramRepository.GetByIdAsync(new SimpleStringId(loyaltyProgramId)).ConfigureAwait(false)
-                                            ?? throw new NotFoundException(typeof(LoyaltyProgram));
+            Programs programs = await _LoyaltyProgramRepository.GetByIdAsync(new SimpleStringId(loyaltyProgramId)).ConfigureAwait(false)
+                                ?? throw new NotFoundException(typeof(Programs));
 
-            await loyaltyProgram.UpdateRewardsProgram(_UserRetriever, command).ConfigureAwait(false);
+            await programs.UpdateRewardsProgram(_UserRetriever, command).ConfigureAwait(false);
 
             return Ok();
         }
 
         [HttpPutSwagger("{loyaltyProgramId}/RewardsProgram/[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ActivateRewardsProgram(string loyaltyProgramId, ActivateRewardsProgram command)
+        public async Task<IActionResult> ActivateRewardsProgram(string loyaltyProgramId, ActivateProgram command)
         {
             this.ValidateModel();
-            LoyaltyProgram loyaltyProgram = await _LoyaltyProgramRepository.GetByIdAsync(new SimpleStringId(loyaltyProgramId)).ConfigureAwait(false)
-                                            ?? throw new NotFoundException(typeof(LoyaltyProgram));
+            Programs programs = await _LoyaltyProgramRepository.GetByIdAsync(new SimpleStringId(loyaltyProgramId)).ConfigureAwait(false)
+                                ?? throw new NotFoundException(typeof(Programs));
 
-            await loyaltyProgram.ActivateRewardsProgram(_UserRetriever, command).ConfigureAwait(false);
+            await programs.ActivateRewardProgram(_UserRetriever, command).ConfigureAwait(false);
 
             return Ok();
         }

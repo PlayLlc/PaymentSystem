@@ -37,9 +37,9 @@ namespace Play.Loyalty.Api.Areas.LoyaltyPrograms
         {
             this.ValidateModel();
 
-            LoyaltyProgram loyaltyMember = await LoyaltyProgram.Create(_MerchantRetriever, _UserRetriever, command).ConfigureAwait(false);
+            Programs member = await Programs.Create(_MerchantRetriever, _UserRetriever, command).ConfigureAwait(false);
 
-            return Created(@Url.Action("Get", "LoyaltyMembers", new {id = loyaltyMember.Id})!, loyaltyMember.AsDto());
+            return Created(@Url.Action("Get", "LoyaltyMembers", new {id = member.Id})!, member.AsDto());
         }
 
         [HttpGetSwagger("{loyaltyProgramId}/[action]")]
@@ -47,10 +47,10 @@ namespace Play.Loyalty.Api.Areas.LoyaltyPrograms
         public async Task<LoyaltyProgramDto> Get(string loyaltyProgramId)
         {
             this.ValidateModel();
-            LoyaltyProgram loyaltyProgram = await _LoyaltyProgramRepository.GetByIdAsync(new SimpleStringId(loyaltyProgramId)).ConfigureAwait(false)
-                                            ?? throw new NotFoundException(typeof(LoyaltyProgram));
+            Programs programs = await _LoyaltyProgramRepository.GetByIdAsync(new SimpleStringId(loyaltyProgramId)).ConfigureAwait(false)
+                                ?? throw new NotFoundException(typeof(Programs));
 
-            return loyaltyProgram.AsDto();
+            return programs.AsDto();
         }
 
         #endregion

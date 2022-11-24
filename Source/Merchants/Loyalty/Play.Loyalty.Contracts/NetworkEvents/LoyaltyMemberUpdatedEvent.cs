@@ -14,5 +14,10 @@ public class LoyaltyMemberUpdatedEvent : NetworkEvent
     [Required]
     public LoyaltyMemberDto LoyaltyMember { get; set; } = null!;
 
+    [Required]
+    [StringLength(20)]
+    [AlphaNumericSpecial]
+    public string UserId { get; set; } = string.Empty;
+
     #endregion
 }
