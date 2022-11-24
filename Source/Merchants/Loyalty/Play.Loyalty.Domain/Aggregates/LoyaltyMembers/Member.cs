@@ -18,7 +18,7 @@ using Play.Loyalty.Domain.ValueObjects;
 
 namespace Play.Loyalty.Domain.Aggregates;
 
-public partial class LoyaltyMember : Aggregate<SimpleStringId>
+public partial class Member : Aggregate<SimpleStringId>
 {
     #region Instance Values
 
@@ -42,11 +42,11 @@ public partial class LoyaltyMember : Aggregate<SimpleStringId>
     #region Constructor
 
     // Constructor for Entity Framework
-    private LoyaltyMember()
+    private Member()
     { }
 
     /// <exception cref="ValueObjectException"></exception>
-    internal LoyaltyMember(LoyaltyMemberDto dto)
+    internal Member(LoyaltyMemberDto dto)
     {
         Id = new SimpleStringId(dto.Id);
         _MerchantId = new SimpleStringId(dto.MerchantId);
@@ -58,7 +58,7 @@ public partial class LoyaltyMember : Aggregate<SimpleStringId>
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    internal LoyaltyMember(string id, string merchantId, string name, string phone, string rewardsNumber, Rewards rewards, string? email = null)
+    internal Member(string id, string merchantId, string name, string phone, string rewardsNumber, Rewards rewards, string? email = null)
     {
         Id = new SimpleStringId(id);
         _MerchantId = new SimpleStringId(merchantId);
@@ -80,8 +80,8 @@ public partial class LoyaltyMember : Aggregate<SimpleStringId>
     {
         // Enforce
         User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
-        Enforce(new UserMustBeActiveToUpdateAggregate<LoyaltyMember>(user));
-        Enforce(new AggregateMustBeUpdatedByKnownUser<LoyaltyMember>(_MerchantId, user));
+        Enforce(new UserMustBeActiveToUpdateAggregate<Member>(user));
+        Enforce(new AggregateMustBeUpdatedByKnownUser<Member>(_MerchantId, user));
         _Name = new Name(command.Name);
         _Email = command.Email is null ? null : new Email(command.Email);
         _Phone = new Phone(command.Phone);
@@ -92,23 +92,22 @@ public partial class LoyaltyMember : Aggregate<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="NotFoundException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
-    public static async Task<LoyaltyMember> Create(
+    public static async Task<Member> Create(
         IRetrieveUsers userRetriever, IRetrieveMerchants merchantRetriever, IEnsureUniqueRewardNumbers uniqueRewardNumberChecker, CreateLoyaltyMember command)
     {
         Rewards rewards = new Rewards(GenerateSimpleStringId(), 0, new Money(0, new NumericCurrencyCode(command.NumericCurrencyCode)));
-        LoyaltyMember loyaltyMember = new LoyaltyMember(GenerateSimpleStringId(), command.MerchantId, command.Name, command.Phone, command.RewardsNumber,
-            rewards, command.Email);
+        Member member = new Member(GenerateSimpleStringId(), command.MerchantId, command.Name, command.Phone, command.RewardsNumber, rewards, command.Email);
 
         User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Merchant merchant = await merchantRetriever.GetByIdAsync(command.MerchantId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Merchant));
-        loyaltyMember.Enforce(new UserMustBeActiveToUpdateAggregate<LoyaltyMember>(user));
-        loyaltyMember.Enforce(new AggregateMustBeUpdatedByKnownUser<LoyaltyMember>(command.MerchantId, user));
-        loyaltyMember.Enforce(new MerchantMustBeActiveToCreateAggregate<LoyaltyMember>(merchant));
-        loyaltyMember.Enforce(new RewardNumberMustNotAlreadyExist(uniqueRewardNumberChecker, merchant.Id, command.RewardsNumber));
+        member.Enforce(new UserMustBeActiveToUpdateAggregate<Member>(user));
+        member.Enforce(new AggregateMustBeUpdatedByKnownUser<Member>(command.MerchantId, user));
+        member.Enforce(new MerchantMustBeActiveToCreateAggregate<Member>(merchant));
+        member.Enforce(new RewardNumberMustNotAlreadyExist(uniqueRewardNumberChecker, merchant.Id, command.RewardsNumber));
 
-        loyaltyMember.Publish(new LoyaltyMemberCreated(loyaltyMember, merchant.Id, user.Id));
+        member.Publish(new LoyaltyMemberCreated(member, merchant.Id, user.Id));
 
-        return loyaltyMember;
+        return member;
     }
 
     /// <exception cref="NotFoundException"></exception>
@@ -116,8 +115,8 @@ public partial class LoyaltyMember : Aggregate<SimpleStringId>
     public async Task Remove(IRetrieveUsers userRetriever, RemoveLoyaltyMember command)
     {
         User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
-        Enforce(new UserMustBeActiveToUpdateAggregate<LoyaltyMember>(user));
-        Enforce(new AggregateMustBeUpdatedByKnownUser<LoyaltyMember>(_MerchantId, user));
+        Enforce(new UserMustBeActiveToUpdateAggregate<Member>(user));
+        Enforce(new AggregateMustBeUpdatedByKnownUser<Member>(_MerchantId, user));
 
         Publish(new LoyaltyMemberRemoved(this, command.MerchantId, command.UserId));
     }

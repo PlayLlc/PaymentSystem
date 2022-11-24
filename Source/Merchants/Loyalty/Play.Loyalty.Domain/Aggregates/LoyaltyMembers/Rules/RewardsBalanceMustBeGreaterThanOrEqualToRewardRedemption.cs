@@ -5,7 +5,7 @@ using Play.Loyalty.Domain.Entities;
 
 namespace Play.Loyalty.Domain.Aggregates.Rules;
 
-public class RewardsBalanceMustBeGreaterThanOrEqualToRewardRedemption : BusinessRule<LoyaltyMember, SimpleStringId>
+public class RewardsBalanceMustBeGreaterThanOrEqualToRewardRedemption : BusinessRule<Member, SimpleStringId>
 {
     #region Instance Values
 
@@ -28,7 +28,7 @@ public class RewardsBalanceMustBeGreaterThanOrEqualToRewardRedemption : Business
 
     public override bool IsBroken() => !_IsValid;
 
-    public override RewardBalanceIsInsufficient CreateBusinessRuleViolationDomainEvent(LoyaltyMember aggregate) => new(aggregate, this);
+    public override RewardBalanceIsInsufficient CreateBusinessRuleViolationDomainEvent(Member aggregate) => new(aggregate, this);
 
     #endregion
 }

@@ -8,17 +8,17 @@ public record DiscountHasBeenRemoved : DomainEvent
     #region Instance Values
 
     public readonly LoyaltyProgram LoyaltyProgram;
-    public readonly Discount Discount;
+    public readonly string DiscountId;
 
     #endregion
 
     #region Constructor
 
-    public DiscountHasBeenRemoved(LoyaltyProgram loyaltyProgram, Discount discount) : base(
-        $"The {nameof(Discount)} with the ID: [{discount.Id}] has been removed")
+    public DiscountHasBeenRemoved(LoyaltyProgram loyaltyProgram, string discountId) : base(
+        $"The {nameof(Discount)} with the ID: [{discountId}] has been removed")
     {
         LoyaltyProgram = loyaltyProgram;
-        Discount = discount;
+        DiscountId = discountId;
     }
 
     #endregion

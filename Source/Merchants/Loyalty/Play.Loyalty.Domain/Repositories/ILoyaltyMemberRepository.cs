@@ -4,7 +4,7 @@ using Play.Loyalty.Domain.Aggregates;
 
 namespace Play.Loyalty.Domain.Repositories;
 
-public interface ILoyaltyMemberRepository : IRepository<LoyaltyMember, SimpleStringId>
+public interface ILoyaltyMemberRepository : IRepository<Member, SimpleStringId>
 {
     #region Instance Members
 

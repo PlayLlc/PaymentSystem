@@ -28,7 +28,7 @@ public partial class LoyaltyProgram
 
         _RewardsProgram.Update(command);
 
-        Publish(new RewardsProgramHasBeenUpdated(this));
+        Publish(new RewardsProgramHasBeenUpdated(this, user.Id));
     }
 
     /// <exception cref="BusinessRuleValidationException"></exception>

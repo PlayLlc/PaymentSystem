@@ -4,19 +4,19 @@ using Play.Domain.Events;
 
 namespace Play.Loyalty.Domain.Aggregates;
 
-public record RewardsNumberIsNotUnique : BrokenRuleOrPolicyDomainEvent<LoyaltyMember, SimpleStringId>
+public record RewardsNumberIsNotUnique : BrokenRuleOrPolicyDomainEvent<Member, SimpleStringId>
 {
     #region Instance Values
 
-    public readonly LoyaltyMember LoyaltyMember;
+    public readonly Member Member;
 
     #endregion
 
     #region Constructor
 
-    public RewardsNumberIsNotUnique(LoyaltyMember loyaltyMember, IBusinessRule rule) : base(loyaltyMember, rule)
+    public RewardsNumberIsNotUnique(Member member, IBusinessRule rule) : base(member, rule)
     {
-        LoyaltyMember = loyaltyMember;
+        Member = member;
     }
 
     #endregion

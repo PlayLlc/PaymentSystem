@@ -4,19 +4,19 @@ using Play.Domain.Events;
 
 namespace Play.Loyalty.Domain.Aggregates;
 
-public record RewardProgramIsNotActive : BrokenRuleOrPolicyDomainEvent<LoyaltyMember, SimpleStringId>
+public record RewardProgramIsNotActive : BrokenRuleOrPolicyDomainEvent<Member, SimpleStringId>
 {
     #region Instance Values
 
-    public readonly LoyaltyMember LoyaltyMember;
+    public readonly Member Member;
 
     #endregion
 
     #region Constructor
 
-    public RewardProgramIsNotActive(LoyaltyMember loyaltyMember, IBusinessRule rule) : base(loyaltyMember, rule)
+    public RewardProgramIsNotActive(Member member, IBusinessRule rule) : base(member, rule)
     {
-        LoyaltyMember = loyaltyMember;
+        Member = member;
     }
 
     #endregion

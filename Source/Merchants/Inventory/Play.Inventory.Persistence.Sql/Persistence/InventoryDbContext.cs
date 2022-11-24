@@ -10,6 +10,8 @@ using Play.Inventory.Domain.ValueObjects;
 using Play.Inventory.Persistence.Sql.Configuration;
 using Play.Persistence.Sql;
 
+using Price = Play.Domain.Common.Entities.Price;
+
 namespace Play.Inventory.Persistence.Sql.Persistence;
 
 public sealed class InventoryDbContext : DbContext

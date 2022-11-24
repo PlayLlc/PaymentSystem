@@ -13,6 +13,10 @@ public record VariationDto : IDto
     public string Id { get; set; } = string.Empty;
 
     [Required]
+    [StringLength(20)]
+    public string ItemId { get; set; } = string.Empty;
+
+    [Required]
     public string Name { get; set; } = string.Empty;
 
     [Required]
@@ -20,7 +24,7 @@ public record VariationDto : IDto
     public string Sku { get; set; } = string.Empty;
 
     [Required]
-    public PriceDto Price { get; set; } = null!;
+    public MoneyDto Price { get; set; } = null!;
 
     #endregion
 }

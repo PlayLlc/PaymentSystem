@@ -35,11 +35,11 @@ public partial class LoyaltyMemberHandler : DomainEventHandler, IHandleDomainEve
     public async Task Handle(LoyaltyMemberCreated domainEvent)
     {
         Log(domainEvent);
-        await _LoyaltyMemberRepository.SaveAsync(domainEvent.LoyaltyMember).ConfigureAwait(false);
+        await _LoyaltyMemberRepository.SaveAsync(domainEvent.Member).ConfigureAwait(false);
 
         await _MessageHandlerContext.Publish<LoyaltyMemberCreatedEvent>((a) =>
             {
-                a.LoyaltyMember = domainEvent.LoyaltyMember.AsDto();
+                a.LoyaltyMember = domainEvent.Member.AsDto();
             })
             .ConfigureAwait(false);
     }
@@ -47,11 +47,11 @@ public partial class LoyaltyMemberHandler : DomainEventHandler, IHandleDomainEve
     public async Task Handle(LoyaltyMemberRemoved domainEvent)
     {
         Log(domainEvent);
-        await _LoyaltyMemberRepository.SaveAsync(domainEvent.LoyaltyMember).ConfigureAwait(false);
+        await _LoyaltyMemberRepository.SaveAsync(domainEvent.Member).ConfigureAwait(false);
 
         await _MessageHandlerContext.Publish<LoyaltyMemberRemovedEvent>((a) =>
             {
-                a.LoyaltyMember = domainEvent.LoyaltyMember.AsDto();
+                a.LoyaltyMember = domainEvent.Member.AsDto();
             })
             .ConfigureAwait(false);
     }
@@ -59,10 +59,10 @@ public partial class LoyaltyMemberHandler : DomainEventHandler, IHandleDomainEve
     public async Task Handle(LoyaltyMemberUpdated domainEvent)
     {
         Log(domainEvent);
-        await _LoyaltyMemberRepository.SaveAsync(domainEvent.LoyaltyMember).ConfigureAwait(false);
+        await _LoyaltyMemberRepository.SaveAsync(domainEvent.Member).ConfigureAwait(false);
         await _MessageHandlerContext.Publish<LoyaltyMemberUpdatedEvent>((a) =>
             {
-                a.LoyaltyMember = domainEvent.LoyaltyMember.AsDto();
+                a.LoyaltyMember = domainEvent.Member.AsDto();
             })
             .ConfigureAwait(false);
     }

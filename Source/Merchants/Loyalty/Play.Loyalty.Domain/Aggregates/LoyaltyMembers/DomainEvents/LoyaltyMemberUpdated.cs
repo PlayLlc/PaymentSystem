@@ -6,7 +6,7 @@ public record LoyaltyMemberUpdated : DomainEvent
 {
     #region Instance Values
 
-    public readonly LoyaltyMember LoyaltyMember;
+    public readonly Member Member;
     public readonly string MerchantId;
     public readonly string UserId;
 
@@ -14,10 +14,9 @@ public record LoyaltyMemberUpdated : DomainEvent
 
     #region Constructor
 
-    public LoyaltyMemberUpdated(LoyaltyMember loyaltyMember, string merchantId, string userId) : base(
-        $"The {nameof(LoyaltyMember)} with the ID: [{loyaltyMember.Id}] has been updated;")
+    public LoyaltyMemberUpdated(Member member, string merchantId, string userId) : base($"The {nameof(Member)} with the ID: [{member.Id}] has been updated;")
     {
-        LoyaltyMember = loyaltyMember;
+        Member = member;
         MerchantId = merchantId;
         UserId = userId;
     }

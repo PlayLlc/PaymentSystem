@@ -1,6 +1,7 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
 using Play.Loyalty.Domain.Entities;
+using Play.Loyalty.Domain.Entitiesd;
 
 namespace Play.Loyalty.Domain.Aggregates;
 
@@ -16,24 +17,18 @@ public class DiscountMustExist : BusinessRule<LoyaltyProgram, SimpleStringId>
 
     #region Constructor
 
-    internal DiscountMustExist(IEnumerable<Discount> discounts, string discountId)
+    internal DiscountMustExist(DiscountsProgram discountsProgram, string discountId)
     {
-        _IsValid = discounts.Any(a => a.Id == discountId);
+        _IsValid = discountsProgram.DoesDiscountExist(discountId);
     }
 
     #endregion
 
     #region Instance Members
 
-    public override bool IsBroken()
-    {
-        return !_IsValid;
-    }
+    public override bool IsBroken() => !_IsValid;
 
-    public override DiscountItemDoesNotExist CreateBusinessRuleViolationDomainEvent(LoyaltyProgram aggregate)
-    {
-        return new DiscountItemDoesNotExist(aggregate, this);
-    }
+    public override DiscountItemDoesNotExist CreateBusinessRuleViolationDomainEvent(LoyaltyProgram aggregate) => new DiscountItemDoesNotExist(aggregate, this);
 
     #endregion
 }

@@ -43,15 +43,17 @@ public class RewardsProgram : Entity<SimpleStringId>
         _RewardAmount = dto.RewardAmount.AsMoney();
         _PointsPerDollar = dto.PointsPerDollar;
         _PointsRequired = dto.RewardThreshold;
+        _IsActive = dto.IsActive;
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    internal RewardsProgram(string id, Money rewardAmount, uint pointsPerDollar, uint pointsRequired)
+    internal RewardsProgram(string id, Money rewardAmount, uint pointsPerDollar, uint pointsRequired, bool isActive)
     {
         Id = new SimpleStringId(id);
         _RewardAmount = rewardAmount;
         _PointsPerDollar = pointsPerDollar;
         _PointsRequired = pointsRequired;
+        _IsActive = false;
     }
 
     #endregion
@@ -72,8 +74,8 @@ public class RewardsProgram : Entity<SimpleStringId>
 
     /// <summary>
     /// </summary>
-    /// <param name="points">The points earned by the <see cref="LoyaltyMember" /></param>
-    /// <param name="reward">New rewards that the <see cref="LoyaltyMember" /> has earned</param>
+    /// <param name="points">The points earned by the <see cref="Member" /></param>
+    /// <param name="reward">New rewards that the <see cref="Member" /> has earned</param>
     /// <returns></returns>
     public uint CalculateRewards(uint points, out Money? reward)
     {

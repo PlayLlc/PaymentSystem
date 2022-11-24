@@ -4,19 +4,19 @@ using Play.Domain.Events;
 
 namespace Play.Loyalty.Domain.Aggregates;
 
-public record RewardBalanceIsInsufficient : BrokenRuleOrPolicyDomainEvent<LoyaltyMember, SimpleStringId>
+public record RewardBalanceIsInsufficient : BrokenRuleOrPolicyDomainEvent<Member, SimpleStringId>
 {
     #region Instance Values
 
-    public readonly LoyaltyMember LoyaltyMember;
+    public readonly Member Member;
 
     #endregion
 
     #region Constructor
 
-    public RewardBalanceIsInsufficient(LoyaltyMember loyaltyMember, IBusinessRule rule) : base(loyaltyMember, rule)
+    public RewardBalanceIsInsufficient(Member member, IBusinessRule rule) : base(member, rule)
     {
-        LoyaltyMember = loyaltyMember;
+        Member = member;
     }
 
     #endregion

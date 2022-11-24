@@ -7,7 +7,7 @@ public record LoyaltyMemberRemoved : DomainEvent
 {
     #region Instance Values
 
-    public readonly LoyaltyMember LoyaltyMember;
+    public readonly Member Member;
     public readonly string MerchantId;
     public readonly string UserId;
 
@@ -15,10 +15,10 @@ public record LoyaltyMemberRemoved : DomainEvent
 
     #region Constructor
 
-    public LoyaltyMemberRemoved(LoyaltyMember loyaltyMember, string merchantId, string userId) : base(
-        $"The {nameof(User)} with the ID: [{userId}] has deleted the {nameof(LoyaltyMember)} with the ID: [{loyaltyMember.Id}];")
+    public LoyaltyMemberRemoved(Member member, string merchantId, string userId) : base(
+        $"The {nameof(User)} with the ID: [{userId}] has deleted the {nameof(Member)} with the ID: [{member.Id}];")
     {
-        LoyaltyMember = loyaltyMember;
+        Member = member;
         MerchantId = merchantId;
         UserId = userId;
     }

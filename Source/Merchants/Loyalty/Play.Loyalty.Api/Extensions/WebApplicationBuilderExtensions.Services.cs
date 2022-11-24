@@ -28,7 +28,7 @@ public static partial class WebApplicationBuilderExtensions
         builder.Services.AddScoped<IUserApi, UserApi>(a => new UserApi(new Configuration(identityApiConfiguration.BasePath)));
 
         // Repositories 
-        builder.Services.AddScoped<IRepository<LoyaltyMember, SimpleStringId>, LoyaltyMemberRepository>();
+        builder.Services.AddScoped<IRepository<Member, SimpleStringId>, LoyaltyMemberRepository>();
         builder.Services.AddScoped<IRepository<LoyaltyProgram, SimpleStringId>, LoyaltyProgramRepository>();
         builder.Services.AddScoped<ILoyaltyMemberRepository, LoyaltyMemberRepository>();
         builder.Services.AddScoped<ILoyaltyProgramRepository, LoyaltyProgramRepository>();

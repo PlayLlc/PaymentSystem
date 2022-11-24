@@ -20,7 +20,7 @@ using System.Transactions;
 
 namespace Play.Loyalty.Domain.Aggregates;
 
-public partial class LoyaltyMember : Aggregate<SimpleStringId>
+public partial class Member : Aggregate<SimpleStringId>
 {
     #region Instance Members
 
@@ -30,8 +30,8 @@ public partial class LoyaltyMember : Aggregate<SimpleStringId>
     public async Task AddRewardPoints(IRetrieveUsers userRetriever, ILoyaltyProgramRepository loyaltyProgramRepository, UpdateRewardsPoints command)
     {
         User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
-        Enforce(new UserMustBeActiveToUpdateAggregate<LoyaltyMember>(user));
-        Enforce(new AggregateMustBeUpdatedByKnownUser<LoyaltyMember>(_MerchantId, user));
+        Enforce(new UserMustBeActiveToUpdateAggregate<Member>(user));
+        Enforce(new AggregateMustBeUpdatedByKnownUser<Member>(_MerchantId, user));
 
         LoyaltyProgram loyaltyProgram = await loyaltyProgramRepository.GetByIdAsync(new SimpleStringId(command.MerchantId)).ConfigureAwait(false)
                                         ?? throw new NotFoundException(typeof(LoyaltyProgram));
@@ -57,8 +57,8 @@ public partial class LoyaltyMember : Aggregate<SimpleStringId>
     public async Task RemoveReward(IRetrieveUsers userRetriever, ILoyaltyProgramRepository loyaltyProgramRepository, UpdateRewardsPoints command)
     {
         User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
-        Enforce(new UserMustBeActiveToUpdateAggregate<LoyaltyMember>(user));
-        Enforce(new AggregateMustBeUpdatedByKnownUser<LoyaltyMember>(_MerchantId, user));
+        Enforce(new UserMustBeActiveToUpdateAggregate<Member>(user));
+        Enforce(new AggregateMustBeUpdatedByKnownUser<Member>(_MerchantId, user));
         LoyaltyProgram loyaltyProgram = await loyaltyProgramRepository.GetByIdAsync(new SimpleStringId(command.MerchantId)).ConfigureAwait(false)
                                         ?? throw new NotFoundException(typeof(LoyaltyProgram));
 
@@ -82,8 +82,8 @@ public partial class LoyaltyMember : Aggregate<SimpleStringId>
     public async Task ClaimRewards(IRetrieveUsers userRetriever, ILoyaltyProgramRepository loyaltyProgramRepository, ClaimRewards command)
     {
         User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
-        Enforce(new UserMustBeActiveToUpdateAggregate<LoyaltyMember>(user));
-        Enforce(new AggregateMustBeUpdatedByKnownUser<LoyaltyMember>(_MerchantId, user));
+        Enforce(new UserMustBeActiveToUpdateAggregate<Member>(user));
+        Enforce(new AggregateMustBeUpdatedByKnownUser<Member>(_MerchantId, user));
         LoyaltyProgram loyaltyProgram = await loyaltyProgramRepository.GetByMerchantIdAsync(_MerchantId).ConfigureAwait(false)
                                         ?? throw new NotFoundException(typeof(LoyaltyProgram));
 

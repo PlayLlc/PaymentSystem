@@ -15,11 +15,11 @@ public partial class LoyaltyMemberHandler : DomainEventHandler, IHandleDomainEve
     public async Task Handle(LoyaltyMemberEarnedPoints domainEvent)
     {
         Log(domainEvent);
-        await _LoyaltyMemberRepository.SaveAsync(domainEvent.LoyaltyMember).ConfigureAwait(false);
+        await _LoyaltyMemberRepository.SaveAsync(domainEvent.Member).ConfigureAwait(false);
 
         await _MessageHandlerContext.Publish<LoyaltyMemberRemovedEvent>((a) =>
             {
-                a.LoyaltyMember = domainEvent.LoyaltyMember.AsDto();
+                a.LoyaltyMember = domainEvent.Member.AsDto();
                 a.TransactionId = domainEvent.TransactionId;
             }, null)
             .ConfigureAwait(false);
@@ -28,11 +28,11 @@ public partial class LoyaltyMemberHandler : DomainEventHandler, IHandleDomainEve
     public async Task Handle(LoyaltyMemberEarnedRewards domainEvent)
     {
         Log(domainEvent);
-        await _LoyaltyMemberRepository.SaveAsync(domainEvent.LoyaltyMember).ConfigureAwait(false);
+        await _LoyaltyMemberRepository.SaveAsync(domainEvent.Member).ConfigureAwait(false);
 
         await _MessageHandlerContext.Publish<LoyaltyMemberEarnedRewardsEvent>((a) =>
             {
-                a.LoyaltyMember = domainEvent.LoyaltyMember.AsDto();
+                a.LoyaltyMember = domainEvent.Member.AsDto();
                 a.TransactionId = domainEvent.TransactionId;
             }, null)
             .ConfigureAwait(false);
@@ -41,11 +41,11 @@ public partial class LoyaltyMemberHandler : DomainEventHandler, IHandleDomainEve
     public async Task Handle(LoyaltyMemberLostPoints domainEvent)
     {
         Log(domainEvent);
-        await _LoyaltyMemberRepository.SaveAsync(domainEvent.LoyaltyMember).ConfigureAwait(false);
+        await _LoyaltyMemberRepository.SaveAsync(domainEvent.Member).ConfigureAwait(false);
 
         await _MessageHandlerContext.Publish<LoyaltyMemberLostPointsEvent>((a) =>
             {
-                a.LoyaltyMember = domainEvent.LoyaltyMember.AsDto();
+                a.LoyaltyMember = domainEvent.Member.AsDto();
                 a.TransactionId = domainEvent.TransactionId;
             }, null)
             .ConfigureAwait(false);
@@ -54,11 +54,11 @@ public partial class LoyaltyMemberHandler : DomainEventHandler, IHandleDomainEve
     public async Task Handle(LoyaltyMemberLostRewards domainEvent)
     {
         Log(domainEvent);
-        await _LoyaltyMemberRepository.SaveAsync(domainEvent.LoyaltyMember).ConfigureAwait(false);
+        await _LoyaltyMemberRepository.SaveAsync(domainEvent.Member).ConfigureAwait(false);
 
         await _MessageHandlerContext.Publish<LoyaltyMemberLostPointsEvent>((a) =>
             {
-                a.LoyaltyMember = domainEvent.LoyaltyMember.AsDto();
+                a.LoyaltyMember = domainEvent.Member.AsDto();
                 a.TransactionId = domainEvent.TransactionId;
             }, null)
             .ConfigureAwait(false);

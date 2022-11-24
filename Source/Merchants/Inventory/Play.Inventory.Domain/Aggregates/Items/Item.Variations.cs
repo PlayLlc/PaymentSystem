@@ -8,6 +8,8 @@ using Play.Inventory.Domain.Entities;
 using Play.Inventory.Domain.Services;
 using Play.Inventory.Domain.ValueObjects;
 
+using Price = Play.Domain.Common.Entities.Price;
+
 namespace Play.Inventory.Domain.Aggregates;
 
 /// <summary>

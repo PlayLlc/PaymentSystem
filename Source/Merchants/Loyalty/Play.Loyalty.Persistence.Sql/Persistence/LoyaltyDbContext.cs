@@ -69,7 +69,7 @@ public sealed class LoyaltyDbContext : DbContext
             .HasColumnName("NumericCurrencyCode");
 
         loyaltyEntityConfiguration.Configure(builder.Entity<LoyaltyProgram>());
-        loyaltyEntityConfiguration.Configure(builder.Entity<LoyaltyMember>());
+        loyaltyEntityConfiguration.Configure(builder.Entity<Member>());
 
         #endregion
     }

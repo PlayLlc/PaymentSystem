@@ -8,7 +8,7 @@ public record LoyaltyMemberEarnedPoints : DomainEvent
 {
     #region Instance Values
 
-    public readonly LoyaltyMember LoyaltyMember;
+    public readonly Member Member;
     public readonly string MerchantId;
     public readonly string UserId;
     public readonly uint TransactionId;
@@ -17,10 +17,10 @@ public record LoyaltyMemberEarnedPoints : DomainEvent
 
     #region Constructor
 
-    public LoyaltyMemberEarnedPoints(LoyaltyMember loyaltyMember, string merchantId, string userId, uint transactionId, uint points) : base(
-        $"The {nameof(LoyaltyMember)} with the ID: [{loyaltyMember.Id}] has earned [{points}] points;")
+    public LoyaltyMemberEarnedPoints(Member member, string merchantId, string userId, uint transactionId, uint points) : base(
+        $"The {nameof(Member)} with the ID: [{member.Id}] has earned [{points}] points;")
     {
-        LoyaltyMember = loyaltyMember;
+        Member = member;
         MerchantId = merchantId;
         UserId = userId;
         TransactionId = transactionId;

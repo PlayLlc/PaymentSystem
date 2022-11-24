@@ -9,7 +9,7 @@ using Play.Persistence.Sql;
 
 namespace Play.Loyalty.Persistence.Sql.Repositories;
 
-public class LoyaltyMemberRepository : Repository<LoyaltyMember, SimpleStringId>, ILoyaltyMemberRepository
+public class LoyaltyMemberRepository : Repository<Member, SimpleStringId>, ILoyaltyMemberRepository
 {
     #region Constructor
 
@@ -21,7 +21,7 @@ public class LoyaltyMemberRepository : Repository<LoyaltyMember, SimpleStringId>
     #region Instance Members
 
     /// <exception cref="EntityFrameworkRepositoryException"></exception>
-    public override async Task<LoyaltyMember?> GetByIdAsync(SimpleStringId id)
+    public override async Task<Member?> GetByIdAsync(SimpleStringId id)
     {
         try
         {
@@ -36,7 +36,7 @@ public class LoyaltyMemberRepository : Repository<LoyaltyMember, SimpleStringId>
     }
 
     /// <exception cref="EntityFrameworkRepositoryException"></exception>
-    public override LoyaltyMember? GetById(SimpleStringId id)
+    public override Member? GetById(SimpleStringId id)
     {
         try
         {
@@ -54,13 +54,13 @@ public class LoyaltyMemberRepository : Repository<LoyaltyMember, SimpleStringId>
     {
         try
         {
-            List<LoyaltyMember> loyaltyMembers = await _DbSet.Include("_Categories")
+            List<Member> loyaltyMembers = await _DbSet.Include("_Categories")
                 .Include("_Rewards")
                 .Where(x => EF.Property<SimpleStringId>(x, "_MerchantId") == merchantId)
                 .ToListAsync()
                 .ConfigureAwait(false);
 
-            foreach (LoyaltyMember member in loyaltyMembers)
+            foreach (Member member in loyaltyMembers)
                 _DbSet.RemoveRange(loyaltyMembers);
         }
         catch (Exception ex)

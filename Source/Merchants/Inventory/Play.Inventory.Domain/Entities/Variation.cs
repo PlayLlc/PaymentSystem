@@ -17,7 +17,9 @@ public class Variation : Entity<SimpleStringId>
 {
     #region Instance Values
 
-    private readonly Price _Price;
+    private readonly SimpleStringId _ItemId;
+
+    private MoneyValueObject _Price;
 
     /// <summary>
     ///     The name of this <see cref="Variation" />. For example, XSmall, Small, Medium or Red, Blue, Green
@@ -36,9 +38,10 @@ public class Variation : Entity<SimpleStringId>
     private Variation()
     { }
 
-    internal Variation(SimpleStringId id, Name name, Price price, Sku? sku = null)
+    internal Variation(SimpleStringId id, SimpleStringId itemId, Name name, MoneyValueObject price, Sku? sku = null)
     {
         Id = id;
+        _ItemId = itemId;
         _Name = name;
         _Price = price;
         _Sku = sku;
@@ -48,8 +51,9 @@ public class Variation : Entity<SimpleStringId>
     internal Variation(VariationDto dto)
     {
         Id = new SimpleStringId(dto.Id);
+        _ItemId = new SimpleStringId(dto.ItemId);
         _Name = new Name(dto.Name);
-        _Price = new Price(dto.Price);
+        _Price = new MoneyValueObject(dto.Price);
         _Sku = string.IsNullOrEmpty(dto.Sku) ? null : new Sku(dto.Sku);
     }
 
@@ -62,7 +66,7 @@ public class Variation : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal void UpdatePrice(Money price)
     {
-        _Price.Update(price);
+        _Price = price;
     }
 
     /// <exception cref="ValueObjectException"></exception>

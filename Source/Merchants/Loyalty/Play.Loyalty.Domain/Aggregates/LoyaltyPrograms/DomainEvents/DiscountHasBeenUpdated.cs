@@ -9,17 +9,17 @@ public record DiscountHasBeenUpdated : DomainEvent
     #region Instance Values
 
     public readonly LoyaltyProgram LoyaltyProgram;
-    public readonly Discount Discount;
+    public readonly string DiscountId;
 
     #endregion
 
     #region Constructor
 
-    public DiscountHasBeenUpdated(LoyaltyProgram loyaltyProgram, Discount discount, Money discountPrice) : base(
-        $"The {nameof(Discount)} with the ID: [{discount.Id}] has updated its discount price to {discountPrice.AsLocalFormat()}")
+    public DiscountHasBeenUpdated(LoyaltyProgram loyaltyProgram, string discountId, Money discountPrice) : base(
+        $"The {nameof(Discount)} with the ID: [{discountId}] has updated its discount price to {discountPrice.AsLocalFormat()}")
     {
         LoyaltyProgram = loyaltyProgram;
-        Discount = discount;
+        DiscountId = discountId;
     }
 
     #endregion

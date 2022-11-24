@@ -7,7 +7,7 @@ public record LoyaltyMemberCreated : DomainEvent
 {
     #region Instance Values
 
-    public readonly LoyaltyMember LoyaltyMember;
+    public readonly Member Member;
     public readonly string MerchantId;
     public readonly string UserId;
 
@@ -15,10 +15,10 @@ public record LoyaltyMemberCreated : DomainEvent
 
     #region Constructor
 
-    public LoyaltyMemberCreated(LoyaltyMember loyaltyMember, string merchantId, string userId) : base(
-        $"The {nameof(LoyaltyMember)} with the ID: [{loyaltyMember.Id}] has been created for the {nameof(Merchant)} with the ID: [{merchantId} by the {nameof(User)} with the ID: {userId};")
+    public LoyaltyMemberCreated(Member member, string merchantId, string userId) : base(
+        $"The {nameof(Member)} with the ID: [{member.Id}] has been created for the {nameof(Merchant)} with the ID: [{merchantId} by the {nameof(User)} with the ID: {userId};")
     {
-        LoyaltyMember = loyaltyMember;
+        Member = member;
         MerchantId = merchantId;
         UserId = userId;
     }

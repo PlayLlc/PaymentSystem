@@ -22,5 +22,8 @@ public record RewardsProgramDto : IDto
     [Required]
     public uint RewardThreshold { get; set; }
 
+    [Required]
+    public bool IsActive { get; set; }
+
     #endregion
 }

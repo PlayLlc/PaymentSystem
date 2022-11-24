@@ -9,6 +9,8 @@ using Play.Inventory.Domain.Entities;
 using Play.Inventory.Domain.Services;
 using Play.Inventory.Domain.ValueObjects;
 
+using Price = Play.Domain.Common.Entities.Price;
+
 namespace Play.Inventory.Domain.Aggregates;
 
 /// <summary>
@@ -120,15 +122,9 @@ public partial class Item : Aggregate<SimpleStringId>
         return item;
     }
 
-    internal SimpleStringId GetMerchantId()
-    {
-        return _MerchantId;
-    }
+    internal SimpleStringId GetMerchantId() => _MerchantId;
 
-    public override SimpleStringId GetId()
-    {
-        return Id;
-    }
+    public override SimpleStringId GetId() => Id;
 
     public override ItemDto AsDto()
     {

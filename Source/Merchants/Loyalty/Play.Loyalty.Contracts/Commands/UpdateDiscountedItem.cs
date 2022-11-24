@@ -20,7 +20,7 @@ public record UpdateDiscountedItem
     public string UserId { get; set; } = string.Empty;
 
     [Required]
-    public MoneyDto DiscountedPrice { get; set; } = null!;
+    public MoneyDto Price { get; set; } = null!;
 
     #endregion
 }

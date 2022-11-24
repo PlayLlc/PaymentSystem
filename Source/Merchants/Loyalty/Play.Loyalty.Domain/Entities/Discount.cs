@@ -14,7 +14,7 @@ public class Discount : Entity<SimpleStringId>
 
     private readonly SimpleStringId _ItemId;
     private readonly SimpleStringId _VariationId;
-    private MoneyValueObject _Price;
+    private MoneyValueObject _MoneyValueObject;
 
     public override SimpleStringId Id { get; }
 
@@ -32,34 +32,34 @@ public class Discount : Entity<SimpleStringId>
         Id = new SimpleStringId(dto.Id);
         _VariationId = new SimpleStringId(dto.VariationId);
         _ItemId = new SimpleStringId(dto.ItemId);
-        _Price = dto.Price.AsMoney();
+        _MoneyValueObject = dto.Price.AsMoney();
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    internal Discount(string id, string itemId, string variationId, Money discountPrice)
+    internal Discount(string id, string itemId, string variationId, Money discountMoneyValueObject)
     {
         Id = new SimpleStringId(id);
         _ItemId = new SimpleStringId(itemId);
         _VariationId = new SimpleStringId(variationId);
-        _Price = discountPrice;
+        _MoneyValueObject = discountMoneyValueObject;
     }
 
     #endregion
 
     #region Instance Members
 
-    internal bool IsItemDiscounted(string itemId, string variationId) => (_ItemId == itemId) && (_VariationId == variationId);
+    internal bool IsDiscountedItem(string itemId, string variationId) => (_ItemId == itemId) && (_VariationId == variationId);
 
-    internal Money GetDiscountPrice() => _Price;
+    internal Money GetDiscountPrice() => _MoneyValueObject;
 
-    /// <exception cref="BusinessRuleValidationException"></exception>
+    /// <exception cref="ValueObjectException"></exception>
     public void UpdateDiscountPrice(Money price)
     {
-        if (!price.IsCommonCurrency(_Price))
-            throw new BusinessRuleValidationException(
-                $"{nameof(Discount)} has the {nameof(NumericCurrencyCode)} {_Price} but an attempt was made to update the amount with a different {nameof(NumericCurrencyCode)} {price.GetNumericCurrencyCode()}");
+        if (!price.IsCommonCurrency(_MoneyValueObject))
+            throw new ValueObjectException(
+                $"{nameof(Discount)} has the {nameof(NumericCurrencyCode)} {_MoneyValueObject} but an attempt was made to update the amount with a different {nameof(NumericCurrencyCode)} {price.GetNumericCurrencyCode()}");
 
-        _Price = price;
+        _MoneyValueObject = price;
     }
 
     public override SimpleStringId GetId() => Id;
@@ -69,7 +69,7 @@ public class Discount : Entity<SimpleStringId>
         {
             Id = Id,
             VariationId = _VariationId,
-            Price = _Price.AsDto()
+            Price = _MoneyValueObject.AsDto()
         };
 
     #endregion

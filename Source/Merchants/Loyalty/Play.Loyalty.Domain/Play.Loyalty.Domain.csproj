@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\Play.Domain.Common\Play.Domain.Common.csproj" />
+    <ProjectReference Include="..\..\Inventory\Play.Inventory.Contracts\Play.Inventory.Contracts.csproj" />
     <ProjectReference Include="..\Play.Loyalty.Contracts\Play.Loyalty.Contracts.csproj" />
   </ItemGroup>
 

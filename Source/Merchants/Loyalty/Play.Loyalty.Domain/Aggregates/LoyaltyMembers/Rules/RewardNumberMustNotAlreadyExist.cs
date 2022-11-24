@@ -5,7 +5,7 @@ using Play.Loyalty.Domain.Entities;
 
 namespace Play.Loyalty.Domain.Aggregates.Rules;
 
-public class RewardNumberMustNotAlreadyExist : BusinessRule<LoyaltyMember, SimpleStringId>
+public class RewardNumberMustNotAlreadyExist : BusinessRule<Member, SimpleStringId>
 {
     #region Instance Values
 
@@ -28,7 +28,7 @@ public class RewardNumberMustNotAlreadyExist : BusinessRule<LoyaltyMember, Simpl
 
     public override bool IsBroken() => !_IsValid;
 
-    public override RewardsNumberIsNotUnique CreateBusinessRuleViolationDomainEvent(LoyaltyMember aggregate) => new(aggregate, this);
+    public override RewardsNumberIsNotUnique CreateBusinessRuleViolationDomainEvent(Member aggregate) => new(aggregate, this);
 
     #endregion
 }

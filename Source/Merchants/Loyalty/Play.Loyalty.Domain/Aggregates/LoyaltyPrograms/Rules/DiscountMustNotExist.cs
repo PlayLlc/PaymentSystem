@@ -1,6 +1,7 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
 using Play.Loyalty.Domain.Entities;
+using Play.Loyalty.Domain.Entitiesd;
 
 namespace Play.Loyalty.Domain.Aggregates;
 
@@ -16,9 +17,9 @@ public class DiscountMustNotExist : BusinessRule<LoyaltyProgram, SimpleStringId>
 
     #region Constructor
 
-    internal DiscountMustNotExist(IEnumerable<Discount> discounts, string itemId, string variationId)
+    internal DiscountMustNotExist(DiscountsProgram discountsProgram, string itemId, string variationId)
     {
-        _IsValid = discounts.All(a => !a.IsItemDiscounted(itemId, variationId));
+        _IsValid = !discountsProgram.DoesDiscountExist(itemId, variationId);
     }
 
     #endregion

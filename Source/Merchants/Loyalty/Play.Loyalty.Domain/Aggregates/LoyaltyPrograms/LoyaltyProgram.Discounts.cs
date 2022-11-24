@@ -12,34 +12,37 @@ public partial class LoyaltyProgram
 
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
-    public async Task CreateDiscountedItem(IRetrieveUsers userService, CreateDiscountedItem command)
+    /// <exception cref="NotFoundException"></exception>
+    public async Task CreateDiscountedItem(IRetrieveUsers userService, IRetrieveInventoryItems inventoryItemRetriever, CreateDiscountedItem command)
     {
         User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<LoyaltyProgram>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<LoyaltyProgram>(_MerchantId, user));
         Enforce(new CurrencyMustBeValid(_RewardsProgram.GetRewardAmount().GetNumericCurrencyCode(), command.DiscountedPrice));
-        Enforce(new DiscountMustNotExist(_Discounts, command.ItemId, command.VariationId));
-        Discount discount = new Discount(new string(GenerateSimpleStringId()), command.ItemId, command.VariationId, command.DiscountedPrice);
-        _ = _Discounts.Add(discount);
+        Enforce(new DiscountMustNotExist(_DiscountsProgram, command.ItemId, command.VariationId));
+        Enforce(new DiscountPriceMustBeLowerThanItemPrice(
+            await inventoryItemRetriever.GetByIdAsync(command.ItemId, command.VariationId).ConfigureAwait(false)
+            ?? throw new NotFoundException(typeof(InventoryItem)), command.DiscountedPrice.AsMoney()));
+        Discount discount = new Discount(GenerateSimpleStringId(), command.ItemId, command.VariationId, command.DiscountedPrice);
+        _ = _DiscountsProgram.Add(discount);
 
         Publish(new DiscountHasBeenCreated(this, discount, command.ItemId, command.VariationId, command.DiscountedPrice));
     }
 
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
+    /// <exception cref="NotFoundException"></exception>
     public async Task UpdateDiscountedItem(IRetrieveUsers userService, UpdateDiscountedItem command)
     {
         User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<LoyaltyProgram>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<LoyaltyProgram>(_MerchantId, user));
-        Enforce(new CurrencyMustBeValid(_RewardsProgram.GetRewardAmount().GetNumericCurrencyCode(), command.DiscountedPrice));
-        Enforce(new DiscountMustExist(_Discounts, command.DiscountId));
+        Enforce(new CurrencyMustBeValid(_RewardsProgram.GetRewardAmount().GetNumericCurrencyCode(), command.Price));
+        Enforce(new DiscountMustExist(_DiscountsProgram, command.DiscountId));
 
-        Discount discount = _Discounts.First(a => a.Id == command.DiscountId);
+        _DiscountsProgram.UpdateDiscountPrice(command.DiscountId, command.Price);
 
-        discount.UpdateDiscountPrice(command.DiscountedPrice);
-
-        Publish(new DiscountHasBeenUpdated(this, discount, command.DiscountedPrice));
+        Publish(new DiscountHasBeenUpdated(this, command.DiscountId, command.Price));
     }
 
     /// <exception cref="ValueObjectException"></exception>
@@ -49,13 +52,10 @@ public partial class LoyaltyProgram
         User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<LoyaltyProgram>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<LoyaltyProgram>(_MerchantId, user));
-        Enforce(new DiscountMustExist(_Discounts, command.DiscountId));
+        Enforce(new DiscountMustExist(_DiscountsProgram, command.DiscountId));
+        _DiscountsProgram.Remove(command.DiscountId);
 
-        Discount discount = _Discounts.First(a => a.Id == command.DiscountId);
-
-        _Discounts.RemoveWhere(a => a.Id == command.DiscountId);
-
-        Publish(new DiscountHasBeenRemoved(this, discount));
+        Publish(new DiscountHasBeenRemoved(this, command.DiscountId));
     }
 
     #endregion

@@ -8,6 +8,8 @@ using Play.Inventory.Domain.Entities;
 using Play.Inventory.Domain.ValueObjects;
 using Play.Persistence.Sql;
 
+using Price = Play.Domain.Common.Entities.Price;
+
 namespace Play.Inventory.Persistence.Sql.Configuration;
 
 // You can configure a navigation in the model to be included every time the entity is loaded from the database using AutoInclude method

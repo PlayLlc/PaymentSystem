@@ -4,7 +4,7 @@ using Play.Loyalty.Domain.Entities;
 
 namespace Play.Loyalty.Domain.Aggregates.Rules;
 
-public class RewardsProgramMustBeActiveToClaimReward : BusinessRule<LoyaltyMember, SimpleStringId>
+public class RewardsProgramMustBeActiveToClaimReward : BusinessRule<Member, SimpleStringId>
 {
     #region Instance Values
 
@@ -27,7 +27,7 @@ public class RewardsProgramMustBeActiveToClaimReward : BusinessRule<LoyaltyMembe
 
     public override bool IsBroken() => !_IsValid;
 
-    public override RewardProgramIsNotActive CreateBusinessRuleViolationDomainEvent(LoyaltyMember aggregate) => new(aggregate, this);
+    public override RewardProgramIsNotActive CreateBusinessRuleViolationDomainEvent(Member aggregate) => new(aggregate, this);
 
     #endregion
 }
