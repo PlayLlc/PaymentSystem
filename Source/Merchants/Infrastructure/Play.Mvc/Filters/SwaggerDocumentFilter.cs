@@ -22,12 +22,12 @@ namespace Play.Mvc.Filters
                 if (!IsIgnoreAttributePresent(info))
                     continue;
 
-                var kepath = description.RelativePath;
+                string? kepath = description.RelativePath;
 
                 if (kepath is null)
                     continue;
 
-                var removeRoutes = swaggerDoc.Paths.Where(x => x.Key.ToLower().Contains(kepath.ToLower())).ToList();
+                List<KeyValuePair<string, OpenApiPathItem>> removeRoutes = swaggerDoc.Paths.Where(x => x.Key.ToLower().Contains(kepath.ToLower())).ToList();
 
                 removeRoutes.ForEach(x => { swaggerDoc.Paths.Remove(x.Key); });
             }

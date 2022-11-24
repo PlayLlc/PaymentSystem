@@ -19,7 +19,7 @@ public partial class LoyaltyProgram
         Enforce(new AggregateMustBeUpdatedByKnownUser<LoyaltyProgram>(_MerchantId, user));
         Enforce(new CurrencyMustBeValid(_RewardsProgram.GetRewardAmount().GetNumericCurrencyCode(), command.DiscountedPrice));
         Enforce(new DiscountMustNotExist(_Discounts, command.ItemId, command.VariationId));
-        var discount = new Discount(new string(GenerateSimpleStringId()), command.ItemId, command.VariationId, command.DiscountedPrice);
+        Discount discount = new Discount(new string(GenerateSimpleStringId()), command.ItemId, command.VariationId, command.DiscountedPrice);
         _ = _Discounts.Add(discount);
 
         Publish(new DiscountHasBeenCreated(this, discount, command.ItemId, command.VariationId, command.DiscountedPrice));
@@ -35,7 +35,7 @@ public partial class LoyaltyProgram
         Enforce(new CurrencyMustBeValid(_RewardsProgram.GetRewardAmount().GetNumericCurrencyCode(), command.DiscountedPrice));
         Enforce(new DiscountMustExist(_Discounts, command.DiscountId));
 
-        var discount = _Discounts.First(a => a.Id == command.DiscountId);
+        Discount discount = _Discounts.First(a => a.Id == command.DiscountId);
 
         discount.UpdateDiscountPrice(command.DiscountedPrice);
 

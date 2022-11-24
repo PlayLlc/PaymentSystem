@@ -41,7 +41,7 @@ public partial class LoyaltyProgram
         Enforce(new AggregateMustBeUpdatedByKnownUser<LoyaltyProgram>(_MerchantId, user));
         _RewardsProgram.Activate(command.IsActive);
 
-        Publish(new RewardsProgramActivationStatusUpdated(this, command.UserId, command.IsActive));
+        Publish(new RewardsProgramActiveStatusHasBeenUpdated(this, command.UserId, command.IsActive));
     }
 
     internal uint CalculateEarnedPoints(Money transactionAmount) => _RewardsProgram.CalculateEarnedPoints(transactionAmount);

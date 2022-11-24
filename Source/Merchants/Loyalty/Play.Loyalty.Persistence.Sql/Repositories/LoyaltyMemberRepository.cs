@@ -60,7 +60,7 @@ public class LoyaltyMemberRepository : Repository<LoyaltyMember, SimpleStringId>
                 .ToListAsync()
                 .ConfigureAwait(false);
 
-            foreach (var member in loyaltyMembers)
+            foreach (LoyaltyMember member in loyaltyMembers)
                 _DbSet.RemoveRange(loyaltyMembers);
         }
         catch (Exception ex)

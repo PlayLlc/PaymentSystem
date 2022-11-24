@@ -5,7 +5,7 @@ using Play.Messaging.NServiceBus;
 
 namespace Play.Loyalty.Contracts;
 
-public class RewardsProgramActivationStatusUpdatedEvent : NetworkEvent
+public class RewardsProgramActiveStatusHasBeenUpdatedEvent : NetworkEvent
 {
     #region Instance Values
 

@@ -74,7 +74,7 @@ public class MerchantHandler : DomainEventHandler, IHandleDomainEvents<MerchantH
     public async Task Handle(MerchantHasBeenRemoved domainEvent)
     {
         Log(domainEvent);
-        var merchantId = domainEvent.Merchant.Id;
+        SimpleStringId merchantId = domainEvent.Merchant.Id;
         await _MerchantRepository.RemoveAsync(domainEvent.Merchant).ConfigureAwait(false);
 
         await _MessageHandlerContext.Publish<MerchantHasBeenRemovedEvent>((a) =>
