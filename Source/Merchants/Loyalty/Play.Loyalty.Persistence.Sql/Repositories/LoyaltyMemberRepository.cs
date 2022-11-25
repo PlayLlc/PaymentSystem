@@ -5,6 +5,7 @@ using Microsoft.Toolkit.HighPerformance.Enumerables;
 using Play.Domain.Common.ValueObjects;
 using Play.Loyalty.Domain.Aggregates;
 using Play.Loyalty.Domain.Repositories;
+using Play.Loyalty.Domain.ValueObjects;
 using Play.Persistence.Sql;
 
 namespace Play.Loyalty.Persistence.Sql.Repositories;
@@ -62,6 +63,24 @@ public class LoyaltyMemberRepository : Repository<Member, SimpleStringId>, ILoya
 
             foreach (Member member in loyaltyMembers)
                 _DbSet.RemoveRange(loyaltyMembers);
+
+            await _DbContext.SaveChangesAsync().ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            throw new EntityFrameworkRepositoryException(
+                $"The {nameof(LoyaltyMemberRepository)} encountered an exception attempting to invoke {nameof(RemoveAll)} for the {nameof(merchantId)}: [{merchantId}];",
+                ex);
+        }
+    }
+
+    /// <exception cref="EntityFrameworkRepositoryException"></exception>
+    public bool IsRewardsNumberUnique(SimpleStringId merchantId, string rewardsNumber)
+    {
+        try
+        {
+            return _DbSet.Any(a => (EF.Property<SimpleStringId>(a, "_MerchantId") == merchantId)
+                                   && (EF.Property<RewardsNumber>(a, "_RewardsNumber").Value == rewardsNumber));
         }
         catch (Exception ex)
         {

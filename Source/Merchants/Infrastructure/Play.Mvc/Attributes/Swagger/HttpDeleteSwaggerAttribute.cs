@@ -28,12 +28,6 @@ public class HttpDeleteSwaggerAttribute : HttpDeleteAttribute
             Name = CreateOpenApiName(callerFilePath, memberName);
     }
 
-    public HttpDeleteSwaggerAttribute(string name)
-    {
-        if (!string.IsNullOrEmpty(name))
-            Name = name;
-    }
-
     #endregion
 
     #region Instance Members

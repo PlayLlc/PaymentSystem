@@ -7,7 +7,6 @@ using Play.Domain.Exceptions;
 using Play.Domain.Repositories;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Currency;
-using Play.Identity.Domain.Serviceddds;
 using Play.Loyalty.Contracts.Commands;
 using Play.Loyalty.Contracts.Dtos;
 using Play.Loyalty.Domain.Aggregates.Rules;
@@ -93,7 +92,8 @@ public partial class Member : Aggregate<SimpleStringId>
     /// <exception cref="NotFoundException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
     public static async Task<Member> Create(
-        IRetrieveUsers userRetriever, IRetrieveMerchants merchantRetriever, IEnsureUniqueRewardNumbers uniqueRewardNumberChecker, CreateLoyaltyMember command)
+        IRetrieveUsers userRetriever, IRetrieveMerchants merchantRetriever, IEnsureRewardsNumbersAreUnique uniqueRewardNumberChecker,
+        CreateLoyaltyMember command)
     {
         Rewards rewards = new Rewards(GenerateSimpleStringId(), 0, new Money(0, new NumericCurrencyCode(command.NumericCurrencyCode)));
         Member member = new Member(GenerateSimpleStringId(), command.MerchantId, command.Name, command.Phone, command.RewardsNumber, rewards, command.Email);

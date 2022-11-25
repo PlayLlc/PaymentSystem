@@ -7,44 +7,43 @@ using Play.Mvc.Attributes;
 
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Play.Mvc.Filters
+namespace Play.Mvc.Filters;
+
+public class SwaggerDocumentFilter : IDocumentFilter
 {
-    public class SwaggerDocumentFilter : IDocumentFilter
+    #region Instance Members
+
+    public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
     {
-        #region Instance Members
-
-        public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
+        foreach (ApiDescription description in context.ApiDescriptions)
         {
-            foreach (ApiDescription description in context.ApiDescriptions)
-            {
-                description.TryGetMethodInfo(out MethodInfo info);
+            description.TryGetMethodInfo(out MethodInfo info);
 
-                if (!IsIgnoreAttributePresent(info))
-                    continue;
+            if (!IsIgnoreAttributePresent(info))
+                continue;
 
-                string? kepath = description.RelativePath;
+            string? kepath = description.RelativePath;
 
-                if (kepath is null)
-                    continue;
+            if (kepath is null)
+                continue;
 
-                List<KeyValuePair<string, OpenApiPathItem>> removeRoutes = swaggerDoc.Paths.Where(x => x.Key.ToLower().Contains(kepath.ToLower())).ToList();
+            List<KeyValuePair<string, OpenApiPathItem>> removeRoutes = swaggerDoc.Paths.Where(x => x.Key.ToLower().Contains(kepath.ToLower())).ToList();
 
-                removeRoutes.ForEach(x => { swaggerDoc.Paths.Remove(x.Key); });
-            }
+            removeRoutes.ForEach(x => { swaggerDoc.Paths.Remove(x.Key); });
         }
-
-        /// <exception cref="TypeLoadException"></exception>
-        private static bool IsIgnoreAttributePresent(MethodInfo info)
-        {
-            if (info.DeclaringType?.GetCustomAttributes(true).OfType<SwaggerIgnoreAttribute>().Any() ?? false)
-                return true;
-
-            if (info.GetCustomAttributes(true).OfType<SwaggerIgnoreAttribute>().Distinct().Any())
-                return true;
-
-            return false;
-        }
-
-        #endregion
     }
+
+    /// <exception cref="TypeLoadException"></exception>
+    private static bool IsIgnoreAttributePresent(MethodInfo info)
+    {
+        if (info.DeclaringType?.GetCustomAttributes(true).OfType<SwaggerIgnoreAttribute>().Any() ?? false)
+            return true;
+
+        if (info.GetCustomAttributes(true).OfType<SwaggerIgnoreAttribute>().Distinct().Any())
+            return true;
+
+        return false;
+    }
+
+    #endregion
 }

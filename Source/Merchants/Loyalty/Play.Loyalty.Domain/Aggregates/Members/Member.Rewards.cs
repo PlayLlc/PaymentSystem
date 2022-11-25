@@ -54,7 +54,7 @@ public partial class Member : Aggregate<SimpleStringId>
     /// <exception cref="NotFoundException"></exception>
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
-    public async Task RemoveReward(IRetrieveUsers userRetriever, ILoyaltyProgramRepository loyaltyProgramRepository, UpdateRewardsPoints command)
+    public async Task RemoveRewards(IRetrieveUsers userRetriever, ILoyaltyProgramRepository loyaltyProgramRepository, UpdateRewardsPoints command)
     {
         User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<Member>(user));

@@ -28,12 +28,6 @@ public class HttpPatchSwaggerAttribute : HttpGetAttribute
             Name = CreateOpenApiName(callerFilePath, memberName);
     }
 
-    public HttpPatchSwaggerAttribute(string name)
-    {
-        if (!string.IsNullOrEmpty(name))
-            Name = name;
-    }
-
     #endregion
 
     #region Instance Members

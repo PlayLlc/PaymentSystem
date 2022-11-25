@@ -34,6 +34,7 @@ public static partial class WebApplicationBuilderExtensions
         builder.Services.AddScoped<ILoyaltyProgramRepository, LoyaltyProgramRepository>();
 
         // Services
+        builder.Services.AddScoped<IEnsureRewardsNumbersAreUnique, LoyaltyMemberRepository>();
         builder.Services.AddScoped<IRetrieveMerchants, MerchantRetriever>();
         builder.Services.AddScoped<IRetrieveUsers, UserRetriever>();
 

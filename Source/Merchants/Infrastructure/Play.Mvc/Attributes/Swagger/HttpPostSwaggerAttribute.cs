@@ -28,12 +28,6 @@ public class HttpPostSwaggerAttribute : HttpPostAttribute
             Name = CreateOpenApiName(callerFilePath, memberName);
     }
 
-    public HttpPostSwaggerAttribute(string name)
-    {
-        if (!string.IsNullOrEmpty(name))
-            Name = name;
-    }
-
     #endregion
 
     #region Instance Members

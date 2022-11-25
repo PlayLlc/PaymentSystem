@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 
 using Play.Loyalty.Domain.Entities;
 
-namespace Play.Loyalty.Domain.Services
+namespace Play.Loyalty.Domain.Services;
+
+public interface IRetrieveInventoryItems
 {
-    public interface IRetrieveInventoryItems
-    {
-        #region Instance Members
+    #region Instance Members
 
-        public Task<InventoryItem> GetByIdAsync(string itemId, string variationId);
+    public Task<InventoryItem> GetByIdAsync(string itemId, string variationId);
 
-        #endregion
-    }
+    #endregion
 }

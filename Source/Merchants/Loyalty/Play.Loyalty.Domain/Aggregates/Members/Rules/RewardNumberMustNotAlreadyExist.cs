@@ -1,7 +1,7 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
-using Play.Identity.Domain.Serviceddds;
 using Play.Loyalty.Domain.Entities;
+using Play.Loyalty.Domain.Services;
 
 namespace Play.Loyalty.Domain.Aggregates.Rules;
 
@@ -17,9 +17,9 @@ public class RewardNumberMustNotAlreadyExist : BusinessRule<Member, SimpleString
 
     #region Constructor
 
-    internal RewardNumberMustNotAlreadyExist(IEnsureUniqueRewardNumbers uniqueRewardNumberChecker, string merchantId, string rewardNumber)
+    internal RewardNumberMustNotAlreadyExist(IEnsureRewardsNumbersAreUnique uniqueRewardNumberChecker, string merchantId, string rewardNumber)
     {
-        _IsValid = uniqueRewardNumberChecker.IsUnique(merchantId, rewardNumber);
+        _IsValid = uniqueRewardNumberChecker.IsRewardsNumberUnique(new SimpleStringId(merchantId), rewardNumber);
     }
 
     #endregion
