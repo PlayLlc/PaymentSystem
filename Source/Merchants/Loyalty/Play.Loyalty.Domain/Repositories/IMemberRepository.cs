@@ -1,14 +1,15 @@
 ﻿using Play.Domain.Common.ValueObjects;
 using Play.Domain.Repositories;
 using Play.Loyalty.Domain.Aggregates;
+using Play.Loyalty.Domain.Services;
 
 namespace Play.Loyalty.Domain.Repositories;
 
-public interface ILoyaltyProgramRepository : IRepository<Programs, SimpleStringId>
+public interface IMemberRepository : IRepository<Member, SimpleStringId>, IEnsureRewardsNumbersAreUnique
 {
     #region Instance Members
 
-    public Task<Programs?> GetByMerchantIdAsync(SimpleStringId merchantId);
+    public Task RemoveAll(SimpleStringId merchantId);
 
     #endregion
 }

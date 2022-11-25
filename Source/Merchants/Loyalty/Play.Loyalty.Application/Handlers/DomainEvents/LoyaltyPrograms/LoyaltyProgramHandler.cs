@@ -15,17 +15,17 @@ public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEv
     #region Instance Values
 
     private readonly IMessageHandlerContext _MessageHandlerContext;
-    private readonly ILoyaltyProgramRepository _LoyaltyProgramRepository;
+    private readonly IProgramsRepository _ProgramsRepository;
 
     #endregion
 
     #region Constructor
 
     public LoyaltyProgramHandler(
-        IMessageHandlerContext messageHandlerContext, ILoyaltyProgramRepository loyaltyProgramRepository, ILogger<LoyaltyProgramHandler> logger) : base(logger)
+        IMessageHandlerContext messageHandlerContext, IProgramsRepository programsRepository, ILogger<LoyaltyProgramHandler> logger) : base(logger)
     {
         _MessageHandlerContext = messageHandlerContext;
-        _LoyaltyProgramRepository = loyaltyProgramRepository;
+        _ProgramsRepository = programsRepository;
     }
 
     #endregion
@@ -35,13 +35,13 @@ public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEv
     public async Task Handle(LoyaltyProgramHasBeenCreated domainEvent)
     {
         Log(domainEvent);
-        await _LoyaltyProgramRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
+        await _ProgramsRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
     }
 
     public async Task Handle(LoyaltyProgramHasBeenRemoved domainEvent)
     {
         Log(domainEvent);
-        await _LoyaltyProgramRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
+        await _ProgramsRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
     }
 
     #endregion

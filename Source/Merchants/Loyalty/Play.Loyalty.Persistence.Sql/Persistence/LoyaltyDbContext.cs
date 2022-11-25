@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Diagnostics;
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 
 using Play.Domain.Common.Entities;
@@ -41,7 +43,7 @@ public sealed class LoyaltyDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         // Enums
-
+        Debugger.Launch();
         LoyaltyEntityConfiguration loyaltyEntityConfiguration = new LoyaltyEntityConfiguration();
 
         #region Entities

@@ -9,8 +9,6 @@ using Play.Inventory.Domain.Entities;
 using Play.Inventory.Domain.Services;
 using Play.Inventory.Domain.ValueObjects;
 
-using Price = Play.Domain.Common.Entities.Price;
-
 namespace Play.Inventory.Domain.Aggregates;
 
 /// <summary>
@@ -68,7 +66,7 @@ public partial class Item : Aggregate<SimpleStringId>
 
     /// <exception cref="ValueObjectException"></exception>
     public Item(
-        string id, string merchantId, Name name, Price price, string description, Alerts alerts, Locations locations, Sku? sku = null,
+        string id, string merchantId, Name name, string description, Alerts alerts, Locations locations, Sku? sku = null,
         IEnumerable<Category>? categories = null, IEnumerable<Variation>? variations = null)
     {
         Id = new SimpleStringId(id);
@@ -107,11 +105,11 @@ public partial class Item : Aggregate<SimpleStringId>
         Name name = new Name(command.Name);
         Sku? sku = command.Sku is null ? null : new Sku(command.Sku);
         IEnumerable<Category> categories = command.Categories.Select(a => new Category(a));
-        Price price = new Price(GenerateSimpleStringId(), command.Price);
+        MoneyValueObject price = new MoneyValueObject(command.Price);
+        var itemId = new SimpleStringId(GenerateSimpleStringId());
+        Variation variation = new Variation(new SimpleStringId(GenerateSimpleStringId()), itemId, new Name("Original"), price);
 
-        Variation variation = new Variation(new SimpleStringId(GenerateSimpleStringId()), new Name("Original"), price);
-
-        Item item = new Item(GenerateSimpleStringId(), merchant.Id, name, price, command.Description ?? string.Empty, alerts, locations, sku, categories,
+        Item item = new Item(GenerateSimpleStringId(), merchant.Id, name, command.Description ?? string.Empty, alerts, locations, sku, categories,
             new List<Variation>() {variation});
 
         item.Enforce(new MerchantMustBeActiveToCreateAggregate<Item>(merchant));

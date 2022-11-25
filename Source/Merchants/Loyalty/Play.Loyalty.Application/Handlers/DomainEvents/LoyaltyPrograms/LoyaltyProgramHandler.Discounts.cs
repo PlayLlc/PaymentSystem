@@ -16,7 +16,7 @@ public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEv
     {
         Log(domainEvent);
 
-        await _LoyaltyProgramRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
+        await _ProgramsRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
 
         await _MessageHandlerContext.Publish<DiscountProgramActiveStatusHasBeenUpdatedEvent>((a) =>
             {
@@ -30,7 +30,7 @@ public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEv
     public async Task Handle(DiscountHasBeenCreated domainEvent)
     {
         Log(domainEvent);
-        await _LoyaltyProgramRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
+        await _ProgramsRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
 
         await _MessageHandlerContext.Publish<DiscountHasBeenCreatedEvent>((a) =>
             {
@@ -43,7 +43,7 @@ public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEv
     public async Task Handle(DiscountPriceHasBeenUpdated domainEvent)
     {
         Log(domainEvent);
-        await _LoyaltyProgramRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
+        await _ProgramsRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
 
         await _MessageHandlerContext.Publish<DiscountHasBeenUpdatedEvent>((a) =>
             {
@@ -57,7 +57,7 @@ public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEv
     public async Task Handle(DiscountHasBeenRemoved domainEvent)
     {
         Log(domainEvent);
-        await _LoyaltyProgramRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
+        await _ProgramsRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
 
         await _MessageHandlerContext.Publish<DiscountHasBeenRemovedEvent>((a) =>
             {

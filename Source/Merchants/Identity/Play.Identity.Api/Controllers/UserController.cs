@@ -48,7 +48,7 @@ public class UserController : Controller
         return user.AsDto();
     }
 
-    [HttpPutSwagger("UpdateAddressForUser")]
+    [HttpPutSwagger("", name: "UpdateAddressForUser")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Address([FromBody] UpdateAddressCommand command)
     {
@@ -62,7 +62,7 @@ public class UserController : Controller
         return Ok();
     }
 
-    [HttpPutSwagger("UpdateContactInfosForUser")]
+    [HttpPutSwagger("", name: "UpdateContactInfoForUser")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> ContactInfo([FromBody] UpdateContactCommand command)
     {
@@ -76,7 +76,7 @@ public class UserController : Controller
         return Ok();
     }
 
-    [HttpPutSwagger("UpdatePersonalDetailsForUser")]
+    [HttpPutSwagger("", name: "UpdatePersonalDetailsForUser")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> PersonalDetails([FromBody] UpdatePersonalDetailCommand command)
     {

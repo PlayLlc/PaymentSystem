@@ -13,7 +13,7 @@ public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEv
     {
         Log(domainEvent);
 
-        await _LoyaltyProgramRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
+        await _ProgramsRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
 
         await _MessageHandlerContext.Publish<RewardProgramActiveStatusHasBeenUpdatedEvent>((a) =>
             {
@@ -28,7 +28,7 @@ public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEv
     {
         Log(domainEvent);
 
-        await _LoyaltyProgramRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
+        await _ProgramsRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
 
         await _MessageHandlerContext.Publish<RewardsProgramHasBeenUpdatedEvent>((a) =>
             {

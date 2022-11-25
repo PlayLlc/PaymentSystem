@@ -8,8 +8,6 @@ using Play.Inventory.Domain.Entities;
 using Play.Inventory.Domain.Services;
 using Play.Inventory.Domain.ValueObjects;
 
-using Price = Play.Domain.Common.Entities.Price;
-
 namespace Play.Inventory.Domain.Aggregates;
 
 /// <summary>
@@ -33,9 +31,9 @@ public partial class Item : Aggregate<SimpleStringId>
 
         Name name = new Name(command.Name);
         Sku? sku = command.Sku is null ? null : new Sku(command.Sku);
-        Price price = new Price(GenerateSimpleStringId(), command.Price);
+        MoneyValueObject price = new MoneyValueObject(command.Price);
         SimpleStringId id = new(GenerateSimpleStringId());
-        Variation variation = new Variation(new SimpleStringId(id), name, price, sku);
+        Variation variation = new Variation(new SimpleStringId(id), Id, name, price, sku);
 
         if (!_Variations.Add(variation))
             return;

@@ -16,7 +16,7 @@ public record PriceUpdated : DomainEvent
     #region Constructor
 
     public PriceUpdated(Item item, Variation variation, string userId, Money price) : base(
-        $"The {nameof(Variation)} with the ID: [{variation.Id}] has updated its {nameof(Price)} to: [{price.ToString()}];")
+        $"The {nameof(Variation)} with the ID: [{variation.Id}] has updated its {nameof(price)} to: [{price.ToString()}];")
     {
         Item = item;
     }

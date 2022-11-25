@@ -26,15 +26,16 @@ public static partial class WebApplicationBuilderExtensions
         // Api Clients 
         builder.Services.AddScoped<IMerchantApi, MerchantApi>(a => new MerchantApi(new Configuration(identityApiConfiguration.BasePath)));
         builder.Services.AddScoped<IUserApi, UserApi>(a => new UserApi(new Configuration(identityApiConfiguration.BasePath)));
+        builder.Services.AddScoped<IRetrieveInventoryItems, InventoryItemRetriever>();
 
         // Repositories 
-        builder.Services.AddScoped<IRepository<Member, SimpleStringId>, LoyaltyMemberRepository>();
-        builder.Services.AddScoped<IRepository<Programs, SimpleStringId>, LoyaltyProgramRepository>();
-        builder.Services.AddScoped<ILoyaltyMemberRepository, LoyaltyMemberRepository>();
-        builder.Services.AddScoped<ILoyaltyProgramRepository, LoyaltyProgramRepository>();
+        builder.Services.AddScoped<IRepository<Member, SimpleStringId>, MemberRepository>();
+        builder.Services.AddScoped<IRepository<Programs, SimpleStringId>, ProgramsRepository>();
+        builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+        builder.Services.AddScoped<IProgramsRepository, ProgramsRepository>();
 
         // Services
-        builder.Services.AddScoped<IEnsureRewardsNumbersAreUnique, LoyaltyMemberRepository>();
+        builder.Services.AddScoped<IEnsureRewardsNumbersAreUnique, MemberRepository>();
         builder.Services.AddScoped<IRetrieveMerchants, MerchantRetriever>();
         builder.Services.AddScoped<IRetrieveUsers, UserRetriever>();
 

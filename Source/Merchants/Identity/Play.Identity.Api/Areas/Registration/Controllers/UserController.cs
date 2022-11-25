@@ -76,7 +76,7 @@ public class UserController : Controller
         })!, userRegistration.AsDto());
     }
 
-    [HttpGetSwagger("RegistrationGetEmailVerificationForUser")]
+    [HttpGetSwagger("", name: "RegistrationGetEmailVerificationForUser")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> EmailVerification([FromQuery] string id)
     {
@@ -89,7 +89,7 @@ public class UserController : Controller
         return View("EmailVerificationFailed");
     }
 
-    [HttpPutSwagger("RegistrationUpdateEmailVerificationForUser")]
+    [HttpPutSwagger("", name: "RegistrationUpdateEmailVerificationForUser")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> EmailVerification([FromBody] VerifyConfirmationCodeCommand command)
     {
@@ -104,7 +104,7 @@ public class UserController : Controller
         return Ok();
     }
 
-    [HttpPutSwagger("RegistrationUpdateContactForUser")]
+    [HttpPutSwagger("", name: "RegistrationUpdateContactForUser")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Contact([FromBody] UpdateContactCommand command)
     {
@@ -119,7 +119,7 @@ public class UserController : Controller
         return Ok();
     }
 
-    [HttpGetSwagger("RegistrationGetPhoneVerificationForUser")]
+    [HttpGetSwagger("", name: "RegistrationGetPhoneVerificationForUser")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> PhoneVerification([FromQuery] string id)
     {
@@ -132,7 +132,7 @@ public class UserController : Controller
         return View("EmailVerificationFailed");
     }
 
-    [HttpPutSwagger("RegistrationUpdatePhoneVerificationForUser")]
+    [HttpPutSwagger("", name: "RegistrationUpdatePhoneVerificationForUser")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> PhoneVerification([FromBody] VerifyConfirmationCodeCommand command)
     {
@@ -147,7 +147,7 @@ public class UserController : Controller
         return Ok();
     }
 
-    [HttpPutSwagger("RegistrationUpdateAddressForUser")]
+    [HttpPutSwagger("", name: "RegistrationUpdateAddressForUser")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Address([FromBody] UpdateAddressCommand command)
     {
@@ -160,7 +160,7 @@ public class UserController : Controller
         return Ok();
     }
 
-    [HttpPutSwagger("RegistrationUpdatePersonalDetailsForUser")]
+    [HttpPutSwagger("", name: "RegistrationUpdatePersonalDetailsForUser")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> PersonalDetails([FromBody] UpdatePersonalDetailCommand command)
     {

@@ -10,11 +10,11 @@ using Play.Persistence.Sql;
 
 namespace Play.Loyalty.Persistence.Sql.Repositories;
 
-public class LoyaltyMemberRepository : Repository<Member, SimpleStringId>, ILoyaltyMemberRepository
+public class MemberRepository : Repository<Member, SimpleStringId>, IMemberRepository
 {
     #region Constructor
 
-    public LoyaltyMemberRepository(DbContext dbContext, ILogger<LoyaltyMemberRepository> logger) : base(dbContext, logger)
+    public MemberRepository(DbContext dbContext, ILogger<MemberRepository> logger) : base(dbContext, logger)
     { }
 
     #endregion
@@ -31,8 +31,7 @@ public class LoyaltyMemberRepository : Repository<Member, SimpleStringId>, ILoya
         catch (Exception ex)
         {
             throw new EntityFrameworkRepositoryException(
-                $"The {nameof(LoyaltyMemberRepository)} encountered an exception attempting to invoke {nameof(GetByIdAsync)} for the {nameof(id)}: [{id}];",
-                ex);
+                $"The {nameof(MemberRepository)} encountered an exception attempting to invoke {nameof(GetByIdAsync)} for the {nameof(id)}: [{id}];", ex);
         }
     }
 
@@ -46,7 +45,7 @@ public class LoyaltyMemberRepository : Repository<Member, SimpleStringId>, ILoya
         catch (Exception ex)
         {
             throw new EntityFrameworkRepositoryException(
-                $"The {nameof(LoyaltyMemberRepository)} encountered an exception attempting to invoke {nameof(GetById)} for the {nameof(id)}: [{id}];", ex);
+                $"The {nameof(MemberRepository)} encountered an exception attempting to invoke {nameof(GetById)} for the {nameof(id)}: [{id}];", ex);
         }
     }
 
@@ -69,7 +68,7 @@ public class LoyaltyMemberRepository : Repository<Member, SimpleStringId>, ILoya
         catch (Exception ex)
         {
             throw new EntityFrameworkRepositoryException(
-                $"The {nameof(LoyaltyMemberRepository)} encountered an exception attempting to invoke {nameof(RemoveAll)} for the {nameof(merchantId)}: [{merchantId}];",
+                $"The {nameof(MemberRepository)} encountered an exception attempting to invoke {nameof(RemoveAll)} for the {nameof(merchantId)}: [{merchantId}];",
                 ex);
         }
     }
@@ -85,7 +84,7 @@ public class LoyaltyMemberRepository : Repository<Member, SimpleStringId>, ILoya
         catch (Exception ex)
         {
             throw new EntityFrameworkRepositoryException(
-                $"The {nameof(LoyaltyMemberRepository)} encountered an exception attempting to invoke {nameof(RemoveAll)} for the {nameof(merchantId)}: [{merchantId}];",
+                $"The {nameof(MemberRepository)} encountered an exception attempting to invoke {nameof(RemoveAll)} for the {nameof(merchantId)}: [{merchantId}];",
                 ex);
         }
     }

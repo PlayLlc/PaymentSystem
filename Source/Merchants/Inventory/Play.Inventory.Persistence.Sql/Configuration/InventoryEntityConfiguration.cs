@@ -8,8 +8,6 @@ using Play.Inventory.Domain.Entities;
 using Play.Inventory.Domain.ValueObjects;
 using Play.Persistence.Sql;
 
-using Price = Play.Domain.Common.Entities.Price;
-
 namespace Play.Inventory.Persistence.Sql.Configuration;
 
 // You can configure a navigation in the model to be included every time the entity is loaded from the database using AutoInclude method
@@ -34,7 +32,6 @@ internal class InventoryEntityConfiguration : IEntityTypeConfiguration<Item>, IE
         // Relationships
         //builder.HasOne<Price>("_Price");
 
-        builder.HasOne<Item, Price, SimpleStringId>("_Price", "PriceId");
         builder.HasOne<Item, Locations, SimpleStringId>("_Locations", "LocationsId");
         builder.HasOne<Item, Alerts, SimpleStringId>("_Alerts", "AlertsId");
         builder.HasMany<Item, Category, SimpleStringId>("_Categories", "CategoriesId");

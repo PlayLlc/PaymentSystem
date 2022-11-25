@@ -2,7 +2,6 @@
 
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
-using Play.Identity.Domain.Serviceddds;
 using Play.Loyalty.Api.Controllers;
 using Play.Loyalty.Contracts.Commands;
 using Play.Loyalty.Domain.Aggregates;
@@ -21,9 +20,9 @@ public class RewardsProgramController : BaseController
     #region Constructor
 
     public RewardsProgramController(
-        ILoyaltyMemberRepository loyaltyMemberRepository, ILoyaltyProgramRepository loyaltyProgramRepository,
-        IEnsureUniqueRewardNumbers uniqueRewardsNumberChecker, IRetrieveUsers userRetriever, IRetrieveMerchants merchantRetriever) : base(
-        loyaltyMemberRepository, loyaltyProgramRepository, uniqueRewardsNumberChecker, userRetriever, merchantRetriever)
+        IMemberRepository memberRepository, IProgramsRepository programsRepository, IEnsureRewardsNumbersAreUnique uniqueRewardsNumberChecker,
+        IRetrieveUsers userRetriever, IRetrieveMerchants merchantRetriever) : base(memberRepository, programsRepository, uniqueRewardsNumberChecker,
+        userRetriever, merchantRetriever)
     { }
 
     #endregion
@@ -35,7 +34,7 @@ public class RewardsProgramController : BaseController
     public async Task<IActionResult> UpdateRewardsProgram(string programId, UpdateRewardsProgram command)
     {
         this.ValidateModel();
-        Programs programs = await _LoyaltyProgramRepository.GetByIdAsync(new SimpleStringId(programId)).ConfigureAwait(false)
+        Programs programs = await _ProgramsRepository.GetByIdAsync(new SimpleStringId(programId)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(Programs));
 
         await programs.UpdateRewardsProgram(_UserRetriever, command).ConfigureAwait(false);
@@ -48,7 +47,7 @@ public class RewardsProgramController : BaseController
     public async Task<IActionResult> ActivateRewardsProgram(string programId, ActivateProgram command)
     {
         this.ValidateModel();
-        Programs programs = await _LoyaltyProgramRepository.GetByIdAsync(new SimpleStringId(programId)).ConfigureAwait(false)
+        Programs programs = await _ProgramsRepository.GetByIdAsync(new SimpleStringId(programId)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(Programs));
 
         await programs.ActivateRewardProgram(_UserRetriever, command).ConfigureAwait(false);

@@ -10,8 +10,6 @@ using Play.Inventory.Domain.ValueObjects;
 using Play.Inventory.Persistence.Sql.Configuration;
 using Play.Persistence.Sql;
 
-using Price = Play.Domain.Common.Entities.Price;
-
 namespace Play.Inventory.Persistence.Sql.Persistence;
 
 public sealed class InventoryDbContext : DbContext
@@ -54,11 +52,6 @@ public sealed class InventoryDbContext : DbContext
 
         #region Entities
 
-        builder.Entity<Price>().ToTable($"Prices").HasKey(x => x.Id);
-        builder.Entity<Price>().Property(x => x.Id).ValueGeneratedOnAdd();
-        builder.Entity<Price>().PrivateProperty<Price, NumericCurrencyCode>($"_NumericCurrencyCode");
-        builder.Entity<Price>().PrivateProperty<Price, ulong>($"_Amount");
-
         builder.Entity<Alerts>().ToTable($"{nameof(Alerts)}").HasKey(x => x.Id);
         builder.Entity<Alerts>().Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<Alerts>().PrivateProperty<Alerts, bool>($"_IsActive");
@@ -74,9 +67,11 @@ public sealed class InventoryDbContext : DbContext
 
         builder.Entity<Variation>().ToTable($"{nameof(Variation)}s").HasKey(x => x.Id);
         builder.Entity<Variation>().Property(x => x.Id).ValueGeneratedOnAdd();
+        builder.Entity<Variation>().PrivateProperty<Variation, SimpleStringId>($"_ItemId");
         builder.Entity<Variation>().PrivateProperty<Variation, Sku>($"_Sku");
         builder.Entity<Variation>().PrivateProperty<Variation, Name>($"_Name");
-        builder.Entity<Variation>().HasOne<Variation, Price, SimpleStringId>("_Price", "PriceId");
+        builder.Entity<Variation>().Property(x => EF.Property<MoneyValueObject>(x, "_Price").Amount).HasColumnName("Amount");
+        builder.Entity<Variation>().Property(x => EF.Property<MoneyValueObject>(x, "_Price").NumericCurrencyCode).HasColumnName("NumericCurrencyCode");
 
         builder.Entity<StockItem>().ToTable($"{nameof(StockItem)}s").HasKey(x => x.Id);
         builder.Entity<StockItem>().Property(x => x.Id).ValueGeneratedOnAdd();

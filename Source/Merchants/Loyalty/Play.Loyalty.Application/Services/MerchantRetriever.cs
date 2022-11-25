@@ -5,6 +5,7 @@ using Play.Identity.Api.Client;
 using Play.Identity.Contracts.Dtos;
 using Play.Loyalty.Domain.Entities;
 using Play.Loyalty.Domain.Services;
+using Play.Restful.Clients;
 
 namespace Play.Loyalty.Application.Services;
 
@@ -34,7 +35,7 @@ public class MerchantRetriever : IRetrieveMerchants
         {
             MerchantDto dto = await _MerchantApi.GetMerchantAsync(id).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Merchant));
 
-            return new Merchant(dto.Id, dto.CompanyName, dto.IsActive);
+            return new Merchant(dto.Id, dto.IsActive);
         }
 
         catch (Exception e)
@@ -50,7 +51,7 @@ public class MerchantRetriever : IRetrieveMerchants
         {
             MerchantDto dto = _MerchantApi.GetMerchant(id) ?? throw new NotFoundException(typeof(Merchant));
 
-            return new Merchant(dto.Id, dto.CompanyName, dto.IsActive);
+            return new Merchant(dto.Id, dto.IsActive);
         }
 
         catch (Exception e)

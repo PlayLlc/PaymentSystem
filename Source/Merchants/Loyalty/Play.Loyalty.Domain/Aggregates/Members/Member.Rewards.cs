@@ -27,13 +27,13 @@ public partial class Member : Aggregate<SimpleStringId>
     /// <exception cref="NotFoundException"></exception>
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
-    public async Task AddRewardPoints(IRetrieveUsers userRetriever, ILoyaltyProgramRepository loyaltyProgramRepository, UpdateRewardsPoints command)
+    public async Task AddRewardPoints(IRetrieveUsers userRetriever, IProgramsRepository programsRepository, UpdateRewardsPoints command)
     {
         User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<Member>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Member>(_MerchantId, user));
 
-        Programs programs = await loyaltyProgramRepository.GetByIdAsync(new SimpleStringId(command.MerchantId)).ConfigureAwait(false)
+        Programs programs = await programsRepository.GetByIdAsync(new SimpleStringId(command.MerchantId)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(Programs));
 
         if (!programs.IsRewardProgramActive())
@@ -54,12 +54,12 @@ public partial class Member : Aggregate<SimpleStringId>
     /// <exception cref="NotFoundException"></exception>
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
-    public async Task RemoveRewards(IRetrieveUsers userRetriever, ILoyaltyProgramRepository loyaltyProgramRepository, UpdateRewardsPoints command)
+    public async Task RemoveRewards(IRetrieveUsers userRetriever, IProgramsRepository programsRepository, UpdateRewardsPoints command)
     {
         User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<Member>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Member>(_MerchantId, user));
-        Programs programs = await loyaltyProgramRepository.GetByIdAsync(new SimpleStringId(command.MerchantId)).ConfigureAwait(false)
+        Programs programs = await programsRepository.GetByIdAsync(new SimpleStringId(command.MerchantId)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(Programs));
 
         if (!programs.IsRewardProgramActive())
@@ -79,13 +79,12 @@ public partial class Member : Aggregate<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="NotFoundException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
-    public async Task ClaimRewards(IRetrieveUsers userRetriever, ILoyaltyProgramRepository loyaltyProgramRepository, ClaimRewards command)
+    public async Task ClaimRewards(IRetrieveUsers userRetriever, IProgramsRepository programsRepository, ClaimRewards command)
     {
         User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<Member>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Member>(_MerchantId, user));
-        Programs programs = await loyaltyProgramRepository.GetByMerchantIdAsync(_MerchantId).ConfigureAwait(false)
-                            ?? throw new NotFoundException(typeof(Programs));
+        Programs programs = await programsRepository.GetByMerchantIdAsync(_MerchantId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Programs));
 
         Enforce(new RewardsProgramMustBeActiveToClaimReward(programs));
         Enforce(new RewardsBalanceMustBeGreaterThanOrEqualToRewardRedemption(command.RewardAmount, _Rewards.GetRewardBalance()));

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
-using Play.Identity.Domain.Serviceddds;
 using Play.Loyalty.Api.Controllers;
 using Play.Loyalty.Contracts.Commands;
 using Play.Loyalty.Domain.Aggregates;
@@ -20,13 +19,21 @@ namespace Play.Loyalty.Api.Areas.LoyaltyPrograms;
 [Route("/Loyalty/[area]")]
 public class DiscountsController : BaseController
 {
+    #region Instance Values
+
+    private readonly IRetrieveInventoryItems _InventoryItemRetriever;
+
+    #endregion
+
     #region Constructor
 
     public DiscountsController(
-        ILoyaltyMemberRepository loyaltyMemberRepository, ILoyaltyProgramRepository loyaltyProgramRepository,
-        IEnsureUniqueRewardNumbers uniqueRewardsNumberChecker, IRetrieveUsers userRetriever, IRetrieveMerchants merchantRetriever) : base(
-        loyaltyMemberRepository, loyaltyProgramRepository, uniqueRewardsNumberChecker, userRetriever, merchantRetriever)
-    { }
+        IMemberRepository memberRepository, IProgramsRepository programsRepository, IEnsureRewardsNumbersAreUnique uniqueRewardsNumberChecker,
+        IRetrieveUsers userRetriever, IRetrieveMerchants merchantRetriever, IRetrieveInventoryItems inventoryItemRetriever) : base(memberRepository,
+        programsRepository, uniqueRewardsNumberChecker, userRetriever, merchantRetriever)
+    {
+        _InventoryItemRetriever = inventoryItemRetriever;
+    }
 
     #endregion
 
@@ -37,10 +44,10 @@ public class DiscountsController : BaseController
     public async Task<IActionResult> Create(string programsId, CreateDiscountedItem command)
     {
         this.ValidateModel();
-        Programs programs = await _LoyaltyProgramRepository.GetByIdAsync(new SimpleStringId(programsId)).ConfigureAwait(false)
+        Programs programs = await _ProgramsRepository.GetByIdAsync(new SimpleStringId(programsId)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(Programs));
 
-        await programs.CreateDiscountedItem(_UserRetriever, command).ConfigureAwait(false);
+        await programs.CreateDiscountedItem(_UserRetriever, _InventoryItemRetriever, command).ConfigureAwait(false);
 
         return Ok();
     }
@@ -50,7 +57,7 @@ public class DiscountsController : BaseController
     public async Task<IActionResult> Remove(string programsId, RemoveDiscountedItem command)
     {
         this.ValidateModel();
-        Programs programs = await _LoyaltyProgramRepository.GetByIdAsync(new SimpleStringId(programsId)).ConfigureAwait(false)
+        Programs programs = await _ProgramsRepository.GetByIdAsync(new SimpleStringId(programsId)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(Programs));
 
         await programs.RemoveDiscountedItem(_UserRetriever, command).ConfigureAwait(false);
@@ -63,7 +70,7 @@ public class DiscountsController : BaseController
     public async Task<IActionResult> Update(string programsId, UpdateDiscountedItem command)
     {
         this.ValidateModel();
-        Programs programs = await _LoyaltyProgramRepository.GetByIdAsync(new SimpleStringId(programsId)).ConfigureAwait(false)
+        Programs programs = await _ProgramsRepository.GetByIdAsync(new SimpleStringId(programsId)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(Programs));
 
         await programs.UpdateDiscountedItem(_UserRetriever, command).ConfigureAwait(false);

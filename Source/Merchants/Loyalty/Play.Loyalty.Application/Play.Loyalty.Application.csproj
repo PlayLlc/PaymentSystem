@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Identity\Play.Identity.Api.Client\Play.Identity.Api.Client.csproj" />
     <ProjectReference Include="..\..\Identity\Play.Identity.Contracts\Play.Identity.Contracts.csproj" />
+    <ProjectReference Include="..\..\Inventory\Play.Inventory.Api.Client\Play.Inventory.Api.Client.csproj" />
     <ProjectReference Include="..\Play.Loyalty.Contracts\Play.Loyalty.Contracts.csproj" />
     <ProjectReference Include="..\Play.Loyalty.Persistence.Sql\Play.Loyalty.Persistence.Sql.csproj" />
   </ItemGroup>

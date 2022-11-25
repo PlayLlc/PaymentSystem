@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-using Play.Identity.Domain.Serviceddds;
 using Play.Loyalty.Domain.Repositories;
 using Play.Loyalty.Domain.Services;
 
@@ -12,9 +11,9 @@ public class BaseController : Controller
 {
     #region Instance Values
 
-    protected readonly ILoyaltyMemberRepository _LoyaltyMemberRepository;
-    protected readonly ILoyaltyProgramRepository _LoyaltyProgramRepository;
-    protected readonly IEnsureUniqueRewardNumbers _UniqueRewardsNumberChecker;
+    protected readonly IMemberRepository _MemberRepository;
+    protected readonly IProgramsRepository _ProgramsRepository;
+    protected readonly IEnsureRewardsNumbersAreUnique _UniqueRewardsNumberChecker;
     protected readonly IRetrieveUsers _UserRetriever;
     protected readonly IRetrieveMerchants _MerchantRetriever;
 
@@ -23,11 +22,11 @@ public class BaseController : Controller
     #region Constructor
 
     public BaseController(
-        ILoyaltyMemberRepository loyaltyMemberRepository, ILoyaltyProgramRepository loyaltyProgramRepository,
-        IEnsureUniqueRewardNumbers uniqueRewardsNumberChecker, IRetrieveUsers userRetriever, IRetrieveMerchants merchantRetriever)
+        IMemberRepository memberRepository, IProgramsRepository programsRepository, IEnsureRewardsNumbersAreUnique uniqueRewardsNumberChecker,
+        IRetrieveUsers userRetriever, IRetrieveMerchants merchantRetriever)
     {
-        _LoyaltyMemberRepository = loyaltyMemberRepository;
-        _LoyaltyProgramRepository = loyaltyProgramRepository;
+        _MemberRepository = memberRepository;
+        _ProgramsRepository = programsRepository;
         _UniqueRewardsNumberChecker = uniqueRewardsNumberChecker;
         _UserRetriever = userRetriever;
         _MerchantRetriever = merchantRetriever;

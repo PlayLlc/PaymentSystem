@@ -2,9 +2,11 @@
 
 using Play.Domain.Exceptions;
 using Play.Identity.Api.Client;
-using Play.Identity.Contracts.Dtos;
 using Play.Loyalty.Domain.Entities;
 using Play.Loyalty.Domain.Services;
+using Play.Restful.Clients;
+
+using UserDto = Play.Identity.Contracts.Dtos.UserDto;
 
 namespace Play.Loyalty.Application.Services;
 

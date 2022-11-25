@@ -24,18 +24,18 @@ public class MerchantHandler : IHandleMessages<MerchantHasBeenRemovedEvent>
 {
     #region Instance Values
 
-    private readonly ILoyaltyProgramRepository _LoyaltyProgramRepository;
-    private readonly ILoyaltyMemberRepository _LoyaltyMemberRepository;
+    private readonly IProgramsRepository _ProgramsRepository;
+    private readonly IMemberRepository _MemberRepository;
     private readonly IRetrieveUsers _UserRetriever;
 
     #endregion
 
     #region Constructor
 
-    public MerchantHandler(ILoyaltyProgramRepository loyaltyProgramRepository, ILoyaltyMemberRepository loyaltyMemberRepository, IRetrieveUsers userRetriever)
+    public MerchantHandler(IProgramsRepository programsRepository, IMemberRepository memberRepository, IRetrieveUsers userRetriever)
     {
-        _LoyaltyProgramRepository = loyaltyProgramRepository;
-        _LoyaltyMemberRepository = loyaltyMemberRepository;
+        _ProgramsRepository = programsRepository;
+        _MemberRepository = memberRepository;
         _UserRetriever = userRetriever;
     }
 
@@ -48,10 +48,10 @@ public class MerchantHandler : IHandleMessages<MerchantHasBeenRemovedEvent>
     /// <exception cref=" ValueObjectException"></exception>
     public async Task Handle(MerchantHasBeenRemovedEvent message, IMessageHandlerContext context)
     {
-        Programs programs = await _LoyaltyProgramRepository.GetByMerchantIdAsync(new SimpleStringId(message.MerchantId)).ConfigureAwait(false)
+        Programs programs = await _ProgramsRepository.GetByMerchantIdAsync(new SimpleStringId(message.MerchantId)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(Programs));
 
-        await _LoyaltyMemberRepository.RemoveAll(new SimpleStringId(message.MerchantId)).ConfigureAwait(false);
+        await _MemberRepository.RemoveAll(new SimpleStringId(message.MerchantId)).ConfigureAwait(false);
         await programs.Remove(_UserRetriever, new RemoveLoyaltyProgram() {MerchantId = message.MerchantId}).ConfigureAwait(false);
     }
 

@@ -15,17 +15,17 @@ public partial class LoyaltyMemberHandler : DomainEventHandler, IHandleDomainEve
     #region Instance Values
 
     private readonly IMessageHandlerContext _MessageHandlerContext;
-    private readonly ILoyaltyMemberRepository _LoyaltyMemberRepository;
+    private readonly IMemberRepository _MemberRepository;
 
     #endregion
 
     #region Constructor
 
     public LoyaltyMemberHandler(
-        IMessageHandlerContext messageHandlerContext, ILoyaltyMemberRepository loyaltyMemberRepository, ILogger<LoyaltyMemberHandler> logger) : base(logger)
+        IMessageHandlerContext messageHandlerContext, IMemberRepository memberRepository, ILogger<LoyaltyMemberHandler> logger) : base(logger)
     {
         _MessageHandlerContext = messageHandlerContext;
-        _LoyaltyMemberRepository = loyaltyMemberRepository;
+        _MemberRepository = memberRepository;
     }
 
     #endregion
@@ -35,7 +35,7 @@ public partial class LoyaltyMemberHandler : DomainEventHandler, IHandleDomainEve
     public async Task Handle(LoyaltyMemberCreated domainEvent)
     {
         Log(domainEvent);
-        await _LoyaltyMemberRepository.SaveAsync(domainEvent.Member).ConfigureAwait(false);
+        await _MemberRepository.SaveAsync(domainEvent.Member).ConfigureAwait(false);
 
         await _MessageHandlerContext.Publish<LoyaltyMemberCreatedEvent>((a) =>
             {
@@ -48,7 +48,7 @@ public partial class LoyaltyMemberHandler : DomainEventHandler, IHandleDomainEve
     public async Task Handle(LoyaltyMemberRemoved domainEvent)
     {
         Log(domainEvent);
-        await _LoyaltyMemberRepository.SaveAsync(domainEvent.Member).ConfigureAwait(false);
+        await _MemberRepository.SaveAsync(domainEvent.Member).ConfigureAwait(false);
 
         await _MessageHandlerContext.Publish<LoyaltyMemberRemovedEvent>((a) =>
             {
@@ -61,7 +61,7 @@ public partial class LoyaltyMemberHandler : DomainEventHandler, IHandleDomainEve
     public async Task Handle(LoyaltyMemberUpdated domainEvent)
     {
         Log(domainEvent);
-        await _LoyaltyMemberRepository.SaveAsync(domainEvent.Member).ConfigureAwait(false);
+        await _MemberRepository.SaveAsync(domainEvent.Member).ConfigureAwait(false);
         await _MessageHandlerContext.Publish<LoyaltyMemberUpdatedEvent>((a) =>
             {
                 a.LoyaltyMember = domainEvent.Member.AsDto();

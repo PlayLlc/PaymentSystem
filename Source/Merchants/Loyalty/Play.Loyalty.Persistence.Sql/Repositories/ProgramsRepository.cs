@@ -8,11 +8,11 @@ using Play.Persistence.Sql;
 
 namespace Play.Loyalty.Persistence.Sql.Repositories;
 
-public class LoyaltyProgramRepository : Repository<Programs, SimpleStringId>, ILoyaltyProgramRepository
+public class ProgramsRepository : Repository<Programs, SimpleStringId>, IProgramsRepository
 {
     #region Constructor
 
-    public LoyaltyProgramRepository(DbContext dbContext, ILogger<LoyaltyProgramRepository> logger) : base(dbContext, logger)
+    public ProgramsRepository(DbContext dbContext, ILogger<ProgramsRepository> logger) : base(dbContext, logger)
     { }
 
     #endregion
@@ -29,8 +29,7 @@ public class LoyaltyProgramRepository : Repository<Programs, SimpleStringId>, IL
         catch (Exception ex)
         {
             throw new EntityFrameworkRepositoryException(
-                $"The {nameof(LoyaltyProgramRepository)} encountered an exception attempting to invoke {nameof(GetByIdAsync)} for the {nameof(id)}: [{id}];",
-                ex);
+                $"The {nameof(ProgramsRepository)} encountered an exception attempting to invoke {nameof(GetByIdAsync)} for the {nameof(id)}: [{id}];", ex);
         }
     }
 
@@ -44,8 +43,7 @@ public class LoyaltyProgramRepository : Repository<Programs, SimpleStringId>, IL
         catch (Exception ex)
         {
             throw new EntityFrameworkRepositoryException(
-                $"The {nameof(LoyaltyProgramRepository)} encountered an exception attempting to invoke {nameof(GetByIdAsync)} for the {nameof(id)}: [{id}];",
-                ex);
+                $"The {nameof(ProgramsRepository)} encountered an exception attempting to invoke {nameof(GetByIdAsync)} for the {nameof(id)}: [{id}];", ex);
         }
     }
 
@@ -62,7 +60,7 @@ public class LoyaltyProgramRepository : Repository<Programs, SimpleStringId>, IL
         catch (Exception ex)
         {
             throw new EntityFrameworkRepositoryException(
-                $"The {nameof(LoyaltyProgramRepository)} encountered an exception attempting to invoke {nameof(GetByMerchantIdAsync)} for the {nameof(merchantId)}: [{merchantId}];",
+                $"The {nameof(ProgramsRepository)} encountered an exception attempting to invoke {nameof(GetByMerchantIdAsync)} for the {nameof(merchantId)}: [{merchantId}];",
                 ex);
         }
     }
