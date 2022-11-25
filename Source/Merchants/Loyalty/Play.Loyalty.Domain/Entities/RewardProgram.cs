@@ -13,9 +13,9 @@ public class RewardProgram : Entity<SimpleStringId>
 {
     #region Static Metadata
 
-    internal const uint _DefaultPointsRequired = 10000;
-    internal const uint _DefaultPointsPerDollar = 100;
-    internal const uint _DefaultRewardAmount = 20;
+    internal const uint DefaultPointsRequired = 10000;
+    internal const uint DefaultPointsPerDollar = 100;
+    internal const uint DefaultRewardAmount = 20;
 
     #endregion
 
@@ -85,7 +85,7 @@ public class RewardProgram : Entity<SimpleStringId>
             return points;
 
         uint rewardCount = points / _PointsRequired;
-        reward = _RewardAmount.Value * rewardCount;
+        reward = (Money) _RewardAmount * rewardCount;
 
         return points - (rewardCount * _PointsRequired);
     }

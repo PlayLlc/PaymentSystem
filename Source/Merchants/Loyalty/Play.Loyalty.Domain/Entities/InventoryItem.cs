@@ -51,7 +51,7 @@ public class InventoryItem : Entity<SimpleStringId>
 
     #region Instance Members
 
-    internal bool IsLowerThanInventoryPrice(Money price) => price < _Price.Value;
+    internal bool IsLowerThanInventoryPrice(Money price) => price < _Price;
 
     public override SimpleStringId GetId() => Id;
 

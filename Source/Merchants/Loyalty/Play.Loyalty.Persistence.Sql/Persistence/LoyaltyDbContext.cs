@@ -43,42 +43,39 @@ public sealed class LoyaltyDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         // Enums
-        Debugger.Launch();
+
         LoyaltyEntityConfiguration loyaltyEntityConfiguration = new LoyaltyEntityConfiguration();
 
         #region Entities
+
+        // Complex Type
+        builder.RegisterMoneyValueObjectType();
 
         builder.Entity<Discount>().ToTable($"{nameof(Discount)}s").HasKey(a => a.Id);
         builder.Entity<Discount>().Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<Discount>().PrivateProperty<Discount, SimpleStringId>("_ItemId").ValueGeneratedOnAdd();
         builder.Entity<Discount>().PrivateProperty<Discount, SimpleStringId>("_VariationId").ValueGeneratedOnAdd();
-        builder.Entity<Discount>().PrivateProperty<Discount, NumericCurrencyCode>("_NumericCurrencyCode");
-        builder.Entity<Discount>().Property(x => EF.Property<MoneyValueObject>(x, "_Price").Amount).HasColumnName("Amount");
-        builder.Entity<Discount>().Property(x => EF.Property<MoneyValueObject>(x, "_Price").NumericCurrencyCode).HasColumnName("NumericCurrencyCode");
+        builder.Entity<Discount>().MoneyValueObjectProperty("_Price");
 
         builder.Entity<Rewards>().ToTable($"{nameof(Rewards)}").HasKey(x => x.Id);
         builder.Entity<Rewards>().Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<Rewards>().PrivateProperty<Rewards, uint>("_Points");
-        builder.Entity<Rewards>().Property(x => EF.Property<MoneyValueObject>(x, "_Balance").Amount).HasColumnName("Amount");
-        builder.Entity<Rewards>().Property(x => EF.Property<MoneyValueObject>(x, "_Balance").NumericCurrencyCode).HasColumnName("NumericCurrencyCode");
+        builder.Entity<Rewards>().MoneyValueObjectProperty("_Balance");
 
         builder.Entity<RewardProgram>().ToTable($"{nameof(RewardProgram)}").HasKey(x => x.Id);
         builder.Entity<RewardProgram>().Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<RewardProgram>().PrivateProperty<RewardProgram, bool>("_IsActive");
         builder.Entity<RewardProgram>().PrivateProperty<RewardProgram, uint>("_PointsRequired");
         builder.Entity<RewardProgram>().PrivateProperty<RewardProgram, uint>("_PointsPerDollar");
-        builder.Entity<RewardProgram>().Property(x => EF.Property<MoneyValueObject>(x, "_RewardAmount").Amount).HasColumnName("Amount");
-        builder.Entity<RewardProgram>()
-            .Property(x => EF.Property<MoneyValueObject>(x, "_RewardAmount").NumericCurrencyCode)
-            .HasColumnName("NumericCurrencyCode");
+        builder.Entity<RewardProgram>().MoneyValueObjectProperty("_RewardAmount");
 
-        builder.Entity<DiscountProgram>().ToTable($"{nameof(Discount)}s").HasKey(a => a.Id);
+        builder.Entity<DiscountProgram>().ToTable($"{nameof(DiscountProgram)}s").HasKey(a => a.Id);
         builder.Entity<DiscountProgram>().Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<DiscountProgram>().PrivateProperty<DiscountProgram, bool>("_IsActive");
         builder.Entity<DiscountProgram>().HasMany<DiscountProgram, Discount, SimpleStringId>("_Discounts", "DiscountId");
 
-        loyaltyEntityConfiguration.Configure(builder.Entity<Programs>());
         loyaltyEntityConfiguration.Configure(builder.Entity<Member>());
+        loyaltyEntityConfiguration.Configure(builder.Entity<Programs>());
 
         #endregion
     }

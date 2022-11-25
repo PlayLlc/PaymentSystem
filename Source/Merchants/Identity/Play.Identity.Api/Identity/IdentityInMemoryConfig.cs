@@ -9,9 +9,8 @@ public static class IdentityInMemoryConfig
 {
     #region Instance Members
 
-    public static IEnumerable<IdentityResource> GetIdentityResources()
-    {
-        return new List<IdentityResource>
+    public static IEnumerable<IdentityResource> GetIdentityResources() =>
+        new List<IdentityResource>
         {
             new IdentityResources.OpenId(),
             new IdentityResources.Profile(),
@@ -19,13 +18,11 @@ public static class IdentityInMemoryConfig
             new IdentityResources.Address(),
             new IdentityResources.Email()
         };
-    }
 
-    public static IEnumerable<ApiScope> GetApiScopes()
-    {
-        return new List<ApiScope>
+    public static IEnumerable<ApiScope> GetApiScopes() =>
+        new List<ApiScope>
         {
-            new(IdentitySpecs.ApiScopes._IdentityServer, "This scope represents any client that is authorized to use an Identity Server resource",
+            new(IdentitySpecs.ApiScopes.IdentityServer, "This scope represents any client that is authorized to use an Identity Server resource",
                 new List<string>
                 {
                     JwtClaimTypes.Id,
@@ -34,7 +31,7 @@ public static class IdentityInMemoryConfig
                     JwtClaimTypes.Address,
                     JwtClaimTypes.Email
                 }),
-            new(IdentitySpecs.ApiScopes._ExternalApi, "This scope represents clients calling from an external web api", new List<string>
+            new(IdentitySpecs.ApiScopes.ExternalApi, "This scope represents clients calling from an external web api", new List<string>
             {
                 JwtClaimTypes.Id,
                 JwtClaimTypes.ClientId,
@@ -42,7 +39,7 @@ public static class IdentityInMemoryConfig
                 JwtClaimTypes.Address,
                 JwtClaimTypes.Email
             }),
-            new(IdentitySpecs.ApiScopes._ExternalMobile, "This scope represents clients calling from a mobile application",
+            new(IdentitySpecs.ApiScopes.ExternalMobile, "This scope represents clients calling from a mobile application",
                 new List<string>
                 {
                     JwtClaimTypes.Id,
@@ -51,7 +48,7 @@ public static class IdentityInMemoryConfig
                     JwtClaimTypes.Address,
                     JwtClaimTypes.Email
                 }),
-            new(IdentitySpecs.ApiScopes._Verification, "This scope allows clients to see if the user's account information has been verified",
+            new(IdentitySpecs.ApiScopes.Verification, "This scope allows clients to see if the user's account information has been verified",
                 new List<string>
                 {
                     JwtClaimTypes.Id,
@@ -61,7 +58,6 @@ public static class IdentityInMemoryConfig
                     JwtClaimTypes.EmailVerified
                 })
         };
-    }
 
     public static IEnumerable<Client> GetClients(ConfigurationManager configurationManager)
     {
@@ -80,9 +76,9 @@ public static class IdentityInMemoryConfig
                 PostLogoutRedirectUris = {businessPayConfig.PostLogoutRedirectUris},
                 AllowedScopes =
                 {
-                    IdentitySpecs.ApiScopes._IdentityServer,
-                    IdentitySpecs.ApiScopes._ExternalMobile,
-                    IdentitySpecs.ApiScopes._OpenId
+                    IdentitySpecs.ApiScopes.IdentityServer,
+                    IdentitySpecs.ApiScopes.ExternalMobile,
+                    IdentitySpecs.ApiScopes.OpenId
                 }
             },
 
@@ -98,10 +94,10 @@ public static class IdentityInMemoryConfig
                 PostLogoutRedirectUris = {merchantPortalConfig.PostLogoutRedirectUris},
                 AllowedScopes =
                 {
-                    IdentitySpecs.ApiScopes._OpenId,
+                    IdentitySpecs.ApiScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile,
-                    IdentitySpecs.ApiScopes._IdentityServer,
-                    IdentitySpecs.ApiScopes._ExternalApi
+                    IdentitySpecs.ApiScopes.IdentityServer,
+                    IdentitySpecs.ApiScopes.ExternalApi
                 }
             }
         };

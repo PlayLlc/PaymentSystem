@@ -59,9 +59,9 @@ public partial class Programs : Aggregate<SimpleStringId>
     /// <exception cref="BusinessRuleValidationException"></exception>
     public static async Task<Programs> Create(IRetrieveMerchants merchantRetriever, IRetrieveUsers userRetriever, CreateLoyaltyProgram command)
     {
-        Money rewardAmount = new Money(RewardProgram._DefaultRewardAmount, command.NumericCurrencyCode);
-        RewardProgram rewardProgram = new RewardProgram(GenerateSimpleStringId(), rewardAmount, RewardProgram._DefaultPointsPerDollar,
-            RewardProgram._DefaultPointsRequired, false);
+        Money rewardAmount = new Money(RewardProgram.DefaultRewardAmount, command.NumericCurrencyCode);
+        RewardProgram rewardProgram = new RewardProgram(GenerateSimpleStringId(), rewardAmount, RewardProgram.DefaultPointsPerDollar,
+            RewardProgram.DefaultPointsRequired, false);
         DiscountProgram discountProgram = new DiscountProgram(GenerateSimpleStringId(), false, Array.Empty<Discount>());
 
         Programs programs = new Programs(GenerateSimpleStringId(), command.MerchantId, rewardProgram, discountProgram);

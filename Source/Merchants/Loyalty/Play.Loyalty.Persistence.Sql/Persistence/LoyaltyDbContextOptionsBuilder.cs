@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Diagnostics;
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
@@ -20,9 +22,12 @@ internal class LoyaltyDbContextOptionsBuilder : IDesignTimeDbContextFactory<Loya
     public LoyaltyDbContext CreateDbContext(string[] args)
     {
         IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
+
         string connectionString = configuration.GetConnectionString(LoyaltyDbContext.DatabaseName);
         DbContextOptionsBuilder<LoyaltyDbContext> builder = new DbContextOptionsBuilder<LoyaltyDbContext>();
         builder.UseSqlServer(connectionString);
+
+        var b = builder.Options;
 
         return new LoyaltyDbContext(builder.Options);
     }

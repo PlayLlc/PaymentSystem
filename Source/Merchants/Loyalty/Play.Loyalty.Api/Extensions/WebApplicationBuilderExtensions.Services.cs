@@ -11,6 +11,8 @@ using Play.Loyalty.Persistence.Sql.Persistence;
 using Play.Loyalty.Persistence.Sql.Repositories;
 using Play.Restful.Clients;
 
+using System.Diagnostics;
+
 namespace Play.Loyalty.Api.Extensions;
 
 public static partial class WebApplicationBuilderExtensions
@@ -20,12 +22,13 @@ public static partial class WebApplicationBuilderExtensions
     internal static WebApplicationBuilder ConfigureServices(this WebApplicationBuilder builder)
     {
         ApiConfiguration identityApiConfiguration = builder.Configuration.GetSection("IdentityApi").Get<ApiConfiguration>();
+        ApiConfiguration inventoryApiConfiguration = builder.Configuration.GetSection("InventoryApi").Get<ApiConfiguration>();
 
         builder.Services.AddScoped<DbContext, LoyaltyDbContext>();
 
         // Api Clients 
         builder.Services.AddScoped<IMerchantApi, MerchantApi>(a => new MerchantApi(new Configuration(identityApiConfiguration.BasePath)));
-        builder.Services.AddScoped<IUserApi, UserApi>(a => new UserApi(new Configuration(identityApiConfiguration.BasePath)));
+        builder.Services.AddScoped<IUserApi, UserApi>(a => new UserApi(new Configuration(inventoryApiConfiguration.BasePath)));
         builder.Services.AddScoped<IRetrieveInventoryItems, InventoryItemRetriever>();
 
         // Repositories 

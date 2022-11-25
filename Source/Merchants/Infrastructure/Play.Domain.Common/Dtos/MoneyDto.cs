@@ -20,6 +20,9 @@ public record MoneyDto : IDto
 
     #region Constructor
 
+    public MoneyDto()
+    { }
+
     public MoneyDto(Money value)
     {
         NumericCurrencyCode = value.GetNumericCurrencyCode();
@@ -30,19 +33,13 @@ public record MoneyDto : IDto
 
     #region Instance Members
 
-    public Money AsMoney()
-    {
-        return new Money(Amount, new NumericCurrencyCode(NumericCurrencyCode));
-    }
+    public Money AsMoney() => new(Amount, new NumericCurrencyCode(NumericCurrencyCode));
 
     #endregion
 
     #region Operator Overrides
 
-    public static implicit operator Money(MoneyDto dto)
-    {
-        return new Money(dto.Amount, new NumericCurrencyCode(dto.NumericCurrencyCode));
-    }
+    public static implicit operator Money(MoneyDto dto) => new(dto.Amount, new NumericCurrencyCode(dto.NumericCurrencyCode));
 
     #endregion
 }

@@ -8,10 +8,10 @@ public static class IdentitySpecs
     {
         #region Static Metadata
 
-        public const string _OpenId = IdentityServerConstants.StandardScopes.OpenId;
-        public const string _Phone = IdentityServerConstants.StandardScopes.Phone;
-        public const string _Address = IdentityServerConstants.StandardScopes.Address;
-        public const string _Email = IdentityServerConstants.StandardScopes.Email;
+        public const string OpenId = IdentityServerConstants.StandardScopes.OpenId;
+        public const string Phone = IdentityServerConstants.StandardScopes.Phone;
+        public const string Address = IdentityServerConstants.StandardScopes.Address;
+        public const string Email = IdentityServerConstants.StandardScopes.Email;
 
         #endregion
     }
@@ -20,13 +20,13 @@ public static class IdentitySpecs
     {
         #region Static Metadata
 
-        public const string _OpenId = IdentityServerConstants.StandardScopes.OpenId;
-        public const string _IdentityServer = IdentityServerConstants.LocalApi.ScopeName;
+        public const string OpenId = IdentityServerConstants.StandardScopes.OpenId;
+        public const string IdentityServer = IdentityServerConstants.LocalApi.ScopeName;
 
-        public const string _ExternalMobile = nameof(_ExternalMobile);
+        public const string ExternalMobile = nameof(ExternalMobile);
 
-        public const string _ExternalApi = nameof(_ExternalApi);
-        public const string _Verification = "verification";
+        public const string ExternalApi = nameof(ExternalApi);
+        public const string Verification = "verification";
 
         #endregion
     }

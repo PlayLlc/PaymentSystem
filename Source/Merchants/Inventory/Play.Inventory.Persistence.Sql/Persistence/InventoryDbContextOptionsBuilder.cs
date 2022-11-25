@@ -18,7 +18,7 @@ internal class InventoryDbContextOptionsBuilder : IDesignTimeDbContextFactory<In
     public InventoryDbContext CreateDbContext(string[] args)
     {
         IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
-        string connectionString = configuration.GetConnectionString("Inventory");
+        string connectionString = configuration.GetConnectionString(InventoryDbContext.DatabaseName);
         DbContextOptionsBuilder<InventoryDbContext> builder = new DbContextOptionsBuilder<InventoryDbContext>();
         builder.UseSqlServer(connectionString);
 

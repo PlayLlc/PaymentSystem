@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
 
 namespace Play.Persistence.Sql;
@@ -38,6 +39,19 @@ public static class EntityTypeBuilderExtensions
         where _TEntity : class =>
         builder.Property<_TProperty>(navigationProperty)
             .HasColumnName(navigationProperty.StartsWith("_") ? navigationProperty.Substring(1) : navigationProperty);
+
+    public static void RegisterMoneyValueObjectType(this ModelBuilder builder)
+    {
+        builder.Entity<MoneyValueObject>().Property(x => x.Amount).HasColumnName("Amount");
+        builder.Entity<MoneyValueObject>().Property(x => x.NumericCurrencyCode).HasColumnName("NumericCurrencyCode");
+        builder.Entity<MoneyValueObject>().HasNoKey();
+    }
+
+    public static void MoneyValueObjectProperty<_TEntity>(this EntityTypeBuilder<_TEntity> builder, string navigationProperty) where _TEntity : class
+    {
+        builder.Property<ulong>($"{navigationProperty}.Amount").HasColumnName("Amount");
+        builder.Property<ulong>($"{navigationProperty}.NumericCurrencyCode").HasColumnName("NumericCurrencyCode");
+    }
 
     #endregion
 }

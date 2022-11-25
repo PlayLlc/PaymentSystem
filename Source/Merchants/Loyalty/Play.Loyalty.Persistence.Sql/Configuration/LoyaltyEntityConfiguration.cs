@@ -12,20 +12,18 @@ using Play.Loyalty.Domain.ValueObjects;
 
 namespace Play.Loyalty.Persistence.Sql.Configuration;
 
-// You can configure a navigation in the model to be included every time the entity is loaded from the database using AutoInclude method
-// https://learn.microsoft.com/en-us/ef/core/querying/related-data/eager
 internal class LoyaltyEntityConfiguration : IEntityTypeConfiguration<Programs>, IEntityTypeConfiguration<Member>
 {
     #region Instance Members
 
     public void Configure(EntityTypeBuilder<Programs> builder)
     {
-        builder.ToTable($"{nameof(Programs)}s").HasKey(x => x.Id);
+        builder.ToTable($"{nameof(Programs)}").HasKey(x => x.Id);
 
         // Simple Properties
         builder.Property(x => x.Id).ValueGeneratedOnAdd();
         builder.PrivateProperty<Programs, SimpleStringId>($"_MerchantId").ValueGeneratedOnAdd();
-        builder.HasOne<Programs, RewardProgram, SimpleStringId>($"_RewardsProgram", "RewardsProgramId");
+        builder.HasOne<Programs, RewardProgram, SimpleStringId>($"_RewardProgram", "RewardsProgramId");
         builder.HasOne<Programs, DiscountProgram, SimpleStringId>("_DiscountProgram", "DiscountProgramId");
     }
 

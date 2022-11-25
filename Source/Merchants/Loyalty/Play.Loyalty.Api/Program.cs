@@ -12,7 +12,8 @@ SwaggerConfiguration swaggerConfiguration = builder.Configuration.GetSection(nam
 builder.ConfigureEntityFramework();
 builder.ConfigureServices();
 builder.ConfigureSwagger(typeof(Program).Assembly, typeof(LoyaltyProgramDto).Assembly);
-await builder.SeedDb().ConfigureAwait(false);
+
+//await builder.SeedDb().ConfigureAwait(false);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews(options =>

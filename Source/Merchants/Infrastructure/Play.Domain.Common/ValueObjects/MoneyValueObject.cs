@@ -6,7 +6,7 @@ using Play.Inventory.Contracts.Dtos;
 
 namespace Play.Domain.Common.ValueObjects;
 
-public record MoneyValueObject : ValueObject<Money>
+public class MoneyValueObject
 {
     #region Instance Values
 
@@ -17,8 +17,12 @@ public record MoneyValueObject : ValueObject<Money>
 
     #region Constructor
 
+    // private constructor for EF only
+    private MoneyValueObject()
+    { }
+
     /// <exception cref="ValueObjectException"></exception>
-    public MoneyValueObject(Money value) : base(value)
+    public MoneyValueObject(Money value)
     {
         Amount = value.GetAmount();
         NumericCurrencyCode = value.GetNumericCurrencyCode();
@@ -28,7 +32,12 @@ public record MoneyValueObject : ValueObject<Money>
 
     #region Instance Members
 
-    public MoneyDto AsDto() => new(Value);
+    public MoneyDto AsDto() =>
+        new(new MoneyDto()
+        {
+            Amount = Amount,
+            NumericCurrencyCode = NumericCurrencyCode
+        });
 
     public static bool IsValid(string value)
     {
@@ -42,7 +51,7 @@ public record MoneyValueObject : ValueObject<Money>
 
     #region Operator Overrides
 
-    public static implicit operator Money(MoneyValueObject value) => value.Value;
+    public static implicit operator Money(MoneyValueObject value) => new(value.Amount, value.NumericCurrencyCode);
     public static implicit operator MoneyValueObject(Money value) => new(value);
 
     #endregion
