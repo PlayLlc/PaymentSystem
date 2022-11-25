@@ -13,6 +13,8 @@ using Play.Restful.Clients;
 
 using System.Diagnostics;
 
+using Play.Inventory.Api.Client;
+
 namespace Play.Loyalty.Api.Extensions;
 
 public static partial class WebApplicationBuilderExtensions
@@ -28,7 +30,8 @@ public static partial class WebApplicationBuilderExtensions
 
         // Api Clients 
         builder.Services.AddScoped<IMerchantApi, MerchantApi>(a => new MerchantApi(new Configuration(identityApiConfiguration.BasePath)));
-        builder.Services.AddScoped<IUserApi, UserApi>(a => new UserApi(new Configuration(inventoryApiConfiguration.BasePath)));
+        builder.Services.AddScoped<IUserApi, UserApi>(a => new UserApi(new Configuration(identityApiConfiguration.BasePath)));
+        builder.Services.AddScoped<IItemsApi, ItemsApi>(a => new ItemsApi(new Configuration(inventoryApiConfiguration.BasePath)));
         builder.Services.AddScoped<IRetrieveInventoryItems, InventoryItemRetriever>();
 
         // Repositories 

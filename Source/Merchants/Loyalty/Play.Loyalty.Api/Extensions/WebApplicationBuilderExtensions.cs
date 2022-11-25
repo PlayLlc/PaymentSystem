@@ -1,4 +1,8 @@
-﻿namespace Play.Loyalty.Api.Extensions;
+﻿using Microsoft.EntityFrameworkCore;
+
+using Play.Loyalty.Persistence.Sql.Persistence;
+
+namespace Play.Loyalty.Api.Extensions;
 
 public static partial class WebApplicationBuilderExtensions
 {
@@ -6,12 +10,12 @@ public static partial class WebApplicationBuilderExtensions
 
     internal static WebApplicationBuilder ConfigureEntityFramework(this WebApplicationBuilder builder)
     {
-        //string? connectionString = builder.Configuration.GetConnectionString(InventoryDbContext.DatabaseName);
+        string? connectionString = builder.Configuration.GetConnectionString(LoyaltyDbContext.DatabaseName);
 
-        //builder.Services.AddDbContext<InventoryDbContext>(options =>
-        //{
-        //    options.UseSqlServer(connectionString!);
-        //});
+        builder.Services.AddDbContext<LoyaltyDbContext>(options =>
+        {
+            options.UseSqlServer(connectionString!);
+        });
 
         return builder;
     }

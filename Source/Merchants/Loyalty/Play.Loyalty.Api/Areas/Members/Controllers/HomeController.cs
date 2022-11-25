@@ -1,25 +1,28 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
 using Play.Loyalty.Api.Controllers;
 using Play.Loyalty.Contracts.Commands;
+using Play.Loyalty.Contracts.Dtos;
 using Play.Loyalty.Domain.Aggregates;
 using Play.Loyalty.Domain.Repositories;
 using Play.Loyalty.Domain.Services;
 using Play.Mvc.Attributes;
 using Play.Mvc.Extensions;
 
-namespace Play.Loyalty.Api.Areas.Members;
+namespace Play.Loyalty.Api.Areas.Members.Controllers;
 
+[Authorize]
 [ApiController]
 [Area($"{nameof(Members)}")]
-[Route("/Loyalty/[area]/")]
-public class RewardsController : BaseController
+[Route("/Loyalty/[area]")]
+public class HomeController : BaseController
 {
     #region Constructor
 
-    public RewardsController(
+    public HomeController(
         IMemberRepository memberRepository, IProgramsRepository programsRepository, IEnsureRewardsNumbersAreUnique uniqueRewardsNumberChecker,
         IRetrieveUsers userRetriever, IRetrieveMerchants merchantRetriever) : base(memberRepository, programsRepository, uniqueRewardsNumberChecker,
         userRetriever, merchantRetriever)
@@ -29,43 +32,56 @@ public class RewardsController : BaseController
 
     #region Instance Members
 
-    [HttpPutSwagger(template: "{loyaltyMemberId}/[controller]/[action]")]
+    [HttpPostSwagger]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Add(string loyaltyMemberId, UpdateRewardsPoints command)
+    public async Task<IActionResult> Create(CreateLoyaltyMember command)
+    {
+        this.ValidateModel();
+
+        Member member = await Member.Create(_UserRetriever, _MerchantRetriever, _UniqueRewardsNumberChecker, command).ConfigureAwait(false);
+
+        return Created(@Url.Action("Get", "Home", new
+        {
+            area = nameof(Members),
+            id = member.Id
+        })!, member.AsDto());
+    }
+
+    [HttpGetSwagger(template: "{loyaltyMemberId}")]
+    [ValidateAntiForgeryToken]
+    public async Task<LoyaltyMemberDto> Get(string loyaltyMemberId)
     {
         this.ValidateModel();
         Member member = await _MemberRepository.GetByIdAsync(new SimpleStringId(loyaltyMemberId)).ConfigureAwait(false)
                         ?? throw new NotFoundException(typeof(Member));
 
-        await member.AddRewardPoints(_UserRetriever, _ProgramsRepository, command).ConfigureAwait(false);
+        return member.AsDto();
+    }
+
+    [HttpPutSwagger(template: "{loyaltyMemberId}/[action]")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Update(string loyaltyMemberId, UpdateLoyaltyMember command)
+    {
+        this.ValidateModel();
+        Member member = await _MemberRepository.GetByIdAsync(new SimpleStringId(loyaltyMemberId)).ConfigureAwait(false)
+                        ?? throw new NotFoundException(typeof(Member));
+
+        await member.Update(_UserRetriever, command).ConfigureAwait(false);
 
         return Ok();
     }
 
-    [HttpPutSwagger(template: "{loyaltyMemberId}/[controller]/[action]")]
+    [HttpDeleteSwagger(template: "{loyaltyMemberId}/[action]")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Remove(string loyaltyMemberId, UpdateRewardsPoints command)
+    public async Task<IActionResult> Remove(string loyaltyMemberId, RemoveLoyaltyMember command)
     {
         this.ValidateModel();
         Member member = await _MemberRepository.GetByIdAsync(new SimpleStringId(loyaltyMemberId)).ConfigureAwait(false)
                         ?? throw new NotFoundException(typeof(Member));
 
-        await member.RemoveRewards(_UserRetriever, _ProgramsRepository, command).ConfigureAwait(false);
+        await member.Remove(_UserRetriever, command).ConfigureAwait(false);
 
-        return Ok();
-    }
-
-    [HttpPutSwagger(template: "{loyaltyMemberId}/[controller]/[action]")]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Claim(string loyaltyMemberId, ClaimRewards command)
-    {
-        this.ValidateModel();
-        Member member = await _MemberRepository.GetByIdAsync(new SimpleStringId(loyaltyMemberId)).ConfigureAwait(false)
-                        ?? throw new NotFoundException(typeof(Member));
-
-        await member.ClaimRewards(_UserRetriever, _ProgramsRepository, command).ConfigureAwait(false);
-
-        return Ok();
+        return NoContent();
     }
 
     #endregion

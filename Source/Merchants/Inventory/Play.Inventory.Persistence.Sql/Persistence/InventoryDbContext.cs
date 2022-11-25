@@ -52,6 +52,8 @@ public sealed class InventoryDbContext : DbContext
 
         #region Entities
 
+        builder.RegisterMoneyValueObjectType();
+
         builder.Entity<Alerts>().ToTable($"{nameof(Alerts)}").HasKey(x => x.Id);
         builder.Entity<Alerts>().Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<Alerts>().PrivateProperty<Alerts, bool>($"_IsActive");
@@ -70,8 +72,7 @@ public sealed class InventoryDbContext : DbContext
         builder.Entity<Variation>().PrivateProperty<Variation, SimpleStringId>($"_ItemId");
         builder.Entity<Variation>().PrivateProperty<Variation, Sku>($"_Sku");
         builder.Entity<Variation>().PrivateProperty<Variation, Name>($"_Name");
-        builder.Entity<Variation>().Property(x => EF.Property<MoneyValueObject>(x, "_Price").Amount).HasColumnName("Amount");
-        builder.Entity<Variation>().Property(x => EF.Property<MoneyValueObject>(x, "_Price").NumericCurrencyCode).HasColumnName("NumericCurrencyCode");
+        builder.Entity<Variation>().MoneyValueObjectProperty("_Price");
 
         builder.Entity<StockItem>().ToTable($"{nameof(StockItem)}s").HasKey(x => x.Id);
         builder.Entity<StockItem>().Property(x => x.Id).ValueGeneratedOnAdd();

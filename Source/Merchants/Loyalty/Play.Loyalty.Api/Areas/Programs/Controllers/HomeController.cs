@@ -4,22 +4,23 @@ using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
 using Play.Loyalty.Api.Controllers;
 using Play.Loyalty.Contracts.Commands;
+using Play.Loyalty.Contracts.Dtos;
 using Play.Loyalty.Domain.Aggregates;
 using Play.Loyalty.Domain.Repositories;
 using Play.Loyalty.Domain.Services;
 using Play.Mvc.Attributes;
 using Play.Mvc.Extensions;
 
-namespace Play.Loyalty.Api.Areas.LoyaltyPrograms;
+namespace Play.Loyalty.Api.Areas.Controllers;
 
 [ApiController]
 [Area($"{nameof(Programs)}")]
 [Route("/Loyalty/[area]")]
-public class RewardsProgramController : BaseController
+public class HomeController : BaseController
 {
     #region Constructor
 
-    public RewardsProgramController(
+    public HomeController(
         IMemberRepository memberRepository, IProgramsRepository programsRepository, IEnsureRewardsNumbersAreUnique uniqueRewardsNumberChecker,
         IRetrieveUsers userRetriever, IRetrieveMerchants merchantRetriever) : base(memberRepository, programsRepository, uniqueRewardsNumberChecker,
         userRetriever, merchantRetriever)
@@ -29,30 +30,30 @@ public class RewardsProgramController : BaseController
 
     #region Instance Members
 
-    [HttpPutSwagger(template: "{programId}/[action]")]
+    [HttpPostSwagger]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> UpdateRewardsProgram(string programId, UpdateRewardsProgram command)
+    public async Task<IActionResult> Create(CreateLoyaltyProgram command)
     {
         this.ValidateModel();
-        Programs programs = await _ProgramsRepository.GetByIdAsync(new SimpleStringId(programId)).ConfigureAwait(false)
-                            ?? throw new NotFoundException(typeof(Programs));
 
-        await programs.UpdateRewardsProgram(_UserRetriever, command).ConfigureAwait(false);
+        Programs programs = await Programs.Create(_MerchantRetriever, _UserRetriever, command).ConfigureAwait(false);
 
-        return Ok();
+        return Created(@Url.Action("Get", "Home", new
+        {
+            area = nameof(Programs),
+            id = programs.Id
+        })!, programs.AsDto());
     }
 
-    [HttpPutSwagger(template: "{programId}/RewardsProgram/[action]")]
+    [HttpGetSwagger(template: "{programId}")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> ActivateRewardsProgram(string programId, ActivateProgram command)
+    public async Task<LoyaltyProgramDto> Get(string programsId)
     {
         this.ValidateModel();
-        Programs programs = await _ProgramsRepository.GetByIdAsync(new SimpleStringId(programId)).ConfigureAwait(false)
+        Programs programs = await _ProgramsRepository.GetByIdAsync(new SimpleStringId(programsId)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(Programs));
 
-        await programs.ActivateRewardProgram(_UserRetriever, command).ConfigureAwait(false);
-
-        return Ok();
+        return programs.AsDto();
     }
 
     #endregion

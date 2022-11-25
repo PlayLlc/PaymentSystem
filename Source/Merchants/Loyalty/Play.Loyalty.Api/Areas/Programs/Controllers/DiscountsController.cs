@@ -11,7 +11,7 @@ using Play.Loyalty.Domain.Services;
 using Play.Mvc.Attributes;
 using Play.Mvc.Extensions;
 
-namespace Play.Loyalty.Api.Areas.LoyaltyPrograms;
+namespace Play.Loyalty.Api.Areas.Controllers;
 
 [Authorize]
 [ApiController]
