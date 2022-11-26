@@ -1,9 +1,8 @@
 ﻿using Play.Core;
 using Play.Domain.ValueObjects;
-using Play.Identity.Domain.Enums;
 using Play.Identity.Domain.Enumss;
 
-namespace Play.Identity.Domain.ValueObjectsd;
+namespace Play.TimeClock.Domain.ValueObject;
 
 public record CompensationType : ValueObject<string>
 {
@@ -20,16 +19,11 @@ public record CompensationType : ValueObject<string>
             throw new ValueObjectException($"The {nameof(CompensationType)} provided was invalid: [{value}]");
     }
 
-
-
     #endregion
 
     #region Operator Overrides
 
-    public static implicit operator string(CompensationType value)
-    {
-        return value.Value;
-    }
+    public static implicit operator string(CompensationType value) => value.Value;
 
     #endregion
 }

@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Infrastructure\Play.Domain.Common\Play.Domain.Common.csproj" />
-    <ProjectReference Include="..\Play.TimeClock.Contracts\Play.TimeClock.Contracts.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Play.Persistence.Sql\Play.Persistence.Sql.csproj" />
+    <ProjectReference Include="..\Play.TimeClock.Domain\Play.TimeClock.Domain.csproj" />
   </ItemGroup>
 
 </Project>

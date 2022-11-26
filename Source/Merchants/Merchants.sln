@@ -105,15 +105,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Loyalty.Api.Client", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TimeClock", "TimeClock", "{1E250512-7DCE-440C-AD5E-DC491F6E54BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.TimeClock.Domain", "TimeClock\Play.TimeClock.Domain\Play.TimeClock.Domain.csproj", "{D80105A4-7573-409E-BB32-702FA5163F81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.TimeClock.Domain", "TimeClock\Play.TimeClock.Domain\Play.TimeClock.Domain.csproj", "{D80105A4-7573-409E-BB32-702FA5163F81}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payroll", "Payroll", "{867291DD-9BAE-492A-AEA1-33E2F1A23305}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Payroll.Domain", "Payroll\Play.Payroll.Domain\Play.Payroll.Domain.csproj", "{10F70A17-9A23-42C3-9D73-077D3D78F2C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Payroll.Domain", "Payroll\Play.Payroll.Domain\Play.Payroll.Domain.csproj", "{10F70A17-9A23-42C3-9D73-077D3D78F2C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Domain.EventSourcing", "Infrastructure\Play.Domain.EventSourcing\Play.Domain.EventSourcing.csproj", "{80BF5520-5064-48D4-8FEB-11F88EE395E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Domain.EventSourcing", "Infrastructure\Play.Domain.EventSourcing\Play.Domain.EventSourcing.csproj", "{80BF5520-5064-48D4-8FEB-11F88EE395E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.TimeClock.Contracts", "TimeClock\Play.TimeClock.Contracts\Play.TimeClock.Contracts.csproj", "{012CC293-7094-4E9B-B93E-E56D1919348D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.TimeClock.Contracts", "TimeClock\Play.TimeClock.Contracts\Play.TimeClock.Contracts.csproj", "{012CC293-7094-4E9B-B93E-E56D1919348D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.TimeClock.Application", "TimeClock\Play.TimeClock.Application\Play.TimeClock.Application.csproj", "{87683F40-5DD3-4ABD-AEBB-B291ABF6CAC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.TimeClock.Persistence.Sql", "TimeClock\Play.TimeClock.Persistence.Sql\Play.TimeClock.Persistence.Sql.csproj", "{742238F1-8C67-49A4-A766-3B818F57D3BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -289,6 +293,14 @@ Global
 		{012CC293-7094-4E9B-B93E-E56D1919348D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{012CC293-7094-4E9B-B93E-E56D1919348D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{012CC293-7094-4E9B-B93E-E56D1919348D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87683F40-5DD3-4ABD-AEBB-B291ABF6CAC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87683F40-5DD3-4ABD-AEBB-B291ABF6CAC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87683F40-5DD3-4ABD-AEBB-B291ABF6CAC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87683F40-5DD3-4ABD-AEBB-B291ABF6CAC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{742238F1-8C67-49A4-A766-3B818F57D3BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{742238F1-8C67-49A4-A766-3B818F57D3BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{742238F1-8C67-49A4-A766-3B818F57D3BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{742238F1-8C67-49A4-A766-3B818F57D3BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -337,6 +349,8 @@ Global
 		{10F70A17-9A23-42C3-9D73-077D3D78F2C6} = {867291DD-9BAE-492A-AEA1-33E2F1A23305}
 		{80BF5520-5064-48D4-8FEB-11F88EE395E3} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
 		{012CC293-7094-4E9B-B93E-E56D1919348D} = {1E250512-7DCE-440C-AD5E-DC491F6E54BE}
+		{87683F40-5DD3-4ABD-AEBB-B291ABF6CAC4} = {1E250512-7DCE-440C-AD5E-DC491F6E54BE}
+		{742238F1-8C67-49A4-A766-3B818F57D3BE} = {1E250512-7DCE-440C-AD5E-DC491F6E54BE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6833603-DD22-4624-AB4A-235C51671F62}

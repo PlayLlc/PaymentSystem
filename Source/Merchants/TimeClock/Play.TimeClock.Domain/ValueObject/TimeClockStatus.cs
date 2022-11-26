@@ -1,8 +1,8 @@
 ﻿using Play.Core;
 using Play.Domain.ValueObjects;
-using Play.Identity.Domain.Enums;
+using Play.TimeClock.Domain.Enums;
 
-namespace Play.Identity.Domain.ValueObjects;
+namespace Play.TimeClock.Domain.ValueObject;
 
 public record TimeClockStatus : ValueObject<string>
 {

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Immutable;
 
 using Play.Core;
-using Play.Identity.Domain.ValueObjects;
+using Play.TimeClock.Domain.ValueObject;
 
-namespace Play.Identity.Domain.Enums;
+namespace Play.TimeClock.Domain.Enums;
 
 public record TimeClockStatuses : EnumObjectString
 {

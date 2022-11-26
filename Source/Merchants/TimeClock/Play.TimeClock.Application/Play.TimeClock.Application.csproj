@@ -7,8 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Infrastructure\Play.Domain.Common\Play.Domain.Common.csproj" />
-    <ProjectReference Include="..\Play.TimeClock.Contracts\Play.TimeClock.Contracts.csproj" />
+    <Folder Include="Handles\NetworkEvents\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Play.TimeClock.Domain\Play.TimeClock.Domain.csproj" />
   </ItemGroup>
 
 </Project>

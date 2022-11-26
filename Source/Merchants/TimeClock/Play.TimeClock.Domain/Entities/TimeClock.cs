@@ -4,11 +4,11 @@ using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Time;
-using Play.Identity.Domain.Enums;
 using Play.Identity.Domain.Enumss;
-using Play.Identity.Domain.ValueObjects;
-using Play.Identity.Domain.ValueObjectsd;
 using Play.TimeClock.Contracts.Dtos;
+using Play.TimeClock.Domain.Aggregates.Employees;
+using Play.TimeClock.Domain.Enums;
+using Play.TimeClock.Domain.ValueObject;
 
 namespace Play.TimeClock.Domain.Entities;
 
@@ -65,6 +65,8 @@ public class TimeClock : Entity<SimpleStringId>
 
     #region Instance Members
 
+    internal TimeClockStatus GetTimeClockStatus() => _TimeClockStatus;
+
     /// <exception cref="ValueObjectException"></exception>
     public void ClockIn()
     {
@@ -77,7 +79,7 @@ public class TimeClock : Entity<SimpleStringId>
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    public TimeEntry ClockOut(Func<SimpleStringId> timeEntryId)
+    public TimeEntry ClockOut(Func<string> timeEntryId)
     {
         if (_TimeClockStatus == TimeClockStatuses.ClockedOut)
             throw new ValueObjectException(
