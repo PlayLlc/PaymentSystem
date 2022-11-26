@@ -22,7 +22,25 @@ public class EmployeeHasClockedOutEvent : NetworkEvent
     [Required]
     [StringLength(20)]
     [AlphaNumericSpecial]
-    public TimeEntryeDto TimeEntry { get; set; } = null!;
+    public TimeEntryDto TimeEntry { get; set; } = null!;
+
+    #endregion
+}
+
+public class EmployeeTimeEntryHasBeenEditedEvent : NetworkEvent
+{
+    #region Instance Values
+
+    [Required]
+    public EmployeeDto Employee { get; set; } = null!;
+
+    [Required]
+    public TimeEntryDto TimeEntry { get; set; } = null!;
+
+    [Required]
+    [StringLength(20)]
+    [AlphaNumericSpecial]
+    public string UserId { get; set; } = null!;
 
     #endregion
 }

@@ -106,7 +106,7 @@ public partial class Item : Aggregate<SimpleStringId>
         Sku? sku = command.Sku is null ? null : new Sku(command.Sku);
         IEnumerable<Category> categories = command.Categories.Select(a => new Category(a));
         MoneyValueObject price = new MoneyValueObject(command.Price);
-        var itemId = new SimpleStringId(GenerateSimpleStringId());
+        SimpleStringId itemId = new SimpleStringId(GenerateSimpleStringId());
         Variation variation = new Variation(new SimpleStringId(GenerateSimpleStringId()), itemId, new Name("Original"), price);
 
         Item item = new Item(GenerateSimpleStringId(), merchant.Id, name, command.Description ?? string.Empty, alerts, locations, sku, categories,

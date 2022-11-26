@@ -34,7 +34,7 @@ public class InventoryItemRetriever : IRetrieveInventoryItems
         try
         {
             ItemDto dto = await _ItemsApi.ItemsGetItemsAsync(itemId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(InventoryDto));
-            var variation = dto.Variations.FirstOrDefault(a => a.Id == variationId) ?? throw new NotFoundException(typeof(InventoryDto));
+            VariationDto variation = dto.Variations.FirstOrDefault(a => a.Id == variationId) ?? throw new NotFoundException(typeof(InventoryDto));
 
             return new InventoryItem(variation);
         }

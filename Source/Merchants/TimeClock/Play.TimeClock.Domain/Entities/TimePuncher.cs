@@ -11,7 +11,7 @@ using Play.TimeClock.Domain.ValueObject;
 
 namespace Play.TimeClock.Domain.Entities;
 
-public class TimeClock : Entity<SimpleStringId>
+public class TimePuncher : Entity<SimpleStringId>
 {
     #region Instance Values
 
@@ -31,11 +31,11 @@ public class TimeClock : Entity<SimpleStringId>
     #region Constructor
 
     // Constructor for Entity Framework
-    private TimeClock()
+    private TimePuncher()
     { }
 
     /// <exception cref="ValueObjectException"></exception>
-    internal TimeClock(TimeClockDto dto)
+    internal TimePuncher(TimeClockDto dto)
     {
         Id = new SimpleStringId(dto.Id!);
         _EmployeeId = new SimpleStringId(dto.EmployeeId);
@@ -52,7 +52,7 @@ public class TimeClock : Entity<SimpleStringId>
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    internal TimeClock(string id, string employeeId, string timeClockStatus, DateTimeUtc? dateTime)
+    internal TimePuncher(string id, string employeeId, string timeClockStatus, DateTimeUtc? dateTime)
     {
         Id = new SimpleStringId(id);
         _EmployeeId = new SimpleStringId(employeeId);

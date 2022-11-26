@@ -20,6 +20,7 @@ public class TimeEntry : Entity<SimpleStringId>
 
     private readonly DateTimeUtc _StartTime;
     private readonly DateTimeUtc _EndTime;
+
     public override SimpleStringId Id { get; }
 
     #endregion
@@ -31,14 +32,14 @@ public class TimeEntry : Entity<SimpleStringId>
     { }
 
     /// <exception cref="ValueObjectException"></exception>
-    internal TimeEntry(TimeEntryeDto dto)
+    internal TimeEntry(TimeEntryDto dto)
     {
         Id = new SimpleStringId(dto.Id!);
         _EmployeeId = new SimpleStringId(dto.EmployeeId);
 
         if (dto.StartTime >= dto.EndTime)
             throw new ValueObjectException(
-                $"The {nameof(TimeEntryeDto.StartTime)} of the {nameof(TimeEntry)} must happen before the {nameof(TimeEntryeDto.EndTime)}");
+                $"The {nameof(TimeEntryDto.StartTime)} of the {nameof(TimeEntry)} must happen before the {nameof(TimeEntryDto.EndTime)}");
 
         try
         {
@@ -59,7 +60,7 @@ public class TimeEntry : Entity<SimpleStringId>
 
         if (startTime >= endTime)
             throw new ValueObjectException(
-                $"The {nameof(TimeEntryeDto.StartTime)} of the {nameof(TimeEntry)} must happen before the {nameof(TimeEntryeDto.EndTime)}");
+                $"The {nameof(TimeEntryDto.StartTime)} of the {nameof(TimeEntry)} must happen before the {nameof(TimeEntryDto.EndTime)}");
 
         _StartTime = startTime;
         _EndTime = endTime;
@@ -73,7 +74,7 @@ public class TimeEntry : Entity<SimpleStringId>
 
     public override SimpleStringId GetId() => Id;
 
-    public override TimeEntryeDto AsDto() =>
+    public override TimeEntryDto AsDto() =>
         new()
         {
             Id = Id,

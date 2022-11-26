@@ -33,5 +33,8 @@ public record EmployeeDto : IDto
     [Required]
     public TimeClockDto TimeClock { get; set; } = null!;
 
+    [Required]
+    public IEnumerable<TimeEntryDto> TimeEntries { get; set; } = Array.Empty<TimeEntryDto>();
+
     #endregion
 }

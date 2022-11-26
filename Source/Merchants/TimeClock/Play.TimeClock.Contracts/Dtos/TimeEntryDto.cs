@@ -6,7 +6,7 @@ using Play.Globalization.Time;
 
 namespace Play.TimeClock.Contracts.Dtos;
 
-public record TimeEntryeDto : IDto
+public record TimeEntryDto : IDto
 {
     #region Instance Values
 

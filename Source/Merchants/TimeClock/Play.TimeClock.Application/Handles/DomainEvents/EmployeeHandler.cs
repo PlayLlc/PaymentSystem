@@ -16,8 +16,8 @@ using Play.TimeClock.Domain.Repositories;
 namespace Play.TimeClock.Application.Handles.DomainEvents;
 
 public class EmployeeHandler : DomainEventHandler, IHandleDomainEvents<EmployeeAlreadyExists>, IHandleDomainEvents<EmployeeHasBeenCreated>,
-    IHandleDomainEvents<EmployeeHasBeenRemoved>, IHandleDomainEvents<EmployeeHasClockedIn>, IHandleDomainEvents<EmployeeHasClockedOut>,
-    IHandleDomainEvents<EmployeeWasNotClockedIn>, IHandleDomainEvents<EmployeeWasNotClockedOut>,
+    IHandleDomainEvents<EmployeeTimeEntryHasBeenEdited>, IHandleDomainEvents<EmployeeHasBeenRemoved>, IHandleDomainEvents<EmployeeHasClockedIn>,
+    IHandleDomainEvents<EmployeeHasClockedOut>, IHandleDomainEvents<EmployeeWasNotClockedIn>, IHandleDomainEvents<EmployeeWasNotClockedOut>,
     IHandleDomainEvents<UnauthorizedUserAttemptedToUpdateEmployeeTimeClock>, IHandleDomainEvents<AggregateUpdateWasAttemptedByUnknownUser<Employee>>,
     IHandleDomainEvents<DeactivatedMerchantAttemptedToCreateAggregate<Employee>>, IHandleDomainEvents<DeactivatedUserAttemptedToUpdateAggregate<Employee>>
 
@@ -119,6 +119,21 @@ public class EmployeeHandler : DomainEventHandler, IHandleDomainEvents<EmployeeA
         Log(domainEvent, LogLevel.Warning, $"\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
 
         return Task.CompletedTask;
+    }
+
+    public async Task Handle(EmployeeTimeEntryHasBeenEdited domainEvent)
+    {
+        Log(domainEvent);
+
+        await _EmployeeRepository.RemoveAsync(domainEvent.Employee).ConfigureAwait(false);
+
+        await _MessageHandlerContext.Publish<EmployeeTimeEntryHasBeenEditedEvent>((a) =>
+            {
+                a.Employee = domainEvent.Employee.AsDto();
+                a.TimeEntry = domainEvent.TimeEntry.AsDto();
+                a.UserId = domainEvent.UserId;
+            })
+            .ConfigureAwait(false);
     }
 
     #endregion

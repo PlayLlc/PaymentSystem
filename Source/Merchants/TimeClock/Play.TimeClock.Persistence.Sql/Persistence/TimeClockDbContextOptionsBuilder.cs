@@ -8,26 +8,26 @@ using Play.Loyalty.Persistence.Sql.Persistence;
 
 namespace Play.Loyalty.Persistence.Sql.Persistence;
 
-internal class LoyaltyDbContextOptionsBuilder : IDesignTimeDbContextFactory<LoyaltyDbContext>
+internal class TimeClockDbContextOptionsBuilder : IDesignTimeDbContextFactory<TimeClockDbContext>
 {
     #region Constructor
 
-    public LoyaltyDbContextOptionsBuilder()
+    public TimeClockDbContextOptionsBuilder()
     { }
 
     #endregion
 
     #region Instance Members
 
-    public LoyaltyDbContext CreateDbContext(string[] args)
+    public TimeClockDbContext CreateDbContext(string[] args)
     {
         IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
 
-        string connectionString = configuration.GetConnectionString(LoyaltyDbContext.DatabaseName);
-        DbContextOptionsBuilder<LoyaltyDbContext> builder = new DbContextOptionsBuilder<LoyaltyDbContext>();
+        string connectionString = configuration.GetConnectionString(TimeClockDbContext.DatabaseName);
+        DbContextOptionsBuilder<TimeClockDbContext> builder = new DbContextOptionsBuilder<TimeClockDbContext>();
         builder.UseSqlServer(connectionString);
 
-        return new LoyaltyDbContext(builder.Options);
+        return new TimeClockDbContext(builder.Options);
     }
 
     #endregion

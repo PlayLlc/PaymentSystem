@@ -1,10 +1,12 @@
-﻿namespace Play.TimeClock.Domain.Services;
+﻿using Play.Domain.Common.ValueObjects;
+
+namespace Play.TimeClock.Domain.Services;
 
 public interface IEnsureEmployeeDoesNotExist
 {
     #region Instance Members
 
-    public bool DoesEmployeeAlreadyExist(string merchantId, string userId);
+    public bool DoesEmployeeAlreadyExist(SimpleStringId merchantId, SimpleStringId userId);
 
     #endregion
 }
