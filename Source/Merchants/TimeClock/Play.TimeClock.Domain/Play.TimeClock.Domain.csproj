@@ -6,4 +6,18 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Aggregates\Employees\DomainEvents\" />
+    <Folder Include="Aggregates\Employees\Rules\" />
+    <Folder Include="Aggregates\Employers\DomainEvents\" />
+    <Folder Include="Aggregates\Employers\Rules\" />
+    <Folder Include="Services\" />
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\Play.Domain.Common\Play.Domain.Common.csproj" />
+    <ProjectReference Include="..\Play.TimeClock.Contracts\Play.TimeClock.Contracts.csproj" />
+  </ItemGroup>
+
 </Project>

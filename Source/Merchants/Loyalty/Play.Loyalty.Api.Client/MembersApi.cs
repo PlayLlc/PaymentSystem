@@ -19,1267 +19,1266 @@ using Play.Loyalty.Contracts.Commands;
 using Play.Loyalty.Contracts.Dtos;
 using Play.Restful.Clients;
 
-namespace IO.Swagger.Api
+namespace IO.Swagger.Api;
+
+/// <summary>
+///     Represents a collection of functions to interact with the API endpoints
+/// </summary>
+public interface IMembersApi : IApiAccessor
 {
+    #region Synchronous Operations
+
     /// <summary>
-    ///     Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IMembersApi : IApiAccessor
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    void MembersAddRewards(string loyaltyMemberId, UpdateRewardsPoints body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    ApiResponse<object> MembersAddRewardsWithHttpInfo(string loyaltyMemberId, UpdateRewardsPoints body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    void MembersClaimRewards(string loyaltyMemberId, ClaimRewards body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    ApiResponse<object> MembersClaimRewardsWithHttpInfo(string loyaltyMemberId, ClaimRewards body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    void MembersCreateMembers(CreateLoyaltyMember body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    ApiResponse<object> MembersCreateMembersWithHttpInfo(CreateLoyaltyMember body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <returns>LoyaltyMemberDto</returns>
+    LoyaltyMemberDto MembersGetMembers(string loyaltyMemberId);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <returns>ApiResponse of LoyaltyMemberDto</returns>
+    ApiResponse<LoyaltyMemberDto> MembersGetMembersWithHttpInfo(string loyaltyMemberId);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    void MembersRemoveMembers(string loyaltyMemberId, RemoveLoyaltyMember body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    ApiResponse<object> MembersRemoveMembersWithHttpInfo(string loyaltyMemberId, RemoveLoyaltyMember body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    void MembersRemoveRewards(string loyaltyMemberId, UpdateRewardsPoints body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    ApiResponse<object> MembersRemoveRewardsWithHttpInfo(string loyaltyMemberId, UpdateRewardsPoints body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    void MembersUpdateMembers(string loyaltyMemberId, UpdateLoyaltyMember body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    ApiResponse<object> MembersUpdateMembersWithHttpInfo(string loyaltyMemberId, UpdateLoyaltyMember body = null);
+
+    #endregion Synchronous Operations
+
+    #region Asynchronous Operations
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    Task MembersAddRewardsAsync(string loyaltyMemberId, UpdateRewardsPoints body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    Task<ApiResponse<object>> MembersAddRewardsAsyncWithHttpInfo(string loyaltyMemberId, UpdateRewardsPoints body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    Task MembersClaimRewardsAsync(string loyaltyMemberId, ClaimRewards body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    Task<ApiResponse<object>> MembersClaimRewardsAsyncWithHttpInfo(string loyaltyMemberId, ClaimRewards body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    Task MembersCreateMembersAsync(CreateLoyaltyMember body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    Task<ApiResponse<object>> MembersCreateMembersAsyncWithHttpInfo(CreateLoyaltyMember body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <returns>Task of LoyaltyMemberDto</returns>
+    Task<LoyaltyMemberDto> MembersGetMembersAsync(string loyaltyMemberId);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <returns>Task of ApiResponse (LoyaltyMemberDto)</returns>
+    Task<ApiResponse<LoyaltyMemberDto>> MembersGetMembersAsyncWithHttpInfo(string loyaltyMemberId);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    Task MembersRemoveMembersAsync(string loyaltyMemberId, RemoveLoyaltyMember body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    Task<ApiResponse<object>> MembersRemoveMembersAsyncWithHttpInfo(string loyaltyMemberId, RemoveLoyaltyMember body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    Task MembersRemoveRewardsAsync(string loyaltyMemberId, UpdateRewardsPoints body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    Task<ApiResponse<object>> MembersRemoveRewardsAsyncWithHttpInfo(string loyaltyMemberId, UpdateRewardsPoints body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    Task MembersUpdateMembersAsync(string loyaltyMemberId, UpdateLoyaltyMember body = null);
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    Task<ApiResponse<object>> MembersUpdateMembersAsyncWithHttpInfo(string loyaltyMemberId, UpdateLoyaltyMember body = null);
+
+    #endregion Asynchronous Operations
+}
+
+/// <summary>
+///     Represents a collection of functions to interact with the API endpoints
+/// </summary>
+public partial class MembersApi : IMembersApi
+{
+    #region Instance Values
+
+    private ExceptionFactory _exceptionFactory = (name, response) => null;
+
+    /// <summary>
+    ///     Gets or sets the configuration object
+    /// </summary>
+    /// <value>An instance of the Configuration</value>
+    public Configuration Configuration { get; set; }
+
+    /// <summary>
+    ///     Provides a factory method hook for the creation of exceptions.
+    /// </summary>
+    public ExceptionFactory ExceptionFactory
     {
-        #region Synchronous Operations
+        get
+        {
+            if ((_exceptionFactory != null) && (_exceptionFactory.GetInvocationList().Length > 1))
+                throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.");
 
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        void MembersAddRewards(string loyaltyMemberId, UpdateRewardsPoints body = null);
+            return _exceptionFactory;
+        }
+        set => _exceptionFactory = value;
+    }
 
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> MembersAddRewardsWithHttpInfo(string loyaltyMemberId, UpdateRewardsPoints body = null);
+    #endregion
 
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        void MembersClaimRewards(string loyaltyMemberId, ClaimRewards body = null);
+    #region Constructor
 
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> MembersClaimRewardsWithHttpInfo(string loyaltyMemberId, ClaimRewards body = null);
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="MembersApi" /> class.
+    /// </summary>
+    /// <returns></returns>
+    public MembersApi(string basePath)
+    {
+        Configuration = new Configuration(basePath);
 
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        void MembersCreateMembers(CreateLoyaltyMember body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> MembersCreateMembersWithHttpInfo(CreateLoyaltyMember body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <returns>LoyaltyMemberDto</returns>
-        LoyaltyMemberDto MembersGetMembers(string loyaltyMemberId);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <returns>ApiResponse of LoyaltyMemberDto</returns>
-        ApiResponse<LoyaltyMemberDto> MembersGetMembersWithHttpInfo(string loyaltyMemberId);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        void MembersRemoveMembers(string loyaltyMemberId, RemoveLoyaltyMember body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> MembersRemoveMembersWithHttpInfo(string loyaltyMemberId, RemoveLoyaltyMember body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        void MembersRemoveRewards(string loyaltyMemberId, UpdateRewardsPoints body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> MembersRemoveRewardsWithHttpInfo(string loyaltyMemberId, UpdateRewardsPoints body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        void MembersUpdateMembers(string loyaltyMemberId, UpdateLoyaltyMember body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> MembersUpdateMembersWithHttpInfo(string loyaltyMemberId, UpdateLoyaltyMember body = null);
-
-        #endregion Synchronous Operations
-
-        #region Asynchronous Operations
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        Task MembersAddRewardsAsync(string loyaltyMemberId, UpdateRewardsPoints body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        Task<ApiResponse<object>> MembersAddRewardsAsyncWithHttpInfo(string loyaltyMemberId, UpdateRewardsPoints body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        Task MembersClaimRewardsAsync(string loyaltyMemberId, ClaimRewards body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        Task<ApiResponse<object>> MembersClaimRewardsAsyncWithHttpInfo(string loyaltyMemberId, ClaimRewards body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        Task MembersCreateMembersAsync(CreateLoyaltyMember body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        Task<ApiResponse<object>> MembersCreateMembersAsyncWithHttpInfo(CreateLoyaltyMember body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <returns>Task of LoyaltyMemberDto</returns>
-        Task<LoyaltyMemberDto> MembersGetMembersAsync(string loyaltyMemberId);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <returns>Task of ApiResponse (LoyaltyMemberDto)</returns>
-        Task<ApiResponse<LoyaltyMemberDto>> MembersGetMembersAsyncWithHttpInfo(string loyaltyMemberId);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        Task MembersRemoveMembersAsync(string loyaltyMemberId, RemoveLoyaltyMember body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        Task<ApiResponse<object>> MembersRemoveMembersAsyncWithHttpInfo(string loyaltyMemberId, RemoveLoyaltyMember body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        Task MembersRemoveRewardsAsync(string loyaltyMemberId, UpdateRewardsPoints body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        Task<ApiResponse<object>> MembersRemoveRewardsAsyncWithHttpInfo(string loyaltyMemberId, UpdateRewardsPoints body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        Task MembersUpdateMembersAsync(string loyaltyMemberId, UpdateLoyaltyMember body = null);
-
-        /// <summary>
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        Task<ApiResponse<object>> MembersUpdateMembersAsyncWithHttpInfo(string loyaltyMemberId, UpdateLoyaltyMember body = null);
-
-        #endregion Asynchronous Operations
+        ExceptionFactory = Configuration.DefaultExceptionFactory;
     }
 
     /// <summary>
-    ///     Represents a collection of functions to interact with the API endpoints
+    ///     Initializes a new instance of the <see cref="MembersApi" /> class
+    ///     using Configuration object
     /// </summary>
-    public partial class MembersApi : IMembersApi
+    /// <param name="configuration">An instance of Configuration</param>
+    /// <returns></returns>
+    public MembersApi(Configuration configuration)
     {
-        #region Instance Values
+        Configuration = configuration;
 
-        private ExceptionFactory _exceptionFactory = (name, response) => null;
-
-        /// <summary>
-        ///     Gets or sets the configuration object
-        /// </summary>
-        /// <value>An instance of the Configuration</value>
-        public Configuration Configuration { get; set; }
-
-        /// <summary>
-        ///     Provides a factory method hook for the creation of exceptions.
-        /// </summary>
-        public ExceptionFactory ExceptionFactory
-        {
-            get
-            {
-                if ((_exceptionFactory != null) && (_exceptionFactory.GetInvocationList().Length > 1))
-                    throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.");
-
-                return _exceptionFactory;
-            }
-            set => _exceptionFactory = value;
-        }
-
-        #endregion
-
-        #region Constructor
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="MembersApi" /> class.
-        /// </summary>
-        /// <returns></returns>
-        public MembersApi(string basePath)
-        {
-            Configuration = new Configuration(basePath);
-
-            ExceptionFactory = Configuration.DefaultExceptionFactory;
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="MembersApi" /> class
-        ///     using Configuration object
-        /// </summary>
-        /// <param name="configuration">An instance of Configuration</param>
-        /// <returns></returns>
-        public MembersApi(Configuration configuration)
-        {
-            Configuration = configuration;
-
-            ExceptionFactory = Configuration.DefaultExceptionFactory;
-        }
-
-        #endregion
-
-        #region Instance Members
-
-        /// <summary>
-        ///     Gets the base path of the API client.
-        /// </summary>
-        /// <value>The base path</value>
-        public string GetBasePath() => Configuration.ApiClient.RestClient.BaseUrl.ToString();
-
-        /// <summary>
-        ///     Sets the base path of the API client.
-        /// </summary>
-        /// <value>The base path</value>
-        [Obsolete("SetBasePath is deprecated, please do 'Configuration.ApiClient = new ApiClient(\"http://new-path\")' instead.")]
-        public void SetBasePath(string basePath)
-        {
-            // do nothing
-        }
-
-        /// <summary>
-        ///     Gets the default header.
-        /// </summary>
-        /// <returns>Dictionary of HTTP header</returns>
-        [Obsolete("DefaultHeader is deprecated, please use Configuration.DefaultHeader instead.")]
-        public IDictionary<string, string> DefaultHeader() => new ReadOnlyDictionary<string, string>(Configuration.DefaultHeader);
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void MembersAddRewards(string loyaltyMemberId, UpdateRewardsPoints body = null)
-        {
-            MembersAddRewardsWithHttpInfo(loyaltyMemberId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> MembersAddRewardsWithHttpInfo(string loyaltyMemberId, UpdateRewardsPoints body = null)
-        {
-            // verify the required parameter 'loyaltyMemberId' is set
-            if (loyaltyMemberId == null)
-                throw new ApiException(400, "Missing required parameter 'loyaltyMemberId' when calling MembersApi->MembersAddRewards");
-
-            var localVarPath = "./Loyalty/Members/{loyaltyMemberId}/Rewards/Add";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (loyaltyMemberId != null)
-                localVarPathParams.Add("loyaltyMemberId", Configuration.ApiClient.ParameterToString(loyaltyMemberId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("MembersAddRewards", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task MembersAddRewardsAsync(string loyaltyMemberId, UpdateRewardsPoints body = null)
-        {
-            await MembersAddRewardsAsyncWithHttpInfo(loyaltyMemberId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> MembersAddRewardsAsyncWithHttpInfo(string loyaltyMemberId, UpdateRewardsPoints body = null)
-        {
-            // verify the required parameter 'loyaltyMemberId' is set
-            if (loyaltyMemberId == null)
-                throw new ApiException(400, "Missing required parameter 'loyaltyMemberId' when calling MembersApi->MembersAddRewards");
-
-            var localVarPath = "./Loyalty/Members/{loyaltyMemberId}/Rewards/Add";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (loyaltyMemberId != null)
-                localVarPathParams.Add("loyaltyMemberId", Configuration.ApiClient.ParameterToString(loyaltyMemberId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("MembersAddRewards", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void MembersClaimRewards(string loyaltyMemberId, ClaimRewards body = null)
-        {
-            MembersClaimRewardsWithHttpInfo(loyaltyMemberId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> MembersClaimRewardsWithHttpInfo(string loyaltyMemberId, ClaimRewards body = null)
-        {
-            // verify the required parameter 'loyaltyMemberId' is set
-            if (loyaltyMemberId == null)
-                throw new ApiException(400, "Missing required parameter 'loyaltyMemberId' when calling MembersApi->MembersClaimRewards");
-
-            var localVarPath = "./Loyalty/Members/{loyaltyMemberId}/Rewards/Claim";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (loyaltyMemberId != null)
-                localVarPathParams.Add("loyaltyMemberId", Configuration.ApiClient.ParameterToString(loyaltyMemberId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("MembersClaimRewards", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task MembersClaimRewardsAsync(string loyaltyMemberId, ClaimRewards body = null)
-        {
-            await MembersClaimRewardsAsyncWithHttpInfo(loyaltyMemberId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> MembersClaimRewardsAsyncWithHttpInfo(string loyaltyMemberId, ClaimRewards body = null)
-        {
-            // verify the required parameter 'loyaltyMemberId' is set
-            if (loyaltyMemberId == null)
-                throw new ApiException(400, "Missing required parameter 'loyaltyMemberId' when calling MembersApi->MembersClaimRewards");
-
-            var localVarPath = "./Loyalty/Members/{loyaltyMemberId}/Rewards/Claim";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (loyaltyMemberId != null)
-                localVarPathParams.Add("loyaltyMemberId", Configuration.ApiClient.ParameterToString(loyaltyMemberId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("MembersClaimRewards", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void MembersCreateMembers(CreateLoyaltyMember body = null)
-        {
-            MembersCreateMembersWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> MembersCreateMembersWithHttpInfo(CreateLoyaltyMember body = null)
-        {
-            var localVarPath = "./Loyalty/Members";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.POST, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("MembersCreateMembers", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task MembersCreateMembersAsync(CreateLoyaltyMember body = null)
-        {
-            await MembersCreateMembersAsyncWithHttpInfo(body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> MembersCreateMembersAsyncWithHttpInfo(CreateLoyaltyMember body = null)
-        {
-            var localVarPath = "./Loyalty/Members";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.POST, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("MembersCreateMembers", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <returns>LoyaltyMemberDto</returns>
-        public LoyaltyMemberDto MembersGetMembers(string loyaltyMemberId)
-        {
-            ApiResponse<LoyaltyMemberDto> localVarResponse = MembersGetMembersWithHttpInfo(loyaltyMemberId);
-
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <returns>ApiResponse of LoyaltyMemberDto</returns>
-        public ApiResponse<LoyaltyMemberDto> MembersGetMembersWithHttpInfo(string loyaltyMemberId)
-        {
-            // verify the required parameter 'loyaltyMemberId' is set
-            if (loyaltyMemberId == null)
-                throw new ApiException(400, "Missing required parameter 'loyaltyMemberId' when calling MembersApi->MembersGetMembers");
-
-            var localVarPath = "./Loyalty/Members/{loyaltyMemberId}";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] { };
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (loyaltyMemberId != null)
-                localVarPathParams.Add("loyaltyMemberId", Configuration.ApiClient.ParameterToString(loyaltyMemberId)); // path parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.GET, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("MembersGetMembers", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<LoyaltyMemberDto>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
-                (LoyaltyMemberDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(LoyaltyMemberDto)));
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <returns>Task of LoyaltyMemberDto</returns>
-        public async Task<LoyaltyMemberDto> MembersGetMembersAsync(string loyaltyMemberId)
-        {
-            ApiResponse<LoyaltyMemberDto> localVarResponse = await MembersGetMembersAsyncWithHttpInfo(loyaltyMemberId);
-
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <returns>Task of ApiResponse (LoyaltyMemberDto)</returns>
-        public async Task<ApiResponse<LoyaltyMemberDto>> MembersGetMembersAsyncWithHttpInfo(string loyaltyMemberId)
-        {
-            // verify the required parameter 'loyaltyMemberId' is set
-            if (loyaltyMemberId == null)
-                throw new ApiException(400, "Missing required parameter 'loyaltyMemberId' when calling MembersApi->MembersGetMembers");
-
-            var localVarPath = "./Loyalty/Members/{loyaltyMemberId}";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] { };
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (loyaltyMemberId != null)
-                localVarPathParams.Add("loyaltyMemberId", Configuration.ApiClient.ParameterToString(loyaltyMemberId)); // path parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.GET, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("MembersGetMembers", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<LoyaltyMemberDto>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
-                (LoyaltyMemberDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(LoyaltyMemberDto)));
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void MembersRemoveMembers(string loyaltyMemberId, RemoveLoyaltyMember body = null)
-        {
-            MembersRemoveMembersWithHttpInfo(loyaltyMemberId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> MembersRemoveMembersWithHttpInfo(string loyaltyMemberId, RemoveLoyaltyMember body = null)
-        {
-            // verify the required parameter 'loyaltyMemberId' is set
-            if (loyaltyMemberId == null)
-                throw new ApiException(400, "Missing required parameter 'loyaltyMemberId' when calling MembersApi->MembersRemoveMembers");
-
-            var localVarPath = "./Loyalty/Members/{loyaltyMemberId}/Remove";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (loyaltyMemberId != null)
-                localVarPathParams.Add("loyaltyMemberId", Configuration.ApiClient.ParameterToString(loyaltyMemberId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.DELETE, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("MembersRemoveMembers", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task MembersRemoveMembersAsync(string loyaltyMemberId, RemoveLoyaltyMember body = null)
-        {
-            await MembersRemoveMembersAsyncWithHttpInfo(loyaltyMemberId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> MembersRemoveMembersAsyncWithHttpInfo(string loyaltyMemberId, RemoveLoyaltyMember body = null)
-        {
-            // verify the required parameter 'loyaltyMemberId' is set
-            if (loyaltyMemberId == null)
-                throw new ApiException(400, "Missing required parameter 'loyaltyMemberId' when calling MembersApi->MembersRemoveMembers");
-
-            var localVarPath = "./Loyalty/Members/{loyaltyMemberId}/Remove";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (loyaltyMemberId != null)
-                localVarPathParams.Add("loyaltyMemberId", Configuration.ApiClient.ParameterToString(loyaltyMemberId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.DELETE, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("MembersRemoveMembers", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void MembersRemoveRewards(string loyaltyMemberId, UpdateRewardsPoints body = null)
-        {
-            MembersRemoveRewardsWithHttpInfo(loyaltyMemberId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> MembersRemoveRewardsWithHttpInfo(string loyaltyMemberId, UpdateRewardsPoints body = null)
-        {
-            // verify the required parameter 'loyaltyMemberId' is set
-            if (loyaltyMemberId == null)
-                throw new ApiException(400, "Missing required parameter 'loyaltyMemberId' when calling MembersApi->MembersRemoveRewards");
-
-            var localVarPath = "./Loyalty/Members/{loyaltyMemberId}/Rewards/Remove";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (loyaltyMemberId != null)
-                localVarPathParams.Add("loyaltyMemberId", Configuration.ApiClient.ParameterToString(loyaltyMemberId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("MembersRemoveRewards", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task MembersRemoveRewardsAsync(string loyaltyMemberId, UpdateRewardsPoints body = null)
-        {
-            await MembersRemoveRewardsAsyncWithHttpInfo(loyaltyMemberId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> MembersRemoveRewardsAsyncWithHttpInfo(string loyaltyMemberId, UpdateRewardsPoints body = null)
-        {
-            // verify the required parameter 'loyaltyMemberId' is set
-            if (loyaltyMemberId == null)
-                throw new ApiException(400, "Missing required parameter 'loyaltyMemberId' when calling MembersApi->MembersRemoveRewards");
-
-            var localVarPath = "./Loyalty/Members/{loyaltyMemberId}/Rewards/Remove";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (loyaltyMemberId != null)
-                localVarPathParams.Add("loyaltyMemberId", Configuration.ApiClient.ParameterToString(loyaltyMemberId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("MembersRemoveRewards", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void MembersUpdateMembers(string loyaltyMemberId, UpdateLoyaltyMember body = null)
-        {
-            MembersUpdateMembersWithHttpInfo(loyaltyMemberId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> MembersUpdateMembersWithHttpInfo(string loyaltyMemberId, UpdateLoyaltyMember body = null)
-        {
-            // verify the required parameter 'loyaltyMemberId' is set
-            if (loyaltyMemberId == null)
-                throw new ApiException(400, "Missing required parameter 'loyaltyMemberId' when calling MembersApi->MembersUpdateMembers");
-
-            var localVarPath = "./Loyalty/Members/{loyaltyMemberId}/Update";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (loyaltyMemberId != null)
-                localVarPathParams.Add("loyaltyMemberId", Configuration.ApiClient.ParameterToString(loyaltyMemberId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("MembersUpdateMembers", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task MembersUpdateMembersAsync(string loyaltyMemberId, UpdateLoyaltyMember body = null)
-        {
-            await MembersUpdateMembersAsyncWithHttpInfo(loyaltyMemberId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="loyaltyMemberId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> MembersUpdateMembersAsyncWithHttpInfo(string loyaltyMemberId, UpdateLoyaltyMember body = null)
-        {
-            // verify the required parameter 'loyaltyMemberId' is set
-            if (loyaltyMemberId == null)
-                throw new ApiException(400, "Missing required parameter 'loyaltyMemberId' when calling MembersApi->MembersUpdateMembers");
-
-            var localVarPath = "./Loyalty/Members/{loyaltyMemberId}/Update";
-            var localVarPathParams = new Dictionary<string, string>();
-            var localVarQueryParams = new List<KeyValuePair<string, string>>();
-            var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<string, string>();
-            var localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (loyaltyMemberId != null)
-                localVarPathParams.Add("loyaltyMemberId", Configuration.ApiClient.ParameterToString(loyaltyMemberId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("MembersUpdateMembers", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        #endregion
+        ExceptionFactory = Configuration.DefaultExceptionFactory;
     }
+
+    #endregion
+
+    #region Instance Members
+
+    /// <summary>
+    ///     Gets the base path of the API client.
+    /// </summary>
+    /// <value>The base path</value>
+    public string GetBasePath() => Configuration.ApiClient.RestClient.BaseUrl.ToString();
+
+    /// <summary>
+    ///     Sets the base path of the API client.
+    /// </summary>
+    /// <value>The base path</value>
+    [Obsolete("SetBasePath is deprecated, please do 'Configuration.ApiClient = new ApiClient(\"http://new-path\")' instead.")]
+    public void SetBasePath(string basePath)
+    {
+        // do nothing
+    }
+
+    /// <summary>
+    ///     Gets the default header.
+    /// </summary>
+    /// <returns>Dictionary of HTTP header</returns>
+    [Obsolete("DefaultHeader is deprecated, please use Configuration.DefaultHeader instead.")]
+    public IDictionary<string, string> DefaultHeader() => new ReadOnlyDictionary<string, string>(Configuration.DefaultHeader);
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void MembersAddRewards(string loyaltyMemberId, UpdateRewardsPoints body = null)
+    {
+        MembersAddRewardsWithHttpInfo(loyaltyMemberId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> MembersAddRewardsWithHttpInfo(string loyaltyMemberId, UpdateRewardsPoints body = null)
+    {
+        // verify the required parameter 'loyaltyMemberId' is set
+        if (loyaltyMemberId == null)
+            throw new ApiException(400, "Missing required parameter 'loyaltyMemberId' when calling MembersApi->MembersAddRewards");
+
+        var localVarPath = "./Loyalty/Members/{loyaltyMemberId}/Rewards/Add";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (loyaltyMemberId != null)
+            localVarPathParams.Add("loyaltyMemberId", Configuration.ApiClient.ParameterToString(loyaltyMemberId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("MembersAddRewards", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task MembersAddRewardsAsync(string loyaltyMemberId, UpdateRewardsPoints body = null)
+    {
+        await MembersAddRewardsAsyncWithHttpInfo(loyaltyMemberId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> MembersAddRewardsAsyncWithHttpInfo(string loyaltyMemberId, UpdateRewardsPoints body = null)
+    {
+        // verify the required parameter 'loyaltyMemberId' is set
+        if (loyaltyMemberId == null)
+            throw new ApiException(400, "Missing required parameter 'loyaltyMemberId' when calling MembersApi->MembersAddRewards");
+
+        var localVarPath = "./Loyalty/Members/{loyaltyMemberId}/Rewards/Add";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (loyaltyMemberId != null)
+            localVarPathParams.Add("loyaltyMemberId", Configuration.ApiClient.ParameterToString(loyaltyMemberId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("MembersAddRewards", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void MembersClaimRewards(string loyaltyMemberId, ClaimRewards body = null)
+    {
+        MembersClaimRewardsWithHttpInfo(loyaltyMemberId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> MembersClaimRewardsWithHttpInfo(string loyaltyMemberId, ClaimRewards body = null)
+    {
+        // verify the required parameter 'loyaltyMemberId' is set
+        if (loyaltyMemberId == null)
+            throw new ApiException(400, "Missing required parameter 'loyaltyMemberId' when calling MembersApi->MembersClaimRewards");
+
+        var localVarPath = "./Loyalty/Members/{loyaltyMemberId}/Rewards/Claim";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (loyaltyMemberId != null)
+            localVarPathParams.Add("loyaltyMemberId", Configuration.ApiClient.ParameterToString(loyaltyMemberId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("MembersClaimRewards", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task MembersClaimRewardsAsync(string loyaltyMemberId, ClaimRewards body = null)
+    {
+        await MembersClaimRewardsAsyncWithHttpInfo(loyaltyMemberId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> MembersClaimRewardsAsyncWithHttpInfo(string loyaltyMemberId, ClaimRewards body = null)
+    {
+        // verify the required parameter 'loyaltyMemberId' is set
+        if (loyaltyMemberId == null)
+            throw new ApiException(400, "Missing required parameter 'loyaltyMemberId' when calling MembersApi->MembersClaimRewards");
+
+        var localVarPath = "./Loyalty/Members/{loyaltyMemberId}/Rewards/Claim";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (loyaltyMemberId != null)
+            localVarPathParams.Add("loyaltyMemberId", Configuration.ApiClient.ParameterToString(loyaltyMemberId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("MembersClaimRewards", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void MembersCreateMembers(CreateLoyaltyMember body = null)
+    {
+        MembersCreateMembersWithHttpInfo(body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> MembersCreateMembersWithHttpInfo(CreateLoyaltyMember body = null)
+    {
+        var localVarPath = "./Loyalty/Members";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.POST, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("MembersCreateMembers", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task MembersCreateMembersAsync(CreateLoyaltyMember body = null)
+    {
+        await MembersCreateMembersAsyncWithHttpInfo(body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> MembersCreateMembersAsyncWithHttpInfo(CreateLoyaltyMember body = null)
+    {
+        var localVarPath = "./Loyalty/Members";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.POST, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("MembersCreateMembers", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <returns>LoyaltyMemberDto</returns>
+    public LoyaltyMemberDto MembersGetMembers(string loyaltyMemberId)
+    {
+        ApiResponse<LoyaltyMemberDto> localVarResponse = MembersGetMembersWithHttpInfo(loyaltyMemberId);
+
+        return localVarResponse.Data;
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <returns>ApiResponse of LoyaltyMemberDto</returns>
+    public ApiResponse<LoyaltyMemberDto> MembersGetMembersWithHttpInfo(string loyaltyMemberId)
+    {
+        // verify the required parameter 'loyaltyMemberId' is set
+        if (loyaltyMemberId == null)
+            throw new ApiException(400, "Missing required parameter 'loyaltyMemberId' when calling MembersApi->MembersGetMembers");
+
+        var localVarPath = "./Loyalty/Members/{loyaltyMemberId}";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] { };
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (loyaltyMemberId != null)
+            localVarPathParams.Add("loyaltyMemberId", Configuration.ApiClient.ParameterToString(loyaltyMemberId)); // path parameter
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.GET, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("MembersGetMembers", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<LoyaltyMemberDto>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
+            (LoyaltyMemberDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(LoyaltyMemberDto)));
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <returns>Task of LoyaltyMemberDto</returns>
+    public async Task<LoyaltyMemberDto> MembersGetMembersAsync(string loyaltyMemberId)
+    {
+        ApiResponse<LoyaltyMemberDto> localVarResponse = await MembersGetMembersAsyncWithHttpInfo(loyaltyMemberId);
+
+        return localVarResponse.Data;
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <returns>Task of ApiResponse (LoyaltyMemberDto)</returns>
+    public async Task<ApiResponse<LoyaltyMemberDto>> MembersGetMembersAsyncWithHttpInfo(string loyaltyMemberId)
+    {
+        // verify the required parameter 'loyaltyMemberId' is set
+        if (loyaltyMemberId == null)
+            throw new ApiException(400, "Missing required parameter 'loyaltyMemberId' when calling MembersApi->MembersGetMembers");
+
+        var localVarPath = "./Loyalty/Members/{loyaltyMemberId}";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] { };
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (loyaltyMemberId != null)
+            localVarPathParams.Add("loyaltyMemberId", Configuration.ApiClient.ParameterToString(loyaltyMemberId)); // path parameter
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.GET, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("MembersGetMembers", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<LoyaltyMemberDto>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
+            (LoyaltyMemberDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(LoyaltyMemberDto)));
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void MembersRemoveMembers(string loyaltyMemberId, RemoveLoyaltyMember body = null)
+    {
+        MembersRemoveMembersWithHttpInfo(loyaltyMemberId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> MembersRemoveMembersWithHttpInfo(string loyaltyMemberId, RemoveLoyaltyMember body = null)
+    {
+        // verify the required parameter 'loyaltyMemberId' is set
+        if (loyaltyMemberId == null)
+            throw new ApiException(400, "Missing required parameter 'loyaltyMemberId' when calling MembersApi->MembersRemoveMembers");
+
+        var localVarPath = "./Loyalty/Members/{loyaltyMemberId}/Remove";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (loyaltyMemberId != null)
+            localVarPathParams.Add("loyaltyMemberId", Configuration.ApiClient.ParameterToString(loyaltyMemberId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.DELETE, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("MembersRemoveMembers", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task MembersRemoveMembersAsync(string loyaltyMemberId, RemoveLoyaltyMember body = null)
+    {
+        await MembersRemoveMembersAsyncWithHttpInfo(loyaltyMemberId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> MembersRemoveMembersAsyncWithHttpInfo(string loyaltyMemberId, RemoveLoyaltyMember body = null)
+    {
+        // verify the required parameter 'loyaltyMemberId' is set
+        if (loyaltyMemberId == null)
+            throw new ApiException(400, "Missing required parameter 'loyaltyMemberId' when calling MembersApi->MembersRemoveMembers");
+
+        var localVarPath = "./Loyalty/Members/{loyaltyMemberId}/Remove";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (loyaltyMemberId != null)
+            localVarPathParams.Add("loyaltyMemberId", Configuration.ApiClient.ParameterToString(loyaltyMemberId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.DELETE, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("MembersRemoveMembers", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void MembersRemoveRewards(string loyaltyMemberId, UpdateRewardsPoints body = null)
+    {
+        MembersRemoveRewardsWithHttpInfo(loyaltyMemberId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> MembersRemoveRewardsWithHttpInfo(string loyaltyMemberId, UpdateRewardsPoints body = null)
+    {
+        // verify the required parameter 'loyaltyMemberId' is set
+        if (loyaltyMemberId == null)
+            throw new ApiException(400, "Missing required parameter 'loyaltyMemberId' when calling MembersApi->MembersRemoveRewards");
+
+        var localVarPath = "./Loyalty/Members/{loyaltyMemberId}/Rewards/Remove";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (loyaltyMemberId != null)
+            localVarPathParams.Add("loyaltyMemberId", Configuration.ApiClient.ParameterToString(loyaltyMemberId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("MembersRemoveRewards", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task MembersRemoveRewardsAsync(string loyaltyMemberId, UpdateRewardsPoints body = null)
+    {
+        await MembersRemoveRewardsAsyncWithHttpInfo(loyaltyMemberId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> MembersRemoveRewardsAsyncWithHttpInfo(string loyaltyMemberId, UpdateRewardsPoints body = null)
+    {
+        // verify the required parameter 'loyaltyMemberId' is set
+        if (loyaltyMemberId == null)
+            throw new ApiException(400, "Missing required parameter 'loyaltyMemberId' when calling MembersApi->MembersRemoveRewards");
+
+        var localVarPath = "./Loyalty/Members/{loyaltyMemberId}/Rewards/Remove";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (loyaltyMemberId != null)
+            localVarPathParams.Add("loyaltyMemberId", Configuration.ApiClient.ParameterToString(loyaltyMemberId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("MembersRemoveRewards", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void MembersUpdateMembers(string loyaltyMemberId, UpdateLoyaltyMember body = null)
+    {
+        MembersUpdateMembersWithHttpInfo(loyaltyMemberId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> MembersUpdateMembersWithHttpInfo(string loyaltyMemberId, UpdateLoyaltyMember body = null)
+    {
+        // verify the required parameter 'loyaltyMemberId' is set
+        if (loyaltyMemberId == null)
+            throw new ApiException(400, "Missing required parameter 'loyaltyMemberId' when calling MembersApi->MembersUpdateMembers");
+
+        var localVarPath = "./Loyalty/Members/{loyaltyMemberId}/Update";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (loyaltyMemberId != null)
+            localVarPathParams.Add("loyaltyMemberId", Configuration.ApiClient.ParameterToString(loyaltyMemberId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("MembersUpdateMembers", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task MembersUpdateMembersAsync(string loyaltyMemberId, UpdateLoyaltyMember body = null)
+    {
+        await MembersUpdateMembersAsyncWithHttpInfo(loyaltyMemberId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+    /// <param name="loyaltyMemberId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> MembersUpdateMembersAsyncWithHttpInfo(string loyaltyMemberId, UpdateLoyaltyMember body = null)
+    {
+        // verify the required parameter 'loyaltyMemberId' is set
+        if (loyaltyMemberId == null)
+            throw new ApiException(400, "Missing required parameter 'loyaltyMemberId' when calling MembersApi->MembersUpdateMembers");
+
+        var localVarPath = "./Loyalty/Members/{loyaltyMemberId}/Update";
+        var localVarPathParams = new Dictionary<string, string>();
+        var localVarQueryParams = new List<KeyValuePair<string, string>>();
+        var localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        var localVarFormParams = new Dictionary<string, string>();
+        var localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = new string[] { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
+            localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        if (loyaltyMemberId != null)
+            localVarPathParams.Add("loyaltyMemberId", Configuration.ApiClient.ParameterToString(loyaltyMemberId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("MembersUpdateMembers", localVarResponse);
+
+            if (exception != null)
+                throw exception;
+        }
+
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
+
+    #endregion
 }

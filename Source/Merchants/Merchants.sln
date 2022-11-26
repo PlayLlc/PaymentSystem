@@ -113,6 +113,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Payroll.Domain", "Payr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Domain.EventSourcing", "Infrastructure\Play.Domain.EventSourcing\Play.Domain.EventSourcing.csproj", "{80BF5520-5064-48D4-8FEB-11F88EE395E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.TimeClock.Contracts", "TimeClock\Play.TimeClock.Contracts\Play.TimeClock.Contracts.csproj", "{012CC293-7094-4E9B-B93E-E56D1919348D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -283,6 +285,10 @@ Global
 		{80BF5520-5064-48D4-8FEB-11F88EE395E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80BF5520-5064-48D4-8FEB-11F88EE395E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80BF5520-5064-48D4-8FEB-11F88EE395E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{012CC293-7094-4E9B-B93E-E56D1919348D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{012CC293-7094-4E9B-B93E-E56D1919348D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{012CC293-7094-4E9B-B93E-E56D1919348D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{012CC293-7094-4E9B-B93E-E56D1919348D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -330,6 +336,7 @@ Global
 		{D80105A4-7573-409E-BB32-702FA5163F81} = {1E250512-7DCE-440C-AD5E-DC491F6E54BE}
 		{10F70A17-9A23-42C3-9D73-077D3D78F2C6} = {867291DD-9BAE-492A-AEA1-33E2F1A23305}
 		{80BF5520-5064-48D4-8FEB-11F88EE395E3} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
+		{012CC293-7094-4E9B-B93E-E56D1919348D} = {1E250512-7DCE-440C-AD5E-DC491F6E54BE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6833603-DD22-4624-AB4A-235C51671F62}

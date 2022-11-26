@@ -6,14 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Play.Loyalty.Domain.Services
+namespace Play.Loyalty.Domain.Services;
+
+public interface IEnsureRewardsNumbersAreUnique
 {
-    public interface IEnsureRewardsNumbersAreUnique
-    {
-        #region Instance Members
+    #region Instance Members
 
-        public bool IsRewardsNumberUnique(SimpleStringId merchantId, string rewardsNumber);
+    public bool IsRewardsNumberUnique(SimpleStringId merchantId, string rewardsNumber);
 
-        #endregion
-    }
+    #endregion
 }
