@@ -1,10 +1,9 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
-using Play.TimeClock.Domain.Aggregates.Employees.DomainEvents;
 using Play.TimeClock.Domain.Enums;
 using Play.TimeClock.Domain.ValueObject;
 
-namespace Play.TimeClock.Domain.Aggregates.Employees.Rules;
+namespace Play.TimeClock.Domain.Aggregates;
 
 public class EmployeeMustBeClockedIn : BusinessRule<Employee, SimpleStringId>
 {

@@ -1,9 +1,8 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
-using Play.TimeClock.Domain.Aggregates._Shared.DomainEvents;
 using Play.TimeClock.Domain.Entities;
 
-namespace Play.TimeClock.Domain.Aggregates._Shared.Rules;
+namespace Play.TimeClock.Domain.Aggregates;
 
 public class MerchantMustBeActiveToCreateAggregate<_Aggregate> : BusinessRule<_Aggregate, SimpleStringId> where _Aggregate : Aggregate<SimpleStringId>
 {

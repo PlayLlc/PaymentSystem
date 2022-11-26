@@ -4,7 +4,7 @@ using Play.Domain.Events;
 
 namespace Play.TimeClock.Domain.Aggregates;
 
-public record EmployeeWasNotClockedIn : BrokenRuleOrPolicyDomainEvent<Employee, SimpleStringId>
+public record EmployeeAlreadyExists : BrokenRuleOrPolicyDomainEvent<Employee, SimpleStringId>
 {
     #region Instance Values
 
@@ -14,7 +14,7 @@ public record EmployeeWasNotClockedIn : BrokenRuleOrPolicyDomainEvent<Employee, 
 
     #region Constructor
 
-    public EmployeeWasNotClockedIn(Employee member, IBusinessRule rule) : base(member, rule)
+    public EmployeeAlreadyExists(Employee member, IBusinessRule rule) : base(member, rule)
     {
         Member = member;
     }

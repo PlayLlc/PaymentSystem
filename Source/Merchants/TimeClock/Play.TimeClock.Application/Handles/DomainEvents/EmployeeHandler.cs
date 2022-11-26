@@ -10,67 +10,116 @@ using NServiceBus;
 
 using Play.Domain.Events;
 using Play.TimeClock.Contracts.NetworkEvents;
-using Play.TimeClock.Domain.Aggregates._Shared.DomainEvents;
-using Play.TimeClock.Domain.Aggregates.Employees;
-using Play.TimeClock.Domain.Aggregates.Employees.DomainEvents;
+using Play.TimeClock.Domain.Aggregates;
 using Play.TimeClock.Domain.Repositories;
 
-namespace Play.TimeClock.Application.Handles.DomainEvents
+namespace Play.TimeClock.Application.Handles.DomainEvents;
+
+public class EmployeeHandler : DomainEventHandler, IHandleDomainEvents<EmployeeAlreadyExists>, IHandleDomainEvents<EmployeeHasBeenCreated>,
+    IHandleDomainEvents<EmployeeHasBeenRemoved>, IHandleDomainEvents<EmployeeHasClockedIn>, IHandleDomainEvents<EmployeeHasClockedOut>,
+    IHandleDomainEvents<EmployeeWasNotClockedIn>, IHandleDomainEvents<EmployeeWasNotClockedOut>,
+    IHandleDomainEvents<UnauthorizedUserAttemptedToUpdateEmployeeTimeClock>, IHandleDomainEvents<AggregateUpdateWasAttemptedByUnknownUser<Employee>>,
+    IHandleDomainEvents<DeactivatedMerchantAttemptedToCreateAggregate<Employee>>, IHandleDomainEvents<DeactivatedUserAttemptedToUpdateAggregate<Employee>>
+
 {
-    public class EmployeeHandler : DomainEventHandler, IHandleDomainEvents<EmployeeHasClockedIn>, IHandleDomainEvents<EmployeeWasNotClockedIn>,
-        IHandleDomainEvents<EmployeeWasNotClockedOut>, IHandleDomainEvents<UnauthorizedUserAttemptedToUpdateEmployeeTimeClock>,
-        IHandleDomainEvents<AggregateUpdateWasAttemptedByUnknownUser<Employee>>, IHandleDomainEvents<DeactivatedMerchantAttemptedToCreateAggregate<Employee>>,
-        IHandleDomainEvents<DeactivatedUserAttemptedToUpdateAggregate<Employee>>
+    #region Instance Values
+
+    private readonly IMessageHandlerContext _MessageHandlerContext;
+    private readonly IEmployeeRepository _EmployeeRepository;
+
+    #endregion
+
+    #region Constructor
+
+    public EmployeeHandler(ILogger logger, IMessageHandlerContext messageHandlerContext, IEmployeeRepository employeeRepository) : base(logger)
     {
-        #region Instance Values
-
-        private readonly IMessageHandlerContext _MessageHandlerContext;
-        private readonly IEmployeeRepository _EmployeeRepository;
-
-        #endregion
-
-        #region Constructor
-
-        public EmployeeHandler(ILogger logger, IMessageHandlerContext messageHandlerContext) : base(logger)
-        {
-            _MessageHandlerContext = messageHandlerContext;
-        }
-
-        #endregion
-
-        #region Instance Members
-
-        public async Task Handle(EmployeeHasClockedIn domainEvent)
-        {
-            Log(domainEvent);
-            await _EmployeeRepository.SaveAsync(domainEvent.Employee).ConfigureAwait(false);
-        }
-
-        public async Task Handle(EmployeeHasClockedOut domainEvent)
-        {
-            Log(domainEvent);
-            await _EmployeeRepository.SaveAsync(domainEvent.Employee).ConfigureAwait(false);
-
-            await _MessageHandlerContext.Publish<EmployeeHasClockedOutEvent>((a) =>
-                {
-                    a.Employee = domainEvent.Employee.AsDto();
-                    a.TimeEntry = domainEvent.TimeEntry.AsDto();
-                })
-                .ConfigureAwait(false);
-        }
-
-        public Task Handle(EmployeeWasNotClockedIn domainEvent) => throw new NotImplementedException();
-
-        public Task Handle(EmployeeWasNotClockedOut domainEvent) => throw new NotImplementedException();
-
-        public Task Handle(UnauthorizedUserAttemptedToUpdateEmployeeTimeClock domainEvent) => throw new NotImplementedException();
-
-        public Task Handle(AggregateUpdateWasAttemptedByUnknownUser<Employee> domainEvent) => throw new NotImplementedException();
-
-        public Task Handle(DeactivatedMerchantAttemptedToCreateAggregate<Employee> domainEvent) => throw new NotImplementedException();
-
-        public Task Handle(DeactivatedUserAttemptedToUpdateAggregate<Employee> domainEvent) => throw new NotImplementedException();
-
-        #endregion
+        _MessageHandlerContext = messageHandlerContext;
+        _EmployeeRepository = employeeRepository;
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public async Task Handle(EmployeeHasBeenCreated domainEvent)
+    {
+        Log(domainEvent);
+        await _EmployeeRepository.SaveAsync(domainEvent.Employee).ConfigureAwait(false);
+    }
+
+    public async Task Handle(EmployeeHasClockedIn domainEvent)
+    {
+        Log(domainEvent);
+        await _EmployeeRepository.SaveAsync(domainEvent.Employee).ConfigureAwait(false);
+    }
+
+    public async Task Handle(EmployeeHasClockedOut domainEvent)
+    {
+        Log(domainEvent);
+        await _EmployeeRepository.SaveAsync(domainEvent.Employee).ConfigureAwait(false);
+
+        await _MessageHandlerContext.Publish<EmployeeHasClockedOutEvent>((a) =>
+            {
+                a.Employee = domainEvent.Employee.AsDto();
+                a.TimeEntry = domainEvent.TimeEntry.AsDto();
+            })
+            .ConfigureAwait(false);
+    }
+
+    public async Task Handle(EmployeeHasBeenRemoved domainEvent)
+    {
+        Log(domainEvent);
+        await _EmployeeRepository.RemoveAsync(domainEvent.Employee).ConfigureAwait(false);
+    }
+
+    public Task Handle(UnauthorizedUserAttemptedToUpdateEmployeeTimeClock domainEvent)
+    {
+        Log(domainEvent, LogLevel.Warning, $"\n\n\n\nWARNING: There is likely an error in the client integration");
+
+        return Task.CompletedTask;
+    }
+
+    public Task Handle(AggregateUpdateWasAttemptedByUnknownUser<Employee> domainEvent)
+    {
+        Log(domainEvent, LogLevel.Warning, $"\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
+
+        return Task.CompletedTask;
+    }
+
+    public Task Handle(DeactivatedMerchantAttemptedToCreateAggregate<Employee> domainEvent)
+    {
+        Log(domainEvent, LogLevel.Warning, $"\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
+
+        return Task.CompletedTask;
+    }
+
+    public Task Handle(DeactivatedUserAttemptedToUpdateAggregate<Employee> domainEvent)
+    {
+        Log(domainEvent, LogLevel.Warning, $"\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
+
+        return Task.CompletedTask;
+    }
+
+    public Task Handle(EmployeeWasNotClockedIn domainEvent)
+    {
+        Log(domainEvent, LogLevel.Warning, $"\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
+
+        return Task.CompletedTask;
+    }
+
+    public Task Handle(EmployeeWasNotClockedOut domainEvent)
+    {
+        Log(domainEvent, LogLevel.Warning, $"\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
+
+        return Task.CompletedTask;
+    }
+
+    public Task Handle(EmployeeAlreadyExists domainEvent)
+    {
+        Log(domainEvent, LogLevel.Warning, $"\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
+
+        return Task.CompletedTask;
+    }
+
+    #endregion
 }

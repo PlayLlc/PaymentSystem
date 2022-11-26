@@ -4,9 +4,8 @@ using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Time;
-using Play.Identity.Domain.Enumss;
 using Play.TimeClock.Contracts.Dtos;
-using Play.TimeClock.Domain.Aggregates.Employees;
+using Play.TimeClock.Domain.Aggregates;
 using Play.TimeClock.Domain.Enums;
 using Play.TimeClock.Domain.ValueObject;
 
@@ -53,7 +52,7 @@ public class TimeClock : Entity<SimpleStringId>
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    private TimeClock(string id, string employeeId, string timeClockStatus, DateTimeUtc? dateTime)
+    internal TimeClock(string id, string employeeId, string timeClockStatus, DateTimeUtc? dateTime)
     {
         Id = new SimpleStringId(id);
         _EmployeeId = new SimpleStringId(employeeId);

@@ -2,7 +2,7 @@
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Events;
 
-namespace Play.TimeClock.Domain.Aggregates.Employees.DomainEvents;
+namespace Play.TimeClock.Domain.Aggregates;
 
 public record UnauthorizedUserAttemptedToUpdateEmployeeTimeClock : BrokenRuleOrPolicyDomainEvent<Employee, SimpleStringId>
 {

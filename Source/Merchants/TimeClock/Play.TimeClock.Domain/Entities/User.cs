@@ -1,6 +1,7 @@
 ﻿using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
+using Play.TimeClock.Contracts.Dtos;
 
 namespace Play.TimeClock.Domain.Entities;
 
@@ -46,7 +47,7 @@ public class User : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override UserDto AsDto() =>
-        new UserDto()
+        new()
         {
             Id = Id,
             MerchantId = MerchantId

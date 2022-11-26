@@ -2,7 +2,7 @@
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Events;
 
-namespace Play.TimeClock.Domain.Aggregates._Shared.DomainEvents;
+namespace Play.TimeClock.Domain.Aggregates;
 
 public record DeactivatedUserAttemptedToUpdateAggregate<_Aggregate> : BrokenRuleOrPolicyDomainEvent<_Aggregate, SimpleStringId>
     where _Aggregate : Aggregate<SimpleStringId>

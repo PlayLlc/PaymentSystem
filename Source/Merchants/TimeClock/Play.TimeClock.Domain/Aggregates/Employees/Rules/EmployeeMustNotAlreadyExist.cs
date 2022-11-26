@@ -1,10 +1,10 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
-using Play.TimeClock.Domain.Entities;
+using Play.TimeClock.Domain.Services;
 
 namespace Play.TimeClock.Domain.Aggregates;
 
-public class EmployeeMustClockThemselvesInAndOut : BusinessRule<Employee, SimpleStringId>
+public class EmployeeMustNotAlreadyExist : BusinessRule<Employee, SimpleStringId>
 {
     #region Instance Values
 
@@ -16,9 +16,9 @@ public class EmployeeMustClockThemselvesInAndOut : BusinessRule<Employee, Simple
 
     #region Constructor
 
-    internal EmployeeMustClockThemselvesInAndOut(User user, string userId)
+    internal EmployeeMustNotAlreadyExist(IEnsureEmployeeDoesNotExist uniqueEmployeeChecker, string merchantId, string userId)
     {
-        _IsValid = user.GetId() == userId;
+        _IsValid = !uniqueEmployeeChecker.DoesEmployeeAlreadyExist(merchantId, userId);
     }
 
     #endregion
@@ -27,7 +27,7 @@ public class EmployeeMustClockThemselvesInAndOut : BusinessRule<Employee, Simple
 
     public override bool IsBroken() => !_IsValid;
 
-    public override UnauthorizedUserAttemptedToUpdateEmployeeTimeClock CreateBusinessRuleViolationDomainEvent(Employee aggregate) => new(aggregate, this);
+    public override EmployeeAlreadyExists CreateBusinessRuleViolationDomainEvent(Employee aggregate) => new(aggregate, this);
 
     #endregion
 }
