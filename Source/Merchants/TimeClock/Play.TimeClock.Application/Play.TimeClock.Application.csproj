@@ -8,11 +8,11 @@
 
   <ItemGroup>
     <Folder Include="Handles\NetworkEvents\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Play.TimeClock.Domain\Play.TimeClock.Domain.csproj" />
+    <ProjectReference Include="..\..\Identity\Play.Identity.Api.Client\Play.Identity.Api.Client.csproj" />
+    <ProjectReference Include="..\Play.TimeClock.Persistence.Sql\Play.TimeClock.Persistence.Sql.csproj" />
   </ItemGroup>
 
 </Project>

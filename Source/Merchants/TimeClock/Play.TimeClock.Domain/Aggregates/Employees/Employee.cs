@@ -95,14 +95,14 @@ public class Employee : Aggregate<SimpleStringId>
     /// <exception cref="NotFoundException"></exception>
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
-    public async Task ClockIn(IRetrieveUsers userRetriever, string userId)
+    public async Task ClockIn(IRetrieveUsers userRetriever, UpdateTimeClock command)
     {
         // Enforce
-        User user = await userRetriever.GetByIdAsync(userId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
+        User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<Employee>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Employee>(_MerchantId, user));
         Enforce(new EmployeeMustBeClockedOut(_TimePuncher.GetTimeClockStatus()));
-        Enforce(new EmployeeMustClockThemselvesInAndOut(user, userId));
+        Enforce(new EmployeeMustClockThemselvesInAndOut(user, _UserId));
 
         _TimePuncher.ClockIn();
 
@@ -112,14 +112,14 @@ public class Employee : Aggregate<SimpleStringId>
     /// <exception cref="NotFoundException"></exception>
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
-    public async Task ClockOut(IRetrieveUsers userRetriever, string userId)
+    public async Task ClockOut(IRetrieveUsers userRetriever, UpdateTimeClock command)
     {
         // Enforce
-        User user = await userRetriever.GetByIdAsync(userId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
+        User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<Employee>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Employee>(_MerchantId, user));
         Enforce(new EmployeeMustBeClockedIn(_TimePuncher.GetTimeClockStatus()));
-        Enforce(new EmployeeMustClockThemselvesInAndOut(user, userId));
+        Enforce(new EmployeeMustClockThemselvesInAndOut(user, _UserId));
         TimeEntry timeEntry = _TimePuncher.ClockOut(GenerateSimpleStringId);
         _TimeEntries.Add(timeEntry);
         Publish(new EmployeeHasClockedOut(this, timeEntry));

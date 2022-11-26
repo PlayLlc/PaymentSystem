@@ -11,7 +11,14 @@ public record RemoveEmployee
     [Required]
     [StringLength(20)]
     [AlphaNumericSpecial]
-    public string EmployeeId { get; set; } = string.Empty;
+    public string UserId { get; set; } = string.Empty;
+
+    #endregion
+}
+
+public record UpdateTimeClock
+{
+    #region Instance Values
 
     [Required]
     [StringLength(20)]
