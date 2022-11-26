@@ -115,9 +115,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Domain.EventSourcing",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.TimeClock.Contracts", "TimeClock\Play.TimeClock.Contracts\Play.TimeClock.Contracts.csproj", "{012CC293-7094-4E9B-B93E-E56D1919348D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.TimeClock.Application", "TimeClock\Play.TimeClock.Application\Play.TimeClock.Application.csproj", "{87683F40-5DD3-4ABD-AEBB-B291ABF6CAC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.TimeClock.Application", "TimeClock\Play.TimeClock.Application\Play.TimeClock.Application.csproj", "{87683F40-5DD3-4ABD-AEBB-B291ABF6CAC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.TimeClock.Persistence.Sql", "TimeClock\Play.TimeClock.Persistence.Sql\Play.TimeClock.Persistence.Sql.csproj", "{742238F1-8C67-49A4-A766-3B818F57D3BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.TimeClock.Persistence.Sql", "TimeClock\Play.TimeClock.Persistence.Sql\Play.TimeClock.Persistence.Sql.csproj", "{742238F1-8C67-49A4-A766-3B818F57D3BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.TimeClock.Api", "TimeClock\Play.TimeClock.Api\Play.TimeClock.Api.csproj", "{5A1E508F-BE3D-41B1-8465-F897C8833E03}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -301,6 +303,10 @@ Global
 		{742238F1-8C67-49A4-A766-3B818F57D3BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{742238F1-8C67-49A4-A766-3B818F57D3BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{742238F1-8C67-49A4-A766-3B818F57D3BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A1E508F-BE3D-41B1-8465-F897C8833E03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A1E508F-BE3D-41B1-8465-F897C8833E03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A1E508F-BE3D-41B1-8465-F897C8833E03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A1E508F-BE3D-41B1-8465-F897C8833E03}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -351,6 +357,7 @@ Global
 		{012CC293-7094-4E9B-B93E-E56D1919348D} = {1E250512-7DCE-440C-AD5E-DC491F6E54BE}
 		{87683F40-5DD3-4ABD-AEBB-B291ABF6CAC4} = {1E250512-7DCE-440C-AD5E-DC491F6E54BE}
 		{742238F1-8C67-49A4-A766-3B818F57D3BE} = {1E250512-7DCE-440C-AD5E-DC491F6E54BE}
+		{5A1E508F-BE3D-41B1-8465-F897C8833E03} = {1E250512-7DCE-440C-AD5E-DC491F6E54BE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6833603-DD22-4624-AB4A-235C51671F62}

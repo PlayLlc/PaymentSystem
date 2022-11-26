@@ -42,7 +42,7 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
         FileControlInformationProprietaryDdfBuilder = new FileControlInformationProprietaryDdfBuilder();
         FileControlInformationDdfBuilder = new FileControlInformationDdfBuilder();
         FileControlInformationIssuerDiscretionaryDataPpseBuilder = new FileControlInformationIssuerDiscretionaryDataPpseBuilder();
-        FileControlInformationIssuerDiscretionaryPpseBuilder = new FileControlInformationIssuerDiscretionaryPpseBuilder();
+        FileControlInformationIssuerDiscretionaryPpseBuilder = new FileControlInformationIssuerDiscretionaryDataPpseBuilder();
         ResponseMessageTemplateFormat2Builder = new ResponseMessageTemplateFormat2Builder();
     }
 
@@ -77,6 +77,7 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
             new TerminalVerificationResultCodesBuilder(),
             new ValueQualifierBuilder(),
             new ApplicationPanBuilder(),
+
             //new Alpha2CountryCodeBuilder(),
             new TerminalTransactionQualifiersBuilder(),
             new TerminalIdentificationBuilder(),
@@ -107,10 +108,9 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
             FileControlInformationProprietaryAdfBuilder,
             FileControlInformationProprietaryDdfBuilder,
             FileControlInformationDdfBuilder,
-            LanguagePreferenceBuilder
             FileControlInformationIssuerDiscretionaryPpseBuilder,
             LanguagePreferenceBuilder,
-            ResponseMessageTemplateFormat2Builder,
+            ResponseMessageTemplateFormat2Builder
         });
 
         return currentModuleBuilders;
@@ -152,7 +152,7 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
     public static readonly FileControlInformationProprietaryDdfBuilder FileControlInformationProprietaryDdfBuilder;
     public static readonly FileControlInformationDdfBuilder FileControlInformationDdfBuilder;
     public static readonly FileControlInformationIssuerDiscretionaryDataPpseBuilder FileControlInformationIssuerDiscretionaryDataPpseBuilder;
-    public static readonly FileControlInformationIssuerDiscretionaryPpseBuilder FileControlInformationIssuerDiscretionaryPpseBuilder;
+    public static readonly FileControlInformationIssuerDiscretionaryDataPpseBuilder FileControlInformationIssuerDiscretionaryPpseBuilder;
     public static readonly ResponseMessageTemplateFormat2Builder ResponseMessageTemplateFormat2Builder;
 
     #endregion

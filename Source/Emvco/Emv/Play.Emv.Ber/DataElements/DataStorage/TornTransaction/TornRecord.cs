@@ -131,7 +131,7 @@ public record TornRecord : DataExchangeResponse
 
     public bool HasRecordExpired(Seconds timeout)
     {
-        Seconds timeElapsed = DateTimeUtc.Now - _CommitTimeStamp;
+        Seconds timeElapsed = (Ticks) (DateTimeUtc.Now - _CommitTimeStamp);
 
         return timeElapsed >= timeout;
     }
