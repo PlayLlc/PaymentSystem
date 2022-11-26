@@ -73,7 +73,7 @@ public class Employee : Aggregate<SimpleStringId>
 
         employee.Enforce(new UserMustBeActiveToUpdateAggregate<Employee>(user));
         employee.Enforce(new MerchantMustBeActiveToCreateAggregate<Employee>(merchant));
-        employee.Enforce(new EmployeeMustNotAlreadyExist(uniqueEmployeeChecker, command.UserId, command.MerchantId));
+        employee.Enforce(new EmployeeMustNotAlreadyExist(uniqueEmployeeChecker, user.Id, merchant.Id));
 
         employee.Publish(new EmployeeHasBeenCreated(employee, merchant.Id, user.Id));
 

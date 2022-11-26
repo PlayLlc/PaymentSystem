@@ -1,6 +1,7 @@
 ﻿using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
+using Play.TimeClock.Contracts.Dtos;
 
 namespace Play.TimeClock.Domain.Entities;
 
@@ -40,7 +41,7 @@ public class Merchant : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override MerchantDto AsDto() =>
-        new MerchantDto()
+        new()
         {
             Id = Id,
             IsActive = IsActive

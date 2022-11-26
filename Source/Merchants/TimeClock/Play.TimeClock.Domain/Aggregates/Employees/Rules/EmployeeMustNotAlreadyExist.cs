@@ -16,7 +16,7 @@ public class EmployeeMustNotAlreadyExist : BusinessRule<Employee, SimpleStringId
 
     #region Constructor
 
-    internal EmployeeMustNotAlreadyExist(IEnsureEmployeeDoesNotExist uniqueEmployeeChecker, string merchantId, string userId)
+    internal EmployeeMustNotAlreadyExist(IEnsureEmployeeDoesNotExist uniqueEmployeeChecker, SimpleStringId merchantId, SimpleStringId userId)
     {
         _IsValid = !uniqueEmployeeChecker.DoesEmployeeAlreadyExist(merchantId, userId);
     }
