@@ -6,10 +6,6 @@ namespace Play.TimeClock.Persistence.Sql.Persistence;
 
 internal class TimeClockDbContextOptionsBuilder : IDesignTimeDbContextFactory<TimeClockDbContext>
 {
-    #region Constructor
-
-    #endregion
-
     #region Instance Members
 
     public TimeClockDbContext CreateDbContext(string[] args)

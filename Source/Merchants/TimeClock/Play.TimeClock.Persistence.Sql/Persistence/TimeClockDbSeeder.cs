@@ -4,10 +4,6 @@ namespace Play.TimeClock.Persistence.Sql.Persistence;
 
 public class TimeClockDbSeeder
 {
-    #region Constructor
-
-    #endregion
-
     #region Instance Members
 
     /// <exception cref="OperationCanceledException"></exception>
