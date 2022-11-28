@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Play.Identity.Contracts.Commands.UserRegistration;
+namespace Play.Identity.Contracts.Commands;
 
 public class CreateUserRegistrationCommand
 {

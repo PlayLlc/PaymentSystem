@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 using Play.Domain;
-using Play.Inventory.Contracts.Dtos;
+using Play.Domain.Common.Dtos;
 
 namespace Play.Loyalty.Contracts.Dtos;
 

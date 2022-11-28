@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿#nullable disable
 
-#nullable disable
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Play.Accounts.Persistence.Sql.Migrations;
+namespace Play.Identity.Persistence.Sql.Migrations;
 
 public partial class InitialMigration : Migration
 {

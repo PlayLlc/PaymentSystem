@@ -1,4 +1,4 @@
-﻿namespace Play.Underwriting.DataServices.USTreasury;
+﻿namespace Play.Underwriting.Application.DataServices.USTreasury;
 
 public class UsTreasuryClient : IUsTreasuryClient
 {

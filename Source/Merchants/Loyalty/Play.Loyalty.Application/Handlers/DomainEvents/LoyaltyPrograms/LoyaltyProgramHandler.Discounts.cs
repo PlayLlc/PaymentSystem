@@ -2,7 +2,6 @@
 
 using Play.Domain.Events;
 using Play.Loyalty.Contracts;
-using Play.Loyalty.Contracts.NetworkEvents;
 using Play.Loyalty.Domain.Aggregates;
 
 namespace Play.Loyalty.Application.Handlers.DomainEvents;

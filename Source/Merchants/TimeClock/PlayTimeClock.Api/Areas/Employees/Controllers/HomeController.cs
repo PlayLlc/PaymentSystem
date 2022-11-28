@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Play.Domain.Common.Attributes;
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
-using Play.Inventory.Api.Controllers;
 using Play.Mvc.Attributes;
 using Play.Mvc.Extensions;
 using Play.TimeClock.Contracts.Commands;
@@ -13,6 +12,8 @@ using Play.TimeClock.Contracts.Dtos;
 using Play.TimeClock.Domain.Aggregates;
 using Play.TimeClock.Domain.Repositories;
 using Play.TimeClock.Domain.Services;
+
+using PlayTimeClock.Api.Controllers;
 
 namespace PlayTimeClock.Api.Areas.Employees.Controllers
 {

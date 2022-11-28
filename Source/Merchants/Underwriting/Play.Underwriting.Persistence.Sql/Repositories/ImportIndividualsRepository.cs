@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Play.Persistence.Sql;
 using Play.Underwriting.Domain.Aggregates;
 using Play.Underwriting.Domain.Repositories;
-using Play.Underwriting.Persistence.Persistence;
+using Play.Underwriting.Persistence.Sql.Persistence;
 
 namespace Play.Underwriting.Persistence.Sql.Repositories;
 

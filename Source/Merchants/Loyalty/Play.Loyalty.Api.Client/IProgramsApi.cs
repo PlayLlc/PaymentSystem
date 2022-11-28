@@ -2,7 +2,7 @@ using Play.Loyalty.Contracts.Commands;
 using Play.Loyalty.Contracts.Dtos;
 using Play.Restful.Clients;
 
-namespace IO.Swagger.Api;
+namespace Play.Loyalty.Api.Client;
 
 /// <summary>
 ///     Represents a collection of functions to interact with the API endpoints

@@ -1,10 +1,9 @@
-﻿using Play.Messaging.NServiceBus;
-
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 using Play.Inventory.Contracts.Dtos;
+using Play.Messaging.NServiceBus;
 
-namespace Play.Inventory.Contracts.Events;
+namespace Play.Inventory.Contracts;
 
 public class InventoryItemUpdatedEvent : NetworkEvent
 {

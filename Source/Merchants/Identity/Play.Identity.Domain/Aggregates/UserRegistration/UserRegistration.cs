@@ -8,7 +8,6 @@ using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Time;
 using Play.Identity.Contracts.Commands;
-using Play.Identity.Contracts.Commands.UserRegistration;
 using Play.Identity.Contracts.Dtos;
 using Play.Identity.Domain.Aggregates.Rules;
 using Play.Identity.Domain.Entities;
@@ -64,30 +63,15 @@ public class UserRegistration : Aggregate<SimpleStringId>
 
     #region Instance Members
 
-    public string GetMerchantId()
-    {
-        return _MerchantId;
-    }
+    public string GetMerchantId() => _MerchantId;
 
-    public string GetEmail()
-    {
-        return _Username;
-    }
+    public string GetEmail() => _Username;
 
-    public bool HasEmailBeenVerified()
-    {
-        return _HasEmailBeenVerified;
-    }
+    public bool HasEmailBeenVerified() => _HasEmailBeenVerified;
 
-    public bool HasPhoneBeenVerified()
-    {
-        return _HasPhoneBeenVerified;
-    }
+    public bool HasPhoneBeenVerified() => _HasPhoneBeenVerified;
 
-    public bool IsApproved()
-    {
-        return _Status == UserRegistrationStatuses.Approved;
-    }
+    public bool IsApproved() => _Status == UserRegistrationStatuses.Approved;
 
     /// <exception cref="AggregateException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
@@ -290,15 +274,11 @@ public class UserRegistration : Aggregate<SimpleStringId>
         return user;
     }
 
-    public override SimpleStringId GetId()
-    {
-        return Id;
-    }
+    public override SimpleStringId GetId() => Id;
 
     /// <exception cref="PlayInternalException"></exception>
-    public override UserRegistrationDto AsDto()
-    {
-        return new UserRegistrationDto
+    public override UserRegistrationDto AsDto() =>
+        new UserRegistrationDto
         {
             Id = Id,
             MerchantId = _MerchantId,
@@ -308,7 +288,6 @@ public class UserRegistration : Aggregate<SimpleStringId>
             RegisteredDate = _RegistrationDate!,
             RegistrationStatus = _Status
         };
-    }
 
     #endregion
 }

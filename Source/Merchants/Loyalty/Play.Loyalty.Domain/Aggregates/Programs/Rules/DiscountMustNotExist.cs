@@ -1,7 +1,6 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
 using Play.Loyalty.Domain.Entities;
-using Play.Loyalty.Domain.Entitiesd;
 
 namespace Play.Loyalty.Domain.Aggregates;
 

@@ -9,7 +9,6 @@ using Play.Globalization.Currency;
 using Play.Inventory.Contracts.Dtos;
 using Play.Loyalty.Domain.Aggregates;
 using Play.Loyalty.Domain.Entities;
-using Play.Loyalty.Domain.Entitiesd;
 using Play.Loyalty.Persistence.Sql.Configuration;
 using Play.Persistence.Sql;
 

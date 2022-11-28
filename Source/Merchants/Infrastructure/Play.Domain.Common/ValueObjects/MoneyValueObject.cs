@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using Play.Domain.Common.Dtos;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Currency;
-using Play.Inventory.Contracts.Dtos;
 
 namespace Play.Domain.Common.ValueObjects;
 

@@ -1,11 +1,11 @@
-﻿using Play.Underwriting.Domain.Aggregates;
+﻿using Play.Underwriting.Application.Parser.TypeConverters;
+using Play.Underwriting.Domain.Aggregates;
 using Play.Underwriting.Domain.Enums;
-using Play.Underwriting.Parser.TypeConverters;
 
 using TinyCsvParser.Mapping;
 using TinyCsvParser.TypeConverter;
 
-namespace Play.Underwriting.Parser.Mappings;
+namespace Play.Underwriting.Application.Parser.Mappings;
 
 public sealed class IndividualCsvMapping : CsvMapping<Individual>
 {

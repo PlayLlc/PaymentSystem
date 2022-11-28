@@ -1,10 +1,10 @@
-﻿using Play.Underwriting.Domain.Entities;
+﻿using Play.Underwriting.Application.Parser.TypeConverters;
+using Play.Underwriting.Domain.Entities;
 using Play.Underwriting.Domain.ValueObjects;
-using Play.Underwriting.Parser.TypeConverters;
 
 using TinyCsvParser.Mapping;
 
-namespace Play.Underwriting.Parser.Mappings;
+namespace Play.Underwriting.Application.Parser.Mappings;
 
 internal sealed class AliasCsvMapping : CsvMapping<Alias>
 {

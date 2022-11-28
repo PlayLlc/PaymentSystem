@@ -2,7 +2,7 @@
 
 using Play.Core;
 
-namespace Play.Identity.Domain.Enums;
+namespace Play.Underwriting.Domain.Enums;
 
 public record MerchantCategoryCodes : EnumObject<ushort>
 {
@@ -55,10 +55,7 @@ public record MerchantCategoryCodes : EnumObject<ushort>
 
     #region Instance Members
 
-    public override MerchantCategoryCodes[] GetAll()
-    {
-        return _ValueObjectMap.Values.ToArray();
-    }
+    public override MerchantCategoryCodes[] GetAll() => _ValueObjectMap.Values.ToArray();
 
     public override bool TryGet(ushort value, out EnumObject<ushort>? result)
     {

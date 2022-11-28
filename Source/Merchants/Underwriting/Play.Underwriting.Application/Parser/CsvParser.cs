@@ -1,10 +1,10 @@
-﻿using Play.Underwriting.Common.Exceptions;
-using Play.Underwriting.Parser.TypeConverters;
+﻿using Play.Underwriting.Application.Common.Exceptions;
+using Play.Underwriting.Application.Parser.TypeConverters;
 
 using TinyCsvParser;
 using TinyCsvParser.Mapping;
 
-namespace Play.Underwriting.Parser;
+namespace Play.Underwriting.Application.Parser;
 
 public class CsvParser
 {

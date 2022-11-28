@@ -1,4 +1,4 @@
-﻿namespace Play.Loyalty.Api.Extensions;
+﻿namespace PlayTimeClock.Api.Extensions;
 
 public static partial class WebApplicationBuilderExtensions
 {

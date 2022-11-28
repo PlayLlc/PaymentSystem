@@ -1,7 +1,7 @@
 using Play.Restful.Clients;
 using Play.TimeClock.Contracts.Commands;
 
-namespace IO.Swagger.Api;
+namespace Play.TimeClock.Api.Client;
 
 /// <summary>
 ///     Represents a collection of functions to interact with the API endpoints

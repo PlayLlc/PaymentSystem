@@ -7,7 +7,6 @@ using Play.Globalization.Currency;
 using Play.Loyalty.Domain.Aggregates;
 using Play.Persistence.Sql;
 using Play.Loyalty.Domain.Entities;
-using Play.Loyalty.Domain.Entitiesd;
 using Play.Loyalty.Domain.ValueObjects;
 
 namespace Play.Loyalty.Persistence.Sql.Configuration;

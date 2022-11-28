@@ -1,18 +1,17 @@
-﻿using Microsoft.Extensions.Options;
-
-using Play.Core.Exceptions;
-
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 using System.Text.Json;
 
+using Microsoft.Extensions.Options;
+
+using Play.Core.Exceptions;
 using Play.Domain.Common.Entities;
 using Play.Domain.Common.ValueObjects;
-using Play.Identity.Domain.Services;
-using Play.Identity.Domain.ValueObjects;
 using Play.Underwriting.Contracts.Requests;
 using Play.Underwriting.Contracts.Responses;
+using Play.Underwriting.Domain;
+using Play.Underwriting.Domain.ValueObjects;
 
-namespace Play.Identity.Application.Services;
+namespace Play.Underwriting.Application;
 
 public class MerchantUnderwriter : IUnderwriteMerchants
 {

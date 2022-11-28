@@ -1,9 +1,9 @@
-﻿using Play.Underwriting.Domain.Entities;
-using Play.Underwriting.Parser.TypeConverters;
+﻿using Play.Underwriting.Application.Parser.TypeConverters;
+using Play.Underwriting.Domain.Entities;
 
 using TinyCsvParser.Mapping;
 
-namespace Play.Underwriting.Parser.Mappings;
+namespace Play.Underwriting.Application.Parser.Mappings;
 
 //15268(0), 22761(1),"172 Xibin Rd, Ranghulu District, (Daqing, Heilongjiang Branch)"(2),"Daqing 163453"(3),"China"(4),-0-(5) \
 //17013,52484,"43, bld.1, Vorontsovskaya str.","Moscow 109147","Russia",-0- 

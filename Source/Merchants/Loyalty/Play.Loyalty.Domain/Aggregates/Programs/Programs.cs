@@ -7,7 +7,6 @@ using Play.Loyalty.Contracts.Commands;
 using Play.Loyalty.Contracts.Dtos;
 using Play.Loyalty.Domain.Aggregates.Rules;
 using Play.Loyalty.Domain.Entities;
-using Play.Loyalty.Domain.Entitiesd;
 using Play.Loyalty.Domain.Services;
 
 namespace Play.Loyalty.Domain.Aggregates;

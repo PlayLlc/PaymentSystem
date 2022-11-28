@@ -1,11 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Configuration;
+
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using Quartz;
 
-using System.Configuration;
-
-namespace Play.Scheduling;
+namespace Play.Underwriting.Application;
 
 public static class JobConfigurationExtensions
 {

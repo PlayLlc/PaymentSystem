@@ -1,8 +1,9 @@
-using Play.Loyalty.Api.Extensions;
 using Play.Mvc.Extensions;
 using Play.Mvc.Filters;
 using Play.Mvc.Swagger;
 using Play.TimeClock.Contracts.Dtos;
+
+using PlayTimeClock.Api.Extensions;
 
 using Serilog;
 

@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 using Play.Domain.Common.Attributes;
-using Play.Loyalty.Contracts.Dtos;
 using Play.Messaging.NServiceBus;
 
-namespace Play.Loyalty.Contracts.NetworkEvents;
+namespace Play.Loyalty.Contracts;
 
 public class DiscountHasBeenRemovedEvent : NetworkEvent
 {

@@ -8,7 +8,6 @@ using Play.Identity.Domain.Services;
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
 using Play.Mvc.Extensions;
-using Play.Identity.Contracts.Commands.UserRegistration;
 using Play.Mvc.Attributes;
 
 namespace Play.Identity.Api.Areas.Registration.Controllers;

@@ -2,8 +2,8 @@
 
 using Play.Domain;
 using Play.Domain.Common.Attributes;
+using Play.Domain.Common.Dtos;
 using Play.Globalization.Currency;
-using Play.Inventory.Contracts.Dtos;
 
 namespace Play.Loyalty.Contracts.Dtos;
 

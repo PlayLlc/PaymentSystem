@@ -4,7 +4,7 @@ using Play.Globalization.Time;
 using Play.Inventory.Contracts.Enums;
 using Play.Messaging.NServiceBus;
 
-namespace Play.Inventory.Contracts.Events;
+namespace Play.Inventory.Contracts;
 
 public class StockItemUpdatedEvent : NetworkEvent
 {

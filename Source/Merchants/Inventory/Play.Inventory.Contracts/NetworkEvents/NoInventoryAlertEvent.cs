@@ -2,7 +2,7 @@
 
 using Play.Messaging.NServiceBus;
 
-namespace Play.Inventory.Contracts.Events;
+namespace Play.Inventory.Contracts;
 
 public class NoInventoryAlertEvent : NetworkEvent
 {

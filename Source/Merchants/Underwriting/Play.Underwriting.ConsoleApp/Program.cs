@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using Play.Mvc.Filters;
-using Play.Scheduling;
-using Play.Underwriting.DataServices.USTreasury;
+using Play.Underwriting.Application;
+using Play.Underwriting.Application.DataServices.USTreasury;
 using Play.Underwriting.Domain.Repositories;
-using Play.Underwriting.Persistence.Persistence;
+using Play.Underwriting.Persistence.Sql.Persistence;
 using Play.Underwriting.Persistence.Sql.Repositories;
 
 using Serilog;

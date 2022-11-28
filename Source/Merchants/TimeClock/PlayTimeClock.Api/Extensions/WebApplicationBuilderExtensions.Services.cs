@@ -11,7 +11,7 @@ using Play.TimeClock.Domain.Services;
 using Play.TimeClock.Persistence.Sql.Persistence;
 using Play.TimeClock.Persistence.Sql.Repositories;
 
-namespace Play.Loyalty.Api.Extensions;
+namespace PlayTimeClock.Api.Extensions;
 
 public static partial class WebApplicationBuilderExtensions
 {

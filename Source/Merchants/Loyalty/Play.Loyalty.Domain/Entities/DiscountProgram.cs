@@ -1,22 +1,10 @@
 ﻿using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
-using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Currency;
-using Play.Loyalty.Contracts.Commands;
 using Play.Loyalty.Contracts.Dtos;
-using Play.Loyalty.Domain.Aggregates;
-using Play.Loyalty.Domain.Entities;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Loyalty.Domain.Services;
-
-namespace Play.Loyalty.Domain.Entitiesd;
+namespace Play.Loyalty.Domain.Entities;
 
 public class DiscountProgram : Entity<SimpleStringId>
 {

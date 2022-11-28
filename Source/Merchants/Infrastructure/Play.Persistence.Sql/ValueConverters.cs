@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+using Play.Domain.Common.Dtos;
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
 using Play.Globalization.Currency;
 using Play.Globalization.Time;
-using Play.Inventory.Contracts.Dtos;
 
 namespace Play.Persistence.Sql;
 

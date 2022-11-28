@@ -3,7 +3,7 @@
 using Play.TimeClock.Domain.Repositories;
 using Play.TimeClock.Domain.Services;
 
-namespace Play.Inventory.Api.Controllers;
+namespace PlayTimeClock.Api.Controllers;
 
 [ApiController]
 [Route("/TimeClock")]

@@ -1,5 +1,4 @@
 ﻿using Play.Domain.Common.Attributes;
-using Play.Inventory.Contracts.Dtos;
 
 using System;
 using System.Collections.Generic;

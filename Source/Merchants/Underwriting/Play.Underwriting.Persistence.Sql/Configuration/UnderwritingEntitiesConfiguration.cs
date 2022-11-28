@@ -6,7 +6,7 @@ using Play.Underwriting.Domain.Entities;
 using Play.Underwriting.Domain.Enums;
 using Play.Underwriting.Domain.ValueObjects;
 
-namespace Play.Underwriting.Persistence.Configuration;
+namespace Play.Underwriting.Persistence.Sql.Configuration;
 
 /// <summary>
 ///     Specifications taken from : https://home.treasury.gov/system/files/126/dat_spec.txt

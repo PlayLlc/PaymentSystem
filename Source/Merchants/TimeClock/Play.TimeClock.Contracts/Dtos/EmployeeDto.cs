@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 using Play.Domain;
 using Play.Domain.Common.Attributes;
-using Play.Inventory.Contracts.Dtos;
 
 namespace Play.TimeClock.Contracts.Dtos;
 

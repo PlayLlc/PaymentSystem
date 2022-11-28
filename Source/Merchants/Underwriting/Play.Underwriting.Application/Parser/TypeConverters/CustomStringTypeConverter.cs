@@ -1,6 +1,6 @@
 ﻿using TinyCsvParser.TypeConverter;
 
-namespace Play.Underwriting.Parser.TypeConverters;
+namespace Play.Underwriting.Application.Parser.TypeConverters;
 
 public class CustomStringTypeConverter : StringConverter
 {

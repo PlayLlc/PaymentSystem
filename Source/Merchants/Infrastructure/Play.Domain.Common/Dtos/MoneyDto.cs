@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Play.Domain;
 using Play.Globalization.Currency;
 
-namespace Play.Inventory.Contracts.Dtos;
+namespace Play.Domain.Common.Dtos;
 
 public record MoneyDto : IDto
 {

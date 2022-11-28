@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Play.Core.Exceptions;
 using Play.Domain;
+using Play.Domain.Common.Dtos;
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
 using Play.Domain.Exceptions;

@@ -1,9 +1,8 @@
 ﻿using Play.Core;
 using Play.Domain.ValueObjects;
-using Play.Identity.Domain.Enums;
-using Play.Underwriting.Domain.ValueObjects;
+using Play.Underwriting.Domain.Enums;
 
-namespace Play.Identity.Domain.ValueObjects;
+namespace Play.Underwriting.Domain.ValueObjects;
 
 public record MerchantCategoryCode : ValueObject<ushort>
 {
@@ -28,10 +27,7 @@ public record MerchantCategoryCode : ValueObject<ushort>
 
     #region Operator Overrides
 
-    public static implicit operator ushort(MerchantCategoryCode value)
-    {
-        return value.Value;
-    }
+    public static implicit operator ushort(MerchantCategoryCode value) => value.Value;
 
     #endregion
 }

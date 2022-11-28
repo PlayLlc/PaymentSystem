@@ -3,21 +3,20 @@
 using Play.Core.Exceptions;
 using Play.Domain.Exceptions;
 using Play.Globalization.Time;
-using Play.Scheduling;
-using Play.Underwriting.Common.Exceptions;
-using Play.Underwriting.DataServices.USTreasury;
+using Play.Underwriting.Application.Common.Exceptions;
+using Play.Underwriting.Application.DataServices.USTreasury;
+using Play.Underwriting.Application.Parser;
+using Play.Underwriting.Application.Parser.Mappings;
 using Play.Underwriting.Domain.Aggregates;
 using Play.Underwriting.Domain.Entities;
 using Play.Underwriting.Domain.Repositories;
-using Play.Underwriting.Parser;
-using Play.Underwriting.Parser.Mappings;
 
 using Quartz;
 
 using TinyCsvParser;
 using TinyCsvParser.Mapping;
 
-namespace Play.Underwriting.Jobs;
+namespace Play.Underwriting.Application.Jobs;
 
 public class ImportSanctionListsJob : IScheduledCronJob
 {
@@ -229,15 +228,9 @@ public class ImportSanctionListsJob : IScheduledCronJob
         return result.Select(x => x.Result);
     }
 
-    public string GetCronSchedule()
-    {
-        throw new NotImplementedException();
-    }
+    public string GetCronSchedule() => throw new NotImplementedException();
 
-    public string GetJobName()
-    {
-        throw new NotImplementedException();
-    }
+    public string GetJobName() => throw new NotImplementedException();
 
     #endregion
 }

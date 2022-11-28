@@ -1,6 +1,5 @@
 using Play.Identity.Contracts.Commands;
 using Play.Identity.Contracts.Commands.MerchantRegistration;
-using Play.Identity.Contracts.Commands.UserRegistration;
 using Play.Identity.Contracts.Dtos;
 using Play.Restful.Clients;
 

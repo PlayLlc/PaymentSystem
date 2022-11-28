@@ -4,7 +4,7 @@ using NServiceBus;
 
 using Play.Domain.Events;
 using Play.Globalization.Time;
-using Play.Inventory.Contracts.Events;
+using Play.Inventory.Contracts;
 using Play.Inventory.Domain.Aggregates;
 using Play.Inventory.Domain.Repositories;
 
@@ -62,23 +62,17 @@ public class InventoryHandlers : DomainEventHandler, IHandleDomainEvents<LowInve
             .ConfigureAwait(false);
     }
 
-    public async Task Handle(StockActionWasIncorrect domainEvent)
-    {
+    public async Task Handle(StockActionWasIncorrect domainEvent) =>
         Log(domainEvent, LogLevel.Warning,
             $"\n\n\n\nWARNING: There is likely an error in the client integration. The StockAction provided is not appropriate for this resource");
-    }
 
-    public async Task Handle(StockItemAlreadyExists domainEvent)
-    {
+    public async Task Handle(StockItemAlreadyExists domainEvent) =>
         Log(domainEvent, LogLevel.Warning,
             $"\n\n\n\nWARNING: There is likely a race condition or an error in the client integration. A StockItem was attempted to be created but it already exists");
-    }
 
-    public async Task Handle(StockItemDoesNotExist domainEvent)
-    {
+    public async Task Handle(StockItemDoesNotExist domainEvent) =>
         Log(domainEvent, LogLevel.Warning,
             $"\n\n\n\nWARNING: There is likely a race condition or an error in the client integration. A StockItem was referenced that does not exist");
-    }
 
     public async Task Handle(StockItemHasBeenRemoved domainEvent)
     {
