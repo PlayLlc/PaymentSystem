@@ -4,7 +4,7 @@ using Play.Domain.Common.Attributes;
 
 namespace Play.TimeClock.Contracts.Commands;
 
-public record RemoveEmployee
+public record UpdateTimeClock
 {
     #region Instance Values
 

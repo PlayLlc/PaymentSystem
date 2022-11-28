@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\Play.Restful\Play.Restful.csproj" />
+    <ProjectReference Include="..\Play.TimeClock.Contracts\Play.TimeClock.Contracts.csproj" />
+  </ItemGroup>
+
 </Project>

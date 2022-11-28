@@ -42,7 +42,7 @@ namespace PlayTimeClock.Api.Areas.Employees.Controllers
 
         [HttpGetSwagger(template: "{employeeId}")]
         [ValidateAntiForgeryToken]
-        public async Task<EmployeeDto> Get([FromQuery] [Required] [StringLength(20)] [AlphaNumericSpecial] string employeeId)
+        public async Task<EmployeeDto> Get([Required] [StringLength(20)] [AlphaNumericSpecial] string employeeId)
         {
             Employee employee = await _EmployeeRepository.GetByIdAsync(new SimpleStringId(employeeId)).ConfigureAwait(false)
                                 ?? throw new NotFoundException(typeof(Employee));
@@ -52,7 +52,7 @@ namespace PlayTimeClock.Api.Areas.Employees.Controllers
 
         [HttpDeleteSwagger(template: "{employeeId}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Remove([FromQuery] [Required] [StringLength(20)] [AlphaNumericSpecial] string employeeId, RemoveEmployee command)
+        public async Task<IActionResult> Remove([Required] [StringLength(20)] [AlphaNumericSpecial] string employeeId, RemoveEmployee command)
         {
             this.ValidateModel();
             Employee employee = await _EmployeeRepository.GetByIdAsync(new SimpleStringId(employeeId)).ConfigureAwait(false)
@@ -65,7 +65,7 @@ namespace PlayTimeClock.Api.Areas.Employees.Controllers
 
         [HttpPutSwagger(template: "{employeeId}/[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ClockIn([FromQuery] [Required] [StringLength(20)] [AlphaNumericSpecial] string employeeId, UpdateTimeClock command)
+        public async Task<IActionResult> ClockIn([Required] [StringLength(20)] [AlphaNumericSpecial] string employeeId, UpdateTimeClock command)
         {
             this.ValidateModel();
             Employee employee = await _EmployeeRepository.GetByIdAsync(new SimpleStringId(employeeId)).ConfigureAwait(false)
@@ -78,7 +78,7 @@ namespace PlayTimeClock.Api.Areas.Employees.Controllers
 
         [HttpPutSwagger(template: "{employeeId}/[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ClockOut([FromQuery] [Required] [StringLength(20)] [AlphaNumericSpecial] string employeeId, UpdateTimeClock command)
+        public async Task<IActionResult> ClockOut([Required] [StringLength(20)] [AlphaNumericSpecial] string employeeId, UpdateTimeClock command)
         {
             this.ValidateModel();
             Employee employee = await _EmployeeRepository.GetByIdAsync(new SimpleStringId(employeeId)).ConfigureAwait(false)

@@ -34,7 +34,7 @@ namespace PlayTimeClock.Api.Areas.Employees.Controllers
 
         [HttpPutSwagger(template: "{employeeId}/[controller]/[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([FromQuery] [Required] [StringLength(20)] [AlphaNumericSpecial] string employeeId, EditTimeEntry command)
+        public async Task<IActionResult> Edit([Required] [StringLength(20)] [AlphaNumericSpecial] string employeeId, EditTimeEntry command)
         {
             this.ValidateModel();
             Employee employee = await _EmployeeRepository.GetByIdAsync(new SimpleStringId(employeeId)).ConfigureAwait(false)

@@ -26,21 +26,3 @@ public class EmployeeHasClockedOutEvent : NetworkEvent
 
     #endregion
 }
-
-public class EmployeeTimeEntryHasBeenEditedEvent : NetworkEvent
-{
-    #region Instance Values
-
-    [Required]
-    public EmployeeDto Employee { get; set; } = null!;
-
-    [Required]
-    public TimeEntryDto TimeEntry { get; set; } = null!;
-
-    [Required]
-    [StringLength(20)]
-    [AlphaNumericSpecial]
-    public string UserId { get; set; } = null!;
-
-    #endregion
-}
