@@ -52,6 +52,7 @@ public class MoneyValueObject
     #region Operator Overrides
 
     public static implicit operator Money(MoneyValueObject value) => new(value.Amount, value.NumericCurrencyCode);
+    public static implicit operator MoneyDto(MoneyValueObject value) => new(value);
     public static implicit operator MoneyValueObject(Money value) => new(value);
 
     #endregion

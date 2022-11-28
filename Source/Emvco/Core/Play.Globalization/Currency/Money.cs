@@ -220,6 +220,9 @@ public record Money : IEqualityComparer<Money>
     }
 
     /// <exception cref="InvalidOperationException"></exception>
+    public static decimal operator /(Money left, uint right) => left._Amount / (decimal) right;
+
+    /// <exception cref="InvalidOperationException"></exception>
     public static Money operator *(Money left, uint right) => new(left._Amount * right, left._Currency);
 
     /// <exception cref="InvalidOperationException" />

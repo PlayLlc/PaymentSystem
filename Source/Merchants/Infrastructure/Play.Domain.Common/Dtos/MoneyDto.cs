@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using Play.Domain.Common.ValueObjects;
 using Play.Globalization.Currency;
 
 namespace Play.Domain.Common.Dtos;
@@ -39,6 +40,8 @@ public record MoneyDto : IDto
     #region Operator Overrides
 
     public static implicit operator Money(MoneyDto dto) => new(dto.Amount, new NumericCurrencyCode(dto.NumericCurrencyCode));
+
+    public static implicit operator MoneyValueObject(MoneyDto dto) => new(dto);
 
     #endregion
 }

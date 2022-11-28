@@ -2,22 +2,21 @@
 using System.Globalization;
 
 using Play.Codecs;
-using Play.Domain.ValueObjects;
 
 namespace Play.Domain.Common.Attributes;
 
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
-public class AlphaNumericSpecialAttribute : ValidationAttribute
+public class AccountNumberAttribute : ValidationAttribute
 {
     #region Static Metadata
 
-    private const string _Message = "The field must only contain Alphabetic, Numeric, and Ascii Special characters.";
+    private const string _Message = "The field must contain 9 numeric characters;";
 
     #endregion
 
     #region Constructor
 
-    public AlphaNumericSpecialAttribute() : base(_Message)
+    public AccountNumberAttribute() : base(_Message)
     { }
 
     #endregion
@@ -31,7 +30,10 @@ public class AlphaNumericSpecialAttribute : ValidationAttribute
         if (value is not string str)
             return false;
 
-        return PlayCodec.AlphaNumericSpecialCodec.IsValid(str);
+        if (!PlayCodec.AlphaNumericCodec.IsValid(str))
+            return false;
+
+        return true;
     }
 
     #endregion

@@ -44,7 +44,7 @@ public class Merchant : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override MerchantDto AsDto() =>
-        new MerchantDto
+        new()
         {
             Id = Id,
             CompanyName = CompanyName,
