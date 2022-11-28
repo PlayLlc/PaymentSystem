@@ -11,7 +11,7 @@ public sealed class IndividualCsvMapping : CsvMapping<Individual>
 {
     #region Constructor
 
-    public IndividualCsvMapping() : base()
+    public IndividualCsvMapping()
     {
         MapProperty(0, x => x.Number);
         MapProperty(1, x => x.Name, CsvParser.DefaultStringConverter);

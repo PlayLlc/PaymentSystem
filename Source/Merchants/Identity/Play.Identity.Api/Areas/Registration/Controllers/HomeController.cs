@@ -49,7 +49,7 @@ public class HomeController : Controller
         // TODO: Create Store
         // TODO: Create Terminal
 
-        return Created(@Url.Action("Index", "User", user.AsDto())!, user.AsDto());
+        return Created(Url.Action("Index", "User", user.AsDto())!, user.AsDto());
     }
 
     #endregion

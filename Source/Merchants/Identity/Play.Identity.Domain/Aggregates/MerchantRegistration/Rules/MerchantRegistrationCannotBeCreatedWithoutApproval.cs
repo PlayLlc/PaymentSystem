@@ -26,15 +26,10 @@ internal class MerchantRegistrationCannotBeCreatedWithoutApproval : BusinessRule
 
     #region Instance Members
 
-    public override MerchantRegistrationHasNotBeenApproved CreateBusinessRuleViolationDomainEvent(MerchantRegistration merchant)
-    {
-        return new MerchantRegistrationHasNotBeenApproved(merchant, this);
-    }
+    public override MerchantRegistrationHasNotBeenApproved CreateBusinessRuleViolationDomainEvent(MerchantRegistration merchant) =>
+        new MerchantRegistrationHasNotBeenApproved(merchant, this);
 
-    public override bool IsBroken()
-    {
-        return _Status != MerchantRegistrationStatuses.Approved;
-    }
+    public override bool IsBroken() => _Status != MerchantRegistrationStatuses.Approved;
 
     #endregion
 }

@@ -38,7 +38,7 @@ public class InventoryHandlers : DomainEventHandler, IHandleDomainEvents<LowInve
     {
         Log(domainEvent);
 
-        await _MessageHandlerContext.Publish<LowInventoryAlertEvent>((a) =>
+        await _MessageHandlerContext.Publish<LowInventoryAlertEvent>(a =>
             {
                 a.ItemId = domainEvent.Inventory.GetId();
                 a.Quantity = domainEvent.Quantity;
@@ -55,7 +55,7 @@ public class InventoryHandlers : DomainEventHandler, IHandleDomainEvents<LowInve
     public async Task Handle(NoInventoryAlert domainEvent)
     {
         Log(domainEvent);
-        await _MessageHandlerContext.Publish<NoInventoryAlertEvent>((a) =>
+        await _MessageHandlerContext.Publish<NoInventoryAlertEvent>(a =>
             {
                 a.ItemId = domainEvent.Item.GetId();
             })
@@ -64,15 +64,15 @@ public class InventoryHandlers : DomainEventHandler, IHandleDomainEvents<LowInve
 
     public async Task Handle(StockActionWasIncorrect domainEvent) =>
         Log(domainEvent, LogLevel.Warning,
-            $"\n\n\n\nWARNING: There is likely an error in the client integration. The StockAction provided is not appropriate for this resource");
+            "\n\n\n\nWARNING: There is likely an error in the client integration. The StockAction provided is not appropriate for this resource");
 
     public async Task Handle(StockItemAlreadyExists domainEvent) =>
         Log(domainEvent, LogLevel.Warning,
-            $"\n\n\n\nWARNING: There is likely a race condition or an error in the client integration. A StockItem was attempted to be created but it already exists");
+            "\n\n\n\nWARNING: There is likely a race condition or an error in the client integration. A StockItem was attempted to be created but it already exists");
 
     public async Task Handle(StockItemDoesNotExist domainEvent) =>
         Log(domainEvent, LogLevel.Warning,
-            $"\n\n\n\nWARNING: There is likely a race condition or an error in the client integration. A StockItem was referenced that does not exist");
+            "\n\n\n\nWARNING: There is likely a race condition or an error in the client integration. A StockItem was referenced that does not exist");
 
     public async Task Handle(StockItemHasBeenRemoved domainEvent)
     {
@@ -85,7 +85,7 @@ public class InventoryHandlers : DomainEventHandler, IHandleDomainEvents<LowInve
         Log(domainEvent);
         await _InventoryRepository.SaveAsync(domainEvent.Inventory).ConfigureAwait(false);
 
-        await _MessageHandlerContext.Publish<StockItemUpdatedEvent>((a) =>
+        await _MessageHandlerContext.Publish<StockItemUpdatedEvent>(a =>
             {
                 a.InventoryId = domainEvent.Inventory.Id;
                 a.StockId = domainEvent.StockId;

@@ -115,7 +115,7 @@ public static class ValueConverters
     {
         #region Constructor
 
-        public DateTimeUtcConverter() : base(x => (DateTime) x, y => ToDateTimeUtc(y))
+        public DateTimeUtcConverter() : base(x => x, y => ToDateTimeUtc(y))
         { }
 
         #endregion
@@ -145,7 +145,7 @@ public static class ValueConverters
     {
         #region Constructor
 
-        public NumericCurrencyCodeConverter() : base(x => (ushort) x, y => new NumericCurrencyCode(y))
+        public NumericCurrencyCodeConverter() : base(x => x, y => new NumericCurrencyCode(y))
         { }
 
         #endregion

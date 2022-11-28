@@ -1,17 +1,12 @@
-﻿using NServiceBus;
-
-using Play.Domain;
-using Play.Domain.Aggregates;
+﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
-using Play.Domain.Repositories;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Currency;
 using Play.Loyalty.Contracts.Commands;
 using Play.Loyalty.Contracts.Dtos;
 using Play.Loyalty.Domain.Aggregates.Rules;
 using Play.Loyalty.Domain.Entities;
-using Play.Loyalty.Domain.Repositories;
 using Play.Loyalty.Domain.Services;
 using Play.Loyalty.Domain.ValueObjects;
 

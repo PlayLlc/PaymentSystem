@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Play.Core.Exceptions;
-
 namespace Play.Globalization.Currency;
 
 // WARNING:==========================================================================================================================================================================================================================================
@@ -222,7 +220,7 @@ public record Money : IEqualityComparer<Money>
     }
 
     /// <exception cref="InvalidOperationException"></exception>
-    public static Money operator *(Money left, uint right) => new Money(left._Amount * right, left._Currency);
+    public static Money operator *(Money left, uint right) => new(left._Amount * right, left._Currency);
 
     /// <exception cref="InvalidOperationException" />
     public static Money operator -(Money left, Money right)

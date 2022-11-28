@@ -1,5 +1,4 @@
 ﻿using Play.Codecs;
-using Play.Domain.Common.ValueObjects;
 using Play.Domain.ValueObjects;
 
 namespace Play.Loyalty.Domain.ValueObjects;

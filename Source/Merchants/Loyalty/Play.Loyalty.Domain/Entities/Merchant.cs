@@ -38,19 +38,14 @@ public class Merchant : Entity<SimpleStringId>
 
     #region Instance Members
 
-    public override SimpleStringId GetId()
-    {
-        return Id;
-    }
+    public override SimpleStringId GetId() => Id;
 
-    public override MerchantDto AsDto()
-    {
-        return new MerchantDto()
+    public override MerchantDto AsDto() =>
+        new MerchantDto
         {
             Id = Id,
             IsActive = IsActive
         };
-    }
 
     #endregion
 }

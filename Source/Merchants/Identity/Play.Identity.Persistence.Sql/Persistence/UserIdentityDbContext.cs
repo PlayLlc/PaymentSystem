@@ -95,7 +95,7 @@ public sealed class UserIdentityDbContext : IdentityDbContext<UserIdentity, Role
 
         builder.Entity<PersonalDetail>().ToTable($"{nameof(PersonalDetail)}s").Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<PersonalDetail>().HasKey(x => x.Id);
-        builder.Entity<PersonalDetail>().Property<string>(x => x.LastFourOfSocial).ValueGeneratedOnAdd();
+        builder.Entity<PersonalDetail>().Property(x => x.LastFourOfSocial).ValueGeneratedOnAdd();
         builder.Entity<PersonalDetail>().Property(x => x.DateOfBirth);
 
         builder.Entity<ConfirmationCode>().ToTable($"{nameof(ConfirmationCode)}s").Property(x => x.Id).ValueGeneratedOnAdd();

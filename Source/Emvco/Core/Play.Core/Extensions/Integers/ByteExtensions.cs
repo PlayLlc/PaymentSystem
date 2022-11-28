@@ -30,10 +30,8 @@ public static class ByteExtensions
     public static bool AreBitsSet(this byte value, params Bits[] bitsToCompare)
     {
         for (int index = 0; index < bitsToCompare.Length; index++)
-        {
             if (value.IsBitSet(bitsToCompare[index]))
                 return false;
-        }
 
         return true;
     }
@@ -46,10 +44,8 @@ public static class ByteExtensions
         int result = 0;
 
         for (byte i = 1; i <= Specs.Integer.UInt8.BitCount; i++)
-        {
-            if (value.IsBitSet((byte) i))
+            if (value.IsBitSet(i))
                 result++;
-        }
 
         return result;
     }
@@ -161,10 +157,8 @@ public static class ByteExtensions
         const byte numberOfBitsInUlong = 8;
 
         for (byte i = 0; i < numberOfBitsInUlong; i++)
-        {
             if ((value & (ulong) (1 << i)) != 0)
                 return i;
-        }
 
         return 0;
     }

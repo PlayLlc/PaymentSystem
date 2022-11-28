@@ -49,10 +49,7 @@ public record Sku : ValueObject<string>
 
     #region Operator Overrides
 
-    public static implicit operator string(Sku value)
-    {
-        return value.Value;
-    }
+    public static implicit operator string(Sku value) => value.Value;
 
     #endregion
 }

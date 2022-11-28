@@ -48,10 +48,7 @@ public class MerchantRegistration : Aggregate<SimpleStringId>
 
     #region Instance Members
 
-    public bool IsApproved()
-    {
-        return _Status == MerchantRegistrationStatuses.Approved;
-    }
+    public bool IsApproved() => _Status == MerchantRegistrationStatuses.Approved;
 
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="NotFoundException"></exception>
@@ -69,10 +66,7 @@ public class MerchantRegistration : Aggregate<SimpleStringId>
         return registration;
     }
 
-    public override SimpleStringId GetId()
-    {
-        return Id;
-    }
+    public override SimpleStringId GetId() => Id;
 
     /// <exception cref="AggregateException"></exception>
     /// <exception cref="ValueObjectException"></exception>
@@ -117,9 +111,8 @@ public class MerchantRegistration : Aggregate<SimpleStringId>
         return merchant;
     }
 
-    public override MerchantRegistrationDto AsDto()
-    {
-        return new MerchantRegistrationDto
+    public override MerchantRegistrationDto AsDto() =>
+        new MerchantRegistrationDto
         {
             Id = Id,
             AddressDto = _Address?.AsDto() ?? new AddressDto(),
@@ -128,7 +121,6 @@ public class MerchantRegistration : Aggregate<SimpleStringId>
             RegisteredDate = _RegistrationDate,
             RegistrationStatus = _Status
         };
-    }
 
     #endregion
 }

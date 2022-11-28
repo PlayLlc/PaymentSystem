@@ -38,7 +38,7 @@ public record StockAction : ValueObject<string>
     public static implicit operator StockActions(StockAction value)
     {
         if (StockActions.Empty.TryGet(value.Value, out EnumObjectString? result))
-            throw new PlayInternalException($"This should never happen");
+            throw new PlayInternalException("This should never happen");
 
         return (StockActions) result!;
     }

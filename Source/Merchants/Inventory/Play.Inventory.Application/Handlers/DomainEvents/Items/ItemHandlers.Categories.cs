@@ -26,7 +26,7 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<Categ
     // When we handle this domain event, it means there's a race condition or a problem with the client implementation
     public Task Handle(CategoryMerchantDidNotMatch domainEvent)
     {
-        Log(domainEvent, LogLevel.Warning, $"\n\n\n\nWARNING: This is likely a client integration error");
+        Log(domainEvent, LogLevel.Warning, "\n\n\n\nWARNING: This is likely a client integration error");
 
         return Task.CompletedTask;
     }

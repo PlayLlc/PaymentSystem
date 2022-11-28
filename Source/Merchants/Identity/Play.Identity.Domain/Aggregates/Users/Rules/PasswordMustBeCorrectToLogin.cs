@@ -25,15 +25,10 @@ internal class PasswordMustBeCorrectToLogin : BusinessRule<User, SimpleStringId>
 
     #region Instance Members
 
-    public override UserAttemptedLoggingInWithIncorrectPassword CreateBusinessRuleViolationDomainEvent(User user)
-    {
-        return new UserAttemptedLoggingInWithIncorrectPassword(user, this);
-    }
+    public override UserAttemptedLoggingInWithIncorrectPassword CreateBusinessRuleViolationDomainEvent(User user) =>
+        new UserAttemptedLoggingInWithIncorrectPassword(user, this);
 
-    public override bool IsBroken()
-    {
-        return !_IsValid;
-    }
+    public override bool IsBroken() => !_IsValid;
 
     #endregion
 }

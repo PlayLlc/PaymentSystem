@@ -1,19 +1,12 @@
-﻿using System.Diagnostics;
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
-
-using Play.Loyalty.Persistence.Sql.Persistence;
 
 namespace Play.Loyalty.Persistence.Sql.Persistence;
 
 internal class LoyaltyDbContextOptionsBuilder : IDesignTimeDbContextFactory<LoyaltyDbContext>
 {
     #region Constructor
-
-    public LoyaltyDbContextOptionsBuilder()
-    { }
 
     #endregion
 

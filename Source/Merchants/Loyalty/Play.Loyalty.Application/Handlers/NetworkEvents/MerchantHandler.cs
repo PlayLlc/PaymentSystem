@@ -1,15 +1,6 @@
 ﻿using NServiceBus;
 
 using Play.Domain.Common.ValueObjects;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Toolkit.HighPerformance.Enumerables;
-
 using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
 using Play.Identity.Contracts;
@@ -52,7 +43,7 @@ public class MerchantHandler : IHandleMessages<MerchantHasBeenRemovedEvent>
                             ?? throw new NotFoundException(typeof(Programs));
 
         await _MemberRepository.RemoveAll(new SimpleStringId(message.MerchantId)).ConfigureAwait(false);
-        await programs.Remove(_UserRetriever, new RemoveLoyaltyProgram() {MerchantId = message.MerchantId}).ConfigureAwait(false);
+        await programs.Remove(_UserRetriever, new RemoveLoyaltyProgram {MerchantId = message.MerchantId}).ConfigureAwait(false);
     }
 
     #endregion

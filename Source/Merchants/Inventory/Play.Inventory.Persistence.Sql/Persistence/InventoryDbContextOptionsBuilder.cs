@@ -8,9 +8,6 @@ internal class InventoryDbContextOptionsBuilder : IDesignTimeDbContextFactory<In
 {
     #region Constructor
 
-    public InventoryDbContextOptionsBuilder()
-    { }
-
     #endregion
 
     #region Instance Members

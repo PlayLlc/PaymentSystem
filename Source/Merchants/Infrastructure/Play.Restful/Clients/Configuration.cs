@@ -45,19 +45,19 @@ public class Configuration
     ///     The username (HTTP basic authentication).
     /// </summary>
     /// <value>The username.</value>
-    public readonly string? Username = null;
+    public readonly string? Username;
 
     /// <summary>
     ///     The password (HTTP basic authentication).
     /// </summary>
     /// <value>The password.</value>
-    public readonly string? Password = null;
+    public readonly string? Password;
 
     /// <summary>
     ///     The access token for OAuth2 authentication.
     /// </summary>
     /// <value>The access token.</value>
-    public readonly string? AccessToken = null;
+    public readonly string? AccessToken;
 
     /// <summary>
     ///     The temporary folder path to store the files downloaded from the server.
@@ -226,8 +226,8 @@ public class Configuration
 
         if (ApiKeyPrefix.TryGetValue(apiKeyIdentifier, out apiKeyPrefix))
             return apiKeyPrefix + " " + apiKeyValue;
-        else
-            return apiKeyValue;
+
+        return apiKeyValue;
     }
 
     /// <summary>

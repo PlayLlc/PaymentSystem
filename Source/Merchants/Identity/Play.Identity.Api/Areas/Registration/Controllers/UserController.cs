@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 
+using Play.Domain.Common.ValueObjects;
+using Play.Domain.Exceptions;
 using Play.Identity.Contracts.Commands;
 using Play.Identity.Contracts.Dtos;
 using Play.Identity.Domain.Aggregates;
 using Play.Identity.Domain.Repositories;
 using Play.Identity.Domain.Services;
-using Play.Domain.Common.ValueObjects;
-using Play.Domain.Exceptions;
-using Play.Mvc.Extensions;
 using Play.Mvc.Attributes;
+using Play.Mvc.Extensions;
 
 namespace Play.Identity.Api.Areas.Registration.Controllers;
 
@@ -68,7 +68,7 @@ public class UserController : Controller
 
         await userRegistration.SendEmailVerificationCode(_EmailVerifier).ConfigureAwait(false);
 
-        return Created(@Url.Action("Index", "User", new
+        return Created(Url.Action("Index", "User", new
         {
             area = nameof(Registration),
             id = userRegistration.Id

@@ -22,8 +22,10 @@ public abstract class SequenceCounter
     protected SequenceCounter(int minimumValue, int maximumValue, int increment)
     {
         if (minimumValue > maximumValue)
+        {
             throw new PlayInternalException(
                 $"The {nameof(SequenceCounter)} could not be initialized because the minimum value is greater than the maximum value");
+        }
 
         _Value = minimumValue;
         _IncrementValue = increment;

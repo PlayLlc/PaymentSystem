@@ -31,15 +31,10 @@ internal class EmailVerificationCodeMustNotExpire : BusinessRule<UserRegistratio
 
     #region Instance Members
 
-    public override EmailVerificationCodeHasExpired CreateBusinessRuleViolationDomainEvent(UserRegistration merchant)
-    {
-        return new EmailVerificationCodeHasExpired(merchant, this);
-    }
+    public override EmailVerificationCodeHasExpired CreateBusinessRuleViolationDomainEvent(UserRegistration merchant) =>
+        new EmailVerificationCodeHasExpired(merchant, this);
 
-    public override bool IsBroken()
-    {
-        return _IsValid;
-    }
+    public override bool IsBroken() => _IsValid;
 
     #endregion
 }

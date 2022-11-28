@@ -40,7 +40,7 @@ public class HomeController : BaseController
 
         Member member = await Member.Create(_UserRetriever, _MerchantRetriever, _UniqueRewardsNumberChecker, command).ConfigureAwait(false);
 
-        return Created(@Url.Action("Get", "Home", new
+        return Created(Url.Action("Get", "Home", new
         {
             area = nameof(Members),
             id = member.Id

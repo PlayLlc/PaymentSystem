@@ -38,7 +38,7 @@ public class UserHandler : DomainEventHandler, IHandleDomainEvents<UserHasBeenCr
         await _UserRepository.SaveAsync(domainEvent.User).ConfigureAwait(false);
 
         // Broadcast that a new user has been created to Azure Service Bus
-        await _MessageHandlerContext.Publish<UserHasBeenCreatedEvent>((a) =>
+        await _MessageHandlerContext.Publish<UserHasBeenCreatedEvent>(a =>
             {
                 a.UserId = domainEvent.User.GetId();
             })

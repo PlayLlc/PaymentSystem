@@ -50,10 +50,7 @@ public record UserRegistrationStatuses : EnumObjectString
 
     #region Instance Members
 
-    public override UserRegistrationStatuses[] GetAll()
-    {
-        return _ValueObjectMap.Values.ToArray();
-    }
+    public override UserRegistrationStatuses[] GetAll() => _ValueObjectMap.Values.ToArray();
 
     public override bool TryGet(string value, out EnumObjectString? result)
     {
@@ -73,10 +70,7 @@ public record UserRegistrationStatuses : EnumObjectString
 
     #region Operator Overrides
 
-    public static implicit operator UserRegistrationStatus(UserRegistrationStatuses value)
-    {
-        return new UserRegistrationStatus(value);
-    }
+    public static implicit operator UserRegistrationStatus(UserRegistrationStatuses value) => new UserRegistrationStatus(value);
 
     #endregion
 }

@@ -8,9 +8,6 @@ internal class UserDbContextOptionsBuilder : IDesignTimeDbContextFactory<UserIde
 {
     #region Constructor
 
-    public UserDbContextOptionsBuilder()
-    { }
-
     #endregion
 
     #region Instance Members

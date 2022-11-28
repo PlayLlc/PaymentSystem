@@ -44,10 +44,8 @@ public static class UShortExtension
         int result = 0;
 
         for (byte i = 1; i <= Specs.Integer.UInt16.BitCount; i++)
-        {
-            if (value.IsBitSet((byte) i))
+            if (value.IsBitSet(i))
                 result++;
-        }
 
         return result;
     }

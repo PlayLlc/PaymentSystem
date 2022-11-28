@@ -10,12 +10,12 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using Play.Identity.Domain.Aggregates;
-using Play.Identity.Domain.Repositories;
 using Play.Core;
 using Play.Domain.Exceptions;
 using Play.Identity.Api.Models;
 using Play.Identity.Api.Services;
+using Play.Identity.Domain.Aggregates;
+using Play.Identity.Domain.Repositories;
 using Play.Mvc.Attributes;
 
 namespace Play.Identity.Api.Controllers;
@@ -60,10 +60,7 @@ public class AccountController : Controller
     #region Instance Members
 
     [HttpGet]
-    public IActionResult AccessDenied()
-    {
-        return View();
-    }
+    public IActionResult AccessDenied() => View();
 
     #endregion
 
@@ -200,14 +197,14 @@ public class AccountController : Controller
             return View("LoggedOut");
 
         if (context.ShowSignoutPrompt)
-            return View(new LogoutViewModel() {LogoutId = logoutId});
+            return View(new LogoutViewModel {LogoutId = logoutId});
 
         await HttpContext.SignOutAsync();
 
         if (context.PostLogoutRedirectUri is not null)
             Redirect(context.PostLogoutRedirectUri);
 
-        return await Logout(new LogoutViewModel() {LogoutId = logoutId});
+        return await Logout(new LogoutViewModel {LogoutId = logoutId});
     }
 
     /// <summary>

@@ -5,6 +5,8 @@ namespace Play.Underwriting.Api.Controllers;
 
 public class ErrorsController : ControllerBase
 {
+    #region Instance Members
+
     [Route("/error")]
     public IActionResult Error()
     {
@@ -12,4 +14,6 @@ public class ErrorsController : ControllerBase
 
         return Problem();
     }
+
+    #endregion
 }

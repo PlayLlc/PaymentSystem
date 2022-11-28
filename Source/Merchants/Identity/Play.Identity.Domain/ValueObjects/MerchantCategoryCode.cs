@@ -27,10 +27,7 @@ public record MerchantCategoryCode : ValueObject<ushort>
 
     #region Operator Overrides
 
-    public static implicit operator ushort(MerchantCategoryCode value)
-    {
-        return value.Value;
-    }
+    public static implicit operator ushort(MerchantCategoryCode value) => value.Value;
 
     #endregion
 }

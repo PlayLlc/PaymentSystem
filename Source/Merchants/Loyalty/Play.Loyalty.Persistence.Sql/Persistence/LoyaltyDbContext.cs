@@ -1,12 +1,6 @@
-﻿using System.Diagnostics;
+﻿using Microsoft.EntityFrameworkCore;
 
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Toolkit.HighPerformance.Enumerables;
-
-using Play.Domain.Common.Entities;
 using Play.Domain.Common.ValueObjects;
-using Play.Globalization.Currency;
-using Play.Inventory.Contracts.Dtos;
 using Play.Loyalty.Domain.Aggregates;
 using Play.Loyalty.Domain.Entities;
 using Play.Loyalty.Persistence.Sql.Configuration;

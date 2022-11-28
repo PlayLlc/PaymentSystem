@@ -19,10 +19,7 @@ public record MerchantRegistrationStatus : ValueObject<string>
 
     #region Operator Overrides
 
-    public static implicit operator string(MerchantRegistrationStatus value)
-    {
-        return value.Value;
-    }
+    public static implicit operator string(MerchantRegistrationStatus value) => value.Value;
 
     #endregion
 }

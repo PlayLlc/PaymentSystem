@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Microsoft.Toolkit.HighPerformance.Enumerables;
 
 using Play.Domain.Common.ValueObjects;
 using Play.Loyalty.Domain.Aggregates;

@@ -1,13 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using Play.Domain.Common.Entities;
 using Play.Domain.Common.ValueObjects;
-using Play.Globalization.Currency;
 using Play.Loyalty.Domain.Aggregates;
-using Play.Persistence.Sql;
 using Play.Loyalty.Domain.Entities;
 using Play.Loyalty.Domain.ValueObjects;
+using Play.Persistence.Sql;
 
 namespace Play.Loyalty.Persistence.Sql.Configuration;
 
@@ -21,8 +19,8 @@ internal class LoyaltyEntityConfiguration : IEntityTypeConfiguration<Programs>, 
 
         // Simple Properties
         builder.Property(x => x.Id).ValueGeneratedOnAdd();
-        builder.PrivateProperty<Programs, SimpleStringId>($"_MerchantId").ValueGeneratedOnAdd();
-        builder.HasOne<Programs, RewardProgram, SimpleStringId>($"_RewardProgram", "RewardsProgramId");
+        builder.PrivateProperty<Programs, SimpleStringId>("_MerchantId").ValueGeneratedOnAdd();
+        builder.HasOne<Programs, RewardProgram, SimpleStringId>("_RewardProgram", "RewardsProgramId");
         builder.HasOne<Programs, DiscountProgram, SimpleStringId>("_DiscountProgram", "DiscountProgramId");
     }
 
@@ -32,12 +30,12 @@ internal class LoyaltyEntityConfiguration : IEntityTypeConfiguration<Programs>, 
 
         // Simple Properties
         builder.Property(x => x.Id).ValueGeneratedOnAdd();
-        builder.PrivateProperty<Member, SimpleStringId>($"_MerchantId").ValueGeneratedOnAdd();
+        builder.PrivateProperty<Member, SimpleStringId>("_MerchantId").ValueGeneratedOnAdd();
         builder.HasOne<Member, Rewards, SimpleStringId>("_Rewards", "RewardsId");
-        builder.PrivateProperty<Member, RewardsNumber>($"_RewardsNumber").ValueGeneratedOnAdd();
-        builder.PrivateProperty<Member, Phone>($"_Phone");
-        builder.PrivateProperty<Member, Name>($"_Name");
-        builder.PrivateProperty<Member, Email?>($"_Email");
+        builder.PrivateProperty<Member, RewardsNumber>("_RewardsNumber").ValueGeneratedOnAdd();
+        builder.PrivateProperty<Member, Phone>("_Phone");
+        builder.PrivateProperty<Member, Name>("_Name");
+        builder.PrivateProperty<Member, Email?>("_Email");
     }
 
     #endregion

@@ -48,15 +48,9 @@ public record UserRoles : EnumObjectString
 
     #region Instance Members
 
-    public override UserRoles[] GetAll()
-    {
-        return _ValueObjectMap.Values.ToArray();
-    }
+    public override UserRoles[] GetAll() => _ValueObjectMap.Values.ToArray();
 
-    public UserRoles Get(string value)
-    {
-        return _ValueObjectMap[value];
-    }
+    public UserRoles Get(string value) => _ValueObjectMap[value];
 
     public override bool TryGet(string value, out EnumObjectString? result)
     {
@@ -76,10 +70,7 @@ public record UserRoles : EnumObjectString
 
     #region Operator Overrides
 
-    public static implicit operator UserRole(UserRoles value)
-    {
-        return new UserRole(value);
-    }
+    public static implicit operator UserRole(UserRoles value) => new UserRole(value);
 
     #endregion
 }

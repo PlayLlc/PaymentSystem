@@ -35,15 +35,9 @@ public class Store : Entity<SimpleStringId>
 
     #region Instance Members
 
-    public override SimpleStringId GetId()
-    {
-        return Id;
-    }
+    public override SimpleStringId GetId() => Id;
 
-    public override StoreDto AsDto()
-    {
-        return new StoreDto() {Id = Id};
-    }
+    public override StoreDto AsDto() => new StoreDto {Id = Id};
 
     #endregion
 }

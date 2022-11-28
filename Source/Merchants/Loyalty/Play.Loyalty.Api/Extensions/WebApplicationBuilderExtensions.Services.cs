@@ -3,6 +3,7 @@
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Repositories;
 using Play.Identity.Api.Client;
+using Play.Inventory.Api.Client;
 using Play.Loyalty.Application.Services;
 using Play.Loyalty.Domain.Aggregates;
 using Play.Loyalty.Domain.Repositories;
@@ -10,10 +11,6 @@ using Play.Loyalty.Domain.Services;
 using Play.Loyalty.Persistence.Sql.Persistence;
 using Play.Loyalty.Persistence.Sql.Repositories;
 using Play.Restful.Clients;
-
-using System.Diagnostics;
-
-using Play.Inventory.Api.Client;
 
 namespace Play.Loyalty.Api.Extensions;
 

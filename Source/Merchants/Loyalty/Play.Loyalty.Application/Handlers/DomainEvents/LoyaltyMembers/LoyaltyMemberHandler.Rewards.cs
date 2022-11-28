@@ -17,7 +17,7 @@ public partial class LoyaltyMemberHandler : DomainEventHandler, IHandleDomainEve
         Log(domainEvent);
         await _MemberRepository.SaveAsync(domainEvent.Member).ConfigureAwait(false);
 
-        await _MessageHandlerContext.Publish<LoyaltyMemberEarnedPointsEvent>((a) =>
+        await _MessageHandlerContext.Publish<LoyaltyMemberEarnedPointsEvent>(a =>
             {
                 a.LoyaltyMember = domainEvent.Member.AsDto();
                 a.TransactionId = domainEvent.TransactionId;
@@ -30,7 +30,7 @@ public partial class LoyaltyMemberHandler : DomainEventHandler, IHandleDomainEve
         Log(domainEvent);
         await _MemberRepository.SaveAsync(domainEvent.Member).ConfigureAwait(false);
 
-        await _MessageHandlerContext.Publish<LoyaltyMemberEarnedRewardsEvent>((a) =>
+        await _MessageHandlerContext.Publish<LoyaltyMemberEarnedRewardsEvent>(a =>
             {
                 a.LoyaltyMember = domainEvent.Member.AsDto();
                 a.TransactionId = domainEvent.TransactionId;
@@ -43,7 +43,7 @@ public partial class LoyaltyMemberHandler : DomainEventHandler, IHandleDomainEve
         Log(domainEvent);
         await _MemberRepository.SaveAsync(domainEvent.Member).ConfigureAwait(false);
 
-        await _MessageHandlerContext.Publish<LoyaltyMemberLostPointsEvent>((a) =>
+        await _MessageHandlerContext.Publish<LoyaltyMemberLostPointsEvent>(a =>
             {
                 a.LoyaltyMember = domainEvent.Member.AsDto();
                 a.TransactionId = domainEvent.TransactionId;
@@ -56,7 +56,7 @@ public partial class LoyaltyMemberHandler : DomainEventHandler, IHandleDomainEve
         Log(domainEvent);
         await _MemberRepository.SaveAsync(domainEvent.Member).ConfigureAwait(false);
 
-        await _MessageHandlerContext.Publish<LoyaltyMemberLostPointsEvent>((a) =>
+        await _MessageHandlerContext.Publish<LoyaltyMemberLostPointsEvent>(a =>
             {
                 a.LoyaltyMember = domainEvent.Member.AsDto();
                 a.TransactionId = domainEvent.TransactionId;
@@ -66,14 +66,14 @@ public partial class LoyaltyMemberHandler : DomainEventHandler, IHandleDomainEve
 
     public Task Handle(RewardBalanceIsInsufficient domainEvent)
     {
-        Log(domainEvent, LogLevel.Warning, $"\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
+        Log(domainEvent, LogLevel.Warning, "\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
 
         return Task.CompletedTask;
     }
 
     public Task Handle(RewardProgramIsNotActive domainEvent)
     {
-        Log(domainEvent, LogLevel.Warning, $"\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
+        Log(domainEvent, LogLevel.Warning, "\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
 
         return Task.CompletedTask;
     }

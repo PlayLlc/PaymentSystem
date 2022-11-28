@@ -1,17 +1,16 @@
-﻿using Microsoft.OpenApi.Models;
-
-using System.Reflection;
+﻿using System.Reflection;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 
-using Play.Mvc.Swagger;
 using Play.Mvc.Filters;
+using Play.Mvc.Swagger;
 
 namespace Play.Mvc.Extensions;
 
-public static partial class WebApplicationBuilderExtensions
+public static class WebApplicationBuilderExtensions
 {
     #region Instance Members
 
@@ -33,7 +32,7 @@ public static partial class WebApplicationBuilderExtensions
             }
 
             foreach (string version in swaggerConfiguration.Versions)
-                c.SwaggerDoc(version, new OpenApiInfo()
+                c.SwaggerDoc(version, new OpenApiInfo
                 {
                     Title = swaggerConfiguration.ApplicationTitle,
                     Version = version

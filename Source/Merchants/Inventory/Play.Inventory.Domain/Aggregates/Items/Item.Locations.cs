@@ -15,10 +15,7 @@ public partial class Item : Aggregate<SimpleStringId>
 {
     #region Locations
 
-    public bool IsAvailableInLocation(string storeId)
-    {
-        return _Locations.DoesLocationExist(storeId);
-    }
+    public bool IsAvailableInLocation(string storeId) => _Locations.DoesLocationExist(storeId);
 
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="NotFoundException"></exception>

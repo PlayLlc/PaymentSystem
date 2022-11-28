@@ -14,15 +14,10 @@ public partial class Item : Aggregate<SimpleStringId>
 {
     #region Alerts
 
-    internal bool IsLowInventoryAlertRequired(int quantity, out IEnumerable<User>? subscribers)
-    {
-        return _Alerts.IsLowInventoryAlertRequired(quantity, out subscribers);
-    }
+    internal bool IsLowInventoryAlertRequired(int quantity, out IEnumerable<User>? subscribers) =>
+        _Alerts.IsLowInventoryAlertRequired(quantity, out subscribers);
 
-    internal bool IsOutOfStockAlertRequired(int quantity, out IEnumerable<User>? subscribers)
-    {
-        return _Alerts.IsOutOfStockAlertRequired(quantity, out subscribers);
-    }
+    internal bool IsOutOfStockAlertRequired(int quantity, out IEnumerable<User>? subscribers) => _Alerts.IsOutOfStockAlertRequired(quantity, out subscribers);
 
     /// <exception cref="NotFoundException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>

@@ -38,7 +38,7 @@ public class HomeController : BaseController
 
         Programs programs = await Programs.Create(_MerchantRetriever, _UserRetriever, command).ConfigureAwait(false);
 
-        return Created(@Url.Action("Get", "Home", new
+        return Created(Url.Action("Get", "Home", new
         {
             area = nameof(Programs),
             id = programs.Id

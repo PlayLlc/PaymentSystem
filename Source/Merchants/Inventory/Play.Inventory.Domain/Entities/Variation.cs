@@ -1,5 +1,4 @@
-﻿using Play.Domain.Common.Entities;
-using Play.Domain.Common.ValueObjects;
+﻿using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Currency;
@@ -26,7 +25,7 @@ public class Variation : Entity<SimpleStringId>
     /// </summary>
     private Name _Name;
 
-    private Sku? _Sku = null;
+    private Sku? _Sku;
 
     public override SimpleStringId Id { get; }
 

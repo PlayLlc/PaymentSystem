@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using Play.Domain.Common.Entities;
 using Play.Domain.Common.ValueObjects;
 using Play.Inventory.Domain.Aggregates;
 using Play.Inventory.Domain.Entities;
@@ -23,8 +22,8 @@ internal class InventoryEntityConfiguration : IEntityTypeConfiguration<Item>, IE
 
         // Simple Properties
         builder.Property(x => x.Id).ValueGeneratedOnAdd();
-        builder.Property<SimpleStringId>($"_MerchantId").HasColumnName("MerchantId");
-        builder.Property<Name>($"_Name").HasColumnName($"{nameof(Name)}");
+        builder.Property<SimpleStringId>("_MerchantId").HasColumnName("MerchantId");
+        builder.Property<Name>("_Name").HasColumnName($"{nameof(Name)}");
         builder.Property<string>("_Description").HasColumnName("Description");
         builder.Property<Sku>("_Sku").HasColumnName($"{nameof(Sku)}");
         builder.Property<int>("_Quantity").HasColumnName("Quantity");
@@ -40,22 +39,22 @@ internal class InventoryEntityConfiguration : IEntityTypeConfiguration<Item>, IE
 
     public void Configure(EntityTypeBuilder<Category> builder)
     {
-        builder.ToTable($"Categories").HasKey(x => x.Id);
+        builder.ToTable("Categories").HasKey(x => x.Id);
 
         // Simple Properties
         builder.Property(x => x.Id).ValueGeneratedOnAdd();
-        builder.Property<SimpleStringId>($"_MerchantId").HasColumnName($"MerchantId");
-        builder.Property<Name>($"_Name").HasColumnName($"Name");
+        builder.Property<SimpleStringId>("_MerchantId").HasColumnName("MerchantId");
+        builder.Property<Name>("_Name").HasColumnName("Name");
     }
 
     public void Configure(EntityTypeBuilder<Domain.Aggregates.Inventory> builder)
     {
-        builder.ToTable($"Inventories").HasKey(x => x.Id);
+        builder.ToTable("Inventories").HasKey(x => x.Id);
 
         // Simple Properties
         builder.Property(x => x.Id).ValueGeneratedOnAdd();
-        builder.Property<SimpleStringId>($"_MerchantId").HasColumnName($"MerchantId");
-        builder.Property<SimpleStringId>($"_StoreId").HasColumnName($"_StoreId");
+        builder.Property<SimpleStringId>("_MerchantId").HasColumnName("MerchantId");
+        builder.Property<SimpleStringId>("_StoreId").HasColumnName("_StoreId");
         builder.HasMany<Domain.Aggregates.Inventory, StockItem, SimpleStringId>("_StockItems", "StockItemId");
 
         // StockItems

@@ -1,11 +1,10 @@
-﻿using Play.Domain.Common.ValueObjects;
-using Play.Inventory.Domain.Repositories;
-using Play.Persistence.Sql;
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
+using Play.Domain.Common.ValueObjects;
 using Play.Inventory.Domain.Aggregates;
+using Play.Inventory.Domain.Repositories;
+using Play.Persistence.Sql;
 
 namespace Play.Inventory.Persistence.Sql.Repositories;
 
@@ -25,8 +24,7 @@ public class CategoryRepository : Repository<Category, SimpleStringId>, ICategor
     {
         try
         {
-            return await _DbSet
-                .AnyAsync(a => (EF.Property<string>(a, $"_MerchantId") == merchantId) && (EF.Property<string>(a, $"_Name") == categoryName.Value))
+            return await _DbSet.AnyAsync(a => (EF.Property<string>(a, "_MerchantId") == merchantId) && (EF.Property<string>(a, "_Name") == categoryName.Value))
                 .ConfigureAwait(false);
         }
         catch (Exception ex)

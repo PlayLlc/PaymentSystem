@@ -50,10 +50,7 @@ public class PasswordHasher : IHashPasswords
         return userIdentity;
     }
 
-    public string GeneratePasswordHash(string password)
-    {
-        return _PasswordHasher.HashPassword(_MockUser, password);
-    }
+    public string GeneratePasswordHash(string password) => _PasswordHasher.HashPassword(_MockUser, password);
 
     public bool ValidateHashedPassword(string hashedPassword, string clearTextPassword)
     {

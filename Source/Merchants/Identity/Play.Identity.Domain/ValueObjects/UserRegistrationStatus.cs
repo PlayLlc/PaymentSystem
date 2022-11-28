@@ -19,10 +19,7 @@ public record UserRegistrationStatus : ValueObject<string>
 
     #region Operator Overrides
 
-    public static implicit operator string(UserRegistrationStatus value)
-    {
-        return value.Value;
-    }
+    public static implicit operator string(UserRegistrationStatus value) => value.Value;
 
     #endregion
 }

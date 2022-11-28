@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-using Play.Domain.Common.Entities;
 using Play.Domain.Common.ValueObjects;
-using Play.Globalization.Currency;
 using Play.Inventory.Contracts.Enums;
 using Play.Inventory.Domain.Aggregates;
 using Play.Inventory.Domain.Entities;
@@ -56,30 +54,30 @@ public sealed class InventoryDbContext : DbContext
 
         builder.Entity<Alerts>().ToTable($"{nameof(Alerts)}").HasKey(x => x.Id);
         builder.Entity<Alerts>().Property(x => x.Id).ValueGeneratedOnAdd();
-        builder.Entity<Alerts>().PrivateProperty<Alerts, bool>($"_IsActive");
-        builder.Entity<Alerts>().PrivateProperty<Alerts, ushort>($"_LowInventoryThreshold");
+        builder.Entity<Alerts>().PrivateProperty<Alerts, bool>("_IsActive");
+        builder.Entity<Alerts>().PrivateProperty<Alerts, ushort>("_LowInventoryThreshold");
 
         builder.Entity<Store>().ToTable($"{nameof(Store)}s").HasKey(x => x.Id);
         builder.Entity<Store>().Property(x => x.Id).ValueGeneratedOnAdd();
 
         builder.Entity<Locations>().ToTable($"{nameof(Locations)}").Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<Locations>().HasKey(x => x.Id);
-        builder.Entity<Locations>().PrivateProperty<Locations, bool>($"_AllLocations");
+        builder.Entity<Locations>().PrivateProperty<Locations, bool>("_AllLocations");
         builder.Entity<Locations>().HasMany<Locations, Store, SimpleStringId>("_Stores", "StoreId");
 
         builder.Entity<Variation>().ToTable($"{nameof(Variation)}s").HasKey(x => x.Id);
         builder.Entity<Variation>().Property(x => x.Id).ValueGeneratedOnAdd();
-        builder.Entity<Variation>().PrivateProperty<Variation, SimpleStringId>($"_ItemId");
-        builder.Entity<Variation>().PrivateProperty<Variation, Sku>($"_Sku");
-        builder.Entity<Variation>().PrivateProperty<Variation, Name>($"_Name");
+        builder.Entity<Variation>().PrivateProperty<Variation, SimpleStringId>("_ItemId");
+        builder.Entity<Variation>().PrivateProperty<Variation, Sku>("_Sku");
+        builder.Entity<Variation>().PrivateProperty<Variation, Name>("_Name");
         builder.Entity<Variation>().MoneyValueObjectProperty("_Price");
 
         builder.Entity<StockItem>().ToTable($"{nameof(StockItem)}s").HasKey(x => x.Id);
         builder.Entity<StockItem>().Property(x => x.Id).ValueGeneratedOnAdd();
-        builder.Entity<StockItem>().PrivateProperty<StockItem, SimpleStringId>($"_ItemId");
-        builder.Entity<StockItem>().PrivateProperty<StockItem, SimpleStringId>($"_VariationId");
-        builder.Entity<StockItem>().PrivateProperty<StockItem, int>($"_Quantity");
-        builder.Entity<StockItem>().PrivateProperty<StockItem, int>($"_Name");
+        builder.Entity<StockItem>().PrivateProperty<StockItem, SimpleStringId>("_ItemId");
+        builder.Entity<StockItem>().PrivateProperty<StockItem, SimpleStringId>("_VariationId");
+        builder.Entity<StockItem>().PrivateProperty<StockItem, int>("_Quantity");
+        builder.Entity<StockItem>().PrivateProperty<StockItem, int>("_Name");
 
         inventoryEntityConfiguration.Configure(builder.Entity<Category>());
         inventoryEntityConfiguration.Configure(builder.Entity<Item>());

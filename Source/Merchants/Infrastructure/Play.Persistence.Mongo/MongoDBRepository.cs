@@ -62,7 +62,7 @@ public class MongoDbRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
         try
         {
             ReplaceOneResult? result = await _MongoDatabase.GetCollection<_Aggregate>(_CollectionName)
-                .ReplaceOneAsync(x => x.GetId()!.Equals(aggregate.GetId()), aggregate, new ReplaceOptions() {IsUpsert = true})
+                .ReplaceOneAsync(x => x.GetId()!.Equals(aggregate.GetId()), aggregate, new ReplaceOptions {IsUpsert = true})
                 .ConfigureAwait(false);
         }
         catch (Exception ex)
@@ -120,7 +120,7 @@ public class MongoDbRepository<_Aggregate, _TId> : IRepository<_Aggregate, _TId>
         try
         {
             Task<ReplaceOneResult>? result = _MongoDatabase.GetCollection<_Aggregate>(_CollectionName)
-                .ReplaceOneAsync(x => x.GetId()!.Equals(aggregate.GetId()), aggregate, new ReplaceOptions() {IsUpsert = true});
+                .ReplaceOneAsync(x => x.GetId()!.Equals(aggregate.GetId()), aggregate, new ReplaceOptions {IsUpsert = true});
         }
         catch (Exception ex)
         {

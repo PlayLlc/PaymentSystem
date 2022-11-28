@@ -26,15 +26,10 @@ internal class UserCannotBeCreatedWithoutApproval : BusinessRule<UserRegistratio
 
     #region Instance Members
 
-    public override UserRegistrationHasNotBeenApproved CreateBusinessRuleViolationDomainEvent(UserRegistration merchant)
-    {
-        return new UserRegistrationHasNotBeenApproved(merchant, this);
-    }
+    public override UserRegistrationHasNotBeenApproved CreateBusinessRuleViolationDomainEvent(UserRegistration merchant) =>
+        new UserRegistrationHasNotBeenApproved(merchant, this);
 
-    public override bool IsBroken()
-    {
-        return _Status != UserRegistrationStatuses.Approved;
-    }
+    public override bool IsBroken() => _Status != UserRegistrationStatuses.Approved;
 
     #endregion
 }

@@ -10,7 +10,7 @@ using Play.Identity.Domain.Aggregates;
 
 namespace Play.Identity.Application.Handlers;
 
-public partial class MerchantRegistrationHandler : DomainEventHandler, IHandleDomainEvents<MerchantRegistrationHasBeenRejected>,
+public class MerchantRegistrationHandler : DomainEventHandler, IHandleDomainEvents<MerchantRegistrationHasBeenRejected>,
     IHandleDomainEvents<MerchantRegistrationHasExpired>, IHandleDomainEvents<MerchantRegistrationHasNotBeenApproved>,
     IHandleDomainEvents<MerchantRegistrationHasBeenCreated>, IHandleDomainEvents<MerchantRegistrationApproved>
 {
@@ -62,7 +62,7 @@ public partial class MerchantRegistrationHandler : DomainEventHandler, IHandleDo
         await _MerchantRepository.SaveAsync(domainEvent.Merchant).ConfigureAwait(false);
 
         // Network Event sent through NServiceBus 
-        await _MessageHandlerContext.Publish<MerchantHasBeenCreatedEvent>((a) =>
+        await _MessageHandlerContext.Publish<MerchantHasBeenCreatedEvent>(a =>
             {
                 a.MerchantId = domainEvent.Merchant.GetId();
             })

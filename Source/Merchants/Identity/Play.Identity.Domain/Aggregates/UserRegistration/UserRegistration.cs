@@ -27,8 +27,8 @@ public class UserRegistration : Aggregate<SimpleStringId>
     private readonly string _HashedPassword;
     private readonly DateTimeUtc _RegistrationDate;
 
-    private bool _HasEmailBeenVerified = false;
-    private bool _HasPhoneBeenVerified = false;
+    private bool _HasEmailBeenVerified;
+    private bool _HasPhoneBeenVerified;
     private UserRegistrationStatus _Status;
 
     private Address? _Address;
@@ -278,7 +278,7 @@ public class UserRegistration : Aggregate<SimpleStringId>
 
     /// <exception cref="PlayInternalException"></exception>
     public override UserRegistrationDto AsDto() =>
-        new UserRegistrationDto
+        new()
         {
             Id = Id,
             MerchantId = _MerchantId,

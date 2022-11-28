@@ -54,7 +54,7 @@ public class Inventory : Aggregate<SimpleStringId>
 
     public override InventoryDto AsDto()
     {
-        return new InventoryDto()
+        return new InventoryDto
         {
             Id = Id,
             StoreId = _StoreId,

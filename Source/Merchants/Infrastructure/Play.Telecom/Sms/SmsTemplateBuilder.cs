@@ -11,19 +11,13 @@ public abstract class SmsTemplateBuilder
 
     #region Constructor
 
-    protected SmsTemplateBuilder()
-    { }
-
     #endregion
 
     #region Instance Members
 
     protected abstract string GetTemplate();
 
-    private static string GetTemplateVariable(string variableName)
-    {
-        return $"{_DynamicVariableStartSentinels}{variableName}{_DynamicVariableEndSentinels}";
-    }
+    private static string GetTemplateVariable(string variableName) => $"{_DynamicVariableStartSentinels}{variableName}{_DynamicVariableEndSentinels}";
 
     protected string CreateMessage(Dictionary<string, string> dynamicValues)
     {

@@ -38,10 +38,7 @@ internal record DomainEventIdentifier : IEqualityComparer<DomainEventIdentifier>
         return x.Equals(y);
     }
 
-    public int GetHashCode(DomainEventIdentifier obj)
-    {
-        return obj.GetHashCode();
-    }
+    public int GetHashCode(DomainEventIdentifier obj) => obj.GetHashCode();
 
     #endregion
 }

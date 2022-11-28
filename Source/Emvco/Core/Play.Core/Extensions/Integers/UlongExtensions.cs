@@ -71,10 +71,8 @@ public static class UlongExtensions
         int result = 0;
 
         for (byte i = 0; i < Specs.Integer.UInt64.BitCount; i++)
-        {
-            if (value.IsBitSet((byte) i))
+            if (value.IsBitSet(i))
                 result++;
-        }
 
         return result;
     }
@@ -206,10 +204,8 @@ public static class UlongExtensions
         const byte numberOfBitsInUlong = 64;
 
         for (byte i = 0; i < numberOfBitsInUlong; i++)
-        {
             if ((value & (ulong) (1 << i)) != 0)
                 return i;
-        }
 
         return 0;
     }

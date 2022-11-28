@@ -5,7 +5,6 @@ using Play.Globalization.Currency;
 using Play.Loyalty.Contracts.Commands;
 using Play.Loyalty.Contracts.Dtos;
 using Play.Loyalty.Domain.Aggregates;
-using Play.Loyalty.Domain.ValueObjects;
 
 namespace Play.Loyalty.Domain.Entities;
 

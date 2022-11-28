@@ -6,10 +6,7 @@ public interface IHandleDomainEvents<in _Event> where _Event : DomainEvent
 
     public Task Handle(_Event domainEvent);
 
-    public IHandleDomainEvents<_Event> GetInterface()
-    {
-        return this;
-    }
+    public IHandleDomainEvents<_Event> GetInterface() => this;
 
     #endregion
 }

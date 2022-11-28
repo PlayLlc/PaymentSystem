@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-using Play.Domain.Repositories;
 using Play.Domain.Aggregates;
+using Play.Domain.Repositories;
 
 namespace Play.Persistence.Sql;
 

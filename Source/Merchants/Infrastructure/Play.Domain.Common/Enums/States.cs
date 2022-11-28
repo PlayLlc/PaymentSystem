@@ -183,15 +183,9 @@ public record States : EnumObjectString
 
     #region Instance Members
 
-    public override States[] GetAll()
-    {
-        return _ValueObjectMap.Values.ToArray();
-    }
+    public override States[] GetAll() => _ValueObjectMap.Values.ToArray();
 
-    public States Get(string value)
-    {
-        return _ValueObjectMap[value];
-    }
+    public States Get(string value) => _ValueObjectMap[value];
 
     public override bool TryGet(string value, out EnumObjectString? result)
     {

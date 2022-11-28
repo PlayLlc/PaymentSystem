@@ -25,15 +25,9 @@ public class StockActionMustAddQuantity : BusinessRule<Inventory, SimpleStringId
 
     #region Instance Members
 
-    public override StockActionWasIncorrect CreateBusinessRuleViolationDomainEvent(Inventory inventory)
-    {
-        return new StockActionWasIncorrect(inventory, this);
-    }
+    public override StockActionWasIncorrect CreateBusinessRuleViolationDomainEvent(Inventory inventory) => new StockActionWasIncorrect(inventory, this);
 
-    public override bool IsBroken()
-    {
-        return !_IsValid;
-    }
+    public override bool IsBroken() => !_IsValid;
 
     #endregion
 }

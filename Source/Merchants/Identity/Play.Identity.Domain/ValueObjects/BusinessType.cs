@@ -23,10 +23,7 @@ public record BusinessType : ValueObject<string>
 
     #region Operator Overrides
 
-    public static implicit operator string(BusinessType value)
-    {
-        return value.Value;
-    }
+    public static implicit operator string(BusinessType value) => value.Value;
 
     #endregion
 }

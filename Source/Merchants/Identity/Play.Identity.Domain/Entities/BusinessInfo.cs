@@ -43,20 +43,15 @@ public class BusinessInfo : Entity<SimpleStringId>
 
     #region Instance Members
 
-    public override SimpleStringId GetId()
-    {
-        return Id;
-    }
+    public override SimpleStringId GetId() => Id;
 
-    public override BusinessInfoDto AsDto()
-    {
-        return new BusinessInfoDto
+    public override BusinessInfoDto AsDto() =>
+        new BusinessInfoDto
         {
             Id = Id,
             BusinessType = BusinessType,
             MerchantCategoryCode = MerchantCategoryCode
         };
-    }
 
     #endregion
 }

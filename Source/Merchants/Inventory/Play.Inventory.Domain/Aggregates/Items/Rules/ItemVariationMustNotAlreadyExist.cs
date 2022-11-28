@@ -9,7 +9,7 @@ public class ItemVariationMustNotAlreadyExist : BusinessRule<Item, SimpleStringI
     #region Instance Values
 
     private readonly bool _IsValid;
-    public override string Message => $"The variation being created must not already exist;";
+    public override string Message => "The variation being created must not already exist;";
 
     #endregion
 
@@ -24,15 +24,9 @@ public class ItemVariationMustNotAlreadyExist : BusinessRule<Item, SimpleStringI
 
     #region Instance Members
 
-    public override ItemVariationAlreadyExists CreateBusinessRuleViolationDomainEvent(Item item)
-    {
-        return new ItemVariationAlreadyExists(item, this);
-    }
+    public override ItemVariationAlreadyExists CreateBusinessRuleViolationDomainEvent(Item item) => new ItemVariationAlreadyExists(item, this);
 
-    public override bool IsBroken()
-    {
-        return !_IsValid;
-    }
+    public override bool IsBroken() => !_IsValid;
 
     #endregion
 }

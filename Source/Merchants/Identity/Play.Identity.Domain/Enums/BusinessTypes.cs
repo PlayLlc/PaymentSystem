@@ -46,10 +46,7 @@ public record BusinessTypes : EnumObjectString
 
     #region Instance Members
 
-    public override BusinessTypes[] GetAll()
-    {
-        return _ValueObjectMap.Values.ToArray();
-    }
+    public override BusinessTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
 
     public override bool TryGet(string value, out EnumObjectString? result)
     {

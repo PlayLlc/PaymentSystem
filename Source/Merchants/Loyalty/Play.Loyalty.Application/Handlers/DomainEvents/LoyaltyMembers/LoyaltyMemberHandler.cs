@@ -37,7 +37,7 @@ public partial class LoyaltyMemberHandler : DomainEventHandler, IHandleDomainEve
         Log(domainEvent);
         await _MemberRepository.SaveAsync(domainEvent.Member).ConfigureAwait(false);
 
-        await _MessageHandlerContext.Publish<LoyaltyMemberCreatedEvent>((a) =>
+        await _MessageHandlerContext.Publish<LoyaltyMemberCreatedEvent>(a =>
             {
                 a.LoyaltyMember = domainEvent.Member.AsDto();
                 a.UserId = domainEvent.UserId;
@@ -50,7 +50,7 @@ public partial class LoyaltyMemberHandler : DomainEventHandler, IHandleDomainEve
         Log(domainEvent);
         await _MemberRepository.SaveAsync(domainEvent.Member).ConfigureAwait(false);
 
-        await _MessageHandlerContext.Publish<LoyaltyMemberRemovedEvent>((a) =>
+        await _MessageHandlerContext.Publish<LoyaltyMemberRemovedEvent>(a =>
             {
                 a.LoyaltyMember = domainEvent.Member.AsDto();
                 a.UserId = domainEvent.UserId;
@@ -62,7 +62,7 @@ public partial class LoyaltyMemberHandler : DomainEventHandler, IHandleDomainEve
     {
         Log(domainEvent);
         await _MemberRepository.SaveAsync(domainEvent.Member).ConfigureAwait(false);
-        await _MessageHandlerContext.Publish<LoyaltyMemberUpdatedEvent>((a) =>
+        await _MessageHandlerContext.Publish<LoyaltyMemberUpdatedEvent>(a =>
             {
                 a.LoyaltyMember = domainEvent.Member.AsDto();
                 a.UserId = domainEvent.UserId;
@@ -72,7 +72,7 @@ public partial class LoyaltyMemberHandler : DomainEventHandler, IHandleDomainEve
 
     public Task Handle(RewardsNumberIsNotUnique domainEvent)
     {
-        Log(domainEvent, LogLevel.Warning, $"\n\n\n\nWARNING: If we're having this problem we're doing pretty well");
+        Log(domainEvent, LogLevel.Warning, "\n\n\n\nWARNING: If we're having this problem we're doing pretty well");
 
         return Task.CompletedTask;
     }

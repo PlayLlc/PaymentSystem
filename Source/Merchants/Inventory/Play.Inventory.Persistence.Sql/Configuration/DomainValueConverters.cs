@@ -1,8 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 using Play.Inventory.Domain.ValueObjects;
-
-using Microsoft.EntityFrameworkCore;
 
 namespace Play.Inventory.Persistence.Sql.Configuration;
 

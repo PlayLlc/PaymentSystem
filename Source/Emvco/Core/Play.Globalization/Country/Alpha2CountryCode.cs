@@ -45,7 +45,7 @@ public readonly struct Alpha2CountryCode
     public ReadOnlySpan<char> AsReadOnlySpan() => AsCharArray();
     public string AsString() => new(AsReadOnlySpan());
     public override string ToString() => AsString();
-    public byte[] Encode() => new byte[] {_FirstChar, _SecondChar};
+    public byte[] Encode() => new[] {_FirstChar, _SecondChar};
 
     #endregion
 

@@ -30,12 +30,12 @@ public readonly struct SessionId
             throw new ArgumentOutOfRangeException(nameof(utcNow), $"The argument {nameof(utcNow)} was expected to be UTC but was not");
 
         _Value = GetConstructorValueYear(utcNow)
-            | GetConstructorValueMonth(utcNow)
-            | GetConstructorValueDay(utcNow)
-            | GetConstructorValueHour(utcNow)
-            | GetConstructorValueMinute(utcNow)
-            | GetConstructorValueSecond(utcNow)
-            | GetConstructorValueMillisecond(utcNow);
+                 | GetConstructorValueMonth(utcNow)
+                 | GetConstructorValueDay(utcNow)
+                 | GetConstructorValueHour(utcNow)
+                 | GetConstructorValueMinute(utcNow)
+                 | GetConstructorValueSecond(utcNow)
+                 | GetConstructorValueMillisecond(utcNow);
     }
 
     #endregion

@@ -182,7 +182,7 @@ public partial class ApiClient
             IRestResponse? response = RestClient.Execute(request).Result;
             InterceptResponse(request, response);
 
-            return (object) response;
+            return response;
         }
 
         catch (Exception e)
@@ -213,7 +213,7 @@ public partial class ApiClient
         IRestResponse? response = await RestClient.Execute(request);
         InterceptResponse(request, response);
 
-        return (object) response;
+        return response;
     }
 
     /// <summary>
@@ -247,8 +247,8 @@ public partial class ApiClient
         {
             if (stream is FileStream fileStream)
                 return FileParameter.Create(name, ReadAsBytes(fileStream), Path.GetFileName(fileStream.Name));
-            else
-                return FileParameter.Create(name, ReadAsBytes(stream), "no_file_name_provided");
+
+            return FileParameter.Create(name, ReadAsBytes(stream), "no_file_name_provided");
         }
 
         catch (Exception e)
@@ -278,19 +278,17 @@ public partial class ApiClient
                 // Defaults to an ISO 8601, using the known as a Round-trip date/time pattern ("o")
                 // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
                 // For example: 2009-06-15T13:45:30.0000000
-            {
                 return time.ToString(Configuration.DateTimeFormat);
-            }
-            else if (obj is DateTimeOffset offset)
+
+            if (obj is DateTimeOffset offset)
 
                 // Return a formatted date string - Can be customized with Configuration.DateTimeFormat
                 // Defaults to an ISO 8601, using the known as a Round-trip date/time pattern ("o")
                 // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
                 // For example: 2009-06-15T13:45:30.0000000
-            {
                 return offset.ToString(Configuration.DateTimeFormat);
-            }
-            else if (obj is IList list)
+
+            if (obj is IList list)
             {
                 StringBuilder flattenedString = new StringBuilder();
 
@@ -303,10 +301,8 @@ public partial class ApiClient
 
                 return flattenedString.ToString();
             }
-            else
-            {
-                return Convert.ToString(obj);
-            }
+
+            return Convert.ToString(obj);
         }
 
         catch (Exception e)
@@ -571,8 +567,8 @@ public partial class ApiClient
 
             if (match.Success)
                 return match.Groups[1].Value;
-            else
-                return filename;
+
+            return filename;
         }
 
         catch (Exception e)

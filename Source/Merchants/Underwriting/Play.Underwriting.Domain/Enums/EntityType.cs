@@ -1,5 +1,6 @@
-﻿using Play.Core;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
+
+using Play.Core;
 
 namespace Play.Underwriting.Domain.Enums;
 
@@ -15,7 +16,8 @@ public record EntityType : EnumObjectString
 
     #region Constructor
 
-    public EntityType(string value) : base(value) { }
+    public EntityType(string value) : base(value)
+    { }
 
     static EntityType()
     {
@@ -24,8 +26,8 @@ public record EntityType : EnumObjectString
 
         _ValueObjectMap = new Dictionary<string, EntityType>
         {
-            {Empty, Empty },
-            {Individual, Individual }
+            {Empty, Empty},
+            {Individual, Individual}
         }.ToImmutableSortedDictionary();
     }
 
@@ -33,10 +35,7 @@ public record EntityType : EnumObjectString
 
     #region Instance Members
 
-    public override EntityType[] GetAll()
-    {
-        return _ValueObjectMap.Values.ToArray();
-    }
+    public override EntityType[] GetAll() => _ValueObjectMap.Values.ToArray();
 
     public override bool TryGet(string value, out EnumObjectString? result)
     {

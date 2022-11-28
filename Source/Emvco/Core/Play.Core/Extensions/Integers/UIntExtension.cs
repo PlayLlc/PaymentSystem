@@ -55,10 +55,8 @@ public static class UIntExtension
         int result = 0;
 
         for (byte i = 1; i <= Specs.Integer.UInt32.BitCount; i++)
-        {
-            if (value.IsBitSet((byte) i))
+            if (value.IsBitSet(i))
                 result++;
-        }
 
         return result;
     }
@@ -84,10 +82,8 @@ public static class UIntExtension
         const byte numberOfBitsInUlong = 32;
 
         for (byte i = 0; i < numberOfBitsInUlong; i++)
-        {
             if ((value & (ulong) (1 << i)) != 0)
                 return i;
-        }
 
         return 0;
     }

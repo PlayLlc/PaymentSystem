@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace Play.Mvc.Attributes;
 
-[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
 public class HttpAttribute : ValidationAttribute
 {
     #region Static Metadata
@@ -22,10 +22,7 @@ public class HttpAttribute : ValidationAttribute
 
     #region Instance Members
 
-    public override string FormatErrorMessage(string name)
-    {
-        return string.Format(CultureInfo.CurrentCulture, ErrorMessageString, name, 1);
-    }
+    public override string FormatErrorMessage(string name) => string.Format(CultureInfo.CurrentCulture, ErrorMessageString, name, 1);
 
     public override bool IsValid(object? value)
     {

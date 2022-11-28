@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
 using Play.Domain.Common.ValueObjects;
-using Play.Inventory.Api.Controllers;
-using Play.Inventory.Domain.Services;
 using Play.Domain.Exceptions;
+using Play.Inventory.Api.Controllers;
 using Play.Inventory.Contracts.Commands;
 using Play.Inventory.Domain.Aggregates;
 using Play.Inventory.Domain.Repositories;
+using Play.Inventory.Domain.Services;
 using Play.Mvc.Attributes;
 using Play.Mvc.Extensions;
 

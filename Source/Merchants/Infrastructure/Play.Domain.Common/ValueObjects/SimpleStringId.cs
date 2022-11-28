@@ -20,7 +20,7 @@ public record SimpleStringId : ValueObject<string>, IEquatable<SimpleStringId>
     public SimpleStringId(string value) : base(value)
     {
         if (value.Length != 20)
-            throw new ValueObjectException($"The Id was an invalid length");
+            throw new ValueObjectException("The Id was an invalid length");
 
         if (!PlayCodec.AlphaNumericSpecialCodec.IsValid(value))
             throw new ValueObjectException($"The Id has an invalid character. The identifier must be in the {nameof(AlphaNumericSpecial)} format");

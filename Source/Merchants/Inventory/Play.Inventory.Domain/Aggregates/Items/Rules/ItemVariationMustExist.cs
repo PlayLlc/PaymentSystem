@@ -9,7 +9,7 @@ public class ItemVariationMustExist : BusinessRule<Item, SimpleStringId>
     #region Instance Values
 
     private readonly bool _IsValid;
-    public override string Message => $"An attempt to update a variation failed because the variation does not exist";
+    public override string Message => "An attempt to update a variation failed because the variation does not exist";
 
     #endregion
 
@@ -24,15 +24,9 @@ public class ItemVariationMustExist : BusinessRule<Item, SimpleStringId>
 
     #region Instance Members
 
-    public override ItemVariationDoesNotExist CreateBusinessRuleViolationDomainEvent(Item item)
-    {
-        return new ItemVariationDoesNotExist(item, this);
-    }
+    public override ItemVariationDoesNotExist CreateBusinessRuleViolationDomainEvent(Item item) => new ItemVariationDoesNotExist(item, this);
 
-    public override bool IsBroken()
-    {
-        return !_IsValid;
-    }
+    public override bool IsBroken() => !_IsValid;
 
     #endregion
 }

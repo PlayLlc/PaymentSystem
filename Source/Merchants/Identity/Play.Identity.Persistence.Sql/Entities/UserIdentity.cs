@@ -77,9 +77,8 @@ public sealed class UserIdentity : IdentityUser, IEntity
 
     #region Instance Members
 
-    public IEnumerable<Claim> GenerateClaims()
-    {
-        return new List<Claim>
+    public IEnumerable<Claim> GenerateClaims() =>
+        new List<Claim>
         {
             new(JwtClaimTypes.Subject, $"{Guid.NewGuid()}_{DateTimeUtc.Now.Ticks}"),
             new(JwtClaimTypes.Name, $"{Contact.GetFullName()}"),
@@ -89,7 +88,6 @@ public sealed class UserIdentity : IdentityUser, IEntity
             new(JwtClaimTypes.BirthDate, PersonalDetail.DateOfBirth.ToShortDateFormat()),
             new(JwtClaimTypes.Address, Address.Normalize())
         };
-    }
 
     public UserDto AsDto()
     {

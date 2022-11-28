@@ -67,16 +67,14 @@ public class UnderwritingController : ControllerBase
         return Ok(new VerifyResult {IsProhibited = result});
     }
 
-    private static Address ToAddress(AddressDto? addressDto)
-    {
-        return new Address
+    private static Address ToAddress(AddressDto? addressDto) =>
+        new Address
         {
             State = addressDto.State,
             City = addressDto.City,
             StreetAddress = addressDto.StreetAddress,
             ZipCode = addressDto.Zipcode
         };
-    }
 
     #endregion
 }

@@ -47,16 +47,10 @@ public class Category : Aggregate<SimpleStringId>
 
     #region Instance Members
 
-    public string GetName()
-    {
-        return _Name;
-    }
+    public string GetName() => _Name;
 
     /// <exception cref="ValueObjectException"></exception>
-    internal bool IsMerchantIdEqual(string merchantId)
-    {
-        return _MerchantId == new SimpleStringId(merchantId);
-    }
+    internal bool IsMerchantIdEqual(string merchantId) => _MerchantId == new SimpleStringId(merchantId);
 
     /// <exception cref="NotFoundException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
@@ -90,20 +84,15 @@ public class Category : Aggregate<SimpleStringId>
         Publish(new CategoryHasBeenRemoved(this, _MerchantId, user.Id));
     }
 
-    public override SimpleStringId GetId()
-    {
-        return Id;
-    }
+    public override SimpleStringId GetId() => Id;
 
-    public override CategoryDto AsDto()
-    {
-        return new CategoryDto
+    public override CategoryDto AsDto() =>
+        new CategoryDto
         {
             Id = Id,
             MerchantId = _MerchantId,
             Name = _Name
         };
-    }
 
     #endregion
 }

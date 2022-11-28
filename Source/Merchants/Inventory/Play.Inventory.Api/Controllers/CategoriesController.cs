@@ -53,7 +53,7 @@ public class CategoriesController : BaseController
 
         Category category = await Category.CreateCategory(_UserRetriever, _MerchantsRetriever, _CategoryRepository, command).ConfigureAwait(false);
 
-        return Created(@Url.Action("Get", "Categories", new {id = category.Id})!, category.AsDto());
+        return Created(Url.Action("Get", "Categories", new {id = category.Id})!, category.AsDto());
     }
 
     [HttpDeleteSwagger]

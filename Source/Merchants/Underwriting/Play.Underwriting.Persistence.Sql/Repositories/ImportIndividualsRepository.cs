@@ -70,9 +70,9 @@ public class ImportIndividualsRepository : IImportIndividualsRepository
 
         try
         {
-            await _DbContext.Database.ExecuteSqlRawAsync($"TRUNCATE TABLE dbo.Aliases");
-            await _DbContext.Database.ExecuteSqlRawAsync($"TRUNCATE TABLE dbo.Addresses");
-            await _DbContext.Database.ExecuteSqlRawAsync($"DELETE FROM dbo.Individuals");
+            await _DbContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE dbo.Aliases");
+            await _DbContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE dbo.Addresses");
+            await _DbContext.Database.ExecuteSqlRawAsync("DELETE FROM dbo.Individuals");
         }
         catch (Exception ex)
         {
@@ -93,9 +93,9 @@ public class ImportIndividualsRepository : IImportIndividualsRepository
 
         try
         {
-            await _DbContext.Database.ExecuteSqlRawAsync($"SELECT * INTO Individuals_Backup FROM Individuals");
-            await _DbContext.Database.ExecuteSqlRawAsync($"SELECT * INTO Addresses_Backup  FROM Addresses");
-            await _DbContext.Database.ExecuteSqlRawAsync($"SELECT * INTO Aliases_Backup  FROM Aliases");
+            await _DbContext.Database.ExecuteSqlRawAsync("SELECT * INTO Individuals_Backup FROM Individuals");
+            await _DbContext.Database.ExecuteSqlRawAsync("SELECT * INTO Addresses_Backup  FROM Addresses");
+            await _DbContext.Database.ExecuteSqlRawAsync("SELECT * INTO Aliases_Backup  FROM Aliases");
         }
         catch (Exception ex)
         {
@@ -116,13 +116,13 @@ public class ImportIndividualsRepository : IImportIndividualsRepository
 
         try
         {
-            await _DbContext.Database.ExecuteSqlRawAsync($"INSERT INTO Individuals SELECT* FROM Individuals_Backup");
-            await _DbContext.Database.ExecuteSqlRawAsync($"INSERT INTO Addresses SELECT * FROM Addresses_Backup");
-            await _DbContext.Database.ExecuteSqlRawAsync($"INSERT INTO Aliases SELECT * FROM Aliases_Backup");
+            await _DbContext.Database.ExecuteSqlRawAsync("INSERT INTO Individuals SELECT* FROM Individuals_Backup");
+            await _DbContext.Database.ExecuteSqlRawAsync("INSERT INTO Addresses SELECT * FROM Addresses_Backup");
+            await _DbContext.Database.ExecuteSqlRawAsync("INSERT INTO Aliases SELECT * FROM Aliases_Backup");
 
-            await _DbContext.Database.ExecuteSqlRawAsync($"DROP TABLE Addresses_Backup ");
-            await _DbContext.Database.ExecuteSqlRawAsync($"DROP TABLE Aliases_Backup");
-            await _DbContext.Database.ExecuteSqlRawAsync($"DROP TABLE Individuals_Backup");
+            await _DbContext.Database.ExecuteSqlRawAsync("DROP TABLE Addresses_Backup ");
+            await _DbContext.Database.ExecuteSqlRawAsync("DROP TABLE Aliases_Backup");
+            await _DbContext.Database.ExecuteSqlRawAsync("DROP TABLE Individuals_Backup");
         }
         catch (Exception ex)
         {
@@ -143,9 +143,9 @@ public class ImportIndividualsRepository : IImportIndividualsRepository
 
         try
         {
-            await _DbContext.Database.ExecuteSqlRawAsync($"DROP TABLE Addresses_Backup ");
-            await _DbContext.Database.ExecuteSqlRawAsync($"DROP TABLE Aliases_Backup");
-            await _DbContext.Database.ExecuteSqlRawAsync($"DROP TABLE Individuals_Backup");
+            await _DbContext.Database.ExecuteSqlRawAsync("DROP TABLE Addresses_Backup ");
+            await _DbContext.Database.ExecuteSqlRawAsync("DROP TABLE Aliases_Backup");
+            await _DbContext.Database.ExecuteSqlRawAsync("DROP TABLE Individuals_Backup");
         }
         catch (Exception ex)
         {

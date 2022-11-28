@@ -1,5 +1,5 @@
-﻿using Play.Domain.Repositories;
-using Play.Domain.Common.ValueObjects;
+﻿using Play.Domain.Common.ValueObjects;
+using Play.Domain.Repositories;
 using Play.Inventory.Domain.Aggregates;
 
 namespace Play.Inventory.Domain.Repositories;

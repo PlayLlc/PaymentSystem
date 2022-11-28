@@ -3,6 +3,8 @@
 //15268(0), 22761(1),"172 Xibin Rd, Ranghulu District, (Daqing, Heilongjiang Branch)"(2),"Daqing 163453"(3),"China"(4),-0-(5) 
 public class Address
 {
+    #region Instance Values
+
     public ulong Number { get; set; }
 
     public ulong IndividualNumber { get; set; }
@@ -19,8 +21,12 @@ public class Address
 
     public string Remarks { get; set; } = string.Empty;
 
-    public bool IsEqual(string streetAddress, string zipCode, string city, string state)
-    {
-        return this.StreetAddress == streetAddress && this.ZipCode == zipCode && this.City == city && this.State == state;
-    }
+    #endregion
+
+    #region Instance Members
+
+    public bool IsEqual(string streetAddress, string zipCode, string city, string state) =>
+        (StreetAddress == streetAddress) && (ZipCode == zipCode) && (City == city) && (State == state);
+
+    #endregion
 }

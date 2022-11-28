@@ -24,15 +24,10 @@ internal class UserRegistrationUsernameMustBeAValidEmail : BusinessRule<UserRegi
 
     #region Instance Members
 
-    public override UserRegistrationUsernameWasInvalid CreateBusinessRuleViolationDomainEvent(UserRegistration merchant)
-    {
-        return new UserRegistrationUsernameWasInvalid(merchant, this);
-    }
+    public override UserRegistrationUsernameWasInvalid CreateBusinessRuleViolationDomainEvent(UserRegistration merchant) =>
+        new UserRegistrationUsernameWasInvalid(merchant, this);
 
-    public override bool IsBroken()
-    {
-        return _IsValid;
-    }
+    public override bool IsBroken() => _IsValid;
 
     #endregion
 }

@@ -17,7 +17,7 @@ public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEv
 
         await _ProgramsRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
 
-        await _MessageHandlerContext.Publish<DiscountProgramActiveStatusHasBeenUpdatedEvent>((a) =>
+        await _MessageHandlerContext.Publish<DiscountProgramActiveStatusHasBeenUpdatedEvent>(a =>
             {
                 a.LoyaltyProgramId = domainEvent.Programs.Id;
                 a.UserId = domainEvent.UserId;
@@ -31,7 +31,7 @@ public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEv
         Log(domainEvent);
         await _ProgramsRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
 
-        await _MessageHandlerContext.Publish<DiscountHasBeenCreatedEvent>((a) =>
+        await _MessageHandlerContext.Publish<DiscountHasBeenCreatedEvent>(a =>
             {
                 a.Discount = domainEvent.Discount.AsDto();
                 a.UserId = domainEvent.UserId;
@@ -44,7 +44,7 @@ public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEv
         Log(domainEvent);
         await _ProgramsRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
 
-        await _MessageHandlerContext.Publish<DiscountHasBeenUpdatedEvent>((a) =>
+        await _MessageHandlerContext.Publish<DiscountHasBeenUpdatedEvent>(a =>
             {
                 a.DiscountId = domainEvent.DiscountId;
                 a.Price = domainEvent.Price;
@@ -58,7 +58,7 @@ public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEv
         Log(domainEvent);
         await _ProgramsRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
 
-        await _MessageHandlerContext.Publish<DiscountHasBeenRemovedEvent>((a) =>
+        await _MessageHandlerContext.Publish<DiscountHasBeenRemovedEvent>(a =>
             {
                 a.DiscountId = domainEvent.DiscountId;
                 a.UserId = domainEvent.UserId;
@@ -68,7 +68,7 @@ public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEv
 
     public Task Handle(DiscountItemDoesNotExist domainEvent)
     {
-        Log(domainEvent, LogLevel.Warning, $"\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
+        Log(domainEvent, LogLevel.Warning, "\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
 
         return Task.CompletedTask;
     }

@@ -50,25 +50,17 @@ public class Password : Entity<SimpleStringId>
 
     #region Instance Members
 
-    public bool IsExpired(TimeSpan validityPeriod)
-    {
-        return (DateTimeUtc.Now - CreatedOn) > validityPeriod;
-    }
+    public bool IsExpired(TimeSpan validityPeriod) => (DateTimeUtc.Now - CreatedOn) > validityPeriod;
 
-    public override SimpleStringId GetId()
-    {
-        return Id;
-    }
+    public override SimpleStringId GetId() => Id;
 
-    public override PasswordDto AsDto()
-    {
-        return new PasswordDto
+    public override PasswordDto AsDto() =>
+        new PasswordDto
         {
             Id = Id,
             CreatedOn = CreatedOn,
             HashedPassword = HashedPassword
         };
-    }
 
     #endregion
 }

@@ -64,20 +64,15 @@ public class PersonalDetail : Entity<SimpleStringId>
 
     #region Instance Members
 
-    public override SimpleStringId GetId()
-    {
-        return Id;
-    }
+    public override SimpleStringId GetId() => Id;
 
-    public override PersonalDetailDto AsDto()
-    {
-        return new PersonalDetailDto
+    public override PersonalDetailDto AsDto() =>
+        new PersonalDetailDto
         {
             Id = Id,
             DateOfBirth = new DateTimeUtc(DateOfBirth),
             LastFourOfSocial = LastFourOfSocial
         };
-    }
 
     #endregion
 }

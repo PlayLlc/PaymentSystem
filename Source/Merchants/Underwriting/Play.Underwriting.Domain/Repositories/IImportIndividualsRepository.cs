@@ -4,6 +4,8 @@ namespace Play.Underwriting.Domain.Repositories;
 
 public interface IImportIndividualsRepository
 {
+    #region Instance Members
+
     void AddIndividual(Individual individual);
 
     Task AddIndividuals(IEnumerable<Individual> individuals);
@@ -17,4 +19,6 @@ public interface IImportIndividualsRepository
     Task CleanBackups();
 
     void ResetChangeTracker();
+
+    #endregion
 }

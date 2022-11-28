@@ -1,13 +1,13 @@
-﻿using Duende.IdentityServer;
+﻿using System.Security.Claims;
+
+using Duende.IdentityServer;
 using Duende.IdentityServer.Services;
+
+using IdentityModel;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-
-using System.Security.Claims;
-
-using IdentityModel;
 
 using Play.Identity.Contracts.Dtos;
 using Play.Identity.Persistence.Sql.Entities;

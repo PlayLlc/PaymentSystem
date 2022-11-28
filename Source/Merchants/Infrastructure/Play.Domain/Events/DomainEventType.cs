@@ -19,10 +19,7 @@ public record DomainEventType
 
     #region Operator Overrides
 
-    public static implicit operator string(DomainEventType value)
-    {
-        return value.Value;
-    }
+    public static implicit operator string(DomainEventType value) => value.Value;
 
     #endregion
 }

@@ -1,7 +1,6 @@
-﻿using Play.Domain.Events;
+﻿using NServiceBus;
 
-using NServiceBus;
-
+using Play.Domain.Events;
 using Play.Inventory.Contracts;
 using Play.Inventory.Domain.Aggregates;
 
@@ -34,7 +33,7 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemA
     public async Task Handle(NoInventoryAlert domainEvent)
     {
         Log(domainEvent);
-        await _MessageHandlerContext.Publish<NoInventoryAlertEvent>((a) =>
+        await _MessageHandlerContext.Publish<NoInventoryAlertEvent>(a =>
             {
                 a.ItemId = domainEvent.Item.GetId();
             })

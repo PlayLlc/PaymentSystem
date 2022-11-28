@@ -1,12 +1,5 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Currency;
@@ -15,8 +8,6 @@ using Play.Loyalty.Domain.Aggregates.Rules;
 using Play.Loyalty.Domain.Entities;
 using Play.Loyalty.Domain.Repositories;
 using Play.Loyalty.Domain.Services;
-
-using System.Transactions;
 
 namespace Play.Loyalty.Domain.Aggregates;
 

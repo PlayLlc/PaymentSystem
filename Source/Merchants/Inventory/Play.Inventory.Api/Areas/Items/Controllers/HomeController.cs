@@ -2,14 +2,14 @@
 
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
+using Play.Inventory.Api.Controllers;
+using Play.Inventory.Contracts.Commands;
 using Play.Inventory.Contracts.Dtos;
+using Play.Inventory.Domain.Aggregates;
 using Play.Inventory.Domain.Repositories;
 using Play.Inventory.Domain.Services;
-using Play.Inventory.Contracts.Commands;
-using Play.Mvc.Extensions;
-using Play.Inventory.Api.Controllers;
-using Play.Inventory.Domain.Aggregates;
 using Play.Mvc.Attributes;
+using Play.Mvc.Extensions;
 
 namespace Play.Inventory.Api.Areas.Items.Controllers;
 

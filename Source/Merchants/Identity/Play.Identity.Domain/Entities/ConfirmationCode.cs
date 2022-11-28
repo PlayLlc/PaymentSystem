@@ -43,25 +43,17 @@ public class ConfirmationCode : Entity<SimpleStringId>
 
     #region Instance Members
 
-    public override SimpleStringId GetId()
-    {
-        return Id;
-    }
+    public override SimpleStringId GetId() => Id;
 
-    public bool IsExpired(TimeSpan validityPeriod)
-    {
-        return (DateTimeUtc.Now - SentDate) < validityPeriod;
-    }
+    public bool IsExpired(TimeSpan validityPeriod) => (DateTimeUtc.Now - SentDate) < validityPeriod;
 
-    public override ConfirmationCodeDto AsDto()
-    {
-        return new ConfirmationCodeDto()
+    public override ConfirmationCodeDto AsDto() =>
+        new ConfirmationCodeDto
         {
             Id = Id,
             SentDate = SentDate,
             Code = Code
         };
-    }
 
     #endregion
 }

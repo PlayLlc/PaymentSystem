@@ -1,5 +1,4 @@
 ﻿using Play.Domain.Aggregates;
-using Play.Domain.Common.Entities;
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
@@ -110,7 +109,7 @@ public partial class Item : Aggregate<SimpleStringId>
         Variation variation = new Variation(new SimpleStringId(GenerateSimpleStringId()), itemId, new Name("Original"), price);
 
         Item item = new Item(GenerateSimpleStringId(), merchant.Id, name, command.Description ?? string.Empty, alerts, locations, sku, categories,
-            new List<Variation>() {variation});
+            new List<Variation> {variation});
 
         item.Enforce(new MerchantMustBeActiveToCreateAggregate<Item>(merchant));
         item.Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));

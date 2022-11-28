@@ -1,7 +1,6 @@
-﻿using Play.Loyalty.Contracts.Dtos;
+﻿using System.ComponentModel.DataAnnotations;
 
-using System.ComponentModel.DataAnnotations;
-
+using Play.Loyalty.Contracts.Dtos;
 using Play.Messaging.NServiceBus;
 
 namespace Play.Loyalty.Contracts;

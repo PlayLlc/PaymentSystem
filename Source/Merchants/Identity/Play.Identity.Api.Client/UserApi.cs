@@ -21,7 +21,7 @@ namespace Play.Identity.Api.Client;
 /// <summary>
 ///     Represents a collection of functions to interact with the API endpoints
 /// </summary>
-public partial class UserApi : IUserApi
+public class UserApi : IUserApi
 {
     #region Instance Values
 
@@ -131,11 +131,11 @@ public partial class UserApi : IUserApi
         object localVarPostBody = null;
 
         // to determine the Content-Type header
-        string[] localVarHttpContentTypes = new string[] { };
+        string[] localVarHttpContentTypes = { };
         string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
         // to determine the Accept header
-        string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
+        string[] localVarHttpHeaderAccepts = {"text/plain", "application/json", "text/json"};
         string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
         if (localVarHttpHeaderAccept != null)
             localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
@@ -189,11 +189,11 @@ public partial class UserApi : IUserApi
         object localVarPostBody = null;
 
         // to determine the Content-Type header
-        string[] localVarHttpContentTypes = new string[] { };
+        string[] localVarHttpContentTypes = { };
         string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
         // to determine the Accept header
-        string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
+        string[] localVarHttpHeaderAccepts = {"text/plain", "application/json", "text/json"};
         string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
         if (localVarHttpHeaderAccept != null)
             localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
@@ -245,11 +245,11 @@ public partial class UserApi : IUserApi
         object localVarPostBody = null;
 
         // to determine the Content-Type header
-        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string[] localVarHttpContentTypes = {"application/json", "text/json", "application/_*+json"};
         string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
         // to determine the Accept header
-        string[] localVarHttpHeaderAccepts = new string[] { };
+        string[] localVarHttpHeaderAccepts = { };
         string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
         if (localVarHttpHeaderAccept != null)
             localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
@@ -302,11 +302,11 @@ public partial class UserApi : IUserApi
         object localVarPostBody = null;
 
         // to determine the Content-Type header
-        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string[] localVarHttpContentTypes = {"application/json", "text/json", "application/_*+json"};
         string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
         // to determine the Accept header
-        string[] localVarHttpHeaderAccepts = new string[] { };
+        string[] localVarHttpHeaderAccepts = { };
         string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
         if (localVarHttpHeaderAccept != null)
             localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
@@ -359,11 +359,11 @@ public partial class UserApi : IUserApi
         object localVarPostBody = null;
 
         // to determine the Content-Type header
-        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string[] localVarHttpContentTypes = {"application/json", "text/json", "application/_*+json"};
         string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
         // to determine the Accept header
-        string[] localVarHttpHeaderAccepts = new string[] { };
+        string[] localVarHttpHeaderAccepts = { };
         string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
         if (localVarHttpHeaderAccept != null)
             localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
@@ -416,11 +416,11 @@ public partial class UserApi : IUserApi
         object localVarPostBody = null;
 
         // to determine the Content-Type header
-        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string[] localVarHttpContentTypes = {"application/json", "text/json", "application/_*+json"};
         string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
         // to determine the Accept header
-        string[] localVarHttpHeaderAccepts = new string[] { };
+        string[] localVarHttpHeaderAccepts = { };
         string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
         if (localVarHttpHeaderAccept != null)
             localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
@@ -473,11 +473,11 @@ public partial class UserApi : IUserApi
         object localVarPostBody = null;
 
         // to determine the Content-Type header
-        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string[] localVarHttpContentTypes = {"application/json", "text/json", "application/_*+json"};
         string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
         // to determine the Accept header
-        string[] localVarHttpHeaderAccepts = new string[] { };
+        string[] localVarHttpHeaderAccepts = { };
         string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
         if (localVarHttpHeaderAccept != null)
             localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
@@ -530,11 +530,11 @@ public partial class UserApi : IUserApi
         object localVarPostBody = null;
 
         // to determine the Content-Type header
-        string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
+        string[] localVarHttpContentTypes = {"application/json", "text/json", "application/_*+json"};
         string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
         // to determine the Accept header
-        string[] localVarHttpHeaderAccepts = new string[] { };
+        string[] localVarHttpHeaderAccepts = { };
         string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
         if (localVarHttpHeaderAccept != null)
             localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);

@@ -59,7 +59,7 @@ public class ApiException : PlayException
         [CallerLineNumber] int lineNumber = 0) : base(
         $"{TraceExceptionMessage(typeof(PlayInternalException), fileName, memberName, lineNumber)} $\"An error occurred attempting to access an API causing an HTTP Status Code: [{{statusCode}}]; {innerException.Message}; \\n\\n{innerException.Message}")
     {
-        StatusCode = (HttpStatusCode) statusCode;
+        StatusCode = statusCode;
     }
 
     public ApiException(

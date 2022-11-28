@@ -44,7 +44,7 @@ public class MerchantUnderwriter : IUnderwriteMerchants
 
         try
         {
-            HttpResponseMessage response = await _Client.PostAsJsonAsync<VerifyMerchantIsProhibitedRequest>("api/underwriting/merchant", request, _Options);
+            HttpResponseMessage response = await _Client.PostAsJsonAsync("api/underwriting/merchant", request, _Options);
 
             VerifyResult? result = await response.Content.ReadFromJsonAsync<VerifyResult>(_Options);
 

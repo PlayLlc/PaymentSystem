@@ -6,9 +6,6 @@ public class LoyaltyDbSeeder
 {
     #region Constructor
 
-    public LoyaltyDbSeeder()
-    { }
-
     #endregion
 
     #region Instance Members

@@ -15,7 +15,7 @@ public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEv
 
         await _ProgramsRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
 
-        await _MessageHandlerContext.Publish<RewardProgramActiveStatusHasBeenUpdatedEvent>((a) =>
+        await _MessageHandlerContext.Publish<RewardProgramActiveStatusHasBeenUpdatedEvent>(a =>
             {
                 a.LoyaltyProgramId = domainEvent.Programs.Id;
                 a.UserId = domainEvent.UserId;
@@ -30,7 +30,7 @@ public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEv
 
         await _ProgramsRepository.SaveAsync(domainEvent.Programs).ConfigureAwait(false);
 
-        await _MessageHandlerContext.Publish<RewardsProgramHasBeenUpdatedEvent>((a) =>
+        await _MessageHandlerContext.Publish<RewardsProgramHasBeenUpdatedEvent>(a =>
             {
                 a.LoyaltyProgramId = domainEvent.Programs.Id;
                 a.UserId = domainEvent.UserId;

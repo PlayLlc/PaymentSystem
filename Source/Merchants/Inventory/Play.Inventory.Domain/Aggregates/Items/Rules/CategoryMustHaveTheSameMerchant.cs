@@ -26,15 +26,9 @@ public class CategoryMustHaveTheSameMerchant : BusinessRule<Item, SimpleStringId
 
     #region Instance Members
 
-    public override CategoryMerchantDidNotMatch CreateBusinessRuleViolationDomainEvent(Item item)
-    {
-        return new CategoryMerchantDidNotMatch(item, this);
-    }
+    public override CategoryMerchantDidNotMatch CreateBusinessRuleViolationDomainEvent(Item item) => new CategoryMerchantDidNotMatch(item, this);
 
-    public override bool IsBroken()
-    {
-        return !_IsValid;
-    }
+    public override bool IsBroken() => !_IsValid;
 
     #endregion
 }

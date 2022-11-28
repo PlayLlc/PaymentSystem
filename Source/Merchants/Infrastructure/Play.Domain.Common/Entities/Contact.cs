@@ -48,19 +48,12 @@ public class Contact : Entity<SimpleStringId>
 
     #region Instance Members
 
-    public string GetFullName()
-    {
-        return $"{FirstName} {LastName}";
-    }
+    public string GetFullName() => $"{FirstName} {LastName}";
 
-    public override SimpleStringId GetId()
-    {
-        return Id;
-    }
+    public override SimpleStringId GetId() => Id;
 
-    public override ContactDto AsDto()
-    {
-        return new ContactDto()
+    public override ContactDto AsDto() =>
+        new ContactDto
         {
             Id = Id,
             Email = Email,
@@ -68,7 +61,6 @@ public class Contact : Entity<SimpleStringId>
             LastName = LastName,
             Phone = Phone
         };
-    }
 
     #endregion
 }

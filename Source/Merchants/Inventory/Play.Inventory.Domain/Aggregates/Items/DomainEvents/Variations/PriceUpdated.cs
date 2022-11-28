@@ -1,5 +1,4 @@
-﻿using Play.Domain.Common.Entities;
-using Play.Domain.Events;
+﻿using Play.Domain.Events;
 using Play.Globalization.Currency;
 using Play.Inventory.Domain.Entities;
 

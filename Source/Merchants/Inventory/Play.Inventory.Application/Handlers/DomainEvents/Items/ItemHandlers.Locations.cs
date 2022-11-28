@@ -25,7 +25,7 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemI
                                                  ?? throw new NotFoundException(typeof(Domain.Aggregates.Inventory));
 
         foreach (string variation in variationIds)
-            await inventory.CreateStockItem(new CreateStockItem()
+            await inventory.CreateStockItem(new CreateStockItem
                 {
                     ItemId = itemId,
                     VariationId = variation

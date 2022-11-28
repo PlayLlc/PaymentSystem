@@ -79,7 +79,7 @@ public class Alerts : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override AlertsDto AsDto() =>
-        new AlertsDto
+        new()
         {
             Id = Id,
             IsActive = _IsActive,

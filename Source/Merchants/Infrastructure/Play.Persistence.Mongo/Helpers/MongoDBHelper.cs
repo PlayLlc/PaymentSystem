@@ -31,20 +31,14 @@ public class MongoDbHelper : IMongoDbHelper
 
     #region Instance Members
 
-    public async Task<IEnumerable<_>> SelectAsync<_>(string collectionName)
-    {
-        return await (await GetCollection<_>(collectionName).FindAsync(Builders<_>.Filter.Empty).ConfigureAwait(false)).ToListAsync();
-    }
+    public async Task<IEnumerable<_>> SelectAsync<_>(string collectionName) =>
+        await (await GetCollection<_>(collectionName).FindAsync(Builders<_>.Filter.Empty).ConfigureAwait(false)).ToListAsync();
 
-    public async Task<IEnumerable<_>> SelectAsync<_>(string collectionName, Expression<Func<_, bool>> filter)
-    {
-        return await (await GetCollection<_>(collectionName).FindAsync(filter).ConfigureAwait(false)).ToListAsync();
-    }
+    public async Task<IEnumerable<_>> SelectAsync<_>(string collectionName, Expression<Func<_, bool>> filter) =>
+        await (await GetCollection<_>(collectionName).FindAsync(filter).ConfigureAwait(false)).ToListAsync();
 
-    public async Task<long> CountAsync<_>(string collectionName, Expression<Func<_, bool>> filter)
-    {
-        return await GetCollection<_>(collectionName).CountDocumentsAsync(filter).ConfigureAwait(false);
-    }
+    public async Task<long> CountAsync<_>(string collectionName, Expression<Func<_, bool>> filter) =>
+        await GetCollection<_>(collectionName).CountDocumentsAsync(filter).ConfigureAwait(false);
 
     public async Task<_> SelectFirstOrDefaultAsync<_>(string collectionName, SortConfig<_>? sortConfig = null, params string[] projections)
     {

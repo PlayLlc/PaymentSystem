@@ -40,7 +40,7 @@ public class MerchantHandler : DomainEventHandler, IHandleDomainEvents<MerchantH
         await _MerchantRepository.SaveAsync(domainEvent.Merchant).ConfigureAwait(false);
 
         // Broadcast that a new user has been created to Azure Service Bus
-        await _MessageHandlerContext.Publish<MerchantHasBeenCreatedEvent>((a) =>
+        await _MessageHandlerContext.Publish<MerchantHasBeenCreatedEvent>(a =>
             {
                 a.MerchantId = domainEvent.Merchant.GetId();
             })
@@ -77,7 +77,7 @@ public class MerchantHandler : DomainEventHandler, IHandleDomainEvents<MerchantH
         SimpleStringId merchantId = domainEvent.Merchant.Id;
         await _MerchantRepository.RemoveAsync(domainEvent.Merchant).ConfigureAwait(false);
 
-        await _MessageHandlerContext.Publish<MerchantHasBeenRemovedEvent>((a) =>
+        await _MessageHandlerContext.Publish<MerchantHasBeenRemovedEvent>(a =>
             {
                 a.MerchantId = merchantId;
             }, null)

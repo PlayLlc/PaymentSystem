@@ -36,15 +36,10 @@ public class MerchantRegistrationIndustryMustNotBeProhibited : BusinessRule<Merc
         return merchantCategoryTask!.Result;
     }
 
-    public override MerchantRegistrationHasBeenRejected CreateBusinessRuleViolationDomainEvent(MerchantRegistration merchant)
-    {
-        return new MerchantRegistrationHasBeenRejected(merchant, this);
-    }
+    public override MerchantRegistrationHasBeenRejected CreateBusinessRuleViolationDomainEvent(MerchantRegistration merchant) =>
+        new MerchantRegistrationHasBeenRejected(merchant, this);
 
-    public override bool IsBroken()
-    {
-        return _IsProhibited;
-    }
+    public override bool IsBroken() => _IsProhibited;
 
     #endregion
 }

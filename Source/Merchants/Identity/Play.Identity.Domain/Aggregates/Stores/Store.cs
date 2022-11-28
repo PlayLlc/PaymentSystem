@@ -49,20 +49,15 @@ public class Store : Aggregate<SimpleStringId>
         return newStore;
     }
 
-    public override SimpleStringId GetId()
-    {
-        return Id;
-    }
+    public override SimpleStringId GetId() => Id;
 
-    public override IDto AsDto()
-    {
-        return new StoreDto()
+    public override IDto AsDto() =>
+        new StoreDto
         {
             Id = Id,
             Address = _Address.AsDto(),
             StoreName = _StoreName
         };
-    }
 
     #endregion
 }

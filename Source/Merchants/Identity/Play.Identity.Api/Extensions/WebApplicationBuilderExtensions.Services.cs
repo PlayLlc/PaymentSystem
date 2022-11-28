@@ -6,24 +6,22 @@ using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.EntityFrameworkCore;
 
+using Play.Domain.Common.ValueObjects;
+using Play.Domain.Repositories;
+using Play.Identity.Api.Services;
 using Play.Identity.Application.Services;
+using Play.Identity.Application.Services.Sms;
 using Play.Identity.Domain.Aggregates;
 using Play.Identity.Domain.Repositories;
 using Play.Identity.Domain.Services;
 using Play.Identity.Persistence.Sql.Entities;
-using Play.Identity.Persistence.Sql.Repositories;
-using Play.Domain.Repositories;
-using Play.Identity.Api.Services;
-using Play.Persistence.Sql;
-
-using Microsoft.EntityFrameworkCore;
-
-using Play.Identity.Application.Services.Sms;
 using Play.Identity.Persistence.Sql.Persistence;
+using Play.Identity.Persistence.Sql.Repositories;
+using Play.Persistence.Sql;
 using Play.Telecom.Twilio.Email;
 using Play.Telecom.Twilio.Sms;
-using Play.Domain.Common.ValueObjects;
 
 namespace Play.Identity.Api.Extensions;
 
@@ -47,8 +45,8 @@ public static partial class WebApplicationBuilderExtensions
         });
 
         // Configuration
-        builder.Services.AddScoped((a) => twilioSmsConfiguration);
-        builder.Services.AddScoped((a) => sendGridConfiguration);
+        builder.Services.AddScoped(a => twilioSmsConfiguration);
+        builder.Services.AddScoped(a => sendGridConfiguration);
         builder.Services.AddScoped<ISendSmsMessages, SmsClient>();
         builder.Services.AddScoped<ISendEmail, EmailClient>();
         builder.Services.Configure<JsonSerializerOptions>(_ => new JsonSerializerOptions {PropertyNamingPolicy = JsonNamingPolicy.CamelCase});

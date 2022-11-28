@@ -20,7 +20,7 @@ namespace Play.Inventory.Api.Client;
 /// <summary>
 ///     Represents a collection of functions to interact with the API endpoints
 /// </summary>
-public partial class InventoryApi : IInventoryApi
+public class InventoryApi : IInventoryApi
 {
     #region Instance Values
 
@@ -134,11 +134,11 @@ public partial class InventoryApi : IInventoryApi
         object localVarPostBody = null;
 
         // to determine the Content-Type header
-        string[] localVarHttpContentTypes = new string[] { };
+        string[] localVarHttpContentTypes = { };
         string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
         // to determine the Accept header
-        string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
+        string[] localVarHttpHeaderAccepts = {"text/plain", "application/json", "text/json"};
         string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
         if (localVarHttpHeaderAccept != null)
             localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
@@ -196,11 +196,11 @@ public partial class InventoryApi : IInventoryApi
         object localVarPostBody = null;
 
         // to determine the Content-Type header
-        string[] localVarHttpContentTypes = new string[] { };
+        string[] localVarHttpContentTypes = { };
         string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
         // to determine the Accept header
-        string[] localVarHttpHeaderAccepts = new string[] {"text/plain", "application/json", "text/json"};
+        string[] localVarHttpHeaderAccepts = {"text/plain", "application/json", "text/json"};
         string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
         if (localVarHttpHeaderAccept != null)
             localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);

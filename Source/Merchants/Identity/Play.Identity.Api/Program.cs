@@ -1,8 +1,8 @@
 using Play.Identity.Api.Extensions;
 using Play.Identity.Contracts.Dtos;
+using Play.Mvc.Extensions;
 using Play.Mvc.Filters;
 using Play.Mvc.Swagger;
-using Play.Mvc.Extensions;
 
 using Serilog;
 

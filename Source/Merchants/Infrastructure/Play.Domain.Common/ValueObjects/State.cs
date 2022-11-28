@@ -24,10 +24,7 @@ public record State : ValueObject<string>
 
     #region Operator Overrides
 
-    public static implicit operator string(State value)
-    {
-        return value.Value;
-    }
+    public static implicit operator string(State value) => value.Value;
 
     #endregion
 }

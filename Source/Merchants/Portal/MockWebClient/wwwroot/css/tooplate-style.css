@@ -642,7 +642,7 @@ footer { padding-bottom: 80px; }
 }
 
 
-@media screen and (max-width: 767px) {       
+@media screen and (max-width: 767px) {
     .section-title { padding-bottom: 20px; }
 
     .custom-navbar {

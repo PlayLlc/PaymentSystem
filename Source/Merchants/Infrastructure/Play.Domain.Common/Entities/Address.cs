@@ -53,14 +53,10 @@ public class Address : Entity<SimpleStringId>
 
     #region Instance Members
 
-    public override SimpleStringId GetId()
-    {
-        return Id;
-    }
+    public override SimpleStringId GetId() => Id;
 
-    public override AddressDto AsDto()
-    {
-        return new AddressDto
+    public override AddressDto AsDto() =>
+        new AddressDto
         {
             Id = Id,
             ApartmentNumber = ApartmentNumber,
@@ -69,12 +65,10 @@ public class Address : Entity<SimpleStringId>
             StreetAddress = StreetAddress,
             Zipcode = Zipcode.Value
         };
-    }
 
     /// <exception cref="NotSupportedException"></exception>
-    public string Normalize()
-    {
-        return JsonSerializer.Serialize(new
+    public string Normalize() =>
+        JsonSerializer.Serialize(new
         {
             street_address = StreetAddress.ToUpper(),
             locality = City.ToUpper(),
@@ -82,7 +76,6 @@ public class Address : Entity<SimpleStringId>
             postal_code = Zipcode.Value.ToUpper(),
             country = "UNITED STATES"
         });
-    }
 
     #endregion
 }

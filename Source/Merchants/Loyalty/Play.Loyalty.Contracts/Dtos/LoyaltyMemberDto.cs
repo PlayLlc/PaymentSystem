@@ -2,7 +2,6 @@
 
 using Play.Domain;
 using Play.Domain.Common.Attributes;
-using Play.Globalization.Time;
 
 namespace Play.Loyalty.Contracts.Dtos;
 

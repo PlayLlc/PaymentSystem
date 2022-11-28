@@ -27,20 +27,11 @@ public abstract record DomainEvent
 
     #region Instance Members
 
-    public DomainEventType GetEventType()
-    {
-        return _DomainEventIdentifier.DomainEventType;
-    }
+    public DomainEventType GetEventType() => _DomainEventIdentifier.DomainEventType;
 
-    public int GetEventId()
-    {
-        return _DomainEventIdentifier.EventId;
-    }
+    public int GetEventId() => _DomainEventIdentifier.EventId;
 
-    protected static DomainEventType CreateEventTypeId(Type type)
-    {
-        return new DomainEventType(type);
-    }
+    protected static DomainEventType CreateEventTypeId(Type type) => new DomainEventType(type);
 
     #endregion
 }

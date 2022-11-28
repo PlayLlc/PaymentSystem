@@ -20,15 +20,9 @@ public class PasswordResetTemplateBuilder : EmailTemplateBuilder
 
     #region Instance Members
 
-    protected override string GetTemplate()
-    {
-        return _Template;
-    }
+    protected override string GetTemplate() => _Template;
 
-    public string CreateEmail(string callbackUri)
-    {
-        return CreateMessage(new Dictionary<string, string> {{nameof(callbackUri), callbackUri}});
-    }
+    public string CreateEmail(string callbackUri) => CreateMessage(new Dictionary<string, string> {{nameof(callbackUri), callbackUri}});
 
     #endregion
 }

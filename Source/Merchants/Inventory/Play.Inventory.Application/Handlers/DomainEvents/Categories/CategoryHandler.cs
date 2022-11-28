@@ -40,7 +40,7 @@ public class CategoryHandler : DomainEventHandler, IHandleDomainEvents<Aggregate
     public Task Handle(AggregateUpdateWasAttemptedByUnknownUser<Category> domainEvent)
     {
         Log(domainEvent, LogLevel.Warning,
-            $"\n\n\n\nWARNING: There is likely an error in the client integration. The User is not associated with the specified Merchant");
+            "\n\n\n\nWARNING: There is likely an error in the client integration. The User is not associated with the specified Merchant");
 
         return Task.CompletedTask;
     }
@@ -54,7 +54,7 @@ public class CategoryHandler : DomainEventHandler, IHandleDomainEvents<Aggregate
     public Task Handle(DeactivatedMerchantAttemptedToCreateAggregate<Category> domainEvent)
     {
         Log(domainEvent, LogLevel.Warning,
-            $"\n\n\n\nWARNING: There is likely an error in the client integration. The Merchant is deactivated and should not be authorized to use this capability");
+            "\n\n\n\nWARNING: There is likely an error in the client integration. The Merchant is deactivated and should not be authorized to use this capability");
 
         return Task.CompletedTask;
     }
@@ -68,7 +68,7 @@ public class CategoryHandler : DomainEventHandler, IHandleDomainEvents<Aggregate
     public Task Handle(DeactivatedUserAttemptedToUpdateAggregate<Category> domainEvent)
     {
         Log(domainEvent, LogLevel.Warning,
-            $"\n\n\n\nWARNING: There is likely an error in the client integration. The User is deactivated and should not be authorized to use this capability");
+            "\n\n\n\nWARNING: There is likely an error in the client integration. The User is deactivated and should not be authorized to use this capability");
 
         return Task.CompletedTask;
     }
@@ -80,7 +80,7 @@ public class CategoryHandler : DomainEventHandler, IHandleDomainEvents<Aggregate
     /// </summary>
     public Task Handle(CategoryAlreadyExists domainEvent)
     {
-        Log(domainEvent, LogLevel.Warning, $"\n\n\n\nWARNING: There is likely an error in the client integration");
+        Log(domainEvent, LogLevel.Warning, "\n\n\n\nWARNING: There is likely an error in the client integration");
 
         return Task.CompletedTask;
     }

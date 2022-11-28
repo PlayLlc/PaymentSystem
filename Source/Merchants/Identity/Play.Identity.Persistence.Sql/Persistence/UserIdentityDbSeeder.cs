@@ -80,7 +80,7 @@ public class UserIdentityDbSeeder
     /// <exception cref="DbUpdateException"></exception>
     private async Task<UserIdentity> AddSuperAdmin(UserManager<UserIdentity> userManager)
     {
-        Address address = new(new AddressDto()
+        Address address = new(new AddressDto
         {
             Id = Randomize.AlphaNumericSpecial.String(20),
             StreetAddress = "1234 Radio Shack Rd",
@@ -90,14 +90,14 @@ public class UserIdentityDbSeeder
             Zipcode = "75036"
         });
 
-        PersonalDetail personalDetail = new(new PersonalDetailDto()
+        PersonalDetail personalDetail = new(new PersonalDetailDto
         {
             Id = Randomize.AlphaNumericSpecial.String(20),
             DateOfBirth = new DateTimeUtc(1969, 4, 20),
             LastFourOfSocial = "6969"
         });
 
-        Contact contact = new(new ContactDto()
+        Contact contact = new(new ContactDto
         {
             Id = Randomize.AlphaNumericSpecial.String(20),
             Email = "test@aol.com",

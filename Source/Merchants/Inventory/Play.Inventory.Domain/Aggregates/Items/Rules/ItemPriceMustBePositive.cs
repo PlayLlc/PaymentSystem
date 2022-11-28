@@ -26,15 +26,9 @@ public class ItemPriceMustBePositive : BusinessRule<Item, SimpleStringId>
 
     #region Instance Members
 
-    public override ItemPriceWasNotPositive CreateBusinessRuleViolationDomainEvent(Item item)
-    {
-        return new ItemPriceWasNotPositive(item, this);
-    }
+    public override ItemPriceWasNotPositive CreateBusinessRuleViolationDomainEvent(Item item) => new ItemPriceWasNotPositive(item, this);
 
-    public override bool IsBroken()
-    {
-        return !_IsValid;
-    }
+    public override bool IsBroken() => !_IsValid;
 
     #endregion
 }

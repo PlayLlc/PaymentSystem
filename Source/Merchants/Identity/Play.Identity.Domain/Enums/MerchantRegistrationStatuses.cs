@@ -44,10 +44,7 @@ public record MerchantRegistrationStatuses : EnumObjectString
 
     #region Instance Members
 
-    public override MerchantRegistrationStatuses[] GetAll()
-    {
-        return _ValueObjectMap.Values.ToArray();
-    }
+    public override MerchantRegistrationStatuses[] GetAll() => _ValueObjectMap.Values.ToArray();
 
     public override bool TryGet(string value, out EnumObjectString? result)
     {
@@ -67,10 +64,7 @@ public record MerchantRegistrationStatuses : EnumObjectString
 
     #region Operator Overrides
 
-    public static implicit operator MerchantRegistrationStatus(MerchantRegistrationStatuses value)
-    {
-        return new MerchantRegistrationStatus(value);
-    }
+    public static implicit operator MerchantRegistrationStatus(MerchantRegistrationStatuses value) => new MerchantRegistrationStatus(value);
 
     #endregion
 }

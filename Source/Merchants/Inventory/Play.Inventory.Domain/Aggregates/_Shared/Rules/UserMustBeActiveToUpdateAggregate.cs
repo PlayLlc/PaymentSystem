@@ -25,15 +25,10 @@ public class UserMustBeActiveToUpdateAggregate<_Aggregate> : BusinessRule<_Aggre
 
     #region Instance Members
 
-    public override bool IsBroken()
-    {
-        return !_IsValid;
-    }
+    public override bool IsBroken() => !_IsValid;
 
-    public override DeactivatedUserAttemptedToUpdateAggregate<_Aggregate> CreateBusinessRuleViolationDomainEvent(_Aggregate aggregate)
-    {
-        return new DeactivatedUserAttemptedToUpdateAggregate<_Aggregate>(aggregate, this);
-    }
+    public override DeactivatedUserAttemptedToUpdateAggregate<_Aggregate> CreateBusinessRuleViolationDomainEvent(_Aggregate aggregate) =>
+        new DeactivatedUserAttemptedToUpdateAggregate<_Aggregate>(aggregate, this);
 
     #endregion
 }

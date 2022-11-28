@@ -90,12 +90,10 @@ public static class ByteArrayExtensions
         Nibble[] result = new Nibble[value.Length * 2];
 
         for (nint i = 0; i < result.Length; i++)
-        {
             if ((i % 2) == 0)
                 result[i] = new Nibble((byte) (value[i / 2] >> 4));
             else
                 result[i] = new Nibble(value[i / 2].GetMaskedValue(0xF0));
-        }
 
         return result;
     }

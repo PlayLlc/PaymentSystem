@@ -10,17 +10,11 @@ public abstract class Aggregate<_TId> : Entity<_TId>, IAggregate, IEquatable<Agg
 {
     #region Constructor
 
-    protected Aggregate()
-    { }
-
     #endregion
 
     #region Instance Members
 
-    protected static string GenerateSimpleStringId()
-    {
-        return Randomize.AlphaNumericSpecial.String(20);
-    }
+    protected static string GenerateSimpleStringId() => Randomize.AlphaNumericSpecial.String(20);
 
     protected void Publish(DomainEvent domainEvent)
     {

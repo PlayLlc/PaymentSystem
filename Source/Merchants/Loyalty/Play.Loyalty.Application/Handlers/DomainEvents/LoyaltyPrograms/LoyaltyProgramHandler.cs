@@ -3,7 +3,6 @@
 using NServiceBus;
 
 using Play.Domain.Events;
-using Play.Loyalty.Contracts;
 using Play.Loyalty.Domain.Aggregates;
 using Play.Loyalty.Domain.Repositories;
 

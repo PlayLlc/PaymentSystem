@@ -1,9 +1,7 @@
 ﻿using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
-using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Currency;
-using Play.Domain;
 using Play.Loyalty.Contracts.Dtos;
 
 namespace Play.Loyalty.Domain.Entities;

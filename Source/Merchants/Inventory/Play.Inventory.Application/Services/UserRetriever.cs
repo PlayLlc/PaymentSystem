@@ -1,11 +1,10 @@
-﻿using Play.Domain.Exceptions;
+﻿using System.Net;
+
+using Play.Domain.Exceptions;
+using Play.Identity.Api.Client;
 using Play.Identity.Contracts.Dtos;
 using Play.Inventory.Domain.Entities;
 using Play.Inventory.Domain.Services;
-
-using System.Net;
-
-using Play.Identity.Api.Client;
 using Play.Restful.Clients;
 
 namespace Play.Inventory.Application.Services;

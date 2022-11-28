@@ -1,5 +1,5 @@
-﻿using Play.Identity.Domain.Aggregates;
-using Play.Core;
+﻿using Play.Core;
+using Play.Identity.Domain.Aggregates;
 
 namespace Play.Identity.Api.Services;
 

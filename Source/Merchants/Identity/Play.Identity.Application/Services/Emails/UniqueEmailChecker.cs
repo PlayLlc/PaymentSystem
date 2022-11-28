@@ -24,11 +24,8 @@ public class UniqueEmailChecker : IEnsureUniqueEmails
 
     #region Instance Members
 
-    public async Task<bool> IsUnique(string email)
-    {
-        return await _UserRegistrationRepository.IsEmailUniqueAsync(email).ConfigureAwait(false)
-               && await _UserRepository.IsEmailUnique(email).ConfigureAwait(false);
-    }
+    public async Task<bool> IsUnique(string email) =>
+        await _UserRegistrationRepository.IsEmailUniqueAsync(email).ConfigureAwait(false) && await _UserRepository.IsEmailUnique(email).ConfigureAwait(false);
 
     #endregion
 }

@@ -1,6 +1,6 @@
-﻿using Play.Domain;
+﻿using System.ComponentModel.DataAnnotations;
 
-using System.ComponentModel.DataAnnotations;
+using Play.Domain;
 
 namespace Play.Inventory.Contracts.Dtos;
 

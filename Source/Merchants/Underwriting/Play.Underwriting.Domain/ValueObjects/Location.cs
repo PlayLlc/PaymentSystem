@@ -2,5 +2,9 @@
 
 public class Location
 {
+    #region Instance Values
+
     public string Value { get; set; }
+
+    #endregion
 }

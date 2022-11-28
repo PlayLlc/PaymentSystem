@@ -6,7 +6,7 @@ public class SmsDeliveryResult : Result
 {
     #region Constructor
 
-    public SmsDeliveryResult() : base()
+    public SmsDeliveryResult()
     { }
 
     public SmsDeliveryResult(params string[] errors) : base(errors)

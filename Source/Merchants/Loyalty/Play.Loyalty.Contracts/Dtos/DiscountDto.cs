@@ -3,7 +3,6 @@
 using Play.Domain;
 using Play.Domain.Common.Attributes;
 using Play.Domain.Common.Dtos;
-using Play.Globalization.Currency;
 
 namespace Play.Loyalty.Contracts.Dtos;
 

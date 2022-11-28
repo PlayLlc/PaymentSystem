@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 
-using Play.Domain.Events;
-
 using NServiceBus;
 
+using Play.Domain.Events;
 using Play.Inventory.Contracts;
 using Play.Inventory.Domain.Aggregates;
 
@@ -19,7 +18,7 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemV
         Log(domainEvent);
         await _ItemRepository.SaveAsync(domainEvent.Item).ConfigureAwait(false);
 
-        await _MessageHandlerContext.Publish<InventoryItemVariationCreatedEvent>((a) =>
+        await _MessageHandlerContext.Publish<InventoryItemVariationCreatedEvent>(a =>
             {
                 a.ItemId = domainEvent.Item.Id;
                 a.Variation = domainEvent.Variation.AsDto();
@@ -33,7 +32,7 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemV
         Log(domainEvent);
         await _ItemRepository.SaveAsync(domainEvent.Item).ConfigureAwait(false);
 
-        await _MessageHandlerContext.Publish<InventoryItemVariationRemovedEvent>((a) =>
+        await _MessageHandlerContext.Publish<InventoryItemVariationRemovedEvent>(a =>
             {
                 a.ItemId = domainEvent.Item.GetId();
                 a.VariationId = domainEvent.VariationId;
@@ -50,14 +49,14 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemV
 
     public Task Handle(ItemVariationAlreadyExists domainEvent)
     {
-        Log(domainEvent, LogLevel.Warning, $"WARNING: This likely means there is a race condition or an error in the client implementation");
+        Log(domainEvent, LogLevel.Warning, "WARNING: This likely means there is a race condition or an error in the client implementation");
 
         return Task.CompletedTask;
     }
 
     public Task Handle(ItemVariationDoesNotExist domainEvent)
     {
-        Log(domainEvent, LogLevel.Warning, $"WARNING: This likely means there is a race condition or an error in the client implementation");
+        Log(domainEvent, LogLevel.Warning, "WARNING: This likely means there is a race condition or an error in the client implementation");
 
         return Task.CompletedTask;
     }

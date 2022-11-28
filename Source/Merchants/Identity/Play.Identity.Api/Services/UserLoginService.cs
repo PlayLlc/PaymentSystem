@@ -2,9 +2,9 @@
 
 using Microsoft.AspNetCore.Authentication;
 
+using Play.Core;
 using Play.Identity.Domain.Aggregates;
 using Play.Identity.Domain.Services;
-using Play.Core;
 
 namespace Play.Identity.Api.Services;
 

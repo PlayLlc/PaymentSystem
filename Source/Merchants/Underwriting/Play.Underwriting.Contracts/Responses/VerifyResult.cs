@@ -2,5 +2,9 @@
 
 public class VerifyResult
 {
+    #region Instance Values
+
     public bool IsProhibited { get; set; }
+
+    #endregion
 }

@@ -53,19 +53,14 @@ public class UserRole : Entity<SimpleStringId>
 
     #region Instance Members
 
-    public override SimpleStringId GetId()
-    {
-        return Id;
-    }
+    public override SimpleStringId GetId() => Id;
 
-    public override UserRoleDto AsDto()
-    {
-        return new UserRoleDto
+    public override UserRoleDto AsDto() =>
+        new UserRoleDto
         {
             Id = Id,
             Name = Name
         };
-    }
 
     #endregion
 }

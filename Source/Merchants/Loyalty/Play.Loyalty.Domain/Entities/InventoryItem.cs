@@ -1,15 +1,7 @@
 ﻿using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Globalization.Currency;
-using Play.Domain.Common.Entities;
 using Play.Domain.ValueObjects;
+using Play.Globalization.Currency;
 using Play.Inventory.Contracts.Dtos;
 
 namespace Play.Loyalty.Domain.Entities;

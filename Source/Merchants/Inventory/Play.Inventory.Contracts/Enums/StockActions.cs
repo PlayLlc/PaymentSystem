@@ -43,10 +43,7 @@ public record StockActions : EnumObjectString
 
     #region Instance Members
 
-    public override EnumObjectString[] GetAll()
-    {
-        return _ValueObjectMap.Values.ToArray();
-    }
+    public override EnumObjectString[] GetAll() => _ValueObjectMap.Values.ToArray();
 
     public override bool TryGet(string value, out EnumObjectString? result)
     {

@@ -29,15 +29,10 @@ internal class MerchantCategoryCodeMustNotBeProhibited : BusinessRule<Merchant, 
 
     #region Instance Members
 
-    public override MerchantCategoryCodeIsProhibited CreateBusinessRuleViolationDomainEvent(Merchant merchant)
-    {
-        return new MerchantCategoryCodeIsProhibited(merchant, this);
-    }
+    public override MerchantCategoryCodeIsProhibited CreateBusinessRuleViolationDomainEvent(Merchant merchant) =>
+        new MerchantCategoryCodeIsProhibited(merchant, this);
 
-    public override bool IsBroken()
-    {
-        return !_IsValid;
-    }
+    public override bool IsBroken() => !_IsValid;
 
     #endregion
 }

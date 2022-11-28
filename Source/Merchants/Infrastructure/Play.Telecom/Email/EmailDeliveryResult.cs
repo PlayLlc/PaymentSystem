@@ -14,7 +14,7 @@ public class EmailDeliveryResult : Result
 
     #region Constructor
 
-    public EmailDeliveryResult() : base()
+    public EmailDeliveryResult()
     { }
 
     public EmailDeliveryResult(HttpStatusCode statusCode, params string[] errors) : base(errors)

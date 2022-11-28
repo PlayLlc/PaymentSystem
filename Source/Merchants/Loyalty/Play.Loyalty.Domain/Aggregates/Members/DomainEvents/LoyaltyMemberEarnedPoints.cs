@@ -1,7 +1,5 @@
 ﻿using Play.Domain.Events;
 
-using System.ComponentModel.DataAnnotations;
-
 namespace Play.Loyalty.Domain.Aggregates;
 
 public record LoyaltyMemberEarnedPoints : DomainEvent

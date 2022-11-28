@@ -35,15 +35,9 @@ internal class UserMustNotBeProhibited : BusinessRule<User, SimpleStringId>
 
     #region Instance Members
 
-    public override UserIsProhibited CreateBusinessRuleViolationDomainEvent(User merchant)
-    {
-        return new UserIsProhibited(merchant, this);
-    }
+    public override UserIsProhibited CreateBusinessRuleViolationDomainEvent(User merchant) => new UserIsProhibited(merchant, this);
 
-    public override bool IsBroken()
-    {
-        return _IsValid;
-    }
+    public override bool IsBroken() => _IsValid;
 
     #endregion
 }

@@ -1,12 +1,11 @@
-﻿using Play.Domain.Common.ValueObjects;
-using Play.Persistence.Sql;
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
+using Play.Domain.Common.ValueObjects;
 using Play.Inventory.Domain.Aggregates;
 using Play.Inventory.Domain.Entities;
 using Play.Inventory.Domain.Repositories;
+using Play.Persistence.Sql;
 
 namespace Play.Inventory.Persistence.Sql.Repositories;
 

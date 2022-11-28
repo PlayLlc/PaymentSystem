@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 
-using Play.Domain.Events;
-using Play.Domain.Repositories;
-
 using NServiceBus;
 
 using Play.Domain.Common.ValueObjects;
+using Play.Domain.Events;
+using Play.Domain.Repositories;
 using Play.Inventory.Contracts;
 using Play.Inventory.Domain.Aggregates;
 using Play.Inventory.Domain.Repositories;
@@ -44,7 +43,7 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemC
         await _ItemRepository.SaveAsync(domainEvent.Item).ConfigureAwait(false);
 
         // Network Event: Send to reporting layer and any other subdomains that are interested. We will keep a commit log of inventory updates
-        await _MessageHandlerContext.Publish<InventoryItemCreatedEvent>((a) =>
+        await _MessageHandlerContext.Publish<InventoryItemCreatedEvent>(a =>
             {
                 a.Item = domainEvent.Item.AsDto();
                 a.UserId = domainEvent.UserId;
@@ -55,7 +54,7 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemC
     public Task Handle(AggregateUpdateWasAttemptedByUnknownUser<Item> domainEvent)
     {
         Log(domainEvent, LogLevel.Warning,
-            $"\n\n\n\nWARNING: There is likely an error in the client integration. The User is not associated with the specified Merchant");
+            "\n\n\n\nWARNING: There is likely an error in the client integration. The User is not associated with the specified Merchant");
 
         return Task.CompletedTask;
     }
@@ -71,7 +70,7 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemC
     public Task Handle(DeactivatedUserAttemptedToUpdateAggregate<Item> domainEvent)
     {
         Log(domainEvent, LogLevel.Warning,
-            $"\n\n\n\nWARNING: There is likely an error in the client integration. The User is deactivated and should not be authorized to use this capability");
+            "\n\n\n\nWARNING: There is likely an error in the client integration. The User is deactivated and should not be authorized to use this capability");
 
         return Task.CompletedTask;
     }

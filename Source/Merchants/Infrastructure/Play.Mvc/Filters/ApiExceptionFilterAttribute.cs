@@ -11,8 +11,6 @@ using Play.Domain.ValueObjects;
 using Play.Mvc.Exceptions;
 using Play.Restful.Clients;
 
-using NotFoundException = Play.Domain.Exceptions.NotFoundException;
-
 namespace Play.Mvc.Filters;
 
 public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
@@ -31,7 +29,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         LoggerFactory a = new LoggerFactory();
 
         _Logger = a.CreateLogger<ApiExceptionFilterAttribute>();
-        _ExceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>()
+        _ExceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
         {
             {typeof(ModelValidationException), HandleModelValidationException},
             {typeof(BusinessRuleValidationException), HandleBusinessRuleValidationException},
@@ -54,7 +52,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
         ApiException exception = (ApiException) context.Exception;
 
-        ProblemDetails details = new ProblemDetails()
+        ProblemDetails details = new ProblemDetails
         {
             Title = "An unhandled exception was thrown while using a Restful API Client",
             Detail = exception.Message,
@@ -102,7 +100,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
         PlayInternalException exception = (PlayInternalException) context.Exception;
 
-        ProblemDetails details = new ProblemDetails()
+        ProblemDetails details = new ProblemDetails
         {
             Title = "An uncaught internal exception has caused an Internal Server Error",
             Detail = exception.Message,
@@ -118,7 +116,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
         NotFoundException exception = (NotFoundException) context.Exception;
 
-        ProblemDetails details = new ProblemDetails()
+        ProblemDetails details = new ProblemDetails
         {
             Title = "The requested resource could not be found",
             Detail = exception.Message,
@@ -134,7 +132,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
         AggregateException exception = (AggregateException) context.Exception;
 
-        ProblemDetails details = new ProblemDetails()
+        ProblemDetails details = new ProblemDetails
         {
             Title = "An uncaught exception likely due to an incorrect asynchronous implementation has caused an Internal Server Error",
             Detail = exception.Message,
@@ -150,7 +148,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
         Exception exception = context.Exception;
 
-        ProblemDetails details = new ProblemDetails()
+        ProblemDetails details = new ProblemDetails
         {
             Title = "An uncaught exception caused an Internal Server Error",
             Detail = exception.Message,
@@ -166,7 +164,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
         CommandOutOfSyncException exception = (CommandOutOfSyncException) context.Exception;
 
-        HttpValidationProblemDetails details = new HttpValidationProblemDetails()
+        HttpValidationProblemDetails details = new HttpValidationProblemDetails
         {
             Title = "The request could not be completed because of an invalid state. A resource was expected to exist but could not be found",
             Detail = exception.Message,
@@ -181,7 +179,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
         RepositoryException exception = (RepositoryException) context.Exception;
 
-        HttpValidationProblemDetails details = new HttpValidationProblemDetails()
+        HttpValidationProblemDetails details = new HttpValidationProblemDetails
         {
             Title = "A problem occurred locating a resource required to complete the request",
             Detail = exception.Message,
@@ -196,7 +194,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
         BusinessRuleValidationException exception = (BusinessRuleValidationException) context.Exception;
 
-        HttpValidationProblemDetails details = new HttpValidationProblemDetails()
+        HttpValidationProblemDetails details = new HttpValidationProblemDetails
         {
             Title = "The request could not properly be processed because a business rule has been violated.",
             Detail = exception.Message,
@@ -210,7 +208,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     private void HandleValueObjectException(ExceptionContext context)
     {
         ValueObjectException exception = (ValueObjectException) context.Exception;
-        HttpValidationProblemDetails details = new HttpValidationProblemDetails()
+        HttpValidationProblemDetails details = new HttpValidationProblemDetails
         {
             Title = "There was a problem with the format of the message sent.",
             Detail = exception.Message,
@@ -259,8 +257,6 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         if (!context.ModelState.IsValid)
         {
             HandleInvalidModelStateException(context);
-
-            return;
         }
     }
 

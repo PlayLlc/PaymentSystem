@@ -37,15 +37,9 @@ internal class MerchantMustNotBeProhibited : BusinessRule<Merchant, SimpleString
         return merchantProhibitedTask!.Result;
     }
 
-    public override bool IsBroken()
-    {
-        return _IsProhibited;
-    }
+    public override bool IsBroken() => _IsProhibited;
 
-    public override MerchantIsProhibited CreateBusinessRuleViolationDomainEvent(Merchant merchant)
-    {
-        return new MerchantIsProhibited(merchant, this);
-    }
+    public override MerchantIsProhibited CreateBusinessRuleViolationDomainEvent(Merchant merchant) => new MerchantIsProhibited(merchant, this);
 
     #endregion
 }

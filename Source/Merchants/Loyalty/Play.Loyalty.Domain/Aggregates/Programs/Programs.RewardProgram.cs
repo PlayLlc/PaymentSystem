@@ -1,13 +1,9 @@
 ﻿using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
-using Play.Loyalty.Domain.Entities;
-using Play.Loyalty.Domain.Services;
-
-using System.Security.Policy;
-
 using Play.Globalization.Currency;
 using Play.Loyalty.Contracts.Commands;
-using Play.Loyalty.Domain.ValueObjects;
+using Play.Loyalty.Domain.Entities;
+using Play.Loyalty.Domain.Services;
 
 namespace Play.Loyalty.Domain.Aggregates;
 

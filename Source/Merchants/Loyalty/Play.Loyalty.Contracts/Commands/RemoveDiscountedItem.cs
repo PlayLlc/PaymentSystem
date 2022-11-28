@@ -1,6 +1,6 @@
-﻿using Play.Domain.Common.Attributes;
+﻿using System.ComponentModel.DataAnnotations;
 
-using System.ComponentModel.DataAnnotations;
+using Play.Domain.Common.Attributes;
 
 namespace Play.Loyalty.Contracts.Commands;
 

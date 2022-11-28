@@ -12,7 +12,7 @@ public record Zipcode : ValueObject<string>
         if (value.Length < 5)
             throw new ValueObjectException($"The {nameof(Email)} provided was invalid: [{value}]");
 
-        ValidateDigitRange(value[0..5]);
+        ValidateDigitRange(value[..5]);
     }
 
     #endregion
@@ -39,10 +39,7 @@ public record Zipcode : ValueObject<string>
 
     #region Operator Overrides
 
-    public static implicit operator string(Zipcode value)
-    {
-        return value.Value;
-    }
+    public static implicit operator string(Zipcode value) => value.Value;
 
     #endregion
 }

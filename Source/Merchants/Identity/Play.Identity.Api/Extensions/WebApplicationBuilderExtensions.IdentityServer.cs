@@ -1,14 +1,14 @@
-﻿using Duende.IdentityServer.AspNetIdentity;
-using Duende.IdentityServer;
+﻿using Duende.IdentityServer;
+using Duende.IdentityServer.AspNetIdentity;
 
 using IdentityModel;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
+using Play.Identity.Api.Identity;
 using Play.Identity.Persistence.Sql.Entities;
 using Play.Identity.Persistence.Sql.Persistence;
-using Play.Identity.Api.Identity;
 
 namespace Play.Identity.Api.Extensions;
 

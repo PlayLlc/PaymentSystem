@@ -24,15 +24,9 @@ public class MerchantPortalClient
 
     #region Instance Members
 
-    public static string GetDescription()
-    {
-        return _Description;
-    }
+    public static string GetDescription() => _Description;
 
-    public static string GetClientName()
-    {
-        return _ClientName;
-    }
+    public static string GetClientName() => _ClientName;
 
     #endregion
 }

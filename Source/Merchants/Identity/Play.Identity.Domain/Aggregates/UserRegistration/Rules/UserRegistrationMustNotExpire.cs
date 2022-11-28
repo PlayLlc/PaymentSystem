@@ -42,15 +42,10 @@ internal class UserRegistrationMustNotExpire : BusinessRule<UserRegistration, Si
 
     #region Instance Members
 
-    public override bool IsBroken()
-    {
-        return !_IsValid;
-    }
+    public override bool IsBroken() => !_IsValid;
 
-    public override UserRegistrationHasExpired CreateBusinessRuleViolationDomainEvent(UserRegistration merchant)
-    {
-        return new UserRegistrationHasExpired(merchant, this);
-    }
+    public override UserRegistrationHasExpired CreateBusinessRuleViolationDomainEvent(UserRegistration merchant) =>
+        new UserRegistrationHasExpired(merchant, this);
 
     #endregion
 }

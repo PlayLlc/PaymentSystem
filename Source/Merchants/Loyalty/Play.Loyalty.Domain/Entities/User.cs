@@ -42,24 +42,16 @@ public class User : Entity<SimpleStringId>
 
     #region Instance Members
 
-    public bool DoesUserBelongToMerchant(string merchantId)
-    {
-        return MerchantId == merchantId;
-    }
+    public bool DoesUserBelongToMerchant(string merchantId) => MerchantId == merchantId;
 
-    public override SimpleStringId GetId()
-    {
-        return Id;
-    }
+    public override SimpleStringId GetId() => Id;
 
-    public override UserDto AsDto()
-    {
-        return new UserDto()
+    public override UserDto AsDto() =>
+        new UserDto
         {
             Id = Id,
             MerchantId = MerchantId
         };
-    }
 
     #endregion
 }

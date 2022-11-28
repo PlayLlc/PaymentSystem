@@ -26,15 +26,13 @@ public class EmailVerificationReturnUrlGenerator : ICreateEmailVerificationRetur
 
     #region Instance Members
 
-    public string CreateReturnUrl(string userRegistrationId, uint confirmationCode)
-    {
-        return _UrlHelper.Action("EmailVerification", "User", new VerifyConfirmationCodeCommand()
-               {
-                   ConfirmationCode = confirmationCode,
-                   UserRegistrationId = userRegistrationId
-               })
-               ?? throw new InvalidOleVariantTypeException();
-    }
+    public string CreateReturnUrl(string userRegistrationId, uint confirmationCode) =>
+        _UrlHelper.Action("EmailVerification", "User", new VerifyConfirmationCodeCommand
+        {
+            ConfirmationCode = confirmationCode,
+            UserRegistrationId = userRegistrationId
+        })
+        ?? throw new InvalidOleVariantTypeException();
 
     #endregion
 }

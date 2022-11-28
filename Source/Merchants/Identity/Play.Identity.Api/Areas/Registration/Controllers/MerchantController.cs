@@ -1,16 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
+using Play.Domain.Common.ValueObjects;
+using Play.Domain.Exceptions;
+using Play.Domain.Repositories;
 using Play.Identity.Contracts.Commands.MerchantRegistration;
 using Play.Identity.Contracts.Dtos;
 using Play.Identity.Domain.Aggregates;
-using Play.Identity.Domain.Services;
-using Play.Domain.Common.ValueObjects;
-using Play.Domain.Repositories;
 using Play.Identity.Domain.Repositories;
+using Play.Identity.Domain.Services;
 using Play.Mvc.Attributes;
 using Play.Mvc.Extensions;
-
-using NotFoundException = Play.Domain.Exceptions.NotFoundException;
 
 namespace Play.Identity.Api.Areas.Registration.Controllers;
 
@@ -62,7 +61,7 @@ public class MerchantController : Controller
 
         MerchantRegistration merchantRegistration = MerchantRegistration.CreateNewMerchantRegistration(_UserRegistrationRepository, command);
 
-        return Created(@Url.Action("Index", "Merchant", new
+        return Created(Url.Action("Index", "Merchant", new
         {
             area = nameof(Registration),
             id = merchantRegistration.Id

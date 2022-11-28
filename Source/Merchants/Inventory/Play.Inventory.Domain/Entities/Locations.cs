@@ -49,10 +49,7 @@ public class Locations : Entity<SimpleStringId>
         return _Stores.Any(a => a.Id == new SimpleStringId(storeId));
     }
 
-    internal bool IsAllLocationsSet()
-    {
-        return _AllLocations;
-    }
+    internal bool IsAllLocationsSet() => _AllLocations;
 
     /// <summary>
     /// </summary>
@@ -96,14 +93,11 @@ public class Locations : Entity<SimpleStringId>
         _Stores.Clear();
     }
 
-    public override SimpleStringId GetId()
-    {
-        return Id;
-    }
+    public override SimpleStringId GetId() => Id;
 
     public override LocationsDto AsDto()
     {
-        return new LocationsDto()
+        return new LocationsDto
         {
             Id = Id,
             AllLocations = _AllLocations,

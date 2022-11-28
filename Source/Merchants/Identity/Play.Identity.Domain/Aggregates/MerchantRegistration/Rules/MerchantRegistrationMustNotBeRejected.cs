@@ -33,15 +33,10 @@ internal class MerchantRegistrationMustNotBeRejected : BusinessRule<MerchantRegi
 
     #region Instance Members
 
-    public override MerchantRegistrationHasBeenRejected CreateBusinessRuleViolationDomainEvent(MerchantRegistration merchant)
-    {
-        return new MerchantRegistrationHasBeenRejected(merchant, this);
-    }
+    public override MerchantRegistrationHasBeenRejected CreateBusinessRuleViolationDomainEvent(MerchantRegistration merchant) =>
+        new MerchantRegistrationHasBeenRejected(merchant, this);
 
-    public override bool IsBroken()
-    {
-        return !_IsValid;
-    }
+    public override bool IsBroken() => !_IsValid;
 
     #endregion
 }
