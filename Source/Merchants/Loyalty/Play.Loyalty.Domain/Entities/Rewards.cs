@@ -1,21 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Core.Exceptions;
-using Play.Domain;
-using Play.Domain.Common.Dtos;
+﻿using Play.Domain.Common.Dtos;
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
-using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Currency;
-using Play.Globalization.Time;
-using Play.Inventory.Contracts.Dtos;
 using Play.Loyalty.Contracts.Dtos;
-using Play.Loyalty.Domain.ValueObjects;
 
 namespace Play.Loyalty.Domain.Entities;
 
