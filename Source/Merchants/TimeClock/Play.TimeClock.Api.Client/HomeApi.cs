@@ -34,7 +34,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns></returns>
-        void EmployeesClockInEmployees (string employeeId, UpdateTimeClock body = null);
+        void EmployeesClockInEmployees (string employeeId, UpdateTimeClock body);
 
         /// <summary>
         /// 
@@ -46,7 +46,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> EmployeesClockInEmployeesWithHttpInfo (string employeeId, UpdateTimeClock body = null);
+        ApiResponse<object> EmployeesClockInEmployeesWithHttpInfo (string employeeId, UpdateTimeClock body);
         /// <summary>
         /// 
         /// </summary>
@@ -57,7 +57,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns></returns>
-        void EmployeesClockOutEmployees (string employeeId, UpdateTimeClock body = null);
+        void EmployeesClockOutEmployees (string employeeId, UpdateTimeClock body);
 
         /// <summary>
         /// 
@@ -69,7 +69,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> EmployeesClockOutEmployeesWithHttpInfo (string employeeId, UpdateTimeClock body = null);
+        ApiResponse<object> EmployeesClockOutEmployeesWithHttpInfo (string employeeId, UpdateTimeClock body);
         /// <summary>
         /// 
         /// </summary>
@@ -79,7 +79,7 @@ namespace IO.Swagger.Api
         /// <exception cref=" ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns></returns>
-        void EmployeesCreateEmployees (CreateEmployee body = null);
+        void EmployeesCreateEmployees (CreateEmployee body);
 
         /// <summary>
         /// 
@@ -90,7 +90,7 @@ namespace IO.Swagger.Api
         /// <exception cref=" ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> EmployeesCreateEmployeesWithHttpInfo (CreateEmployee body = null);
+        ApiResponse<object> EmployeesCreateEmployeesWithHttpInfo (CreateEmployee body);
         /// <summary>
         /// 
         /// </summary>
@@ -122,7 +122,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns></returns>
-        void EmployeesRemoveEmployees (string employeeId, RemoveEmployee body = null);
+        void EmployeesRemoveEmployees (string employeeId, RemoveEmployee body);
 
         /// <summary>
         /// 
@@ -134,7 +134,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> EmployeesRemoveEmployeesWithHttpInfo (string employeeId, RemoveEmployee body = null);
+        ApiResponse<object> EmployeesRemoveEmployeesWithHttpInfo (string employeeId, RemoveEmployee body);
         #endregion Synchronous Operations
         #region Asynchronous Operations
         /// <summary>
@@ -147,7 +147,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task EmployeesClockInEmployeesAsync (string employeeId, UpdateTimeClock body = null);
+        System.Threading.Tasks.Task EmployeesClockInEmployeesAsync (string employeeId, UpdateTimeClock body);
 
         /// <summary>
         /// 
@@ -159,7 +159,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> EmployeesClockInEmployeesAsyncWithHttpInfo (string employeeId, UpdateTimeClock body = null);
+        System.Threading.Tasks.Task<ApiResponse<Object>> EmployeesClockInEmployeesAsyncWithHttpInfo (string employeeId, UpdateTimeClock body);
         /// <summary>
         /// 
         /// </summary>
@@ -170,7 +170,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task EmployeesClockOutEmployeesAsync (string employeeId, UpdateTimeClock body = null);
+        System.Threading.Tasks.Task EmployeesClockOutEmployeesAsync (string employeeId, UpdateTimeClock body);
 
         /// <summary>
         /// 
@@ -182,7 +182,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> EmployeesClockOutEmployeesAsyncWithHttpInfo (string employeeId, UpdateTimeClock body = null);
+        System.Threading.Tasks.Task<ApiResponse<Object>> EmployeesClockOutEmployeesAsyncWithHttpInfo (string employeeId, UpdateTimeClock body);
         /// <summary>
         /// 
         /// </summary>
@@ -192,7 +192,7 @@ namespace IO.Swagger.Api
         /// <exception cref=" ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task EmployeesCreateEmployeesAsync (CreateEmployee body = null);
+        System.Threading.Tasks.Task EmployeesCreateEmployeesAsync (CreateEmployee body);
 
         /// <summary>
         /// 
@@ -203,7 +203,7 @@ namespace IO.Swagger.Api
         /// <exception cref=" ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> EmployeesCreateEmployeesAsyncWithHttpInfo (CreateEmployee body = null);
+        System.Threading.Tasks.Task<ApiResponse<Object>> EmployeesCreateEmployeesAsyncWithHttpInfo (CreateEmployee body);
         /// <summary>
         /// 
         /// </summary>
@@ -235,7 +235,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task EmployeesRemoveEmployeesAsync (string employeeId, RemoveEmployee body = null);
+        System.Threading.Tasks.Task EmployeesRemoveEmployeesAsync (string employeeId, RemoveEmployee body);
 
         /// <summary>
         /// 
@@ -247,7 +247,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> EmployeesRemoveEmployeesAsyncWithHttpInfo (string employeeId, RemoveEmployee body = null);
+        System.Threading.Tasks.Task<ApiResponse<Object>> EmployeesRemoveEmployeesAsyncWithHttpInfo (string employeeId, RemoveEmployee body);
         #endregion Asynchronous Operations
     }
 
@@ -340,7 +340,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns></returns>
-        public void EmployeesClockInEmployees (string employeeId, UpdateTimeClock body = null)
+        public void EmployeesClockInEmployees (string employeeId, UpdateTimeClock body)
         {
              EmployeesClockInEmployeesWithHttpInfo(employeeId, body);
         }
@@ -352,7 +352,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> EmployeesClockInEmployeesWithHttpInfo (string employeeId, UpdateTimeClock body = null)
+        public ApiResponse<object> EmployeesClockInEmployeesWithHttpInfo (string employeeId, UpdateTimeClock body)
         {
             // verify the required parameter 'employeeId' is set
             if (employeeId == null)
@@ -416,7 +416,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task EmployeesClockInEmployeesAsync (string employeeId, UpdateTimeClock body = null)
+        public async System.Threading.Tasks.Task EmployeesClockInEmployeesAsync (string employeeId, UpdateTimeClock body)
         {
              await EmployeesClockInEmployeesAsyncWithHttpInfo(employeeId, body);
 
@@ -429,7 +429,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> EmployeesClockInEmployeesAsyncWithHttpInfo (string employeeId, UpdateTimeClock body = null)
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> EmployeesClockInEmployeesAsyncWithHttpInfo (string employeeId, UpdateTimeClock body)
         {
             // verify the required parameter 'employeeId' is set
             if (employeeId == null)
@@ -493,7 +493,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns></returns>
-        public void EmployeesClockOutEmployees (string employeeId, UpdateTimeClock body = null)
+        public void EmployeesClockOutEmployees (string employeeId, UpdateTimeClock body)
         {
              EmployeesClockOutEmployeesWithHttpInfo(employeeId, body);
         }
@@ -505,7 +505,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> EmployeesClockOutEmployeesWithHttpInfo (string employeeId, UpdateTimeClock body = null)
+        public ApiResponse<object> EmployeesClockOutEmployeesWithHttpInfo (string employeeId, UpdateTimeClock body)
         {
             // verify the required parameter 'employeeId' is set
             if (employeeId == null)
@@ -569,7 +569,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task EmployeesClockOutEmployeesAsync (string employeeId, UpdateTimeClock body = null)
+        public async System.Threading.Tasks.Task EmployeesClockOutEmployeesAsync (string employeeId, UpdateTimeClock body)
         {
              await EmployeesClockOutEmployeesAsyncWithHttpInfo(employeeId, body);
 
@@ -582,7 +582,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> EmployeesClockOutEmployeesAsyncWithHttpInfo (string employeeId, UpdateTimeClock body = null)
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> EmployeesClockOutEmployeesAsyncWithHttpInfo (string employeeId, UpdateTimeClock body)
         {
             // verify the required parameter 'employeeId' is set
             if (employeeId == null)
@@ -645,7 +645,7 @@ namespace IO.Swagger.Api
         /// <exception cref=" ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns></returns>
-        public void EmployeesCreateEmployees (CreateEmployee body = null)
+        public void EmployeesCreateEmployees (CreateEmployee body)
         {
              EmployeesCreateEmployeesWithHttpInfo(body);
         }
@@ -656,7 +656,7 @@ namespace IO.Swagger.Api
         /// <exception cref=" ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> EmployeesCreateEmployeesWithHttpInfo (CreateEmployee body = null)
+        public ApiResponse<object> EmployeesCreateEmployeesWithHttpInfo (CreateEmployee body)
         {
 
             var localVarPath = "./TimeClock";
@@ -715,7 +715,7 @@ namespace IO.Swagger.Api
         /// <exception cref=" ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task EmployeesCreateEmployeesAsync (CreateEmployee body = null)
+        public async System.Threading.Tasks.Task EmployeesCreateEmployeesAsync (CreateEmployee body)
         {
              await EmployeesCreateEmployeesAsyncWithHttpInfo(body);
 
@@ -727,7 +727,7 @@ namespace IO.Swagger.Api
         /// <exception cref=" ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> EmployeesCreateEmployeesAsyncWithHttpInfo (CreateEmployee body = null)
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> EmployeesCreateEmployeesAsyncWithHttpInfo (CreateEmployee body)
         {
 
             var localVarPath = "./TimeClock";
@@ -922,7 +922,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns></returns>
-        public void EmployeesRemoveEmployees (string employeeId, RemoveEmployee body = null)
+        public void EmployeesRemoveEmployees (string employeeId, RemoveEmployee body)
         {
              EmployeesRemoveEmployeesWithHttpInfo(employeeId, body);
         }
@@ -934,7 +934,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> EmployeesRemoveEmployeesWithHttpInfo (string employeeId, RemoveEmployee body = null)
+        public ApiResponse<object> EmployeesRemoveEmployeesWithHttpInfo (string employeeId, RemoveEmployee body)
         {
             // verify the required parameter 'employeeId' is set
             if (employeeId == null)
@@ -998,7 +998,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task EmployeesRemoveEmployeesAsync (string employeeId, RemoveEmployee body = null)
+        public async System.Threading.Tasks.Task EmployeesRemoveEmployeesAsync (string employeeId, RemoveEmployee body)
         {
              await EmployeesRemoveEmployeesAsyncWithHttpInfo(employeeId, body);
 
@@ -1011,7 +1011,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> EmployeesRemoveEmployeesAsyncWithHttpInfo (string employeeId, RemoveEmployee body = null)
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> EmployeesRemoveEmployeesAsyncWithHttpInfo (string employeeId, RemoveEmployee body)
         {
             // verify the required parameter 'employeeId' is set
             if (employeeId == null)

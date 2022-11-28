@@ -33,7 +33,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns></returns>
-        void EmployeesEditTimeEntries (string employeeId, EditTimeEntry body = null);
+        void EmployeesEditTimeEntries (string employeeId, EditTimeEntry body);
 
         /// <summary>
         /// 
@@ -45,7 +45,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<object> EmployeesEditTimeEntriesWithHttpInfo (string employeeId, EditTimeEntry body = null);
+        ApiResponse<object> EmployeesEditTimeEntriesWithHttpInfo (string employeeId, EditTimeEntry body);
         #endregion Synchronous Operations
         #region Asynchronous Operations
         /// <summary>
@@ -58,7 +58,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task EmployeesEditTimeEntriesAsync (string employeeId, EditTimeEntry body = null);
+        System.Threading.Tasks.Task EmployeesEditTimeEntriesAsync (string employeeId, EditTimeEntry body);
 
         /// <summary>
         /// 
@@ -70,7 +70,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> EmployeesEditTimeEntriesAsyncWithHttpInfo (string employeeId, EditTimeEntry body = null);
+        System.Threading.Tasks.Task<ApiResponse<Object>> EmployeesEditTimeEntriesAsyncWithHttpInfo (string employeeId, EditTimeEntry body);
         #endregion Asynchronous Operations
     }
 
@@ -164,7 +164,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns></returns>
-        public void EmployeesEditTimeEntries (string employeeId, EditTimeEntry body = null)
+        public void EmployeesEditTimeEntries (string employeeId, EditTimeEntry body)
         {
              EmployeesEditTimeEntriesWithHttpInfo(employeeId, body);
         }
@@ -176,7 +176,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> EmployeesEditTimeEntriesWithHttpInfo (string employeeId, EditTimeEntry body = null)
+        public ApiResponse<object> EmployeesEditTimeEntriesWithHttpInfo (string employeeId, EditTimeEntry body)
         {
             // verify the required parameter 'employeeId' is set
             if (employeeId == null)
@@ -240,7 +240,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task EmployeesEditTimeEntriesAsync (string employeeId, EditTimeEntry body = null)
+        public async System.Threading.Tasks.Task EmployeesEditTimeEntriesAsync (string employeeId, EditTimeEntry body)
         {
              await EmployeesEditTimeEntriesAsyncWithHttpInfo(employeeId, body);
 
@@ -253,7 +253,7 @@ namespace IO.Swagger.Api
         /// <param name="employeeId"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> EmployeesEditTimeEntriesAsyncWithHttpInfo (string employeeId, EditTimeEntry body = null)
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> EmployeesEditTimeEntriesAsyncWithHttpInfo (string employeeId, EditTimeEntry body)
         {
             // verify the required parameter 'employeeId' is set
             if (employeeId == null)
