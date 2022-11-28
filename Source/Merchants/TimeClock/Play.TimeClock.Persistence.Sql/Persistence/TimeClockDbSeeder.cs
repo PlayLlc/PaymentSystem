@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Play.Loyalty.Persistence.Sql.Persistence;
+namespace Play.TimeClock.Persistence.Sql.Persistence;
 
 public class TimeClockDbSeeder
 {

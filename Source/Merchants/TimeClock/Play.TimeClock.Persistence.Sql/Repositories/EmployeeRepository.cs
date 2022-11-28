@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Microsoft.Toolkit.HighPerformance.Enumerables;
 
 using Play.Domain.Common.ValueObjects;
 using Play.Persistence.Sql;
 using Play.TimeClock.Domain.Aggregates;
 using Play.TimeClock.Domain.Repositories;
 
-namespace Play.Loyalty.Persistence.Sql.Repositories;
+namespace Play.TimeClock.Persistence.Sql.Repositories;
 
 public class EmployeeRepository : Repository<Employee, SimpleStringId>, IEmployeeRepository
 {

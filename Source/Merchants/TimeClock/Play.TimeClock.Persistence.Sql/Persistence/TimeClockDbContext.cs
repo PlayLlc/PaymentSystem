@@ -1,20 +1,15 @@
-﻿using System.Diagnostics;
+﻿using Microsoft.EntityFrameworkCore;
 
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Toolkit.HighPerformance.Enumerables;
-
-using Play.Domain.Common.Entities;
-using Play.Domain.Common.Enums;
 using Play.Domain.Common.ValueObjects;
 using Play.Globalization.Time;
-using Play.Loyalty.Persistence.Sql.Configuration;
 using Play.Persistence.Sql;
 using Play.TimeClock.Domain.Aggregates;
 using Play.TimeClock.Domain.Entities;
 using Play.TimeClock.Domain.Enums;
 using Play.TimeClock.Domain.ValueObject;
+using Play.TimeClock.Persistence.Sql.Configuration;
 
-namespace Play.Loyalty.Persistence.Sql.Persistence;
+namespace Play.TimeClock.Persistence.Sql.Persistence;
 
 public sealed class TimeClockDbContext : DbContext
 {
@@ -45,7 +40,7 @@ public sealed class TimeClockDbContext : DbContext
     {
         // Enums
 
-        EmployeeEntityConfiguration employeeEntityConfiguration = new EmployeeEntityConfiguration();
+        TimeClockEntityConfiguration timeClockEntityConfiguration = new TimeClockEntityConfiguration();
 
         #region Enums
 
@@ -71,7 +66,7 @@ public sealed class TimeClockDbContext : DbContext
         builder.Entity<TimeEntry>().PrivateProperty<TimeEntry, DateTimeUtc>("_StartTime");
         builder.Entity<TimeEntry>().PrivateProperty<TimeEntry, DateTimeUtc>("_EndTime");
 
-        employeeEntityConfiguration.Configure(builder.Entity<Employee>());
+        timeClockEntityConfiguration.Configure(builder.Entity<Employee>());
 
         #endregion
     }

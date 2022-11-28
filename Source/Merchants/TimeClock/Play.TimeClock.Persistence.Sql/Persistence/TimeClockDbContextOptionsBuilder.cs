@@ -1,12 +1,8 @@
-﻿using System.Diagnostics;
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-using Play.Loyalty.Persistence.Sql.Persistence;
-
-namespace Play.Loyalty.Persistence.Sql.Persistence;
+namespace Play.TimeClock.Persistence.Sql.Persistence;
 
 internal class TimeClockDbContextOptionsBuilder : IDesignTimeDbContextFactory<TimeClockDbContext>
 {

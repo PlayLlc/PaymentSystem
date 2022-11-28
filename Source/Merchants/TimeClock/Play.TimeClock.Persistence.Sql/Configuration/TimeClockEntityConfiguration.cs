@@ -1,15 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using Play.Domain.Common.Entities;
 using Play.Domain.Common.ValueObjects;
 using Play.Persistence.Sql;
 using Play.TimeClock.Domain.Aggregates;
 using Play.TimeClock.Domain.Entities;
 
-namespace Play.Loyalty.Persistence.Sql.Configuration;
+namespace Play.TimeClock.Persistence.Sql.Configuration;
 
-internal class EmployeeEntityConfiguration : IEntityTypeConfiguration<Employee>
+internal class TimeClockEntityConfiguration : IEntityTypeConfiguration<Employee>
 {
     #region Instance Members
 

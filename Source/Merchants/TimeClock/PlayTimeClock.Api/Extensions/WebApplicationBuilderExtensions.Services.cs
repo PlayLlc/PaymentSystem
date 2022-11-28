@@ -3,13 +3,13 @@
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Repositories;
 using Play.Identity.Api.Client;
-using Play.Loyalty.Persistence.Sql.Persistence;
-using Play.Loyalty.Persistence.Sql.Repositories;
 using Play.Restful.Clients;
 using Play.TimeClock.Application.Services;
 using Play.TimeClock.Domain.Aggregates;
 using Play.TimeClock.Domain.Repositories;
 using Play.TimeClock.Domain.Services;
+using Play.TimeClock.Persistence.Sql.Persistence;
+using Play.TimeClock.Persistence.Sql.Repositories;
 
 namespace Play.Loyalty.Api.Extensions;
 

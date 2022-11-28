@@ -121,6 +121,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.TimeClock.Persistence.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayTimeClock.Api", "TimeClock\PlayTimeClock.Api\PlayTimeClock.Api.csproj", "{357FD279-9A16-44A9-9167-C3DB26FCE375}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.TimeClock.Api.Client", "TimeClock\Play.TimeClock.Api.Client\Play.TimeClock.Api.Client.csproj", "{873775DD-7251-49B7-85A5-8321417EC28D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -307,6 +309,10 @@ Global
 		{357FD279-9A16-44A9-9167-C3DB26FCE375}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{357FD279-9A16-44A9-9167-C3DB26FCE375}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{357FD279-9A16-44A9-9167-C3DB26FCE375}.Release|Any CPU.Build.0 = Release|Any CPU
+		{873775DD-7251-49B7-85A5-8321417EC28D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{873775DD-7251-49B7-85A5-8321417EC28D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{873775DD-7251-49B7-85A5-8321417EC28D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{873775DD-7251-49B7-85A5-8321417EC28D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -358,6 +364,7 @@ Global
 		{87683F40-5DD3-4ABD-AEBB-B291ABF6CAC4} = {1E250512-7DCE-440C-AD5E-DC491F6E54BE}
 		{742238F1-8C67-49A4-A766-3B818F57D3BE} = {1E250512-7DCE-440C-AD5E-DC491F6E54BE}
 		{357FD279-9A16-44A9-9167-C3DB26FCE375} = {1E250512-7DCE-440C-AD5E-DC491F6E54BE}
+		{873775DD-7251-49B7-85A5-8321417EC28D} = {1E250512-7DCE-440C-AD5E-DC491F6E54BE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6833603-DD22-4624-AB4A-235C51671F62}

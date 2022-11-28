@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 using Play.TimeClock.Domain.ValueObject;
 
-namespace Play.Loyalty.Persistence.Sql.Configuration;
+namespace Play.TimeClock.Persistence.Sql.Configuration;
 
 public static class DomainValueConverters
 {
