@@ -6,9 +6,6 @@ public class TimeClockDbSeeder
 {
     #region Constructor
 
-    public TimeClockDbSeeder()
-    { }
-
     #endregion
 
     #region Instance Members

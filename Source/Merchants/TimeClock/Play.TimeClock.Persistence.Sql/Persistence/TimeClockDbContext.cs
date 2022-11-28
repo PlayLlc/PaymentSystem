@@ -60,7 +60,7 @@ public sealed class TimeClockDbContext : DbContext
         builder.Entity<TimePuncher>().PrivateProperty<TimePuncher, TimeClockStatus?>("_TimeClockStatus");
         builder.Entity<TimePuncher>().PrivateProperty<TimePuncher, DateTimeUtc?>("_ClockedInAt");
 
-        builder.Entity<TimeEntry>().ToTable($"TimeEntries").HasKey(x => x.Id);
+        builder.Entity<TimeEntry>().ToTable("TimeEntries").HasKey(x => x.Id);
         builder.Entity<TimeEntry>().Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<TimeEntry>().PrivateProperty<TimeEntry, SimpleStringId>("_EmployeeId");
         builder.Entity<TimeEntry>().PrivateProperty<TimeEntry, DateTimeUtc>("_StartTime");

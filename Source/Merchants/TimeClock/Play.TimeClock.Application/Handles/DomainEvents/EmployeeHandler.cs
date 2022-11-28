@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 using NServiceBus;
 
@@ -58,7 +52,7 @@ public class EmployeeHandler : DomainEventHandler, IHandleDomainEvents<EmployeeA
         Log(domainEvent);
         await _EmployeeRepository.SaveAsync(domainEvent.Employee).ConfigureAwait(false);
 
-        await _MessageHandlerContext.Publish<EmployeeHasClockedOutEvent>((a) =>
+        await _MessageHandlerContext.Publish<EmployeeHasClockedOutEvent>(a =>
             {
                 a.Employee = domainEvent.Employee.AsDto();
                 a.TimeEntry = domainEvent.TimeEntry.AsDto();
@@ -74,49 +68,49 @@ public class EmployeeHandler : DomainEventHandler, IHandleDomainEvents<EmployeeA
 
     public Task Handle(UnauthorizedUserAttemptedToUpdateEmployeeTimeClock domainEvent)
     {
-        Log(domainEvent, LogLevel.Warning, $"\n\n\n\nWARNING: There is likely an error in the client integration");
+        Log(domainEvent, LogLevel.Warning, "\n\n\n\nWARNING: There is likely an error in the client integration");
 
         return Task.CompletedTask;
     }
 
     public Task Handle(AggregateUpdateWasAttemptedByUnknownUser<Employee> domainEvent)
     {
-        Log(domainEvent, LogLevel.Warning, $"\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
+        Log(domainEvent, LogLevel.Warning, "\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
 
         return Task.CompletedTask;
     }
 
     public Task Handle(DeactivatedMerchantAttemptedToCreateAggregate<Employee> domainEvent)
     {
-        Log(domainEvent, LogLevel.Warning, $"\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
+        Log(domainEvent, LogLevel.Warning, "\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
 
         return Task.CompletedTask;
     }
 
     public Task Handle(DeactivatedUserAttemptedToUpdateAggregate<Employee> domainEvent)
     {
-        Log(domainEvent, LogLevel.Warning, $"\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
+        Log(domainEvent, LogLevel.Warning, "\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
 
         return Task.CompletedTask;
     }
 
     public Task Handle(EmployeeWasNotClockedIn domainEvent)
     {
-        Log(domainEvent, LogLevel.Warning, $"\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
+        Log(domainEvent, LogLevel.Warning, "\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
 
         return Task.CompletedTask;
     }
 
     public Task Handle(EmployeeWasNotClockedOut domainEvent)
     {
-        Log(domainEvent, LogLevel.Warning, $"\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
+        Log(domainEvent, LogLevel.Warning, "\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
 
         return Task.CompletedTask;
     }
 
     public Task Handle(EmployeeAlreadyExists domainEvent)
     {
-        Log(domainEvent, LogLevel.Warning, $"\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
+        Log(domainEvent, LogLevel.Warning, "\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
 
         return Task.CompletedTask;
     }
@@ -127,7 +121,7 @@ public class EmployeeHandler : DomainEventHandler, IHandleDomainEvents<EmployeeA
 
         await _EmployeeRepository.RemoveAsync(domainEvent.Employee).ConfigureAwait(false);
 
-        await _MessageHandlerContext.Publish<EmployeeTimeEntryHasBeenEditedEvent>((a) =>
+        await _MessageHandlerContext.Publish<EmployeeTimeEntryHasBeenEditedEvent>(a =>
             {
                 a.Employee = domainEvent.Employee.AsDto();
                 a.TimeEntry = domainEvent.TimeEntry.AsDto();

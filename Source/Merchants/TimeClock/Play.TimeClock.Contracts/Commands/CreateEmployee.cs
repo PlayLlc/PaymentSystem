@@ -1,11 +1,6 @@
-﻿using Play.Domain.Common.Attributes;
+﻿using System.ComponentModel.DataAnnotations;
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Play.Domain.Common.Attributes;
 
 namespace Play.TimeClock.Contracts.Commands;
 

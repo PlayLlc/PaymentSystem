@@ -15,221 +15,220 @@ using Play.TimeClock.Contracts.Commands;
 
 using RestSharp.Portable;
 
-namespace Play.TimeClock.Api.Client
+namespace Play.TimeClock.Api.Client;
+
+/// <summary>
+///     Represents a collection of functions to interact with the API endpoints
+/// </summary>
+public class EmployeesApi : IEmployeesApi
 {
+    #region Instance Values
+
+    private ExceptionFactory _ExceptionFactory = (name, response) => null;
+
     /// <summary>
-    ///     Represents a collection of functions to interact with the API endpoints
+    ///     Gets or sets the configuration object
     /// </summary>
-    public class EmployeesApi : IEmployeesApi
+    /// <value>An instance of the Configuration</value>
+    public Configuration Configuration { get; set; }
+
+    /// <summary>
+    ///     Provides a factory method hook for the creation of exceptions.
+    /// </summary>
+    public ExceptionFactory ExceptionFactory
     {
-        #region Instance Values
-
-        private ExceptionFactory _ExceptionFactory = (name, response) => null;
-
-        /// <summary>
-        ///     Gets or sets the configuration object
-        /// </summary>
-        /// <value>An instance of the Configuration</value>
-        public Configuration Configuration { get; set; }
-
-        /// <summary>
-        ///     Provides a factory method hook for the creation of exceptions.
-        /// </summary>
-        public ExceptionFactory ExceptionFactory
+        get
         {
-            get
-            {
-                if ((_ExceptionFactory != null) && (_ExceptionFactory.GetInvocationList().Length > 1))
-                    throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.");
+            if ((_ExceptionFactory != null) && (_ExceptionFactory.GetInvocationList().Length > 1))
+                throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.");
 
-                return _ExceptionFactory;
-            }
-            set => _ExceptionFactory = value;
+            return _ExceptionFactory;
+        }
+        set => _ExceptionFactory = value;
+    }
+
+    #endregion
+
+    #region Constructor
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="EmployeesApi" /> class.
+    /// </summary>
+    /// <returns></returns>
+    public EmployeesApi(string basePath)
+    {
+        Configuration = new Configuration(basePath);
+
+        ExceptionFactory = Configuration.DefaultExceptionFactory;
+    }
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="EmployeesApi" /> class
+    ///     using Configuration object
+    /// </summary>
+    /// <param name="configuration">An instance of Configuration</param>
+    /// <returns></returns>
+    public EmployeesApi(Configuration configuration)
+    {
+        Configuration = configuration;
+
+        ExceptionFactory = Configuration.DefaultExceptionFactory;
+    }
+
+    #endregion
+
+    #region Instance Members
+
+    /// <summary>
+    ///     Gets the base path of the API client.
+    /// </summary>
+    /// <value>The base path</value>
+    public string GetBasePath() => Configuration.ApiClient.RestClient.BaseUrl.ToString();
+
+    /// <summary>
+    ///     Sets the base path of the API client.
+    /// </summary>
+    /// <value>The base path</value>
+    [Obsolete("SetBasePath is deprecated, please do 'Configuration.ApiClient = new ApiClient(\"http://new-path\")' instead.")]
+    public void SetBasePath(string basePath)
+    {
+        // do nothing
+    }
+
+    /// <summary>
+    ///     Gets the default header.
+    /// </summary>
+    /// <returns>Dictionary of HTTP header</returns>
+    [Obsolete("DefaultHeader is deprecated, please use Configuration.DefaultHeader instead.")]
+    public IDictionary<string, string> DefaultHeader() => new ReadOnlyDictionary<string, string>(Configuration.DefaultHeader);
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref=" ApiException">Thrown when fails to make API call</exception>
+    /// <param name="employeeId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns></returns>
+    public void EmployeesEditTimeEntries(string employeeId, EditTimeEntry body)
+    {
+        EmployeesEditTimeEntriesWithHttpInfo(employeeId, body);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <exception cref=" ApiException">Thrown when fails to make API call</exception>
+    /// <param name="employeeId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>ApiResponse of Object(void)</returns>
+    public ApiResponse<object> EmployeesEditTimeEntriesWithHttpInfo(string employeeId, EditTimeEntry body)
+    {
+        // verify the required parameter 'employeeId' is set
+        if (employeeId == null)
+            throw new ApiException(400, "Missing required parameter 'employeeId' when calling EmployeesApi->EmployeesEditTimeEntries");
+
+        string localVarPath = "./TimeClock/Employees/{employeeId}/TimeEntries/Edit";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
+
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+        localVarPathParams.Add("employeeId", Configuration.ApiClient.ParameterToString(employeeId)); // path parameter
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
+
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
+            localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+        if (ExceptionFactory != null)
+        {
+            Exception exception = ExceptionFactory("EmployeesEditTimeEntries", localVarResponse);
+
+            if (exception != null)
+                throw exception;
         }
 
-        #endregion
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+    }
 
-        #region Constructor
+    /// <summary>
+    /// </summary>
+    /// <exception cref=" ApiException">Thrown when fails to make API call</exception>
+    /// <param name="employeeId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of void</returns>
+    public async Task EmployeesEditTimeEntriesAsync(string employeeId, EditTimeEntry body)
+    {
+        await EmployeesEditTimeEntriesAsyncWithHttpInfo(employeeId, body);
+    }
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="EmployeesApi" /> class.
-        /// </summary>
-        /// <returns></returns>
-        public EmployeesApi(string basePath)
-        {
-            Configuration = new Configuration(basePath);
+    /// <summary>
+    /// </summary>
+    /// <exception cref=" ApiException">Thrown when fails to make API call</exception>
+    /// <param name="employeeId"></param>
+    /// <param name="body"> (optional)</param>
+    /// <returns>Task of ApiResponse</returns>
+    public async Task<ApiResponse<object>> EmployeesEditTimeEntriesAsyncWithHttpInfo(string employeeId, EditTimeEntry body)
+    {
+        // verify the required parameter 'employeeId' is set
+        if (employeeId == null)
+            throw new ApiException(400, "Missing required parameter 'employeeId' when calling EmployeesApi->EmployeesEditTimeEntries");
 
-            ExceptionFactory = Configuration.DefaultExceptionFactory;
-        }
+        string localVarPath = "./TimeClock/Employees/{employeeId}/TimeEntries/Edit";
+        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
+        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
+        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        object localVarPostBody = null;
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="EmployeesApi" /> class
-        ///     using Configuration object
-        /// </summary>
-        /// <param name="configuration">An instance of Configuration</param>
-        /// <returns></returns>
-        public EmployeesApi(Configuration configuration)
-        {
-            Configuration = configuration;
+        // to determine the Content-Type header
+        string[] localVarHttpContentTypes = {"application/json", "text/json", "application/_*+json"};
+        string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
-            ExceptionFactory = Configuration.DefaultExceptionFactory;
-        }
-
-        #endregion
-
-        #region Instance Members
-
-        /// <summary>
-        ///     Gets the base path of the API client.
-        /// </summary>
-        /// <value>The base path</value>
-        public string GetBasePath() => Configuration.ApiClient.RestClient.BaseUrl.ToString();
-
-        /// <summary>
-        ///     Sets the base path of the API client.
-        /// </summary>
-        /// <value>The base path</value>
-        [Obsolete("SetBasePath is deprecated, please do 'Configuration.ApiClient = new ApiClient(\"http://new-path\")' instead.")]
-        public void SetBasePath(string basePath)
-        {
-            // do nothing
-        }
-
-        /// <summary>
-        ///     Gets the default header.
-        /// </summary>
-        /// <returns>Dictionary of HTTP header</returns>
-        [Obsolete("DefaultHeader is deprecated, please use Configuration.DefaultHeader instead.")]
-        public IDictionary<string, string> DefaultHeader() => new ReadOnlyDictionary<string, string>(Configuration.DefaultHeader);
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref=" ApiException">Thrown when fails to make API call</exception>
-        /// <param name="employeeId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void EmployeesEditTimeEntries(string employeeId, EditTimeEntry body)
-        {
-            EmployeesEditTimeEntriesWithHttpInfo(employeeId, body);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref=" ApiException">Thrown when fails to make API call</exception>
-        /// <param name="employeeId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<object> EmployeesEditTimeEntriesWithHttpInfo(string employeeId, EditTimeEntry body)
-        {
-            // verify the required parameter 'employeeId' is set
-            if (employeeId == null)
-                throw new ApiException(400, "Missing required parameter 'employeeId' when calling EmployeesApi->EmployeesEditTimeEntries");
-
-            string localVarPath = "./TimeClock/Employees/{employeeId}/TimeEntries/Edit";
-            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        // to determine the Accept header
+        string[] localVarHttpHeaderAccepts = { };
+        string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+        if (localVarHttpHeaderAccept != null)
             localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
+        if (employeeId != null)
             localVarPathParams.Add("employeeId", Configuration.ApiClient.ParameterToString(employeeId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
+        if ((body != null) && (body.GetType() != typeof(byte[])))
+            localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+        else
+            localVarPostBody = body; // byte array
 
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, Method.PUT, localVarQueryParams, localVarPostBody,
-                localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
+        // make the HTTP request
+        IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
+            localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+        int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("EmployeesEditTimeEntries", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <exception cref=" ApiException">Thrown when fails to make API call</exception>
-        /// <param name="employeeId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async Task EmployeesEditTimeEntriesAsync(string employeeId, EditTimeEntry body)
+        if (ExceptionFactory != null)
         {
-            await EmployeesEditTimeEntriesAsyncWithHttpInfo(employeeId, body);
+            Exception exception = ExceptionFactory("EmployeesEditTimeEntries", localVarResponse);
+
+            if (exception != null)
+                throw exception;
         }
 
-        /// <summary>
-        /// </summary>
-        /// <exception cref=" ApiException">Thrown when fails to make API call</exception>
-        /// <param name="employeeId"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<object>> EmployeesEditTimeEntriesAsyncWithHttpInfo(string employeeId, EditTimeEntry body)
-        {
-            // verify the required parameter 'employeeId' is set
-            if (employeeId == null)
-                throw new ApiException(400, "Missing required parameter 'employeeId' when calling EmployeesApi->EmployeesEditTimeEntries");
-
-            string localVarPath = "./TimeClock/Employees/{employeeId}/TimeEntries/Edit";
-            Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-            List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-            Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-            Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-            Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
-            object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            string[] localVarHttpContentTypes = new string[] {"application/json", "text/json", "application/_*+json"};
-            string localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            string[] localVarHttpHeaderAccepts = new string[] { };
-            string localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (employeeId != null)
-                localVarPathParams.Add("employeeId", Configuration.ApiClient.ParameterToString(employeeId)); // path parameter
-            if ((body != null) && (body.GetType() != typeof(byte[])))
-                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            else
-                localVarPostBody = body; // byte array
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, Method.PUT, localVarQueryParams,
-                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("EmployeesEditTimeEntries", localVarResponse);
-
-                if (exception != null)
-                    throw exception;
-            }
-
-            return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        }
-
-        #endregion
+        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
     }
+
+    #endregion
 }

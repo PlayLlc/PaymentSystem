@@ -18,10 +18,10 @@ internal class TimeClockEntityConfiguration : IEntityTypeConfiguration<Employee>
 
         // Simple Properties
         builder.Property(x => x.Id).ValueGeneratedOnAdd();
-        builder.PrivateProperty<Employee, SimpleStringId>($"_MerchantId").ValueGeneratedOnAdd();
-        builder.PrivateProperty<Employee, SimpleStringId>($"_UserId").ValueGeneratedOnAdd();
-        builder.HasOne<Employee, TimePuncher, SimpleStringId>($"_TimePuncher", "TimePuncherId");
-        builder.HasMany<Employee, TimeEntry, SimpleStringId>($"_TimeEntries", "TimeEntryId");
+        builder.PrivateProperty<Employee, SimpleStringId>("_MerchantId").ValueGeneratedOnAdd();
+        builder.PrivateProperty<Employee, SimpleStringId>("_UserId").ValueGeneratedOnAdd();
+        builder.HasOne<Employee, TimePuncher, SimpleStringId>("_TimePuncher", "TimePuncherId");
+        builder.HasMany<Employee, TimeEntry, SimpleStringId>("_TimeEntries", "TimeEntryId");
     }
 
     #endregion

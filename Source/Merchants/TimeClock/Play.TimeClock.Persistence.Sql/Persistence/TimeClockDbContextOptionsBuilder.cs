@@ -8,9 +8,6 @@ internal class TimeClockDbContextOptionsBuilder : IDesignTimeDbContextFactory<Ti
 {
     #region Constructor
 
-    public TimeClockDbContextOptionsBuilder()
-    { }
-
     #endregion
 
     #region Instance Members
