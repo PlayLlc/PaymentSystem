@@ -1,6 +1,6 @@
 ﻿using Play.Core;
 using Play.Domain.ValueObjects;
-using Play.Payroll.Contracts.Enumsd;
+using Play.Payroll.Contracts.Enums;
 
 namespace Play.Payroll.Domain.ValueObject;
 

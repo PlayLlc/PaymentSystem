@@ -3,7 +3,7 @@ using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Time;
-using Play.Loyalty.Contracts.Dtosd;
+using Play.Payroll.Contracts.Dtos;
 using Play.Payroll.Domain.ValueObject;
 
 namespace Play.Payroll.Domain.Entities;

@@ -1,14 +1,13 @@
-﻿using Play.Domain.Common.ValueObjects;
+﻿using Play.Core.Exceptions;
+using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
-using Play.Loyalty.Contracts.Dtosd;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Currency;
 using Play.Globalization.Time;
-using Play.Payroll.Domain.Entities;
-using Play.Core.Exceptions;
+using Play.Payroll.Contracts.Dtos;
 using Play.Payroll.Domain.Services;
 
-namespace Play.Payroll.Domain.Entitiesd;
+namespace Play.Payroll.Domain.Entities;
 
 public class Paycheck : Entity<SimpleStringId>
 {

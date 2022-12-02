@@ -2,11 +2,10 @@
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Currency;
-using Play.Loyalty.Contracts.Dtosd;
-using Play.Payroll.Contracts.Enums;
+using Play.Payroll.Contracts.Dtos;
 using Play.Payroll.Domain.ValueObject;
 
-namespace Play.Payroll.Domain.Entitiesd;
+namespace Play.Payroll.Domain.Entities;
 
 public class Compensation : Entity<SimpleStringId>
 {

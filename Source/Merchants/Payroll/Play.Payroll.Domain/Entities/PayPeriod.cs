@@ -3,9 +3,9 @@ using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Time;
-using Play.Loyalty.Contracts.Dtosd;
+using Play.Payroll.Contracts.Dtos;
 
-namespace Play.Payroll.Domain.Entitiesd;
+namespace Play.Payroll.Domain.Entities;
 
 public class PayPeriod : Entity<SimpleStringId>
 {
@@ -22,6 +22,13 @@ public class PayPeriod : Entity<SimpleStringId>
     // Constructor for EF only
     private PayPeriod()
     { }
+
+    internal PayPeriod(string id, DateTimeUtc start, DateTimeUtc end)
+    {
+        Id = new SimpleStringId(id);
+        Start = start;
+        End = end;
+    }
 
     /// <exception cref="ValueObjectException"></exception>
     internal PayPeriod(PayPeriodDto dto)

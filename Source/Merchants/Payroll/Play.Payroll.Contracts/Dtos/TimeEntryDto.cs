@@ -4,7 +4,7 @@ using Play.Domain;
 using Play.Domain.Common.Attributes;
 using Play.Globalization.Time;
 
-namespace Play.Loyalty.Contracts.Dtosd;
+namespace Play.Payroll.Contracts.Dtos;
 
 public record TimeEntryDto : IDto
 {

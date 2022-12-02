@@ -1,14 +1,11 @@
 ﻿using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
-using Play.Globalization.Currency;
-using Play.Globalization.Time;
-using Play.Loyalty.Contracts.Dtosd;
-using Play.Payroll.Contracts.Enumsd;
-using Play.Payroll.Domain.Entities;
+using Play.Payroll.Contracts.Dtos;
+using Play.Payroll.Contracts.Enums;
 using Play.Payroll.Domain.ValueObject;
 
-namespace Play.Payroll.Domain.Entitiesd;
+namespace Play.Payroll.Domain.Entities;
 
 public class TimeSheet : Entity<SimpleStringId>
 {

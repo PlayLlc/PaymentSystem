@@ -10,7 +10,6 @@
     <Folder Include="Aggregates\Employers\DomainEvents\" />
     <Folder Include="Aggregates\Employers\Rules\" />
     <Folder Include="Enums\" />
-    <Folder Include="Repositories\" />
   </ItemGroup>
 
   <ItemGroup>

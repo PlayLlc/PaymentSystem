@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Immutable;
 
 using Play.Core;
 
-namespace Play.Payroll.Contracts.Enumsd;
+namespace Play.Payroll.Contracts.Enums;
 
 public record CompensationTypes : EnumObjectString
 {

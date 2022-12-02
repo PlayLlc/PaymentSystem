@@ -3,6 +3,9 @@ using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Currency;
+using Play.Payroll.Contracts.Commands;
+using Play.Payroll.Contracts.Dtos;
+using Play.Payroll.Domain.Entities;
 
 namespace Play.Payroll.Domain.Aggregates.Employers;
 
@@ -12,8 +15,8 @@ public class Employer : Aggregate<SimpleStringId>
 
     private readonly SimpleStringId _MerchantId;
 
-    private readonly RewardProgram _RewardProgram;
-    private readonly DiscountProgram _DiscountProgram;
+    // PaySchedule
+    private readonly IEnumerable<Employee> _Employees;
     public override SimpleStringId Id { get; }
 
     #endregion
@@ -21,12 +24,10 @@ public class Employer : Aggregate<SimpleStringId>
     #region Constructor
 
     /// <exception cref="ValueObjectException"></exception>
-    internal Employer(string id, string merchantId, RewardProgram rewardProgram, DiscountProgram discountProgram)
+    internal Employer(string id, string merchantId)
     {
         Id = new SimpleStringId(id);
         _MerchantId = new SimpleStringId(merchantId);
-        _RewardProgram = rewardProgram;
-        _DiscountProgram = discountProgram;
     }
 
     // Constructor for Entity Framework
@@ -34,41 +35,44 @@ public class Employer : Aggregate<SimpleStringId>
     { }
 
     /// <exception cref="ValueObjectException"></exception>
-    internal Employer(LoyaltyProgramDto dto)
+    internal Employer(EmployerDto dto)
     {
         Id = new SimpleStringId(dto.Id);
         _MerchantId = new SimpleStringId(dto.MerchantId);
-        _RewardProgram = new RewardProgram(dto.RewardsProgram);
-        _DiscountProgram = new DiscountProgram(dto.DiscountsProgram);
     }
 
     #endregion
 
     #region Instance Members
 
-    internal bool IsRewardProgramActive() => _RewardProgram.IsActive();
+    public async Task GeneratePaychecks()
+    {
+        PaydaySchedule paySchedule = null;
+        foreach (var employee in _Employees)
+            employee.AddPaycheck(() => new SimpleStringId(GenerateSimpleStringId()), null);
+    }
 
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="NotFoundException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
-    public static async Task<Employer> Create(IRetrieveMerchants merchantRetriever, IRetrieveUsers userRetriever, CreateLoyaltyProgram command)
+    public static async Task<Employer> Create(CreateEmployer command)
     {
-        Money rewardAmount = new Money(RewardProgram.DefaultRewardAmount, command.NumericCurrencyCode);
-        RewardProgram rewardProgram = new RewardProgram(GenerateSimpleStringId(), rewardAmount, RewardProgram.DefaultPointsPerDollar,
-            RewardProgram.DefaultPointsRequired, false);
-        DiscountProgram discountProgram = new DiscountProgram(GenerateSimpleStringId(), false, Array.Empty<Discount>());
+        //Money rewardAmount = new Money(RewardProgram.DefaultRewardAmount, command.NumericCurrencyCode);
+        //RewardProgram rewardProgram = new RewardProgram(GenerateSimpleStringId(), rewardAmount, RewardProgram.DefaultPointsPerDollar,
+        //    RewardProgram.DefaultPointsRequired, false);
+        //DiscountProgram discountProgram = new DiscountProgram(GenerateSimpleStringId(), false, Array.Empty<Discount>());
 
-        Employer employer = new Employer(GenerateSimpleStringId(), command.MerchantId, rewardProgram, discountProgram);
-        User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
-        Merchant merchant = await merchantRetriever.GetByIdAsync(command.MerchantId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Merchant));
+        //Employer employer = new Employer(GenerateSimpleStringId(), command.MerchantId, rewardProgram, discountProgram);
+        //User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
+        //Merchant merchant = await merchantRetriever.GetByIdAsync(command.MerchantId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Merchant));
 
-        employer.Enforce(new UserMustBeActiveToUpdateAggregate<Member>(user));
-        employer.Enforce(new AggregateMustBeUpdatedByKnownUser<Member>(command.MerchantId, user));
-        employer.Enforce(new MerchantMustBeActiveToCreateAggregate<Member>(merchant));
+        //employer.Enforce(new UserMustBeActiveToUpdateAggregate<Member>(user));
+        //employer.Enforce(new AggregateMustBeUpdatedByKnownUser<Member>(command.MerchantId, user));
+        //employer.Enforce(new MerchantMustBeActiveToCreateAggregate<Member>(merchant));
 
-        employer.Publish(new LoyaltyProgramHasBeenCreated(employer, command.MerchantId));
+        //employer.Publish(new LoyaltyProgramHasBeenCreated(employer, command.MerchantId));
 
-        return employer;
+        //return employer;
     }
 
     /// <exception cref="NotFoundException"></exception>

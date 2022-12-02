@@ -3,7 +3,7 @@
 using Play.Domain;
 using Play.Domain.Common.Attributes;
 
-namespace Play.Loyalty.Contracts.Dtosd;
+namespace Play.Payroll.Contracts.Dtos;
 
 public record CheckingAccountDto : IDto
 {

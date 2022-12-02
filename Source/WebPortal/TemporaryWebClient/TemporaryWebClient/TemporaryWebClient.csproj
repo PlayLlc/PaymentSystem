@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\css\bootstrap.min.css" />
+    <None Include="wwwroot\css\font-awesome.min.css" />
+    <None Include="wwwroot\css\owl.carousel.css" />
+    <None Include="wwwroot\css\owl.theme.default.min.css" />
+    <None Include="wwwroot\css\tooplate-style.css" />
+    <None Include="wwwroot\fonts\fontawesome-webfont.eot" />
+    <None Include="wwwroot\fonts\fontawesome-webfont.svg" />
+    <None Include="wwwroot\fonts\fontawesome-webfont.ttf" />
+    <None Include="wwwroot\fonts\fontawesome-webfont.woff" />
+    <None Include="wwwroot\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\fonts\FontAwesome.otf" />
+    <None Include="wwwroot\images\feature-mockup.png" />
+    <None Include="wwwroot\images\home-bg.jpg" />
+    <None Include="wwwroot\images\team-image1.jpg" />
+    <None Include="wwwroot\images\team-image2.jpg" />
+    <None Include="wwwroot\images\team-image3.jpg" />
+    <None Include="wwwroot\images\testimonial-image.jpg" />
+    <None Include="wwwroot\images\tst-image1.jpg" />
+    <None Include="wwwroot\images\tst-image2.jpg" />
+    <None Include="wwwroot\images\tst-image3.jpg" />
+    <None Include="wwwroot\js\bootstrap.min.js" />
+    <None Include="wwwroot\js\custom.js" />
+    <None Include="wwwroot\js\jquery.js" />
+    <None Include="wwwroot\js\jquery.stellar.min.js" />
+    <None Include="wwwroot\js\owl.carousel.min.js" />
+    <None Include="wwwroot\js\smoothscroll.js" />
+  </ItemGroup>
+
+</Project>

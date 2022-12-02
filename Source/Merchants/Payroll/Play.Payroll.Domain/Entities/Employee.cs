@@ -4,11 +4,9 @@ using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Currency;
 using Play.Globalization.Time;
-using Play.Loyalty.Contracts.Dtosd;
-using Play.Payroll.Domain.Entities;
-using Play.Payroll.Domain.Entitiesd;
+using Play.Payroll.Contracts.Dtos;
 
-namespace Play.Payroll.Domain.Entitiessd;
+namespace Play.Payroll.Domain.Entities;
 
 public class Employee : Entity<SimpleStringId>
 {
