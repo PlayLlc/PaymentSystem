@@ -74,7 +74,7 @@ public class Rewards : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override RewardsDto AsDto() =>
-        new()
+        new RewardsDto
         {
             Id = Id,
             Balance = new MoneyDto(_Balance),

@@ -91,7 +91,7 @@ public class TimePuncher : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override TimeClockDto AsDto() =>
-        new()
+        new TimeClockDto
         {
             Id = Id,
             TimeClockStatus = _TimeClockStatus,

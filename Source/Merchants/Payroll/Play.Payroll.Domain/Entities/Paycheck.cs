@@ -66,6 +66,12 @@ public class Paycheck : Entity<SimpleStringId>
 
     #region Instance Members
 
+    internal Money GetAmount() => _Amount;
+
+    internal DateTimeUtc GetDateIssued() => _DateIssued;
+
+    internal string GetEmployeeId() => _EmployeeId;
+
     public async Task<bool> TrySendingDirectDeposit(IISendAchTransfers achClient)
     {
         if (_DirectDeposit is null)
@@ -77,7 +83,7 @@ public class Paycheck : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override PaycheckDto AsDto() =>
-        new()
+        new PaycheckDto
         {
             Id = Id,
             EmployeeId = _EmployeeId,

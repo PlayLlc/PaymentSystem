@@ -1,7 +1,9 @@
-﻿using Play.Domain.Common.ValueObjects;
+﻿using Play.Core;
+using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
 using Play.Payroll.Contracts.Dtos;
+using Play.Payroll.Domain.Services;
 
 namespace Play.Payroll.Domain.Entities;
 
@@ -45,12 +47,25 @@ public class DirectDeposit : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override DirectDepositDto AsDto() =>
-        new()
+        new DirectDepositDto
         {
             Id = Id,
             EmployeeId = _EmployeeId,
             CheckingAccount = _CheckingAccount.AsDto()
         };
+
+    internal async Task<Result> SendAchTransaction(IISendAchTransfers achClient, Paycheck paycheck)
+    {
+        try
+        {
+            return await achClient.SendPaycheck(paycheck.GetEmployeeId(), paycheck.GetDateIssued(), paycheck.GetAmount(), _CheckingAccount)
+                .ConfigureAwait(false);
+        }
+        catch (Exception e)
+        {
+            return new Result(e.Message);
+        }
+    }
 
     #endregion
 }

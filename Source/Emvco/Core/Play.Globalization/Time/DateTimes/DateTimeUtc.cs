@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Reflection.Metadata.Ecma335;
 
+using Play.Core;
 using Play.Core.Exceptions;
 
 namespace Play.Globalization.Time;
@@ -16,8 +18,8 @@ public readonly record struct DateTimeUtc
     public int Minute => _Value.Minute;
     public int Second => _Value.Second;
     public long Ticks => _Value.Ticks;
-    public static DateTimeUtc Now => new(DateTime.UtcNow);
-    public static DateTimeUtc Today => new(DateTime.UtcNow);
+    public static DateTimeUtc Now => new DateTimeUtc(DateTime.UtcNow);
+    public static DateTimeUtc Today => new DateTimeUtc(DateTime.UtcNow);
 
     #endregion
 
@@ -37,7 +39,7 @@ public readonly record struct DateTimeUtc
         _Value = new DateTime(year, month, day, 0, 0, 0, DateTimeKind.Utc);
     }
 
-    public DateTimeUtc(int year, Months month, Weekdays day)
+    public DateTimeUtc(int year, Months month, DaysOfTheWeek day)
     {
         _Value = new DateTime(year, month, day, 0, 0, 0, DateTimeKind.Utc);
     }
@@ -45,7 +47,7 @@ public readonly record struct DateTimeUtc
     /// <exception cref="PlayInternalException"></exception>
     public DateTimeUtc(long value)
     {
-        DateTime dateTimeValue = new(value, DateTimeKind.Utc);
+        DateTime dateTimeValue = new DateTime(value, DateTimeKind.Utc);
 
         if (dateTimeValue.Kind != DateTimeKind.Utc)
             throw new PlayInternalException(new ArgumentOutOfRangeException($"The argument {nameof(value)} was not in UTC format"));
@@ -56,7 +58,7 @@ public readonly record struct DateTimeUtc
     /// <exception cref="PlayInternalException"></exception>
     public DateTimeUtc(int value)
     {
-        DateTime dateTimeValue = new(value, DateTimeKind.Utc);
+        DateTime dateTimeValue = new DateTime(value, DateTimeKind.Utc);
 
         if (dateTimeValue.Kind != DateTimeKind.Utc)
             throw new ArgumentOutOfRangeException($"The argument {nameof(value)} was not in UTC format");
@@ -68,8 +70,24 @@ public readonly record struct DateTimeUtc
 
     #region Instance Members
 
+    public DayOfWeek GetDayOfTheWeek() => _Value.DayOfWeek;
+
+    /// <exception cref="PlayInternalException"></exception>
+    public DaysOfTheMonth GetDayOfTheMonth()
+    {
+        checked
+        {
+            if (!DaysOfTheMonth.Empty.TryGet((byte) _Value.Day, out EnumObject<byte>? result))
+                throw new PlayInternalException($"An incorrect calculation happened invoking {nameof(GetDayOfTheMonth)} for a {nameof(DateTimeUtc)}");
+
+            return (DaysOfTheMonth) result!;
+        }
+    }
+
     public string ToShortDateFormat() => $"{_Value.Year}-{_Value.Month}-{_Value.Day:00}";
     public string ToString(string format) => _Value.ToString(format);
+    public DateTimeUtc AddDays(int days) => new DateTimeUtc(_Value.AddDays(days));
+    public TimeSpan Subtract(DateTimeUtc value) => value._Value.Subtract(_Value);
 
     #endregion
 

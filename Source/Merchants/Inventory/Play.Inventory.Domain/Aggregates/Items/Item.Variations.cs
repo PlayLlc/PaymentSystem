@@ -31,7 +31,7 @@ public partial class Item : Aggregate<SimpleStringId>
         Name name = new Name(command.Name);
         Sku? sku = command.Sku is null ? null : new Sku(command.Sku);
         MoneyValueObject price = new MoneyValueObject(command.Price);
-        SimpleStringId id = new(GenerateSimpleStringId());
+        SimpleStringId id = new SimpleStringId(GenerateSimpleStringId());
         Variation variation = new Variation(new SimpleStringId(id), Id, name, price, sku);
 
         if (!_Variations.Add(variation))

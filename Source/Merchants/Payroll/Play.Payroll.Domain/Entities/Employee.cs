@@ -63,7 +63,7 @@ public class Employee : Entity<SimpleStringId>
     {
         TimeSheet timeSheet = GenerateTimeSheet(generateSimpleStringId.Invoke(), payPeriod);
         Money paycheckAmount = CalculateEarnings(timeSheet);
-        Paycheck paycheck = new(generateSimpleStringId.Invoke(), _EmployeeId, paycheckAmount, DateTimeUtc.Now, timeSheet, _DirectDeposit, payPeriod);
+        Paycheck paycheck = new Paycheck(generateSimpleStringId.Invoke(), _EmployeeId, paycheckAmount, DateTimeUtc.Now, timeSheet, _DirectDeposit, payPeriod);
         _PaycheckHistory.Add(paycheck);
 
         return paycheck;
@@ -84,7 +84,7 @@ public class Employee : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override TimeSheetDto AsDto() =>
-        new()
+        new TimeSheetDto
         {
             Id = Id,
             EmployeeId = _EmployeeId,

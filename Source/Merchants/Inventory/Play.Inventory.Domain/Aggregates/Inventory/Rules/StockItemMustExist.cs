@@ -24,7 +24,7 @@ public class StockItemMustExist : BusinessRule<Inventory, SimpleStringId>
 
     #region Instance Members
 
-    public override StockItemDoesNotExist CreateBusinessRuleViolationDomainEvent(Inventory inventory) => new(inventory, this);
+    public override StockItemDoesNotExist CreateBusinessRuleViolationDomainEvent(Inventory inventory) => new StockItemDoesNotExist(inventory, this);
 
     public override bool IsBroken() => !_IsValid;
 

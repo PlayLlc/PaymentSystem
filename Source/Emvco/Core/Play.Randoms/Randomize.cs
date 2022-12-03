@@ -4,7 +4,7 @@ public static partial class Randomize
 {
     #region Static Metadata
 
-    internal static readonly Random Random = new();
+    internal static readonly Random Random = new Random();
 
     #endregion
 }

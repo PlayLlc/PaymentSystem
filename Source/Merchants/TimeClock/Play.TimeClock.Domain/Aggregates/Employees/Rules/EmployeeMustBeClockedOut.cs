@@ -28,7 +28,7 @@ public class EmployeeMustBeClockedOut : BusinessRule<Employee, SimpleStringId>
 
     public override bool IsBroken() => !_IsValid;
 
-    public override EmployeeWasNotClockedOut CreateBusinessRuleViolationDomainEvent(Employee aggregate) => new(aggregate, this);
+    public override EmployeeWasNotClockedOut CreateBusinessRuleViolationDomainEvent(Employee aggregate) => new EmployeeWasNotClockedOut(aggregate, this);
 
     #endregion
 }

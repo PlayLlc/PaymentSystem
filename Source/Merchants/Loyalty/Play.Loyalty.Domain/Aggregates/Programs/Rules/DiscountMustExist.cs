@@ -27,7 +27,7 @@ public class DiscountMustExist : BusinessRule<Programs, SimpleStringId>
 
     public override bool IsBroken() => !_IsValid;
 
-    public override DiscountItemDoesNotExist CreateBusinessRuleViolationDomainEvent(Programs aggregate) => new(aggregate, this);
+    public override DiscountItemDoesNotExist CreateBusinessRuleViolationDomainEvent(Programs aggregate) => new DiscountItemDoesNotExist(aggregate, this);
 
     #endregion
 }

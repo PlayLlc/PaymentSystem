@@ -64,7 +64,7 @@ public static partial class Randomize
             }
         }
 
-        public static string String(int length) => new(Chars(length));
+        public static string String(int length) => new string(Chars(length));
         private static char GetRandomChar() => _AlphabeticValues[Random.Next(0, _AlphabeticValues.Length - 1)];
         public static byte GetRandomByte() => (byte) _AlphabeticValues[Random.Next(0, _AlphabeticValues.Length - 1)];
 

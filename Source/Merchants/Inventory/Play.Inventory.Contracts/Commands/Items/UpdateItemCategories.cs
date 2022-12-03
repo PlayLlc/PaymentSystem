@@ -15,7 +15,7 @@ public record UpdateItemCategories
 
     [Required]
     [MinLength(1)]
-    public List<string> CategoryIds { get; set; } = new();
+    public List<string> CategoryIds { get; set; } = new List<string>();
 
     #endregion
 }

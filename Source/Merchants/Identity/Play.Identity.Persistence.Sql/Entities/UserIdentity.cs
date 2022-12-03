@@ -80,13 +80,13 @@ public sealed class UserIdentity : IdentityUser, IEntity
     public IEnumerable<Claim> GenerateClaims() =>
         new List<Claim>
         {
-            new(JwtClaimTypes.Subject, $"{Guid.NewGuid()}_{DateTimeUtc.Now.Ticks}"),
-            new(JwtClaimTypes.Name, $"{Contact.GetFullName()}"),
-            new(JwtClaimTypes.GivenName, Contact.FirstName),
-            new(JwtClaimTypes.FamilyName, Contact.LastName),
-            new(JwtClaimTypes.Email, Contact.Email),
-            new(JwtClaimTypes.BirthDate, PersonalDetail.DateOfBirth.ToShortDateFormat()),
-            new(JwtClaimTypes.Address, Address.Normalize())
+            new Claim(JwtClaimTypes.Subject, $"{Guid.NewGuid()}_{DateTimeUtc.Now.Ticks}"),
+            new Claim(JwtClaimTypes.Name, $"{Contact.GetFullName()}"),
+            new Claim(JwtClaimTypes.GivenName, Contact.FirstName),
+            new Claim(JwtClaimTypes.FamilyName, Contact.LastName),
+            new Claim(JwtClaimTypes.Email, Contact.Email),
+            new Claim(JwtClaimTypes.BirthDate, PersonalDetail.DateOfBirth.ToShortDateFormat()),
+            new Claim(JwtClaimTypes.Address, Address.Normalize())
         };
 
     public UserDto AsDto()

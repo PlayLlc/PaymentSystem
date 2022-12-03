@@ -18,10 +18,10 @@ public class MerchantDto : IDto
     public string CompanyName { get; set; } = string.Empty;
 
     [Required]
-    public AddressDto Address { get; set; } = new();
+    public AddressDto Address { get; set; } = new AddressDto();
 
     [Required]
-    public BusinessInfoDto BusinessInfo { get; set; } = new();
+    public BusinessInfoDto BusinessInfo { get; set; } = new BusinessInfoDto();
 
     [Required]
     public bool IsActive { get; set; }

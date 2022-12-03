@@ -74,7 +74,7 @@ public class TimeEntry : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override TimeEntryDto AsDto() =>
-        new()
+        new TimeEntryDto
         {
             Id = Id,
             EmployeeId = _EmployeeId,

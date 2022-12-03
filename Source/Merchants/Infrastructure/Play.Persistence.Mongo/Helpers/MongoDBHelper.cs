@@ -42,7 +42,7 @@ public class MongoDbHelper : IMongoDbHelper
 
     public async Task<_> SelectFirstOrDefaultAsync<_>(string collectionName, SortConfig<_>? sortConfig = null, params string[] projections)
     {
-        FindOptions<_, _> findOptions = new()
+        FindOptions<_, _> findOptions = new FindOptions<_, _>
         {
             Projection = projections.Any() ? Builders<_>.Projection.Combine(projections.Select(x => Builders<_>.Projection.Include(x)).ToList()) : null,
             Sort = sortConfig != null
@@ -87,7 +87,7 @@ public class MongoDbHelper : IMongoDbHelper
 
     private IMongoCollection<_> GetCollection<_>(string collectionName)
     {
-        MongoClient client = new(_ConnectionString);
+        MongoClient client = new MongoClient(_ConnectionString);
         IMongoDatabase database = client.GetDatabase(_DatabaseName);
 
         return database.GetCollection<_>(collectionName);

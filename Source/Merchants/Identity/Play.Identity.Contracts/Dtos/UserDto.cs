@@ -22,16 +22,16 @@ public class UserDto : IDto
     public string TerminalId { get; set; } = string.Empty;
 
     [Required]
-    public PasswordDto Password { get; set; } = new();
+    public PasswordDto Password { get; set; } = new PasswordDto();
 
     [Required]
-    public AddressDto Address { get; set; } = new();
+    public AddressDto Address { get; set; } = new AddressDto();
 
     [Required]
-    public ContactDto Contact { get; set; } = new();
+    public ContactDto Contact { get; set; } = new ContactDto();
 
     [Required]
-    public PersonalDetailDto PersonalDetail { get; set; } = new();
+    public PersonalDetailDto PersonalDetail { get; set; } = new PersonalDetailDto();
 
     public bool IsActive { get; set; }
 

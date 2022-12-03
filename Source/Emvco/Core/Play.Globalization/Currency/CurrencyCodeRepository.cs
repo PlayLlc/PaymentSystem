@@ -62,7 +62,7 @@ public static class CurrencyCodeRepository
 
     private static List<Currency> CreateCurrencyCodes(Dictionary<string, NumberFormatInfo> formatMap)
     {
-        HashSet<Currency?> hash = new();
+        HashSet<Currency?> hash = new HashSet<Currency?>();
 
         hash.Add(ResolveCurrency(971, "AFN", formatMap));
         hash.Add(ResolveCurrency(008, "ALL", formatMap));

@@ -10,7 +10,7 @@ public class InventoryItemUpdatedEvent : NetworkEvent
     #region Instance Values
 
     [Required]
-    public ItemDto Item { get; set; } = new();
+    public ItemDto Item { get; set; } = new ItemDto();
 
     [Required]
     [StringLength(20)]

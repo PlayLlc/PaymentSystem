@@ -119,7 +119,7 @@ public partial class Member : Aggregate<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override LoyaltyMemberDto AsDto() =>
-        new()
+        new LoyaltyMemberDto
         {
             Id = Id,
             MerchantId = _MerchantId,

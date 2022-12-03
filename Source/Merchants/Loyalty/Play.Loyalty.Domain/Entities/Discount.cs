@@ -63,7 +63,7 @@ public class Discount : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override DiscountDto AsDto() =>
-        new()
+        new DiscountDto
         {
             Id = Id,
             VariationId = _VariationId,

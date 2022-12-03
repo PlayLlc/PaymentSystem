@@ -1,7 +1,10 @@
-﻿using Play.Domain.Common.ValueObjects;
+﻿using Play.Core;
+using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
+using Play.Globalization.Currency;
 using Play.Payroll.Contracts.Dtos;
+using Play.Payroll.Domain.Services;
 
 namespace Play.Payroll.Domain.Entities;
 
@@ -45,7 +48,7 @@ public class CheckingAccount : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override CheckingAccountDto AsDto() =>
-        new()
+        new CheckingAccountDto
         {
             Id = Id,
             AccountNumber = _AccountNumber,

@@ -71,7 +71,7 @@ public class PayPeriod : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override PayPeriodDto AsDto() =>
-        new()
+        new PayPeriodDto
         {
             Id = Id,
             Start = Start,

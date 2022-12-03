@@ -89,7 +89,7 @@ public partial class Programs : Aggregate<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override LoyaltyProgramDto AsDto() =>
-        new()
+        new LoyaltyProgramDto
         {
             Id = Id,
             MerchantId = _MerchantId,

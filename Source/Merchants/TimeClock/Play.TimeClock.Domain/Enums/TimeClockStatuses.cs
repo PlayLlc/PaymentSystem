@@ -58,7 +58,7 @@ public record TimeClockStatuses : EnumObjectString
 
     #region Operator Overrides
 
-    public static implicit operator TimeClockStatus(TimeClockStatuses value) => new(value);
+    public static implicit operator TimeClockStatus(TimeClockStatuses value) => new TimeClockStatus(value);
 
     #endregion
 }

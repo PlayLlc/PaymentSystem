@@ -6,7 +6,7 @@ public readonly record struct Microseconds
 {
     #region Static Metadata
 
-    public static readonly Microseconds Zero = new(0);
+    public static readonly Microseconds Zero = new Microseconds(0);
     public const int Precision = 1000000;
 
     #endregion
@@ -74,11 +74,11 @@ public readonly record struct Microseconds
 
     #region Instance Members
 
-    public TimeSpan AsTimeSpan() => new(_Value * (Ticks.Precision / Precision));
-    public Seconds AsSeconds() => new(this);
-    public Deciseconds AsDeciSeconds() => new(this);
-    public Milliseconds AsMilliseconds() => new(this);
-    public Ticks AsTicks() => new(this);
+    public TimeSpan AsTimeSpan() => new TimeSpan(_Value * (Ticks.Precision / Precision));
+    public Seconds AsSeconds() => new Seconds(this);
+    public Deciseconds AsDeciSeconds() => new Deciseconds(this);
+    public Milliseconds AsMilliseconds() => new Milliseconds(this);
+    public Ticks AsTicks() => new Ticks(this);
 
     #endregion
 
@@ -100,10 +100,10 @@ public readonly record struct Microseconds
 
     #region Operator Overrides
 
-    public static Microseconds operator *(Microseconds left, Microseconds right) => new(left._Value * right._Value);
-    public static Microseconds operator /(Microseconds left, Microseconds right) => new(left._Value / right._Value);
-    public static Microseconds operator -(Microseconds left, Microseconds right) => new(left._Value - right._Value);
-    public static Microseconds operator +(Microseconds left, Microseconds right) => new(left._Value + right._Value);
+    public static Microseconds operator *(Microseconds left, Microseconds right) => new Microseconds(left._Value * right._Value);
+    public static Microseconds operator /(Microseconds left, Microseconds right) => new Microseconds(left._Value / right._Value);
+    public static Microseconds operator -(Microseconds left, Microseconds right) => new Microseconds(left._Value - right._Value);
+    public static Microseconds operator +(Microseconds left, Microseconds right) => new Microseconds(left._Value + right._Value);
     public static bool operator >(long left, Microseconds right) => left > right._Value;
     public static bool operator <(long left, Microseconds right) => left < right._Value;
     public static bool operator >=(long left, Microseconds right) => left >= right._Value;
@@ -133,11 +133,11 @@ public readonly record struct Microseconds
     public static bool operator <=(Microseconds left, TimeSpan right) => left.AsTimeSpan() <= right;
     public static bool operator <=(TimeSpan left, Microseconds right) => right.AsTimeSpan() <= left;
     public static explicit operator long(Microseconds value) => value._Value;
-    public static implicit operator Microseconds(Seconds value) => new(value);
-    public static implicit operator Microseconds(Deciseconds value) => new(value);
+    public static implicit operator Microseconds(Seconds value) => new Microseconds(value);
+    public static implicit operator Microseconds(Deciseconds value) => new Microseconds(value);
     public static implicit operator TimeSpan(Microseconds value) => value.AsTimeSpan();
-    public static implicit operator Microseconds(TimeSpan value) => new(value);
-    public static implicit operator Microseconds(int value) => new((uint) value);
+    public static implicit operator Microseconds(TimeSpan value) => new Microseconds(value);
+    public static implicit operator Microseconds(int value) => new Microseconds((uint) value);
 
     #endregion
 }

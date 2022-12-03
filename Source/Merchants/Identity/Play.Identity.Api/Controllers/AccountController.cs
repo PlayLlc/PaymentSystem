@@ -142,7 +142,7 @@ public class AccountController : Controller
 
     private async Task<IEnumerable<ExternalProviderModel>> GetExternalProvidersAsync(AuthorizationRequest authorizationRequest)
     {
-        List<ExternalProviderModel> providers = new();
+        List<ExternalProviderModel> providers = new List<ExternalProviderModel>();
 
         providers.AddRange((await _SchemeProvider.GetAllSchemesAsync().ConfigureAwait(false)).Where(x => x.DisplayName != null)
             .Select(x => new ExternalProviderModel

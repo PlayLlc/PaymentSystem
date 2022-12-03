@@ -278,7 +278,7 @@ public class UserRegistration : Aggregate<SimpleStringId>
 
     /// <exception cref="PlayInternalException"></exception>
     public override UserRegistrationDto AsDto() =>
-        new()
+        new UserRegistrationDto
         {
             Id = Id,
             MerchantId = _MerchantId,

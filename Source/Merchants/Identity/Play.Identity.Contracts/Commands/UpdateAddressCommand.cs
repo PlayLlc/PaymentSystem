@@ -16,7 +16,7 @@ public record UpdateAddressCommand
     public string Id { get; set; } = string.Empty;
 
     [Required]
-    public AddressDto Address { get; set; } = new();
+    public AddressDto Address { get; set; } = new AddressDto();
 
     #endregion
 }

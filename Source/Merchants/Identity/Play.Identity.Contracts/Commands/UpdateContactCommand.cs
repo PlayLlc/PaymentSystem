@@ -13,7 +13,7 @@ public record UpdateContactCommand
     public string Id { get; set; } = string.Empty;
 
     [Required]
-    public ContactDto Contact { get; set; } = new();
+    public ContactDto Contact { get; set; } = new ContactDto();
 
     #endregion
 }

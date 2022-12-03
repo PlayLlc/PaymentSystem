@@ -2,6 +2,7 @@
 using System.Globalization;
 
 using Play.Codecs;
+using Play.Core;
 
 namespace Play.Domain.Common.Attributes;
 

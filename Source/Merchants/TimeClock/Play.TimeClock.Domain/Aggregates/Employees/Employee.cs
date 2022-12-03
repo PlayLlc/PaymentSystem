@@ -63,7 +63,7 @@ public class Employee : Aggregate<SimpleStringId>
     public static async Task<Employee> Create(
         IRetrieveUsers userRetriever, IRetrieveMerchants merchantRetriever, IEnsureEmployeeDoesNotExist uniqueEmployeeChecker, CreateEmployee command)
     {
-        SimpleStringId employeeId = new(GenerateSimpleStringId());
+        SimpleStringId employeeId = new SimpleStringId(GenerateSimpleStringId());
         TimePuncher timePuncher = new TimePuncher(GenerateSimpleStringId(), employeeId, TimeClockStatuses.ClockedOut, null);
         Employee employee = new Employee(employeeId, command.MerchantId, command.UserId, timePuncher, Array.Empty<TimeEntry>());
 
@@ -136,7 +136,7 @@ public class Employee : Aggregate<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override EmployeeDto AsDto() =>
-        new()
+        new EmployeeDto
         {
             Id = Id,
             MerchantId = _MerchantId,

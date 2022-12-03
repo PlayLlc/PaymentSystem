@@ -16,7 +16,7 @@ public record UpdateMerchantBusinessInfo
 
     [Required]
     [MinLength(1)]
-    public BusinessInfoDto BusinessInfo { get; set; } = new();
+    public BusinessInfoDto BusinessInfo { get; set; } = new BusinessInfoDto();
 
     #endregion
 }

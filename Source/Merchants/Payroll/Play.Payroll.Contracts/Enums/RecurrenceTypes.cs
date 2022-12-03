@@ -10,9 +10,25 @@ public record RecurrenceTypes : EnumObjectString
 
     private static readonly ImmutableSortedDictionary<string, RecurrenceTypes> _ValueObjectMap;
     public static readonly RecurrenceTypes Empty;
+
+    /// <summary>
+    ///     Weekly pay schedules pay employees every week on a designated day of the week
+    /// </summary>
     public static readonly RecurrenceTypes Weekly;
+
+    /// <summary>
+    ///     Bi-weekly pay schedules pay employees once every two weeks on a designated day of the week
+    /// </summary>
     public static readonly RecurrenceTypes Biweekly;
+
+    /// <summary>
+    ///     Semi-monthly pay schedules pay employees two times a month on fixed dates, such as the 1st and the 15th
+    /// </summary>
     public static readonly RecurrenceTypes SemiMonthly;
+
+    /// <summary>
+    ///     Monthly pay schedules pay employees every month on a designated date, such as the 1st of the month
+    /// </summary>
     public static readonly RecurrenceTypes Monthly;
 
     #endregion

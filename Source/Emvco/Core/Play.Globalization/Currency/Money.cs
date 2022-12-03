@@ -222,8 +222,16 @@ public record Money : IEqualityComparer<Money>
     /// <exception cref="InvalidOperationException"></exception>
     public static decimal operator /(Money left, uint right) => left._Amount / (decimal) right;
 
+    public static decimal operator /(Money left, ulong right) => left._Amount / (decimal) right;
+    public static decimal operator /(Money left, ushort right) => left._Amount / (decimal) right;
+    public static decimal operator /(Money left, byte right) => left._Amount / (decimal) right;
+
     /// <exception cref="InvalidOperationException"></exception>
     public static Money operator *(Money left, uint right) => new(left._Amount * right, left._Currency);
+
+    public static Money operator *(Money left, ulong right) => new(left._Amount * right, left._Currency);
+    public static Money operator *(Money left, ushort right) => new(left._Amount * right, left._Currency);
+    public static Money operator *(Money left, byte right) => new(left._Amount * right, left._Currency);
 
     /// <exception cref="InvalidOperationException" />
     public static Money operator -(Money left, Money right)

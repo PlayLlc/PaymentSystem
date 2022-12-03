@@ -28,7 +28,7 @@ public class RewardNumberMustNotAlreadyExist : BusinessRule<Member, SimpleString
 
     public override bool IsBroken() => !_IsValid;
 
-    public override RewardsNumberIsNotUnique CreateBusinessRuleViolationDomainEvent(Member aggregate) => new(aggregate, this);
+    public override RewardsNumberIsNotUnique CreateBusinessRuleViolationDomainEvent(Member aggregate) => new RewardsNumberIsNotUnique(aggregate, this);
 
     #endregion
 }

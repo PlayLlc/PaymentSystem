@@ -24,7 +24,7 @@ public record ItemDto : IDto
     public LocationsDto Locations { get; set; } = null!;
 
     public string Description { get; set; } = string.Empty;
-    public AlertsDto Alerts { get; set; } = new();
+    public AlertsDto Alerts { get; set; } = new AlertsDto();
     public IEnumerable<CategoryDto> Categories { get; set; } = new List<CategoryDto>();
     public IEnumerable<VariationDto> Variations { get; set; } = new List<VariationDto>();
 

@@ -17,7 +17,7 @@ public partial class ApiClient
 {
     #region Instance Values
 
-    private readonly JsonSerializerSettings _SerializerSettings = new() {ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor};
+    private readonly JsonSerializerSettings _SerializerSettings = new JsonSerializerSettings {ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor};
 
     /// <summary>
     ///     Gets or sets an instance of the IReadableConfiguration.

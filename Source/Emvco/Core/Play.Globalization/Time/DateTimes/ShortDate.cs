@@ -17,15 +17,15 @@ public readonly struct ShortDate
     #region Static Metadata
 
     private static readonly int _MillenniumAndCentury = (byte) (DateTime.Now.Year / 100) * 100;
-    public static readonly ShortDate Min = new(0001);
+    public static readonly ShortDate Min = new ShortDate(0001);
 
     #endregion
 
     #region Instance Values
 
     private readonly DateTimeUtc _Value;
-    public ShortDate Now => new(DateTimeUtc.Now);
-    public static ShortDate Today => new(DateTimeUtc.Today);
+    public ShortDate Now => new ShortDate(DateTimeUtc.Now);
+    public static ShortDate Today => new ShortDate(DateTimeUtc.Today);
     public DateTimeUtc AsDateTimeUtc => _Value;
 
     #endregion

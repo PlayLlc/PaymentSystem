@@ -28,7 +28,8 @@ public class AggregateMustBeUpdatedByKnownUser<_Aggregate> : BusinessRule<_Aggre
 
     public override bool IsBroken() => !_IsValid;
 
-    public override AggregateUpdateWasAttemptedByUnknownUser<_Aggregate> CreateBusinessRuleViolationDomainEvent(_Aggregate aggregate) => new(aggregate, this);
+    public override AggregateUpdateWasAttemptedByUnknownUser<_Aggregate> CreateBusinessRuleViolationDomainEvent(_Aggregate aggregate) =>
+        new AggregateUpdateWasAttemptedByUnknownUser<_Aggregate>(aggregate, this);
 
     #endregion
 }

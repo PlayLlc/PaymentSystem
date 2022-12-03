@@ -10,7 +10,7 @@ public readonly record struct Ticks
 {
     #region Static Metadata
 
-    public static readonly Ticks Zero = new(0);
+    public static readonly Ticks Zero = new Ticks(0);
     public const int Precision = 10000000;
 
     #endregion
@@ -77,11 +77,11 @@ public readonly record struct Ticks
 
     #region Instance Members
 
-    public TimeSpan AsTimeSpan() => new(_Value * (Precision - Milliseconds.Precision));
-    public Seconds AsSeconds() => new(this);
-    public Deciseconds AsDeciSeconds() => new(this);
-    public Milliseconds AsMilliSeconds() => new(this);
-    public Microseconds AsMicroSeconds() => new(this);
+    public TimeSpan AsTimeSpan() => new TimeSpan(_Value * (Precision - Milliseconds.Precision));
+    public Seconds AsSeconds() => new Seconds(this);
+    public Deciseconds AsDeciSeconds() => new Deciseconds(this);
+    public Milliseconds AsMilliSeconds() => new Milliseconds(this);
+    public Microseconds AsMicroSeconds() => new Microseconds(this);
 
     #endregion
 
@@ -103,10 +103,10 @@ public readonly record struct Ticks
 
     #region Operator Overrides
 
-    public static Ticks operator *(Ticks left, Ticks right) => new(left._Value * right._Value);
-    public static Ticks operator /(Ticks left, Ticks right) => new(left._Value / right._Value);
-    public static Ticks operator -(Ticks left, Ticks right) => new(left._Value - right._Value);
-    public static Ticks operator +(Ticks left, Ticks right) => new(left._Value + right._Value);
+    public static Ticks operator *(Ticks left, Ticks right) => new Ticks(left._Value * right._Value);
+    public static Ticks operator /(Ticks left, Ticks right) => new Ticks(left._Value / right._Value);
+    public static Ticks operator -(Ticks left, Ticks right) => new Ticks(left._Value - right._Value);
+    public static Ticks operator +(Ticks left, Ticks right) => new Ticks(left._Value + right._Value);
     public static bool operator >(long left, Ticks right) => left > right._Value;
     public static bool operator <(long left, Ticks right) => left < right._Value;
     public static bool operator >=(long left, Ticks right) => left >= right._Value;
@@ -129,8 +129,8 @@ public readonly record struct Ticks
     public static bool operator >=(Ticks left, TimeSpan right) => left.AsTimeSpan() >= right;
     public static bool operator >=(TimeSpan left, Ticks right) => right.AsTimeSpan() >= left;
     public static explicit operator TimeSpan(Ticks value) => value.AsTimeSpan();
-    public static explicit operator Ticks(TimeSpan value) => new(value);
-    public static explicit operator Ticks(int value) => new((uint) value);
+    public static explicit operator Ticks(TimeSpan value) => new Ticks(value);
+    public static explicit operator Ticks(int value) => new Ticks((uint) value);
     public static bool operator !=(Ticks left, TimeSpan right) => !left.Equals(right);
     public static bool operator !=(TimeSpan left, Ticks right) => !right.Equals(left);
     public static bool operator <(Ticks left, Ticks right) => left._Value < right._Value;
@@ -139,8 +139,8 @@ public readonly record struct Ticks
     public static bool operator <=(Ticks left, Ticks right) => left._Value <= right._Value;
     public static bool operator <=(Ticks left, TimeSpan right) => left.AsTimeSpan() <= right;
     public static bool operator <=(TimeSpan left, Ticks right) => right.AsTimeSpan() <= left;
-    public static explicit operator Ticks(Seconds value) => new(value);
-    public static explicit operator Ticks(Deciseconds value) => new(value);
+    public static explicit operator Ticks(Seconds value) => new Ticks(value);
+    public static explicit operator Ticks(Deciseconds value) => new Ticks(value);
 
     #endregion
 }

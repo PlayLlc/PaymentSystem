@@ -14,10 +14,10 @@ public record UpdateMerchantRegistrationCommand
     public string Id { get; set; } = string.Empty;
 
     [Required]
-    public AddressDto Address { get; set; } = new();
+    public AddressDto Address { get; set; } = new AddressDto();
 
     [Required]
-    public BusinessInfoDto BusinessInfo { get; set; } = new();
+    public BusinessInfoDto BusinessInfo { get; set; } = new BusinessInfoDto();
 
     #endregion
 }

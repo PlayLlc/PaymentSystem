@@ -22,7 +22,7 @@ public static class IdentityInMemoryConfig
     public static IEnumerable<ApiScope> GetApiScopes() =>
         new List<ApiScope>
         {
-            new(IdentitySpecs.ApiScopes.IdentityServer, "This scope represents any client that is authorized to use an Identity Server resource",
+            new ApiScope(IdentitySpecs.ApiScopes.IdentityServer, "This scope represents any client that is authorized to use an Identity Server resource",
                 new List<string>
                 {
                     JwtClaimTypes.Id,
@@ -31,7 +31,7 @@ public static class IdentityInMemoryConfig
                     JwtClaimTypes.Address,
                     JwtClaimTypes.Email
                 }),
-            new(IdentitySpecs.ApiScopes.ExternalApi, "This scope represents clients calling from an external web api", new List<string>
+            new ApiScope(IdentitySpecs.ApiScopes.ExternalApi, "This scope represents clients calling from an external web api", new List<string>
             {
                 JwtClaimTypes.Id,
                 JwtClaimTypes.ClientId,
@@ -39,7 +39,7 @@ public static class IdentityInMemoryConfig
                 JwtClaimTypes.Address,
                 JwtClaimTypes.Email
             }),
-            new(IdentitySpecs.ApiScopes.ExternalMobile, "This scope represents clients calling from a mobile application",
+            new ApiScope(IdentitySpecs.ApiScopes.ExternalMobile, "This scope represents clients calling from a mobile application",
                 new List<string>
                 {
                     JwtClaimTypes.Id,
@@ -48,7 +48,7 @@ public static class IdentityInMemoryConfig
                     JwtClaimTypes.Address,
                     JwtClaimTypes.Email
                 }),
-            new(IdentitySpecs.ApiScopes.Verification, "This scope allows clients to see if the user's account information has been verified",
+            new ApiScope(IdentitySpecs.ApiScopes.Verification, "This scope allows clients to see if the user's account information has been verified",
                 new List<string>
                 {
                     JwtClaimTypes.Id,
@@ -66,12 +66,12 @@ public static class IdentityInMemoryConfig
 
         return new List<Client>
         {
-            new()
+            new Client
             {
                 ClientId = businessPayConfig.ClientId,
                 ClientName = businessPayConfig.ClientName,
                 AllowedGrantTypes = GrantTypes.ClientCredentials,
-                ClientSecrets = new List<Secret> {new(businessPayConfig.ClientSecret.Sha256())},
+                ClientSecrets = new List<Secret> {new Secret(businessPayConfig.ClientSecret.Sha256())},
                 RedirectUris = {businessPayConfig.RedirectUris},
                 PostLogoutRedirectUris = {businessPayConfig.PostLogoutRedirectUris},
                 AllowedScopes =
@@ -84,12 +84,12 @@ public static class IdentityInMemoryConfig
 
             // interactive client such as web applications, SPAs or native/mobile apps with interactive users who interact
             // with a browser page for login, consent, etc
-            new()
+            new Client
             {
                 ClientId = merchantPortalConfig.ClientId,
                 ClientName = merchantPortalConfig.ClientName,
                 AllowedGrantTypes = GrantTypes.Code,
-                ClientSecrets = new List<Secret> {new(merchantPortalConfig.ClientSecret.Sha256())},
+                ClientSecrets = new List<Secret> {new Secret(merchantPortalConfig.ClientSecret.Sha256())},
                 RedirectUris = {merchantPortalConfig.RedirectUris},
                 PostLogoutRedirectUris = {merchantPortalConfig.PostLogoutRedirectUris},
                 AllowedScopes =

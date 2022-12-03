@@ -127,6 +127,8 @@ public record DaysOfTheMonth : EnumObject<byte>
 
     #region Instance Members
 
+    public DaysOfTheMonth GetMinDayOfTheMonth() => ThirtyFirst;
+    public DaysOfTheMonth GetMaxDayOfTheMonth() => ThirtyFirst;
     public override DaysOfTheMonth[] GetAll() => _ValueObjectMap.Values.ToArray();
 
     public override bool TryGet(byte value, out EnumObject<byte>? result)

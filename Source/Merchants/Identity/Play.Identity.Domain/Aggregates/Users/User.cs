@@ -183,7 +183,7 @@ public class User : Aggregate<SimpleStringId>
     public string GetEmail() => _Contact.Email.Value;
 
     public override UserDto AsDto() =>
-        new()
+        new UserDto
         {
             Id = Id,
             MerchantId = _MerchantId,

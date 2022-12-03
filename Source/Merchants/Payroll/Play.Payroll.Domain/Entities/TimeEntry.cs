@@ -13,9 +13,9 @@ public class TimeEntry : Entity<SimpleStringId>
     #region Instance Values
 
     private readonly SimpleStringId _EmployeeId;
-    private readonly DateTimeUtc _Start;
-    private readonly DateTimeUtc _End;
-    private readonly TimeEntryType _TimeEntryType;
+    private DateTimeUtc _Start;
+    private DateTimeUtc _End;
+    private TimeEntryType _TimeEntryType;
     public override SimpleStringId Id { get; }
 
     #endregion
@@ -29,7 +29,7 @@ public class TimeEntry : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal TimeEntry(TimeEntryDto dto)
     {
-        if (_End <= _Start)
+        if (dto.End <= dto.Start)
             throw new ValueObjectException(
                 $"The {nameof(TimeEntry)} cannot be initialized because the {nameof(dto.End)} argument provided does not happen after the {nameof(dto.Start)} argument provided;");
 
@@ -51,7 +51,7 @@ public class TimeEntry : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal TimeEntry(string id, string employeeId, string timeEntryType, DateTimeUtc start, DateTimeUtc end)
     {
-        if (_End <= _Start)
+        if (end <= start)
             throw new ValueObjectException(
                 $"The {nameof(TimeEntry)} cannot be initialized because the {nameof(end)} argument provided did not happen after the {nameof(start)} argument provided;");
 
@@ -66,17 +66,29 @@ public class TimeEntry : Entity<SimpleStringId>
 
     #region Instance Members
 
-    internal DateTimeUtc GetStartTime() => _Start;
-    internal DateTimeUtc GetEndTime() => _End;
+    public DateTimeUtc GetStart() => _Start;
+    public DateTimeUtc GetEnd() => _End;
+
+    /// <exception cref="ValueObjectException"></exception>
+    public void Update(string timeEntryType, DateTimeUtc start, DateTimeUtc end)
+    {
+        if (end <= start)
+            throw new ValueObjectException(
+                $"The {nameof(TimeEntry)} cannot be initialized because the {nameof(end)} argument provided did not happen after the {nameof(start)} argument provided;");
+
+        _TimeEntryType = new TimeEntryType(timeEntryType);
+        _Start = start;
+        _End = end;
+    }
 
     internal TimeEntryType GetTimeEntryType() => _TimeEntryType;
 
-    public TimeSpan GetTimeWorked() => _End - _Start;
+    public TimeSpan GetHoursBilled() => _End - _Start;
 
     public override SimpleStringId GetId() => Id;
 
     public override TimeEntryDto AsDto() =>
-        new()
+        new TimeEntryDto
         {
             Id = Id,
             EmployeeId = _EmployeeId,

@@ -1,6 +1,8 @@
 ﻿using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
+using Play.Globalization.Currency;
+using Play.Globalization.Time;
 using Play.Payroll.Contracts.Dtos;
 using Play.Payroll.Contracts.Enums;
 using Play.Payroll.Domain.ValueObject;
@@ -27,9 +29,6 @@ public class TimeSheet : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal TimeSheet(TimeSheetDto dto)
     {
-        // TODO: Check that all time entriese are within pay period
-        // if(_TimeEntries.Any > _payPeriod...)
-
         Id = new SimpleStringId(dto.Id);
         _EmployeeId = new SimpleStringId(dto.EmployeeId);
         _PayPeriod = new PayPeriod(dto.PayPeriod);
@@ -49,27 +48,53 @@ public class TimeSheet : Entity<SimpleStringId>
 
     #region Instance Members
 
-    internal IEnumerable<TimeEntry> GeTimeEntries() => _TimeEntries;
+    internal DateTimeUtc GetPayPeriodStart() => _PayPeriod.Start;
+    internal DateTimeUtc GetPayPeriodEnd() => _PayPeriod.End;
 
-    public uint GetTotalMinutesWorked(CompensationType compensationType)
+    /// <summary>
+    ///     Gets the amount of minutes that an employee worked within a pay period
+    /// </summary>
+    /// <returns></returns>
+    public uint GetBillableMinutes(CompensationType compensationType) =>
+        compensationType == CompensationTypes.Hourly ? GetMinutesClockedInForHourlyEmployee() : GetMinutesClockedInForSalariedEmployee();
+
+    private uint GetMinutesClockedInForSalariedEmployee()
     {
-        if (compensationType == CompensationTypes.Salary)
+        uint workableMinutes = _PayPeriod.GetWeekdayWorkMinutes();
+        TimeSpan unpaidTime = new TimeSpan();
+
+        foreach (var timeEntry in _TimeEntries.Where(a => (_PayPeriod.Start <= a.GetStart()) && (_PayPeriod.End >= a.GetEnd())))
         {
-            uint workHours = _PayPeriod.GetWeekdayWorkMinutes();
+            if (timeEntry.GetTimeEntryType() != TimeEntryTypes.UnpaidTime)
+                continue;
 
-            foreach (var a in _TimeEntries)
-                workHours -= (uint) (a.GetEndTime() - a.GetStartTime()).Minutes;
-
-            return workHours;
+            unpaidTime += timeEntry.GetHoursBilled();
         }
 
-        return (uint) _TimeEntries.Sum(a => a.GetTimeWorked().Minutes);
+        return (uint) (workableMinutes - unpaidTime.Minutes);
     }
+
+    private uint GetMinutesClockedInForHourlyEmployee()
+    {
+        TimeSpan timeWorked = new TimeSpan();
+
+        foreach (var timeEntry in _TimeEntries.Where(a => (_PayPeriod.Start <= a.GetStart()) && (_PayPeriod.End >= a.GetEnd())))
+        {
+            if (timeEntry.GetTimeEntryType() == TimeEntryTypes.UnpaidTime)
+                continue;
+
+            timeWorked += timeEntry.GetHoursBilled();
+        }
+
+        return (uint) timeWorked.Minutes;
+    }
+
+    internal IEnumerable<TimeEntry> GeTimeEntries() => _TimeEntries;
 
     public override SimpleStringId GetId() => Id;
 
     public override TimeSheetDto AsDto() =>
-        new()
+        new TimeSheetDto
         {
             Id = Id,
             EmployeeId = _EmployeeId,

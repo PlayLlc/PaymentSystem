@@ -32,6 +32,8 @@ public class MoneyValueObject
 
     #region Instance Members
 
+    public Money AsMoney() => new(Amount, NumericCurrencyCode);
+
     public MoneyDto AsDto() =>
         new(new MoneyDto
         {

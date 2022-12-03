@@ -18,7 +18,7 @@ public partial class Item : Aggregate<SimpleStringId>
     #region Instance Values
 
     private readonly SimpleStringId _MerchantId;
-    private readonly HashSet<Category> _Categories = new();
+    private readonly HashSet<Category> _Categories = new HashSet<Category>();
 
     /// <summary>
     ///     The locations that carry this item in stock
@@ -29,7 +29,7 @@ public partial class Item : Aggregate<SimpleStringId>
     ///     Variations of this item, such as 'XSmall', 'Small', 'Medium'. Every time a variation is created a new child Item is
     ///     created
     /// </summary>
-    private readonly HashSet<Variation> _Variations = new();
+    private readonly HashSet<Variation> _Variations = new HashSet<Variation>();
 
     /// <summary>
     ///     Inventory tracking is handled by these alerts. When an item is below threshold or empty, this object will determine

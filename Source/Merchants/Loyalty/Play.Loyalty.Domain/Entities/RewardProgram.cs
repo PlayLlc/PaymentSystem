@@ -118,7 +118,7 @@ public class RewardProgram : Entity<SimpleStringId>
 
     public override SimpleStringId GetId() => Id;
 
-    public override RewardsProgramDto AsDto() => new() {Id = Id};
+    public override RewardsProgramDto AsDto() => new RewardsProgramDto {Id = Id};
 
     #endregion
 }

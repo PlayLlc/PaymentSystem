@@ -75,7 +75,7 @@ public readonly record struct Alpha2LanguageCode
 
     public char[] AsCharArray() => new[] {(char) _FirstChar, (char) _SecondChar};
     public ReadOnlySpan<char> AsReadOnlySpan() => AsCharArray();
-    public string AsString() => new(AsReadOnlySpan());
+    public string AsString() => new string(AsReadOnlySpan());
     public override string ToString() => AsString();
 
     #endregion

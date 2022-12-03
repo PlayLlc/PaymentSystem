@@ -65,7 +65,7 @@ public class StockItem : Entity<SimpleStringId>
     public int GetQuantity() => _Quantity;
 
     public override StockItemDto AsDto() =>
-        new()
+        new StockItemDto
         {
             Id = Id,
             ItemId = _ItemId,

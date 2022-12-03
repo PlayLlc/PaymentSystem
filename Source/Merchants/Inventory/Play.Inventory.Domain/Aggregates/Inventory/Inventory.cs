@@ -64,7 +64,7 @@ public class Inventory : Aggregate<SimpleStringId>
 
     public static Task CreateInventory(string merchantId, string storeId, Dictionary<string, IEnumerable<string>> itemVariations)
     {
-        List<StockItem> stockItems = new();
+        List<StockItem> stockItems = new List<StockItem>();
         foreach (KeyValuePair<string, IEnumerable<string>> keyValue in itemVariations)
             stockItems.AddRange(keyValue.Value.Select(a => new StockItem(GenerateSimpleStringId(), keyValue.Key, a, 0)));
 

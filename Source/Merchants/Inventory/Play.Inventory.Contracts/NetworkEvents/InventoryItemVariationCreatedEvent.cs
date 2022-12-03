@@ -14,7 +14,7 @@ public class InventoryItemVariationCreatedEvent : NetworkEvent
     public string ItemId { get; set; } = string.Empty;
 
     [Required]
-    public VariationDto Variation { get; set; } = new();
+    public VariationDto Variation { get; set; } = new VariationDto();
 
     [Required]
     [StringLength(20)]

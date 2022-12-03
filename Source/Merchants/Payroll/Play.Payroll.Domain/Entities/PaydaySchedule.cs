@@ -55,7 +55,7 @@ namespace Play.Payroll.Domain.Entities
 
         public override PayPeriod CreateNextPayPeriod(SimpleStringId id)
         {
-            var dayOfTheMonth = DateTimeUtc.Now.Day;
+            int dayOfTheMonth = DateTimeUtc.Now.Day;
             DateTime a = new DateTime()
 
             DateTime.Now.Subtract()

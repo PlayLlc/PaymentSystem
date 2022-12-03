@@ -8,7 +8,7 @@ internal class SmsVerificationCodeMustNotBeExpired : BusinessRule<UserRegistrati
 {
     #region Static Metadata
 
-    private static readonly TimeSpan _ValidityPeriod = new(0, 4, 0, 0);
+    private static readonly TimeSpan _ValidityPeriod = new TimeSpan(0, 4, 0, 0);
 
     #endregion
 

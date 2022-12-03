@@ -20,8 +20,6 @@ public record TimeSheetDto : IDto
     public string EmployeeId { get; set; } = string.Empty;
 
     [Required]
-    [StringLength(20)]
-    [AlphaNumericSpecial]
     public PayPeriodDto PayPeriod { get; set; } = null!;
 
     [Required]

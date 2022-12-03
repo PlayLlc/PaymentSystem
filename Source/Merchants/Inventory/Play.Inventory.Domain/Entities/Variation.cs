@@ -82,7 +82,7 @@ public class Variation : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override VariationDto AsDto() =>
-        new()
+        new VariationDto
         {
             Id = Id,
             Name = _Name,

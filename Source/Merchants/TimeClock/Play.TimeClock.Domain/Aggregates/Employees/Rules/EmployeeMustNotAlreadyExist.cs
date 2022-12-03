@@ -27,7 +27,7 @@ public class EmployeeMustNotAlreadyExist : BusinessRule<Employee, SimpleStringId
 
     public override bool IsBroken() => !_IsValid;
 
-    public override EmployeeAlreadyExists CreateBusinessRuleViolationDomainEvent(Employee aggregate) => new(aggregate, this);
+    public override EmployeeAlreadyExists CreateBusinessRuleViolationDomainEvent(Employee aggregate) => new EmployeeAlreadyExists(aggregate, this);
 
     #endregion
 }

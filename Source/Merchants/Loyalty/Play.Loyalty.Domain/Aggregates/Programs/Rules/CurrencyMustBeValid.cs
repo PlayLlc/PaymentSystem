@@ -28,7 +28,7 @@ public class CurrencyMustBeValid : BusinessRule<Programs, SimpleStringId>
 
     public override bool IsBroken() => !_IsValid;
 
-    public override CurrencyWasInvalid CreateBusinessRuleViolationDomainEvent(Programs aggregate) => new(aggregate, this);
+    public override CurrencyWasInvalid CreateBusinessRuleViolationDomainEvent(Programs aggregate) => new CurrencyWasInvalid(aggregate, this);
 
     #endregion
 }

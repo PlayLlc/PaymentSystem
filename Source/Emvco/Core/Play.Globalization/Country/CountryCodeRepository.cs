@@ -33,7 +33,7 @@ internal class CountryCodeRepository
     public static CountryCodes Get(Alpha2CountryCode alphaCode) => _Alpha2CountryMap[alphaCode];
 
     private static List<CountryCodes> GetCurrencyCodes() =>
-        new()
+        new List<CountryCodes>
         {
             new CountryCodes(new NumericCountryCode(4), new Alpha2CountryCode("AF")),
             new CountryCodes(new NumericCountryCode(248), new Alpha2CountryCode("AX")),

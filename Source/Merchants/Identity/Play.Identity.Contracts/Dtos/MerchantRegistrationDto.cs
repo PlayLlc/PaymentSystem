@@ -22,7 +22,7 @@ public class MerchantRegistrationDto : IDto
     [DateTimeUtc]
     public DateTime RegisteredDate { get; set; }
 
-    public AddressDto? AddressDto { get; set; } = new();
+    public AddressDto? AddressDto { get; set; } = new AddressDto();
     public BusinessInfoDto? BusinessInfo { get; set; }
 
     public string? RegistrationStatus { get; set; } = string.Empty;

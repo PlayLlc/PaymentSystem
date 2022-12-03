@@ -13,7 +13,7 @@ public record UpdatePersonalDetailCommand
     public string Id { get; set; } = string.Empty;
 
     [Required]
-    public PersonalDetailDto PersonalDetail { get; set; } = new();
+    public PersonalDetailDto PersonalDetail { get; set; } = new PersonalDetailDto();
 
     #endregion
 }

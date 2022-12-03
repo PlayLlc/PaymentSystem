@@ -1,4 +1,5 @@
 ﻿using Play.Core.Exceptions;
+using Play.Globalization.Extensions;
 using Play.Globalization.Time;
 using Play.Testing.BaseTestClasses;
 
@@ -8,6 +9,13 @@ namespace Play.Globalization.Tests.Tests.Time.DateTimes;
 
 public class DateTimeUtcTests : TestBase
 {
+    [Fact]
+    public void DateTimeUtcExtension()
+    {
+        // Implement the DateTimeUtc.Now.GetBusinessDays() extension method tests
+        Assert.True(1 == 2);
+    }
+
     [Fact]
     public void DateTimeUtc_InitializeWithCorrectDateTimeKind_DateTimeUtcInitialized()
     {
