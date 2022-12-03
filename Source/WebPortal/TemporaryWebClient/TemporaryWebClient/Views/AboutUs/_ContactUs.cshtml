@@ -1,6 +1,24 @@
 ﻿<!-- CONTACT -->
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model ContactUsModel;
+<!-- Button trigger modal -->
+ 
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div id="modalBody" class="modal-body"> 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+            </div>
+        </div>
+    </div>
+</div>
 <section id="contact" data-stellar-background-ratio="0.5">
     <div class="container">
         <div class="row">
@@ -28,4 +46,5 @@
         </div>
     </div>
 </section>
+
  
