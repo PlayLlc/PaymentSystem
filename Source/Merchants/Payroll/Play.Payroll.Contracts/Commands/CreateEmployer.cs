@@ -9,9 +9,14 @@ using System.Threading.Tasks;
 
 namespace Play.Payroll.Contracts.Commands;
 
-public record CreateEmployer
+public record CreateOrRemoveEmployer
 {
     #region Instance Values
+
+    [Required]
+    [AlphaNumericSpecial]
+    [StringLength(20)]
+    public string UserId { get; set; } = string.Empty;
 
     [Required]
     [AlphaNumericSpecial]

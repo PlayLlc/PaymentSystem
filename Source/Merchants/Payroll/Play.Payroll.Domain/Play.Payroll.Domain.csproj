@@ -7,8 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Aggregates\Employers\DomainEvents\" />
-    <Folder Include="Aggregates\Employers\Rules\" />
     <Folder Include="Enums\" />
   </ItemGroup>
 

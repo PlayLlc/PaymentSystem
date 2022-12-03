@@ -5,6 +5,7 @@ using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Currency;
 using Play.Globalization.Time;
+using Play.Payroll.Contracts.Commands;
 using Play.Payroll.Contracts.Dtos;
 using Play.Payroll.Domain.Services;
 
@@ -14,10 +15,9 @@ public class Employee : Entity<SimpleStringId>
 {
     #region Instance Values
 
-    private readonly SimpleStringId _EmployeeId;
+    private readonly SimpleStringId _UserId;
     private readonly Compensation _Compensation;
     private readonly DirectDeposit? _DirectDeposit;
-    private readonly Address _Address;
     private readonly HashSet<TimeEntry> _TimeEntries;
     private readonly HashSet<Paycheck> _Paychecks;
     public override SimpleStringId Id { get; }
@@ -33,37 +33,40 @@ public class Employee : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal Employee(EmployeeDto dto)
     {
-        Id = new(dto.Id);
-        _EmployeeId = new(dto.EmployeeId);
-        _Compensation = new(dto.Compensation);
-        _DirectDeposit = new(dto.DirectDeposit);
-        _Address = new(dto.Address);
+        Id = new SimpleStringId(dto.Id);
+        _UserId = new SimpleStringId(dto.UserId);
+        _Compensation = new Compensation(dto.Compensation);
+        _DirectDeposit = new DirectDeposit(dto.DirectDeposit);
         _TimeEntries = dto.TimeEntries.Select(a => new TimeEntry(a)).ToHashSet();
         _Paychecks = dto.Paychecks.Select(a => new Paycheck(a)).ToHashSet();
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    internal Employee(
-        string id, string employeeId, Compensation compensation, DirectDeposit directDeposit, Address address, IEnumerable<TimeEntry> timeEntries,
-        IEnumerable<Paycheck> paychecks)
+    private Employee(
+        string id, string userId, Compensation compensation, IEnumerable<TimeEntry> timeEntries, IEnumerable<Paycheck> paychecks,
+        DirectDeposit? directDeposit = null)
     {
-        Id = new(id);
-        _EmployeeId = new(employeeId);
+        Id = new SimpleStringId(id);
         _Compensation = compensation;
-        _DirectDeposit = directDeposit;
-        _Address = address;
         _TimeEntries = timeEntries.ToHashSet();
         _Paychecks = paychecks.ToHashSet();
+        _DirectDeposit = directDeposit;
     }
 
     #endregion
 
     #region Instance Members
 
+    public IEnumerable<Paycheck> GetUndeliveredPaychecks() => _Paychecks.Where(a => !a.HasBeenDistributed());
+
+    /// <exception cref="ValueObjectException"></exception>
+    internal static Employee Create(string id, string userId, Compensation compensation) =>
+        new(id, userId, compensation, Array.Empty<TimeEntry>(), Array.Empty<Paycheck>());
+
     public async Task<Result> TryDispursingUndeliveredChecks(IISendAchTransfers achClient)
     {
         if (_DirectDeposit is null)
-            return new($"Direct deposit has not been setup for the {nameof(Employee)} with the ID: [{_EmployeeId}]");
+            return new Result($"Direct deposit has not been setup for the {nameof(Employee)} with the ID: [{_EmployeeId}]");
 
         List<Paycheck> undeliveredChecks = _Paychecks.Where(a => !a.HasBeenDistributed()).ToList();
 
@@ -73,7 +76,7 @@ public class Employee : Entity<SimpleStringId>
         foreach (var check in undeliveredChecks)
             await _DirectDeposit.SendPaycheck(achClient, check).ConfigureAwait(false);
 
-        return new();
+        return new Result();
     }
 
     public void AddPaycheck(Paycheck paycheck)
@@ -99,7 +102,7 @@ public class Employee : Entity<SimpleStringId>
 
     public override SimpleStringId GetId() => Id;
 
-    public override TimeSheetDto AsDto() =>
+    public override EmployeeDto AsDto() =>
         new()
         {
             Id = Id,

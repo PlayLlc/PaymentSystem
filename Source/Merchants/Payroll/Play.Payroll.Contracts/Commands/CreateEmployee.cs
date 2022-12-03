@@ -29,3 +29,20 @@ public record CreateEmployee
 
     #endregion
 }
+
+public record RemoveEmployee
+{
+    #region Instance Values
+
+    [Required]
+    [AlphaNumericSpecial]
+    [StringLength(20)]
+    public string UserId { get; set; } = string.Empty;
+
+    [Required]
+    [AlphaNumericSpecial]
+    [StringLength(20)]
+    public string EmployeeId { get; set; } = string.Empty;
+
+    #endregion
+}

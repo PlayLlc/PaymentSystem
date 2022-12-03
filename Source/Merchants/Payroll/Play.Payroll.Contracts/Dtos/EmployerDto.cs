@@ -19,5 +19,8 @@ public record EmployerDto : IDto
     [AlphaNumericSpecial]
     public string MerchantId { get; set; } = string.Empty;
 
+    [Required]
+    public IEnumerable<EmployeeDto> Employees { get; set; } = Array.Empty<EmployeeDto>();
+
     #endregion
 }

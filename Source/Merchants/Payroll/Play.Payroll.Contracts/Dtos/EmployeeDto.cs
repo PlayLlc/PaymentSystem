@@ -18,16 +18,13 @@ public record EmployeeDto : IDto
     [Required]
     [StringLength(20)]
     [AlphaNumericSpecial]
-    public string EmployeeId { get; set; } = string.Empty;
+    public string UserId { get; set; } = string.Empty;
 
     [Required]
     public CompensationDto Compensation { get; set; } = null!;
 
     [Required]
     public DirectDepositDto DirectDeposit { get; set; } = null!;
-
-    [Required]
-    public AddressDto Address { get; set; } = null!;
 
     [Required]
     public IEnumerable<TimeEntryDto> TimeEntries { get; set; } = Array.Empty<TimeEntryDto>();

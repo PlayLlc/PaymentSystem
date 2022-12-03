@@ -4,8 +4,11 @@ using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Currency;
 using Play.Globalization.Time;
+using Play.Loyalty.Domain.Aggregates;
+using Play.Loyalty.Domain.Services;
 using Play.Payroll.Contracts.Commands;
 using Play.Payroll.Contracts.Dtos;
+using Play.Payroll.Domain.Aggregates.Employers.Rules;
 using Play.Payroll.Domain.Entities;
 using Play.Payroll.Domain.Services;
 
@@ -18,7 +21,7 @@ public class Employer : Aggregate<SimpleStringId>
     private readonly SimpleStringId _MerchantId;
 
     // PaySchedule
-    private readonly IEnumerable<Employee> _Employees;
+    private readonly HashSet<Employee> _Employees;
     public override SimpleStringId Id { get; }
 
     #endregion
@@ -26,10 +29,11 @@ public class Employer : Aggregate<SimpleStringId>
     #region Constructor
 
     /// <exception cref="ValueObjectException"></exception>
-    internal Employer(string id, string merchantId) 
+    internal Employer(string id, string merchantId, IEnumerable<Employee> employees)
     {
-        Id = new(id);
-        _MerchantId = new(merchantId);
+        Id = new SimpleStringId(id);
+        _MerchantId = new SimpleStringId(merchantId);
+        _Employees = employees.ToHashSet();
     }
 
     // Constructor for Entity Framework
@@ -39,90 +43,125 @@ public class Employer : Aggregate<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal Employer(EmployerDto dto)
     {
-        Id = new(dto.Id);
-        _MerchantId = new(dto.MerchantId);
+        Id = new SimpleStringId(dto.Id);
+        _MerchantId = new SimpleStringId(dto.MerchantId);
     }
 
     #endregion
 
     #region Instance Members
 
-    public async Task CutPaychecks(IISendAchTransfers achClient, CutChecks commands)
-    {
-        PayPeriod payPeriod = new(commands.PayPeriod);
-          
-        foreach (var employee in _Employees)
-        { 
-            employee.AddPaycheck(CutPaycheck(payPeriod, employee));
-            await employee.TryDispursingUndeliveredChecks(achClient).ConfigureAwait(false);
-        }   
-    }
-
-    private Paycheck CutPaycheck(PayPeriod payPeriod, Employee employee)
-    {   
-        TimeSheet timeSheet = TimeSheet.Create(GenerateSimpleStringId(), employee.Id, payPeriod, employee.GetTimeEntries(payPeriod)); 
-        Money earnedWage = employee.CalculatePaycheckEarnings(timeSheet);
-        return Paycheck.Create(GenerateSimpleStringId(), employee.Id, earnedWage, timeSheet, payPeriod);
-    }
-
-
-    public Paycheck GeneratePaycheck(TimeSheet timeSheet, PayPeriod payPeriod)
-    {
-        Paycheck.Create()
-    }
-    //public async Task GeneratePaychecks()
-    //{
-    //    PaydaySchedule paySchedule = null;
-    //    foreach (var employee in _Employees)
-    //        employee.AddPaycheck(() => new SimpleStringId(GenerateSimpleStringId()), null);
-    //}
-
-
-
-    /// <exception cref="ValueObjectException"></exception>
-    /// <exception cref="NotFoundException"></exception>
-    /// <exception cref="BusinessRuleValidationException"></exception>
-    public static async Task<Employer> Create(CreateEmployer command)
-    {
-        //Money rewardAmount = new Money(RewardProgram.DefaultRewardAmount, command.NumericCurrencyCode);
-        //RewardProgram rewardProgram = new RewardProgram(GenerateSimpleStringId(), rewardAmount, RewardProgram.DefaultPointsPerDollar,
-        //    RewardProgram.DefaultPointsRequired, false);
-        //DiscountProgram discountProgram = new DiscountProgram(GenerateSimpleStringId(), false, Array.Empty<Discount>());
-
-        //Employer employer = new Employer(GenerateSimpleStringId(), command.MerchantId, rewardProgram, discountProgram);
-        //User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
-        //Merchant merchant = await merchantRetriever.GetByIdAsync(command.MerchantId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Merchant));
-
-        //employer.Enforce(new UserMustBeActiveToUpdateAggregate<Member>(user));
-        //employer.Enforce(new AggregateMustBeUpdatedByKnownUser<Member>(command.MerchantId, user));
-        //employer.Enforce(new MerchantMustBeActiveToCreateAggregate<Member>(merchant));
-
-        //employer.Publish(new LoyaltyProgramHasBeenCreated(employer, command.MerchantId));
-
-        //return employer;
-    }
-
-    /// <exception cref="NotFoundException"></exception>
-    /// <exception cref="BusinessRuleValidationException"></exception>
-    public async Task Remove(IRetrieveUsers userRetriever, RemoveLoyaltyProgram command)
-    {
-        User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
-        Enforce(new UserMustBeActiveToUpdateAggregate<Member>(user));
-        Enforce(new AggregateMustBeUpdatedByKnownUser<Member>(command.MerchantId, user));
-
-        Publish(new LoyaltyProgramHasBeenRemoved(this, _MerchantId));
-    }
-
     public override SimpleStringId GetId() => Id;
 
-    public override LoyaltyProgramDto AsDto() =>
+    public override EmployerDto AsDto() =>
         new()
         {
             Id = Id,
             MerchantId = _MerchantId,
-            DiscountsProgram = _DiscountProgram.AsDto(),
-            RewardsProgram = _RewardProgram.AsDto()
+            Employees = _Employees.Select(a => a.AsDto())
         };
+
+    #endregion
+
+    #region Create/Remove
+
+    /// <exception cref="ValueObjectException"></exception>
+    /// <exception cref="NotFoundException"></exception>
+    /// <exception cref="BusinessRuleValidationException"></exception>
+    public static async Task<Employer> Create(IRetrieveUsers userRetriever, IRetrieveMerchants merchantRetriever, CreateOrRemoveEmployer command)
+    {
+        User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
+        Merchant merchant = await merchantRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Merchant));
+        var employer = new Employer(GenerateSimpleStringId(), command.MerchantId, Array.Empty<Employee>());
+        employer.Enforce(new MerchantMustBeActiveToCreateAggregate<Employer>(merchant));
+        employer.Enforce(new UserMustBeActiveToUpdateAggregate<Employer>(user));
+        employer.Enforce(new AggregateMustBeUpdatedByKnownUser<Employer>(command.MerchantId, user));
+
+        // Enforce
+
+        employer.Publish(new EmployerHasBeenCreated(employer, command.MerchantId, command.UserId));
+
+        return employer;
+    }
+
+    /// <exception cref="NotFoundException"></exception>
+    /// <exception cref="BusinessRuleValidationException"></exception>
+    public async Task Remove(IRetrieveUsers userRetriever, CreateOrRemoveEmployer command)
+    {
+        User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
+        Enforce(new UserMustBeActiveToUpdateAggregate<Employer>(user));
+        Enforce(new AggregateMustBeUpdatedByKnownUser<Employer>(command.MerchantId, user));
+
+        // Enforce
+
+        Publish(new EmployerHasBeenRemoved(this, command.MerchantId, command.UserId));
+    }
+
+    #endregion
+
+    #region Employee
+
+    /// <exception cref="ValueObjectException"></exception>
+    /// <exception cref="BusinessRuleValidationException"></exception>
+    public async Task CreateEmployee(IRetrieveUsers userRetriever, CreateEmployee command)
+    {
+        User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
+        Enforce(new UserMustBeActiveToUpdateAggregate<Employer>(user));
+        Enforce(new AggregateMustBeUpdatedByKnownUser<Employer>(user.MerchantId, user));
+
+        // Enforce
+        Compensation compensation = new(GenerateSimpleStringId(), command.CompensationType, command.CompensationRate);
+
+        if (!_Employees.Add(Employee.Create(GenerateSimpleStringId(), command.UserId, compensation)))
+            return;
+    }
+
+    /// <exception cref="ValueObjectException"></exception>
+    /// <exception cref="BusinessRuleValidationException"></exception>
+    /// <exception cref="NotFoundException"></exception>
+    public async Task RemoveEmployee(IRetrieveUsers userRetriever, RemoveEmployee command)
+    {
+        User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
+        Enforce(new UserMustBeActiveToUpdateAggregate<Employer>(user));
+        Enforce(new AggregateMustBeUpdatedByKnownUser<Employer>(user.MerchantId, user));
+        Enforce(new EmployeeMustExist(command.EmployeeId, _Employees));
+        var employee = _Employees.First(a => a.Id == command.EmployeeId);
+        Enforce(new EmployeeMustNotHaveUndeliveredPaychecks(employee));
+
+        // Enforce
+        _Employees.RemoveWhere(a => a.Id == command.EmployeeId);
+
+        // Publish
+    }
+
+    #endregion
+
+    #region Paychecks
+
+    public async Task CutPaychecks(IISendAchTransfers achClient, CutChecks commands)
+    {
+        // Enforce
+        PayPeriod payPeriod = new(commands.PayPeriod);
+
+        // HACK: TRANSACTIONAL CONSISTENCY!!!!!!
+        // BUG: TRANSACTIONAL CONSISTENCY!!!!!
+        // HACK: TRANSACTIONAL CONSISTENCY!!!!!!
+        foreach (var employee in _Employees)
+        {
+            employee.AddPaycheck(CutPaycheck(payPeriod, employee));
+            await employee.TryDispursingUndeliveredChecks(achClient).ConfigureAwait(false);
+        }
+
+        // Publish
+    }
+
+    private Paycheck CutPaycheck(PayPeriod payPeriod, Employee employee)
+    {
+        TimeSheet timeSheet = TimeSheet.Create(GenerateSimpleStringId(), employee.Id, payPeriod, employee.GetTimeEntries(payPeriod));
+        Money earnedWage = employee.CalculatePaycheckEarnings(timeSheet);
+
+        return Paycheck.Create(GenerateSimpleStringId(), employee.Id, earnedWage, timeSheet, payPeriod);
+    }
 
     #endregion
 }
