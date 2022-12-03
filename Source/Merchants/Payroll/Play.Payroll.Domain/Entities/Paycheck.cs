@@ -17,8 +17,8 @@ public class Paycheck : Entity<SimpleStringId>
     private readonly MoneyValueObject _Amount;
     private readonly DateTimeUtc _DateIssued;
     private readonly TimeSheet _TimeSheet;
-    private readonly DirectDeposit? _DirectDeposit;
     private readonly PayPeriod _PayPeriod;
+    private readonly bool _HasBeenDistributed;
     public override SimpleStringId Id { get; }
 
     #endregion
@@ -45,26 +45,31 @@ public class Paycheck : Entity<SimpleStringId>
         _EmployeeId = new SimpleStringId(dto.EmployeeId);
         _Amount = dto.Amount;
         _TimeSheet = new TimeSheet(dto.TimeSheet);
-        _DirectDeposit = dto?.DirectDeposit is null ? null : new DirectDeposit(dto.DirectDeposit);
         _PayPeriod = new PayPeriod(dto!.PayPeriod);
+        _HasBeenDistributed = dto.HasBeenDistributed;
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    internal Paycheck(string id, string employeeId, Money amount, DateTimeUtc dateIssued, TimeSheet timeSheet, DirectDeposit directDeposit, PayPeriod payPeriod)
+    private Paycheck(string id, string employeeId, Money amount, DateTimeUtc dateIssued, TimeSheet timeSheet, PayPeriod payPeriod, bool hasBeenDistributed)
     {
         Id = new SimpleStringId(id);
         _EmployeeId = new SimpleStringId(employeeId);
         _Amount = amount;
         _DateIssued = dateIssued;
         _TimeSheet = timeSheet;
-        _DirectDeposit = directDeposit;
         _DateIssued = dateIssued;
         _PayPeriod = payPeriod;
+        _HasBeenDistributed = hasBeenDistributed;
     }
 
     #endregion
 
     #region Instance Members
+
+    public bool HasBeenDistributed() => _HasBeenDistributed;
+
+    internal static Paycheck Create(string id, string employeeId, Money amount, TimeSheet timeSheet, PayPeriod payPeriod) =>
+        new(id, employeeId, amount, DateTimeUtc.Now, timeSheet, payPeriod, false);
 
     internal Money GetAmount() => _Amount;
 
@@ -72,18 +77,10 @@ public class Paycheck : Entity<SimpleStringId>
 
     internal string GetEmployeeId() => _EmployeeId;
 
-    public async Task<bool> TrySendingDirectDeposit(IISendAchTransfers achClient)
-    {
-        if (_DirectDeposit is null)
-            return false;
-
-        return await achClient.SendPaycheck(_EmployeeId, _DateIssued, _Amount, _DirectDeposit).ConfigureAwait(false);
-    }
-
     public override SimpleStringId GetId() => Id;
 
     public override PaycheckDto AsDto() =>
-        new PaycheckDto
+        new()
         {
             Id = Id,
             EmployeeId = _EmployeeId,

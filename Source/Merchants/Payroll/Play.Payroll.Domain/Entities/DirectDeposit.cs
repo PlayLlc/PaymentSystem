@@ -47,19 +47,18 @@ public class DirectDeposit : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override DirectDepositDto AsDto() =>
-        new DirectDepositDto
+        new()
         {
             Id = Id,
             EmployeeId = _EmployeeId,
             CheckingAccount = _CheckingAccount.AsDto()
         };
 
-    internal async Task<Result> SendAchTransaction(IISendAchTransfers achClient, Paycheck paycheck)
+    public async Task<Result> SendPaycheck(IISendAchTransfers achClient, Paycheck paycheck)
     {
         try
         {
-            return await achClient.SendPaycheck(paycheck.GetEmployeeId(), paycheck.GetDateIssued(), paycheck.GetAmount(), _CheckingAccount)
-                .ConfigureAwait(false);
+            return await achClient.SendPaycheck(_EmployeeId, paycheck.GetDateIssued(), paycheck.GetAmount(), _CheckingAccount).ConfigureAwait(false);
         }
         catch (Exception e)
         {

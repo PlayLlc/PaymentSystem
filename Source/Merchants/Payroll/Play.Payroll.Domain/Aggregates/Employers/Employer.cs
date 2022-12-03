@@ -3,9 +3,11 @@ using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Currency;
+using Play.Globalization.Time;
 using Play.Payroll.Contracts.Commands;
 using Play.Payroll.Contracts.Dtos;
 using Play.Payroll.Domain.Entities;
+using Play.Payroll.Domain.Services;
 
 namespace Play.Payroll.Domain.Aggregates.Employers;
 
@@ -24,7 +26,7 @@ public class Employer : Aggregate<SimpleStringId>
     #region Constructor
 
     /// <exception cref="ValueObjectException"></exception>
-    internal Employer(string id, string merchantId)
+    internal Employer(string id, string merchantId) 
     {
         Id = new SimpleStringId(id);
         _MerchantId = new SimpleStringId(merchantId);
@@ -45,12 +47,37 @@ public class Employer : Aggregate<SimpleStringId>
 
     #region Instance Members
 
-    public async Task GeneratePaychecks()
+    public async Task CutPaychecks(IISendAchTransfers achClient, CutChecks commands)
     {
-        PaydaySchedule paySchedule = null;
+        PayPeriod payPeriod = new PayPeriod(commands.PayPeriod);
+          
         foreach (var employee in _Employees)
-            employee.AddPaycheck(() => new SimpleStringId(GenerateSimpleStringId()), null);
+        { 
+            employee.AddPaycheck(CutPaycheck(payPeriod, employee));
+            await employee.TryDispursingUndeliveredChecks(achClient).ConfigureAwait(false);
+        }   
     }
+
+    private Paycheck CutPaycheck(PayPeriod payPeriod, Employee employee)
+    {   
+        TimeSheet timeSheet = TimeSheet.Create(GenerateSimpleStringId(), employee.Id, payPeriod, employee.GetTimeEntries(payPeriod)); 
+        Money earnedWage = employee.CalculatePaycheckEarnings(timeSheet);
+        return Paycheck.Create(GenerateSimpleStringId(), employee.Id, earnedWage, timeSheet, payPeriod);
+    }
+
+
+    public Paycheck GeneratePaycheck(TimeSheet timeSheet, PayPeriod payPeriod)
+    {
+        Paycheck.Create()
+    }
+    //public async Task GeneratePaychecks()
+    //{
+    //    PaydaySchedule paySchedule = null;
+    //    foreach (var employee in _Employees)
+    //        employee.AddPaycheck(() => new SimpleStringId(GenerateSimpleStringId()), null);
+    //}
+
+
 
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="NotFoundException"></exception>

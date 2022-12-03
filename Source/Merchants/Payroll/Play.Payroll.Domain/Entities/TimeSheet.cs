@@ -36,7 +36,7 @@ public class TimeSheet : Entity<SimpleStringId>
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    internal TimeSheet(string id, string employeeId, PayPeriod payPeriod, IEnumerable<TimeEntry> timeEntries)
+    private TimeSheet(string id, string employeeId, PayPeriod payPeriod, IEnumerable<TimeEntry> timeEntries)
     {
         Id = new SimpleStringId(id);
         _EmployeeId = new SimpleStringId(employeeId);
@@ -48,6 +48,9 @@ public class TimeSheet : Entity<SimpleStringId>
 
     #region Instance Members
 
+    public static TimeSheet Create(string id, string employeeId, PayPeriod payPeriod, IEnumerable<TimeEntry> timeEntries) =>
+        new(new string(id), new string(employeeId), payPeriod, timeEntries);
+
     internal DateTimeUtc GetPayPeriodStart() => _PayPeriod.Start;
     internal DateTimeUtc GetPayPeriodEnd() => _PayPeriod.End;
 
@@ -58,17 +61,29 @@ public class TimeSheet : Entity<SimpleStringId>
     public uint GetBillableMinutes(CompensationType compensationType) =>
         compensationType == CompensationTypes.Hourly ? GetMinutesClockedInForHourlyEmployee() : GetMinutesClockedInForSalariedEmployee();
 
+    /// <exception cref="ValueObjectException"></exception>
+    public void UpdateTimeEntry(string timeEntryId, TimeEntryTypes timeEntryType, DateTimeUtc start, DateTimeUtc end)
+    {
+        var timeEntry = _TimeEntries.FirstOrDefault(a => a.GetId() == timeEntryId);
+
+        // potential race condition can happen here for eventual consistency so we will throw and make client reload their in memory data
+        if (timeEntry is null)
+            throw new ValueObjectException($"The {nameof(TimeEntry)} with the ID: [{timeEntryId}] is not present on the {nameof(TimeSheet)}");
+
+        timeEntry.Update(timeEntryType, start, end);
+    }
+
     private uint GetMinutesClockedInForSalariedEmployee()
     {
         uint workableMinutes = _PayPeriod.GetWeekdayWorkMinutes();
         TimeSpan unpaidTime = new TimeSpan();
 
-        foreach (var timeEntry in _TimeEntries.Where(a => (_PayPeriod.Start <= a.GetStart()) && (_PayPeriod.End >= a.GetEnd())))
+        foreach (var timeEntry in _TimeEntries.Where(a => (_PayPeriod.Start <= a.GetStartTime()) && (_PayPeriod.End >= a.GetEndTime())))
         {
             if (timeEntry.GetTimeEntryType() != TimeEntryTypes.UnpaidTime)
                 continue;
 
-            unpaidTime += timeEntry.GetHoursBilled();
+            unpaidTime += timeEntry.GetBillableHours();
         }
 
         return (uint) (workableMinutes - unpaidTime.Minutes);
@@ -78,23 +93,21 @@ public class TimeSheet : Entity<SimpleStringId>
     {
         TimeSpan timeWorked = new TimeSpan();
 
-        foreach (var timeEntry in _TimeEntries.Where(a => (_PayPeriod.Start <= a.GetStart()) && (_PayPeriod.End >= a.GetEnd())))
+        foreach (var timeEntry in _TimeEntries.Where(a => (_PayPeriod.Start <= a.GetStartTime()) && (_PayPeriod.End >= a.GetEndTime())))
         {
             if (timeEntry.GetTimeEntryType() == TimeEntryTypes.UnpaidTime)
                 continue;
 
-            timeWorked += timeEntry.GetHoursBilled();
+            timeWorked += timeEntry.GetBillableHours();
         }
 
         return (uint) timeWorked.Minutes;
     }
 
-    internal IEnumerable<TimeEntry> GeTimeEntries() => _TimeEntries;
-
     public override SimpleStringId GetId() => Id;
 
     public override TimeSheetDto AsDto() =>
-        new TimeSheetDto
+        new()
         {
             Id = Id,
             EmployeeId = _EmployeeId,

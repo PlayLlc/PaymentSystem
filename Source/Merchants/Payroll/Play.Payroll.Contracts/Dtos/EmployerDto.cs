@@ -5,7 +5,7 @@ using Play.Domain.Common.Attributes;
 
 namespace Play.Payroll.Contracts.Dtos;
 
-public record TimeSheetDto : IDto
+public record EmployerDto : IDto
 {
     #region Instance Values
 
@@ -17,13 +17,7 @@ public record TimeSheetDto : IDto
     [Required]
     [StringLength(20)]
     [AlphaNumericSpecial]
-    public string EmployeeId { get; set; } = string.Empty;
-
-    [Required]
-    public PayPeriodDto PayPeriod { get; set; } = null!;
-
-    [Required]
-    public IEnumerable<TimeEntryDto> TimeEntries { get; set; } = Array.Empty<TimeEntryDto>();
+    public string MerchantId { get; set; } = string.Empty;
 
     #endregion
 }

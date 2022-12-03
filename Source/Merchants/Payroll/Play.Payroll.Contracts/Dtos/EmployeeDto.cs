@@ -3,11 +3,10 @@
 using Play.Domain;
 using Play.Domain.Common.Attributes;
 using Play.Domain.Common.Dtos;
-using Play.Globalization.Time;
 
 namespace Play.Payroll.Contracts.Dtos;
 
-public record PaycheckDto : IDto
+public record EmployeeDto : IDto
 {
     #region Instance Values
 
@@ -22,20 +21,19 @@ public record PaycheckDto : IDto
     public string EmployeeId { get; set; } = string.Empty;
 
     [Required]
-    public MoneyDto Amount { get; set; } = null!;
+    public CompensationDto Compensation { get; set; } = null!;
 
     [Required]
-    [DateTimeUtc]
-    public DateTime DateIssued { get; set; }
+    public DirectDepositDto DirectDeposit { get; set; } = null!;
 
     [Required]
-    public TimeSheetDto TimeSheet { get; set; } = null!;
+    public AddressDto Address { get; set; } = null!;
 
     [Required]
-    public PayPeriodDto PayPeriod { get; set; } = null!;
+    public IEnumerable<TimeEntryDto> TimeEntries { get; set; } = Array.Empty<TimeEntryDto>();
 
     [Required]
-    public bool HasBeenDistributed { get; set; }
+    public IEnumerable<PaycheckDto> Paychecks { get; set; } = Array.Empty<PaycheckDto>();
 
     #endregion
 }

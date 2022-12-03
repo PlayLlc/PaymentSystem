@@ -66,8 +66,8 @@ public class TimeEntry : Entity<SimpleStringId>
 
     #region Instance Members
 
-    public DateTimeUtc GetStart() => _Start;
-    public DateTimeUtc GetEnd() => _End;
+    public DateTimeUtc GetStartTime() => _Start;
+    public DateTimeUtc GetEndTime() => _End;
 
     /// <exception cref="ValueObjectException"></exception>
     public void Update(string timeEntryType, DateTimeUtc start, DateTimeUtc end)
@@ -83,12 +83,12 @@ public class TimeEntry : Entity<SimpleStringId>
 
     internal TimeEntryType GetTimeEntryType() => _TimeEntryType;
 
-    public TimeSpan GetHoursBilled() => _End - _Start;
+    public TimeSpan GetBillableHours() => _End - _Start;
 
     public override SimpleStringId GetId() => Id;
 
     public override TimeEntryDto AsDto() =>
-        new TimeEntryDto
+        new()
         {
             Id = Id,
             EmployeeId = _EmployeeId,
