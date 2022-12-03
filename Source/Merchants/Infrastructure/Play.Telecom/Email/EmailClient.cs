@@ -34,9 +34,9 @@ public sealed class EmailClient : ISendEmail
 
     // TODO: Make this more resilient 
     public async Task<EmailDeliveryResult> SendEmail(
-        [EmailAddress] string recipient, string subject, string messageBody, string? recipientNickname = null, bool isBodyHtml = false)
+        [EmailAddress] string recipientEmail, string subject, string messageBody, string? recipientNickname = null, bool isBodyHtml = false)
     {
-        EmailAddress to = recipientNickname is null ? new EmailAddress(recipient) : new EmailAddress(recipient, recipientNickname);
+        EmailAddress to = recipientNickname is null ? new EmailAddress(recipientEmail) : new EmailAddress(recipientEmail, recipientNickname);
         Response? response = null;
 
         try
@@ -44,9 +44,9 @@ public sealed class EmailClient : ISendEmail
             SendGridMessage emailMessage = new SendGridMessage
             {
                 Subject = subject,
-                From = string.IsNullOrEmpty(_Config.Nickname) ? new EmailAddress(_Config.FromEmail) : new EmailAddress(_Config.FromEmail, _Config.Nickname),
-                ReplyTo = to
+                From = new EmailAddress(_Config.FromEmail)
             };
+            emailMessage.AddTo(to);
 
             if (isBodyHtml)
                 emailMessage.HtmlContent = messageBody;
@@ -56,8 +56,7 @@ public sealed class EmailClient : ISendEmail
             response = await _Client.SendEmailAsync(emailMessage).ConfigureAwait(false);
 
             if (!response.IsSuccessStatusCode)
-                return new EmailDeliveryResult(response.StatusCode,
-                    $"The {nameof(EmailClient)} encountered an error while attempting to send an email to the user with the SubjectId:");
+                return new EmailDeliveryResult(response.StatusCode, $"The {nameof(EmailClient)} encountered an error while attempting to send an email");
 
             return new EmailDeliveryResult();
         }

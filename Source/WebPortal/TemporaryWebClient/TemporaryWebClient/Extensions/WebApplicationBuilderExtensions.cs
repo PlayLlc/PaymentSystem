@@ -25,6 +25,7 @@ public static class WebApplicationBuilderExtensions
 
         // Configuration 
 
+        builder.Services.Configure<JsonSerializerOptions>(_ => new JsonSerializerOptions {PropertyNamingPolicy = JsonNamingPolicy.CamelCase});
         builder.Services.AddScoped<SendGridConfiguration>(a => sendGridConfiguration);
         builder.Services.AddScoped<ISendEmail, EmailClient>();
         builder.Services.AddScoped<IEmailContactUsMessages, ContactUsEmailer>();
