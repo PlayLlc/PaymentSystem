@@ -39,7 +39,7 @@ internal class MerchantMustNotBeProhibited : BusinessRule<Merchant, SimpleString
 
     public override bool IsBroken() => _IsProhibited;
 
-    public override MerchantIsProhibited CreateBusinessRuleViolationDomainEvent(Merchant merchant) => new MerchantIsProhibited(merchant, this);
+    public override MerchantIsProhibited CreateBusinessRuleViolationDomainEvent(Merchant merchant) => new(merchant, this);
 
     #endregion
 }

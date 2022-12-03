@@ -19,7 +19,7 @@ public class RewardNumberMustNotAlreadyExist : BusinessRule<Member, SimpleString
 
     internal RewardNumberMustNotAlreadyExist(IEnsureRewardsNumbersAreUnique uniqueRewardNumberChecker, string merchantId, string rewardNumber)
     {
-        _IsValid = uniqueRewardNumberChecker.IsRewardsNumberUnique(new SimpleStringId(merchantId), rewardNumber);
+        _IsValid = uniqueRewardNumberChecker.IsRewardsNumberUnique(new(merchantId), rewardNumber);
     }
 
     #endregion
@@ -28,7 +28,7 @@ public class RewardNumberMustNotAlreadyExist : BusinessRule<Member, SimpleString
 
     public override bool IsBroken() => !_IsValid;
 
-    public override RewardsNumberIsNotUnique CreateBusinessRuleViolationDomainEvent(Member aggregate) => new RewardsNumberIsNotUnique(aggregate, this);
+    public override RewardsNumberIsNotUnique CreateBusinessRuleViolationDomainEvent(Member aggregate) => new(aggregate, this);
 
     #endregion
 }

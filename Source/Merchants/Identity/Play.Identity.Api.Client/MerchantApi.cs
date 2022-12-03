@@ -58,7 +58,7 @@ public class MerchantApi : IMerchantApi
     /// <returns></returns>
     public MerchantApi(string basePath)
     {
-        Configuration = new Configuration(basePath);
+        Configuration = new(basePath);
 
         ExceptionFactory = Configuration.DefaultExceptionFactory;
     }
@@ -121,11 +121,11 @@ public class MerchantApi : IMerchantApi
     public ApiResponse<object> AddressMerchantWithHttpInfo(UpdateAddressCommand body = null)
     {
         string localVarPath = "./Merchant/Address";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -157,7 +157,7 @@ public class MerchantApi : IMerchantApi
                 throw exception;
         }
 
-        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
     }
 
     /// <summary>
@@ -178,11 +178,11 @@ public class MerchantApi : IMerchantApi
     public async Task<ApiResponse<object>> AddressMerchantAsyncWithHttpInfo(UpdateAddressCommand body = null)
     {
         string localVarPath = "./Merchant/Address";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -214,7 +214,7 @@ public class MerchantApi : IMerchantApi
                 throw exception;
         }
 
-        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
     }
 
     /// <summary>
@@ -235,11 +235,11 @@ public class MerchantApi : IMerchantApi
     public ApiResponse<object> BusinessInfoMerchantWithHttpInfo(UpdateMerchantBusinessInfo body = null)
     {
         string localVarPath = "./Merchant/BusinessInfo";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -271,7 +271,7 @@ public class MerchantApi : IMerchantApi
                 throw exception;
         }
 
-        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
     }
 
     /// <summary>
@@ -292,11 +292,11 @@ public class MerchantApi : IMerchantApi
     public async Task<ApiResponse<object>> BusinessInfoMerchantAsyncWithHttpInfo(UpdateMerchantBusinessInfo body = null)
     {
         string localVarPath = "./Merchant/BusinessInfo";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -328,7 +328,7 @@ public class MerchantApi : IMerchantApi
                 throw exception;
         }
 
-        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
     }
 
     /// <summary>
@@ -349,11 +349,11 @@ public class MerchantApi : IMerchantApi
     public ApiResponse<object> CompanyNameMerchantWithHttpInfo(UpdateMerchantCompanyName body = null)
     {
         string localVarPath = "./Merchant/CompanyName";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -385,7 +385,7 @@ public class MerchantApi : IMerchantApi
                 throw exception;
         }
 
-        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
     }
 
     /// <summary>
@@ -406,11 +406,11 @@ public class MerchantApi : IMerchantApi
     public async Task<ApiResponse<object>> CompanyNameMerchantAsyncWithHttpInfo(UpdateMerchantCompanyName body = null)
     {
         string localVarPath = "./Merchant/CompanyName";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -442,7 +442,7 @@ public class MerchantApi : IMerchantApi
                 throw exception;
         }
 
-        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
     }
 
     /// <summary>
@@ -465,11 +465,11 @@ public class MerchantApi : IMerchantApi
     public ApiResponse<MerchantDto> GetMerchantWithHttpInfo(string id = null)
     {
         string localVarPath = "./Merchant";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -499,7 +499,7 @@ public class MerchantApi : IMerchantApi
                 throw exception;
         }
 
-        return new ApiResponse<MerchantDto>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
             (MerchantDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(MerchantDto)));
     }
 
@@ -523,11 +523,11 @@ public class MerchantApi : IMerchantApi
     public async Task<ApiResponse<MerchantDto>> GetMerchantAsyncWithHttpInfo(string id = null)
     {
         string localVarPath = "./Merchant";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -557,7 +557,7 @@ public class MerchantApi : IMerchantApi
                 throw exception;
         }
 
-        return new ApiResponse<MerchantDto>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
             (MerchantDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(MerchantDto)));
     }
 

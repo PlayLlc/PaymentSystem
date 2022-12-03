@@ -41,7 +41,7 @@ public static class JobConfigurationExtensions
             if (string.IsNullOrEmpty(cronSchedule))
                 throw new ConfigurationErrorsException("No schedule configuration found, cannot configure and schedule current job");
 
-            JobKey jobKey = new JobKey(jobName);
+            JobKey jobKey = new(jobName);
 
             quartzConfig.AddJob(t, jobKey, options =>
             {

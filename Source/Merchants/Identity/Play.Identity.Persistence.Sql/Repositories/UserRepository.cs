@@ -116,7 +116,7 @@ public class UserRepository : IUserRepository
     {
         try
         {
-            UserIdentity userIdentity = new UserIdentity(user.AsDto());
+            UserIdentity userIdentity = new(user.AsDto());
             _Users.Update(userIdentity);
             await _Context.SaveChangesAsync().ConfigureAwait(false);
         }
@@ -133,7 +133,7 @@ public class UserRepository : IUserRepository
     {
         try
         {
-            _Users.Remove(new UserIdentity(user.AsDto()));
+            _Users.Remove(new(user.AsDto()));
             await _Context.SaveChangesAsync().ConfigureAwait(false);
         }
         catch (Exception ex)
@@ -165,7 +165,7 @@ public class UserRepository : IUserRepository
     {
         try
         {
-            UserIdentity userIdentity = new UserIdentity(user.AsDto());
+            UserIdentity userIdentity = new(user.AsDto());
             _Users.Update(userIdentity);
             _Context.SaveChanges();
         }
@@ -182,7 +182,7 @@ public class UserRepository : IUserRepository
     {
         try
         {
-            UserIdentity? userIdentity = new UserIdentity(user.AsDto());
+            UserIdentity? userIdentity = new(user.AsDto());
             _Users.Remove(userIdentity);
             _Context.SaveChanges();
         }

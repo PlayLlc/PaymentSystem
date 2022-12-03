@@ -12,10 +12,10 @@ internal class UnderwritingDbContextOptionsBuilder : IDesignTimeDbContextFactory
     {
         IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
         string connectionString = configuration.GetConnectionString("Underwriting");
-        DbContextOptionsBuilder<UnderwritingDbContext> builder = new DbContextOptionsBuilder<UnderwritingDbContext>();
+        DbContextOptionsBuilder<UnderwritingDbContext> builder = new();
         builder.UseSqlServer(connectionString);
 
-        return new UnderwritingDbContext(builder.Options);
+        return new(builder.Options);
     }
 
     #endregion

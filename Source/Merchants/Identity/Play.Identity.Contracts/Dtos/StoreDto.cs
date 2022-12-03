@@ -18,7 +18,7 @@ public class StoreDto : IDto
     public string StoreName { get; set; } = string.Empty;
 
     [Required]
-    public AddressDto Address { get; set; } = new AddressDto();
+    public AddressDto Address { get; set; } = new();
 
     #endregion
 }

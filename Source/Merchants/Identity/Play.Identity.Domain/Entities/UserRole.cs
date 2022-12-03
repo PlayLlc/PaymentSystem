@@ -29,13 +29,13 @@ public class UserRole : Entity<SimpleStringId>
         if (!UserRoles.Empty.TryGet(dto.Name, out EnumObjectString? result))
             throw new ValueObjectException($"The {nameof(UserRole)} with the value: {dto.Name} could not be found");
 
-        Id = new SimpleStringId(dto.Name);
+        Id = new(dto.Name);
         Name = dto.Name;
     }
 
     public UserRole(UserRoles userRole)
     {
-        Id = new SimpleStringId(userRole);
+        Id = new(userRole);
         Name = userRole;
     }
 
@@ -45,7 +45,7 @@ public class UserRole : Entity<SimpleStringId>
         if (!UserRoles.Empty.TryGet(name, out EnumObjectString? result))
             throw new ValueObjectException($"The {nameof(UserRole)} with the value: {name} could not be found");
 
-        Id = new SimpleStringId(name);
+        Id = new(name);
         Name = name;
     }
 
@@ -56,7 +56,7 @@ public class UserRole : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override UserRoleDto AsDto() =>
-        new UserRoleDto
+        new()
         {
             Id = Id,
             Name = Name

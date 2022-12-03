@@ -26,7 +26,7 @@ public class DiscountProgram : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal DiscountProgram(DiscountsProgramDto dto)
     {
-        Id = new SimpleStringId(dto.Id);
+        Id = new(dto.Id);
         _IsActive = dto.IsActive;
         _Discounts = dto.Discounts.Select(a => new Discount(a)).ToHashSet();
     }
@@ -34,7 +34,7 @@ public class DiscountProgram : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal DiscountProgram(string id, bool isActive, IEnumerable<Discount> discounts)
     {
-        Id = new SimpleStringId(id);
+        Id = new(id);
         _IsActive = isActive;
         _Discounts = discounts.ToHashSet();
     }
@@ -64,7 +64,7 @@ public class DiscountProgram : Entity<SimpleStringId>
 
     public override DiscountsProgramDto AsDto()
     {
-        return new DiscountsProgramDto
+        return new()
         {
             Id = Id,
             Discounts = _Discounts.Select(a => a.AsDto()),

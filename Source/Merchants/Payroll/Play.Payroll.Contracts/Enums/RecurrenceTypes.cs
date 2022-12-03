@@ -40,11 +40,11 @@ public record RecurrenceTypes : EnumObjectString
 
     static RecurrenceTypes()
     {
-        Empty = new RecurrenceTypes("");
-        Weekly = new RecurrenceTypes(nameof(Weekly));
-        Biweekly = new RecurrenceTypes(nameof(Biweekly));
-        SemiMonthly = new RecurrenceTypes(nameof(SemiMonthly));
-        Monthly = new RecurrenceTypes(nameof(Monthly));
+        Empty = new("");
+        Weekly = new(nameof(Weekly));
+        Biweekly = new(nameof(Biweekly));
+        SemiMonthly = new(nameof(SemiMonthly));
+        Monthly = new(nameof(Monthly));
 
         _ValueObjectMap = new Dictionary<string, RecurrenceTypes>
         {

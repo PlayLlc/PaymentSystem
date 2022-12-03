@@ -21,8 +21,8 @@ public record EntityType : EnumObjectString
 
     static EntityType()
     {
-        Empty = new EntityType("");
-        Individual = new EntityType("individual");
+        Empty = new("");
+        Individual = new("individual");
 
         _ValueObjectMap = new Dictionary<string, EntityType>
         {

@@ -31,7 +31,7 @@ public abstract record DomainEvent
 
     public int GetEventId() => _DomainEventIdentifier.EventId;
 
-    protected static DomainEventType CreateEventTypeId(Type type) => new DomainEventType(type);
+    protected static DomainEventType CreateEventTypeId(Type type) => new(type);
 
     #endregion
 }

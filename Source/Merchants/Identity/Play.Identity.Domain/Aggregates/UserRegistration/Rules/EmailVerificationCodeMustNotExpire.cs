@@ -8,7 +8,7 @@ internal class EmailVerificationCodeMustNotExpire : BusinessRule<UserRegistratio
 {
     #region Static Metadata
 
-    private static readonly TimeSpan _ValidityPeriod = new TimeSpan(0, 4, 0, 0);
+    private static readonly TimeSpan _ValidityPeriod = new(0, 4, 0, 0);
 
     #endregion
 
@@ -31,8 +31,7 @@ internal class EmailVerificationCodeMustNotExpire : BusinessRule<UserRegistratio
 
     #region Instance Members
 
-    public override EmailVerificationCodeHasExpired CreateBusinessRuleViolationDomainEvent(UserRegistration merchant) =>
-        new EmailVerificationCodeHasExpired(merchant, this);
+    public override EmailVerificationCodeHasExpired CreateBusinessRuleViolationDomainEvent(UserRegistration merchant) => new(merchant, this);
 
     public override bool IsBroken() => _IsValid;
 

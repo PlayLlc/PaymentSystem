@@ -33,7 +33,7 @@ public class SmsClient : ISendSmsMessages
 
     public async Task<SmsDeliveryResult> Send(string phone, string text)
     {
-        CreateMessageOptions messageOptions = new CreateMessageOptions(new PhoneNumber(phone));
+        CreateMessageOptions messageOptions = new(new PhoneNumber(phone));
         messageOptions.MessagingServiceSid = _Configuration.AccountSid;
         messageOptions.Body = text;
         MessageResource messageResource = await MessageResource.CreateAsync(messageOptions, _Client).ConfigureAwait(false);

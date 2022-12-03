@@ -44,7 +44,7 @@ public class DiscountsController : BaseController
     public async Task<IActionResult> Create(string programsId, CreateDiscountedItem command)
     {
         this.ValidateModel();
-        Programs programs = await _ProgramsRepository.GetByIdAsync(new SimpleStringId(programsId)).ConfigureAwait(false)
+        Programs programs = await _ProgramsRepository.GetByIdAsync(new(programsId)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(Programs));
 
         await programs.CreateDiscountedItem(_UserRetriever, _InventoryItemRetriever, command).ConfigureAwait(false);
@@ -57,7 +57,7 @@ public class DiscountsController : BaseController
     public async Task<IActionResult> Remove(string programsId, RemoveDiscountedItem command)
     {
         this.ValidateModel();
-        Programs programs = await _ProgramsRepository.GetByIdAsync(new SimpleStringId(programsId)).ConfigureAwait(false)
+        Programs programs = await _ProgramsRepository.GetByIdAsync(new(programsId)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(Programs));
 
         await programs.RemoveDiscountedItem(_UserRetriever, command).ConfigureAwait(false);
@@ -70,7 +70,7 @@ public class DiscountsController : BaseController
     public async Task<IActionResult> Update(string programsId, UpdateDiscountedItem command)
     {
         this.ValidateModel();
-        Programs programs = await _ProgramsRepository.GetByIdAsync(new SimpleStringId(programsId)).ConfigureAwait(false)
+        Programs programs = await _ProgramsRepository.GetByIdAsync(new(programsId)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(Programs));
 
         await programs.UpdateDiscountedItem(_UserRetriever, command).ConfigureAwait(false);

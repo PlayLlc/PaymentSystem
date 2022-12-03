@@ -24,7 +24,7 @@ builder.Services.AddDbContext<UnderwritingDbContext>(options =>
 builder.Services.AddScoped<IImportIndividualsRepository, ImportIndividualsRepository>();
 builder.Services.AddHttpClient<IUsTreasuryClient, UsTreasuryClient>(client =>
 {
-    client.BaseAddress = new Uri("https://www.treasury.gov/");
+    client.BaseAddress = new("https://www.treasury.gov/");
 });
 
 builder.Services.RegisterSchedulingConfiguration(builder.Configuration);

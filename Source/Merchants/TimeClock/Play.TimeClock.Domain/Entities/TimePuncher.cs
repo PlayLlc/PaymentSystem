@@ -36,9 +36,9 @@ public class TimePuncher : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal TimePuncher(TimeClockDto dto)
     {
-        Id = new SimpleStringId(dto.Id!);
-        _EmployeeId = new SimpleStringId(dto.EmployeeId);
-        _TimeClockStatus = new TimeClockStatus(dto.TimeClockStatus);
+        Id = new(dto.Id!);
+        _EmployeeId = new(dto.EmployeeId);
+        _TimeClockStatus = new(dto.TimeClockStatus);
 
         try
         {
@@ -53,9 +53,9 @@ public class TimePuncher : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal TimePuncher(string id, string employeeId, string timeClockStatus, DateTimeUtc? dateTime)
     {
-        Id = new SimpleStringId(id);
-        _EmployeeId = new SimpleStringId(employeeId);
-        _TimeClockStatus = new TimeClockStatus(timeClockStatus);
+        Id = new(id);
+        _EmployeeId = new(employeeId);
+        _TimeClockStatus = new(timeClockStatus);
         _ClockedInAt = dateTime;
     }
 
@@ -85,13 +85,13 @@ public class TimePuncher : Entity<SimpleStringId>
 
         DateTimeUtc clockedOutAt = DateTimeUtc.Now;
 
-        return new TimeEntry(timeEntryId.Invoke(), _EmployeeId, _ClockedInAt!.Value, clockedOutAt);
+        return new(timeEntryId.Invoke(), _EmployeeId, _ClockedInAt!.Value, clockedOutAt);
     }
 
     public override SimpleStringId GetId() => Id;
 
     public override TimeClockDto AsDto() =>
-        new TimeClockDto
+        new()
         {
             Id = Id,
             TimeClockStatus = _TimeClockStatus,

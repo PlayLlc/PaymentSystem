@@ -26,17 +26,17 @@ public class BusinessInfo : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     public BusinessInfo(BusinessInfoDto dto)
     {
-        Id = new SimpleStringId(dto.Id!);
-        BusinessType = new BusinessType(dto.BusinessType);
-        MerchantCategoryCode = new MerchantCategoryCode(dto.MerchantCategoryCode);
+        Id = new(dto.Id!);
+        BusinessType = new(dto.BusinessType);
+        MerchantCategoryCode = new(dto.MerchantCategoryCode);
     }
 
     /// <exception cref="ValueObjectException"></exception>
     public BusinessInfo(string id, string businessType, ushort merchantCategoryCode)
     {
-        Id = new SimpleStringId(id);
-        BusinessType = new BusinessType(businessType);
-        MerchantCategoryCode = new MerchantCategoryCode(merchantCategoryCode);
+        Id = new(id);
+        BusinessType = new(businessType);
+        MerchantCategoryCode = new(merchantCategoryCode);
     }
 
     #endregion
@@ -46,7 +46,7 @@ public class BusinessInfo : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override BusinessInfoDto AsDto() =>
-        new BusinessInfoDto
+        new()
         {
             Id = Id,
             BusinessType = BusinessType,

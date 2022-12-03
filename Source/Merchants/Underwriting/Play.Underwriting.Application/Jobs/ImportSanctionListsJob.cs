@@ -121,7 +121,7 @@ public class ImportSanctionListsJob : IScheduledCronJob
 
     private async Task<IEnumerable<Individual>> ImportAndProcessSanctionLists()
     {
-        CsvParserOptions options = new CsvParserOptions(false, ',');
+        CsvParserOptions options = new(false, ',');
 
         Task<IEnumerable<Individual>> individualsTask = ImportIndividuals(options, _PrimFile);
         Task<IEnumerable<Address>> addressesTask = ImportAddresses(options, _AddrFile);
@@ -140,7 +140,7 @@ public class ImportSanctionListsJob : IScheduledCronJob
 
     private async Task<IEnumerable<Individual>> ImportAndProcessConsolidatedSanctionLists()
     {
-        CsvParserOptions options = new CsvParserOptions(false, ',');
+        CsvParserOptions options = new(false, ',');
 
         Task<IEnumerable<Individual>> individualsTask = ImportIndividuals(options, _ConsPrimFile, true);
         Task<IEnumerable<Address>> addressesTask = ImportAddresses(options, _ConsAddrFile, true);

@@ -29,14 +29,14 @@ public record DaysOfTheWeek : EnumObject<byte>
 
     static DaysOfTheWeek()
     {
-        Empty = new DaysOfTheWeek(0);
-        Sunday = new DaysOfTheWeek(1);
-        Monday = new DaysOfTheWeek(2);
-        Tuesday = new DaysOfTheWeek(3);
-        Wednesday = new DaysOfTheWeek(4);
-        Thursday = new DaysOfTheWeek(5);
-        Friday = new DaysOfTheWeek(6);
-        Saturday = new DaysOfTheWeek(7);
+        Empty = new(0);
+        Sunday = new(1);
+        Monday = new(2);
+        Tuesday = new(3);
+        Wednesday = new(4);
+        Thursday = new(5);
+        Friday = new(6);
+        Saturday = new(7);
 
         // ...
         _ValueObjectMap = new Dictionary<byte, DaysOfTheWeek>

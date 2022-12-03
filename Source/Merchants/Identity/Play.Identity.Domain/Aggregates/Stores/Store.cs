@@ -29,7 +29,7 @@ public class Store : Aggregate<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     public Store(string id, string merchantId, Name storeName, Address address)
     {
-        Id = new SimpleStringId(id);
+        Id = new(id);
         _MerchantId = merchantId;
         _StoreName = storeName;
         _Address = address;
@@ -43,7 +43,7 @@ public class Store : Aggregate<SimpleStringId>
     public static Store CreateNewStore(CreateNewStore command)
     {
         // TODO: Create Business Rules to enforce
-        Store newStore = new Store(GenerateSimpleStringId(), command.MerchantId, new Name(command.Name), new Address(command.Address));
+        Store newStore = new(GenerateSimpleStringId(), command.MerchantId, new(command.Name), new(command.Address));
 
         // TODO: Publish Domain Event that a new store has been created. This is how we will initialize the ID
         return newStore;

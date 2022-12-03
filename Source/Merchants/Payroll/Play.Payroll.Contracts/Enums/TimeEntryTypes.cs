@@ -27,9 +27,9 @@ public record TimeEntryTypes : EnumObjectString
 
     static TimeEntryTypes()
     {
-        Empty = new TimeEntryTypes("");
-        PaidTime = new TimeEntryTypes(nameof(PaidTime));
-        UnpaidTime = new TimeEntryTypes(nameof(UnpaidTime));
+        Empty = new("");
+        PaidTime = new(nameof(PaidTime));
+        UnpaidTime = new(nameof(UnpaidTime));
 
         _ValueObjectMap = new Dictionary<string, TimeEntryTypes>
         {

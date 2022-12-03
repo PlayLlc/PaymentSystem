@@ -35,7 +35,7 @@ public partial class Item : Aggregate<SimpleStringId>
         User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Item>(_MerchantId, user));
-        _Name = new Name(command.Name);
+        _Name = new(command.Name);
         Publish(new ItemNameUpdated(this, user.GetId(), _Name));
     }
 

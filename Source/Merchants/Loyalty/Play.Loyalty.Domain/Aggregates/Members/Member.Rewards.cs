@@ -24,7 +24,7 @@ public partial class Member : Aggregate<SimpleStringId>
         Enforce(new UserMustBeActiveToUpdateAggregate<Member>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Member>(_MerchantId, user));
 
-        Programs programs = await programsRepository.GetByIdAsync(new SimpleStringId(command.MerchantId)).ConfigureAwait(false)
+        Programs programs = await programsRepository.GetByIdAsync(new(command.MerchantId)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(Programs));
 
         if (!programs.IsRewardProgramActive())
@@ -50,7 +50,7 @@ public partial class Member : Aggregate<SimpleStringId>
         User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<Member>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Member>(_MerchantId, user));
-        Programs programs = await programsRepository.GetByIdAsync(new SimpleStringId(command.MerchantId)).ConfigureAwait(false)
+        Programs programs = await programsRepository.GetByIdAsync(new(command.MerchantId)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(Programs));
 
         if (!programs.IsRewardProgramActive())

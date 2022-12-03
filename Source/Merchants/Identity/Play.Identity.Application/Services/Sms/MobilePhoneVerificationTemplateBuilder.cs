@@ -19,7 +19,7 @@ public class MobilePhoneVerificationTemplateBuilder : SmsTemplateBuilder
 
     protected override string GetTemplate() => _Template;
 
-    public string CreateSmsMessage(string confirmationCode) => CreateMessage(new Dictionary<string, string> {{nameof(confirmationCode), confirmationCode}});
+    public string CreateSmsMessage(string confirmationCode) => CreateMessage(new() {{nameof(confirmationCode), confirmationCode}});
 
     #endregion
 }

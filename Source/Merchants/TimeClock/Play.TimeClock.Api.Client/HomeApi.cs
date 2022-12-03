@@ -58,7 +58,7 @@ public class HomeApi : IHomeApi
     /// <returns></returns>
     public HomeApi(string basePath)
     {
-        Configuration = new Configuration(basePath);
+        Configuration = new(basePath);
 
         ExceptionFactory = Configuration.DefaultExceptionFactory;
     }
@@ -127,11 +127,11 @@ public class HomeApi : IHomeApi
             throw new ApiException(400, "Missing required parameter 'employeeId' when calling HomeApi->EmployeesClockInEmployees");
 
         string? localVarPath = "./TimeClock/{employeeId}/ClockIn";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -165,7 +165,7 @@ public class HomeApi : IHomeApi
                 throw exception;
         }
 
-        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
     }
 
     /// <summary>
@@ -192,11 +192,11 @@ public class HomeApi : IHomeApi
             throw new ApiException(400, "Missing required parameter 'employeeId' when calling HomeApi->EmployeesClockInEmployees");
 
         string? localVarPath = "./TimeClock/{employeeId}/ClockIn";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -230,7 +230,7 @@ public class HomeApi : IHomeApi
                 throw exception;
         }
 
-        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
     }
 
     /// <summary>
@@ -257,11 +257,11 @@ public class HomeApi : IHomeApi
             throw new ApiException(400, "Missing required parameter 'employeeId' when calling HomeApi->EmployeesClockOutEmployees");
 
         string? localVarPath = "./TimeClock/{employeeId}/ClockOut";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -295,7 +295,7 @@ public class HomeApi : IHomeApi
                 throw exception;
         }
 
-        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
     }
 
     /// <summary>
@@ -322,11 +322,11 @@ public class HomeApi : IHomeApi
             throw new ApiException(400, "Missing required parameter 'employeeId' when calling HomeApi->EmployeesClockOutEmployees");
 
         string? localVarPath = "./TimeClock/{employeeId}/ClockOut";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -360,7 +360,7 @@ public class HomeApi : IHomeApi
                 throw exception;
         }
 
-        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
     }
 
     /// <summary>
@@ -381,11 +381,11 @@ public class HomeApi : IHomeApi
     public ApiResponse<object> EmployeesCreateEmployeesWithHttpInfo(CreateEmployee body)
     {
         string? localVarPath = "./TimeClock";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -417,7 +417,7 @@ public class HomeApi : IHomeApi
                 throw exception;
         }
 
-        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
     }
 
     /// <summary>
@@ -438,11 +438,11 @@ public class HomeApi : IHomeApi
     public async Task<ApiResponse<object>> EmployeesCreateEmployeesAsyncWithHttpInfo(CreateEmployee body)
     {
         string? localVarPath = "./TimeClock";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -474,7 +474,7 @@ public class HomeApi : IHomeApi
                 throw exception;
         }
 
-        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
     }
 
     /// <summary>
@@ -501,11 +501,11 @@ public class HomeApi : IHomeApi
             throw new ApiException(400, "Missing required parameter 'employeeId' when calling HomeApi->EmployeesGetEmployees");
 
         string? localVarPath = "./TimeClock/{employeeId}";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -535,7 +535,7 @@ public class HomeApi : IHomeApi
                 throw exception;
         }
 
-        return new ApiResponse<EmployeeDto>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
             (EmployeeDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(EmployeeDto)));
     }
 
@@ -563,11 +563,11 @@ public class HomeApi : IHomeApi
             throw new ApiException(400, "Missing required parameter 'employeeId' when calling HomeApi->EmployeesGetEmployees");
 
         string? localVarPath = "./TimeClock/{employeeId}";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -597,7 +597,7 @@ public class HomeApi : IHomeApi
                 throw exception;
         }
 
-        return new ApiResponse<EmployeeDto>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
             (EmployeeDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(EmployeeDto)));
     }
 
@@ -625,11 +625,11 @@ public class HomeApi : IHomeApi
             throw new ApiException(400, "Missing required parameter 'employeeId' when calling HomeApi->EmployeesRemoveEmployees");
 
         string? localVarPath = "./TimeClock/{employeeId}";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -663,7 +663,7 @@ public class HomeApi : IHomeApi
                 throw exception;
         }
 
-        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
     }
 
     /// <summary>
@@ -690,11 +690,11 @@ public class HomeApi : IHomeApi
             throw new ApiException(400, "Missing required parameter 'employeeId' when calling HomeApi->EmployeesRemoveEmployees");
 
         string? localVarPath = "./TimeClock/{employeeId}";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -728,7 +728,7 @@ public class HomeApi : IHomeApi
                 throw exception;
         }
 
-        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
     }
 
     #endregion

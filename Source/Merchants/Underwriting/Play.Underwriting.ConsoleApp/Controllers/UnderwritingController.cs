@@ -68,7 +68,7 @@ public class UnderwritingController : ControllerBase
     }
 
     private static Address ToAddress(AddressDto? addressDto) =>
-        new Address
+        new()
         {
             State = addressDto.State,
             City = addressDto.City,

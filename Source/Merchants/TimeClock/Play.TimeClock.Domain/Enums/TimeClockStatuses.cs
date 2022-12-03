@@ -23,9 +23,9 @@ public record TimeClockStatuses : EnumObjectString
 
     static TimeClockStatuses()
     {
-        Empty = new TimeClockStatuses("");
-        ClockedIn = new TimeClockStatuses(nameof(ClockedIn));
-        ClockedOut = new TimeClockStatuses(nameof(ClockedOut));
+        Empty = new("");
+        ClockedIn = new(nameof(ClockedIn));
+        ClockedOut = new(nameof(ClockedOut));
 
         _ValueObjectMap = new Dictionary<string, TimeClockStatuses>
         {
@@ -58,7 +58,7 @@ public record TimeClockStatuses : EnumObjectString
 
     #region Operator Overrides
 
-    public static implicit operator TimeClockStatus(TimeClockStatuses value) => new TimeClockStatus(value);
+    public static implicit operator TimeClockStatus(TimeClockStatuses value) => new(value);
 
     #endregion
 }

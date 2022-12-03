@@ -30,7 +30,7 @@ public class StockItemMustNotFallBelowThreshold : BusinessRule<Inventory, Simple
     #region Instance Members
 
     public override LowInventoryAlert CreateBusinessRuleViolationDomainEvent(Inventory inventory) =>
-        new LowInventoryAlert(inventory, _StockItemId, _Subscriptions, _Quantity, this);
+        new(inventory, _StockItemId, _Subscriptions, _Quantity, this);
 
     public override bool IsBroken() => !_IsValid;
 

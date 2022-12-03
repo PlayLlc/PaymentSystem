@@ -53,7 +53,7 @@ public class Contact : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override ContactDto AsDto() =>
-        new ContactDto
+        new()
         {
             Id = Id,
             Email = Email,

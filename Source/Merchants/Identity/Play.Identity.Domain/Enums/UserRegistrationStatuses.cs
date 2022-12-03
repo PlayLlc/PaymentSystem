@@ -27,13 +27,13 @@ public record UserRegistrationStatuses : EnumObjectString
 
     static UserRegistrationStatuses()
     {
-        Empty = new UserRegistrationStatuses("");
-        WaitingForRiskAnalysis = new UserRegistrationStatuses(nameof(WaitingForRiskAnalysis));
-        WaitingForEmailVerification = new UserRegistrationStatuses(nameof(WaitingForEmailVerification));
-        WaitingForSmsVerification = new UserRegistrationStatuses(nameof(WaitingForSmsVerification));
-        Approved = new UserRegistrationStatuses(nameof(Approved));
-        Expired = new UserRegistrationStatuses(nameof(Expired));
-        Rejected = new UserRegistrationStatuses(nameof(Rejected));
+        Empty = new("");
+        WaitingForRiskAnalysis = new(nameof(WaitingForRiskAnalysis));
+        WaitingForEmailVerification = new(nameof(WaitingForEmailVerification));
+        WaitingForSmsVerification = new(nameof(WaitingForSmsVerification));
+        Approved = new(nameof(Approved));
+        Expired = new(nameof(Expired));
+        Rejected = new(nameof(Rejected));
 
         _ValueObjectMap = new Dictionary<string, UserRegistrationStatuses>
         {
@@ -70,7 +70,7 @@ public record UserRegistrationStatuses : EnumObjectString
 
     #region Operator Overrides
 
-    public static implicit operator UserRegistrationStatus(UserRegistrationStatuses value) => new UserRegistrationStatus(value);
+    public static implicit operator UserRegistrationStatus(UserRegistrationStatuses value) => new(value);
 
     #endregion
 }

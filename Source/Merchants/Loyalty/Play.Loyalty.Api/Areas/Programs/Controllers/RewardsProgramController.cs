@@ -34,7 +34,7 @@ public class RewardsProgramController : BaseController
     public async Task<IActionResult> UpdateRewardsProgram(string programId, UpdateRewardsProgram command)
     {
         this.ValidateModel();
-        Programs programs = await _ProgramsRepository.GetByIdAsync(new SimpleStringId(programId)).ConfigureAwait(false)
+        Programs programs = await _ProgramsRepository.GetByIdAsync(new(programId)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(Programs));
 
         await programs.UpdateRewardsProgram(_UserRetriever, command).ConfigureAwait(false);
@@ -47,7 +47,7 @@ public class RewardsProgramController : BaseController
     public async Task<IActionResult> ActivateRewardsProgram(string programId, ActivateProgram command)
     {
         this.ValidateModel();
-        Programs programs = await _ProgramsRepository.GetByIdAsync(new SimpleStringId(programId)).ConfigureAwait(false)
+        Programs programs = await _ProgramsRepository.GetByIdAsync(new(programId)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(Programs));
 
         await programs.ActivateRewardProgram(_UserRetriever, command).ConfigureAwait(false);

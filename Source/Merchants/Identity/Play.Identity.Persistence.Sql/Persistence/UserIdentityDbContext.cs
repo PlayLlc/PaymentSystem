@@ -36,7 +36,7 @@ public sealed class UserIdentityDbContext : IdentityDbContext<UserIdentity, Role
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        IdentityEntityConfiguration identityEntityConfiguration = new IdentityEntityConfiguration();
+        IdentityEntityConfiguration identityEntityConfiguration = new();
 
         #region Enums
 
@@ -72,8 +72,8 @@ public sealed class UserIdentityDbContext : IdentityDbContext<UserIdentity, Role
 
         builder.Entity<BusinessInfo>().ToTable($"{nameof(BusinessInfo)}s").Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<BusinessInfo>().HasKey(x => x.Id);
-        builder.Entity<BusinessInfo>().Property(x => x.BusinessType).HasConversion<string>(x => x, y => new BusinessType(y));
-        builder.Entity<BusinessInfo>().Property(x => x.MerchantCategoryCode).HasConversion<ushort>(x => x, y => new MerchantCategoryCode(y));
+        builder.Entity<BusinessInfo>().Property(x => x.BusinessType).HasConversion<string>(x => x, y => new(y));
+        builder.Entity<BusinessInfo>().Property(x => x.MerchantCategoryCode).HasConversion<ushort>(x => x, y => new(y));
 
         builder.Entity<Contact>().ToTable($"{nameof(Contact)}s").Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<Contact>().HasKey(x => x.Id);

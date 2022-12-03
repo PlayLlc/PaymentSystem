@@ -58,7 +58,7 @@ public class UserApi : IUserApi
     /// <returns></returns>
     public UserApi(string basePath)
     {
-        Configuration = new Configuration(basePath);
+        Configuration = new(basePath);
 
         ExceptionFactory = Configuration.DefaultExceptionFactory;
     }
@@ -123,11 +123,11 @@ public class UserApi : IUserApi
     public ApiResponse<UserDto> GetUserWithHttpInfo(string id = null)
     {
         string localVarPath = "./User";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -157,7 +157,7 @@ public class UserApi : IUserApi
                 throw exception;
         }
 
-        return new ApiResponse<UserDto>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
             (UserDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(UserDto)));
     }
 
@@ -181,11 +181,11 @@ public class UserApi : IUserApi
     public async Task<ApiResponse<UserDto>> GetUserAsyncWithHttpInfo(string id = null)
     {
         string localVarPath = "./User";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -215,7 +215,7 @@ public class UserApi : IUserApi
                 throw exception;
         }
 
-        return new ApiResponse<UserDto>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
             (UserDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(UserDto)));
     }
 
@@ -237,11 +237,11 @@ public class UserApi : IUserApi
     public ApiResponse<object> UpdateAddressForUserWithHttpInfo(UpdateAddressCommand body = null)
     {
         string localVarPath = "./User/Address";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -273,7 +273,7 @@ public class UserApi : IUserApi
                 throw exception;
         }
 
-        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
     }
 
     /// <summary>
@@ -294,11 +294,11 @@ public class UserApi : IUserApi
     public async Task<ApiResponse<object>> UpdateAddressForUserAsyncWithHttpInfo(UpdateAddressCommand body = null)
     {
         string localVarPath = "./User/Address";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -330,7 +330,7 @@ public class UserApi : IUserApi
                 throw exception;
         }
 
-        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
     }
 
     /// <summary>
@@ -351,11 +351,11 @@ public class UserApi : IUserApi
     public ApiResponse<object> UpdateContactInfosForUserWithHttpInfo(UpdateContactCommand body = null)
     {
         string localVarPath = "./User/ContactInfo";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -387,7 +387,7 @@ public class UserApi : IUserApi
                 throw exception;
         }
 
-        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
     }
 
     /// <summary>
@@ -408,11 +408,11 @@ public class UserApi : IUserApi
     public async Task<ApiResponse<object>> UpdateContactInfosForUserAsyncWithHttpInfo(UpdateContactCommand body = null)
     {
         string localVarPath = "./User/ContactInfo";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -444,7 +444,7 @@ public class UserApi : IUserApi
                 throw exception;
         }
 
-        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
     }
 
     /// <summary>
@@ -465,11 +465,11 @@ public class UserApi : IUserApi
     public ApiResponse<object> UpdatePersonalDetailsForUserWithHttpInfo(UpdatePersonalDetailCommand body = null)
     {
         string localVarPath = "./User/PersonalDetails";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -501,7 +501,7 @@ public class UserApi : IUserApi
                 throw exception;
         }
 
-        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
     }
 
     /// <summary>
@@ -522,11 +522,11 @@ public class UserApi : IUserApi
     public async Task<ApiResponse<object>> UpdatePersonalDetailsForUserAsyncWithHttpInfo(UpdatePersonalDetailCommand body = null)
     {
         string localVarPath = "./User/PersonalDetails";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -558,7 +558,7 @@ public class UserApi : IUserApi
                 throw exception;
         }
 
-        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
     }
 
     #endregion

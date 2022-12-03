@@ -30,7 +30,7 @@ public class EmailAccountVerifier : IVerifyEmailAccounts
         _EmailClient = emailClient;
         _Logger = logger;
 
-        _TemplateBuilder = new EmailVerificationTemplateBuilder();
+        _TemplateBuilder = new();
     }
 
     #endregion

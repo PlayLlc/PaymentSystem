@@ -28,16 +28,16 @@ public class CultureProfile : IEquatable<CultureProfile>, IEqualityComparer<Cult
     public CultureProfile(NumericCountryCode numericCountryCode, Alpha2LanguageCode alpha2LanguageCode)
     {
         Alpha2CountryCode alpha2CountryCode = CountryCodeRepository.Get(numericCountryCode).GetAlpha2Code();
-        _CultureInfo = new CultureInfo(GetMicrosoftCultureCode(alpha2LanguageCode, alpha2CountryCode));
-        _RegionInfo = new RegionInfo(_CultureInfo.LCID);
+        _CultureInfo = new(GetMicrosoftCultureCode(alpha2LanguageCode, alpha2CountryCode));
+        _RegionInfo = new(_CultureInfo.LCID);
         _Alpha2CountryCode = alpha2CountryCode;
         _Alpha2LanguageCode = alpha2LanguageCode;
     }
 
     public CultureProfile(Alpha2CountryCode alpha2CountryCode, Alpha2LanguageCode alpha2LanguageCode)
     {
-        _CultureInfo = new CultureInfo(GetMicrosoftCultureCode(alpha2LanguageCode, alpha2CountryCode));
-        _RegionInfo = new RegionInfo(_CultureInfo.LCID);
+        _CultureInfo = new(GetMicrosoftCultureCode(alpha2LanguageCode, alpha2CountryCode));
+        _RegionInfo = new(_CultureInfo.LCID);
         _Alpha2CountryCode = alpha2CountryCode;
         _Alpha2LanguageCode = alpha2LanguageCode;
     }

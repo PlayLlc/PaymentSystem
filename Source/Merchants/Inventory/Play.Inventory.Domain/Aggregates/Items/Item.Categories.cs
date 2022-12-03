@@ -28,11 +28,11 @@ public partial class Item : Aggregate<SimpleStringId>
         Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Item>(_MerchantId, user));
 
-        List<Category> categoriesAdded = new List<Category>();
+        List<Category> categoriesAdded = new();
 
         foreach (string categoryId in command.CategoryIds)
         {
-            Category category = await categoryRepository.GetByIdAsync(new SimpleStringId(categoryId)).ConfigureAwait(false)
+            Category category = await categoryRepository.GetByIdAsync(new(categoryId)).ConfigureAwait(false)
                                 ?? throw new NotFoundException(typeof(Category));
 
             Enforce(new CategoryMustHaveTheSameMerchant(category, _MerchantId));
@@ -60,7 +60,7 @@ public partial class Item : Aggregate<SimpleStringId>
         Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Item>(_MerchantId, user));
 
-        List<Category> categoriesRemoved = new List<Category>();
+        List<Category> categoriesRemoved = new();
 
         foreach (string categoryId in command.CategoryIds)
         {

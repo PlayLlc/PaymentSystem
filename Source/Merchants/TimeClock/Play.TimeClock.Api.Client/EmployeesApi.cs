@@ -57,7 +57,7 @@ public class EmployeesApi : IEmployeesApi
     /// <returns></returns>
     public EmployeesApi(string basePath)
     {
-        Configuration = new Configuration(basePath);
+        Configuration = new(basePath);
 
         ExceptionFactory = Configuration.DefaultExceptionFactory;
     }
@@ -126,11 +126,11 @@ public class EmployeesApi : IEmployeesApi
             throw new ApiException(400, "Missing required parameter 'employeeId' when calling EmployeesApi->EmployeesEditTimeEntries");
 
         string localVarPath = "./TimeClock/Employees/{employeeId}/TimeEntries/Edit";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -162,7 +162,7 @@ public class EmployeesApi : IEmployeesApi
                 throw exception;
         }
 
-        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
     }
 
     /// <summary>
@@ -189,11 +189,11 @@ public class EmployeesApi : IEmployeesApi
             throw new ApiException(400, "Missing required parameter 'employeeId' when calling EmployeesApi->EmployeesEditTimeEntries");
 
         string localVarPath = "./TimeClock/Employees/{employeeId}/TimeEntries/Edit";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -227,7 +227,7 @@ public class EmployeesApi : IEmployeesApi
                 throw exception;
         }
 
-        return new ApiResponse<object>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
     }
 
     #endregion

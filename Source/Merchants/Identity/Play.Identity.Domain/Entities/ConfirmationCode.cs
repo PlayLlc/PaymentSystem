@@ -26,16 +26,16 @@ public class ConfirmationCode : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     public ConfirmationCode(ConfirmationCodeDto dto)
     {
-        Id = new SimpleStringId(dto.Id!);
-        SentDate = new DateTimeUtc(dto.SentDate);
+        Id = new(dto.Id!);
+        SentDate = new(dto.SentDate);
         Code = dto.Code!;
     }
 
     /// <exception cref="ValueObjectException"></exception>
     public ConfirmationCode(string id, DateTime sentDate, uint code)
     {
-        Id = new SimpleStringId(id!);
-        SentDate = new DateTimeUtc(sentDate);
+        Id = new(id!);
+        SentDate = new(sentDate);
         Code = code;
     }
 
@@ -48,7 +48,7 @@ public class ConfirmationCode : Entity<SimpleStringId>
     public bool IsExpired(TimeSpan validityPeriod) => (DateTimeUtc.Now - SentDate) < validityPeriod;
 
     public override ConfirmationCodeDto AsDto() =>
-        new ConfirmationCodeDto
+        new()
         {
             Id = Id,
             SentDate = SentDate,

@@ -28,11 +28,11 @@ public partial class Item : Aggregate<SimpleStringId>
         Enforce(new AggregateMustBeUpdatedByKnownUser<Item>(_MerchantId, user));
         Enforce(new ItemVariationMustNotAlreadyExist(_Variations, command.Name));
 
-        Name name = new Name(command.Name);
+        Name name = new(command.Name);
         Sku? sku = command.Sku is null ? null : new Sku(command.Sku);
-        MoneyValueObject price = new MoneyValueObject(command.Price);
-        SimpleStringId id = new SimpleStringId(GenerateSimpleStringId());
-        Variation variation = new Variation(new SimpleStringId(id), Id, name, price, sku);
+        MoneyValueObject price = new(command.Price);
+        SimpleStringId id = new(GenerateSimpleStringId());
+        Variation variation = new(new(id), Id, name, price, sku);
 
         if (!_Variations.Add(variation))
             return;

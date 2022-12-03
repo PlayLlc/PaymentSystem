@@ -8,10 +8,6 @@ namespace Play.Domain.Aggregates;
 
 public abstract class Aggregate<_TId> : Entity<_TId>, IAggregate, IEquatable<Aggregate<_TId>>, IEqualityComparer<Aggregate<_TId>> where _TId : IEquatable<_TId>
 {
-    #region Constructor
-
-    #endregion
-
     #region Instance Members
 
     protected static string GenerateSimpleStringId() => Randomize.AlphaNumericSpecial.String(20);

@@ -26,15 +26,15 @@ public class StockItem : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     public StockItem(StockItemDto dto)
     {
-        Id = new SimpleStringId(dto.Id);
+        Id = new(dto.Id);
     }
 
     /// <exception cref="ValueObjectException"></exception>
     public StockItem(string id, string itemId, string variationId, int quantity)
     {
-        Id = new SimpleStringId(id);
-        _ItemId = new SimpleStringId(itemId);
-        _VariationId = new SimpleStringId(variationId);
+        Id = new(id);
+        _ItemId = new(itemId);
+        _VariationId = new(variationId);
         _Quantity = quantity;
     }
 
@@ -65,7 +65,7 @@ public class StockItem : Entity<SimpleStringId>
     public int GetQuantity() => _Quantity;
 
     public override StockItemDto AsDto() =>
-        new StockItemDto
+        new()
         {
             Id = Id,
             ItemId = _ItemId,

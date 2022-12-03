@@ -23,7 +23,7 @@ public partial class Programs
         Enforce(new DiscountPriceMustBeLowerThanItemPrice(
             await inventoryItemRetriever.GetByIdAsync(command.ItemId, command.VariationId).ConfigureAwait(false)
             ?? throw new NotFoundException(typeof(InventoryItem)), command.DiscountedPrice.AsMoney()));
-        Discount discount = new Discount(GenerateSimpleStringId(), command.ItemId, command.VariationId, command.DiscountedPrice);
+        Discount discount = new(GenerateSimpleStringId(), command.ItemId, command.VariationId, command.DiscountedPrice);
         _ = _DiscountProgram.Add(discount);
 
         Publish(new DiscountHasBeenCreated(this, discount, command.UserId, command.ItemId, command.VariationId, command.DiscountedPrice));

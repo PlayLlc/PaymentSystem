@@ -24,7 +24,7 @@ public class ItemVariationMustNotAlreadyExist : BusinessRule<Item, SimpleStringI
 
     #region Instance Members
 
-    public override ItemVariationAlreadyExists CreateBusinessRuleViolationDomainEvent(Item item) => new ItemVariationAlreadyExists(item, this);
+    public override ItemVariationAlreadyExists CreateBusinessRuleViolationDomainEvent(Item item) => new(item, this);
 
     public override bool IsBroken() => !_IsValid;
 

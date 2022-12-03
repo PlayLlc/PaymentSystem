@@ -43,13 +43,13 @@ public class User : Aggregate<SimpleStringId>
         if (dto.Id != dto.Password.Id)
             throw new ArgumentException($"The {nameof(Password)} ID must match the {nameof(User)} ID");
 
-        Id = new SimpleStringId(dto.Id);
+        Id = new(dto.Id);
         _MerchantId = dto.MerchantId;
         _TerminalId = dto.TerminalId;
-        _Password = new Password(dto.Password);
-        _Address = new Address(dto.Address);
-        _Contact = new Contact(dto.Contact);
-        _PersonalDetail = new PersonalDetail(dto.PersonalDetail);
+        _Password = new(dto.Password);
+        _Address = new(dto.Address);
+        _Contact = new(dto.Contact);
+        _PersonalDetail = new(dto.PersonalDetail);
         _IsActive = dto.IsActive;
     }
 
@@ -60,7 +60,7 @@ public class User : Aggregate<SimpleStringId>
         if (password.Id != id)
             throw new ArgumentException($"The {nameof(Password)} ID must match the {nameof(User)} ID");
 
-        Id = new SimpleStringId(id);
+        Id = new(id);
         _MerchantId = merchantId;
         _TerminalId = terminalId;
         _Password = password;
@@ -86,19 +86,19 @@ public class User : Aggregate<SimpleStringId>
         Result<IBusinessRule> userMustBeActive = IsEnforced(new UserMustBeActive(_IsActive));
 
         if (!userMustBeActive.Succeeded)
-            return new Result(userMustBeActive.Errors);
+            return new(userMustBeActive.Errors);
 
         Result<IBusinessRule> expiredPassword = IsEnforced(new UserMustUpdatePasswordEvery90Days(_Password));
 
         if (!expiredPassword.Succeeded)
-            return new Result(expiredPassword.Errors);
+            return new(expiredPassword.Errors);
 
         Result<IBusinessRule> passwordValidation = IsEnforced(new PasswordMustBeCorrectToLogin(passwordHasher, _Password.HashedPassword, clearTextPassword));
 
         if (!passwordValidation.Succeeded)
-            return new Result(passwordValidation.Errors);
+            return new(passwordValidation.Errors);
 
-        return new Result();
+        return new();
     }
 
     /// <exception cref="AggregateException"></exception>
@@ -114,7 +114,7 @@ public class User : Aggregate<SimpleStringId>
         if (_Contact is null)
             throw new CommandOutOfSyncException($"The {nameof(Contact)} is required but could not be found");
 
-        _Address = new Address(command.Address);
+        _Address = new(command.Address);
         Enforce(new UserMustNotBeProhibited(merchantUnderwriter, _PersonalDetail, _Address, _Contact), () => _IsActive = false);
         Publish(new UserAddressHasBeenUpdated(this));
     }
@@ -132,7 +132,7 @@ public class User : Aggregate<SimpleStringId>
         if (_Address is null)
             throw new CommandOutOfSyncException($"The {nameof(Address)} is required but could not be found");
 
-        _Contact = new Contact(command.Contact);
+        _Contact = new(command.Contact);
         Enforce(new UserMustNotBeProhibited(merchantUnderwriter, _PersonalDetail, _Address, _Contact), () => _IsActive = false);
         Publish(new UserContactInfoHasBeenUpdated(this));
     }
@@ -150,7 +150,7 @@ public class User : Aggregate<SimpleStringId>
         if (_Address is null)
             throw new CommandOutOfSyncException($"The {nameof(Address)} is required but could not be found");
 
-        _PersonalDetail = new PersonalDetail(command.PersonalDetail);
+        _PersonalDetail = new(command.PersonalDetail);
         Enforce(new UserMustNotBeProhibited(merchantUnderwriter, _PersonalDetail, _Address, _Contact), () => _IsActive = false);
         Publish(new UserContactInfoHasBeenUpdated(this));
     }
@@ -174,7 +174,7 @@ public class User : Aggregate<SimpleStringId>
         Enforce(new UserPasswordMustBeStrong(password));
         string hashedPassword = passwordHasher.GeneratePasswordHash(password);
         Enforce(new LastFourUserPasswordsMustBeUnique(uniquePasswordChecker, Id, hashedPassword));
-        _Password = new Password(GenerateSimpleStringId(), hashedPassword, DateTimeUtc.Now);
+        _Password = new(GenerateSimpleStringId(), hashedPassword, DateTimeUtc.Now);
         Publish(new UserPasswordHasBeenUpdated(this));
     }
 
@@ -183,7 +183,7 @@ public class User : Aggregate<SimpleStringId>
     public string GetEmail() => _Contact.Email.Value;
 
     public override UserDto AsDto() =>
-        new UserDto
+        new()
         {
             Id = Id,
             MerchantId = _MerchantId,

@@ -50,7 +50,7 @@ public class HomeController : BaseController
     public async Task<LoyaltyProgramDto> Get(string programsId)
     {
         this.ValidateModel();
-        Programs programs = await _ProgramsRepository.GetByIdAsync(new SimpleStringId(programsId)).ConfigureAwait(false)
+        Programs programs = await _ProgramsRepository.GetByIdAsync(new(programsId)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(Programs));
 
         return programs.AsDto();

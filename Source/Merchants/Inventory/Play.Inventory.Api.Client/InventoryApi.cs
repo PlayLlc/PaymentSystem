@@ -57,7 +57,7 @@ public class InventoryApi : IInventoryApi
     /// <returns></returns>
     public InventoryApi(string basePath)
     {
-        Configuration = new Configuration(basePath);
+        Configuration = new(basePath);
 
         ExceptionFactory = Configuration.DefaultExceptionFactory;
     }
@@ -126,11 +126,11 @@ public class InventoryApi : IInventoryApi
             throw new ApiException(400, "Missing required parameter 'storeId' when calling InventoryApi->GetInventory");
 
         string localVarPath = "./Inventory/{storeId}";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -160,7 +160,7 @@ public class InventoryApi : IInventoryApi
                 throw exception;
         }
 
-        return new ApiResponse<InventoryDto>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
             (InventoryDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(InventoryDto)));
     }
 
@@ -188,11 +188,11 @@ public class InventoryApi : IInventoryApi
             throw new ApiException(400, "Missing required parameter 'storeId' when calling InventoryApi->GetInventory");
 
         string localVarPath = "./Inventory/{storeId}";
-        Dictionary<string, string> localVarPathParams = new Dictionary<string, string>();
-        List<KeyValuePair<string, string>> localVarQueryParams = new List<KeyValuePair<string, string>>();
-        Dictionary<string, string> localVarHeaderParams = new Dictionary<string, string>(Configuration.DefaultHeader);
-        Dictionary<string, string> localVarFormParams = new Dictionary<string, string>();
-        Dictionary<string, FileParameter> localVarFileParams = new Dictionary<string, FileParameter>();
+        Dictionary<string, string> localVarPathParams = new();
+        List<KeyValuePair<string, string>> localVarQueryParams = new();
+        Dictionary<string, string> localVarHeaderParams = new(Configuration.DefaultHeader);
+        Dictionary<string, string> localVarFormParams = new();
+        Dictionary<string, FileParameter> localVarFileParams = new();
         object localVarPostBody = null;
 
         // to determine the Content-Type header
@@ -222,7 +222,7 @@ public class InventoryApi : IInventoryApi
                 throw exception;
         }
 
-        return new ApiResponse<InventoryDto>(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
+        return new(localVarStatusCode, localVarResponse.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
             (InventoryDto) Configuration.ApiClient.Deserialize(localVarResponse, typeof(InventoryDto)));
     }
 

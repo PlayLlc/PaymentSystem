@@ -26,9 +26,9 @@ public static partial class WebApplicationBuilderExtensions
         builder.Services.AddScoped<DbContext, LoyaltyDbContext>();
 
         // Api Clients 
-        builder.Services.AddScoped<IMerchantApi, MerchantApi>(a => new MerchantApi(new Configuration(identityApiConfiguration.BasePath)));
-        builder.Services.AddScoped<IUserApi, UserApi>(a => new UserApi(new Configuration(identityApiConfiguration.BasePath)));
-        builder.Services.AddScoped<IItemsApi, ItemsApi>(a => new ItemsApi(new Configuration(inventoryApiConfiguration.BasePath)));
+        builder.Services.AddScoped<IMerchantApi, MerchantApi>(a => new(new Configuration(identityApiConfiguration.BasePath)));
+        builder.Services.AddScoped<IUserApi, UserApi>(a => new(new Configuration(identityApiConfiguration.BasePath)));
+        builder.Services.AddScoped<IItemsApi, ItemsApi>(a => new(new Configuration(inventoryApiConfiguration.BasePath)));
         builder.Services.AddScoped<IRetrieveInventoryItems, InventoryItemRetriever>();
 
         // Repositories 

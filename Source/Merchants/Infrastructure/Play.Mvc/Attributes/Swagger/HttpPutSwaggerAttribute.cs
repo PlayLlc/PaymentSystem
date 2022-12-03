@@ -57,7 +57,7 @@ public class HttpPutSwaggerAttribute : HttpPutAttribute
     private static bool TryCapturingAreasName(string value, out string? areasName)
     {
         areasName = null;
-        Regex regex = new Regex(@"(?<areas>\\Areas\\)(?<areasName>(.*?))(?<controllers>\\Controllers\\)");
+        Regex regex = new(@"(?<areas>\\Areas\\)(?<areasName>(.*?))(?<controllers>\\Controllers\\)");
         Match match = regex.Match(value);
 
         if (!match.Success)

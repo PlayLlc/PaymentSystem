@@ -28,7 +28,7 @@ public class RewardsBalanceMustBeGreaterThanOrEqualToRewardRedemption : Business
 
     public override bool IsBroken() => !_IsValid;
 
-    public override RewardBalanceIsInsufficient CreateBusinessRuleViolationDomainEvent(Member aggregate) => new RewardBalanceIsInsufficient(aggregate, this);
+    public override RewardBalanceIsInsufficient CreateBusinessRuleViolationDomainEvent(Member aggregate) => new(aggregate, this);
 
     #endregion
 }

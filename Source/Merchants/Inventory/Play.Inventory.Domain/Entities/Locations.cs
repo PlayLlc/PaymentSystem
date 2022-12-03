@@ -21,23 +21,23 @@ public class Locations : Entity<SimpleStringId>
     // Constructor for Entity Framework
     private Locations()
     {
-        _Stores = new HashSet<Store>();
+        _Stores = new();
     }
 
     /// <exception cref="Play.Domain.ValueObjects.ValueObjectException"></exception>
     internal Locations(string id, bool allLocations, params string[] storeIds)
     {
-        Id = new SimpleStringId(id);
+        Id = new(id);
         _AllLocations = allLocations;
-        _Stores = new HashSet<Store>(storeIds.Select(a => new Store(new SimpleStringId(a))));
+        _Stores = new(storeIds.Select(a => new Store(new SimpleStringId(a))));
     }
 
     /// <exception cref="Play.Domain.ValueObjects.ValueObjectException"></exception>
     internal Locations(LocationsDto dto)
     {
-        Id = new SimpleStringId(dto.Id);
+        Id = new(dto.Id);
         _AllLocations = dto.AllLocations;
-        _Stores = new HashSet<Store>(dto.StoreIds.Select(a => new Store(new SimpleStringId(a))));
+        _Stores = new(dto.StoreIds.Select(a => new Store(new SimpleStringId(a))));
     }
 
     #endregion
@@ -62,7 +62,7 @@ public class Locations : Entity<SimpleStringId>
 
         int locationsAdded = 0;
         foreach (SimpleStringId id in storeIds)
-            locationsAdded += _Stores.Add(new Store(id)) ? 1 : 0;
+            locationsAdded += _Stores.Add(new(id)) ? 1 : 0;
 
         return locationsAdded;
     }
@@ -81,7 +81,7 @@ public class Locations : Entity<SimpleStringId>
         int locationsRemoved = 0;
 
         foreach (SimpleStringId id in storeIds)
-            locationsRemoved += _Stores.Remove(new Store(id)) ? 1 : 0;
+            locationsRemoved += _Stores.Remove(new(id)) ? 1 : 0;
 
         return locationsRemoved;
     }
@@ -97,7 +97,7 @@ public class Locations : Entity<SimpleStringId>
 
     public override LocationsDto AsDto()
     {
-        return new LocationsDto
+        return new()
         {
             Id = Id,
             AllLocations = _AllLocations,

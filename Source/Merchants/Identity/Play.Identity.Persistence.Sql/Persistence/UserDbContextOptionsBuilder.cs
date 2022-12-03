@@ -16,10 +16,10 @@ internal class UserDbContextOptionsBuilder : IDesignTimeDbContextFactory<UserIde
     {
         IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
         string connectionString = configuration.GetConnectionString("Identity");
-        DbContextOptionsBuilder<UserIdentityDbContext> builder = new DbContextOptionsBuilder<UserIdentityDbContext>();
+        DbContextOptionsBuilder<UserIdentityDbContext> builder = new();
         builder.UseSqlServer(connectionString);
 
-        return new UserIdentityDbContext(builder.Options);
+        return new(builder.Options);
     }
 
     #endregion

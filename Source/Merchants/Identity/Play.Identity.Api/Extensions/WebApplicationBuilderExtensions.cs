@@ -10,7 +10,7 @@ public static partial class WebApplicationBuilderExtensions
 
     internal static WebApplicationBuilder ConfigureAutoMapper(this WebApplicationBuilder builder)
     {
-        MapperConfiguration mapperConfig = new MapperConfiguration(cfg =>
+        MapperConfiguration mapperConfig = new(cfg =>
         {
             cfg.AddProfile(new AccountMappingProfile());
         });

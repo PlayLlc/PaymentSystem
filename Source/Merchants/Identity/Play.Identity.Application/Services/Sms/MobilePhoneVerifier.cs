@@ -21,7 +21,7 @@ public class MobilePhoneVerifier : IVerifyMobilePhones
     public MobilePhoneVerifier(ISendSmsMessages smsClient, ILogger<MobilePhoneVerifier> logger)
     {
         _SmsClient = smsClient;
-        _TemplateBuilder = new MobilePhoneVerificationTemplateBuilder();
+        _TemplateBuilder = new();
         _Logger = logger;
     }
 

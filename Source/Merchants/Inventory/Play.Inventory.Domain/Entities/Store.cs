@@ -18,13 +18,13 @@ public class Store : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     public Store(StoreDto dto)
     {
-        Id = new SimpleStringId(dto.Id);
+        Id = new(dto.Id);
     }
 
     /// <exception cref="ValueObjectException"></exception>
     public Store(string id)
     {
-        Id = new SimpleStringId(id);
+        Id = new(id);
     }
 
     // Constructor for Entity Framework
@@ -37,7 +37,7 @@ public class Store : Entity<SimpleStringId>
 
     public override SimpleStringId GetId() => Id;
 
-    public override StoreDto AsDto() => new StoreDto {Id = Id};
+    public override StoreDto AsDto() => new() {Id = Id};
 
     #endregion
 }

@@ -20,7 +20,7 @@ public static class DomainValueConverters
     {
         #region Constructor
 
-        public TimeClockStatusConverter() : base(x => x.Value, y => new TimeClockStatus(y))
+        public TimeClockStatusConverter() : base(x => x.Value, y => new(y))
         { }
 
         #endregion

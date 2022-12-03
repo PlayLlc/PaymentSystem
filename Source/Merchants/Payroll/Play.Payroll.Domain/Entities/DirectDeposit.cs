@@ -27,16 +27,16 @@ public class DirectDeposit : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal DirectDeposit(DirectDepositDto dto)
     {
-        Id = new SimpleStringId(dto.Id);
-        _EmployeeId = new SimpleStringId(dto.EmployeeId);
-        _CheckingAccount = new CheckingAccount(dto.CheckingAccount);
+        Id = new(dto.Id);
+        _EmployeeId = new(dto.EmployeeId);
+        _CheckingAccount = new(dto.CheckingAccount);
     }
 
     /// <exception cref="ValueObjectException"></exception>
     internal DirectDeposit(string id, string employeeId, CheckingAccount checkingAccount)
     {
-        Id = new SimpleStringId(id);
-        _EmployeeId = new SimpleStringId(employeeId);
+        Id = new(id);
+        _EmployeeId = new(employeeId);
         _CheckingAccount = checkingAccount;
     }
 
@@ -62,7 +62,7 @@ public class DirectDeposit : Entity<SimpleStringId>
         }
         catch (Exception e)
         {
-            return new Result(e.Message);
+            return new(e.Message);
         }
     }
 

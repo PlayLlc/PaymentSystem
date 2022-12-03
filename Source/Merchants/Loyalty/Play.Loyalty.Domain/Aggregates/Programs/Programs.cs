@@ -27,8 +27,8 @@ public partial class Programs : Aggregate<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal Programs(string id, string merchantId, RewardProgram rewardProgram, DiscountProgram discountProgram)
     {
-        Id = new SimpleStringId(id);
-        _MerchantId = new SimpleStringId(merchantId);
+        Id = new(id);
+        _MerchantId = new(merchantId);
         _RewardProgram = rewardProgram;
         _DiscountProgram = discountProgram;
     }
@@ -40,10 +40,10 @@ public partial class Programs : Aggregate<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal Programs(LoyaltyProgramDto dto)
     {
-        Id = new SimpleStringId(dto.Id);
-        _MerchantId = new SimpleStringId(dto.MerchantId);
-        _RewardProgram = new RewardProgram(dto.RewardsProgram);
-        _DiscountProgram = new DiscountProgram(dto.DiscountsProgram);
+        Id = new(dto.Id);
+        _MerchantId = new(dto.MerchantId);
+        _RewardProgram = new(dto.RewardsProgram);
+        _DiscountProgram = new(dto.DiscountsProgram);
     }
 
     #endregion
@@ -57,12 +57,12 @@ public partial class Programs : Aggregate<SimpleStringId>
     /// <exception cref="BusinessRuleValidationException"></exception>
     public static async Task<Programs> Create(IRetrieveMerchants merchantRetriever, IRetrieveUsers userRetriever, CreateLoyaltyProgram command)
     {
-        Money rewardAmount = new Money(RewardProgram.DefaultRewardAmount, command.NumericCurrencyCode);
-        RewardProgram rewardProgram = new RewardProgram(GenerateSimpleStringId(), rewardAmount, RewardProgram.DefaultPointsPerDollar,
+        Money rewardAmount = new(RewardProgram.DefaultRewardAmount, command.NumericCurrencyCode);
+        RewardProgram rewardProgram = new(GenerateSimpleStringId(), rewardAmount, RewardProgram.DefaultPointsPerDollar,
             RewardProgram.DefaultPointsRequired, false);
-        DiscountProgram discountProgram = new DiscountProgram(GenerateSimpleStringId(), false, Array.Empty<Discount>());
+        DiscountProgram discountProgram = new(GenerateSimpleStringId(), false, Array.Empty<Discount>());
 
-        Programs programs = new Programs(GenerateSimpleStringId(), command.MerchantId, rewardProgram, discountProgram);
+        Programs programs = new(GenerateSimpleStringId(), command.MerchantId, rewardProgram, discountProgram);
         User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Merchant merchant = await merchantRetriever.GetByIdAsync(command.MerchantId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Merchant));
 
@@ -89,7 +89,7 @@ public partial class Programs : Aggregate<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override LoyaltyProgramDto AsDto() =>
-        new LoyaltyProgramDto
+        new()
         {
             Id = Id,
             MerchantId = _MerchantId,

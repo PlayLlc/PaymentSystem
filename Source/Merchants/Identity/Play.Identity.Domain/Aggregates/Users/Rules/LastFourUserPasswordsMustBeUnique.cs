@@ -28,7 +28,7 @@ internal class LastFourUserPasswordsMustBeUnique : BusinessRule<User, SimpleStri
 
     #region Instance Members
 
-    public override UserPasswordWasTooWeak CreateBusinessRuleViolationDomainEvent(User user) => new UserPasswordWasTooWeak(user, this);
+    public override UserPasswordWasTooWeak CreateBusinessRuleViolationDomainEvent(User user) => new(user, this);
 
     public override bool IsBroken() => _IsValid;
 

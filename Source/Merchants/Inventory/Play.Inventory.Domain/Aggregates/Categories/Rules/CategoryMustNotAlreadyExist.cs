@@ -32,7 +32,7 @@ public class CategoryMustNotAlreadyExist : BusinessRule<Category, SimpleStringId
 
     public override bool IsBroken() => !_IsValid;
 
-    public override CategoryAlreadyExists CreateBusinessRuleViolationDomainEvent(Category aggregate) => new CategoryAlreadyExists(aggregate, this);
+    public override CategoryAlreadyExists CreateBusinessRuleViolationDomainEvent(Category aggregate) => new(aggregate, this);
 
     #endregion
 }

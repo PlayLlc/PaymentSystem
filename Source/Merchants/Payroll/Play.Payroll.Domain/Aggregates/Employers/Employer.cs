@@ -28,8 +28,8 @@ public class Employer : Aggregate<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal Employer(string id, string merchantId) 
     {
-        Id = new SimpleStringId(id);
-        _MerchantId = new SimpleStringId(merchantId);
+        Id = new(id);
+        _MerchantId = new(merchantId);
     }
 
     // Constructor for Entity Framework
@@ -39,8 +39,8 @@ public class Employer : Aggregate<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal Employer(EmployerDto dto)
     {
-        Id = new SimpleStringId(dto.Id);
-        _MerchantId = new SimpleStringId(dto.MerchantId);
+        Id = new(dto.Id);
+        _MerchantId = new(dto.MerchantId);
     }
 
     #endregion
@@ -49,7 +49,7 @@ public class Employer : Aggregate<SimpleStringId>
 
     public async Task CutPaychecks(IISendAchTransfers achClient, CutChecks commands)
     {
-        PayPeriod payPeriod = new PayPeriod(commands.PayPeriod);
+        PayPeriod payPeriod = new(commands.PayPeriod);
           
         foreach (var employee in _Employees)
         { 

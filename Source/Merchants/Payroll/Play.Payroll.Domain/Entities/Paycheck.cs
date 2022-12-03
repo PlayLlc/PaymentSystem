@@ -34,26 +34,26 @@ public class Paycheck : Entity<SimpleStringId>
     {
         try
         {
-            _DateIssued = new DateTimeUtc(dto.DateIssued);
+            _DateIssued = new(dto.DateIssued);
         }
         catch (PlayInternalException e)
         {
             throw new ValueObjectException($"The {nameof(PaycheckDto.DateIssued)} provided must be in {nameof(DateTimeKind.Utc)} format", e);
         }
 
-        Id = new SimpleStringId(dto.Id);
-        _EmployeeId = new SimpleStringId(dto.EmployeeId);
+        Id = new(dto.Id);
+        _EmployeeId = new(dto.EmployeeId);
         _Amount = dto.Amount;
-        _TimeSheet = new TimeSheet(dto.TimeSheet);
-        _PayPeriod = new PayPeriod(dto!.PayPeriod);
+        _TimeSheet = new(dto.TimeSheet);
+        _PayPeriod = new(dto!.PayPeriod);
         _HasBeenDistributed = dto.HasBeenDistributed;
     }
 
     /// <exception cref="ValueObjectException"></exception>
     private Paycheck(string id, string employeeId, Money amount, DateTimeUtc dateIssued, TimeSheet timeSheet, PayPeriod payPeriod, bool hasBeenDistributed)
     {
-        Id = new SimpleStringId(id);
-        _EmployeeId = new SimpleStringId(employeeId);
+        Id = new(id);
+        _EmployeeId = new(employeeId);
         _Amount = amount;
         _DateIssued = dateIssued;
         _TimeSheet = timeSheet;

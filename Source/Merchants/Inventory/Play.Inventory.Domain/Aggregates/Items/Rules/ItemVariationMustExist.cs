@@ -24,7 +24,7 @@ public class ItemVariationMustExist : BusinessRule<Item, SimpleStringId>
 
     #region Instance Members
 
-    public override ItemVariationDoesNotExist CreateBusinessRuleViolationDomainEvent(Item item) => new ItemVariationDoesNotExist(item, this);
+    public override ItemVariationDoesNotExist CreateBusinessRuleViolationDomainEvent(Item item) => new(item, this);
 
     public override bool IsBroken() => !_IsValid;
 

@@ -49,10 +49,10 @@ public class Variation : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal Variation(VariationDto dto)
     {
-        Id = new SimpleStringId(dto.Id);
-        _ItemId = new SimpleStringId(dto.ItemId);
-        _Name = new Name(dto.Name);
-        _Price = new MoneyValueObject(dto.Price);
+        Id = new(dto.Id);
+        _ItemId = new(dto.ItemId);
+        _Name = new(dto.Name);
+        _Price = new(dto.Price);
         _Sku = string.IsNullOrEmpty(dto.Sku) ? null : new Sku(dto.Sku);
     }
 
@@ -71,18 +71,18 @@ public class Variation : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal void UpdateSku(string sku)
     {
-        _Sku = new Sku(sku);
+        _Sku = new(sku);
     }
 
     internal void UpdateName(string name)
     {
-        _Name = new Name(name);
+        _Name = new(name);
     }
 
     public override SimpleStringId GetId() => Id;
 
     public override VariationDto AsDto() =>
-        new VariationDto
+        new()
         {
             Id = Id,
             Name = _Name,

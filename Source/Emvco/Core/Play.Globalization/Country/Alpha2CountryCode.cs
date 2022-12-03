@@ -43,7 +43,7 @@ public readonly struct Alpha2CountryCode
 
     public char[] AsCharArray() => new[] {(char) _FirstChar, (char) _SecondChar};
     public ReadOnlySpan<char> AsReadOnlySpan() => AsCharArray();
-    public string AsString() => new string(AsReadOnlySpan());
+    public string AsString() => new(AsReadOnlySpan());
     public override string ToString() => AsString();
     public byte[] Encode() => new[] {_FirstChar, _SecondChar};
 
@@ -89,7 +89,7 @@ public readonly struct Alpha2CountryCode
         buffer[0] = (char) value._FirstChar;
         buffer[1] = (char) value._SecondChar;
 
-        return new string(buffer);
+        return new(buffer);
     }
 
     public static bool operator !=(Alpha2CountryCode left, Alpha2CountryCode right) => !left.Equals(right);

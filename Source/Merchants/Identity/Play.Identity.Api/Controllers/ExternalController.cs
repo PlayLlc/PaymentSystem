@@ -58,7 +58,7 @@ public class ExternalController : Controller
         //    throw new Exception("invalid return URL");
 
         // start challenge and roundtrip the return URL and scheme 
-        AuthenticationProperties props = new AuthenticationProperties
+        AuthenticationProperties props = new()
         {
             RedirectUri = Url.Action(nameof(Callback)),
             Items =
@@ -82,7 +82,7 @@ public class ExternalController : Controller
         AuthenticateResult result = await HttpContext.AuthenticateAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);
 
         if (result?.Succeeded != true)
-            throw new Exception("External authentication error");
+            throw new("External authentication error");
 
         if (_Logger.IsEnabled(LogLevel.Debug))
         {
@@ -98,12 +98,12 @@ public class ExternalController : Controller
         // this allows us to collect any additional claims or properties
         // for the specific protocols used and store them in the local auth cookie.
         // this is typically used to store data needed for sign out from those protocols.
-        List<Claim> additionalLocalClaims = new List<Claim>();
-        AuthenticationProperties localSignInProps = new AuthenticationProperties();
+        List<Claim> additionalLocalClaims = new();
+        AuthenticationProperties localSignInProps = new();
         ProcessLoginCallback(result, additionalLocalClaims, localSignInProps);
 
         // issue authentication cookie for user
-        IdentityServerUser issuer = new IdentityServerUser(user.Id)
+        IdentityServerUser issuer = new(user.Id)
         {
             DisplayName = user.UserName,
             IdentityProvider = provider,
@@ -130,7 +130,7 @@ public class ExternalController : Controller
         // the most common claim type for that are the sub claim and the NameIdentifier
         // depending on the external provider, some other claim type might be used
         Claim userIdClaim = externalUser.FindFirst(JwtClaimTypes.Subject)
-                            ?? externalUser.FindFirst(ClaimTypes.NameIdentifier) ?? throw new Exception("Unknown userid");
+                            ?? externalUser.FindFirst(ClaimTypes.NameIdentifier) ?? throw new("Unknown userid");
 
         // remove the user id claim so we don't include it as an extra claim if/when we provision the user
         List<Claim> claims = externalUser.Claims.ToList();
@@ -148,11 +148,11 @@ public class ExternalController : Controller
     private async Task<IdentityUser> AutoProvisionUser(string provider, string providerUserId, IEnumerable<Claim> claims)
     {
         // create dummy internal account (you can do something more complex)
-        UserIdentity user = new UserIdentity(new UserDto()) {Id = Guid.NewGuid().ToString()};
+        UserIdentity user = new(new()) {Id = Guid.NewGuid().ToString()};
         await _UserManager.CreateAsync(user);
 
         // add external user ID to new account
-        await _UserManager.AddLoginAsync(user, new UserLoginInfo(provider, providerUserId, provider));
+        await _UserManager.AddLoginAsync(user, new(provider, providerUserId, provider));
 
         return user;
     }
@@ -165,7 +165,7 @@ public class ExternalController : Controller
         // so we can use it for single sign-out
         Claim sid = externalResult.Principal.Claims.FirstOrDefault(x => x.Type == JwtClaimTypes.SessionId);
         if (sid != null)
-            localClaims.Add(new Claim(JwtClaimTypes.SessionId, sid.Value));
+            localClaims.Add(new(JwtClaimTypes.SessionId, sid.Value));
 
         // if the external provider issued an id_token, we'll keep it for signout
         string idToken = externalResult.Properties.GetTokenValue("id_token");

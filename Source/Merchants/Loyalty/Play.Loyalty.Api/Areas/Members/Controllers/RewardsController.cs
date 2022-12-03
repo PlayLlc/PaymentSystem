@@ -34,7 +34,7 @@ public class RewardsController : BaseController
     public async Task<IActionResult> Add(string loyaltyMemberId, UpdateRewardsPoints command)
     {
         this.ValidateModel();
-        Member member = await _MemberRepository.GetByIdAsync(new SimpleStringId(loyaltyMemberId)).ConfigureAwait(false)
+        Member member = await _MemberRepository.GetByIdAsync(new(loyaltyMemberId)).ConfigureAwait(false)
                         ?? throw new NotFoundException(typeof(Member));
 
         await member.AddRewardPoints(_UserRetriever, _ProgramsRepository, command).ConfigureAwait(false);
@@ -47,7 +47,7 @@ public class RewardsController : BaseController
     public async Task<IActionResult> Remove(string loyaltyMemberId, UpdateRewardsPoints command)
     {
         this.ValidateModel();
-        Member member = await _MemberRepository.GetByIdAsync(new SimpleStringId(loyaltyMemberId)).ConfigureAwait(false)
+        Member member = await _MemberRepository.GetByIdAsync(new(loyaltyMemberId)).ConfigureAwait(false)
                         ?? throw new NotFoundException(typeof(Member));
 
         await member.RemoveRewards(_UserRetriever, _ProgramsRepository, command).ConfigureAwait(false);
@@ -60,7 +60,7 @@ public class RewardsController : BaseController
     public async Task<IActionResult> Claim(string loyaltyMemberId, ClaimRewards command)
     {
         this.ValidateModel();
-        Member member = await _MemberRepository.GetByIdAsync(new SimpleStringId(loyaltyMemberId)).ConfigureAwait(false)
+        Member member = await _MemberRepository.GetByIdAsync(new(loyaltyMemberId)).ConfigureAwait(false)
                         ?? throw new NotFoundException(typeof(Member));
 
         await member.ClaimRewards(_UserRetriever, _ProgramsRepository, command).ConfigureAwait(false);

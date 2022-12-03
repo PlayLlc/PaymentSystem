@@ -19,7 +19,7 @@ public record CreateNewStore
     [MinLength(1)]
     public string Name { get; set; } = string.Empty;
 
-    public AddressDto Address { get; set; } = new AddressDto();
+    public AddressDto Address { get; set; } = new();
 
     #endregion
 }

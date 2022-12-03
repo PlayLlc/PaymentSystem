@@ -80,7 +80,7 @@ public class UserIdentityDbSeeder
     /// <exception cref="DbUpdateException"></exception>
     private async Task<UserIdentity> AddSuperAdmin(UserManager<UserIdentity> userManager)
     {
-        Address address = new Address(new AddressDto
+        Address address = new(new()
         {
             Id = Randomize.AlphaNumericSpecial.String(20),
             StreetAddress = "1234 Radio Shack Rd",
@@ -90,14 +90,14 @@ public class UserIdentityDbSeeder
             Zipcode = "75036"
         });
 
-        PersonalDetail personalDetail = new PersonalDetail(new PersonalDetailDto
+        PersonalDetail personalDetail = new(new()
         {
             Id = Randomize.AlphaNumericSpecial.String(20),
             DateOfBirth = new DateTimeUtc(1969, 4, 20),
             LastFourOfSocial = "6969"
         });
 
-        Contact contact = new Contact(new ContactDto
+        Contact contact = new(new()
         {
             Id = Randomize.AlphaNumericSpecial.String(20),
             Email = "test@aol.com",
@@ -113,11 +113,11 @@ public class UserIdentityDbSeeder
         string terminalId = Randomize.AlphaNumericSpecial.String(20);
 
         string hashedPassword = _PasswordHasher.GeneratePasswordHash(clearTextPassword);
-        Password password = new Password(passwordId, hashedPassword, DateTimeUtc.Now);
+        Password password = new(passwordId, hashedPassword, DateTimeUtc.Now);
 
         // TODO: Create Merchant
 
-        UserIdentity superAdmin = new UserIdentity(userId, merchantId, terminalId, password, contact, address, personalDetail)
+        UserIdentity superAdmin = new(userId, merchantId, terminalId, password, contact, address, personalDetail)
         {
             EmailConfirmed = true,
             PhoneNumberConfirmed = true
@@ -136,8 +136,8 @@ public class UserIdentityDbSeeder
         await userManager.AddClaimsAsync(user,
             new Claim[]
             {
-                new Claim(JwtClaimTypes.Name, user.Contact.GetFullName()), new Claim(JwtClaimTypes.GivenName, user.Contact.FirstName),
-                new Claim(JwtClaimTypes.FamilyName, user.Contact.LastName), new Claim(JwtClaimTypes.Email, user.Contact.Email)
+                new(JwtClaimTypes.Name, user.Contact.GetFullName()), new(JwtClaimTypes.GivenName, user.Contact.FirstName),
+                new(JwtClaimTypes.FamilyName, user.Contact.LastName), new(JwtClaimTypes.Email, user.Contact.Email)
             });
     }
 

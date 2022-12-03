@@ -18,7 +18,7 @@ public partial class Item : Aggregate<SimpleStringId>
     #region Instance Values
 
     private readonly SimpleStringId _MerchantId;
-    private readonly HashSet<Category> _Categories = new HashSet<Category>();
+    private readonly HashSet<Category> _Categories = new();
 
     /// <summary>
     ///     The locations that carry this item in stock
@@ -29,7 +29,7 @@ public partial class Item : Aggregate<SimpleStringId>
     ///     Variations of this item, such as 'XSmall', 'Small', 'Medium'. Every time a variation is created a new child Item is
     ///     created
     /// </summary>
-    private readonly HashSet<Variation> _Variations = new HashSet<Variation>();
+    private readonly HashSet<Variation> _Variations = new();
 
     /// <summary>
     ///     Inventory tracking is handled by these alerts. When an item is below threshold or empty, this object will determine
@@ -53,14 +53,14 @@ public partial class Item : Aggregate<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     public Item(ItemDto value)
     {
-        Id = new SimpleStringId(value.Id);
-        _MerchantId = new SimpleStringId(value.Id);
-        _Name = new Name(value.Name);
+        Id = new(value.Id);
+        _MerchantId = new(value.Id);
+        _Name = new(value.Name);
         _Description = value.Description;
-        _Alerts = new Alerts(value.Alerts);
-        _Locations = new Locations(value.Locations);
-        _Categories = new HashSet<Category>(value.Categories.Select(a => new Category(a)));
-        _Variations = new HashSet<Variation>(value.Variations.Select(a => new Variation(a)));
+        _Alerts = new(value.Alerts);
+        _Locations = new(value.Locations);
+        _Categories = new(value.Categories.Select(a => new Category(a)));
+        _Variations = new(value.Variations.Select(a => new Variation(a)));
     }
 
     /// <exception cref="ValueObjectException"></exception>
@@ -68,8 +68,8 @@ public partial class Item : Aggregate<SimpleStringId>
         string id, string merchantId, Name name, string description, Alerts alerts, Locations locations, Sku? sku = null,
         IEnumerable<Category>? categories = null, IEnumerable<Variation>? variations = null)
     {
-        Id = new SimpleStringId(id);
-        _MerchantId = new SimpleStringId(merchantId);
+        Id = new(id);
+        _MerchantId = new(merchantId);
         _Name = name;
         _Description = description;
         _Alerts = alerts;
@@ -99,16 +99,16 @@ public partial class Item : Aggregate<SimpleStringId>
         User user = userService.GetById(command.UserId) ?? throw new NotFoundException(typeof(User));
         Merchant merchant = merchantService.GetById(command.UserId) ?? throw new NotFoundException(typeof(User));
 
-        Alerts alerts = new Alerts(GenerateSimpleStringId(), true, 0);
-        Locations locations = new Locations(GenerateSimpleStringId(), true);
-        Name name = new Name(command.Name);
+        Alerts alerts = new(GenerateSimpleStringId(), true, 0);
+        Locations locations = new(GenerateSimpleStringId(), true);
+        Name name = new(command.Name);
         Sku? sku = command.Sku is null ? null : new Sku(command.Sku);
         IEnumerable<Category> categories = command.Categories.Select(a => new Category(a));
-        MoneyValueObject price = new MoneyValueObject(command.Price);
-        SimpleStringId itemId = new SimpleStringId(GenerateSimpleStringId());
-        Variation variation = new Variation(new SimpleStringId(GenerateSimpleStringId()), itemId, new Name("Original"), price);
+        MoneyValueObject price = new(command.Price);
+        SimpleStringId itemId = new(GenerateSimpleStringId());
+        Variation variation = new(new(GenerateSimpleStringId()), itemId, new("Original"), price);
 
-        Item item = new Item(GenerateSimpleStringId(), merchant.Id, name, command.Description ?? string.Empty, alerts, locations, sku, categories,
+        Item item = new(GenerateSimpleStringId(), merchant.Id, name, command.Description ?? string.Empty, alerts, locations, sku, categories,
             new List<Variation> {variation});
 
         item.Enforce(new MerchantMustBeActiveToCreateAggregate<Item>(merchant));
@@ -125,7 +125,7 @@ public partial class Item : Aggregate<SimpleStringId>
 
     public override ItemDto AsDto()
     {
-        return new ItemDto
+        return new()
         {
             Id = Id,
             Name = _Name,

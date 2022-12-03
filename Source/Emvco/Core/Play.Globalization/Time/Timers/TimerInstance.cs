@@ -19,7 +19,7 @@ internal class TimerInstance
 
     public TimerInstance(Milliseconds timeout)
     {
-        _Stopwatch = new Stopwatch();
+        _Stopwatch = new();
         _Timeout = timeout;
         _Stopwatch.Start();
     }

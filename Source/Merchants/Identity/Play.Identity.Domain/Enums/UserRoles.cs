@@ -32,10 +32,10 @@ public record UserRoles : EnumObjectString
 
     static UserRoles()
     {
-        Empty = new UserRoles("");
-        SuperAdmin = new UserRoles(nameof(SuperAdmin));
-        Administrator = new UserRoles(nameof(Administrator));
-        SalesAssociate = new UserRoles(nameof(SalesAssociate));
+        Empty = new("");
+        SuperAdmin = new(nameof(SuperAdmin));
+        Administrator = new(nameof(Administrator));
+        SalesAssociate = new(nameof(SalesAssociate));
         _ValueObjectMap = new Dictionary<string, UserRoles>
         {
             {SuperAdmin, SuperAdmin},
@@ -70,7 +70,7 @@ public record UserRoles : EnumObjectString
 
     #region Operator Overrides
 
-    public static implicit operator UserRole(UserRoles value) => new UserRole(value);
+    public static implicit operator UserRole(UserRoles value) => new(value);
 
     #endregion
 }

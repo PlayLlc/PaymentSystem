@@ -34,19 +34,19 @@ public record Months : EnumObject<byte>
 
     static Months()
     {
-        Empty = new Months(0);
-        January = new Months(1);
-        February = new Months(2);
-        March = new Months(3);
-        April = new Months(4);
-        May = new Months(5);
-        June = new Months(6);
-        July = new Months(7);
-        August = new Months(8);
-        September = new Months(9);
-        October = new Months(10);
-        November = new Months(11);
-        December = new Months(12);
+        Empty = new(0);
+        January = new(1);
+        February = new(2);
+        March = new(3);
+        April = new(4);
+        May = new(5);
+        June = new(6);
+        July = new(7);
+        August = new(8);
+        September = new(9);
+        October = new(10);
+        November = new(11);
+        December = new(12);
 
         // ...
         _ValueObjectMap = new Dictionary<byte, Months>

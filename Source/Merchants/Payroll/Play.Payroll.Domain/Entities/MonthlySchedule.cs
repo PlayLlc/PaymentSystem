@@ -13,7 +13,7 @@ public class MonthlySchedule : PaydaySchedule
     DateTimeUtc? _SecondPayday;
     /// <exception cref="ValueObjectException"></exception>
     public MonthlySchedule(SimpleStringId id,
-        DateTimeUtc payday, DateTimeUtc? secondPayday) : base(id, (RecurrenceType)(secondPayday is null ? new RecurrenceType(RecurrenceTypes.Monthly) : new RecurrenceType(RecurrenceTypes.SemiMonthly)))
+        DateTimeUtc payday, DateTimeUtc? secondPayday) : base(id, (RecurrenceType)(secondPayday is null ? new(RecurrenceTypes.Monthly) : new RecurrenceType(RecurrenceTypes.SemiMonthly)))
     {
         _Payday = payday;
         _SecondPayday = secondPayday;
@@ -29,7 +29,7 @@ public class MonthlySchedule : PaydaySchedule
     public override PayPeriod CreateNextPayPeriod(SimpleStringId id)
     {
         int dayOfTheMonth = DateTimeUtc.Now.Day;
-        DateTime a = new DateTime()
+        DateTime a = new()
 
         DateTime.Now.Subtract()
         if (_Payday.Day < dayOfTheMonth)

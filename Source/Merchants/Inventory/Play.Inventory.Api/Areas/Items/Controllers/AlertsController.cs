@@ -33,7 +33,7 @@ public class AlertsController : BaseController
     public async Task<IActionResult> Activate(string itemId, UpdateItemAlerts command)
     {
         this.ValidateModel();
-        Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
+        Item item = await _ItemsRepository.GetByIdAsync(new(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
 
         await item.ActivateAlerts(_UserRetriever, command).ConfigureAwait(false);
 
@@ -45,7 +45,7 @@ public class AlertsController : BaseController
     public async Task<IActionResult> Deaticvate(string itemId, UpdateItemAlerts command)
     {
         this.ValidateModel();
-        Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
+        Item item = await _ItemsRepository.GetByIdAsync(new(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
 
         await item.DeactivateAlerts(_UserRetriever, command).ConfigureAwait(false);
 
@@ -57,7 +57,7 @@ public class AlertsController : BaseController
     public async Task<IActionResult> UpdateLowInventoryThreshold(string itemId, UpdateLowInventoryThresholdAlert command)
     {
         this.ValidateModel();
-        Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(command.ItemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
+        Item item = await _ItemsRepository.GetByIdAsync(new(command.ItemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
 
         await item.UpdateLowInventoryThreshold(_UserRetriever, command).ConfigureAwait(false);
 

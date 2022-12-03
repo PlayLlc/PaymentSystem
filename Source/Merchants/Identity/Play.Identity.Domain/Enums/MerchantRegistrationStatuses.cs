@@ -25,11 +25,11 @@ public record MerchantRegistrationStatuses : EnumObjectString
 
     static MerchantRegistrationStatuses()
     {
-        Empty = new MerchantRegistrationStatuses("");
-        WaitingForRiskAnalysis = new MerchantRegistrationStatuses(nameof(WaitingForRiskAnalysis));
-        Approved = new MerchantRegistrationStatuses(nameof(Approved));
-        Expired = new MerchantRegistrationStatuses(nameof(Expired));
-        Rejected = new MerchantRegistrationStatuses(nameof(Rejected));
+        Empty = new("");
+        WaitingForRiskAnalysis = new(nameof(WaitingForRiskAnalysis));
+        Approved = new(nameof(Approved));
+        Expired = new(nameof(Expired));
+        Rejected = new(nameof(Rejected));
 
         _ValueObjectMap = new Dictionary<string, MerchantRegistrationStatuses>
         {
@@ -64,7 +64,7 @@ public record MerchantRegistrationStatuses : EnumObjectString
 
     #region Operator Overrides
 
-    public static implicit operator MerchantRegistrationStatus(MerchantRegistrationStatuses value) => new MerchantRegistrationStatus(value);
+    public static implicit operator MerchantRegistrationStatus(MerchantRegistrationStatuses value) => new(value);
 
     #endregion
 }

@@ -40,7 +40,7 @@ public sealed class TimeClockDbContext : DbContext
     {
         // Enums
 
-        TimeClockEntityConfiguration timeClockEntityConfiguration = new TimeClockEntityConfiguration();
+        TimeClockEntityConfiguration timeClockEntityConfiguration = new();
 
         #region Enums
 

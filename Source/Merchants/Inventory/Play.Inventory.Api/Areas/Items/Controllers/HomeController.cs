@@ -33,7 +33,7 @@ public class HomeController : BaseController
     [ValidateAntiForgeryToken]
     public async Task<ItemDto> Get(string itemId)
     {
-        Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(ItemDto));
+        Item item = await _ItemsRepository.GetByIdAsync(new(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(ItemDto));
 
         return item.AsDto();
     }
@@ -43,11 +43,11 @@ public class HomeController : BaseController
     public async Task<IEnumerable<ItemDto>> GetAll([FromQuery] string merchantId, [FromQuery] int? pageSize, [FromQuery] int? position) // paging and shit
     {
         if (pageSize is null || position is null)
-            return (await _ItemsRepository.GetItemsAsync(new SimpleStringId(merchantId)).ConfigureAwait(false)).Select(a => a.AsDto())
+            return (await _ItemsRepository.GetItemsAsync(new(merchantId)).ConfigureAwait(false)).Select(a => a.AsDto())
                    ?? Array.Empty<ItemDto>();
 
         IEnumerable<ItemDto> items =
-            (await _ItemsRepository.GetItemsAsync(new SimpleStringId(merchantId), pageSize!.Value, position!.Value).ConfigureAwait(false))
+            (await _ItemsRepository.GetItemsAsync(new(merchantId), pageSize!.Value, position!.Value).ConfigureAwait(false))
             .Select(a => a.AsDto())
             ?? Array.Empty<ItemDto>();
 
@@ -58,7 +58,7 @@ public class HomeController : BaseController
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Remove(string itemId, RemoveItem command)
     {
-        Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(ItemDto));
+        Item item = await _ItemsRepository.GetByIdAsync(new(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(ItemDto));
 
         await item.Remove(_UserRetriever, command).ConfigureAwait(false);
 
@@ -70,7 +70,7 @@ public class HomeController : BaseController
     public async Task<IActionResult> UpdateDescription(string itemId, UpdateItemDescription command)
     {
         this.ValidateModel();
-        Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
+        Item item = await _ItemsRepository.GetByIdAsync(new(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
 
         await item.UpdateDescription(_UserRetriever, command).ConfigureAwait(false);
 
@@ -82,7 +82,7 @@ public class HomeController : BaseController
     public async Task<IActionResult> UpdateName(string itemId, UpdateItemName command)
     {
         this.ValidateModel();
-        Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
+        Item item = await _ItemsRepository.GetByIdAsync(new(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
 
         await item.UpdateName(_UserRetriever, command).ConfigureAwait(false);
 

@@ -28,7 +28,7 @@ public class DiscountPriceMustBeLowerThanItemPrice : BusinessRule<Programs, Simp
 
     public override bool IsBroken() => !_IsValid;
 
-    public override DiscountedPriceIsTooHigh CreateBusinessRuleViolationDomainEvent(Programs aggregate) => new DiscountedPriceIsTooHigh(aggregate, this);
+    public override DiscountedPriceIsTooHigh CreateBusinessRuleViolationDomainEvent(Programs aggregate) => new(aggregate, this);
 
     #endregion
 }

@@ -27,7 +27,7 @@ internal class StopwatchSession
         if (_StopwatchBuddy != null)
             throw new InvalidOperationException($"The {nameof(StopwatchSession)} could not be started because there is already a session running");
 
-        _StopwatchBuddy = new StopwatchInstance();
+        _StopwatchBuddy = new();
     }
 
     /// <exception cref="InvalidOperationException"></exception>

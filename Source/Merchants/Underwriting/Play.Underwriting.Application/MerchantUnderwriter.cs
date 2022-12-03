@@ -36,7 +36,7 @@ public class MerchantUnderwriter : IUnderwriteMerchants
 
     public async Task<bool> IsMerchantProhibited(Name name, Address address)
     {
-        VerifyMerchantIsProhibitedRequest request = new VerifyMerchantIsProhibitedRequest
+        VerifyMerchantIsProhibitedRequest request = new()
         {
             Name = name.Value,
             Address = address.AsDto()
@@ -58,7 +58,7 @@ public class MerchantUnderwriter : IUnderwriteMerchants
 
     public async Task<bool> IsIndustryProhibited(MerchantCategoryCode categoryCode)
     {
-        VerifyIndustryIsProhibitedRequest request = new VerifyIndustryIsProhibitedRequest {MerchantCategoryCode = categoryCode};
+        VerifyIndustryIsProhibitedRequest request = new() {MerchantCategoryCode = categoryCode};
 
         try
         {
@@ -76,7 +76,7 @@ public class MerchantUnderwriter : IUnderwriteMerchants
 
     public async Task<bool> IsUserProhibited(Address address, Contact contact)
     {
-        VerifyUserIsProhibitedRequest request = new VerifyUserIsProhibitedRequest
+        VerifyUserIsProhibitedRequest request = new()
         {
             Address = address.AsDto(),
             Contact = contact.AsDto()

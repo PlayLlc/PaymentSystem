@@ -15,7 +15,7 @@ internal class StopwatchInstance
 
     public StopwatchInstance()
     {
-        _Stopwatch = new Stopwatch();
+        _Stopwatch = new();
         _Stopwatch.Start();
     }
 

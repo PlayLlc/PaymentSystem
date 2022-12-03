@@ -41,7 +41,7 @@ public class MerchantController : Controller
     [ValidateAntiForgeryToken]
     public async Task<MerchantDto> Index([FromQuery] string id)
     {
-        Merchant merchant = await _MerchantRepository.GetByIdAsync(new SimpleStringId(id)).ConfigureAwait(false)
+        Merchant merchant = await _MerchantRepository.GetByIdAsync(new(id)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(MerchantRegistration), id);
 
         return merchant.AsDto();
@@ -53,7 +53,7 @@ public class MerchantController : Controller
     {
         this.ValidateModel();
 
-        Merchant merchant = await _MerchantRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
+        Merchant merchant = await _MerchantRepository.GetByIdAsync(new(command.Id)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(MerchantRegistration), command.Id);
         merchant.Update(_MerchantUnderwriter, command);
 
@@ -66,7 +66,7 @@ public class MerchantController : Controller
     {
         this.ValidateModel();
 
-        Merchant merchant = await _MerchantRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
+        Merchant merchant = await _MerchantRepository.GetByIdAsync(new(command.Id)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(MerchantRegistration), command.Id);
         merchant.Update(_MerchantUnderwriter, command);
 
@@ -79,7 +79,7 @@ public class MerchantController : Controller
     {
         this.ValidateModel();
 
-        Merchant merchant = await _MerchantRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
+        Merchant merchant = await _MerchantRepository.GetByIdAsync(new(command.Id)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(MerchantRegistration), command.Id);
         merchant.Update(_MerchantUnderwriter, command);
 

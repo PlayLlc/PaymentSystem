@@ -26,7 +26,7 @@ public sealed class IndividualCsvMapping : CsvMapping<Individual>
             if (row.Tokens[colIndex].Equals(CustomStringTypeConverter._Null))
                 return true;
 
-            mapping.EntityType = new EntityType(row.Tokens[colIndex]);
+            mapping.EntityType = new(row.Tokens[colIndex]);
 
             return true;
         });

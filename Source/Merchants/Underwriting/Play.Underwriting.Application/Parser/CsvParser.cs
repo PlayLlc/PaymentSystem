@@ -19,9 +19,9 @@ public class CsvParser
     public static IEnumerable<CsvMappingResult<_>> ParseFromString<_>(string input, CsvParserOptions options, CsvMapping<_> mapping, string fileName)
         where _ : class, new()
     {
-        CsvParser<_> parser = new CsvParser<_>(options, mapping);
+        CsvParser<_> parser = new(options, mapping);
 
-        List<CsvMappingResult<_>> result = parser.ReadFromString(new CsvReaderOptions(new[] {"\n"}), input).ToList();
+        List<CsvMappingResult<_>> result = parser.ReadFromString(new(new[] {"\n"}), input).ToList();
 
         if (result.Any(x => !x.IsValid))
             throw new ParsingException($"The {nameof(CsvParser)} encountered an exception parsing {fileName} file with the following errors: "

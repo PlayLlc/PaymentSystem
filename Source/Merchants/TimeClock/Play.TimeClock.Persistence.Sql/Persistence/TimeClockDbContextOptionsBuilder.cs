@@ -13,10 +13,10 @@ internal class TimeClockDbContextOptionsBuilder : IDesignTimeDbContextFactory<Ti
         IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
 
         string connectionString = configuration.GetConnectionString(TimeClockDbContext.DatabaseName);
-        DbContextOptionsBuilder<TimeClockDbContext> builder = new DbContextOptionsBuilder<TimeClockDbContext>();
+        DbContextOptionsBuilder<TimeClockDbContext> builder = new();
         builder.UseSqlServer(connectionString);
 
-        return new TimeClockDbContext(builder.Options);
+        return new(builder.Options);
     }
 
     #endregion

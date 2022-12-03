@@ -28,8 +28,7 @@ public class StockItemMustNotBeEmpty : BusinessRule<Inventory, SimpleStringId>
 
     #region Instance Members
 
-    public override NoInventoryAlert CreateBusinessRuleViolationDomainEvent(Inventory inventory) =>
-        new NoInventoryAlert(inventory, _StockItemId, _Subscriptions, this);
+    public override NoInventoryAlert CreateBusinessRuleViolationDomainEvent(Inventory inventory) => new(inventory, _StockItemId, _Subscriptions, this);
 
     public override bool IsBroken() => !_IsValid;
 

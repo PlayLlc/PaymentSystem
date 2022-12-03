@@ -28,17 +28,17 @@ public class CheckingAccount : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal CheckingAccount(CheckingAccountDto dto)
     {
-        Id = new SimpleStringId(dto.Id);
-        _RoutingNumber = new RoutingNumber(dto.RoutingNumber);
-        _AccountNumber = new AccountNumber(dto.AccountNumber);
+        Id = new(dto.Id);
+        _RoutingNumber = new(dto.RoutingNumber);
+        _AccountNumber = new(dto.AccountNumber);
     }
 
     /// <exception cref="ValueObjectException"></exception>
     internal CheckingAccount(string id, string routingNumber, string accountNumber)
     {
-        Id = new SimpleStringId(id);
-        _RoutingNumber = new RoutingNumber(routingNumber);
-        _AccountNumber = new AccountNumber(accountNumber);
+        Id = new(id);
+        _RoutingNumber = new(routingNumber);
+        _AccountNumber = new(accountNumber);
     }
 
     #endregion
@@ -48,7 +48,7 @@ public class CheckingAccount : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override CheckingAccountDto AsDto() =>
-        new CheckingAccountDto
+        new()
         {
             Id = Id,
             AccountNumber = _AccountNumber,

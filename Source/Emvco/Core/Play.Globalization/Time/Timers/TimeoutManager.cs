@@ -14,7 +14,7 @@ public class TimeoutManager
 
     public TimeoutManager()
     {
-        _TimeoutSession = new TimeoutSession();
+        _TimeoutSession = new();
     }
 
     #endregion

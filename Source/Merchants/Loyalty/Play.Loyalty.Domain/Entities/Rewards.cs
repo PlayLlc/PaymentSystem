@@ -28,7 +28,7 @@ public class Rewards : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal Rewards(string id, uint points, Money balance)
     {
-        Id = new SimpleStringId(id);
+        Id = new(id);
         _Points = points;
         _Balance = balance;
     }
@@ -36,7 +36,7 @@ public class Rewards : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal Rewards(RewardsDto dto)
     {
-        Id = new SimpleStringId(dto.Id);
+        Id = new(dto.Id);
         _Balance = dto.Balance.AsMoney();
         _Points = dto.Points;
     }
@@ -74,10 +74,10 @@ public class Rewards : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override RewardsDto AsDto() =>
-        new RewardsDto
+        new()
         {
             Id = Id,
-            Balance = new MoneyDto(_Balance),
+            Balance = new(_Balance),
             Points = _Points
         };
 

@@ -27,18 +27,18 @@ public class Discount : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal Discount(DiscountDto dto)
     {
-        Id = new SimpleStringId(dto.Id);
-        _VariationId = new SimpleStringId(dto.VariationId);
-        _ItemId = new SimpleStringId(dto.ItemId);
+        Id = new(dto.Id);
+        _VariationId = new(dto.VariationId);
+        _ItemId = new(dto.ItemId);
         _Price = dto.Price.AsMoney();
     }
 
     /// <exception cref="ValueObjectException"></exception>
     internal Discount(string id, string itemId, string variationId, Money discountPrice)
     {
-        Id = new SimpleStringId(id);
-        _ItemId = new SimpleStringId(itemId);
-        _VariationId = new SimpleStringId(variationId);
+        Id = new(id);
+        _ItemId = new(itemId);
+        _VariationId = new(variationId);
         _Price = discountPrice;
     }
 
@@ -63,7 +63,7 @@ public class Discount : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override DiscountDto AsDto() =>
-        new DiscountDto
+        new()
         {
             Id = Id,
             VariationId = _VariationId,

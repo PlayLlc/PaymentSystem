@@ -36,19 +36,19 @@ public class Employee : Aggregate<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal Employee(EmployeeDto dto)
     {
-        Id = new SimpleStringId(dto.Id!);
-        _MerchantId = new SimpleStringId(dto.MerchantId);
-        _UserId = new SimpleStringId(dto.UserId);
-        _TimePuncher = new TimePuncher(dto.TimeClock);
+        Id = new(dto.Id!);
+        _MerchantId = new(dto.MerchantId);
+        _UserId = new(dto.UserId);
+        _TimePuncher = new(dto.TimeClock);
         _TimeEntries = dto.TimeEntries.Select(a => new TimeEntry(a)).ToHashSet();
     }
 
     /// <exception cref="ValueObjectException"></exception>
     private Employee(string id, string merchantId, string userId, TimePuncher timePuncher, IEnumerable<TimeEntry> timeEntries)
     {
-        Id = new SimpleStringId(id);
-        _MerchantId = new SimpleStringId(merchantId);
-        _UserId = new SimpleStringId(userId);
+        Id = new(id);
+        _MerchantId = new(merchantId);
+        _UserId = new(userId);
         _TimePuncher = timePuncher;
         _TimeEntries = timeEntries.ToHashSet();
     }
@@ -63,9 +63,9 @@ public class Employee : Aggregate<SimpleStringId>
     public static async Task<Employee> Create(
         IRetrieveUsers userRetriever, IRetrieveMerchants merchantRetriever, IEnsureEmployeeDoesNotExist uniqueEmployeeChecker, CreateEmployee command)
     {
-        SimpleStringId employeeId = new SimpleStringId(GenerateSimpleStringId());
-        TimePuncher timePuncher = new TimePuncher(GenerateSimpleStringId(), employeeId, TimeClockStatuses.ClockedOut, null);
-        Employee employee = new Employee(employeeId, command.MerchantId, command.UserId, timePuncher, Array.Empty<TimeEntry>());
+        SimpleStringId employeeId = new(GenerateSimpleStringId());
+        TimePuncher timePuncher = new(GenerateSimpleStringId(), employeeId, TimeClockStatuses.ClockedOut, null);
+        Employee employee = new(employeeId, command.MerchantId, command.UserId, timePuncher, Array.Empty<TimeEntry>());
 
         User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Merchant merchant = await merchantRetriever.GetByIdAsync(command.MerchantId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Merchant));
@@ -136,7 +136,7 @@ public class Employee : Aggregate<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override EmployeeDto AsDto() =>
-        new EmployeeDto
+        new()
         {
             Id = Id,
             MerchantId = _MerchantId,

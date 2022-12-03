@@ -41,11 +41,11 @@ public class PasswordHasher : IHashPasswords
     /// <returns></returns>
     private static UserIdentity GetMockUser()
     {
-        Password password1 = new Password("12345678901234567890", "DEFAULTOBJECT", DateTimeUtc.Now);
-        Contact coontact = new Contact("12345678901234567890", "DEFAULTOBJECT", "DEFAULTOBJECT", "5555555555", "DEFAULTOBJECT@DEFAULTOBJECT.com");
-        Address address = new Address("12345678901234567890", "DEFAULTOBJECT", "55555", "Texas", "DEFAULTOBJECT");
-        PersonalDetail personalDetail = new PersonalDetail("12345678901234567890", "0000", DateTimeUtc.Now);
-        UserIdentity userIdentity = new UserIdentity("12345678901234567890", "DEFAULTOBJECT", "DEFAULTOBJECT", password1, coontact, address, personalDetail);
+        Password password1 = new("12345678901234567890", "DEFAULTOBJECT", DateTimeUtc.Now);
+        Contact coontact = new("12345678901234567890", "DEFAULTOBJECT", "DEFAULTOBJECT", "5555555555", "DEFAULTOBJECT@DEFAULTOBJECT.com");
+        Address address = new("12345678901234567890", "DEFAULTOBJECT", "55555", "Texas", "DEFAULTOBJECT");
+        PersonalDetail personalDetail = new("12345678901234567890", "0000", DateTimeUtc.Now);
+        UserIdentity userIdentity = new("12345678901234567890", "DEFAULTOBJECT", "DEFAULTOBJECT", password1, coontact, address, personalDetail);
 
         return userIdentity;
     }

@@ -33,7 +33,7 @@ public class LocationsController : BaseController
     public async Task<IActionResult> SetAll(string itemId, SetAllLocationsForItem command)
     {
         this.ValidateModel();
-        Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
+        Item item = await _ItemsRepository.GetByIdAsync(new(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
 
         await item.SetAllLocations(_UserRetriever, command).ConfigureAwait(false);
 
@@ -45,7 +45,7 @@ public class LocationsController : BaseController
     public async Task<IActionResult> Add(string itemId, UpdateItemLocations command)
     {
         this.ValidateModel();
-        Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
+        Item item = await _ItemsRepository.GetByIdAsync(new(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
 
         await item.AddStore(_UserRetriever, command).ConfigureAwait(false);
 
@@ -57,7 +57,7 @@ public class LocationsController : BaseController
     public async Task<IActionResult> Remove(string itemId, UpdateItemLocations command)
     {
         this.ValidateModel();
-        Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
+        Item item = await _ItemsRepository.GetByIdAsync(new(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
 
         await item.RemoveStore(_UserRetriever, command).ConfigureAwait(false);
 

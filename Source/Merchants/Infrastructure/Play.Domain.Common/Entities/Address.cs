@@ -56,7 +56,7 @@ public class Address : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override AddressDto AsDto() =>
-        new AddressDto
+        new()
         {
             Id = Id,
             ApartmentNumber = ApartmentNumber,

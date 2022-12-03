@@ -20,16 +20,16 @@ public class Merchant : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     public Merchant(MerchantDto dto)
     {
-        Id = new SimpleStringId(dto.Id);
-        CompanyName = new Name(dto.CompanyName);
+        Id = new(dto.Id);
+        CompanyName = new(dto.CompanyName);
         IsActive = dto.IsActive;
     }
 
     /// <exception cref="ValueObjectException"></exception>
     public Merchant(string id, string companyName, bool isActive)
     {
-        Id = new SimpleStringId(id);
-        CompanyName = new Name(companyName);
+        Id = new(id);
+        CompanyName = new(companyName);
         IsActive = isActive;
     }
 
@@ -44,7 +44,7 @@ public class Merchant : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override MerchantDto AsDto() =>
-        new MerchantDto
+        new()
         {
             Id = Id,
             CompanyName = CompanyName,

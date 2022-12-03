@@ -33,7 +33,7 @@ public class VariationsController : BaseController
     public async Task<IActionResult> Create(CreateVariation command)
     {
         this.ValidateModel();
-        Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(command.ItemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
+        Item item = await _ItemsRepository.GetByIdAsync(new(command.ItemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
 
         await item.CreateVariation(_UserRetriever, command).ConfigureAwait(false);
 
@@ -45,7 +45,7 @@ public class VariationsController : BaseController
     public async Task<IActionResult> Remove(string itemId, string variationId, RemoveVariation command)
     {
         this.ValidateModel();
-        Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
+        Item item = await _ItemsRepository.GetByIdAsync(new(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
 
         await item.RemoveVariation(_UserRetriever, command).ConfigureAwait(false);
 
@@ -57,7 +57,7 @@ public class VariationsController : BaseController
     public async Task<IActionResult> UpdateName(string itemId, string variationId, UpdateItemVariationName command)
     {
         this.ValidateModel();
-        Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
+        Item item = await _ItemsRepository.GetByIdAsync(new(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
 
         await item.UpdateVariationName(variationId, _UserRetriever, command).ConfigureAwait(false);
 

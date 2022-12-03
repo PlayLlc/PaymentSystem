@@ -69,7 +69,7 @@ public static partial class WebApplicationBuilderExtensions
         builder.Services.AddScoped<IHashPasswords, PasswordHasher>();
         builder.Services.AddHttpClient<IUnderwriteMerchants, MerchantUnderwriter>(options =>
         {
-            options.BaseAddress = new Uri(builder.Configuration["UnderwritingServiceBaseAddress"]);
+            options.BaseAddress = new(builder.Configuration["UnderwritingServiceBaseAddress"]);
         });
         builder.Services.AddScoped<IVerifyEmailAccounts, EmailAccountVerifier>();
         builder.Services.AddScoped<IVerifyMobilePhones, MobilePhoneVerifier>();

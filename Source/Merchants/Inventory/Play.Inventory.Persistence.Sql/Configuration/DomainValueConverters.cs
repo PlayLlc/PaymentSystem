@@ -20,7 +20,7 @@ public static class DomainValueConverters
     {
         #region Constructor
 
-        public SkuConverter() : base(x => x.Value, y => new Sku(y))
+        public SkuConverter() : base(x => x.Value, y => new(y))
         { }
 
         #endregion

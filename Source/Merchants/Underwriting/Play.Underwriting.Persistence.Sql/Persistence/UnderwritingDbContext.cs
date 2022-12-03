@@ -19,7 +19,7 @@ public class UnderwritingDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        UnderwritingEntitiesConfiguration configuration = new UnderwritingEntitiesConfiguration();
+        UnderwritingEntitiesConfiguration configuration = new();
 
         configuration.Configure(builder.Entity<Individual>());
         configuration.Configure(builder.Entity<Address>());

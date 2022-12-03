@@ -67,7 +67,7 @@ public record Money : IEqualityComparer<Money>
                 $"The money could not be altered because the argument {nameof(value)} has a numeric currency code of: [{value._Currency}] which is different than: [{_Currency}]");
         }
 
-        return new Money(_Amount + value._Amount, _Currency);
+        return new(_Amount + value._Amount, _Currency);
     }
 
     /// <summary>
@@ -142,7 +142,7 @@ public record Money : IEqualityComparer<Money>
                 $"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
         }
 
-        return new Money(left._Amount + right._Amount, left._Currency);
+        return new(left._Amount + right._Amount, left._Currency);
     }
 
     public static explicit operator ulong(Money value) => value._Amount;
@@ -204,7 +204,7 @@ public record Money : IEqualityComparer<Money>
                 $"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
         }
 
-        return new Money(left._Amount * right._Amount, left._Currency);
+        return new(left._Amount * right._Amount, left._Currency);
     }
 
     /// <exception cref="InvalidOperationException"></exception>
@@ -242,7 +242,7 @@ public record Money : IEqualityComparer<Money>
                 $"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
         }
 
-        return new Money(left._Amount - right._Amount, left._Currency);
+        return new(left._Amount - right._Amount, left._Currency);
     }
 
     #endregion

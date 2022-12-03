@@ -14,7 +14,7 @@ public class StopwatchManager
 
     public StopwatchManager()
     {
-        _StopwatchSession = new StopwatchSession();
+        _StopwatchSession = new();
     }
 
     #endregion

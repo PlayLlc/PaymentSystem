@@ -37,7 +37,7 @@ public sealed class LoyaltyDbContext : DbContext
     {
         // Enums
 
-        LoyaltyEntityConfiguration loyaltyEntityConfiguration = new LoyaltyEntityConfiguration();
+        LoyaltyEntityConfiguration loyaltyEntityConfiguration = new();
 
         #region Entities
 

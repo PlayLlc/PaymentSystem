@@ -38,9 +38,9 @@ public class HomeController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Complete([FromQuery] string userRegistrationId)
     {
-        UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(new SimpleStringId(userRegistrationId)).ConfigureAwait(false)
+        UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(new(userRegistrationId)).ConfigureAwait(false)
                                              ?? throw new NotFoundException(typeof(UserRegistration));
-        MerchantRegistration? merchantRegistration = await _MerchantRegistrationRepository.GetByIdAsync(new SimpleStringId(userRegistration!.GetMerchantId()))
+        MerchantRegistration? merchantRegistration = await _MerchantRegistrationRepository.GetByIdAsync(new(userRegistration!.GetMerchantId()))
                                                      ?? throw new NotFoundException(typeof(MerchantRegistration));
 
         User user = userRegistration.CreateUser();

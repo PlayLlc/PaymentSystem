@@ -96,7 +96,7 @@ public static partial class Randomize
                 buffer[j++] = GetRandomChar();
             }
 
-            string? a = new string(buffer);
+            string? a = new(buffer);
 
             return new string(buffer);
         }

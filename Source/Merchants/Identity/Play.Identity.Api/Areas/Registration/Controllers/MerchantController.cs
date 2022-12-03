@@ -47,7 +47,7 @@ public class MerchantController : Controller
     [ValidateAntiForgeryToken]
     public async Task<MerchantRegistrationDto> Get([FromQuery] string id)
     {
-        MerchantRegistration merchantRegistration = await _MerchantRegistrationRepository.GetByIdAsync(new SimpleStringId(id)).ConfigureAwait(false)
+        MerchantRegistration merchantRegistration = await _MerchantRegistrationRepository.GetByIdAsync(new(id)).ConfigureAwait(false)
                                                     ?? throw new NotFoundException(typeof(MerchantRegistration), id);
 
         return merchantRegistration.AsDto();
@@ -74,7 +74,7 @@ public class MerchantController : Controller
     {
         this.ValidateModel();
 
-        MerchantRegistration? merchantRegistration = await _MerchantRegistrationRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
+        MerchantRegistration? merchantRegistration = await _MerchantRegistrationRepository.GetByIdAsync(new(command.Id)).ConfigureAwait(false)
                                                      ?? throw new NotFoundException(typeof(MerchantRegistration));
 
         merchantRegistration.VerifyMerchantAccount(_MerchantUnderwriter, command);
@@ -82,7 +82,7 @@ public class MerchantController : Controller
         if (!merchantRegistration.IsApproved())
             return new ForbidResult();
 
-        Merchant merchant = await _MerchantRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
+        Merchant merchant = await _MerchantRepository.GetByIdAsync(new(command.Id)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(Merchant));
 
         return Created(Url.Action("Index", $"{nameof(Merchant)}", merchant.GetId())!, merchant.AsDto());

@@ -24,11 +24,11 @@ public record StockActions : EnumObjectString
 
     static StockActions()
     {
-        Empty = new StockActions("");
-        Restock = new StockActions(nameof(Restock));
-        Return = new StockActions(nameof(Return));
-        Sold = new StockActions(nameof(Sold));
-        Shrinkage = new StockActions(nameof(Shrinkage));
+        Empty = new("");
+        Restock = new(nameof(Restock));
+        Return = new(nameof(Return));
+        Sold = new(nameof(Sold));
+        Shrinkage = new(nameof(Shrinkage));
 
         _ValueObjectMap = new Dictionary<string, StockActions>
         {

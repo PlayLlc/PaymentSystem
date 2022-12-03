@@ -25,7 +25,7 @@ public class StockActionMustRemoveQuantity : BusinessRule<Inventory, SimpleStrin
 
     #region Instance Members
 
-    public override StockActionWasIncorrect CreateBusinessRuleViolationDomainEvent(Inventory item) => new StockActionWasIncorrect(item, this);
+    public override StockActionWasIncorrect CreateBusinessRuleViolationDomainEvent(Inventory item) => new(item, this);
 
     public override bool IsBroken() => !_IsValid;
 

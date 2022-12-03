@@ -20,7 +20,7 @@ internal sealed class AliasCsvMapping : CsvMapping<Alias>
             const int aliasTypeIndex = 2;
             const int aliasNameIndex = 3;
 
-            mapping.AliasName = new AliasName
+            mapping.AliasName = new()
             {
                 Type = row.Tokens[aliasTypeIndex].Equals(CustomStringTypeConverter._Null) ? string.Empty : row.Tokens[aliasTypeIndex],
                 Name = row.Tokens[aliasNameIndex].Equals(CustomStringTypeConverter._Null) ? string.Empty : row.Tokens[aliasNameIndex]

@@ -17,7 +17,7 @@ public partial class ApiClient
 {
     #region Instance Values
 
-    private readonly JsonSerializerSettings _SerializerSettings = new JsonSerializerSettings {ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor};
+    private readonly JsonSerializerSettings _SerializerSettings = new() {ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor};
 
     /// <summary>
     ///     Gets or sets an instance of the IReadableConfiguration.
@@ -109,7 +109,7 @@ public partial class ApiClient
     {
         try
         {
-            RestRequest request = new RestRequest(path, method);
+            RestRequest request = new(path, method);
 
             // disable ResetSharp.Portable built-in serialization
             request.Serializer = null;
@@ -290,7 +290,7 @@ public partial class ApiClient
 
             if (obj is IList list)
             {
-                StringBuilder flattenedString = new StringBuilder();
+                StringBuilder flattenedString = new();
 
                 foreach (object? param in list)
                 {
@@ -333,7 +333,7 @@ public partial class ApiClient
                 if (headers != null)
                 {
                     string filePath = string.IsNullOrEmpty(Configuration.TempFolderPath) ? Path.GetTempPath() : Configuration.TempFolderPath;
-                    Regex regex = new Regex(@"Content-Disposition=.*filename=['""]?([^'""\s]+)['""]?$");
+                    Regex regex = new(@"Content-Disposition=.*filename=['""]?([^'""\s]+)['""]?$");
 
                     foreach (KeyValuePair<string, IEnumerable<string>> header in headers)
                     {
@@ -349,7 +349,7 @@ public partial class ApiClient
                     }
                 }
 
-                MemoryStream stream = new MemoryStream(response.RawBytes);
+                MemoryStream stream = new(response.RawBytes);
 
                 return stream;
             }
@@ -384,7 +384,7 @@ public partial class ApiClient
     /// <exception cref="ApiException"></exception>
     public bool IsJsonMime(string? mime)
     {
-        Regex jsonRegex = new Regex("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
+        Regex jsonRegex = new("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
 
         try
         {
@@ -499,7 +499,7 @@ public partial class ApiClient
         {
             byte[] buf = new byte[16 * 1024];
 
-            using (MemoryStream ms = new MemoryStream())
+            using (MemoryStream ms = new())
             {
                 int count;
                 while ((count = inputStream.Read(buf, 0, buf.Length)) > 0)
@@ -533,7 +533,7 @@ public partial class ApiClient
             if (input.Length <= maxLength)
                 return Uri.EscapeDataString(input);
 
-            StringBuilder sb = new StringBuilder(input.Length * 2);
+            StringBuilder sb = new(input.Length * 2);
             int index = 0;
 
             while (index < input.Length)
@@ -589,7 +589,7 @@ public partial class ApiClient
     {
         try
         {
-            List<KeyValuePair<string, string>> parameters = new List<KeyValuePair<string, string>>();
+            List<KeyValuePair<string, string>> parameters = new();
 
             if (IsCollection(value) && (collectionFormat == "multi"))
             {

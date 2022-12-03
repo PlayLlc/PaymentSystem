@@ -29,17 +29,17 @@ public class TimeSheet : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal TimeSheet(TimeSheetDto dto)
     {
-        Id = new SimpleStringId(dto.Id);
-        _EmployeeId = new SimpleStringId(dto.EmployeeId);
-        _PayPeriod = new PayPeriod(dto.PayPeriod);
+        Id = new(dto.Id);
+        _EmployeeId = new(dto.EmployeeId);
+        _PayPeriod = new(dto.PayPeriod);
         _TimeEntries = dto.TimeEntries.Select(a => new TimeEntry(a)).ToHashSet();
     }
 
     /// <exception cref="ValueObjectException"></exception>
     private TimeSheet(string id, string employeeId, PayPeriod payPeriod, IEnumerable<TimeEntry> timeEntries)
     {
-        Id = new SimpleStringId(id);
-        _EmployeeId = new SimpleStringId(employeeId);
+        Id = new(id);
+        _EmployeeId = new(employeeId);
         _PayPeriod = payPeriod;
         _TimeEntries = timeEntries.ToHashSet();
     }
@@ -49,7 +49,7 @@ public class TimeSheet : Entity<SimpleStringId>
     #region Instance Members
 
     public static TimeSheet Create(string id, string employeeId, PayPeriod payPeriod, IEnumerable<TimeEntry> timeEntries) =>
-        new(new string(id), new string(employeeId), payPeriod, timeEntries);
+        new(new(id), new(employeeId), payPeriod, timeEntries);
 
     internal DateTimeUtc GetPayPeriodStart() => _PayPeriod.Start;
     internal DateTimeUtc GetPayPeriodEnd() => _PayPeriod.End;
@@ -76,7 +76,7 @@ public class TimeSheet : Entity<SimpleStringId>
     private uint GetMinutesClockedInForSalariedEmployee()
     {
         uint workableMinutes = _PayPeriod.GetWeekdayWorkMinutes();
-        TimeSpan unpaidTime = new TimeSpan();
+        TimeSpan unpaidTime = new();
 
         foreach (var timeEntry in _TimeEntries.Where(a => (_PayPeriod.Start <= a.GetStartTime()) && (_PayPeriod.End >= a.GetEndTime())))
         {
@@ -91,7 +91,7 @@ public class TimeSheet : Entity<SimpleStringId>
 
     private uint GetMinutesClockedInForHourlyEmployee()
     {
-        TimeSpan timeWorked = new TimeSpan();
+        TimeSpan timeWorked = new();
 
         foreach (var timeEntry in _TimeEntries.Where(a => (_PayPeriod.Start <= a.GetStartTime()) && (_PayPeriod.End >= a.GetEndTime())))
         {

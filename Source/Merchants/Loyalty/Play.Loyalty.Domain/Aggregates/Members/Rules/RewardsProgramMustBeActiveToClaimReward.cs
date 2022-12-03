@@ -27,7 +27,7 @@ public class RewardsProgramMustBeActiveToClaimReward : BusinessRule<Member, Simp
 
     public override bool IsBroken() => !_IsValid;
 
-    public override RewardProgramIsNotActive CreateBusinessRuleViolationDomainEvent(Member aggregate) => new RewardProgramIsNotActive(aggregate, this);
+    public override RewardProgramIsNotActive CreateBusinessRuleViolationDomainEvent(Member aggregate) => new(aggregate, this);
 
     #endregion
 }

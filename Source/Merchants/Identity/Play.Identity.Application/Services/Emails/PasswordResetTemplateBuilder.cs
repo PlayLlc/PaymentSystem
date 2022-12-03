@@ -22,7 +22,7 @@ public class PasswordResetTemplateBuilder : EmailTemplateBuilder
 
     protected override string GetTemplate() => _Template;
 
-    public string CreateEmail(string callbackUri) => CreateMessage(new Dictionary<string, string> {{nameof(callbackUri), callbackUri}});
+    public string CreateEmail(string callbackUri) => CreateMessage(new() {{nameof(callbackUri), callbackUri}});
 
     #endregion
 }

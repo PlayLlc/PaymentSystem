@@ -35,7 +35,7 @@ public class MerchantRetriever : IRetrieveMerchants
         {
             MerchantDto dto = await _MerchantApi.GetMerchantAsync(id).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Merchant));
 
-            return new Merchant(dto.Id, dto.CompanyName, dto.IsActive);
+            return new(dto.Id, dto.CompanyName, dto.IsActive);
         }
 
         catch (Exception e)
@@ -51,7 +51,7 @@ public class MerchantRetriever : IRetrieveMerchants
         {
             MerchantDto dto = _MerchantApi.GetMerchant(id) ?? throw new NotFoundException(typeof(Merchant));
 
-            return new Merchant(dto.Id, dto.CompanyName, dto.IsActive);
+            return new(dto.Id, dto.CompanyName, dto.IsActive);
         }
 
         catch (Exception e)

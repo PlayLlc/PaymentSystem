@@ -17,15 +17,15 @@ public readonly struct ShortDate
     #region Static Metadata
 
     private static readonly int _MillenniumAndCentury = (byte) (DateTime.Now.Year / 100) * 100;
-    public static readonly ShortDate Min = new ShortDate(0001);
+    public static readonly ShortDate Min = new(0001);
 
     #endregion
 
     #region Instance Values
 
     private readonly DateTimeUtc _Value;
-    public ShortDate Now => new ShortDate(DateTimeUtc.Now);
-    public static ShortDate Today => new ShortDate(DateTimeUtc.Today);
+    public ShortDate Now => new(DateTimeUtc.Now);
+    public static ShortDate Today => new(DateTimeUtc.Today);
     public DateTimeUtc AsDateTimeUtc => _Value;
 
     #endregion
@@ -55,7 +55,7 @@ public readonly struct ShortDate
                 $"The {nameof(ShortDate)} could not be initialized because the value was out of range"));
         }
 
-        _Value = new DateTimeUtc(new DateTime(year + _MillenniumAndCentury, month, 1, 0, 0, 0, 0, DateTimeKind.Utc));
+        _Value = new(new DateTime(year + _MillenniumAndCentury, month, 1, 0, 0, 0, 0, DateTimeKind.Utc));
 
         if (_Value < Min)
         {
@@ -67,7 +67,7 @@ public readonly struct ShortDate
     /// <exception cref="PlayInternalException"></exception>
     public ShortDate(DateTimeUtc dateTime)
     {
-        _Value = new DateTimeUtc(new DateTime(dateTime.Year, dateTime.Month, 1, 0, 0, 0, 0, DateTimeKind.Utc));
+        _Value = new(new DateTime(dateTime.Year, dateTime.Month, 1, 0, 0, 0, 0, DateTimeKind.Utc));
     }
 
     /// <exception cref="PlayInternalException"></exception>
@@ -91,7 +91,7 @@ public readonly struct ShortDate
                 $"The {nameof(ShortDate)} could not be initialized because the value was out of range"));
         }
 
-        _Value = new DateTimeUtc(new DateTime(year + _MillenniumAndCentury, month, 1, 0, 0, 0, 0, DateTimeKind.Utc));
+        _Value = new(new DateTime(year + _MillenniumAndCentury, month, 1, 0, 0, 0, 0, DateTimeKind.Utc));
 
         if (_Value < Min)
         {

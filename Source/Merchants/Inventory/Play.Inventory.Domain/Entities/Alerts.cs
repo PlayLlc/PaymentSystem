@@ -24,7 +24,7 @@ public class Alerts : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     public Alerts(AlertsDto dto)
     {
-        Id = new SimpleStringId(dto.Id!);
+        Id = new(dto.Id!);
         _IsActive = dto.IsActive;
         _LowInventoryThreshold = dto.LowInventoryThreshold;
     }
@@ -32,7 +32,7 @@ public class Alerts : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     public Alerts(string id, bool isActive, ushort lowInventoryThreshold)
     {
-        Id = new SimpleStringId(id);
+        Id = new(id);
         _IsActive = isActive;
         _LowInventoryThreshold = lowInventoryThreshold;
     }
@@ -79,7 +79,7 @@ public class Alerts : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override AlertsDto AsDto() =>
-        new AlertsDto
+        new()
         {
             Id = Id,
             IsActive = _IsActive,

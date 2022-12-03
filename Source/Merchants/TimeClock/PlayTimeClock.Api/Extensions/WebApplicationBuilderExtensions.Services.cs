@@ -24,8 +24,8 @@ public static partial class WebApplicationBuilderExtensions
         builder.Services.AddScoped<DbContext, TimeClockDbContext>();
 
         // Api Clients 
-        builder.Services.AddScoped<IMerchantApi, MerchantApi>(a => new MerchantApi(new Configuration(identityApiConfiguration.BasePath)));
-        builder.Services.AddScoped<IUserApi, UserApi>(a => new UserApi(new Configuration(identityApiConfiguration.BasePath)));
+        builder.Services.AddScoped<IMerchantApi, MerchantApi>(a => new(new Configuration(identityApiConfiguration.BasePath)));
+        builder.Services.AddScoped<IUserApi, UserApi>(a => new(new Configuration(identityApiConfiguration.BasePath)));
 
         // Repositories 
         builder.Services.AddScoped<IRepository<Employee, SimpleStringId>, EmployeeRepository>();

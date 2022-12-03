@@ -28,7 +28,7 @@ public class MerchantMustBeActiveToCreateAggregate<_Aggregate> : BusinessRule<_A
     public override bool IsBroken() => !_IsValid;
 
     public override DeactivatedMerchantAttemptedToCreateAggregate<_Aggregate> CreateBusinessRuleViolationDomainEvent(_Aggregate aggregate) =>
-        new DeactivatedMerchantAttemptedToCreateAggregate<_Aggregate>(aggregate, this);
+        new(aggregate, this);
 
     #endregion
 }

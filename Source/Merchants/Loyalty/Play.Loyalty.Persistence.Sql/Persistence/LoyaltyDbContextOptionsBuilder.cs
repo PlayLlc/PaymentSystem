@@ -17,10 +17,10 @@ internal class LoyaltyDbContextOptionsBuilder : IDesignTimeDbContextFactory<Loya
         IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
 
         string connectionString = configuration.GetConnectionString(LoyaltyDbContext.DatabaseName);
-        DbContextOptionsBuilder<LoyaltyDbContext> builder = new DbContextOptionsBuilder<LoyaltyDbContext>();
+        DbContextOptionsBuilder<LoyaltyDbContext> builder = new();
         builder.UseSqlServer(connectionString);
 
-        return new LoyaltyDbContext(builder.Options);
+        return new(builder.Options);
     }
 
     #endregion

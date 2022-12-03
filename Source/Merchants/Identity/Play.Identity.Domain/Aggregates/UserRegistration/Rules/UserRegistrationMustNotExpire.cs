@@ -10,7 +10,7 @@ internal class UserRegistrationMustNotExpire : BusinessRule<UserRegistration, Si
 {
     #region Instance Values
 
-    private readonly TimeSpan _ValidityPeriod = new TimeSpan(7, 0, 0, 0);
+    private readonly TimeSpan _ValidityPeriod = new(7, 0, 0, 0);
     private readonly bool _IsValid;
 
     public override string Message => "User cannot be created when registration has expired";
@@ -44,8 +44,7 @@ internal class UserRegistrationMustNotExpire : BusinessRule<UserRegistration, Si
 
     public override bool IsBroken() => !_IsValid;
 
-    public override UserRegistrationHasExpired CreateBusinessRuleViolationDomainEvent(UserRegistration merchant) =>
-        new UserRegistrationHasExpired(merchant, this);
+    public override UserRegistrationHasExpired CreateBusinessRuleViolationDomainEvent(UserRegistration merchant) => new(merchant, this);
 
     #endregion
 }

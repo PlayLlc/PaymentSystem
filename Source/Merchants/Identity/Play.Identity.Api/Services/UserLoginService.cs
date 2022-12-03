@@ -42,10 +42,10 @@ internal class UserLoginService : ILoginUsers
             return result;
 
         AuthenticationProperties? props = null;
-        IdentityServerUser issuer = new IdentityServerUser(user.GetId()) {DisplayName = user.GetEmail()};
+        IdentityServerUser issuer = new(user.GetId()) {DisplayName = user.GetEmail()};
         await context.SignInAsync(issuer, props).ConfigureAwait(false);
 
-        return new Result();
+        return new();
     }
 
     #endregion

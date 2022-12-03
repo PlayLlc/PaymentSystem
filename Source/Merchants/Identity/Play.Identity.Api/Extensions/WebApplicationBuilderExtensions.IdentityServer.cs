@@ -28,7 +28,7 @@ public static partial class WebApplicationBuilderExtensions
                 options.Lockout.MaxFailedAccessAttempts = 6;
 
                 // PCI-DSS Set the lockout period to a minimum of 30 minutes or until the administrator enables the User Id
-                options.Lockout.DefaultLockoutTimeSpan = new TimeSpan(0, 30, 0);
+                options.Lockout.DefaultLockoutTimeSpan = new(0, 30, 0);
 
                 // PCI-DSS Restricted Data - Ensure troubleshooting does not expose authentication or sensitive data
                 // options.Stores.ProtectPersonalData = true; // HACK: Implement Service
@@ -114,7 +114,7 @@ public static partial class WebApplicationBuilderExtensions
                 options.ClientSecret = "secret";
                 options.ResponseType = "code";
 
-                options.TokenValidationParameters = new TokenValidationParameters
+                options.TokenValidationParameters = new()
                 {
                     NameClaimType = "name",
                     RoleClaimType = "role"

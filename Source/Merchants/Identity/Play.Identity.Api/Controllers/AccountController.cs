@@ -132,7 +132,7 @@ public class AccountController : Controller
     {
         AuthorizationRequest context = await _InteractionService.GetAuthorizationContextAsync(returnUrl);
 
-        return new LoginViewModel
+        return new()
         {
             ReturnUrl = returnUrl,
             Username = context?.LoginHint ?? string.Empty,
@@ -142,7 +142,7 @@ public class AccountController : Controller
 
     private async Task<IEnumerable<ExternalProviderModel>> GetExternalProvidersAsync(AuthorizationRequest authorizationRequest)
     {
-        List<ExternalProviderModel> providers = new List<ExternalProviderModel>();
+        List<ExternalProviderModel> providers = new();
 
         providers.AddRange((await _SchemeProvider.GetAllSchemesAsync().ConfigureAwait(false)).Where(x => x.DisplayName != null)
             .Select(x => new ExternalProviderModel

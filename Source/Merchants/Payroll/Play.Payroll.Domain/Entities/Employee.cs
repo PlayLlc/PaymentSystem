@@ -33,11 +33,11 @@ public class Employee : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal Employee(EmployeeDto dto)
     {
-        Id = new SimpleStringId(dto.Id);
-        _EmployeeId = new SimpleStringId(dto.EmployeeId);
-        _Compensation = new Compensation(dto.Compensation);
-        _DirectDeposit = new DirectDeposit(dto.DirectDeposit);
-        _Address = new Address(dto.Address);
+        Id = new(dto.Id);
+        _EmployeeId = new(dto.EmployeeId);
+        _Compensation = new(dto.Compensation);
+        _DirectDeposit = new(dto.DirectDeposit);
+        _Address = new(dto.Address);
         _TimeEntries = dto.TimeEntries.Select(a => new TimeEntry(a)).ToHashSet();
         _Paychecks = dto.Paychecks.Select(a => new Paycheck(a)).ToHashSet();
     }
@@ -47,8 +47,8 @@ public class Employee : Entity<SimpleStringId>
         string id, string employeeId, Compensation compensation, DirectDeposit directDeposit, Address address, IEnumerable<TimeEntry> timeEntries,
         IEnumerable<Paycheck> paychecks)
     {
-        Id = new SimpleStringId(id);
-        _EmployeeId = new SimpleStringId(employeeId);
+        Id = new(id);
+        _EmployeeId = new(employeeId);
         _Compensation = compensation;
         _DirectDeposit = directDeposit;
         _Address = address;
@@ -63,7 +63,7 @@ public class Employee : Entity<SimpleStringId>
     public async Task<Result> TryDispursingUndeliveredChecks(IISendAchTransfers achClient)
     {
         if (_DirectDeposit is null)
-            return new Result($"Direct deposit has not been setup for the {nameof(Employee)} with the ID: [{_EmployeeId}]");
+            return new($"Direct deposit has not been setup for the {nameof(Employee)} with the ID: [{_EmployeeId}]");
 
         List<Paycheck> undeliveredChecks = _Paychecks.Where(a => !a.HasBeenDistributed()).ToList();
 
@@ -73,7 +73,7 @@ public class Employee : Entity<SimpleStringId>
         foreach (var check in undeliveredChecks)
             await _DirectDeposit.SendPaycheck(achClient, check).ConfigureAwait(false);
 
-        return new Result();
+        return new();
     }
 
     public void AddPaycheck(Paycheck paycheck)

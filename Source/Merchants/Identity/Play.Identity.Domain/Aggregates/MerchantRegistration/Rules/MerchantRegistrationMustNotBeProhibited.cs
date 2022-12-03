@@ -39,8 +39,7 @@ internal class MerchantRegistrationMustNotBeProhibited : BusinessRule<MerchantRe
 
     public override bool IsBroken() => _IsProhibited;
 
-    public override MerchantRegistrationHasBeenRejected CreateBusinessRuleViolationDomainEvent(MerchantRegistration merchant) =>
-        new MerchantRegistrationHasBeenRejected(merchant, this);
+    public override MerchantRegistrationHasBeenRejected CreateBusinessRuleViolationDomainEvent(MerchantRegistration merchant) => new(merchant, this);
 
     #endregion
 }

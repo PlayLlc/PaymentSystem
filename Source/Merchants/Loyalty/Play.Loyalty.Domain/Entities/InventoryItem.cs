@@ -26,16 +26,16 @@ public class InventoryItem : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     public InventoryItem(VariationDto dto)
     {
-        Id = new SimpleStringId(dto.Id);
-        _ItemId = new SimpleStringId(dto.ItemId);
+        Id = new(dto.Id);
+        _ItemId = new(dto.ItemId);
         _Price = dto.Price.AsMoney();
     }
 
     /// <exception cref="ValueObjectException"></exception>
     public InventoryItem(string id, string itemId, Money price)
     {
-        Id = new SimpleStringId(id);
-        _ItemId = new SimpleStringId(itemId);
+        Id = new(id);
+        _ItemId = new(itemId);
         _Price = price;
     }
 
@@ -48,7 +48,7 @@ public class InventoryItem : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override VariationDto AsDto() =>
-        new VariationDto
+        new()
         {
             Id = Id,
             ItemId = _ItemId,

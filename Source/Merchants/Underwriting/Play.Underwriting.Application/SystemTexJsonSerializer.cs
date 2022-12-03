@@ -14,7 +14,7 @@ public class SystemTexJsonSerializer : IJSonSerializer
 
     public SystemTexJsonSerializer()
     {
-        _Options = new JsonSerializerOptions
+        _Options = new()
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             PropertyNameCaseInsensitive = true
@@ -25,7 +25,7 @@ public class SystemTexJsonSerializer : IJSonSerializer
 
     #region Instance Members
 
-    public _ Deserialize<_>(string text) => JsonSerializer.Deserialize<_>(text, _Options) ?? throw new Exception("Something went wrong while deserializing");
+    public _ Deserialize<_>(string text) => JsonSerializer.Deserialize<_>(text, _Options) ?? throw new("Something went wrong while deserializing");
 
     #endregion
 

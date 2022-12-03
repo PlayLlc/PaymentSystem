@@ -30,17 +30,17 @@ public class Category : Aggregate<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal Category(CategoryDto dto)
     {
-        Id = new SimpleStringId(dto.Id);
-        _MerchantId = new SimpleStringId(dto.MerchantId);
-        _Name = new Name(dto.Name);
+        Id = new(dto.Id);
+        _MerchantId = new(dto.MerchantId);
+        _Name = new(dto.Name);
     }
 
     /// <exception cref="ValueObjectException"></exception>
     internal Category(string id, string merchantId, string name)
     {
-        Id = new SimpleStringId(id);
-        _MerchantId = new SimpleStringId(merchantId);
-        _Name = new Name(name);
+        Id = new(id);
+        _MerchantId = new(merchantId);
+        _Name = new(name);
     }
 
     #endregion
@@ -61,7 +61,7 @@ public class Category : Aggregate<SimpleStringId>
     {
         User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Merchant merchant = await merchantService.GetByIdAsync(command.MerchantId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Merchant));
-        Category category = new Category(GenerateSimpleStringId(), command.MerchantId, command.Name);
+        Category category = new(GenerateSimpleStringId(), command.MerchantId, command.Name);
 
         category.Enforce(new MerchantMustBeActiveToCreateAggregate<Category>(merchant));
         category.Enforce(new UserMustBeActiveToUpdateAggregate<Category>(user));
@@ -87,7 +87,7 @@ public class Category : Aggregate<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override CategoryDto AsDto() =>
-        new CategoryDto
+        new()
         {
             Id = Id,
             MerchantId = _MerchantId,

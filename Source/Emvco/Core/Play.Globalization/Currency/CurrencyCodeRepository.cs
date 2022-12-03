@@ -56,13 +56,13 @@ public static class CurrencyCodeRepository
         if (!formatMap.ContainsKey(alpha3CurrencyCode))
             return null;
 
-        return new Currency(new NumericCurrencyCode(numericCurrencyCode), new Alpha3CurrencyCode(alpha3CurrencyCode),
+        return new(new(numericCurrencyCode), new(alpha3CurrencyCode),
             formatMap[alpha3CurrencyCode].CurrencySymbol, formatMap[alpha3CurrencyCode].CurrencyDecimalDigits);
     }
 
     private static List<Currency> CreateCurrencyCodes(Dictionary<string, NumberFormatInfo> formatMap)
     {
-        HashSet<Currency?> hash = new HashSet<Currency?>();
+        HashSet<Currency?> hash = new();
 
         hash.Add(ResolveCurrency(971, "AFN", formatMap));
         hash.Add(ResolveCurrency(008, "ALL", formatMap));

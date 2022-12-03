@@ -38,7 +38,7 @@ public class MerchantRegistration : Aggregate<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     private MerchantRegistration(string id, Name companyName, MerchantRegistrationStatus status, DateTimeUtc registrationDate)
     {
-        Id = new SimpleStringId(id);
+        Id = new(id);
         _CompanyName = companyName;
         _Status = status;
         _RegistrationDate = registrationDate;
@@ -55,10 +55,10 @@ public class MerchantRegistration : Aggregate<SimpleStringId>
     public static MerchantRegistration CreateNewMerchantRegistration(
         IUserRegistrationRepository userRegistrationRepository, CreateMerchantRegistrationCommand command)
     {
-        UserRegistration? userRegistration = userRegistrationRepository.GetById(new SimpleStringId(command.UserId))
+        UserRegistration? userRegistration = userRegistrationRepository.GetById(new(command.UserId))
                                              ?? throw new NotFoundException(typeof(UserRegistration));
 
-        MerchantRegistration registration = new MerchantRegistration(userRegistration.GetMerchantId(), new Name(command.CompanyName),
+        MerchantRegistration registration = new(userRegistration.GetMerchantId(), new(command.CompanyName),
             MerchantRegistrationStatuses.WaitingForRiskAnalysis, DateTimeUtc.Now) {_Status = MerchantRegistrationStatuses.WaitingForRiskAnalysis};
 
         registration.Publish(new MerchantRegistrationHasBeenCreated(registration));
@@ -80,8 +80,8 @@ public class MerchantRegistration : Aggregate<SimpleStringId>
         if (_CompanyName is null)
             throw new CommandOutOfSyncException($"The {nameof(Name)} of the Merchant is required but could not be found");
 
-        _Address = new Address(command.Address);
-        _BusinessInfo = new BusinessInfo(command.BusinessInfo);
+        _Address = new(command.Address);
+        _BusinessInfo = new(command.BusinessInfo);
 
         Enforce(new MerchantRegistrationIndustryMustNotBeProhibited(_BusinessInfo.MerchantCategoryCode, underwritingService),
             () => _Status = MerchantRegistrationStatuses.Rejected);
@@ -105,14 +105,14 @@ public class MerchantRegistration : Aggregate<SimpleStringId>
         if (_BusinessInfo is null)
             throw new CommandOutOfSyncException($"The {nameof(BusinessInfo)} of the Merchant is required but could not be found");
 
-        Merchant merchant = new Merchant(Id, _CompanyName, _Address, _BusinessInfo, true);
+        Merchant merchant = new(Id, _CompanyName, _Address, _BusinessInfo, true);
         Publish(new MerchantHasBeenCreated(merchant));
 
         return merchant;
     }
 
     public override MerchantRegistrationDto AsDto() =>
-        new MerchantRegistrationDto
+        new()
         {
             Id = Id,
             AddressDto = _Address?.AsDto() ?? new AddressDto(),

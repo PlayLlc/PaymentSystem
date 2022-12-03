@@ -45,7 +45,7 @@ public class HomeController : BaseController
     [ValidateAntiForgeryToken]
     public async Task<EmployeeDto> Get([Required] [StringLength(20)] [AlphaNumericSpecial] string employeeId)
     {
-        Employee employee = await _EmployeeRepository.GetByIdAsync(new SimpleStringId(employeeId)).ConfigureAwait(false)
+        Employee employee = await _EmployeeRepository.GetByIdAsync(new(employeeId)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(Employee));
 
         return employee.AsDto();
@@ -56,7 +56,7 @@ public class HomeController : BaseController
     public async Task<IActionResult> Remove([Required] [StringLength(20)] [AlphaNumericSpecial] string employeeId, RemoveEmployee command)
     {
         this.ValidateModel();
-        Employee employee = await _EmployeeRepository.GetByIdAsync(new SimpleStringId(employeeId)).ConfigureAwait(false)
+        Employee employee = await _EmployeeRepository.GetByIdAsync(new(employeeId)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(Employee));
 
         await employee.Remove(_UserRetriever, command).ConfigureAwait(false);
@@ -69,7 +69,7 @@ public class HomeController : BaseController
     public async Task<IActionResult> ClockIn([Required] [StringLength(20)] [AlphaNumericSpecial] string employeeId, UpdateTimeClock command)
     {
         this.ValidateModel();
-        Employee employee = await _EmployeeRepository.GetByIdAsync(new SimpleStringId(employeeId)).ConfigureAwait(false)
+        Employee employee = await _EmployeeRepository.GetByIdAsync(new(employeeId)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(Employee));
 
         await employee.ClockIn(_UserRetriever, command).ConfigureAwait(false);
@@ -82,7 +82,7 @@ public class HomeController : BaseController
     public async Task<IActionResult> ClockOut([Required] [StringLength(20)] [AlphaNumericSpecial] string employeeId, UpdateTimeClock command)
     {
         this.ValidateModel();
-        Employee employee = await _EmployeeRepository.GetByIdAsync(new SimpleStringId(employeeId)).ConfigureAwait(false)
+        Employee employee = await _EmployeeRepository.GetByIdAsync(new(employeeId)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(Employee));
 
         await employee.ClockOut(_UserRetriever, command).ConfigureAwait(false);

@@ -33,8 +33,8 @@ public class TimeEntry : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal TimeEntry(TimeEntryDto dto)
     {
-        Id = new SimpleStringId(dto.Id!);
-        _EmployeeId = new SimpleStringId(dto.EmployeeId);
+        Id = new(dto.Id!);
+        _EmployeeId = new(dto.EmployeeId);
 
         if (dto.StartTime >= dto.EndTime)
             throw new ValueObjectException(
@@ -42,8 +42,8 @@ public class TimeEntry : Entity<SimpleStringId>
 
         try
         {
-            _StartTime = new DateTimeUtc(dto.StartTime);
-            _EndTime = new DateTimeUtc(dto.EndTime);
+            _StartTime = new(dto.StartTime);
+            _EndTime = new(dto.EndTime);
         }
         catch (PlayInternalException e)
         {
@@ -54,8 +54,8 @@ public class TimeEntry : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal TimeEntry(string id, string employeeId, DateTimeUtc startTime, DateTimeUtc endTime)
     {
-        Id = new SimpleStringId(id);
-        _EmployeeId = new SimpleStringId(employeeId);
+        Id = new(id);
+        _EmployeeId = new(employeeId);
 
         if (startTime >= endTime)
             throw new ValueObjectException(
@@ -74,7 +74,7 @@ public class TimeEntry : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override TimeEntryDto AsDto() =>
-        new TimeEntryDto
+        new()
         {
             Id = Id,
             EmployeeId = _EmployeeId,

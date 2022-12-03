@@ -10,10 +10,10 @@ public class DateTimeUtcAttribute : ValidationAttribute
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
         if (value is not DateTime dateTime)
-            return new ValidationResult($"This must be a {nameof(DateTime)} object");
+            return new($"This must be a {nameof(DateTime)} object");
 
         if (dateTime.Kind != DateTimeKind.Utc)
-            return new ValidationResult("DateTime is not UTC format");
+            return new("DateTime is not UTC format");
 
         return ValidationResult.Success;
     }

@@ -39,7 +39,7 @@ public sealed class InventoryDbContext : DbContext
     {
         // Enums
 
-        InventoryEntityConfiguration inventoryEntityConfiguration = new InventoryEntityConfiguration();
+        InventoryEntityConfiguration inventoryEntityConfiguration = new();
 
         #region Enums
 

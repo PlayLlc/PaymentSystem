@@ -37,7 +37,7 @@ public class TimeEntriesController : BaseController
     public async Task<IActionResult> Edit([Required] [StringLength(20)] [AlphaNumericSpecial] string employeeId, EditTimeEntry command)
     {
         this.ValidateModel();
-        Employee employee = await _EmployeeRepository.GetByIdAsync(new SimpleStringId(employeeId)).ConfigureAwait(false)
+        Employee employee = await _EmployeeRepository.GetByIdAsync(new(employeeId)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(Employee));
 
         await employee.EditTimeEntry(_UserRetriever, command).ConfigureAwait(false);

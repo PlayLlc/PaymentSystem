@@ -23,7 +23,7 @@ public static class DomainValueConverters
     {
         #region Constructor
 
-        public BusinessTypeConverter() : base(x => x, y => new BusinessType(y))
+        public BusinessTypeConverter() : base(x => x, y => new(y))
         { }
 
         #endregion
@@ -33,7 +33,7 @@ public static class DomainValueConverters
     {
         #region Constructor
 
-        public MerchantCategoryCodeConverter() : base(x => x, y => new MerchantCategoryCode(y))
+        public MerchantCategoryCodeConverter() : base(x => x, y => new(y))
         { }
 
         #endregion
@@ -43,7 +43,7 @@ public static class DomainValueConverters
     {
         #region Constructor
 
-        public MerchantRegistrationStatusConverter() : base(x => x, y => new MerchantRegistrationStatus(y))
+        public MerchantRegistrationStatusConverter() : base(x => x, y => new(y))
         { }
 
         #endregion
@@ -53,7 +53,7 @@ public static class DomainValueConverters
     {
         #region Constructor
 
-        public UserRegistrationStatusConverter() : base(x => x, y => new UserRegistrationStatus(y))
+        public UserRegistrationStatusConverter() : base(x => x, y => new(y))
         { }
 
         #endregion

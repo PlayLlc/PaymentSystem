@@ -10,7 +10,7 @@ internal class MerchantRegistrationMustNotExpire : BusinessRule<MerchantRegistra
 {
     #region Instance Values
 
-    private readonly TimeSpan _ValidityPeriod = new TimeSpan(7, 0, 0, 0);
+    private readonly TimeSpan _ValidityPeriod = new(7, 0, 0, 0);
     private readonly bool _IsValid;
 
     public override string Message => "Merchant cannot be created when registration has expired";
@@ -42,8 +42,7 @@ internal class MerchantRegistrationMustNotExpire : BusinessRule<MerchantRegistra
 
     #region Instance Members
 
-    public override MerchantRegistrationHasExpired CreateBusinessRuleViolationDomainEvent(MerchantRegistration merchant) =>
-        new MerchantRegistrationHasExpired(merchant, this);
+    public override MerchantRegistrationHasExpired CreateBusinessRuleViolationDomainEvent(MerchantRegistration merchant) => new(merchant, this);
 
     public override bool IsBroken() => !_IsValid;
 

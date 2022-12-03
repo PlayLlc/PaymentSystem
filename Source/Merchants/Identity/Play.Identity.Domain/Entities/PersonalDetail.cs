@@ -31,12 +31,12 @@ public class PersonalDetail : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     public PersonalDetail(PersonalDetailDto dto)
     {
-        Id = new SimpleStringId(dto.Id!);
+        Id = new(dto.Id!);
         LastFourOfSocial = dto.LastFourOfSocial;
 
         try
         {
-            DateOfBirth = new DateTimeUtc(dto.DateOfBirth);
+            DateOfBirth = new(dto.DateOfBirth);
         }
         catch (PlayInternalException e)
         {
@@ -47,7 +47,7 @@ public class PersonalDetail : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     public PersonalDetail(string id, string lastFourOfSocial, DateTimeUtc dateOfBirth)
     {
-        Id = new SimpleStringId(id);
+        Id = new(id);
         LastFourOfSocial = lastFourOfSocial;
 
         try
@@ -67,7 +67,7 @@ public class PersonalDetail : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override PersonalDetailDto AsDto() =>
-        new PersonalDetailDto
+        new()
         {
             Id = Id,
             DateOfBirth = new DateTimeUtc(DateOfBirth),

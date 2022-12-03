@@ -16,10 +16,10 @@ internal class InventoryDbContextOptionsBuilder : IDesignTimeDbContextFactory<In
     {
         IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
         string connectionString = configuration.GetConnectionString(InventoryDbContext.DatabaseName);
-        DbContextOptionsBuilder<InventoryDbContext> builder = new DbContextOptionsBuilder<InventoryDbContext>();
+        DbContextOptionsBuilder<InventoryDbContext> builder = new();
         builder.UseSqlServer(connectionString);
 
-        return new InventoryDbContext(builder.Options);
+        return new(builder.Options);
     }
 
     #endregion

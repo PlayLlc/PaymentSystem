@@ -39,13 +39,13 @@ public class StoreHandler : IHandleMessages<StoreHasBeenDeletedEvent>, IHandleMe
     /// <exception cref=" ValueObjectException"></exception>
     public async Task Handle(StoreHasBeenDeletedEvent message, IMessageHandlerContext context)
     {
-        IEnumerable<Item> inventoryItems = await _ItemRepository.GetItemsAsync(new SimpleStringId(message.MerchantId), new SimpleStringId(message.StoreId))
+        IEnumerable<Item> inventoryItems = await _ItemRepository.GetItemsAsync(new(message.MerchantId), new(message.StoreId))
             .ConfigureAwait(false);
 
         foreach (Item item in inventoryItems)
-            await item.RemoveStore(_UserRetriever, new UpdateItemLocations {StoreIds = new List<string> {message.StoreId}}).ConfigureAwait(false);
+            await item.RemoveStore(_UserRetriever, new() {StoreIds = new List<string> {message.StoreId}}).ConfigureAwait(false);
 
-        Domain.Aggregates.Inventory? inventory = await _InventoryRepository.GetByStoreIdAsync(new SimpleStringId(message.StoreId)).ConfigureAwait(false);
+        Domain.Aggregates.Inventory? inventory = await _InventoryRepository.GetByStoreIdAsync(new(message.StoreId)).ConfigureAwait(false);
 
         if (inventory is null)
             return;
@@ -56,7 +56,7 @@ public class StoreHandler : IHandleMessages<StoreHasBeenDeletedEvent>, IHandleMe
 
     public async Task Handle(StoreHasBeenCreatedEvent message, IMessageHandlerContext context)
     {
-        IEnumerable<Item> items = await _ItemRepository.GetItemsWithAllLocationsSet(new SimpleStringId(message.MerchantId)).ConfigureAwait(false);
+        IEnumerable<Item> items = await _ItemRepository.GetItemsWithAllLocationsSet(new(message.MerchantId)).ConfigureAwait(false);
 
         await Domain.Aggregates.Inventory.CreateInventory(message.MerchantId, message.StoreId,
                 items.ToDictionary(a => a.Id.Value, b => b.GetVariationIds().AsEnumerable()))

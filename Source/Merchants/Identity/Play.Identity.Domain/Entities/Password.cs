@@ -30,7 +30,7 @@ public class Password : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     public Password(string id, string hashedPassword, DateTimeUtc createdOn)
     {
-        Id = new SimpleStringId(id);
+        Id = new(id);
         HashedPassword = hashedPassword;
         CreatedOn = createdOn;
     }
@@ -41,9 +41,9 @@ public class Password : Entity<SimpleStringId>
         if (dto.CreatedOn.Kind != DateTimeKind.Utc)
             throw new ValueObjectException($"The {nameof(CreatedOn)} date must be in UTC format");
 
-        Id = new SimpleStringId(dto.Id);
+        Id = new(dto.Id);
         HashedPassword = dto.HashedPassword;
-        CreatedOn = new DateTimeUtc(dto.CreatedOn);
+        CreatedOn = new(dto.CreatedOn);
     }
 
     #endregion
@@ -55,7 +55,7 @@ public class Password : Entity<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override PasswordDto AsDto() =>
-        new PasswordDto
+        new()
         {
             Id = Id,
             CreatedOn = CreatedOn,

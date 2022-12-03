@@ -28,8 +28,7 @@ internal class EmailVerificationCodeMustBeCorrect : BusinessRule<UserRegistratio
 
     #region Instance Members
 
-    public override EmailVerificationCodeWasIncorrect CreateBusinessRuleViolationDomainEvent(UserRegistration merchant) =>
-        new EmailVerificationCodeWasIncorrect(merchant, this);
+    public override EmailVerificationCodeWasIncorrect CreateBusinessRuleViolationDomainEvent(UserRegistration merchant) => new(merchant, this);
 
     public override bool IsBroken() => _IsValid;
 

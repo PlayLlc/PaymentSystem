@@ -22,9 +22,9 @@ public record CompensationTypes : EnumObjectString
 
     static CompensationTypes()
     {
-        Empty = new CompensationTypes("");
-        Hourly = new CompensationTypes(nameof(Hourly));
-        Salary = new CompensationTypes(nameof(Salary));
+        Empty = new("");
+        Hourly = new(nameof(Hourly));
+        Salary = new(nameof(Salary));
 
         _ValueObjectMap = new Dictionary<string, CompensationTypes>
         {

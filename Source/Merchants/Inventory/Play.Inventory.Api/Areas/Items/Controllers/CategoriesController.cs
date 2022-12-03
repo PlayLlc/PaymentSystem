@@ -33,7 +33,7 @@ public class CategoriesController : BaseController
     public async Task<IActionResult> Add(string itemId, UpdateItemCategories command)
     {
         this.ValidateModel();
-        Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
+        Item item = await _ItemsRepository.GetByIdAsync(new(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
 
         await item.AddCategories(_UserRetriever, _CategoryRepository, command).ConfigureAwait(false);
 
@@ -45,7 +45,7 @@ public class CategoriesController : BaseController
     public async Task<IActionResult> Remove(string itemId, UpdateItemCategories command)
     {
         this.ValidateModel();
-        Item item = await _ItemsRepository.GetByIdAsync(new SimpleStringId(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
+        Item item = await _ItemsRepository.GetByIdAsync(new(itemId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Item));
 
         await item.RemoveCategories(_UserRetriever, command).ConfigureAwait(false);
 

@@ -52,7 +52,7 @@ public class HomeController : BaseController
     public async Task<LoyaltyMemberDto> Get(string loyaltyMemberId)
     {
         this.ValidateModel();
-        Member member = await _MemberRepository.GetByIdAsync(new SimpleStringId(loyaltyMemberId)).ConfigureAwait(false)
+        Member member = await _MemberRepository.GetByIdAsync(new(loyaltyMemberId)).ConfigureAwait(false)
                         ?? throw new NotFoundException(typeof(Member));
 
         return member.AsDto();
@@ -63,7 +63,7 @@ public class HomeController : BaseController
     public async Task<IActionResult> Update(string loyaltyMemberId, UpdateLoyaltyMember command)
     {
         this.ValidateModel();
-        Member member = await _MemberRepository.GetByIdAsync(new SimpleStringId(loyaltyMemberId)).ConfigureAwait(false)
+        Member member = await _MemberRepository.GetByIdAsync(new(loyaltyMemberId)).ConfigureAwait(false)
                         ?? throw new NotFoundException(typeof(Member));
 
         await member.Update(_UserRetriever, command).ConfigureAwait(false);
@@ -76,7 +76,7 @@ public class HomeController : BaseController
     public async Task<IActionResult> Remove(string loyaltyMemberId, RemoveLoyaltyMember command)
     {
         this.ValidateModel();
-        Member member = await _MemberRepository.GetByIdAsync(new SimpleStringId(loyaltyMemberId)).ConfigureAwait(false)
+        Member member = await _MemberRepository.GetByIdAsync(new(loyaltyMemberId)).ConfigureAwait(false)
                         ?? throw new NotFoundException(typeof(Member));
 
         await member.Remove(_UserRetriever, command).ConfigureAwait(false);

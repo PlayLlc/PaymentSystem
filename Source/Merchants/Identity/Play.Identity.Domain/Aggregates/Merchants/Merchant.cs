@@ -34,7 +34,7 @@ public class Merchant : Aggregate<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     public Merchant(string id, Name companyName, Address address, BusinessInfo businessInfo, bool isActive)
     {
-        Id = new SimpleStringId(id);
+        Id = new(id);
         _CompanyName = companyName;
         _Address = address;
         _BusinessInfo = businessInfo;
@@ -49,7 +49,7 @@ public class Merchant : Aggregate<SimpleStringId>
 
     public async Task Remove(IUserRepository userRepository, RemoveMerchant command)
     {
-        User user = await userRepository.GetByIdAsync(new SimpleStringId(command.UserId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
+        User user = await userRepository.GetByIdAsync(new(command.UserId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<Merchant>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Merchant>(Id, user));
 
@@ -62,7 +62,7 @@ public class Merchant : Aggregate<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     public void Update(IUnderwriteMerchants merchantUnderwriter, UpdateMerchantBusinessInfo command)
     {
-        _BusinessInfo = new BusinessInfo(command.BusinessInfo);
+        _BusinessInfo = new(command.BusinessInfo);
         Enforce(new MerchantCategoryCodeMustNotBeProhibited(merchantUnderwriter, _BusinessInfo.MerchantCategoryCode), () => _IsActive = false);
 
         Publish(new MerchantBusinessInfoHasBeenUpdated(this));
@@ -74,7 +74,7 @@ public class Merchant : Aggregate<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     public void Update(IUnderwriteMerchants merchantUnderwriter, UpdateAddressCommand command)
     {
-        _Address = new Address(command.Address);
+        _Address = new(command.Address);
         Enforce(new MerchantMustNotBeProhibited(merchantUnderwriter, _CompanyName, _Address), () => _IsActive = false);
         Publish(new MerchantAddressHasBeenUpdated(this));
     }
@@ -85,7 +85,7 @@ public class Merchant : Aggregate<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     public void Update(IUnderwriteMerchants merchantUnderwriter, UpdateMerchantCompanyName command)
     {
-        _CompanyName = new Name(command.CompanyName);
+        _CompanyName = new(command.CompanyName);
         Enforce(new MerchantMustNotBeProhibited(merchantUnderwriter, _CompanyName, _Address), () => _IsActive = false);
         Publish(new MerchantCompanyNameBeenUpdated(this));
     }
@@ -93,7 +93,7 @@ public class Merchant : Aggregate<SimpleStringId>
     public override SimpleStringId GetId() => Id;
 
     public override MerchantDto AsDto() =>
-        new MerchantDto
+        new()
         {
             Id = Id,
             Address = _Address.AsDto(),

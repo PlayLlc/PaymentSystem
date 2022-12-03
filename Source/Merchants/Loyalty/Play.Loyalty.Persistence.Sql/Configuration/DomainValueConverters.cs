@@ -20,7 +20,7 @@ public static class DomainValueConverters
     {
         #region Constructor
 
-        public RewardsNumberConverter() : base(x => x.Value, y => new RewardsNumber(y))
+        public RewardsNumberConverter() : base(x => x.Value, y => new(y))
         { }
 
         #endregion

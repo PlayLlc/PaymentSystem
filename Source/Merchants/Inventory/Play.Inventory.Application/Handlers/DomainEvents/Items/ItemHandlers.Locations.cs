@@ -21,11 +21,11 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemI
 
     private async Task CreateStockItemsForStoreInventory(string storeId, string itemId, IEnumerable<string> variationIds)
     {
-        Domain.Aggregates.Inventory? inventory = await _InventoryRepository.GetByStoreIdAsync(new SimpleStringId(storeId)).ConfigureAwait(false)
+        Domain.Aggregates.Inventory? inventory = await _InventoryRepository.GetByStoreIdAsync(new(storeId)).ConfigureAwait(false)
                                                  ?? throw new NotFoundException(typeof(Domain.Aggregates.Inventory));
 
         foreach (string variation in variationIds)
-            await inventory.CreateStockItem(new CreateStockItem
+            await inventory.CreateStockItem(new()
                 {
                     ItemId = itemId,
                     VariationId = variation

@@ -10,7 +10,7 @@ public readonly record struct Milliseconds
 {
     #region Static Metadata
 
-    public static readonly Milliseconds Zero = new Milliseconds(0);
+    public static readonly Milliseconds Zero = new(0);
     public const int Precision = 1000;
 
     #endregion
@@ -77,11 +77,11 @@ public readonly record struct Milliseconds
 
     #region Instance Members
 
-    public TimeSpan AsTimeSpan() => new TimeSpan(_Value * (Ticks.Precision / Precision));
-    public Seconds AsSeconds() => new Seconds(this);
-    public Ticks AsTicks() => new Ticks(this);
-    public Deciseconds AsDeciSeconds() => new Deciseconds(this);
-    public Microseconds AsMicroseconds() => new Microseconds(this);
+    public TimeSpan AsTimeSpan() => new(_Value * (Ticks.Precision / Precision));
+    public Seconds AsSeconds() => new(this);
+    public Ticks AsTicks() => new(this);
+    public Deciseconds AsDeciSeconds() => new(this);
+    public Microseconds AsMicroseconds() => new(this);
 
     #endregion
 
@@ -103,10 +103,10 @@ public readonly record struct Milliseconds
 
     #region Operator Overrides
 
-    public static Milliseconds operator -(Milliseconds left, Milliseconds right) => new Milliseconds(left._Value - right._Value);
-    public static Milliseconds operator +(Milliseconds left, Milliseconds right) => new Milliseconds(left._Value + right._Value);
-    public static Milliseconds operator *(Milliseconds left, Milliseconds right) => new Milliseconds(left._Value * right._Value);
-    public static Milliseconds operator /(Milliseconds left, Milliseconds right) => new Milliseconds(left._Value / right._Value);
+    public static Milliseconds operator -(Milliseconds left, Milliseconds right) => new(left._Value - right._Value);
+    public static Milliseconds operator +(Milliseconds left, Milliseconds right) => new(left._Value + right._Value);
+    public static Milliseconds operator *(Milliseconds left, Milliseconds right) => new(left._Value * right._Value);
+    public static Milliseconds operator /(Milliseconds left, Milliseconds right) => new(left._Value / right._Value);
     public static bool operator >(long left, Milliseconds right) => left > right._Value;
     public static bool operator <(long left, Milliseconds right) => left < right._Value;
     public static bool operator >=(long left, Milliseconds right) => left >= right._Value;
@@ -129,8 +129,8 @@ public readonly record struct Milliseconds
     public static bool operator >=(Milliseconds left, TimeSpan right) => left.AsTimeSpan() >= right;
     public static bool operator >=(TimeSpan left, Milliseconds right) => right.AsTimeSpan() >= left;
     public static implicit operator TimeSpan(Milliseconds value) => value.AsTimeSpan();
-    public static implicit operator Milliseconds(TimeSpan value) => new Milliseconds(value);
-    public static implicit operator Milliseconds(int value) => new Milliseconds((uint) value);
+    public static implicit operator Milliseconds(TimeSpan value) => new(value);
+    public static implicit operator Milliseconds(int value) => new((uint) value);
     public static bool operator !=(Milliseconds left, TimeSpan right) => !left.Equals(right);
     public static bool operator !=(TimeSpan left, Milliseconds right) => !right.Equals(left);
     public static bool operator <(Milliseconds left, Milliseconds right) => left._Value < right._Value;
@@ -139,8 +139,8 @@ public readonly record struct Milliseconds
     public static bool operator <=(Milliseconds left, Milliseconds right) => left._Value <= right._Value;
     public static bool operator <=(Milliseconds left, TimeSpan right) => left.AsTimeSpan() <= right;
     public static bool operator <=(TimeSpan left, Milliseconds right) => right.AsTimeSpan() <= left;
-    public static implicit operator Milliseconds(Seconds value) => new Milliseconds(value);
-    public static implicit operator Milliseconds(Deciseconds value) => new Milliseconds(value);
+    public static implicit operator Milliseconds(Seconds value) => new(value);
+    public static implicit operator Milliseconds(Deciseconds value) => new(value);
 
     #endregion
 }

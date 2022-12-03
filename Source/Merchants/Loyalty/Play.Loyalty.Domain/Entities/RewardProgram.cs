@@ -38,7 +38,7 @@ public class RewardProgram : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal RewardProgram(RewardsProgramDto dto)
     {
-        Id = new SimpleStringId(dto.Id);
+        Id = new(dto.Id);
         _RewardAmount = dto.RewardAmount.AsMoney();
         _PointsPerDollar = dto.PointsPerDollar;
         _PointsRequired = dto.RewardThreshold;
@@ -48,7 +48,7 @@ public class RewardProgram : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal RewardProgram(string id, Money rewardAmount, uint pointsPerDollar, uint pointsRequired, bool isActive)
     {
-        Id = new SimpleStringId(id);
+        Id = new(id);
         _RewardAmount = rewardAmount;
         _PointsPerDollar = pointsPerDollar;
         _PointsRequired = pointsRequired;
@@ -118,7 +118,7 @@ public class RewardProgram : Entity<SimpleStringId>
 
     public override SimpleStringId GetId() => Id;
 
-    public override RewardsProgramDto AsDto() => new RewardsProgramDto {Id = Id};
+    public override RewardsProgramDto AsDto() => new() {Id = Id};
 
     #endregion
 }

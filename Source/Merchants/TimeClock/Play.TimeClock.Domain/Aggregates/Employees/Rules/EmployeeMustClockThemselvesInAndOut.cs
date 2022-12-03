@@ -27,8 +27,7 @@ public class EmployeeMustClockThemselvesInAndOut : BusinessRule<Employee, Simple
 
     public override bool IsBroken() => !_IsValid;
 
-    public override UnauthorizedUserAttemptedToUpdateEmployeeTimeClock CreateBusinessRuleViolationDomainEvent(Employee aggregate) =>
-        new UnauthorizedUserAttemptedToUpdateEmployeeTimeClock(aggregate, this);
+    public override UnauthorizedUserAttemptedToUpdateEmployeeTimeClock CreateBusinessRuleViolationDomainEvent(Employee aggregate) => new(aggregate, this);
 
     #endregion
 }
