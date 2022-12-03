@@ -8,11 +8,6 @@ public record CreateSemiMonthlyPaySchedule
 {
     #region Instance Values
 
-    /*
-     *     string EmployerId;
-    DayOfWeek DayOfTheWeek;
-     */
-
     [Required]
     [AlphaNumericSpecial]
     [StringLength(20)]
@@ -23,14 +18,14 @@ public record CreateSemiMonthlyPaySchedule
     /// </summary>
     [Required]
     [DayOfTheMonth]
-    public int FirstPaydayOfTheMonth { get; set; }
+    public int FirstPayday { get; set; }
 
     /// <summary>
     ///     The day of the week that employees receive their paycheck
     /// </summary>
     [Required]
     [DayOfTheMonth]
-    public int SecondPaydayOfTheMonth { get; set; }
+    public int SecondPayday { get; set; }
 
     #endregion
 }

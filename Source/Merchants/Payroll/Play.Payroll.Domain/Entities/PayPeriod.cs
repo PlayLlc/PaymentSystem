@@ -25,7 +25,7 @@ public class PayPeriod : Entity<SimpleStringId>
 
     internal PayPeriod(string id, DateTimeUtc start, DateTimeUtc end)
     {
-        Id = new(id);
+        Id = new SimpleStringId(id);
         Start = start;
         End = end;
     }
@@ -37,12 +37,12 @@ public class PayPeriod : Entity<SimpleStringId>
             throw new ValueObjectException(
                 $"The {nameof(PayPeriod)} cannot be initialized because the {nameof(dto.End)} argument provided does not happen after the {nameof(dto.Start)} argument provided;");
 
-        Id = new(dto.Id);
+        Id = new SimpleStringId(dto.Id);
 
         try
         {
-            Start = new(dto.Start);
-            End = new(dto.End);
+            Start = new DateTimeUtc(dto.Start);
+            End = new DateTimeUtc(dto.End);
         }
         catch (PlayInternalException e)
         {

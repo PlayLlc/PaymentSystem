@@ -4,49 +4,49 @@ using Play.Core;
 
 namespace Play.Payroll.Contracts.Enums;
 
-public record RecurrenceTypes : EnumObjectString
+public record PaydayRecurrences : EnumObjectString
 {
     #region Static Metadata
 
-    private static readonly ImmutableSortedDictionary<string, RecurrenceTypes> _ValueObjectMap;
-    public static readonly RecurrenceTypes Empty;
+    private static readonly ImmutableSortedDictionary<string, PaydayRecurrences> _ValueObjectMap;
+    public static readonly PaydayRecurrences Empty;
 
     /// <summary>
     ///     Weekly pay schedules pay employees every week on a designated day of the week
     /// </summary>
-    public static readonly RecurrenceTypes Weekly;
+    public static readonly PaydayRecurrences Weekly;
 
     /// <summary>
     ///     Bi-weekly pay schedules pay employees once every two weeks on a designated day of the week
     /// </summary>
-    public static readonly RecurrenceTypes Biweekly;
+    public static readonly PaydayRecurrences Biweekly;
 
     /// <summary>
     ///     Semi-monthly pay schedules pay employees two times a month on fixed dates, such as the 1st and the 15th
     /// </summary>
-    public static readonly RecurrenceTypes SemiMonthly;
+    public static readonly PaydayRecurrences SemiMonthly;
 
     /// <summary>
     ///     Monthly pay schedules pay employees every month on a designated date, such as the 1st of the month
     /// </summary>
-    public static readonly RecurrenceTypes Monthly;
+    public static readonly PaydayRecurrences Monthly;
 
     #endregion
 
     #region Constructor
 
-    private RecurrenceTypes(string value) : base(value)
+    private PaydayRecurrences(string value) : base(value)
     { }
 
-    static RecurrenceTypes()
+    static PaydayRecurrences()
     {
-        Empty = new("");
-        Weekly = new(nameof(Weekly));
-        Biweekly = new(nameof(Biweekly));
-        SemiMonthly = new(nameof(SemiMonthly));
-        Monthly = new(nameof(Monthly));
+        Empty = new PaydayRecurrences("");
+        Weekly = new PaydayRecurrences(nameof(Weekly));
+        Biweekly = new PaydayRecurrences(nameof(Biweekly));
+        SemiMonthly = new PaydayRecurrences(nameof(SemiMonthly));
+        Monthly = new PaydayRecurrences(nameof(Monthly));
 
-        _ValueObjectMap = new Dictionary<string, RecurrenceTypes>
+        _ValueObjectMap = new Dictionary<string, PaydayRecurrences>
         {
             {Weekly, Weekly},
             {Biweekly, Biweekly},
@@ -63,7 +63,7 @@ public record RecurrenceTypes : EnumObjectString
 
     public override bool TryGet(string value, out EnumObjectString? result)
     {
-        if (_ValueObjectMap.TryGetValue(value, out RecurrenceTypes? enumResult))
+        if (_ValueObjectMap.TryGetValue(value, out PaydayRecurrences? enumResult))
         {
             result = enumResult;
 

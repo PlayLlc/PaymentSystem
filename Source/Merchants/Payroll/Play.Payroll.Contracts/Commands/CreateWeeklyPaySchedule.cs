@@ -18,7 +18,7 @@ public record CreateWeeklyPaySchedule
     /// </summary>
     [Required]
     [DayOfTheWeek]
-    public int DayOfTheWeek { get; set; }
+    public byte DayOfTheWeek { get; set; }
 
     #endregion
 }

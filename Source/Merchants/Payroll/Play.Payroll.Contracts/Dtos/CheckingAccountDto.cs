@@ -24,3 +24,28 @@ public record CheckingAccountDto : IDto
 
     #endregion
 }
+
+public record PaydayScheduleDto : IDto
+{
+    #region Instance Values
+
+    [Required]
+    [StringLength(20)]
+    [AlphaNumericSpecial]
+    public string Id { get; set; } = string.Empty;
+
+    [Required]
+    [MinLength(1)]
+    public string PaydayRecurrence { get; set; } = string.Empty;
+
+    [DayOfTheWeek]
+    public byte? WeeklyPayday { get; set; }
+
+    [DayOfTheMonth]
+    public byte? MonthlyPayday { get; set; }
+
+    [DayOfTheMonth]
+    public byte? SecondMonthlyPayday { get; set; }
+
+    #endregion
+}
