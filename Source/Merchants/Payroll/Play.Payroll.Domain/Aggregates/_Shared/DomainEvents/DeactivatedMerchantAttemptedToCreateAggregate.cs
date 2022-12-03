@@ -2,7 +2,7 @@
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Events;
 
-namespace Play.Loyalty.Domain.Aggregates;
+namespace Play.Payroll.Domain.Aggregates;
 
 public record DeactivatedMerchantAttemptedToCreateAggregate<_Aggregate> : BrokenRuleOrPolicyDomainEvent<_Aggregate, SimpleStringId>
     where _Aggregate : Aggregate<SimpleStringId>

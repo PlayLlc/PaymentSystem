@@ -2,7 +2,7 @@
 using Play.Domain.Common.ValueObjects;
 using Play.Payroll.Domain.Entities;
 
-namespace Play.Loyalty.Domain.Aggregates;
+namespace Play.Payroll.Domain.Aggregates;
 
 public class AggregateMustBeUpdatedByKnownUser<_Aggregate> : BusinessRule<_Aggregate, SimpleStringId> where _Aggregate : Aggregate<SimpleStringId>
 {

@@ -47,6 +47,7 @@ public class Employee : Entity<SimpleStringId>
         DirectDeposit? directDeposit = null)
     {
         Id = new SimpleStringId(id);
+        _UserId = new SimpleStringId(userId);
         _Compensation = compensation;
         _TimeEntries = timeEntries.ToHashSet();
         _Paychecks = paychecks.ToHashSet();
@@ -56,6 +57,8 @@ public class Employee : Entity<SimpleStringId>
     #endregion
 
     #region Instance Members
+
+    internal string GetUserId() => _UserId;
 
     public IEnumerable<Paycheck> GetUndeliveredPaychecks() => _Paychecks.Where(a => !a.HasBeenDistributed());
 

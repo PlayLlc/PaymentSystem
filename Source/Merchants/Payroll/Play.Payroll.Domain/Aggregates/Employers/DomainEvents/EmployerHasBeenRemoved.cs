@@ -2,7 +2,7 @@
 
 namespace Play.Payroll.Domain.Aggregates;
 
-public record EmployerHasBeenCreated : DomainEvent
+public record EmployerHasBeenRemoved : DomainEvent
 {
     #region Instance Values
 
@@ -14,8 +14,8 @@ public record EmployerHasBeenCreated : DomainEvent
 
     #region Constructor
 
-    public EmployerHasBeenCreated(Employer employer, string merchantId, string userId) : base(
-        $"The {nameof(Employer)} with the ID: [{employer.Id}] has been created for the Merchant with the ID: [{merchantId}];")
+    public EmployerHasBeenRemoved(Employer employer, string merchantId, string userId) : base(
+        $"The {nameof(Employer)} with the ID: [{employer.Id}] has been removed for the Merchant with the ID: [{merchantId}];")
     {
         Employer = employer;
         MerchantId = merchantId;

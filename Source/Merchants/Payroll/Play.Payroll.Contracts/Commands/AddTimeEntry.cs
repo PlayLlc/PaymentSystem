@@ -2,7 +2,6 @@
 
 using Play.Domain.Common.Attributes;
 using Play.Globalization.Time;
-using Play.Payroll.Contracts.Dtos;
 
 namespace Play.Payroll.Contracts.Commands;
 
@@ -35,21 +34,6 @@ public record AddTimeEntry
     [Required]
     [DateTimeUtc]
     public DateTime End { get; set; }
-
-    #endregion
-}
-
-public record CutChecks
-{
-    #region Instance Values
-
-    [Required]
-    [AlphaNumericSpecial]
-    [StringLength(20)]
-    public string EmployerId { get; set; } = string.Empty;
-
-    [Required]
-    public PayPeriodDto PayPeriod { get; set; } = null!;
 
     #endregion
 }

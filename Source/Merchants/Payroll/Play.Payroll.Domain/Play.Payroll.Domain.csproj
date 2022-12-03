@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Enums\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Play.Payroll.Contracts\Play.Payroll.Contracts.csproj" />
   </ItemGroup>
 

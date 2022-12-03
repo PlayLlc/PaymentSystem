@@ -1,16 +1,8 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
-using Play.Loyalty.Domain.Aggregatesdd;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Play.Payroll.Domain.Entities;
 
-namespace Play.Payroll.Domain.Aggregates.Employers.Rules;
+namespace Play.Payroll.Domain.Aggregates;
 
 public class EmployeeMustNotHaveUndeliveredPaychecks : BusinessRule<Employer, SimpleStringId>
 {

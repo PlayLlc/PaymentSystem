@@ -4,19 +4,20 @@ using Play.Payroll.Domain.Entities;
 
 namespace Play.Payroll.Domain.Aggregates;
 
-public class EmployeeMustExist : BusinessRule<Employer, SimpleStringId>
+public class EmployeeMustNotExist : BusinessRule<Employer, SimpleStringId>
 {
     #region Instance Values
 
     private readonly bool _IsValid;
 
-    public override string Message => $"The {nameof(Employer)} cannot update its {nameof(Employee)} collection because the {nameof(Employee)} does not exist;";
+    public override string Message =>
+        $"The {nameof(Employer)} cannot create the {nameof(Employee)} because an {nameof(Employee)} with the same UserId already exists;";
 
     #endregion
 
     #region Constructor
 
-    internal EmployeeMustExist(string employeeId, IEnumerable<Employee> employees)
+    internal EmployeeMustNotExist(string userId, IEnumerable<Employee> employees)
     {
         _IsValid = employees.Any(a => a.Id == employeeId);
     }

@@ -3,16 +3,12 @@ using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Currency;
-using Play.Globalization.Time;
-using Play.Loyalty.Domain.Aggregates;
-using Play.Loyalty.Domain.Services;
 using Play.Payroll.Contracts.Commands;
 using Play.Payroll.Contracts.Dtos;
-using Play.Payroll.Domain.Aggregates.Employers.Rules;
 using Play.Payroll.Domain.Entities;
 using Play.Payroll.Domain.Services;
 
-namespace Play.Payroll.Domain.Aggregates.Employers;
+namespace Play.Payroll.Domain.Aggregates;
 
 public class Employer : Aggregate<SimpleStringId>
 {
@@ -108,12 +104,14 @@ public class Employer : Aggregate<SimpleStringId>
         User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<Employer>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Employer>(user.MerchantId, user));
+        Enforce(new EmployeeMustNotExist(command.EmployeeUserId, _Employees));
 
-        // Enforce
         Compensation compensation = new(GenerateSimpleStringId(), command.CompensationType, command.CompensationRate);
+        var employee = Employee.Create(GenerateSimpleStringId(), command.UserId, compensation);
 
-        if (!_Employees.Add(Employee.Create(GenerateSimpleStringId(), command.UserId, compensation)))
-            return;
+        _ = _Employees.Add(employee);
+
+        Publish(new EmployeeHasBeenCreated(this, employee.Id, command.UserId));
     }
 
     /// <exception cref="ValueObjectException"></exception>
@@ -128,10 +126,8 @@ public class Employer : Aggregate<SimpleStringId>
         var employee = _Employees.First(a => a.Id == command.EmployeeId);
         Enforce(new EmployeeMustNotHaveUndeliveredPaychecks(employee));
 
-        // Enforce
         _Employees.RemoveWhere(a => a.Id == command.EmployeeId);
-
-        // Publish
+        Publish(new EmployeeHasBeenRemoved(this, command.EmployeeId, command.UserId));
     }
 
     #endregion

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Repositories;
-using Play.Payroll.Domain.Aggregates.Employers;
+using Play.Payroll.Domain.Aggregates;
 
 namespace Play.Payroll.Domain.Repositories;
 

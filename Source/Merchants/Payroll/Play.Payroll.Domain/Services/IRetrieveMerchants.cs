@@ -1,6 +1,6 @@
 ﻿using Play.Payroll.Domain.Entities;
 
-namespace Play.Loyalty.Domain.Services;
+namespace Play.Payroll.Domain.Services;
 
 public interface IRetrieveMerchants
 {
