@@ -22,8 +22,10 @@ public sealed class EmailClient : ISendEmail
     public EmailClient(SendGridConfiguration sendGridConfiguration, ILogger<EmailClient> logger)
     {
         _Logger = logger;
+        _Config = sendGridConfiguration;
         SendGridClient client = new SendGridClient(sendGridConfiguration.ApiKey);
         client.UrlPath = sendGridConfiguration.Server;
+        _Client = client;
     }
 
     #endregion

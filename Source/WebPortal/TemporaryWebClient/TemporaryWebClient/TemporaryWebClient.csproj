@@ -35,4 +35,9 @@
     <None Include="wwwroot\js\smoothscroll.js" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Merchants\Infrastructure\Play.Mvc\Play.Mvc.csproj" />
+    <ProjectReference Include="..\..\..\Merchants\Infrastructure\Play.Telecom\Play.Telecom.Twilio.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -86,7 +86,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
         ValidationProblemDetails details = new ValidationProblemDetails(context.ModelState)
         {
-            Title = "An bad request caused Model validation to fail",
+            Title = "A bad request caused Model validation to fail",
             Detail = exception.Message,
             Status = (int) HttpStatusCode.InternalServerError
         };
@@ -255,9 +255,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         }
 
         if (!context.ModelState.IsValid)
-        {
             HandleInvalidModelStateException(context);
-        }
     }
 
     #endregion

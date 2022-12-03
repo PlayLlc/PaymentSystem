@@ -1,4 +1,7 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model ContactUsModel;
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -17,7 +20,8 @@
 <partial name="~/Views/Products/_Products.cshtml" />
 <partial name="~/Views/AboutUs/_AboutUs.cshtml" />
 @*<partial name="~/Views/Pricing/_Pricing.cshtml" />*@
-<partial name="~/Views/AboutUs/_ContactUs.cshtml" />
+
+<partial name="~/Views/AboutUs/_ContactUs.cshtml" model="@Model" />
 
 
      

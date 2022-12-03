@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.31911.260
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TemporaryWebClient", "TemporaryWebClient\TemporaryWebClient.csproj", "{1ACE1AF2-2AF1-4233-8607-7FA808993E92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemporaryWebClient", "TemporaryWebClient\TemporaryWebClient.csproj", "{1ACE1AF2-2AF1-4233-8607-7FA808993E92}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Telecom.Twilio", "..\..\Merchants\Infrastructure\Play.Telecom\Play.Telecom.Twilio.csproj", "{7F020CB4-D152-4A68-AD46-C7CD690C9958}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Mvc", "..\..\Merchants\Infrastructure\Play.Mvc\Play.Mvc.csproj", "{C258D2EB-D0CB-4A1B-A4CC-2E4EE8113552}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{1ACE1AF2-2AF1-4233-8607-7FA808993E92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1ACE1AF2-2AF1-4233-8607-7FA808993E92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1ACE1AF2-2AF1-4233-8607-7FA808993E92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F020CB4-D152-4A68-AD46-C7CD690C9958}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F020CB4-D152-4A68-AD46-C7CD690C9958}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F020CB4-D152-4A68-AD46-C7CD690C9958}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F020CB4-D152-4A68-AD46-C7CD690C9958}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C258D2EB-D0CB-4A1B-A4CC-2E4EE8113552}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C258D2EB-D0CB-4A1B-A4CC-2E4EE8113552}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C258D2EB-D0CB-4A1B-A4CC-2E4EE8113552}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C258D2EB-D0CB-4A1B-A4CC-2E4EE8113552}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
