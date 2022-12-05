@@ -18,7 +18,7 @@ public partial class Employer : Aggregate<SimpleStringId>
 {
     #region Instance Members
 
-    public bool AnyUndeliveredPaychecks() => _Employees.Any(a => a.AnyUndeliveredPaychecks());
+    internal bool AnyUndeliveredPaychecks() => _Employees.Any(a => a.AnyUndeliveredPaychecks());
 
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
