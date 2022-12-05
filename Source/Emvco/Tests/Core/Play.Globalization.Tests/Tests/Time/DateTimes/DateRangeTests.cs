@@ -35,7 +35,7 @@ public class DateRangeTests : TestBase
         Assertion(() =>
         {
             Assert.NotNull(testData);
-            Assert.Equal(expirationDate, testData.GetExpirationDate().AsShortDate());
+            Assert.Equal(expirationDate, testData.GetEndDate().AsShortDate());
         });
     }
 
@@ -49,8 +49,8 @@ public class DateRangeTests : TestBase
 
         Assertion(() =>
         {
-            Assert.Equal(activationDate, dateRange.GetActivationDate().AsShortDate());
-            Assert.Equal(expirationDate, dateRange.GetExpirationDate().AsShortDate());
+            Assert.Equal(activationDate, dateRange.GetStartDate().AsShortDate());
+            Assert.Equal(expirationDate, dateRange.GetEndDate().AsShortDate());
         });
     }
 

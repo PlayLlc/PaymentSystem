@@ -29,6 +29,7 @@ public readonly struct DateRange
     }
 
     /// <exception cref="ArgumentOutOfRangeException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     public DateRange(DateTimeUtc startDate, DateTimeUtc endDate)
     {
         if (startDate > endDate)
@@ -45,8 +46,8 @@ public readonly struct DateRange
 
     #region Instance Members
 
-    public DateTimeUtc GetActivationDate() => _StartDate;
-    public DateTimeUtc GetExpirationDate() => _EndDate;
+    public DateTimeUtc GetStartDate() => _StartDate;
+    public DateTimeUtc GetEndDate() => _EndDate;
     public bool IsActive() => (_EndDate > DateTimeUtc.Now) && (DateTimeUtc.Now > _StartDate);
     public bool IsExpired() => !IsActive();
 
