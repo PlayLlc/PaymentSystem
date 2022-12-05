@@ -13,6 +13,44 @@ public class DateTimeUtcTests : TestBase
     public void DateTimeUtcExtension()
     {
         // Implement the DateTimeUtc.Now.GetBusinessDays() extension method tests
+        throw new NotImplementedException();
+
+        Assert.True(1 == 2);
+    }
+
+    [Fact]
+    public void GetNextWeek()
+    {
+        // Implement the DateTimeUtc.Now.GetBusinessDays() extension method tests
+        throw new NotImplementedException();
+
+        Assert.True(1 == 2);
+    }
+
+    [Fact]
+    public void GetLastWeek()
+    {
+        // Implement the DateTimeUtc.Now.GetBusinessDays() extension method tests
+        throw new NotImplementedException();
+
+        Assert.True(1 == 2);
+    }
+
+    [Fact]
+    public void GetNextMonth()
+    {
+        // Implement the DateTimeUtc.Now.GetBusinessDays() extension method tests
+        throw new NotImplementedException();
+
+        Assert.True(1 == 2);
+    }
+
+    [Fact]
+    public void GetLastMonth()
+    {
+        // Implement the DateTimeUtc.Now.GetBusinessDays() extension method tests
+        throw new NotImplementedException();
+
         Assert.True(1 == 2);
     }
 

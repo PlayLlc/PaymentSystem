@@ -5,7 +5,7 @@ using Play.Domain.Common.Attributes;
 
 namespace Play.Payroll.Contracts.Dtos;
 
-public record CheckingAccountDto : IDto
+public record PaydayScheduleDto : IDto
 {
     #region Instance Values
 
@@ -15,12 +15,17 @@ public record CheckingAccountDto : IDto
     public string Id { get; set; } = string.Empty;
 
     [Required]
-    [RoutingNumber]
-    public string RoutingNumber { get; set; } = string.Empty;
+    [MinLength(1)]
+    public string PaydayRecurrence { get; set; } = string.Empty;
 
-    [Required]
-    [AccountNumber]
-    public string AccountNumber { get; set; } = string.Empty;
+    [DayOfTheWeek]
+    public byte? WeeklyPayday { get; set; }
+
+    [DayOfTheMonth]
+    public byte? MonthlyPayday { get; set; }
+
+    [DayOfTheMonth]
+    public byte? SecondMonthlyPayday { get; set; }
 
     #endregion
 }

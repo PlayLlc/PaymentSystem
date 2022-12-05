@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 
 using Play.Core;
 using Play.Core.Exceptions;
+using Play.Globalization.Currency;
+using Play.Globalization.Extensions;
 
 namespace Play.Globalization.Time;
 
@@ -36,12 +39,12 @@ public readonly record struct DateTimeUtc
 
     public DateTimeUtc(int year, int month, int day)
     {
-        _Value = new(year, month, day, 0, 0, 0, DateTimeKind.Utc);
+        _Value = new DateTime(year, month, day, 0, 0, 0, DateTimeKind.Utc);
     }
 
     public DateTimeUtc(int year, Months month, DaysOfTheWeek day)
     {
-        _Value = new(year, month, day, 0, 0, 0, DateTimeKind.Utc);
+        _Value = new DateTime(year, month, day, 0, 0, 0, DateTimeKind.Utc);
     }
 
     /// <exception cref="PlayInternalException"></exception>
@@ -69,6 +72,61 @@ public readonly record struct DateTimeUtc
     #endregion
 
     #region Instance Members
+
+    public static int GetBusinessDays(this DateTimeUtc from, DateTimeUtc to)
+    {
+        int dayDifference = (int) to.Subtract(from).TotalDays;
+
+        return Enumerable.Range(1, dayDifference).Select(from.AddDays)
+            .Count(x => (x.GetDayOfTheWeek() != DayOfWeek.Saturday) && (x.GetDayOfTheWeek() != DayOfWeek.Sunday));
+    }
+
+    public DateTimeUtc GetLast(DaysOfTheWeek dayOfTheWeek)
+    {
+        DayOfWeek dayOfWeek = GetDayOfTheWeek();
+
+        if (dayOfWeek == 0)
+            return AddDays(-7);
+
+        if (dayOfWeek < dayOfTheWeek)
+            return AddDays(-(dayOfWeek - dayOfTheWeek));
+
+        return AddDays(7 - (dayOfTheWeek - dayOfWeek));
+    }
+
+    public DateTimeUtc GetNext(DaysOfTheWeek dayOfTheWeek)
+    {
+        DayOfWeek dayOfWeek = GetDayOfTheWeek();
+
+        if (dayOfWeek == 0)
+            return AddDays(7);
+
+        if (dayOfWeek < dayOfTheWeek)
+            return AddDays(dayOfWeek - dayOfTheWeek);
+
+        return AddDays(dayOfTheWeek - dayOfWeek);
+    }
+
+    public DateTimeUtc GetLast(DaysOfTheMonth dayOfTheMonth)
+    { }
+
+    public DateTimeUtc GetNext(DaysOfTheMonth dayOfTheMonth)
+    {
+        // daysOfTheMonth = 13
+        // CurrentdayOfTheMonth = 7
+        var daysInThisMonth = DateTime.DaysInMonth(_Value.Year, _Value.Month);
+
+        DaysOfTheMonth currentDayOfTheMonth = GetDayOfTheMonth();
+
+        if (currentDayOfTheMonth == dayOfTheMonth)
+            return AddDays((daysInThisMonth - currentDayOfTheMonth) + dayOfTheMonth);
+
+        if (currentDayOfTheMonth < dayOfTheMonth)
+            return AddDays((daysInThisMonth - currentDayOfTheMonth) + (currentDayOfTheMonth - dayOfTheMonth));
+
+        if (currentDayOfTheMonth > dayOfTheMonth)
+            return AddDays((daysInThisMonth - currentDayOfTheMonth) + (dayOfTheMonth - currentDayOfTheMonth));
+    }
 
     public DayOfWeek GetDayOfTheWeek() => _Value.DayOfWeek;
 
