@@ -13,11 +13,24 @@ public partial class PaydaySchedule : Entity<SimpleStringId>
     #region Instance Members
 
     /// <exception cref="ValueObjectException"></exception>
-    private bool IsTodayPaydayForMonthlyPaySchedule()
+    private static PaydaySchedule CreateMonthlySchedule(SimpleStringId id, DayOfTheMonth? monthlyPayday)
     {
-        ValidateMonthlyPaySchedule();
+        if (monthlyPayday is null)
+            throw new ValueObjectException(
+                $"The {nameof(PaydaySchedule)} could not be initialized. The {nameof(PaydayRecurrence)} type specified is {nameof(PaydayRecurrences.Monthly)} but the {nameof(monthlyPayday)} argument is null");
 
-        return _MonthlyPayday! == DateTimeUtc.Now.GetDayOfTheMonth()!;
+        return new PaydaySchedule(new SimpleStringId(id), new PaydayRecurrence(PaydayRecurrences.Monthly), null, monthlyPayday, null);
+    }
+
+    /// <exception cref="ValueObjectException"></exception>
+    private bool IsTodayMonthlyPayday() => _MonthlyPayday! == DateTimeUtc.Now.GetDayOfTheMonth()!;
+
+    /// <exception cref="ValueObjectException"></exception>
+    private DateRange GetNextMonthlyPayPeriod()
+    {
+        DateTimeUtc now = DateTimeUtc.Now;
+
+        return new DateRange(now.GetLast(_MonthlyPayday!), now.GetNext(_MonthlyPayday!));
     }
 
     /// <exception cref="ValueObjectException"></exception>
@@ -34,16 +47,6 @@ public partial class PaydaySchedule : Entity<SimpleStringId>
         if (_SecondMonthlyPayday is not null)
             throw new ValueObjectException(
                 $"The {nameof(PaydaySchedule)} attempted a {nameof(PaydayRecurrences.Monthly)} {nameof(PaydayRecurrence)} operation but the {nameof(PaydaySchedule)} has an incorrect state. The  {nameof(_SecondMonthlyPayday)} field MUST be null but is not;");
-    }
-
-    /// <exception cref="ValueObjectException"></exception>
-    private DateRange GetNextMonthlyPayPeriod()
-    {
-        ValidateMonthlyPaySchedule();
-
-        DateTimeUtc now = DateTimeUtc.Now;
-
-        return new DateRange(now.GetLast(_MonthlyPayday!), now.GetNext(_MonthlyPayday!));
     }
 
     #endregion

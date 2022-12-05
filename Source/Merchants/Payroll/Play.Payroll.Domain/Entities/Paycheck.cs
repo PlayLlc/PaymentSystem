@@ -18,7 +18,7 @@ public class Paycheck : Entity<SimpleStringId>
     private readonly DateTimeUtc _DateIssued;
     private readonly TimeSheet _TimeSheet;
     private readonly PayPeriod _PayPeriod;
-    private readonly bool _HasBeenDistributed;
+    private bool _HasBeenDistributed;
     public override SimpleStringId Id { get; }
 
     #endregion
@@ -68,7 +68,8 @@ public class Paycheck : Entity<SimpleStringId>
 
     internal PayPeriod GetPayPeriod() => _PayPeriod;
 
-    public bool HasBeenDistributed() => _HasBeenDistributed;
+    internal void SetHasBeenDelivered() => _HasBeenDistributed = true;
+    public bool HasBeenDelivered() => _HasBeenDistributed;
 
     internal static Paycheck Create(string id, string employeeId, Money amount, TimeSheet timeSheet, PayPeriod payPeriod) =>
         new(id, employeeId, amount, DateTimeUtc.Now, timeSheet, payPeriod, false);

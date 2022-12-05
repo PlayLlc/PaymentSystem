@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Play.Payroll.Persistence.Sql\Play.Payroll.Persistence.Sql.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -24,7 +24,7 @@ public record EmployeeDto : IDto
     public CompensationDto Compensation { get; set; } = null!;
 
     [Required]
-    public DirectDepositDto DirectDeposit { get; set; } = null!;
+    public DirectDepositDto? DirectDeposit { get; set; } = null!;
 
     [Required]
     public IEnumerable<TimeEntryDto> TimeEntries { get; set; } = Array.Empty<TimeEntryDto>();

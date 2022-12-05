@@ -1,4 +1,6 @@
-﻿using Play.Core;
+﻿using Microsoft.Extensions.Logging;
+
+using Play.Core;
 using Play.Domain.Common.Entities;
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
@@ -36,7 +38,7 @@ public class Employee : Entity<SimpleStringId>
         Id = new SimpleStringId(dto.Id);
         _UserId = new SimpleStringId(dto.UserId);
         _Compensation = new Compensation(dto.Compensation);
-        _DirectDeposit = new DirectDeposit(dto.DirectDeposit);
+        _DirectDeposit = dto.DirectDeposit is null ? null : new DirectDeposit(dto.DirectDeposit!);
         _TimeEntries = dto.TimeEntries.Select(a => new TimeEntry(a)).ToHashSet();
         _Paychecks = dto.Paychecks.Select(a => new Paycheck(a)).ToHashSet();
     }
@@ -65,24 +67,36 @@ public class Employee : Entity<SimpleStringId>
         return _Paychecks.MaxBy(a => a.GetDateIssued());
     }
 
-    public IEnumerable<Paycheck> GetUndeliveredPaychecks() => _Paychecks.Where(a => !a.HasBeenDistributed());
+    public IEnumerable<Paycheck> GetUndeliveredPaychecks() => _Paychecks.Where(a => !a.HasBeenDelivered());
 
     /// <exception cref="ValueObjectException"></exception>
     internal static Employee Create(string id, string userId, Compensation compensation) =>
         new(id, userId, compensation, Array.Empty<TimeEntry>(), Array.Empty<Paycheck>());
 
+    /// <summary>
+    ///     Distributes any undelivered paychecks to the employee's checking account specified in the
+    ///     <see cref="DirectDeposit" /> field
+    /// </summary>
+    /// <WARNING>To ensure transactional consistency, this method must be run within a transactional boundary</WARNING>
+    /// <param name="achClient"></param>
+    /// <returns></returns>
     public async Task<Result> TryDispursingUndeliveredChecks(IISendAchTransfers achClient)
     {
         if (_DirectDeposit is null)
-            return new Result($"Direct deposit has not been setup for the {nameof(Employee)} with the ID: [{_EmployeeId}]");
+            return new Result($"Direct deposit has not been setup for the {nameof(Employee)} with the ID: [{Id}]");
 
-        List<Paycheck> undeliveredChecks = _Paychecks.Where(a => !a.HasBeenDistributed()).ToList();
+        List<Paycheck> undeliveredChecks = _Paychecks.Where(a => !a.HasBeenDelivered()).ToList();
 
-        // HACK: Transactional Consistency!!!!!!!!!!
-        // BUG Transactional Consistency
-        // HACK: Transactional Consistency!!!!!!!!!!
         foreach (var check in undeliveredChecks)
-            await _DirectDeposit.SendPaycheck(achClient, check).ConfigureAwait(false);
+        {
+            var result = await _DirectDeposit.SendPaycheck(achClient, check).ConfigureAwait(false);
+
+            // If we have problems distributing the paycheck, we'll return the failed result
+            if (!result.Succeeded)
+                return result;
+
+            check.SetHasBeenDelivered();
+        }
 
         return new Result();
     }
@@ -93,18 +107,9 @@ public class Employee : Entity<SimpleStringId>
     }
 
     internal IEnumerable<TimeEntry> GetTimeEntries(PayPeriod payPeriod) =>
-        _TimeEntries.Where(a => (payPeriod.Start >= a.GetStartTime()) && (payPeriod.End <= a.GetEndTime()));
+        _TimeEntries.Where(a =>
+            (payPeriod.GetDateRange().GetActivationDate() >= a.GetStartTime()) && (payPeriod.GetDateRange().GetExpirationDate() <= a.GetEndTime()));
 
-    /// <exception cref="ValueObjectException"></exception>
-    /// <exception cref="ValueObjectException"></exception>
-    private TimeSheet GenerateTimeSheet(SimpleStringId id, PayPeriod payPeriod)
-    {
-        var timeEntries = _TimeEntries.Where(a => (a.GetStartTime() >= payPeriod.Start) && (a.GetEndTime() <= payPeriod.End));
-
-        return new TimeSheet(id, _EmployeeId, payPeriod, timeEntries);
-    }
-
-    // this can be used for not just generating paycheck -> sales associates view what they made so far
     internal Money CalculatePaycheckEarnings(TimeSheet timeSheet) =>
         _Compensation.GetMinutelyWage() * timeSheet.GetBillableMinutes(_Compensation.GetCompensationType());
 
@@ -114,12 +119,11 @@ public class Employee : Entity<SimpleStringId>
         new()
         {
             Id = Id,
-            EmployeeId = _EmployeeId,
-            Address = _Address.AsDto(),
+            UserId = _UserId,
             Compensation = _Compensation.AsDto(),
-            DirectDeposit = _DirectDeposit.AsDto(),
-            PaycheckHistory = _Paychecks.Select(a => a.AsDto()),
-            TimeEntries = _TimeEntries.Select(a => a.AsDto())
+            DirectDeposit = _DirectDeposit?.AsDto(),
+            TimeEntries = _TimeEntries.Select(a => a.AsDto()),
+            Paychecks = _Paychecks.Select(a => a.AsDto())
         };
 
     #endregion

@@ -43,17 +43,6 @@ public partial class Employer : Aggregate<SimpleStringId>
 
     #region Instance Members
 
-    private DateRange? GetLatestPayPeriod()
-    {
-        return _Employees?.Select(a => a.GetLatestPaycheck())?.MaxBy(a => a.GetDateIssued())?.GetPayPeriod().GetDateRange();
-    }
-
-    /// <exception cref="ValueObjectException"></exception>
-    public PayPeriod GetNextPayPeriod() => new(GenerateSimpleStringId(), _PaydaySchedule.GetNextPayPeriod(GetLatestPayPeriod()));
-
-    /// <exception cref="ValueObjectException"></exception>
-    public bool IsTodayPayday() => _PaydaySchedule.IsTodayPayday(GetLatestPayPeriod());
-
     public override SimpleStringId GetId() => Id;
 
     public override EmployerDto AsDto() =>
