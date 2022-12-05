@@ -65,7 +65,7 @@ public partial class Employer : Aggregate<SimpleStringId>
         DayOfTheMonth? secondMonthlyPayday = command.WeeklyPayday is null ? null : new DayOfTheMonth(command.SecondMonthlyPayday!.Value);
         PaydaySchedule paydaySchedule = PaydaySchedule.Create(GenerateSimpleStringId(), new PaydayRecurrence(command.PaydayRecurrence), weeklyPayday,
             monthlyPayday, secondMonthlyPayday);
-        var employer = new Employer(GenerateSimpleStringId(), command.MerchantId, paydaySchedule, Array.Empty<Employee>());
+        Employer employer = new Employer(GenerateSimpleStringId(), command.MerchantId, paydaySchedule, Array.Empty<Employee>());
         employer.Enforce(new MerchantMustBeActiveToCreateAggregate<Employer>(merchant));
         employer.Enforce(new UserMustBeActiveToUpdateAggregate<Employer>(user));
         employer.Enforce(new AggregateMustBeUpdatedByKnownUser<Employer>(command.MerchantId, user));
@@ -83,7 +83,7 @@ public partial class Employer : Aggregate<SimpleStringId>
         Enforce(new UserMustBeActiveToUpdateAggregate<Employer>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Employer>(command.MerchantId, user));
 
-        // TODO: How will this work in practice? We force merchants to go to the portal and mark all as delivered or deliver all direct deposit?
+        // TODO: We need to force the merchant to reconcile all undelivered paychecks before deactivating an account
         Enforce(new EmployerMustNotHaveUndeliveredPaychecks(this));
 
         Publish(new EmployerHasBeenRemoved(this, command.MerchantId, command.UserId));

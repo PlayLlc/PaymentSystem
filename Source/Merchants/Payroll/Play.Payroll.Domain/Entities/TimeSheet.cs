@@ -51,20 +51,20 @@ public class TimeSheet : Entity<SimpleStringId>
     public static TimeSheet Create(string id, string employeeId, PayPeriod payPeriod, IEnumerable<TimeEntry> timeEntries) =>
         new(new string(id), new string(employeeId), payPeriod, timeEntries);
 
-    internal DateTimeUtc GetPayPeriodStart() => _PayPeriod.GetDateRange().GetActivationDate();
-    internal DateTimeUtc GetPayPeriodEnd() => _PayPeriod.GetDateRange().GetExpirationDate();
+    internal DateTimeUtc GetPayPeriodStart() => _PayPeriod.GetDateRange().GetStartDate();
+    internal DateTimeUtc GetPayPeriodEnd() => _PayPeriod.GetDateRange().GetEndDate();
 
     /// <summary>
     ///     Gets the amount of minutes that an employee worked within a pay period
     /// </summary>
     /// <returns></returns>
-    public uint GetBillableMinutes(CompensationType compensationType) =>
+    internal uint GetBillableMinutes(CompensationType compensationType) =>
         compensationType == CompensationTypes.Hourly ? GetMinutesClockedInForHourlyEmployee() : GetMinutesClockedInForSalariedEmployee();
 
     /// <exception cref="ValueObjectException"></exception>
-    public void UpdateTimeEntry(string timeEntryId, TimeEntryTypes timeEntryType, DateTimeUtc start, DateTimeUtc end)
+    internal void UpdateTimeEntry(string timeEntryId, TimeEntryTypes timeEntryType, DateTimeUtc start, DateTimeUtc end)
     {
-        var timeEntry = _TimeEntries.FirstOrDefault(a => a.GetId() == timeEntryId);
+        TimeEntry? timeEntry = _TimeEntries.FirstOrDefault(a => a.GetId() == timeEntryId);
 
         // potential race condition can happen here for eventual consistency so we will throw and make client reload their in memory data
         if (timeEntry is null)
@@ -78,8 +78,8 @@ public class TimeSheet : Entity<SimpleStringId>
         uint workableMinutes = _PayPeriod.GetWeekdayWorkMinutes();
         TimeSpan unpaidTime = new();
 
-        foreach (var timeEntry in _TimeEntries.Where(a =>
-                     (_PayPeriod.GetDateRange().GetActivationDate() <= a.GetStartTime()) && (_PayPeriod.GetDateRange().GetExpirationDate() >= a.GetEndTime())))
+        foreach (TimeEntry timeEntry in _TimeEntries.Where(a =>
+                     (_PayPeriod.GetDateRange().GetStartDate() <= a.GetStartTime()) && (_PayPeriod.GetDateRange().GetEndDate() >= a.GetEndTime())))
         {
             if (timeEntry.GetTimeEntryType() != TimeEntryTypes.UnpaidTime)
                 continue;
@@ -94,8 +94,8 @@ public class TimeSheet : Entity<SimpleStringId>
     {
         TimeSpan timeWorked = new();
 
-        foreach (var timeEntry in _TimeEntries.Where(a =>
-                     (_PayPeriod.GetDateRange().GetActivationDate() <= a.GetStartTime()) && (_PayPeriod.GetDateRange().GetExpirationDate() >= a.GetEndTime())))
+        foreach (TimeEntry timeEntry in _TimeEntries.Where(a =>
+                     (_PayPeriod.GetDateRange().GetStartDate() <= a.GetStartTime()) && (_PayPeriod.GetDateRange().GetEndDate() >= a.GetEndTime())))
         {
             if (timeEntry.GetTimeEntryType() == TimeEntryTypes.UnpaidTime)
                 continue;

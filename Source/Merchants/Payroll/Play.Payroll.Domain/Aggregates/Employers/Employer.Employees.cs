@@ -22,18 +22,18 @@ public partial class Employer : Aggregate<SimpleStringId>
 
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
+    /// <exception cref="NotFoundException"></exception>
     public async Task CreateEmployee(IRetrieveUsers userRetriever, CreateEmployee command)
     {
         User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<Employer>(user));
-        Enforce(new AggregateMustBeUpdatedByKnownUser<Employer>(user.MerchantId, user));
-        Enforce(new EmployeeMustNotExist(command.EmployeeUserId, _Employees));
+        Enforce(new AggregateMustBeUpdatedByKnownUser<Employer>(_MerchantId, user));
+        Enforce(new EmployeeMustNotExist(command.UserIdOfNewEmployee, _Employees));
 
         Compensation compensation = new(GenerateSimpleStringId(), command.CompensationType, command.CompensationRate);
-        var employee = Employee.Create(GenerateSimpleStringId(), command.UserId, compensation);
+        Employee employee = Employee.Create(GenerateSimpleStringId(), command.UserIdOfNewEmployee, compensation);
 
         _ = _Employees.Add(employee);
-
         Publish(new EmployeeHasBeenCreated(this, employee.Id, command.UserId));
     }
 
@@ -46,10 +46,9 @@ public partial class Employer : Aggregate<SimpleStringId>
         Enforce(new UserMustBeActiveToUpdateAggregate<Employer>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Employer>(user.MerchantId, user));
         Enforce(new EmployeeMustExist(command.EmployeeId, _Employees));
-        var employee = _Employees.First(a => a.Id == command.EmployeeId);
-        Enforce(new EmployeeMustNotHaveUndeliveredPaychecks(employee));
+        Enforce(new EmployeeMustNotHaveUndeliveredPaychecks(_Employees.First(a => a.Id == command.EmployeeId)));
 
-        _Employees.RemoveWhere(a => a.Id == command.EmployeeId);
+        _ = _Employees.RemoveWhere(a => a.Id == command.EmployeeId);
         Publish(new EmployeeHasBeenRemoved(this, command.EmployeeId, command.UserId));
     }
 

@@ -60,8 +60,6 @@ public class Employee : Entity<SimpleStringId>
 
     #region Instance Members
 
-    internal string GetUserId() => _UserId;
-
     internal Paycheck? GetLatestPaycheck()
     {
         return _Paychecks.MaxBy(a => a.GetDateIssued());
@@ -78,28 +76,22 @@ public class Employee : Entity<SimpleStringId>
     ///     Distributes any undelivered paychecks to the employee's checking account specified in the
     ///     <see cref="DirectDeposit" /> field
     /// </summary>
-    /// <WARNING>To ensure transactional consistency, this method must be run within a transactional boundary</WARNING>
     /// <param name="achClient"></param>
     /// <returns></returns>
-    public async Task<Result> TryDispursingUndeliveredChecks(IISendAchTransfers achClient)
+    public async Task DisperseUndeliveredChecks(IISendAchTransfers achClient)
     {
         if (_DirectDeposit is null)
-            return new Result($"Direct deposit has not been setup for the {nameof(Employee)} with the ID: [{Id}]");
+            return;
 
         List<Paycheck> undeliveredChecks = _Paychecks.Where(a => !a.HasBeenDelivered()).ToList();
 
-        foreach (var check in undeliveredChecks)
+        foreach (Paycheck check in undeliveredChecks)
         {
-            var result = await _DirectDeposit.SendPaycheck(achClient, check).ConfigureAwait(false);
-
-            // If we have problems distributing the paycheck, we'll return the failed result
-            if (!result.Succeeded)
-                return result;
+            if (!(await _DirectDeposit.SendPaycheck(achClient, check).ConfigureAwait(false)).Succeeded)
+                continue;
 
             check.SetHasBeenDelivered();
         }
-
-        return new Result();
     }
 
     public void AddPaycheck(Paycheck paycheck)
@@ -108,8 +100,7 @@ public class Employee : Entity<SimpleStringId>
     }
 
     internal IEnumerable<TimeEntry> GetTimeEntries(PayPeriod payPeriod) =>
-        _TimeEntries.Where(a =>
-            (payPeriod.GetDateRange().GetActivationDate() >= a.GetStartTime()) && (payPeriod.GetDateRange().GetExpirationDate() <= a.GetEndTime()));
+        _TimeEntries.Where(a => (payPeriod.GetDateRange().GetStartDate() >= a.GetStartTime()) && (payPeriod.GetDateRange().GetEndDate() <= a.GetEndTime()));
 
     /// <exception cref="OverflowException"></exception>
     internal Money CalculatePaycheckEarnings(TimeSheet timeSheet) =>

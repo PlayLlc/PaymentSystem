@@ -104,7 +104,7 @@ public readonly record struct DateTimeUtc
     public DateTimeUtc GetLast(DaysOfTheMonth dayOfTheMonth)
     {
         int daysInLastMonth = DateTime.DaysInMonth(_Value.Year, _Value.Month - 1);
-        var lastMonthDaysTillTarget = daysInLastMonth - dayOfTheMonth;
+        int lastMonthDaysTillTarget = daysInLastMonth - dayOfTheMonth;
 
         DaysOfTheMonth currentDayOfTheMonth = GetDayOfTheMonth();
 

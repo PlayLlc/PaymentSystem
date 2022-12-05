@@ -23,7 +23,7 @@ public record CreateEmployee
     [Required]
     [AlphaNumericSpecial]
     [StringLength(20)]
-    public string EmployeeUserId { get; set; } = string.Empty;
+    public string UserIdOfNewEmployee { get; set; } = string.Empty;
 
     /// <summary>
     ///     The type of compensation the employee receives in either an hourly wage or an annual salary

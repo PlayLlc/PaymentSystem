@@ -1,4 +1,5 @@
 ﻿using Play.Core;
+using Play.Core.Exceptions;
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
@@ -14,19 +15,10 @@ public partial class PaydaySchedule : Entity<SimpleStringId>
     #region Instance Member
 
     /// <exception cref="ValueObjectException"></exception>
-    private static PaydaySchedule CreateWeeklySchedule(SimpleStringId id, DayOfTheWeek? weeklyPayday)
-    {
-        if (weeklyPayday is null)
-            throw new ValueObjectException(
-                $"The {nameof(PaydaySchedule)} could not be initialized. The {nameof(PaydayRecurrence)} type specified is {nameof(PaydayRecurrences.Weekly)} but the {nameof(weeklyPayday)} argument is null");
-
-        return new PaydaySchedule(new SimpleStringId(id), new PaydayRecurrence(PaydayRecurrences.Weekly), new DayOfTheWeek((byte) weeklyPayday), null, null);
-    }
-
-    /// <exception cref="ValueObjectException"></exception>
     private bool IsTodayWeeklyPayday() => _WeeklyPayday == DateTimeUtc.Now.GetDayOfTheWeek();
 
     /// <exception cref="ValueObjectException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     private DateRange GetWeeklyPayPeriod(ShortDate payday)
     {
         if (_WeeklyPayday != payday.AsDateTimeUtc.GetDayOfTheWeek())
@@ -37,12 +29,13 @@ public partial class PaydaySchedule : Entity<SimpleStringId>
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    private DateRange GetNextWeeklyPayPeriod()
+    private static PaydaySchedule CreateWeeklySchedule(SimpleStringId id, DayOfTheWeek? weeklyPayday)
     {
-        var nextPayday = DateTimeUtc.Now.GetNext(_WeeklyPayday!);
-        var lastPayday = DateTimeUtc.Now.GetLast(_WeeklyPayday!);
+        if (weeklyPayday is null)
+            throw new ValueObjectException(
+                $"The {nameof(PaydaySchedule)} could not be initialized. The {nameof(PaydayRecurrence)} type specified is {nameof(PaydayRecurrences.Weekly)} but the {nameof(weeklyPayday)} argument is null");
 
-        return new DateRange(lastPayday, nextPayday);
+        return new PaydaySchedule(new SimpleStringId(id), new PaydayRecurrence(PaydayRecurrences.Weekly), new DayOfTheWeek((byte) weeklyPayday), null, null);
     }
 
     /// <exception cref="ValueObjectException"></exception>

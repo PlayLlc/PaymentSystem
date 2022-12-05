@@ -42,7 +42,7 @@ public class PaychecksHandler : IHandleMessages<EmployeePaychecksHaveBeenCreated
 
     public async Task Handle(EmployeePaychecksHaveBeenCreatedEvent message, IMessageHandlerContext context)
     {
-        await message.Employer.TryDispursingUndeliveredChecks(_AchClient).ConfigureAwait(false);
+        await message.Employer.DistributeUndeliveredChecks(_AchClient).ConfigureAwait(false);
     }
 
     #endregion

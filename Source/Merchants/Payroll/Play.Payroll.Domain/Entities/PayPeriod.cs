@@ -23,6 +23,7 @@ public class PayPeriod : Entity<SimpleStringId>
     private PayPeriod()
     { }
 
+    /// <exception cref="ValueObjectException"></exception>
     internal PayPeriod(string id, DateTimeUtc start, DateTimeUtc end)
     {
         Id = new SimpleStringId(id);
@@ -30,11 +31,12 @@ public class PayPeriod : Entity<SimpleStringId>
         _End = end;
     }
 
+    /// <exception cref="ValueObjectException"></exception>
     internal PayPeriod(string id, DateRange range)
     {
         Id = new SimpleStringId(id);
-        _Start = range.GetActivationDate();
-        _End = range.GetExpirationDate();
+        _Start = range.GetStartDate();
+        _End = range.GetEndDate();
     }
 
     /// <exception cref="ValueObjectException"></exception>
@@ -63,19 +65,21 @@ public class PayPeriod : Entity<SimpleStringId>
 
     internal DateRange GetDateRange() => new(_Start, _End);
 
-    private static int GetWorkingDays(DateTime from, DateTime to)
+    /// <exception cref="OverflowException"></exception>
+    private static int GetWorkingDays(DateTimeUtc from, DateTimeUtc to)
     {
         int dayDifference = (int) to.Subtract(from).TotalDays;
 
         return Enumerable.Range(1, dayDifference)
-            .Select(x => from.AddDays(x))
-            .Count(x => (x.DayOfWeek != DayOfWeek.Saturday) && (x.DayOfWeek != DayOfWeek.Sunday));
+            .Select(from.AddDays)
+            .Count(x => (x.GetDayOfTheWeek() != DaysOfTheWeek.Saturday) && (x.GetDayOfTheWeek() != DaysOfTheWeek.Sunday));
     }
 
+    /// <exception cref="OverflowException"></exception>
     public uint GetWeekdayWorkHours() => (uint) GetWorkingDays(_Start, _End) * 8;
-    public uint GetWeekdayWorkMinutes() => GetWeekdayWorkHours() * 60;
 
-    public bool IsTodayPayday() => _End.Day == DateTimeUtc.Now.Day;
+    /// <exception cref="OverflowException"></exception>
+    public uint GetWeekdayWorkMinutes() => GetWeekdayWorkHours() * 60;
 
     public override SimpleStringId GetId() => Id;
 

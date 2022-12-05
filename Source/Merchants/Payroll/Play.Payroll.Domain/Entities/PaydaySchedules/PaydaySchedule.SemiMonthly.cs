@@ -13,27 +13,15 @@ public partial class PaydaySchedule : Entity<SimpleStringId>
     #region Instance Members
 
     /// <exception cref="ValueObjectException"></exception>
-    private static PaydaySchedule CreateSemiMonthlySchedule(SimpleStringId id, DayOfTheMonth? monthlyPayday, DayOfTheMonth? secondMonthlyPayday)
-    {
-        if (monthlyPayday is null)
-            throw new ValueObjectException(
-                $"The {nameof(PaydaySchedule)} could not be initialized. The {nameof(PaydayRecurrence)} type specified is {nameof(PaydayRecurrences.SemiMonthly)} but the {nameof(monthlyPayday)} argument is null");
-        if (secondMonthlyPayday is null)
-            throw new ValueObjectException(
-                $"The {nameof(PaydaySchedule)} could not be initialized. The {nameof(PaydayRecurrence)} type specified is {nameof(PaydayRecurrences.SemiMonthly)} but the {nameof(secondMonthlyPayday)} argument is null");
-
-        return new PaydaySchedule(new SimpleStringId(id), new PaydayRecurrence(PaydayRecurrences.SemiMonthly), null, monthlyPayday, secondMonthlyPayday);
-    }
-
-    /// <exception cref="ValueObjectException"></exception>
     private bool IsTodaySemiMonthlyPayday()
     {
-        var dayOfTheMonth = DateTimeUtc.Now.GetDayOfTheMonth();
+        DaysOfTheMonth dayOfTheMonth = DateTimeUtc.Now.GetDayOfTheMonth();
 
         return (_MonthlyPayday! == dayOfTheMonth) || (_SecondMonthlyPayday! == dayOfTheMonth);
     }
 
     /// <exception cref="ValueObjectException"></exception>
+    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
     private DateRange GetSemiMonthlyPayPeriod(ShortDate payday)
     {
         DaysOfTheMonth paydayDayOfTheMonth = payday.AsDateTimeUtc.GetDayOfTheMonth();
@@ -49,21 +37,23 @@ public partial class PaydaySchedule : Entity<SimpleStringId>
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    private DateRange GetNextSemiMonthlyPayPeriod()
+    private static PaydaySchedule CreateSemiMonthlySchedule(SimpleStringId id, DayOfTheMonth? monthlyPayday, DayOfTheMonth? secondMonthlyPayday)
     {
-        DaysOfTheMonth lastPayday = GetLastPayday();
-        DateTimeUtc now = DateTimeUtc.Now;
+        if (monthlyPayday is null)
+            throw new ValueObjectException(
+                $"The {nameof(PaydaySchedule)} could not be initialized. The {nameof(PaydayRecurrence)} type specified is {nameof(PaydayRecurrences.SemiMonthly)} but the {nameof(monthlyPayday)} argument is null");
+        if (secondMonthlyPayday is null)
+            throw new ValueObjectException(
+                $"The {nameof(PaydaySchedule)} could not be initialized. The {nameof(PaydayRecurrence)} type specified is {nameof(PaydayRecurrences.SemiMonthly)} but the {nameof(secondMonthlyPayday)} argument is null");
 
-        return lastPayday == _MonthlyPayday!
-            ? new DateRange(now.GetLast(_MonthlyPayday!), now.GetNext(_SecondMonthlyPayday!))
-            : new DateRange(now.GetLast(_SecondMonthlyPayday!), now.GetNext(_MonthlyPayday!));
+        return new PaydaySchedule(new SimpleStringId(id), new PaydayRecurrence(PaydayRecurrences.SemiMonthly), null, monthlyPayday, secondMonthlyPayday);
     }
 
     private DaysOfTheMonth GetLastPayday()
     {
-        var now = DateTimeUtc.Now;
-        var first = now.GetLast(_MonthlyPayday!);
-        var second = now.GetLast(_SecondMonthlyPayday!);
+        DateTimeUtc now = DateTimeUtc.Now;
+        DateTimeUtc first = now.GetLast(_MonthlyPayday!);
+        DateTimeUtc second = now.GetLast(_SecondMonthlyPayday!);
 
         if (now == first)
             return _MonthlyPayday!;

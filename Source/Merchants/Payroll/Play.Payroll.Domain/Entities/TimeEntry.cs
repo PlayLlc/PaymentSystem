@@ -33,14 +33,14 @@ public class TimeEntry : Entity<SimpleStringId>
             throw new ValueObjectException(
                 $"The {nameof(TimeEntry)} cannot be initialized because the {nameof(dto.End)} argument provided does not happen after the {nameof(dto.Start)} argument provided;");
 
-        Id = new(dto.Id);
-        _EmployeeId = new(dto.EmployeeId);
-        _TimeEntryType = new(dto.TimeEntryType);
+        Id = new SimpleStringId(dto.Id);
+        _EmployeeId = new SimpleStringId(dto.EmployeeId);
+        _TimeEntryType = new TimeEntryType(dto.TimeEntryType);
 
         try
         {
-            _Start = new(dto.Start);
-            _End = new(dto.End);
+            _Start = new DateTimeUtc(dto.Start);
+            _End = new DateTimeUtc(dto.End);
         }
         catch (PlayInternalException e)
         {
@@ -55,9 +55,9 @@ public class TimeEntry : Entity<SimpleStringId>
             throw new ValueObjectException(
                 $"The {nameof(TimeEntry)} cannot be initialized because the {nameof(end)} argument provided did not happen after the {nameof(start)} argument provided;");
 
-        Id = new(id);
-        _EmployeeId = new(employeeId);
-        _TimeEntryType = new(timeEntryType);
+        Id = new SimpleStringId(id);
+        _EmployeeId = new SimpleStringId(employeeId);
+        _TimeEntryType = new TimeEntryType(timeEntryType);
         _Start = start;
         _End = end;
     }
@@ -76,7 +76,7 @@ public class TimeEntry : Entity<SimpleStringId>
             throw new ValueObjectException(
                 $"The {nameof(TimeEntry)} cannot be initialized because the {nameof(end)} argument provided did not happen after the {nameof(start)} argument provided;");
 
-        _TimeEntryType = new(timeEntryType);
+        _TimeEntryType = new TimeEntryType(timeEntryType);
         _Start = start;
         _End = end;
     }

@@ -90,8 +90,8 @@ public class Paycheck : Entity<SimpleStringId>
             PayPeriod = _PayPeriod.AsDto(),
             Amount = _Amount,
             DateIssued = _DateIssued,
-            DirectDeposit = _DirectDeposit?.AsDto(),
-            TimeSheet = _TimeSheet.AsDto()
+            TimeSheet = _TimeSheet.AsDto(),
+            HasBeenDistributed = _HasBeenDistributed
         };
 
     #endregion

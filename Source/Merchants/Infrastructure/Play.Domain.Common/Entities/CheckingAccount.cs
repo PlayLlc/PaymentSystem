@@ -1,12 +1,9 @@
-﻿using Play.Core;
+﻿using Play.Domain.Common.Dtos;
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
-using Play.Globalization.Currency;
-using Play.Payroll.Contracts.Dtos;
-using Play.Payroll.Domain.Services;
 
-namespace Play.Payroll.Domain.Entities;
+namespace Play.Domain.Common.Entities;
 
 public class CheckingAccount : Entity<SimpleStringId>
 {
@@ -26,19 +23,19 @@ public class CheckingAccount : Entity<SimpleStringId>
     { }
 
     /// <exception cref="ValueObjectException"></exception>
-    internal CheckingAccount(CheckingAccountDto dto)
+    public CheckingAccount(CheckingAccountDto dto)
     {
-        Id = new(dto.Id);
-        _RoutingNumber = new(dto.RoutingNumber);
-        _AccountNumber = new(dto.AccountNumber);
+        Id = new SimpleStringId(dto.Id);
+        _RoutingNumber = new RoutingNumber(dto.RoutingNumber);
+        _AccountNumber = new AccountNumber(dto.AccountNumber);
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    internal CheckingAccount(string id, string routingNumber, string accountNumber)
+    public CheckingAccount(string id, string routingNumber, string accountNumber)
     {
-        Id = new(id);
-        _RoutingNumber = new(routingNumber);
-        _AccountNumber = new(accountNumber);
+        Id = new SimpleStringId(id);
+        _RoutingNumber = new RoutingNumber(routingNumber);
+        _AccountNumber = new AccountNumber(accountNumber);
     }
 
     #endregion

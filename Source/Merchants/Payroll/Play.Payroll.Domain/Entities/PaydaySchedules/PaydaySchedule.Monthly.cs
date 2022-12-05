@@ -1,4 +1,5 @@
-﻿using Play.Domain.Common.ValueObjects;
+﻿using Play.Core.Exceptions;
+using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Time;
@@ -13,19 +14,10 @@ public partial class PaydaySchedule : Entity<SimpleStringId>
     #region Instance Members
 
     /// <exception cref="ValueObjectException"></exception>
-    private static PaydaySchedule CreateMonthlySchedule(SimpleStringId id, DayOfTheMonth? monthlyPayday)
-    {
-        if (monthlyPayday is null)
-            throw new ValueObjectException(
-                $"The {nameof(PaydaySchedule)} could not be initialized. The {nameof(PaydayRecurrence)} type specified is {nameof(PaydayRecurrences.Monthly)} but the {nameof(monthlyPayday)} argument is null");
-
-        return new PaydaySchedule(new SimpleStringId(id), new PaydayRecurrence(PaydayRecurrences.Monthly), null, monthlyPayday, null);
-    }
+    private bool IsTodayMonthlyPayday() => _MonthlyPayday! == DateTimeUtc.Now.GetDayOfTheMonth();
 
     /// <exception cref="ValueObjectException"></exception>
-    private bool IsTodayMonthlyPayday() => _MonthlyPayday! == DateTimeUtc.Now.GetDayOfTheMonth()!;
-
-    /// <exception cref="ValueObjectException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     private DateRange GetMonthlyPayPeriod(ShortDate payday)
     {
         DaysOfTheMonth paydayDayOfTheMonth = payday.AsDateTimeUtc.GetDayOfTheMonth();
@@ -38,11 +30,13 @@ public partial class PaydaySchedule : Entity<SimpleStringId>
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    private DateRange GetNextMonthlyPayPeriod()
+    private static PaydaySchedule CreateMonthlySchedule(SimpleStringId id, DayOfTheMonth? monthlyPayday)
     {
-        DateTimeUtc now = DateTimeUtc.Now;
+        if (monthlyPayday is null)
+            throw new ValueObjectException(
+                $"The {nameof(PaydaySchedule)} could not be initialized. The {nameof(PaydayRecurrence)} type specified is {nameof(PaydayRecurrences.Monthly)} but the {nameof(monthlyPayday)} argument is null");
 
-        return new DateRange(now.GetLast(_MonthlyPayday!), now.GetNext(_MonthlyPayday!));
+        return new PaydaySchedule(new SimpleStringId(id), new PaydayRecurrence(PaydayRecurrences.Monthly), null, monthlyPayday, null);
     }
 
     /// <exception cref="ValueObjectException"></exception>

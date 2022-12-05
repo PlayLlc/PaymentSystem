@@ -104,25 +104,25 @@ public partial class PaydaySchedule : Entity<SimpleStringId>
         throw new ValueObjectException($"The {nameof(PaydayRecurrence)} with the value {_PaydayRecurrence} was not recognized");
     }
 
-    /// <exception cref="ValueObjectException"></exception>
-    internal DateRange GetNextPayPeriod(DateRange? lastPayPeriod)
-    {
-        ValidateWeeklyPaySchedule();
+    ///// <exception cref="ValueObjectException"></exception>
+    //internal DateRange GetNextPayPeriod(DateRange? lastPayPeriod)
+    //{
+    //    ValidateWeeklyPaySchedule();
 
-        if (_PaydayRecurrence == PaydayRecurrences.Weekly)
-            return GetNextWeeklyPayPeriod();
+    //    if (_PaydayRecurrence == PaydayRecurrences.Weekly)
+    //        return GetNextWeeklyPayPeriod();
 
-        if (_PaydayRecurrence == PaydayRecurrences.Biweekly)
-            return GetNextBiweeklyPayPeriod(lastPayPeriod);
+    //    if (_PaydayRecurrence == PaydayRecurrences.Biweekly)
+    //        return GetNextBiweeklyPayPeriod(lastPayPeriod);
 
-        if (_PaydayRecurrence == PaydayRecurrences.SemiMonthly)
-            return GetNextSemiMonthlyPayPeriod();
+    //    if (_PaydayRecurrence == PaydayRecurrences.SemiMonthly)
+    //        return GetNextSemiMonthlyPayPeriod();
 
-        if (_PaydayRecurrence == PaydayRecurrences.Monthly)
-            return GetNextMonthlyPayPeriod();
+    //    if (_PaydayRecurrence == PaydayRecurrences.Monthly)
+    //        return GetNextMonthlyPayPeriod();
 
-        throw new ValueObjectException($"The {nameof(_PaydayRecurrence)} value was not recognized");
-    }
+    //    throw new ValueObjectException($"The {nameof(_PaydayRecurrence)} value was not recognized");
+    //}
 
     /// <exception cref="ValueObjectException"></exception>
     private void ValidatePaydaySchedule()

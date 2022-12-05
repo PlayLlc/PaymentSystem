@@ -20,39 +20,37 @@ public partial class Employer : Aggregate<SimpleStringId>
 {
     #region Instance Members
 
+    /// <summary>
+    ///     A scheduler will routinely look to see if today is a payday for this employer
+    /// </summary>
+    /// <returns></returns>
     /// <exception cref="ValueObjectException"></exception>
     public bool IsTodayPayday() => _PaydaySchedule.IsTodayPayday(GetLastRecordedPayPeriod());
 
-    // HACK: This method is relative and probably will add ambiguity and errors in the implementation DELETE if possible
     /// <exception cref="ValueObjectException"></exception>
-    public PayPeriod GetNextPayPeriod() => new(GenerateSimpleStringId(), _PaydaySchedule.GetNextPayPeriod(GetLastRecordedPayPeriod()));
-
-    /// <exception cref="ValueObjectException"></exception>
-    public PayPeriod GetPayPeriod(ShortDate payday) => new(GenerateSimpleStringId(), _PaydaySchedule.GetPayPeriodDateRange(payday));
-
-    public async Task TryDispursingUndeliveredChecks(IISendAchTransfers achClient)
+    /// <exception cref="Play.Domain.Exceptions.BusinessRuleValidationException"></exception>
+    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    public void CutPaychecks(CutChecks command)
     {
-        foreach (var employee in _Employees)
-            await employee.TryDispursingUndeliveredChecks(achClient).ConfigureAwait(false);
+        PayPeriod payPeriod = GetPayPeriod(new DateTimeUtc(command.Payday).AsShortDate());
+        Enforce(new PayPeriodMustHaveEnded(payPeriod));
+
+        foreach (Employee employee in _Employees)
+            employee.AddPaycheck(CutPaycheck(payPeriod, employee));
+
+        Publish(new EmployeePaychecksHaveBeenCreated(this));
+    }
+
+    public async Task DistributeUndeliveredChecks(IISendAchTransfers achClient)
+    {
+        foreach (Employee employee in _Employees)
+            await employee.DisperseUndeliveredChecks(achClient).ConfigureAwait(false);
 
         Publish(new EmployeePaychecksHaveBeenDelivered(this));
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    /// <exception cref="Play.Domain.Exceptions.BusinessRuleValidationException"></exception>
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
-    public void CutPaychecks(CutChecks commands)
-    {
-        PayPeriod payPeriod = GetPayPeriod(new DateTimeUtc(commands.Payday).AsShortDate());
-        Enforce(new PayPeriodMustHaveEnded(payPeriod));
-
-        // ENFORCE OTHER SHIT
-
-        foreach (var employee in _Employees)
-            employee.AddPaycheck(CutPaycheck(payPeriod, employee));
-
-        Publish(new EmployeePaychecksHaveBeenCreated(this));
-    }
+    internal PayPeriod GetPayPeriod(ShortDate payday) => new(GenerateSimpleStringId(), _PaydaySchedule.GetPayPeriodDateRange(payday));
 
     private Paycheck CutPaycheck(PayPeriod payPeriod, Employee employee)
     {

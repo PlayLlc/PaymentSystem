@@ -1,4 +1,5 @@
-﻿using Play.Domain.Common.ValueObjects;
+﻿using Play.Core.Exceptions;
+using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Time;
@@ -13,21 +14,18 @@ public partial class PaydaySchedule : Entity<SimpleStringId>
     #region Instance Members
 
     /// <exception cref="ValueObjectException"></exception>
-    private static PaydaySchedule CreateBiweeklySchedule(SimpleStringId id, DayOfTheWeek? weeklyPayday)
+    private bool IsTodayBiweeklyPayday(DateRange? lastPayPeriod)
     {
-        if (weeklyPayday is null)
-            throw new ValueObjectException(
-                $"The {nameof(PaydaySchedule)} could not be initialized. The {nameof(PaydayRecurrence)} type specified is {nameof(PaydayRecurrences.Biweekly)} but the {nameof(weeklyPayday)} argument is null");
+        //if lastPayPeriod is null, we force the first payday to next week
+        if (lastPayPeriod is null)
+            return _WeeklyPayday == DateTimeUtc.Now.GetDayOfTheWeek();
 
-        return new PaydaySchedule(new SimpleStringId(id), new PaydayRecurrence(PaydayRecurrences.Biweekly), weeklyPayday, null, null);
+        return lastPayPeriod.Value.GetEndDate().AddDays(14).AsShortDate() == DateTimeUtc.Now.AsShortDate();
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    private bool IsTodayBiweeklyPayday(DateRange? lastPayPeriod) =>
-        DateTimeUtc.Now.AsShortDate() == GetNextBiweeklyPayPeriod(lastPayPeriod).GetExpirationDate().AsShortDate();
-
     /// <exception cref="ValueObjectException"></exception>
-    /// <exception cref="ValueObjectException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     private DateRange GetBiweeklyPayPeriod(ShortDate payday)
     {
         if (_WeeklyPayday != payday.AsDateTimeUtc.GetDayOfTheWeek())
@@ -38,14 +36,13 @@ public partial class PaydaySchedule : Entity<SimpleStringId>
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    private DateRange GetNextBiweeklyPayPeriod(DateRange? lastPayPeriod)
+    private static PaydaySchedule CreateBiweeklySchedule(SimpleStringId id, DayOfTheWeek? weeklyPayday)
     {
-        DateTimeUtc now = DateTimeUtc.Now;
+        if (weeklyPayday is null)
+            throw new ValueObjectException(
+                $"The {nameof(PaydaySchedule)} could not be initialized. The {nameof(PaydayRecurrence)} type specified is {nameof(PaydayRecurrences.Biweekly)} but the {nameof(weeklyPayday)} argument is null");
 
-        if (lastPayPeriod is null)
-            return new DateRange(now.GetLast(_WeeklyPayday!), now.GetNext(_WeeklyPayday!).AddDays(7));
-
-        return new DateRange(lastPayPeriod!.Value.GetExpirationDate(), lastPayPeriod!.Value.GetExpirationDate().AddDays(14));
+        return new PaydaySchedule(new SimpleStringId(id), new PaydayRecurrence(PaydayRecurrences.Biweekly), weeklyPayday, null, null);
     }
 
     /// <exception cref="ValueObjectException"></exception>
