@@ -67,6 +67,7 @@ public class Employee : Entity<SimpleStringId>
         return _Paychecks.MaxBy(a => a.GetDateIssued());
     }
 
+    internal bool AnyUndeliveredPaychecks() => _Paychecks.Any(a => !a.HasBeenDelivered());
     public IEnumerable<Paycheck> GetUndeliveredPaychecks() => _Paychecks.Where(a => !a.HasBeenDelivered());
 
     /// <exception cref="ValueObjectException"></exception>

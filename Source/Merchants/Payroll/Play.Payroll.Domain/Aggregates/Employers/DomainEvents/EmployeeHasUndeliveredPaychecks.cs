@@ -21,3 +21,21 @@ public record EmployeeHasUndeliveredPaychecks : BrokenRuleOrPolicyDomainEvent<Em
 
     #endregion
 }
+
+public record EmployerHasUndeliveredPaychecks : BrokenRuleOrPolicyDomainEvent<Employer, SimpleStringId>
+{
+    #region Instance Values
+
+    public readonly Employer Aggregate;
+
+    #endregion
+
+    #region Constructor
+
+    public EmployerHasUndeliveredPaychecks(Employer aggregate, IBusinessRule rule) : base(aggregate, rule)
+    {
+        Aggregate = aggregate;
+    }
+
+    #endregion
+}

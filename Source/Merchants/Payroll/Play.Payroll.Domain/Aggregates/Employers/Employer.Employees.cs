@@ -18,6 +18,8 @@ public partial class Employer : Aggregate<SimpleStringId>
 {
     #region Instance Members
 
+    public bool AnyUndeliveredPaychecks() => _Employees.Any(a => a.AnyUndeliveredPaychecks());
+
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
     public async Task CreateEmployee(IRetrieveUsers userRetriever, CreateEmployee command)
