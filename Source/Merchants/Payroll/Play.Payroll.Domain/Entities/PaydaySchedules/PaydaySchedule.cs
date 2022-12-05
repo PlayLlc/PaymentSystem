@@ -15,7 +15,6 @@ public partial class PaydaySchedule : Entity<SimpleStringId>
     #region Instance Values
 
     private readonly PaydayRecurrence _PaydayRecurrence;
-
     private readonly DayOfTheWeek? _WeeklyPayday;
     private readonly DayOfTheMonth? _MonthlyPayday;
     private readonly DayOfTheMonth? _SecondMonthlyPayday;
