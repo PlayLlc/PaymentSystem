@@ -27,6 +27,17 @@ public partial class PaydaySchedule : Entity<SimpleStringId>
         DateTimeUtc.Now.AsShortDate() == GetNextBiweeklyPayPeriod(lastPayPeriod).GetExpirationDate().AsShortDate();
 
     /// <exception cref="ValueObjectException"></exception>
+    /// <exception cref="ValueObjectException"></exception>
+    private DateRange GetBiweeklyPayPeriod(ShortDate payday)
+    {
+        if (_WeeklyPayday != payday.AsDateTimeUtc.GetDayOfTheWeek())
+            throw new ValueObjectException(
+                $"The {nameof(ShortDate)} provided is not a valid payday according to the {nameof(PaydaySchedule)} {nameof(PaydayRecurrence)}");
+
+        return new DateRange(payday.AsDateTimeUtc.AddDays(-14), payday);
+    }
+
+    /// <exception cref="ValueObjectException"></exception>
     private DateRange GetNextBiweeklyPayPeriod(DateRange? lastPayPeriod)
     {
         DateTimeUtc now = DateTimeUtc.Now;

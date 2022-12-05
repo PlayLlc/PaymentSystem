@@ -26,6 +26,18 @@ public partial class PaydaySchedule : Entity<SimpleStringId>
     private bool IsTodayMonthlyPayday() => _MonthlyPayday! == DateTimeUtc.Now.GetDayOfTheMonth()!;
 
     /// <exception cref="ValueObjectException"></exception>
+    private DateRange GetMonthlyPayPeriod(ShortDate payday)
+    {
+        DaysOfTheMonth paydayDayOfTheMonth = payday.AsDateTimeUtc.GetDayOfTheMonth();
+
+        if (_MonthlyPayday! != paydayDayOfTheMonth)
+            throw new ValueObjectException(
+                $"The {nameof(ShortDate)} provided is not a valid payday according to the {nameof(PaydaySchedule)} {nameof(PaydayRecurrence)}");
+
+        return new DateRange(payday.AsDateTimeUtc.GetLast(_MonthlyPayday!), payday);
+    }
+
+    /// <exception cref="ValueObjectException"></exception>
     private DateRange GetNextMonthlyPayPeriod()
     {
         DateTimeUtc now = DateTimeUtc.Now;

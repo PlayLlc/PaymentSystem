@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 using Play.Domain.Common.Attributes;
+using Play.Globalization.Time;
 using Play.Payroll.Contracts.Dtos;
 
 namespace Play.Payroll.Contracts.Commands;
@@ -15,7 +16,8 @@ public record CutChecks
     public string EmployerId { get; set; } = string.Empty;
 
     [Required]
-    public PayPeriodDto PayPeriod { get; set; } = null!;
+    [DateTimeUtc]
+    public DateTime Payday { get; set; }
 
     #endregion
 }

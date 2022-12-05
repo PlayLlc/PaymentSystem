@@ -34,6 +34,21 @@ public partial class PaydaySchedule : Entity<SimpleStringId>
     }
 
     /// <exception cref="ValueObjectException"></exception>
+    private DateRange GetSemiMonthlyPayPeriod(ShortDate payday)
+    {
+        DaysOfTheMonth paydayDayOfTheMonth = payday.AsDateTimeUtc.GetDayOfTheMonth();
+
+        if ((_MonthlyPayday! != payday.AsDateTimeUtc.GetDayOfTheMonth()) && (_SecondMonthlyPayday! != payday.AsDateTimeUtc.GetDayOfTheMonth()))
+            throw new ValueObjectException(
+                $"The {nameof(ShortDate)} provided is not a valid payday according to the {nameof(PaydaySchedule)} {nameof(PaydayRecurrence)}");
+
+        if (paydayDayOfTheMonth == _MonthlyPayday!)
+            return new DateRange(payday.AsDateTimeUtc.GetLast(_SecondMonthlyPayday!), payday);
+
+        return new DateRange(payday.AsDateTimeUtc.GetLast(_MonthlyPayday!), payday);
+    }
+
+    /// <exception cref="ValueObjectException"></exception>
     private DateRange GetNextSemiMonthlyPayPeriod()
     {
         DaysOfTheMonth lastPayday = GetLastPayday();

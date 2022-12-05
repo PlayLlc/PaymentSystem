@@ -4,7 +4,7 @@ using Play.Domain.Events;
 
 namespace Play.Payroll.Domain.Aggregates;
 
-public record EmployeeHasUndeliveredPaychecks : BrokenRuleOrPolicyDomainEvent<Employer, SimpleStringId>
+public record EmployerHasUndeliveredPaychecks : BrokenRuleOrPolicyDomainEvent<Employer, SimpleStringId>
 {
     #region Instance Values
 
@@ -14,7 +14,7 @@ public record EmployeeHasUndeliveredPaychecks : BrokenRuleOrPolicyDomainEvent<Em
 
     #region Constructor
 
-    public EmployeeHasUndeliveredPaychecks(Employer aggregate, IBusinessRule rule) : base(aggregate, rule)
+    public EmployerHasUndeliveredPaychecks(Employer aggregate, IBusinessRule rule) : base(aggregate, rule)
     {
         Aggregate = aggregate;
     }

@@ -24,7 +24,17 @@ public partial class PaydaySchedule : Entity<SimpleStringId>
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    private bool IsTodayWeeklyPayday() => DateTimeUtc.Now.GetDayOfTheMonth() == _WeeklyPayday!;
+    private bool IsTodayWeeklyPayday() => _WeeklyPayday == DateTimeUtc.Now.GetDayOfTheWeek();
+
+    /// <exception cref="ValueObjectException"></exception>
+    private DateRange GetWeeklyPayPeriod(ShortDate payday)
+    {
+        if (_WeeklyPayday != payday.AsDateTimeUtc.GetDayOfTheWeek())
+            throw new ValueObjectException(
+                $"The {nameof(ShortDate)} provided is not a valid payday according to the {nameof(PaydaySchedule)} {nameof(PaydayRecurrence)}");
+
+        return new DateRange(payday.AsDateTimeUtc.AddDays(-7), payday);
+    }
 
     /// <exception cref="ValueObjectException"></exception>
     private DateRange GetNextWeeklyPayPeriod()

@@ -85,6 +85,26 @@ public partial class PaydaySchedule : Entity<SimpleStringId>
     }
 
     /// <exception cref="ValueObjectException"></exception>
+    internal DateRange GetPayPeriodDateRange(ShortDate payday)
+    {
+        ValidatePaydaySchedule();
+
+        if (_PaydayRecurrence == PaydayRecurrences.Weekly)
+            return GetWeeklyPayPeriod(payday);
+
+        if (_PaydayRecurrence == PaydayRecurrences.Biweekly)
+            return GetBiweeklyPayPeriod(payday);
+
+        if (_PaydayRecurrence == PaydayRecurrences.SemiMonthly)
+            return GetSemiMonthlyPayPeriod(payday);
+
+        if (_PaydayRecurrence == PaydayRecurrences.Monthly)
+            return GetMonthlyPayPeriod(payday);
+
+        throw new ValueObjectException($"The {nameof(PaydayRecurrence)} with the value {_PaydayRecurrence} was not recognized");
+    }
+
+    /// <exception cref="ValueObjectException"></exception>
     internal DateRange GetNextPayPeriod(DateRange? lastPayPeriod)
     {
         ValidateWeeklyPaySchedule();

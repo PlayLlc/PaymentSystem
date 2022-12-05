@@ -86,8 +86,6 @@ public partial class Employer : Aggregate<SimpleStringId>
         // TODO: How will this work in practice? We force merchants to go to the portal and mark all as delivered or deliver all direct deposit?
         Enforce(new EmployerMustNotHaveUndeliveredPaychecks(this));
 
-        // Enforce
-
         Publish(new EmployerHasBeenRemoved(this, command.MerchantId, command.UserId));
     }
 

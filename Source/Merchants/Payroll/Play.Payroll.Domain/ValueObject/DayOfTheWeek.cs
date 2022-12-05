@@ -48,5 +48,7 @@ public record DayOfTheWeek : ValueObject<byte>
         return (DaysOfTheWeek) result!;
     }
 
+    public static implicit operator DayOfTheWeek(DayOfWeek value) => new((byte) value);
+
     #endregion
 }

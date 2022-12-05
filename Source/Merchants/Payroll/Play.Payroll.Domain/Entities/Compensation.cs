@@ -1,4 +1,5 @@
-﻿using Play.Domain.Common.ValueObjects;
+﻿using Play.Core.Exceptions;
+using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Currency;
@@ -30,16 +31,16 @@ public class Compensation : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal Compensation(CompensationDto dto)
     {
-        Id = new(dto.Id);
-        _CompensationType = new(dto.CompensationType);
+        Id = new SimpleStringId(dto.Id);
+        _CompensationType = new CompensationType(dto.CompensationType);
         _CompensationRate = dto.HourlyWage.AsMoney();
     }
 
     /// <exception cref="ValueObjectException"></exception>
     internal Compensation(string id, string compensationType, Money compensationRate)
     {
-        Id = new(id);
-        _CompensationType = new(compensationType);
+        Id = new SimpleStringId(id);
+        _CompensationType = new CompensationType(compensationType);
         _CompensationRate = compensationRate;
     }
 
@@ -48,38 +49,24 @@ public class Compensation : Entity<SimpleStringId>
     #region Instance Members
 
     public static Compensation Create(string id, CompensationTypes compensationType, Money compensationRate) =>
-        new(new(id), compensationType, compensationRate);
-
-    /// <exception cref="OverflowException"></exception>
-    public Money GetPaycheckTotal(TimeSheet timeSheet)
-    {
-        if (_CompensationType == CompensationTypes.Hourly)
-            return CalculateHourlyPaycheck(timeSheet);
-
-        return CalculateSalariedPaycheck(timeSheet);
-    }
-
-    /// <exception cref="OverflowException"></exception>
-    private Money CalculateSalariedPaycheck(TimeSheet timeSheet) =>
-        GetSalaryEmployeesWagePerMinute(timeSheet) * (ulong) timeSheet.GetBillableMinutes(_CompensationType);
-
-    private Money CalculateHourlyPaycheck(TimeSheet timeSheet)
-    {
-        // HACK: Check we're not fucking the worker here
-        Money minutelyWage = new((ulong) (_CompensationRate.AsMoney() / 60), _CompensationRate.NumericCurrencyCode);
-
-        return minutelyWage * timeSheet.GetBillableMinutes(_CompensationType);
-    }
+        new(new string(id), compensationType, compensationRate);
 
     public CompensationType GetCompensationType() => _CompensationType;
-    public Money GetMinutelyWage() => new((ulong) ((Money) _CompensationRate / 60), GetNumericCurrencyCode());
+
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
+    public Money GetMinutelyWage(byte year) =>
+        _CompensationType == CompensationTypes.Salary
+            ? GetSalaryEmployeesWagePerMinute(year)
+            : new Money((ulong) (_CompensationRate.AsMoney() / (byte) 60), GetNumericCurrencyCode());
+
     public NumericCurrencyCode GetNumericCurrencyCode() => _CompensationRate.NumericCurrencyCode;
 
     /// <exception cref="OverflowException"></exception>
-    private Money GetSalaryEmployeesWagePerMinute(TimeSheet timeSheet)
+    /// <exception cref="PlayInternalException"></exception>
+    private Money GetSalaryEmployeesWagePerMinute(byte year)
     {
         // BUG: This doesn't compensate for when part of the pay period is in one year and the remainder is in the new year
-        int year = timeSheet.GetPayPeriodStart().Year;
 
         DateTimeUtc start = new(new DateTime(year, 1, 1));
         DateTimeUtc end = new(new DateTime(year + 1, 1, 1).Subtract(new TimeSpan(0, 0, 1, 0)));
@@ -87,7 +74,7 @@ public class Compensation : Entity<SimpleStringId>
         int businessDays = start.GetBusinessDays(end);
         ulong minutelyWage = (ulong) (_CompensationRate.AsMoney() / (uint) (businessDays * 8 * 60));
 
-        return new(minutelyWage, _CompensationRate.NumericCurrencyCode);
+        return new Money(minutelyWage, _CompensationRate.NumericCurrencyCode);
     }
 
     public override SimpleStringId GetId() => Id;

@@ -51,8 +51,8 @@ public class TimeSheet : Entity<SimpleStringId>
     public static TimeSheet Create(string id, string employeeId, PayPeriod payPeriod, IEnumerable<TimeEntry> timeEntries) =>
         new(new string(id), new string(employeeId), payPeriod, timeEntries);
 
-    internal DateTimeUtc GetPayPeriodStart() => _PayPeriod.Start;
-    internal DateTimeUtc GetPayPeriodEnd() => _PayPeriod.End;
+    internal DateTimeUtc GetPayPeriodStart() => _PayPeriod.GetDateRange().GetActivationDate();
+    internal DateTimeUtc GetPayPeriodEnd() => _PayPeriod.GetDateRange().GetExpirationDate();
 
     /// <summary>
     ///     Gets the amount of minutes that an employee worked within a pay period
@@ -78,7 +78,8 @@ public class TimeSheet : Entity<SimpleStringId>
         uint workableMinutes = _PayPeriod.GetWeekdayWorkMinutes();
         TimeSpan unpaidTime = new();
 
-        foreach (var timeEntry in _TimeEntries.Where(a => (_PayPeriod.Start <= a.GetStartTime()) && (_PayPeriod.End >= a.GetEndTime())))
+        foreach (var timeEntry in _TimeEntries.Where(a =>
+                     (_PayPeriod.GetDateRange().GetActivationDate() <= a.GetStartTime()) && (_PayPeriod.GetDateRange().GetExpirationDate() >= a.GetEndTime())))
         {
             if (timeEntry.GetTimeEntryType() != TimeEntryTypes.UnpaidTime)
                 continue;
@@ -93,7 +94,8 @@ public class TimeSheet : Entity<SimpleStringId>
     {
         TimeSpan timeWorked = new();
 
-        foreach (var timeEntry in _TimeEntries.Where(a => (_PayPeriod.Start <= a.GetStartTime()) && (_PayPeriod.End >= a.GetEndTime())))
+        foreach (var timeEntry in _TimeEntries.Where(a =>
+                     (_PayPeriod.GetDateRange().GetActivationDate() <= a.GetStartTime()) && (_PayPeriod.GetDateRange().GetExpirationDate() >= a.GetEndTime())))
         {
             if (timeEntry.GetTimeEntryType() == TimeEntryTypes.UnpaidTime)
                 continue;

@@ -111,8 +111,9 @@ public class Employee : Entity<SimpleStringId>
         _TimeEntries.Where(a =>
             (payPeriod.GetDateRange().GetActivationDate() >= a.GetStartTime()) && (payPeriod.GetDateRange().GetExpirationDate() <= a.GetEndTime()));
 
+    /// <exception cref="OverflowException"></exception>
     internal Money CalculatePaycheckEarnings(TimeSheet timeSheet) =>
-        _Compensation.GetMinutelyWage() * timeSheet.GetBillableMinutes(_Compensation.GetCompensationType());
+        _Compensation.GetMinutelyWage((byte) timeSheet.GetPayPeriodEnd().Year) * timeSheet.GetBillableMinutes(_Compensation.GetCompensationType());
 
     public override SimpleStringId GetId() => Id;
 

@@ -21,10 +21,14 @@ public partial class Employer : Aggregate<SimpleStringId>
     #region Instance Members
 
     /// <exception cref="ValueObjectException"></exception>
-    public bool IsTodayPayday() => _PaydaySchedule.IsTodayPayday(GetLatestPayPeriod());
+    public bool IsTodayPayday() => _PaydaySchedule.IsTodayPayday(GetLastRecordedPayPeriod());
+
+    // HACK: This method is relative and probably will add ambiguity and errors in the implementation DELETE if possible
+    /// <exception cref="ValueObjectException"></exception>
+    public PayPeriod GetNextPayPeriod() => new(GenerateSimpleStringId(), _PaydaySchedule.GetNextPayPeriod(GetLastRecordedPayPeriod()));
 
     /// <exception cref="ValueObjectException"></exception>
-    public PayPeriod GetNextPayPeriod() => new(GenerateSimpleStringId(), _PaydaySchedule.GetNextPayPeriod(GetLatestPayPeriod()));
+    public PayPeriod GetPayPeriod(ShortDate payday) => new(GenerateSimpleStringId(), _PaydaySchedule.GetPayPeriodDateRange(payday));
 
     public async Task TryDispursingUndeliveredChecks(IISendAchTransfers achClient)
     {
@@ -34,20 +38,20 @@ public partial class Employer : Aggregate<SimpleStringId>
         Publish(new EmployeePaychecksHaveBeenDelivered(this));
     }
 
-    public async Task CutPaychecks(IISendAchTransfers achClient, CutChecks commands)
+    /// <exception cref="ValueObjectException"></exception>
+    /// <exception cref="Play.Domain.Exceptions.BusinessRuleValidationException"></exception>
+    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    public void CutPaychecks(CutChecks commands)
     {
-        // Enforce
-        PayPeriod payPeriod = new(commands.PayPeriod);
+        PayPeriod payPeriod = GetPayPeriod(new DateTimeUtc(commands.Payday).AsShortDate());
+        Enforce(new PayPeriodMustHaveEnded(payPeriod));
 
-        // HACK: TRANSACTIONAL CONSISTENCY!!!!!!
-        // BUG: TRANSACTIONAL CONSISTENCY!!!!!
-        // HACK: TRANSACTIONAL CONSISTENCY!!!!!!
+        // ENFORCE OTHER SHIT
+
         foreach (var employee in _Employees)
             employee.AddPaycheck(CutPaycheck(payPeriod, employee));
 
-        // TODO: Move this to NServiceBus layer for transactional consistency
-        //await employee.TryDispursingUndeliveredChecks(achClient).ConfigureAwait(false);
-        // Publish
+        Publish(new EmployeePaychecksHaveBeenCreated(this));
     }
 
     private Paycheck CutPaycheck(PayPeriod payPeriod, Employee employee)
@@ -58,7 +62,7 @@ public partial class Employer : Aggregate<SimpleStringId>
         return Paycheck.Create(GenerateSimpleStringId(), employee.Id, earnedWage, timeSheet, payPeriod);
     }
 
-    private DateRange? GetLatestPayPeriod() => _Employees?.Max(a => a?.GetLatestPaycheck())?.GetPayPeriod()?.GetDateRange();
+    private DateRange? GetLastRecordedPayPeriod() => _Employees?.Max(a => a?.GetLatestPaycheck())?.GetPayPeriod()?.GetDateRange();
 
     #endregion
 }
