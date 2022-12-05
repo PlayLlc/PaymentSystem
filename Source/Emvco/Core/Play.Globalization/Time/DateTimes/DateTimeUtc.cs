@@ -73,6 +73,8 @@ public readonly record struct DateTimeUtc
 
     #region Instance Members
 
+    public ShortDate AsShortDate() => new(this);
+
     public DateTimeUtc GetLast(DaysOfTheWeek dayOfTheWeek)
     {
         DayOfWeek dayOfWeek = GetDayOfTheWeek();

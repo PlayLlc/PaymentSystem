@@ -1,38 +1,53 @@
 ﻿using System;
 
+using Play.Core.Exceptions;
+
 namespace Play.Globalization.Time;
 
 public readonly struct DateRange
 {
     #region Instance Values
 
-    private readonly ShortDate _ActivationDate;
-    private readonly ShortDate _ExpiryDate;
+    private readonly DateTimeUtc _StartDate;
+    private readonly DateTimeUtc _EndDate;
 
     #endregion
 
     #region Constructor
 
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public DateRange(ShortDate activationDate, ShortDate expiryDate)
+    public DateRange(ShortDate startDate, ShortDate endDate)
     {
-        if (activationDate > expiryDate)
+        if (startDate > endDate)
         {
-            throw new ArgumentOutOfRangeException(nameof(activationDate),
-                $"The argument {nameof(activationDate)} is greater than the argument {nameof(expiryDate)}");
+            throw new PlayInternalException(new ArgumentOutOfRangeException(nameof(startDate),
+                $"The argument {nameof(startDate)} is greater than the argument {nameof(endDate)}"));
         }
 
-        _ActivationDate = activationDate;
-        _ExpiryDate = expiryDate;
+        _StartDate = startDate;
+        _EndDate = endDate;
+    }
+
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public DateRange(DateTimeUtc startDate, DateTimeUtc endDate)
+    {
+        if (startDate > endDate)
+        {
+            throw new PlayInternalException(new ArgumentOutOfRangeException(nameof(startDate),
+                $"The argument {nameof(startDate)} is greater than the argument {nameof(endDate)}"));
+        }
+
+        _StartDate = startDate;
+        _EndDate = endDate;
     }
 
     #endregion
 
     #region Instance Members
 
-    public ShortDate GetActivationDate() => _ActivationDate;
-    public ShortDate GetExpirationDate() => _ExpiryDate;
-    public bool IsActive() => (_ExpiryDate > DateTimeUtc.Now) && (DateTimeUtc.Now > _ActivationDate);
+    public DateTimeUtc GetActivationDate() => _StartDate;
+    public DateTimeUtc GetExpirationDate() => _EndDate;
+    public bool IsActive() => (_EndDate > DateTimeUtc.Now) && (DateTimeUtc.Now > _StartDate);
     public bool IsExpired() => !IsActive();
 
     #endregion

@@ -38,4 +38,15 @@ public record DayOfTheWeek : ValueObject<byte>
     }
 
     #endregion
+
+    #region Operator Overrides
+
+    public static implicit operator DaysOfTheWeek(DayOfTheWeek value)
+    {
+        DaysOfTheWeek.Empty.TryGet(value, out EnumObject<byte>? result);
+
+        return (DaysOfTheWeek) result!;
+    }
+
+    #endregion
 }

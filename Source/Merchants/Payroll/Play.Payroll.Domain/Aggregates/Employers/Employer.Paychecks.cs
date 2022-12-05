@@ -29,6 +29,8 @@ public partial class Employer : Aggregate<SimpleStringId>
         foreach (var employee in _Employees)
         {
             employee.AddPaycheck(CutPaycheck(payPeriod, employee));
+
+            // TODO: Move this to NServiceBus layer for transactional consistency
             await employee.TryDispursingUndeliveredChecks(achClient).ConfigureAwait(false);
         }
 

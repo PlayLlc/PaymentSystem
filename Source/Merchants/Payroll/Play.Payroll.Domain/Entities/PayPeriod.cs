@@ -11,8 +11,8 @@ public class PayPeriod : Entity<SimpleStringId>
 {
     #region Instance Values
 
-    internal readonly DateTimeUtc Start;
-    internal readonly DateTimeUtc End;
+    private readonly DateTimeUtc _Start;
+    private readonly DateTimeUtc _End;
     public override SimpleStringId Id { get; }
 
     #endregion
@@ -26,14 +26,21 @@ public class PayPeriod : Entity<SimpleStringId>
     internal PayPeriod(string id, DateTimeUtc start, DateTimeUtc end)
     {
         Id = new SimpleStringId(id);
-        Start = start;
-        End = end;
+        _Start = start;
+        _End = end;
+    }
+
+    internal PayPeriod(string id, DateRange range)
+    {
+        Id = new SimpleStringId(id);
+        _Start = range.GetActivationDate();
+        _End = range.GetExpirationDate();
     }
 
     /// <exception cref="ValueObjectException"></exception>
     internal PayPeriod(PayPeriodDto dto)
     {
-        if (End <= Start)
+        if (_End <= _Start)
             throw new ValueObjectException(
                 $"The {nameof(PayPeriod)} cannot be initialized because the {nameof(dto.End)} argument provided does not happen after the {nameof(dto.Start)} argument provided;");
 
@@ -41,8 +48,8 @@ public class PayPeriod : Entity<SimpleStringId>
 
         try
         {
-            Start = new DateTimeUtc(dto.Start);
-            End = new DateTimeUtc(dto.End);
+            _Start = new DateTimeUtc(dto.Start);
+            _End = new DateTimeUtc(dto.End);
         }
         catch (PlayInternalException e)
         {
@@ -54,6 +61,8 @@ public class PayPeriod : Entity<SimpleStringId>
 
     #region Instance Members
 
+    internal DateRange GetDateRange() => new(_Start, _End);
+
     private static int GetWorkingDays(DateTime from, DateTime to)
     {
         int dayDifference = (int) to.Subtract(from).TotalDays;
@@ -63,10 +72,10 @@ public class PayPeriod : Entity<SimpleStringId>
             .Count(x => (x.DayOfWeek != DayOfWeek.Saturday) && (x.DayOfWeek != DayOfWeek.Sunday));
     }
 
-    public uint GetWeekdayWorkHours() => (uint) GetWorkingDays(Start, End) * 8;
+    public uint GetWeekdayWorkHours() => (uint) GetWorkingDays(_Start, _End) * 8;
     public uint GetWeekdayWorkMinutes() => GetWeekdayWorkHours() * 60;
 
-    public bool IsTodayPayday() => End.Day == DateTimeUtc.Now.Day;
+    public bool IsTodayPayday() => _End.Day == DateTimeUtc.Now.Day;
 
     public override SimpleStringId GetId() => Id;
 
@@ -74,8 +83,8 @@ public class PayPeriod : Entity<SimpleStringId>
         new()
         {
             Id = Id,
-            Start = Start,
-            End = End
+            Start = _Start,
+            End = _End
         };
 
     #endregion

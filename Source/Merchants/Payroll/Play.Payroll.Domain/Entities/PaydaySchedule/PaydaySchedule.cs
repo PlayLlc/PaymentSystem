@@ -26,7 +26,7 @@ public partial class PaydaySchedule : Entity<SimpleStringId>
     #region Constructor
 
     // Constructor for EF only
-    protected PaydaySchedule(
+    internal PaydaySchedule(
         SimpleStringId id, PaydayRecurrence paydayRecurrence, DayOfTheWeek? weeklyPayday, DayOfTheMonth? monthlyPayday, DayOfTheMonth? secondMonthlyPayday)
     {
         Id = id;
@@ -40,8 +40,26 @@ public partial class PaydaySchedule : Entity<SimpleStringId>
 
     #region Instance Members
 
+    /// <exception cref="ValueObjectException"></exception>
+    internal bool IsTodayPayday(DateRange? lastPayPeriod)
+    {
+        if (_PaydayRecurrence == PaydayRecurrences.Weekly)
+            return IsTodayPaydayForWeeklyPaySchedule();
+
+        if (_PaydayRecurrence == PaydayRecurrences.Biweekly)
+            return IsTodayPaydayForBiweeklyPaySchedule(lastPayPeriod);
+
+        if (_PaydayRecurrence == PaydayRecurrences.SemiMonthly)
+            return IsTodayPaydayForSemiMonthlyPaySchedule();
+
+        if (_PaydayRecurrence == PaydayRecurrences.Monthly)
+            return IsTodayPaydayForMonthlyPaySchedule();
+
+        throw new ValueObjectException($"The {nameof(_PaydayRecurrence)} value was not recognized");
+    }
+
     public override PaydayScheduleDto AsDto() =>
-        new PaydayScheduleDto()
+        new()
         {
             Id = Id,
             PaydayRecurrence = _PaydayRecurrence,
@@ -50,21 +68,97 @@ public partial class PaydaySchedule : Entity<SimpleStringId>
             WeeklyPayday = _WeeklyPayday?.Value
         };
 
-    internal PayPeriod GetNextPayPeriod()
+    /// <exception cref="ValueObjectException"></exception>
+    internal DateRange GetNextPayPeriod(DateRange? lastPayPeriod)
     {
         if (_PaydayRecurrence == PaydayRecurrences.Weekly)
             return GetNextWeeklyPayPeriod();
 
         if (_PaydayRecurrence == PaydayRecurrences.Biweekly)
-            return GetNextBiweeklyPayPeriod();
+            return GetNextBiweeklyPayPeriod(lastPayPeriod);
 
         if (_PaydayRecurrence == PaydayRecurrences.SemiMonthly)
-            return GetNextBiweeklyPayPeriod();
+            return GetNextSemiMonthlyPayPeriod();
 
         return GetNextMonthlyPayPeriod();
     }
 
     public override SimpleStringId GetId() => Id;
+
+    #endregion
+
+    #region Static Factory
+
+    /// <exception cref="ValueObjectException"></exception>
+    public static PaydaySchedule Create(
+        string id, PaydayRecurrence paydayRecurrence, DayOfTheWeek? weeklyPayday, DayOfTheMonth? monthlyPayday, DayOfTheMonth? secondMonthlyPayday)
+    {
+        if (paydayRecurrence == PaydayRecurrences.Weekly)
+        {
+            var weeklyPaySchedule = CreateWeeklySchedule(new SimpleStringId(id), weeklyPayday);
+            weeklyPaySchedule.ValidateWeeklyPaySchedule();
+        }
+
+        if (paydayRecurrence == PaydayRecurrences.Biweekly)
+        {
+            var biweeklyPaySchedule = CreateBiweeklySchedule(new SimpleStringId(id), weeklyPayday);
+            biweeklyPaySchedule.ValidateBiweeklyPaySchedule();
+        }
+
+        if (paydayRecurrence == PaydayRecurrences.SemiMonthly)
+        {
+            var semiMonthlyPaySchedule = CreateSemiMonthlySchedule(new SimpleStringId(id), monthlyPayday, secondMonthlyPayday);
+            semiMonthlyPaySchedule.ValidateSemiMonthlyPaySchedule();
+        }
+
+        var monthlyPaySchedule = CreateMonthlySchedule(new SimpleStringId(id), monthlyPayday);
+        monthlyPaySchedule.ValidateMonthlyPaySchedule();
+
+        return monthlyPaySchedule;
+    }
+
+    /// <exception cref="ValueObjectException"></exception>
+    private static PaydaySchedule CreateWeeklySchedule(SimpleStringId id, DayOfTheWeek? weeklyPayday)
+    {
+        if (weeklyPayday is null)
+            throw new ValueObjectException(
+                $"The {nameof(PaydaySchedule)} could not be initialized. The {nameof(PaydayRecurrence)} type specified is {nameof(PaydayRecurrences.Weekly)} but the {nameof(weeklyPayday)} argument is null");
+
+        return new PaydaySchedule(new SimpleStringId(id), new PaydayRecurrence(PaydayRecurrences.Weekly), new DayOfTheWeek((byte) weeklyPayday), null, null);
+    }
+
+    /// <exception cref="ValueObjectException"></exception>
+    private static PaydaySchedule CreateBiweeklySchedule(SimpleStringId id, DayOfTheWeek? weeklyPayday)
+    {
+        if (weeklyPayday is null)
+            throw new ValueObjectException(
+                $"The {nameof(PaydaySchedule)} could not be initialized. The {nameof(PaydayRecurrence)} type specified is {nameof(PaydayRecurrences.Biweekly)} but the {nameof(weeklyPayday)} argument is null");
+
+        return new PaydaySchedule(new SimpleStringId(id), new PaydayRecurrence(PaydayRecurrences.Biweekly), weeklyPayday, null, null);
+    }
+
+    /// <exception cref="ValueObjectException"></exception>
+    private static PaydaySchedule CreateSemiMonthlySchedule(SimpleStringId id, DayOfTheMonth? monthlyPayday, DayOfTheMonth? secondMonthlyPayday)
+    {
+        if (monthlyPayday is null)
+            throw new ValueObjectException(
+                $"The {nameof(PaydaySchedule)} could not be initialized. The {nameof(PaydayRecurrence)} type specified is {nameof(PaydayRecurrences.SemiMonthly)} but the {nameof(monthlyPayday)} argument is null");
+        if (secondMonthlyPayday is null)
+            throw new ValueObjectException(
+                $"The {nameof(PaydaySchedule)} could not be initialized. The {nameof(PaydayRecurrence)} type specified is {nameof(PaydayRecurrences.SemiMonthly)} but the {nameof(secondMonthlyPayday)} argument is null");
+
+        return new PaydaySchedule(new SimpleStringId(id), new PaydayRecurrence(PaydayRecurrences.SemiMonthly), null, monthlyPayday, secondMonthlyPayday);
+    }
+
+    /// <exception cref="ValueObjectException"></exception>
+    private static PaydaySchedule CreateMonthlySchedule(SimpleStringId id, DayOfTheMonth? monthlyPayday)
+    {
+        if (monthlyPayday is null)
+            throw new ValueObjectException(
+                $"The {nameof(PaydaySchedule)} could not be initialized. The {nameof(PaydayRecurrence)} type specified is {nameof(PaydayRecurrences.Monthly)} but the {nameof(monthlyPayday)} argument is null");
+
+        return new PaydaySchedule(new SimpleStringId(id), new PaydayRecurrence(PaydayRecurrences.Monthly), null, monthlyPayday, null);
+    }
 
     #endregion
 }

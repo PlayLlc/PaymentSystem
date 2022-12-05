@@ -66,6 +66,8 @@ public class Paycheck : Entity<SimpleStringId>
 
     #region Instance Members
 
+    internal PayPeriod GetPayPeriod() => _PayPeriod;
+
     public bool HasBeenDistributed() => _HasBeenDistributed;
 
     internal static Paycheck Create(string id, string employeeId, Money amount, TimeSheet timeSheet, PayPeriod payPeriod) =>

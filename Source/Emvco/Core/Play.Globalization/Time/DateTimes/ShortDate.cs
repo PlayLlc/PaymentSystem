@@ -55,7 +55,7 @@ public readonly struct ShortDate
                 $"The {nameof(ShortDate)} could not be initialized because the value was out of range"));
         }
 
-        _Value = new(new DateTime(year + _MillenniumAndCentury, month, 1, 0, 0, 0, 0, DateTimeKind.Utc));
+        _Value = new DateTimeUtc(new DateTime(year + _MillenniumAndCentury, month, 1, 0, 0, 0, 0, DateTimeKind.Utc));
 
         if (_Value < Min)
         {
@@ -67,7 +67,7 @@ public readonly struct ShortDate
     /// <exception cref="PlayInternalException"></exception>
     public ShortDate(DateTimeUtc dateTime)
     {
-        _Value = new(new DateTime(dateTime.Year, dateTime.Month, 1, 0, 0, 0, 0, DateTimeKind.Utc));
+        _Value = new DateTimeUtc(new DateTime(dateTime.Year, dateTime.Month, 1, 0, 0, 0, 0, DateTimeKind.Utc));
     }
 
     /// <exception cref="PlayInternalException"></exception>
@@ -91,7 +91,7 @@ public readonly struct ShortDate
                 $"The {nameof(ShortDate)} could not be initialized because the value was out of range"));
         }
 
-        _Value = new(new DateTime(year + _MillenniumAndCentury, month, 1, 0, 0, 0, 0, DateTimeKind.Utc));
+        _Value = new DateTimeUtc(new DateTime(year + _MillenniumAndCentury, month, 1, 0, 0, 0, 0, DateTimeKind.Utc));
 
         if (_Value < Min)
         {
@@ -168,6 +168,7 @@ public readonly struct ShortDate
     public static bool operator <=(ShortDate x, DateTime y) => x._Value <= y;
     public static bool operator <=(DateTime x, ShortDate y) => x <= y._Value;
     public static implicit operator DateTime(ShortDate value) => value._Value;
+    public static implicit operator DateTimeUtc(ShortDate value) => value._Value;
 
     #endregion
 }

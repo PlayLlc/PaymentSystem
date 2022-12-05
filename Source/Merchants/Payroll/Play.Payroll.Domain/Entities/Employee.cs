@@ -60,6 +60,11 @@ public class Employee : Entity<SimpleStringId>
 
     internal string GetUserId() => _UserId;
 
+    internal Paycheck? GetLatestPaycheck()
+    {
+        return _Paychecks.MaxBy(a => a.GetDateIssued());
+    }
+
     public IEnumerable<Paycheck> GetUndeliveredPaychecks() => _Paychecks.Where(a => !a.HasBeenDistributed());
 
     /// <exception cref="ValueObjectException"></exception>

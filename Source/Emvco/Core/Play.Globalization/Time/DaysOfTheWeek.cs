@@ -77,6 +77,7 @@ public record DaysOfTheWeek : EnumObject<byte>
     #region Operator Overrides
 
     public static implicit operator DayOfWeek(DaysOfTheWeek enumObject) => (DayOfWeek) enumObject._Value;
+    public static implicit operator byte(DaysOfTheWeek value) => value._Value;
 
     #endregion
 }

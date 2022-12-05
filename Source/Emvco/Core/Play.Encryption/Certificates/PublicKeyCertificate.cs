@@ -59,8 +59,8 @@ public class PublicKeyCertificate
     public PublicKeyInfo GetPublicKeyInfo() => _PublicKeyInfo;
     public PublicKeyModulus GetPublicKeyModulus() => _PublicKeyInfo.GetPublicKeyModulus();
     public CertificateSerialNumber GetPublicKeySerialNumber() => _CertificateSerialNumber;
-    public ShortDate GetExpirationDate() => _ValidityPeriod.GetExpirationDate();
-    public ShortDate GetActivationDate() => _ValidityPeriod.GetActivationDate();
+    public ShortDate GetExpirationDate() => _ValidityPeriod.GetExpirationDate().AsShortDate();
+    public ShortDate GetActivationDate() => _ValidityPeriod.GetActivationDate().AsShortDate();
     public bool IsExpired() => _ValidityPeriod.IsExpired();
 
     #endregion

@@ -1,6 +1,7 @@
 ﻿using Play.Core;
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
+using Play.Domain.ValueObjects;
 using Play.Globalization.Time;
 using Play.Payroll.Contracts.Commands;
 using Play.Payroll.Contracts.Enums;
@@ -10,32 +11,40 @@ namespace Play.Payroll.Domain.Entities;
 
 public partial class PaydaySchedule : Entity<SimpleStringId>
 {
-    #region Instance Members
+    #region Instance Member
 
-    /// <exception cref="Play.Domain.ValueObjects.ValueObjectException"></exception>
-    public static PaydaySchedule Create(SimpleStringId id, CreateWeeklyPaySchedule command) =>
-        new(new SimpleStringId(id), new PaydayRecurrence(PaydayRecurrences.Weekly), new DayOfTheWeek(command.DayOfTheWeek), null, null);
-
-    // WARNING: I haven't tested this logic and it's likely wrong
-    private PayPeriod GetNextWeeklyPayPeriod()
+    /// <exception cref="ValueObjectException"></exception>
+    private void ValidateWeeklyPaySchedule()
     {
-        DateTimeUtc? lastPayday;
-        DateTimeUtc today = DateTimeUtc.Now;
-        DayOfTheWeek dayOfTheWeek = new(today.GetDayOfTheWeek());
+        if (_WeeklyPayday is null)
+            throw new ValueObjectException(
+                $"The {nameof(PaydaySchedule)} attempted a {nameof(PaydayRecurrences.Weekly)} {nameof(PaydayRecurrence)} operation but the {nameof(_WeeklyPayday)} field is null. The {nameof(_WeeklyPayday)} field must not be null to perform {nameof(PaydayRecurrences.Weekly)} operations;");
 
-        if (dayOfTheWeek == _WeeklyPayday!)
-            return new PayPeriod("", today, today.AddDays(7));
+        if (_MonthlyPayday is not null)
+            throw new ValueObjectException(
+                $"The {nameof(PaydaySchedule)} attempted a {nameof(PaydayRecurrences.Weekly)} {nameof(PaydayRecurrence)} operation but the {nameof(PaydaySchedule)} has an incorrect state. The  {nameof(_MonthlyPayday)} field MUST be null but is not;");
 
-        if (dayOfTheWeek > _WeeklyPayday!)
-        {
-            lastPayday = today.AddDays(dayOfTheWeek - _WeeklyPayday!);
+        if (_SecondMonthlyPayday is not null)
+            throw new ValueObjectException(
+                $"The {nameof(PaydaySchedule)} attempted a {nameof(PaydayRecurrences.Weekly)} {nameof(PaydayRecurrence)} operation but the {nameof(PaydaySchedule)} has an incorrect state. The  {nameof(_SecondMonthlyPayday)} field MUST be null but is not;");
+    }
 
-            return new PayPeriod("", lastPayday!.Value, lastPayday.Value.AddDays(7));
-        }
+    /// <exception cref="ValueObjectException"></exception>
+    private bool IsTodayPaydayForWeeklyPaySchedule()
+    {
+        ValidateWeeklyPaySchedule();
 
-        lastPayday = today.AddDays(7 - (_WeeklyPayday! - dayOfTheWeek));
+        return DateTimeUtc.Now.GetDayOfTheMonth() == _WeeklyPayday!;
+    }
 
-        return new PayPeriod("", lastPayday!.Value, lastPayday.Value.AddDays(7));
+    /// <exception cref="ValueObjectException"></exception>
+    private DateRange GetNextWeeklyPayPeriod()
+    {
+        ValidateWeeklyPaySchedule();
+        var nextPayday = DateTimeUtc.Now.GetNext(_WeeklyPayday!);
+        var lastPayday = DateTimeUtc.Now.GetLast(_WeeklyPayday!);
+
+        return new DateRange(lastPayday, nextPayday);
     }
 
     #endregion

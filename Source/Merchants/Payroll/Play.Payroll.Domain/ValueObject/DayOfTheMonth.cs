@@ -29,4 +29,15 @@ public record DayOfTheMonth : ValueObject<byte>
     }
 
     #endregion
+
+    #region Operator Overrides
+
+    public static implicit operator DaysOfTheMonth(DayOfTheMonth value)
+    {
+        DaysOfTheMonth.Empty.TryGet(value, out EnumObject<byte>? result);
+
+        return (DaysOfTheMonth) result!;
+    }
+
+    #endregion
 }
