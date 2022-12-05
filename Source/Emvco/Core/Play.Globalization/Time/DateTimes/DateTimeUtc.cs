@@ -73,14 +73,6 @@ public readonly record struct DateTimeUtc
 
     #region Instance Members
 
-    public static int GetBusinessDays(this DateTimeUtc from, DateTimeUtc to)
-    {
-        int dayDifference = (int) to.Subtract(from).TotalDays;
-
-        return Enumerable.Range(1, dayDifference).Select(from.AddDays)
-            .Count(x => (x.GetDayOfTheWeek() != DayOfWeek.Saturday) && (x.GetDayOfTheWeek() != DayOfWeek.Sunday));
-    }
-
     public DateTimeUtc GetLast(DaysOfTheWeek dayOfTheWeek)
     {
         DayOfWeek dayOfWeek = GetDayOfTheWeek();
@@ -108,13 +100,24 @@ public readonly record struct DateTimeUtc
     }
 
     public DateTimeUtc GetLast(DaysOfTheMonth dayOfTheMonth)
-    { }
+    {
+        int daysInLastMonth = DateTime.DaysInMonth(_Value.Year, _Value.Month - 1);
+        var lastMonthDaysTillTarget = daysInLastMonth - dayOfTheMonth;
+
+        DaysOfTheMonth currentDayOfTheMonth = GetDayOfTheMonth();
+
+        if (currentDayOfTheMonth == dayOfTheMonth)
+            return AddDays(-(lastMonthDaysTillTarget + dayOfTheMonth));
+
+        if (currentDayOfTheMonth < dayOfTheMonth)
+            return AddDays(-((lastMonthDaysTillTarget + currentDayOfTheMonth) - dayOfTheMonth));
+
+        return AddDays(-((lastMonthDaysTillTarget + dayOfTheMonth) - currentDayOfTheMonth));
+    }
 
     public DateTimeUtc GetNext(DaysOfTheMonth dayOfTheMonth)
     {
-        // daysOfTheMonth = 13
-        // CurrentdayOfTheMonth = 7
-        var daysInThisMonth = DateTime.DaysInMonth(_Value.Year, _Value.Month);
+        int daysInThisMonth = DateTime.DaysInMonth(_Value.Year, _Value.Month);
 
         DaysOfTheMonth currentDayOfTheMonth = GetDayOfTheMonth();
 
@@ -124,22 +127,16 @@ public readonly record struct DateTimeUtc
         if (currentDayOfTheMonth < dayOfTheMonth)
             return AddDays((daysInThisMonth - currentDayOfTheMonth) + (currentDayOfTheMonth - dayOfTheMonth));
 
-        if (currentDayOfTheMonth > dayOfTheMonth)
-            return AddDays((daysInThisMonth - currentDayOfTheMonth) + (dayOfTheMonth - currentDayOfTheMonth));
+        return AddDays((daysInThisMonth - currentDayOfTheMonth) + (dayOfTheMonth - currentDayOfTheMonth));
     }
 
     public DayOfWeek GetDayOfTheWeek() => _Value.DayOfWeek;
 
-    /// <exception cref="PlayInternalException"></exception>
     public DaysOfTheMonth GetDayOfTheMonth()
     {
-        checked
-        {
-            if (!DaysOfTheMonth.Empty.TryGet((byte) _Value.Day, out EnumObject<byte>? result))
-                throw new PlayInternalException($"An incorrect calculation happened invoking {nameof(GetDayOfTheMonth)} for a {nameof(DateTimeUtc)}");
+        DaysOfTheMonth.Empty.TryGet((byte) _Value.Day, out EnumObject<byte>? result);
 
-            return (DaysOfTheMonth) result!;
-        }
+        return (DaysOfTheMonth) result!;
     }
 
     public string ToShortDateFormat() => $"{_Value.Year}-{_Value.Month}-{_Value.Day:00}";
