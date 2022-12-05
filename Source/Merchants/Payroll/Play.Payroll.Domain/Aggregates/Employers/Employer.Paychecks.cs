@@ -38,10 +38,10 @@ public partial class Employer : Aggregate<SimpleStringId>
         foreach (Employee employee in _Employees)
             employee.AddPaycheck(CutPaycheck(payPeriod, employee));
 
-        Publish(new EmployeePaychecksHaveBeenCreated(this));
+        Publish(new PaychecksHaveBeenCreated(this));
     }
 
-    public async Task DistributeUndeliveredChecks(IISendAchTransfers achClient)
+    public async Task DistributeUndeliveredChecks(ISendAchTransfers achClient)
     {
         foreach (Employee employee in _Employees)
             await employee.DisperseUndeliveredChecks(achClient).ConfigureAwait(false);

@@ -55,7 +55,7 @@ public class DirectDeposit : Entity<SimpleStringId>
             CheckingAccount = _CheckingAccount.AsDto()
         };
 
-    public async Task<Result> SendPaycheck(IISendAchTransfers achClient, Paycheck paycheck)
+    public async Task<Result> SendPaycheck(ISendAchTransfers achClient, Paycheck paycheck)
     {
         try
         {

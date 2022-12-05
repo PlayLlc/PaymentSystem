@@ -7,12 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\Play.Mvc\Play.Mvc.csproj" />
-    <ProjectReference Include="..\..\Underwriting\Play.Underwriting.Application\Play.Underwriting.Application.csproj" />
+    <ProjectReference Include="..\Play.Payroll.Application\Play.Payroll.Application.csproj" />
   </ItemGroup>
 
 </Project>

@@ -8,7 +8,7 @@ using Play.Payroll.Domain.Entities;
 
 namespace Play.Payroll.Domain.Services;
 
-public interface IISendAchTransfers
+public interface ISendAchTransfers
 {
     #region Instance Members
 

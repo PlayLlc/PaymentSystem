@@ -19,7 +19,7 @@ public class PayPeriodMustHaveEnded : BusinessRule<Employer, SimpleStringId>
 
     internal PayPeriodMustHaveEnded(PayPeriod payPeriod)
     {
-        _IsValid = DateTimeUtc.Now.AsShortDate() <= payPeriod.GetDateRange().GetExpirationDate().AsShortDate();
+        _IsValid = DateTimeUtc.Now.AsShortDate() <= payPeriod.GetDateRange().GetEndDate().AsShortDate();
     }
 
     #endregion

@@ -11,14 +11,14 @@ public class PaychecksHandler : IHandleMessages<EmployeePaychecksHaveBeenCreated
 {
     #region Instance Values
 
-    private readonly IISendAchTransfers _AchClient;
+    private readonly ISendAchTransfers _AchClient;
     private readonly ILogger<PaychecksHandler> _Logger;
 
     #endregion
 
     #region Constructor
 
-    public PaychecksHandler(IISendAchTransfers achClient, ILogger<PaychecksHandler> logger)
+    public PaychecksHandler(ISendAchTransfers achClient, ILogger<PaychecksHandler> logger)
     {
         _AchClient = achClient;
         _Logger = logger;

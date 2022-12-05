@@ -19,7 +19,7 @@ public class EmployeeMustNotExist : BusinessRule<Employer, SimpleStringId>
 
     internal EmployeeMustNotExist(string userId, IEnumerable<Employee> employees)
     {
-        _IsValid = employees.Any(a => a.Id == employeeId);
+        _IsValid = employees.Any(a => a.GetUserId() == userId);
     }
 
     #endregion

@@ -60,6 +60,8 @@ public class Employee : Entity<SimpleStringId>
 
     #region Instance Members
 
+    internal string GetUserId() => _UserId;
+
     internal Paycheck? GetLatestPaycheck()
     {
         return _Paychecks.MaxBy(a => a.GetDateIssued());
@@ -78,7 +80,7 @@ public class Employee : Entity<SimpleStringId>
     /// </summary>
     /// <param name="achClient"></param>
     /// <returns></returns>
-    public async Task DisperseUndeliveredChecks(IISendAchTransfers achClient)
+    public async Task DisperseUndeliveredChecks(ISendAchTransfers achClient)
     {
         if (_DirectDeposit is null)
             return;
