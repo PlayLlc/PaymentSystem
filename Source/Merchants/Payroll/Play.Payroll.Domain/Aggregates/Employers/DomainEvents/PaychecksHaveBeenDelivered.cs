@@ -2,7 +2,7 @@
 
 namespace Play.Payroll.Domain.Aggregates;
 
-public record EmployeePaychecksHaveBeenDelivered : DomainEvent
+public record PaychecksHaveBeenDelivered : DomainEvent
 {
     #region Instance Values
 
@@ -12,7 +12,7 @@ public record EmployeePaychecksHaveBeenDelivered : DomainEvent
 
     #region Constructor
 
-    public EmployeePaychecksHaveBeenDelivered(Employer employer) : base(
+    public PaychecksHaveBeenDelivered(Employer employer) : base(
         $"The {nameof(Employer)} with the ID: [{employer.Id}] has delivered employee paychecks for this pay period;")
     {
         Employer = employer;

@@ -46,7 +46,7 @@ public partial class Employer : Aggregate<SimpleStringId>
         foreach (Employee employee in _Employees)
             await employee.DisperseUndeliveredChecks(achClient).ConfigureAwait(false);
 
-        Publish(new EmployeePaychecksHaveBeenDelivered(this));
+        Publish(new PaychecksHaveBeenDelivered(this));
     }
 
     /// <exception cref="ValueObjectException"></exception>

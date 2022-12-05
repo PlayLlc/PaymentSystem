@@ -19,6 +19,7 @@ public record DayOfTheMonth : ValueObject<byte>
             throw new ValueObjectException($"The {nameof(DaysOfTheMonth)} provided was not recognized: [{value}];");
     }
 
+    /// <exception cref="ValueObjectException"></exception>
     public DayOfTheMonth(int value) : base((byte) value)
     {
         checked

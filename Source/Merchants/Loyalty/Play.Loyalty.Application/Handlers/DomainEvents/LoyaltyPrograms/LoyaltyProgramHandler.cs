@@ -9,7 +9,8 @@ using Play.Loyalty.Domain.Repositories;
 namespace Play.Loyalty.Application.Handlers.DomainEvents;
 
 public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEvents<LoyaltyProgramHasBeenCreated>,
-    IHandleDomainEvents<LoyaltyProgramHasBeenRemoved>
+    IHandleDomainEvents<LoyaltyProgramHasBeenRemoved>, IHandleDomainEvents<AggregateUpdateWasAttemptedByUnknownUser<Programs>>,
+    IHandleDomainEvents<DeactivatedMerchantAttemptedToCreateAggregate<Programs>>, IHandleDomainEvents<DeactivatedUserAttemptedToUpdateAggregate<Programs>>
 {
     #region Instance Values
 
@@ -30,6 +31,30 @@ public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEv
     #endregion
 
     #region Instance Members
+
+    public Task Handle(AggregateUpdateWasAttemptedByUnknownUser<Programs> domainEvent)
+    {
+        Log(domainEvent, LogLevel.Warning,
+            "\n\n\n\nWARNING: There is likely an error in the client integration. The User is not associated with the specified Merchant");
+
+        return Task.CompletedTask;
+    }
+
+    public Task Handle(DeactivatedMerchantAttemptedToCreateAggregate<Programs> domainEvent)
+    {
+        Log(domainEvent, LogLevel.Warning,
+            "\n\n\n\nWARNING: There is likely an error in the client integration. The Merchant is deactivated and should not be authorized to use this capability");
+
+        return Task.CompletedTask;
+    }
+
+    public Task Handle(DeactivatedUserAttemptedToUpdateAggregate<Programs> domainEvent)
+    {
+        Log(domainEvent, LogLevel.Warning,
+            "\n\n\n\nWARNING: There is likely an error in the client integration. The User is deactivated and should not be authorized to use this capability");
+
+        return Task.CompletedTask;
+    }
 
     public async Task Handle(LoyaltyProgramHasBeenCreated domainEvent)
     {

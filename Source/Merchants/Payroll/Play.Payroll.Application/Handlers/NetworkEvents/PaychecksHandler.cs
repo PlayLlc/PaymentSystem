@@ -1,21 +1,9 @@
 ﻿using NServiceBus;
 
-using Play.Domain.Exceptions;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Microsoft.Extensions.Logging;
 
-using Play.Payroll.Domain.Aggregates;
-using Play.Payroll.Contracts.NetworkEvents;
 using Play.Payroll.Domain.Services;
-using Play.Core;
-using Play.Core.Extensions.IEnumerable;
-using Play.Payroll.Domain.Entities;
+using Play.Payroll.Domain.NetworkEvents;
 
 namespace Play.Payroll.Application.Handlers.NetworkEvents;
 

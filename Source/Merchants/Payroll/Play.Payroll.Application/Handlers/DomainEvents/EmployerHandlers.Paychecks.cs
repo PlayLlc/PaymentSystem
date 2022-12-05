@@ -1,29 +1,17 @@
-﻿using Play.Domain.Events;
+﻿using Microsoft.Extensions.Logging;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Extensions.Logging;
-
+using Play.Domain.Events;
 using Play.Payroll.Domain.Aggregates;
-using Play.Payroll.Domain.Repositories;
-
-using NServiceBus;
-
-using Play.Payroll.Contracts.NetworkEvents;
-using Play.Payroll.Domain.Entities;
-using Play.Payroll.Domain.Services;
+using Play.Payroll.Domain.NetworkEvents;
 
 namespace Play.Payroll.Application.Handlers.DomainEvents;
 
-public partial class EmployerHandlers : DomainEventHandler, IHandleDomainEvents<EmployeePaychecksHaveBeenCreated>
+public partial class EmployerHandlers : DomainEventHandler, IHandleDomainEvents<PaychecksHaveBeenCreated>, IHandleDomainEvents<PaychecksHaveBeenDelivered>,
+    IHandleDomainEvents<PayPeriodHasNotEnded>
 {
     #region Instance Members
 
-    public async Task Handle(EmployeePaychecksHaveBeenCreated domainEvent)
+    public async Task Handle(PaychecksHaveBeenCreated domainEvent)
     {
         Log(domainEvent);
         await _EmployerRepository.SaveAsync(domainEvent.Employer).ConfigureAwait(false);
@@ -35,11 +23,17 @@ public partial class EmployerHandlers : DomainEventHandler, IHandleDomainEvents<
             .ConfigureAwait(false);
     }
 
-    public async Task Handle(EmployeePaychecksHaveBeenDelivered domainEvent)
+    public async Task Handle(PaychecksHaveBeenDelivered domainEvent)
     {
         Log(domainEvent);
-
         await _EmployerRepository.SaveAsync(domainEvent.Employer).ConfigureAwait(false);
+    }
+
+    public Task Handle(PayPeriodHasNotEnded domainEvent)
+    {
+        Log(domainEvent, LogLevel.Warning, "\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
+
+        return Task.CompletedTask;
     }
 
     #endregion

@@ -19,6 +19,7 @@ public record DayOfTheWeek : ValueObject<byte>
             throw new ValueObjectException($"The {nameof(DayOfTheWeek)} provided was not recognized: [{value}];");
     }
 
+    /// <exception cref="ValueObjectException"></exception>
     public DayOfTheWeek(int value) : base((byte) value)
     {
         checked
@@ -28,6 +29,7 @@ public record DayOfTheWeek : ValueObject<byte>
         }
     }
 
+    /// <exception cref="ValueObjectException"></exception>
     public DayOfTheWeek(DayOfWeek value) : base((byte) value)
     {
         checked

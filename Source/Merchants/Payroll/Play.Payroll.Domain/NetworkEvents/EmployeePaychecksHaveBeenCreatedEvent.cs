@@ -1,18 +1,9 @@
-﻿using Play.Domain.Common.Attributes;
+﻿using System.ComponentModel.DataAnnotations;
+
 using Play.Messaging.NServiceBus;
-
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Payroll.Contracts.Dtos;
 using Play.Payroll.Domain.Aggregates;
-using Play.Payroll.Domain.Entities;
 
-namespace Play.Payroll.Contracts.NetworkEvents;
+namespace Play.Payroll.Domain.NetworkEvents;
 
 public class EmployeePaychecksHaveBeenCreatedEvent : NetworkEvent
 {

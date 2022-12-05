@@ -1,12 +1,41 @@
-﻿using Play.Domain.Events;
+﻿using Microsoft.Extensions.Logging;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Play.Domain.Events;
+using Play.Payroll.Domain.Aggregates;
 
 namespace Play.Payroll.Application.Handlers.DomainEvents;
 
-public partial class EmployerHandlers : DomainEventHandler
-{ }
+public partial class EmployerHandlers : DomainEventHandler, IHandleDomainEvents<EmployeeDoesNotExist>, IHandleDomainEvents<EmployeeHasBeenCreated>,
+    IHandleDomainEvents<EmployeeHasBeenRemoved>, IHandleDomainEvents<EmployeeHasUndeliveredPaychecks>
+
+{
+    #region Instance Members
+
+    public async Task Handle(EmployeeHasBeenCreated domainEvent)
+    {
+        Log(domainEvent);
+        await _EmployerRepository.SaveAsync(domainEvent.Employer).ConfigureAwait(false);
+    }
+
+    public async Task Handle(EmployeeHasBeenRemoved domainEvent)
+    {
+        Log(domainEvent);
+        await _EmployerRepository.SaveAsync(domainEvent.Employer).ConfigureAwait(false);
+    }
+
+    public Task Handle(EmployeeHasUndeliveredPaychecks domainEvent)
+    {
+        Log(domainEvent);
+
+        return Task.CompletedTask;
+    }
+
+    public Task Handle(EmployeeDoesNotExist domainEvent)
+    {
+        Log(domainEvent, LogLevel.Warning, "\n\n\n\nWARNING: There is likely a race condition occurring or an error in the client integration");
+
+        return Task.CompletedTask;
+    }
+
+    #endregion
+}
