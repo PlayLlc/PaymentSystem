@@ -35,7 +35,7 @@ public class UserRetriever : IRetrieveUsers
         {
             UserDto dto = await _UserApi.GetUserAsync(id).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
 
-            return new(dto.Id, dto.MerchantId, dto.IsActive);
+            return new User(dto.Id, dto.MerchantId, dto.IsActive);
         }
 
         catch (Exception e)
@@ -51,7 +51,7 @@ public class UserRetriever : IRetrieveUsers
         {
             UserDto dto = _UserApi.GetUser(id) ?? throw new NotFoundException(typeof(User));
 
-            return new(dto.Id, dto.MerchantId, dto.IsActive);
+            return new User(dto.Id, dto.MerchantId, dto.IsActive);
         }
 
         catch (Exception e)

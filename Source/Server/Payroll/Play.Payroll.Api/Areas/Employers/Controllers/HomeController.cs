@@ -1,10 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
 using Play.Mvc.Attributes;
 using Play.Mvc.Extensions;
 using Play.Payroll.Api.Controllers;
+using Play.Payroll.Contracts.Commands;
+using Play.Payroll.Contracts.Dtos;
+using Play.Payroll.Domain.Aggregates;
+using Play.Payroll.Domain.Repositories;
 using Play.Payroll.Domain.Services;
 
 namespace Play.Loyalty.Api.Areas.Members.Controllers;
@@ -12,66 +17,49 @@ namespace Play.Loyalty.Api.Areas.Members.Controllers;
 [Authorize]
 [ApiController]
 [Area($"{nameof(Members)}")]
-[Route("/Loyalty/[area]")]
+[Route("/Payroll/[area]")]
 public class HomeController : BaseController
 {
-    #region Constructor
-
-    public HomeController(
-        IMemberRepository memberRepository, IProgramsRepository programsRepository, IEnsureRewardsNumbersAreUnique uniqueRewardsNumberChecker,
-        IRetrieveUsers userRetriever, IRetrieveMerchants merchantRetriever) : base(memberRepository, programsRepository, uniqueRewardsNumberChecker,
-        userRetriever, merchantRetriever)
-    { }
-
-    #endregion
-
     #region Instance Members
+
+    public HomeController(IEmployerRepository employerRepository, IRetrieveUsers userRetriever, IRetrieveMerchants merchantRetriever, ISendAchTransfers achClient) : base(employerRepository, userRetriever, merchantRetriever, achClient)
+    { }
 
     [HttpPostSwagger]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(CreateLoyaltyMember command)
+    public async Task<IActionResult> Create(CreateEmployer command)
     {
         this.ValidateModel();
 
-        Member member = await Member.Create(_UserRetriever, _MerchantRetriever, _UniqueRewardsNumberChecker, command).ConfigureAwait(false);
+        var employer = await Employer.Create(_UserRetriever, _MerchantRetriever, command).ConfigureAwait(false);
 
         return Created(Url.Action("Get", "Home", new
         {
-            area = nameof(Members),
-            id = member.Id
-        })!, member.AsDto());
+            area = "Employers",
+            id = employer.Id
+        })!, employer.AsDto());
     }
 
-    [HttpGetSwagger(template: "{loyaltyMemberId}")]
+    [HttpGetSwagger(template: "{employerId}")]
     [ValidateAntiForgeryToken]
-    public async Task<LoyaltyMemberDto> Get(string loyaltyMemberId)
+    public async Task<EmployerDto> Get(string employerId)
     {
         this.ValidateModel();
-        Member member = await _MemberRepository.GetByIdAsync(new(loyaltyMemberId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Member));
+        var employer = await _EmployerRepository.GetByIdAsync(new SimpleStringId(employerId)).ConfigureAwait(false)
+                       ?? throw new NotFoundException(typeof(Employer));
 
-        return member.AsDto();
-    }
-
-    [HttpPutSwagger(template: "{loyaltyMemberId}/[action]")]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Update(string loyaltyMemberId, UpdateLoyaltyMember command)
-    {
-        this.ValidateModel();
-        Member member = await _MemberRepository.GetByIdAsync(new(loyaltyMemberId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Member));
-
-        await member.Update(_UserRetriever, command).ConfigureAwait(false);
-
-        return Ok();
+        return employer.AsDto();
     }
 
     [HttpDeleteSwagger(template: "{loyaltyMemberId}/[action]")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Remove(string loyaltyMemberId, RemoveLoyaltyMember command)
+    public async Task<IActionResult> Remove(string loyaltyMemberId, RemoveEmployer command)
     {
         this.ValidateModel();
-        Member member = await _MemberRepository.GetByIdAsync(new(loyaltyMemberId)).ConfigureAwait(false) ?? throw new NotFoundException(typeof(Member));
+        Employer employer = await _EmployerRepository.GetByIdAsync(new SimpleStringId(loyaltyMemberId)).ConfigureAwait(false)
+                            ?? throw new NotFoundException(typeof(Employer));
 
-        await member.Remove(_UserRetriever, command).ConfigureAwait(false);
+        await employer.Remove(_UserRetriever, command).ConfigureAwait(false);
 
         return NoContent();
     }

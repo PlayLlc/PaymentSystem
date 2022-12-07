@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Emvco\Core\Play.Core\Play.Core.csproj" />
     <ProjectReference Include="..\Play.Underwriting.Domain\Play.Underwriting.Domain.csproj" />
     <ProjectReference Include="..\Play.Underwriting.Persistence.Sql\Play.Underwriting.Persistence.Sql.csproj" />
   </ItemGroup>

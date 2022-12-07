@@ -8,6 +8,8 @@ using Play.Payroll.Domain.Entities;
 using Play.Payroll.Domain.Services;
 using Play.Restful.Clients;
 
+using MerchantDto = Play.Identity.Contracts.Dtos.MerchantDto;
+
 namespace Play.Payroll.Application.Services;
 
 public class MerchantRetriever : IRetrieveMerchants

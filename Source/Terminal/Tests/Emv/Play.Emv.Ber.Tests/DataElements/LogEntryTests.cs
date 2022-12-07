@@ -111,7 +111,7 @@ public class LogEntryTests
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElementGreaterThenMaxLength_Throws()
     {
-        LogEntryTestTlv testData = new(new byte[] { 0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01, 0x01, 0x01 });
+        LogEntryTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01, 0x01, 0x01});
 
         Assert.Throws<DataElementParsingException>(() => LogEntry.Decode(testData.EncodeValue().AsSpan()));
     }
@@ -156,7 +156,6 @@ public class LogEntryTests
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
-        LogEntryTestTlv testData = new(new byte[] { 0x08, 0x32 });
         LogEntryTestTlv testData = new(new byte[] {8, 23});
         LogEntry sut = LogEntry.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetValueByteCount();
