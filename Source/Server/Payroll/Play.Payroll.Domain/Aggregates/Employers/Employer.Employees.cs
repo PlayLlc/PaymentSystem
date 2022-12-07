@@ -52,5 +52,30 @@ public partial class Employer : Aggregate<SimpleStringId>
         Publish(new EmployeeHasBeenRemoved(this, command.EmployeeId, command.UserId));
     }
 
+    public async Task UpdateTimeEntry(IRetrieveUsers userRetriever, UpdateTimeEntry command)
+    {
+        User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
+        Enforce(new UserMustBeActiveToUpdateAggregate<Employer>(user));
+        Enforce(new AggregateMustBeUpdatedByKnownUser<Employer>(user.MerchantId, user));
+        Enforce(new EmployeeMustExist(command.EmployeeId, _Employees));
+
+        var employee = _Employees.First(a => a.Id == command.EmployeeId);
+        employee.UpdateTimeEntry(command);
+        Publish(new TimeSheetHasBeenUpdated(this, command.TimeEntryId));
+    }
+
+    /// <exception cref="ValueObjectException"></exception>
+    public async Task UpdateCompensation(IRetrieveUsers userRetriever, UpdateEmployeeCompensation command)
+    {
+        User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
+        Enforce(new UserMustBeActiveToUpdateAggregate<Employer>(user));
+        Enforce(new AggregateMustBeUpdatedByKnownUser<Employer>(user.MerchantId, user));
+        Enforce(new EmployeeMustExist(command.EmployeeId, _Employees));
+
+        var employee = _Employees.First(a => a.Id == command.EmployeeId);
+        employee.UpdateCompensation(command);
+        Publish(new TimeSheetHasBeenUpdated(this, command.EmployeeId));
+    }
+
     #endregion
 }

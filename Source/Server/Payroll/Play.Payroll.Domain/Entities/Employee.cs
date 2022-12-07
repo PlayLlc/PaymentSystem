@@ -10,6 +10,7 @@ using Play.Globalization.Time;
 using Play.Payroll.Contracts.Commands;
 using Play.Payroll.Contracts.Dtos;
 using Play.Payroll.Domain.Services;
+using Play.Payroll.Domain.ValueObject;
 
 namespace Play.Payroll.Domain.Entities;
 
@@ -59,6 +60,22 @@ public class Employee : Entity<SimpleStringId>
     #endregion
 
     #region Instance Members
+
+    /// <exception cref="ValueObjectException"></exception>
+    public void UpdateCompensation(UpdateEmployeeCompensation command)
+    {
+        _Compensation.Update(new CompensationType(command.CompensationType), new MoneyValueObject(command.CompensationRate.AsMoney()));
+    }
+
+    /// <exception cref="ValueObjectException"></exception>
+    public void UpdateTimeEntry(UpdateTimeEntry command)
+    {
+        if (_TimeEntries.Any(a => a.Id == command.EmployeeId))
+            throw new ValueObjectException(
+                $"The {nameof(TimeEntry)} with the ID: [{command.TimeEntryId}] could not be found for the Employee with the ID: [{command.EmployeeId}]");
+
+        _TimeEntries.First().Update(command.TimeEntryType, new DateTimeUtc(command.Start), new DateTimeUtc(command.End));
+    }
 
     internal string GetUserId() => _UserId;
 

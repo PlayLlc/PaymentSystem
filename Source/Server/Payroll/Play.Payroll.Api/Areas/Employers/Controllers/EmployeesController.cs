@@ -53,5 +53,30 @@ public class EmployeesController : BaseController
         return Ok();
     }
 
+    [HttpPutSwagger(template: "{employerId}/[controller]/[action]")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Compensation(string employerId, UpdateEmployeeCompensation command)
+    {
+        this.ValidateModel();
+        Employer? employer = await _EmployerRepository.GetByIdAsync(new SimpleStringId(employerId)).ConfigureAwait(false)
+                             ?? throw new NotFoundException(typeof(Employer));
+
+        await employer.UpdateCompensation(_UserRetriever, command).ConfigureAwait(false);
+
+        return Ok();
+    }
+
+    [HttpPutSwagger(template: "{employerId}/[controller]/[action]")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> TimeEntry(string employerId, UpdateTimeEntry command)
+    {
+        this.ValidateModel();
+        Employer? employer = await _EmployerRepository.GetByIdAsync(new SimpleStringId(employerId)).ConfigureAwait(false)
+                             ?? throw new NotFoundException(typeof(Employer));
+        await employer.UpdateTimeEntry(_UserRetriever, command).ConfigureAwait(false);
+
+        return Ok();
+    }
+
     #endregion
 }

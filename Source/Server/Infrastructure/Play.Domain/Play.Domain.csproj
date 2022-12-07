@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Emvco\Core\Play.Globalization\Play.Globalization.csproj" />
-    <ProjectReference Include="..\..\..\Emvco\Core\Play.Randoms\Play.Randoms.csproj" />
+    <ProjectReference Include="..\..\..\Terminal\Core\Play.Globalization\Play.Globalization.csproj" />
+    <ProjectReference Include="..\..\..\Terminal\Core\Play.Randoms\Play.Randoms.csproj" />
   </ItemGroup>
 
 </Project>

@@ -17,7 +17,7 @@ public class Compensation : Entity<SimpleStringId>
     #region Instance Values
 
     private readonly CompensationType _CompensationType;
-    private readonly MoneyValueObject _CompensationRate;
+    private MoneyValueObject _CompensationRate;
     public override SimpleStringId Id { get; }
 
     #endregion
@@ -47,6 +47,12 @@ public class Compensation : Entity<SimpleStringId>
     #endregion
 
     #region Instance Members
+
+    public void Update(CompensationType compensationType, MoneyValueObject compensationRate)
+    {
+        _CompensationRate = compensationRate;
+        _CompensationRate = compensationRate;
+    }
 
     public static Compensation Create(string id, CompensationTypes compensationType, Money compensationRate) =>
         new(new string(id), compensationType, compensationRate);
