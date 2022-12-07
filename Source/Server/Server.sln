@@ -123,15 +123,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayTimeClock.Api", "TimeCl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.TimeClock.Api.Client", "TimeClock\Play.TimeClock.Api.Client\Play.TimeClock.Api.Client.csproj", "{873775DD-7251-49B7-85A5-8321417EC28D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Payroll.Contracts", "Payroll\Play.Payroll.Contracts\Play.Payroll.Contracts.csproj", "{858CA638-6A3A-4EFE-99E3-DA2682CDBA78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Payroll.Contracts", "Payroll\Play.Payroll.Contracts\Play.Payroll.Contracts.csproj", "{858CA638-6A3A-4EFE-99E3-DA2682CDBA78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Payroll.Persistence.Sql", "Payroll\Play.Payroll.Persistence.Sql\Play.Payroll.Persistence.Sql.csproj", "{CC5C4DE1-E4FA-4F0F-BF6F-59D2633992BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Payroll.Persistence.Sql", "Payroll\Play.Payroll.Persistence.Sql\Play.Payroll.Persistence.Sql.csproj", "{CC5C4DE1-E4FA-4F0F-BF6F-59D2633992BF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Payroll.Application", "Payroll\Play.Payroll.Application\Play.Payroll.Application.csproj", "{65B56BBD-DCDB-4106-AE96-A4981D933591}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Payroll.Api.Client", "Payroll\Play.Payroll.Api.Client\Play.Payroll.Api.Client.csproj", "{114E6F37-8827-40CC-BB7E-D8B0C40345F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Payroll.Api.Client", "Payroll\Play.Payroll.Api.Client\Play.Payroll.Api.Client.csproj", "{114E6F37-8827-40CC-BB7E-D8B0C40345F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Payroll.Api", "Payroll\Play.Payroll.Api\Play.Payroll.Api.csproj", "{3F1624EB-225B-4DDA-A6AE-5F997FABC97E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Payroll.Api", "Payroll\Play.Payroll.Api\Play.Payroll.Api.csproj", "{3F1624EB-225B-4DDA-A6AE-5F997FABC97E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Loyalty.Endpoint", "Loyalty\Play.Loyalty.Endpoint\Play.Loyalty.Endpoint.csproj", "{E6D48302-F975-4E5D-97FC-2757E117088A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -343,6 +345,10 @@ Global
 		{3F1624EB-225B-4DDA-A6AE-5F997FABC97E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F1624EB-225B-4DDA-A6AE-5F997FABC97E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F1624EB-225B-4DDA-A6AE-5F997FABC97E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6D48302-F975-4E5D-97FC-2757E117088A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6D48302-F975-4E5D-97FC-2757E117088A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6D48302-F975-4E5D-97FC-2757E117088A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6D48302-F975-4E5D-97FC-2757E117088A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -400,6 +406,7 @@ Global
 		{65B56BBD-DCDB-4106-AE96-A4981D933591} = {867291DD-9BAE-492A-AEA1-33E2F1A23305}
 		{114E6F37-8827-40CC-BB7E-D8B0C40345F4} = {867291DD-9BAE-492A-AEA1-33E2F1A23305}
 		{3F1624EB-225B-4DDA-A6AE-5F997FABC97E} = {867291DD-9BAE-492A-AEA1-33E2F1A23305}
+		{E6D48302-F975-4E5D-97FC-2757E117088A} = {D90B1335-FA53-4B1A-AEF6-8A37C89CB3A8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6833603-DD22-4624-AB4A-235C51671F62}
