@@ -8,13 +8,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.8" />
-    <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Terminals\Play.Terminals.Contracts\Play.Terminals.Contracts.csproj" />
     <ProjectReference Include="..\Play.Domain\Play.Domain.csproj" />
+    <ProjectReference Include="..\Play.Logging.Serilog\Play.Logging.Serilog.csproj" />
     <ProjectReference Include="..\Play.Restful\Play.Restful.csproj" />
   </ItemGroup>
 

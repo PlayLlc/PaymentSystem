@@ -1,3 +1,4 @@
+using Play.Logging.Serilog;
 using Play.Loyalty.Api.Extensions;
 using Play.Mvc.Extensions;
 using Play.Mvc.Filters;
@@ -9,6 +10,7 @@ using Serilog;
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 SwaggerConfiguration swaggerConfiguration = builder.Configuration.GetSection(nameof(SwaggerConfiguration)).Get<SwaggerConfiguration>();
 
+builder.Host.ConfigureSerilogForMvc();
 builder.ConfigureEntityFramework();
 builder.ConfigureServices();
 builder.ConfigureSwagger(typeof(Program).Assembly, typeof(EmployerDto).Assembly);
@@ -23,7 +25,6 @@ builder.Services.AddControllersWithViews(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Host.UseSerilog((ctx, lc) => lc.ReadFrom.Configuration(ctx.Configuration));
 
 WebApplication app = builder.Build();
 
