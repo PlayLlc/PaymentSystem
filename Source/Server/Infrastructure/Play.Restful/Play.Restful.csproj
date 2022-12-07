@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Emvco\Core\Play.Core\Play.Core.csproj" />
+    <ProjectReference Include="..\..\..\Terminal\Core\Play.Core\Play.Core.csproj" />
   </ItemGroup>
 
 </Project>
