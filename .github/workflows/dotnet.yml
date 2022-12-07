@@ -18,16 +18,16 @@ jobs:
         include-prerelease: true  
     - name: Restore Emv dependencies
       run: dotnet restore
-      working-directory: Source\Emvco
+      working-directory: Source\Terminal
     - name: Build Emv
       run: dotnet build --no-restore
-      working-directory: Source\Emvco
+      working-directory: Source\Terminal
     - name: Run Emv Tests
       run: dotnet test --no-build --verbosity normal
-      working-directory: Source\Emvco
-    - name: Restore Play Portal Dependencies
-      run: dotnet restore
-      working-directory: Source\PlayPortal      
-    - name: Build Play Portal
-      run: dotnet build --no-restore
-      working-directory: Source\PlayPortal
+      working-directory: Source\Terminal
+    # - name: Restore Play Portal Dependencies
+    #   run: dotnet restore
+    #   working-directory: Source\PlayPortal      
+    # - name: Build Play Portal
+    #   run: dotnet build --no-restore
+    #   working-directory: Source\PlayPortal
