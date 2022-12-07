@@ -16,15 +16,14 @@ public partial class LoyaltyMemberHandler : DomainEventHandler, IHandleDomainEve
 {
     #region Instance Values
 
-    private readonly IMessageHandlerContext _MessageHandlerContext;
+    private readonly IMessageSession _MessageHandlerContext;
     private readonly IMemberRepository _MemberRepository;
 
     #endregion
 
     #region Constructor
 
-    public LoyaltyMemberHandler(
-        IMessageHandlerContext messageHandlerContext, IMemberRepository memberRepository, ILogger<LoyaltyMemberHandler> logger) : base(logger)
+    public LoyaltyMemberHandler(IMessageSession messageHandlerContext, IMemberRepository memberRepository, ILogger<LoyaltyMemberHandler> logger) : base(logger)
     {
         _MessageHandlerContext = messageHandlerContext;
         _MemberRepository = memberRepository;

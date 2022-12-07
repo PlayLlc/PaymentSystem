@@ -14,7 +14,7 @@ public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEv
 {
     #region Instance Values
 
-    private readonly IMessageHandlerContext _MessageHandlerContext;
+    private readonly IMessageSession _MessageHandlerContext;
     private readonly IProgramsRepository _ProgramsRepository;
 
     #endregion
@@ -22,7 +22,7 @@ public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEv
     #region Constructor
 
     public LoyaltyProgramHandler(
-        IMessageHandlerContext messageHandlerContext, IProgramsRepository programsRepository, ILogger<LoyaltyProgramHandler> logger) : base(logger)
+        IMessageSession messageHandlerContext, IProgramsRepository programsRepository, ILogger<LoyaltyProgramHandler> logger) : base(logger)
     {
         _MessageHandlerContext = messageHandlerContext;
         _ProgramsRepository = programsRepository;
