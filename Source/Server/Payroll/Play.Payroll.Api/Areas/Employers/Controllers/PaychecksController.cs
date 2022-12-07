@@ -16,10 +16,4 @@ public class PaychecksController : BaseController
     { }
 
     #endregion
-
-    #region Instance Members
-
-    public IActionResult Index() => View();
-
-    #endregion
 }

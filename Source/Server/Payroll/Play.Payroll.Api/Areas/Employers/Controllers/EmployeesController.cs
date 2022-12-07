@@ -17,10 +17,16 @@ namespace Play.Loyalty.Api.Areas.Members.Controllerss;
 [Route("/Loyalty/[area]/")]
 public class EmployeesController : BaseController
 {
-    #region Instance Members
+    #region Constructor
 
-    public EmployeesController(IEmployerRepository employerRepository, IRetrieveUsers userRetriever, IRetrieveMerchants merchantRetriever, ISendAchTransfers achClient) : base(employerRepository, userRetriever, merchantRetriever, achClient)
+    public EmployeesController(
+        IEmployerRepository employerRepository, IRetrieveUsers userRetriever, IRetrieveMerchants merchantRetriever, ISendAchTransfers achClient) : base(
+        employerRepository, userRetriever, merchantRetriever, achClient)
     { }
+
+    #endregion
+
+    #region Instance Members
 
     [HttpPutSwagger(template: "{employerId}/[controller]/[action]")]
     [ValidateAntiForgeryToken]
