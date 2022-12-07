@@ -11,7 +11,7 @@ using Serilog;
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 SwaggerConfiguration swaggerConfiguration = builder.Configuration.GetSection(nameof(SwaggerConfiguration)).Get<SwaggerConfiguration>();
 
-builder.Host.ConfigureSerilogForMvc();
+builder.Host.ConfigureSerilog();
 builder.ConfigureEntityFramework();
 builder.ConfigureServices();
 builder.ConfigureSwagger(typeof(Program).Assembly, typeof(EmployeeDto).Assembly);

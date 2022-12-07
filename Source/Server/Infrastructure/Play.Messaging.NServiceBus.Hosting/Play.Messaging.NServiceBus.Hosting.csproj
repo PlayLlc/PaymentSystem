@@ -8,6 +8,12 @@
 
   <ItemGroup>
     <PackageReference Include="NServiceBus.Extensions.Hosting" Version="2.0.0" />
+    <PackageReference Include="NServiceBus.Serilog" Version="9.0.1" />
+    <PackageReference Include="NServiceBus.Transport.AzureServiceBus" Version="3.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Play.Logging.Serilog\Play.Logging.Serilog.csproj" />
   </ItemGroup>
 
 </Project>

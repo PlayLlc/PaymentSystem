@@ -8,7 +8,7 @@ public static class HostBuilderExtensions
 {
     #region Instance Members
 
-    public static IHostBuilder ConfigureSerilogForMvc(this IHostBuilder builder)
+    public static IHostBuilder ConfigureSerilog(this IHostBuilder builder)
     {
         builder.UseSerilog((ctx, lc) =>
         {
