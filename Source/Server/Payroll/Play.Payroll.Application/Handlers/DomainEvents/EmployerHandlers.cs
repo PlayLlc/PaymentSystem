@@ -14,16 +14,16 @@ public partial class EmployerHandlers : DomainEventHandler, IHandleDomainEvents<
 {
     #region Instance Values
 
-    private readonly IMessageHandlerContext _MessageHandlerContext;
+    private readonly IMessageSession _MessageSession;
     private readonly IEmployerRepository _EmployerRepository;
 
     #endregion
 
     #region Constructor
 
-    public EmployerHandlers(ILogger logger, IMessageHandlerContext messageHandlerContext, IEmployerRepository employerRepository) : base(logger)
+    public EmployerHandlers(ILogger logger, IMessageSession messageSession, IEmployerRepository employerRepository) : base(logger)
     {
-        _MessageHandlerContext = messageHandlerContext;
+        _MessageSession = messageSession;
         _EmployerRepository = employerRepository;
     }
 

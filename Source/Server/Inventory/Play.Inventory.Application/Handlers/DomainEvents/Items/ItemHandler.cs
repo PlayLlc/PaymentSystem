@@ -16,7 +16,7 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemC
 {
     #region Instance Values
 
-    private readonly IMessageHandlerContext _MessageHandlerContext;
+    private readonly IMessageSession _MessageSession;
     private readonly IInventoryRepository _InventoryRepository;
     private readonly IRepository<Item, SimpleStringId> _ItemRepository;
 
@@ -25,10 +25,10 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemC
     #region Constructor
 
     public ItemHandler(
-        ILogger<ItemHandler> logger, IMessageHandlerContext messageHandlerContext, IRepository<Item, SimpleStringId> itemRepository,
+        ILogger<ItemHandler> logger, IMessageSession messageSession, IRepository<Item, SimpleStringId> itemRepository,
         IInventoryRepository inventoryRepository) : base(logger)
     {
-        _MessageHandlerContext = messageHandlerContext;
+        _MessageSession = messageSession;
         _ItemRepository = itemRepository;
         _InventoryRepository = inventoryRepository;
     }
@@ -43,7 +43,7 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemC
         await _ItemRepository.SaveAsync(domainEvent.Item).ConfigureAwait(false);
 
         // Network Event: Send to reporting layer and any other subdomains that are interested. We will keep a commit log of inventory updates
-        await _MessageHandlerContext.Publish<InventoryItemCreatedEvent>(a =>
+        await _MessageSession.Publish<InventoryItemCreatedEvent>(a =>
             {
                 a.Item = domainEvent.Item.AsDto();
                 a.UserId = domainEvent.UserId;

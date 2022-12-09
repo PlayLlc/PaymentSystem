@@ -1,11 +1,17 @@
-﻿using Play.Domain.Events;
+﻿using Play.Domain.Entities;
+using Play.Domain.Events;
 using Play.Globalization.Currency;
+using Play.Globalization.Time;
 
 namespace Play.Loyalty.Domain.Aggregates;
+
+
 
 public record LoyaltyMemberClaimedRewards : DomainEvent
 {
     #region Instance Values
+
+
 
     public readonly Member Member;
     public readonly string MerchantId;

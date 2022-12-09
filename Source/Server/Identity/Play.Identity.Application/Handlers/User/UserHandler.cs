@@ -14,17 +14,16 @@ public class UserHandler : DomainEventHandler, IHandleDomainEvents<UserHasBeenCr
 {
     #region Instance Values
 
-    private readonly IMessageHandlerContext _MessageHandlerContext;
+    private readonly IMessageSession _MessageSession;
     private readonly IRepository<User, SimpleStringId> _UserRepository;
 
     #endregion
 
     #region Constructor
 
-    public UserHandler(
-        IMessageHandlerContext messageHandlerContext, IRepository<User, SimpleStringId> userRepository, ILogger<UserHandler> logger) : base(logger)
+    public UserHandler(IMessageSession messageSession, IRepository<User, SimpleStringId> userRepository, ILogger<UserHandler> logger) : base(logger)
     {
-        _MessageHandlerContext = messageHandlerContext;
+        _MessageSession = messageSession;
         _UserRepository = userRepository;
     }
 
@@ -38,7 +37,7 @@ public class UserHandler : DomainEventHandler, IHandleDomainEvents<UserHasBeenCr
         await _UserRepository.SaveAsync(domainEvent.User).ConfigureAwait(false);
 
         // Broadcast that a new user has been created to Azure Service Bus
-        await _MessageHandlerContext.Publish<UserHasBeenCreatedEvent>(a =>
+        await _MessageSession.Publish<UserHasBeenCreatedEvent>(a =>
             {
                 a.UserId = domainEvent.User.GetId();
             })

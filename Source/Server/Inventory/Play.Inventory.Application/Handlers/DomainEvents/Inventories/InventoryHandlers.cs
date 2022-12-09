@@ -11,22 +11,22 @@ using Play.Inventory.Domain.Repositories;
 namespace Play.Inventory.Application.Handlers.Inventories;
 
 public class InventoryHandlers : DomainEventHandler, IHandleDomainEvents<LowInventoryAlert>, IHandleDomainEvents<NoInventoryAlert>,
-    IHandleDomainEvents<StockActionWasIncorrect>, IHandleDomainEvents<StockItemAlreadyExists>, IHandleDomainEvents<StockItemCreated>,
+    IHandleDomainEvents<AttemptedIncorrectStockAction>, IHandleDomainEvents<AttemptedCreatingDuplicateStockItem>, IHandleDomainEvents<StockItemCreated>,
     IHandleDomainEvents<StockItemDoesNotExist>, IHandleDomainEvents<StockItemHasBeenRemoved>, IHandleDomainEvents<StockItemUpdatedQuantity>,
     IHandleDomainEvents<InventoryItemHasBeenRemoved>
 {
     #region Instance Values
 
-    private readonly IMessageHandlerContext _MessageHandlerContext;
+    private readonly IMessageSession _MessageSession;
     private readonly IInventoryRepository _InventoryRepository;
 
     #endregion
 
     #region Constructor
 
-    public InventoryHandlers(ILogger logger, IMessageHandlerContext messageHandlerContext, IInventoryRepository inventoryRepository) : base(logger)
+    public InventoryHandlers(ILogger logger, IMessageSession messageSession, IInventoryRepository inventoryRepository) : base(logger)
     {
-        _MessageHandlerContext = messageHandlerContext;
+        _MessageSession = messageSession;
         _InventoryRepository = inventoryRepository;
     }
 
@@ -38,7 +38,7 @@ public class InventoryHandlers : DomainEventHandler, IHandleDomainEvents<LowInve
     {
         Log(domainEvent);
 
-        await _MessageHandlerContext.Publish<LowInventoryAlertEvent>(a =>
+        await _MessageSession.Publish<LowInventoryAlertEvent>(a =>
             {
                 a.ItemId = domainEvent.Inventory.GetId();
                 a.Quantity = domainEvent.Quantity;
@@ -55,18 +55,18 @@ public class InventoryHandlers : DomainEventHandler, IHandleDomainEvents<LowInve
     public async Task Handle(NoInventoryAlert domainEvent)
     {
         Log(domainEvent);
-        await _MessageHandlerContext.Publish<NoInventoryAlertEvent>(a =>
+        await _MessageSession.Publish<NoInventoryAlertEvent>(a =>
             {
                 a.ItemId = domainEvent.Item.GetId();
             })
             .ConfigureAwait(false);
     }
 
-    public async Task Handle(StockActionWasIncorrect domainEvent) =>
+    public async Task Handle(AttemptedIncorrectStockAction domainEvent) =>
         Log(domainEvent, LogLevel.Warning,
             "\n\n\n\nWARNING: There is likely an error in the client integration. The StockAction provided is not appropriate for this resource");
 
-    public async Task Handle(StockItemAlreadyExists domainEvent) =>
+    public async Task Handle(AttemptedCreatingDuplicateStockItem domainEvent) =>
         Log(domainEvent, LogLevel.Warning,
             "\n\n\n\nWARNING: There is likely a race condition or an error in the client integration. A StockItem was attempted to be created but it already exists");
 
@@ -85,7 +85,7 @@ public class InventoryHandlers : DomainEventHandler, IHandleDomainEvents<LowInve
         Log(domainEvent);
         await _InventoryRepository.SaveAsync(domainEvent.Inventory).ConfigureAwait(false);
 
-        await _MessageHandlerContext.Publish<StockItemUpdatedEvent>(a =>
+        await _MessageSession.Publish<StockItemUpdatedEvent>(a =>
             {
                 a.InventoryId = domainEvent.Inventory.Id;
                 a.StockId = domainEvent.StockId;

@@ -1,8 +1,8 @@
 using Play.Logging.Serilog;
-using Play.Loyalty.Api.Extensions;
 using Play.Mvc.Extensions;
 using Play.Mvc.Filters;
 using Play.Mvc.Swagger;
+using Play.Payroll.Api.Extensions;
 using Play.Payroll.Contracts.Dtos;
 
 using Serilog;

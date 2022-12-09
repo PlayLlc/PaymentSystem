@@ -2,7 +2,7 @@
 
 using Play.Payroll.Persistence.Sql.Persistence;
 
-namespace Play.Loyalty.Api.Extensions;
+namespace Play.Payroll.Api.Extensions;
 
 public static partial class WebApplicationBuilderExtensions
 {

@@ -127,7 +127,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Payroll.Api.Client", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Payroll.Api", "Payroll\Play.Payroll.Api\Play.Payroll.Api.csproj", "{3F1624EB-225B-4DDA-A6AE-5F997FABC97E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Loyalty.Endpoint", "Loyalty\Play.Loyalty.Endpoint\Play.Loyalty.Endpoint.csproj", "{E6D48302-F975-4E5D-97FC-2757E117088A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Loyalty.Endpoint", "Loyalty\Play.Loyalty.Endpoint\Play.Loyalty.Endpoint.csproj", "{E6D48302-F975-4E5D-97FC-2757E117088A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Globalization", "..\Terminal\Core\Play.Globalization\Play.Globalization.csproj", "{CD516DC1-D85A-42AA-9515-15CE7DF45314}"
 EndProject
@@ -135,9 +135,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Core", "..\Terminal\Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Randoms", "..\Terminal\Core\Play.Randoms\Play.Randoms.csproj", "{A1053739-F7EE-480D-B6EF-5E0957530829}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Messaging.NServiceBus.Hosting", "Infrastructure\Play.Messaging.NServiceBus.Hosting\Play.Messaging.NServiceBus.Hosting.csproj", "{34606E91-416B-4AB8-8988-4833A1431C49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Messaging.NServiceBus.Hosting", "Infrastructure\Play.Messaging.NServiceBus.Hosting\Play.Messaging.NServiceBus.Hosting.csproj", "{34606E91-416B-4AB8-8988-4833A1431C49}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Logging.Serilog", "Infrastructure\Play.Logging.Serilog\Play.Logging.Serilog.csproj", "{CA5EC019-4D7B-4F3C-ABC5-DA0025CDAA70}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Persistence.Grremlin", "Infrastructure\Play.Persistence.Grremlin\Play.Persistence.Grremlin.csproj", "{6838FA69-1C5F-47A1-A8BD-B36227C5BF13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -361,6 +363,10 @@ Global
 		{CA5EC019-4D7B-4F3C-ABC5-DA0025CDAA70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA5EC019-4D7B-4F3C-ABC5-DA0025CDAA70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA5EC019-4D7B-4F3C-ABC5-DA0025CDAA70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6838FA69-1C5F-47A1-A8BD-B36227C5BF13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6838FA69-1C5F-47A1-A8BD-B36227C5BF13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6838FA69-1C5F-47A1-A8BD-B36227C5BF13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6838FA69-1C5F-47A1-A8BD-B36227C5BF13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -421,6 +427,7 @@ Global
 		{A1053739-F7EE-480D-B6EF-5E0957530829} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
 		{34606E91-416B-4AB8-8988-4833A1431C49} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
 		{CA5EC019-4D7B-4F3C-ABC5-DA0025CDAA70} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
+		{6838FA69-1C5F-47A1-A8BD-B36227C5BF13} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6833603-DD22-4624-AB4A-235C51671F62}

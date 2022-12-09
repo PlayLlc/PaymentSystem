@@ -11,7 +11,7 @@ using Play.Payroll.Persistence.Sql.Persistence;
 using Play.Payroll.Persistence.Sql.Repositories;
 using Play.Restful.Clients;
 
-namespace Play.Loyalty.Api.Extensions;
+namespace Play.Payroll.Api.Extensions;
 
 public static partial class WebApplicationBuilderExtensions
 {

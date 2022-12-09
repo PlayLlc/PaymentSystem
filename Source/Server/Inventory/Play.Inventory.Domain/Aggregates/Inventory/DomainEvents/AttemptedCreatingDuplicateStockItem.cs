@@ -4,7 +4,7 @@ using Play.Domain.Events;
 
 namespace Play.Inventory.Domain.Aggregates;
 
-public record StockActionWasIncorrect : BrokenRuleOrPolicyDomainEvent<Inventory, SimpleStringId>
+public record AttemptedCreatingDuplicateStockItem : BrokenRuleOrPolicyDomainEvent<Inventory, SimpleStringId>
 {
     #region Instance Values
 
@@ -14,7 +14,7 @@ public record StockActionWasIncorrect : BrokenRuleOrPolicyDomainEvent<Inventory,
 
     #region Constructor
 
-    public StockActionWasIncorrect(Inventory inventory, IBusinessRule rule) : base(inventory, rule)
+    public AttemptedCreatingDuplicateStockItem(Inventory inventory, IBusinessRule rule) : base(inventory, rule)
     {
         Inventory = inventory;
     }

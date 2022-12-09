@@ -18,16 +18,16 @@ public class EmployeeHandler : DomainEventHandler, IHandleDomainEvents<EmployeeA
 {
     #region Instance Values
 
-    private readonly IMessageHandlerContext _MessageHandlerContext;
+    private readonly IMessageSession _MessageSession;
     private readonly IEmployeeRepository _EmployeeRepository;
 
     #endregion
 
     #region Constructor
 
-    public EmployeeHandler(ILogger logger, IMessageHandlerContext messageHandlerContext, IEmployeeRepository employeeRepository) : base(logger)
+    public EmployeeHandler(ILogger logger, IMessageSession messageSession, IEmployeeRepository employeeRepository) : base(logger)
     {
-        _MessageHandlerContext = messageHandlerContext;
+        _MessageSession = messageSession;
         _EmployeeRepository = employeeRepository;
     }
 
@@ -52,7 +52,7 @@ public class EmployeeHandler : DomainEventHandler, IHandleDomainEvents<EmployeeA
         Log(domainEvent);
         await _EmployeeRepository.SaveAsync(domainEvent.Employee).ConfigureAwait(false);
 
-        await _MessageHandlerContext.Publish<EmployeeHasClockedOutEvent>(a =>
+        await _MessageSession.Publish<EmployeeHasClockedOutEvent>(a =>
             {
                 a.Employee = domainEvent.Employee.AsDto();
                 a.TimeEntry = domainEvent.TimeEntry.AsDto();
@@ -121,7 +121,7 @@ public class EmployeeHandler : DomainEventHandler, IHandleDomainEvents<EmployeeA
 
         await _EmployeeRepository.RemoveAsync(domainEvent.Employee).ConfigureAwait(false);
 
-        await _MessageHandlerContext.Publish<EmployeeTimeEntryHasBeenEditedEvent>(a =>
+        await _MessageSession.Publish<EmployeeTimeEntryHasBeenEditedEvent>(a =>
             {
                 a.Employee = domainEvent.Employee.AsDto();
                 a.TimeEntry = domainEvent.TimeEntry.AsDto();

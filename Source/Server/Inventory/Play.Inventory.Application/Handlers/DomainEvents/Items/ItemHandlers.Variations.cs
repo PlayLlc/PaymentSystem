@@ -18,7 +18,7 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemV
         Log(domainEvent);
         await _ItemRepository.SaveAsync(domainEvent.Item).ConfigureAwait(false);
 
-        await _MessageHandlerContext.Publish<InventoryItemVariationCreatedEvent>(a =>
+        await _MessageSession.Publish<InventoryItemVariationCreatedEvent>(a =>
             {
                 a.ItemId = domainEvent.Item.Id;
                 a.Variation = domainEvent.Variation.AsDto();
@@ -32,7 +32,7 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemV
         Log(domainEvent);
         await _ItemRepository.SaveAsync(domainEvent.Item).ConfigureAwait(false);
 
-        await _MessageHandlerContext.Publish<InventoryItemVariationRemovedEvent>(a =>
+        await _MessageSession.Publish<InventoryItemVariationRemovedEvent>(a =>
             {
                 a.ItemId = domainEvent.Item.GetId();
                 a.VariationId = domainEvent.VariationId;

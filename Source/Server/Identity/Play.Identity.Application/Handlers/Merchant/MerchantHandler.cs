@@ -16,7 +16,7 @@ public class MerchantHandler : DomainEventHandler, IHandleDomainEvents<MerchantH
 {
     #region Instance Values
 
-    private readonly IMessageHandlerContext _MessageHandlerContext;
+    private readonly IMessageSession _MessageSession;
     private readonly IRepository<Merchant, SimpleStringId> _MerchantRepository;
 
     #endregion
@@ -24,9 +24,9 @@ public class MerchantHandler : DomainEventHandler, IHandleDomainEvents<MerchantH
     #region Constructor
 
     public MerchantHandler(
-        IMessageHandlerContext messageHandlerContext, IRepository<Merchant, SimpleStringId> merchantRepository, ILogger<MerchantHandler> logger) : base(logger)
+        IMessageSession messageSession, IRepository<Merchant, SimpleStringId> merchantRepository, ILogger<MerchantHandler> logger) : base(logger)
     {
-        _MessageHandlerContext = messageHandlerContext;
+        _MessageSession = messageSession;
         _MerchantRepository = merchantRepository;
     }
 
@@ -40,7 +40,7 @@ public class MerchantHandler : DomainEventHandler, IHandleDomainEvents<MerchantH
         await _MerchantRepository.SaveAsync(domainEvent.Merchant).ConfigureAwait(false);
 
         // Broadcast that a new user has been created to Azure Service Bus
-        await _MessageHandlerContext.Publish<MerchantHasBeenCreatedEvent>(a =>
+        await _MessageSession.Publish<MerchantHasBeenCreatedEvent>(a =>
             {
                 a.MerchantId = domainEvent.Merchant.GetId();
             })
@@ -77,7 +77,7 @@ public class MerchantHandler : DomainEventHandler, IHandleDomainEvents<MerchantH
         SimpleStringId merchantId = domainEvent.Merchant.Id;
         await _MerchantRepository.RemoveAsync(domainEvent.Merchant).ConfigureAwait(false);
 
-        await _MessageHandlerContext.Publish<MerchantHasBeenRemovedEvent>(a =>
+        await _MessageSession.Publish<MerchantHasBeenRemovedEvent>(a =>
             {
                 a.MerchantId = merchantId;
             }, null)

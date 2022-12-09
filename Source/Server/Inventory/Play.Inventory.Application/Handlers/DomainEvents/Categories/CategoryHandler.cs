@@ -14,16 +14,16 @@ public class CategoryHandler : DomainEventHandler, IHandleDomainEvents<Aggregate
 {
     #region Instance Values
 
-    private readonly IMessageHandlerContext _MessageHandlerContext;
+    private readonly IMessageSession _MessageSession;
     private readonly ICategoryRepository _CategoryRepository;
 
     #endregion
 
     #region Constructor
 
-    public CategoryHandler(IMessageHandlerContext messageHandlerContext, ICategoryRepository categoryRepository, ILogger<CategoryHandler> logger) : base(logger)
+    public CategoryHandler(IMessageSession messageSession, ICategoryRepository categoryRepository, ILogger<CategoryHandler> logger) : base(logger)
     {
-        _MessageHandlerContext = messageHandlerContext;
+        _MessageSession = messageSession;
         _CategoryRepository = categoryRepository;
     }
 

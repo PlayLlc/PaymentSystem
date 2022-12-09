@@ -16,7 +16,7 @@ public class MerchantRegistrationHandler : DomainEventHandler, IHandleDomainEven
 {
     #region Instance Values
 
-    private readonly IMessageHandlerContext _MessageHandlerContext;
+    private readonly IMessageSession _MessageSession;
     private readonly IRepository<Merchant, SimpleStringId> _MerchantRepository;
     private readonly IRepository<MerchantRegistration, SimpleStringId> _MerchantRegistrationRepository;
 
@@ -25,10 +25,10 @@ public class MerchantRegistrationHandler : DomainEventHandler, IHandleDomainEven
     #region Constructor
 
     public MerchantRegistrationHandler(
-        IMessageHandlerContext messageHandler, IRepository<Merchant, SimpleStringId> merchantRepository,
+        IMessageSession messageHandler, IRepository<Merchant, SimpleStringId> merchantRepository,
         IRepository<MerchantRegistration, SimpleStringId> merchantRegistrationRepository, ILogger<MerchantRegistrationHandler> logger) : base(logger)
     {
-        _MessageHandlerContext = messageHandler;
+        _MessageSession = messageHandler;
         _MerchantRepository = merchantRepository;
         _MerchantRegistrationRepository = merchantRegistrationRepository;
     }
@@ -62,7 +62,7 @@ public class MerchantRegistrationHandler : DomainEventHandler, IHandleDomainEven
         await _MerchantRepository.SaveAsync(domainEvent.Merchant).ConfigureAwait(false);
 
         // Network Event sent through NServiceBus 
-        await _MessageHandlerContext.Publish<MerchantHasBeenCreatedEvent>(a =>
+        await _MessageSession.Publish<MerchantHasBeenCreatedEvent>(a =>
             {
                 a.MerchantId = domainEvent.Merchant.GetId();
             })

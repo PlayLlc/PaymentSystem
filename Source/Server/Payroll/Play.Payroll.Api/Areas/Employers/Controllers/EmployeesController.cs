@@ -10,7 +10,7 @@ using Play.Payroll.Domain.Aggregates;
 using Play.Payroll.Domain.Repositories;
 using Play.Payroll.Domain.Services;
 
-namespace Play.Loyalty.Api.Areas.Members.Controllerss;
+namespace Play.Payroll.Api.Areas.Employers.Controllers;
 
 [ApiController]
 [Area($"{nameof(Members)}")]

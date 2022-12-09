@@ -7,7 +7,7 @@ using Play.Inventory.Domain.Aggregates;
 namespace Play.Inventory.Application.Handlers;
 
 public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemAlertsHaveBeenActivated>, IHandleDomainEvents<ItemAlertsHaveBeenDeactivated>,
-    IHandleDomainEvents<LowInventoryItemThresholdUpdated>, IHandleDomainEvents<NoInventoryAlert>, IHandleDomainEvents<StockActionWasIncorrect>
+    IHandleDomainEvents<LowInventoryItemThresholdUpdated>, IHandleDomainEvents<NoInventoryAlert>, IHandleDomainEvents<AttemptedIncorrectStockAction>
 
 {
     #region Instance Members
@@ -33,7 +33,7 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemA
     public async Task Handle(NoInventoryAlert domainEvent)
     {
         Log(domainEvent);
-        await _MessageHandlerContext.Publish<NoInventoryAlertEvent>(a =>
+        await _MessageSession.Publish<NoInventoryAlertEvent>(a =>
             {
                 a.ItemId = domainEvent.Item.GetId();
             })
@@ -41,7 +41,7 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemA
     }
 
     // When we handle this domain event, it means there's a problem with the client implementation
-    public Task Handle(StockActionWasIncorrect domainEvent)
+    public Task Handle(AttemptedIncorrectStockAction domainEvent)
     {
         Log(domainEvent);
 

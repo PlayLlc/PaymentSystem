@@ -12,7 +12,7 @@ using Play.Payroll.Domain.Aggregates;
 using Play.Payroll.Domain.Repositories;
 using Play.Payroll.Domain.Services;
 
-namespace Play.Loyalty.Api.Areas.Members.Controllers;
+namespace Play.Payroll.Api.Areas.Employers.Controllers;
 
 [Authorize]
 [ApiController]
@@ -20,10 +20,16 @@ namespace Play.Loyalty.Api.Areas.Members.Controllers;
 [Route("/Payroll/[area]")]
 public class HomeController : BaseController
 {
-    #region Instance Members
+    #region Constructor
 
-    public HomeController(IEmployerRepository employerRepository, IRetrieveUsers userRetriever, IRetrieveMerchants merchantRetriever, ISendAchTransfers achClient) : base(employerRepository, userRetriever, merchantRetriever, achClient)
+    public HomeController(
+        IEmployerRepository employerRepository, IRetrieveUsers userRetriever, IRetrieveMerchants merchantRetriever, ISendAchTransfers achClient) : base(
+        employerRepository, userRetriever, merchantRetriever, achClient)
     { }
+
+    #endregion
+
+    #region Instance Members
 
     [HttpPostSwagger]
     [ValidateAntiForgeryToken]

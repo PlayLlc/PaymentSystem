@@ -16,7 +16,7 @@ public partial class EmployerHandlers : DomainEventHandler, IHandleDomainEvents<
         Log(domainEvent);
         await _EmployerRepository.SaveAsync(domainEvent.Employer).ConfigureAwait(false);
 
-        await _MessageHandlerContext.Publish<EmployeePaychecksHaveBeenCreatedEvent>(a =>
+        await _MessageSession.Publish<EmployeePaychecksHaveBeenCreatedEvent>(a =>
             {
                 a.Employer = domainEvent.Employer;
             }, null)

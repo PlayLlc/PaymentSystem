@@ -77,11 +77,11 @@ public class MongoDbHelper : IMongoDbHelper
         await GetCollection<_>(collectionName).DeleteOneAsync(filter).ConfigureAwait(false);
     }
 
-    public async Task AddToSetAsync<_, _Titem>(string collectionName, Expression<Func<_, bool>> filter, AddFieldConfig<_, _Titem> fieldToAdd)
+    public async Task AddToSetAsync<_, _TItem>(string collectionName, Expression<Func<_, bool>> filter, AddFieldConfig<_, _TItem> fieldToAdd)
     {
         await GetCollection<_>(collectionName)
             .FindOneAndUpdateAsync(filter, Builders<_>.Update.Push(fieldToAdd.FieldDefinition, fieldToAdd.Field),
-                new FindOneAndUpdateOptions<_, _Titem> {IsUpsert = true})
+                new FindOneAndUpdateOptions<_, _TItem> {IsUpsert = true})
             .ConfigureAwait(false);
     }
 
