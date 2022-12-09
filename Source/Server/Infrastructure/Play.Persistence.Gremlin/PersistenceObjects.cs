@@ -84,7 +84,7 @@ public record PersistenceObjects
     }
 
     private static IVertexResult CreateVertexResult(Vertex vertex)
-    {
+    { 
         IVertexResult result = g.addV(vertex.Label);
         foreach (var property in vertex.Properties)
             result = result.property(property.Name, property.Value);
