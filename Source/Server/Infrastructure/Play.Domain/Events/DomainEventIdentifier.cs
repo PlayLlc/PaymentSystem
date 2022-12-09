@@ -2,7 +2,7 @@
 
 namespace Play.Domain.Events;
 
-internal record DomainEventIdentifier : IEqualityComparer<DomainEventIdentifier>
+public record DomainEventIdentifier : IEqualityComparer<DomainEventIdentifier>
 {
     #region Instance Values
 

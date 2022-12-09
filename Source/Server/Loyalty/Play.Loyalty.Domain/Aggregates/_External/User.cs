@@ -1,11 +1,12 @@
-﻿using Play.Domain.Common.ValueObjects;
+﻿using Play.Domain.Aggregates;
+using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
 using Play.Loyalty.Contracts.Dtos;
 
-namespace Play.Loyalty.Domain.Entities;
+namespace Play.Loyalty.Domain.Aggregates._External;
 
-public class User : Entity<SimpleStringId>
+public class User : Entity<SimpleStringId>, IExternalAggregate
 {
     #region Instance Values
 
@@ -25,16 +26,16 @@ public class User : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     public User(UserDto dto)
     {
-        Id = new(dto.Id);
-        MerchantId = new(dto.MerchantId);
+        Id = new SimpleStringId(dto.Id);
+        MerchantId = new SimpleStringId(dto.MerchantId);
         IsActive = dto.IsActive;
     }
 
     /// <exception cref="ValueObjectException"></exception>
     public User(string id, string merchantId, bool isActive)
     {
-        Id = new(id);
-        MerchantId = new(merchantId);
+        Id = new SimpleStringId(id);
+        MerchantId = new SimpleStringId(merchantId);
         IsActive = isActive;
     }
 

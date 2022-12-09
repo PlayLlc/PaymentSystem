@@ -9,6 +9,7 @@ using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
 using Play.Payroll.Contracts.Commands;
+using Play.Payroll.Domain.Aggregates._External;
 using Play.Payroll.Domain.Entities;
 using Play.Payroll.Domain.Services;
 

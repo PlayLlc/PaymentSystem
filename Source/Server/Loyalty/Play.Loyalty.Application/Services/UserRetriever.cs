@@ -3,30 +3,29 @@
 using Play.Domain.Exceptions;
 using Play.Identity.Api.Client;
 using Play.Identity.Contracts.Dtos;
-using Play.Loyalty.Domain.Entities;
-using Play.Loyalty.Domain.Services;
-using Play.Restful.Clients;
+using Play.Loyalty.Domain.Entitieses;
+usinPlay.Loyalty.Domain.Serviceses;
+usinPlay.Restful.Clientsts;
 
 namespace Play.Loyalty.Application.Services;
 
-public class UserRetriever : IRetrieveUsers
-{
-    #region Instance Values
+public class UserRetriever : IRetrieveUsers
+    #region Instance Valueses
 
-    private readonly IUserApi _UserApi;
+    private readonly IUserApi _UserAp
 
     #endregion
 
-    #region Constructor
+    #region Constructoror
 
     public UserRetriever(IUserApi userApi)
     {
         _UserApi = userApi;
-    }
+   
 
     #endregion
 
-    #region Instance Members
+    #region Instance Membersrs
 
     /// <exception cref="ApiException"></exception>
     public async Task<User> GetByIdAsync(string id)
@@ -58,7 +57,8 @@ public class UserRetriever : IRetrieveUsers
         {
             throw new ApiException(HttpStatusCode.InternalServerError, e);
         }
-    }
+   
 
     #endregion
+
 }

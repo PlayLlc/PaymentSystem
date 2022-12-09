@@ -1,4 +1,6 @@
-﻿using Play.Globalization.Time;
+﻿using Play.Domain.Aggregates;
+using Play.Domain.Entities;
+using Play.Globalization.Time;
 
 namespace Play.Domain.Events;
 
@@ -7,19 +9,31 @@ public abstract record DomainEvent
 {
     #region Instance Values
 
+    /// <summary>
+    ///     The aggregate that is initiating the event
+    /// </summary>
+    public readonly IAggregate Source;
+
+    /// <summary>
+    ///     The entity that the event is being applied to
+    /// </summary>
+    public readonly IEntity? Target;
+
     public readonly DateTimeUtc DateTimeUtc;
     public readonly string Description;
+    public readonly DomainEventIdentifier DomainEventIdentifier;
     public DomainEventType DomainEventType = CreateEventTypeId(typeof(DomainEvent));
-    private readonly DomainEventIdentifier _DomainEventIdentifier;
 
     #endregion
 
     #region Constructor
 
-    protected DomainEvent(string description)
+    protected DomainEvent(IAggregate source, IEntity? target, string description)
     {
+        Source = source;
+        Target = target;
+        DomainEventIdentifier = new DomainEventIdentifier(DomainEventType, DateTimeUtc);
         DateTimeUtc = new DateTimeUtc();
-        _DomainEventIdentifier = new DomainEventIdentifier(DomainEventType, DateTimeUtc);
         Description = description;
     }
 
@@ -27,10 +41,8 @@ public abstract record DomainEvent
 
     #region Instance Members
 
-    public DomainEventType GetEventType() => _DomainEventIdentifier.DomainEventType;
-
-    public int GetEventId() => _DomainEventIdentifier.EventId;
-
+    public DomainEventType GetEventType() => DomainEventIdentifier.DomainEventType;
+    public int GetEventId() => DomainEventIdentifier.EventId;
     protected static DomainEventType CreateEventTypeId(Type type) => new(type);
 
     #endregion

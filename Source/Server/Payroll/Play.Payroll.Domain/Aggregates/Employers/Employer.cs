@@ -7,6 +7,7 @@ using Play.Globalization.Time;
 using Play.Payroll.Contracts.Commands;
 using Play.Payroll.Contracts.Dtos;
 using Play.Payroll.Contracts.Enums;
+using Play.Payroll.Domain.Aggregates._External;
 using Play.Payroll.Domain.Entities;
 using Play.Payroll.Domain.Services;
 using Play.Payroll.Domain.ValueObject;

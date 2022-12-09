@@ -1,8 +1,7 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
-using Play.Loyalty.Domain.Entities;
 
-namespace Play.Loyalty.Domain.Aggregates;
+namePlay.Loyalty.Domain.Entitiesgregates;
 
 public class AggregateMustBeUpdatedByKnownUser<_Aggregate> : BusinessRule<_Aggregate, SimpleStringId> where _Aggregate : Aggregate<SimpleStringId>
 {
@@ -11,7 +10,8 @@ public class AggregateMustBeUpdatedByKnownUser<_Aggregate> : BusinessRule<_Aggre
     private readonly bool _IsValid;
 
     public override string Message =>
-        $"The {typeof(_Aggregate).Name} can only be updated by a {nameof(User)} that belongs to the same {nameof(Merchant)} organization;";
+        $"The {typeof(_Aggregate).N
+        nly be updated by a {nameof(User)} that belongs to the same {nameof(Merchant)} organization;";
 
     #endregion
 

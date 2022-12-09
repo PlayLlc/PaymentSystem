@@ -3,6 +3,7 @@
 using Play.Domain.Exceptions;
 using Play.Identity.Api.Client;
 using Play.Identity.Contracts.Dtos;
+using Play.Payroll.Domain.Aggregates;
 using Play.Payroll.Domain.Entities;
 using Play.Payroll.Domain.Services;
 using Play.Restful.Clients;

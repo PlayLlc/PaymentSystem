@@ -3,30 +3,29 @@
 using Play.Domain.Exceptions;
 using Play.Identity.Api.Client;
 using Play.Identity.Contracts.Dtos;
-using Play.Loyalty.Domain.Entities;
-using Play.Loyalty.Domain.Services;
-using Play.Restful.Clients;
+using Play.Loyalty.Domain.Entitieses;
+usinPlay.Loyalty.Domain.Serviceses;
+usinPlay.Restful.Clientsts;
 
 namespace Play.Loyalty.Application.Services;
 
-public class MerchantRetriever : IRetrieveMerchants
-{
-    #region Instance Values
+public class MerchantRetriever : IRetrieveMerchants
+    #region Instance Valueses
 
-    private readonly IMerchantApi _MerchantApi;
+    private readonly IMerchantApi _MerchantAp
 
     #endregion
 
-    #region Constructor
+    #region Constructoror
 
     public MerchantRetriever(IMerchantApi merchantApi)
     {
         _MerchantApi = merchantApi;
-    }
+   
 
     #endregion
 
-    #region Instance Members
+    #region Instance Membersrs
 
     /// <exception cref="ApiException"></exception>
     public async Task<Merchant> GetByIdAsync(string id)
@@ -58,7 +57,8 @@ public class MerchantRetriever : IRetrieveMerchants
         {
             throw new ApiException(500, e);
         }
-    }
+   
 
     #endregion
+
 }

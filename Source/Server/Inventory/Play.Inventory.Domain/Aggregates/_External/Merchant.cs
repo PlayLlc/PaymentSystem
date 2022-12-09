@@ -1,15 +1,17 @@
-﻿using Play.Domain.Common.ValueObjects;
+﻿using Play.Domain.Aggregates;
+using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
-using Play.Payroll.Contracts.Dtos;
+using Play.Inventory.Contracts.Dtos;
 
-namespace Play.Payroll.Domain.Entities;
+namespace Play.Inventory.Domain.Aggregates;
 
-public class Merchant : Entity<SimpleStringId>
+public class Merchant : Entity<SimpleStringId>, IExternalAggregate
 {
     #region Instance Values
 
     public readonly bool IsActive;
+    public readonly Name CompanyName;
     public override SimpleStringId Id { get; }
 
     #endregion
@@ -20,13 +22,15 @@ public class Merchant : Entity<SimpleStringId>
     public Merchant(MerchantDto dto)
     {
         Id = new SimpleStringId(dto.Id);
+        CompanyName = new Name(dto.CompanyName);
         IsActive = dto.IsActive;
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    public Merchant(string id, bool isActive)
+    public Merchant(string id, string companyName, bool isActive)
     {
         Id = new SimpleStringId(id);
+        CompanyName = new Name(companyName);
         IsActive = isActive;
     }
 
@@ -44,8 +48,11 @@ public class Merchant : Entity<SimpleStringId>
         new()
         {
             Id = Id,
+            CompanyName = CompanyName,
             IsActive = IsActive
         };
 
     #endregion
+
+    //private readonly HashSet<Store> _Stores;
 }

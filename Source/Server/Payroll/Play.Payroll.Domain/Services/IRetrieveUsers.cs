@@ -1,4 +1,5 @@
-﻿using Play.Payroll.Domain.Entities;
+﻿using Play.Payroll.Domain.Aggregates;
+using Play.Payroll.Domain.Entities;
 
 namespace Play.Payroll.Domain.Services;
 

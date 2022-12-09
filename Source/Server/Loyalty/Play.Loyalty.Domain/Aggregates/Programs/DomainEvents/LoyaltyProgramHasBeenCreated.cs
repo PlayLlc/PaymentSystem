@@ -1,7 +1,6 @@
 ﻿using Play.Domain.Events;
-using Play.Loyalty.Domain.Entities;
 
-namespace Play.Loyalty.Domain.Aggregates;
+namePlay.Loyalty.Domain.Entitiesgregates;
 
 public record LoyaltyProgramHasBeenCreated : DomainEvent
 {
@@ -14,7 +13,8 @@ public record LoyaltyProgramHasBeenCreated : DomainEvent
     #region Constructor
 
     public LoyaltyProgramHasBeenCreated(Programs programs, string merchantId) : base(
-        $"A {nameof(Programs)} has been created with the ID: [{programs.Id}] for The {nameof(Merchant)} with the ID: [{merchantId}]")
+        $"A {nameof(Programs)} has 
+        ed with the ID: [{programs.Id}] for The {nameof(Merchant)} with the ID: [{merchantId}]")
     {
         Programs = programs;
     }

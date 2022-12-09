@@ -1,6 +1,7 @@
 ﻿using Play.Domain.Exceptions;
 using Play.Domain.ValueObjects;
 using Play.Loyalty.Contracts.Commands;
+using Play.Loyalty.Domain.Aggregates._External;
 using Play.Loyalty.Domain.Entities;
 using Play.Loyalty.Domain.Services;
 

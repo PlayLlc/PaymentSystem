@@ -1,4 +1,5 @@
 ﻿using Play.Domain.Events;
+using Play.Loyalty.Domain.Aggregates._External;
 using Play.Loyalty.Domain.Entities;
 
 namespace Play.Loyalty.Domain.Aggregates;

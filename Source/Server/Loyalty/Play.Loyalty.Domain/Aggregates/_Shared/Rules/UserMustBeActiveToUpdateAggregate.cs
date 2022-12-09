@@ -1,8 +1,7 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
-using Play.Loyalty.Domain.Entities;
 
-namespace Play.Loyalty.Domain.Aggregates;
+namePlay.Loyalty.Domain.Entitiesgregates;
 
 public class UserMustBeActiveToUpdateAggregate<_Aggregate> : BusinessRule<_Aggregate, SimpleStringId> where _Aggregate : Aggregate<SimpleStringId>
 {

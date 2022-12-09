@@ -13,6 +13,7 @@ using Play.Payroll.Contracts.Commands;
 using Play.Payroll.Domain.Entities;
 using Play.Payroll.Domain.Services;
 using Play.Globalization.Time;
+using Play.Payroll.Domain.Aggregates._External;
 
 namespace Play.Payroll.Domain.Aggregates;
 

@@ -1,7 +1,6 @@
 ﻿using Play.Domain.Events;
-using Play.Loyalty.Domain.Entities;
 
-namespace Play.Loyalty.Domain.Aggregates;
+namePlay.Loyalty.Domain.Entitiesgregates;
 
 public record LoyaltyMemberRemoved : DomainEvent
 {
@@ -15,7 +14,8 @@ public record LoyaltyMemberRemoved : DomainEvent
     #region Constructor
 
     public LoyaltyMemberRemoved(Member member, string userId) : base(
-        $"The {nameof(User)} with the ID: [{userId}] has deleted the {nameof(Member)} with the ID: [{member.Id}];")
+        $"The {nameof(User)} with t
+        serId}] has deleted the {nameof(Member)} with the ID: [{member.Id}];")
     {
         Member = member;
         UserId = userId;

@@ -5,6 +5,7 @@ using Play.Domain.ValueObjects;
 using Play.Globalization.Currency;
 using Play.Loyalty.Contracts.Commands;
 using Play.Loyalty.Contracts.Dtos;
+using Play.Loyalty.Domain.Aggregates._External;
 using Play.Loyalty.Domain.Entities;
 using Play.Loyalty.Domain.Services;
 
@@ -27,8 +28,8 @@ public partial class Programs : Aggregate<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal Programs(string id, string merchantId, RewardProgram rewardProgram, DiscountProgram discountProgram)
     {
-        Id = new(id);
-        _MerchantId = new(merchantId);
+        Id = new SimpleStringId(id);
+        _MerchantId = new SimpleStringId(merchantId);
         _RewardProgram = rewardProgram;
         _DiscountProgram = discountProgram;
     }
@@ -40,10 +41,10 @@ public partial class Programs : Aggregate<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal Programs(LoyaltyProgramDto dto)
     {
-        Id = new(dto.Id);
-        _MerchantId = new(dto.MerchantId);
-        _RewardProgram = new(dto.RewardsProgram);
-        _DiscountProgram = new(dto.DiscountsProgram);
+        Id = new SimpleStringId(dto.Id);
+        _MerchantId = new SimpleStringId(dto.MerchantId);
+        _RewardProgram = new RewardProgram(dto.RewardsProgram);
+        _DiscountProgram = new DiscountProgram(dto.DiscountsProgram);
     }
 
     #endregion
@@ -58,8 +59,8 @@ public partial class Programs : Aggregate<SimpleStringId>
     public static async Task<Programs> Create(IRetrieveMerchants merchantRetriever, IRetrieveUsers userRetriever, CreateLoyaltyProgram command)
     {
         Money rewardAmount = new(RewardProgram.DefaultRewardAmount, command.NumericCurrencyCode);
-        RewardProgram rewardProgram = new(GenerateSimpleStringId(), rewardAmount, RewardProgram.DefaultPointsPerDollar,
-            RewardProgram.DefaultPointsRequired, false);
+        RewardProgram rewardProgram = new(GenerateSimpleStringId(), rewardAmount, RewardProgram.DefaultPointsPerDollar, RewardProgram.DefaultPointsRequired,
+            false);
         DiscountProgram discountProgram = new(GenerateSimpleStringId(), false, Array.Empty<Discount>());
 
         Programs programs = new(GenerateSimpleStringId(), command.MerchantId, rewardProgram, discountProgram);

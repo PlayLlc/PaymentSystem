@@ -1,5 +1,5 @@
 ﻿using Play.Domain.Events;
-using Play.Payroll.Domain.Entities;
+using Play.Payroll.Domain.Aggregates._External;
 
 namespace Play.Payroll.Domain.Aggregates;
 

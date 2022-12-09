@@ -139,7 +139,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Messaging.NServiceBus.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Logging.Serilog", "Infrastructure\Play.Logging.Serilog\Play.Logging.Serilog.csproj", "{CA5EC019-4D7B-4F3C-ABC5-DA0025CDAA70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Persistence.Gremlin", "Infrastructure\Play.Persistence.Gremlin\Play.Persistence.Gremlin.csproj", "{019EA6FB-DCFB-4FCE-9324-FCCC0524AA7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Persistence.Gremlin", "Infrastructure\Play.Persistence.Gremlin\Play.Persistence.Gremlin.csproj", "{019EA6FB-DCFB-4FCE-9324-FCCC0524AA7D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

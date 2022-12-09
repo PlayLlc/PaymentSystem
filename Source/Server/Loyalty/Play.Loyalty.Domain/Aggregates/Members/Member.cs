@@ -5,6 +5,7 @@ using Play.Domain.ValueObjects;
 using Play.Globalization.Currency;
 using Play.Loyalty.Contracts.Commands;
 using Play.Loyalty.Contracts.Dtos;
+using Play.Loyalty.Domain.Aggregates._External;
 using Play.Loyalty.Domain.Aggregates.Rules;
 using Play.Loyalty.Domain.Entities;
 using Play.Loyalty.Domain.Services;
@@ -42,24 +43,24 @@ public partial class Member : Aggregate<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     internal Member(LoyaltyMemberDto dto)
     {
-        Id = new(dto.Id);
-        _MerchantId = new(dto.MerchantId);
-        _RewardsNumber = new(dto.RewardsNumber);
-        _Rewards = new(dto.Rewards);
-        _Name = new(dto.Name);
-        _Phone = new(dto.Phone);
+        Id = new SimpleStringId(dto.Id);
+        _MerchantId = new SimpleStringId(dto.MerchantId);
+        _RewardsNumber = new RewardsNumber(dto.RewardsNumber);
+        _Rewards = new Rewards(dto.Rewards);
+        _Name = new Name(dto.Name);
+        _Phone = new Phone(dto.Phone);
         _Email = dto.Email is null ? null : new Email(dto.Email);
     }
 
     /// <exception cref="ValueObjectException"></exception>
     internal Member(string id, string merchantId, string name, string phone, string rewardsNumber, Rewards rewards, string? email = null)
     {
-        Id = new(id);
-        _MerchantId = new(merchantId);
-        _RewardsNumber = new(rewardsNumber);
+        Id = new SimpleStringId(id);
+        _MerchantId = new SimpleStringId(merchantId);
+        _RewardsNumber = new RewardsNumber(rewardsNumber);
         _Rewards = rewards;
-        _Name = new(name);
-        _Phone = new(phone);
+        _Name = new Name(name);
+        _Phone = new Phone(phone);
         _Email = email is null ? null : new Email(email);
     }
 
@@ -76,9 +77,9 @@ public partial class Member : Aggregate<SimpleStringId>
         User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<Member>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Member>(_MerchantId, user));
-        _Name = new(command.Name);
+        _Name = new Name(command.Name);
         _Email = command.Email is null ? null : new Email(command.Email);
-        _Phone = new(command.Phone);
+        _Phone = new Phone(command.Phone);
 
         Publish(new LoyaltyMemberUpdated(this, _MerchantId, user.Id));
     }
@@ -90,7 +91,7 @@ public partial class Member : Aggregate<SimpleStringId>
         IRetrieveUsers userRetriever, IRetrieveMerchants merchantRetriever, IEnsureRewardsNumbersAreUnique uniqueRewardNumberChecker,
         CreateLoyaltyMember command)
     {
-        Rewards rewards = new(GenerateSimpleStringId(), 0, new(0, new NumericCurrencyCode(command.NumericCurrencyCode)));
+        Rewards rewards = new(GenerateSimpleStringId(), 0, new Money(0, new NumericCurrencyCode(command.NumericCurrencyCode)));
         Member member = new(GenerateSimpleStringId(), command.MerchantId, command.Name, command.Phone, command.RewardsNumber, rewards, command.Email);
 
         User user = await userRetriever.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));

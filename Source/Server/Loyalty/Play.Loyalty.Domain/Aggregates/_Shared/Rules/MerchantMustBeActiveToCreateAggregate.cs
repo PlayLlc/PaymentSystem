@@ -1,8 +1,7 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
-using Play.Loyalty.Domain.Entities;
 
-namespace Play.Loyalty.Domain.Aggregates;
+namePlay.Loyalty.Domain.Entitiesgregates;
 
 public class MerchantMustBeActiveToCreateAggregate<_Aggregate> : BusinessRule<_Aggregate, SimpleStringId> where _Aggregate : Aggregate<SimpleStringId>
 {
@@ -30,5 +29,6 @@ public class MerchantMustBeActiveToCreateAggregate<_Aggregate> : BusinessRule<_A
     public override DeactivatedMerchantAttemptedToCreateAggregate<_Aggregate> CreateBusinessRuleViolationDomainEvent(_Aggregate aggregate) =>
         new(aggregate, this);
 
-    #endregion
+  
+        on
 }

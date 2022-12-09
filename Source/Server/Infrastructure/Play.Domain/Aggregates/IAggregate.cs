@@ -1,10 +1,6 @@
-﻿namespace Play.Domain.Aggregates;
+﻿using Play.Domain.Entities;
 
-public interface IAggregate
-{
-    #region Instance Members
+namespace Play.Domain.Aggregates;
 
-    public IDto AsDto();
-
-    #endregion
-}
+public interface IAggregate : IEntity
+{ }

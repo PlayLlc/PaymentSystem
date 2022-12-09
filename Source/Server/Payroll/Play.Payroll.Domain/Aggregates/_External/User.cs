@@ -1,11 +1,12 @@
-﻿using Play.Domain.Common.ValueObjects;
+﻿using Play.Domain.Aggregates;
+using Play.Domain.Common.ValueObjects;
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
 using Play.Payroll.Contracts.Dtos;
 
-namespace Play.Payroll.Domain.Entities;
+namespace Play.Payroll.Domain.Aggregates;
 
-public class User : Entity<SimpleStringId>
+public class User : Entity<SimpleStringId>, IExternalAggregate
 {
     #region Instance Values
 

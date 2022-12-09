@@ -3,9 +3,8 @@ using Play.Domain.ValueObjects;
 using Play.Globalization.Currency;
 using Play.Loyalty.Contracts.Commands;
 using Play.Loyalty.Domain.Entities;
-using Play.Loyalty.Domain.Services;
 
-namespace Play.Loyalty.Domain.Aggregates;
+namePlay.Loyalty.Domain.Servicesgregates;
 
 public partial class Programs
 {

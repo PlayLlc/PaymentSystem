@@ -1,5 +1,6 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
+using Play.Payroll.Domain.Aggregates._External;
 using Play.Payroll.Domain.Entities;
 
 namespace Play.Payroll.Domain.Aggregates;
