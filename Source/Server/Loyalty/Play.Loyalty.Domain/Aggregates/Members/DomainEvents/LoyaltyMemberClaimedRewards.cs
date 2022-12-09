@@ -5,13 +5,9 @@ using Play.Globalization.Time;
 
 namespace Play.Loyalty.Domain.Aggregates;
 
-
-
 public record LoyaltyMemberClaimedRewards : DomainEvent
 {
     #region Instance Values
-
-
 
     public readonly Member Member;
     public readonly string MerchantId;

@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Node.cs" />
+    <PackageReference Include="Gremlin.Net" Version="3.6.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Node.cs" />
+    <ProjectReference Include="..\Play.Domain\Play.Domain.csproj" />
   </ItemGroup>
 
 </Project>

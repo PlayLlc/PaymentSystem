@@ -139,7 +139,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Messaging.NServiceBus.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Logging.Serilog", "Infrastructure\Play.Logging.Serilog\Play.Logging.Serilog.csproj", "{CA5EC019-4D7B-4F3C-ABC5-DA0025CDAA70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Persistence.Grremlin", "Infrastructure\Play.Persistence.Grremlin\Play.Persistence.Grremlin.csproj", "{6838FA69-1C5F-47A1-A8BD-B36227C5BF13}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Persistence.Gremlin", "Infrastructure\Play.Persistence.Gremlin\Play.Persistence.Gremlin.csproj", "{019EA6FB-DCFB-4FCE-9324-FCCC0524AA7D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -363,10 +363,10 @@ Global
 		{CA5EC019-4D7B-4F3C-ABC5-DA0025CDAA70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA5EC019-4D7B-4F3C-ABC5-DA0025CDAA70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA5EC019-4D7B-4F3C-ABC5-DA0025CDAA70}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6838FA69-1C5F-47A1-A8BD-B36227C5BF13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6838FA69-1C5F-47A1-A8BD-B36227C5BF13}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6838FA69-1C5F-47A1-A8BD-B36227C5BF13}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6838FA69-1C5F-47A1-A8BD-B36227C5BF13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{019EA6FB-DCFB-4FCE-9324-FCCC0524AA7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{019EA6FB-DCFB-4FCE-9324-FCCC0524AA7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{019EA6FB-DCFB-4FCE-9324-FCCC0524AA7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{019EA6FB-DCFB-4FCE-9324-FCCC0524AA7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -427,7 +427,7 @@ Global
 		{A1053739-F7EE-480D-B6EF-5E0957530829} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
 		{34606E91-416B-4AB8-8988-4833A1431C49} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
 		{CA5EC019-4D7B-4F3C-ABC5-DA0025CDAA70} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
-		{6838FA69-1C5F-47A1-A8BD-B36227C5BF13} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
+		{019EA6FB-DCFB-4FCE-9324-FCCC0524AA7D} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6833603-DD22-4624-AB4A-235C51671F62}
