@@ -31,7 +31,7 @@
     <item name="colorSecondary">@color/secondary_color</item>
     <item name="colorSecondaryVariant">@color/secondary_color</item>
     <item name="colorOnSecondary">@color/black</item>
-    
+
     <!-- Status bar color. -->
     <item name="android:statusBarColor">@android:color/transparent</item>
     <item name="android:windowNoTitle">true</item>
@@ -58,6 +58,20 @@
     <item name="strokeWidth">2dp</item>
     <item name="strokeColor">@color/accent_color</item>
     <item name="backgroundTint">@color/white</item>
+    <item name="android:fontFamily">@font/poppins_semibold</item>
+    <item name="android:includeFontPadding">false</item>
+  </style>
+
+  <style name="UnelevatedButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+    <item name="android:textSize">14sp</item>
+    <item name="android:letterSpacing">0</item>
+    <item name="android:paddingVertical">0dp</item>
+    <item name="android:background">@null</item>
+    <item name="android:backgroundTint">@color/white</item>
+    <item name="android:textAllCaps">false</item>
+    <item name="android:textColor">@drawable/unelevated_button_text_color</item>
+    <item name="android:fontFamily">@font/poppins_semibold</item>
+    <item name="android:includeFontPadding">false</item>
   </style>
 
   <style name="PrimaryButtonTheme" parent="Theme.MaterialComponents">
@@ -72,7 +86,56 @@
     <item name="fontFamily">sans-serif-medium</item>
     <item name="android:textAllCaps">false</item>
     <item name="android:letterSpacing">0</item>
+    <item name="android:includeFontPadding">false</item>
   </style>
 
+  <style name="BigTitleStyle" parent="@android:style/Widget.TextView">
+    <item name="android:textSize">32sp</item>
+    <item name="android:fontFamily">@font/poppins_regular</item>
+    <item name="android:textColor">@color/accent_color</item>
+    <item name="android:includeFontPadding">false</item>
+  </style>
+
+  <style name="TextInputTheme" parent="Theme.Mobility.NoActionBar">
+    <item name="colorPrimary">@color/accent_color</item>
+    <item name="colorPrimaryVariant">@color/accent_color</item>
+    <item name="colorOnPrimary">@color/accent_color</item>
+    <item name="colorAccent">@color/accent_color</item>
+    <item name="textInputOutlinedDenseStyle">@style/TextInputStyle</item>
+    <item name="textInputOutlinedStyle">@style/TextInputStyle</item>
+    <item name="textInputStyle">@style/TextInputStyle</item>
+  </style>
+  
+  <style name="TextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+    <item name="boxBackgroundColor">@color/white</item>
+    <item name="labelBehavior">gone</item>
+    <item name="hintAnimationEnabled">false</item>
+    <item name="hintEnabled">false</item>
+    <item name="boxStrokeColor">@color/accent_color</item>
+    <item name="boxStrokeWidth">2dp</item>
+    <item name="android:textColorHint">@color/hint_text_color</item>
+    <item name="hintTextColor">@color/hint_text_color</item>
+    <item name="android:textColor">@color/primary_text_color</item>
+    <item name="android:includeFontPadding">false</item>
+    <item name="colorAccent">@color/accent_color</item>
+  </style>
+
+  <style name="DefaultTextStyle" parent="@android:style/Widget.TextView">
+    <item name="android:textSize">14sp</item>
+    <item name="android:fontFamily">@font/poppins_medium</item>
+    <item name="android:textColor">@color/primary_text_color</item>
+    <item name="android:includeFontPadding">false</item>
+  </style>
+
+  <style name="InputEditTextStyle" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox.Dense">
+    <item name="colorAccent">@color/accent_color</item>
+    <item name="android:textSize">16sp</item>
+    <item name="android:fontFamily">@font/poppins_regular</item>
+    <item name="android:textColor">@color/primary_text_color</item>
+    <item name="android:textColorHint">@color/hint_text_color</item>
+    <item name="maxLines">1</item>
+    <item name="android:includeFontPadding">false</item>
+    <item name="android:textCursorDrawable">@null</item>
+  </style>
 
 </resources>

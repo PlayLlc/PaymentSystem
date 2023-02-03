@@ -2,6 +2,7 @@ using AndroidX.AppCompat.App;
 using AndroidX.Core.View;
 using AndroidX.Lifecycle;
 using CommunityToolkit.Mvvm.Bindings;
+using Google.Android.Material.TextView;
 using Microsoft.Extensions.DependencyInjection;
 using PayWithPlay.Android.Extensions;
 using PayWithPlay.Android.Lifecycle;
@@ -50,15 +51,28 @@ public class SignInActivity : AppCompatActivity, SignInViewModel.INavigationServ
     private void SetBindings()
     {
         var pageTitle = FindViewById<TextView>(Resource.Id.title_textView)!;
+
+        var emailLabel = FindViewById<TextView>(Resource.Id.email_label_tv)!;
+        var emailEditText = FindViewById<EditText>(Resource.Id.email_et)!;
+
+        var passwordLabel = FindViewById<TextView>(Resource.Id.password_label_tv)!;
+        var passwordEditText = FindViewById<EditText>(Resource.Id.password_et)!;
+
+        var forgotPasswordButton = FindViewById<Button>(Resource.Id.forgot_password_btn)!;
+
         var signInButton = FindViewById<Button>(Resource.Id.sign_in_btn)!;
         var noaccountQuestionTextView = FindViewById<TextView>(Resource.Id.no_account_question_tv)!;
         var createAccountButton = FindViewById<Button>(Resource.Id.create_account_btn)!;
 
         pageTitle.Text = SignInViewModel.Title;
+        emailLabel.Text = emailEditText.Hint = SignInViewModel.EmailAdressText;
+        passwordLabel.Text = passwordEditText.Hint = SignInViewModel.PasswordText;
+        forgotPasswordButton.Text = SignInViewModel.ForgotPasswordText;
         signInButton.Text = SignInViewModel.SignInButtonText;
         noaccountQuestionTextView.Text = SignInViewModel.NoAccountQuestionText;
         createAccountButton.Text = SignInViewModel.CreateAccountButtonText;
 
+        _eventToCommandInfo.Add(forgotPasswordButton.SetDetachableCommand(_viewModel!.ForgotPasswordCommand));
         _eventToCommandInfo.Add(signInButton.SetDetachableCommand(_viewModel!.SignInCommand));
         _eventToCommandInfo.Add(createAccountButton.SetDetachableCommand(_viewModel!.CreateAccountCommand));
     }

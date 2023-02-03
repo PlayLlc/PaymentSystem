@@ -120,14 +120,23 @@
   <data name="CreateAccount" xml:space="preserve">
     <value>Create Account</value>
   </data>
+  <data name="EmailAdress" xml:space="preserve">
+    <value>Email adress</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Forgot password?</value>
+  </data>
   <data name="NoAccountQuestion" xml:space="preserve">
     <value>Don't have an account?</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
   </data>
   <data name="PrivacyPolicy" xml:space="preserve">
     <value>Privacy Policy</value>
   </data>
   <data name="SignIn" xml:space="preserve">
-    <value>Sign In</value>
+    <value>Sign in</value>
   </data>
   <data name="TermsOfService" xml:space="preserve">
     <value>Terms of Service</value>

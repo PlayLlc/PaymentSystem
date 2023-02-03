@@ -1,7 +1,9 @@
 ﻿using Android.Content;
 using Android.Graphics;
+using Android.Hardware.Lights;
 using Android.Runtime;
 using Android.Util;
+using Android.Views;
 using AndroidX.Core.Content;
 using PayWithPlay.Android.Extensions;
 
@@ -9,6 +11,8 @@ namespace PayWithPlay.Android.CustomViews
 {
     public class TopSemiCircleView : FrameLayout
     {
+        public static int SpecHeight;
+
         public TopSemiCircleView(Context? context) : base(context)
         {
         }
@@ -29,6 +33,16 @@ namespace PayWithPlay.Android.CustomViews
         {
         }
 
+        protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
+        {
+            if(SpecHeight == 0)
+            {
+                SpecHeight = MeasureSpec.MakeMeasureSpec((int)(0.251f * this.Context!.Resources!.DisplayMetrics!.HeightPixels), MeasureSpecMode.Exactly);
+            }
+
+            base.OnMeasure(widthMeasureSpec, SpecHeight);
+        }
+
         public override void Draw(Canvas? canvas)
         {
             base.Draw(canvas);
@@ -47,10 +61,9 @@ namespace PayWithPlay.Android.CustomViews
             var startHeight = 40f.ToFloatPx();
             var offset = 6f.ToFloatPx();
 
-
             canvas.DrawRect(new RectF(0, 0, Width, startHeight), paint);
             canvas.DrawArc(new RectF(-offset, -(Height - startHeight), Width + offset, Height), 90f, 90f, true, paint);
             canvas.DrawArc(new RectF(-offset, -(Height - startHeight), Width + offset, Height), 0f, 90f, true, paint);
         }
-    }
+     }
 }

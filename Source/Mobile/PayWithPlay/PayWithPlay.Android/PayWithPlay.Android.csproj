@@ -12,6 +12,9 @@
   <ItemGroup>
     <None Remove="Resources\drawable\unelevated_button_text_color.xml" />
     <None Remove="Resources\drawable\welcome_top_logo.xml" />
+    <None Remove="Resources\font\poppins_medium.ttf" />
+    <None Remove="Resources\font\poppins_regular.ttf" />
+    <None Remove="Resources\font\poppins_semibold.ttf" />
     <None Remove="Resources\layout\activity_sign_in.xml" />
     <None Remove="Resources\layout\activity_welcome.xml" />
     <None Remove="Resources\values\colors.xml" />
@@ -28,5 +31,8 @@
   <ItemGroup>
     <ProjectReference Include="..\ExtraLibraries\CommunityToolkit.Mvvm.Bindings\CommunityToolkit.Mvvm.Bindings.csproj" />
     <ProjectReference Include="..\PayWithPlay.Core\PayWithPlay.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\" />
   </ItemGroup>
 </Project>
