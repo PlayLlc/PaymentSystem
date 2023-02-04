@@ -1,7 +1,5 @@
 ﻿using Android.Content;
-using AndroidX.AppCompat.App;
-using AndroidX.Core.View;
-using AndroidX.Lifecycle;
+using Android.Content.PM;
 using CommunityToolkit.Mvvm.Bindings;
 using Microsoft.Extensions.DependencyInjection;
 using PayWithPlay.Android.Extensions;
@@ -11,15 +9,19 @@ using PayWithPlay.Core.ViewModels.Welcome;
 
 namespace PayWithPlay.Android.Activities
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/Theme.App.Starting", MainLauncher = true)]
-    public class WelcomeActivity : AppCompatActivity, WelcomeViewModel.INavigationService
+    [Activity(Label = "@string/app_name", Theme = "@style/Theme.App.Starting", MainLauncher = true, ScreenOrientation = ScreenOrientation.UserPortrait)]
+    public class WelcomeActivity : BaseActivity, WelcomeViewModel.INavigationService
     {
-        private readonly List<EventToCommandInfo> _eventToCommandInfo = new List<EventToCommandInfo>();
+        private readonly List<EventToCommandInfo> _eventToCommandInfo = new();
 
         private WelcomeViewModel? _viewModel;
 
+        protected override int LayoutId => Resource.Layout.activity_welcome;
+
         public void NavigateToCreateAccount()
         {
+            var intent = new Intent(this, typeof(CreateAccountActivity));
+            StartActivity(intent);
         }
 
         public void NavigateToSignIn()
@@ -33,9 +35,6 @@ namespace PayWithPlay.Android.Activities
             AndroidX.Core.SplashScreen.SplashScreen.InstallSplashScreen(this);
 
             base.OnCreate(savedInstanceState);
-            WindowCompat.SetDecorFitsSystemWindows(Window!, false);
-
-            SetContentView(Resource.Layout.activity_welcome);
 
             _viewModel = ViewModelProviders.Of(this).Get(ServicesProvider.Current.Provider.GetService<WelcomeViewModel>);
             _viewModel.NavigationService = this;

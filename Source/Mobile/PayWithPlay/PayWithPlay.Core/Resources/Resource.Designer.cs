@@ -61,6 +61,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to and.
+        /// </summary>
+        internal static string AndText {
+            get {
+                return ResourceManager.GetString("AndText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Account.
         /// </summary>
         internal static string CreateAccount {
@@ -79,11 +88,38 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email adress or phone number.
+        /// </summary>
+        internal static string EmaiOrPhoneNumber {
+            get {
+                return ResourceManager.GetString("EmaiOrPhoneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Forgot password?.
         /// </summary>
         internal static string ForgotPassword {
             get {
                 return ResourceManager.GetString("ForgotPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You already have an account?.
+        /// </summary>
+        internal static string HaveAccountQuestion {
+            get {
+                return ResourceManager.GetString("HaveAccountQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I agree to the.
+        /// </summary>
+        internal static string IAgreeToThe {
+            get {
+                return ResourceManager.GetString("IAgreeToThe", resourceCulture);
             }
         }
         

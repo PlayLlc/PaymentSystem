@@ -44,21 +44,21 @@
         tools:ignore="UselessParent">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/email_label_tv"
+            android:id="@+id/email_or_phoneNumber_label_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             style="@style/DefaultTextStyle"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/email_til"
+            android:id="@+id/email_or_phoneNumber_til"
             android:theme="@style/TextInputTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp">
 
             <PayWithPlay.Android.CustomViews.EditTextWithClearFocus
-                android:id="@+id/email_et"
+                android:id="@+id/email_or_phoneNumber_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:imeOptions="actionNext"
@@ -92,12 +92,14 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/forgot_password_btn"
-            style="@style/UnelevatedButton"
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/terms_and_policy_cb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"/>
+            android:layout_marginTop="24dp"
+            android:paddingHorizontal="4dp"
+            app:buttonTint="@color/accent_color"
+            style="@style/DefaultTextStyle"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -116,7 +118,7 @@
             tools:ignore="UselessParent">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/sign_in_btn"
+                android:id="@+id/create_account_btn"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 style="@style/PrimaryButton"/>
@@ -128,7 +130,7 @@
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/no_account_question_tv"
+                    android:id="@+id/have_account_question_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -136,7 +138,7 @@
                     style="@style/DefaultTextStyle"/>
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/create_account_btn"
+                    android:id="@+id/sign_in_btn"
                     style="@style/UnelevatedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

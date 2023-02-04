@@ -1,10 +1,17 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using PayWithPlay.Core.Resources;
 
 namespace PayWithPlay.Core.ViewModels.SignIn
 {
     public partial class SignInViewModel : BaseViewModel
     {
+        [ObservableProperty]
+        private string? _email;
+
+        [ObservableProperty]
+        private string? _password;
+
         public static string Title => Resource.SignIn;
         public static string SignInButtonText => Resource.SignIn;
         public static string EmailAdressText => Resource.EmailAdress;
