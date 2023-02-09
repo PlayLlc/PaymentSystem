@@ -23,7 +23,7 @@ namespace PayWithPlay.Android.Activities.CreateAccount
         private readonly List<EventToCommandInfo> _eventToCommandInfo = new();
         private readonly List<Binding> _bindings = new();
 
-        private EditText? _emailOrPhoneNumberEt;
+        private EditText? _emailEt;
         private EditText? _passwordEt;
         private MaterialCheckBox? _termsPolicyCb;
 
@@ -70,7 +70,7 @@ namespace PayWithPlay.Android.Activities.CreateAccount
 
         private void InitViews()
         {
-            _emailOrPhoneNumberEt = FindViewById<EditText>(Resource.Id.email_or_phoneNumber_et)!;
+            _emailEt = FindViewById<EditText>(Resource.Id.email_et)!;
             _passwordEt = FindViewById<EditText>(Resource.Id.password_et)!;
             _termsPolicyCb = FindViewById<MaterialCheckBox>(Resource.Id.terms_and_policy_cb)!;
         }
@@ -78,7 +78,7 @@ namespace PayWithPlay.Android.Activities.CreateAccount
         private void SetBindings()
         {
             var pageTitle = FindViewById<TextView>(Resource.Id.title_textView)!;
-            var emailOrPhoneNumberLabel = FindViewById<TextView>(Resource.Id.email_or_phoneNumber_label_tv)!;
+            var emailLabel = FindViewById<TextView>(Resource.Id.email_label_tv)!;
             var passwordLabel = FindViewById<TextView>(Resource.Id.password_label_tv)!;
 
             var createAccountButton = FindViewById<Button>(Resource.Id.create_account_btn)!;
@@ -86,13 +86,13 @@ namespace PayWithPlay.Android.Activities.CreateAccount
             var signInButton = FindViewById<Button>(Resource.Id.sign_in_btn)!;
 
             pageTitle.Text = CreateAccountViewModel.Title;
-            emailOrPhoneNumberLabel.Text = _emailOrPhoneNumberEt!.Hint = CreateAccountViewModel.EmailOrPhoneNumberText;
+            emailLabel.Text = _emailEt!.Hint = CreateAccountViewModel.EmailAdressText;
             passwordLabel.Text = _passwordEt!.Hint = CreateAccountViewModel.PasswordText;
             signInButton.Text = CreateAccountViewModel.SignInButtonText;
             haveAccountQuestionTextView.Text = CreateAccountViewModel.HaveAccountQuestionText;
             createAccountButton.Text = CreateAccountViewModel.CreateAccountButtonText;
 
-            _bindings.Add(this.SetBinding(() => _viewModel!.EmailOrPhoneNumber, () => _emailOrPhoneNumberEt.Text, BindingMode.TwoWay));
+            _bindings.Add(this.SetBinding(() => _viewModel!.Email, () => _emailEt.Text, BindingMode.TwoWay));
             _bindings.Add(this.SetBinding(() => _viewModel!.Password, () => _passwordEt.Text, BindingMode.TwoWay));
             _bindings.Add(this.SetBinding(() => _viewModel!.TermsPolicyAccepted, () => _termsPolicyCb!.Checked, BindingMode.TwoWay));
 

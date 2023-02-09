@@ -37,7 +37,7 @@ namespace PayWithPlay.Android.CustomViews
         {
             if(SpecHeight == 0)
             {
-                SpecHeight = MeasureSpec.MakeMeasureSpec((int)(0.251f * this.Context!.Resources!.DisplayMetrics!.HeightPixels), MeasureSpecMode.Exactly);
+                SpecHeight = MeasureSpec.MakeMeasureSpec((int)(0.2216f * this.Context!.Resources!.DisplayMetrics!.HeightPixels), MeasureSpecMode.Exactly);
             }
 
             base.OnMeasure(widthMeasureSpec, SpecHeight);
@@ -58,8 +58,8 @@ namespace PayWithPlay.Android.CustomViews
                 AntiAlias = true
             };
 
-            var startHeight = 40f.ToFloatPx();
-            var offset = 6f.ToFloatPx();
+            var startHeight = 2f.ToFloatPx();
+            var offset = 1f.ToFloatPx();
 
             canvas.DrawRect(new RectF(0, 0, Width, startHeight), paint);
             canvas.DrawArc(new RectF(-offset, -(Height - startHeight), Width + offset, Height), 90f, 90f, true, paint);

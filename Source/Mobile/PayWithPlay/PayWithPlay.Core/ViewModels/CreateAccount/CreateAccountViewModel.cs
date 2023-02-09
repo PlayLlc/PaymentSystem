@@ -7,7 +7,7 @@ namespace PayWithPlay.Core.ViewModels.CreateAccount
     public partial class CreateAccountViewModel : BaseViewModel
     {
         [ObservableProperty]
-        private string? _emailOrPhoneNumber;
+        private string? _email;
 
         [ObservableProperty]
         private string? _password;
@@ -17,7 +17,7 @@ namespace PayWithPlay.Core.ViewModels.CreateAccount
 
         public static string Title => Resource.CreateAccount;
         public static string SignInButtonText => Resource.SignIn;
-        public static string EmailOrPhoneNumberText => Resource.EmaiOrPhoneNumber;
+        public static string EmailAdressText => Resource.EmailAdress;
         public static string PasswordText => Resource.Password;
         public static string HaveAccountQuestionText => Resource.HaveAccountQuestion;
         public static string CreateAccountButtonText => Resource.CreateAccount;

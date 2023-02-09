@@ -88,15 +88,6 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Email adress or phone number.
-        /// </summary>
-        internal static string EmaiOrPhoneNumber {
-            get {
-                return ResourceManager.GetString("EmaiOrPhoneNumber", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Expires after 3 mins..
         /// </summary>
         internal static string ExpiresAfter3 {

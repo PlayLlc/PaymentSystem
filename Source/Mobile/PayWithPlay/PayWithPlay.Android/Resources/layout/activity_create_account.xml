@@ -1,159 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_view"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="false">
 
-    <FrameLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <PayWithPlay.Android.CustomViews.TopSemiCircleView
-            android:id="@+id/top_view"
-            android:layout_width="match_parent"
-            android:layout_height="204dp"
-            android:background="@color/white"/>
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/signin_page_logo"/>
-
-    </FrameLayout>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/title_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="40dp"
-        style="@style/BigTitleStyle"/>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:fillViewport="true"
         tools:ignore="UselessParent">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/email_or_phoneNumber_label_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            style="@style/DefaultTextStyle"/>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/email_or_phoneNumber_til"
-            android:theme="@style/TextInputTheme"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp">
-
-            <PayWithPlay.Android.CustomViews.EditTextWithClearFocus
-                android:id="@+id/email_or_phoneNumber_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:imeOptions="actionNext"
-                android:inputType="textEmailAddress"
-                style="@style/InputEditTextStyle"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/password_label_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/DefaultTextStyle"
-            android:layout_marginBottom="10dp"/>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/password_til"
-            android:theme="@style/TextInputTheme"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:endIconTint="@color/hint_text_color"
-            app:endIconMode="password_toggle">
-
-            <PayWithPlay.Android.CustomViews.EditTextWithClearFocus
-                android:id="@+id/password_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:imeOptions="actionGo"
-                android:inputType="textPassword"
-                style="@style/InputEditTextStyle"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/terms_and_policy_cb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:paddingHorizontal="4dp"
-            app:buttonTint="@color/accent_color"
-            style="@style/DefaultTextStyle"/>
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        tools:ignore="Suspicious0dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            tools:ignore="UselessParent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/create_account_btn"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                style="@style/PrimaryButton"/>
+                android:layout_height="wrap_content">
+
+                <PayWithPlay.Android.CustomViews.TopSemiCircleView
+                    android:id="@+id/top_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="204dp"
+                    android:background="@color/white"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/signin_page_logo"/>
+
+            </FrameLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/title_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="40dp"
+                style="@style/BigTitleStyle"/>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_marginHorizontal="24dp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                tools:ignore="UselessParent">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/have_account_question_tv"
+                    android:id="@+id/email_label_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="4dp"
+                    android:layout_marginBottom="10dp"
                     style="@style/DefaultTextStyle"/>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/sign_in_btn"
-                    style="@style/UnelevatedButton"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/email_til"
+                    android:theme="@style/TextInputTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp">
+
+                    <PayWithPlay.Android.CustomViews.EditTextWithClearFocus
+                        android:id="@+id/email_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="textEmailAddress"
+                        style="@style/InputEditTextStyle"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/password_label_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"/>
+                    style="@style/DefaultTextStyle"
+                    android:layout_marginBottom="10dp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/password_til"
+                    android:theme="@style/TextInputTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:helperTextTextColor="@color/hint_text_color"
+                    app:helperText="Password must be at least 7 characters, contain numeric, alphabetic, and special characters"
+                    app:endIconTint="@color/hint_text_color"
+                    app:endIconMode="password_toggle">
+
+                    <PayWithPlay.Android.CustomViews.EditTextWithClearFocus
+                        android:id="@+id/password_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionGo"
+                        android:inputType="textPassword"
+                        style="@style/InputEditTextStyle"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/terms_and_policy_cb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:paddingHorizontal="4dp"
+                    app:buttonTint="@color/accent_color"
+                    style="@style/DefaultTextStyle"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                tools:ignore="Suspicious0dp">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    tools:ignore="UselessParent">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/create_account_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        style="@style/PrimaryButton"/>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/have_account_question_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="4dp"
+                            style="@style/DefaultTextStyle"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/sign_in_btn"
+                            style="@style/UnelevatedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"/>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </FrameLayout>
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </FrameLayout>
+    </androidx.core.widget.NestedScrollView>
 
-</LinearLayout>
+</FrameLayout>
