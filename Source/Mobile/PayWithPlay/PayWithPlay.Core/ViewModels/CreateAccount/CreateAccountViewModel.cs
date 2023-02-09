@@ -28,6 +28,8 @@ namespace PayWithPlay.Core.ViewModels.CreateAccount
 
         public interface INavigationService
         {
+            void NavigateToNextPage();
+
             void NavigateToSignIn();
         }
 
@@ -43,6 +45,7 @@ namespace PayWithPlay.Core.ViewModels.CreateAccount
         [RelayCommand]
         public void OnCreateAccount()
         {
+            NavigationService?.NavigateToNextPage();
         }
 
         [RelayCommand]

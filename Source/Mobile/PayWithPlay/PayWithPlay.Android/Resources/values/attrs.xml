@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <attr name="InputBoxesViewStyleAttr" format="reference" />
+  
+  <declare-styleable name="InputBoxesView">
+    <attr name="inputsCount" format="integer" />
+  </declare-styleable>
+
+</resources>

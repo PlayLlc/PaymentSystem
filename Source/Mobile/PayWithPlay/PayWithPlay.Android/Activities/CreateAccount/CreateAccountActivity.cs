@@ -15,10 +15,10 @@ using PayWithPlay.Core;
 using PayWithPlay.Core.ViewModels.CreateAccount;
 using static Android.Widget.TextView;
 
-namespace PayWithPlay.Android.Activities
+namespace PayWithPlay.Android.Activities.CreateAccount
 {
     [Activity(Label = "@string/app_name", Theme = "@style/Theme.Mobility.NoActionBar")]
-    public class CreateAccountActivity : BaseActivity, CreateAccountViewModel.INavigationService 
+    public class CreateAccountActivity : BaseActivity, CreateAccountViewModel.INavigationService
     {
         private readonly List<EventToCommandInfo> _eventToCommandInfo = new();
         private readonly List<Binding> _bindings = new();
@@ -30,6 +30,12 @@ namespace PayWithPlay.Android.Activities
         private CreateAccountViewModel? _viewModel;
 
         protected override int LayoutId => Resource.Layout.activity_create_account;
+
+        public void NavigateToNextPage()
+        {
+            var intent = new Intent(this, typeof(GenericActivity));
+            StartActivity(intent);
+        }
 
         public void NavigateToSignIn()
         {

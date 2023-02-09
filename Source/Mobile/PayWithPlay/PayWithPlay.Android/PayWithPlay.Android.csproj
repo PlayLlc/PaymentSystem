@@ -11,13 +11,18 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Resources\drawable\unelevated_button_text_color.xml" />
+    <None Remove="Resources\drawable\verify_email_image.xml" />
+    <None Remove="Resources\drawable\verify_phone_number_image.xml" />
     <None Remove="Resources\drawable\welcome_top_logo.xml" />
     <None Remove="Resources\font\poppins_medium.ttf" />
     <None Remove="Resources\font\poppins_regular.ttf" />
     <None Remove="Resources\font\poppins_semibold.ttf" />
     <None Remove="Resources\layout\activity_create_account.xml" />
+    <None Remove="Resources\layout\activity_generic.xml" />
     <None Remove="Resources\layout\activity_sign_in.xml" />
     <None Remove="Resources\layout\activity_welcome.xml" />
+    <None Remove="Resources\layout\fragment_verify_identity.xml" />
+    <None Remove="Resources\values\attrs.xml" />
     <None Remove="Resources\values\colors.xml" />
     <None Remove="Resources\values\themes.xml" />
   </ItemGroup>

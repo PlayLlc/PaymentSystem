@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PayWithPlay.Core.ViewModels.CreateAccount;
+using PayWithPlay.Core.ViewModels.CreateAccount.VerifyIdentity;
 using PayWithPlay.Core.ViewModels.SignIn;
 using PayWithPlay.Core.ViewModels.Welcome;
 
@@ -21,6 +22,9 @@ namespace PayWithPlay.Core
             services.AddTransient<WelcomeViewModel>();
             services.AddTransient<SignInViewModel>();
             services.AddTransient<CreateAccountViewModel>();
+            services.AddTransient<VerifyEmailOrPhoneNumberViewModel>();
+            services.AddTransient<VerifyEmailViewModel>();
+            services.AddTransient<VerifyPhoneNumberViewModel>();
 
             Provider = services.BuildServiceProvider();
         }

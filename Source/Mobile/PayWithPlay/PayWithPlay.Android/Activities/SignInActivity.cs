@@ -2,6 +2,7 @@ using Android.Content;
 using Android.Content.PM;
 using CommunityToolkit.Mvvm.Bindings;
 using Microsoft.Extensions.DependencyInjection;
+using PayWithPlay.Android.Activities.CreateAccount;
 using PayWithPlay.Android.Extensions;
 using PayWithPlay.Android.Lifecycle;
 using PayWithPlay.Core;

@@ -97,6 +97,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Expires after 3 mins..
+        /// </summary>
+        internal static string ExpiresAfter3 {
+            get {
+                return ResourceManager.GetString("ExpiresAfter3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Forgot password?.
         /// </summary>
         internal static string ForgotPassword {
@@ -151,6 +160,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Resend code.
+        /// </summary>
+        internal static string ResendCode {
+            get {
+                return ResourceManager.GetString("ResendCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sign in.
         /// </summary>
         internal static string SignIn {
@@ -165,6 +183,69 @@ namespace PayWithPlay.Core.Resources {
         internal static string TermsOfService {
             get {
                 return ResourceManager.GetString("TermsOfService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verify.
+        /// </summary>
+        internal static string Verify {
+            get {
+                return ResourceManager.GetString("Verify", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter the 6-digit code we sent to your email adress:.
+        /// </summary>
+        internal static string VerifyEmailMessage {
+            get {
+                return ResourceManager.GetString("VerifyEmailMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We just sent you an email..
+        /// </summary>
+        internal static string VerifyEmailSubtitle {
+            get {
+                return ResourceManager.GetString("VerifyEmailSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verify email adress.
+        /// </summary>
+        internal static string VerifyEmailTitle {
+            get {
+                return ResourceManager.GetString("VerifyEmailTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter the 6-digit code we sent to your phone number:.
+        /// </summary>
+        internal static string VerifyPhoneNumberMessage {
+            get {
+                return ResourceManager.GetString("VerifyPhoneNumberMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We just sent you an SMS message..
+        /// </summary>
+        internal static string VerifyPhoneNumberSubtitle {
+            get {
+                return ResourceManager.GetString("VerifyPhoneNumberSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verify phone number.
+        /// </summary>
+        internal static string VerifyPhoneNumberTitle {
+            get {
+                return ResourceManager.GetString("VerifyPhoneNumberTitle", resourceCulture);
             }
         }
         

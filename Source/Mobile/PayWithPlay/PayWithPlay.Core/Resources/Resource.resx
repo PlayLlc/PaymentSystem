@@ -129,6 +129,9 @@
   <data name="EmaiOrPhoneNumber" xml:space="preserve">
     <value>Email adress or phone number</value>
   </data>
+  <data name="ExpiresAfter3" xml:space="preserve">
+    <value>Expires after 3 mins.</value>
+  </data>
   <data name="ForgotPassword" xml:space="preserve">
     <value>Forgot password?</value>
   </data>
@@ -147,11 +150,35 @@
   <data name="PrivacyPolicy" xml:space="preserve">
     <value>Privacy Policy</value>
   </data>
+  <data name="ResendCode" xml:space="preserve">
+    <value>Resend code</value>
+  </data>
   <data name="SignIn" xml:space="preserve">
     <value>Sign in</value>
   </data>
   <data name="TermsOfService" xml:space="preserve">
     <value>Terms of Service</value>
+  </data>
+  <data name="Verify" xml:space="preserve">
+    <value>Verify</value>
+  </data>
+  <data name="VerifyEmailMessage" xml:space="preserve">
+    <value>Enter the 6-digit code we sent to your email adress:</value>
+  </data>
+  <data name="VerifyEmailSubtitle" xml:space="preserve">
+    <value>We just sent you an email.</value>
+  </data>
+  <data name="VerifyEmailTitle" xml:space="preserve">
+    <value>Verify email adress</value>
+  </data>
+  <data name="VerifyPhoneNumberMessage" xml:space="preserve">
+    <value>Enter the 6-digit code we sent to your phone number:</value>
+  </data>
+  <data name="VerifyPhoneNumberSubtitle" xml:space="preserve">
+    <value>We just sent you an SMS message.</value>
+  </data>
+  <data name="VerifyPhoneNumberTitle" xml:space="preserve">
+    <value>Verify phone number</value>
   </data>
   <data name="WelcomeTo" xml:space="preserve">
     <value>Welcome to</value>
