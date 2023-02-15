@@ -13,9 +13,6 @@ namespace PayWithPlay.Android.Activities
     [Activity(Label = "@string/app_name", Theme = "@style/Theme.Mobility.NoActionBar", ScreenOrientation = ScreenOrientation.UserPortrait)]
     public class SignInActivity : BaseActivity, SignInViewModel.INavigationService
     {
-        private readonly List<EventToCommandInfo> _eventToCommandInfo = new();
-        private readonly List<Binding> _bindings = new();
-
         private EditText? _emailAddressEt;
         private EditText? _passwordEt;
 
@@ -47,9 +44,6 @@ namespace PayWithPlay.Android.Activities
             {
                 _viewModel.NavigationService = null;
             }
-
-            _bindings.DetachAll();
-            _eventToCommandInfo.DetachAll();
         }
 
         private void SetBindings()

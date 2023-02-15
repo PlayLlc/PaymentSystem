@@ -70,6 +70,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Continue.
+        /// </summary>
+        internal static string Continue {
+            get {
+                return ResourceManager.GetString("Continue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Account.
         /// </summary>
         internal static string CreateAccount {
@@ -84,6 +93,51 @@ namespace PayWithPlay.Core.Resources {
         internal static string EmailAdress {
             get {
                 return ResourceManager.GetString("EmailAdress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable device location.
+        /// </summary>
+        internal static string EnableDeviceLocation {
+            get {
+                return ResourceManager.GetString("EnableDeviceLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To ensure the app works properly, please enable location services, device storage and phone access..
+        /// </summary>
+        internal static string EnableDeviceSettingsSubtitle {
+            get {
+                return ResourceManager.GetString("EnableDeviceSettingsSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable device settings.
+        /// </summary>
+        internal static string EnableDeviceSettingsTitle {
+            get {
+                return ResourceManager.GetString("EnableDeviceSettingsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable device storage.
+        /// </summary>
+        internal static string EnableDeviceStorage {
+            get {
+                return ResourceManager.GetString("EnableDeviceStorage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable phone access.
+        /// </summary>
+        internal static string EnablePhoneAccess {
+            get {
+                return ResourceManager.GetString("EnablePhoneAccess", resourceCulture);
             }
         }
         

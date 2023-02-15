@@ -13,8 +13,6 @@ namespace PayWithPlay.Android.Activities
     [Activity(Label = "@string/app_name", Theme = "@style/Theme.App.Starting", MainLauncher = true, ScreenOrientation = ScreenOrientation.UserPortrait)]
     public class WelcomeActivity : BaseActivity, WelcomeViewModel.INavigationService
     {
-        private readonly List<EventToCommandInfo> _eventToCommandInfo = new();
-
         private WelcomeViewModel? _viewModel;
 
         protected override int LayoutId => Resource.Layout.activity_welcome;
@@ -40,7 +38,6 @@ namespace PayWithPlay.Android.Activities
             _viewModel = ViewModelProviders.Of(this).Get(ServicesProvider.Current.Provider.GetService<WelcomeViewModel>);
             _viewModel.NavigationService = this;
 
-
             SetBindings();
         }
 
@@ -51,8 +48,6 @@ namespace PayWithPlay.Android.Activities
             {
                 _viewModel.NavigationService = null;
             }
-
-            _eventToCommandInfo.DetachAll();
         }
 
         private void SetBindings()

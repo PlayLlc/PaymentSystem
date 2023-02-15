@@ -1,8 +1,11 @@
-﻿using Android.Views;
+﻿using Android.Content;
+using Android.Views;
 using AndroidX.AppCompat.Widget;
 using CommunityToolkit.Mvvm.Bindings;
 using Google.Android.Material.Button;
 using Microsoft.Extensions.DependencyInjection;
+using PayWithPlay.Android.Activities;
+using PayWithPlay.Android.Activities.CreateAccount;
 using PayWithPlay.Android.CustomViews;
 using PayWithPlay.Android.Extensions;
 using PayWithPlay.Android.Lifecycle;
@@ -36,6 +39,8 @@ namespace PayWithPlay.Android.Fragments.UserRegistration
 
         public void NavigateToNextPage()
         {
+            var intent = new Intent(RequireActivity(), typeof(EnableDeviceSettingsActivity));
+            StartActivity(intent);
         }
 
         public override void OnStart()
@@ -87,7 +92,7 @@ namespace PayWithPlay.Android.Fragments.UserRegistration
         private void SetBindings(View root)
         {
             var title = root.FindViewById<TextView>(Resource.Id.title_textView)!;
-            var subTitle = root.FindViewById<TextView>(Resource.Id.subTitle_textView)!; ;
+            var subTitle = root.FindViewById<TextView>(Resource.Id.subTitle_textView)!;
             var message = root.FindViewById<TextView>(Resource.Id.message_textView)!;
             var expiresInTextView = root.FindViewById<AppCompatTextView>(Resource.Id.expires_in_tv)!;
 

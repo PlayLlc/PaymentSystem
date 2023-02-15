@@ -24,6 +24,8 @@ namespace PayWithPlay.Core
             services.AddTransient<CreateAccountViewModel>();
             services.AddTransient<VerifyEmailViewModel>();
             services.AddTransient<VerifyPhoneNumberViewModel>();
+            services.AddTransient<EnableDeviceSettingsViewModel>();
+            services.AddTransient<CreateAccountStepsViewModel>();
 
             Provider = services.BuildServiceProvider();
         }

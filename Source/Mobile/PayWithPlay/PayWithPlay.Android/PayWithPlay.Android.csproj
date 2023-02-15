@@ -18,10 +18,13 @@
     <None Remove="Resources\font\poppins_regular.ttf" />
     <None Remove="Resources\font\poppins_semibold.ttf" />
     <None Remove="Resources\layout\activity_create_account.xml" />
+    <None Remove="Resources\layout\activity_create_account_steps.xml" />
+    <None Remove="Resources\layout\activity_enable_device_settings.xml" />
     <None Remove="Resources\layout\activity_generic.xml" />
     <None Remove="Resources\layout\activity_sign_in.xml" />
     <None Remove="Resources\layout\activity_welcome.xml" />
     <None Remove="Resources\layout\fragment_verify_identity.xml" />
+    <None Remove="Resources\layout\row_device_settings.xml" />
     <None Remove="Resources\values\attrs.xml" />
     <None Remove="Resources\values\colors.xml" />
     <None Remove="Resources\values\themes.xml" />

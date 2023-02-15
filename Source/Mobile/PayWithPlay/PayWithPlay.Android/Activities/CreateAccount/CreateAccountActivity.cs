@@ -20,9 +20,6 @@ namespace PayWithPlay.Android.Activities.CreateAccount
     [Activity(Label = "@string/app_name", Theme = "@style/Theme.Mobility.NoActionBar")]
     public class CreateAccountActivity : BaseActivity, CreateAccountViewModel.INavigationService
     {
-        private readonly List<EventToCommandInfo> _eventToCommandInfo = new();
-        private readonly List<Binding> _bindings = new();
-
         private EditText? _emailEt;
         private EditText? _passwordEt;
         private MaterialCheckBox? _termsPolicyCb;
@@ -63,9 +60,6 @@ namespace PayWithPlay.Android.Activities.CreateAccount
             {
                 _viewModel.NavigationService = null;
             }
-
-            _bindings.DetachAll();
-            _eventToCommandInfo.DetachAll();
         }
 
         private void InitViews()

@@ -161,4 +161,8 @@
     <item name="android:paddingVertical">0dp</item>
   </style>
 
+  <style name="DeviceSettingsButtonStyle" parent="@style/PrimaryButton">
+    <item name="strokeColor">@color/secondary_color</item>
+  </style>
+  
 </resources>

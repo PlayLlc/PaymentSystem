@@ -120,11 +120,29 @@
   <data name="AndText" xml:space="preserve">
     <value>and</value>
   </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
   <data name="CreateAccount" xml:space="preserve">
     <value>Create Account</value>
   </data>
   <data name="EmailAdress" xml:space="preserve">
     <value>Email adress</value>
+  </data>
+  <data name="EnableDeviceLocation" xml:space="preserve">
+    <value>Enable device location</value>
+  </data>
+  <data name="EnableDeviceSettingsSubtitle" xml:space="preserve">
+    <value>To ensure the app works properly, please enable location services, device storage and phone access.</value>
+  </data>
+  <data name="EnableDeviceSettingsTitle" xml:space="preserve">
+    <value>Enable device settings</value>
+  </data>
+  <data name="EnableDeviceStorage" xml:space="preserve">
+    <value>Enable device storage</value>
+  </data>
+  <data name="EnablePhoneAccess" xml:space="preserve">
+    <value>Enable phone access</value>
   </data>
   <data name="ExpiresAfter3" xml:space="preserve">
     <value>Expires after 3 mins.</value>
