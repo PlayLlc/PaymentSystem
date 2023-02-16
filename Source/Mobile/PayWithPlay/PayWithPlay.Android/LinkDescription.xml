@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<linker>
+  <assembly fullname="Mono.Android">
+    <type fullname="Android.Widget.TextView">
+      <method name="add_TextChanged" />
+      <method name="remove_TextChanged" />
+    </type>
+    <type fullname="Android.Widget.TextView">
+      <method name="set_Text" />
+      <method name="get_Text" />
+      <method name="set_Hint" />
+      <method name="get_Hint" />
+      <method name="set_Error" />
+      <method name="get_Error" />
+    </type>
+  </assembly>
+</linker>

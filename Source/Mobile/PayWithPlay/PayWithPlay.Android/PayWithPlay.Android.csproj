@@ -9,7 +9,17 @@
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <SupportedOSPlatformVersion>28.0</SupportedOSPlatformVersion>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>False</Optimize>
+    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+    <PublishTrimmed>True</PublishTrimmed>
+  </PropertyGroup>
   <ItemGroup>
+    <TrimmerRootDescriptor Include="LinkDescription.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="LinkDescription.xml" />
+    <None Remove="Resources\drawable\enable_settings_button_selector.xml" />
     <None Remove="Resources\drawable\unelevated_button_text_color.xml" />
     <None Remove="Resources\drawable\verify_email_image.xml" />
     <None Remove="Resources\drawable\verify_phone_number_image.xml" />
@@ -33,15 +43,22 @@
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="MvvmCross.DroidX.RecyclerView" Version="9.0.9" />
+    <PackageReference Include="MvvmCross.Plugin.MethodBinding" Version="9.0.9" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
     <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.6.0.1" />
     <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.0.3" />
     <PackageReference Include="Xamarin.Google.Android.Material" Version="1.7.0.2" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ExtraLibraries\CommunityToolkit.Mvvm.Bindings\CommunityToolkit.Mvvm.Bindings.csproj" />
     <ProjectReference Include="..\PayWithPlay.Core\PayWithPlay.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Adapters\" />
     <Folder Include="Assets\" />
+    <Folder Include="ViewHolders\" />
+  </ItemGroup>
+  <ItemGroup>
+    <LinkDescription Include="LinkDescription.xml" />
   </ItemGroup>
 </Project>

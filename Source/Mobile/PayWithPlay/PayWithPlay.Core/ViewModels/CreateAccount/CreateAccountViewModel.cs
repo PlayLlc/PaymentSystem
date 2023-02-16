@@ -1,59 +1,59 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using PayWithPlay.Core.Resources;
+﻿using PayWithPlay.Core.Resources;
+using PayWithPlay.Core.ViewModels.CreateAccount.VerifyIdentity;
+using PayWithPlay.Core.ViewModels.SignIn;
 
 namespace PayWithPlay.Core.ViewModels.CreateAccount
 {
     public partial class CreateAccountViewModel : BaseViewModel
     {
-        [ObservableProperty]
         private string? _email;
 
-        [ObservableProperty]
         private string? _password;
 
-        [ObservableProperty]
-        private string? _termsPolicyAccepted;
+        private bool _termsPolicyAccepted;
 
-        public static string Title => Resource.CreateAccount;
-        public static string SignInButtonText => Resource.SignIn;
-        public static string EmailAdressText => Resource.EmailAdress;
-        public static string PasswordText => Resource.Password;
-        public static string HaveAccountQuestionText => Resource.HaveAccountQuestion;
-        public static string CreateAccountButtonText => Resource.CreateAccount;
-        public static string TermOfServiceText => Resource.TermsOfService;
-        public static string PrivacyPolicyText => Resource.PrivacyPolicy;
-        public static string TermsAndPolicyFullText => $"{Resource.IAgreeToThe} {TermOfServiceText} {Resource.AndText} {PrivacyPolicyText}";
+        public string Title => Resource.CreateAccount;
+        public string SignInButtonText => Resource.SignIn;
+        public string EmailAdressText => Resource.EmailAdress;
+        public string PasswordText => Resource.Password;
+        public string HaveAccountQuestionText => Resource.HaveAccountQuestion;
+        public string CreateAccountButtonText => Resource.CreateAccount;
+        public string TermOfServiceText => Resource.TermsOfService;
+        public string PrivacyPolicyText => Resource.PrivacyPolicy;
+        public string TermsAndPolicyFullText => $"{Resource.IAgreeToThe} {TermOfServiceText} {Resource.AndText} {PrivacyPolicyText}";
 
-
-        public interface INavigationService
+        public string? Email
         {
-            void NavigateToNextPage();
-
-            void NavigateToSignIn();
+            get => _email;
+            set => SetProperty(ref _email, value);
         }
 
-        public INavigationService? NavigationService { get; set; }
+        public string? Password
+        {
+            get => _password;
+            set => SetProperty(ref _password, value);
+        }
 
+        public bool TermsPolicyAccepted
+        {
+            get => _termsPolicyAccepted;
+            set => SetProperty(ref _termsPolicyAccepted, value);
+        }
 
-        [RelayCommand]
         public void OnSignIn()
         {
-            NavigationService?.NavigateToSignIn();
+            NavigationService.Navigate<SignInViewModel>();
         }
 
-        [RelayCommand]
         public void OnCreateAccount()
         {
-            NavigationService?.NavigateToNextPage();
+            NavigationService.Navigate<VerifyEmailViewModel>();
         }
 
-        [RelayCommand]
         public void OnTermsOfService()
         {
         }
 
-        [RelayCommand]
         public void OnPrivacyPolicy()
         {
         }

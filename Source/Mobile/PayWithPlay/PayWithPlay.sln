@@ -12,10 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExtraLibraries", "ExtraLibraries", "{6AF475D9-4EA2-4D8A-83A4-7BFD98561D3E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Mvvm.Bindings", "ExtraLibraries\CommunityToolkit.Mvvm.Bindings\CommunityToolkit.Mvvm.Bindings.csproj", "{ECAD5CFB-2879-4114-BE32-F59BC8E506DD}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,16 +28,9 @@ Global
 		{C3B2C4E0-EED4-47E3-8D69-F4B766990557}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3B2C4E0-EED4-47E3-8D69-F4B766990557}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3B2C4E0-EED4-47E3-8D69-F4B766990557}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ECAD5CFB-2879-4114-BE32-F59BC8E506DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ECAD5CFB-2879-4114-BE32-F59BC8E506DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ECAD5CFB-2879-4114-BE32-F59BC8E506DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ECAD5CFB-2879-4114-BE32-F59BC8E506DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{ECAD5CFB-2879-4114-BE32-F59BC8E506DD} = {6AF475D9-4EA2-4D8A-83A4-7BFD98561D3E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {14A410B1-7F98-4A53-AC87-A557E3E5E6F8}

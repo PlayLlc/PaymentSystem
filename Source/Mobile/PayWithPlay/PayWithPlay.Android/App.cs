@@ -1,10 +1,11 @@
 ﻿using Android.Runtime;
+using MvvmCross.Platforms.Android.Views;
 using PayWithPlay.Core;
 
 namespace PayWithPlay.Android
 {
     [Application(AllowBackup = false, Theme = "@style/Theme.App.Starting")]
-    public class App : Application
+    public class App : MvxAndroidApplication<Setup, CoreApp>
     {
         public App(IntPtr handle, JniHandleOwnership ownerShip) : base(handle, ownerShip)
         {
@@ -16,8 +17,6 @@ namespace PayWithPlay.Android
         {
             base.OnCreate();
             Current = this;
-
-            ServicesProvider.Current.RegisterDependencies();
         }
     }
 }

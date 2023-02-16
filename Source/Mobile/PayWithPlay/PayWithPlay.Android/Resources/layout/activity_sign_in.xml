@@ -34,7 +34,8 @@
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="40dp"
-        style="@style/BigTitleStyle"/>
+        style="@style/BigTitleStyle"
+        app:MvxBind="Text Title"/>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -50,7 +51,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            style="@style/DefaultTextStyle"/>
+            style="@style/DefaultTextStyle"
+            app:MvxBind="Text EmailAdressText"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/email_til"
@@ -65,7 +67,8 @@
                 android:layout_height="wrap_content"
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
-                style="@style/InputEditTextStyle"/>
+                style="@style/InputEditTextStyle"
+                app:MvxBind="Hint EmailAdressText; Text Email"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -74,7 +77,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/DefaultTextStyle"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            app:MvxBind="Text PasswordText"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/password_til"
@@ -90,7 +94,8 @@
                 android:layout_height="wrap_content"
                 android:imeOptions="actionGo"
                 android:inputType="textPassword"
-                style="@style/InputEditTextStyle"/>
+                style="@style/InputEditTextStyle"
+                app:MvxBind="Hint PasswordText; Text Password"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -99,7 +104,8 @@
             style="@style/UnelevatedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"/>
+            android:layout_gravity="end"
+            app:MvxBind="Text ForgotPasswordText; Click OnForgotPassword"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -123,7 +129,8 @@
                 android:id="@+id/sign_in_btn"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                style="@style/PrimaryButton"/>
+                style="@style/PrimaryButton"
+                app:MvxBind="Text SignInButtonText; Click OnSignIn"/>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -137,14 +144,16 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="4dp"
-                    style="@style/DefaultTextStyle"/>
+                    style="@style/DefaultTextStyle"
+                    app:MvxBind="Text NoAccountQuestionText"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/create_account_btn"
                     style="@style/UnelevatedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical"
+                    app:MvxBind="Text CreateAccountButtonText; Click OnCreateAccount"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

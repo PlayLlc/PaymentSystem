@@ -1,11 +1,10 @@
 ﻿using Android.Content.PM;
-using PayWithPlay.Android.Fragments.UserRegistration;
-using static PayWithPlay.Core.ViewModels.CreateAccount.VerifyIdentity.BaseVerifyIdentityViewModel;
+using PayWithPlay.Core.ViewModels;
 
 namespace PayWithPlay.Android.Activities
 {
     [Activity(Label = "@string/app_name", Theme = "@style/Theme.Mobility.NoActionBar", ScreenOrientation = ScreenOrientation.UserPortrait)]
-    public class GenericActivity : BaseActivity
+    public class GenericActivity : BaseActivity<GenericViewModel>
     {
         protected override int LayoutId => Resource.Layout.activity_generic;
 
@@ -13,9 +12,9 @@ namespace PayWithPlay.Android.Activities
         {
             base.OnCreate(savedInstanceState);
 
-            SupportFragmentManager.BeginTransaction()
-                .Add(Resource.Id.fragment_containerView, VerifyIdentityFragment.NewInstance(VerifyIdentity.Email))
-                .Commit();
+            //SupportFragmentManager.BeginTransaction()
+            //    .Add(Resource.Id.fragment_containerView, VerifyIdentityFragment.NewInstance(VerifyIdentity.Email))
+            //    .Commit();
         }
     }
 } 

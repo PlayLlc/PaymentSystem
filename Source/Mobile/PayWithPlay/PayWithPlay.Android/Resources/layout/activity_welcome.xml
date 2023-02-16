@@ -40,7 +40,8 @@
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="12dp"
-            style="@style/BigTitleStyle"/>
+            style="@style/BigTitleStyle"
+            app:MvxBind="Text Title"/>
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"
@@ -72,14 +73,16 @@
                 android:id="@+id/sign_in_btn"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                style="@style/PrimaryButton"/>
+                style="@style/PrimaryButton"
+                app:MvxBind="Text SignInButtonText; Click OnSignIn"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/create_account_btn"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="20dp"
-                style="@style/PrimaryButton"/>
+                style="@style/PrimaryButton"
+                app:MvxBind="Text CreateAccountButtonText; Click OnCreateAccount"/>
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -92,14 +95,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|center_vertical"
-                    style="@style/UnelevatedButton" />
+                    style="@style/UnelevatedButton"
+                    app:MvxBind="Text TAndCButtonText; Click OnTermsOfService"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/privacy_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|center_vertical"
-                    style="@style/UnelevatedButton" />
+                    style="@style/UnelevatedButton"
+                    app:MvxBind="Text PrivacyPolicyButtonText; Click OnPrivacyPolicy"/>
 
             </FrameLayout>
 

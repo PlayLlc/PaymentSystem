@@ -49,7 +49,8 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="20dp"
-                style="@style/BigTitleStyle"/>
+                style="@style/BigTitleStyle"
+                app:MvxBind="Text Title"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/subTitle_textView"
@@ -57,9 +58,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
                 android:textColor="@color/hint_text_color"
-                style="@style/DefaultTextStyle"/>
+                style="@style/DefaultTextStyle"
+                app:MvxBind="Text Subtitle"/>
 
-            <androidx.recyclerview.widget.RecyclerView
+            <mvvmcross.droidx.recyclerview.MvxRecyclerView
                 android:id="@+id/settings_rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,6 +69,8 @@
                 android:clipToPadding="false"
                 android:layout_marginHorizontal="24dp"
                 android:overScrollMode="never"
+                app:MvxItemTemplate="@layout/row_device_settings"
+                app:MvxBind="ItemsSource Settings; ItemClick OnSettingItem"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
             <FrameLayout
@@ -83,7 +87,8 @@
                     android:layout_marginHorizontal="24dp"
                     android:layout_height="48dp"
                     android:layout_gravity="center_vertical"
-                    style="@style/PrimaryButton"/>
+                    style="@style/PrimaryButton"
+                    app:MvxBind="Text ContinueButtonText; Click OnContinue"/>
 
             </FrameLayout>
 

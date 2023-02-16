@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PayWithPlay.Core.ViewModels.CreateAccount;
 
 namespace PayWithPlay.Android.Activities.CreateAccount
 {
-    public class CreateAccountStepsActivity : BaseActivity
+    public class CreateAccountStepsActivity : BaseActivity<CreateAccountStepsViewModel>
     {
         protected override int LayoutId { get; }
     }
