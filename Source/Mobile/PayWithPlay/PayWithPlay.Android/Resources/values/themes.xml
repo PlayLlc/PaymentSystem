@@ -163,6 +163,7 @@
 
   <style name="DeviceSettingsButtonStyle" parent="@style/PrimaryButton">
     <item name="strokeColor">@color/secondary_color</item>
+    <item name="backgroundTint">@drawable/enable_settings_button_selector</item>
   </style>
   
 </resources>

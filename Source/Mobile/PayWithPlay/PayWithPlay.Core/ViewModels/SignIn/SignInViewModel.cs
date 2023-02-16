@@ -1,47 +1,46 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using PayWithPlay.Core.Resources;
+﻿using PayWithPlay.Core.Resources;
+using PayWithPlay.Core.ViewModels.CreateAccount;
 
 namespace PayWithPlay.Core.ViewModels.SignIn
 {
     public partial class SignInViewModel : BaseViewModel
     {
-        [ObservableProperty]
         private string? _email;
 
-        [ObservableProperty]
         private string? _password;
 
-        public static string Title => Resource.SignIn;
-        public static string SignInButtonText => Resource.SignIn;
-        public static string EmailAdressText => Resource.EmailAdress;
-        public static string PasswordText => Resource.Password;
-        public static string ForgotPasswordText => Resource.ForgotPassword;
-        public static string NoAccountQuestionText => Resource.NoAccountQuestion;
-        public static string CreateAccountButtonText => Resource.CreateAccount;
+        public string Title => Resource.SignIn;
+        public string SignInButtonText => Resource.SignIn;
+        public string EmailAdressText => Resource.EmailAdress;
+        public string PasswordText => Resource.Password;
+        public string ForgotPasswordText => Resource.ForgotPassword;
+        public string NoAccountQuestionText => Resource.NoAccountQuestion;
+        public string CreateAccountButtonText => Resource.CreateAccount;
 
-        public interface INavigationService
+        public string? Email
         {
-            void NavigateToCreateAccount();
+            get => _email;
+            set => SetProperty(ref _email, value); 
         }
 
-        public INavigationService? NavigationService { get; set; }
+        public string? Password
+        {
+            get => _password;
+            set => SetProperty(ref _password, value);
+        }
 
 
-        [RelayCommand]
         public void OnForgotPassword()
         {
         }
 
-        [RelayCommand]
         public void OnSignIn()
         {
         }
 
-        [RelayCommand]
         public void OnCreateAccount()
         {
-            NavigationService?.NavigateToCreateAccount();
+            NavigationService.Navigate<CreateAccountViewModel>();
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using PayWithPlay.Core.Enums;
+﻿using PayWithPlay.Core.Enums;
 using PayWithPlay.Core.Models;
 using PayWithPlay.Core.Resources;
 using System.Collections.ObjectModel;
@@ -13,7 +12,8 @@ namespace PayWithPlay.Core.ViewModels.CreateAccount
             Settings.Add(new DeviceSettingsItemModel
             {
                 Title = Resource.EnableDeviceLocation,
-                Type = DeviceSettingsType.Location
+                Type = DeviceSettingsType.Location,
+                Enabled = true
             });
             Settings.Add(new DeviceSettingsItemModel
             {
@@ -27,23 +27,21 @@ namespace PayWithPlay.Core.ViewModels.CreateAccount
             });
         }
 
-        public interface INavigationService
-        {
-            void NavigateToNextPage();
-        }
-
         public ObservableCollection<DeviceSettingsItemModel> Settings { get; set; } = new();
 
-        public INavigationService? NavigationService { get; set; }
+        public Action<DeviceSettingsType>? OnSettingItemAction { get; set; }
 
-        public static string Title => Resource.EnableDeviceSettingsTitle;
-        public static string Subtitle => Resource.EnableDeviceSettingsSubtitle;
-        public static string ContinueButtonText => Resource.Continue;
+        public string Title => Resource.EnableDeviceSettingsTitle;
+        public string Subtitle => Resource.EnableDeviceSettingsSubtitle;
+        public string ContinueButtonText => Resource.Continue;
 
-        [RelayCommand]
+        public void OnSettingItem(DeviceSettingsItemModel deviceSettingsItemModel)
+        {
+            OnSettingItemAction?.Invoke(deviceSettingsItemModel.Type);
+        }
+
         public void OnContinue()
         {
-            NavigationService?.NavigateToNextPage();
         }
     }
 }

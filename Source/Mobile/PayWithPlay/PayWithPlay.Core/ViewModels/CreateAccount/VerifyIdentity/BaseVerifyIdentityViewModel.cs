@@ -1,26 +1,16 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using PayWithPlay.Core.Resources;
+﻿using PayWithPlay.Core.Resources;
 
 namespace PayWithPlay.Core.ViewModels.CreateAccount.VerifyIdentity
 {
     public abstract partial class BaseVerifyIdentityViewModel : BaseViewModel
     {
-        [ObservableProperty]
         private string? _inputValue;
 
         public enum VerifyIdentity { Email, PhoneNumber }
 
-        public interface INavigationService
-        {
-            void NavigateToNextPage();
-        }
-
-        public INavigationService? NavigationService { get; set; }
-
         public abstract VerifyIdentity VerifyIdentityType { get; }
 
-        public abstract string Title { get; } 
+        public abstract string Title { get; }
 
         public abstract string Subtitle { get; }
 
@@ -30,13 +20,17 @@ namespace PayWithPlay.Core.ViewModels.CreateAccount.VerifyIdentity
         public static string ExipresAfter => Resource.ExpiresAfter3;
         public static string ResendCodeButtonText => Resource.ResendCode;
 
-        [RelayCommand]
-        public void OnVerify()
+        public string? InputValue
         {
-            NavigationService?.NavigateToNextPage();
+            get => _inputValue;
+            set => SetProperty(ref _inputValue, value);
         }
 
-        [RelayCommand]
+        public void OnVerify()
+        {
+            NavigationService.Navigate<EnableDeviceSettingsViewModel>();
+        }
+
         public void OnResend()
         {
         }
