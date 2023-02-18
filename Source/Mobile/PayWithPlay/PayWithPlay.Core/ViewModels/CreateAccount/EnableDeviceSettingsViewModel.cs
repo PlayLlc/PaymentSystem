@@ -42,6 +42,7 @@ namespace PayWithPlay.Core.ViewModels.CreateAccount
 
         public void OnContinue()
         {
+            NavigationService.Navigate<CreateAccountStepsViewModel>();
         }
     }
 }

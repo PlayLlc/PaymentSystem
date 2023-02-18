@@ -1,0 +1,4 @@
+<resources>
+  <string name="app_name">PayWithPlay</string>
+  <string name="templateselector_create_account_step">PayWithPlay.Droid.TemplateSelectors.CreateAccountStepTemplateSelector,PayWithPlay.Droid</string>
+</resources>

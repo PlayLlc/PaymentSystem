@@ -1,4 +1,5 @@
-﻿using PayWithPlay.Core.Resources;
+﻿using PayWithPlay.Core.Enums;
+using PayWithPlay.Core.Resources;
 
 namespace PayWithPlay.Core.ViewModels.CreateAccount.VerifyIdentity
 {
@@ -6,9 +7,7 @@ namespace PayWithPlay.Core.ViewModels.CreateAccount.VerifyIdentity
     {
         private string? _inputValue;
 
-        public enum VerifyIdentity { Email, PhoneNumber }
-
-        public abstract VerifyIdentity VerifyIdentityType { get; }
+        public abstract VerifyIdentityType VerifyIdentityType { get; }
 
         public abstract string Title { get; }
 
@@ -16,9 +15,9 @@ namespace PayWithPlay.Core.ViewModels.CreateAccount.VerifyIdentity
 
         public abstract string Message { get; }
 
-        public static string VerifyButtonText => Resource.Verify;
-        public static string ExipresAfter => Resource.ExpiresAfter3;
-        public static string ResendCodeButtonText => Resource.ResendCode;
+        public string VerifyButtonText => Resource.Verify;
+        public string ExipresAfter => Resource.ExpiresAfter3;
+        public string ResendCodeButtonText => Resource.ResendCode;
 
         public string? InputValue
         {
@@ -26,10 +25,7 @@ namespace PayWithPlay.Core.ViewModels.CreateAccount.VerifyIdentity
             set => SetProperty(ref _inputValue, value);
         }
 
-        public void OnVerify()
-        {
-            NavigationService.Navigate<EnableDeviceSettingsViewModel>();
-        }
+        public abstract void OnVerify();
 
         public void OnResend()
         {

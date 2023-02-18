@@ -151,6 +151,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to First name.
+        /// </summary>
+        internal static string FirstNameText {
+            get {
+                return ResourceManager.GetString("FirstNameText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Forgot password?.
         /// </summary>
         internal static string ForgotPassword {
@@ -178,6 +187,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Last name.
+        /// </summary>
+        internal static string LastNameText {
+            get {
+                return ResourceManager.GetString("LastNameText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Don&apos;t have an account?.
         /// </summary>
         internal static string NoAccountQuestion {
@@ -192,6 +210,15 @@ namespace PayWithPlay.Core.Resources {
         internal static string Password {
             get {
                 return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone number.
+        /// </summary>
+        internal static string PhoneNumberText {
+            get {
+                return ResourceManager.GetString("PhoneNumberText", resourceCulture);
             }
         }
         
@@ -228,6 +255,33 @@ namespace PayWithPlay.Core.Resources {
         internal static string TermsOfService {
             get {
                 return ResourceManager.GetString("TermsOfService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We keep your information secure..
+        /// </summary>
+        internal static string UserRegistrationSafeMessage {
+            get {
+                return ResourceManager.GetString("UserRegistrationSafeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter your full name..
+        /// </summary>
+        internal static string UserRegistrationUserNameTitle {
+            get {
+                return ResourceManager.GetString("UserRegistrationUserNameTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter your mobile number..
+        /// </summary>
+        internal static string UserRegistrationUserPhoneNumberTitle {
+            get {
+                return ResourceManager.GetString("UserRegistrationUserPhoneNumberTitle", resourceCulture);
             }
         }
         
