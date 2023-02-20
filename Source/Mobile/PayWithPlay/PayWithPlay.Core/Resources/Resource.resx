@@ -120,6 +120,12 @@
   <data name="AndText" xml:space="preserve">
     <value>and</value>
   </data>
+  <data name="ApSuite" xml:space="preserve">
+    <value>Ap. Suite</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>City</value>
+  </data>
   <data name="Continue" xml:space="preserve">
     <value>Continue</value>
   </data>
@@ -180,8 +186,20 @@
   <data name="SignIn" xml:space="preserve">
     <value>Sign in</value>
   </data>
+  <data name="State" xml:space="preserve">
+    <value>State</value>
+  </data>
+  <data name="StreeAdress" xml:space="preserve">
+    <value>Street Adress</value>
+  </data>
   <data name="TermsOfService" xml:space="preserve">
     <value>Terms of Service</value>
+  </data>
+  <data name="UserAdressTitle" xml:space="preserve">
+    <value>Please enter your home address.</value>
+  </data>
+  <data name="UserRegistration" xml:space="preserve">
+    <value>User Registration</value>
   </data>
   <data name="UserRegistrationSafeMessage" xml:space="preserve">
     <value>We keep your information secure.</value>
@@ -215,5 +233,8 @@
   </data>
   <data name="WelcomeTo" xml:space="preserve">
     <value>Welcome to</value>
+  </data>
+  <data name="ZipCode" xml:space="preserve">
+    <value>Zip Code</value>
   </data>
 </root>

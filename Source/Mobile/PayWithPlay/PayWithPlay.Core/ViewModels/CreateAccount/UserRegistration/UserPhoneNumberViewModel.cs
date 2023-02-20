@@ -1,9 +1,10 @@
-﻿using PayWithPlay.Core.Models.CreateAccount;
+﻿using MvvmCross.ViewModels;
+using PayWithPlay.Core.Models.CreateAccount;
 using PayWithPlay.Core.Resources;
 
 namespace PayWithPlay.Core.ViewModels.CreateAccount.UserRegistration
 {
-    public class UserPhoneNumberViewModel : BaseViewModel, ICreateAccountStep
+    public class UserPhoneNumberViewModel : MvxNotifyPropertyChanged, ICreateAccountStep
     {
         private readonly Action<UserPhoneNumberViewModel> _onContinueAction;
         private string? _phoneNumber;

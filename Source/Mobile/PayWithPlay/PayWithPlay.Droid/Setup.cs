@@ -10,6 +10,8 @@ using PayWithPlay.Core;
 using Serilog;
 using Serilog.Extensions.Logging;
 using PayWithPlay.Droid.CustomViews;
+using PayWithPlay.Droid.CustomBindings.IndicatorBindings;
+using Google.Android.Material.TextField;
 
 namespace PayWithPlay.Droid
 {
@@ -45,6 +47,14 @@ namespace PayWithPlay.Droid
             // Views
             registry.RegisterCustomBindingFactory<InputBoxesView>(InputBoxesBinding.Property,
                 (inputBoxes) => new InputBoxesBinding(inputBoxes));
+
+            registry.RegisterCustomBindingFactory<ProgressBar>(ProgressBarProgressBinding.Property,
+                (progressBar) => new ProgressBarProgressBinding(progressBar));
+            registry.RegisterCustomBindingFactory<ProgressBar>(ProgressBarMaxBinding.Property,
+                (progressBar) => new ProgressBarMaxBinding(progressBar));
+
+            registry.RegisterCustomBindingFactory<TextInputLayout>(SetErrorInputBinding.Property,
+                (inputLayout) => new SetErrorInputBinding(inputLayout));
         }
 
         public override void LoadPlugins(IMvxPluginManager pluginManager)

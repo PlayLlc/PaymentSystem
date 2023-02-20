@@ -1,6 +1,7 @@
 ﻿using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
 using MvvmCross.ViewModels;
+using PayWithPlay.Droid.Utils;
 
 namespace PayWithPlay.Droid.Activities
 {
@@ -13,6 +14,8 @@ namespace PayWithPlay.Droid.Activities
         {
             base.OnCreate(savedInstanceState);
             SetContentView(LayoutId);
+
+            AddBackCallback();
 
             // This code is for making the page fullscreen, i.e. going beneath the status bar, but not beneath navigation view
             //if (Build.VERSION.SdkInt >= BuildVersionCodes.R)
@@ -30,6 +33,25 @@ namespace PayWithPlay.Droid.Activities
             //    Window.AddFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
             //    Window!.DecorView.SystemUiVisibility = (StatusBarVisibility)(SystemUiFlags.LayoutFullscreen | SystemUiFlags.LayoutStable);
             //}
+        }
+
+        protected new virtual bool OnBackPressed()
+        {
+            return true;
+        }
+
+        private void AddBackCallback()
+        {
+            var onBackPressedCallback = new BackPressedCallback();
+            onBackPressedCallback.OnBackPressedAction = () =>
+            {
+                if (OnBackPressed())
+                {
+                    onBackPressedCallback.Enabled = false;
+                    OnBackPressedDispatcher.OnBackPressed();
+                }
+            };
+            OnBackPressedDispatcher.AddCallback(this, onBackPressedCallback);
         }
     }
 }

@@ -29,6 +29,7 @@
     <TrimmerRootDescriptor Include="LinkDescription.xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="DeleteBinObjFolders.bat" />
     <None Remove="LinkDescription.xml" />
     <None Remove="Resources\drawable\enable_settings_button_selector.xml" />
     <None Remove="Resources\drawable\unelevated_button_text_color.xml" />
@@ -44,6 +45,7 @@
     <None Remove="Resources\layout\activity_generic.xml" />
     <None Remove="Resources\layout\activity_sign_in.xml" />
     <None Remove="Resources\layout\activity_welcome.xml" />
+    <None Remove="Resources\layout\fragment_user_adress.xml" />
     <None Remove="Resources\layout\fragment_user_registration_phone_number.xml" />
     <None Remove="Resources\layout\fragment_user_registration_user_name.xml" />
     <None Remove="Resources\layout\fragment_verify_identity.xml" />

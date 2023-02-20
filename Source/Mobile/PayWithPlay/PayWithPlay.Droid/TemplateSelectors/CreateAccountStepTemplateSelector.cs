@@ -10,7 +10,8 @@ namespace PayWithPlay.Droid.TemplateSelectors
         {
             [typeof(UserNameViewModel)] = Resource.Layout.fragment_user_registration_user_name,
             [typeof(UserPhoneNumberViewModel)] = Resource.Layout.fragment_user_registration_phone_number,
-            [typeof(VerifyPhoneNumberViewModel)] = Resource.Layout.fragment_verify_identity
+            [typeof(VerifyPhoneNumberViewModel)] = Resource.Layout.fragment_verify_identity,
+            [typeof(UserAdressViewModel)] = Resource.Layout.fragment_user_adress
         };
 
         public int ItemTemplateId { get; set; }
