@@ -39,6 +39,8 @@ namespace PayWithPlay.Droid
             // Buttons
             registry.RegisterCustomBindingFactory<MaterialButton>(DeviceSettingButtonBinding.Property,
                 (button) => new DeviceSettingButtonBinding(button));
+            registry.RegisterCustomBindingFactory<MaterialButton>(UnderlineButtonTextBinding.Property,
+                (button) => new UnderlineButtonTextBinding(button));
 
             // Images
             registry.RegisterCustomBindingFactory<AppCompatImageView>(VerifyIdentityImageBinding.Property,

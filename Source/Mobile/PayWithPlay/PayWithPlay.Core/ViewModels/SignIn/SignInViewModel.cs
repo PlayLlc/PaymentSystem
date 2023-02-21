@@ -29,7 +29,6 @@ namespace PayWithPlay.Core.ViewModels.SignIn
             set => SetProperty(ref _password, value);
         }
 
-
         public void OnForgotPassword()
         {
         }

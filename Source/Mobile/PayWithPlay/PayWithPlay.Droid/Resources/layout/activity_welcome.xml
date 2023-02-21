@@ -81,7 +81,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="20dp"
-                style="@style/PrimaryButton"
+                style="@style/SecondaryButton"
                 app:MvxBind="Text CreateAccountButtonText; Click OnCreateAccount"/>
 
             <FrameLayout
@@ -96,7 +96,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|center_vertical"
                     style="@style/UnelevatedButton"
-                    app:MvxBind="Text TAndCButtonText; Click OnTermsOfService"/>
+                    app:MvxBind="Text TAndCButtonText; Click OnTermsOfService; Underline true"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/privacy_btn"
@@ -104,7 +104,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|center_vertical"
                     style="@style/UnelevatedButton"
-                    app:MvxBind="Text PrivacyPolicyButtonText; Click OnPrivacyPolicy"/>
+                    app:MvxBind="Text PrivacyPolicyButtonText; Click OnPrivacyPolicy; Underline true"/>
 
             </FrameLayout>
 

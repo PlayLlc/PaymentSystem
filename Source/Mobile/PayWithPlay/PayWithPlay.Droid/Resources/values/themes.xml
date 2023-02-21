@@ -47,21 +47,30 @@
     <item name="InputBoxesViewStyleAttr">@style/InputBoxEditTextStyle</item>
   </style>
 
-  <style name="PrimaryButton" parent="Widget.MaterialComponents.Button">
+  <style name="BaseButton" parent="Widget.MaterialComponents.Button">
     <item name="android:textAppearance">@style/ButtonText</item>
-    <item name="android:theme">@style/PrimaryButtonTheme</item>
     <item name="android:minWidth">0dp</item>
     <item name="android:minHeight">0dp</item>
     <item name="android:insetTop">0dp</item>
     <item name="android:insetBottom">0dp</item>
     <item name="android:includeFontPadding">false</item>
-    <item name="android:textColor">@color/primary_text_color</item>
     <item name="cornerRadius">24dp</item>
-    <item name="strokeWidth">2dp</item>
-    <item name="strokeColor">@color/accent_color</item>
-    <item name="backgroundTint">@color/white</item>
     <item name="android:fontFamily">@font/poppins_semibold</item>
     <item name="android:includeFontPadding">false</item>
+  </style>
+
+  <style name="PrimaryButton" parent="@style/BaseButton">
+    <item name="android:theme">@style/PrimaryButtonTheme</item>
+    <item name="android:textColor">@color/white</item>
+    <item name="backgroundTint">@drawable/primary_button_background</item>
+  </style>
+
+  <style name="SecondaryButton" parent="@style/BaseButton">
+    <item name="android:theme">@style/PrimaryButtonTheme</item>
+    <item name="android:textColor">@drawable/secondary_button_text_color</item>
+    <item name="strokeWidth">2dp</item>
+    <item name="strokeColor">@drawable/primary_button_background</item>
+    <item name="backgroundTint">@drawable/secondary_button_background</item>
   </style>
 
   <style name="UnelevatedButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
@@ -109,6 +118,7 @@
     <item name="colorPrimary">@color/accent_color</item>
     <item name="colorPrimaryVariant">@color/accent_color</item>
     <item name="colorOnPrimary">@color/accent_color</item>
+    <item name="colorOnSurface">@color/hint_text_color</item>
     <item name="colorAccent">@color/accent_color</item>
     <item name="textInputOutlinedDenseStyle">@style/TextInputStyle</item>
     <item name="textInputOutlinedStyle">@style/TextInputStyle</item>
@@ -121,7 +131,6 @@
     <item name="labelBehavior">gone</item>
     <item name="hintAnimationEnabled">false</item>
     <item name="hintEnabled">false</item>
-    <item name="boxStrokeColor">@color/accent_color</item>
     <item name="boxStrokeWidth">2dp</item>
     <item name="android:textColorHint">@color/hint_text_color</item>
     <item name="hintTextColor">@color/hint_text_color</item>
@@ -161,7 +170,9 @@
     <item name="android:paddingVertical">0dp</item>
   </style>
 
-  <style name="DeviceSettingsButtonStyle" parent="@style/PrimaryButton">
+  <style name="DeviceSettingsButtonStyle" parent="@style/BaseButton">
+    <item name="strokeWidth">2dp</item>
+    <item name="android:textColor">@color/secondary_color</item>
     <item name="strokeColor">@color/secondary_color</item>
     <item name="backgroundTint">@drawable/enable_settings_button_selector</item>
   </style>

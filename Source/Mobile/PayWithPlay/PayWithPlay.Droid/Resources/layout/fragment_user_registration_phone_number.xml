@@ -34,7 +34,7 @@
         <PayWithPlay.Droid.CustomViews.EditTextWithClearFocus
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
+            android:imeOptions="actionDone"
             android:inputType="phone"
             style="@style/InputEditTextStyle"
             app:MvxBind="Hint PhoneNumberText; Text PhoneNumber"/>

@@ -105,13 +105,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            app:MvxBind="Text ForgotPasswordText; Click OnForgotPassword"/>
+            app:MvxBind="Text ForgotPasswordText; Click OnForgotPassword; Underline true"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:layout_weight="1"
         tools:ignore="Suspicious0dp">
 
@@ -153,7 +155,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    app:MvxBind="Text CreateAccountButtonText; Click OnCreateAccount"/>
+                    app:MvxBind="Text CreateAccountButtonText; Click OnCreateAccount; Underline true"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

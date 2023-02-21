@@ -6,12 +6,12 @@ namespace PayWithPlay.Core.ViewModels.CreateAccount.UserRegistration
 {
     public class UserAdressViewModel : MvxNotifyPropertyChanged, ICreateAccountStep
     {
+        private readonly Action<UserAdressViewModel>? _onContinueAction;
         private string? _streetAdress;
         private string? _apSuite;
         private string? _zipCode;
         private string? _state;
         private string? _city;
-        private Action<UserAdressViewModel>? _onContinueAction;
 
         public UserAdressViewModel(Action<UserAdressViewModel> onContinue)
         {
