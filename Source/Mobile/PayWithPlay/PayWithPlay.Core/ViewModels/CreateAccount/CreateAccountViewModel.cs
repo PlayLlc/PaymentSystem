@@ -14,7 +14,7 @@ namespace PayWithPlay.Core.ViewModels.CreateAccount
 
         public string Title => Resource.CreateAccount;
         public string SignInButtonText => Resource.SignIn;
-        public string EmailAdressText => Resource.EmailAdress;
+        public string EmailAddressText => Resource.EmailAddress;
         public string PasswordText => Resource.Password;
         public string HaveAccountQuestionText => Resource.HaveAccountQuestion;
         public string CreateAccountButtonText => Resource.CreateAccount;

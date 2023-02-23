@@ -79,6 +79,42 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Business.
+        /// </summary>
+        internal static string Business {
+            get {
+                return ResourceManager.GetString("Business", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter your business address..
+        /// </summary>
+        internal static string BusinessAddressTitle {
+            get {
+                return ResourceManager.GetString("BusinessAddressTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Business name.
+        /// </summary>
+        internal static string BusinessName {
+            get {
+                return ResourceManager.GetString("BusinessName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to What is your business name?.
+        /// </summary>
+        internal static string BusinessNameTitle {
+            get {
+                return ResourceManager.GetString("BusinessNameTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to City.
         /// </summary>
         internal static string City {
@@ -106,11 +142,11 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Email adress.
+        ///   Looks up a localized string similar to Email address.
         /// </summary>
-        internal static string EmailAdress {
+        internal static string EmailAddress {
             get {
-                return ResourceManager.GetString("EmailAdress", resourceCulture);
+                return ResourceManager.GetString("EmailAddress", resourceCulture);
             }
         }
         
@@ -196,11 +232,29 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Is your home and business address the same?.
+        /// </summary>
+        internal static string HomeOrBusinessAddressQuestion {
+            get {
+                return ResourceManager.GetString("HomeOrBusinessAddressQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to I agree to the.
         /// </summary>
         internal static string IAgreeToThe {
             get {
                 return ResourceManager.GetString("IAgreeToThe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Individual.
+        /// </summary>
+        internal static string Individual {
+            get {
+                return ResourceManager.GetString("Individual", resourceCulture);
             }
         }
         
@@ -214,11 +268,65 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to What type of merchant best describes you?.
+        /// </summary>
+        internal static string MerchantTypeTitle {
+            get {
+                return ResourceManager.GetString("MerchantTypeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to LLC, Corporation, Partnership.
+        /// </summary>
+        internal static string MerchnatBusinessSubtitle {
+            get {
+                return ResourceManager.GetString("MerchnatBusinessSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Owner, Side Hustle, Pet Project.
+        /// </summary>
+        internal static string MerchnatIndividualSubtitle {
+            get {
+                return ResourceManager.GetString("MerchnatIndividualSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Charity, Religious organization.
+        /// </summary>
+        internal static string MerchnatNonProfitSubtitle {
+            get {
+                return ResourceManager.GetString("MerchnatNonProfitSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        internal static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Don&apos;t have an account?.
         /// </summary>
         internal static string NoAccountQuestion {
             get {
                 return ResourceManager.GetString("NoAccountQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Non profit.
+        /// </summary>
+        internal static string NonProfit {
+            get {
+                return ResourceManager.GetString("NonProfit", resourceCulture);
             }
         }
         
@@ -277,11 +385,11 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Street Adress.
+        ///   Looks up a localized string similar to Street Address.
         /// </summary>
-        internal static string StreeAdress {
+        internal static string StreetAddress {
             get {
-                return ResourceManager.GetString("StreeAdress", resourceCulture);
+                return ResourceManager.GetString("StreetAddress", resourceCulture);
             }
         }
         
@@ -297,9 +405,9 @@ namespace PayWithPlay.Core.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Please enter your home address..
         /// </summary>
-        internal static string UserAdressTitle {
+        internal static string UserAddressTitle {
             get {
-                return ResourceManager.GetString("UserAdressTitle", resourceCulture);
+                return ResourceManager.GetString("UserAddressTitle", resourceCulture);
             }
         }
         
@@ -349,7 +457,7 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter the 6-digit code we sent to your email adress:.
+        ///   Looks up a localized string similar to Enter the 6-digit code we sent to your email address:.
         /// </summary>
         internal static string VerifyEmailMessage {
             get {
@@ -367,7 +475,7 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Verify email adress.
+        ///   Looks up a localized string similar to Verify email address.
         /// </summary>
         internal static string VerifyEmailTitle {
             get {
@@ -408,6 +516,15 @@ namespace PayWithPlay.Core.Resources {
         internal static string WelcomeTo {
             get {
                 return ResourceManager.GetString("WelcomeTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        internal static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
         

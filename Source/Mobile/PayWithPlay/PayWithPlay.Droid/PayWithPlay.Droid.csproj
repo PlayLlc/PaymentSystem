@@ -31,6 +31,7 @@
   <ItemGroup>
     <None Remove="DeleteBinObjFolders.bat" />
     <None Remove="LinkDescription.xml" />
+    <None Remove="Resources\drawable\default_bordered_view.xml" />
     <None Remove="Resources\drawable\enable_settings_button_selector.xml" />
     <None Remove="Resources\drawable\primary_button_background.xml" />
     <None Remove="Resources\drawable\secondary_button_background.xml" />
@@ -48,11 +49,15 @@
     <None Remove="Resources\layout\activity_generic.xml" />
     <None Remove="Resources\layout\activity_sign_in.xml" />
     <None Remove="Resources\layout\activity_welcome.xml" />
-    <None Remove="Resources\layout\fragment_user_adress.xml" />
-    <None Remove="Resources\layout\fragment_user_registration_phone_number.xml" />
-    <None Remove="Resources\layout\fragment_user_registration_user_name.xml" />
+    <None Remove="Resources\layout\fragment_registration_business_name.xml" />
+    <None Remove="Resources\layout\fragment_registration_home_or_business_address.xml" />
+    <None Remove="Resources\layout\fragment_registration_merchant_type.xml" />
+    <None Remove="Resources\layout\fragment_registration_user_address.xml" />
+    <None Remove="Resources\layout\fragment_registration_user_name.xml" />
+    <None Remove="Resources\layout\fragment_registration_user_phone_number.xml" />
     <None Remove="Resources\layout\fragment_verify_identity.xml" />
     <None Remove="Resources\layout\row_device_settings.xml" />
+    <None Remove="Resources\layout\row_merchant_type.xml" />
     <None Remove="Resources\values\attrs.xml" />
     <None Remove="Resources\values\colors.xml" />
     <None Remove="Resources\values\ids.xml" />

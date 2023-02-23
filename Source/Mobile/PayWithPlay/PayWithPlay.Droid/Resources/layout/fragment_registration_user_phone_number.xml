@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:layout_marginHorizontal="24dp">
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="12dp"
-        style="@style/BigTitleStyle"
+        style="@style/MediumTitleStyle"
         app:MvxBind="Text Title"/>
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         style="@style/DefaultTextStyle"
-        app:MvxBind="Text FirstNameText"/>
+        app:MvxBind="Text PhoneNumberText"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:theme="@style/TextInputTheme"
@@ -34,34 +34,10 @@
         <PayWithPlay.Droid.CustomViews.EditTextWithClearFocus
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
-            android:inputType="textCapWords|textPersonName"
+            android:imeOptions="actionDone"
+            android:inputType="phone"
             style="@style/InputEditTextStyle"
-            app:MvxBind="Hint FirstNameText; Text FirstName"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/DefaultTextStyle"
-        android:layout_marginBottom="10dp"
-        app:MvxBind="Text LastNameText"/>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:theme="@style/TextInputTheme"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        app:endIconTint="@color/hint_text_color">
-
-        <PayWithPlay.Droid.CustomViews.EditTextWithClearFocus
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:imeOptions="actionGo"
-            android:inputType="textCapWords|textPersonName"
-            style="@style/InputEditTextStyle"
-            app:MvxBind="Hint LastNameText; Text LastName"/>
+            app:MvxBind="Hint PhoneNumberText; Text PhoneNumber"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 

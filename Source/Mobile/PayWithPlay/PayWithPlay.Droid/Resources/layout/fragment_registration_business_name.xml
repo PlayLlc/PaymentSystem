@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="12dp"
-        style="@style/BigTitleStyle"
+        style="@style/MediumTitleStyle"
         app:MvxBind="Text Title"/>
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         style="@style/DefaultTextStyle"
-        app:MvxBind="Text PhoneNumberText"/>
+        app:MvxBind="Text BusinessNameText"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:theme="@style/TextInputTheme"
@@ -35,34 +35,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionDone"
-            android:inputType="phone"
+            android:inputType="textCapWords"
             style="@style/InputEditTextStyle"
-            app:MvxBind="Hint PhoneNumberText; Text PhoneNumber"/>
+            app:MvxBind="Hint BusinessNameText; Text BusinessName"/>
 
     </com.google.android.material.textfield.TextInputLayout>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:orientation="horizontal">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:tint="@color/hint_text_color"
-            android:src="@drawable/ic_secure"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            style="@style/DefaultTextStyle"
-            android:textColor="@color/hint_text_color"
-            app:MvxBind="Text SafeMessage"/>
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <com.google.android.material.button.MaterialButton
         android:layout_width="match_parent"

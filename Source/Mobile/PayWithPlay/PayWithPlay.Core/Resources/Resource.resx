@@ -123,6 +123,18 @@
   <data name="ApSuite" xml:space="preserve">
     <value>Ap. Suite</value>
   </data>
+  <data name="Business" xml:space="preserve">
+    <value>Business</value>
+  </data>
+  <data name="BusinessAddressTitle" xml:space="preserve">
+    <value>Please enter your business address.</value>
+  </data>
+  <data name="BusinessName" xml:space="preserve">
+    <value>Business name</value>
+  </data>
+  <data name="BusinessNameTitle" xml:space="preserve">
+    <value>What is your business name?</value>
+  </data>
   <data name="City" xml:space="preserve">
     <value>City</value>
   </data>
@@ -132,8 +144,8 @@
   <data name="CreateAccount" xml:space="preserve">
     <value>Create Account</value>
   </data>
-  <data name="EmailAdress" xml:space="preserve">
-    <value>Email adress</value>
+  <data name="EmailAddress" xml:space="preserve">
+    <value>Email address</value>
   </data>
   <data name="EnableDeviceLocation" xml:space="preserve">
     <value>Enable device location</value>
@@ -162,14 +174,38 @@
   <data name="HaveAccountQuestion" xml:space="preserve">
     <value>You already have an account?</value>
   </data>
+  <data name="HomeOrBusinessAddressQuestion" xml:space="preserve">
+    <value>Is your home and business address the same?</value>
+  </data>
   <data name="IAgreeToThe" xml:space="preserve">
     <value>I agree to the</value>
+  </data>
+  <data name="Individual" xml:space="preserve">
+    <value>Individual</value>
   </data>
   <data name="LastNameText" xml:space="preserve">
     <value>Last name</value>
   </data>
+  <data name="MerchantTypeTitle" xml:space="preserve">
+    <value>What type of merchant best describes you?</value>
+  </data>
+  <data name="MerchnatBusinessSubtitle" xml:space="preserve">
+    <value>LLC, Corporation, Partnership</value>
+  </data>
+  <data name="MerchnatIndividualSubtitle" xml:space="preserve">
+    <value>Owner, Side Hustle, Pet Project</value>
+  </data>
+  <data name="MerchnatNonProfitSubtitle" xml:space="preserve">
+    <value>Charity, Religious organization</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
   <data name="NoAccountQuestion" xml:space="preserve">
     <value>Don't have an account?</value>
+  </data>
+  <data name="NonProfit" xml:space="preserve">
+    <value>Non profit</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
@@ -189,13 +225,13 @@
   <data name="State" xml:space="preserve">
     <value>State</value>
   </data>
-  <data name="StreeAdress" xml:space="preserve">
-    <value>Street Adress</value>
+  <data name="StreetAddress" xml:space="preserve">
+    <value>Street Address</value>
   </data>
   <data name="TermsOfService" xml:space="preserve">
     <value>Terms of Service</value>
   </data>
-  <data name="UserAdressTitle" xml:space="preserve">
+  <data name="UserAddressTitle" xml:space="preserve">
     <value>Please enter your home address.</value>
   </data>
   <data name="UserRegistration" xml:space="preserve">
@@ -214,13 +250,13 @@
     <value>Verify</value>
   </data>
   <data name="VerifyEmailMessage" xml:space="preserve">
-    <value>Enter the 6-digit code we sent to your email adress:</value>
+    <value>Enter the 6-digit code we sent to your email address:</value>
   </data>
   <data name="VerifyEmailSubtitle" xml:space="preserve">
     <value>We just sent you an email.</value>
   </data>
   <data name="VerifyEmailTitle" xml:space="preserve">
-    <value>Verify email adress</value>
+    <value>Verify email address</value>
   </data>
   <data name="VerifyPhoneNumberMessage" xml:space="preserve">
     <value>Enter the 6-digit code we sent to your phone number:</value>
@@ -233,6 +269,9 @@
   </data>
   <data name="WelcomeTo" xml:space="preserve">
     <value>Welcome to</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
   </data>
   <data name="ZipCode" xml:space="preserve">
     <value>Zip Code</value>

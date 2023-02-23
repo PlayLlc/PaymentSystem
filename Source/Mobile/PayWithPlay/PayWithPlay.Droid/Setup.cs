@@ -1,5 +1,4 @@
-﻿using Android.Views;
-using AndroidX.AppCompat.Widget;
+﻿using AndroidX.AppCompat.Widget;
 using Google.Android.Material.Button;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Binding.Bindings.Target.Construction;
@@ -45,6 +44,8 @@ namespace PayWithPlay.Droid
             // Images
             registry.RegisterCustomBindingFactory<AppCompatImageView>(VerifyIdentityImageBinding.Property,
                 (imageView) => new VerifyIdentityImageBinding(imageView));
+            registry.RegisterCustomBindingFactory<AppCompatImageView>(MerchantTypeBinding.Property,
+                (imageView) => new MerchantTypeBinding(imageView));
 
             // Views
             registry.RegisterCustomBindingFactory<InputBoxesView>(InputBoxesBinding.Property,

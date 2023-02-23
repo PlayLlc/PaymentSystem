@@ -11,7 +11,7 @@ namespace PayWithPlay.Core.ViewModels.SignIn
 
         public string Title => Resource.SignIn;
         public string SignInButtonText => Resource.SignIn;
-        public string EmailAdressText => Resource.EmailAdress;
+        public string EmailAddressText => Resource.EmailAddress;
         public string PasswordText => Resource.Password;
         public string ForgotPasswordText => Resource.ForgotPassword;
         public string NoAccountQuestionText => Resource.NoAccountQuestion;

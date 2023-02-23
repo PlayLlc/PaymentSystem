@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:layout_marginHorizontal="24dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="20dp"
+        style="@style/MediumTitleStyle"
+        app:MvxBind="Text Title"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <mvvmcross.droidx.recyclerview.MvxRecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            app:MvxItemTemplate="@layout/row_merchant_type"
+            app:MvxBind="ItemsSource Types; ItemClick OnMerchantType"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+    </FrameLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

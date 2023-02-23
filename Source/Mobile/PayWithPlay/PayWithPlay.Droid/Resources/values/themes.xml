@@ -107,6 +107,13 @@
     <item name="android:includeFontPadding">false</item>
   </style>
 
+  <style name="MediumTitleStyle" parent="@android:style/Widget.TextView">
+    <item name="android:textSize">24sp</item>
+    <item name="android:fontFamily">@font/poppins_medium</item>
+    <item name="android:textColor">@color/primary_text_color</item>
+    <item name="android:includeFontPadding">false</item>
+  </style>
+  
   <style name="DefaultTextStyle" parent="@android:style/Widget.TextView">
     <item name="android:textSize">14sp</item>
     <item name="android:fontFamily">@font/poppins_medium</item>

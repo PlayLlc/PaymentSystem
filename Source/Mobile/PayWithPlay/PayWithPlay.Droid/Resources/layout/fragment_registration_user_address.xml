@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="12dp"
-        style="@style/BigTitleStyle"
+        style="@style/MediumTitleStyle"
         app:MvxBind="Text Title"/>
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         style="@style/DefaultTextStyle"
-        app:MvxBind="Text StreetAdressText"/>
+        app:MvxBind="Text StreetAddressText"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:theme="@style/TextInputTheme"
@@ -37,7 +37,7 @@
             android:imeOptions="actionNext"
             android:inputType="textCapWords"
             style="@style/InputEditTextStyle"
-            app:MvxBind="Hint StreetAdressText; Text StreetAdress"/>
+            app:MvxBind="Hint StreetAddressText; Text StreetAddress"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 

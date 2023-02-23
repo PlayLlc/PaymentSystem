@@ -63,7 +63,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     style="@style/DefaultTextStyle"
-                    app:MvxBind="Text EmailAdressText"/>
+                    app:MvxBind="Text EmailAddressText"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/email_til"
@@ -79,7 +79,7 @@
                         android:imeOptions="actionNext"
                         android:inputType="textEmailAddress"
                         style="@style/InputEditTextStyle"
-                        app:MvxBind="Hint EmailAdressText; Text Email"/>
+                        app:MvxBind="Hint EmailAddressText; Text Email"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 

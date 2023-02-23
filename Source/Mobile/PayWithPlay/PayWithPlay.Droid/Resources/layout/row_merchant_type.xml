@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:background="@drawable/default_bordered_view">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:scaleType="centerInside"
+        android:layout_marginHorizontal="16dp"
+        android:tint="@color/secondary_color"
+        app:MvxBind="MerchantType Type"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="24dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/DefaultTextStyle"
+            android:textSize="16sp"
+            app:MvxBind="Text Title"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/DefaultTextStyle"
+            android:textColor="@color/hint_text_color"
+            app:MvxBind="Text Subtitle"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
