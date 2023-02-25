@@ -70,11 +70,29 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Approval.
+        /// </summary>
+        internal static string Approval {
+            get {
+                return ResourceManager.GetString("Approval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ap. Suite.
         /// </summary>
         internal static string ApSuite {
             get {
                 return ResourceManager.GetString("ApSuite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Biometrics from phone.
+        /// </summary>
+        internal static string BiometricsSwitchText {
+            get {
+                return ResourceManager.GetString("BiometricsSwitchText", resourceCulture);
             }
         }
         
@@ -124,6 +142,42 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirm.
+        /// </summary>
+        internal static string Confirm {
+            get {
+                return ResourceManager.GetString("Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm your PIN code.
+        /// </summary>
+        internal static string ConfirmPINCode {
+            get {
+                return ResourceManager.GetString("ConfirmPINCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have registered successfully!.
+        /// </summary>
+        internal static string CongratsRegistrationMessage {
+            get {
+                return ResourceManager.GetString("CongratsRegistrationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Congrats!.
+        /// </summary>
+        internal static string CongratsRegsitrationTitle {
+            get {
+                return ResourceManager.GetString("CongratsRegsitrationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Continue.
         /// </summary>
         internal static string Continue {
@@ -138,6 +192,15 @@ namespace PayWithPlay.Core.Resources {
         internal static string CreateAccount {
             get {
                 return ResourceManager.GetString("CreateAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create your PIN code.
+        /// </summary>
+        internal static string CreatePINCode {
+            get {
+                return ResourceManager.GetString("CreatePINCode", resourceCulture);
             }
         }
         
@@ -223,6 +286,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Get started.
+        /// </summary>
+        internal static string GetStarted {
+            get {
+                return ResourceManager.GetString("GetStarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You already have an account?.
         /// </summary>
         internal static string HaveAccountQuestion {
@@ -264,6 +336,15 @@ namespace PayWithPlay.Core.Resources {
         internal static string LastNameText {
             get {
                 return ResourceManager.GetString("LastNameText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Merchant Registration.
+        /// </summary>
+        internal static string MerchantRegistration {
+            get {
+                return ResourceManager.GetString("MerchantRegistration", resourceCulture);
             }
         }
         
@@ -349,11 +430,29 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This keeps your account safe and secure ..
+        /// </summary>
+        internal static string PINSafeMessage {
+            get {
+                return ResourceManager.GetString("PINSafeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Privacy Policy.
         /// </summary>
         internal static string PrivacyPolicy {
             get {
                 return ResourceManager.GetString("PrivacyPolicy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to use biometrics security?.
+        /// </summary>
+        internal static string RegistrationBiometricsTitle {
+            get {
+                return ResourceManager.GetString("RegistrationBiometricsTitle", resourceCulture);
             }
         }
         

@@ -1,5 +1,8 @@
 ﻿using Android.Content;
+using Android.Content.Res;
+using Android.Graphics;
 using Android.Runtime;
+using Android.Text;
 using Android.Util;
 using Android.Views;
 using Android.Views.InputMethods;
@@ -26,6 +29,10 @@ namespace PayWithPlay.Droid.CustomViews
         private int _inputHeight = _defaultInputHeight;
         private int _inputInnerSapce = _defaultInnerSpace;
         private int _inputsCount;
+        private bool _pinFormat;
+        private bool _interceptTouches;
+        private bool _highlighted;
+        private bool _computeSize = true;
 
         private string? _textValue;
 
@@ -56,6 +63,49 @@ namespace PayWithPlay.Droid.CustomViews
 
         #endregion
 
+        public override bool OnInterceptTouchEvent(MotionEvent? ev)
+        {
+            return _interceptTouches;
+        }
+
+        public bool OnPreDraw()
+        {
+            ViewTreeObserver!.RemoveOnPreDrawListener(this);
+
+            var sizesChanged = false;
+            while (Width < ((_inputWidth * _inputsCount) + (_inputInnerSapce * (_inputsCount - 1))))
+            {
+                sizesChanged = true;
+                if (_inputInnerSapce == _minInnerSpace)
+                {
+                    if (_inputWidth == _minInputWidth)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        _inputWidth--;
+                    }
+                }
+                else
+                {
+                    _inputInnerSapce--;
+                }
+            }
+
+            if (sizesChanged)
+            {
+                _inputHeight = (_inputWidth * _defaultInputHeight) / _defaultInputWidth;
+                _inputTextSize = (_inputWidth * _defaultInputTextSize) / _defaultInputWidth;
+            }
+
+            AddInputBoxes();
+
+            Post(() => RequestLayout());
+
+            return true;
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public string? TextValue
@@ -71,6 +121,25 @@ namespace PayWithPlay.Droid.CustomViews
                 _textValue = value;
 
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TextValue)));
+
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    for (int i = 0; i < value.Length; i++)
+                    {
+                        if (i >= _editTexts.Count)
+                        {
+                            break;
+                        }
+                        _editTexts[i].Text = value[i].ToString();
+                    }
+                }
+                else
+                {
+                    foreach (var editText in _editTexts)
+                    {
+                        editText.Text = string.Empty;
+                    }
+                }
             }
         }
 
@@ -80,6 +149,10 @@ namespace PayWithPlay.Droid.CustomViews
             try
             {
                 _inputsCount = attrs.GetInt(Resource.Styleable.InputBoxesView_inputsCount, 0);
+                _interceptTouches = attrs.GetBoolean(Resource.Styleable.InputBoxesView_interceptTouches, false);
+                _computeSize = attrs.GetBoolean(Resource.Styleable.InputBoxesView_computeSize, true);
+                _pinFormat = attrs.GetBoolean(Resource.Styleable.InputBoxesView_pinFormat, false);
+                _highlighted = attrs.GetBoolean(Resource.Styleable.InputBoxesView_highlighted, false);
             }
             finally
             {
@@ -87,52 +160,26 @@ namespace PayWithPlay.Droid.CustomViews
             }
 
             SetGravity(GravityFlags.CenterHorizontal);
-            Orientation = Orientation.Horizontal;
+            Orientation = Android.Widget.Orientation.Horizontal;
 
-            ViewTreeObserver!.AddOnPreDrawListener(this);
-        }
-
-        private TextInputLayout GetEditTextInput(int index)
-        {
-            var contextTheme = new ContextThemeWrapper(Context, Resource.Style.TextInputTheme);
-
-            var inputLayout = new TextInputLayout(contextTheme, null, Resource.Attribute.textInputStyle)
+            if (_computeSize)
             {
-                LayoutParameters = new LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.WrapContent)
-            };
-
-            inputLayout.Id = Resource.Id.input_box;
-            inputLayout.SetPadding(0, 0, 0, 0);
-            inputLayout.SetMinimumHeight(0);
-            inputLayout.SetMinimumWidth(0);
-
-            var inputView = new EditTextWithClearFocus(contextTheme, null, Resource.Attribute.InputBoxesViewStyleAttr);
-            inputLayout.AddView(inputView);
-
-            inputView.Tag = index;
-            inputView.ImeOptions = index != _inputsCount - 1 ? ImeAction.Next : ImeAction.Done;
-            inputView.SetPadding(0, 0, 0, 0);
-            inputView.SetMinimumHeight(0);
-            inputView.SetMinimumWidth(0);
-            inputView.SetTextSize(ComplexUnitType.Sp, _inputTextSize);
-
-            var lp = inputView.LayoutParameters;
-            lp!.Height = _inputHeight;
-            lp.Width = _inputWidth;
-            inputView.LayoutParameters = lp;
-
-            inputView.AfterTextChanged += InputView_AfterTextChanged;
-            inputView.KeyPress += InputView_KeyPress;
-            inputView.TextChanged += InputView_TextChanged;
-
-            _editTexts.Add(inputView);
-
-            return inputLayout;
+                ViewTreeObserver!.AddOnPreDrawListener(this);
+            }
+            else
+            {
+                AddInputBoxes();
+            }
         }
 
         private void InputView_AfterTextChanged(object? sender, global::Android.Text.AfterTextChangedEventArgs e)
         {
             var currentFocusedView = (EditTextWithClearFocus)sender!;
+            if (!currentFocusedView.HasFocus)
+            {
+                return;
+            }
+
             if (currentFocusedView.Text != null && currentFocusedView.Text.Length > 0)
             {
                 if ((int)currentFocusedView.Tag == _inputsCount - 1)
@@ -153,13 +200,18 @@ namespace PayWithPlay.Droid.CustomViews
 
         private void InputView_TextChanged(object? sender, global::Android.Text.TextChangedEventArgs e)
         {
+            var editText = (EditTextWithClearFocus)sender!;
+            if (!editText.HasFocus)
+            {
+                return;
+            }
+
             if (e!.Text.Count() > 1)
             {
-                var currentFocusedView = (EditTextWithClearFocus)sender!;
-                currentFocusedView.Text = e.Text.ElementAt(e.Start).ToString();
-                if ((int)currentFocusedView.Tag == _inputsCount - 1)
+                editText.Text = e.Text.ElementAt(e.Start).ToString();
+                if ((int)editText.Tag == _inputsCount - 1)
                 {
-                    currentFocusedView.SetSelection(1);
+                    editText.SetSelection(1);
                 }
             }
 
@@ -190,39 +242,8 @@ namespace PayWithPlay.Droid.CustomViews
             e.Handled = false;
         }
 
-        public bool OnPreDraw()
+        private void AddInputBoxes()
         {
-            ViewTreeObserver!.RemoveOnPreDrawListener(this);
-
-            var sizesChanged = false;
-            while (Width < ((_inputWidth * _inputsCount) + (_inputInnerSapce * (_inputsCount - 1))))
-            {
-                sizesChanged = true;
-                if (_inputInnerSapce == _minInnerSpace)
-                {
-
-                    if (_inputWidth == _minInputWidth)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        _inputWidth--;
-                    }
-                }
-                else
-                {
-                    _inputInnerSapce--;
-
-                }
-            }
-
-            if (sizesChanged)
-            {
-                _inputHeight = (_inputWidth * _defaultInputHeight) / _defaultInputWidth;
-                _inputTextSize = (_inputWidth * _defaultInputTextSize) / _defaultInputWidth;
-            }
-
             _editTexts.Clear();
 
             for (int i = 0; i < _inputsCount; i++)
@@ -238,10 +259,55 @@ namespace PayWithPlay.Droid.CustomViews
 
                 }
             }
+        }
 
-            Post(() => RequestLayout());
+        private TextInputLayout GetEditTextInput(int index)
+        {
+            var textInputTheme = Resource.Style.TextInputTheme;
+            if (_highlighted)
+            {
+                textInputTheme = Resource.Style.TextInputThemeColored;
+            }
 
-            return true;
+            var contextTheme = new ContextThemeWrapper(Context, textInputTheme);
+            var inputLayout = new TextInputLayout(contextTheme, null, Resource.Attribute.textInputStyle)
+            {
+                LayoutParameters = new LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.WrapContent),
+                Id = Resource.Id.input_box
+            };
+
+            inputLayout.SetPadding(0, 0, 0, 0);
+            inputLayout.SetMinimumHeight(0);
+            inputLayout.SetMinimumWidth(0);
+
+
+            var inputView = new EditTextWithClearFocus(contextTheme, null, Resource.Attribute.InputBoxesViewStyleAttr);
+            inputLayout.AddView(inputView);
+
+            inputView.Tag = index;
+            inputView.ImeOptions = index != _inputsCount - 1 ? ImeAction.Next : ImeAction.Done;
+            inputView.SetPadding(0, 0, 0, 0);
+            inputView.SetMinimumHeight(0);
+            inputView.SetMinimumWidth(0);
+            inputView.SetTextSize(ComplexUnitType.Sp, _inputTextSize);
+
+            if (_pinFormat)
+            {
+                inputView.InputType |= InputTypes.ClassNumber | InputTypes.NumberVariationPassword;
+            }
+
+            var lp = inputView.LayoutParameters;
+            lp!.Height = _inputHeight;
+            lp.Width = _inputWidth;
+            inputView.LayoutParameters = lp;
+
+            inputView.AfterTextChanged += InputView_AfterTextChanged;
+            inputView.KeyPress += InputView_KeyPress;
+            inputView.TextChanged += InputView_TextChanged;
+
+            _editTexts.Add(inputView);
+
+            return inputLayout;
         }
     }
 }

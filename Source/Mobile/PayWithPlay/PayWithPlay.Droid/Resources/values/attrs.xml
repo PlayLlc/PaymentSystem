@@ -5,6 +5,10 @@
   
   <declare-styleable name="InputBoxesView">
     <attr name="inputsCount" format="integer" />
+    <attr name="interceptTouches" format="boolean" />
+    <attr name="computeSize" format="boolean" />
+    <attr name="pinFormat" format="boolean" />
+    <attr name="highlighted" format="boolean" />
   </declare-styleable>
 
 </resources>

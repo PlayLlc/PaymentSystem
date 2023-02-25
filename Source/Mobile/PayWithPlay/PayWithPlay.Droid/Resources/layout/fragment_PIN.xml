@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginHorizontal="24dp">
+
+    <androidx.appcompat.widget.AppCompatTextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
+        style="@style/DefaultTextStyle"
+        app:MvxBind="Text ActionText"/>
+
+    <PayWithPlay.Droid.CustomViews.InputBoxesView
+        android:id="@+id/input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center_horizontal"
+        android:descendantFocusability="beforeDescendants"
+        android:focusable="true" 
+        android:focusableInTouchMode="true"
+        app:highlighted="true"
+        app:pinFormat="true"
+        app:computeSize="false"
+        app:interceptTouches="true"
+        app:inputsCount="4"
+        app:MvxBind="InputBoxesValue InputValue"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="28dp"
+        style="@style/PrimaryButton"
+        app:MvxBind="Text ContinueButtonText; Click OnContinue"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        tools:ignore="Suspicious0dp">
+
+        <PayWithPlay.Droid.CustomViews.NumericKeybaordView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:layout_gravity="center"
+            app:MvxBind="FingerprintEnabled FingerprintEnabled; KeyClick OnKey"/>
+
+    </FrameLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/hint_text_color"
+        style="@style/DefaultTextStyle"
+        app:MvxBind="Text SafeMessage"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

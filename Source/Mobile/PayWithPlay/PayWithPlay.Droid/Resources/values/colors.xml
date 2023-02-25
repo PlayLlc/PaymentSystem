@@ -9,6 +9,7 @@
   <color name="secondary_text_color">#D1DBE8</color>
   <color name="input_background">#244B96</color>
   <color name="border_color">#EBEFFD</color>
+  <color name="separator_color">#F4F6F9</color>
   <color name="negative_color">#E84816</color>
   <color name="positive_color">#0FA26D</color>
   <color name="info_color">#47ABF2</color>

@@ -8,6 +8,7 @@
     <ApplicationVersion>1</ApplicationVersion>
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <SupportedOSPlatformVersion>28.0</SupportedOSPlatformVersion>
+    <UseMauiEssentials>true</UseMauiEssentials>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <Optimize>False</Optimize>
@@ -36,6 +37,7 @@
     <None Remove="Resources\drawable\primary_button_background.xml" />
     <None Remove="Resources\drawable\secondary_button_background.xml" />
     <None Remove="Resources\drawable\secondary_button_text_color.xml" />
+    <None Remove="Resources\drawable\switch_track.xml" />
     <None Remove="Resources\drawable\unelevated_button_text_color.xml" />
     <None Remove="Resources\drawable\verify_email_image.xml" />
     <None Remove="Resources\drawable\verify_phone_number_image.xml" />
@@ -49,7 +51,10 @@
     <None Remove="Resources\layout\activity_generic.xml" />
     <None Remove="Resources\layout\activity_sign_in.xml" />
     <None Remove="Resources\layout\activity_welcome.xml" />
+    <None Remove="Resources\layout\fragment_PIN.xml" />
+    <None Remove="Resources\layout\fragment_registration_biometrics.xml" />
     <None Remove="Resources\layout\fragment_registration_business_name.xml" />
+    <None Remove="Resources\layout\fragment_registration_congrats.xml" />
     <None Remove="Resources\layout\fragment_registration_home_or_business_address.xml" />
     <None Remove="Resources\layout\fragment_registration_merchant_type.xml" />
     <None Remove="Resources\layout\fragment_registration_user_address.xml" />
@@ -58,6 +63,7 @@
     <None Remove="Resources\layout\fragment_verify_identity.xml" />
     <None Remove="Resources\layout\row_device_settings.xml" />
     <None Remove="Resources\layout\row_merchant_type.xml" />
+    <None Remove="Resources\layout\view_numeric_keyboard.xml" />
     <None Remove="Resources\values\attrs.xml" />
     <None Remove="Resources\values\colors.xml" />
     <None Remove="Resources\values\ids.xml" />
@@ -79,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\" />
+    <Folder Include="Enums\" />
     <Folder Include="ViewHolders\" />
   </ItemGroup>
   <ItemGroup>

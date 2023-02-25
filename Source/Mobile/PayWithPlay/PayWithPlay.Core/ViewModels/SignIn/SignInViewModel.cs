@@ -1,5 +1,7 @@
-﻿using PayWithPlay.Core.Resources;
+﻿using MvvmCross.ViewModels;
+using PayWithPlay.Core.Resources;
 using PayWithPlay.Core.ViewModels.CreateAccount;
+using PayWithPlay.Core.ViewModels.PIN;
 
 namespace PayWithPlay.Core.ViewModels.SignIn
 {
@@ -20,7 +22,7 @@ namespace PayWithPlay.Core.ViewModels.SignIn
         public string? Email
         {
             get => _email;
-            set => SetProperty(ref _email, value); 
+            set => SetProperty(ref _email, value);
         }
 
         public string? Password
@@ -35,6 +37,7 @@ namespace PayWithPlay.Core.ViewModels.SignIn
 
         public void OnSignIn()
         {
+            NavigationService.Navigate<PINViewModel>(new MvxBundle(new Dictionary<string, string> { { PINViewModel.PINSignIn, string.Empty } }));
         }
 
         public void OnCreateAccount()

@@ -1,7 +1,9 @@
 ﻿using MvvmCross.DroidX.RecyclerView.ItemTemplates;
+using PayWithPlay.Core.ViewModels.CreateAccount;
 using PayWithPlay.Core.ViewModels.CreateAccount.MerchantRegistration;
 using PayWithPlay.Core.ViewModels.CreateAccount.UserRegistration;
 using PayWithPlay.Core.ViewModels.CreateAccount.VerifyIdentity;
+using PayWithPlay.Core.ViewModels.PIN;
 
 namespace PayWithPlay.Droid.TemplateSelectors
 {
@@ -15,7 +17,10 @@ namespace PayWithPlay.Droid.TemplateSelectors
             [typeof(RegistrationAddressViewModel)] = Resource.Layout.fragment_registration_user_address,
             [typeof(HomeOrBusinessAddressViewModel)] = Resource.Layout.fragment_registration_home_or_business_address,
             [typeof(MerchantTypeViewModel)] = Resource.Layout.fragment_registration_merchant_type,
-            [typeof(BusinessNameViewModel)] = Resource.Layout.fragment_registration_business_name
+            [typeof(BusinessNameViewModel)] = Resource.Layout.fragment_registration_business_name,
+            [typeof(PINViewModel)] = Resource.Layout.fragment_PIN,
+            [typeof(BiometricsRegistrationViewModel)] = Resource.Layout.fragment_registration_biometrics,
+            [typeof(CongratsRegistrationViewModel)] = Resource.Layout.fragment_registration_congrats,
         };
 
         public int ItemTemplateId { get; set; }

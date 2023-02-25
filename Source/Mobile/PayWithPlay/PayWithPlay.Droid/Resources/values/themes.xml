@@ -21,7 +21,7 @@
   </style>
 
   <!-- Base application theme. -->
-  <style name="Theme.Mobility.NoActionBar" parent="Theme.MaterialComponents.NoActionBar">
+  <style name="Theme.Mobility.NoActionBar" parent="Theme.Material3.DayNight.NoActionBar">
     <!-- Primary brand color. -->
     <item name="colorPrimary">@color/primary_color</item>
     <item name="colorPrimaryVariant">@color/primary_color</item>
@@ -44,6 +44,7 @@
     <item name="android:windowDisablePreview">false</item>
     <item name="android:windowBackground">@color/primary_color</item>
 
+    <item name="materialSwitchStyle">@style/SwitchStyle</item>
     <item name="InputBoxesViewStyleAttr">@style/InputBoxEditTextStyle</item>
   </style>
 
@@ -53,7 +54,6 @@
     <item name="android:minHeight">0dp</item>
     <item name="android:insetTop">0dp</item>
     <item name="android:insetBottom">0dp</item>
-    <item name="android:includeFontPadding">false</item>
     <item name="cornerRadius">24dp</item>
     <item name="android:fontFamily">@font/poppins_semibold</item>
     <item name="android:includeFontPadding">false</item>
@@ -85,7 +85,20 @@
     <item name="android:paddingHorizontal">0dp</item>
   </style>
 
-  <style name="PrimaryButtonTheme" parent="Theme.MaterialComponents">
+  <style name="NumberKeyButton" parent="@style/BaseButton">
+    <item name="android:textColor">@color/primary_text_color</item>
+    <item name="strokeWidth">2dp</item>
+    <item name="rippleColor">@color/accent_color</item>
+    <item name="strokeColor">@color/secondary_text_color</item>
+    <item name="backgroundTint">@drawable/secondary_button_background</item>
+    <item name="android:textSize">32sp</item>
+    <item name="cornerRadius">35dp</item>
+    <item name="android:insetLeft">0dp</item>
+    <item name="android:insetRight">0dp</item>
+    <item name="android:padding">0dp</item>
+  </style>
+
+  <style name="PrimaryButtonTheme" parent="ThemeOverlay.Material3">
     <item name="colorOnPrimary">@android:color/white</item>
     <item name="colorPrimary">@color/accent_color</item>
     <item name="colorOnSurface">@android:color/white</item>
@@ -113,7 +126,7 @@
     <item name="android:textColor">@color/primary_text_color</item>
     <item name="android:includeFontPadding">false</item>
   </style>
-  
+
   <style name="DefaultTextStyle" parent="@android:style/Widget.TextView">
     <item name="android:textSize">14sp</item>
     <item name="android:fontFamily">@font/poppins_medium</item>
@@ -132,7 +145,11 @@
     <item name="textInputStyle">@style/TextInputStyle</item>
     <item name="InputBoxesViewStyleAttr">@style/InputBoxEditTextStyle</item>
   </style>
-  
+
+  <style name="TextInputThemeColored" parent="@style/TextInputTheme">
+    <item name="textInputStyle">@style/TextInputStyleColored</item>
+  </style>
+
   <style name="TextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
     <item name="boxBackgroundColor">@color/white</item>
     <item name="labelBehavior">gone</item>
@@ -144,6 +161,11 @@
     <item name="android:textColor">@color/primary_text_color</item>
     <item name="android:includeFontPadding">false</item>
     <item name="colorAccent">@color/accent_color</item>
+  </style>
+
+  <style name="TextInputStyleColored" parent="@style/TextInputStyle">
+    <item name="boxStrokeColor">@color/accent_color</item>
+    <item name="strokeColor">@color/accent_color</item>
   </style>
 
   <style name="InputEditTextStyle" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox.Dense">
@@ -182,6 +204,12 @@
     <item name="android:textColor">@color/secondary_color</item>
     <item name="strokeColor">@color/secondary_color</item>
     <item name="backgroundTint">@drawable/enable_settings_button_selector</item>
+  </style>
+
+  <style name="SwitchStyle" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+    <item name="thumbTint">@color/white</item>
+    <item name="trackTint">@drawable/switch_track</item>
+    <item name="trackDecorationTint">@drawable/switch_track</item>
   </style>
   
 </resources>

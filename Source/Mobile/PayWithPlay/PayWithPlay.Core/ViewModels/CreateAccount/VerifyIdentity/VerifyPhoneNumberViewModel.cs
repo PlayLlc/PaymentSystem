@@ -14,6 +14,7 @@ namespace PayWithPlay.Core.ViewModels.CreateAccount.VerifyIdentity
         }
 
         public override VerifyIdentityType VerifyIdentityType => VerifyIdentityType.PhoneNumber;
+        public override TextStyleType TitleTextStyleType => TextStyleType.MediumTitle;
         public override string Title => Resource.VerifyPhoneNumberTitle;
         public override string Subtitle => Resource.VerifyPhoneNumberSubtitle;
         public override string Message => Resource.VerifyPhoneNumberMessage;

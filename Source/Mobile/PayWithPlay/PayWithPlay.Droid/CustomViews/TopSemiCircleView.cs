@@ -1,6 +1,5 @@
 ﻿using Android.Content;
 using Android.Graphics;
-using Android.Hardware.Lights;
 using Android.Runtime;
 using Android.Util;
 using Android.Views;
@@ -37,7 +36,7 @@ namespace PayWithPlay.Droid.CustomViews
         {
             if(SpecHeight == 0)
             {
-                SpecHeight = MeasureSpec.MakeMeasureSpec((int)(0.2216f * this.Context!.Resources!.DisplayMetrics!.HeightPixels), MeasureSpecMode.Exactly);
+                SpecHeight = MeasureSpec.MakeMeasureSpec((int)(0.2284264f * this.Context!.Resources!.DisplayMetrics!.HeightPixels), MeasureSpecMode.Exactly);
             }
 
             base.OnMeasure(widthMeasureSpec, SpecHeight);

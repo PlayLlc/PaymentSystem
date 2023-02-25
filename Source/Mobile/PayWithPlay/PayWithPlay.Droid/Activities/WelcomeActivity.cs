@@ -1,5 +1,4 @@
 ﻿using Android.Content.PM;
-using MvvmCross.Platforms.Android.Presenters.Attributes;
 using PayWithPlay.Core.ViewModels.Welcome;
 
 namespace PayWithPlay.Droid.Activities

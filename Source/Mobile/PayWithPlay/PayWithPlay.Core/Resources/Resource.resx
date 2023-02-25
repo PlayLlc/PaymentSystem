@@ -120,8 +120,14 @@
   <data name="AndText" xml:space="preserve">
     <value>and</value>
   </data>
+  <data name="Approval" xml:space="preserve">
+    <value>Approval</value>
+  </data>
   <data name="ApSuite" xml:space="preserve">
     <value>Ap. Suite</value>
+  </data>
+  <data name="BiometricsSwitchText" xml:space="preserve">
+    <value>Biometrics from phone</value>
   </data>
   <data name="Business" xml:space="preserve">
     <value>Business</value>
@@ -138,11 +144,26 @@
   <data name="City" xml:space="preserve">
     <value>City</value>
   </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="ConfirmPINCode" xml:space="preserve">
+    <value>Confirm your PIN code</value>
+  </data>
+  <data name="CongratsRegistrationMessage" xml:space="preserve">
+    <value>You have registered successfully!</value>
+  </data>
+  <data name="CongratsRegsitrationTitle" xml:space="preserve">
+    <value>Congrats!</value>
+  </data>
   <data name="Continue" xml:space="preserve">
     <value>Continue</value>
   </data>
   <data name="CreateAccount" xml:space="preserve">
     <value>Create Account</value>
+  </data>
+  <data name="CreatePINCode" xml:space="preserve">
+    <value>Create your PIN code</value>
   </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>Email address</value>
@@ -171,6 +192,9 @@
   <data name="ForgotPassword" xml:space="preserve">
     <value>Forgot password?</value>
   </data>
+  <data name="GetStarted" xml:space="preserve">
+    <value>Get started</value>
+  </data>
   <data name="HaveAccountQuestion" xml:space="preserve">
     <value>You already have an account?</value>
   </data>
@@ -185,6 +209,9 @@
   </data>
   <data name="LastNameText" xml:space="preserve">
     <value>Last name</value>
+  </data>
+  <data name="MerchantRegistration" xml:space="preserve">
+    <value>Merchant Registration</value>
   </data>
   <data name="MerchantTypeTitle" xml:space="preserve">
     <value>What type of merchant best describes you?</value>
@@ -213,8 +240,14 @@
   <data name="PhoneNumberText" xml:space="preserve">
     <value>Phone number</value>
   </data>
+  <data name="PINSafeMessage" xml:space="preserve">
+    <value>This keeps your account safe and secure .</value>
+  </data>
   <data name="PrivacyPolicy" xml:space="preserve">
     <value>Privacy Policy</value>
+  </data>
+  <data name="RegistrationBiometricsTitle" xml:space="preserve">
+    <value>Do you want to use biometrics security?</value>
   </data>
   <data name="ResendCode" xml:space="preserve">
     <value>Resend code</value>

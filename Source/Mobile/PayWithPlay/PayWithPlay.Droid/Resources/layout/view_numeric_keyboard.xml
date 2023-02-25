@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/row_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_marginBottom="12dp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_one"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:text="1"
+            style="@style/NumberKeyButton"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_two"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginHorizontal="20dp"
+            android:text="2"
+            style="@style/NumberKeyButton"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_three"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:text="3"
+            style="@style/NumberKeyButton"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/row_two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_marginBottom="12dp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_four"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:text="4"
+            style="@style/NumberKeyButton"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_five"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginHorizontal="20dp"
+            android:text="5"
+            style="@style/NumberKeyButton"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_six"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:text="6"
+            style="@style/NumberKeyButton"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/row_three"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_marginBottom="12dp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_seven"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:text="7"
+            style="@style/NumberKeyButton"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_eight"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginHorizontal="20dp"
+            android:text="8"
+            style="@style/NumberKeyButton"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_nine"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:text="9"
+            style="@style/NumberKeyButton"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/row_four"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_marginBottom="12dp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_fingerprint"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:icon="@drawable/ic_fingerprint"
+            app:iconTint="@color/primary_text_color"
+            style="@style/NumberKeyButton"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_zero"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginHorizontal="20dp"
+            android:text="0"
+            style="@style/NumberKeyButton"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_remove"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:icon="@drawable/ic_remove"
+            app:iconTint="@color/primary_text_color"
+            style="@style/NumberKeyButton"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -11,6 +11,8 @@ using Serilog.Extensions.Logging;
 using PayWithPlay.Droid.CustomViews;
 using PayWithPlay.Droid.CustomBindings.IndicatorBindings;
 using Google.Android.Material.TextField;
+using AndroidX.Core.Widget;
+using PayWithPlay.Droid.CustomBindings.NumericKeybaordView;
 
 namespace PayWithPlay.Droid
 {
@@ -48,6 +50,8 @@ namespace PayWithPlay.Droid
                 (imageView) => new MerchantTypeBinding(imageView));
 
             // Views
+            registry.RegisterCustomBindingFactory<NestedScrollView>(ScrollViewHandleNestedScrollBinding.Property,
+                (scrollView) => new ScrollViewHandleNestedScrollBinding(scrollView));
             registry.RegisterCustomBindingFactory<InputBoxesView>(InputBoxesBinding.Property,
                 (inputBoxes) => new InputBoxesBinding(inputBoxes));
 
@@ -55,9 +59,15 @@ namespace PayWithPlay.Droid
                 (progressBar) => new ProgressBarProgressBinding(progressBar));
             registry.RegisterCustomBindingFactory<ProgressBar>(ProgressBarMaxBinding.Property,
                 (progressBar) => new ProgressBarMaxBinding(progressBar));
+            registry.RegisterCustomBindingFactory<NumericKeybaordView>(NumericKeyboardFingerprintBinding.Property,
+                (numericKeybaodView) => new NumericKeyboardFingerprintBinding(numericKeybaodView));
 
             registry.RegisterCustomBindingFactory<TextInputLayout>(SetErrorInputBinding.Property,
                 (inputLayout) => new SetErrorInputBinding(inputLayout));
+
+            // TextViews
+            registry.RegisterCustomBindingFactory<TextView>(TextStyleBinding.Property,
+                (textView) => new TextStyleBinding(textView));
         }
 
         public override void LoadPlugins(IMvxPluginManager pluginManager)

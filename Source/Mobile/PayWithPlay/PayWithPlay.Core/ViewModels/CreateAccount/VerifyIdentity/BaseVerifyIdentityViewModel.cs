@@ -9,6 +9,8 @@ namespace PayWithPlay.Core.ViewModels.CreateAccount.VerifyIdentity
 
         public abstract VerifyIdentityType VerifyIdentityType { get; }
 
+        public abstract TextStyleType TitleTextStyleType { get; }
+
         public abstract string Title { get; }
 
         public abstract string Subtitle { get; }

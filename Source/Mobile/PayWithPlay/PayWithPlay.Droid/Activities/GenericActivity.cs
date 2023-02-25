@@ -1,4 +1,5 @@
 ﻿using Android.Content.PM;
+using AndroidX.AppCompat.Widget;
 using PayWithPlay.Core.ViewModels;
 
 namespace PayWithPlay.Droid.Activities
@@ -8,13 +9,10 @@ namespace PayWithPlay.Droid.Activities
     {
         protected override int LayoutId => Resource.Layout.activity_generic;
 
-        protected override void OnCreate(Bundle? savedInstanceState)
+        public void SetTopImage(int resId)
         {
-            base.OnCreate(savedInstanceState);
-
-            //SupportFragmentManager.BeginTransaction()
-            //    .Add(Resource.Id.fragment_containerView, VerifyIdentityFragment.NewInstance(VerifyIdentity.Email))
-            //    .Commit();
+            var topImage = FindViewById<AppCompatImageView>(Resource.Id.top_image)!;
+            topImage.SetImageResource(resId);
         }
     }
-} 
+}
