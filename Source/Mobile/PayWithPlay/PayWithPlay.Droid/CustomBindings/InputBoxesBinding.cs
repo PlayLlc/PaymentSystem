@@ -22,7 +22,7 @@ namespace PayWithPlay.Droid.CustomBindings
                 return;
             }
 
-            target.TextValue = value;
+            target.SetTextValue(value);
         }
 
         public override MvxBindingMode DefaultMode => MvxBindingMode.TwoWay;

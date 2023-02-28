@@ -331,6 +331,42 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This field cannot be empty..
+        /// </summary>
+        internal static string InvalidEmptyField {
+            get {
+                return ResourceManager.GetString("InvalidEmptyField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid format..
+        /// </summary>
+        internal static string InvalidInputFormat {
+            get {
+                return ResourceManager.GetString("InvalidInputFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maximum lenth should be {0}..
+        /// </summary>
+        internal static string InvalidMaxLengthInput {
+            get {
+                return ResourceManager.GetString("InvalidMaxLengthInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minimum lenth should be {0}..
+        /// </summary>
+        internal static string InvalidMinLengthInput {
+            get {
+                return ResourceManager.GetString("InvalidMinLengthInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last name.
         /// </summary>
         internal static string LastNameText {

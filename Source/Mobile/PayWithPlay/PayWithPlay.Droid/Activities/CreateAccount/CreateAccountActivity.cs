@@ -9,7 +9,7 @@ using Google.Android.Material.CheckBox;
 using PayWithPlay.Droid.Utils;
 using PayWithPlay.Core.ViewModels.CreateAccount;
 using static Android.Widget.TextView;
-using MvvmCross.Platforms.Android.Presenters.Attributes;
+using PayWithPlay.Droid.CustomViews;
 
 namespace PayWithPlay.Droid.Activities.CreateAccount
 {
@@ -23,6 +23,10 @@ namespace PayWithPlay.Droid.Activities.CreateAccount
             base.OnCreate(savedInstanceState);
 
             SetTermsAndPivacyCheckBox();
+
+            var emailEt = FindViewById<EditTextWithValidation>(Resource.Id.email_et);
+            var passwordEt = FindViewById<EditTextWithValidation>(Resource.Id.password_et);
+            ViewModel.SetInputValidations(emailEt, passwordEt);
         }
 
         private void SetTermsAndPivacyCheckBox()

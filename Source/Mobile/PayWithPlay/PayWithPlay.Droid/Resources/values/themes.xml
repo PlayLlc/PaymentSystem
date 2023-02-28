@@ -156,6 +156,8 @@
     <item name="hintAnimationEnabled">false</item>
     <item name="hintEnabled">false</item>
     <item name="boxStrokeWidth">2dp</item>
+    <item name="errorIconDrawable">@null</item>
+    <item name="boxStrokeErrorColor">@color/negative_color</item>
     <item name="android:textColorHint">@color/hint_text_color</item>
     <item name="hintTextColor">@color/hint_text_color</item>
     <item name="android:textColor">@color/primary_text_color</item>

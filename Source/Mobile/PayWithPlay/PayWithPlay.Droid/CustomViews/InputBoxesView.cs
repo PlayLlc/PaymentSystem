@@ -121,24 +121,34 @@ namespace PayWithPlay.Droid.CustomViews
                 _textValue = value;
 
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TextValue)));
+            }
+        }
 
-                if (!string.IsNullOrWhiteSpace(value))
+        public void SetTextValue(string value)
+        {
+            if (Equals(_textValue, value))
+            {
+                return;
+            }
+
+            _textValue = value;
+
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                for (int i = 0; i < value.Length; i++)
                 {
-                    for (int i = 0; i < value.Length; i++)
+                    if (i >= _editTexts.Count)
                     {
-                        if (i >= _editTexts.Count)
-                        {
-                            break;
-                        }
-                        _editTexts[i].Text = value[i].ToString();
+                        break;
                     }
+                    _editTexts[i].Text = value[i].ToString();
                 }
-                else
+            }
+            else
+            {
+                foreach (var editText in _editTexts)
                 {
-                    foreach (var editText in _editTexts)
-                    {
-                        editText.Text = string.Empty;
-                    }
+                    editText.Text = string.Empty;
                 }
             }
         }
@@ -227,7 +237,7 @@ namespace PayWithPlay.Droid.CustomViews
                     (int)editText.Tag != 0 &&
                     editText.SelectionEnd == 0)
                 {
-                    var prev = (EditText)editText.FocusSearch(FocusSearchDirection.Left)!; // or FOCUS_FORWARD
+                    var prev = (EditText)editText.FocusSearch(FocusSearchDirection.Backward)!;
                     if (prev != null)
                     {
                         prev.RequestFocus();

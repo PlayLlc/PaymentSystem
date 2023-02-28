@@ -72,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="24dp">
 
-                    <PayWithPlay.Droid.CustomViews.EditTextWithClearFocus
+                    <PayWithPlay.Droid.CustomViews.EditTextWithValidation
                         android:id="@+id/email_et"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -101,7 +101,7 @@
                     app:endIconTint="@color/hint_text_color"
                     app:endIconMode="password_toggle">
 
-                    <PayWithPlay.Droid.CustomViews.EditTextWithClearFocus
+                    <PayWithPlay.Droid.CustomViews.EditTextWithValidation
                         android:id="@+id/password_et"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -147,7 +147,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         style="@style/PrimaryButton"
-                        app:MvxBind="Text CreateAccountButtonText; Click OnCreateAccount"/>
+                        app:MvxBind="Text CreateAccountButtonText; Click OnCreateAccount; Enabled CreateAccountButtonEnabled"/>
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"

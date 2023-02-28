@@ -207,6 +207,18 @@
   <data name="Individual" xml:space="preserve">
     <value>Individual</value>
   </data>
+  <data name="InvalidEmptyField" xml:space="preserve">
+    <value>This field cannot be empty.</value>
+  </data>
+  <data name="InvalidInputFormat" xml:space="preserve">
+    <value>Invalid format.</value>
+  </data>
+  <data name="InvalidMaxLengthInput" xml:space="preserve">
+    <value>Maximum lenth should be {0}.</value>
+  </data>
+  <data name="InvalidMinLengthInput" xml:space="preserve">
+    <value>Minimum lenth should be {0}.</value>
+  </data>
   <data name="LastNameText" xml:space="preserve">
     <value>Last name</value>
   </data>

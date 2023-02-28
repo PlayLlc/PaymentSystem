@@ -24,8 +24,10 @@ namespace PayWithPlay.Core.ViewModels.CreateAccount.VerifyIdentity
         public string? InputValue
         {
             get => _inputValue;
-            set => SetProperty(ref _inputValue, value);
+            set => SetProperty(ref _inputValue, value, () => RaisePropertyChanged(() => VerifyButtonEnabled));
         }
+
+        public bool VerifyButtonEnabled => InputValue != null && InputValue.Length == 6;
 
         public abstract void OnVerify();
 
