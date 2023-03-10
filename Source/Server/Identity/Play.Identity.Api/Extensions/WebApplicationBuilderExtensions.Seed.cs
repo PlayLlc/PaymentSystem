@@ -14,10 +14,13 @@ public static partial class WebApplicationBuilderExtensions
     internal static async Task SeedDb(this WebApplicationBuilder builder)
     {
         ServiceProvider serviceBuilder = builder.Services.BuildServiceProvider();
+        var a = serviceBuilder.GetService<UserIdentityDbContext>();
+        var b = serviceBuilder.GetService<IHashPasswords>();
+
         UserIdentityDbSeeder seeder = new(serviceBuilder.GetService<UserIdentityDbContext>()!, serviceBuilder.GetService<IHashPasswords>()!);
 
         await seeder.Seed(serviceBuilder.GetService<UserManager<UserIdentity>>()!,
-                new(serviceBuilder.GetService<UserIdentityDbContext>()))
+                new RoleStore<RoleIdentity>(serviceBuilder.GetService<UserIdentityDbContext>()))
             .ConfigureAwait(false);
     }
 

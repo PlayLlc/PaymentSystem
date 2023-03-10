@@ -11,6 +11,8 @@ using Play.Domain.ValueObjects;
 using Play.Mvc.Exceptions;
 using Play.Restful.Clients;
 
+using Serilog;
+
 namespace Play.Mvc.Filters;
 
 public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
@@ -38,6 +40,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
             {typeof(AggregateException), HandleAggregateException},
             {typeof(NotFoundException), HandleNotFoundException},
             {typeof(CommandOutOfSyncException), HandleCommandOutOfSyncException},
+            {typeof(ApiException), HandleApiException},
             {typeof(PlayInternalException), HandlePlayInternalException},
             {typeof(InvalidOperationException), HandleInvalidOperationExceptionException},
             {typeof(Exception), HandleUncaughtException}
@@ -51,7 +54,6 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     private void HandleApiException(ExceptionContext context)
     {
         ApiException exception = (ApiException) context.Exception;
-
         ProblemDetails details = new()
         {
             Title = "An unhandled exception was thrown while using a Restful API Client",
