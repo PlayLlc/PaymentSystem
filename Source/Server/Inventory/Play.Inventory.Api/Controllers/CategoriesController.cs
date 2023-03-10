@@ -28,25 +28,28 @@ public class CategoriesController : BaseController
     #region Instance Members
 
     [HttpGetSwagger]
-    [ValidateAntiForgeryToken]
+
+    //[ValidateAntiForgeryToken]
     public async Task<IEnumerable<CategoryDto>> GetAll([FromQuery] string merchantId)
     {
-        return (await _CategoryRepository.GetCategoriesAsync(new(merchantId)).ConfigureAwait(false)).Select(a => a.AsDto())
+        return (await _CategoryRepository.GetCategoriesAsync(new SimpleStringId(merchantId)).ConfigureAwait(false)).Select(a => a.AsDto())
                ?? Array.Empty<CategoryDto>();
     }
 
     [HttpGetSwagger(template: "{categoryId}")]
-    [ValidateAntiForgeryToken]
+
+    //[ValidateAntiForgeryToken]
     public async Task<CategoryDto> Get(string categoryId)
     {
-        Category merchantRegistration = await _CategoryRepository.GetByIdAsync(new(categoryId)).ConfigureAwait(false)
+        Category merchantRegistration = await _CategoryRepository.GetByIdAsync(new SimpleStringId(categoryId)).ConfigureAwait(false)
                                         ?? throw new NotFoundException(typeof(Category));
 
         return merchantRegistration.AsDto();
     }
 
     [HttpPostSwagger]
-    [ValidateAntiForgeryToken]
+
+    //[ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CreateCategory command)
     {
         this.ValidateModel();
@@ -62,7 +65,7 @@ public class CategoriesController : BaseController
     {
         this.ValidateModel();
 
-        Category category = await _CategoryRepository.GetByIdAsync(new(command.CategoryId)).ConfigureAwait(false)
+        Category category = await _CategoryRepository.GetByIdAsync(new SimpleStringId(command.CategoryId)).ConfigureAwait(false)
                             ?? throw new NotFoundException(typeof(Category));
 
         await category.RemoveCategory(_UserRetriever, command).ConfigureAwait(false);

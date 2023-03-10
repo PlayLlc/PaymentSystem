@@ -31,7 +31,7 @@ public class InventoryController : BaseController
     {
         this.ValidateModel();
 
-        return (await _InventoryRepository.GetByStoreIdAsync(new(storeId)).ConfigureAwait(false))?.AsDto()
+        return (await _InventoryRepository.GetByStoreIdAsync(new SimpleStringId(storeId)).ConfigureAwait(false))?.AsDto()
                ?? throw new NotFoundException(typeof(InventoryDto));
     }
 
