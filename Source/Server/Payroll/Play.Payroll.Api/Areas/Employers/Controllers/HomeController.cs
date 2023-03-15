@@ -16,7 +16,7 @@ namespace Play.Payroll.Api.Areas.Employers.Controllers;
 
 [Authorize]
 [ApiController]
-[Area($"{nameof(Members)}")]
+[Area($"{nameof(Employers)}")]
 [Route("/Payroll/[area]")]
 public class HomeController : BaseController
 {

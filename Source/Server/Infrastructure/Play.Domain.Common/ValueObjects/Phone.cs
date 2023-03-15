@@ -15,7 +15,7 @@ public record Phone : ValueObject<string>
         if (!new PhoneAttribute().IsValid(Value))
             throw new ValueObjectException($"The {nameof(Phone)} provided was invalid: [{value}]");
 
-        if (PlayCodec.NumericCodec.IsValid(value))
+        if (!PlayCodec.NumericCodec.IsValid(value))
             throw new ValueObjectException($"The {nameof(Phone)} provided contained characters that were not numeric: [{value}]");
     }
 

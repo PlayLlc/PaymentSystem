@@ -13,8 +13,8 @@ using Play.Payroll.Domain.Services;
 namespace Play.Payroll.Api.Areas.Employers.Controllers;
 
 [ApiController]
-[Area($"{nameof(Members)}")]
-[Route("/Loyalty/[area]/")]
+[Area($"{nameof(Employers)}")]
+[Route("/Payroll/[area]/")]
 public class EmployeesController : BaseController
 {
     #region Constructor

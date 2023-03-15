@@ -52,7 +52,7 @@ public class UserController : Controller
     [ValidateAntiForgeryToken]
     public async Task<UserRegistrationDto> Get([FromQuery] string id)
     {
-        UserRegistration userRegistration = await _UserRegistrationRepository.GetByIdAsync(new(id)).ConfigureAwait(false)
+        UserRegistration userRegistration = await _UserRegistrationRepository.GetByIdAsync(new SimpleStringId(id)).ConfigureAwait(false)
                                             ?? throw new NotFoundException(typeof(UserRegistration));
 
         return userRegistration.AsDto();
@@ -79,7 +79,7 @@ public class UserController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> EmailVerification([FromQuery] string id)
     {
-        UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(new(id)).ConfigureAwait(false)
+        UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(new SimpleStringId(id)).ConfigureAwait(false)
                                              ?? throw new NotFoundException(typeof(UserRegistration));
 
         if (userRegistration.HasEmailBeenVerified())
@@ -95,7 +95,7 @@ public class UserController : Controller
         this.ValidateModel();
 
         UserRegistration? userRegistration =
-            await _UserRegistrationRepository.GetByIdAsync(new(command.UserRegistrationId)).ConfigureAwait(false)
+            await _UserRegistrationRepository.GetByIdAsync(new SimpleStringId(command.UserRegistrationId)).ConfigureAwait(false)
             ?? throw new NotFoundException(typeof(UserRegistration), command.UserRegistrationId);
 
         userRegistration.VerifyEmail(command);
@@ -109,7 +109,7 @@ public class UserController : Controller
     {
         this.ValidateModel();
 
-        UserRegistration userRegistration = await _UserRegistrationRepository.GetByIdAsync(new(command.Id)).ConfigureAwait(false)
+        UserRegistration userRegistration = await _UserRegistrationRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
                                             ?? throw new NotFoundException(typeof(UserRegistration));
 
         userRegistration.UpdateContactInfo(command);
@@ -122,7 +122,7 @@ public class UserController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> PhoneVerification([FromQuery] string id)
     {
-        UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(new(id)).ConfigureAwait(false)
+        UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(new SimpleStringId(id)).ConfigureAwait(false)
                                              ?? throw new NotFoundException(typeof(UserRegistration));
 
         if (userRegistration.HasEmailBeenVerified())
@@ -138,7 +138,7 @@ public class UserController : Controller
         this.ValidateModel();
 
         UserRegistration? userRegistration =
-            await _UserRegistrationRepository.GetByIdAsync(new(command.UserRegistrationId)).ConfigureAwait(false)
+            await _UserRegistrationRepository.GetByIdAsync(new SimpleStringId(command.UserRegistrationId)).ConfigureAwait(false)
             ?? throw new NotFoundException(typeof(UserRegistration));
 
         userRegistration.VerifyMobilePhone(command);
@@ -151,7 +151,7 @@ public class UserController : Controller
     public async Task<IActionResult> Address([FromBody] UpdateAddressCommand command)
     {
         this.ValidateModel();
-        UserRegistration userRegistration = await _UserRegistrationRepository.GetByIdAsync(new(command.Id)).ConfigureAwait(false)
+        UserRegistration userRegistration = await _UserRegistrationRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
                                             ?? throw new NotFoundException(typeof(UserRegistration));
 
         userRegistration.UpdateUserAddress(command);
@@ -165,7 +165,7 @@ public class UserController : Controller
     {
         this.ValidateModel();
 
-        UserRegistration userRegistration = await _UserRegistrationRepository.GetByIdAsync(new(command.Id)).ConfigureAwait(false)
+        UserRegistration userRegistration = await _UserRegistrationRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
                                             ?? throw new NotFoundException(typeof(UserRegistration));
 
         userRegistration.UpdatePersonalDetails(command);
@@ -179,7 +179,7 @@ public class UserController : Controller
     {
         this.ValidateModel();
 
-        UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(new(id)).ConfigureAwait(false)
+        UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(new SimpleStringId(id)).ConfigureAwait(false)
                                              ?? throw new NotFoundException(typeof(MerchantRegistration));
 
         userRegistration.AnalyzeUserRisk(_MerchantUnderwriter);

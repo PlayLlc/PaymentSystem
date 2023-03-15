@@ -6,7 +6,7 @@ using Play.Loyalty.Domain.Services;
 
 namespace Play.Loyalty.Endpoint.Handlers;
 
-public class LoyaltyMembersHandler : IHandleMessages<LoyaltyMemberCreatedEvent>, IHandleMessages<LoyaltyMemberEarnedPointsEvent>,
+public partial class LoyaltyMembersHandler : IHandleMessages<LoyaltyMemberCreatedEvent>, IHandleMessages<LoyaltyMemberEarnedPointsEvent>,
     IHandleMessages<LoyaltyMemberEarnedRewardsEvent>, IHandleMessages<LoyaltyMemberLostPointsEvent>, IHandleMessages<LoyaltyMemberRedeemedRewardsEvent>,
     IHandleMessages<LoyaltyMemberRemovedEvent>, IHandleMessages<LoyaltyMemberUpdatedEvent>
 
