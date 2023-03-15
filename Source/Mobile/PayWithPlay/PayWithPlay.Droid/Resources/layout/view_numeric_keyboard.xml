@@ -141,7 +141,7 @@
             android:layout_height="70dp"
             app:iconGravity="textStart"
             app:iconPadding="0dp"
-            app:icon="@drawable/ic_remove"
+            app:icon="@drawable/ic_backspace"
             app:iconTint="@color/primary_text_color"
             style="@style/NumberKeyButton"/>
 

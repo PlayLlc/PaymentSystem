@@ -60,10 +60,7 @@ namespace PayWithPlay.Droid.CustomViews
         private void DismissKeyboard()
         {
             var imm = Context?.GetSystemService(Activity.InputMethodService) as InputMethodManager;
-            if (imm != null)
-            {
-                imm.HideSoftInputFromWindow(this.WindowToken, 0);
-            }
+            imm?.HideSoftInputFromWindow(this.WindowToken, 0);
         }
     }
 }

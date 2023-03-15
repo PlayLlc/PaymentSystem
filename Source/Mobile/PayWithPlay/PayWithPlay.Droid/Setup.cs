@@ -13,6 +13,8 @@ using PayWithPlay.Droid.CustomBindings.IndicatorBindings;
 using Google.Android.Material.TextField;
 using AndroidX.Core.Widget;
 using PayWithPlay.Droid.CustomBindings.NumericKeybaordView;
+using Android.Views;
+using PayWithPlay.Droid.CustomBindings.CreateAccountBindings;
 
 namespace PayWithPlay.Droid
 {
@@ -68,6 +70,15 @@ namespace PayWithPlay.Droid
             // TextViews
             registry.RegisterCustomBindingFactory<TextView>(TextStyleBinding.Property,
                 (textView) => new TextStyleBinding(textView));
+
+            registry.RegisterCustomBindingFactory<View>(UserNameViewBinding.Property,
+                (userNameView) => new UserNameViewBinding(userNameView));
+            registry.RegisterCustomBindingFactory<View>(AddressViewBinding.Property,
+                (userNameView) => new AddressViewBinding(userNameView));
+            registry.RegisterCustomBindingFactory<View>(PhoneNumberViewBinding.Property,
+                (userNameView) => new PhoneNumberViewBinding(userNameView));
+            registry.RegisterCustomBindingFactory<View>(BusinessNameViewBinding.Property,
+                (userNameView) => new BusinessNameViewBinding(userNameView));
         }
 
         public override void LoadPlugins(IMvxPluginManager pluginManager)

@@ -40,8 +40,10 @@ namespace PayWithPlay.Core.ViewModels.PIN
         public string? InputValue
         {
             get => _inputValue;
-            set => SetProperty(ref _inputValue, value);
+            set => SetProperty(ref _inputValue, value, () => RaisePropertyChanged(() => ContinueButtonEnabled));
         }
+
+        public bool ContinueButtonEnabled => InputValue != null && InputValue.Length == 4;
 
         public bool FingerprintEnabled => Type == PINPageType.SignInConfirm;
 
