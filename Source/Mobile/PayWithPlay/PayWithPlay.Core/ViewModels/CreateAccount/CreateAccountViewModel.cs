@@ -4,12 +4,13 @@ using PayWithPlay.Core.Resources;
 using PayWithPlay.Core.Utils.Validations;
 using PayWithPlay.Core.ViewModels.CreateAccount.VerifyIdentity;
 using PayWithPlay.Core.ViewModels.SignIn;
+using System.Collections.Generic;
 
 namespace PayWithPlay.Core.ViewModels.CreateAccount
 {
     public partial class CreateAccountViewModel : BaseViewModel
     {
-        private List<ITextInputValidator> _inputValidations = new();
+        private readonly List<ITextInputValidator> _inputValidations = new();
 
         private string? _email;
         private string? _password;

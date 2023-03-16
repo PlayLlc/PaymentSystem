@@ -1,11 +1,10 @@
 ﻿using Android.Content;
-using Android.Content.Res;
-using Android.Graphics;
 using Android.Runtime;
 using Android.Text;
 using Android.Util;
 using Android.Views;
 using Android.Views.InputMethods;
+using AndroidX.Core.View;
 using Google.Android.Material.TextField;
 using PayWithPlay.Droid.Extensions;
 using System.ComponentModel;
@@ -182,28 +181,25 @@ namespace PayWithPlay.Droid.CustomViews
             }
         }
 
-        private void InputView_AfterTextChanged(object? sender, global::Android.Text.AfterTextChangedEventArgs e)
+        private void InputView_BeforeTextChanged(object? sender, TextChangedEventArgs e)
         {
-            var currentFocusedView = (EditTextWithClearFocus)sender!;
-            if (!currentFocusedView.HasFocus)
+            if (e.AfterCount < 1) 
             {
                 return;
             }
 
-            if (currentFocusedView.Text != null && currentFocusedView.Text.Length > 0)
+            var currentFocusedView = (EditTextWithClearFocus)sender!;
+            if ((int)currentFocusedView.Tag == _inputsCount - 1)
             {
-                if ((int)currentFocusedView.Tag == _inputsCount - 1)
+                currentFocusedView.ClearFocus();
+            }
+            else
+            {
+                var next = _editTexts[(int)currentFocusedView.Tag + 1];
+                if (next != null)
                 {
-                    currentFocusedView.ClearFocus();
-                }
-                else
-                {
-                    var next = (EditText)currentFocusedView.FocusSearch(FocusSearchDirection.Right)!; // or FOCUS_FORWARD
-                    if (next != null)
-                    {
-                        next.RequestFocus();
-                        next.SetSelection(0);
-                    }
+                    next.RequestFocus();
+                    next.SetSelection(0);
                 }
             }
         }
@@ -211,14 +207,16 @@ namespace PayWithPlay.Droid.CustomViews
         private void InputView_TextChanged(object? sender, global::Android.Text.TextChangedEventArgs e)
         {
             var editText = (EditTextWithClearFocus)sender!;
-            if (!editText.HasFocus)
-            {
-                return;
-            }
-
             if (e!.Text.Count() > 1)
             {
+                editText.BeforeTextChanged -= InputView_BeforeTextChanged;
+                editText.TextChanged -= InputView_TextChanged;
+
                 editText.Text = e.Text.ElementAt(e.Start).ToString();
+
+                editText.BeforeTextChanged += InputView_BeforeTextChanged;
+                editText.TextChanged += InputView_TextChanged;
+
                 if ((int)editText.Tag == _inputsCount - 1)
                 {
                     editText.SetSelection(1);
@@ -230,10 +228,10 @@ namespace PayWithPlay.Droid.CustomViews
 
         private void InputView_KeyPress(object? sender, KeyEventArgs e)
         {
-            if (e!.Event!.Action == KeyEventActions.Down &&
-                e.KeyCode == Keycode.Del)
+            if (e!.Event!.Action == KeyEventActions.Down)
             {
-                if (sender is EditTextWithClearFocus editText &&
+                if (e.KeyCode == Keycode.Del &&
+                    sender is EditTextWithClearFocus editText &&
                     (int)editText.Tag != 0 &&
                     editText.SelectionEnd == 0)
                 {
@@ -254,6 +252,11 @@ namespace PayWithPlay.Droid.CustomViews
 
         private void AddInputBoxes()
         {
+            foreach (var editText in _editTexts)
+            {
+                editText.TextChanged -= InputView_TextChanged;
+                editText.KeyPress -= InputView_KeyPress;
+            }
             _editTexts.Clear();
 
             for (int i = 0; i < _inputsCount; i++)
@@ -294,6 +297,7 @@ namespace PayWithPlay.Droid.CustomViews
             var inputView = new EditTextWithClearFocus(contextTheme, null, Resource.Attribute.InputBoxesViewStyleAttr);
             inputLayout.AddView(inputView);
 
+            inputView.Id = ViewCompat.GenerateViewId();
             inputView.Tag = index;
             inputView.ImeOptions = index != _inputsCount - 1 ? ImeAction.Next : ImeAction.Done;
             inputView.SetPadding(0, 0, 0, 0);
@@ -311,8 +315,8 @@ namespace PayWithPlay.Droid.CustomViews
             lp.Width = _inputWidth;
             inputView.LayoutParameters = lp;
 
-            inputView.AfterTextChanged += InputView_AfterTextChanged;
             inputView.KeyPress += InputView_KeyPress;
+            inputView.BeforeTextChanged += InputView_BeforeTextChanged;
             inputView.TextChanged += InputView_TextChanged;
 
             _editTexts.Add(inputView);

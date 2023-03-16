@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <item
+      android:id="@+id/home"
+      android:icon="@drawable/ic_home_selector"/>
+
+  <item
+      android:id="@+id/point_of_sale"
+      android:icon="@drawable/ic_point_of_sale_selector"/>
+
+  <item
+      android:id="@+id/loyalty"
+      android:icon="@drawable/ic_loyalty_selector"/>
+
+  <item
+      android:id="@+id/inventory"
+      android:icon="@drawable/ic_inventory_selector" />
+
+  <item
+      android:id="@+id/components"
+      android:icon="@drawable/ic_components_selector" />
+</menu>

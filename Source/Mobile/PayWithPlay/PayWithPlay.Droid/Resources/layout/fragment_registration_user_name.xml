@@ -8,7 +8,8 @@
     android:layout_height="match_parent"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:layout_marginHorizontal="24dp">
+    android:layout_marginHorizontal="24dp"
+    app:MvxBind="UserNameView .">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
@@ -31,7 +32,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp">
 
-        <PayWithPlay.Droid.CustomViews.EditTextWithClearFocus
+        <PayWithPlay.Droid.CustomViews.EditTextWithValidation
+            android:id="@+id/first_nameEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"
@@ -55,7 +57,8 @@
         android:layout_marginBottom="20dp"
         app:endIconTint="@color/hint_text_color">
 
-        <PayWithPlay.Droid.CustomViews.EditTextWithClearFocus
+        <PayWithPlay.Droid.CustomViews.EditTextWithValidation
+            android:id="@+id/last_nameEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionGo"
@@ -92,6 +95,6 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         style="@style/PrimaryButton"
-        app:MvxBind="Text ContinueText; Click OnContinue"/>
+        app:MvxBind="Text ContinueText; Click OnContinue; Enabled ContinueButtonEnabled"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

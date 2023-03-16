@@ -36,6 +36,15 @@ namespace PayWithPlay.Core.ViewModels.CreateAccount
             MaxProgress = StepsModels.Count;
         }
 
+        public override void ViewDestroy(bool viewFinishing = true)
+        {
+            ((UserNameViewModel)StepsModels.First(t => t is UserNameViewModel)).ClearValidators();
+            ((UserPhoneNumberViewModel)StepsModels.First(t => t is UserPhoneNumberViewModel)).ClearValidator();
+            ((RegistrationAddressViewModel)StepsModels.First(t => t is RegistrationAddressViewModel)).ClearValidators();
+            ((BusinessNameViewModel)StepsModels.First(t => t is BusinessNameViewModel)).ClearValidator();
+
+            base.ViewDestroy(viewFinishing);
+        }
 
         public Action<int>? ScrollToPageAction { get; set; }
 

@@ -45,7 +45,15 @@
     <item name="android:windowBackground">@color/primary_color</item>
 
     <item name="materialSwitchStyle">@style/SwitchStyle</item>
+    <item name="bottomNavigationStyle">@style/BottomNavigationViewStyle</item>
     <item name="InputBoxesViewStyleAttr">@style/InputBoxEditTextStyle</item>
+  </style>
+
+  <style name="BottomNavigationViewStyle" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
+    <item name="backgroundTint">@color/secondary_color</item>
+    <item name="itemIconTint">@drawable/selector_bottom_navigation_icon</item>
+    <item name="itemBackground">@drawable/selector_bottom_navigation_item</item>
+    <item name="elevation">20dp</item>
   </style>
 
   <style name="BaseButton" parent="Widget.MaterialComponents.Button">
@@ -208,10 +216,18 @@
     <item name="backgroundTint">@drawable/enable_settings_button_selector</item>
   </style>
 
+  <style name="PointOfSaleButtonStyle" parent="@style/BaseButton">
+    <item name="strokeWidth">2dp</item>
+    <item name="android:textColor">@color/secondary_color</item>
+    <item name="strokeColor">@color/secondary_color</item>
+    <item name="iconTint">@color/secondary_color</item>
+    <item name="iconGravity">start</item>
+  </style>
+
   <style name="SwitchStyle" parent="Widget.Material3.CompoundButton.MaterialSwitch">
     <item name="thumbTint">@color/white</item>
     <item name="trackTint">@drawable/switch_track</item>
     <item name="trackDecorationTint">@drawable/switch_track</item>
   </style>
-  
+
 </resources>

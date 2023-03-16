@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
   <data name="AndText" xml:space="preserve">
     <value>and</value>
   </data>
@@ -141,8 +144,17 @@
   <data name="BusinessNameTitle" xml:space="preserve">
     <value>What is your business name?</value>
   </data>
+  <data name="Chat" xml:space="preserve">
+    <value>Chat</value>
+  </data>
   <data name="City" xml:space="preserve">
     <value>City</value>
+  </data>
+  <data name="Components" xml:space="preserve">
+    <value>Components</value>
+  </data>
+  <data name="ComponentsSubtitle" xml:space="preserve">
+    <value>Choose what you want to do next.</value>
   </data>
   <data name="Confirm" xml:space="preserve">
     <value>Confirm</value>
@@ -219,8 +231,17 @@
   <data name="InvalidMinLengthInput" xml:space="preserve">
     <value>Minimum lenth should be {0}.</value>
   </data>
+  <data name="Inventory" xml:space="preserve">
+    <value>Inventory</value>
+  </data>
+  <data name="Invoices" xml:space="preserve">
+    <value>Invoices</value>
+  </data>
   <data name="LastNameText" xml:space="preserve">
     <value>Last name</value>
+  </data>
+  <data name="Loyalty" xml:space="preserve">
+    <value>Loyalty</value>
   </data>
   <data name="MerchantRegistration" xml:space="preserve">
     <value>Merchant Registration</value>
@@ -255,6 +276,12 @@
   <data name="PINSafeMessage" xml:space="preserve">
     <value>This keeps your account safe and secure .</value>
   </data>
+  <data name="PointOfSale" xml:space="preserve">
+    <value>Point of sale</value>
+  </data>
+  <data name="PointOfSaleSubtitle" xml:space="preserve">
+    <value>Please select one among following payments methods.</value>
+  </data>
   <data name="PrivacyPolicy" xml:space="preserve">
     <value>Privacy Policy</value>
   </data>
@@ -264,6 +291,12 @@
   <data name="ResendCode" xml:space="preserve">
     <value>Resend code</value>
   </data>
+  <data name="Return" xml:space="preserve">
+    <value>Return</value>
+  </data>
+  <data name="Sale" xml:space="preserve">
+    <value>Sale</value>
+  </data>
   <data name="SignIn" xml:space="preserve">
     <value>Sign in</value>
   </data>
@@ -272,6 +305,9 @@
   </data>
   <data name="StreetAddress" xml:space="preserve">
     <value>Street Address</value>
+  </data>
+  <data name="TeamManagement" xml:space="preserve">
+    <value>Team Management</value>
   </data>
   <data name="TermsOfService" xml:space="preserve">
     <value>Terms of Service</value>
