@@ -4,7 +4,7 @@ using Play.Payroll.Domain.Entities;
 
 namespace Play.Payroll.Domain.Aggregates;
 
-public class EmployeeMustExist : BusinessRule<Employer, SimpleStringId>
+public class EmployeeMustExist : BusinessRule<Employer>
 {
     #region Instance Values
 

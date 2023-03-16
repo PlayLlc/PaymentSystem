@@ -4,7 +4,7 @@ using Play.Identity.Domain.Services;
 
 namespace Play.Identity.Domain.Aggregates;
 
-internal class UserRegistrationUsernameMustBeUnique : BusinessRule<UserRegistration, SimpleStringId>
+internal class UserRegistrationUsernameMustBeUnique : BusinessRule<UserRegistration>
 {
     #region Instance Values
 

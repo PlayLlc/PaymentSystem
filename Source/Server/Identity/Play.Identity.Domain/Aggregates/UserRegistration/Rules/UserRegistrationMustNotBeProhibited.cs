@@ -6,7 +6,7 @@ using Play.Identity.Domain.Services;
 
 namespace Play.Identity.Domain.Aggregates;
 
-internal class UserRegistrationMustNotBeProhibited : BusinessRule<UserRegistration, SimpleStringId>
+internal class UserRegistrationMustNotBeProhibited : BusinessRule<UserRegistration>
 {
     #region Instance Values
 

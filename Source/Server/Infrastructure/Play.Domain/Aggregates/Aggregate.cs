@@ -18,34 +18,40 @@ public abstract class Aggregate<_TId> : Entity<_TId>, IAggregate, IEquatable<Agg
     }
 
     /// <exception cref="BusinessRuleValidationException"></exception>
-    protected void Enforce(IBusinessRule rule)
+    protected void Enforce<_Aggregate>(BusinessRule<_Aggregate> rule) where _Aggregate : IAggregate
     {
         if (!rule.IsBroken())
             return;
 
-        Publish(((IBusinessRule<Aggregate<_TId>>) rule).CreateBusinessRuleViolationDomainEvent(this));
+        var violationTemp = rule.CreateBusinessRuleViolationDomainEvent((dynamic) this);
 
-        throw new BusinessRuleValidationException(rule);
+        Publish((DomainEvent) violationTemp);
+
+        var exc = new BusinessRuleValidationException(rule);
+
+        // Publish(((IBusinessRule<Aggregate<_TId>>) rule).CreateBusinessRuleViolationDomainEvent(this));
+
+        throw new BusinessRuleValidationException((IBusinessRule) rule);
     }
 
     /// <exception cref="BusinessRuleValidationException"></exception>
-    protected void Enforce(IBusinessRule rule, Action brokenRuleCallbackAction)
+    protected void Enforce<_Aggregate>(BusinessRule<_Aggregate> rule, Action brokenRuleCallbackAction) where _Aggregate : IAggregate
     {
         if (!rule.IsBroken())
             return;
 
         brokenRuleCallbackAction.Invoke();
-        Publish(((BusinessRule<Aggregate<_TId>, _TId>) rule).CreateBusinessRuleViolationDomainEvent(this));
+        Publish(rule.CreateBusinessRuleViolationDomainEvent((dynamic) this));
 
         throw new BusinessRuleValidationException(rule);
     }
 
-    protected Result<IBusinessRule> IsEnforced(IBusinessRule rule)
+    protected Result<IBusinessRule> IsEnforced<_Aggregate>(BusinessRule<_Aggregate> rule) where _Aggregate : IAggregate
     {
         if (!rule.IsBroken())
             return new Result<IBusinessRule>(rule);
 
-        Publish(((BusinessRule<Aggregate<_TId>, _TId>) rule).CreateBusinessRuleViolationDomainEvent(this));
+        Publish(rule.CreateBusinessRuleViolationDomainEvent((dynamic) this));
 
         return new Result<IBusinessRule>(rule, rule.Message);
     }

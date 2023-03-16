@@ -4,7 +4,7 @@ using Play.Identity.Domain.Services;
 
 namespace Play.Identity.Domain.Aggregates.Rules;
 
-internal class LastFourUserPasswordsMustBeUnique : BusinessRule<User, SimpleStringId>
+internal class LastFourUserPasswordsMustBeUnique : BusinessRule<User>
 {
     #region Instance Values
 

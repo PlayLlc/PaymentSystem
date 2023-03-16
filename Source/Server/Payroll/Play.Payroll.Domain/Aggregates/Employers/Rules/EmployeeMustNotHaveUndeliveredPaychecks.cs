@@ -4,7 +4,7 @@ using Play.Payroll.Domain.Entities;
 
 namespace Play.Payroll.Domain.Aggregates;
 
-public class EmployeeMustNotHaveUndeliveredPaychecks : BusinessRule<Employer, SimpleStringId>
+public class EmployeeMustNotHaveUndeliveredPaychecks : BusinessRule<Employer>
 {
     #region Instance Values
 

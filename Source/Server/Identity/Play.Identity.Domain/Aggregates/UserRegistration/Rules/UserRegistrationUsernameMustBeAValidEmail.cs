@@ -3,7 +3,7 @@ using Play.Domain.Common.ValueObjects;
 
 namespace Play.Identity.Domain.Aggregates;
 
-internal class UserRegistrationUsernameMustBeAValidEmail : BusinessRule<UserRegistration, SimpleStringId>
+internal class UserRegistrationUsernameMustBeAValidEmail : BusinessRule<UserRegistration>
 {
     #region Instance Values
 

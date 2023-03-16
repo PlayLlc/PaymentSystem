@@ -5,7 +5,7 @@ using Play.Inventory.Domain.ValueObjects;
 
 namespace Play.Inventory.Domain.Aggregates;
 
-public class StockActionMustAddQuantity : BusinessRule<Inventory, SimpleStringId>
+public class StockActionMustAddQuantity : BusinessRule<Inventory>
 {
     #region Instance Values
 

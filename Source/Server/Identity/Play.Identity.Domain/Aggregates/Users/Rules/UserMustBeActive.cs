@@ -3,7 +3,7 @@ using Play.Domain.Common.ValueObjects;
 
 namespace Play.Identity.Domain.Aggregates.Rules;
 
-internal class UserMustBeActive : BusinessRule<User, SimpleStringId>
+internal class UserMustBeActive : BusinessRule<User>
 {
     #region Instance Values
 

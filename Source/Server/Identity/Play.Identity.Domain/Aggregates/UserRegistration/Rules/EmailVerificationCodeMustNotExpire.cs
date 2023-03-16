@@ -4,7 +4,7 @@ using Play.Identity.Domain.Entities;
 
 namespace Play.Identity.Domain.Aggregates;
 
-internal class EmailVerificationCodeMustNotExpire : BusinessRule<UserRegistration, SimpleStringId>
+internal class EmailVerificationCodeMustNotExpire : BusinessRule<UserRegistration>
 {
     #region Static Metadata
 

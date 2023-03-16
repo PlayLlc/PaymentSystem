@@ -4,7 +4,7 @@ using Play.Identity.Domain.Services;
 
 namespace Play.Identity.Domain.Aggregates.Rules;
 
-internal class PasswordMustBeCorrectToLogin : BusinessRule<User, SimpleStringId>
+internal class PasswordMustBeCorrectToLogin : BusinessRule<User>
 {
     #region Instance Values
 

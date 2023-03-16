@@ -5,7 +5,7 @@ using Play.Identity.Domain.ValueObjects;
 
 namespace Play.Identity.Domain.Aggregates;
 
-internal class MerchantRegistrationCannotBeCreatedWithoutApproval : BusinessRule<MerchantRegistration, SimpleStringId>
+internal class MerchantRegistrationCannotBeCreatedWithoutApproval : BusinessRule<MerchantRegistration>
 {
     #region Instance Values
 

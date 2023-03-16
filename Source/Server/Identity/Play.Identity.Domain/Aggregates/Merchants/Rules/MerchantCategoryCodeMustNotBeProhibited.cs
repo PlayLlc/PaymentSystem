@@ -5,7 +5,7 @@ using Play.Identity.Domain.ValueObjects;
 
 namespace Play.Identity.Domain.Aggregates;
 
-internal class MerchantCategoryCodeMustNotBeProhibited : BusinessRule<Merchant, SimpleStringId>
+internal class MerchantCategoryCodeMustNotBeProhibited : BusinessRule<Merchant>
 {
     #region Instance Values
 

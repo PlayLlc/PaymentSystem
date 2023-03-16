@@ -3,7 +3,7 @@ using Play.Domain.Common.ValueObjects;
 
 namespace Play.Payroll.Domain.Aggregates;
 
-public class EmployerMustNotHaveUndeliveredPaychecks : BusinessRule<Employer, SimpleStringId>
+public class EmployerMustNotHaveUndeliveredPaychecks : BusinessRule<Employer>
 {
     #region Instance Values
 

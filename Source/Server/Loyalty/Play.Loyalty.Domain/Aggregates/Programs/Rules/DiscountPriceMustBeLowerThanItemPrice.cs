@@ -5,7 +5,7 @@ using Play.Loyalty.Domain.Entities;
 
 namespace Play.Loyalty.Domain.Aggregates;
 
-public class DiscountPriceMustBeLowerThanItemPrice : BusinessRule<Programs, SimpleStringId>
+public class DiscountPriceMustBeLowerThanItemPrice : BusinessRule<Programs>
 {
     #region Instance Values
 

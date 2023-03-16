@@ -4,7 +4,7 @@ using Play.Globalization.Currency;
 
 namespace Play.Inventory.Domain.Aggregates;
 
-public class ItemPriceMustBePositive : BusinessRule<Item, SimpleStringId>
+public class ItemPriceMustBePositive : BusinessRule<Item>
 {
     #region Instance Values
 

@@ -6,7 +6,7 @@ using Play.Identity.Domain.ValueObjects;
 
 namespace Play.Identity.Domain.Aggregates;
 
-internal class MerchantRegistrationMustNotExpire : BusinessRule<MerchantRegistration, SimpleStringId>
+internal class MerchantRegistrationMustNotExpire : BusinessRule<MerchantRegistration>
 {
     #region Instance Values
 

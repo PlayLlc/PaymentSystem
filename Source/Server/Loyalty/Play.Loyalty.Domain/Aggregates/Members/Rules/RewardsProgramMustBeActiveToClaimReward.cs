@@ -4,7 +4,7 @@ using Play.Loyalty.Domain.Entities;
 
 namespace Play.Loyalty.Domain.Aggregates.Rules;
 
-public class RewardsProgramMustBeActiveToClaimReward : BusinessRule<Member, SimpleStringId>
+public class RewardsProgramMustBeActiveToClaimReward : BusinessRule<Member>
 {
     #region Instance Values
 

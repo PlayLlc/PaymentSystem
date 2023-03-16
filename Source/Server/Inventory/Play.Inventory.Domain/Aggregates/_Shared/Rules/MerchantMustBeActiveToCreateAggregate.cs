@@ -4,7 +4,7 @@ using Play.Inventory.Domain.Entities;
 
 namespace Play.Inventory.Domain.Aggregates;
 
-public class MerchantMustBeActiveToCreateAggregate<_Aggregate> : BusinessRule<_Aggregate, SimpleStringId> where _Aggregate : Aggregate<SimpleStringId>
+public class MerchantMustBeActiveToCreateAggregate<_Aggregate> : BusinessRule<_Aggregate> where _Aggregate : Aggregate<SimpleStringId>
 {
     #region Instance Values
 

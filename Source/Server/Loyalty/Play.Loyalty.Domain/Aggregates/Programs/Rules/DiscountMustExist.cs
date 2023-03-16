@@ -4,7 +4,7 @@ using Play.Loyalty.Domain.Entities;
 
 namespace Play.Loyalty.Domain.Aggregates;
 
-public class DiscountMustExist : BusinessRule<Programs, SimpleStringId>
+public class DiscountMustExist : BusinessRule<Programs>
 {
     #region Instance Values
 

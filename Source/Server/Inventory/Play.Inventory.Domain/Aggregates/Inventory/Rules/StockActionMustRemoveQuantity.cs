@@ -5,7 +5,7 @@ using Play.Inventory.Domain.ValueObjects;
 
 namespace Play.Inventory.Domain.Aggregates;
 
-public class StockActionMustRemoveQuantity : BusinessRule<Inventory, SimpleStringId>
+public class StockActionMustRemoveQuantity : BusinessRule<Inventory>
 {
     #region Instance Values
 

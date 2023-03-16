@@ -5,7 +5,7 @@ using Play.Inventory.Domain.Entities;
 
 namespace Play.Inventory.Domain.Aggregates;
 
-public class CategoryMustHaveTheSameMerchant : BusinessRule<Item, SimpleStringId>
+public class CategoryMustHaveTheSameMerchant : BusinessRule<Item>
 {
     #region Instance Values
 

@@ -5,7 +5,7 @@ using Play.Inventory.Domain.Repositories;
 
 namespace Play.Inventory.Domain.Aggregates;
 
-public class CategoryMustNotAlreadyExist : BusinessRule<Category, SimpleStringId>
+public class CategoryMustNotAlreadyExist : BusinessRule<Category>
 {
     #region Instance Values
 

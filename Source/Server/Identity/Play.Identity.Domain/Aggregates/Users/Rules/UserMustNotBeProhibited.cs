@@ -11,7 +11,7 @@ namespace Play.Identity.Domain.Aggregates.Rules;
 ///     the location has not been flagged by government or regulatory bodies for sanctions, terrorism, money laundering,
 ///     and other prohibited behavior
 /// </summary>
-internal class UserMustNotBeProhibited : BusinessRule<User, SimpleStringId>
+internal class UserMustNotBeProhibited : BusinessRule<User>
 {
     #region Instance Values
 

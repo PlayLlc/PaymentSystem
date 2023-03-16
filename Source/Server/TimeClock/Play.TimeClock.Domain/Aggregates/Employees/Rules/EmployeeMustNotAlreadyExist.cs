@@ -4,7 +4,7 @@ using Play.TimeClock.Domain.Services;
 
 namespace Play.TimeClock.Domain.Aggregates;
 
-public class EmployeeMustNotAlreadyExist : BusinessRule<Employee, SimpleStringId>
+public class EmployeeMustNotAlreadyExist : BusinessRule<Employee>
 {
     #region Instance Values
 

@@ -5,7 +5,7 @@ using Play.TimeClock.Domain.ValueObject;
 
 namespace Play.TimeClock.Domain.Aggregates;
 
-public class EmployeeMustBeClockedOut : BusinessRule<Employee, SimpleStringId>
+public class EmployeeMustBeClockedOut : BusinessRule<Employee>
 {
     #region Instance Values
 

@@ -4,7 +4,7 @@ using Play.Loyalty.Domain.Entities;
 
 namespace Play.Loyalty.Domain.Aggregates;
 
-public class UserMustBeActiveToUpdateAggregate<_Aggregate> : BusinessRule<_Aggregate, SimpleStringId> where _Aggregate : Aggregate<SimpleStringId>
+public class UserMustBeActiveToUpdateAggregate<_Aggregate> : BusinessRule<_Aggregate> where _Aggregate : Aggregate<SimpleStringId>
 {
     #region Instance Values
 

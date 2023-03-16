@@ -9,7 +9,7 @@ using Play.Globalization.Currency;
 
 namespace Play.Inventory.Domain.Aggregates;
 
-public class NameMustBeBrian : BusinessRule<TestAggregate, SimpleStringId>
+public class NameMustBeBrian : BusinessRule<TestAggregate>
 {
     #region Instance Values
 

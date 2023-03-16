@@ -1,16 +1,16 @@
 ﻿namespace Play.Domain.Aggregates;
 
-public interface IBusinessRule
-{
-    #region Instance Values
+//public interface IBusinessRule
+//{
+//    #region Instance Values
 
-    string Message { get; }
+//    string Message { get; }
 
-    #endregion
+//    #endregion
 
-    #region Instance Members
+//    #region Instance Members
 
-    public bool IsBroken();
+//    public bool IsBroken();
 
-    #endregion
-}
+//    #endregion
+//}

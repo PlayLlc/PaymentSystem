@@ -4,7 +4,7 @@ using Play.Globalization.Currency;
 
 namespace Play.Loyalty.Domain.Aggregates;
 
-public class CurrencyMustBeValid : BusinessRule<Programs, SimpleStringId>
+public class CurrencyMustBeValid : BusinessRule<Programs>
 {
     #region Instance Values
 

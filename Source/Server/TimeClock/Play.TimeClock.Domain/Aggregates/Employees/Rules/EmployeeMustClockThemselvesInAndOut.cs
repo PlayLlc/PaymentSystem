@@ -4,7 +4,7 @@ using Play.TimeClock.Domain.Entities;
 
 namespace Play.TimeClock.Domain.Aggregates;
 
-public class EmployeeMustClockThemselvesInAndOut : BusinessRule<Employee, SimpleStringId>
+public class EmployeeMustClockThemselvesInAndOut : BusinessRule<Employee>
 {
     #region Instance Values
 

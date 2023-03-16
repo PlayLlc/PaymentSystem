@@ -5,7 +5,7 @@ using Play.Payroll.Domain.Entities;
 
 namespace Play.Payroll.Domain.Aggregates;
 
-public class PayPeriodMustHaveEnded : BusinessRule<Employer, SimpleStringId>
+public class PayPeriodMustHaveEnded : BusinessRule<Employer>
 {
     #region Instance Values
 

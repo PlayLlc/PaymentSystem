@@ -4,7 +4,7 @@ using Play.Inventory.Domain.Entities;
 
 namespace Play.Inventory.Domain.Aggregates;
 
-public class StockItemMustNotAlreadyExist : BusinessRule<Inventory, SimpleStringId>
+public class StockItemMustNotAlreadyExist : BusinessRule<Inventory>
 {
     #region Instance Values
 

@@ -5,7 +5,7 @@ using Play.Loyalty.Domain.Entities;
 
 namespace Play.Loyalty.Domain.Aggregates.Rules;
 
-public class RewardsBalanceMustBeGreaterThanOrEqualToRewardRedemption : BusinessRule<Member, SimpleStringId>
+public class RewardsBalanceMustBeGreaterThanOrEqualToRewardRedemption : BusinessRule<Member>
 {
     #region Instance Values
 

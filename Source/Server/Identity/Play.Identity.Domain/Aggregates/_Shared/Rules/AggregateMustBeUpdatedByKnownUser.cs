@@ -4,7 +4,7 @@ using Play.Identity.Domain.Aggregates._Shared.DomainEvents;
 
 namespace Play.Identity.Domain.Aggregates._Shared.Rules;
 
-public class AggregateMustBeUpdatedByKnownUser<_Aggregate> : BusinessRule<_Aggregate, SimpleStringId> where _Aggregate : Aggregate<SimpleStringId>
+public class AggregateMustBeUpdatedByKnownUser<_Aggregate> : BusinessRule<_Aggregate> where _Aggregate : Aggregate<SimpleStringId>
 {
     #region Instance Values
 

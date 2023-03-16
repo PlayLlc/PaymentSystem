@@ -8,7 +8,7 @@ namespace Play.Identity.Domain.Aggregates;
 ///     PCI-DSS Passwords must be at least 7 characters, contain numeric, alphabetic, and special characters, and be unique
 ///     when updated
 /// </summary>
-internal class UserRegistrationPasswordMustBeStrong : BusinessRule<UserRegistration, SimpleStringId>
+internal class UserRegistrationPasswordMustBeStrong : BusinessRule<UserRegistration>
 {
     #region Instance Values
 

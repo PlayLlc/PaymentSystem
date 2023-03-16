@@ -6,7 +6,7 @@ using Play.Identity.Domain.ValueObjects;
 
 namespace Play.Identity.Domain.Aggregates;
 
-internal class UserRegistrationMustNotExpire : BusinessRule<UserRegistration, SimpleStringId>
+internal class UserRegistrationMustNotExpire : BusinessRule<UserRegistration>
 {
     #region Instance Values
 

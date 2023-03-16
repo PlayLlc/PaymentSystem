@@ -24,10 +24,6 @@ public class EventTests
         var testValue = new Name("MyNameIsJeff");
         var sut = new TestAggregate();
 
-        var aggregate = (IAggregate) sut;
-        Aggregate<SimpleStringId> aggregateString = (Aggregate<SimpleStringId>) aggregate;
-
-        sut.UpdateName(testValue);
         Assert.Throws<BusinessRuleValidationException>(() => sut.UpdateName(testValue));
     }
 

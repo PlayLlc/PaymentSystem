@@ -5,7 +5,7 @@ using Play.Identity.Domain.ValueObjects;
 
 namespace Play.Identity.Domain.Aggregates;
 
-internal class UserCannotBeCreatedWithoutApproval : BusinessRule<UserRegistration, SimpleStringId>
+internal class UserCannotBeCreatedWithoutApproval : BusinessRule<UserRegistration>
 {
     #region Instance Values
 

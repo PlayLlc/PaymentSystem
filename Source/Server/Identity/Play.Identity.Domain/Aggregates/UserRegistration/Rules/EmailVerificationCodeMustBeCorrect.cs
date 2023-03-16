@@ -7,7 +7,7 @@ namespace Play.Identity.Domain.Aggregates;
 /// <summary>
 ///     The user's email must be verified during registration
 /// </summary>
-internal class EmailVerificationCodeMustBeCorrect : BusinessRule<UserRegistration, SimpleStringId>
+internal class EmailVerificationCodeMustBeCorrect : BusinessRule<UserRegistration>
 {
     #region Instance Values
 

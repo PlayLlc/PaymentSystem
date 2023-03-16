@@ -4,7 +4,7 @@ using Play.Identity.Domain.Entities;
 
 namespace Play.Identity.Domain.Aggregates;
 
-internal class SmsVerificationCodeMustBeCorrect : BusinessRule<UserRegistration, SimpleStringId>
+internal class SmsVerificationCodeMustBeCorrect : BusinessRule<UserRegistration>
 {
     #region Instance Values
 
