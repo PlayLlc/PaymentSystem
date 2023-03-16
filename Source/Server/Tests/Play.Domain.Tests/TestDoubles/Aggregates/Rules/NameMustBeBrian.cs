@@ -9,7 +9,7 @@ using Play.Globalization.Currency;
 
 namespace Play.Inventory.Domain.Aggregates;
 
-public class NameMustBeBrian : BusinessRule
+public class NameMustBeBrian : BusinessRule<TestAggregate, SimpleStringId>
 {
     #region Instance Values
 
@@ -30,8 +30,6 @@ public class NameMustBeBrian : BusinessRule
     #region Instance Members
 
     public override NameWasNotBrian CreateBusinessRuleViolationDomainEvent(TestAggregate item) => new(item, this);
-
-    public override DomainEvent CreateBusinessRuleViolationDomainEvent(IAggregate aggregate) => throw new NotImplementedException();
 
     public override bool IsBroken() => !_IsValid;
 

@@ -143,7 +143,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Persistence.Gremlin", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{05B22DDE-29AF-4CD1-A431-9746AC87C1BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Domain.Tests", "Tests\Play.Domain.Tests\Play.Domain.Tests.csproj", "{6819BE4D-784C-4E30-A6E5-4066FFE4F831}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Domain.Tests", "Tests\Play.Domain.Tests\Play.Domain.Tests.csproj", "{6819BE4D-784C-4E30-A6E5-4066FFE4F831}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_Temp.Domain", "Infrastructure\_Temp.Domain\_Temp.Domain.csproj", "{55CFF374-A1E4-4D01-B769-F5D129E263E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -375,6 +377,10 @@ Global
 		{6819BE4D-784C-4E30-A6E5-4066FFE4F831}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6819BE4D-784C-4E30-A6E5-4066FFE4F831}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6819BE4D-784C-4E30-A6E5-4066FFE4F831}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55CFF374-A1E4-4D01-B769-F5D129E263E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55CFF374-A1E4-4D01-B769-F5D129E263E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55CFF374-A1E4-4D01-B769-F5D129E263E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55CFF374-A1E4-4D01-B769-F5D129E263E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -437,6 +443,7 @@ Global
 		{CA5EC019-4D7B-4F3C-ABC5-DA0025CDAA70} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
 		{019EA6FB-DCFB-4FCE-9324-FCCC0524AA7D} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
 		{6819BE4D-784C-4E30-A6E5-4066FFE4F831} = {05B22DDE-29AF-4CD1-A431-9746AC87C1BB}
+		{55CFF374-A1E4-4D01-B769-F5D129E263E4} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6833603-DD22-4624-AB4A-235C51671F62}
