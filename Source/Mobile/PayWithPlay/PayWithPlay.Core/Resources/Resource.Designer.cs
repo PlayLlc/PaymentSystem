@@ -61,6 +61,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        internal static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to and.
         /// </summary>
         internal static string AndText {
@@ -133,11 +142,38 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Chat.
+        /// </summary>
+        internal static string Chat {
+            get {
+                return ResourceManager.GetString("Chat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to City.
         /// </summary>
         internal static string City {
             get {
                 return ResourceManager.GetString("City", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Components.
+        /// </summary>
+        internal static string Components {
+            get {
+                return ResourceManager.GetString("Components", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose what you want to do next..
+        /// </summary>
+        internal static string ComponentsSubtitle {
+            get {
+                return ResourceManager.GetString("ComponentsSubtitle", resourceCulture);
             }
         }
         
@@ -367,11 +403,38 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inventory.
+        /// </summary>
+        internal static string Inventory {
+            get {
+                return ResourceManager.GetString("Inventory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invoices.
+        /// </summary>
+        internal static string Invoices {
+            get {
+                return ResourceManager.GetString("Invoices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last name.
         /// </summary>
         internal static string LastNameText {
             get {
                 return ResourceManager.GetString("LastNameText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loyalty.
+        /// </summary>
+        internal static string Loyalty {
+            get {
+                return ResourceManager.GetString("Loyalty", resourceCulture);
             }
         }
         
@@ -475,6 +538,24 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Point of sale.
+        /// </summary>
+        internal static string PointOfSale {
+            get {
+                return ResourceManager.GetString("PointOfSale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select one among following payments methods..
+        /// </summary>
+        internal static string PointOfSaleSubtitle {
+            get {
+                return ResourceManager.GetString("PointOfSaleSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Privacy Policy.
         /// </summary>
         internal static string PrivacyPolicy {
@@ -502,6 +583,24 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Return.
+        /// </summary>
+        internal static string Return {
+            get {
+                return ResourceManager.GetString("Return", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sale.
+        /// </summary>
+        internal static string Sale {
+            get {
+                return ResourceManager.GetString("Sale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sign in.
         /// </summary>
         internal static string SignIn {
@@ -525,6 +624,15 @@ namespace PayWithPlay.Core.Resources {
         internal static string StreetAddress {
             get {
                 return ResourceManager.GetString("StreetAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Team Management.
+        /// </summary>
+        internal static string TeamManagement {
+            get {
+                return ResourceManager.GetString("TeamManagement", resourceCulture);
             }
         }
         

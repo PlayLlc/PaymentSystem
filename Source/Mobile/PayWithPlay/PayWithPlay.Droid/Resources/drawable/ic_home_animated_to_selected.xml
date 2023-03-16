@@ -1,0 +1,51 @@
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:drawable="@drawable/ic_home_unselected">
+
+  <target android:name="group">
+    <aapt:attr name="android:animation">
+      <set>
+        <objectAnimator
+            android:propertyName="scaleX"
+            android:duration="300"
+            android:valueFrom="1"
+            android:valueTo="0.875"
+            android:valueType="floatType"
+            android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        <objectAnimator
+            android:propertyName="scaleY"
+            android:duration="300"
+            android:valueFrom="1"
+            android:valueTo="0.8787878787878788"
+            android:valueType="floatType"
+            android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        <objectAnimator
+            android:propertyName="translateX"
+            android:duration="300"
+            android:valueFrom="0"
+            android:valueTo="2.25"
+            android:valueType="floatType"
+            android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        <objectAnimator
+            android:propertyName="translateY"
+            android:duration="300"
+            android:valueFrom="0"
+            android:valueTo="2"
+            android:valueType="floatType"
+            android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+      </set>
+    </aapt:attr>
+  </target>
+  <target android:name="path">
+    <aapt:attr name="android:animation">
+      <objectAnimator
+          android:propertyName="fillColor"
+          android:duration="300"
+          android:valueFrom="#ffffff"
+          android:valueTo="#00c3d9"
+          android:valueType="colorType"
+          android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+    </aapt:attr>
+  </target>
+</animated-vector>

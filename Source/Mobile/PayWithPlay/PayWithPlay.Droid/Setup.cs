@@ -15,6 +15,7 @@ using AndroidX.Core.Widget;
 using PayWithPlay.Droid.CustomBindings.NumericKeybaordView;
 using Android.Views;
 using PayWithPlay.Droid.CustomBindings.CreateAccountBindings;
+using PayWithPlay.Droid.CustomBindings.Components;
 
 namespace PayWithPlay.Droid
 {
@@ -44,6 +45,10 @@ namespace PayWithPlay.Droid
                 (button) => new DeviceSettingButtonBinding(button));
             registry.RegisterCustomBindingFactory<MaterialButton>(UnderlineButtonTextBinding.Property,
                 (button) => new UnderlineButtonTextBinding(button));
+            registry.RegisterCustomBindingFactory<MaterialButton>(ButtonWithIconCenterTextBinding.Property,
+                (button) => new ButtonWithIconCenterTextBinding(button));
+            registry.RegisterCustomBindingFactory<MaterialButton>(ComponentTypeBinding.Property,
+                (button) => new ComponentTypeBinding(button));
 
             // Images
             registry.RegisterCustomBindingFactory<AppCompatImageView>(VerifyIdentityImageBinding.Property,

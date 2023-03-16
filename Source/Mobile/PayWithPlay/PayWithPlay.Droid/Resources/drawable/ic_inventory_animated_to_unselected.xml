@@ -1,0 +1,62 @@
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:drawable="@drawable/ic_inventory_selected">
+
+  <target android:name="group">
+    <aapt:attr name="android:animation">
+      <set>
+        <objectAnimator
+            android:propertyName="scaleX"
+            android:duration="300"
+            android:valueFrom="0.8787096774193548"
+            android:valueTo="1"
+            android:valueType="floatType"
+            android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        <objectAnimator
+            android:propertyName="scaleY"
+            android:duration="300"
+            android:valueFrom="0.8787878787878788"
+            android:valueTo="1"
+            android:valueType="floatType"
+            android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        <objectAnimator
+            android:propertyName="translateX"
+            android:duration="300"
+            android:valueFrom="1.88"
+            android:valueTo="0"
+            android:valueType="floatType"
+            android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        <objectAnimator
+            android:propertyName="translateY"
+            android:duration="300"
+            android:valueFrom="2"
+            android:valueTo="0"
+            android:valueType="floatType"
+            android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+      </set>
+    </aapt:attr>
+  </target>
+  <target android:name="path">
+    <aapt:attr name="android:animation">
+      <objectAnimator
+          android:propertyName="fillColor"
+          android:duration="300"
+          android:valueFrom="#00c3d9"
+          android:valueTo="#ffffff"
+          android:valueType="colorType"
+          android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+    </aapt:attr>
+  </target>
+  <target android:name="path_1">
+    <aapt:attr name="android:animation">
+      <objectAnimator
+          android:propertyName="fillColor"
+          android:duration="300"
+          android:valueFrom="#00c3d9"
+          android:valueTo="#ffffff"
+          android:valueType="colorType"
+          android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+    </aapt:attr>
+  </target>
+</animated-vector>

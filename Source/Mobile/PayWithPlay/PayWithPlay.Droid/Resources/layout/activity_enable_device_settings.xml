@@ -24,23 +24,38 @@
             android:clipToPadding="false"
             android:orientation="vertical">
 
-            <FrameLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <PayWithPlay.Droid.CustomViews.TopSemiCircleView
                     android:id="@+id/top_view"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_width="match_parent"
                     android:layout_height="204dp"
                     android:background="@color/white"/>
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <View
+                    android:id="@+id/logo_top_margin"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/signin_page_logo"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintHeight_percent="0.2"/>
 
-            </FrameLayout>
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:scaleType="centerInside"
+                    app:layout_constraintHeight_percent="0.45"
+                    app:layout_constraintTop_toBottomOf="@+id/logo_top_margin"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:src="@drawable/play_logo_light"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/title_textView"

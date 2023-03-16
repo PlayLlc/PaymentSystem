@@ -13,7 +13,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <Optimize>False</Optimize>
     <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
-    <PublishTrimmed>True</PublishTrimmed>
+    <PublishTrimmed>False</PublishTrimmed>
   </PropertyGroup>
   <ItemGroup>
     <AndroidJavaSource Remove="Adapters\**" />
@@ -32,42 +32,6 @@
   <ItemGroup>
     <None Remove="DeleteBinObjFolders.bat" />
     <None Remove="LinkDescription.xml" />
-    <None Remove="Resources\drawable\default_bordered_view.xml" />
-    <None Remove="Resources\drawable\enable_settings_button_selector.xml" />
-    <None Remove="Resources\drawable\primary_button_background.xml" />
-    <None Remove="Resources\drawable\secondary_button_background.xml" />
-    <None Remove="Resources\drawable\secondary_button_text_color.xml" />
-    <None Remove="Resources\drawable\switch_track.xml" />
-    <None Remove="Resources\drawable\unelevated_button_text_color.xml" />
-    <None Remove="Resources\drawable\verify_email_image.xml" />
-    <None Remove="Resources\drawable\verify_phone_number_image.xml" />
-    <None Remove="Resources\drawable\welcome_top_logo.xml" />
-    <None Remove="Resources\font\poppins_medium.ttf" />
-    <None Remove="Resources\font\poppins_regular.ttf" />
-    <None Remove="Resources\font\poppins_semibold.ttf" />
-    <None Remove="Resources\layout\activity_create_account.xml" />
-    <None Remove="Resources\layout\activity_create_account_steps.xml" />
-    <None Remove="Resources\layout\activity_enable_device_settings.xml" />
-    <None Remove="Resources\layout\activity_generic.xml" />
-    <None Remove="Resources\layout\activity_sign_in.xml" />
-    <None Remove="Resources\layout\activity_welcome.xml" />
-    <None Remove="Resources\layout\fragment_PIN.xml" />
-    <None Remove="Resources\layout\fragment_registration_biometrics.xml" />
-    <None Remove="Resources\layout\fragment_registration_business_name.xml" />
-    <None Remove="Resources\layout\fragment_registration_congrats.xml" />
-    <None Remove="Resources\layout\fragment_registration_home_or_business_address.xml" />
-    <None Remove="Resources\layout\fragment_registration_merchant_type.xml" />
-    <None Remove="Resources\layout\fragment_registration_user_address.xml" />
-    <None Remove="Resources\layout\fragment_registration_user_name.xml" />
-    <None Remove="Resources\layout\fragment_registration_user_phone_number.xml" />
-    <None Remove="Resources\layout\fragment_verify_identity.xml" />
-    <None Remove="Resources\layout\row_device_settings.xml" />
-    <None Remove="Resources\layout\row_merchant_type.xml" />
-    <None Remove="Resources\layout\view_numeric_keyboard.xml" />
-    <None Remove="Resources\values\attrs.xml" />
-    <None Remove="Resources\values\colors.xml" />
-    <None Remove="Resources\values\ids.xml" />
-    <None Remove="Resources\values\themes.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
@@ -78,15 +42,16 @@
     <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
     <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.6.0.1" />
     <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.0.3" />
-    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.7.0.2" />
+    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.8.0" />
+    <PackageReference Include="Xamarin.AndroidX.Navigation.Fragment.Ktx" Version="2.5.3.1" />
+    <PackageReference Include="Xamarin.AndroidX.Navigation.UI.Ktx" Version="2.5.3.1" />
+    <PackageReference Include="Xamarin.AndroidX.Navigation.UI" Version="2.5.3.1" />
+    <PackageReference Include="Xamarin.AndroidX.Navigation.Runtime" Version="2.5.3.1" />
+    <PackageReference Include="Xamarin.AndroidX.Navigation.Fragment" Version="2.5.3.1" />
+    <PackageReference Include="Xamarin.AndroidX.Navigation.Common" Version="2.5.3.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PayWithPlay.Core\PayWithPlay.Core.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\" />
-    <Folder Include="Enums\" />
-    <Folder Include="ViewHolders\" />
   </ItemGroup>
   <ItemGroup>
     <LinkDescription Include="LinkDescription.xml" />

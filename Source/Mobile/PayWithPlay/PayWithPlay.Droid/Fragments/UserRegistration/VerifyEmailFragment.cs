@@ -21,7 +21,7 @@ namespace PayWithPlay.Droid.Fragments.UserRegistration
 
             if (Activity is GenericActivity genericActivity)
             {
-                genericActivity.SetTopImage(Resource.Drawable.signin_page_logo);
+                genericActivity.SetTopImage(Resource.Drawable.play_logo_light);
             }
         }
     }

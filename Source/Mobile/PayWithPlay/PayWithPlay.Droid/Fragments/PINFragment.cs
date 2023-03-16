@@ -1,12 +1,6 @@
 ﻿using MvvmCross.Platforms.Android.Presenters.Attributes;
-using PayWithPlay.Core.ViewModels.CreateAccount.VerifyIdentity;
 using PayWithPlay.Core.ViewModels;
 using PayWithPlay.Core.ViewModels.PIN;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Android.Content;
 using PayWithPlay.Droid.Activities;
 
