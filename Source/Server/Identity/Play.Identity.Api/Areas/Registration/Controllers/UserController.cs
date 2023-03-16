@@ -59,7 +59,8 @@ public class UserController : Controller
     }
 
     [HttpPostSwagger(template: "~/[area]/[controller]")]
-    [ValidateAntiForgeryToken]
+
+    //[ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([FromBody] CreateUserRegistrationCommand command)
     {
         this.ValidateModel();
@@ -89,16 +90,20 @@ public class UserController : Controller
     }
 
     [HttpPutSwagger("", name: "RegistrationUpdateEmailVerificationForUser")]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EmailVerification([FromBody] VerifyConfirmationCodeCommand command)
+
+    // [ValidateAntiForgeryToken]
+    public async Task<IActionResult> EmailVerification([FromQuery] string email, [FromQuery] uint confirmationCode)
     {
         this.ValidateModel();
 
-        UserRegistration? userRegistration =
-            await _UserRegistrationRepository.GetByIdAsync(new SimpleStringId(command.UserRegistrationId)).ConfigureAwait(false)
-            ?? throw new NotFoundException(typeof(UserRegistration), command.UserRegistrationId);
+        UserRegistration? userRegistration = await _UserRegistrationRepository.GetByEmailAsync(email).ConfigureAwait(false)
+                                             ?? throw new NotFoundException(typeof(UserRegistration), email);
 
-        userRegistration.VerifyEmail(command);
+        userRegistration.VerifyEmail(new VerifyConfirmationCodeCommand()
+        {
+            ConfirmationCode = confirmationCode,
+            UserRegistrationId = email
+        });
 
         return Ok();
     }

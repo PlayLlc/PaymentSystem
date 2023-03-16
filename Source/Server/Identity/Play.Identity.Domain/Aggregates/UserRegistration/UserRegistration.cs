@@ -51,8 +51,8 @@ public class UserRegistration : Aggregate<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     private UserRegistration(CreateUserRegistrationCommand command, IHashPasswords passwordHasher)
     {
-        Id = new(GenerateSimpleStringId());
-        _MerchantId = new(GenerateSimpleStringId());
+        Id = new SimpleStringId(GenerateSimpleStringId());
+        _MerchantId = new SimpleStringId(GenerateSimpleStringId());
         _Username = command.Email;
         _HashedPassword = passwordHasher.GeneratePasswordHash(command.Password);
         _RegistrationDate = DateTimeUtc.Now;
@@ -90,6 +90,19 @@ public class UserRegistration : Aggregate<SimpleStringId>
     }
 
     /// <exception cref="ValueObjectException"></exception>
+    /// <exception cref="BusinessRuleValidationException"></exception>
+    public void UpdateContactInfo(UpdateContactCommand contact)
+    {
+        Enforce(new UserRegistrationMustNotExpire(_Status, _RegistrationDate), () => _Status = UserRegistrationStatuses.Expired);
+        Enforce(new UserRegistrationMustNotBeRejected(_Status), () => _Status = UserRegistrationStatuses.Rejected);
+
+        contact.Id = GenerateSimpleStringId();
+        contact.Contact.Email = _Username;
+
+        Publish(new UserRegistrationContactInfoUpdated(this));
+    }
+
+    /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="CommandOutOfSyncException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
     public async Task<Result> SendEmailVerificationCode(IVerifyEmailAccounts emailAccountVerifier)
@@ -97,13 +110,9 @@ public class UserRegistration : Aggregate<SimpleStringId>
         Enforce(new UserRegistrationMustNotExpire(_Status, _RegistrationDate), () => _Status = UserRegistrationStatuses.Expired);
         Enforce(new UserRegistrationMustNotBeRejected(_Status), () => _Status = UserRegistrationStatuses.Rejected);
 
-        if (_Contact is null)
-            throw new CommandOutOfSyncException($"The {nameof(Contact)} is required but could not be found");
+        _EmailConfirmation = new ConfirmationCode(GenerateSimpleStringId(), DateTimeUtc.Now, Randomize.Integers.UInt(100000, 999999));
 
-        _EmailConfirmation = new(GenerateSimpleStringId(), DateTimeUtc.Now, Randomize.Integers.UInt(100000, 999999));
-
-        Result result = await emailAccountVerifier.SendVerificationCode(_EmailConfirmation.Code, _Contact!.Email.Value, _Contact.GetFullName())
-            .ConfigureAwait(false);
+        Result result = await emailAccountVerifier.SendVerificationCode(_EmailConfirmation.Code, _Username).ConfigureAwait(false);
 
         if (!result.Succeeded)
         {
@@ -116,7 +125,7 @@ public class UserRegistration : Aggregate<SimpleStringId>
         _Status = UserRegistrationStatuses.WaitingForSmsVerification;
         Publish(new EmailVerificationCodeHasBeenSent(this));
 
-        return new();
+        return new Result();
     }
 
     /// <exception cref="ValueObjectException"></exception>
@@ -141,18 +150,6 @@ public class UserRegistration : Aggregate<SimpleStringId>
         Publish(new EmailVerificationWasSuccessful(this));
     }
 
-    /// <exception cref="ValueObjectException"></exception>
-    /// <exception cref="BusinessRuleValidationException"></exception>
-    public void UpdateContactInfo(UpdateContactCommand contact)
-    {
-        Enforce(new UserRegistrationMustNotExpire(_Status, _RegistrationDate), () => _Status = UserRegistrationStatuses.Expired);
-        Enforce(new UserRegistrationMustNotBeRejected(_Status), () => _Status = UserRegistrationStatuses.Rejected);
-
-        contact.Contact.Id = GenerateSimpleStringId();
-        _Contact = new(contact.Contact);
-        Publish(new UserRegistrationContactInfoUpdated(this));
-    }
-
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="CommandOutOfSyncException"></exception>
     /// <exception cref="ValueObjectException"></exception>
@@ -164,7 +161,7 @@ public class UserRegistration : Aggregate<SimpleStringId>
         if (_Contact is null)
             throw new CommandOutOfSyncException($"The {nameof(Contact)} is required but could not be found");
 
-        _SmsConfirmation = new(GenerateSimpleStringId(), DateTimeUtc.Now, Randomize.Integers.UInt(100000, 999999));
+        _SmsConfirmation = new ConfirmationCode(GenerateSimpleStringId(), DateTimeUtc.Now, Randomize.Integers.UInt(100000, 999999));
         Result result = await mobilePhoneVerifier.SendVerificationCode(_SmsConfirmation.Code, _Contact!.Phone.Value).ConfigureAwait(false);
 
         if (!result.Succeeded)
@@ -206,7 +203,7 @@ public class UserRegistration : Aggregate<SimpleStringId>
         Enforce(new UserRegistrationMustNotBeRejected(_Status), () => _Status = UserRegistrationStatuses.Rejected);
 
         command.Address.Id = GenerateSimpleStringId();
-        _Address = new(command.Address);
+        _Address = new Address(command.Address);
 
         if (_Address is not null && _PersonalDetail is not null && _Contact is not null)
             _Status = UserRegistrationStatuses.WaitingForRiskAnalysis;
@@ -222,7 +219,7 @@ public class UserRegistration : Aggregate<SimpleStringId>
         Enforce(new UserRegistrationMustNotBeRejected(_Status), () => _Status = UserRegistrationStatuses.Rejected);
 
         command.PersonalDetail.Id = GenerateSimpleStringId();
-        _PersonalDetail = new(command.PersonalDetail);
+        _PersonalDetail = new PersonalDetail(command.PersonalDetail);
 
         if (_Address is not null && _PersonalDetail is not null && _Contact is not null)
             _Status = UserRegistrationStatuses.WaitingForRiskAnalysis;
@@ -266,7 +263,7 @@ public class UserRegistration : Aggregate<SimpleStringId>
         if (_Contact is null)
             throw new CommandOutOfSyncException($"The {nameof(Contact)} is required but could not be found");
 
-        User user = new(Id, GenerateSimpleStringId(), GenerateSimpleStringId(), new(Id, _HashedPassword, DateTimeUtc.Now), _Address!, _Contact!,
+        User user = new(Id, GenerateSimpleStringId(), GenerateSimpleStringId(), new Password(Id, _HashedPassword, DateTimeUtc.Now), _Address!, _Contact!,
             _PersonalDetail!, true);
 
         Publish(new UserHasBeenCreated(user));

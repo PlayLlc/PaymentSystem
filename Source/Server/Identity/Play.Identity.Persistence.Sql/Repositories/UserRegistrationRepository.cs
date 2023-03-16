@@ -33,7 +33,7 @@ public class UserRegistrationRepository : Repository<UserRegistration, SimpleStr
     {
         try
         {
-            return await _Set.AnyAsync(a => a.GetEmail() == email).ConfigureAwait(false);
+            return await _Set.AnyAsync(a => EF.Property<SimpleStringId>(a, "_Username") == email).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -48,7 +48,7 @@ public class UserRegistrationRepository : Repository<UserRegistration, SimpleStr
     {
         try
         {
-            return await _Set.FirstOrDefaultAsync(a => a.GetEmail() == email);
+            return await _Set.FirstOrDefaultAsync(a => EF.Property<SimpleStringId>(a, "_Username") == email);
         }
         catch (Exception ex)
         {

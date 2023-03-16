@@ -30,7 +30,7 @@ public class EmailAccountVerifier : IVerifyEmailAccounts
         _EmailClient = emailClient;
         _Logger = logger;
 
-        _TemplateBuilder = new();
+        _TemplateBuilder = new EmailVerificationTemplateBuilder();
     }
 
     #endregion
@@ -39,9 +39,10 @@ public class EmailAccountVerifier : IVerifyEmailAccounts
 
     public async Task<Result> SendVerificationCode(uint verificationCode, [EmailAddress] string email, string? fullName = null)
     {
-        EmailDeliveryResult result = await _EmailClient.SendEmail(email, _TemplateBuilder.Subject,
-                _TemplateBuilder.CreateEmail(_EmailVerificationReturnUrlBuilder.CreateReturnUrl(email, verificationCode)), fullName, true)
-            .ConfigureAwait(false);
+        var subject = _TemplateBuilder.Subject;
+        var emailTemplate = _TemplateBuilder.CreateEmail(_EmailVerificationReturnUrlBuilder.CreateReturnUrl(email, verificationCode));
+
+        EmailDeliveryResult result = await _EmailClient.SendEmail(email, subject, emailTemplate, fullName, true).ConfigureAwait(false);
 
         // TODO: We need to make this resilient. We need an Exponential Retry strategy using Polly or something
         if (!result.Succeeded)

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
+using Play.Identity.Application.Handlers;
 using Play.Identity.Contracts.Commands;
 using Play.Identity.Contracts.Dtos;
 using Play.Identity.Domain.Aggregates;
@@ -21,15 +22,16 @@ public class UserController : Controller
     #region Instance Values
 
     private readonly IUserRepository _UserRepository;
-
+    private readonly UserRegistrationHandler _Handler;
     private readonly IUnderwriteMerchants _MerchantUnderwriter;
 
     #endregion
 
     #region Constructor
 
-    public UserController(IUserRepository userRepository, IUnderwriteMerchants merchantUnderwriter)
+    public UserController(IUserRepository userRepository, IUnderwriteMerchants merchantUnderwriter, UserRegistrationHandler handlder)
     {
+        _Handler = handlder;
         _UserRepository = userRepository;
         _MerchantUnderwriter = merchantUnderwriter;
     }
@@ -42,7 +44,7 @@ public class UserController : Controller
     [ValidateAntiForgeryToken]
     public async Task<UserDto> Index([FromQuery] string id)
     {
-        User user = await _UserRepository.GetByIdAsync(new(id)).ConfigureAwait(false)
+        User user = await _UserRepository.GetByIdAsync(new SimpleStringId(id)).ConfigureAwait(false)
                     ?? throw new NotFoundException(typeof(MerchantRegistration), id);
 
         return user.AsDto();
@@ -54,7 +56,7 @@ public class UserController : Controller
     {
         this.ValidateModel();
 
-        User user = await _UserRepository.GetByIdAsync(new(command.Id)).ConfigureAwait(false)
+        User user = await _UserRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
                     ?? throw new NotFoundException(typeof(MerchantRegistration), command.Id);
 
         user.Update(_MerchantUnderwriter, command);
@@ -68,7 +70,7 @@ public class UserController : Controller
     {
         this.ValidateModel();
 
-        User user = await _UserRepository.GetByIdAsync(new(command.Id)).ConfigureAwait(false)
+        User user = await _UserRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
                     ?? throw new NotFoundException(typeof(MerchantRegistration), command.Id);
 
         user.Update(_MerchantUnderwriter, command);
@@ -82,7 +84,7 @@ public class UserController : Controller
     {
         this.ValidateModel();
 
-        User user = await _UserRepository.GetByIdAsync(new(command.Id)).ConfigureAwait(false)
+        User user = await _UserRepository.GetByIdAsync(new SimpleStringId(command.Id)).ConfigureAwait(false)
                     ?? throw new NotFoundException(typeof(MerchantRegistration), command.Id);
 
         user.Update(_MerchantUnderwriter, command);

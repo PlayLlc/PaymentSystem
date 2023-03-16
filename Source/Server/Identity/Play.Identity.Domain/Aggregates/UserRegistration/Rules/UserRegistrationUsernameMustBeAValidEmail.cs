@@ -26,7 +26,7 @@ internal class UserRegistrationUsernameMustBeAValidEmail : BusinessRule<UserRegi
 
     public override UserRegistrationUsernameWasInvalid CreateBusinessRuleViolationDomainEvent(UserRegistration merchant) => new(merchant, this);
 
-    public override bool IsBroken() => _IsValid;
+    public override bool IsBroken() => !_IsValid;
 
     #endregion
 }

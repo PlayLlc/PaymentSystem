@@ -35,10 +35,10 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         {
             {typeof(ModelValidationException), HandleModelValidationException},
             {typeof(BusinessRuleValidationException), HandleBusinessRuleValidationException},
+            {typeof(NotFoundException), HandleNotFoundException},
             {typeof(ValueObjectException), HandleValueObjectException},
             {typeof(RepositoryException), HandleRepositoryException},
             {typeof(AggregateException), HandleAggregateException},
-            {typeof(NotFoundException), HandleNotFoundException},
             {typeof(CommandOutOfSyncException), HandleCommandOutOfSyncException},
             {typeof(ApiException), HandleApiException},
             {typeof(PlayInternalException), HandlePlayInternalException},
@@ -229,7 +229,8 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         {
             Title = "There was a problem with the format of the request message",
             Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
-            Detail = string.Join(" | ", modelStateErrors)
+            Detail = string.Join(" | ", modelStateErrors),
+            Status = (int) HttpStatusCode.BadRequest
         };
 
         context.Result = new BadRequestObjectResult(details);

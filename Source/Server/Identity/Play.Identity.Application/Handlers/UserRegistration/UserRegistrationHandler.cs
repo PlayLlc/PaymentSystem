@@ -15,7 +15,6 @@ public partial class UserRegistrationHandler : DomainEventHandler, IHandleDomain
 {
     #region Instance Values
 
-    private readonly IHashPasswords _PasswordHasher;
     private readonly IVerifyEmailAccounts _EmailAccountVerifier;
     private readonly IVerifyMobilePhones _MobilePhoneVerifier;
     private readonly IUserRepository _UserRepository;
@@ -26,10 +25,9 @@ public partial class UserRegistrationHandler : DomainEventHandler, IHandleDomain
     #region Constructor
 
     public UserRegistrationHandler(
-        IHashPasswords passwordHasher, IVerifyEmailAccounts emailAccountVerifier, IVerifyMobilePhones mobilePhoneVerifier, IUserRepository userRepository,
+        IVerifyEmailAccounts emailAccountVerifier, IVerifyMobilePhones mobilePhoneVerifier, IUserRepository userRepository,
         IUserRegistrationRepository userRegistrationRepository, ILogger<UserRegistrationHandler> logger) : base(logger)
     {
-        _PasswordHasher = passwordHasher;
         _EmailAccountVerifier = emailAccountVerifier;
         _MobilePhoneVerifier = mobilePhoneVerifier;
         _UserRepository = userRepository;

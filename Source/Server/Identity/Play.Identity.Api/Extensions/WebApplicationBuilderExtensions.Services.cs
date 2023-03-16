@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Repositories;
 using Play.Identity.Api.Services;
+using Play.Identity.Application.Handlers;
 using Play.Identity.Application.Services;
 using Play.Identity.Application.Services.Sms;
 using Play.Identity.Domain.Aggregates;
@@ -39,10 +40,19 @@ public static partial class WebApplicationBuilderExtensions
         builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
         builder.Services.AddScoped<IUrlHelper>(x =>
         {
-            ActionContext? actionContext = x.GetService<IActionContextAccessor>().ActionContext;
+            var actionContext = x.GetRequiredService<IActionContextAccessor>().ActionContext;
+            var factory = x.GetRequiredService<IUrlHelperFactory>();
 
-            return new UrlHelper(actionContext);
+            return factory.GetUrlHelper(actionContext);
         });
+
+        //builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+        //builder.Services.AddScoped<IUrlHelper>(x =>
+        //{
+        //    ActionContext? actionContext = x.GetService<IActionContextAccessor>().ActionContext;
+
+        //    return new UrlHelper(actionContext);
+        //});
 
         // Configuration
         builder.Services.AddScoped(a => twilioSmsConfiguration);
@@ -69,7 +79,8 @@ public static partial class WebApplicationBuilderExtensions
         builder.Services.AddScoped<IHashPasswords, PasswordHasher>();
         builder.Services.AddHttpClient<IUnderwriteMerchants, MerchantUnderwriter>(options =>
         {
-            options.BaseAddress = new(builder.Configuration["UnderwritingServiceBaseAddress"]);
+            // HACK: This should be resolved when underwriting is complete
+            //options.BaseAddress = new(builder.Configuration["UnderwritingServiceBaseAddress"]);
         });
         builder.Services.AddScoped<IVerifyEmailAccounts, EmailAccountVerifier>();
         builder.Services.AddScoped<IVerifyMobilePhones, MobilePhoneVerifier>();
@@ -83,7 +94,7 @@ public static partial class WebApplicationBuilderExtensions
         //builder.Services.AddSingleton<MerchantHandler>();
         //builder.Services.AddSingleton<MerchantRegistrationHandler>();
         //builder.Services.AddSingleton<UserHandler>();
-        //builder.Services.AddSingleton<UserRegistrationHandler>();
+        builder.Services.AddScoped<UserRegistrationHandler>();
 
         // Identity Server
         builder.Services.AddScoped<IProfileService, ProfileService<UserIdentity>>();
