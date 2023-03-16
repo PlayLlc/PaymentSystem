@@ -23,15 +23,9 @@ public abstract class Aggregate<_TId> : Entity<_TId>, IAggregate, IEquatable<Agg
         if (!rule.IsBroken())
             return;
 
-        var violationTemp = rule.CreateBusinessRuleViolationDomainEvent((dynamic) this);
+        Publish(rule.CreateBusinessRuleViolationDomainEvent((dynamic) this));
 
-        Publish((DomainEvent) violationTemp);
-
-        var exc = new BusinessRuleValidationException(rule);
-
-        // Publish(((IBusinessRule<Aggregate<_TId>>) rule).CreateBusinessRuleViolationDomainEvent(this));
-
-        throw new BusinessRuleValidationException((IBusinessRule) rule);
+        throw new BusinessRuleValidationException(rule);
     }
 
     /// <exception cref="BusinessRuleValidationException"></exception>
@@ -41,6 +35,7 @@ public abstract class Aggregate<_TId> : Entity<_TId>, IAggregate, IEquatable<Agg
             return;
 
         brokenRuleCallbackAction.Invoke();
+
         Publish(rule.CreateBusinessRuleViolationDomainEvent((dynamic) this));
 
         throw new BusinessRuleValidationException(rule);
