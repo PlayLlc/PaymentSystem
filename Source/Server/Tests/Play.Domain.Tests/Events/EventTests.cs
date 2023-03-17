@@ -1,3 +1,5 @@
+using Castle.Core.Logging;
+
 using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;

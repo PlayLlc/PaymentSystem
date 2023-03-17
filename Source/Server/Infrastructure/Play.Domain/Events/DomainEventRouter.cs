@@ -4,7 +4,7 @@ internal class DomainEventRouter
 {
     #region Instance Values
 
-    private readonly Dictionary<string, HashSet<IHandleDomainEvents<DomainEvent>>> _HandlerMap;
+    private readonly Dictionary<string, HashSet<dynamic>> _HandlerMap;
 
     #endregion
 
@@ -12,7 +12,7 @@ internal class DomainEventRouter
 
     public DomainEventRouter()
     {
-        _HandlerMap = new Dictionary<string, HashSet<IHandleDomainEvents<DomainEvent>>>();
+        _HandlerMap = new Dictionary<string, HashSet<dynamic>>();
     }
 
     #endregion
@@ -24,7 +24,7 @@ internal class DomainEventRouter
         string fullName = typeof(_Event).FullName!;
 
         if (!_HandlerMap.ContainsKey(fullName))
-            _HandlerMap.Add(fullName, new HashSet<IHandleDomainEvents<DomainEvent>>());
+            _HandlerMap.Add(fullName, new HashSet<dynamic>());
         _HandlerMap[fullName].Add((dynamic) handler);
     }
 
@@ -32,7 +32,7 @@ internal class DomainEventRouter
     {
         string fullName = typeof(_Event).FullName!;
         if (!_HandlerMap.ContainsKey(fullName))
-            _HandlerMap.Add(fullName, new HashSet<IHandleDomainEvents<DomainEvent>>());
+            _HandlerMap.Add(fullName, new HashSet<dynamic>());
 
         _HandlerMap[fullName].Remove((dynamic) handler);
     }
@@ -41,7 +41,7 @@ internal class DomainEventRouter
     {
         string fullName = typeof(_Event).FullName!;
 
-        if (!_HandlerMap.TryGetValue(fullName, out HashSet<IHandleDomainEvents<DomainEvent>>? handlers))
+        if (!_HandlerMap.TryGetValue(fullName, out HashSet<dynamic>? handlers))
             return;
 
         foreach (IHandleDomainEvents<DomainEvent> handler in handlers!.ToArray())

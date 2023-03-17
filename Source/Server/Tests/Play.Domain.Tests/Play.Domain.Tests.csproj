@@ -22,11 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Terminal\Tests\Play.Testing\Play.Testing.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Play.Domain.Common\Play.Domain.Common.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="TestDoubles\EventHandlers\" />
   </ItemGroup>
 
 </Project>

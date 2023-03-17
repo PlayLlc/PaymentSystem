@@ -145,6 +145,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{05B22DDE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Domain.Tests", "Tests\Play.Domain.Tests\Play.Domain.Tests.csproj", "{6819BE4D-784C-4E30-A6E5-4066FFE4F831}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Testing", "..\Terminal\Tests\Play.Testing\Play.Testing.csproj", "{AA195A13-4F24-41C4-AB99-55A5313170FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -375,6 +377,10 @@ Global
 		{6819BE4D-784C-4E30-A6E5-4066FFE4F831}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6819BE4D-784C-4E30-A6E5-4066FFE4F831}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6819BE4D-784C-4E30-A6E5-4066FFE4F831}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA195A13-4F24-41C4-AB99-55A5313170FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA195A13-4F24-41C4-AB99-55A5313170FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA195A13-4F24-41C4-AB99-55A5313170FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA195A13-4F24-41C4-AB99-55A5313170FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -437,6 +443,7 @@ Global
 		{CA5EC019-4D7B-4F3C-ABC5-DA0025CDAA70} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
 		{019EA6FB-DCFB-4FCE-9324-FCCC0524AA7D} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
 		{6819BE4D-784C-4E30-A6E5-4066FFE4F831} = {05B22DDE-29AF-4CD1-A431-9746AC87C1BB}
+		{AA195A13-4F24-41C4-AB99-55A5313170FD} = {05B22DDE-29AF-4CD1-A431-9746AC87C1BB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6833603-DD22-4624-AB4A-235C51671F62}
