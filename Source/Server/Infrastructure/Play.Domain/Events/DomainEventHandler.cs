@@ -2,8 +2,6 @@
 
 using Microsoft.Extensions.Logging;
 
-using static System.Net.Mime.MediaTypeNames;
-
 namespace Play.Domain.Events;
 
 public abstract class DomainEventHandler

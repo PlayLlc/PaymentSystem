@@ -25,7 +25,7 @@ internal class DomainEventRouter
 
         if (!_HandlerMap.ContainsKey(fullName))
             _HandlerMap.Add(fullName, new HashSet<dynamic>());
-        _HandlerMap[fullName].Add((dynamic) handler);
+        _HandlerMap[fullName].Add(handler);
     }
 
     public void Unsubscribe<_Event>(IHandleDomainEvents<_Event> handler) where _Event : DomainEvent
@@ -37,15 +37,18 @@ internal class DomainEventRouter
         _HandlerMap[fullName].Remove((dynamic) handler);
     }
 
-    public void Publish<_Event>(_Event domainEvent) where _Event : DomainEvent
+    public void Publish(dynamic domainEvent) //where _Event : DomainEvent
     {
-        string fullName = typeof(_Event).FullName!;
+        string fullName = domainEvent.GetType().FullName!;
 
         if (!_HandlerMap.TryGetValue(fullName, out HashSet<dynamic>? handlers))
             return;
 
-        foreach (IHandleDomainEvents<DomainEvent> handler in handlers!.ToArray())
-            handler.Handle(domainEvent);
+        var a = handlers.First();
+        a.Handle(domainEvent);
+
+        //foreach (IHandleDomainEvents<_Event> handler in handlers!.ToArray())
+        //    handler.Handle(domainEvent);
     }
 
     #endregion
