@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
-using Play.Domain.Tests.Dtos;
-using Play.Inventory.Domain.Aggregates;
+using Play.Domain.Tests.TestDoubles.Aggregates.Brian.Rules;
+using Play.Domain.Tests.TestDoubles.Dtos;
 
-namespace Play.Domain.Tests.Aggregates;
+namespace Play.Domain.Tests.TestDoubles.Aggregates.Brian;
 
-public class TestAggregate : Aggregate<SimpleStringId>
+public class Brian : Aggregate<SimpleStringId>
 {
     #region Instance Values
 
@@ -23,7 +23,7 @@ public class TestAggregate : Aggregate<SimpleStringId>
 
     #region Constructor
 
-    public TestAggregate()
+    public Brian()
     {
         Id = new SimpleStringId(GenerateSimpleStringId());
     }

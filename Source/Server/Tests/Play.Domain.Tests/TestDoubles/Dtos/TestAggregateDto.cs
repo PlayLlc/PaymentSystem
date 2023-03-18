@@ -2,7 +2,7 @@
 
 using Play.Domain.Common.ValueObjects;
 
-namespace Play.Domain.Tests.Dtos;
+namespace Play.Domain.Tests.TestDoubles.Dtos;
 
 public class TestAggregateDto : IDto
 {

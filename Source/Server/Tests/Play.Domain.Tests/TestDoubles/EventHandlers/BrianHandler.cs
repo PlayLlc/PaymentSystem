@@ -8,14 +8,15 @@ using Microsoft.Extensions.Logging;
 
 using Play.Domain.Events;
 using Play.Domain.Tests.Events;
+using Play.Domain.Tests.TestDoubles.Aggregates.Brian.DomainEvents;
 
 namespace Play.Domain.Tests.TestDoubles.EventHandlers;
 
-public class TestAggregateHandler : DomainEventHandler, IHandleDomainEvents<NameWasNotBrian>
+public class BrianHandler : DomainEventHandler, IHandleDomainEvents<NameWasNotBrian>
 {
     #region Constructor
 
-    public TestAggregateHandler(ILogger<TestAggregateHandler> logger) : base(logger)
+    public BrianHandler(ILogger<BrianHandler> logger) : base(logger)
     {
         //Subscribe((IHandleDomainEvents<NameWasNotBrian>) this);
     }

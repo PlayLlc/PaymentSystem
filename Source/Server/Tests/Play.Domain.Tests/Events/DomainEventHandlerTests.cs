@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 
 using Play.Domain.Common.ValueObjects;
-using Play.Domain.Tests.Aggregates;
+using Play.Domain.Tests.TestDoubles.Aggregates.Brian;
 using Play.Domain.Tests.TestDoubles.EventHandlers;
 
 namespace Play.Domain.Tests.Events;
@@ -12,7 +12,7 @@ public class DomainEventHandlerTests
 {
     #region Instance Values
 
-    private readonly TestAggregateHandler _TestAggregateHandler;
+    private readonly BrianHandler _BrianHandler;
 
     #endregion
 
@@ -20,8 +20,8 @@ public class DomainEventHandlerTests
 
     public DomainEventHandlerTests()
     {
-        var a = new Mock<ILogger<TestAggregateHandler>>(MockBehavior.Strict);
-        _TestAggregateHandler = new TestAggregateHandler(a.Object);
+        var a = new Mock<ILogger<BrianHandler>>(MockBehavior.Strict);
+        _BrianHandler = new BrianHandler(a.Object);
     }
 
     #endregion
@@ -32,7 +32,7 @@ public class DomainEventHandlerTests
     public void ButtStuff()
     {
         var testValue = new Name("MyNameIsJeff");
-        var sut = new TestAggregate();
+        var sut = new Brian();
         sut.UpdateName(testValue);
         Assert.NotNull(sut);
     }
