@@ -44,11 +44,8 @@ internal class DomainEventRouter
         if (!_HandlerMap.TryGetValue(fullName, out HashSet<dynamic>? handlers))
             return;
 
-        var a = handlers.First();
-        a.Handle(domainEvent);
-
-        //foreach (IHandleDomainEvents<_Event> handler in handlers!.ToArray())
-        //    handler.Handle(domainEvent);
+        foreach (dynamic handler in handlers!.ToArray())
+            handler.Handle(domainEvent);
     }
 
     #endregion
