@@ -1,6 +1,7 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Tests.TestDoubles.Aggregates.Brian.DomainEvents;
+using Play.Domain.Tests.TestDoubles.Aggregates.Greg.DomainEvents;
 
 namespace Play.Domain.Tests.TestDoubles.Aggregates.Greg.Rules;
 
@@ -17,14 +18,14 @@ public class NameMustBeGreg : BusinessRule<Greg>
 
     internal NameMustBeGreg(Name name)
     {
-        _IsValid = name.Value == "Brian";
+        _IsValid = name.Value == "Greg";
     }
 
     #endregion
 
     #region Instance Members
 
-    public override NameWasNotBrian CreateBusinessRuleViolationDomainEvent(Greg item) => new(item, this);
+    public override NameWasNotGreg CreateBusinessRuleViolationDomainEvent(Greg item) => new(item, this);
 
     public override bool IsBroken() => !_IsValid;
 

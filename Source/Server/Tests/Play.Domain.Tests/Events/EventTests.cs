@@ -4,6 +4,7 @@ using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
 using Play.Domain.Tests.TestDoubles.Aggregates.Brian;
+using Play.Domain.Tests.TestDoubles.Aggregates.Greg;
 
 namespace Play.Domain.Tests.Events;
 
@@ -33,7 +34,7 @@ public class EventTests
     public void GregAggregate_BothBusinessRulesAreValid_ExceptionIsNotThrown()
     {
         var testValue = new Name("Greg");
-        var sut = new Brian();
+        var sut = new Greg();
         sut.UpdateName(testValue);
         Assert.NotNull(sut);
     }
@@ -42,7 +43,7 @@ public class EventTests
     public void GregAggregate_BusinessRuleIsInValid_ExceptionIsThrown()
     {
         var testValue = new Name("MyNameIsJeff");
-        var sut = new Brian();
+        var sut = new Greg();
 
         Assert.Throws<BusinessRuleValidationException>(() => sut.UpdateName(testValue));
     }
@@ -51,7 +52,7 @@ public class EventTests
     public void GregAggregate_SharedBusinessRuleIsInValid_ExceptionIsThrown()
     {
         var testValue = new Name("greg");
-        var sut = new Brian();
+        var sut = new Greg();
 
         Assert.Throws<BusinessRuleValidationException>(() => sut.UpdateName(testValue));
     }
