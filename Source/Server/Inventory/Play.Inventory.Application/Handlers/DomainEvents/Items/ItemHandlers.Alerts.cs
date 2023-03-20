@@ -12,6 +12,15 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemA
 {
     #region Instance Members
 
+    private static void SubscribeAlertsPartial(ItemHandler handler)
+    {
+        handler.Subscribe((IHandleDomainEvents<ItemAlertsHaveBeenActivated>) handler);
+        handler.Subscribe((IHandleDomainEvents<ItemAlertsHaveBeenDeactivated>) handler);
+        handler.Subscribe((IHandleDomainEvents<LowInventoryItemThresholdUpdated>) handler);
+        handler.Subscribe((IHandleDomainEvents<NoInventoryAlert>) handler);
+        handler.Subscribe((IHandleDomainEvents<AttemptedIncorrectStockAction>) handler);
+    }
+
     public async Task Handle(ItemAlertsHaveBeenActivated domainEvent)
     {
         Log(domainEvent);

@@ -28,6 +28,15 @@ public class InventoryHandlers : DomainEventHandler, IHandleDomainEvents<LowInve
     {
         _MessageSession = messageSession;
         _InventoryRepository = inventoryRepository;
+        Subscribe((IHandleDomainEvents<LowInventoryAlert>) this);
+        Subscribe((IHandleDomainEvents<NoInventoryAlert>) this);
+        Subscribe((IHandleDomainEvents<AttemptedIncorrectStockAction>) this);
+        Subscribe((IHandleDomainEvents<AttemptedCreatingDuplicateStockItem>) this);
+        Subscribe((IHandleDomainEvents<StockItemCreated>) this);
+        Subscribe((IHandleDomainEvents<StockItemDoesNotExist>) this);
+        Subscribe((IHandleDomainEvents<StockItemHasBeenRemoved>) this);
+        Subscribe((IHandleDomainEvents<StockItemUpdatedQuantity>) this);
+        Subscribe((IHandleDomainEvents<InventoryItemHasBeenRemoved>) this);
     }
 
     #endregion

@@ -25,6 +25,11 @@ public class CategoryHandler : DomainEventHandler, IHandleDomainEvents<Aggregate
     {
         _MessageSession = messageSession;
         _CategoryRepository = categoryRepository;
+        Subscribe((IHandleDomainEvents<AggregateUpdateWasAttemptedByUnknownUser<Category>>) this);
+        Subscribe((IHandleDomainEvents<DeactivatedMerchantAttemptedToCreateAggregate<Category>>) this);
+        Subscribe((IHandleDomainEvents<CategoryAlreadyExists>) this);
+        Subscribe((IHandleDomainEvents<CategoryHasBeenCreated>) this);
+        Subscribe((IHandleDomainEvents<CategoryHasBeenRemoved>) this);
     }
 
     #endregion

@@ -31,6 +31,16 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemC
         _MessageSession = messageSession;
         _ItemRepository = itemRepository;
         _InventoryRepository = inventoryRepository;
+
+        SubscribeAlertsPartial(this);
+        SubscribeCategoriesPartial(this);
+        SubscribeDetailsPartial(this);
+        SubscribeLocationsPartial(this);
+        SubscribeVariationsPartial(this);
+        Subscribe((IHandleDomainEvents<ItemCreated>) this);
+        Subscribe((IHandleDomainEvents<AggregateUpdateWasAttemptedByUnknownUser<Item>>) this);
+        Subscribe((IHandleDomainEvents<DeactivatedMerchantAttemptedToCreateAggregate<Item>>) this);
+        Subscribe((IHandleDomainEvents<DeactivatedUserAttemptedToUpdateAggregate<Item>>) this);
     }
 
     #endregion

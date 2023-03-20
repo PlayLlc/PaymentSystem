@@ -11,6 +11,13 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemI
 {
     #region Instance Members
 
+    private static void SubscribeLocationsPartial(ItemHandler handler)
+    {
+        handler.Subscribe((IHandleDomainEvents<ItemIsAvailableForAllLocations>) handler);
+        handler.Subscribe((IHandleDomainEvents<ItemLocationAdded>) handler);
+        handler.Subscribe((IHandleDomainEvents<ItemLocationRemoved>) handler);
+    }
+
     public async Task Handle(ItemLocationAdded domainEvent)
     {
         Log(domainEvent);
@@ -21,11 +28,11 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemI
 
     private async Task CreateStockItemsForStoreInventory(string storeId, string itemId, IEnumerable<string> variationIds)
     {
-        Domain.Aggregates.Inventory? inventory = await _InventoryRepository.GetByStoreIdAsync(new(storeId)).ConfigureAwait(false)
+        Domain.Aggregates.Inventory? inventory = await _InventoryRepository.GetByStoreIdAsync(new SimpleStringId(storeId)).ConfigureAwait(false)
                                                  ?? throw new NotFoundException(typeof(Domain.Aggregates.Inventory));
 
         foreach (string variation in variationIds)
-            await inventory.CreateStockItem(new()
+            await inventory.CreateStockItem(new CreateStockItem
                 {
                     ItemId = itemId,
                     VariationId = variation

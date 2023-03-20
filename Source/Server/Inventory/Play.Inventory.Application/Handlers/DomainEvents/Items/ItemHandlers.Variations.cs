@@ -13,6 +13,15 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemV
 {
     #region Instance Members
 
+    private static void SubscribeVariationsPartial(ItemHandler handler)
+    {
+        handler.Subscribe((IHandleDomainEvents<ItemVariationAlreadyExists>) handler);
+        handler.Subscribe((IHandleDomainEvents<VariationCreated>) handler);
+        handler.Subscribe((IHandleDomainEvents<ItemVariationDoesNotExist>) handler);
+        handler.Subscribe((IHandleDomainEvents<VariationRemoved>) handler);
+        handler.Subscribe((IHandleDomainEvents<VariationNameUpdated>) handler);
+    }
+
     public async Task Handle(VariationCreated domainEvent)
     {
         Log(domainEvent);

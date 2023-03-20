@@ -8,6 +8,14 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemD
 {
     #region Instance Members
 
+    private static void SubscribeDetailsPartial(ItemHandler handler)
+    {
+        handler.Subscribe((IHandleDomainEvents<ItemDescriptionUpdated>) handler);
+        handler.Subscribe((IHandleDomainEvents<ItemNameUpdated>) handler);
+        handler.Subscribe((IHandleDomainEvents<ItemPriceWasNotPositive>) handler);
+        handler.Subscribe((IHandleDomainEvents<SkuUpdated>) handler);
+    }
+
     public async Task Handle(ItemDescriptionUpdated domainEvent)
     {
         Log(domainEvent);

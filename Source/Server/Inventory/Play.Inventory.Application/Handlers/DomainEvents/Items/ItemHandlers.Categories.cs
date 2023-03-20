@@ -11,6 +11,13 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<Categ
 {
     #region Instance Members
 
+    private static void SubscribeCategoriesPartial(ItemHandler handler)
+    {
+        handler.Subscribe((IHandleDomainEvents<CategoryMerchantDidNotMatch>) handler);
+        handler.Subscribe((IHandleDomainEvents<ItemCategoriesAdded>) handler);
+        handler.Subscribe((IHandleDomainEvents<ItemCategoriesRemoved>) handler);
+    }
+
     public async Task Handle(ItemCategoriesAdded domainEvent)
     {
         Log(domainEvent);
