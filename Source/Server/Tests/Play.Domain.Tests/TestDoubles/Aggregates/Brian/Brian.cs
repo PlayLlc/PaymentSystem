@@ -35,6 +35,7 @@ public class Brian : Aggregate<SimpleStringId>
     public void UpdateName(Name name)
     {
         Enforce(new NameMustBeBrian(name));
+        _Name = name;
     }
 
     public override SimpleStringId GetId() => Id;

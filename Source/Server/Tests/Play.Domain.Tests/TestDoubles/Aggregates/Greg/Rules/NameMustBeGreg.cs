@@ -18,7 +18,7 @@ public class NameMustBeGreg : BusinessRule<Greg>
 
     internal NameMustBeGreg(Name name)
     {
-        _IsValid = name.Value == "Greg";
+        _IsValid = name.Value.Contains("greg");
     }
 
     #endregion

@@ -55,7 +55,8 @@ public class DomainEventHandlerTests
     [Fact]
     public void Brian_BusinessRuleIsValid_PublishMethodIsNotInvoked()
     {
-        BrianHandler handler = _Fixture.Create<BrianHandler>();
+        var logger = new Mock<ILogger<BrianHandler>>(MockBehavior.Strict).Object;
+        BrianHandler handler = new BrianHandler(logger);
 
         var testValue = new Name("Brian");
         var sut = new Brian();
@@ -66,7 +67,8 @@ public class DomainEventHandlerTests
     [Fact]
     public void Greg_NameIsNotGreg_PublishMethodIsInvoked()
     {
-        GregHandler handler = _Fixture.Create<GregHandler>();
+        var logger = new Mock<ILogger<GregHandler>>(MockBehavior.Strict).Object;
+        GregHandler handler = new GregHandler(logger);
 
         var testValue = new Name("MyNameIsNotGreg");
         var sut = new Greg();
@@ -78,7 +80,8 @@ public class DomainEventHandlerTests
     [Fact]
     public void Greg_NameIsNotCapitalized_PublishMethodIsInvoked()
     {
-        GregHandler handler = _Fixture.Create<GregHandler>();
+        var logger = new Mock<ILogger<GregHandler>>(MockBehavior.Strict).Object;
+        GregHandler handler = new GregHandler(logger);
 
         var testValue = new Name("greg");
         var sut = new Greg();
@@ -90,13 +93,13 @@ public class DomainEventHandlerTests
     [Fact]
     public void Greg_NameIsNotCapitalizedAndNameIsNotGreg_PublishMethodIsInvoked()
     {
-        GregHandler handler = _Fixture.Create<GregHandler>();
+        var logger = new Mock<ILogger<GregHandler>>(MockBehavior.Strict).Object;
+        GregHandler handler = new GregHandler(logger);
 
         var testValue = new Name("jeff");
         var sut = new Greg();
-        sut.UpdateName(testValue);
-        Assert.False(handler.WasNameWasNotGregCalled);
-        Assert.False(handler.WasFirstCharacterWasNotCapitalized);
+        Assert.Throws<BusinessRuleValidationException>(() => sut.UpdateName(testValue));
+        Assert.True(handler.WasNameWasNotGregCalled);
     }
 
     [Fact]

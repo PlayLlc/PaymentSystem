@@ -32,7 +32,7 @@ public class BrianHandler : DomainEventHandler, IHandleDomainEvents<NameWasNotBr
 
     #region Instance Members
 
-    public virtual Task Handle(NameWasNotBrian domainEvent)
+    public Task Handle(NameWasNotBrian domainEvent)
     {
         WasNameWasNotBrianCalled = true;
 
