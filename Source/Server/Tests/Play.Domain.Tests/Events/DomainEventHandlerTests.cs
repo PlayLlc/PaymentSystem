@@ -103,9 +103,9 @@ public class DomainEventHandlerTests
     }
 
     [Fact]
-    public void GregHandler2()
+    public void GenericGregHandler_InvalidBusinessRule_PublishesBrokenBusinessRule()
     {
-        GregHandler2 handler = _Fixture.Create<GregHandler2>();
+        GregGenericHandler handler = _Fixture.Create<GregGenericHandler>();
 
         var testValue = new Name("MyNameIsNotGreg");
         var sut = new Greg();

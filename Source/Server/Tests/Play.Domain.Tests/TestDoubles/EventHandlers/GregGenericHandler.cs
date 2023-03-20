@@ -6,7 +6,7 @@ using Play.Domain.Tests.TestDoubles.Aggregates.Shared.DomainEvents;
 
 namespace Play.Domain.Tests.TestDoubles.EventHandlers;
 
-public class GregHandler2 : DomainEventHandler, IHandleDomainEvents<FirstCharacterWasNotCapitalized<Greg>>
+public class GregGenericHandler : DomainEventHandler, IHandleDomainEvents<FirstCharacterWasNotCapitalized<Greg>>
 {
     #region Instance Values
 
@@ -17,7 +17,7 @@ public class GregHandler2 : DomainEventHandler, IHandleDomainEvents<FirstCharact
 
     #region Constructor
 
-    public GregHandler2(ILogger<BrianHandler> logger) : base(logger)
+    public GregGenericHandler(ILogger<BrianHandler> logger) : base(logger)
     {
         Subscribe((IHandleDomainEvents<FirstCharacterWasNotCapitalized<Greg>>) this);
     }
