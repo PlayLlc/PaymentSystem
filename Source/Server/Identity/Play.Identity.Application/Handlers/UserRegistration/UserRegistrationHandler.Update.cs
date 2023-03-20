@@ -8,6 +8,13 @@ public partial class UserRegistrationHandler : DomainEventHandler, IHandleDomain
 {
     #region Instance Members
 
+    private static void SubscribeUpdatePartial(UserRegistrationHandler handler)
+    {
+        handler.Subscribe((IHandleDomainEvents<UserRegistrationAddressUpdated>) handler);
+        handler.Subscribe((IHandleDomainEvents<UserRegistrationContactInfoUpdated>) handler);
+        handler.Subscribe((IHandleDomainEvents<UserRegistrationPersonalDetailsUpdated>) handler);
+    }
+
     public async Task Handle(UserRegistrationAddressUpdated domainEvent)
     {
         Log(domainEvent);

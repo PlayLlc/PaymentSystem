@@ -25,6 +25,7 @@ public class UserHandler : DomainEventHandler, IHandleDomainEvents<UserHasBeenCr
     {
         _MessageSession = messageSession;
         _UserRepository = userRepository;
+        Subscribe((IHandleDomainEvents<UserHasBeenCreated>) this);
     }
 
     #endregion

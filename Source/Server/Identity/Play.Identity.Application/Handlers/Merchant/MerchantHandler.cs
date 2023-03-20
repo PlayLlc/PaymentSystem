@@ -28,6 +28,12 @@ public class MerchantHandler : DomainEventHandler, IHandleDomainEvents<MerchantH
     {
         _MessageSession = messageSession;
         _MerchantRepository = merchantRepository;
+        Subscribe((IHandleDomainEvents<MerchantHasBeenCreated>) this);
+        Subscribe((IHandleDomainEvents<MerchantAddressHasBeenUpdated>) this);
+        Subscribe((IHandleDomainEvents<MerchantBusinessInfoHasBeenUpdated>) this);
+        Subscribe((IHandleDomainEvents<MerchantCategoryCodeIsProhibited>) this);
+        Subscribe((IHandleDomainEvents<MerchantCompanyNameBeenUpdated>) this);
+        Subscribe((IHandleDomainEvents<MerchantHasBeenRemoved>) this);
     }
 
     #endregion

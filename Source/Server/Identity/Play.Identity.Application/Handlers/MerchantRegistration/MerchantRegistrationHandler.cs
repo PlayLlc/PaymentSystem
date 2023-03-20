@@ -31,6 +31,12 @@ public class MerchantRegistrationHandler : DomainEventHandler, IHandleDomainEven
         _MessageSession = messageHandler;
         _MerchantRepository = merchantRepository;
         _MerchantRegistrationRepository = merchantRegistrationRepository;
+
+        Subscribe((IHandleDomainEvents<MerchantRegistrationHasBeenRejected>) this);
+        Subscribe((IHandleDomainEvents<MerchantRegistrationHasExpired>) this);
+        Subscribe((IHandleDomainEvents<MerchantRegistrationHasNotBeenApproved>) this);
+        Subscribe((IHandleDomainEvents<MerchantRegistrationHasBeenCreated>) this);
+        Subscribe((IHandleDomainEvents<MerchantRegistrationApproved>) this);
     }
 
     #endregion

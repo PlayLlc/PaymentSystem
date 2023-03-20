@@ -14,6 +14,20 @@ public partial class UserRegistrationHandler : DomainEventHandler, IHandleDomain
 {
     #region Instance Members
 
+    private static void SubscribeVerificationPartial(UserRegistrationHandler handler)
+    {
+        handler.Subscribe((IHandleDomainEvents<EmailVerificationCodeHasExpired>) handler);
+        handler.Subscribe((IHandleDomainEvents<EmailVerificationCodeWasIncorrect>) handler);
+        handler.Subscribe((IHandleDomainEvents<SmsVerificationCodeHasExpired>) handler);
+        handler.Subscribe((IHandleDomainEvents<SmsVerificationCodeWasIncorrect>) handler);
+        handler.Subscribe((IHandleDomainEvents<EmailVerificationCodeFailedToSend>) handler);
+        handler.Subscribe((IHandleDomainEvents<EmailVerificationCodeHasBeenSent>) handler);
+        handler.Subscribe((IHandleDomainEvents<EmailVerificationWasSuccessful>) handler);
+        handler.Subscribe((IHandleDomainEvents<SmsVerificationCodeFailedToSend>) handler);
+        handler.Subscribe((IHandleDomainEvents<SmsVerificationCodeHasBeenSent>) handler);
+        handler.Subscribe((IHandleDomainEvents<UserRegistrationPhoneVerified>) handler);
+    }
+
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="CommandOutOfSyncException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>

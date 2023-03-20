@@ -32,6 +32,14 @@ public partial class UserRegistrationHandler : DomainEventHandler, IHandleDomain
         _MobilePhoneVerifier = mobilePhoneVerifier;
         _UserRepository = userRepository;
         _UserRegistrationRepository = userRegistrationRepository;
+
+        SubscribeUpdatePartial(this);
+        SubscribeVerificationPartial(this);
+        Subscribe((IHandleDomainEvents<UserRegistrationHasBeenRejected>) this);
+        Subscribe((IHandleDomainEvents<UserRegistrationHasExpired>) this);
+        Subscribe((IHandleDomainEvents<UserRegistrationHasNotBeenApproved>) this);
+        Subscribe((IHandleDomainEvents<UserRegistrationCreated>) this);
+        Subscribe((IHandleDomainEvents<UserRegistrationHasBeenApproved>) this);
     }
 
     #endregion
