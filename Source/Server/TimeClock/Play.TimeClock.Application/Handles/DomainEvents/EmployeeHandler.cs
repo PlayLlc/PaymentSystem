@@ -29,6 +29,19 @@ public class EmployeeHandler : DomainEventHandler, IHandleDomainEvents<EmployeeA
     {
         _MessageSession = messageSession;
         _EmployeeRepository = employeeRepository;
+
+        Subscribe((IHandleDomainEvents<EmployeeAlreadyExists>) this);
+        Subscribe((IHandleDomainEvents<EmployeeHasBeenCreated>) this);
+        Subscribe((IHandleDomainEvents<EmployeeTimeEntryHasBeenEdited>) this);
+        Subscribe((IHandleDomainEvents<EmployeeHasBeenRemoved>) this);
+        Subscribe((IHandleDomainEvents<EmployeeHasClockedIn>) this);
+        Subscribe((IHandleDomainEvents<EmployeeHasClockedOut>) this);
+        Subscribe((IHandleDomainEvents<EmployeeWasNotClockedIn>) this);
+        Subscribe((IHandleDomainEvents<EmployeeWasNotClockedOut>) this);
+        Subscribe((IHandleDomainEvents<UnauthorizedUserAttemptedToUpdateEmployeeTimeClock>) this);
+        Subscribe((IHandleDomainEvents<AggregateUpdateWasAttemptedByUnknownUser<Employee>>) this);
+        Subscribe((IHandleDomainEvents<DeactivatedMerchantAttemptedToCreateAggregate<Employee>>) this);
+        Subscribe((IHandleDomainEvents<DeactivatedUserAttemptedToUpdateAggregate<Employee>>) this);
     }
 
     #endregion
