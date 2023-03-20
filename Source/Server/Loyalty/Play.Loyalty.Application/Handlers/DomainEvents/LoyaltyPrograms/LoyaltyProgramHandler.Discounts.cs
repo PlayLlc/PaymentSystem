@@ -11,6 +11,15 @@ public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEv
 {
     #region Instance Members
 
+    private static void SubscribeDiscountsPartial(LoyaltyProgramHandler handler)
+    {
+        handler.Subscribe((IHandleDomainEvents<DiscountHasBeenCreated>) handler);
+        handler.Subscribe((IHandleDomainEvents<DiscountPriceHasBeenUpdated>) handler);
+        handler.Subscribe((IHandleDomainEvents<DiscountHasBeenRemoved>) handler);
+        handler.Subscribe((IHandleDomainEvents<DiscountItemDoesNotExist>) handler);
+        handler.Subscribe((IHandleDomainEvents<DiscountProgramActiveStatusHasBeenUpdated>) handler);
+    }
+
     public async Task Handle(DiscountProgramActiveStatusHasBeenUpdated domainEvent)
     {
         Log(domainEvent);

@@ -9,6 +9,12 @@ public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEv
 {
     #region Instance Members
 
+    private static void SubscribeRewardsProgramPartial(LoyaltyProgramHandler handler)
+    {
+        handler.Subscribe((IHandleDomainEvents<RewardsProgramActiveStatusHasBeenUpdated>) handler);
+        handler.Subscribe((IHandleDomainEvents<RewardsProgramHasBeenUpdated>) handler);
+    }
+
     public async Task Handle(RewardsProgramActiveStatusHasBeenUpdated domainEvent)
     {
         Log(domainEvent);

@@ -26,6 +26,13 @@ public partial class LoyaltyProgramHandler : DomainEventHandler, IHandleDomainEv
     {
         _MessageHandlerContext = messageHandlerContext;
         _ProgramsRepository = programsRepository;
+        SubscribeDiscountsPartial(this);
+        SubscribeRewardsProgramPartial(this);
+        Subscribe((IHandleDomainEvents<LoyaltyProgramHasBeenCreated>) this);
+        Subscribe((IHandleDomainEvents<LoyaltyProgramHasBeenRemoved>) this);
+        Subscribe((IHandleDomainEvents<AggregateUpdateWasAttemptedByUnknownUser<Programs>>) this);
+        Subscribe((IHandleDomainEvents<DeactivatedMerchantAttemptedToCreateAggregate<Programs>>) this);
+        Subscribe((IHandleDomainEvents<DeactivatedUserAttemptedToUpdateAggregate<Programs>>) this);
     }
 
     #endregion

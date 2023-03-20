@@ -27,6 +27,14 @@ public partial class LoyaltyMemberHandler : DomainEventHandler, IHandleDomainEve
     {
         _MessageSession = messageSession;
         _MemberRepository = memberRepository;
+        SubscribeRewardsPartial(this);
+        Subscribe((IHandleDomainEvents<LoyaltyMemberCreated>) this);
+        Subscribe((IHandleDomainEvents<LoyaltyMemberRemoved>) this);
+        Subscribe((IHandleDomainEvents<LoyaltyMemberUpdated>) this);
+        Subscribe((IHandleDomainEvents<RewardsNumberIsNotUnique>) this);
+        Subscribe((IHandleDomainEvents<AggregateUpdateWasAttemptedByUnknownUser<Member>>) this);
+        Subscribe((IHandleDomainEvents<DeactivatedMerchantAttemptedToCreateAggregate<Member>>) this);
+        Subscribe((IHandleDomainEvents<DeactivatedUserAttemptedToUpdateAggregate<Member>>) this);
     }
 
     #endregion

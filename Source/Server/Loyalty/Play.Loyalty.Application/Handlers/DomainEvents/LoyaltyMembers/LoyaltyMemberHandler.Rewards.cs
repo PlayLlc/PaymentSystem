@@ -12,6 +12,16 @@ public partial class LoyaltyMemberHandler : DomainEventHandler, IHandleDomainEve
 {
     #region Instance Members
 
+    private static void SubscribeRewardsPartial(LoyaltyMemberHandler handler)
+    {
+        handler.Subscribe((IHandleDomainEvents<LoyaltyMemberEarnedPoints>) handler);
+        handler.Subscribe((IHandleDomainEvents<LoyaltyMemberEarnedRewards>) handler);
+        handler.Subscribe((IHandleDomainEvents<LoyaltyMemberLostPoints>) handler);
+        handler.Subscribe((IHandleDomainEvents<LoyaltyMemberLostRewards>) handler);
+        handler.Subscribe((IHandleDomainEvents<RewardBalanceIsInsufficient>) handler);
+        handler.Subscribe((IHandleDomainEvents<RewardProgramIsNotActive>) handler);
+    }
+
     public async Task Handle(LoyaltyMemberEarnedPoints domainEvent)
     {
         Log(domainEvent);
