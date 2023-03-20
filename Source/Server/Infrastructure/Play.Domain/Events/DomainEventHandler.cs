@@ -19,7 +19,7 @@ public abstract class DomainEventHandler
     {
         _Logger = logger;
 
-        SubscribeAll();
+        //SubscribeAll();
     }
 
     #endregion
@@ -27,19 +27,19 @@ public abstract class DomainEventHandler
     #region Instance Members
 
     /// <exception cref="TargetInvocationException"></exception>
-    public void SubscribeAll()
-    {
-        string clrName = typeof(IHandleDomainEvents<DomainEvent>).Name;
 
-        IEnumerable<dynamic> handlers = GetType()
-            .GetInterfaces()
-            .Where(a => a.Name == clrName)
-            .Select(a => (dynamic) a.GetMethod("GetInterface")!.Invoke(this, new object?[] { })!);
+    //public void SubscribeAll()
+    //{
+    //    string clrName = typeof(IHandleDomainEvents<DomainEvent>).Name;
 
-        foreach (dynamic handler in handlers)
-            Subscribe(handler);
-    }
+    //    IEnumerable<dynamic> handlers = GetType()
+    //        .GetInterfaces()
+    //        .Where(a => a.Name == clrName)
+    //        .Select(a => (dynamic) a.GetMethod("GetInterface")!.Invoke(this, new object?[] { })!);
 
+    //    foreach (dynamic handler in handlers)
+    //        Subscribe(handler);
+    //}
     protected void Log(DomainEvent domainEvent)
     {
         // TODO: Should we be using the Aggregate's ID as the EventId so we have some kind of correlation happening?
@@ -58,7 +58,7 @@ public abstract class DomainEventHandler
         _Logger.Log(logLevel, new EventId(domainEvent.GetEventId(), domainEvent.GetEventType()), $"{message}; \n\n {domainEvent.Description}");
     }
 
-    public void Subscribe<_Event>(IHandleDomainEvents<_Event> handler) where _Event : DomainEvent
+    protected void Subscribe<_Event>(IHandleDomainEvents<_Event> handler) where _Event : DomainEvent
     {
         DomainEventBus.Subscribe(handler);
     }
