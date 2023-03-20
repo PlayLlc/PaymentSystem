@@ -11,6 +11,13 @@ public partial class EmployerHandlers : DomainEventHandler, IHandleDomainEvents<
 {
     #region Instance Members
 
+    private static void SubscribePaychecksPartial(EmployerHandlers handler)
+    {
+        handler.Subscribe((IHandleDomainEvents<PaychecksHaveBeenCreated>) handler);
+        handler.Subscribe((IHandleDomainEvents<PaychecksHaveBeenDelivered>) handler);
+        handler.Subscribe((IHandleDomainEvents<PayPeriodHasNotEnded>) handler);
+    }
+
     public async Task Handle(PaychecksHaveBeenCreated domainEvent)
     {
         Log(domainEvent);

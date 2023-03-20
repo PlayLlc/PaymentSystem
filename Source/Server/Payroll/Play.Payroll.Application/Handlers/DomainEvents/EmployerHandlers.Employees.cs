@@ -11,6 +11,14 @@ public partial class EmployerHandlers : DomainEventHandler, IHandleDomainEvents<
 {
     #region Instance Members
 
+    private static void SubscribeEmployeesPartial(EmployerHandlers handler)
+    {
+        handler.Subscribe((IHandleDomainEvents<EmployeeDoesNotExist>) handler);
+        handler.Subscribe((IHandleDomainEvents<EmployeeHasBeenCreated>) handler);
+        handler.Subscribe((IHandleDomainEvents<EmployeeHasBeenRemoved>) handler);
+        handler.Subscribe((IHandleDomainEvents<EmployeeHasUndeliveredPaychecks>) handler);
+    }
+
     public async Task Handle(EmployeeHasBeenCreated domainEvent)
     {
         Log(domainEvent);

@@ -25,6 +25,14 @@ public partial class EmployerHandlers : DomainEventHandler, IHandleDomainEvents<
     {
         _MessageSession = messageSession;
         _EmployerRepository = employerRepository;
+        SubscribeEmployeesPartial(this);
+        SubscribePaychecksPartial(this);
+        Subscribe((IHandleDomainEvents<EmployerHasBeenCreated>) this);
+        Subscribe((IHandleDomainEvents<EmployerHasBeenRemoved>) this);
+        Subscribe((IHandleDomainEvents<EmployerHasUndeliveredPaychecks>) this);
+        Subscribe((IHandleDomainEvents<AggregateUpdateWasAttemptedByUnknownUser<Employer>>) this);
+        Subscribe((IHandleDomainEvents<DeactivatedMerchantAttemptedToCreateAggregate<Employer>>) this);
+        Subscribe((IHandleDomainEvents<DeactivatedUserAttemptedToUpdateAggregate<Employer>>) this);
     }
 
     #endregion
