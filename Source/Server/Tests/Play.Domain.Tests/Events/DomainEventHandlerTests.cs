@@ -49,7 +49,7 @@ public class DomainEventHandlerTests
         var sut = new Brian();
 
         Assert.Throws<BusinessRuleValidationException>(() => sut.UpdateName(testValue));
-        Assert.True(handler.WasNameWasNotBrianCalled);
+        Assert.True(handler.WasNameWasNotBrianCalled == 1);
     }
 
     [Fact]
@@ -61,7 +61,7 @@ public class DomainEventHandlerTests
         var testValue = new Name("Brian");
         var sut = new Brian();
         sut.UpdateName(testValue);
-        Assert.False(handler.WasNameWasNotBrianCalled);
+        Assert.True(handler.WasNameWasNotBrianCalled == 0);
     }
 
     [Fact]

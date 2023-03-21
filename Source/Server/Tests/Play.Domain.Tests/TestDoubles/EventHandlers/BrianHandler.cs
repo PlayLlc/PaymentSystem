@@ -17,7 +17,7 @@ public class BrianHandler : DomainEventHandler, IHandleDomainEvents<NameWasNotBr
 {
     #region Instance Values
 
-    public bool WasNameWasNotBrianCalled = false;
+    public int WasNameWasNotBrianCalled = 0;
 
     #endregion
 
@@ -34,7 +34,7 @@ public class BrianHandler : DomainEventHandler, IHandleDomainEvents<NameWasNotBr
 
     public Task Handle(NameWasNotBrian domainEvent)
     {
-        WasNameWasNotBrianCalled = true;
+        WasNameWasNotBrianCalled++;
 
         return Task.CompletedTask;
     }
