@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Exceptions;
+using Play.Identity.Application.Handlers;
 using Play.Identity.Contracts.Commands;
 using Play.Identity.Contracts.Dtos;
 using Play.Identity.Domain.Aggregates;
@@ -20,6 +21,7 @@ public class UserController : Controller
     #region Instance Values
 
     private readonly ILogger<UserController> _Logger;
+    private readonly UserRegistrationHandler _UserRegistrationHandler;
     private readonly IUserRegistrationRepository _UserRegistrationRepository;
     private readonly IVerifyMobilePhones _MobilePhoneVerifier;
     private readonly IUnderwriteMerchants _MerchantUnderwriter;
@@ -33,7 +35,8 @@ public class UserController : Controller
 
     public UserController(
         ILogger<UserController> logger, IUserRegistrationRepository userRegistrationRepository, IVerifyMobilePhones mobilePhoneVerifier,
-        IUnderwriteMerchants merchantUnderwriter, IVerifyEmailAccounts emailVerifier, IEnsureUniqueEmails uniqueEmailChecker, IHashPasswords passwordHasher)
+        IUnderwriteMerchants merchantUnderwriter, IVerifyEmailAccounts emailVerifier, IEnsureUniqueEmails uniqueEmailChecker, IHashPasswords passwordHasher,
+        UserRegistrationHandler userRegistrationHandler)
     {
         _Logger = logger;
         _UserRegistrationRepository = userRegistrationRepository;
@@ -42,6 +45,7 @@ public class UserController : Controller
         _EmailVerifier = emailVerifier;
         _UniqueEmailChecker = uniqueEmailChecker;
         _PasswordHasher = passwordHasher;
+        _UserRegistrationHandler = userRegistrationHandler;
     }
 
     #endregion

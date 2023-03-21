@@ -31,7 +31,7 @@ internal class UserRegistrationPasswordMustBeStrong : BusinessRule<UserRegistrat
 
     public override UserRegistrationPasswordWasTooWeak CreateBusinessRuleViolationDomainEvent(UserRegistration merchant) => new(merchant, this);
 
-    public override bool IsBroken() => _IsValid;
+    public override bool IsBroken() => !_IsValid;
 
     #endregion
 }

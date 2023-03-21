@@ -27,7 +27,7 @@ internal class SmsVerificationCodeMustBeCorrect : BusinessRule<UserRegistration>
 
     public override SmsVerificationCodeWasIncorrect CreateBusinessRuleViolationDomainEvent(UserRegistration merchant) => new(merchant, this);
 
-    public override bool IsBroken() => _IsValid;
+    public override bool IsBroken() => !_IsValid;
 
     #endregion
 }

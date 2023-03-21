@@ -26,7 +26,7 @@ internal class UserMustBeActive : BusinessRule<User>
 
     public override UserHasBeenDeactivated CreateBusinessRuleViolationDomainEvent(User merchant) => new(merchant, this);
 
-    public override bool IsBroken() => _IsValid;
+    public override bool IsBroken() => !_IsValid;
 
     #endregion
 }

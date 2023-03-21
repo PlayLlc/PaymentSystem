@@ -31,7 +31,7 @@ internal class UserPasswordMustBeStrong : BusinessRule<User>
 
     public override UserPasswordWasTooWeak CreateBusinessRuleViolationDomainEvent(User merchant) => new(merchant, this);
 
-    public override bool IsBroken() => _IsValid;
+    public override bool IsBroken() => !_IsValid;
 
     #endregion
 }

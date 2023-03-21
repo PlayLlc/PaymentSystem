@@ -32,7 +32,7 @@ internal class UserRegistrationMustNotBeProhibited : BusinessRule<UserRegistrati
 
     public override UserRegistrationHasBeenRejected CreateBusinessRuleViolationDomainEvent(UserRegistration merchant) => new(merchant, this);
 
-    public override bool IsBroken() => _IsValid;
+    public override bool IsBroken() => !_IsValid;
 
     #endregion
 }

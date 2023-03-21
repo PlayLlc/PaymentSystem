@@ -27,7 +27,7 @@ internal class UserMustUpdatePasswordEvery90Days : BusinessRule<User>
 
     public override UserMustUpdatePassword CreateBusinessRuleViolationDomainEvent(User merchant) => new(merchant, this);
 
-    public override bool IsBroken() => _IsValid;
+    public override bool IsBroken() => !_IsValid;
 
     #endregion
 }

@@ -2,7 +2,7 @@
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Events;
 
-namespace Play.Identity.Domain.Aggregates;
+namespace Play.Identity.Domain.Aggregates.Merchants.DomainEvents;
 
 public record MerchantIsProhibited : BrokenRuleOrPolicyDomainEvent<Merchant, SimpleStringId>
 {

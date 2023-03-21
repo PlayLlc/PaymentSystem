@@ -33,7 +33,7 @@ internal class SmsVerificationCodeMustNotBeExpired : BusinessRule<UserRegistrati
 
     public override SmsVerificationCodeHasExpired CreateBusinessRuleViolationDomainEvent(UserRegistration merchant) => new(merchant, this);
 
-    public override bool IsBroken() => _IsValid;
+    public override bool IsBroken() => !_IsValid;
 
     #endregion
 }
