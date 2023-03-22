@@ -28,12 +28,13 @@ public class EmailVerificationReturnUrlGenerator : ICreateEmailVerificationRetur
 
     public string CreateReturnUrl(string userRegistrationId, uint confirmationCode)
     {
+        string scheme = _UrlHelper.ActionContext.HttpContext.Request.Scheme;
         var aa = _UrlHelper.Action("EmailVerification", "User", new
         {
             area = "Registration",
             userRegistrationId = userRegistrationId,
             confirmationCode = confirmationCode
-        });
+        }, scheme);
 
         //var a = _UrlHelper.RouteUrl("Registration/User/EmailVerification", new VerifyConfirmationCodeCommand
         //{
