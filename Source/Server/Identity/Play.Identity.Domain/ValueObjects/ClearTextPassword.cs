@@ -36,7 +36,7 @@ public record ClearTextPassword : ValueObject<string>
 
     private static bool IsNumericPresent(string password)
     {
-        return password.Any(a => a is >= (char) 0 and <= (char) 9);
+        return password.Any(a => a is >= '0' and <= '9');
     }
 
     private static bool IsSevenCharactersInLength(string password) => password.Length >= 7;
