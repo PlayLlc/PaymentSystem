@@ -38,7 +38,7 @@ public abstract class EmailTemplateBuilder
         {
             var templateVariable = GetTemplateVariable(dynamicValue.Key);
 
-            result.Replace(templateVariable, dynamicValue.Value);
+            result = result.Replace(templateVariable, dynamicValue.Value);
         }
 
         return result;
