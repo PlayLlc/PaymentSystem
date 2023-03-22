@@ -83,7 +83,7 @@ public class UserRegistration : Aggregate<SimpleStringId>
 
         userRegistration.Enforce(new UserRegistrationUsernameMustBeAValidEmail(command.Email));
         userRegistration.Enforce(new UserRegistrationUsernameMustBeUnique(uniqueEmailChecker, command.Email));
-        userRegistration.Enforce(new UserPasswordMustBeStrong(command.Password));
+        userRegistration.Enforce(new UserRegistrationPasswordMustBeStrong(command.Password));
         userRegistration.Publish(new UserRegistrationCreated(userRegistration));
 
         return userRegistration;

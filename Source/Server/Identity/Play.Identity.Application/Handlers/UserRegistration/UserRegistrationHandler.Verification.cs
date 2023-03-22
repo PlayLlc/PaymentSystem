@@ -7,7 +7,8 @@ namespace Play.Identity.Application.Handlers;
 
 public partial class UserRegistrationHandler : DomainEventHandler, IHandleDomainEvents<EmailVerificationCodeHasExpired>,
     IHandleDomainEvents<EmailVerificationCodeWasIncorrect>, IHandleDomainEvents<SmsVerificationCodeHasExpired>,
-    IHandleDomainEvents<SmsVerificationCodeWasIncorrect>, IHandleDomainEvents<EmailVerificationCodeFailedToSend>,
+    IHandleDomainEvents<SmsVerificationCodeWasIncorrect>, IHandleDomainEvents<UserRegistrationPasswordWasTooWeak>,
+    IHandleDomainEvents<UserRegistrationUsernameWasInvalid>, IHandleDomainEvents<EmailVerificationCodeFailedToSend>,
     IHandleDomainEvents<EmailVerificationCodeHasBeenSent>, IHandleDomainEvents<EmailVerificationWasSuccessful>,
     IHandleDomainEvents<SmsVerificationCodeFailedToSend>, IHandleDomainEvents<SmsVerificationCodeHasBeenSent>,
     IHandleDomainEvents<UserRegistrationPhoneVerified>
@@ -26,6 +27,22 @@ public partial class UserRegistrationHandler : DomainEventHandler, IHandleDomain
         handler.Subscribe((IHandleDomainEvents<SmsVerificationCodeFailedToSend>) handler);
         handler.Subscribe((IHandleDomainEvents<SmsVerificationCodeHasBeenSent>) handler);
         handler.Subscribe((IHandleDomainEvents<UserRegistrationPhoneVerified>) handler);
+        handler.Subscribe((IHandleDomainEvents<UserRegistrationPasswordWasTooWeak>) handler);
+        handler.Subscribe((IHandleDomainEvents<UserRegistrationUsernameWasInvalid>) handler);
+    }
+
+    public Task Handle(UserRegistrationUsernameWasInvalid domainEvent)
+    {
+        Log(domainEvent);
+
+        return Task.CompletedTask;
+    }
+
+    public Task Handle(UserRegistrationPasswordWasTooWeak domainEvent)
+    {
+        Log(domainEvent);
+
+        return Task.CompletedTask;
     }
 
     /// <exception cref="ValueObjectException"></exception>

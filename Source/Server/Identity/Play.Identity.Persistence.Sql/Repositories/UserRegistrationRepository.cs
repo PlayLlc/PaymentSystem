@@ -33,7 +33,7 @@ public class UserRegistrationRepository : Repository<UserRegistration, SimpleStr
     {
         try
         {
-            return await _Set.AnyAsync(a => EF.Property<SimpleStringId>(a, "_Username") == email).ConfigureAwait(false);
+            return !await _Set.AnyAsync(a => EF.Property<string>(a, "_Username") == email).ConfigureAwait(false);
         }
         catch (Exception ex)
         {

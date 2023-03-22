@@ -69,7 +69,7 @@ public class UserRepository : IUserRepository
     {
         try
         {
-            return await _Context.Set<UserIdentity>().AnyAsync(a => a.Email == email).ConfigureAwait(false);
+            return !await _Context.Set<UserIdentity>().AnyAsync(a => a.Email == email).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -133,7 +133,7 @@ public class UserRepository : IUserRepository
     {
         try
         {
-            _Users.Remove(new(user.AsDto()));
+            _Users.Remove(new UserIdentity(user.AsDto()));
             await _Context.SaveChangesAsync().ConfigureAwait(false);
         }
         catch (Exception ex)
