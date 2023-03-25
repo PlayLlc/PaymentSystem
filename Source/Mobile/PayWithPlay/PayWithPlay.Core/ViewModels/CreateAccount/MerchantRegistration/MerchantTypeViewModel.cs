@@ -1,4 +1,5 @@
 ﻿using MvvmCross.ViewModels;
+using PayWithPlay.Core.Enums;
 using PayWithPlay.Core.Models;
 using PayWithPlay.Core.Models.CreateAccount;
 using PayWithPlay.Core.Resources;
@@ -23,19 +24,19 @@ namespace PayWithPlay.Core.ViewModels.CreateAccount.MerchantRegistration
         {
             new MerchantTypeItemModel
             {
-                Type = Enums.MerchantType.Business,
+                Type = MerchantType.Business,
                 Title= Resource.Business,
                 Subtitle= Resource.MerchnatBusinessSubtitle,
             },
             new MerchantTypeItemModel
             {
-                Type = Enums.MerchantType.NonProfit,
+                Type = MerchantType.NonProfit,
                 Title= Resource.NonProfit,
                 Subtitle= Resource.MerchnatNonProfitSubtitle,
             },
             new MerchantTypeItemModel
             {
-                Type = Enums.MerchantType.Individual,
+                Type = MerchantType.Individual,
                 Title= Resource.Individual,
                 Subtitle= Resource.MerchnatIndividualSubtitle,
             }

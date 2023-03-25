@@ -4,7 +4,7 @@
     {
         Add,
         TeamManagement,
-        Chat, 
+        Chat,
         Invoices
     }
 }

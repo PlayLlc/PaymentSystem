@@ -11,4 +11,8 @@
     <attr name="highlighted" format="boolean" />
   </declare-styleable>
 
+  <declare-styleable name="MaxHeightRecyclerView">
+    <attr name="maxHeight" format="dimension" />
+  </declare-styleable>
+  
 </resources>

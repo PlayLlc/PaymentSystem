@@ -1,0 +1,632 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/view_back_and_title"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:overScrollMode="never"
+        android:fillViewport="true">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:paddingHorizontal="20dp"
+                android:paddingBottom="12dp"
+                android:orientation="vertical"
+                app:MvxBind="Click OnAddImage">
+
+                <FrameLayout
+                    android:id="@+id/add_image_placeholder_view"
+                    android:layout_width="128dp"
+                    android:layout_height="128dp"
+                    android:clipChildren="true"
+                    android:clipToPadding="true">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_camera"
+                        android:tint="@color/accent_color"
+                        android:layout_gravity="center"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="128dp"
+                        android:layout_height="128dp"
+                        android:layout_gravity="center_horizontal"/>
+
+                </FrameLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/MediumTextStyle"
+                    android:layout_marginVertical="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_gravity="center_horizontal"
+                    app:MvxBind="Text AddImageText"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true">
+
+                <FrameLayout
+                    android:id="@+id/item_header_container"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:background="@color/third_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    app:MvxBind="Click Item.OnItem">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/MediumTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_gravity="start|center_vertical"
+                        app:MvxBind="Text Item.ItemText"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:tint="@color/secondary_color"
+                        android:src="@drawable/ic_arrow_down"
+                        android:layout_marginEnd="24dp"
+                        app:MvxBind="ArrowAnimation Item.ItemExpanded"/>
+
+                </FrameLayout>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/item_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/item_header_container"
+                    app:MvxBind="CreateInventoryItemView Item; Visibility Visibility(Item.ItemExpanded)">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        style="@style/DefaultTextStyle"
+                        app:MvxBind="Text Item.NameText"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:theme="@style/TextInputTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp">
+
+                        <PayWithPlay.Droid.CustomViews.EditTextWithValidation
+                            android:id="@+id/nameEt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionNext"
+                            android:inputType="textCapWords|textPersonName"
+                            style="@style/InputEditTextStyle"
+                            app:MvxBind="Hint Item.NameText; Text Item.Name"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/DefaultTextStyle"
+                        android:layout_marginBottom="10dp"
+                        app:MvxBind="Text Item.PriceText"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:theme="@style/TextInputTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:endIconTint="@color/hint_text_color">
+
+                        <PayWithPlay.Droid.CustomViews.EditTextWithValidation
+                            android:id="@+id/priceEt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionDone"
+                            android:inputType="numberDecimal"
+                            style="@style/InputEditTextStyle"
+                            app:MvxBind="Hint Item.PriceText; Text Item.Price"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <FrameLayout
+                    android:id="@+id/product_details_header_container"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/item_container"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/third_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    app:MvxBind="Click ProductDetails.OnProductDetails">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/MediumTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_gravity="start|center_vertical"
+                        app:MvxBind="Text ProductDetails.ProductDetailsText"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:tint="@color/secondary_color"
+                        android:src="@drawable/ic_arrow_down"
+                        android:layout_marginEnd="24dp"
+                        app:MvxBind="ArrowAnimation ProductDetails.ProductDetailsExpanded"/>
+
+                </FrameLayout>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/product_details_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginHorizontal="24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/product_details_header_container"
+                    app:MvxBind="Visibility Visibility(ProductDetails.ProductDetailsExpanded)">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        style="@style/DefaultTextStyle"
+                        app:MvxBind="Text ProductDetails.SKUText"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:theme="@style/TextInputTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp">
+
+                        <PayWithPlay.Droid.CustomViews.EditTextWithValidation
+                            android:id="@+id/skuEt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionNext"
+                            android:inputType="textCapWords|textPersonName"
+                            style="@style/InputEditTextStyle"
+                            app:MvxBind="Hint ProductDetails.SKUText; Text ProductDetails.SKU"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/DefaultTextStyle"
+                        android:layout_marginBottom="10dp"
+                        app:MvxBind="Text ProductDetails.DescriptionText"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:theme="@style/TextInputTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        app:endIconTint="@color/hint_text_color">
+
+                        <PayWithPlay.Droid.CustomViews.EditTextWithValidation
+                            android:id="@+id/descriptionEt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scrollbarAlwaysDrawVerticalTrack="true"
+                            android:fadeScrollbars="false"
+                            android:imeOptions="actionDone"
+                            android:inputType="text|textMultiLine"
+                            android:scrollbars="vertical"
+                            android:gravity="start|top"
+                            android:singleLine="false"
+                            android:minLines="1"
+                            android:lines="5"
+                            android:maxLines="5"
+                            style="@style/InputEditTextStyle"
+                            app:MvxBind="Hint ProductDetails.DescriptionText; Text ProductDetails.Description; HanldeNestedScrolling true"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <FrameLayout
+                    android:id="@+id/stores_header_container"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/product_details_container"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/third_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    app:MvxBind="Click Stores.OnStores">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/MediumTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_gravity="start|center_vertical"
+                        app:MvxBind="Text Stores.StoresText"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:tint="@color/secondary_color"
+                        android:src="@drawable/ic_arrow_down"
+                        android:layout_marginEnd="24dp"
+                        app:MvxBind="ArrowAnimation Stores.StoresExpanded"/>
+
+                </FrameLayout>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/stores_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/stores_header_container"
+                    app:MvxBind="Visibility Visibility(Stores.StoresExpanded)">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="24dp"
+                        android:layout_marginBottom="7dp"
+                        app:MvxBind="Click Stores.OnAllStores">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/DefaultTextStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start|center_vertical"
+                            android:layout_marginEnd="24dp"
+                            app:MvxBind="Text Stores.AllStoresText"/>
+
+                        <com.google.android.material.checkbox.MaterialCheckBox
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_gravity="end|center_vertical"
+                            android:clickable="false"
+                            app:buttonTint="@color/accent_color"
+                            style="@style/DefaultTextStyle"
+                            app:MvxBind="Checked Stores.AllStoresChecked"/>
+
+                    </FrameLayout>
+
+                    <PayWithPlay.Droid.CustomViews.MaxHeightRecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/background_inner_shadow"
+                        android:layout_marginBottom="20dp"
+                        android:orientation="vertical"
+                        android:overScrollMode="never"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        app:maxHeight="148dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:MvxItemTemplate="@layout/row_checkable_item"
+                        app:MvxBind="ItemsSource Stores.Stores; ItemClick Stores.OnStoreItemChecked"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/category_header_container"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/stores_container"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/third_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    app:MvxBind="Click Category.OnCategory">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/MediumTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_gravity="center_vertical"
+                        app:MvxBind="Text Category.CategoryText"/>
+
+                    <PayWithPlay.Droid.CustomViews.EditTextWithClearFocus
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:layout_marginHorizontal="8dp"
+                        android:layout_gravity="center_vertical"
+                        style="@style/SearchInputEditTextStyle"
+                        app:MvxBind="Hint Category.SearchText; Text Category.Search"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:tint="@color/secondary_color"
+                        android:src="@drawable/ic_arrow_down"
+                        android:layout_marginEnd="24dp"
+                        app:MvxBind="ArrowAnimation Category.CategoryExpanded"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/category_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/category_header_container"
+                    app:MvxBind="Visibility Visibility(Category.CategoryExpanded)">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:background="@drawable/background_inner_shadow">
+
+                        <PayWithPlay.Droid.CustomViews.MaxHeightRecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:overScrollMode="never"
+                            android:clipChildren="false"
+                            android:clipToPadding="false"
+                            app:maxHeight="148dp"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:MvxItemTemplate="@layout/row_checkable_item"
+                            app:MvxBind="ItemsSource Category.DisplayedCategories; ItemClick Category.OnCategoryItemChecked"/>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="16dp"
+                            style="@style/DefaultTextStyle"
+                            app:MvxBind="Text Category.NoCategoryFoundText; Visibility Visibility(Category.NoCategoryFound)"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="24dp"
+                        android:layout_marginBottom="7dp"
+                        app:MvxBind="Click Category.OnCreate; Visibility InvertedVisibility(Category.ShowAddCategory)">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/DefaultTextStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start|center_vertical"
+                            android:textColor="@color/accent_color"
+                            android:layout_marginEnd="24dp"
+                            app:MvxBind="Text Category.CreateCategoryText"/>
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end|center_vertical"
+                            android:src="@drawable/ic_plus_small"
+                            android:tint="@color/accent_color"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:clipChildren="false"
+                        android:layout_marginHorizontal="24dp"
+                        android:layout_marginBottom="7dp"
+                        app:MvxBind="Visibility Visibility(Category.ShowAddCategory)">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:theme="@style/TextInputThemeColored"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical">
+
+                            <PayWithPlay.Droid.CustomViews.EditTextWithValidation
+                                android:id="@+id/skuEt"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionDone"
+                                android:inputType="textCapWords|textPersonName"
+                                style="@style/InputEditTextStyle"
+                                app:MvxBind="Hint Category.AddCategoryText; Text Category.NewCategory"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:layout_gravity="center_vertical|end"
+                            app:strokeColor="@color/accent_color"
+                            app:strokeWidth="1dp"
+                            style="@style/BaseButton"
+                            app:cornerRadius="4dp"
+                            app:backgroundTint="@color/third_color"
+                            android:textColor="@color/accent_color"
+                            app:MvxBind="Text Category.AddButtonText; Click Category.OnAdd"/>
+
+                    </FrameLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <FrameLayout
+                    android:id="@+id/alerts_header_container"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/category_container"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/third_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    app:MvxBind="Click Alerts.OnAlerts">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/MediumTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_gravity="start|center_vertical"
+                        app:MvxBind="Text Alerts.AlertsText"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:tint="@color/secondary_color"
+                        android:src="@drawable/ic_arrow_down"
+                        android:layout_marginEnd="24dp"
+                        app:MvxBind="ArrowAnimation Alerts.AlertsExpanded"/>
+
+                </FrameLayout>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/alerts_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/alerts_header_container"
+                    app:MvxBind="Visibility Visibility(Alerts.AlertsExpanded)">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1.5dp"
+                        android:background="@color/secondary_text_color"/>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="20dp"
+                        android:background="@color/third_color">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start|center_vertical"
+                            android:layout_marginStart="32dp"
+                            android:layout_marginEnd="100dp"
+                            android:textSize="16sp"
+                            style="@style/DefaultTextStyle"
+                            app:MvxBind="Text Alerts.AlertsMessageText"/>
+
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end|center_vertical"
+                            android:layout_marginEnd="24dp"
+                            app:MvxBind="Checked Alerts.AlertsEnabled"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginHorizontal="24dp"
+                                style="@style/DefaultTextStyle"
+                                app:MvxBind="Text Alerts.LowInventoryWarningText"/>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:theme="@style/TextInputTheme"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="24dp"
+                                android:layout_marginBottom="20dp">
+
+                                <PayWithPlay.Droid.CustomViews.EditTextWithValidation
+                                    android:id="@+id/alertsEt"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:imeOptions="actionDone"
+                                    android:inputType="number"
+                                    style="@style/InputEditTextStyle"
+                                    app:MvxBind="Hint Alerts.LowInventoryWarningText; Text Alerts.LowInventoryValue"/>
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/greyed_out"
+                            android:clickable="true"
+                            app:MvxBind="Visibility InvertedVisibility(Alerts.AlertsEnabled)"/>
+
+                    </FrameLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginVertical="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/alerts_container"
+                    style="@style/PrimaryButton"
+                    app:MvxBind="Text CreateItemButtonText; Click OnCreateItem; Enabled CreateItemButtonEnabled"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
