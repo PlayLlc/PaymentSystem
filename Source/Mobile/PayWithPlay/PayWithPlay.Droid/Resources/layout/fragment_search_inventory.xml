@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/view_back_and_title"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:theme="@style/TextInputTheme"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="16dp"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
+        app:hintTextColor="@color/primary_text_color">
+
+        <PayWithPlay.Droid.CustomViews.EditTextWithClearFocus
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:textSize="10sp"
+            android:fontFamily="@font/poppins_medium"
+            android:textColorHint="@color/primary_text_color"
+            style="@style/InputEditTextStyle"
+            app:MvxBind="Hint SearchText; Text Search"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

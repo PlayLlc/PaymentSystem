@@ -2,7 +2,7 @@
 {
     public enum VerifyIdentityType
     {
-        Email, 
+        Email,
         PhoneNumber
     }
 }

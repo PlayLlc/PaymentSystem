@@ -16,6 +16,7 @@ using PayWithPlay.Droid.CustomBindings.NumericKeybaordView;
 using Android.Views;
 using PayWithPlay.Droid.CustomBindings.CreateAccountBindings;
 using PayWithPlay.Droid.CustomBindings.Components;
+using PayWithPlay.Droid.CustomBindings.CreateInventoryItem;
 
 namespace PayWithPlay.Droid
 {
@@ -55,10 +56,12 @@ namespace PayWithPlay.Droid
                 (imageView) => new VerifyIdentityImageBinding(imageView));
             registry.RegisterCustomBindingFactory<AppCompatImageView>(MerchantTypeBinding.Property,
                 (imageView) => new MerchantTypeBinding(imageView));
+            registry.RegisterCustomBindingFactory<AppCompatImageView>(ArrowIndicatorAnimationBinding.Property,
+                (imageView) => new ArrowIndicatorAnimationBinding(imageView));
 
             // Views
-            registry.RegisterCustomBindingFactory<NestedScrollView>(ScrollViewHandleNestedScrollBinding.Property,
-                (scrollView) => new ScrollViewHandleNestedScrollBinding(scrollView));
+            registry.RegisterCustomBindingFactory<View>(HandleNestedScrollBinding.Property,
+                (view) => new HandleNestedScrollBinding(view));
             registry.RegisterCustomBindingFactory<InputBoxesView>(InputBoxesBinding.Property,
                 (inputBoxes) => new InputBoxesBinding(inputBoxes));
 
@@ -84,11 +87,15 @@ namespace PayWithPlay.Droid
                 (userNameView) => new PhoneNumberViewBinding(userNameView));
             registry.RegisterCustomBindingFactory<View>(BusinessNameViewBinding.Property,
                 (userNameView) => new BusinessNameViewBinding(userNameView));
+
+            registry.RegisterCustomBindingFactory<View>(ItemViewBinding.Property,
+                (userNameView) => new ItemViewBinding(userNameView));
         }
 
         public override void LoadPlugins(IMvxPluginManager pluginManager)
         {
             pluginManager.EnsurePluginLoaded<MvvmCross.Plugin.MethodBinding.Plugin>();
+            pluginManager.EnsurePluginLoaded<MvvmCross.Plugin.Visibility.Platforms.Android.Plugin>();
             base.LoadPlugins(pluginManager);
         }
     }

@@ -1,18 +1,19 @@
-﻿using AndroidX.Core.Widget;
+﻿using Android.Views;
+using AndroidX.Core.Widget;
 using MvvmCross.Platforms.Android.Binding.Target;
 using PayWithPlay.Droid.Utils.Listeners;
 
 namespace PayWithPlay.Droid.CustomBindings
 {
-    public class ScrollViewHandleNestedScrollBinding : MvxAndroidTargetBinding<NestedScrollView, bool>
+    public class HandleNestedScrollBinding : MvxAndroidTargetBinding<View, bool>
     {
         public const string Property = "HanldeNestedScrolling";
 
-        public ScrollViewHandleNestedScrollBinding(NestedScrollView target) : base(target)
+        public HandleNestedScrollBinding(View target) : base(target)
         {
         }
 
-        protected override void SetValueImpl(NestedScrollView target, bool value)
+        protected override void SetValueImpl(View target, bool value)
         {
             if (target == null)
             {

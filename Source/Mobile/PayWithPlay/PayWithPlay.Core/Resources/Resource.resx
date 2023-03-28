@@ -120,6 +120,15 @@
   <data name="Add" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="AddCategory" xml:space="preserve">
+    <value>Add a category</value>
+  </data>
+  <data name="Alerts" xml:space="preserve">
+    <value>Alerts</value>
+  </data>
+  <data name="AllStores" xml:space="preserve">
+    <value>All stores</value>
+  </data>
   <data name="AndText" xml:space="preserve">
     <value>and</value>
   </data>
@@ -143,6 +152,9 @@
   </data>
   <data name="BusinessNameTitle" xml:space="preserve">
     <value>What is your business name?</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Category</value>
   </data>
   <data name="Chat" xml:space="preserve">
     <value>Chat</value>
@@ -174,8 +186,17 @@
   <data name="CreateAccount" xml:space="preserve">
     <value>Create Account</value>
   </data>
+  <data name="CreateCategory" xml:space="preserve">
+    <value>Create a category</value>
+  </data>
+  <data name="CreateItem" xml:space="preserve">
+    <value>Create item</value>
+  </data>
   <data name="CreatePINCode" xml:space="preserve">
     <value>Create your PIN code</value>
+  </data>
+  <data name="Descritption" xml:space="preserve">
+    <value>Descritption</value>
   </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>Email address</value>
@@ -234,11 +255,23 @@
   <data name="Inventory" xml:space="preserve">
     <value>Inventory</value>
   </data>
+  <data name="InventorySubtitle" xml:space="preserve">
+    <value>Search, add and manage items</value>
+  </data>
   <data name="Invoices" xml:space="preserve">
     <value>Invoices</value>
   </data>
+  <data name="Item" xml:space="preserve">
+    <value>Item</value>
+  </data>
   <data name="LastNameText" xml:space="preserve">
     <value>Last name</value>
+  </data>
+  <data name="LowInventoryItemAlert" xml:space="preserve">
+    <value>Send notifications when this item is low or out of inventory</value>
+  </data>
+  <data name="LowInventoryItemWarning" xml:space="preserve">
+    <value>Low Inventory Warning</value>
   </data>
   <data name="Loyalty" xml:space="preserve">
     <value>Loyalty</value>
@@ -258,11 +291,17 @@
   <data name="MerchnatNonProfitSubtitle" xml:space="preserve">
     <value>Charity, Religious organization</value>
   </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
   <data name="No" xml:space="preserve">
     <value>No</value>
   </data>
   <data name="NoAccountQuestion" xml:space="preserve">
     <value>Don't have an account?</value>
+  </data>
+  <data name="NoCategoryFound" xml:space="preserve">
+    <value>No category found</value>
   </data>
   <data name="NonProfit" xml:space="preserve">
     <value>Non profit</value>
@@ -282,8 +321,14 @@
   <data name="PointOfSaleSubtitle" xml:space="preserve">
     <value>Please select one among following payments methods.</value>
   </data>
+  <data name="Price" xml:space="preserve">
+    <value>Price</value>
+  </data>
   <data name="PrivacyPolicy" xml:space="preserve">
     <value>Privacy Policy</value>
+  </data>
+  <data name="ProductDetails" xml:space="preserve">
+    <value>Product details</value>
   </data>
   <data name="RegistrationBiometricsTitle" xml:space="preserve">
     <value>Do you want to use biometrics security?</value>
@@ -297,11 +342,32 @@
   <data name="Sale" xml:space="preserve">
     <value>Sale</value>
   </data>
+  <data name="Scan" xml:space="preserve">
+    <value>Scan</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SearchInventory" xml:space="preserve">
+    <value>Search Inventory</value>
+  </data>
   <data name="SignIn" xml:space="preserve">
     <value>Sign in</value>
   </data>
+  <data name="SKU" xml:space="preserve">
+    <value>SKU</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Sort by</value>
+  </data>
   <data name="State" xml:space="preserve">
     <value>State</value>
+  </data>
+  <data name="Store" xml:space="preserve">
+    <value>Store</value>
+  </data>
+  <data name="Stores" xml:space="preserve">
+    <value>Stores</value>
   </data>
   <data name="StreetAddress" xml:space="preserve">
     <value>Street Address</value>
