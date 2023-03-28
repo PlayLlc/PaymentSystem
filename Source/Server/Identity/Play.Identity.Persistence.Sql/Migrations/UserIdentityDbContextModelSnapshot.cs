@@ -560,13 +560,9 @@ namespace Play.Identity.Persistence.Sql.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<long>("Code")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Code"), 1L, 1);
-
                     b.Property<DateTime>("SentDate")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -582,12 +578,10 @@ namespace Play.Identity.Persistence.Sql.Migrations
                         .HasColumnName("UserId");
 
                     b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("HashedPassword")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id", "CreatedOn");
@@ -606,7 +600,6 @@ namespace Play.Identity.Persistence.Sql.Migrations
 
                     b.Property<string>("LastFourOfSocial")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -807,21 +800,21 @@ namespace Play.Identity.Persistence.Sql.Migrations
                         new
                         {
                             Id = "Administrator",
-                            ConcurrencyStamp = "9ef10c9f-8c42-4897-949c-d8c5c0758b01",
+                            ConcurrencyStamp = "5e72c01c-9883-41f3-9122-36ed5904f0ba",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "SalesAssociate",
-                            ConcurrencyStamp = "e4fa4bc4-dbe3-4022-ab93-baa896f27481",
+                            ConcurrencyStamp = "396ba38e-0fae-432d-bc6e-6481d633734f",
                             Name = "SalesAssociate",
                             NormalizedName = "SALESASSOCIATE"
                         },
                         new
                         {
                             Id = "SuperAdmin",
-                            ConcurrencyStamp = "e7ede212-b5e9-458b-8dd2-650741fe354d",
+                            ConcurrencyStamp = "25ab671a-677c-4556-823e-e825a6693963",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         });

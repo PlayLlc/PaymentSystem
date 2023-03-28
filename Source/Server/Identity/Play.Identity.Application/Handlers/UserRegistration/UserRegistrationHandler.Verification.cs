@@ -31,6 +31,12 @@ public partial class UserRegistrationHandler : DomainEventHandler, IHandleDomain
         handler.Subscribe((IHandleDomainEvents<UserRegistrationUsernameWasInvalid>) handler);
     }
 
+    public async Task Handle(EmailVerificationCodeHasBeenSent domainEvent)
+    {
+        Log(domainEvent);
+        await _UserRegistrationRepository.SaveAsync(domainEvent.UserRegistration).ConfigureAwait(false);
+    }
+
     public Task Handle(UserRegistrationUsernameWasInvalid domainEvent)
     {
         Log(domainEvent);
@@ -87,12 +93,6 @@ public partial class UserRegistrationHandler : DomainEventHandler, IHandleDomain
         Log(domainEvent);
 
         return Task.CompletedTask;
-    }
-
-    public async Task Handle(EmailVerificationCodeHasBeenSent domainEvent)
-    {
-        Log(domainEvent);
-        await _UserRegistrationRepository.SaveAsync(domainEvent.UserRegistration).ConfigureAwait(false);
     }
 
     public async Task Handle(EmailVerificationWasSuccessful domainEvent)

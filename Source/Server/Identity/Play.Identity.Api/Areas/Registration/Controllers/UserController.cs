@@ -80,20 +80,21 @@ public class UserController : Controller
         })!, userRegistration.AsDto());
     }
 
-    [HttpGetSwagger("", name: "RegistrationGetEmailVerificationForUser")]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EmailVerification([FromQuery] string id)
-    {
-        UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(new SimpleStringId(id)).ConfigureAwait(false)
-                                             ?? throw new NotFoundException(typeof(UserRegistration));
+    //[HttpGetSwagger("", name: "RegistrationGetEmailVerificationForUser")]
 
-        if (userRegistration.HasEmailBeenVerified())
-            return View("EmailVerificationSuccessful");
+    ////[ValidateAntiForgeryToken]
+    //public async Task<IActionResult> EmailVerification([FromQuery] string id)
+    //{
+    //    UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(new SimpleStringId(id)).ConfigureAwait(false)
+    //                                         ?? throw new NotFoundException(typeof(UserRegistration));
 
-        return View("EmailVerificationFailed");
-    }
+    //    if (userRegistration.HasEmailBeenVerified())
+    //        return View("EmailVerificationSuccessful");
 
-    [HttpPutSwagger("", name: "RegistrationUpdateEmailVerificationForUser")]
+    //    return View("EmailVerificationFailed");
+    //}
+
+    [HttpGetSwagger("", name: "RegistrationUpdateEmailVerificationForUser")]
 
     // [ValidateAntiForgeryToken]
     public async Task<IActionResult> EmailVerification([FromQuery] string email, [FromQuery] uint confirmationCode)
@@ -109,7 +110,10 @@ public class UserController : Controller
             UserRegistrationId = email
         });
 
-        return Ok();
+        if (userRegistration.HasEmailBeenVerified())
+            return View("EmailVerificationSuccessful");
+
+        return View("EmailVerificationFailed");
     }
 
     [HttpPutSwagger("", name: "RegistrationUpdateContactForUser")]

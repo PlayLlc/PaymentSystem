@@ -72,8 +72,8 @@ public sealed class UserIdentityDbContext : IdentityDbContext<UserIdentity, Role
 
         builder.Entity<BusinessInfo>().ToTable($"{nameof(BusinessInfo)}s").Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<BusinessInfo>().HasKey(x => x.Id);
-        builder.Entity<BusinessInfo>().Property(x => x.BusinessType).HasConversion<string>(x => x, y => new(y));
-        builder.Entity<BusinessInfo>().Property(x => x.MerchantCategoryCode).HasConversion<ushort>(x => x, y => new(y));
+        builder.Entity<BusinessInfo>().Property(x => x.BusinessType).HasConversion<string>(x => x, y => new BusinessType(y));
+        builder.Entity<BusinessInfo>().Property(x => x.MerchantCategoryCode).HasConversion<ushort>(x => x, y => new MerchantCategoryCode(y));
 
         builder.Entity<Contact>().ToTable($"{nameof(Contact)}s").Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<Contact>().HasKey(x => x.Id);
@@ -84,8 +84,8 @@ public sealed class UserIdentityDbContext : IdentityDbContext<UserIdentity, Role
 
         builder.Entity<Password>().ToTable($"{nameof(Password)}s").Property(x => x.Id).HasColumnName($"{nameof(User)}Id").ValueGeneratedOnAdd();
         builder.Entity<Password>().HasKey(x => x.Id);
-        builder.Entity<Password>().Property(x => x.CreatedOn).ValueGeneratedOnAdd();
-        builder.Entity<Password>().Property(x => x.HashedPassword).ValueGeneratedOnAdd();
+        builder.Entity<Password>().Property(x => x.CreatedOn);
+        builder.Entity<Password>().Property(x => x.HashedPassword);
         builder.Entity<Password>()
         .HasKey(x => new
         {
@@ -95,19 +95,20 @@ public sealed class UserIdentityDbContext : IdentityDbContext<UserIdentity, Role
 
         builder.Entity<PersonalDetail>().ToTable($"{nameof(PersonalDetail)}s").Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<PersonalDetail>().HasKey(x => x.Id);
-        builder.Entity<PersonalDetail>().Property(x => x.LastFourOfSocial).ValueGeneratedOnAdd();
+        builder.Entity<PersonalDetail>().Property(x => x.LastFourOfSocial);
         builder.Entity<PersonalDetail>().Property(x => x.DateOfBirth);
 
         builder.Entity<ConfirmationCode>().ToTable($"{nameof(ConfirmationCode)}s").Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<ConfirmationCode>().HasKey(x => x.Id);
-        builder.Entity<ConfirmationCode>().Property(x => x.SentDate).ValueGeneratedOnAdd();
-        builder.Entity<ConfirmationCode>().Property(x => x.Code).ValueGeneratedOnAdd();
+        builder.Entity<ConfirmationCode>().Property(x => x.SentDate);
+        builder.Entity<ConfirmationCode>().Property(x => x.Code);
 
         #endregion
 
         #region Aggregates
 
         // Aggregates 
+
         identityEntityConfiguration.Configure(builder.Entity<UserRegistration>());
         identityEntityConfiguration.Configure(builder.Entity<MerchantRegistration>());
         identityEntityConfiguration.Configure(builder.Entity<Merchant>());

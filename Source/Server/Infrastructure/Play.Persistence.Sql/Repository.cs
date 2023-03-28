@@ -25,7 +25,7 @@ public class Repository<_Aggregate, _TId> : IRepository<_Aggregate, _TId> where 
         _DbSet = dbContext.Set<_Aggregate>();
         dbContext.ChangeTracker.LazyLoadingEnabled = false;
 
-        // dbContext.ChangeTracker.AutoDetectChangesEnabled = false;
+        //dbContext.ChangeTracker.AutoDetectChangesEnabled = true;
     }
 
     #endregion

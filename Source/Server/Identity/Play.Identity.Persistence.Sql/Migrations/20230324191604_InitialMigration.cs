@@ -54,8 +54,7 @@ namespace Play.Identity.Persistence.Sql.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Code = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<long>(type: "bigint", nullable: false),
                     SentDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -444,9 +443,9 @@ namespace Play.Identity.Persistence.Sql.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "Administrator", "9ef10c9f-8c42-4897-949c-d8c5c0758b01", "Administrator", "ADMINISTRATOR" },
-                    { "SalesAssociate", "e4fa4bc4-dbe3-4022-ab93-baa896f27481", "SalesAssociate", "SALESASSOCIATE" },
-                    { "SuperAdmin", "e7ede212-b5e9-458b-8dd2-650741fe354d", "SuperAdmin", "SUPERADMIN" }
+                    { "Administrator", "5e72c01c-9883-41f3-9122-36ed5904f0ba", "Administrator", "ADMINISTRATOR" },
+                    { "SalesAssociate", "396ba38e-0fae-432d-bc6e-6481d633734f", "SalesAssociate", "SALESASSOCIATE" },
+                    { "SuperAdmin", "25ab671a-677c-4556-823e-e825a6693963", "SuperAdmin", "SUPERADMIN" }
                 });
 
             migrationBuilder.InsertData(

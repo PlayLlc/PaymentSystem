@@ -26,13 +26,13 @@ public class EmailVerificationReturnUrlGenerator : ICreateEmailVerificationRetur
 
     #region Instance Members
 
-    public string CreateReturnUrl(string userRegistrationId, uint confirmationCode)
+    public string CreateReturnUrl(string email, uint confirmationCode)
     {
         string scheme = _UrlHelper.ActionContext.HttpContext.Request.Scheme;
         var aa = _UrlHelper.Action("EmailVerification", "User", new
         {
             area = "Registration",
-            userRegistrationId = userRegistrationId,
+            email = email,
             confirmationCode = confirmationCode
         }, scheme);
 

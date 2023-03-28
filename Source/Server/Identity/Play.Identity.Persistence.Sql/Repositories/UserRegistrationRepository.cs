@@ -48,7 +48,12 @@ public class UserRegistrationRepository : Repository<UserRegistration, SimpleStr
     {
         try
         {
-            return await _Set.FirstOrDefaultAsync(a => EF.Property<SimpleStringId>(a, "_Username") == email);
+            return await _Set.Include("_Contact")
+                .Include("_Address")
+                .Include("_PersonalDetail")
+                .Include("_EmailConfirmation")
+                .Include("_SmsConfirmation")
+                .FirstOrDefaultAsync(a => EF.Property<SimpleStringId>(a, "_Username") == email);
         }
         catch (Exception ex)
         {

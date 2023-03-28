@@ -96,8 +96,9 @@ public class UserRegistration : Aggregate<SimpleStringId>
         Enforce(new UserRegistrationMustNotExpire(_Status, _RegistrationDate), () => _Status = UserRegistrationStatuses.Expired);
         Enforce(new UserRegistrationMustNotBeRejected(_Status), () => _Status = UserRegistrationStatuses.Rejected);
 
-        contact.Id = GenerateSimpleStringId();
+        contact.Contact.Id = GenerateSimpleStringId();
         contact.Contact.Email = _Username;
+        _Contact = new Contact(contact.Contact);
 
         Publish(new UserRegistrationContactInfoUpdated(this));
     }
