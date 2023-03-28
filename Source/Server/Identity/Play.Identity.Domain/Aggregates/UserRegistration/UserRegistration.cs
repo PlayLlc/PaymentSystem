@@ -121,6 +121,9 @@ public class UserRegistration : Aggregate<SimpleStringId>
     /// <exception cref="BusinessRuleValidationException"></exception>
     public void UpdateContactInfo(UpdateContactCommand contact)
     {
+        if (_Contact is not null)
+            return;
+
         Enforce(new UserRegistrationMustNotExpire(_Status, _RegistrationDate), () => _Status = UserRegistrationStatuses.Expired);
         Enforce(new UserRegistrationMustNotBeRejected(_Status), () => _Status = UserRegistrationStatuses.Rejected);
 
@@ -136,6 +139,9 @@ public class UserRegistration : Aggregate<SimpleStringId>
     /// <exception cref="BusinessRuleValidationException"></exception>
     public void VerifyEmail(VerifyConfirmationCodeCommand command)
     {
+        if (_HasEmailBeenVerified)
+            return;
+
         Enforce(new UserRegistrationMustNotExpire(_Status, _RegistrationDate), () => _Status = UserRegistrationStatuses.Expired);
         Enforce(new UserRegistrationMustNotBeRejected(_Status), () => _Status = UserRegistrationStatuses.Rejected);
 
@@ -182,6 +188,9 @@ public class UserRegistration : Aggregate<SimpleStringId>
     /// <exception cref="BusinessRuleValidationException"></exception>
     public void VerifyMobilePhone(VerifyConfirmationCodeCommand command)
     {
+        if (HasPhoneBeenVerified())
+            return;
+
         Enforce(new UserRegistrationMustNotExpire(_Status, _RegistrationDate), () => _Status = UserRegistrationStatuses.Expired);
         Enforce(new UserRegistrationMustNotBeRejected(_Status), () => _Status = UserRegistrationStatuses.Rejected);
 
@@ -202,6 +211,9 @@ public class UserRegistration : Aggregate<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     public void UpdateUserAddress(UpdateAddressCommand command)
     {
+        if (_Address is not null)
+            return;
+
         Enforce(new UserRegistrationMustNotExpire(_Status, _RegistrationDate), () => _Status = UserRegistrationStatuses.Expired);
         Enforce(new UserRegistrationMustNotBeRejected(_Status), () => _Status = UserRegistrationStatuses.Rejected);
 
@@ -218,6 +230,9 @@ public class UserRegistration : Aggregate<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     public void UpdatePersonalDetails(UpdatePersonalDetailCommand command)
     {
+        if (_PersonalDetail is not null)
+            return;
+
         Enforce(new UserRegistrationMustNotExpire(_Status, _RegistrationDate), () => _Status = UserRegistrationStatuses.Expired);
         Enforce(new UserRegistrationMustNotBeRejected(_Status), () => _Status = UserRegistrationStatuses.Rejected);
 

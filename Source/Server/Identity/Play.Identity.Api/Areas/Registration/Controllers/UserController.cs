@@ -91,6 +91,9 @@ public class UserController : Controller
         UserRegistration? userRegistration = await _UserRegistrationRepository.GetByEmailAsync(email).ConfigureAwait(false)
                                              ?? throw new NotFoundException(typeof(UserRegistration), email);
 
+        if (userRegistration.HasEmailBeenVerified())
+            return View("EmailVerificationSuccessful");
+
         userRegistration.VerifyEmail(new VerifyConfirmationCodeCommand()
         {
             ConfirmationCode = confirmationCode,
@@ -103,8 +106,20 @@ public class UserController : Controller
         return View("EmailVerificationFailed");
     }
 
+    [HttpGetSwagger("", name: "RegistrationGetEmailVerificationForUser")]
+
+    //[ValidateAntiForgeryToken]
+    public async Task<bool> EmailVerification([FromQuery] string id)
+    {
+        UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(new SimpleStringId(id)).ConfigureAwait(false)
+                                             ?? throw new NotFoundException(typeof(UserRegistration));
+
+        return userRegistration.HasEmailBeenVerified();
+    }
+
     [HttpPutSwagger("", name: "RegistrationUpdateContactForUser")]
-    [ValidateAntiForgeryToken]
+
+    //[ValidateAntiForgeryToken]
     public async Task<IActionResult> Contact([FromBody] UpdateContactCommand command)
     {
         this.ValidateModel();
@@ -118,19 +133,6 @@ public class UserController : Controller
         return Ok();
     }
 
-    [HttpGetSwagger("", name: "RegistrationGetPhoneVerificationForUser")]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> PhoneVerification([FromQuery] string id)
-    {
-        UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(new SimpleStringId(id)).ConfigureAwait(false)
-                                             ?? throw new NotFoundException(typeof(UserRegistration));
-
-        if (userRegistration.HasEmailBeenVerified())
-            return View("EmailVerificationSuccessful");
-
-        return View("EmailVerificationFailed");
-    }
-
     [HttpPutSwagger("", name: "RegistrationUpdatePhoneVerificationForUser")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> PhoneVerification([FromBody] VerifyConfirmationCodeCommand command)
@@ -140,6 +142,9 @@ public class UserController : Controller
         UserRegistration? userRegistration =
             await _UserRegistrationRepository.GetByIdAsync(new SimpleStringId(command.UserRegistrationId)).ConfigureAwait(false)
             ?? throw new NotFoundException(typeof(UserRegistration));
+
+        if (userRegistration.HasPhoneBeenVerified())
+            return Ok();
 
         userRegistration.VerifyMobilePhone(command);
 
