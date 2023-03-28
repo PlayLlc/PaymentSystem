@@ -46,12 +46,9 @@ public partial class UserRegistrationHandler : DomainEventHandler, IHandleDomain
 
     #region Instance Members
 
-    public async Task Handle(UserRegistrationCreated domainEvent)
-    {
-        Log(domainEvent);
-        await _UserRegistrationRepository.SaveAsync(domainEvent.UserRegistration).ConfigureAwait(false);
-    }
+    public async Task Handle(UserRegistrationCreated domainEvent) => Log(domainEvent);
 
+    // await _UserRegistrationRepository.SaveAsync(domainEvent.UserRegistration).ConfigureAwait(false);
     public async Task Handle(UserRegistrationHasBeenRejected domainEvent)
     {
         Log(domainEvent);
