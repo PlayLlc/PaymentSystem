@@ -14,7 +14,7 @@ public record EmailVerificationCodeHasBeenSent : DomainEvent
     #region Constructor
 
     public EmailVerificationCodeHasBeenSent(UserRegistration userRegistration) : base(
-        $"A {nameof(ConfirmationCode)} has successfully been sent to the {nameof(UserRegistration)} with the ID: [{userRegistration.GetId()}];")
+        $"A {nameof(EmailConfirmationCode)} has successfully been sent to the {nameof(UserRegistration)} with the ID: [{userRegistration.GetId()}];")
     {
         UserRegistration = userRegistration;
     }

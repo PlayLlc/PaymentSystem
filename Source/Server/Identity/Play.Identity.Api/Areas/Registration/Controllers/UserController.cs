@@ -69,7 +69,8 @@ public class UserController : Controller
     {
         this.ValidateModel();
 
-        UserRegistration userRegistration = UserRegistration.CreateNewUserRegistration(_UniqueEmailChecker, _PasswordHasher, command);
+        UserRegistration userRegistration =
+            await UserRegistration.CreateNewUserRegistration(_UniqueEmailChecker, _PasswordHasher, command).ConfigureAwait(false);
 
         await userRegistration.SendEmailVerificationCode(_EmailVerifier).ConfigureAwait(false);
 

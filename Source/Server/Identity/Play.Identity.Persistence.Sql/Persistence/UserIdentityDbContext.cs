@@ -98,10 +98,15 @@ public sealed class UserIdentityDbContext : IdentityDbContext<UserIdentity, Role
         builder.Entity<PersonalDetail>().Property(x => x.LastFourOfSocial);
         builder.Entity<PersonalDetail>().Property(x => x.DateOfBirth);
 
-        builder.Entity<ConfirmationCode>().ToTable($"{nameof(ConfirmationCode)}s").Property(x => x.Id).ValueGeneratedOnAdd();
-        builder.Entity<ConfirmationCode>().HasKey(x => x.Id);
-        builder.Entity<ConfirmationCode>().Property(x => x.SentDate);
-        builder.Entity<ConfirmationCode>().Property(x => x.Code);
+        builder.Entity<EmailConfirmationCode>().ToTable($"{nameof(EmailConfirmationCode)}s").Property(x => x.Id).ValueGeneratedOnAdd();
+        builder.Entity<EmailConfirmationCode>().HasKey(x => x.Id);
+        builder.Entity<EmailConfirmationCode>().Property(x => x.SentDate);
+        builder.Entity<EmailConfirmationCode>().Property(x => x.Code);
+
+        builder.Entity<SmsConfirmationCode>().ToTable($"{nameof(SmsConfirmationCode)}s").Property(x => x.Id).ValueGeneratedOnAdd();
+        builder.Entity<SmsConfirmationCode>().HasKey(x => x.Id);
+        builder.Entity<SmsConfirmationCode>().Property(x => x.SentDate);
+        builder.Entity<SmsConfirmationCode>().Property(x => x.Code);
 
         #endregion
 

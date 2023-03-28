@@ -19,7 +19,7 @@ internal class EmailVerificationCodeMustBeCorrect : BusinessRule<UserRegistratio
 
     #region Constructor
 
-    internal EmailVerificationCodeMustBeCorrect(ConfirmationCode emailConfirmationCode, uint confirmationCode)
+    internal EmailVerificationCodeMustBeCorrect(EmailConfirmationCode emailConfirmationCode, uint confirmationCode)
     {
         _IsValid = emailConfirmationCode.Code == confirmationCode;
     }

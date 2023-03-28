@@ -37,7 +37,7 @@ internal class DomainEventRouter
         _HandlerMap[fullName].Remove((dynamic) handler);
     }
 
-    public void Publish(dynamic domainEvent) //where _Event : DomainEvent
+    public async Task Publish(dynamic domainEvent) //where _Event : DomainEvent
     {
         string fullName = domainEvent.GetType().FullName!;
 
@@ -45,7 +45,7 @@ internal class DomainEventRouter
             return;
 
         foreach (dynamic handler in handlers!.ToArray())
-            handler.Handle(domainEvent);
+            await handler.Handle(domainEvent).ConfigureAwait(false);
     }
 
     #endregion

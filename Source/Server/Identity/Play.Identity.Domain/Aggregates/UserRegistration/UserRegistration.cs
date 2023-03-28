@@ -34,8 +34,8 @@ public class UserRegistration : Aggregate<SimpleStringId>
     private Address? _Address;
     private Contact? _Contact;
     private PersonalDetail? _PersonalDetail;
-    private ConfirmationCode? _EmailConfirmation;
-    private ConfirmationCode? _SmsConfirmation;
+    private EmailConfirmationCode? _EmailConfirmation;
+    private SmsConfirmationCode? _SmsConfirmation;
 
     public override SimpleStringId Id { get; }
 
@@ -76,7 +76,7 @@ public class UserRegistration : Aggregate<SimpleStringId>
     /// <exception cref="AggregateException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="ValueObjectException"></exception>
-    public static UserRegistration CreateNewUserRegistration(
+    public static async Task<UserRegistration> CreateNewUserRegistration(
         IEnsureUniqueEmails uniqueEmailChecker, IHashPasswords passwordHasher, CreateUserRegistrationCommand command)
     {
         UserRegistration userRegistration = new(command, passwordHasher);
@@ -84,9 +84,37 @@ public class UserRegistration : Aggregate<SimpleStringId>
         userRegistration.Enforce(new UserRegistrationUsernameMustBeAValidEmail(command.Email));
         userRegistration.Enforce(new UserRegistrationUsernameMustBeUnique(uniqueEmailChecker, command.Email));
         userRegistration.Enforce(new UserRegistrationPasswordMustBeStrong(command.Password));
-        userRegistration.Publish(new UserRegistrationCreated(userRegistration));
+
+        //userRegistration._EmailConfirmation = new EmailConfirmationCode(GenerateSimpleStringId(), DateTimeUtc.Now, 33);
+        await userRegistration.Publish(new UserRegistrationCreated(userRegistration));
 
         return userRegistration;
+    }
+
+    /// <exception cref="ValueObjectException"></exception>
+    /// <exception cref="CommandOutOfSyncException"></exception>
+    /// <exception cref="BusinessRuleValidationException"></exception>
+    public async Task<Result> SendEmailVerificationCode(IVerifyEmailAccounts emailAccountVerifier)
+    {
+        Enforce(new UserRegistrationMustNotExpire(_Status, _RegistrationDate), () => _Status = UserRegistrationStatuses.Expired);
+        Enforce(new UserRegistrationMustNotBeRejected(_Status), () => _Status = UserRegistrationStatuses.Rejected);
+
+        _EmailConfirmation = new EmailConfirmationCode(GenerateSimpleStringId(), DateTimeUtc.Now, 44);
+
+        Result result = await emailAccountVerifier.SendVerificationCode(_EmailConfirmation.Code, _Username).ConfigureAwait(false);
+
+        if (!result.Succeeded)
+        {
+            _SmsConfirmation = null;
+            await Publish(new EmailVerificationCodeFailedToSend(this)).ConfigureAwait(false);
+
+            return result;
+        }
+
+        _Status = UserRegistrationStatuses.WaitingForSmsVerification;
+        await Publish(new EmailVerificationCodeHasBeenSent(this)).ConfigureAwait(false);
+
+        return new Result();
     }
 
     /// <exception cref="ValueObjectException"></exception>
@@ -106,41 +134,15 @@ public class UserRegistration : Aggregate<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     /// <exception cref="CommandOutOfSyncException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
-    public async Task<Result> SendEmailVerificationCode(IVerifyEmailAccounts emailAccountVerifier)
-    {
-        Enforce(new UserRegistrationMustNotExpire(_Status, _RegistrationDate), () => _Status = UserRegistrationStatuses.Expired);
-        Enforce(new UserRegistrationMustNotBeRejected(_Status), () => _Status = UserRegistrationStatuses.Rejected);
-
-        _EmailConfirmation = new ConfirmationCode(GenerateSimpleStringId(), DateTimeUtc.Now, Randomize.Integers.UInt(100000, 999999));
-
-        Result result = await emailAccountVerifier.SendVerificationCode(_EmailConfirmation.Code, _Username).ConfigureAwait(false);
-
-        if (!result.Succeeded)
-        {
-            _SmsConfirmation = null;
-            Publish(new EmailVerificationCodeFailedToSend(this));
-
-            return result;
-        }
-
-        _Status = UserRegistrationStatuses.WaitingForSmsVerification;
-        Publish(new EmailVerificationCodeHasBeenSent(this));
-
-        return new Result();
-    }
-
-    /// <exception cref="ValueObjectException"></exception>
-    /// <exception cref="CommandOutOfSyncException"></exception>
-    /// <exception cref="BusinessRuleValidationException"></exception>
     public void VerifyEmail(VerifyConfirmationCodeCommand command)
     {
         Enforce(new UserRegistrationMustNotExpire(_Status, _RegistrationDate), () => _Status = UserRegistrationStatuses.Expired);
         Enforce(new UserRegistrationMustNotBeRejected(_Status), () => _Status = UserRegistrationStatuses.Rejected);
 
         if (_EmailConfirmation is null)
-            throw new CommandOutOfSyncException($"The email {nameof(ConfirmationCode)} is required but could not be found");
+            throw new CommandOutOfSyncException($"The email {nameof(EmailConfirmationCode)} is required but could not be found");
 
-        ConfirmationCode confirmationCode = new(_EmailConfirmation.AsDto());
+        EmailConfirmationCode confirmationCode = new(_EmailConfirmation.AsDto());
         _EmailConfirmation = null;
 
         Enforce(new EmailVerificationCodeMustNotExpire(confirmationCode)); // TODO: If expired - send another in domain event handler
@@ -162,7 +164,7 @@ public class UserRegistration : Aggregate<SimpleStringId>
         if (_Contact is null)
             throw new CommandOutOfSyncException($"The {nameof(Contact)} is required but could not be found");
 
-        _SmsConfirmation = new ConfirmationCode(GenerateSimpleStringId(), DateTimeUtc.Now, Randomize.Integers.UInt(100000, 999999));
+        _SmsConfirmation = new SmsConfirmationCode(GenerateSimpleStringId(), DateTimeUtc.Now, Randomize.Integers.UInt(100000, 999999));
         Result result = await mobilePhoneVerifier.SendVerificationCode(_SmsConfirmation.Code, _Contact!.Phone.Value).ConfigureAwait(false);
 
         if (!result.Succeeded)
@@ -184,9 +186,9 @@ public class UserRegistration : Aggregate<SimpleStringId>
         Enforce(new UserRegistrationMustNotBeRejected(_Status), () => _Status = UserRegistrationStatuses.Rejected);
 
         if (_SmsConfirmation is null)
-            throw new CommandOutOfSyncException($"The SMS {nameof(ConfirmationCode)} is required but could not be found");
+            throw new CommandOutOfSyncException($"The SMS {nameof(SmsConfirmationCode)} is required but could not be found");
 
-        ConfirmationCode confirmationCode = new(_SmsConfirmation.AsDto());
+        SmsConfirmationCode confirmationCode = new(_SmsConfirmation.AsDto());
         _EmailConfirmation = null;
 
         Enforce(new SmsVerificationCodeMustNotBeExpired(confirmationCode)); // TODO: If expired - send another in domain event handler 

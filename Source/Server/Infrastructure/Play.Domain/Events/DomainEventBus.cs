@@ -24,9 +24,9 @@ internal static class DomainEventBus
         _DomainEventRouter.Subscribe(domainEventHandler);
     }
 
-    public static void Publish<_Event>(_Event domainEvent) where _Event : DomainEvent
+    public static async Task Publish<_Event>(_Event domainEvent) where _Event : DomainEvent
     {
-        _DomainEventRouter.Publish(domainEvent);
+        await _DomainEventRouter.Publish(domainEvent).ConfigureAwait(false);
     }
 
     #endregion

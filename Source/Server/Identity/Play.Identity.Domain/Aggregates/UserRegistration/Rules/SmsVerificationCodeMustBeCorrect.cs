@@ -16,7 +16,7 @@ internal class SmsVerificationCodeMustBeCorrect : BusinessRule<UserRegistration>
 
     #region Constructor
 
-    internal SmsVerificationCodeMustBeCorrect(ConfirmationCode emailConfirmationCode, uint confirmationCode)
+    internal SmsVerificationCodeMustBeCorrect(SmsConfirmationCode emailConfirmationCode, uint confirmationCode)
     {
         _IsValid = emailConfirmationCode.Code == confirmationCode;
     }

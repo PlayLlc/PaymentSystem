@@ -12,9 +12,9 @@ public abstract class Aggregate<_TId> : Entity<_TId>, IAggregate, IEquatable<Agg
 
     protected static string GenerateSimpleStringId() => Randomize.AlphaNumericSpecial.String(20);
 
-    protected void Publish(DomainEvent domainEvent)
+    protected async Task Publish(DomainEvent domainEvent)
     {
-        DomainEventBus.Publish(domainEvent);
+        await DomainEventBus.Publish(domainEvent).ConfigureAwait(false);
     }
 
     /// <exception cref="BusinessRuleValidationException"></exception>

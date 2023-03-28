@@ -12,7 +12,7 @@ using Play.Identity.Persistence.Sql.Persistence;
 namespace Play.Identity.Persistence.Sql.Migrations
 {
     [DbContext(typeof(UserIdentityDbContext))]
-    [Migration("20230324191604_InitialMigration")]
+    [Migration("20230328184033_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -555,7 +555,7 @@ namespace Play.Identity.Persistence.Sql.Migrations
                     b.ToTable("BusinessInfos", (string)null);
                 });
 
-            modelBuilder.Entity("Play.Identity.Domain.Entities.ConfirmationCode", b =>
+            modelBuilder.Entity("Play.Identity.Domain.Entities.EmailConfirmationCode", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
@@ -569,7 +569,7 @@ namespace Play.Identity.Persistence.Sql.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ConfirmationCodes", (string)null);
+                    b.ToTable("EmailConfirmationCodes", (string)null);
                 });
 
             modelBuilder.Entity("Play.Identity.Domain.Entities.Password", b =>
@@ -607,6 +607,23 @@ namespace Play.Identity.Persistence.Sql.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PersonalDetails", (string)null);
+                });
+
+            modelBuilder.Entity("Play.Identity.Domain.Entities.SmsConfirmationCode", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<long>("Code")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("SentDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SmsConfirmationCodes", (string)null);
                 });
 
             modelBuilder.Entity("Play.Identity.Domain.ValueObjects.BusinessType", b =>
@@ -802,21 +819,21 @@ namespace Play.Identity.Persistence.Sql.Migrations
                         new
                         {
                             Id = "Administrator",
-                            ConcurrencyStamp = "5e72c01c-9883-41f3-9122-36ed5904f0ba",
+                            ConcurrencyStamp = "d20e0d0b-2309-46fc-a024-cbbeb8a07b8e",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "SalesAssociate",
-                            ConcurrencyStamp = "396ba38e-0fae-432d-bc6e-6481d633734f",
+                            ConcurrencyStamp = "00fee480-efaf-42c2-8526-0abaebebb527",
                             Name = "SalesAssociate",
                             NormalizedName = "SALESASSOCIATE"
                         },
                         new
                         {
                             Id = "SuperAdmin",
-                            ConcurrencyStamp = "25ab671a-677c-4556-823e-e825a6693963",
+                            ConcurrencyStamp = "32ecde1f-b877-404d-847b-ae24c613f6a4",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         });
@@ -953,7 +970,7 @@ namespace Play.Identity.Persistence.Sql.Migrations
                         .WithMany()
                         .HasForeignKey("_ContactId");
 
-                    b.HasOne("Play.Identity.Domain.Entities.ConfirmationCode", "_EmailConfirmation")
+                    b.HasOne("Play.Identity.Domain.Entities.EmailConfirmationCode", "_EmailConfirmation")
                         .WithMany()
                         .HasForeignKey("_EmailConfirmationId");
 
@@ -961,7 +978,7 @@ namespace Play.Identity.Persistence.Sql.Migrations
                         .WithMany()
                         .HasForeignKey("_PersonalDetailId");
 
-                    b.HasOne("Play.Identity.Domain.Entities.ConfirmationCode", "_SmsConfirmation")
+                    b.HasOne("Play.Identity.Domain.Entities.SmsConfirmationCode", "_SmsConfirmation")
                         .WithMany()
                         .HasForeignKey("_SmsConfirmationId");
 

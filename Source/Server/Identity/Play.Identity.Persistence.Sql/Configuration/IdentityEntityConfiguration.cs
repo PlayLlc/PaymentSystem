@@ -74,8 +74,8 @@ internal class IdentityEntityConfiguration : IEntityTypeConfiguration<UserRegist
         builder.HasOne<UserRegistration, Address, SimpleStringId>("_Address", "AddressId");
         builder.HasOne<UserRegistration, Contact, SimpleStringId>("_Contact", "ContactId");
         builder.HasOne<UserRegistration, PersonalDetail, SimpleStringId>("_PersonalDetail", "PersonalDetailId");
-        builder.HasOne<UserRegistration, ConfirmationCode, SimpleStringId>("_EmailConfirmation", "EmailConfirmationId");
-        builder.HasOne<UserRegistration, ConfirmationCode, SimpleStringId>("_SmsConfirmation", "SmsConfirmationId");
+        builder.HasOne<UserRegistration, EmailConfirmationCode, SimpleStringId>("_EmailConfirmation", "EmailConfirmationId");
+        builder.HasOne<UserRegistration, SmsConfirmationCode, SimpleStringId>("_SmsConfirmation", "SmsConfirmationId");
     }
 
     #endregion

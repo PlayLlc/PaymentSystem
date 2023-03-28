@@ -50,19 +50,6 @@ namespace Play.Identity.Persistence.Sql.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ConfirmationCodes",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Code = table.Column<long>(type: "bigint", nullable: false),
-                    SentDate = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ConfirmationCodes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Contacts",
                 columns: table => new
                 {
@@ -75,6 +62,19 @@ namespace Play.Identity.Persistence.Sql.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Contacts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EmailConfirmationCodes",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Code = table.Column<long>(type: "bigint", nullable: false),
+                    SentDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmailConfirmationCodes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -171,6 +171,19 @@ namespace Play.Identity.Persistence.Sql.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Roles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SmsConfirmationCodes",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Code = table.Column<long>(type: "bigint", nullable: false),
+                    SentDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SmsConfirmationCodes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -302,54 +315,6 @@ namespace Play.Identity.Persistence.Sql.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserRegistrations",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AddressId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ContactId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    EmailConfirmationId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    HasEmailBeenVerified = table.Column<bool>(type: "bit", nullable: false),
-                    HasPhoneBeenVerified = table.Column<bool>(type: "bit", nullable: false),
-                    HashedPassword = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MerchantId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PersonalDetailId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SmsConfirmationId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserRegistrations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UserRegistrations_Addresses_AddressId",
-                        column: x => x.AddressId,
-                        principalTable: "Addresses",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_UserRegistrations_ConfirmationCodes_EmailConfirmationId",
-                        column: x => x.EmailConfirmationId,
-                        principalTable: "ConfirmationCodes",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_UserRegistrations_ConfirmationCodes_SmsConfirmationId",
-                        column: x => x.SmsConfirmationId,
-                        principalTable: "ConfirmationCodes",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_UserRegistrations_Contacts_ContactId",
-                        column: x => x.ContactId,
-                        principalTable: "Contacts",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_UserRegistrations_PersonalDetails_PersonalDetailId",
-                        column: x => x.PersonalDetailId,
-                        principalTable: "PersonalDetails",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -403,6 +368,54 @@ namespace Play.Identity.Persistence.Sql.Migrations
                         principalColumn: "Id");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UserRegistrations",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AddressId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ContactId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    EmailConfirmationId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    HasEmailBeenVerified = table.Column<bool>(type: "bit", nullable: false),
+                    HasPhoneBeenVerified = table.Column<bool>(type: "bit", nullable: false),
+                    HashedPassword = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MerchantId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PersonalDetailId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SmsConfirmationId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRegistrations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserRegistrations_Addresses_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Addresses",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_UserRegistrations_Contacts_ContactId",
+                        column: x => x.ContactId,
+                        principalTable: "Contacts",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_UserRegistrations_EmailConfirmationCodes_EmailConfirmationId",
+                        column: x => x.EmailConfirmationId,
+                        principalTable: "EmailConfirmationCodes",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_UserRegistrations_PersonalDetails_PersonalDetailId",
+                        column: x => x.PersonalDetailId,
+                        principalTable: "PersonalDetails",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_UserRegistrations_SmsConfirmationCodes_SmsConfirmationId",
+                        column: x => x.SmsConfirmationId,
+                        principalTable: "SmsConfirmationCodes",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.InsertData(
                 table: "BusinessTypes",
                 column: "Value",
@@ -443,9 +456,9 @@ namespace Play.Identity.Persistence.Sql.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "Administrator", "5e72c01c-9883-41f3-9122-36ed5904f0ba", "Administrator", "ADMINISTRATOR" },
-                    { "SalesAssociate", "396ba38e-0fae-432d-bc6e-6481d633734f", "SalesAssociate", "SALESASSOCIATE" },
-                    { "SuperAdmin", "25ab671a-677c-4556-823e-e825a6693963", "SuperAdmin", "SUPERADMIN" }
+                    { "Administrator", "d20e0d0b-2309-46fc-a024-cbbeb8a07b8e", "Administrator", "ADMINISTRATOR" },
+                    { "SalesAssociate", "00fee480-efaf-42c2-8526-0abaebebb527", "SalesAssociate", "SALESASSOCIATE" },
+                    { "SuperAdmin", "32ecde1f-b877-404d-847b-ae24c613f6a4", "SuperAdmin", "SUPERADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -646,7 +659,10 @@ namespace Play.Identity.Persistence.Sql.Migrations
                 name: "BusinessInfos");
 
             migrationBuilder.DropTable(
-                name: "ConfirmationCodes");
+                name: "EmailConfirmationCodes");
+
+            migrationBuilder.DropTable(
+                name: "SmsConfirmationCodes");
 
             migrationBuilder.DropTable(
                 name: "Addresses");

@@ -22,7 +22,7 @@ internal class EmailVerificationCodeMustNotExpire : BusinessRule<UserRegistratio
 
     #region Constructor
 
-    internal EmailVerificationCodeMustNotExpire(ConfirmationCode emailConfirmationCode)
+    internal EmailVerificationCodeMustNotExpire(EmailConfirmationCode emailConfirmationCode)
     {
         _IsValid = emailConfirmationCode.IsExpired(_ValidityPeriod);
     }

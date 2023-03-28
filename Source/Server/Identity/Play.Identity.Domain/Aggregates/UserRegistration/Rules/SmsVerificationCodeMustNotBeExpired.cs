@@ -22,7 +22,7 @@ internal class SmsVerificationCodeMustNotBeExpired : BusinessRule<UserRegistrati
 
     #region Constructor
 
-    internal SmsVerificationCodeMustNotBeExpired(ConfirmationCode emailConfirmationCode)
+    internal SmsVerificationCodeMustNotBeExpired(SmsConfirmationCode emailConfirmationCode)
     {
         _IsValid = emailConfirmationCode.IsExpired(_ValidityPeriod);
     }
