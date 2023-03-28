@@ -81,20 +81,6 @@ public class UserController : Controller
         })!, userRegistration.AsDto());
     }
 
-    //[HttpGetSwagger("", name: "RegistrationGetEmailVerificationForUser")]
-
-    ////[ValidateAntiForgeryToken]
-    //public async Task<IActionResult> EmailVerification([FromQuery] string id)
-    //{
-    //    UserRegistration? userRegistration = await _UserRegistrationRepository.GetByIdAsync(new SimpleStringId(id)).ConfigureAwait(false)
-    //                                         ?? throw new NotFoundException(typeof(UserRegistration));
-
-    //    if (userRegistration.HasEmailBeenVerified())
-    //        return View("EmailVerificationSuccessful");
-
-    //    return View("EmailVerificationFailed");
-    //}
-
     [HttpGetSwagger("", name: "RegistrationUpdateEmailVerificationForUser")]
 
     // [ValidateAntiForgeryToken]
