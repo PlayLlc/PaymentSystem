@@ -34,4 +34,96 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="16dp"
+        android:weightSum="2">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="5dp"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/VerySmallTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                app:MvxBind="Text SortByText"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:minHeight="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:textSize="10sp"
+                android:textColor="@color/primary_text_color"
+                android:gravity="start|center_vertical"
+                android:fontFamily="@font/poppins_medium"
+                android:includeFontPadding="false"
+                android:paddingStart="16dp"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                app:strokeColor="@color/secondary_text_color"
+                app:strokeWidth="2dp"
+                app:cornerRadius="5dp"
+                app:MvxBind="Text SortByButtonText"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="5dp"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/VerySmallTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                app:MvxBind="Text StoreText"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:minHeight="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:textSize="10sp"
+                android:textColor="@color/primary_text_color"
+                android:gravity="start|center_vertical"
+                android:fontFamily="@font/poppins_medium"
+                android:includeFontPadding="false"
+                android:paddingStart="16dp"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                app:strokeColor="@color/secondary_text_color"
+                app:strokeWidth="2dp"
+                app:cornerRadius="5dp"
+                app:MvxBind="Text StoreButtonText"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <mvvmcross.droidx.recyclerview.MvxRecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingVertical="20dp"
+        android:overScrollMode="never"
+        android:layout_marginHorizontal="20dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:MvxItemTemplate="@layout/row_inventory_item"
+        app:MvxBind="ItemsSource Items; ItemClick OnInventoryItem"/>
+
 </androidx.appcompat.widget.LinearLayoutCompat>

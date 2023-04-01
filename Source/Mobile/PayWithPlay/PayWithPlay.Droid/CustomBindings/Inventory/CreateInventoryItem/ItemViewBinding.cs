@@ -3,7 +3,7 @@ using MvvmCross.Platforms.Android.Binding.Target;
 using PayWithPlay.Core.Models.Inventory.CreateItem;
 using PayWithPlay.Droid.CustomViews;
 
-namespace PayWithPlay.Droid.CustomBindings.CreateInventoryItem
+namespace PayWithPlay.Droid.CustomBindings.Inventory.CreateInventoryItem
 {
     public class ItemViewBinding : MvxAndroidTargetBinding<View, ItemModel>
     {

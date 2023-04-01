@@ -1,5 +1,4 @@
-﻿using Microsoft.Maui.ApplicationModel.Communication;
-using MvvmCross.ViewModels;
+﻿using MvvmCross.ViewModels;
 using PayWithPlay.Core.Constants;
 using PayWithPlay.Core.Interfaces;
 using PayWithPlay.Core.Models.CreateAccount;

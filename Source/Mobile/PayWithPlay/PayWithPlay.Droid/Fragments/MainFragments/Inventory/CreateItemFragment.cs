@@ -1,9 +1,7 @@
 ﻿using Android.Views;
 using AndroidX.Navigation.Fragment;
 using PayWithPlay.Core.ViewModels.Main.Inventory;
-using PayWithPlay.Droid.CustomViews;
 using PayWithPlay.Droid.Extensions;
-using PayWithPlay.Droid.Utils.Listeners;
 
 namespace PayWithPlay.Droid.Fragments.MainFragments.Inventory
 {

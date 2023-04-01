@@ -7,8 +7,6 @@ namespace PayWithPlay.Core
     {
         public override void Initialize()
         {
-            //Mvx.IoCProvider.RegisterSingleton(() => RestService.For<IApiService>("https://api-dev.cteleport.com"));
-
             RegisterAppStart<WelcomeViewModel>();
         }
     }

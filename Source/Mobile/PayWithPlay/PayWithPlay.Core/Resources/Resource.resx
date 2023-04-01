@@ -195,8 +195,14 @@
   <data name="CreatePINCode" xml:space="preserve">
     <value>Create your PIN code</value>
   </data>
+  <data name="DeleteItem" xml:space="preserve">
+    <value>Delete item</value>
+  </data>
   <data name="Descritption" xml:space="preserve">
     <value>Descritption</value>
+  </data>
+  <data name="EditItem" xml:space="preserve">
+    <value>Edit item</value>
   </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>Email address</value>
@@ -276,6 +282,9 @@
   <data name="Loyalty" xml:space="preserve">
     <value>Loyalty</value>
   </data>
+  <data name="ManageStock" xml:space="preserve">
+    <value>Manage Stock</value>
+  </data>
   <data name="MerchantRegistration" xml:space="preserve">
     <value>Merchant Registration</value>
   </data>
@@ -342,6 +351,9 @@
   <data name="Sale" xml:space="preserve">
     <value>Sale</value>
   </data>
+  <data name="SalePrice" xml:space="preserve">
+    <value>Sale Price</value>
+  </data>
   <data name="Scan" xml:space="preserve">
     <value>Scan</value>
   </data>
@@ -362,6 +374,9 @@
   </data>
   <data name="State" xml:space="preserve">
     <value>State</value>
+  </data>
+  <data name="Stock" xml:space="preserve">
+    <value>Stock</value>
   </data>
   <data name="Store" xml:space="preserve">
     <value>Store</value>

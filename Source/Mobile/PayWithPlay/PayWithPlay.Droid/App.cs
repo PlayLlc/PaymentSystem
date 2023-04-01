@@ -1,8 +1,9 @@
 ﻿using Android.Runtime;
 using Android.Views.InputMethods;
-using Android.Views;
 using MvvmCross.Platforms.Android.Views;
 using PayWithPlay.Core;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Crashes;
 using Microsoft.Maui.ApplicationModel;
 
 namespace PayWithPlay.Droid
@@ -20,6 +21,8 @@ namespace PayWithPlay.Droid
         {
             base.OnCreate();
             Current = this;
+
+            AppCenter.Start("756e7000-da74-4d62-865e-858b061279de", typeof(Crashes));
 
             Platform.Init(this);
         }
