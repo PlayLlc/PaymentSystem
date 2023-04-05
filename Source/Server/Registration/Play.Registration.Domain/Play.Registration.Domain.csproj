@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\Play.Domain.Common\Play.Domain.Common.csproj" />
+    <ProjectReference Include="..\Play.Registration.Contracts\Play.Registration.Contracts.csproj" />
+  </ItemGroup>
+
 </Project>

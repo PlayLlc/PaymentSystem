@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\Play.Persistence.Sql\Play.Persistence.Sql.csproj" />
+    <ProjectReference Include="..\Play.Registration.Domain\Play.Registration.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
