@@ -3,11 +3,11 @@ using Android.Graphics;
 using Android.OS;
 using Android.Views;
 using AndroidX.AppCompat.Widget;
-using AndroidX.Navigation.Fragment;
 using AndroidX.Navigation.UI;
 using Google.Android.Material.AppBar;
 using Google.Android.Material.BottomNavigation;
 using PayWithPlay.Core.ViewModels.Main;
+using PayWithPlay.Droid.CustomViews;
 using PayWithPlay.Droid.Extensions;
 using PayWithPlay.Droid.Utils;
 using PayWithPlay.Droid.Utils.Listeners;
@@ -18,6 +18,7 @@ namespace PayWithPlay.Droid.Activities
     public class MainActivity : BaseActivity<MainViewModel>
     {
         private LinearLayoutCompat? _rootView;
+
         private BottomNavigationView? _navView;
 
         private AndroidX.Navigation.NavController? _navController;
@@ -48,7 +49,7 @@ namespace PayWithPlay.Droid.Activities
 
         private void SetupBottomNavigationView()
         {
-            var navHostFragment = (NavHostFragment)SupportFragmentManager.FindFragmentById(Resource.Id.nav_host_container)!;
+            var navHostFragment = (MainNavHostFragment)SupportFragmentManager.FindFragmentById(Resource.Id.nav_host_container)!;
             var bottomNavigationView = FindViewById<BottomNavigationView>(Resource.Id.bottom_nav)!;
 
             _navController = navHostFragment.NavController!;
@@ -68,7 +69,7 @@ namespace PayWithPlay.Droid.Activities
         {
             _rootView!.ViewTreeObserver!.AddOnGlobalLayoutListener(new GlobalLayoutListener(() =>
             {
-                Rect? outRect = new Rect();
+                Rect? outRect = new();
                 _rootView.GetWindowVisibleDisplayFrame(outRect);
                 var keyboardHeight = Resources!.DisplayMetrics!.HeightPixels - outRect.Bottom;
                 if (keyboardHeight > 0)

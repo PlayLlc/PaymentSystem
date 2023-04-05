@@ -86,6 +86,11 @@
     <item name="backgroundTint">@drawable/secondary_button_background</item>
   </style>
 
+  <style name="NegativeButton" parent="@style/BaseButton">
+    <item name="android:textColor">@color/white</item>
+    <item name="backgroundTint">@drawable/background_negative_button</item>
+  </style>
+
   <style name="SecondaryLightButton" parent="@style/BaseButton">
     <item name="android:textColor">@color/white</item>
     <item name="strokeWidth">2dp</item>
@@ -150,6 +155,20 @@
   <style name="DefaultTextStyle" parent="@android:style/Widget.TextView">
     <item name="android:textSize">14sp</item>
     <item name="android:fontFamily">@font/poppins_medium</item>
+    <item name="android:textColor">@color/primary_text_color</item>
+    <item name="android:includeFontPadding">false</item>
+  </style>
+
+  <style name="VerySmallTextStyle" parent="@android:style/Widget.TextView">
+    <item name="android:textSize">10sp</item>
+    <item name="android:fontFamily">@font/poppins_medium</item>
+    <item name="android:textColor">@color/hint_text_color</item>
+    <item name="android:includeFontPadding">false</item>
+  </style>
+
+  <style name="SmallTextStyle" parent="@android:style/Widget.TextView">
+    <item name="android:textSize">12sp</item>
+    <item name="android:fontFamily">@font/poppins_regular</item>
     <item name="android:textColor">@color/primary_text_color</item>
     <item name="android:includeFontPadding">false</item>
   </style>
@@ -285,4 +304,8 @@
     <item name="android:minHeight">0dp</item>
   </style>
 
+  <style name="Image5dpRadius" parent="">
+    <item name="cornerSize">5dp</item>
+  </style>
+  
 </resources>

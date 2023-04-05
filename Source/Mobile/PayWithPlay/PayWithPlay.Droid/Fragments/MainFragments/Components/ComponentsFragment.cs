@@ -1,4 +1,5 @@
-﻿using MvvmCross.Platforms.Android.Presenters.Attributes;
+﻿using Android.Content;
+using MvvmCross.Platforms.Android.Presenters.Attributes;
 using PayWithPlay.Core.ViewModels.Main.Components;
 
 namespace PayWithPlay.Droid.Fragments.MainFragments.Components

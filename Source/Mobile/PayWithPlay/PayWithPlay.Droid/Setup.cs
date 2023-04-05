@@ -11,12 +11,14 @@ using Serilog.Extensions.Logging;
 using PayWithPlay.Droid.CustomViews;
 using PayWithPlay.Droid.CustomBindings.IndicatorBindings;
 using Google.Android.Material.TextField;
-using AndroidX.Core.Widget;
 using PayWithPlay.Droid.CustomBindings.NumericKeybaordView;
 using Android.Views;
 using PayWithPlay.Droid.CustomBindings.CreateAccountBindings;
 using PayWithPlay.Droid.CustomBindings.Components;
-using PayWithPlay.Droid.CustomBindings.CreateInventoryItem;
+using PayWithPlay.Droid.CustomBindings.Inventory.CreateInventoryItem;
+using PayWithPlay.Droid.CustomBindings.Inventory;
+using Google.Android.Material.Chip;
+using MvvmCross.Platforms.Android.Presenters;
 
 namespace PayWithPlay.Droid
 {
@@ -58,6 +60,8 @@ namespace PayWithPlay.Droid
                 (imageView) => new MerchantTypeBinding(imageView));
             registry.RegisterCustomBindingFactory<AppCompatImageView>(ArrowIndicatorAnimationBinding.Property,
                 (imageView) => new ArrowIndicatorAnimationBinding(imageView));
+            registry.RegisterCustomBindingFactory<AppCompatImageView>(GlideImageBinding.Property,
+                (imageView) => new GlideImageBinding(imageView));
 
             // Views
             registry.RegisterCustomBindingFactory<View>(HandleNestedScrollBinding.Property,
@@ -71,6 +75,8 @@ namespace PayWithPlay.Droid
                 (progressBar) => new ProgressBarMaxBinding(progressBar));
             registry.RegisterCustomBindingFactory<NumericKeybaordView>(NumericKeyboardFingerprintBinding.Property,
                 (numericKeybaodView) => new NumericKeyboardFingerprintBinding(numericKeybaodView));
+            registry.RegisterCustomBindingFactory<ChipGroup>(InventoryItemCategoriesBinding.Property,
+                (imageView) => new InventoryItemCategoriesBinding(imageView));
 
             registry.RegisterCustomBindingFactory<TextInputLayout>(SetErrorInputBinding.Property,
                 (inputLayout) => new SetErrorInputBinding(inputLayout));
@@ -97,6 +103,11 @@ namespace PayWithPlay.Droid
             pluginManager.EnsurePluginLoaded<MvvmCross.Plugin.MethodBinding.Plugin>();
             pluginManager.EnsurePluginLoaded<MvvmCross.Plugin.Visibility.Platforms.Android.Plugin>();
             base.LoadPlugins(pluginManager);
+        }
+
+        protected override IMvxAndroidViewPresenter CreateViewPresenter()
+        {
+            return new CustomViewPresenter(AndroidViewAssemblies);
         }
     }
 }

@@ -4,43 +4,47 @@
     <OutputType>Exe</OutputType>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <NoWarn>NETSDK1023</NoWarn>
     <ApplicationId>com.paywithplay.dev</ApplicationId>
     <ApplicationVersion>1</ApplicationVersion>
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <SupportedOSPlatformVersion>28.0</SupportedOSPlatformVersion>
     <UseMauiEssentials>true</UseMauiEssentials>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <Optimize>False</Optimize>
-    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
-    <PublishTrimmed>False</PublishTrimmed>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
+    <JavaMaximumHeapSize />
+    <RunAOTCompilation>True</RunAOTCompilation>
+    <PublishTrimmed>True</PublishTrimmed>
+    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+    <AndroidLinkTool>r8</AndroidLinkTool>
+    <AndroidEnableProfiledAot>True</AndroidEnableProfiledAot>
   </PropertyGroup>
-  <ItemGroup>
-    <AndroidJavaSource Remove="Adapters\**" />
-    <AndroidLibrary Remove="Adapters\**" />
-    <AndroidNativeLibrary Remove="Adapters\**" />
-    <Compile Remove="Adapters\**" />
-    <EmbeddedResource Remove="Adapters\**" />
-    <JavaSourceJar Remove="Adapters\**" />
-    <None Remove="Adapters\**" />
-    <ProguardConfiguration Remove="Adapters\**" />
-    <TransformFile Remove="Adapters\**" />
-  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <JavaMaximumHeapSize />
+    <PublishTrimmed>False</PublishTrimmed>
+    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+  </PropertyGroup>
   <ItemGroup>
     <TrimmerRootDescriptor Include="LinkDescription.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProguardConfiguration Include="proguard-rules.pro" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="DeleteBinObjFolders.bat" />
-    <None Remove="LinkDescription.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.AppCenter" Version="5.0.1" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.1" />
     <PackageReference Include="MvvmCross.DroidX.RecyclerView" Version="9.0.9" />
     <PackageReference Include="MvvmCross.Plugin.MethodBinding" Version="9.0.9" />
-    <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
-    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.6.0.1" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.1-dev-10338" />
+    <PackageReference Include="Xamarin.Android.Glide" Version="4.14.2.1" />
+    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.6.1" />
     <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.0.3" />
     <PackageReference Include="Xamarin.Google.Android.Material" Version="1.8.0" />
     <PackageReference Include="Xamarin.AndroidX.Navigation.Fragment.Ktx" Version="2.5.3.1" />
@@ -52,8 +56,5 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PayWithPlay.Core\PayWithPlay.Core.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <LinkDescription Include="LinkDescription.xml" />
   </ItemGroup>
 </Project>

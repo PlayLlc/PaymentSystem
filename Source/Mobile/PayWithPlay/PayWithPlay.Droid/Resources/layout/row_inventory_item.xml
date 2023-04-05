@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipToPadding="false"
+    android:paddingTop="20dp"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:paddingBottom="10dp"
+    android:layout_marginBottom="12dp"
+    android:background="@drawable/background_row_inventory_item">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/picture"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:shapeAppearanceOverlay="@style/Image5dpRadius"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:MvxBind="ImageUrl PictureUrl"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/name"
+        style="@style/SmallTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:ellipsize="end"
+        android:lines="1"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintTop_toTopOf="@+id/picture"
+        app:layout_constraintStart_toEndOf="@+id/picture"
+        app:layout_constraintEnd_toStartOf="@+id/sale_price_header"
+        app:MvxBind="Text Name"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/VerySmallTextStyle"
+        android:fontFamily="@font/poppins_regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/name"
+        app:layout_constraintStart_toEndOf="@+id/picture"
+        app:MvxBind="Text SKU"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/sale_price_header"
+        style="@style/VerySmallTextStyle"
+        android:fontFamily="@font/poppins_regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        app:layout_constraintTop_toTopOf="@+id/name"
+        app:layout_constraintBottom_toBottomOf="@+id/name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:MvxBind="Text SalePiceText"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/price"
+        style="@style/MediumTextStyle"
+        android:fontFamily="@font/poppins_regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/picture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:MvxBind="Text DisplayedPrice"/>
+
+    <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/secondary_text_color"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/picture"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/stock"
+        style="@style/SmallTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="@+id/categories_group_container"
+        app:layout_constraintBottom_toBottomOf="@+id/categories_group_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:MvxBind="Text DisplayedStock"/>
+
+    <FrameLayout
+        android:id="@+id/categories_group_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="12dp"
+        tools:ignore="Suspicious0dp"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintTop_toBottomOf="@+id/separator"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/stock">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/categories_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="0dp"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            app:chipSpacingVertical="0dp"
+            app:lineSpacing="0dp"
+            android:gravity="end"
+            app:singleLine="true"
+            app:chipMinHeight="0dp"
+            android:layout_gravity="end"
+            app:MvxBind="ItemCategories Categories"/>
+
+    </FrameLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:background="@color/third_color"
+        android:layout_marginStart="-20dp"
+        android:layout_marginEnd="-20dp"
+        android:layout_marginTop="-20dp"
+        android:layout_marginBottom="-10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:MvxBind="Visibility Visibility(Selected)">
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            style="@style/PrimaryButton"
+            android:textSize="10sp"
+            app:iconTint="@color/white"
+            android:fontFamily="@font/poppins_medium"
+            app:icon="@drawable/ic_pen"
+            app:iconGravity="textTop"
+            android:gravity="center"
+            app:cornerRadius="5dp"
+            app:MvxBind="Text EditItemText; Click OnEdit"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            style="@style/PrimaryLightButton"
+            app:iconTint="@color/primary_text_color"
+            app:icon="@drawable/ic_manage_stock"
+            android:background="@android:color/transparent"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="10sp"
+            app:iconGravity="textTop"
+            android:gravity="center"
+            app:MvxBind="Text ManageStockText; Click OnManageStock"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:iconTint="@color/white"
+            app:icon="@drawable/ic_delete"
+            style="@style/NegativeButton"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="10sp"
+            app:iconGravity="textTop"
+            android:gravity="center"
+            app:cornerRadius="5dp"
+            app:MvxBind="Text DeleteItemText; Click OnDelete"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
