@@ -14,17 +14,14 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
         public string AddButtonText => Resource.Add;
         public string ScanButtonText => Resource.Scan;
 
-        public Action? OnSearchAction { get; set; }
-        public Action? OnAddAction { get; set; }
-
         public void OnSearch() 
         {
-            OnSearchAction?.Invoke();
+            NavigationService.Navigate<SearchInventoryViewModel>();
         }
 
         public void OnAdd()
         {
-            OnAddAction?.Invoke();
+            NavigationService.Navigate<CreateItemViewModel>();
         }
 
         public void OnScan() { }

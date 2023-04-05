@@ -7,7 +7,7 @@ namespace PayWithPlay.Core.ViewModels.PIN
 {
     public class PINViewModel : BaseViewModel, ICreateAccountStep
     {
-        public const string PINSignIn = "PINSignIn";
+        public const string PINSignInKey = "PINSignInKey";
 
         private readonly Action<PINViewModel>? _continueAction;
         private string? _inputValue;
@@ -29,7 +29,7 @@ namespace PayWithPlay.Core.ViewModels.PIN
                 return;
             }
 
-            if (parameters.Data.ContainsKey(PINSignIn))
+            if (parameters.Data.ContainsKey(PINSignInKey))
             {
                 Type = PINPageType.SignInConfirm;
             }

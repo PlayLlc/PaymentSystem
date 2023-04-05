@@ -29,6 +29,10 @@
     android:id="@+id/searchInventoryScreen"
     android:name="PayWithPlay.Droid.Fragments.MainFragments.Inventory.SearchInventoryFragment"
     tools:layout="@layout/fragment_search_inventory">
+
+    <action
+    android:id="@+id/action_to_create_item"
+    app:destination="@id/createItemScreen"/>
   </fragment>
 
 </navigation>

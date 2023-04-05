@@ -1,11 +1,26 @@
-﻿using PayWithPlay.Core.Models.Inventory;
+﻿using Microsoft.Maui.Media;
+using PayWithPlay.Core.Enums;
 using PayWithPlay.Core.Models.Inventory.CreateItem;
 using PayWithPlay.Core.Resources;
+using static PayWithPlay.Core.ViewModels.Main.Inventory.CreateItemViewModel;
 
 namespace PayWithPlay.Core.ViewModels.Main.Inventory
 {
-    public class CreateItemViewModel : BaseViewModel
+    public class CreateItemViewModel : BaseViewModel<EditInventoryItemModel>
     {
+        public class EditInventoryItemModel
+        {
+            public string? PictureUrl { get; set; }
+            public string? Name { get; set; }
+            public string? SKU { get; set; }
+            public int Stock { get; set; }
+            public decimal Price { get; set; }
+            public List<Category>? Categories { get; set; }
+
+            public class Category { public string? Title { get; set; } }
+        }
+
+        private string? _image;
         private string? _addImageText;
 
         public CreateItemViewModel()
@@ -33,15 +48,38 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
             base.ViewDestroy(viewFinishing);
         }
 
+        public override void Prepare(EditInventoryItemModel data)
+        {
+            if (data == null)
+            {
+                return;
+            }
+
+            Type = InventoryItemPageType.Edit;
+
+            Image = data.PictureUrl;
+
+            Item.Name = data.Name;
+            Item.Price = data.Price.ToString();
+
+            ProductDetails.SKU = data.SKU;
+        }
+
+        public InventoryItemPageType Type { get; set; } = InventoryItemPageType.Create;
+
         public string Title => Resource.CreateItem;
         public string CreateItemButtonText => Resource.CreateItem;
-
-        public Action? OnBackAction { get; set; }
 
         public string? AddImageText
         {
             get => _addImageText;
             set => SetProperty(ref _addImageText, value);
+        }
+
+        public string? Image
+        {
+            get => _image;
+            set => SetProperty(ref _image, value);
         }
 
         public ItemModel Item { get; } = new ItemModel();
@@ -58,11 +96,13 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
 
         public void OnBack()
         {
-            OnBackAction?.Invoke();
+            NavigationService.Close(this);
         }
 
-        public void OnAddImage()
+        public async void OnAddImage()
         {
+            var result = await MediaPicker.CapturePhotoAsync();
+            Image = result.FullPath;
         }
 
         public void OnCreateItem() { }

@@ -1,4 +1,7 @@
-﻿using PayWithPlay.Core.Models.Inventory;
+﻿using MvvmCross.Navigation;
+using MvvmCross.ViewModels;
+using Newtonsoft.Json;
+using PayWithPlay.Core.Models.Inventory;
 using PayWithPlay.Core.Models.Inventory.CreateItem;
 using PayWithPlay.Core.Resources;
 using System;
@@ -68,8 +71,6 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
             set => SetProperty(ref _storeButtonText, value);
         }
 
-        public Action? OnBackAction { get; set; }
-
         public string? Search
         {
             get => _search;
@@ -80,7 +81,7 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
 
         public void OnBack()
         {
-            OnBackAction?.Invoke();
+            NavigationService.Close(this);
         }
 
         public void OnInventoryItem(InventoryItemModel inventoryItemModel)
@@ -106,6 +107,17 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
 
         private void OnEditInventoryItem(InventoryItemModel obj)
         {
+            var editObj = new CreateItemViewModel.EditInventoryItemModel
+            {
+                Name = obj.Name,
+                SKU = obj.SKU,
+                PictureUrl = obj.PictureUrl,
+                Price = obj.Price,
+                Stock = obj.Stock,
+                Categories = obj.Categories.Select(t => new CreateItemViewModel.EditInventoryItemModel.Category { Title = t.Title }).ToList()
+            };
+
+            NavigationService.Navigate<CreateItemViewModel, CreateItemViewModel.EditInventoryItemModel>(editObj);
         }
 
         private void OnManageStockInventoryItem(InventoryItemModel obj)

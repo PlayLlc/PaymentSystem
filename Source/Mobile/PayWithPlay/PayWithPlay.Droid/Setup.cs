@@ -18,6 +18,7 @@ using PayWithPlay.Droid.CustomBindings.Components;
 using PayWithPlay.Droid.CustomBindings.Inventory.CreateInventoryItem;
 using PayWithPlay.Droid.CustomBindings.Inventory;
 using Google.Android.Material.Chip;
+using MvvmCross.Platforms.Android.Presenters;
 
 namespace PayWithPlay.Droid
 {
@@ -102,6 +103,11 @@ namespace PayWithPlay.Droid
             pluginManager.EnsurePluginLoaded<MvvmCross.Plugin.MethodBinding.Plugin>();
             pluginManager.EnsurePluginLoaded<MvvmCross.Plugin.Visibility.Platforms.Android.Plugin>();
             base.LoadPlugins(pluginManager);
+        }
+
+        protected override IMvxAndroidViewPresenter CreateViewPresenter()
+        {
+            return new CustomViewPresenter(AndroidViewAssemblies);
         }
     }
 }
