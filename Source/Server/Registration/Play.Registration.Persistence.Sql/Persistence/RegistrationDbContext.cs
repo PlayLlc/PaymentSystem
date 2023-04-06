@@ -34,6 +34,8 @@ public sealed class RegistrationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        var identityEntityConfiguration = new IdentityEntityConfiguration();
+
         #region Enums
 
         builder.Entity<BusinessType>().ToTable($"{nameof(BusinessTypes)}").HasKey(a => a.Value);
