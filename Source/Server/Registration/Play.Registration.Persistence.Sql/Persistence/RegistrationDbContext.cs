@@ -10,7 +10,6 @@ using Play.Registration.Domain.Entities;
 using Play.Registration.Domain.Enums;
 using Play.Registration.Domain.ValueObjects;
 using Play.Registration.Persistence.Sql.Configuration;
-using Play.Registration.Persistence.Sql.Entities;
 
 namespace Play.Registration.Persistence.Sql.Persistence;
 
@@ -35,8 +34,6 @@ public sealed class RegistrationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        IdentityEntityConfiguration identityEntityConfiguration = new();
-
         #region Enums
 
         builder.Entity<BusinessType>().ToTable($"{nameof(BusinessTypes)}").HasKey(a => a.Value);
@@ -81,7 +78,7 @@ public sealed class RegistrationDbContext : DbContext
         builder.Entity<Contact>().Property(x => x.Phone);
         builder.Entity<Contact>().Property(x => x.Email);
 
-        builder.Entity<Password>().ToTable($"{nameof(Password)}s").Property(x => x.Id).HasColumnName($"{nameof(User)}Id").ValueGeneratedOnAdd();
+        builder.Entity<Password>().ToTable($"{nameof(Password)}s").Property(x => x.Id).HasColumnName($"{nameof(UserRegistration)}Id").ValueGeneratedOnAdd();
         builder.Entity<Password>().HasKey(x => x.Id);
         builder.Entity<Password>().Property(x => x.CreatedOn);
         builder.Entity<Password>().Property(x => x.HashedPassword);
@@ -115,35 +112,6 @@ public sealed class RegistrationDbContext : DbContext
 
         identityEntityConfiguration.Configure(builder.Entity<UserRegistration>());
         identityEntityConfiguration.Configure(builder.Entity<MerchantRegistration>());
-        identityEntityConfiguration.Configure(builder.Entity<Merchant>());
-        identityEntityConfiguration.Configure(builder.Entity<UserIdentity>());
-
-        #endregion
-
-        #region Identity
-
-        builder.Entity<RoleIdentity>()
-        .ToTable("Roles")
-        .HasData(UserRoles.Empty.GetAll()
-        .Select(e => new RoleIdentity(e.Name)
-        {
-            Id = e.Name,
-            Name = e.Name,
-            NormalizedName = e.Name.ToUpper()
-        }));
-
-        builder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
-        builder.Entity<IdentityUserRole<string>>()
-        .ToTable("UserRoles")
-        .HasKey(k => new
-        {
-            k.UserId,
-            k.RoleId
-        });
-        builder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins").HasKey(k => k.UserId);
-        builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims").HasKey(k => k.Id);
-        builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens").HasKey(k => k.UserId);
-        builder.Entity<IdentityProviders>();
 
         #endregion
     }
