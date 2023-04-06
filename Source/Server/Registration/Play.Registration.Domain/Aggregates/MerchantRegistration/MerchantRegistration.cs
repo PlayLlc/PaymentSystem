@@ -8,6 +8,7 @@ using Play.Globalization.Time;
 using Play.Identity.Contracts.Commands.MerchantRegistration;
 using Play.Identity.Contracts.Dtos;
 using Play.Registration.Domain.Aggregates.MerchantRegistration.DomainEvents;
+using Play.Registration.Domain.Aggregates.MerchantRegistration.DomainEvents.Rules;
 using Play.Registration.Domain.Aggregates.MerchantRegistration.Rules;
 using Play.Registration.Domain.Entities;
 using Play.Registration.Domain.Enums;
@@ -95,24 +96,19 @@ public class MerchantRegistration : Aggregate<SimpleStringId>
 
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="CommandOutOfSyncException"></exception>
-    public Merchant CreateMerchant()
-    {
-        Enforce(new MerchantRegistrationMustNotExpire(_Status, _RegistrationDate), () => _Status = MerchantRegistrationStatuses.Expired);
-        Enforce(new MerchantRegistrationCannotBeCreatedWithoutApproval(_Status));
+    public SimpleStringId CreateMerchant() => throw new NotImplementedException();
 
-        if (_CompanyName is null)
-            throw new CommandOutOfSyncException($"The {nameof(Name)} of the Merchant is required but could not be found");
-        if (_Address is null)
-            throw new CommandOutOfSyncException($"The {nameof(Address)} of the Merchant is required but could not be found");
-        if (_BusinessInfo is null)
-            throw new CommandOutOfSyncException($"The {nameof(BusinessInfo)} of the Merchant is required but could not be found");
-
-        Merchant merchant = new(Id, _CompanyName, _Address, _BusinessInfo, true);
-        Publish(new MerchantHasBeenCreated(merchant));
-
-        return merchant;
-    }
-
+    //Enforce(new MerchantRegistrationMustNotExpire(_Status, _RegistrationDate), () => _Status = MerchantRegistrationStatuses.Expired);
+    //Enforce(new MerchantRegistrationCannotBeCreatedWithoutApproval(_Status));
+    //if (_CompanyName is null)
+    //    throw new CommandOutOfSyncException($"The {nameof(Name)} of the Merchant is required but could not be found");
+    //if (_Address is null)
+    //    throw new CommandOutOfSyncException($"The {nameof(Address)} of the Merchant is required but could not be found");
+    //if (_BusinessInfo is null)
+    //    throw new CommandOutOfSyncException($"The {nameof(BusinessInfo)} of the Merchant is required but could not be found");
+    //Merchant merchant = new(Id, _CompanyName, _Address, _BusinessInfo, true);
+    //Publish(new MerchantHasBeenCreated(merchant));
+    //return merchant;
     public override MerchantRegistrationDto AsDto() =>
         new()
         {

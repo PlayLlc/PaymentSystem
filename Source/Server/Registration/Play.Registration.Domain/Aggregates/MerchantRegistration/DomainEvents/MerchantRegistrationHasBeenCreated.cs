@@ -13,7 +13,7 @@ public record MerchantRegistrationHasBeenCreated : DomainEvent
     #region Constructor
 
     public MerchantRegistrationHasBeenCreated(MerchantRegistration merchantRegistration) : base(
-        $"The {nameof(MerchantRegistration)} process has begun for the {nameof(Merchant)} with ID: [{merchantRegistration.GetId()}].")
+        $"The {nameof(MerchantRegistration)} process has begun for the {nameof(MerchantRegistration)} with ID: [{merchantRegistration.GetId()}].")
     {
         MerchantRegistration = merchantRegistration;
     }

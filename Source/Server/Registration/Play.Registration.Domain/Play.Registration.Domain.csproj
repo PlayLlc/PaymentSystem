@@ -11,4 +11,8 @@
     <ProjectReference Include="..\Play.Registration.Contracts\Play.Registration.Contracts.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Aggregates\_Shared\Rules\" />
+  </ItemGroup>
+
 </Project>

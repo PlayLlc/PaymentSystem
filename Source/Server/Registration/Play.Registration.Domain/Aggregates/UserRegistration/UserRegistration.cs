@@ -271,25 +271,19 @@ public class UserRegistration : Aggregate<SimpleStringId>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="CommandOutOfSyncException"></exception>
-    public User CreateUser()
-    {
-        Enforce(new UserCannotBeCreatedWithoutApproval(_Status));
+    public SimpleStringId CreateUser() => throw new NotImplementedException();
 
-        if (_PersonalDetail is null)
-            throw new CommandOutOfSyncException($"The {nameof(PersonalDetail)} is required but could not be found");
-        if (_Address is null)
-            throw new CommandOutOfSyncException($"The {nameof(Address)} is required but could not be found");
-        if (_Contact is null)
-            throw new CommandOutOfSyncException($"The {nameof(Contact)} is required but could not be found");
-
-        User user = new(Id, GenerateSimpleStringId(), GenerateSimpleStringId(), new Password(Id, _HashedPassword, DateTimeUtc.Now), _Address!, _Contact!,
-            _PersonalDetail!, true);
-
-        Publish(new UserHasBeenCreated(user));
-
-        return user;
-    }
-
+    //Enforce(new UserCannotBeCreatedWithoutApproval(_Status));
+    //if (_PersonalDetail is null)
+    //    throw new CommandOutOfSyncException($"The {nameof(PersonalDetail)} is required but could not be found");
+    //if (_Address is null)
+    //    throw new CommandOutOfSyncException($"The {nameof(Address)} is required but could not be found");
+    //if (_Contact is null)
+    //    throw new CommandOutOfSyncException($"The {nameof(Contact)} is required but could not be found");
+    //User user = new(Id, GenerateSimpleStringId(), GenerateSimpleStringId(), new Password(Id, _HashedPassword, DateTimeUtc.Now), _Address!, _Contact!,
+    //    _PersonalDetail!, true);
+    //Publish(new UserHasBeenCreated(user));
+    //return user;
     public override SimpleStringId GetId() => Id;
 
     /// <exception cref="PlayInternalException"></exception>
