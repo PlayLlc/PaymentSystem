@@ -1,9 +1,10 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.Entities;
 using Play.Domain.Common.ValueObjects;
-using Play.Identity.Domain.Services;
+using Play.Registration.Domain.Aggregates.MerchantRegistration.DomainEvents.Rules;
+using Play.Registration.Domain.Services;
 
-namespace Play.Identity.Domain.Aggregates;
+namespace Play.Registration.Domain.Aggregates.MerchantRegistration.Rules;
 
 internal class MerchantRegistrationMustNotBeProhibited : BusinessRule<MerchantRegistration>
 {

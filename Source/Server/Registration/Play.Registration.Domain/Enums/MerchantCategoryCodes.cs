@@ -2,7 +2,7 @@
 
 using Play.Core;
 
-namespace Play.Identity.Domain.Enums;
+namespace Play.Registration.Domain.Enums;
 
 public record MerchantCategoryCodes : EnumObject<ushort>
 {
@@ -33,12 +33,12 @@ public record MerchantCategoryCodes : EnumObject<ushort>
 
     static MerchantCategoryCodes()
     {
-        Empty = new(nameof(Empty), 0);
-        Accounting = new(nameof(Accounting), 8931);
-        Childcare = new(nameof(Childcare), 8351);
-        Consulting = new(nameof(Consulting), 7392);
-        Delivery = new(nameof(Delivery), 4214);
-        LegalServices = new(nameof(LegalServices), 8111);
+        Empty = new MerchantCategoryCodes(nameof(Empty), 0);
+        Accounting = new MerchantCategoryCodes(nameof(Accounting), 8931);
+        Childcare = new MerchantCategoryCodes(nameof(Childcare), 8351);
+        Consulting = new MerchantCategoryCodes(nameof(Consulting), 7392);
+        Delivery = new MerchantCategoryCodes(nameof(Delivery), 4214);
+        LegalServices = new MerchantCategoryCodes(nameof(LegalServices), 8111);
 
         // ...
         _ValueObjectMap = new Dictionary<ushort, MerchantCategoryCodes>

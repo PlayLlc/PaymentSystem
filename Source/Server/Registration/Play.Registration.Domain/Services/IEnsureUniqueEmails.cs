@@ -1,4 +1,4 @@
-﻿namespace Play.Identity.Domain.Services;
+﻿namespace Play.Registration.Domain.Services;
 
 public interface IEnsureUniqueEmails
 {

@@ -4,10 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Play.Domain.Common.Entities;
 using Play.Domain.Common.ValueObjects;
 using Play.Globalization.Time;
-using Play.Identity.Domain.Aggregates;
-using Play.Identity.Domain.Entities;
-using Play.Identity.Domain.ValueObjects;
 using Play.Persistence.Sql;
+using Play.Registration.Domain.Aggregates.MerchantRegistration;
+using Play.Registration.Domain.Aggregates.UserRegistration;
+using Play.Registration.Domain.Entities;
+using Play.Registration.Domain.ValueObjects;
 using Play.Registration.Persistence.Sql.Entities;
 
 namespace Play.Registration.Persistence.Sql.Configuration;

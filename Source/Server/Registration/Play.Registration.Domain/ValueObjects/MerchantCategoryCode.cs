@@ -1,8 +1,8 @@
 ﻿using Play.Core;
 using Play.Domain.ValueObjects;
-using Play.Identity.Domain.Enums;
+using Play.Registration.Domain.Enums;
 
-namespace Play.Identity.Domain.ValueObjects;
+namespace Play.Registration.Domain.ValueObjects;
 
 public record MerchantCategoryCode : ValueObject<ushort>
 {

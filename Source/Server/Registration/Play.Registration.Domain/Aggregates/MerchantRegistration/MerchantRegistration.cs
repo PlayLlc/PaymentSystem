@@ -7,13 +7,15 @@ using Play.Domain.ValueObjects;
 using Play.Globalization.Time;
 using Play.Identity.Contracts.Commands.MerchantRegistration;
 using Play.Identity.Contracts.Dtos;
-using Play.Identity.Domain.Entities;
-using Play.Identity.Domain.Enums;
-using Play.Identity.Domain.Repositories;
-using Play.Identity.Domain.Services;
-using Play.Identity.Domain.ValueObjects;
+using Play.Registration.Domain.Aggregates.MerchantRegistration.DomainEvents;
+using Play.Registration.Domain.Aggregates.MerchantRegistration.Rules;
+using Play.Registration.Domain.Entities;
+using Play.Registration.Domain.Enums;
+using Play.Registration.Domain.Repositories;
+using Play.Registration.Domain.Services;
+using Play.Registration.Domain.ValueObjects;
 
-namespace Play.Identity.Domain.Aggregates;
+namespace Play.Registration.Domain.Aggregates.MerchantRegistration;
 
 public class MerchantRegistration : Aggregate<SimpleStringId>
 {
@@ -38,7 +40,7 @@ public class MerchantRegistration : Aggregate<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     private MerchantRegistration(string id, Name companyName, MerchantRegistrationStatus status, DateTimeUtc registrationDate)
     {
-        Id = new(id);
+        Id = new SimpleStringId(id);
         _CompanyName = companyName;
         _Status = status;
         _RegistrationDate = registrationDate;
@@ -55,10 +57,10 @@ public class MerchantRegistration : Aggregate<SimpleStringId>
     public static MerchantRegistration CreateNewMerchantRegistration(
         IUserRegistrationRepository userRegistrationRepository, CreateMerchantRegistrationCommand command)
     {
-        UserRegistration? userRegistration = userRegistrationRepository.GetById(new(command.UserId))
-                                             ?? throw new NotFoundException(typeof(UserRegistration));
+        UserRegistration.UserRegistration? userRegistration = userRegistrationRepository.GetById(new SimpleStringId(command.UserId))
+                                                              ?? throw new NotFoundException(typeof(UserRegistration.UserRegistration));
 
-        MerchantRegistration registration = new(userRegistration.GetMerchantId(), new(command.CompanyName),
+        MerchantRegistration registration = new(userRegistration.GetMerchantId(), new Name(command.CompanyName),
             MerchantRegistrationStatuses.WaitingForRiskAnalysis, DateTimeUtc.Now) {_Status = MerchantRegistrationStatuses.WaitingForRiskAnalysis};
 
         registration.Publish(new MerchantRegistrationHasBeenCreated(registration));
@@ -80,8 +82,8 @@ public class MerchantRegistration : Aggregate<SimpleStringId>
         if (_CompanyName is null)
             throw new CommandOutOfSyncException($"The {nameof(Name)} of the Merchant is required but could not be found");
 
-        _Address = new(command.Address);
-        _BusinessInfo = new(command.BusinessInfo);
+        _Address = new Address(command.Address);
+        _BusinessInfo = new BusinessInfo(command.BusinessInfo);
 
         Enforce(new MerchantRegistrationIndustryMustNotBeProhibited(_BusinessInfo.MerchantCategoryCode, underwritingService),
             () => _Status = MerchantRegistrationStatuses.Rejected);

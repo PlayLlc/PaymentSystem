@@ -1,9 +1,9 @@
 ﻿using System.Collections.Immutable;
 
 using Play.Core;
-using Play.Identity.Domain.ValueObjects;
+using Play.Registration.Domain.ValueObjects;
 
-namespace Play.Identity.Domain.Enums;
+namespace Play.Registration.Domain.Enums;
 
 public record MerchantRegistrationStatuses : EnumObjectString
 {
@@ -25,11 +25,11 @@ public record MerchantRegistrationStatuses : EnumObjectString
 
     static MerchantRegistrationStatuses()
     {
-        Empty = new("");
-        WaitingForRiskAnalysis = new(nameof(WaitingForRiskAnalysis));
-        Approved = new(nameof(Approved));
-        Expired = new(nameof(Expired));
-        Rejected = new(nameof(Rejected));
+        Empty = new MerchantRegistrationStatuses("");
+        WaitingForRiskAnalysis = new MerchantRegistrationStatuses(nameof(WaitingForRiskAnalysis));
+        Approved = new MerchantRegistrationStatuses(nameof(Approved));
+        Expired = new MerchantRegistrationStatuses(nameof(Expired));
+        Rejected = new MerchantRegistrationStatuses(nameof(Rejected));
 
         _ValueObjectMap = new Dictionary<string, MerchantRegistrationStatuses>
         {

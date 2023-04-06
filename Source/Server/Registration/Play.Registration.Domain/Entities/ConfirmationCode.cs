@@ -4,7 +4,7 @@ using Play.Domain.ValueObjects;
 using Play.Globalization.Time;
 using Play.Identity.Contracts.Dtos;
 
-namespace Play.Identity.Domain.Entities;
+namespace Play.Registration.Domain.Entities;
 
 public class EmailConfirmationCode : Entity<SimpleStringId>
 {

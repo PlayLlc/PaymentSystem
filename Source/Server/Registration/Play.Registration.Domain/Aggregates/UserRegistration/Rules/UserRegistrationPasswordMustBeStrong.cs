@@ -1,8 +1,8 @@
 ﻿using Play.Domain.Aggregates;
-using Play.Domain.Common.ValueObjects;
-using Play.Identity.Domain.ValueObjects;
+using Play.Registration.Domain.Aggregates.UserRegistration.DomainEvents.Rules;
+using Play.Registration.Domain.ValueObjects;
 
-namespace Play.Identity.Domain.Aggregates;
+namespace Play.Registration.Domain.Aggregates.UserRegistration.Rules;
 
 /// <summary>
 ///     PCI-DSS Passwords must be at least 7 characters, contain numeric, alphabetic, and special characters, and be unique

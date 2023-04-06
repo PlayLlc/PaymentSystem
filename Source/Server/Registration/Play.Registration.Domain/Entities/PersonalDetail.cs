@@ -5,7 +5,7 @@ using Play.Domain.ValueObjects;
 using Play.Globalization.Time;
 using Play.Identity.Contracts.Dtos;
 
-namespace Play.Identity.Domain.Entities;
+namespace Play.Registration.Domain.Entities;
 
 public class PersonalDetail : Entity<SimpleStringId>
 {
@@ -31,12 +31,12 @@ public class PersonalDetail : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     public PersonalDetail(PersonalDetailDto dto)
     {
-        Id = new(dto.Id!);
+        Id = new SimpleStringId(dto.Id!);
         LastFourOfSocial = dto.LastFourOfSocial;
 
         try
         {
-            DateOfBirth = new(dto.DateOfBirth);
+            DateOfBirth = new DateTimeUtc(dto.DateOfBirth);
         }
         catch (PlayInternalException e)
         {
@@ -47,7 +47,7 @@ public class PersonalDetail : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     public PersonalDetail(string id, string lastFourOfSocial, DateTimeUtc dateOfBirth)
     {
-        Id = new(id);
+        Id = new SimpleStringId(id);
         LastFourOfSocial = lastFourOfSocial;
 
         try

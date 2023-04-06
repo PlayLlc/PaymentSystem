@@ -1,7 +1,7 @@
 ﻿using Play.Codecs;
 using Play.Domain.ValueObjects;
 
-namespace Play.Identity.Domain.ValueObjects;
+namespace Play.Registration.Domain.ValueObjects;
 
 /// <summary>
 ///     Passwords must be at least 7 characters, contain numeric, alphabetic, and special characters

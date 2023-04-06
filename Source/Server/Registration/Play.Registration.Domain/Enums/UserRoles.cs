@@ -1,9 +1,9 @@
 ﻿using System.Collections.Immutable;
 
 using Play.Core;
-using Play.Identity.Domain.Entities;
+using Play.Registration.Domain.Entities;
 
-namespace Play.Identity.Domain.Enums;
+namespace Play.Registration.Domain.Enums;
 
 public record UserRoles : EnumObjectString
 {
@@ -32,10 +32,10 @@ public record UserRoles : EnumObjectString
 
     static UserRoles()
     {
-        Empty = new("");
-        SuperAdmin = new(nameof(SuperAdmin));
-        Administrator = new(nameof(Administrator));
-        SalesAssociate = new(nameof(SalesAssociate));
+        Empty = new UserRoles("");
+        SuperAdmin = new UserRoles(nameof(SuperAdmin));
+        Administrator = new UserRoles(nameof(Administrator));
+        SalesAssociate = new UserRoles(nameof(SalesAssociate));
         _ValueObjectMap = new Dictionary<string, UserRoles>
         {
             {SuperAdmin, SuperAdmin},

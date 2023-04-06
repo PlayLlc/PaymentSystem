@@ -1,9 +1,8 @@
 ﻿using Play.Domain.Common.ValueObjects;
 using Play.Domain.Repositories;
-using Play.Identity.Domain.Aggregates;
-using Play.Identity.Domain.Entities;
+using Play.Registration.Domain.Entities;
 
-namespace Play.Identity.Domain.Repositories;
+namespace Play.Registration.Domain.Repositories;
 
 public interface IUserRepository : IRepository<User, SimpleStringId>
 {

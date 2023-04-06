@@ -2,7 +2,7 @@
 
 using Play.Core;
 
-namespace Play.Identity.Domain.Enums;
+namespace Play.Registration.Domain.Enums;
 
 public record BusinessTypes : EnumObjectString
 {
@@ -25,12 +25,12 @@ public record BusinessTypes : EnumObjectString
 
     static BusinessTypes()
     {
-        Empty = new("");
-        SoleProprietorship = new(nameof(SoleProprietorship));
-        Partnership = new(nameof(Partnership));
-        LimitedLiability = new(nameof(LimitedLiability));
-        NonProfit = new(nameof(NonProfit));
-        Exempt = new(nameof(Exempt));
+        Empty = new BusinessTypes("");
+        SoleProprietorship = new BusinessTypes(nameof(SoleProprietorship));
+        Partnership = new BusinessTypes(nameof(Partnership));
+        LimitedLiability = new BusinessTypes(nameof(LimitedLiability));
+        NonProfit = new BusinessTypes(nameof(NonProfit));
+        Exempt = new BusinessTypes(nameof(Exempt));
 
         _ValueObjectMap = new Dictionary<string, BusinessTypes>
         {

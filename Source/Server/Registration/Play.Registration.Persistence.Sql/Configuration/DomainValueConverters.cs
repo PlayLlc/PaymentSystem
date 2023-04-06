@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-using Play.Identity.Domain.ValueObjects;
+using Play.Registration.Domain.ValueObjects;
 
 namespace Play.Registration.Persistence.Sql.Configuration;
 

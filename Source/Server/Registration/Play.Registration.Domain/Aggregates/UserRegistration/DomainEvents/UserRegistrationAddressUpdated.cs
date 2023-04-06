@@ -1,7 +1,7 @@
 ﻿using Play.Domain.Common.Entities;
 using Play.Domain.Events;
 
-namespace Play.Identity.Domain.Aggregates;
+namespace Play.Registration.Domain.Aggregates.UserRegistration.DomainEvents;
 
 public record UserRegistrationAddressUpdated : DomainEvent
 {

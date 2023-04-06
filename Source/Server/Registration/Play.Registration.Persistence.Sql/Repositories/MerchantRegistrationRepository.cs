@@ -2,8 +2,9 @@
 using Microsoft.Extensions.Logging;
 
 using Play.Domain.Common.ValueObjects;
-using Play.Identity.Domain.Aggregates;
 using Play.Persistence.Sql;
+using Play.Registration.Domain.Aggregates.MerchantRegistration;
+using Play.Registration.Domain.Aggregates.UserRegistration;
 using Play.Registration.Persistence.Sql.Persistence;
 
 namespace Play.Registration.Persistence.Sql.Repositories;

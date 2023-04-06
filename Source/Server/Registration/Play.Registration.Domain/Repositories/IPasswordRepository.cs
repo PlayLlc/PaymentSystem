@@ -1,6 +1,6 @@
-﻿using Play.Identity.Domain.Entities;
+﻿using Play.Registration.Domain.Entities;
 
-namespace Play.Identity.Domain.Repositories;
+namespace Play.Registration.Domain.Repositories;
 
 public interface IPasswordRepository
 {

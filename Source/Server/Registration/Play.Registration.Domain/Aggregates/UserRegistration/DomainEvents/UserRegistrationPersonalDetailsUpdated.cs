@@ -1,7 +1,7 @@
 ﻿using Play.Domain.Events;
-using Play.Identity.Domain.Entities;
+using Play.Registration.Domain.Entities;
 
-namespace Play.Identity.Domain.Aggregates;
+namespace Play.Registration.Domain.Aggregates.UserRegistration.DomainEvents;
 
 public record UserRegistrationPersonalDetailsUpdated : DomainEvent
 {

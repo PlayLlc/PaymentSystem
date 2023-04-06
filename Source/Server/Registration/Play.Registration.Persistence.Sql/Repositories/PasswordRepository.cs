@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-using Play.Identity.Domain.Entities;
-using Play.Identity.Domain.Repositories;
 using Play.Persistence.Sql;
+using Play.Registration.Domain.Entities;
+using Play.Registration.Domain.Repositories;
 
 namespace Play.Registration.Persistence.Sql.Repositories;
 

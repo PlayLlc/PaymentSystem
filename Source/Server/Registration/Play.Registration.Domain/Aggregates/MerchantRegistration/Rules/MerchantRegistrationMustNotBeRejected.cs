@@ -1,9 +1,9 @@
 ﻿using Play.Domain.Aggregates;
-using Play.Domain.Common.ValueObjects;
-using Play.Identity.Domain.Enums;
-using Play.Identity.Domain.ValueObjects;
+using Play.Registration.Domain.Aggregates.MerchantRegistration.DomainEvents.Rules;
+using Play.Registration.Domain.Enums;
+using Play.Registration.Domain.ValueObjects;
 
-namespace Play.Identity.Domain.Aggregates;
+namespace Play.Registration.Domain.Aggregates.MerchantRegistration.Rules;
 
 internal class MerchantRegistrationMustNotBeRejected : BusinessRule<MerchantRegistration>
 {

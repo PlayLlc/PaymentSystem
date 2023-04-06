@@ -1,8 +1,8 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
-using Play.Identity.Domain.Aggregates._Shared.DomainEvents;
+using Play.Registration.Domain.Aggregates._Shared.DomainEvents;
 
-namespace Play.Identity.Domain.Aggregates._Shared.Rules;
+namespace Play.Registration.Domain.Aggregates._Shared.Rules;
 
 public class MerchantMustBeActiveToCreateAggregate<_Aggregate> : BusinessRule<_Aggregate> where _Aggregate : Aggregate<SimpleStringId>
 {

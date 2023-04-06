@@ -1,7 +1,7 @@
 ﻿using Play.Domain.Common.ValueObjects;
 using Play.Domain.Events;
 
-namespace Play.Identity.Domain.Aggregates;
+namespace Play.Registration.Domain.Aggregates.MerchantRegistration.DomainEvents;
 
 public record MerchantHasBeenCreated : DomainEvent
 {

@@ -1,7 +1,8 @@
 ﻿using Play.Domain.Aggregates;
 using Play.Domain.Common.ValueObjects;
+using Play.Registration.Domain.Aggregates.UserRegistration.DomainEvents.Rules;
 
-namespace Play.Identity.Domain.Aggregates;
+namespace Play.Registration.Domain.Aggregates.UserRegistration.Rules;
 
 internal class UserRegistrationUsernameMustBeAValidEmail : BusinessRule<UserRegistration>
 {

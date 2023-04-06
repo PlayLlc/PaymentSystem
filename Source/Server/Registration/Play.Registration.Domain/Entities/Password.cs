@@ -3,9 +3,8 @@ using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
 using Play.Globalization.Time;
 using Play.Identity.Contracts.Dtos;
-using Play.Identity.Domain.Aggregates;
 
-namespace Play.Identity.Domain.Entities;
+namespace Play.Registration.Domain.Entities;
 
 public class Password : Entity<SimpleStringId>
 {
@@ -30,7 +29,7 @@ public class Password : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     public Password(string id, string hashedPassword, DateTimeUtc createdOn)
     {
-        Id = new(id);
+        Id = new SimpleStringId(id);
         HashedPassword = hashedPassword;
         CreatedOn = createdOn;
     }
@@ -41,9 +40,9 @@ public class Password : Entity<SimpleStringId>
         if (dto.CreatedOn.Kind != DateTimeKind.Utc)
             throw new ValueObjectException($"The {nameof(CreatedOn)} date must be in UTC format");
 
-        Id = new(dto.Id);
+        Id = new SimpleStringId(dto.Id);
         HashedPassword = dto.HashedPassword;
-        CreatedOn = new(dto.CreatedOn);
+        CreatedOn = new DateTimeUtc(dto.CreatedOn);
     }
 
     #endregion

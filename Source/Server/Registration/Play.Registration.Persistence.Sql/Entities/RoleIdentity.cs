@@ -1,4 +1,4 @@
-﻿using Play.Identity.Domain.Enums;
+﻿using Play.Registration.Domain.Enums;
 
 namespace Play.Registration.Persistence.Sql.Entities;
 

@@ -9,14 +9,15 @@ using Play.Domain.ValueObjects;
 using Play.Globalization.Time;
 using Play.Identity.Contracts.Commands;
 using Play.Identity.Contracts.Dtos;
-using Play.Identity.Domain.Aggregates.Rules;
-using Play.Identity.Domain.Entities;
-using Play.Identity.Domain.Enums;
-using Play.Identity.Domain.Services;
-using Play.Identity.Domain.ValueObjects;
 using Play.Randoms;
+using Play.Registration.Domain.Aggregates.UserRegistration.DomainEvents;
+using Play.Registration.Domain.Aggregates.UserRegistration.Rules;
+using Play.Registration.Domain.Entities;
+using Play.Registration.Domain.Enums;
+using Play.Registration.Domain.Services;
+using Play.Registration.Domain.ValueObjects;
 
-namespace Play.Identity.Domain.Aggregates;
+namespace Play.Registration.Domain.Aggregates.UserRegistration;
 
 public class UserRegistration : Aggregate<SimpleStringId>
 {

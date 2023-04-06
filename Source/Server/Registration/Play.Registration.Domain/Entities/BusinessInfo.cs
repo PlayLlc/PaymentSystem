@@ -2,9 +2,9 @@
 using Play.Domain.Entities;
 using Play.Domain.ValueObjects;
 using Play.Identity.Contracts.Dtos;
-using Play.Identity.Domain.ValueObjects;
+using Play.Registration.Domain.ValueObjects;
 
-namespace Play.Identity.Domain.Entities;
+namespace Play.Registration.Domain.Entities;
 
 public class BusinessInfo : Entity<SimpleStringId>
 {
@@ -26,17 +26,17 @@ public class BusinessInfo : Entity<SimpleStringId>
     /// <exception cref="ValueObjectException"></exception>
     public BusinessInfo(BusinessInfoDto dto)
     {
-        Id = new(dto.Id!);
-        BusinessType = new(dto.BusinessType);
-        MerchantCategoryCode = new(dto.MerchantCategoryCode);
+        Id = new SimpleStringId(dto.Id!);
+        BusinessType = new BusinessType(dto.BusinessType);
+        MerchantCategoryCode = new MerchantCategoryCode(dto.MerchantCategoryCode);
     }
 
     /// <exception cref="ValueObjectException"></exception>
     public BusinessInfo(string id, string businessType, ushort merchantCategoryCode)
     {
-        Id = new(id);
-        BusinessType = new(businessType);
-        MerchantCategoryCode = new(merchantCategoryCode);
+        Id = new SimpleStringId(id);
+        BusinessType = new BusinessType(businessType);
+        MerchantCategoryCode = new MerchantCategoryCode(merchantCategoryCode);
     }
 
     #endregion

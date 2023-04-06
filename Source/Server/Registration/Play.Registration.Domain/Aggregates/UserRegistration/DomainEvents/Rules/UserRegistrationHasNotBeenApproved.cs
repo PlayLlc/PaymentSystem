@@ -2,7 +2,7 @@
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Events;
 
-namespace Play.Identity.Domain.Aggregates;
+namespace Play.Registration.Domain.Aggregates.UserRegistration.DomainEvents.Rules;
 
 public record UserRegistrationHasNotBeenApproved : BrokenRuleOrPolicyDomainEvent<UserRegistration, SimpleStringId>
 {

@@ -1,4 +1,4 @@
-﻿using Play.Identity.Domain.Services;
+﻿using Play.Registration.Domain.Services;
 
 namespace Play.Registration.Persistence.Sql.Persistence;
 

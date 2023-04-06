@@ -2,7 +2,7 @@
 using Play.Domain.Common.ValueObjects;
 using Play.Domain.Events;
 
-namespace Play.Identity.Domain.Aggregates;
+namespace Play.Registration.Domain.Aggregates.MerchantRegistration.DomainEvents.Rules;
 
 public record MerchantRegistrationHasExpired : BrokenRuleOrPolicyDomainEvent<MerchantRegistration, SimpleStringId>
 {

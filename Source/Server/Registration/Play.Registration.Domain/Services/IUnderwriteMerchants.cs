@@ -1,9 +1,9 @@
 ﻿using Play.Domain.Common.Entities;
 using Play.Domain.Common.ValueObjects;
-using Play.Identity.Domain.Entities;
-using Play.Identity.Domain.ValueObjects;
+using Play.Registration.Domain.Entities;
+using Play.Registration.Domain.ValueObjects;
 
-namespace Play.Identity.Domain.Services;
+namespace Play.Registration.Domain.Services;
 
 public interface IUnderwriteMerchants
 {

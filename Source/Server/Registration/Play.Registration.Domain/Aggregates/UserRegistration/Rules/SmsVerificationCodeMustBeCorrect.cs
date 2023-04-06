@@ -1,8 +1,8 @@
 ﻿using Play.Domain.Aggregates;
-using Play.Domain.Common.ValueObjects;
-using Play.Identity.Domain.Entities;
+using Play.Registration.Domain.Aggregates.UserRegistration.DomainEvents.Rules;
+using Play.Registration.Domain.Entities;
 
-namespace Play.Identity.Domain.Aggregates;
+namespace Play.Registration.Domain.Aggregates.UserRegistration.Rules;
 
 internal class SmsVerificationCodeMustBeCorrect : BusinessRule<UserRegistration>
 {

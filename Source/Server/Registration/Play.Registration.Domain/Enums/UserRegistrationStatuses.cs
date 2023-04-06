@@ -1,9 +1,9 @@
 ﻿using System.Collections.Immutable;
 
 using Play.Core;
-using Play.Identity.Domain.ValueObjects;
+using Play.Registration.Domain.ValueObjects;
 
-namespace Play.Identity.Domain.Enums;
+namespace Play.Registration.Domain.Enums;
 
 public record UserRegistrationStatuses : EnumObjectString
 {
@@ -27,13 +27,13 @@ public record UserRegistrationStatuses : EnumObjectString
 
     static UserRegistrationStatuses()
     {
-        Empty = new("");
-        WaitingForRiskAnalysis = new(nameof(WaitingForRiskAnalysis));
-        WaitingForEmailVerification = new(nameof(WaitingForEmailVerification));
-        WaitingForSmsVerification = new(nameof(WaitingForSmsVerification));
-        Approved = new(nameof(Approved));
-        Expired = new(nameof(Expired));
-        Rejected = new(nameof(Rejected));
+        Empty = new UserRegistrationStatuses("");
+        WaitingForRiskAnalysis = new UserRegistrationStatuses(nameof(WaitingForRiskAnalysis));
+        WaitingForEmailVerification = new UserRegistrationStatuses(nameof(WaitingForEmailVerification));
+        WaitingForSmsVerification = new UserRegistrationStatuses(nameof(WaitingForSmsVerification));
+        Approved = new UserRegistrationStatuses(nameof(Approved));
+        Expired = new UserRegistrationStatuses(nameof(Expired));
+        Rejected = new UserRegistrationStatuses(nameof(Rejected));
 
         _ValueObjectMap = new Dictionary<string, UserRegistrationStatuses>
         {
