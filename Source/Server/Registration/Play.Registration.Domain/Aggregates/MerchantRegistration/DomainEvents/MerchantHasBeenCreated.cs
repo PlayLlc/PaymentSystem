@@ -1,4 +1,5 @@
-﻿using Play.Domain.Events;
+﻿using Play.Domain.Common.ValueObjects;
+using Play.Domain.Events;
 
 namespace Play.Identity.Domain.Aggregates;
 
@@ -6,15 +7,15 @@ public record MerchantHasBeenCreated : DomainEvent
 {
     #region Instance Values
 
-    public readonly Merchant Merchant;
+    public readonly SimpleStringId MerchantIdId;
 
     #endregion
 
     #region Constructor
 
-    public MerchantHasBeenCreated(Merchant merchant) : base($"The merchant with ID: [{merchant.GetId()}] has been created")
+    public MerchantHasBeenCreated(SimpleStringId merchantId) : base($"The merchant with ID: [{merchantId}] has been created")
     {
-        Merchant = merchant;
+        MerchantIdId = merchantId;
     }
 
     #endregion
