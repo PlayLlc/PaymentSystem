@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\Play.Telecom\Play.Telecom.Twilio.csproj" />
+    <ProjectReference Include="..\Play.Registration.Persistence.Sql\Play.Registration.Persistence.Sql.csproj" />
+  </ItemGroup>
+
 </Project>
