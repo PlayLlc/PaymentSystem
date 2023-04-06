@@ -44,6 +44,7 @@
     <item name="android:windowDisablePreview">false</item>
     <item name="android:windowBackground">@color/primary_color</item>
 
+    <item name="materialAlertDialogTheme">@style/AlertDialogTheme</item>
     <item name="materialSwitchStyle">@style/SwitchStyle</item>
     <item name="bottomNavigationStyle">@style/BottomNavigationViewStyle</item>
     <item name="InputBoxesViewStyleAttr">@style/InputBoxEditTextStyle</item>
@@ -307,5 +308,35 @@
   <style name="Image5dpRadius" parent="">
     <item name="cornerSize">5dp</item>
   </style>
-  
+
+  <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+    <item name="colorPrimary">@color/primary_color</item>
+    <item name="colorSecondary">@color/primary_text_color</item>
+    <item name="colorSurface">@color/white</item>
+    <item name="android:background">@color/white</item>
+    <item name="colorOnSurface">@color/secondary_color</item>
+    <item name="buttonBarPositiveButtonStyle">@style/AlertDialogPositiveButtonStyle</item>
+    <item name="buttonBarNegativeButtonStyle">@style/AlertDialogNegativeButtonStyle</item>
+  </style>
+
+  <style name="AlertDialogPositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+    <item name="materialThemeOverlay">@style/PositiveButtonTextButton</item>
+  </style>
+
+  <style name="AlertDialogNegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+    <item name="materialThemeOverlay">@style/NegativeButtonTextButton</item>
+  </style>
+
+  <style name="PositiveButtonTextButton" parent="">
+    <item name="colorPrimary">@color/accent_color</item>
+  </style>
+
+  <style name="NegativeButtonTextButton" parent="">
+    <item name="colorPrimary">@color/negative_color</item>
+  </style>
+
+  <style name="NumberPickerStyle" parent="Theme.AppCompat.Light.NoActionBar" >
+    <item name="android:textColorPrimary">@android:color/black</item>
+  </style>
+
 </resources>

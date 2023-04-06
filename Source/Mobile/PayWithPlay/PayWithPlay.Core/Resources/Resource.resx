@@ -273,6 +273,9 @@
   <data name="LastNameText" xml:space="preserve">
     <value>Last name</value>
   </data>
+  <data name="Location" xml:space="preserve">
+    <value>Location</value>
+  </data>
   <data name="LowInventoryItemAlert" xml:space="preserve">
     <value>Send notifications when this item is low or out of inventory</value>
   </data>
@@ -339,6 +342,12 @@
   <data name="ProductDetails" xml:space="preserve">
     <value>Product details</value>
   </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>Reason</value>
+  </data>
   <data name="RegistrationBiometricsTitle" xml:space="preserve">
     <value>Do you want to use biometrics security?</value>
   </data>
@@ -354,6 +363,9 @@
   <data name="SalePrice" xml:space="preserve">
     <value>Sale Price</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
   <data name="Scan" xml:space="preserve">
     <value>Scan</value>
   </data>
@@ -362,6 +374,9 @@
   </data>
   <data name="SearchInventory" xml:space="preserve">
     <value>Search Inventory</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Select</value>
   </data>
   <data name="SignIn" xml:space="preserve">
     <value>Sign in</value>

@@ -19,11 +19,22 @@ using PayWithPlay.Droid.CustomBindings.Inventory.CreateInventoryItem;
 using PayWithPlay.Droid.CustomBindings.Inventory;
 using Google.Android.Material.Chip;
 using MvvmCross.Platforms.Android.Presenters;
+using MvvmCross.IoC;
+using MvvmCross;
+using PayWithPlay.Core.Interfaces;
+using PayWithPlay.Droid.Utils;
 
 namespace PayWithPlay.Droid
 {
     public class Setup : MvxAndroidSetup<CoreApp>
     {
+        protected override void InitializeFirstChance(IMvxIoCProvider iocProvider)
+        {
+            base.InitializeFirstChance(iocProvider);
+
+            Mvx.IoCProvider?.LazyConstructAndRegisterSingleton<IWheelPicker>(() => new WheelPicker());
+        }
+
         protected override ILoggerFactory? CreateLogFactory()
         {
             // serilog configuration

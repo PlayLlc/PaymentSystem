@@ -9,9 +9,9 @@
       android:id="@+id/inventoryScreen"
       android:name="PayWithPlay.Droid.Fragments.MainFragments.Inventory.InventoryFragment"
       tools:layout="@layout/fragment_inventory">
-      <action
-        android:id="@+id/action_to_create_item"
-        app:destination="@id/createItemScreen"/>
+    <action
+      android:id="@+id/action_to_create_item"
+      app:destination="@id/createItemScreen"/>
 
     <action
         android:id="@+id/action_to_search_inventory"
@@ -24,15 +24,25 @@
     tools:layout="@layout/fragment_create_inventory_item">
   </fragment>
 
-
   <fragment
     android:id="@+id/searchInventoryScreen"
     android:name="PayWithPlay.Droid.Fragments.MainFragments.Inventory.SearchInventoryFragment"
     tools:layout="@layout/fragment_search_inventory">
 
     <action
-    android:id="@+id/action_to_create_item"
-    app:destination="@id/createItemScreen"/>
+     android:id="@+id/action_to_create_item"
+     app:destination="@+id/createItemScreen"/>
+
+    <action
+      android:id="@+id/action_to_manage_stock"
+      app:destination="@+id/manageStockScreen"/>
+
+  </fragment>
+
+  <fragment
+    android:id="@+id/manageStockScreen"
+    android:name="PayWithPlay.Droid.Fragments.MainFragments.Inventory.ManageStockFragment"
+    tools:layout="@layout/fragment_inventory_manage_stock">
   </fragment>
 
 </navigation>

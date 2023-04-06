@@ -122,6 +122,7 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
 
         private void OnManageStockInventoryItem(InventoryItemModel obj)
         {
+            NavigationService.Navigate<ManageStockViewModel>();
         }
 
         private void OnDeleteInventoryItem(InventoryItemModel obj)
