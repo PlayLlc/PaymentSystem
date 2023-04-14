@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/view_back_and_title"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/subTitle_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="24dp"
+        android:textColor="@color/hint_text_color"
+        style="@style/DefaultTextStyle"
+        app:MvxBind="Text Subtitle"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginHorizontal="24dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_height="48dp"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="10dp"
+                app:iconTint="@color/secondary_color"
+                app:iconGravity="start"
+                app:iconSize="0dp"
+                app:icon="@drawable/ic_plus"
+                style="@style/SecondaryButton"
+                app:MvxBind="Text DiscountsButtonText; Click OnDiscounts; CenterTextWhenIcon true"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_height="48dp"
+                android:layout_width="match_parent"
+                app:iconTint="@color/secondary_color"
+                app:iconGravity="start"
+                app:iconSize="0dp"
+                app:icon="@drawable/ic_gift"
+                style="@style/SecondaryButton"
+                app:MvxBind="Text RewardsButtonText; Click OnRewards; CenterTextWhenIcon true"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </FrameLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

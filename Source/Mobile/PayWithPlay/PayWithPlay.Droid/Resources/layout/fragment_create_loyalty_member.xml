@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
+
+  <include
+      layout="@layout/view_back_and_title"/>
+
+  <androidx.core.widget.NestedScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:animateLayoutChanges="true"
+      android:overScrollMode="never"
+      android:fillViewport="true">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="24dp"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
+
+      <androidx.appcompat.widget.AppCompatTextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="20dp"
+          android:layout_marginBottom="10dp"
+          style="@style/DefaultTextStyle"
+          app:MvxBind="Text PhoneNumberText; RedAsterisk true"/>
+
+      <com.google.android.material.textfield.TextInputLayout
+          android:theme="@style/TextInputTheme"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="20dp">
+
+        <PayWithPlay.Droid.CustomViews.EditTextWithValidation
+            android:id="@+id/phone_numberEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:inputType="phone"
+            style="@style/InputEditTextStyle"
+            app:MvxBind="Hint PhoneNumberText; Text PhoneNumber"/>
+
+      </com.google.android.material.textfield.TextInputLayout>
+
+      <androidx.appcompat.widget.AppCompatTextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          style="@style/DefaultTextStyle"
+          android:layout_marginBottom="10dp"
+          app:MvxBind="Text NameText"/>
+
+      <com.google.android.material.textfield.TextInputLayout
+            android:theme="@style/TextInputTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:endIconTint="@color/hint_text_color">
+
+        <PayWithPlay.Droid.CustomViews.EditTextWithValidation
+            android:id="@+id/nameEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:inputType="textCapWords|textPersonName"
+            style="@style/InputEditTextStyle"
+            app:MvxBind="Hint NameText; Text Name"/>
+
+      </com.google.android.material.textfield.TextInputLayout>
+
+      <androidx.appcompat.widget.AppCompatTextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="10dp"
+          style="@style/DefaultTextStyle"
+          app:MvxBind="Text EmailText"/>
+
+      <com.google.android.material.textfield.TextInputLayout
+          android:theme="@style/TextInputTheme"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="24dp">
+
+        <PayWithPlay.Droid.CustomViews.EditTextWithValidation
+            android:id="@+id/emailEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionGo"
+            android:inputType="textEmailAddress"
+            style="@style/InputEditTextStyle"
+            app:MvxBind="Hint EmailText; Text Email"/>
+
+      </com.google.android.material.textfield.TextInputLayout>
+
+      <com.google.android.material.button.MaterialButton
+          android:layout_width="match_parent"
+          android:layout_height="48dp"
+          style="@style/PrimaryButton"
+          app:MvxBind="Text CreateButtonText; Click OnCreate; Enabled CreateButtonEnabled"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+  </androidx.core.widget.NestedScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

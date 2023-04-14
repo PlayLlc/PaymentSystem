@@ -9,5 +9,46 @@
       android:id="@+id/loyaltyScreen"
       android:name="PayWithPlay.Droid.Fragments.MainFragments.Loyalty.LoyaltyFragment"
       tools:layout="@layout/fragment_loyalty">
+
+    <action
+      android:id="@+id/action_to_search_member"
+      app:destination="@id/searchMemberScreen"/>
+
+    <action
+      android:id="@+id/action_to_create_member"
+      app:destination="@id/createMemberScreen"/>
+
+    <action
+      android:id="@+id/action_to_loyalty_programs"
+      app:destination="@id/loyaltyProgramsScreen"/>
   </fragment>
+
+  <fragment
+    android:id="@+id/createMemberScreen"
+    android:name="PayWithPlay.Droid.Fragments.MainFragments.Loyalty.CreateLoyaltyMemberFragment"
+    tools:layout="@layout/fragment_create_loyalty_member">
+  </fragment>
+
+  <fragment
+    android:id="@+id/searchMemberScreen"
+    android:name="PayWithPlay.Droid.Fragments.MainFragments.Loyalty.SearchLoyaltyMemberFragment"
+    tools:layout="@layout/fragment_search_loyalty_member">
+  </fragment>
+
+  <fragment
+    android:id="@+id/loyaltyProgramsScreen"
+    android:name="PayWithPlay.Droid.Fragments.MainFragments.Loyalty.LoyaltyProgramsFragment"
+    tools:layout="@layout/fragment_loyalty_programs">
+
+    <action
+      android:id="@+id/action_to_loyalty_rewards"
+      app:destination="@id/loyaltyRewardsScreen"/>
+  </fragment>
+
+  <fragment
+    android:id="@+id/loyaltyRewardsScreen"
+    android:name="PayWithPlay.Droid.Fragments.MainFragments.Loyalty.LoyaltyRewardsFragment"
+    tools:layout="@layout/fragment_loyalty_rewards">
+  </fragment>
+
 </navigation>

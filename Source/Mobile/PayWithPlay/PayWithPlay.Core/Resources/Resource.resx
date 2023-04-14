@@ -192,6 +192,9 @@
   <data name="Continue" xml:space="preserve">
     <value>Continue</value>
   </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
   <data name="CreateAccount" xml:space="preserve">
     <value>Create Account</value>
   </data>
@@ -210,8 +213,14 @@
   <data name="Descritption" xml:space="preserve">
     <value>Descritption</value>
   </data>
+  <data name="Discounts" xml:space="preserve">
+    <value>Discounts</value>
+  </data>
   <data name="EditItem" xml:space="preserve">
     <value>Edit item</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
   </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>Email address</value>
@@ -294,6 +303,21 @@
   <data name="Loyalty" xml:space="preserve">
     <value>Loyalty</value>
   </data>
+  <data name="LoyaltyMember" xml:space="preserve">
+    <value>Loyalty Member</value>
+  </data>
+  <data name="LoyaltyPrograms" xml:space="preserve">
+    <value>Loyalty Programs</value>
+  </data>
+  <data name="LoyaltyProgramsSubtitle" xml:space="preserve">
+    <value>Choose which loyalty program you want to update.</value>
+  </data>
+  <data name="LoyaltySubtitle" xml:space="preserve">
+    <value>Search, create and manage Loyalty Accounts and Programs</value>
+  </data>
+  <data name="Manage" xml:space="preserve">
+    <value>Manage</value>
+  </data>
   <data name="ManageStock" xml:space="preserve">
     <value>Manage Stock</value>
   </data>
@@ -351,6 +375,12 @@
   <data name="PointOfSaleSubtitle" xml:space="preserve">
     <value>Please select one among following payments methods.</value>
   </data>
+  <data name="PointPerDollar" xml:space="preserve">
+    <value>Points Per $</value>
+  </data>
+  <data name="PointsRequired" xml:space="preserve">
+    <value>Points Required</value>
+  </data>
   <data name="Price" xml:space="preserve">
     <value>Price</value>
   </data>
@@ -381,6 +411,15 @@
   <data name="Return" xml:space="preserve">
     <value>Return</value>
   </data>
+  <data name="Reward" xml:space="preserve">
+    <value>Reward</value>
+  </data>
+  <data name="Rewards" xml:space="preserve">
+    <value>Rewards</value>
+  </data>
+  <data name="RewardsSubtitle" xml:space="preserve">
+    <value>Loyalty members can receive points for every dollar they spend.</value>
+  </data>
   <data name="Sale" xml:space="preserve">
     <value>Sale</value>
   </data>
@@ -404,6 +443,9 @@
   </data>
   <data name="SearchInventory" xml:space="preserve">
     <value>Search Inventory</value>
+  </data>
+  <data name="SearchMember" xml:space="preserve">
+    <value>Search Member</value>
   </data>
   <data name="Select" xml:space="preserve">
     <value>Select</value>

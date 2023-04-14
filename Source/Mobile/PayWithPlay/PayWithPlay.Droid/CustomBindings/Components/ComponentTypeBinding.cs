@@ -22,7 +22,7 @@ namespace PayWithPlay.Droid.CustomBindings.Components
             switch (value)
             {
                 case ComponentType.Add:
-                    target.SetIconResource(Resource.Drawable.ic_add_components);
+                    target.SetIconResource(Resource.Drawable.ic_plus);
                     break;
                 case ComponentType.TeamManagement:
                     target.SetIconResource(Resource.Drawable.ic_team);

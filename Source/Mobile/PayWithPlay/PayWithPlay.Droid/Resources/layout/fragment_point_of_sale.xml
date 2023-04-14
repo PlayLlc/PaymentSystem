@@ -67,6 +67,7 @@
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="20dp"
+        app:iconSize="0dp"
         app:icon="@drawable/ic_coin"
         style="@style/PointOfSaleButtonStyle"
         app:MvxBind="Text SaleButtonText; Click OnSale; CenterTextWhenIcon true"/>
@@ -75,6 +76,7 @@
         android:layout_height="48dp"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="24dp"
+        app:iconSize="0dp"
         app:icon="@drawable/ic_return_left"
         style="@style/PointOfSaleButtonStyle"
         app:MvxBind="Text ReturnButtonText; Click OnReturn; CenterTextWhenIcon true"/>

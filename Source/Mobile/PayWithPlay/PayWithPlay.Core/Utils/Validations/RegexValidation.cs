@@ -13,7 +13,11 @@ namespace PayWithPlay.Core.Utils.Validations
 
         public override ValidationResult GetValidationResult(string text)
         {
-            if (string.IsNullOrWhiteSpace(text) && !IsOptional)
+            if (string.IsNullOrWhiteSpace(text) && IsOptional)
+            {
+                return ValidationResultFactory.Success;
+            }
+            else if (string.IsNullOrWhiteSpace(text))
             {
                 return ValidationResultFactory.Error(EmptyErrorMessage);
             }

@@ -97,6 +97,8 @@ namespace PayWithPlay.Droid
             // TextViews
             registry.RegisterCustomBindingFactory<TextView>(TextStyleBinding.Property,
                 (textView) => new TextStyleBinding(textView));
+            registry.RegisterCustomBindingFactory<TextView>(RedAsteriskBinding.Property,
+                (textView) => new RedAsteriskBinding(textView));
 
             registry.RegisterCustomBindingFactory<View>(UserNameViewBinding.Property,
                 (userNameView) => new UserNameViewBinding(userNameView));

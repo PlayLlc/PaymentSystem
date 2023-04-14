@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/view_back_and_title"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:overScrollMode="never"
+        android:fillViewport="true">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:clipToPadding="false"
+                android:clipChildren="false">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/subTitle_textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="100dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:textColor="@color/hint_text_color"
+                    style="@style/DefaultTextStyle"
+                    app:MvxBind="Text Subtitle"/>
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    app:MvxBind="Checked RewardsEnabled"/>
+
+            </FrameLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginHorizontal="24dp"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        style="@style/DefaultTextStyle"
+                        app:MvxBind="Text PointsPerDollarText"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:theme="@style/TextInputTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:suffixText="points"
+                        app:suffixTextColor="@color/hint_text_color"
+                        android:layout_marginBottom="20dp">
+
+                        <PayWithPlay.Droid.CustomViews.EditTextWithValidation
+                            android:id="@+id/points_per_dollarEt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" 
+                            android:imeOptions="actionNext"
+                            android:inputType="numberDecimal"
+                            style="@style/InputEditTextStyle"
+                            app:MvxBind="Hint PointsPerDollarText; Text PointsPerDollar"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/DefaultTextStyle"
+                        android:layout_marginBottom="10dp"
+                        app:MvxBind="Text PointsRequiredText"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:theme="@style/TextInputTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        app:suffixText="points"
+                        app:suffixTextColor="@color/hint_text_color">
+
+                        <PayWithPlay.Droid.CustomViews.EditTextWithValidation
+                            android:id="@+id/points_requiredEt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionNext"
+                            android:inputType="numberDecimal"
+                            style="@style/InputEditTextStyle"
+                            app:MvxBind="Hint PointsRequiredText; Text PointsRequired"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        style="@style/DefaultTextStyle"
+                        app:MvxBind="Text RewardText"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:theme="@style/TextInputTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:prefixText="$"
+                        android:layout_marginBottom="12dp">
+
+                        <PayWithPlay.Droid.CustomViews.EditTextWithValidation
+                            android:id="@+id/rewardEt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionGo"
+                            android:inputType="numberDecimal"
+                            style="@style/InputEditTextStyle"
+                            app:MvxBind="Hint RewardText; Text Reward"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:background="@color/greyed_out"
+                    android:clickable="true"
+                    app:MvxBind="Visibility InvertedVisibility(RewardsEnabled)"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginHorizontal="24dp"
+                style="@style/PrimaryButton"
+                app:MvxBind="Text SaveButtonText; Click OnSave; Enabled SaveButtonEnabled"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

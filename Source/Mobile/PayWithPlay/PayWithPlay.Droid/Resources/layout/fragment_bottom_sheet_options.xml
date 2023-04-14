@@ -22,7 +22,7 @@
             app:MvxBind="Text Title"/>
 
         <mvvmcross.droidx.recyclerview.MvxRecyclerView
-            android:id="@+id/rv_items"
+            android:id="@+id/rv_options"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
