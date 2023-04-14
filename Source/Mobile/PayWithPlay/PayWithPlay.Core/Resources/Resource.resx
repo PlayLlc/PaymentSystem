@@ -123,6 +123,9 @@
   <data name="AddCategory" xml:space="preserve">
     <value>Add a category</value>
   </data>
+  <data name="AddImage" xml:space="preserve">
+    <value>Add image</value>
+  </data>
   <data name="Alerts" xml:space="preserve">
     <value>Alerts</value>
   </data>
@@ -152,6 +155,12 @@
   </data>
   <data name="BusinessNameTitle" xml:space="preserve">
     <value>What is your business name?</value>
+  </data>
+  <data name="Camera" xml:space="preserve">
+    <value>Camera</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
   </data>
   <data name="Category" xml:space="preserve">
     <value>Category</value>
@@ -306,6 +315,9 @@
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="NewScan" xml:space="preserve">
+    <value>New scan</value>
+  </data>
   <data name="No" xml:space="preserve">
     <value>No</value>
   </data>
@@ -318,11 +330,17 @@
   <data name="NonProfit" xml:space="preserve">
     <value>Non profit</value>
   </data>
+  <data name="Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
   <data name="PhoneNumberText" xml:space="preserve">
     <value>Phone number</value>
+  </data>
+  <data name="PhotoLibrary" xml:space="preserve">
+    <value>Photo Library</value>
   </data>
   <data name="PINSafeMessage" xml:space="preserve">
     <value>This keeps your account safe and secure .</value>
@@ -354,6 +372,12 @@
   <data name="ResendCode" xml:space="preserve">
     <value>Resend code</value>
   </data>
+  <data name="Restock" xml:space="preserve">
+    <value>Restock</value>
+  </data>
+  <data name="Results" xml:space="preserve">
+    <value>Results</value>
+  </data>
   <data name="Return" xml:space="preserve">
     <value>Return</value>
   </data>
@@ -366,8 +390,14 @@
   <data name="Save" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="SaveItem" xml:space="preserve">
+    <value>Save item</value>
+  </data>
   <data name="Scan" xml:space="preserve">
     <value>Scan</value>
+  </data>
+  <data name="ScanItem" xml:space="preserve">
+    <value>Scan item</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
@@ -378,11 +408,17 @@
   <data name="Select" xml:space="preserve">
     <value>Select</value>
   </data>
+  <data name="SelectReason" xml:space="preserve">
+    <value>Select reason</value>
+  </data>
   <data name="SignIn" xml:space="preserve">
     <value>Sign in</value>
   </data>
   <data name="SKU" xml:space="preserve">
     <value>SKU</value>
+  </data>
+  <data name="Sold" xml:space="preserve">
+    <value>Sold</value>
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Sort by</value>

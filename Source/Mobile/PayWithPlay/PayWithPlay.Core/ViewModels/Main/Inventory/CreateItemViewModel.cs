@@ -1,4 +1,5 @@
 ﻿using Microsoft.Maui.Media;
+using MvvmCross.Navigation;
 using PayWithPlay.Core.Enums;
 using PayWithPlay.Core.Models.Inventory.CreateItem;
 using PayWithPlay.Core.Resources;
@@ -68,7 +69,7 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
         public InventoryItemPageType Type { get; set; } = InventoryItemPageType.Create;
 
         public string Title => Resource.CreateItem;
-        public string CreateItemButtonText => Resource.CreateItem;
+        public string CreateItemButtonText => Type == InventoryItemPageType.Create ? Resource.CreateItem : Resource.SaveItem;
 
         public string? AddImageText
         {
@@ -99,12 +100,16 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
             NavigationService.Close(this);
         }
 
-        public async void OnAddImage()
+        public void OnAddImage()
         {
-            var result = await MediaPicker.CapturePhotoAsync();
-            Image = result.FullPath;
+            NavigationService.Navigate<AddImageViewModel, Action<string?>>(OnNewImageSelected);
         }
 
         public void OnCreateItem() { }
+
+        private void OnNewImageSelected(string? url)
+        {
+            Image = url;
+        }
     }
 }

@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:translationZ="10dp">
+
+        <include
+            layout="@layout/view_back_and_title"/>
+
+    </FrameLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="-4dp"
+        android:animateLayoutChanges="true"
+        android:overScrollMode="never"
+        android:fillViewport="true">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/camera_preview_container"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                app:MvxBind="Visibility Visibility(IsScanning)">
+
+                <androidx.camera.view.PreviewView
+                    android:id="@+id/cameraPreview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <PayWithPlay.Droid.CustomViews.CameraScanViewport
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </FrameLayout>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/result_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="-4dp"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center_vertical"
+                        android:layout_marginHorizontal="20dp"
+                        style="@style/MediumTextStyle"
+                        app:MvxBind="Text ResultsText"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginHorizontal="20dp"
+                        android:textColor="@color/accent_color"
+                        android:textSize="16sp"
+                        android:paddingVertical="0dp"
+                        style="@style/UnelevatedButton"
+                        app:MvxBind="Text NewScanButtonText; Click OnNewScan; Visibility InvertedVisibility(IsScanning)"/>
+
+                </FrameLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:background="@color/separator_color"/>
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center_horizontal"
+                    android:indeterminate="true"
+                    android:layout_margin="24dp"
+                    android:indeterminateTint="@color/accent_color"
+                    app:indicatorColor="@color/accent_color"
+                    app:MvxBind="Visibility Visibility(IsLoading)"/>
+
+                <mvvmcross.droidx.recyclerview.MvxRecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:paddingVertical="20dp"
+                    android:overScrollMode="never"
+                    android:layout_marginHorizontal="20dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:MvxItemTemplate="@layout/row_inventory_item"
+                    app:MvxBind="ItemsSource Items; ItemClick OnInventoryItem"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,4 +1,5 @@
 ﻿using Android.Views;
+using AndroidX.Camera.Core;
 using PayWithPlay.Core.ViewModels.Main.Inventory;
 
 namespace PayWithPlay.Droid.Fragments.MainFragments.Inventory
@@ -11,7 +12,6 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Inventory
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = base.OnCreateView(inflater, container, savedInstanceState);
-
             return view;
         }
     }

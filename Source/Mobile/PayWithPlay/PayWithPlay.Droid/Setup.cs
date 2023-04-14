@@ -73,6 +73,8 @@ namespace PayWithPlay.Droid
                 (imageView) => new ArrowIndicatorAnimationBinding(imageView));
             registry.RegisterCustomBindingFactory<AppCompatImageView>(GlideImageBinding.Property,
                 (imageView) => new GlideImageBinding(imageView));
+            registry.RegisterCustomBindingFactory<AppCompatImageView>(BottomSheetIconTypeBinding.Property,
+                (imageView) => new BottomSheetIconTypeBinding(imageView));
 
             // Views
             registry.RegisterCustomBindingFactory<View>(HandleNestedScrollBinding.Property,

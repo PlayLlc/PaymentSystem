@@ -16,6 +16,10 @@
     <action
         android:id="@+id/action_to_search_inventory"
         app:destination="@id/searchInventoryScreen"/>
+
+    <action
+      android:id="@+id/action_to_scan_item"
+      app:destination="@+id/scanItemScreen"/>
   </fragment>
 
   <fragment
@@ -43,6 +47,21 @@
     android:id="@+id/manageStockScreen"
     android:name="PayWithPlay.Droid.Fragments.MainFragments.Inventory.ManageStockFragment"
     tools:layout="@layout/fragment_inventory_manage_stock">
+  </fragment>
+
+  <fragment
+    android:id="@+id/scanItemScreen"
+    android:name="PayWithPlay.Droid.Fragments.MainFragments.Inventory.ScanItemFragment"
+    tools:layout="@layout/fragment_inventory_scan_item">
+
+    <action
+     android:id="@+id/action_to_create_item"
+     app:destination="@+id/createItemScreen"/>
+
+    <action
+      android:id="@+id/action_to_manage_stock"
+      app:destination="@+id/manageStockScreen"/>
+      
   </fragment>
 
 </navigation>

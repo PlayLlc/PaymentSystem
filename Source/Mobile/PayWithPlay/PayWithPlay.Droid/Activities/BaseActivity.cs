@@ -1,4 +1,7 @@
-﻿using MvvmCross.Platforms.Android.Presenters.Attributes;
+﻿using Android.Content.PM;
+using Android.Runtime;
+using Microsoft.Maui.ApplicationModel;
+using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
 using MvvmCross.ViewModels;
 using PayWithPlay.Droid.Utils;
@@ -33,6 +36,13 @@ namespace PayWithPlay.Droid.Activities
             //    Window.AddFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
             //    Window!.DecorView.SystemUiVisibility = (StatusBarVisibility)(SystemUiFlags.LayoutFullscreen | SystemUiFlags.LayoutStable);
             //}
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
+        {
+            Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
         protected new virtual bool OnBackPressed()

@@ -6,6 +6,7 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
     public class ManageStockViewModel : BaseViewModel
     {
         private readonly IWheelPicker _wheelPicker;
+        private readonly string[] _reasonValues = new[] { Resource.Restock, Resource.Return, Resource.Sold };
         private string? _reason;
         private string? _quantity;
 
@@ -47,11 +48,11 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
 
         public void OnReason()
         {
-            var values = new[] { "Restock", "Return", "Sold" };
+            var index = Array.IndexOf(_reasonValues, Reason);
 
-            _wheelPicker.Show(values, 0, "Select reason", "Ok", "Cancel", (index) =>
+            _wheelPicker.Show(_reasonValues, index == -1 ? 0 : index, Resource.SelectReason, Resource.Ok, Resource.Cancel, (index) =>
             {
-                Reason = values[index];
+                Reason = _reasonValues[index];
             });
         }
 
