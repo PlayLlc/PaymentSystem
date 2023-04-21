@@ -33,6 +33,11 @@
     android:id="@+id/searchMemberScreen"
     android:name="PayWithPlay.Droid.Fragments.MainFragments.Loyalty.SearchLoyaltyMemberFragment"
     tools:layout="@layout/fragment_search_loyalty_member">
+
+    <action
+    android:id="@+id/action_to_loyalty_member"
+    app:destination="@id/loyaltyMemberScreen"/>
+    
   </fragment>
 
   <fragment
@@ -49,6 +54,12 @@
     android:id="@+id/loyaltyRewardsScreen"
     android:name="PayWithPlay.Droid.Fragments.MainFragments.Loyalty.LoyaltyRewardsFragment"
     tools:layout="@layout/fragment_loyalty_rewards">
+  </fragment>
+
+  <fragment
+  android:id="@+id/loyaltyMemberScreen"
+  android:name="PayWithPlay.Droid.Fragments.MainFragments.Loyalty.LoyaltyMemberFragment"
+  tools:layout="@layout/fragment_loyalty_member">
   </fragment>
 
 </navigation>

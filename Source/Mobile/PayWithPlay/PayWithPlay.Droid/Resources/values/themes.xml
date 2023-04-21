@@ -48,6 +48,7 @@
     <item name="materialSwitchStyle">@style/SwitchStyle</item>
     <item name="bottomNavigationStyle">@style/BottomNavigationViewStyle</item>
     <item name="InputBoxesViewStyleAttr">@style/InputBoxEditTextStyle</item>
+    <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>
   </style>
 
   <style name="BottomNavigationViewStyle" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
@@ -85,6 +86,11 @@
     <item name="strokeWidth">2dp</item>
     <item name="strokeColor">@drawable/primary_button_background</item>
     <item name="backgroundTint">@drawable/secondary_button_background</item>
+  </style>
+
+  <style name="PositiveButton" parent="@style/BaseButton">
+    <item name="android:textColor">@color/white</item>
+    <item name="backgroundTint">@drawable/background_positive_button</item>
   </style>
 
   <style name="NegativeButton" parent="@style/BaseButton">
@@ -272,6 +278,13 @@
     <item name="android:paddingVertical">0dp</item>
   </style>
 
+  <style name="ItemSelectionButtonStyle" parent="@style/BaseButton">
+    <item name="strokeWidth">2dp</item>
+    <item name="android:textColor">@color/secondary_color</item>
+    <item name="strokeColor">@color/secondary_color</item>
+    <item name="backgroundTint">@drawable/enable_settings_button_selector</item>
+  </style>
+
   <style name="DeviceSettingsButtonStyle" parent="@style/BaseButton">
     <item name="strokeWidth">2dp</item>
     <item name="android:textColor">@color/secondary_color</item>
@@ -337,6 +350,16 @@
 
   <style name="NumberPickerStyle" parent="Theme.AppCompat.Light.NoActionBar" >
     <item name="android:textColorPrimary">@android:color/black</item>
+  </style>
+
+  <style name="BottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+    <item name="bottomSheetStyle">@style/TransparentBottomSheetStyle</item>
+    <item name="android:windowIsFloating">false</item>
+    <item name="android:windowSoftInputMode">adjustResize</item>
+  </style>
+
+  <style name="TransparentBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+    <item name="android:background">@android:color/transparent</item>
   </style>
 
 </resources>

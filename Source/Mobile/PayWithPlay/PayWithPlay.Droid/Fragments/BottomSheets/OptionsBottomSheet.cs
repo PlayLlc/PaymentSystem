@@ -6,7 +6,7 @@ using PayWithPlay.Droid.Utils;
 
 namespace PayWithPlay.Droid.Fragments.BottomSheets
 {
-    public class BottomSheetOptionsFragment<TViewModel> : BaseBottomSheetFragment<TViewModel> where TViewModel : BottomSheetOptionsViewModel
+    public class OptionsBottomSheet<TViewModel> : BaseBottomSheet<TViewModel> where TViewModel : OptionsBottomSheetViewModel
     {
         public override int LayoutId => Resource.Layout.fragment_bottom_sheet_options;
 

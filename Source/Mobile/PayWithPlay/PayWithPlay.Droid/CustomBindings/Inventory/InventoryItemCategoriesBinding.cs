@@ -37,7 +37,6 @@ namespace PayWithPlay.Droid.CustomBindings.Inventory
                 return;
             }
 
-
             var values = categories.Where(t => !string.IsNullOrWhiteSpace(t.Title)).Select(t => t.Title!).ToList();
             if (target.Parent is FrameLayout parent && parent.Width > 0)
             {

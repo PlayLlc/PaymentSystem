@@ -1,5 +1,6 @@
 ﻿using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Media;
+using Microsoft.Maui.Storage;
 using MvvmCross.ViewModels;
 using PayWithPlay.Core.Models;
 using PayWithPlay.Core.Resources;
@@ -35,24 +36,36 @@ namespace PayWithPlay.Core.ViewModels
         public override async void OnItem(BottomSheetItemModel item)
         {
             _ = NavigationService.Close(this);
-            if (item.IconType == Enums.BottomSheetIconType.Camera)
+            FileResult? result = null;
+            try
             {
-                var result = await MediaPicker.CapturePhotoAsync();
-                if (result == null)
+                if (item.IconType == Enums.BottomSheetIconType.Camera)
                 {
-                    return;
+
+                    result = await MediaPicker.CapturePhotoAsync();
                 }
-                _returnUrlAction?.Invoke(result?.FullPath);
+                else
+                {
+                    result = await MediaPicker.PickPhotoAsync();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                var result = await MediaPicker.PickPhotoAsync();
-                if (result == null)
+                if (ex is PermissionException permissionException)
                 {
-                    return;
                 }
-                _returnUrlAction?.Invoke(result?.FullPath);
             }
+            if (result == null)
+            {
+                return;
+            }
+
+            await Task.Delay(100);
+            _ = NavigationService.Navigate<ConfirmPhotoViewModel, ConfirmPhotoViewModel.NavigationData>(new ConfirmPhotoViewModel.NavigationData
+            {
+                ImageUrl = result.FullPath,
+                ReturnAction = _returnUrlAction
+            });
 
             _returnUrlAction = null;
         }

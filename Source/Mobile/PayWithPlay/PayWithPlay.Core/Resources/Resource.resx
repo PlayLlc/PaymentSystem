@@ -180,6 +180,9 @@
   <data name="Confirm" xml:space="preserve">
     <value>Confirm</value>
   </data>
+  <data name="ConfirmPhotoTitle" xml:space="preserve">
+    <value>Position the item within brackets</value>
+  </data>
   <data name="ConfirmPINCode" xml:space="preserve">
     <value>Confirm your PIN code</value>
   </data>
@@ -215,6 +218,9 @@
   </data>
   <data name="Discounts" xml:space="preserve">
     <value>Discounts</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Done</value>
   </data>
   <data name="EditItem" xml:space="preserve">
     <value>Edit item</value>
@@ -354,6 +360,15 @@
   <data name="NonProfit" xml:space="preserve">
     <value>Non profit</value>
   </data>
+  <data name="NoPurchases" xml:space="preserve">
+    <value>No purchases.</value>
+  </data>
+  <data name="NoResults" xml:space="preserve">
+    <value>No results.</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
   <data name="Ok" xml:space="preserve">
     <value>OK</value>
   </data>
@@ -378,6 +393,9 @@
   <data name="PointPerDollar" xml:space="preserve">
     <value>Points Per $</value>
   </data>
+  <data name="Points" xml:space="preserve">
+    <value>Points</value>
+  </data>
   <data name="PointsRequired" xml:space="preserve">
     <value>Points Required</value>
   </data>
@@ -389,6 +407,9 @@
   </data>
   <data name="ProductDetails" xml:space="preserve">
     <value>Product details</value>
+  </data>
+  <data name="PurchaseHistory" xml:space="preserve">
+    <value>PurchaseHistory</value>
   </data>
   <data name="Quantity" xml:space="preserve">
     <value>Quantity</value>
@@ -450,8 +471,14 @@
   <data name="Select" xml:space="preserve">
     <value>Select</value>
   </data>
+  <data name="SelectCategories" xml:space="preserve">
+    <value>Select categories</value>
+  </data>
   <data name="SelectReason" xml:space="preserve">
     <value>Select reason</value>
+  </data>
+  <data name="SelectStores" xml:space="preserve">
+    <value>Select stores</value>
   </data>
   <data name="SignIn" xml:space="preserve">
     <value>Sign in</value>

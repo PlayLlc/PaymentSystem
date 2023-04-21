@@ -64,7 +64,7 @@
                 android:insetBottom="0dp"
                 android:textSize="10sp"
                 android:textColor="@color/primary_text_color"
-                android:gravity="start|center_vertical"
+                android:gravity="center"
                 android:fontFamily="@font/poppins_medium"
                 android:includeFontPadding="false"
                 android:paddingStart="16dp"
@@ -73,7 +73,7 @@
                 app:strokeColor="@color/secondary_text_color"
                 app:strokeWidth="2dp"
                 app:cornerRadius="5dp"
-                app:MvxBind="Text SortByButtonText"/>
+                app:MvxBind="Text SortByButtonText; Click OnCategories"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -99,7 +99,7 @@
                 android:insetBottom="0dp"
                 android:textSize="10sp"
                 android:textColor="@color/primary_text_color"
-                android:gravity="start|center_vertical"
+                android:gravity="center"
                 android:fontFamily="@font/poppins_medium"
                 android:includeFontPadding="false"
                 android:paddingStart="16dp"
@@ -108,7 +108,7 @@
                 app:strokeColor="@color/secondary_text_color"
                 app:strokeWidth="2dp"
                 app:cornerRadius="5dp"
-                app:MvxBind="Text StoreButtonText"/>
+                app:MvxBind="Text StoreButtonText; Click OnStores"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

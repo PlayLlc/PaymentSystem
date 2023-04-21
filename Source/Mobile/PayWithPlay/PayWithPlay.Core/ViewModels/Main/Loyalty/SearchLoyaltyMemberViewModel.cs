@@ -37,6 +37,7 @@ namespace PayWithPlay.Core.ViewModels.Main.Loyalty
 
         public void OnSearch()
         {
+            NavigationService.Navigate<LoyaltyMemberViewModel>();
         }
 
         public void SetInputValidator(ITextInputValidator phoneNumber)

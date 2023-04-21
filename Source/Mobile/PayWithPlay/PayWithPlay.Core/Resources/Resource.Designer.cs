@@ -250,6 +250,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Position the item within brackets.
+        /// </summary>
+        internal static string ConfirmPhotoTitle {
+            get {
+                return ResourceManager.GetString("ConfirmPhotoTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm your PIN code.
         /// </summary>
         internal static string ConfirmPINCode {
@@ -354,6 +363,15 @@ namespace PayWithPlay.Core.Resources {
         internal static string Discounts {
             get {
                 return ResourceManager.GetString("Discounts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Done.
+        /// </summary>
+        internal static string Done {
+            get {
+                return ResourceManager.GetString("Done", resourceCulture);
             }
         }
         
@@ -772,6 +790,33 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No purchases..
+        /// </summary>
+        internal static string NoPurchases {
+            get {
+                return ResourceManager.GetString("NoPurchases", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No results..
+        /// </summary>
+        internal static string NoResults {
+            get {
+                return ResourceManager.GetString("NoResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Off.
+        /// </summary>
+        internal static string Off {
+            get {
+                return ResourceManager.GetString("Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
         internal static string Ok {
@@ -844,6 +889,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Points.
+        /// </summary>
+        internal static string Points {
+            get {
+                return ResourceManager.GetString("Points", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Points Required.
         /// </summary>
         internal static string PointsRequired {
@@ -876,6 +930,15 @@ namespace PayWithPlay.Core.Resources {
         internal static string ProductDetails {
             get {
                 return ResourceManager.GetString("ProductDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PurchaseHistory.
+        /// </summary>
+        internal static string PurchaseHistory {
+            get {
+                return ResourceManager.GetString("PurchaseHistory", resourceCulture);
             }
         }
         
@@ -1060,11 +1123,29 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select categories.
+        /// </summary>
+        internal static string SelectCategories {
+            get {
+                return ResourceManager.GetString("SelectCategories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select reason.
         /// </summary>
         internal static string SelectReason {
             get {
                 return ResourceManager.GetString("SelectReason", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select stores.
+        /// </summary>
+        internal static string SelectStores {
+            get {
+                return ResourceManager.GetString("SelectStores", resourceCulture);
             }
         }
         

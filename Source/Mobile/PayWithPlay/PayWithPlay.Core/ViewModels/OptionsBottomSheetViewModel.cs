@@ -4,7 +4,7 @@ using PayWithPlay.Core.Resources;
 
 namespace PayWithPlay.Core.ViewModels
 {
-    public abstract class BottomSheetOptionsViewModel : BaseViewModel
+    public abstract class OptionsBottomSheetViewModel : BaseViewModel
     {
         public string CancelText => Resource.Cancel;
 
@@ -20,7 +20,7 @@ namespace PayWithPlay.Core.ViewModels
         }
     }
 
-    public abstract class BottomSheetItemsViewModel<TParameter> : BottomSheetOptionsViewModel, IMvxViewModel<TParameter>
+    public abstract class BottomSheetItemsViewModel<TParameter> : OptionsBottomSheetViewModel, IMvxViewModel<TParameter>
     {
         public abstract void Prepare(TParameter parameter);
     }

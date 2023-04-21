@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<com.google.android.material.button.MaterialButton
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="60dp"
+    android:layout_width="match_parent"
+    android:layout_marginBottom="12dp"
+    app:iconTint="@color/secondary_color"
+    app:iconGravity="start"
+    app:iconSize="0dp"
+    app:cornerRadius="12dp"
+    app:icon="@drawable/ic_gift_medium"
+    style="@style/SecondaryButton"
+    android:clickable="false"
+    android:focusableInTouchMode="false"
+    android:focusable="false"
+    android:gravity="end|center_vertical"
+    app:MvxBind="Text DisplayValue"/>

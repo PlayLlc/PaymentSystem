@@ -1,10 +1,6 @@
-﻿using MvvmCross.Navigation;
-using MvvmCross.ViewModels;
-using Newtonsoft.Json;
-using PayWithPlay.Core.Models.Inventory;
+﻿using PayWithPlay.Core.Models.Inventory;
 using PayWithPlay.Core.Models.Inventory.CreateItem;
 using PayWithPlay.Core.Resources;
-using System;
 using System.Collections.ObjectModel;
 
 namespace PayWithPlay.Core.ViewModels.Main.Inventory
@@ -82,6 +78,16 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
         public void OnBack()
         {
             NavigationService.Close(this);
+        }
+
+        public void OnCategories()
+        {
+            NavigationService.Navigate<CategoriesSelectionViewModel>();
+        }
+
+        public void OnStores()
+        {
+            NavigationService.Navigate<StoresSelectionViewModel>();
         }
 
         public void OnInventoryItem(InventoryItemModel inventoryItemModel)

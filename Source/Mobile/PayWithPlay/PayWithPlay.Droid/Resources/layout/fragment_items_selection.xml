@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="16dp"
+        style="@style/PageTitleTextStyle"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/primary_text_color"
+        app:MvxBind="Text Title"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginHorizontal="24dp"
+        android:background="@color/separator_color"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:theme="@style/TextInputTheme"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="12dp"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
+        app:hintTextColor="@color/primary_text_color">
+
+        <PayWithPlay.Droid.CustomViews.EditTextWithClearFocus
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:textSize="10sp"
+            android:fontFamily="@font/poppins_medium"
+            android:textColorHint="@color/primary_text_color"
+            style="@style/InputEditTextStyle"
+            app:MvxBind="Hint SearchText; Text Search"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingHorizontal="24dp"
+        android:layout_marginBottom="12dp"
+        android:scrollbars="none"
+        app:MvxBind="Visibility Visibility(DisplayTopSelections)">
+
+        <PayWithPlay.Droid.CustomViews.MvxChipGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:singleLine="true"
+            app:MvxBind="ItemsSource SelectedItems; CloseClick OnRemoveSelectedItem"/>
+
+    </HorizontalScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginHorizontal="24dp"
+        android:background="@color/separator_color"/>
+
+    <FrameLayout
+        android:id="@+id/recycler_containerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        tools:ignore="Suspicious0dp">
+
+        <mvvmcross.droidx.recyclerview.MvxRecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:paddingVertical="20dp"
+            android:overScrollMode="never"
+            android:layout_marginHorizontal="24dp"
+            android:nestedScrollingEnabled="false"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:MvxItemTemplate="@layout/row_item_selection"
+            app:MvxBind="ItemsSource DisplayedItems; ItemClick OnItemSelection"/>
+
+    </FrameLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:background="@color/white">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/separator_color"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="20dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:layout_marginHorizontal="24dp"
+            app:MvxBind="Visibility Visibility(DisplayBottomActions)">
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/separator"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_max="132dp"
+                app:layout_constraintHorizontal_bias="0"
+                style="@style/NegativeButton"
+                app:MvxBind="Text CancelButtonText; Click OnCancel"/>
+
+            <View
+                android:id="@+id/separator"
+                android:layout_width="24dp"
+                android:layout_height="48dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/separator"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintWidth_max="132dp"
+                app:layout_constraintHorizontal_bias="1"
+                style="@style/PositiveButton"
+                app:MvxBind="Text DoneButtonText; Click OnDone"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="20dp"
+            style="@style/NegativeButton"
+            app:MvxBind="Text CancelButtonText; Click OnCancel; Visibility InvertedVisibility(DisplayBottomActions)"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
