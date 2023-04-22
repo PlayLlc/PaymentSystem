@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/view_back_and_title"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/MediumTextStyle"
+        android:fontFamily="@font/poppins_semibold"
+        android:layout_marginVertical="24dp"
+        android:layout_marginHorizontal="24dp"
+        app:MvxBind="Text TransactionDetailsText"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/MediumTextStyle"
+            android:layout_gravity="start|center_vertical"
+            app:MvxBind="Text ItemText"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/MediumTextStyle"
+            android:layout_gravity="end|center_vertical"
+            app:MvxBind="Text PriceText"/>
+
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginHorizontal="24dp"
+        android:background="@color/separator_color"/>
+
+    <mvvmcross.droidx.recyclerview.MvxRecyclerView
+        android:id="@+id/rv_items"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        android:paddingVertical="20dp"
+        android:layout_marginHorizontal="24dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:MvxItemTemplate="@layout/row_transaction_item"
+        app:MvxBind="ItemsSource Items; ItemClick OnItemSelected"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="24dp"
+        app:MvxBind="Visibility Visibility(ShouldDisplayReturnDetails)">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/separator_color"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/MediumTextStyle"
+                android:layout_gravity="start|center_vertical"
+                android:textColor="@color/negative_color"
+                app:MvxBind="Text TotalText"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/MediumTextStyle"
+                android:layout_gravity="end|center_vertical"
+                android:textColor="@color/negative_color"
+                app:MvxBind="Text DisplayTotalToReturn"/>
+
+        </FrameLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            style="@style/NegativeButton"
+            android:layout_marginVertical="20dp"
+            app:MvxBind="Text ReturnButtonText; Click OnReturn"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

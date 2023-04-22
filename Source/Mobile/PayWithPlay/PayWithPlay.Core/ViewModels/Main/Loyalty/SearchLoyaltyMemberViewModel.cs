@@ -18,16 +18,16 @@ namespace PayWithPlay.Core.ViewModels.Main.Loyalty
             _inputValidator = null;
         }
 
-        public string Title => Resource.SearchMember;
-        public string PhoneNumberText => Resource.PhoneNumberText;
-        public string SearchButtonText => Resource.Search;
+        public virtual string Title => Resource.SearchMember;
+        public virtual string InputText => Resource.PhoneNumberText;
+        public virtual string NextButtonText => Resource.Search;
 
-        public bool SearchButtonEnabled => ValidationHelper.IsInputValid(_inputValidator, false);
+        public bool NextButtonEnabled => ValidationHelper.IsInputValid(_inputValidator, false);
 
         public string? PhoneNumber
         {
             get => _phoneNumber;
-            set => SetProperty(ref _phoneNumber, value, () => RaisePropertyChanged(() => SearchButtonEnabled));
+            set => SetProperty(ref _phoneNumber, value, () => RaisePropertyChanged(() => NextButtonEnabled));
         }
 
         public void OnBack()
@@ -35,7 +35,7 @@ namespace PayWithPlay.Core.ViewModels.Main.Loyalty
             NavigationService.Close(this);
         }
 
-        public void OnSearch()
+        public virtual void OnNext()
         {
             NavigationService.Navigate<LoyaltyMemberViewModel>();
         }
@@ -48,7 +48,7 @@ namespace PayWithPlay.Core.ViewModels.Main.Loyalty
                 new RegexValidation(RegexenConstants.PHONE_NUMBER, Resource.InvalidInputFormat)
             };
 
-            RaisePropertyChanged(() => SearchButtonEnabled);
+            RaisePropertyChanged(() => NextButtonEnabled);
         }
     }
 }

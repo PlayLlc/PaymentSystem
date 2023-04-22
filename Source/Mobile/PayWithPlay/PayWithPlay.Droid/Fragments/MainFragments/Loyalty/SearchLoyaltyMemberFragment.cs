@@ -5,7 +5,11 @@ using PayWithPlay.Droid.CustomViews;
 namespace PayWithPlay.Droid.Fragments.MainFragments.Loyalty
 {
     [MvxNavFragmentPresentation(ViewModelType = typeof(SearchLoyaltyMemberViewModel), FragmentMainNavContainerId = Resource.Id.nav_host_container, FragmentNavigationActionId = Resource.Id.action_to_search_member)]
-    public class SearchLoyaltyMemberFragment : BaseFragment<SearchLoyaltyMemberViewModel>
+    public class SearchLoyaltyMemberFragment : BaseSearchLoyaltyMemberFragment<SearchLoyaltyMemberViewModel>
+    {
+    }
+
+    public class BaseSearchLoyaltyMemberFragment<TViewModel> : BaseFragment<TViewModel> where TViewModel : SearchLoyaltyMemberViewModel
     {
         public override int LayoutId => Resource.Layout.fragment_search_loyalty_member;
 

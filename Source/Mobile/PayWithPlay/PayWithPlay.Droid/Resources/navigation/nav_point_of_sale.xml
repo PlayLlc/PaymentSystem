@@ -9,5 +9,60 @@
       android:id="@+id/pointOfSaleScreen"
       android:name="PayWithPlay.Droid.Fragments.MainFragments.PointOfSale.PointOfSaleFragment"
       tools:layout="@layout/fragment_point_of_sale">
+
+    <action
+      android:id="@+id/action_to_point_of_sale_return"
+      app:destination="@id/returnScreen"/>
+  </fragment>
+
+  <fragment
+    android:id="@+id/returnScreen"
+    android:name="PayWithPlay.Droid.Fragments.MainFragments.PointOfSale.ReturnFragment"
+    tools:layout="@layout/fragment_return">
+
+    <action
+    android:id="@+id/action_to_return_qr_code"
+    app:destination="@id/returnQrCodeScreen"/>
+
+    <action
+    android:id="@+id/action_to_return_ticket_number"
+    app:destination="@id/returnTicketNumberScreen"/>
+
+    <action
+    android:id="@+id/action_to_return_loyalty_member"
+    app:destination="@id/returnLoyaltyMemberScreen"/>
+  </fragment>
+
+  <fragment
+    android:id="@+id/returnQrCodeScreen"
+    android:name="PayWithPlay.Droid.Fragments.MainFragments.PointOfSale.ReturnQrCodeFragment"
+    tools:layout="@layout/fragment_return_qr_code">
+    <action
+      android:id="@+id/action_to_return_transaction_details"
+      app:destination="@id/returnTransactionDetailsScreen"/>
+  </fragment>
+
+  <fragment
+    android:id="@+id/returnTicketNumberScreen"
+    android:name="PayWithPlay.Droid.Fragments.MainFragments.PointOfSale.ReturnTicketNumberFragment"
+    tools:layout="@layout/fragment_return_ticket_number">
+      <action
+      android:id="@+id/action_to_return_transaction_details"
+      app:destination="@id/returnTransactionDetailsScreen"/>
+  </fragment>
+
+  <fragment
+    android:id="@+id/returnLoyaltyMemberScreen"
+    android:name="PayWithPlay.Droid.Fragments.MainFragments.PointOfSale.ReturnLoyaltyNumberFragment"
+    tools:layout="@layout/fragment_search_loyalty_member">
+    <action
+    android:id="@+id/action_to_return_transaction_details"
+    app:destination="@id/returnTransactionDetailsScreen"/>
+  </fragment>
+
+  <fragment
+  android:id="@+id/returnTransactionDetailsScreen"
+  android:name="PayWithPlay.Droid.Fragments.MainFragments.PointOfSale.ReturnTransactionDetailsFragment"
+  tools:layout="@layout/fragment_return_transaction_details">
   </fragment>
 </navigation>

@@ -33,7 +33,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="10dp"
                 style="@style/DefaultTextStyle"
-                app:MvxBind="Text InputText; RedAsterisk true"/>
+                app:MvxBind="Text TicketNumberText"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:theme="@style/TextInputTheme"
@@ -42,13 +42,13 @@
                 android:layout_marginBottom="20dp">
 
                 <PayWithPlay.Droid.CustomViews.EditTextWithValidation
-                    android:id="@+id/phone_numberEt"
+                    android:id="@+id/ticket_numberEt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionGo"
-                    android:inputType="phone"
+                    android:inputType="number"
                     style="@style/InputEditTextStyle"
-                    app:MvxBind="Hint InputText; Text PhoneNumber"/>
+                    app:MvxBind="Hint TicketNumberText; Text TicketNumber"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -56,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 style="@style/PrimaryButton"
-                app:MvxBind="Text NextButtonText; Click OnNext; Enabled NextButtonEnabled"/>
+                app:MvxBind="Text ContinueButtonText; Click OnContinue; Enabled ContinueButtonEnabled"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

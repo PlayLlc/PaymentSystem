@@ -312,6 +312,9 @@
   <data name="LoyaltyMember" xml:space="preserve">
     <value>Loyalty Member</value>
   </data>
+  <data name="LoyaltyNumber" xml:space="preserve">
+    <value>Loyalty Number</value>
+  </data>
   <data name="LoyaltyPrograms" xml:space="preserve">
     <value>Loyalty Programs</value>
   </data>
@@ -411,6 +414,9 @@
   <data name="PurchaseHistory" xml:space="preserve">
     <value>PurchaseHistory</value>
   </data>
+  <data name="QRCode" xml:space="preserve">
+    <value>QR Code</value>
+  </data>
   <data name="Quantity" xml:space="preserve">
     <value>Quantity</value>
   </data>
@@ -431,6 +437,9 @@
   </data>
   <data name="Return" xml:space="preserve">
     <value>Return</value>
+  </data>
+  <data name="ReturnSubtitle" xml:space="preserve">
+    <value>Choose how you would like to make a return.</value>
   </data>
   <data name="Reward" xml:space="preserve">
     <value>Reward</value>
@@ -512,6 +521,15 @@
   </data>
   <data name="TermsOfService" xml:space="preserve">
     <value>Terms of Service</value>
+  </data>
+  <data name="TicketNumber" xml:space="preserve">
+    <value>Ticket Number</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="TransactionDetails" xml:space="preserve">
+    <value>Transaction Details</value>
   </data>
   <data name="UserAddressTitle" xml:space="preserve">
     <value>Please enter your home address.</value>

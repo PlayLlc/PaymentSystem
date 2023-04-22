@@ -1,6 +1,7 @@
 ﻿using PayWithPlay.Core.Models.Inventory;
 using PayWithPlay.Core.Models.Inventory.CreateItem;
 using PayWithPlay.Core.Resources;
+using PayWithPlay.Core.Utils;
 using System.Collections.ObjectModel;
 
 namespace PayWithPlay.Core.ViewModels.Main.Inventory
@@ -30,7 +31,7 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
 
                 for (int j = 0; j < i + 1; j++)
                 {
-                    categories.Add(new CategoryItemModel() { Title = RandomString(random.Next(0, 20)) });
+                    categories.Add(new CategoryItemModel() { Title = MockDataUtils.RandomString(random.Next(0, 20)) });
                 }
 
                 var inventoryItem = new InventoryItemModel
@@ -99,16 +100,6 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
             }
 
             inventoryItemModel.Selected = !inventoryItemModel.Selected;
-        }
-
-        //TODO:: to be removed
-        private static string RandomString(int length)
-        {
-            var random = new Random();
-            const string pool = "abcdefghijklmnopqrstuvwxyz0123456789";
-            var chars = Enumerable.Range(0, length)
-                .Select(x => pool[random.Next(0, pool.Length)]);
-            return new string(chars.ToArray());
         }
 
         private void OnEditInventoryItem(InventoryItemModel obj)

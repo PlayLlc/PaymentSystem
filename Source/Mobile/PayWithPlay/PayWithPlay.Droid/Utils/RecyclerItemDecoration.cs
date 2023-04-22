@@ -13,7 +13,7 @@ namespace PayWithPlay.Droid.Utils
         private readonly int _marginStart;
         private readonly int _marginEnd;
 
-        public RecyclerItemDecoration(int height, int colorResId, int marginStart, int marginEnd)
+        public RecyclerItemDecoration(int height, int colorResId, int marginStart = 0, int marginEnd = 0)
         {
             _height = height;
             _colorResId = colorResId;

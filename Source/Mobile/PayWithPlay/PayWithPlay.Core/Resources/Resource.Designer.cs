@@ -646,6 +646,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loyalty Number.
+        /// </summary>
+        internal static string LoyaltyNumber {
+            get {
+                return ResourceManager.GetString("LoyaltyNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loyalty Programs.
         /// </summary>
         internal static string LoyaltyPrograms {
@@ -943,6 +952,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to QR Code.
+        /// </summary>
+        internal static string QRCode {
+            get {
+                return ResourceManager.GetString("QRCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Quantity.
         /// </summary>
         internal static string Quantity {
@@ -1002,6 +1020,15 @@ namespace PayWithPlay.Core.Resources {
         internal static string Return {
             get {
                 return ResourceManager.GetString("Return", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose how you would like to make a return..
+        /// </summary>
+        internal static string ReturnSubtitle {
+            get {
+                return ResourceManager.GetString("ReturnSubtitle", resourceCulture);
             }
         }
         
@@ -1245,6 +1272,33 @@ namespace PayWithPlay.Core.Resources {
         internal static string TermsOfService {
             get {
                 return ResourceManager.GetString("TermsOfService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ticket Number.
+        /// </summary>
+        internal static string TicketNumber {
+            get {
+                return ResourceManager.GetString("TicketNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total.
+        /// </summary>
+        internal static string Total {
+            get {
+                return ResourceManager.GetString("Total", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transaction Details.
+        /// </summary>
+        internal static string TransactionDetails {
+            get {
+                return ResourceManager.GetString("TransactionDetails", resourceCulture);
             }
         }
         

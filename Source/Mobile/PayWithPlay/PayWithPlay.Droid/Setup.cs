@@ -23,6 +23,8 @@ using MvvmCross.IoC;
 using MvvmCross;
 using PayWithPlay.Core.Interfaces;
 using PayWithPlay.Droid.Utils;
+using PayWithPlay.Droid.CustomBindings.PointOfSale;
+using Android.Widget;
 
 namespace PayWithPlay.Droid
 {
@@ -99,18 +101,20 @@ namespace PayWithPlay.Droid
                 (textView) => new TextStyleBinding(textView));
             registry.RegisterCustomBindingFactory<TextView>(RedAsteriskBinding.Property,
                 (textView) => new RedAsteriskBinding(textView));
+            registry.RegisterCustomBindingFactory<TextView>(TransactionPriceTextBinding.Property,
+                (textView) => new TransactionPriceTextBinding(textView));
 
             registry.RegisterCustomBindingFactory<View>(UserNameViewBinding.Property,
                 (userNameView) => new UserNameViewBinding(userNameView));
             registry.RegisterCustomBindingFactory<View>(AddressViewBinding.Property,
-                (userNameView) => new AddressViewBinding(userNameView));
+                (addressView) => new AddressViewBinding(addressView));
             registry.RegisterCustomBindingFactory<View>(PhoneNumberViewBinding.Property,
-                (userNameView) => new PhoneNumberViewBinding(userNameView));
+                (phoneNumberView) => new PhoneNumberViewBinding(phoneNumberView));
             registry.RegisterCustomBindingFactory<View>(BusinessNameViewBinding.Property,
-                (userNameView) => new BusinessNameViewBinding(userNameView));
+                (businessNameView) => new BusinessNameViewBinding(businessNameView));
 
             registry.RegisterCustomBindingFactory<View>(ItemViewBinding.Property,
-                (userNameView) => new ItemViewBinding(userNameView));
+                (itemView) => new ItemViewBinding(itemView));
         }
 
         public override void LoadPlugins(IMvxPluginManager pluginManager)

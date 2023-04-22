@@ -19,6 +19,7 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale
 
         public void OnReturn()
         {
+            NavigationService.Navigate<ReturnViewModel>();
         }
     }
 }

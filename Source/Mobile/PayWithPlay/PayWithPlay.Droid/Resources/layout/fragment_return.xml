@@ -11,6 +11,16 @@
     <include
         layout="@layout/view_back_and_title"/>
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/subTitle_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="24dp"
+        android:textColor="@color/hint_text_color"
+        style="@style/DefaultTextStyle"
+        app:MvxBind="Text Subtitle"/>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,36 +37,28 @@
             android:orientation="vertical"
             tools:ignore="UselessParent">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
-                style="@style/DefaultTextStyle"
-                app:MvxBind="Text InputText; RedAsterisk true"/>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:theme="@style/TextInputTheme"
+            <com.google.android.material.button.MaterialButton
+                android:layout_height="48dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp">
-
-                <PayWithPlay.Droid.CustomViews.EditTextWithValidation
-                    android:id="@+id/phone_numberEt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="actionGo"
-                    android:inputType="phone"
-                    style="@style/InputEditTextStyle"
-                    app:MvxBind="Hint InputText; Text PhoneNumber"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginBottom="20dp"
+                style="@style/SecondaryButton"
+                app:strokeColor="@drawable/secondary_button_text_color"
+                app:MvxBind="Text QRCodeButtonText; Click OnQRCode"/>
 
             <com.google.android.material.button.MaterialButton
-                android:layout_width="match_parent"
                 android:layout_height="48dp"
-                style="@style/PrimaryButton"
-                app:MvxBind="Text NextButtonText; Click OnNext; Enabled NextButtonEnabled"/>
+                android:layout_width="match_parent"
+                android:layout_marginBottom="20dp"
+                style="@style/SecondaryButton"
+                app:strokeColor="@drawable/secondary_button_text_color"
+                app:MvxBind="Text TicketNumberButtonText; Click OnTicketNumber"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_height="48dp"
+                android:layout_width="match_parent"
+                style="@style/SecondaryButton"
+                app:strokeColor="@drawable/secondary_button_text_color"
+                app:MvxBind="Text LoyaltyNumber; Click OnLoyaltyNumber"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
