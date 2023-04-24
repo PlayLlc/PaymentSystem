@@ -14,5 +14,9 @@
   <declare-styleable name="MaxHeightRecyclerView">
     <attr name="maxHeight" format="dimension" />
   </declare-styleable>
-  
+
+  <declare-styleable name="TopSemiCircleView">
+    <attr name="semiCircleColor" format="color" />
+  </declare-styleable>
+
 </resources>

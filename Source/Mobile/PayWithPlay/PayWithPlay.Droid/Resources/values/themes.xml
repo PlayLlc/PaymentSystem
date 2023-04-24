@@ -51,6 +51,14 @@
     <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>
   </style>
 
+  <style name="Theme.Mobility.NoActionBar.Dark" parent="Theme.Material3.DayNight.NoActionBar">
+    <!-- Status bar color. -->
+    <item name="android:statusBarColor">@color/white</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowTranslucentStatus">false</item>
+    <item name="android:windowLightStatusBar">true</item>
+  </style>
+
   <style name="BottomNavigationViewStyle" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
     <item name="backgroundTint">@color/secondary_color</item>
     <item name="itemIconTint">@drawable/selector_bottom_navigation_icon</item>

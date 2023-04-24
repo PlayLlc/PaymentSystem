@@ -700,6 +700,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Manual Entry.
+        /// </summary>
+        internal static string ManualEntry {
+            get {
+                return ResourceManager.GetString("ManualEntry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Merchant Registration.
         /// </summary>
         internal static string MerchantRegistration {
@@ -840,6 +849,24 @@ namespace PayWithPlay.Core.Resources {
         internal static string Password {
             get {
                 return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hold the customer&apos;s card or device close to the back of the phone..
+        /// </summary>
+        internal static string PaymentSubtitle {
+            get {
+                return ResourceManager.GetString("PaymentSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please present the card or mobile device.
+        /// </summary>
+        internal static string PaymentTitle {
+            get {
+                return ResourceManager.GetString("PaymentTitle", resourceCulture);
             }
         }
         

@@ -330,6 +330,9 @@
   <data name="ManageStock" xml:space="preserve">
     <value>Manage Stock</value>
   </data>
+  <data name="ManualEntry" xml:space="preserve">
+    <value>Manual Entry</value>
+  </data>
   <data name="MerchantRegistration" xml:space="preserve">
     <value>Merchant Registration</value>
   </data>
@@ -377,6 +380,12 @@
   </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
+  </data>
+  <data name="PaymentSubtitle" xml:space="preserve">
+    <value>Hold the customer's card or device close to the back of the phone.</value>
+  </data>
+  <data name="PaymentTitle" xml:space="preserve">
+    <value>Please present the card or mobile device</value>
   </data>
   <data name="PhoneNumberText" xml:space="preserve">
     <value>Phone number</value>
