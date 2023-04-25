@@ -51,7 +51,7 @@
     <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>
   </style>
 
-  <style name="Theme.Mobility.NoActionBar.Dark" parent="Theme.Material3.DayNight.NoActionBar">
+  <style name="Theme.Mobility.NoActionBar.Dark" parent="Theme.Mobility.NoActionBar">
     <!-- Status bar color. -->
     <item name="android:statusBarColor">@color/white</item>
     <item name="android:windowNoTitle">true</item>
@@ -104,6 +104,11 @@
   <style name="NegativeButton" parent="@style/BaseButton">
     <item name="android:textColor">@color/white</item>
     <item name="backgroundTint">@drawable/background_negative_button</item>
+  </style>
+
+  <style name="NeutralButton" parent="@style/BaseButton">
+    <item name="android:textColor">@color/white</item>
+    <item name="backgroundTint">@color/secondary_color</item>
   </style>
 
   <style name="SecondaryLightButton" parent="@style/BaseButton">
@@ -214,6 +219,18 @@
     <item name="InputBoxesViewStyleAttr">@style/InputBoxEditTextStyle</item>
   </style>
 
+  <style name="TextInputTheme.Dark" parent="TextInputTheme">
+    <item name="colorPrimary">@color/accent_color</item>
+    <item name="colorPrimaryVariant">@color/accent_color</item>
+    <item name="colorOnPrimary">@color/accent_color</item>
+    <item name="colorOnSurface">@color/hint_text_color</item>
+    <item name="colorAccent">@color/accent_color</item>
+    <item name="textInputOutlinedDenseStyle">@style/TextInputStyle.Dark</item>
+    <item name="textInputOutlinedStyle">@style/TextInputStyle.Dark</item>
+    <item name="textInputStyle">@style/TextInputStyle.Dark</item>
+    <item name="InputBoxesViewStyleAttr">@style/InputBoxEditTextStyle</item>
+  </style>
+
   <style name="TextInputThemeColored" parent="@style/TextInputTheme">
     <item name="textInputStyle">@style/TextInputStyleColored</item>
   </style>
@@ -233,6 +250,10 @@
     <item name="colorAccent">@color/accent_color</item>
   </style>
 
+  <style name="TextInputStyle.Dark" parent="TextInputStyle">
+    <item name="boxBackgroundColor">@color/secondary_color</item>
+  </style>
+
   <style name="TextInputStyleColored" parent="@style/TextInputStyle">
     <item name="boxStrokeColor">@color/accent_color</item>
     <item name="strokeColor">@color/accent_color</item>
@@ -249,6 +270,10 @@
     <item name="android:lines">1</item>
     <item name="android:includeFontPadding">false</item>
     <item name="android:textCursorDrawable">@null</item>
+  </style>
+
+  <style name="InputEditTextStyle.Light" parent="InputEditTextStyle">
+    <item name="android:textColor">@color/white</item>
   </style>
 
   <style name="SearchInputEditTextStyle" parent="Widget.AppCompat.EditText">

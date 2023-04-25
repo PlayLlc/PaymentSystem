@@ -3,20 +3,24 @@ using Android.Text;
 using AndroidX.Core.Content.Resources;
 using Java.Interop;
 using PayWithPlay.Core.ViewModels.Main.PointOfSale;
+using PayWithPlay.Droid.CustomViews;
 using PayWithPlay.Droid.Utils;
 using static Android.Widget.TextView;
 
 namespace PayWithPlay.Droid.Activities.PointOfSale
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/Theme.Mobility.NoActionBar.Dark", ScreenOrientation = ScreenOrientation.UserPortrait)]
-    public class PaymentActivity : BaseActivity<PaymentViewModel>
+    [Activity(Label = "@string/app_name", Theme = "@style/Theme.Mobility.NoActionBar", ScreenOrientation = ScreenOrientation.UserPortrait)]
+    public class SaleEnterLoyaltyMemberActivity : BaseActivity<SaleEnterLoyaltyMemberViewModel>
     {
-        protected override int LayoutId => Resource.Layout.activity_payment;
+        protected override int LayoutId => Resource.Layout.activity_sale_enter_loyalty_member;
 
         protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetTotalTextViewStyle();
+
+            var loyaltyNumber = FindViewById<EditTextWithValidation>(Resource.Id.loyalty_number_et);
+            ViewModel.SetInputValidator(loyaltyNumber);
         }
 
         private void SetTotalTextViewStyle()

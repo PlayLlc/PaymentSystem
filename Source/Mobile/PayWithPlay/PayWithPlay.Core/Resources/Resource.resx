@@ -162,6 +162,9 @@
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="CardNumber" xml:space="preserve">
+    <value>Card number</value>
+  </data>
   <data name="Category" xml:space="preserve">
     <value>Category</value>
   </data>
@@ -207,8 +210,14 @@
   <data name="CreateItem" xml:space="preserve">
     <value>Create item</value>
   </data>
+  <data name="CreateNewLoyaltyAccount" xml:space="preserve">
+    <value>Create new loyalty account</value>
+  </data>
   <data name="CreatePINCode" xml:space="preserve">
     <value>Create your PIN code</value>
+  </data>
+  <data name="CVV" xml:space="preserve">
+    <value>CVV</value>
   </data>
   <data name="DeleteItem" xml:space="preserve">
     <value>Delete item</value>
@@ -245,6 +254,12 @@
   </data>
   <data name="EnablePhoneAccess" xml:space="preserve">
     <value>Enable phone access</value>
+  </data>
+  <data name="ExpirationMonth" xml:space="preserve">
+    <value>Expiration Month</value>
+  </data>
+  <data name="ExpirationYear" xml:space="preserve">
+    <value>ExpirationYear</value>
   </data>
   <data name="ExpiresAfter3" xml:space="preserve">
     <value>Expires after 3 mins.</value>
@@ -381,6 +396,9 @@
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="PaymentManualEntrySubtitle" xml:space="preserve">
+    <value>Please introduce card details or scan the card.</value>
+  </data>
   <data name="PaymentSubtitle" xml:space="preserve">
     <value>Hold the customer's card or device close to the back of the phone.</value>
   </data>
@@ -395,6 +413,9 @@
   </data>
   <data name="PINSafeMessage" xml:space="preserve">
     <value>This keeps your account safe and secure .</value>
+  </data>
+  <data name="PleaseEnterLoyaltyNumber" xml:space="preserve">
+    <value>Please enter your loyalty number.</value>
   </data>
   <data name="PointOfSale" xml:space="preserve">
     <value>Point of sale</value>
@@ -474,6 +495,9 @@
   <data name="Scan" xml:space="preserve">
     <value>Scan</value>
   </data>
+  <data name="ScanCard" xml:space="preserve">
+    <value>Scan Card</value>
+  </data>
   <data name="ScanItem" xml:space="preserve">
     <value>Scan item</value>
   </data>
@@ -501,6 +525,9 @@
   <data name="SignIn" xml:space="preserve">
     <value>Sign in</value>
   </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Skip</value>
+  </data>
   <data name="SKU" xml:space="preserve">
     <value>SKU</value>
   </data>
@@ -524,6 +551,9 @@
   </data>
   <data name="StreetAddress" xml:space="preserve">
     <value>Street Address</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Submit</value>
   </data>
   <data name="TeamManagement" xml:space="preserve">
     <value>Team Management</value>

@@ -18,6 +18,7 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale
 
         public void OnManualEntry()
         {
+            NavigationService.Navigate<PaymentManualEntryViewModel>();
         }
     }
 }

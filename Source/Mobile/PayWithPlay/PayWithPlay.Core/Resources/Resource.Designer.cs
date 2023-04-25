@@ -196,6 +196,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Card number.
+        /// </summary>
+        internal static string CardNumber {
+            get {
+                return ResourceManager.GetString("CardNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Category.
         /// </summary>
         internal static string Category {
@@ -331,11 +340,29 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create new loyalty account.
+        /// </summary>
+        internal static string CreateNewLoyaltyAccount {
+            get {
+                return ResourceManager.GetString("CreateNewLoyaltyAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create your PIN code.
         /// </summary>
         internal static string CreatePINCode {
             get {
                 return ResourceManager.GetString("CreatePINCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CVV.
+        /// </summary>
+        internal static string CVV {
+            get {
+                return ResourceManager.GetString("CVV", resourceCulture);
             }
         }
         
@@ -444,6 +471,24 @@ namespace PayWithPlay.Core.Resources {
         internal static string EnablePhoneAccess {
             get {
                 return ResourceManager.GetString("EnablePhoneAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expiration Month.
+        /// </summary>
+        internal static string ExpirationMonth {
+            get {
+                return ResourceManager.GetString("ExpirationMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ExpirationYear.
+        /// </summary>
+        internal static string ExpirationYear {
+            get {
+                return ResourceManager.GetString("ExpirationYear", resourceCulture);
             }
         }
         
@@ -853,6 +898,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please introduce card details or scan the card..
+        /// </summary>
+        internal static string PaymentManualEntrySubtitle {
+            get {
+                return ResourceManager.GetString("PaymentManualEntrySubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hold the customer&apos;s card or device close to the back of the phone..
         /// </summary>
         internal static string PaymentSubtitle {
@@ -894,6 +948,15 @@ namespace PayWithPlay.Core.Resources {
         internal static string PINSafeMessage {
             get {
                 return ResourceManager.GetString("PINSafeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter your loyalty number..
+        /// </summary>
+        internal static string PleaseEnterLoyaltyNumber {
+            get {
+                return ResourceManager.GetString("PleaseEnterLoyaltyNumber", resourceCulture);
             }
         }
         
@@ -1132,6 +1195,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Scan Card.
+        /// </summary>
+        internal static string ScanCard {
+            get {
+                return ResourceManager.GetString("ScanCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Scan item.
         /// </summary>
         internal static string ScanItem {
@@ -1213,6 +1285,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Skip.
+        /// </summary>
+        internal static string Skip {
+            get {
+                return ResourceManager.GetString("Skip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SKU.
         /// </summary>
         internal static string SKU {
@@ -1281,6 +1362,15 @@ namespace PayWithPlay.Core.Resources {
         internal static string StreetAddress {
             get {
                 return ResourceManager.GetString("StreetAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit.
+        /// </summary>
+        internal static string Submit {
+            get {
+                return ResourceManager.GetString("Submit", resourceCulture);
             }
         }
         

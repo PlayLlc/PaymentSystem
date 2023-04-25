@@ -7,4 +7,4 @@
     android:background="@color/white"
     android:solidColor="@color/white"
     android:descendantFocusability="blocksDescendants"
-    android:theme="@style/NumberPickerStyle" />
+    android:theme="@style/NumberPickerStyle"/>

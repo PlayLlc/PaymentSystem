@@ -15,7 +15,7 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale
 
         public void OnSale()
         {
-            NavigationService.Navigate<PaymentViewModel>();
+            NavigationService.Navigate<SaleEnterLoyaltyMemberViewModel>();
         }
 
         public void OnReturn()
