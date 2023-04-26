@@ -43,11 +43,12 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale
 
         public void OnSkip()
         {
-            NavigationService.Navigate<PaymentViewModel>();
+            NavigationService.Navigate<SaleAddATipViewModel>();
         }
 
         public void OnContinue()
         {
+            NavigationService.Navigate<SaleSelectLoyaltyDiscountViewModel>();
         }
 
         public void OnCreateLoyaltyAccount()

@@ -1,9 +1,11 @@
 ﻿using Android.Content.PM;
 using Android.Runtime;
+using Android.Views;
 using Microsoft.Maui.ApplicationModel;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
 using MvvmCross.ViewModels;
+using PayWithPlay.Droid.Extensions;
 using PayWithPlay.Droid.Utils;
 
 namespace PayWithPlay.Droid.Activities
@@ -19,7 +21,7 @@ namespace PayWithPlay.Droid.Activities
             SetContentView(LayoutId);
 
             AddBackCallback();
-
+            SetBackAndTitleView();
             // This code is for making the page fullscreen, i.e. going beneath the status bar, but not beneath navigation view
             //if (Build.VERSION.SdkInt >= BuildVersionCodes.R)
             //{
@@ -62,6 +64,17 @@ namespace PayWithPlay.Droid.Activities
                 }
             };
             OnBackPressedDispatcher.AddCallback(this, onBackPressedCallback);
+        }
+
+        private void SetBackAndTitleView()
+        {
+            var backAndTitleView = FindViewById<View>(Resource.Id.back_and_title_view);
+            if (backAndTitleView == null)
+            {
+                return;
+            }
+
+            backAndTitleView.SetBackground(Resource.Color.secondary_color, bottomLeft: 5f.ToFloatPx(), bottomRight: 5f.ToFloatPx());
         }
     }
 }

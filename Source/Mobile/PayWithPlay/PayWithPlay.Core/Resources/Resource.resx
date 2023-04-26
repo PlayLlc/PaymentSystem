@@ -120,6 +120,12 @@
   <data name="Add" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="AddATip" xml:space="preserve">
+    <value>Add a Tip</value>
+  </data>
+  <data name="AddATipSubtitle" xml:space="preserve">
+    <value>Please enter a tip amount.</value>
+  </data>
   <data name="AddCategory" xml:space="preserve">
     <value>Add a category</value>
   </data>
@@ -198,6 +204,9 @@
   <data name="Continue" xml:space="preserve">
     <value>Continue</value>
   </data>
+  <data name="ContinueWithoutDiscount" xml:space="preserve">
+    <value>Continue without using any discount</value>
+  </data>
   <data name="Create" xml:space="preserve">
     <value>Create</value>
   </data>
@@ -215,6 +224,9 @@
   </data>
   <data name="CreatePINCode" xml:space="preserve">
     <value>Create your PIN code</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Custom</value>
   </data>
   <data name="CVV" xml:space="preserve">
     <value>CVV</value>

@@ -70,6 +70,24 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add a Tip.
+        /// </summary>
+        internal static string AddATip {
+            get {
+                return ResourceManager.GetString("AddATip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a tip amount..
+        /// </summary>
+        internal static string AddATipSubtitle {
+            get {
+                return ResourceManager.GetString("AddATipSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add a category.
         /// </summary>
         internal static string AddCategory {
@@ -304,6 +322,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Continue without using any discount.
+        /// </summary>
+        internal static string ContinueWithoutDiscount {
+            get {
+                return ResourceManager.GetString("ContinueWithoutDiscount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create.
         /// </summary>
         internal static string Create {
@@ -354,6 +381,15 @@ namespace PayWithPlay.Core.Resources {
         internal static string CreatePINCode {
             get {
                 return ResourceManager.GetString("CreatePINCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Custom.
+        /// </summary>
+        internal static string Custom {
+            get {
+                return ResourceManager.GetString("Custom", resourceCulture);
             }
         }
         
