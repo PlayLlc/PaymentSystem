@@ -1,8 +1,8 @@
-﻿using Play.Identity.Domain.Entities;
-using Play.Identity.Domain.Repositories;
-using Play.Identity.Domain.Services;
+﻿using Play.Registration.Domain.Entities;
+using Play.Registration.Domain.Repositories;
+using Play.Registration.Domain.Services;
 
-namespace Play.Identity.Application.Services;
+namespace Play.Registration.Application.Services;
 
 /// <summary>
 ///     When a user updates their password it must be different than their previous 4 passwords

@@ -4,11 +4,11 @@ using Microsoft.Extensions.Options;
 
 using Play.Domain.Common.Entities;
 using Play.Domain.Common.ValueObjects;
-using Play.Identity.Domain.Entities;
-using Play.Identity.Domain.Services;
-using Play.Identity.Domain.ValueObjects;
+using Play.Registration.Domain.Entities;
+using Play.Registration.Domain.Services;
+using Play.Registration.Domain.ValueObjects;
 
-namespace Play.Identity.Application.Services;
+namespace Play.Registration.Application.Services;
 
 public class MerchantUnderwriter : IUnderwriteMerchants
 {
@@ -63,6 +63,8 @@ public class MerchantUnderwriter : IUnderwriteMerchants
     //}
     public async Task<bool> IsUserProhibited(PersonalDetail personalDetail, Address address, Contact contact) => false;
 
+    #endregion
+
     //VerifyUserIsProhibitedRequest request = new()
     //{
     //    Address = address.AsDto(),
@@ -79,6 +81,4 @@ public class MerchantUnderwriter : IUnderwriteMerchants
     //{
     //    throw new PlayInternalException(ex);
     //}
-
-    #endregion
 }

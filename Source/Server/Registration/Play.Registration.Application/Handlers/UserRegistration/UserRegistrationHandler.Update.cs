@@ -1,7 +1,7 @@
 ﻿using Play.Domain.Events;
 using Play.Registration.Domain.Aggregates.UserRegistration.DomainEvents;
 
-namespace Play.Identity.Application.Handlers;
+namespace Play.Registration.Application.Handlers.UserRegistration;
 
 public partial class UserRegistrationHandler : DomainEventHandler, IHandleDomainEvents<UserRegistrationAddressUpdated>,
     IHandleDomainEvents<UserRegistrationContactInfoUpdated>, IHandleDomainEvents<UserRegistrationPersonalDetailsUpdated>

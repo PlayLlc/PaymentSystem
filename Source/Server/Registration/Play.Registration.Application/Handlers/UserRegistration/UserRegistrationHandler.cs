@@ -7,7 +7,7 @@ using Play.Registration.Domain.Aggregates.UserRegistration.DomainEvents.Rules;
 using Play.Registration.Domain.Repositories;
 using Play.Registration.Domain.Services;
 
-namespace Play.Identity.Application.Handlers;
+namespace Play.Registration.Application.Handlers.UserRegistration;
 
 public partial class UserRegistrationHandler : DomainEventHandler, IHandleDomainEvents<UserRegistrationHasBeenRejected>,
     IHandleDomainEvents<UserRegistrationHasExpired>, IHandleDomainEvents<UserRegistrationHasNotBeenApproved>, IHandleDomainEvents<UserRegistrationCreated>,
@@ -18,7 +18,6 @@ public partial class UserRegistrationHandler : DomainEventHandler, IHandleDomain
 
     private readonly IVerifyEmailAccounts _EmailAccountVerifier;
     private readonly IVerifyMobilePhones _MobilePhoneVerifier;
-    private readonly IUserRepository _UserRepository;
     private readonly IUserRegistrationRepository _UserRegistrationRepository;
 
     #endregion
@@ -26,12 +25,11 @@ public partial class UserRegistrationHandler : DomainEventHandler, IHandleDomain
     #region Constructor
 
     public UserRegistrationHandler(
-        IVerifyEmailAccounts emailAccountVerifier, IVerifyMobilePhones mobilePhoneVerifier, IUserRepository userRepository,
-        IUserRegistrationRepository userRegistrationRepository, ILogger<UserRegistrationHandler> logger) : base(logger)
+        IVerifyEmailAccounts emailAccountVerifier, IVerifyMobilePhones mobilePhoneVerifier, IUserRegistrationRepository userRegistrationRepository,
+        ILogger<UserRegistrationHandler> logger) : base(logger)
     {
         _EmailAccountVerifier = emailAccountVerifier;
         _MobilePhoneVerifier = mobilePhoneVerifier;
-        _UserRepository = userRepository;
         _UserRegistrationRepository = userRegistrationRepository;
 
         SubscribeUpdatePartial(this);
@@ -77,12 +75,11 @@ public partial class UserRegistrationHandler : DomainEventHandler, IHandleDomain
 
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="CommandOutOfSyncException"></exception>
-    public async Task Handle(UserRegistrationHasBeenApproved domainEvent)
-    {
-        Log(domainEvent);
-        await _UserRegistrationRepository.SaveAsync(domainEvent.UserRegistration).ConfigureAwait(false);
-        await _UserRepository.SaveAsync(domainEvent.UserRegistration.CreateUser()).ConfigureAwait(false);
-    }
+    public async Task Handle(UserRegistrationHasBeenApproved domainEvent) => throw new NotImplementedException();
+
+    //Log(domainEvent);
+    //await _UserRegistrationRepository.SaveAsync(domainEvent.UserRegistration).ConfigureAwait(false);
+    //await _UserRepository.SaveAsync(domainEvent.UserRegistration.CreateUser()).ConfigureAwait(false);
 
     #endregion
 }

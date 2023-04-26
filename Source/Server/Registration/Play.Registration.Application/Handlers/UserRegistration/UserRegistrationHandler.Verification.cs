@@ -4,7 +4,7 @@ using Play.Domain.ValueObjects;
 using Play.Registration.Domain.Aggregates.UserRegistration.DomainEvents;
 using Play.Registration.Domain.Aggregates.UserRegistration.DomainEvents.Rules;
 
-namespace Play.Identity.Application.Handlers;
+namespace Play.Registration.Application.Handlers.UserRegistration;
 
 public partial class UserRegistrationHandler : DomainEventHandler, IHandleDomainEvents<EmailVerificationCodeHasExpired>,
     IHandleDomainEvents<EmailVerificationCodeWasIncorrect>, IHandleDomainEvents<SmsVerificationCodeHasExpired>,

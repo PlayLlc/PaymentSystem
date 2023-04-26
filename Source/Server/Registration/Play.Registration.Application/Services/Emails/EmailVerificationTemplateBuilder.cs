@@ -1,6 +1,6 @@
 ﻿using Play.Telecom.Twilio.Email;
 
-namespace Play.Identity.Application.Services;
+namespace Play.Registration.Application.Services.Emails;
 
 public class EmailVerificationTemplateBuilder : EmailTemplateBuilder
 {

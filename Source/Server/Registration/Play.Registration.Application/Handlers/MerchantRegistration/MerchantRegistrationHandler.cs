@@ -6,11 +6,10 @@ using Play.Domain.Common.ValueObjects;
 using Play.Domain.Events;
 using Play.Domain.Repositories;
 using Play.Identity.Contracts;
-using Play.Registration.Domain.Aggregates.MerchantRegistration;
 using Play.Registration.Domain.Aggregates.MerchantRegistration.DomainEvents;
 using Play.Registration.Domain.Aggregates.MerchantRegistration.DomainEvents.Rules;
 
-namespace Play.Identity.Application.Handlers;
+namespace Play.Registration.Application.Handlers.MerchantRegistration;
 
 public class MerchantRegistrationHandler : DomainEventHandler, IHandleDomainEvents<MerchantRegistrationHasBeenRejected>,
     IHandleDomainEvents<MerchantRegistrationHasExpired>, IHandleDomainEvents<MerchantRegistrationHasNotBeenApproved>,
@@ -19,19 +18,17 @@ public class MerchantRegistrationHandler : DomainEventHandler, IHandleDomainEven
     #region Instance Values
 
     private readonly IMessageSession _MessageSession;
-    private readonly IRepository<Merchant, SimpleStringId> _MerchantRepository;
-    private readonly IRepository<MerchantRegistration, SimpleStringId> _MerchantRegistrationRepository;
+    private readonly IRepository<Domain.Aggregates.MerchantRegistration.MerchantRegistration, SimpleStringId> _MerchantRegistrationRepository;
 
     #endregion
 
     #region Constructor
 
     public MerchantRegistrationHandler(
-        IMessageSession messageHandler, IRepository<Merchant, SimpleStringId> merchantRepository,
-        IRepository<MerchantRegistration, SimpleStringId> merchantRegistrationRepository, ILogger<MerchantRegistrationHandler> logger) : base(logger)
+        IMessageSession messageHandler, IRepository<Domain.Aggregates.MerchantRegistration.MerchantRegistration, SimpleStringId> merchantRegistrationRepository,
+        ILogger<MerchantRegistrationHandler> logger) : base(logger)
     {
         _MessageSession = messageHandler;
-        _MerchantRepository = merchantRepository;
         _MerchantRegistrationRepository = merchantRegistrationRepository;
 
         Subscribe((IHandleDomainEvents<MerchantRegistrationHasBeenRejected>) this);
@@ -64,26 +61,21 @@ public class MerchantRegistrationHandler : DomainEventHandler, IHandleDomainEven
         return Task.CompletedTask;
     }
 
-    public async Task Handle(MerchantHasBeenCreated domainEvent)
-    {
-        Log(domainEvent);
-        await _MerchantRepository.SaveAsync(domainEvent.Merchant).ConfigureAwait(false);
+    public async Task Handle(MerchantHasBeenCreated domainEvent) => throw new NotImplementedException();
 
-        // Network Event sent through NServiceBus 
-        await _MessageSession.Publish<MerchantHasBeenCreatedEvent>(a =>
-            {
-                a.MerchantId = domainEvent.Merchant.GetId();
-            })
-            .ConfigureAwait(false);
-    }
+    //Log(domainEvent);
+    //await _MerchantRepository.SaveAsync(domainEvent.Merchant).ConfigureAwait(false);
+    //// Network Event sent through NServiceBus 
+    //await _MessageSession.Publish<MerchantHasBeenCreatedEvent>(a =>
+    //    {
+    //        a.MerchantId = domainEvent.Merchant.GetId();
+    //    })
+    //    .ConfigureAwait(false);
+    public async Task Handle(MerchantRegistrationApproved domainEvent) => throw new NotImplementedException();
 
-    public async Task Handle(MerchantRegistrationApproved domainEvent)
-    {
-        Log(domainEvent);
-        await _MerchantRegistrationRepository.SaveAsync(domainEvent.MerchantRegistration).ConfigureAwait(false);
-        await _MerchantRepository.SaveAsync(domainEvent.MerchantRegistration.CreateMerchant()).ConfigureAwait(false);
-    }
-
+    //Log(domainEvent);
+    //await _MerchantRegistrationRepository.SaveAsync(domainEvent.MerchantRegistration).ConfigureAwait(false);
+    //await _MerchantRepository.SaveAsync(domainEvent.MerchantRegistration.CreateMerchant()).ConfigureAwait(false);
     public async Task Handle(MerchantRegistrationHasBeenCreated domainEvent)
     {
         Log(domainEvent);

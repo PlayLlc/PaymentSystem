@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 
 using Play.Core;
-using Play.Identity.Domain.Services;
+using Play.Registration.Domain.Services;
 using Play.Telecom.Twilio.Sms;
 
-namespace Play.Identity.Application.Services.Sms;
+namespace Play.Registration.Application.Services.Sms;
 
 public class MobilePhoneVerifier : IVerifyMobilePhones
 {
@@ -21,7 +21,7 @@ public class MobilePhoneVerifier : IVerifyMobilePhones
     public MobilePhoneVerifier(ISendSmsMessages smsClient, ILogger<MobilePhoneVerifier> logger)
     {
         _SmsClient = smsClient;
-        _TemplateBuilder = new();
+        _TemplateBuilder = new MobilePhoneVerificationTemplateBuilder();
         _Logger = logger;
     }
 

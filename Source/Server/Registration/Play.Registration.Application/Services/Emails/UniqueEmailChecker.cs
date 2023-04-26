@@ -1,31 +1,32 @@
-﻿using Play.Identity.Domain.Repositories;
-using Play.Identity.Domain.Services;
+﻿using Play.Registration.Domain.Repositories;
+using Play.Registration.Domain.Services;
 
-namespace Play.Identity.Application.Services;
+namespace Play.Registration.Application.Services.Emails;
 
 public class UniqueEmailChecker : IEnsureUniqueEmails
 {
     #region Instance Values
 
     private readonly IUserRegistrationRepository _UserRegistrationRepository;
-    private readonly IUserRepository _UserRepository;
 
     #endregion
 
     #region Constructor
 
-    public UniqueEmailChecker(IUserRegistrationRepository userRegistrationRepository, IUserRepository userRepository)
+    public UniqueEmailChecker(IUserRegistrationRepository userRegistrationRepository)
     {
         _UserRegistrationRepository = userRegistrationRepository;
-        _UserRepository = userRepository;
     }
 
     #endregion
 
     #region Instance Members
 
-    public async Task<bool> IsUnique(string email) =>
-        await _UserRegistrationRepository.IsEmailUniqueAsync(email).ConfigureAwait(false) && await _UserRepository.IsEmailUnique(email).ConfigureAwait(false);
+    public async Task<bool> IsUnique(string email) => throw new NotImplementedException();
 
     #endregion
+
+    // private readonly IdentityClientApi _IdentityClientApi;
+    //private readonly IUserRepository _UserRepository;
+    //await _UserRegistrationRepository.IsEmailUniqueAsync(email).ConfigureAwait(false) && await _UserRepository.IsEmailUnique(email).ConfigureAwait(false);
 }

@@ -5,10 +5,10 @@ using Microsoft.Extensions.Logging;
 
 using Play.Core;
 using Play.Core.Extensions.IEnumerable;
-using Play.Identity.Domain.Services;
+using Play.Registration.Domain.Services;
 using Play.Telecom.Twilio.Email;
 
-namespace Play.Identity.Application.Services;
+namespace Play.Registration.Application.Services.Emails;
 
 public class EmailAccountVerifier : IVerifyEmailAccounts
 {
