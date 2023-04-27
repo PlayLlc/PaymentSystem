@@ -19,4 +19,9 @@
     <attr name="semiCircleColor" format="color" />
   </declare-styleable>
 
+  <declare-styleable name="ShapeableView">
+    <attr name="cornerRadius" format="dimension" />
+    <attr name="fillColor" format="color" />
+  </declare-styleable>
+
 </resources>

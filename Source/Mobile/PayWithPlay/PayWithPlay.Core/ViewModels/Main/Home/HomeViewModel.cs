@@ -6,6 +6,12 @@
         {
         }
 
-        public string Title { get; set; } = "Home";
+        public string? UserPictureUrl { get; set; }
+        public string? UserFullName { get; set; } = "Matt Jerred";
+        public string? UserLocation { get; set; } = "Dublin, Ireland";
+
+        public void OnNotifications()
+        {
+        }
     }
 }

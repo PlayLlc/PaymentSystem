@@ -37,7 +37,7 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale
 
         public void OnDiscountItem(DiscountModel discountModel)
         {
-            NavigationService.Navigate<PaymentViewModel>();
+            NavigationService.Navigate<SaleAddATipViewModel>();
         }
 
         public void OnContinue()

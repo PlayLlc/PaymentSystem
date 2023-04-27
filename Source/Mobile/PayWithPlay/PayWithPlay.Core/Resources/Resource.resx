@@ -168,8 +168,14 @@
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="Card" xml:space="preserve">
+    <value>Card</value>
+  </data>
   <data name="CardNumber" xml:space="preserve">
     <value>Card number</value>
+  </data>
+  <data name="Cash" xml:space="preserve">
+    <value>Cash</value>
   </data>
   <data name="Category" xml:space="preserve">
     <value>Category</value>
@@ -324,6 +330,9 @@
   <data name="LastNameText" xml:space="preserve">
     <value>Last name</value>
   </data>
+  <data name="Link" xml:space="preserve">
+    <value>Link</value>
+  </data>
   <data name="Location" xml:space="preserve">
     <value>Location</value>
   </data>
@@ -408,8 +417,14 @@
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="Payment" xml:space="preserve">
+    <value>Payment</value>
+  </data>
   <data name="PaymentManualEntrySubtitle" xml:space="preserve">
     <value>Please introduce card details or scan the card.</value>
+  </data>
+  <data name="PaymentOptionsSubtitle" xml:space="preserve">
+    <value>Please select how the customer will pay:</value>
   </data>
   <data name="PaymentSubtitle" xml:space="preserve">
     <value>Hold the customer's card or device close to the back of the phone.</value>

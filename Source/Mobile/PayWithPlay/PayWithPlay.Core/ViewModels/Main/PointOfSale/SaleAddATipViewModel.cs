@@ -47,12 +47,18 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale
 
         public void OnTipItem(TipItemModel tipItemModel)
         {
-            NavigationService.Navigate<PaymentViewModel>();
+            var asd = tipItemModel.PercentageValue;
+            NavigationService.Navigate<SalePaymentOptionsViewModel>();
+        }
+
+        public void OnItemClick(TipItemModel tip)
+        {
+            NavigationService.Navigate<SalePaymentOptionsViewModel>();
         }
 
         public void OnSkip()
         {
-            NavigationService.Navigate<PaymentViewModel>();
+            NavigationService.Navigate<SalePaymentOptionsViewModel>();
         }
     }
 }

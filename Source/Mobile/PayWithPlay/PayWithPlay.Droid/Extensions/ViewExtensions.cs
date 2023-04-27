@@ -1,10 +1,21 @@
-﻿using Android.Views;
+﻿using Android.Content.Res;
+using Android.Views;
 using PayWithPlay.Droid.Utils;
 
 namespace PayWithPlay.Droid.Extensions
 {
     public static class ViewExtensions
     {
+        public static void SetBackground(
+            this View view,
+            ColorStateList color,
+            float? strokeWidth = null,
+            ColorStateList? strokeColor = null,
+            float? cornerRadius = null)
+        {
+            view.Background = ViewUtils.GetShapeDrawable(color, strokeWidth, strokeColor, cornerRadius, cornerRadius, cornerRadius, cornerRadius);
+        }
+
         public static void SetBackground(
             this View view,
             int colorResId,

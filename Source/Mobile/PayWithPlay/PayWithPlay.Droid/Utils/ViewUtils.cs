@@ -60,5 +60,59 @@ namespace PayWithPlay.Droid.Utils
 
             return drawable;
         }
+
+        public static MaterialShapeDrawable GetShapeDrawable(
+           ColorStateList color,
+           float? strokeWidth = null,
+           ColorStateList? strokeColor = null,
+           float? topLeft = null,
+           float? topRight = null,
+           float? bottomLeft = null,
+           float? bottomRight = null)
+        {
+            ShapeAppearanceModel.Builder? backgroundShapeModel = null;
+            if (topLeft != null)
+            {
+                backgroundShapeModel = new ShapeAppearanceModel.Builder();
+                backgroundShapeModel.SetTopLeftCorner(CornerFamily.Rounded, topLeft.Value);
+            }
+            if (topRight != null)
+            {
+                backgroundShapeModel ??= new ShapeAppearanceModel.Builder();
+                backgroundShapeModel.SetTopRightCorner(CornerFamily.Rounded, topRight.Value);
+            }
+            if (bottomLeft != null)
+            {
+                backgroundShapeModel ??= new ShapeAppearanceModel.Builder();
+                backgroundShapeModel.SetBottomLeftCorner(CornerFamily.Rounded, bottomLeft.Value);
+            }
+            if (bottomRight != null)
+            {
+                backgroundShapeModel ??= new ShapeAppearanceModel.Builder();
+                backgroundShapeModel.SetBottomRightCorner(CornerFamily.Rounded, bottomRight.Value);
+            }
+
+            MaterialShapeDrawable? drawable;
+            if (backgroundShapeModel == null)
+            {
+                drawable = new MaterialShapeDrawable();
+            }
+            else
+            {
+                drawable = new MaterialShapeDrawable(backgroundShapeModel.Build());
+            }
+
+            drawable.FillColor = color;
+            if (strokeWidth != null)
+            {
+                drawable.StrokeWidth = strokeWidth.Value;
+            }
+            if (strokeColor != null)
+            {
+                drawable.StrokeColor = strokeColor;
+            }
+
+            return drawable;
+        }
     }
 }
