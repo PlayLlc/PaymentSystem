@@ -2,7 +2,7 @@
 using Android.Text;
 using AndroidX.Core.Content.Resources;
 using Java.Interop;
-using PayWithPlay.Core.ViewModels.Main.PointOfSale;
+using PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale;
 using PayWithPlay.Droid.CustomViews;
 using PayWithPlay.Droid.Utils;
 using static Android.Widget.TextView;

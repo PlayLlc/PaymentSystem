@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="10dp"
+        style="@style/DefaultTextStyle"
+        app:MvxBind="Text CustomAmountText"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:theme="@style/TextInputTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="20dp">
+
+        <PayWithPlay.Droid.CustomViews.EditTextWithValidation
+            android:id="@+id/custom_amountEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
+            android:inputType="numberDecimal"
+            style="@style/InputEditTextStyle"
+            app:MvxBind="Hint CustomAmountText; Text CustomAmount"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="24dp"
+        style="@style/SecondaryButton"
+        app:MvxBind="Text AddButtonText; Click OnAdd; Enabled AddButtonEnabled"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

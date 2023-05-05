@@ -17,6 +17,8 @@ namespace PayWithPlay.Core.Models.Inventory
         public Action<InventoryItemModel>? OnManageStockAction { get; set; }
         public Action<InventoryItemModel>? OnDeleteAction { get; set; }
 
+        public Guid Id { get; set; }
+
         public string? Name { get; set; }
 
         public string? PictureUrl { get; set; }

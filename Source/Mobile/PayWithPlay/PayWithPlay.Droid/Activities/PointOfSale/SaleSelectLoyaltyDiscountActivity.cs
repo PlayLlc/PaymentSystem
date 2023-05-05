@@ -1,5 +1,5 @@
 ﻿using Android.Content.PM;
-using PayWithPlay.Core.ViewModels.Main.PointOfSale;
+using PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale;
 
 namespace PayWithPlay.Droid.Activities.PointOfSale
 {

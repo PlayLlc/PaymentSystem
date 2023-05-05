@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@id/root_view"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:translationZ="10dp">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/actions_container"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="40dp"
+            android:weightSum="3"
+            android:orientation="horizontal"
+            android:background="@color/secondary_color">
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:textSize="12sp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="6dp"
+                app:iconSize="0dp"
+                app:iconGravity="textStart"
+                app:icon="@drawable/ic_scan_inventory"
+                app:iconTint="@drawable/secondary_light_button_text"
+                android:fontFamily="@font/poppins_medium"
+                style="@style/SecondaryLightButton"
+                app:MvxBind="Text ScanButtonText; Click OnScan; Selected ScanButtonSelected"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:textSize="12sp"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/poppins_medium"
+                style="@style/SecondaryLightButton"
+                app:MvxBind="Text SelectItemButtonText; Click OnSelectItem; Selected SelectItemButtonSelected"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="30dp"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:textSize="12sp"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/poppins_medium"
+                android:paddingVertical="4dp"
+                android:paddingHorizontal="8dp"
+                android:lineSpacingMultiplier="0.7"
+                style="@style/SecondaryLightButton"
+                app:MvxBind="Text CustomAmountButtonText; Click OnCustomAmount; Selected CustomAmountButtonSelected"
+                tools:ignore="MissingDimension" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:icon="@drawable/ic_back"
+            style="@style/IconOnlyStyle"
+            android:layout_gravity="center_vertical"
+            app:MvxBind="Click OnBack"/>
+
+    </FrameLayout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="-4dp"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+        <PayWithPlay.Droid.CustomViews.NonSwipebleViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false" />
+
+        <View
+            android:id="@+id/shadow"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:background="@drawable/background_top_shadow"
+            app:layout_anchor="@id/bottomSheet" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/bottomSheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:clickable="true"
+            app:behavior_hideable="false"
+            app:behavior_peekHeight="96dp"
+            app:layout_behavior="PayWithPlay.Droid.Utils.DraggableBottomSheetBehavior">
+
+            <PayWithPlay.Droid.CustomViews.ShapeableView
+                android:layout_width="36dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal"
+                app:fillColor="@color/third_color"
+                app:cornerRadius="1dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginHorizontal="24dp"
+                android:fontFamily="@font/poppins_semibold"
+                style="@style/MediumTextStyle"
+                app:MvxBind="Text TransactionDetailsText"/>
+
+            <FrameLayout
+                android:id="@+id/collapsed_details_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginVertical="20dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center"
+                    android:fontFamily="@font/poppins_medium"
+                    style="@style/SmallTextStyle"
+                    app:MvxBind="Text ItemsText"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center"
+                    android:fontFamily="@font/poppins_medium"
+                    style="@style/SmallTextStyle"
+                    app:MvxBind="Text ItemsCount"/>
+
+            </FrameLayout>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/expanded_details_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginBottom="6dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center"
+                        android:fontFamily="@font/poppins_medium"
+                        style="@style/SmallTextStyle"
+                        app:MvxBind="Text ItemText"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center"
+                        android:fontFamily="@font/poppins_medium"
+                        style="@style/SmallTextStyle"
+                        app:MvxBind="Text PriceText"/>
+
+                </FrameLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginHorizontal="24dp"
+                    android:background="@color/separator_color"/>
+
+                <FrameLayout
+                    android:id="@+id/list_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+                    <mvvmcross.droidx.recyclerview.MvxRecyclerView
+                        android:id="@+id/items_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="24dp"
+                        android:paddingTop="6dp"
+                        android:paddingBottom="20dp"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        android:nestedScrollingEnabled="false"
+                        android:overScrollMode="never"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:MvxItemTemplate="@layout/row_sale_product_item"
+                        app:MvxBind="ItemsSource Items; ItemClick OnItemClick"/>
+
+                </FrameLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginHorizontal="24dp"
+                    android:background="@color/separator_color"/>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginVertical="6dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center"
+                        android:fontFamily="@font/poppins_medium"
+                        style="@style/SmallTextStyle"
+                        app:MvxBind="Text TaxText"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center"
+                        android:fontFamily="@font/poppins_medium"
+                        style="@style/SmallTextStyle"
+                        app:MvxBind="Text TaxValueDispalyed"/>
+
+                </FrameLayout>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginHorizontal="24dp"
+        android:background="@color/separator_color"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="8dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:fontFamily="@font/poppins_semibold"
+            android:textColor="@color/accent_color"
+            style="@style/MediumTextStyle"
+            app:MvxBind="Text TotalText"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center"
+            android:fontFamily="@font/poppins_semibold"
+            android:textColor="@color/accent_color"
+            style="@style/MediumTextStyle"
+            app:MvxBind="Text TotalPriceDisplayed"/>
+
+    </FrameLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginVertical="24dp"
+        style="@style/PrimaryButton"
+        app:MvxBind="Text ContinueButtonText; Click OnContinue; Enabled ItemsAdded"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

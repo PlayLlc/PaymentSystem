@@ -3,7 +3,7 @@ using PayWithPlay.Core.Interfaces;
 using PayWithPlay.Core.Resources;
 using PayWithPlay.Core.Utils.Validations;
 
-namespace PayWithPlay.Core.ViewModels.Main.PointOfSale
+namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
 {
     public class SaleEnterLoyaltyMemberViewModel : BaseViewModel
     {

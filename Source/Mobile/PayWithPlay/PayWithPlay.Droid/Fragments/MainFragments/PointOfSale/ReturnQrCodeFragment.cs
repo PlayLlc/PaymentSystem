@@ -1,5 +1,5 @@
 ﻿using PayWithPlay.Core.ViewModels.Main.Inventory;
-using PayWithPlay.Core.ViewModels.Main.PointOfSale;
+using PayWithPlay.Core.ViewModels.Main.PointOfSale.Return;
 
 namespace PayWithPlay.Droid.Fragments.MainFragments.PointOfSale
 {

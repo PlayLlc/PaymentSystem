@@ -66,6 +66,12 @@
     <item name="elevation">20dp</item>
   </style>
 
+  <style name="DialogFragmentTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowMinWidthMajor">100%</item>
+    <item name="android:windowMinWidthMinor">100%</item>
+  </style>
+
   <style name="BaseButton" parent="Widget.MaterialComponents.Button">
     <item name="android:textAppearance">@style/ButtonText</item>
     <item name="android:minWidth">0dp</item>
@@ -112,10 +118,10 @@
   </style>
 
   <style name="SecondaryLightButton" parent="@style/BaseButton">
-    <item name="android:textColor">@color/white</item>
+    <item name="android:textColor">@drawable/secondary_light_button_text</item>
     <item name="strokeWidth">2dp</item>
-    <item name="strokeColor">@color/white</item>
-    <item name="backgroundTint">@color/secondary_color</item>
+    <item name="strokeColor">@drawable/secondary_light_button_text</item>
+    <item name="backgroundTint">@drawable/secondary_light_button_background</item>
   </style>
 
   <style name="UnelevatedButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">

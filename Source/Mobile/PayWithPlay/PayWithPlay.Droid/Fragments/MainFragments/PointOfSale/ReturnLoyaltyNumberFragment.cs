@@ -1,4 +1,4 @@
-﻿using PayWithPlay.Droid.Fragments.MainFragments.Inventory;
+﻿using PayWithPlay.Core.ViewModels.Main.PointOfSale.Return;
 using PayWithPlay.Droid.Fragments.MainFragments.Loyalty;
 
 namespace PayWithPlay.Droid.Fragments.MainFragments.PointOfSale

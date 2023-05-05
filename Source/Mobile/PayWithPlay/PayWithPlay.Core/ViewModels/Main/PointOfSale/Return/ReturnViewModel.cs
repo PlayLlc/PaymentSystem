@@ -1,7 +1,6 @@
 ﻿using PayWithPlay.Core.Resources;
-using PayWithPlay.Droid.Fragments.MainFragments.Inventory;
 
-namespace PayWithPlay.Core.ViewModels.Main.PointOfSale
+namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Return
 {
     public class ReturnViewModel : BaseViewModel
     {
@@ -21,7 +20,7 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale
             NavigationService.Navigate<ReturnQrCodeViewModel>();
         }
 
-        public void OnTicketNumber() 
+        public void OnTicketNumber()
         {
             NavigationService.Navigate<ReturnTicketNumberViewModel>();
         }

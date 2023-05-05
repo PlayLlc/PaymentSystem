@@ -3,13 +3,13 @@ using PayWithPlay.Core.Resources;
 using PayWithPlay.Core.Utils.Validations;
 using System.Drawing;
 
-namespace PayWithPlay.Core.ViewModels.Main.PointOfSale
+namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
 {
     public class PaymentManualEntryViewModel : BaseViewModel
     {
         private readonly IWheelPicker _wheelPicker;
         private readonly string[] _monthsValues = new[] { "January", "Febrary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
-        private readonly string[] _yearsValues = new string[8]; 
+        private readonly string[] _yearsValues = new string[8];
         private readonly List<ITextInputValidator> _inputValidators = new();
 
         private string? _cardNubmer;
@@ -90,7 +90,7 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale
             });
         }
 
-        public void OnYear() 
+        public void OnYear()
         {
             var index = Array.IndexOf(_yearsValues, Year);
 

@@ -3,7 +3,7 @@ using PayWithPlay.Core.Models.PointOfSale;
 using PayWithPlay.Core.Resources;
 using PayWithPlay.Core.Utils;
 
-namespace PayWithPlay.Core.ViewModels.Main.PointOfSale
+namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Return
 {
     public class ReturnTransactionDetailsViewModel : BaseViewModel
     {

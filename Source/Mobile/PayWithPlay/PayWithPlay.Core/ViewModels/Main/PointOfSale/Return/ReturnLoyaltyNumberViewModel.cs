@@ -1,8 +1,7 @@
 ﻿using PayWithPlay.Core.Resources;
 using PayWithPlay.Core.ViewModels.Main.Loyalty;
-using PayWithPlay.Core.ViewModels.Main.PointOfSale;
 
-namespace PayWithPlay.Droid.Fragments.MainFragments.Inventory
+namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Return
 {
     public class ReturnLoyaltyNumberViewModel : SearchLoyaltyMemberViewModel
     {

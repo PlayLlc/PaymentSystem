@@ -2,7 +2,7 @@
 using PayWithPlay.Core.Resources;
 using PayWithPlay.Core.Utils.Validations;
 
-namespace PayWithPlay.Core.ViewModels.Main.PointOfSale
+namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Return
 {
     public class ReturnTicketNumberViewModel : BaseViewModel
     {

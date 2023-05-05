@@ -234,6 +234,9 @@
   <data name="Custom" xml:space="preserve">
     <value>Custom</value>
   </data>
+  <data name="CustomAmount" xml:space="preserve">
+    <value>Custom amount</value>
+  </data>
   <data name="CVV" xml:space="preserve">
     <value>CVV</value>
   </data>
@@ -326,6 +329,9 @@
   </data>
   <data name="Item" xml:space="preserve">
     <value>Item</value>
+  </data>
+  <data name="Items" xml:space="preserve">
+    <value>Items</value>
   </data>
   <data name="LastNameText" xml:space="preserve">
     <value>Last name</value>
@@ -543,6 +549,9 @@
   <data name="SelectCategories" xml:space="preserve">
     <value>Select categories</value>
   </data>
+  <data name="SelectItem" xml:space="preserve">
+    <value>Select Item</value>
+  </data>
   <data name="SelectReason" xml:space="preserve">
     <value>Select reason</value>
   </data>
@@ -581,6 +590,9 @@
   </data>
   <data name="Submit" xml:space="preserve">
     <value>Submit</value>
+  </data>
+  <data name="Tax" xml:space="preserve">
+    <value>Tax</value>
   </data>
   <data name="TeamManagement" xml:space="preserve">
     <value>Team Management</value>

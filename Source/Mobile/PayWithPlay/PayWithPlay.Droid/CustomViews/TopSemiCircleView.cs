@@ -41,7 +41,8 @@ namespace PayWithPlay.Droid.CustomViews
         {
             if(SpecHeight == 0)
             {
-                SpecHeight = MeasureSpec.MakeMeasureSpec((int)(0.2284264f * this.Context!.Resources!.DisplayMetrics!.HeightPixels), MeasureSpecMode.Exactly);
+                //SpecHeight = MeasureSpec.MakeMeasureSpec((int)(0.2284264f * this.Context!.Resources!.DisplayMetrics!.HeightPixels), MeasureSpecMode.Exactly);
+                SpecHeight = MeasureSpec.MakeMeasureSpec((int)(0.48f * this.Context!.Resources!.DisplayMetrics!.WidthPixels), MeasureSpecMode.Exactly);
             }
 
             base.OnMeasure(widthMeasureSpec, SpecHeight);

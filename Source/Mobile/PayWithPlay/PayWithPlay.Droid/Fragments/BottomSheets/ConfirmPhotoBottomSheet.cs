@@ -5,7 +5,6 @@ using Bumptech.Glide;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using PayWithPlay.Core.ViewModels;
 using PayWithPlay.Core.ViewModels.Main;
-using PayWithPlay.Droid.Extensions;
 using Xamarin.Android.TouchImageView;
 using PayWithPlay.Droid.CustomViews;
 using Bumptech.Glide.Request.Target;

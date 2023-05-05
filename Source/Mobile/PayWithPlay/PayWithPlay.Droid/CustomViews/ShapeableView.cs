@@ -5,7 +5,6 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using AndroidX.Core.Content;
-using Java.Interop;
 using PayWithPlay.Droid.Extensions;
 
 namespace PayWithPlay.Droid.CustomViews

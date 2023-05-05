@@ -1,6 +1,6 @@
 ﻿using Android.Views;
 using MvvmCross.DroidX.RecyclerView;
-using PayWithPlay.Core.ViewModels.Main.PointOfSale;
+using PayWithPlay.Core.ViewModels.Main.PointOfSale.Return;
 using PayWithPlay.Droid.Extensions;
 using PayWithPlay.Droid.Utils;
 

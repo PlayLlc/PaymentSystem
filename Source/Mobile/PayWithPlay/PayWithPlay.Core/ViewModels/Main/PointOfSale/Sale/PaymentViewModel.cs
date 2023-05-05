@@ -1,6 +1,6 @@
 ﻿using PayWithPlay.Core.Resources;
 
-namespace PayWithPlay.Core.ViewModels.Main.PointOfSale
+namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
 {
     public class PaymentViewModel : BaseViewModel
     {

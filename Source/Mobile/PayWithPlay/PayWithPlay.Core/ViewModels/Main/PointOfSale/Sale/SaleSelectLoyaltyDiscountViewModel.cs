@@ -2,7 +2,7 @@
 using PayWithPlay.Core.Models.Loyalty;
 using PayWithPlay.Core.Resources;
 
-namespace PayWithPlay.Core.ViewModels.Main.PointOfSale
+namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
 {
     public class SaleSelectLoyaltyDiscountViewModel : BaseViewModel
     {

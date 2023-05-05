@@ -2,7 +2,7 @@
 using PayWithPlay.Core.Models.PointOfSale;
 using PayWithPlay.Core.Resources;
 
-namespace PayWithPlay.Core.ViewModels.Main.PointOfSale
+namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
 {
     public class SalePaymentOptionsViewModel : BaseViewModel
     {
@@ -26,7 +26,7 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale
 
         public void OnOptionItem(PaymentOptionItemModel option)
         {
-            if(option.Type == Enums.PaymentOptionType.Card)
+            if (option.Type == Enums.PaymentOptionType.Card)
             {
                 NavigationService.Navigate<PaymentViewModel>();
             }

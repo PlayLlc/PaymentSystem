@@ -1,9 +1,10 @@
-﻿using MvvmCross.ViewModels;
+﻿using MvvmCross.Navigation;
+using MvvmCross.ViewModels;
 using PayWithPlay.Core.Enums;
 using PayWithPlay.Core.Models.PointOfSale;
 using PayWithPlay.Core.Resources;
 
-namespace PayWithPlay.Core.ViewModels.Main.PointOfSale
+namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
 {
     public class SaleAddATipViewModel : BaseViewModel
     {
@@ -11,10 +12,10 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale
         {
             TotalAmount = 793.76m;
 
-            TipItems.Add(new TipItemModel 
+            TipItems.Add(new TipItemModel
             {
                 PercentageValue = 10,
-                TipValue =  $"${TotalAmount/10:0.00}",
+                TipValue = $"${TotalAmount / 10:0.00}",
                 Type = TipType.Percentage
             });
             TipItems.Add(new TipItemModel
@@ -47,12 +48,17 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale
 
         public void OnTipItem(TipItemModel tipItemModel)
         {
-            var asd = tipItemModel.PercentageValue;
-            NavigationService.Navigate<SalePaymentOptionsViewModel>();
-        }
+            if (tipItemModel.Type == TipType.Custom)
+            {
+                NavigationService.Navigate<SaleCustomTipDialogViewModel, Tuple<string, Action<string>>>(Tuple.Create<string, Action<string>>(string.Empty,
+                (value) =>
+                {
+                    NavigationService.Navigate<SalePaymentOptionsViewModel>();
+                }));
 
-        public void OnItemClick(TipItemModel tip)
-        {
+                return;
+            }
+
             NavigationService.Navigate<SalePaymentOptionsViewModel>();
         }
 

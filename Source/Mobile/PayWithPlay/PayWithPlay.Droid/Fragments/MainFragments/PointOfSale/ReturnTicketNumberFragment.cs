@@ -1,5 +1,5 @@
 ﻿using Android.Views;
-using PayWithPlay.Core.ViewModels.Main.PointOfSale;
+using PayWithPlay.Core.ViewModels.Main.PointOfSale.Return;
 using PayWithPlay.Droid.CustomViews;
 
 namespace PayWithPlay.Droid.Fragments.MainFragments.PointOfSale
