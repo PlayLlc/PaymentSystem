@@ -1,6 +1,5 @@
 ﻿using Android.Util;
 using Android.Views;
-using AndroidX.AppCompat.Widget;
 using AndroidX.Camera.Core;
 using AndroidX.Camera.Lifecycle;
 using AndroidX.Camera.View;
@@ -9,7 +8,6 @@ using Google.Common.Util.Concurrent;
 using Java.Lang;
 using Java.Util.Concurrent;
 using MvvmCross.ViewModels;
-using PayWithPlay.Droid.Extensions;
 using PayWithPlay.Droid.Utils.Scanner;
 using static Android.Views.ViewGroup;
 
@@ -23,6 +21,9 @@ namespace PayWithPlay.Droid.Fragments
         protected IListenableFuture? _cameraProviderFuture;
         protected IExecutorService? _cameraExecutor;
         protected ProcessCameraProvider? _cameraProvider;
+        protected CameraSelector? _cameraSelector;
+        protected ImageAnalysis? _imageAnalysis;
+        private bool _isScanning;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -43,19 +44,47 @@ namespace PayWithPlay.Droid.Fragments
             return view;
         }
 
+        public void StopScanning()
+        {
+            if (!_isScanning)
+            {
+                return;
+            }
+
+            Application.SynchronizationContext.Post(_ =>
+            {
+                _imageAnalysis?.ClearAnalyzer();
+                _cameraProvider?.UnbindAll();
+                _currentScanResult = null;
+                _isScanning = false;
+            }, null);
+        }
+
+        public void StartScanning()
+        {
+            if (_isScanning)
+            {
+                return;
+            }
+
+            BindPreview(_cameraProvider);
+        }
+
         protected abstract void OnResult(string result);
 
         protected void BindPreview(ProcessCameraProvider cameraProvider)
         {
+            _isScanning = true;
+
             cameraProvider?.UnbindAll();
 
             var preview = new Preview.Builder().Build();
 
-            var cameraSelector = new CameraSelector.Builder()
+            _cameraSelector = new CameraSelector.Builder()
                 .RequireLensFacing(CameraSelector.LensFacingBack)
                 .Build();
 
-            var imageAnalysis = new ImageAnalysis.Builder()
+            _imageAnalysis = new ImageAnalysis.Builder()
                 .SetTargetResolution(new Size(_cameraPreview!.Width, _cameraPreview.Height))
                 .SetBackpressureStrategy(ImageAnalysis.StrategyKeepOnlyLatest)
                 .Build();
@@ -69,24 +98,16 @@ namespace PayWithPlay.Droid.Fragments
 
                 _currentScanResult = result;
 
-                RequireActivity().RunOnUiThread(() =>
-                {
-                    imageAnalysis.ClearAnalyzer();
-                    cameraProvider?.UnbindAll();
-                    _currentScanResult = null;
-                });
-
                 OnResult(result);
                 // OnResult
             });
 
-            imageAnalysis.SetAnalyzer(_cameraExecutor, analyzer);
+            _imageAnalysis.SetAnalyzer(_cameraExecutor, analyzer);
 
             preview.SetSurfaceProvider(_cameraPreview.SurfaceProvider);
 
-            var camera = cameraProvider?.BindToLifecycle(this, cameraSelector, imageAnalysis, preview);
+            var camera = cameraProvider?.BindToLifecycle(this, _cameraSelector, _imageAnalysis, preview);
         }
-
 
         protected virtual void InitViews(View root)
         {

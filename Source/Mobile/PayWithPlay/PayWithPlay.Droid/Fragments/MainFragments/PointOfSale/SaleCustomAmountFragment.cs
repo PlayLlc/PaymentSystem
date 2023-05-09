@@ -21,3 +21,4 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.PointOfSale
         }
     }
 }
+  

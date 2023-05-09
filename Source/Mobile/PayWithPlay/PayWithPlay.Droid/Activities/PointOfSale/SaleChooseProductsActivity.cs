@@ -1,11 +1,15 @@
 ﻿using Android.Content.PM;
 using Android.Views;
 using AndroidX.AppCompat.Widget;
+using AndroidX.Fragment.App;
 using Google.Android.Material.BottomSheet;
 using MvvmCross.DroidX.RecyclerView;
+using MvvmCross.Platforms.Android.Views.ViewPager;
 using PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale;
 using PayWithPlay.Droid.CustomViews;
 using PayWithPlay.Droid.Extensions;
+using PayWithPlay.Droid.Fragments.MainFragments.Inventory;
+using PayWithPlay.Droid.Fragments.MainFragments.PointOfSale;
 using PayWithPlay.Droid.Utils;
 using PayWithPlay.Droid.Utils.Listeners;
 
@@ -43,6 +47,16 @@ namespace PayWithPlay.Droid.Activities.PointOfSale
         private void OnPageChanged(SaleChooseProductsViewModel.PageType page)
         {
             _viewPager!.SetCurrentItem((int)page, true);
+
+            var scanItemFragment = (SaleScanItemFragment)SupportFragmentManager.FindFragmentByTag(SaleScanItemFragment.FRAGMENT_TAG)!;
+            if (page == 0)
+            {
+                scanItemFragment.StartScanning();
+            }
+            else
+            {
+                scanItemFragment.StopScanning();
+            }
         }
 
         private void OnBottomSheetExpanded(bool expanded)

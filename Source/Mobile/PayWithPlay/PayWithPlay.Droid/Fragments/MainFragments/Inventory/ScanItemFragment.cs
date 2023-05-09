@@ -1,5 +1,6 @@
 ﻿using Android.Views;
 using AndroidX.AppCompat.Widget;
+using AndroidX.Camera.Core;
 using PayWithPlay.Core.ViewModels.Main.Inventory;
 using PayWithPlay.Droid.Extensions;
 
@@ -14,7 +15,7 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Inventory
         {
             base.OnCreate(savedInstanceState);
 
-            ViewModel.OnNewScanAction = OnNewScan;
+            ViewModel.OnNewScanAction = StartScanning;
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -33,12 +34,9 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Inventory
 
         protected override void OnResult(string result)
         {
-            ViewModel.OnScanResult(result);
-        }
+            StopScanning();
 
-        private void OnNewScan()
-        {
-            BindPreview(_cameraProvider);
+            ViewModel.OnScanResult(result);
         }
 
         protected override void InitViews(View root)

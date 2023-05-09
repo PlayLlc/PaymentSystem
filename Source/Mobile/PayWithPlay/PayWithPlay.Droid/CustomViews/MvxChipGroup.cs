@@ -216,7 +216,9 @@ namespace PayWithPlay.Droid.CustomViews
                 _subscription = null;
                 _closeClick = null;
 
-                for (int i = 0; i < ChildCount; i++)
+                var childCount = this.ChildCount;
+
+                for (int i = 0; i < childCount; i++)
                 {
                     if (GetChildAt(i) is Chip chip)
                     {

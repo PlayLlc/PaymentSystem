@@ -201,9 +201,9 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
                 }
                 item.Selected = false;
 
-                if (quantity == 0)
+                if (quantity == 0 || quantity < currentItemsCount)
                 {
-                    var itemsToBeRemoved = Items.Where(t => t.ProductItemId == item.ProductItemId).ToList();
+                    var itemsToBeRemoved = Items.Where(t => t.ProductItemId == item.ProductItemId).Take(currentItemsCount - quantity).ToList();
                     Items.RemoveItems(itemsToBeRemoved);
                     TotalPrice -= itemsToBeRemoved.Sum(t => t.Price);
                 }
