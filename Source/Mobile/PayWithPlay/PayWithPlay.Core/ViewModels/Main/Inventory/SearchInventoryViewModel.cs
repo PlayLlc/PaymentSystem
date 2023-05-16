@@ -36,7 +36,7 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
 
                 var inventoryItem = new InventoryItemModel
                 {
-                    Name = "Classic Male T-shirt",
+                    Name = $"Classic Male T-shirt {i}",
                     SKU = "03-GRN-1-XL",
                     Stock = 39,
                     Price = 14.9m,

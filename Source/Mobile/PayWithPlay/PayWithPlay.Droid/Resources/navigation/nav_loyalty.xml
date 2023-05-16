@@ -48,6 +48,10 @@
     <action
       android:id="@+id/action_to_loyalty_rewards"
       app:destination="@id/loyaltyRewardsScreen"/>
+
+    <action
+      android:id="@+id/action_to_loyalty_discounts"
+      app:destination="@id/loyaltyDiscountsScreen"/>
   </fragment>
 
   <fragment
@@ -60,6 +64,12 @@
   android:id="@+id/loyaltyMemberScreen"
   android:name="PayWithPlay.Droid.Fragments.MainFragments.Loyalty.LoyaltyMemberFragment"
   tools:layout="@layout/fragment_loyalty_member">
+  </fragment>
+
+  <fragment
+    android:id="@+id/loyaltyDiscountsScreen"
+    android:name="PayWithPlay.Droid.Fragments.MainFragments.Loyalty.LoyaltyDiscountsFragment"
+    tools:layout="@layout/fragment_loyalty_discounts">
   </fragment>
 
 </navigation>

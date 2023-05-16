@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+  <androidx.appcompat.widget.LinearLayoutCompat
+      android:id="@+id/top_container"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp">
+
+      <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        tools:ignore="UselessParent">
+
+        <com.google.android.material.button.MaterialButton
+          android:layout_width="48dp"
+          android:layout_height="48dp"
+          app:icon="@drawable/ic_back"
+          style="@style/IconOnlyStyle"
+          android:layout_gravity="center_vertical"
+          app:MvxBind="Click OnBack"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          style="@style/PageTitleTextStyle"
+          android:gravity="center"
+          android:layout_gravity="center"
+          android:layout_marginHorizontal="52dp"
+          android:layout_marginVertical="8dp"
+          app:MvxBind="Text Title"/>
+
+      </FrameLayout>
+
+    </FrameLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal">
+
+      <com.google.android.material.textfield.TextInputLayout
+          android:theme="@style/SearchInputTheme.Dark"
+          android:layout_width="0dp"
+          android:layout_height="30dp"
+          android:layout_weight="1"
+          android:paddingTop="0dp"
+          android:paddingBottom="0dp"
+          android:paddingStart="0dp"
+          app:boxCornerRadiusTopStart="15dp"
+          app:boxCornerRadiusTopEnd="15dp"
+          app:boxCornerRadiusBottomEnd="15dp"
+          app:boxCornerRadiusBottomStart="15dp"
+          app:startIconTint="@color/white"
+          app:startIconDrawable="@drawable/ic_search_small"
+          app:hintTextColor="@color/white">
+
+        <PayWithPlay.Droid.CustomViews.EditTextWithClearFocus
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:paddingStart="0dp"
+            android:drawablePadding="0dp"
+            android:textSize="12sp"
+            android:fontFamily="@font/poppins_medium"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            style="@style/InputEditTextStyle"
+            app:MvxBind="Hint SearchText; Text Search"/>
+
+      </com.google.android.material.textfield.TextInputLayout>
+
+      <com.google.android.material.button.MaterialButton
+          android:layout_width="100dp"
+          android:layout_height="30dp"
+          android:padding="0dp"
+          android:textSize="12sp"
+          android:layout_marginStart="12dp"
+          app:rippleColor="@color/secondary_color"
+          app:iconSize="0dp"
+          app:iconGravity="textStart"
+          app:icon="@drawable/ic_scan_inventory"
+          app:iconTint="@color/secondary_color"
+          style="@style/PrimaryLightButton"
+          app:MvxBind="Text ScanButtonText; Click OnScan"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+  </androidx.appcompat.widget.LinearLayoutCompat>
+
+  <androidx.appcompat.widget.LinearLayoutCompat
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:orientation="horizontal"
+  android:layout_marginHorizontal="24dp"
+  android:layout_marginTop="16dp"
+  android:weightSum="2">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginEnd="5dp"
+        android:orientation="vertical">
+
+      <androidx.appcompat.widget.AppCompatTextView
+          style="@style/VerySmallTextStyle"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="4dp"
+          app:MvxBind="Text SortByText"/>
+
+      <com.google.android.material.button.MaterialButton
+          android:layout_width="match_parent"
+          android:layout_height="32dp"
+          android:minHeight="0dp"
+          android:insetTop="0dp"
+          android:insetBottom="0dp"
+          android:textSize="10sp"
+          android:textColor="@color/primary_text_color"
+          android:gravity="center"
+          android:fontFamily="@font/poppins_medium"
+          android:includeFontPadding="false"
+          android:paddingStart="16dp"
+          android:paddingTop="0dp"
+          android:paddingBottom="0dp"
+          app:strokeColor="@color/secondary_text_color"
+          app:strokeWidth="2dp"
+          app:cornerRadius="5dp"
+          app:MvxBind="Text SortByValue; Click OnSortBy"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="5dp"
+        android:orientation="vertical">
+
+      <androidx.appcompat.widget.AppCompatTextView
+          style="@style/VerySmallTextStyle"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="4dp"
+          app:MvxBind="Text SelectCategoriesText"/>
+
+      <com.google.android.material.button.MaterialButton
+          android:layout_width="match_parent"
+          android:layout_height="32dp"
+          android:minHeight="0dp"
+          android:insetTop="0dp"
+          android:insetBottom="0dp"
+          android:textSize="10sp"
+          android:textColor="@color/primary_text_color"
+          android:gravity="center"
+          android:fontFamily="@font/poppins_medium"
+          android:includeFontPadding="false"
+          android:paddingStart="16dp"
+          android:paddingTop="0dp"
+          android:paddingBottom="0dp"
+          app:strokeColor="@color/secondary_text_color"
+          app:strokeWidth="2dp"
+          app:cornerRadius="5dp"
+          app:MvxBind="Text CategoriesText; Click OnSelectCategories"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+  </androidx.appcompat.widget.LinearLayoutCompat>
+
+  <mvvmcross.droidx.recyclerview.MvxRecyclerView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:clipChildren="false"
+      android:clipToPadding="false"
+      android:paddingVertical="20dp"
+      android:overScrollMode="never"
+      android:layout_marginHorizontal="20dp"
+      app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+      app:MvxItemTemplate="@layout/row_inventory_item"
+      app:MvxBind="ItemsSource Items; ItemClick OnItemClick"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

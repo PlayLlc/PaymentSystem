@@ -135,6 +135,9 @@
   <data name="Alerts" xml:space="preserve">
     <value>Alerts</value>
   </data>
+  <data name="AllDiscounts" xml:space="preserve">
+    <value>All Discounts</value>
+  </data>
   <data name="AllStores" xml:space="preserve">
     <value>All stores</value>
   </data>
@@ -176,6 +179,9 @@
   </data>
   <data name="Cash" xml:space="preserve">
     <value>Cash</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Categories</value>
   </data>
   <data name="Category" xml:space="preserve">
     <value>Category</value>
@@ -404,6 +410,9 @@
   </data>
   <data name="NoCategoryFound" xml:space="preserve">
     <value>No category found</value>
+  </data>
+  <data name="NoDiscounts" xml:space="preserve">
+    <value>No Discounts</value>
   </data>
   <data name="NonProfit" xml:space="preserve">
     <value>Non profit</value>

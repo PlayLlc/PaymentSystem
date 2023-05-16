@@ -16,6 +16,7 @@ namespace PayWithPlay.Core.ViewModels.Main.Loyalty
 
         public void OnDiscounts()
         {
+            NavigationService.Navigate<LoyaltyDiscountsViewModel>();
         }
 
         public void OnRewards()

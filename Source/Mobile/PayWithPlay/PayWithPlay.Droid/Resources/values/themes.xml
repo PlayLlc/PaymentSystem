@@ -237,13 +237,25 @@
     <item name="InputBoxesViewStyleAttr">@style/InputBoxEditTextStyle</item>
   </style>
 
+  <style name="SearchInputTheme.Dark" parent="@style/TextInputTheme">
+    <item name="colorPrimary">@color/accent_color</item>
+    <item name="colorPrimaryVariant">@color/accent_color</item>
+    <item name="colorOnPrimary">@color/white</item>
+    <item name="colorOnSurface">@color/white</item>
+    <item name="colorAccent">@color/accent_color</item>
+    <item name="textInputOutlinedDenseStyle">@style/TextInputStyle.Dark</item>
+    <item name="textInputOutlinedStyle">@style/TextInputStyle.Dark</item>
+    <item name="textInputStyle">@style/TextInputStyle.Dark</item>
+    <item name="InputBoxesViewStyleAttr">@style/InputBoxEditTextStyle</item>
+  </style>
+
   <style name="TextInputThemeColored" parent="@style/TextInputTheme">
     <item name="textInputStyle">@style/TextInputStyleColored</item>
   </style>
 
   <style name="TextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
     <item name="boxBackgroundColor">@color/white</item>
-    <item name="labelBehavior">gone</item>
+    <item name="labelBehavior">gone</item> 
     <item name="hintAnimationEnabled">false</item>
     <item name="hintEnabled">false</item>
     <item name="boxStrokeWidth">2dp</item>
@@ -256,7 +268,7 @@
     <item name="colorAccent">@color/accent_color</item>
   </style>
 
-  <style name="TextInputStyle.Dark" parent="TextInputStyle">
+  <style name="TextInputStyle.Dark" parent="@style/TextInputStyle">
     <item name="boxBackgroundColor">@color/secondary_color</item>
   </style>
 
