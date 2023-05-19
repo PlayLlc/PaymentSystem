@@ -94,7 +94,9 @@ namespace PayWithPlay.Droid
             registry.RegisterCustomBindingFactory<NumericKeybaordView>(NumericKeyboardFingerprintBinding.Property,
                 (numericKeybaodView) => new NumericKeyboardFingerprintBinding(numericKeybaodView));
             registry.RegisterCustomBindingFactory<ChipGroup>(InventoryItemCategoriesBinding.Property,
-                (imageView) => new InventoryItemCategoriesBinding(imageView));
+                (categoriesView) => new InventoryItemCategoriesBinding(categoriesView));
+            registry.RegisterCustomBindingFactory<RadioButtonsView>(RadioButtonsSelectionBinding.Property,
+                (radioButtonsView) => new RadioButtonsSelectionBinding(radioButtonsView));
 
             registry.RegisterCustomBindingFactory<TextInputLayout>(SetErrorInputBinding.Property,
                 (inputLayout) => new SetErrorInputBinding(inputLayout));

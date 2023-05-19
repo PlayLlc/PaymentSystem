@@ -56,7 +56,7 @@ namespace PayWithPlay.Core.ViewModels
                 }
                 else
                 {
-                    SelectedItems.Insert(0, new ChipModel { Id = item.Id, Title = item.Name });
+                    SelectedItems.Insert(0, new ChipModel { Id = item.Id, Title = item.Name, Type = ChipType.ItemSelection });
                 }
 
                 RaisePropertyChanged(() => DisplayTopSelections);

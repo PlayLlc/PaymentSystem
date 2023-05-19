@@ -70,6 +70,17 @@
     android:id="@+id/loyaltyDiscountsScreen"
     android:name="PayWithPlay.Droid.Fragments.MainFragments.Loyalty.LoyaltyDiscountsFragment"
     tools:layout="@layout/fragment_loyalty_discounts">
+
+    <action
+    android:id="@+id/action_to_loyalty_set_discounts"
+    app:destination="@id/loyaltySetDiscountsScreen"/>
+  
+  </fragment>
+
+  <fragment
+  android:id="@+id/loyaltySetDiscountsScreen"
+  android:name="PayWithPlay.Droid.Fragments.MainFragments.Loyalty.LoyaltySetDiscountsFragment"
+  tools:layout="@layout/fragment_loyalty_set_discounts">
   </fragment>
 
 </navigation>

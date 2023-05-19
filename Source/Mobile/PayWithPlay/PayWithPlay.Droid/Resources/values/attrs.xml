@@ -24,4 +24,9 @@
     <attr name="fillColor" format="color" />
   </declare-styleable>
 
+  <declare-styleable name="RadioButtons">
+    <attr name="buttonsHeight" format="dimension" />
+    <attr name="buttonsTextSize" format="dimension" />
+  </declare-styleable>
+
 </resources>

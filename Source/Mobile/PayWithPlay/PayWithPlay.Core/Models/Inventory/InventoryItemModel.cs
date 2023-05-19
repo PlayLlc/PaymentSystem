@@ -31,7 +31,7 @@ namespace PayWithPlay.Core.Models.Inventory
 
         public decimal Price { get; set; }
 
-        public List<CategoryItemModel>? Categories { get; set; }
+        public List<ChipModel>? Categories { get; set; }
 
         public string DisplayedStock => $"{Resource.Stock}: {Stock}";
         public string DisplayedPrice => GetDispalyedPrice();
@@ -49,7 +49,7 @@ namespace PayWithPlay.Core.Models.Inventory
             set => SetProperty(ref _hasDiscount, value);
         }
 
-        public DiscountType DiscountType { get; set; }
+        public DiscountType? DiscountType { get; set; }
 
         public decimal DiscountValue { get; set; }
 
@@ -70,9 +70,9 @@ namespace PayWithPlay.Core.Models.Inventory
 
         private string GetDispalyedPrice()
         {
-            if (HasDiscount)
+            if (HasDiscount && DiscountType != null)
             {
-                if(DiscountType == DiscountType.Amount)
+                if(DiscountType.Value == Enums.DiscountType.Amount)
                 {
                     return $"${Price - DiscountValue:0.00}";
                 }

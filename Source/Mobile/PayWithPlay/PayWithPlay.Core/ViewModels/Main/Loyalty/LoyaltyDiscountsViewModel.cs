@@ -1,6 +1,7 @@
 ﻿using MvvmCross.ViewModels;
 using PayWithPlay.Core.Enums;
 using PayWithPlay.Core.Interfaces;
+using PayWithPlay.Core.Models;
 using PayWithPlay.Core.Models.Inventory;
 using PayWithPlay.Core.Models.Inventory.CreateItem;
 using PayWithPlay.Core.Resources;
@@ -30,11 +31,11 @@ namespace PayWithPlay.Core.ViewModels.Main.Loyalty
                     pictureUrl = $"https://picsum.photos/200?random{i}";
                 }
 
-                var categories = new List<CategoryItemModel>();
+                var categories = new List<ChipModel>();
 
                 for (int j = 0; j < i + 1; j++)
                 {
-                    categories.Add(new CategoryItemModel() { Title = MockDataUtils.RandomString(random.Next(0, 20)) });
+                    categories.Add(new ChipModel() { Title = MockDataUtils.RandomString(random.Next(0, 20)), Type = ChipType.ItemCategory });
                 }
 
                 var inventoryItem = new InventoryItemModel
@@ -55,7 +56,7 @@ namespace PayWithPlay.Core.ViewModels.Main.Loyalty
                     var discountValue = 5m;
                     inventoryItem.DiscountType = discountType;
                     inventoryItem.Categories.Insert(0, 
-                        new CategoryItemModel() { Title = $"{(discountType == DiscountType.Amount ? $"${discountValue:0.00}" : $"{discountValue:0}%")} OFF"});
+                        new ChipModel() { Title = $"{(discountType == DiscountType.Amount ? $"${discountValue:0.00}" : $"{discountValue:0}%")} OFF", Type = ChipType.ItemDiscount});
                     inventoryItem.HasDiscount = true;
                     inventoryItem.DiscountValue = discountValue;
                 }
@@ -110,6 +111,7 @@ namespace PayWithPlay.Core.ViewModels.Main.Loyalty
 
         public void OnItemClick(InventoryItemModel inventoryItemModel)
         {
+            NavigationService.Navigate<LoyaltySetDiscountViewModel, InventoryItemModel>(inventoryItemModel);
         }
     }
 }

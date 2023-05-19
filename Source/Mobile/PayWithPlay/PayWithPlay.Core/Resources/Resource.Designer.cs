@@ -133,6 +133,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Amount.
+        /// </summary>
+        internal static string Amount {
+            get {
+                return ResourceManager.GetString("Amount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to and.
         /// </summary>
         internal static string AndText {
@@ -466,6 +475,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Discount.
+        /// </summary>
+        internal static string Discount {
+            get {
+                return ResourceManager.GetString("Discount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Discounts.
         /// </summary>
         internal static string Discounts {
@@ -714,6 +732,15 @@ namespace PayWithPlay.Core.Resources {
         internal static string Item {
             get {
                 return ResourceManager.GetString("Item", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item Discount.
+        /// </summary>
+        internal static string ItemDiscount {
+            get {
+                return ResourceManager.GetString("ItemDiscount", resourceCulture);
             }
         }
         
@@ -1047,6 +1074,15 @@ namespace PayWithPlay.Core.Resources {
         internal static string PaymentTitle {
             get {
                 return ResourceManager.GetString("PaymentTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Percentage.
+        /// </summary>
+        internal static string Percentage {
+            get {
+                return ResourceManager.GetString("Percentage", resourceCulture);
             }
         }
         
