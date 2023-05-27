@@ -133,6 +133,7 @@
                         android:theme="@style/TextInputTheme"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:prefixText="$"
                         app:endIconTint="@color/hint_text_color">
 
                         <PayWithPlay.Droid.CustomViews.EditTextWithValidation

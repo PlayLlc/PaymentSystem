@@ -40,32 +40,32 @@
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AppCenter" Version="5.0.1" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.1" />
+    <PackageReference Include="Microsoft.AppCenter" Version="5.0.2" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.2" />
     <PackageReference Include="MvvmCross.DroidX.Material" Version="9.0.10" />
     <PackageReference Include="MvvmCross.DroidX.RecyclerView" Version="9.0.10" />
     <PackageReference Include="MvvmCross.Plugin.MethodBinding" Version="9.0.10" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
     <PackageReference Include="Xamarin.Android.Glide" Version="4.15.1" />
     <PackageReference Include="Xamarin.Android.TouchImageView" Version="1.1.0" />
-    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.6.1.1" />
-    <PackageReference Include="Xamarin.AndroidX.Camera.Camera2" Version="1.2.2.1" />
-    <PackageReference Include="Xamarin.AndroidX.Camera.Core" Version="1.2.2.1" />
-    <PackageReference Include="Xamarin.AndroidX.Camera.Lifecycle" Version="1.2.2.1" />
-    <PackageReference Include="Xamarin.AndroidX.Camera.View" Version="1.2.2.1" />
-    <PackageReference Include="Xamarin.AndroidX.Core" Version="1.10.0" />
-    <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.0.4" />
-    <PackageReference Include="Xamarin.AndroidX.Lifecycle.Runtime" Version="2.6.1.1" />
-    <PackageReference Include="Xamarin.AndroidX.Lifecycle.Runtime.Ktx" Version="2.6.1.1" />
-    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.8.0.1" />
-    <PackageReference Include="Xamarin.AndroidX.Navigation.Fragment.Ktx" Version="2.5.3.2" />
-    <PackageReference Include="Xamarin.AndroidX.Navigation.UI.Ktx" Version="2.5.3.2" />
-    <PackageReference Include="Xamarin.AndroidX.Navigation.UI" Version="2.5.3.2" />
-    <PackageReference Include="Xamarin.AndroidX.Navigation.Runtime" Version="2.5.3.2" />
-    <PackageReference Include="Xamarin.AndroidX.Navigation.Fragment" Version="2.5.3.2" />
-    <PackageReference Include="Xamarin.AndroidX.Navigation.Common" Version="2.5.3.2" />
-    <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData" Version="2.6.1.1" />
-    <PackageReference Include="Xamarin.AndroidX.Lifecycle.Common" Version="2.6.1.1" />
+    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.6.1.2" />
+    <PackageReference Include="Xamarin.AndroidX.Camera.Camera2" Version="1.2.3" />
+    <PackageReference Include="Xamarin.AndroidX.Camera.Core" Version="1.2.3" />
+    <PackageReference Include="Xamarin.AndroidX.Camera.Lifecycle" Version="1.2.3" />
+    <PackageReference Include="Xamarin.AndroidX.Camera.View" Version="1.2.3" />
+    <PackageReference Include="Xamarin.AndroidX.Core" Version="1.10.1.1" />
+    <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.1" />
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.Runtime" Version="2.6.1.2" />
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.Runtime.Ktx" Version="2.6.1.2" />
+    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.9.0.1" />
+    <PackageReference Include="Xamarin.AndroidX.Navigation.Fragment.Ktx" Version="2.5.3.3" />
+    <PackageReference Include="Xamarin.AndroidX.Navigation.UI.Ktx" Version="2.5.3.3" />
+    <PackageReference Include="Xamarin.AndroidX.Navigation.UI" Version="2.5.3.3" />
+    <PackageReference Include="Xamarin.AndroidX.Navigation.Runtime" Version="2.5.3.3" />
+    <PackageReference Include="Xamarin.AndroidX.Navigation.Fragment" Version="2.5.3.3" />
+    <PackageReference Include="Xamarin.AndroidX.Navigation.Common" Version="2.5.3.3" />
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData" Version="2.6.1.2" />
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.Common" Version="2.6.1.2" />
     <PackageReference Include="ZXing.Net.Bindings.Android" Version="0.16.9" />
   </ItemGroup>
   <ItemGroup>

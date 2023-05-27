@@ -16,6 +16,5 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
         }
 
         public override string Title => Resource.SelectCategories;
-        public override ItemSelectionType SelectionType => ItemSelectionType.Multiple;
     }
 }

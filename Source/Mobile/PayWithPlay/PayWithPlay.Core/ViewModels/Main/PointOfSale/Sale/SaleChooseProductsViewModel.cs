@@ -137,7 +137,7 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
             {
                 NavigationService.Navigate<SaleScanItemViewModel, Action<string>>(OnItemScanned),
                 NavigationService.Navigate<SaleSelectItemViewModel, Action<InventoryItemModel>>(OnItemSelected),
-                NavigationService.Navigate<SaleCustomAmountViewModel, Action<string>>(OnNewCustomAmount)
+                NavigationService.Navigate<SaleCustomAmountViewModel, Action<Tuple<string, string>>>(OnNewCustomAmount)
             };
 
             return Task.WhenAll(tasks);
@@ -174,12 +174,12 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
             TotalPrice += newProductItem.Price;
         }
 
-        private void OnNewCustomAmount(string amount)
+        private void OnNewCustomAmount(Tuple<string, string> customAmountTuple)
         {
             var newProductItem = new ProductItemModel
             {
-                Title = "Custom Service",
-                Price = decimal.TryParse(amount, out decimal value) ? value : 0.0m,
+                Title = string.IsNullOrWhiteSpace(customAmountTuple.Item2) ? Resource.CustomAmount : customAmountTuple.Item2,
+                Price = decimal.TryParse(customAmountTuple.Item1, out decimal value) ? value : 0.0m,
                 AddAction = OnAddMoreProductItem,
                 RemoveAction = OnRemoveProductItem
             };

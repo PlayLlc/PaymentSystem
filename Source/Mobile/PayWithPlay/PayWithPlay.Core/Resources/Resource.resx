@@ -252,8 +252,8 @@
   <data name="DeleteItem" xml:space="preserve">
     <value>Delete item</value>
   </data>
-  <data name="Descritption" xml:space="preserve">
-    <value>Descritption</value>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
   </data>
   <data name="Discount" xml:space="preserve">
     <value>Discount</value>
@@ -575,6 +575,9 @@
   </data>
   <data name="SelectReason" xml:space="preserve">
     <value>Select reason</value>
+  </data>
+  <data name="SelectState" xml:space="preserve">
+    <value>Select state</value>
   </data>
   <data name="SelectStores" xml:space="preserve">
     <value>Select stores</value>

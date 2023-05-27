@@ -44,6 +44,14 @@ namespace PayWithPlay.Droid.Fragments
             return view;
         }
 
+        public override void OnDestroyView()
+        {
+            base.OnDestroyView();
+
+            StopScanning();
+            _cameraExecutor?.Shutdown();
+        }
+
         public void StopScanning()
         {
             if (!_isScanning)

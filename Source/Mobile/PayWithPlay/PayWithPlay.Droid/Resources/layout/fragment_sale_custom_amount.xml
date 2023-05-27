@@ -20,17 +20,43 @@
         android:theme="@style/TextInputTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="20dp">
+        app:prefixText="$"
+        android:layout_marginHorizontal="24dp">
 
         <PayWithPlay.Droid.CustomViews.EditTextWithValidation
             android:id="@+id/custom_amountEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeOptions="actionDone"
+            android:imeOptions="actionNext"
             android:inputType="numberDecimal"
             style="@style/InputEditTextStyle"
             app:MvxBind="Hint CustomAmountText; Text CustomAmount"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="10dp"
+        style="@style/DefaultTextStyle"
+        app:MvxBind="Text DescriptionText"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:theme="@style/TextInputTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="20dp">
+
+        <PayWithPlay.Droid.CustomViews.EditTextWithValidation
+            android:id="@+id/descriptionEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
+            style="@style/InputEditTextStyle"
+            app:MvxBind="Hint DescriptionText; Text Description"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 

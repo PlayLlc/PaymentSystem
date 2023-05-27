@@ -3,13 +3,14 @@ using Android.Views;
 using PayWithPlay.Core.Enums;
 using PayWithPlay.Core.ViewModels.Main.Loyalty;
 using PayWithPlay.Droid.CustomViews;
+using PayWithPlay.Droid.Utils.InputFilters;
 
 namespace PayWithPlay.Droid.Fragments.MainFragments.Loyalty
 {
     [MvxNavFragmentPresentation(ViewModelType = typeof(LoyaltySetDiscountViewModel), FragmentMainNavContainerId = Resource.Id.nav_host_container, FragmentNavigationActionId = Resource.Id.action_to_loyalty_set_discounts)]
     public class LoyaltySetDiscountsFragment : BaseFragment<LoyaltySetDiscountViewModel>
     {
-        private EditTextWithValidation? discountValueInput;
+        private EditTextWithValidation? _discountValueInput;
 
         public override int LayoutId => Resource.Layout.fragment_loyalty_set_discounts;
 
@@ -24,48 +25,66 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Loyalty
         {
             var root = base.OnCreateView(inflater, container, savedInstanceState);
 
-            discountValueInput = root.FindViewById<EditTextWithValidation>(Resource.Id.discountValueEt);
+            _discountValueInput = root.FindViewById<EditTextWithValidation>(Resource.Id.discountValueEt);
 
             SetDiscountValueInputType();
 
             return root;
         }
 
+        public override void OnViewCreated(View view, Bundle? savedInstanceState)
+        {
+            base.OnViewCreated(view, savedInstanceState);
+
+            _discountValueInput!.FocusChange += OnPriceTextFocusChange;
+        }
+
+        public override void OnDestroyView()
+        {
+            _discountValueInput!.FocusChange -= OnPriceTextFocusChange;
+
+            base.OnDestroyView();
+        }
+
+        private void OnPriceTextFocusChange(object? sender, View.FocusChangeEventArgs e)
+        {
+            if (ViewModel.SelectedDiscountType == (int)DiscountType.Amount) 
+            {
+                if (!string.IsNullOrWhiteSpace(ViewModel.DiscountValue) &&
+                    decimal.TryParse(ViewModel.DiscountValue, out decimal discountDecimal))
+                {
+                    ViewModel.DiscountValue = $"{discountDecimal:0.00}";
+                }
+            }
+        }
+
         private void OnDiscountTypeChanged()
         {
-            discountValueInput!.ClearFocus();
+            _discountValueInput!.ClearFocus();
             SetDiscountValueInputType();
         }
 
         private void SetDiscountValueInputType()
         {
+            var currentFilters = _discountValueInput!.GetFilters();
+            currentFilters ??= Array.Empty<IInputFilter>();
+
             if (ViewModel.SelectedDiscountType == (int)DiscountType.Amount)
             {
-                discountValueInput!.InputType = InputTypes.ClassNumber | InputTypes.NumberFlagDecimal;
+                _discountValueInput.InputType = InputTypes.ClassNumber | InputTypes.NumberFlagDecimal;
 
-                var currentFilters = discountValueInput.GetFilters();
-                if (currentFilters != null)
-                {
-                    discountValueInput.SetFilters(currentFilters.Where(t => t is not InputFilterMaxNumber).ToArray());
-                }
+                var decimalLimtedInputFilter = new InputFilterWithLimitedDecimals(2);
+                currentFilters = currentFilters.Where(t => t is not InputFilterMaxNumber).Append(decimalLimtedInputFilter).ToArray();
             }
             else
             {
-                discountValueInput!.InputType = InputTypes.ClassNumber | InputTypes.NumberVariationNormal;
-                var currentFilters = discountValueInput.GetFilters();
+                _discountValueInput.InputType = InputTypes.ClassNumber | InputTypes.NumberVariationNormal;
 
                 var limitFilter = new InputFilterMaxNumber(100);
-                if (currentFilters == null)
-                {
-                    currentFilters = new IInputFilter[] { limitFilter };
-                }
-                else
-                {
-                    currentFilters = currentFilters.Append(limitFilter).ToArray();
-                }
-
-                discountValueInput.SetFilters(currentFilters);
+                currentFilters = currentFilters.Where(t => t is not InputFilterWithLimitedDecimals).Append(limitFilter).ToArray();
             }
+
+            _discountValueInput.SetFilters(currentFilters);
         }
     }
 }

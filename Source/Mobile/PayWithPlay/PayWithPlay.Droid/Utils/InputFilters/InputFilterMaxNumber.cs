@@ -1,7 +1,7 @@
 ﻿using Android.Text;
 using Java.Lang;
 
-namespace PayWithPlay.Droid.CustomViews
+namespace PayWithPlay.Droid.Utils.InputFilters
 {
     public class InputFilterMaxNumber : Java.Lang.Object, IInputFilter
     {
@@ -14,7 +14,7 @@ namespace PayWithPlay.Droid.CustomViews
 
         public ICharSequence? FilterFormatted(ICharSequence? source, int start, int end, ISpanned? dest, int dstart, int dend)
         {
-            if (int.TryParse(dest.SubSequence(0, dstart) + source + dest.SubSequence(dend, dest.Length()), out int input) && 
+            if (int.TryParse(dest.SubSequence(0, dstart) + source + dest.SubSequence(dend, dest.Length()), out int input) &&
                 input <= _maximumValue)
             {
                 return null;

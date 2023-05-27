@@ -7,7 +7,7 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
         public override InputTypeEnum InputType => InputTypeEnum.Numeric;
 
         public override string Title => Resource.Quantity;
-        public override string DoneButtonText => Resource.Save;
+        public override string DoneButtonText => Resource.Add;
         public override string HintText => Resource.Quantity;
     }
 }

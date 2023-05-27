@@ -1,4 +1,6 @@
-﻿using PayWithPlay.Core.Interfaces;
+﻿using MvvmCross.Navigation;
+using PayWithPlay.Core.Enums;
+using PayWithPlay.Core.Interfaces;
 using PayWithPlay.Core.Resources;
 
 namespace PayWithPlay.Core.ViewModels.Main.Inventory
@@ -7,6 +9,7 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
     {
         private readonly IWheelPicker _wheelPicker;
         private readonly string[] _reasonValues = new[] { Resource.Restock, Resource.Return, Resource.Sold };
+        private string? _store;
         private string? _reason;
         private string? _quantity;
 
@@ -18,32 +21,48 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
         public string Title => Resource.ManageStock;
 
         public string QuantityText => Resource.Quantity;
-        public string LocationText => Resource.Location;
+        public string StoreText => Resource.Store;
         public string ReasonText => Resource.Reason;
         public string SaveButtonText => Resource.Save;
         public string SelectText => Resource.Select;
 
+        public string? Store
+        {
+            get => _store;
+            set => SetProperty(ref _store, value, ()=> RaisePropertyChanged(()=> SaveButtonEnabled));
+        }
+
         public string? Reason
         {
             get => _reason;
-            set => SetProperty(ref _reason, value);
+            set => SetProperty(ref _reason, value, () => RaisePropertyChanged(() => SaveButtonEnabled));
         }
 
         public string? Quantity
         {
             get => _quantity;
-            set => SetProperty(ref _quantity, value);
+            set => SetProperty(ref _quantity, value, () => RaisePropertyChanged(() => SaveButtonEnabled));
         }
 
-        public bool SaveButtonEnabled => true;
+        public bool SaveButtonEnabled => !string.IsNullOrWhiteSpace(Store) &&
+                                         !string.IsNullOrWhiteSpace(Reason) &&
+                                         !string.IsNullOrWhiteSpace(Quantity);
 
         public void OnBack()
         {
             NavigationService.Close(this);
         }
 
-        public void OnLocation()
+        public void OnStore()
         {
+            NavigationService.Navigate<StoresSelectionViewModel, BaseItemSelectionViewModel.NavigationData>(new BaseItemSelectionViewModel.NavigationData 
+            {
+                ResultItemsAction = (items) => 
+                {
+                    Store = items?.FirstOrDefault()?.Name;
+                },
+                SelectionType = ItemSelectionType.Single
+            });
         }
 
         public void OnReason()

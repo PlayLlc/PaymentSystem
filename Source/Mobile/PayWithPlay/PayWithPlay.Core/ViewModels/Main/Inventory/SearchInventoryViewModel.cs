@@ -1,4 +1,5 @@
-﻿using PayWithPlay.Core.Enums;
+﻿using MvvmCross.Navigation;
+using PayWithPlay.Core.Enums;
 using PayWithPlay.Core.Models;
 using PayWithPlay.Core.Models.Inventory;
 using PayWithPlay.Core.Models.Inventory.CreateItem;
@@ -85,12 +86,24 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
 
         public void OnCategories()
         {
-            NavigationService.Navigate<CategoriesSelectionViewModel>();
+            NavigationService.Navigate<CategoriesSelectionViewModel, BaseItemSelectionViewModel.NavigationData>(new BaseItemSelectionViewModel.NavigationData
+            {
+                ResultItemsAction = (items) =>
+                {
+                },
+                SelectionType = ItemSelectionType.Multiple
+            });
         }
 
         public void OnStores()
         {
-            NavigationService.Navigate<StoresSelectionViewModel>();
+            NavigationService.Navigate<StoresSelectionViewModel, BaseItemSelectionViewModel.NavigationData>(new BaseItemSelectionViewModel.NavigationData
+            {
+                ResultItemsAction = (items) =>
+                {
+                },
+                SelectionType = ItemSelectionType.Multiple
+            });
         }
 
         public void OnInventoryItem(InventoryItemModel inventoryItemModel)
