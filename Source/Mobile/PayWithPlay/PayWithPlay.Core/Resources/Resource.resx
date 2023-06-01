@@ -177,6 +177,9 @@
   <data name="Card" xml:space="preserve">
     <value>Card</value>
   </data>
+  <data name="CardHolderName" xml:space="preserve">
+    <value>Card Holder Name</value>
+  </data>
   <data name="CardNumber" xml:space="preserve">
     <value>Card number</value>
   </data>
@@ -296,6 +299,12 @@
   </data>
   <data name="ExpiresAfter3" xml:space="preserve">
     <value>Expires after 3 mins.</value>
+  </data>
+  <data name="ExpMonth" xml:space="preserve">
+    <value>Exp. Month</value>
+  </data>
+  <data name="ExpYear" xml:space="preserve">
+    <value>Exp. Year</value>
   </data>
   <data name="FirstNameText" xml:space="preserve">
     <value>First name</value>

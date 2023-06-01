@@ -6,8 +6,8 @@
     <Nullable>enable</Nullable>
     <NoWarn>NETSDK1023</NoWarn>
     <ApplicationId>com.paywithplay.dev</ApplicationId>
-    <ApplicationVersion>1</ApplicationVersion>
-    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>2</ApplicationVersion>
+    <ApplicationDisplayVersion>1.0.1</ApplicationDisplayVersion>
     <SupportedOSPlatformVersion>28.0</SupportedOSPlatformVersion>
     <UseMauiEssentials>true</UseMauiEssentials>
   </PropertyGroup>
@@ -69,6 +69,7 @@
     <PackageReference Include="ZXing.Net.Bindings.Android" Version="0.16.9" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ExtraLibraries\PayCardsPlugin\PayCardsPlugin\PayCardsPlugin.csproj" />
     <ProjectReference Include="..\PayWithPlay.Core\PayWithPlay.Core.csproj" />
   </ItemGroup>
 </Project>

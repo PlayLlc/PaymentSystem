@@ -23,7 +23,6 @@ namespace PayWithPlay.Droid
             Current = this;
 
             AppCenter.Start("7cc99d4d-86d4-4604-8e06-ae341f1a14cb", typeof(Crashes));
-
             Platform.Init(this);
         }
 

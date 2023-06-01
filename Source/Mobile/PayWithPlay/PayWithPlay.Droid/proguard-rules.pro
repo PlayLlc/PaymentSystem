@@ -1,10 +1,9 @@
 ﻿-keep class com.microsoft.appcenter.** {*;}
 -dontwarn com.microsoft.appcenter.**
 
--keepnames class * implements com.google.android.material.button.MaterialButton {
-    public static final ** CREATOR;
-}
+-keep class cards.pay.paycardsrecognizer.sdk.ndk.RecognitionCoreNdk {*;}
+-dontwarn cards.pay.paycardsrecognizer.sdk.ndk.RecognitionCoreNdk
 
--keepnames class * implements androidx.fragment.app.FragmentState {
+-keepclassmembers class * implements android.os.Parcelable {
     public static final ** CREATOR;
 }

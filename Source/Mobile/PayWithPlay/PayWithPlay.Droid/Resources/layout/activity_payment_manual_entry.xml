@@ -134,57 +134,105 @@
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/white"
                 style="@style/DefaultTextStyle"
-                app:MvxBind="Text ExpirationMonthText"/>
+                app:MvxBind="Text CardHolderNameText"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:theme="@style/TextInputTheme.Dark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:layout_marginHorizontal="24dp"
-                app:MvxBind="Click OnMonth">
+                android:layout_marginHorizontal="24dp">
 
                 <PayWithPlay.Droid.CustomViews.EditTextWithValidation
-                    android:id="@+id/month_et"
+                    android:id="@+id/card_holder_name_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
+                    android:inputType="number"
                     style="@style/InputEditTextStyle.Light"
-                    app:MvxBind="Hint ExpirationMonthText; Text Month; Click OnMonth"/>
+                    app:MvxBind="Hint CardHolderNameText; Text CardHolderName"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="12dp"
-                android:layout_marginBottom="10dp"
-                style="@style/DefaultTextStyle"
-                android:textColor="@color/white"
-                app:MvxBind="Text ExpirationYearText"/>
+                android:weightSum="2"
+                android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:theme="@style/TextInputTheme.Dark"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:layout_marginHorizontal="24dp"
-                app:MvxBind="Click OnYear">
-
-                <PayWithPlay.Droid.CustomViews.EditTextWithValidation
-                    android:id="@+id/year_et"
-                    android:layout_width="match_parent"
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    style="@style/InputEditTextStyle.Light"
-                    app:MvxBind="Hint ExpirationYearText; Text Year; Click OnYear"/>
+                    android:layout_marginEnd="6dp"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:textColor="@color/white"
+                        style="@style/DefaultTextStyle"
+                        app:MvxBind="Text ExpirationMonthText"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:theme="@style/TextInputTheme.Dark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        app:MvxBind="Click OnMonth">
+
+                        <PayWithPlay.Droid.CustomViews.EditTextWithValidation
+                            android:id="@+id/month_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            style="@style/InputEditTextStyle.Light"
+                            app:MvxBind="Hint ExpirationMonthText; Text Month; Click OnMonth"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        style="@style/DefaultTextStyle"
+                        android:textColor="@color/white"
+                        app:MvxBind="Text ExpirationYearText"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:theme="@style/TextInputTheme.Dark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        app:MvxBind="Click OnYear">
+
+                        <PayWithPlay.Droid.CustomViews.EditTextWithValidation
+                            android:id="@+id/year_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            style="@style/InputEditTextStyle.Light"
+                            app:MvxBind="Hint ExpirationYearText; Text Year; Click OnYear"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"

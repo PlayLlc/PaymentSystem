@@ -241,6 +241,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Card Holder Name.
+        /// </summary>
+        internal static string CardHolderName {
+            get {
+                return ResourceManager.GetString("CardHolderName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Card number.
         /// </summary>
         internal static string CardNumber {
@@ -597,6 +606,24 @@ namespace PayWithPlay.Core.Resources {
         internal static string ExpiresAfter3 {
             get {
                 return ResourceManager.GetString("ExpiresAfter3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exp. Month.
+        /// </summary>
+        internal static string ExpMonth {
+            get {
+                return ResourceManager.GetString("ExpMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exp. Year.
+        /// </summary>
+        internal static string ExpYear {
+            get {
+                return ResourceManager.GetString("ExpYear", resourceCulture);
             }
         }
         
