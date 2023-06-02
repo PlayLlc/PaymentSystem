@@ -26,7 +26,7 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
 
         public void OnScan() 
         {
-            NavigationService.Navigate<ScanItemViewModel>();
+            NavigationService.Navigate<InventoryScanItemViewModel>();
         }
     }
 }

@@ -835,6 +835,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Discount Scan Item.
+        /// </summary>
+        internal static string LoyaltyDiscountScanItem {
+            get {
+                return ResourceManager.GetString("LoyaltyDiscountScanItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loyalty Member.
         /// </summary>
         internal static string LoyaltyMember {

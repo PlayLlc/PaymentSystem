@@ -74,13 +74,28 @@
     <action
     android:id="@+id/action_to_loyalty_set_discounts"
     app:destination="@id/loyaltySetDiscountsScreen"/>
-  
+
+    <action
+    android:id="@+id/action_to_loyalty_discount_scan_item"
+    app:destination="@id/loyaltyDiscountScanItem"/>
+
   </fragment>
 
   <fragment
   android:id="@+id/loyaltySetDiscountsScreen"
   android:name="PayWithPlay.Droid.Fragments.MainFragments.Loyalty.LoyaltySetDiscountsFragment"
   tools:layout="@layout/fragment_loyalty_set_discounts">
+  </fragment>
+
+  <fragment
+    android:id="@+id/loyaltyDiscountScanItem"
+    android:name="PayWithPlay.Droid.Fragments.MainFragments.Loyalty.LoyaltyDiscountsScanItemFragment"
+    tools:layout="@layout/fragment_sale_scan_item">
+
+    <action
+      android:id="@+id/action_to_loyalty_set_discounts"
+      app:destination="@id/loyaltySetDiscountsScreen"/>
+    
   </fragment>
 
 </navigation>

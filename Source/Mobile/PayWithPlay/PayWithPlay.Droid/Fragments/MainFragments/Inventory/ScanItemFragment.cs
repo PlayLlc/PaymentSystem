@@ -6,8 +6,8 @@ using PayWithPlay.Droid.Extensions;
 
 namespace PayWithPlay.Droid.Fragments.MainFragments.Inventory
 {
-    [MvxNavFragmentPresentation(ViewModelType = typeof(ScanItemViewModel), FragmentMainNavContainerId = Resource.Id.nav_host_container, FragmentNavigationActionId = Resource.Id.action_to_scan_item)]
-    public class ScanItemFragment : BaseScanFragment<ScanItemViewModel>
+    [MvxNavFragmentPresentation(ViewModelType = typeof(InventoryScanItemViewModel), FragmentMainNavContainerId = Resource.Id.nav_host_container, FragmentNavigationActionId = Resource.Id.action_to_scan_item)]
+    public class ScanItemFragment : BaseScanFragment<InventoryScanItemViewModel>
     {
         public override int LayoutId => Resource.Layout.fragment_inventory_scan_item;
 

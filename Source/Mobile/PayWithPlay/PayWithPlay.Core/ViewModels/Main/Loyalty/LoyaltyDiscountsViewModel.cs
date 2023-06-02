@@ -6,6 +6,7 @@ using PayWithPlay.Core.Models.Inventory;
 using PayWithPlay.Core.Models.Inventory.CreateItem;
 using PayWithPlay.Core.Resources;
 using PayWithPlay.Core.Utils;
+using PayWithPlay.Core.ViewModels.Main.Inventory;
 
 namespace PayWithPlay.Core.ViewModels.Main.Loyalty
 {
@@ -93,6 +94,7 @@ namespace PayWithPlay.Core.ViewModels.Main.Loyalty
 
         public void OnScan()
         {
+            NavigationService.Navigate<LoyaltyDiscountsScanItemViewModel>();
         }
 
         public void OnSortBy()
@@ -107,6 +109,13 @@ namespace PayWithPlay.Core.ViewModels.Main.Loyalty
 
         public void OnSelectCategories() 
         {
+            NavigationService.Navigate<CategoriesSelectionViewModel, BaseItemSelectionViewModel.NavigationData>(new BaseItemSelectionViewModel.NavigationData
+            {
+                ResultItemsAction = (items) =>
+                {
+                },
+                SelectionType = ItemSelectionType.Multiple
+            });
         }
 
         public void OnItemClick(InventoryItemModel inventoryItemModel)

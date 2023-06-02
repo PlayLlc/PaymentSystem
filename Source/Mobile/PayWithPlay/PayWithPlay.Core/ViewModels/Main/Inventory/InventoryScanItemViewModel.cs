@@ -1,55 +1,19 @@
 ﻿using PayWithPlay.Core.Enums;
 using PayWithPlay.Core.Models;
 using PayWithPlay.Core.Models.Inventory;
-using PayWithPlay.Core.Models.Inventory.CreateItem;
 using PayWithPlay.Core.Resources;
-using System.Collections.ObjectModel;
 
 namespace PayWithPlay.Core.ViewModels.Main.Inventory
 {
-    public class ScanItemViewModel : BaseViewModel
+    public class InventoryScanItemViewModel : BaseScanInventoryItemViewModel
     {
-        private bool _isLoading;
-        private bool _isScanning;
-
-        public ScanItemViewModel()
+        public InventoryScanItemViewModel()
         {
-            IsScanning = true;
         }
 
-        public string Title => Resource.ScanItem;
-        public string ResultsText => Resource.Results;
-        public string NewScanButtonText => Resource.NewScan;
+        public override string Title => Resource.ScanItem;
 
-        public Action? OnNewScanAction { get; set; }
-
-        public bool IsLoading
-        {
-            get => _isLoading;
-            set => SetProperty(ref _isLoading, value);
-        }
-
-        public bool IsScanning
-        {
-            get => _isScanning;
-            set => SetProperty(ref _isScanning, value);
-        }
-
-        public ObservableCollection<InventoryItemModel> Items { get; set; } = new ObservableCollection<InventoryItemModel>();
-
-        public void OnBack()
-        {
-            NavigationService.Close(this);
-        }
-
-        public void OnNewScan()
-        {
-            OnNewScanAction?.Invoke();
-
-            IsScanning = true;
-        }
-
-        public void OnScanResult(string value)
+        public override void OnScanResult(string value)
         {
             Task.Run(async () => 
             {
@@ -88,11 +52,11 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
                     OnDeleteAction = OnDeleteInventoryItem
                 };
 
-                Items.Add(inventoryItem);
+                Items.Insert(0, inventoryItem);
             });
         }
 
-        public void OnInventoryItem(InventoryItemModel inventoryItemModel)
+        public override void OnInventoryItem(InventoryItemModel inventoryItemModel)
         {
             var currentSelected = Items.FirstOrDefault(x => x.Selected);
             if (currentSelected != null)

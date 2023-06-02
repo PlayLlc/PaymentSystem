@@ -63,7 +63,7 @@ namespace PayWithPlay.Droid.Fragments
                         }
                         else
                         {
-                            // TODO:: 
+                            // TODO:: handle no permission, maybe display a pop up message
                         }
                     }
                 }));

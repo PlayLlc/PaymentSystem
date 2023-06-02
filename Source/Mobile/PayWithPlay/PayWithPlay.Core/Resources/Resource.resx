@@ -375,6 +375,9 @@
   <data name="Loyalty" xml:space="preserve">
     <value>Loyalty</value>
   </data>
+  <data name="LoyaltyDiscountScanItem" xml:space="preserve">
+    <value>Discount Scan Item</value>
+  </data>
   <data name="LoyaltyMember" xml:space="preserve">
     <value>Loyalty Member</value>
   </data>
