@@ -151,13 +151,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Registration", "Registration", "{A0AB5615-3114-4B20-BAFE-74983DB2552A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Registration.Application", "Registration\Play.Registration.Application\Play.Registration.Application.csproj", "{995D2416-B801-4DA4-8E3E-08F18A23EBBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Registration.Application", "Registration\Play.Registration.Application\Play.Registration.Application.csproj", "{995D2416-B801-4DA4-8E3E-08F18A23EBBE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Registration.Contracts", "Registration\Play.Registration.Contracts\Play.Registration.Contracts.csproj", "{16E7D616-81D6-4B39-A23E-64FD26B1FD7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Registration.Contracts", "Registration\Play.Registration.Contracts\Play.Registration.Contracts.csproj", "{16E7D616-81D6-4B39-A23E-64FD26B1FD7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Registration.Domain", "Registration\Play.Registration.Domain\Play.Registration.Domain.csproj", "{4CF2C2B3-E5C7-4307-B9C0-A541F1DE5B94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Registration.Domain", "Registration\Play.Registration.Domain\Play.Registration.Domain.csproj", "{4CF2C2B3-E5C7-4307-B9C0-A541F1DE5B94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Registration.Persistence.Sql", "Registration\Play.Registration.Persistence.Sql\Play.Registration.Persistence.Sql.csproj", "{5C507CA4-2858-4035-8412-DB19C91707F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Registration.Persistence.Sql", "Registration\Play.Registration.Persistence.Sql\Play.Registration.Persistence.Sql.csproj", "{5C507CA4-2858-4035-8412-DB19C91707F6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Unmanaged", "..\Terminal\Core\Play.Unmanaged\Play.Unmanaged.csproj", "{22E3198A-3C24-40FA-962F-FE3878C41444}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -409,6 +411,10 @@ Global
 		{5C507CA4-2858-4035-8412-DB19C91707F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C507CA4-2858-4035-8412-DB19C91707F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C507CA4-2858-4035-8412-DB19C91707F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22E3198A-3C24-40FA-962F-FE3878C41444}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22E3198A-3C24-40FA-962F-FE3878C41444}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22E3198A-3C24-40FA-962F-FE3878C41444}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22E3198A-3C24-40FA-962F-FE3878C41444}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -477,6 +483,7 @@ Global
 		{16E7D616-81D6-4B39-A23E-64FD26B1FD7C} = {A0AB5615-3114-4B20-BAFE-74983DB2552A}
 		{4CF2C2B3-E5C7-4307-B9C0-A541F1DE5B94} = {A0AB5615-3114-4B20-BAFE-74983DB2552A}
 		{5C507CA4-2858-4035-8412-DB19C91707F6} = {A0AB5615-3114-4B20-BAFE-74983DB2552A}
+		{22E3198A-3C24-40FA-962F-FE3878C41444} = {18D55F78-BC4E-466B-AB5A-0641B11D54BC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6833603-DD22-4624-AB4A-235C51671F62}
