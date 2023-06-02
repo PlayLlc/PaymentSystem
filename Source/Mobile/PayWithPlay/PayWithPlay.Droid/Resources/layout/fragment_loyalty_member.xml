@@ -68,7 +68,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:layout_marginHorizontal="24dp"
-                        android:layout_marginBottom="36dp"
+                        android:layout_marginBottom="56dp"
                         android:clipChildren="false"
                         android:clipToPadding="false"
                         android:overScrollMode="never"
@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:paddingTop="50dp"
+            android:paddingTop="72dp"
             android:overScrollMode="never"
             android:layout_marginHorizontal="20dp"
             app:MvxItemTemplate="@layout/row_loyalty_member_purchase"
@@ -96,22 +96,102 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:MvxBind="ItemsSource Purchases" />
 
-        <FrameLayout
-            android:background="@color/third_color"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_anchor="@+id/collapsing_content"
             app:layout_anchorGravity="bottom"
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:orientation="vertical"
+            android:background="@color/white">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/MediumTextStyle"
-                android:layout_width="wrap_content"
+            <FrameLayout
+                android:background="@color/third_color"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/MediumTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_gravity="start|center_vertical"
+                    app:MvxBind="Text PurchaseHistoryText"/>
+
+            </FrameLayout>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_gravity="start|center_vertical"
-                app:MvxBind="Text PurchaseHistoryText"/>
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="4dp"
+                android:weightSum="3"
+                android:orientation="horizontal">
 
-        </FrameLayout>
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/MediumTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:lineSpacingMultiplier="0.7"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        app:MvxBind="Text DateText"/>
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/MediumTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:lineSpacingMultiplier="0.7"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        app:MvxBind="Text TicketNumberText"/>
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/MediumTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:lineSpacingMultiplier="0.7"
+                        android:layout_gravity="end|center_vertical"
+                        android:gravity="center"
+                        app:MvxBind="Text TotalAmountText"/>
+
+                </FrameLayout>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginHorizontal="20dp"
+                android:background="@color/separator_color"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

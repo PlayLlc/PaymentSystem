@@ -9,6 +9,6 @@ namespace PayWithPlay.Core.Models.Loyalty
 
         public DiscountType DiscountType { get; set; }
 
-        public string DisplayValue => DiscountType == DiscountType.Amount ? $"{Value:0.00}" : $"{Value}% {Resource.Off.ToLower()}";
+        public string DisplayValue => DiscountType == DiscountType.Amount ? $"${Value:0.00} {Resource.Off.ToLower()}" : $"{Value}% {Resource.Off.ToLower()}";
     }
 }

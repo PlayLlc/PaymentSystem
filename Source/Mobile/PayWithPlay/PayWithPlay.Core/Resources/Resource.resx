@@ -252,6 +252,9 @@
   <data name="CVV" xml:space="preserve">
     <value>CVV</value>
   </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
   <data name="DeleteItem" xml:space="preserve">
     <value>Delete item</value>
   </data>
@@ -443,6 +446,9 @@
   </data>
   <data name="NoResults" xml:space="preserve">
     <value>No results.</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Number</value>
   </data>
   <data name="Off" xml:space="preserve">
     <value>Off</value>
@@ -636,11 +642,17 @@
   <data name="TermsOfService" xml:space="preserve">
     <value>Terms of Service</value>
   </data>
+  <data name="Ticket" xml:space="preserve">
+    <value>Ticket</value>
+  </data>
   <data name="TicketNumber" xml:space="preserve">
     <value>Ticket Number</value>
   </data>
   <data name="Total" xml:space="preserve">
     <value>Total</value>
+  </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>Total amount</value>
   </data>
   <data name="TransactionDetails" xml:space="preserve">
     <value>Transaction Details</value>

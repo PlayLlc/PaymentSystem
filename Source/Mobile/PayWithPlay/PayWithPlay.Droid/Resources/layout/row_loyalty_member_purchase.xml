@@ -1,27 +1,66 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<FrameLayout
+<androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="10dp"
+    android:weightSum="3"
+    android:orientation="horizontal">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        style="@style/MediumTextStyle"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="6dp"
-        android:textSize="14sp"
-        android:layout_gravity="start|center_vertical"
-        app:MvxBind="Text DisplayDate"/>
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        style="@style/MediumTextStyle"
-        android:layout_width="wrap_content"
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/MediumTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:lineSpacingMultiplier="0.7"
+            android:layout_gravity="start|center_vertical"
+            android:gravity="center"
+            app:MvxBind="Text DisplayDate"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="6dp"
-        android:textSize="14sp"
-        android:layout_gravity="end|center_vertical"
-        app:MvxBind="Text DisplayAmount"/>
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical">
 
-</FrameLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/MediumTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:lineSpacingMultiplier="0.7"
+            android:layout_gravity="center"
+            android:gravity="center"
+            app:MvxBind="Text Number"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/MediumTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:lineSpacingMultiplier="0.7"
+            android:layout_gravity="end|center_vertical"
+            android:gravity="center"
+            app:MvxBind="Text DisplayAmount"/>
+
+    </FrameLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

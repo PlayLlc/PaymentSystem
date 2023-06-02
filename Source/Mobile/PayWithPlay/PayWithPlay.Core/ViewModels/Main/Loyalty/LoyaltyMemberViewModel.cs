@@ -23,16 +23,19 @@ namespace PayWithPlay.Core.ViewModels.Main.Loyalty
             {
                 Amount = 23.97m,
                 Date = DateTime.Now.AddYears(-1),
+                Number = "123567890"
             });
             Purchases.Add(new PurchaseModel
             {
                 Amount = 47.33m,
                 Date = DateTime.Now.AddMonths(-9),
+                Number = "123567890123567890123567890"
             });
             Purchases.Add(new PurchaseModel
             {
                 Amount = 19.33m,
                 Date = DateTime.Now.AddMonths(-3),
+                Number = "123567890"
             });
 
             for (int i = 0; i < 100; i++)
@@ -41,6 +44,7 @@ namespace PayWithPlay.Core.ViewModels.Main.Loyalty
                 {
                     Amount = 19.33m,
                     Date = DateTime.Now.AddMonths(-3),
+                    Number = $"12356789{i}"
                 });
             }
 
@@ -50,6 +54,9 @@ namespace PayWithPlay.Core.ViewModels.Main.Loyalty
         public string PointsText => Resource.Points;
         public string PurchaseHistoryText => Resource.PurchaseHistory;
         public string NoPurchasesText => Resource.NoPurchases;
+        public string DateText => Resource.Date;
+        public string TicketNumberText => $"{Resource.Ticket}\n{Resource.Number.ToLower()}";
+        public string TotalAmountText => $"{Resource.Total}\n{Resource.Amount.ToLower()}";
 
         public int Points { get; set; }
 
