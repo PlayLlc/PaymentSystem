@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/view_back_and_title"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:overScrollMode="never"
+        android:fillViewport="true">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="12dp"
+                style="@style/MediumTextStyle"
+                app:MvxBind="Text InventoryItem.Name"/>
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                app:shapeAppearanceOverlay="@style/Image5dpRadius"
+                android:layout_gravity="center_horizontal"
+                app:MvxBind="ImageUrl InventoryItem.PictureUrl"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/categories_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    app:chipSpacingVertical="0dp"
+                    app:lineSpacing="0dp"
+                    android:gravity="end"
+                    app:singleLine="true"
+                    app:chipMinHeight="0dp"
+                    android:layout_gravity="end"
+                    app:MvxBind="ItemCategories ItemCategories"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:background="@color/third_color"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/MediumTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_gravity="start|center_vertical"
+                    app:MvxBind="Text DiscountText"/>
+
+            </FrameLayout>
+
+            <PayWithPlay.Droid.CustomViews.RadioButtonsView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginVertical="12dp"
+                app:buttonsHeight="25dp"
+                app:buttonsTextSize="16sp"
+                app:MvxBind="ItemsSource DiscountsButtons; RadioButtonSelectedType SelectedDiscountType"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:theme="@style/TextInputTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginBottom="20dp"
+                app:MvxBind="PrefixText PrefixValue; SuffixText SuffixValue">
+
+                <PayWithPlay.Droid.CustomViews.EditTextWithValidation
+                    android:id="@+id/discountValueEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:inputType="textCapWords|textPersonName"
+                    style="@style/InputEditTextStyle"
+                    app:MvxBind="Hint DiscountHint; Text DiscountValue"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginHorizontal="24dp"
+                style="@style/PrimaryButton"
+                app:MvxBind="Text SaveButtonText; Click OnSave"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

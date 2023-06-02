@@ -83,4 +83,5 @@
         android:textColor="@color/hint_text_color"
         style="@style/DefaultTextStyle"
         app:MvxBind="Text Subtitle"/>
+
 </androidx.appcompat.widget.LinearLayoutCompat>

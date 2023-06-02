@@ -1,23 +1,66 @@
-﻿<?xml version="1.0" encoding="utf-8" ?> 
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="20dp"
-    android:orientation="horizontal">
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="10dp"
+    android:orientation="vertical">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="0dp"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        style="@style/MediumTextStyle"
-        app:MvxBind="Text Name"/>
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/MediumTextStyle"
-        app:MvxBind="Text DisplayPrice; TransactionPriceText SelectedToReturn"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            style="@style/MediumTextStyle"
+            app:MvxBind="Text Name; TransactionPriceText SelectedToReturn"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/MediumTextStyle"
+            app:MvxBind="Text DisplayPrice; TransactionPriceText SelectedToReturn"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <FrameLayout
+        android:id="@+id/seekBar_container"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:MvxBind="Visibility Visibility(Clicked)">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/negative_color"
+            android:fontFamily="@font/poppins_semibold"
+            style="@style/DefaultTextStyle"
+            app:MvxBind="Text ReturnText"/>
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:minHeight="48dp"
+            android:maxHeight="48dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:splitTrack="false"
+            android:background="@null"
+            android:thumb="@drawable/return_seekbar_thumb"
+            android:progressDrawable="@drawable/return_seekbar"/>
+
+    </FrameLayout>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

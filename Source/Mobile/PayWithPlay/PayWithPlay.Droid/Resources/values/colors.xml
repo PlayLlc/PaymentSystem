@@ -12,8 +12,10 @@
   <color name="negative_color">#DF3868</color>
   <color name="positive_color">#00D994</color>
   <color name="greyed_out">#33AAAFB4</color>
+  <color name="bright_gray">#E8EDF3</color>
   <color name="black">#FF000000</color>
   <color name="white">#FFFFFFFF</color>
+  <color name="transparent">#00000000</color>
 
   <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#00C3D9</color>
 </resources>

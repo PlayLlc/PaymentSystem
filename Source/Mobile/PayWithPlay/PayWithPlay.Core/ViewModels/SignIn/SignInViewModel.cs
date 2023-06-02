@@ -1,4 +1,5 @@
 ﻿using MvvmCross.ViewModels;
+using PayWithPlay.Core.Constants;
 using PayWithPlay.Core.Resources;
 using PayWithPlay.Core.ViewModels.CreateAccount;
 using PayWithPlay.Core.ViewModels.Main;
@@ -39,7 +40,9 @@ namespace PayWithPlay.Core.ViewModels.SignIn
         public void OnSignIn()
         {
             //NavigationService.Navigate<PINViewModel>(new MvxBundle(new Dictionary<string, string> { { PINViewModel.PINSignInKey, string.Empty } }));
-            NavigationService.Navigate<MainViewModel>();
+            //NavigationService.Navigate<MainViewModel>();
+            NavigationService.Navigate<MainViewModel>(new MvxBundle(new Dictionary<string, string> { { AppConstants.ClearBackStack, "" } }));
+
         }
 
         public void OnCreateAccount()

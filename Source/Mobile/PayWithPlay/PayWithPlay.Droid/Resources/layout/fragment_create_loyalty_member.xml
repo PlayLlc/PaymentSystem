@@ -31,7 +31,7 @@
           android:layout_marginTop="20dp"
           android:layout_marginBottom="10dp"
           style="@style/DefaultTextStyle"
-          app:MvxBind="Text PhoneNumberText; RedAsterisk true"/>
+          app:MvxBind="Text PhoneNumberText"/>
 
       <com.google.android.material.textfield.TextInputLayout
           android:theme="@style/TextInputTheme"

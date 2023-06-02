@@ -1,5 +1,8 @@
-﻿using Android.Util;
+﻿using Android.Content.PM;
+using Android.Content;
+using Android.Util;
 using Android.Views;
+using AndroidX.Activity.Result;
 using AndroidX.Camera.Core;
 using AndroidX.Camera.Lifecycle;
 using AndroidX.Camera.View;
@@ -10,6 +13,9 @@ using Java.Util.Concurrent;
 using MvvmCross.ViewModels;
 using PayWithPlay.Droid.Utils.Scanner;
 using static Android.Views.ViewGroup;
+using Android;
+using AndroidX.Activity.Result.Contract;
+using PayWithPlay.Droid.Utils.Callbacks;
 
 namespace PayWithPlay.Droid.Fragments
 {
@@ -25,23 +31,52 @@ namespace PayWithPlay.Droid.Fragments
         protected ImageAnalysis? _imageAnalysis;
         private bool _isScanning;
 
+        private ActivityResultLauncher? _requestCameraPermissionLauncher;
+
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
             InitViews(view);
 
-            _cameraProviderFuture = ProcessCameraProvider.GetInstance(Context);
-            _cameraExecutor = Executors.NewSingleThreadExecutor();
-
-            _cameraProviderFuture.AddListener(new Runnable(() =>
-            {
-                _cameraProvider = (ProcessCameraProvider)_cameraProviderFuture.Get()!;
-                BindPreview(_cameraProvider);
-
-            }), ContextCompat.GetMainExecutor(Context));
 
             return view;
+        }
+
+        public override void OnViewCreated(View view, Bundle? savedInstanceState)
+        {
+            base.OnViewCreated(view, savedInstanceState);
+
+            if (ContextCompat.CheckSelfPermission(Context, Manifest.Permission.Camera) == Permission.Granted)
+            {
+                InitAndStartCamera();
+            }
+            else 
+            {
+                _requestCameraPermissionLauncher = RegisterForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback((result) =>
+                {
+                    if (result is Java.Lang.Boolean boolResult)
+                    {
+                        if ((bool)boolResult)
+                        {
+                            InitAndStartCamera();
+                        }
+                        else
+                        {
+                            // TODO:: 
+                        }
+                    }
+                }));
+                _requestCameraPermissionLauncher.Launch(Manifest.Permission.Camera);
+            }
+        }
+
+        public override void OnDestroyView()
+        {
+            base.OnDestroyView();
+
+            StopScanning();
+            _cameraExecutor?.Shutdown();
         }
 
         public void StopScanning()
@@ -117,6 +152,20 @@ namespace PayWithPlay.Droid.Fragments
             var lp = _cameraPreviewContainer.LayoutParameters as MarginLayoutParams;
             lp!.Height = (int)(Resources!.DisplayMetrics!.WidthPixels * 0.77f);
             _cameraPreviewContainer.LayoutParameters = lp;
+        }
+
+        private void InitAndStartCamera() 
+        {
+            _cameraProviderFuture = ProcessCameraProvider.GetInstance(Context);
+            _cameraExecutor = Executors.NewSingleThreadExecutor();
+
+            _cameraProviderFuture.AddListener(new Runnable(() =>
+            {
+                _cameraProvider = (ProcessCameraProvider)_cameraProviderFuture.Get()!;
+                BindPreview(_cameraProvider);
+
+            }), ContextCompat.GetMainExecutor(Context));
+
         }
     }
 }

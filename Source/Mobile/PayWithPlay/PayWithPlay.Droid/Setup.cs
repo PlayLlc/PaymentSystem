@@ -24,7 +24,8 @@ using MvvmCross;
 using PayWithPlay.Core.Interfaces;
 using PayWithPlay.Droid.Utils;
 using PayWithPlay.Droid.CustomBindings.PointOfSale;
-using Android.Widget;
+using MvvmCross.Platforms.Android.Views;
+using Android.Content;
 
 namespace PayWithPlay.Droid
 {
@@ -59,8 +60,6 @@ namespace PayWithPlay.Droid
             // Buttons
             registry.RegisterCustomBindingFactory<MaterialButton>(DeviceSettingButtonBinding.Property,
                 (button) => new DeviceSettingButtonBinding(button));
-            registry.RegisterCustomBindingFactory<MaterialButton>(UnderlineButtonTextBinding.Property,
-                (button) => new UnderlineButtonTextBinding(button));
             registry.RegisterCustomBindingFactory<MaterialButton>(ButtonWithIconCenterTextBinding.Property,
                 (button) => new ButtonWithIconCenterTextBinding(button));
             registry.RegisterCustomBindingFactory<MaterialButton>(ComponentTypeBinding.Property,
@@ -83,6 +82,8 @@ namespace PayWithPlay.Droid
             // Views
             registry.RegisterCustomBindingFactory<View>(HandleNestedScrollBinding.Property,
                 (view) => new HandleNestedScrollBinding(view));
+            registry.RegisterCustomBindingFactory<View>(InventoryItemBackgroundBinding.Property,
+                (view) => new InventoryItemBackgroundBinding(view));
             registry.RegisterCustomBindingFactory<InputBoxesView>(InputBoxesBinding.Property,
                 (inputBoxes) => new InputBoxesBinding(inputBoxes));
 
@@ -93,7 +94,9 @@ namespace PayWithPlay.Droid
             registry.RegisterCustomBindingFactory<NumericKeybaordView>(NumericKeyboardFingerprintBinding.Property,
                 (numericKeybaodView) => new NumericKeyboardFingerprintBinding(numericKeybaodView));
             registry.RegisterCustomBindingFactory<ChipGroup>(InventoryItemCategoriesBinding.Property,
-                (imageView) => new InventoryItemCategoriesBinding(imageView));
+                (categoriesView) => new InventoryItemCategoriesBinding(categoriesView));
+            registry.RegisterCustomBindingFactory<RadioButtonsView>(RadioButtonsSelectionBinding.Property,
+                (radioButtonsView) => new RadioButtonsSelectionBinding(radioButtonsView));
 
             registry.RegisterCustomBindingFactory<TextInputLayout>(SetErrorInputBinding.Property,
                 (inputLayout) => new SetErrorInputBinding(inputLayout));
@@ -105,6 +108,12 @@ namespace PayWithPlay.Droid
                 (textView) => new RedAsteriskBinding(textView));
             registry.RegisterCustomBindingFactory<TextView>(TransactionPriceTextBinding.Property,
                 (textView) => new TransactionPriceTextBinding(textView));
+            registry.RegisterCustomBindingFactory<TextView>(UnderlineTextBinding.Property,
+                (textView) => new UnderlineTextBinding(textView));
+            registry.RegisterCustomBindingFactory<TextView>(StrikethruTextBinding.Property,
+                (textView) => new StrikethruTextBinding(textView));
+            registry.RegisterCustomBindingFactory<TextView>(InventoryItemPriceTextColorBinding.Property,
+                (textView) => new InventoryItemPriceTextColorBinding(textView));
 
             registry.RegisterCustomBindingFactory<View>(UserNameViewBinding.Property,
                 (userNameView) => new UserNameViewBinding(userNameView));
@@ -129,6 +138,11 @@ namespace PayWithPlay.Droid
         protected override IMvxAndroidViewPresenter CreateViewPresenter()
         {
             return new CustomViewPresenter(AndroidViewAssemblies);
+        }
+
+        protected override IMvxAndroidViewsContainer CreateViewsContainer(Context applicationContext)
+        {
+            return new CustomAndroidViewsContainer(applicationContext);
         }
     }
 }

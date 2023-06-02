@@ -2,6 +2,7 @@
 using PayWithPlay.Core.Models.PointOfSale;
 using PayWithPlay.Core.Resources;
 using PayWithPlay.Core.Utils;
+using PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale;
 
 namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Return
 {
@@ -16,7 +17,8 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Return
                 Items.Add(new TransactionItemModel
                 {
                     Name = MockDataUtils.RandomString(),
-                    Price = MockDataUtils.RandomDecimal()
+                    Price = MockDataUtils.RandomDecimal(),
+                    SelectedToReturnAction = OnItemSelectedToReturn
                 });
             }
         }
@@ -39,7 +41,7 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Return
         public MvxObservableCollection<TransactionItemModel> Items { get; set; } = new MvxObservableCollection<TransactionItemModel>();
         public MvxObservableCollection<TransactionItemModel> ItemsToReturn { get; set; } = new MvxObservableCollection<TransactionItemModel>();
 
-        public bool ShouldDisplayReturnDetails => ItemsToReturn.Any();
+        public bool AnyItemsToReturn => ItemsToReturn.Any();
 
         public void OnBack()
         {
@@ -48,23 +50,34 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Return
 
         public void OnItemSelected(TransactionItemModel item)
         {
-            item.SelectedToReturn = !item.SelectedToReturn;
+            item.Clicked = !item.Clicked;
+        }
 
-            if (!ItemsToReturn.Remove(item))
+        public void OnItemSelectedToReturn(TransactionItemModel item)
+        {
+            if (item.SelectedToReturn)
             {
-                TotalToReturn += item.Price;
-                ItemsToReturn.Add(item);
+                if (!ItemsToReturn.Contains(item))
+                {
+                    TotalToReturn += item.Price;
+                    ItemsToReturn.Add(item);
+                }
             }
             else
             {
-                TotalToReturn -= item.Price;
+                if (ItemsToReturn.Remove(item))
+                {
+                    TotalToReturn -= item.Price;
+
+                }
             }
 
-            RaisePropertyChanged(() => ShouldDisplayReturnDetails);
+            RaisePropertyChanged(() => AnyItemsToReturn);
         }
 
         public void OnReturn()
         {
+            NavigationService.Navigate<PaymentViewModel>();
         }
     }
 }

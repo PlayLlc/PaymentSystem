@@ -9,13 +9,15 @@ using AndroidX.Core.View;
 using Google.Android.Material.Chip;
 using Java.Lang;
 using MvvmCross.Platforms.Android.Binding.Target;
+using PayWithPlay.Core.Enums;
+using PayWithPlay.Core.Models;
 using PayWithPlay.Core.Models.Inventory.CreateItem;
 using PayWithPlay.Droid.Extensions;
 using PayWithPlay.Droid.Utils;
 
 namespace PayWithPlay.Droid.CustomBindings.Inventory
 {
-    public class InventoryItemCategoriesBinding : MvxAndroidTargetBinding<ChipGroup, List<CategoryItemModel>>
+    public class InventoryItemCategoriesBinding : MvxAndroidTargetBinding<ChipGroup, List<ChipModel>>
     {
         public const string Property = "ItemCategories";
 
@@ -23,7 +25,7 @@ namespace PayWithPlay.Droid.CustomBindings.Inventory
         {
         }
 
-        protected override void SetValueImpl(ChipGroup target, List<CategoryItemModel> categories)
+        protected override void SetValueImpl(ChipGroup target, List<ChipModel> categories)
         {
             if (target == null)
             {
@@ -37,7 +39,7 @@ namespace PayWithPlay.Droid.CustomBindings.Inventory
                 return;
             }
 
-            var values = categories.Where(t => !string.IsNullOrWhiteSpace(t.Title)).Select(t => t.Title!).ToList();
+            var values = categories.Where(t => !string.IsNullOrWhiteSpace(t.Title)).ToList();
             if (target.Parent is FrameLayout parent && parent.Width > 0)
             {
                 SetChips(target, parent.Width, values);
@@ -54,14 +56,14 @@ namespace PayWithPlay.Droid.CustomBindings.Inventory
             }
         }
 
-        private void SetChips(ChipGroup chipGroup, int maxWidth, List<string> values)
+        private void SetChips(ChipGroup chipGroup, int maxWidth, List<ChipModel> values)
         {
             if (values == null || values.Count == 0)
             {
                 return;
             }
             var valuesCount = values.Count;
-            var countChip = GetChip(chipGroup.Context);
+            var countChip = GetChip(chipGroup.Context, ChipType.ItemCategory);
             var chipsWidthSum = 0;
 
             for (int i = 0; i < valuesCount; i++)
@@ -74,8 +76,8 @@ namespace PayWithPlay.Droid.CustomBindings.Inventory
                     moreChipsChipWidth = countChip.MeasuredWidth;
                 }
 
-                var chip = GetChip(chipGroup.Context);
-                chip.Text = values[i];
+                var chip = GetChip(chipGroup.Context, values[i].Type);
+                chip.Text = values[i].Title;
                 chip.Measure(0, 0);
                 var chipWidth = chip.MeasuredWidth;
 
@@ -91,7 +93,7 @@ namespace PayWithPlay.Droid.CustomBindings.Inventory
             }
         }
 
-        private Chip GetChip(Context context)
+        private Chip GetChip(Context context, ChipType chipType)
         {
             var chip = new Chip(context);
             chip.LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WrapContent, 16f.ToPx());
@@ -108,8 +110,17 @@ namespace PayWithPlay.Droid.CustomBindings.Inventory
             chip.ChipStrokeWidth = 0;
             chip.Typeface = ResourcesCompat.GetFont(context, Resource.Font.poppins_semibold);
             chip.ChipCornerRadius = 8f.ToPx();
-            chip.ChipBackgroundColor = ColorStateList.ValueOf(new Color(ContextCompat.GetColor(context, Resource.Color.secondary_text_color)));
-            chip.SetTextColor(ColorStateList.ValueOf(new Color(ContextCompat.GetColor(context, Resource.Color.black))));
+
+            if (chipType == ChipType.ItemDiscount)
+            {
+                chip.ChipBackgroundColor = ColorStateList.ValueOf(new Color(ContextCompat.GetColor(context, Resource.Color.bright_gray)));
+                chip.SetTextColor(ColorStateList.ValueOf(new Color(ContextCompat.GetColor(context, Resource.Color.accent_color))));
+            }
+            else 
+            {
+                chip.ChipBackgroundColor = ColorStateList.ValueOf(new Color(ContextCompat.GetColor(context, Resource.Color.secondary_text_color)));
+                chip.SetTextColor(ColorStateList.ValueOf(new Color(ContextCompat.GetColor(context, Resource.Color.black))));
+            }
 
             return chip;
         }

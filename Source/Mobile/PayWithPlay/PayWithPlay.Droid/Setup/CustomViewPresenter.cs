@@ -45,7 +45,6 @@ namespace PayWithPlay.Droid
             return Task.FromResult(true);
         }
 
-
         private Task<bool> CloseNavFragment(IMvxViewModel viewModel, MvxNavFragmentPresentationAttribute attribute)
         {
             ValidateArguments(attribute);

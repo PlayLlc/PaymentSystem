@@ -1,14 +1,38 @@
 ﻿using MvvmCross.ViewModels;
 using PayWithPlay.Core.Enums;
+using PayWithPlay.Core.Extensions;
 using PayWithPlay.Core.Models;
 using PayWithPlay.Core.Resources;
+using static PayWithPlay.Core.ViewModels.BaseItemSelectionViewModel;
 
 namespace PayWithPlay.Core.ViewModels
 {
-    public abstract class BaseItemSelectionViewModel : BaseViewModel
+    public abstract class BaseItemSelectionViewModel : BaseViewModel<NavigationData>
     {
+        public class NavigationData
+        {
+            public Action<List<ItemSelectionModel>>? ResultItemsAction { get; set; }
+
+            public ItemSelectionType SelectionType { get; set; }
+        }
+
         private bool _isLoading;
         private string? _search;
+
+        private Action<List<ItemSelectionModel>>? _resultItemsAction;
+
+        public override void ViewDestroy(bool viewFinishing = true)
+        {
+            _resultItemsAction = null;
+
+            base.ViewDestroy(viewFinishing);
+        }
+
+        public override void Prepare(NavigationData parameter)
+        {
+            SelectionType = parameter.SelectionType;
+            _resultItemsAction = parameter.ResultItemsAction;
+        }
 
         public string SearchText => Resource.Search;
         public string NoResultsText => Resource.NoResults;
@@ -16,7 +40,7 @@ namespace PayWithPlay.Core.ViewModels
         public string DoneButtonText => Resource.Done;
 
         public abstract string Title { get; }
-        public abstract ItemSelectionType SelectionType { get; }
+        public ItemSelectionType SelectionType { get; set;  }
 
         public bool DisplayTopSelections => SelectedItems != null && SelectedItems.Any() && SelectionType == ItemSelectionType.Multiple;
         public bool DisplayBottomActions => SelectionType == ItemSelectionType.Multiple;
@@ -35,13 +59,14 @@ namespace PayWithPlay.Core.ViewModels
         public string? Search
         {
             get => _search;
-            set => SetProperty(ref _search, value);
+            set => SetProperty(ref _search, value, OnSearch);
         }
 
         public void OnItemSelection(ItemSelectionModel item)
         {
             if (SelectionType == ItemSelectionType.Single)
             {
+                _resultItemsAction?.Invoke(new List<ItemSelectionModel> { item });
                 NavigationService.Close(this);
                 return;
             }
@@ -56,7 +81,7 @@ namespace PayWithPlay.Core.ViewModels
                 }
                 else
                 {
-                    SelectedItems.Insert(0, new ChipModel { Id = item.Id, Title = item.Name });
+                    SelectedItems.Insert(0, new ChipModel { Id = item.Id, Title = item.Name, Type = ChipType.ItemSelection });
                 }
 
                 RaisePropertyChanged(() => DisplayTopSelections);
@@ -87,6 +112,14 @@ namespace PayWithPlay.Core.ViewModels
 
         public void OnDone()
         {
+            _resultItemsAction?.Invoke(DisplayedItems.ToList());
+            NavigationService.Close(this);
+        }
+
+        protected virtual void OnSearch() 
+        {
+            DisplayedItems.Clear();
+            DisplayedItems.AddRange(Items.Where(item => item.Name.ComplexContains(_search)));
         }
     }
 }

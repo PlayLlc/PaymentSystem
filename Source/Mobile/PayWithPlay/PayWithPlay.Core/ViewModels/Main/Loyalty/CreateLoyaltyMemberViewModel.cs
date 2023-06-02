@@ -67,12 +67,12 @@ namespace PayWithPlay.Core.ViewModels.Main.Loyalty
             };
             name.Validations = new List<IValidation>
             {
-                new RegexValidation(RegexenConstants.USER_NAME, Resource.InvalidInputFormat) { IsOptional = true },
-                new MinLengthValidation(2) { IsOptional = true }
+                new RegexValidation(RegexenConstants.USER_NAME, Resource.InvalidInputFormat),
+                new MinLengthValidation(2)
             };
             email.Validations = new List<IValidation>
             {
-                new RegexValidation(RegexenConstants.EMAIL, Resource.InvalidInputFormat) { IsOptional = true }
+                new RegexValidation(RegexenConstants.EMAIL, Resource.InvalidInputFormat)
             };
 
             RaisePropertyChanged(() => CreateButtonEnabled);

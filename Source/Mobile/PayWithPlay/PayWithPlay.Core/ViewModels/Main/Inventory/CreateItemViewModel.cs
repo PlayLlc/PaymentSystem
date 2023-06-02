@@ -61,14 +61,14 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
             Image = data.PictureUrl;
 
             Item.Name = data.Name;
-            Item.Price = data.Price.ToString();
+            Item.Price = $"{data.Price:0.00}";
 
             ProductDetails.SKU = data.SKU;
         }
 
         public InventoryItemPageType Type { get; set; } = InventoryItemPageType.Create;
 
-        public string Title => Resource.CreateItem;
+        public string Title => Type == InventoryItemPageType.Create ? Resource.CreateItem : Resource.EditItem;
         public string CreateItemButtonText => Type == InventoryItemPageType.Create ? Resource.CreateItem : Resource.SaveItem;
 
         public string? AddImageText

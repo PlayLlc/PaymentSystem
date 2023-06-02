@@ -1,4 +1,6 @@
-﻿using PayWithPlay.Core.Models.Inventory;
+﻿using PayWithPlay.Core.Enums;
+using PayWithPlay.Core.Models;
+using PayWithPlay.Core.Models.Inventory;
 using PayWithPlay.Core.Models.Inventory.CreateItem;
 using PayWithPlay.Core.Resources;
 using System.Collections.ObjectModel;
@@ -67,10 +69,10 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
                     pictureUrl = $"https://picsum.photos/200?random";
                 }
 
-                var categories = new List<CategoryItemModel>();
+                var categories = new List<ChipModel>();
                 for (int j = 0; j < 4; j++)
                 {
-                    categories.Add(new CategoryItemModel() { Title = $"Category: {j}" });
+                    categories.Add(new ChipModel() { Title = $"Category: {j}" , Type = ChipType.ItemCategory});
                 }
 
                 var inventoryItem = new InventoryItemModel

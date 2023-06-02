@@ -1,4 +1,7 @@
-﻿using PayWithPlay.Core.Models.Inventory;
+﻿using MvvmCross.Navigation;
+using PayWithPlay.Core.Enums;
+using PayWithPlay.Core.Models;
+using PayWithPlay.Core.Models.Inventory;
 using PayWithPlay.Core.Models.Inventory.CreateItem;
 using PayWithPlay.Core.Resources;
 using PayWithPlay.Core.Utils;
@@ -27,16 +30,16 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
                     pictureUrl = $"https://picsum.photos/200?random{i}";
                 }
 
-                var categories = new List<CategoryItemModel>();
+                var categories = new List<ChipModel>();
 
                 for (int j = 0; j < i + 1; j++)
                 {
-                    categories.Add(new CategoryItemModel() { Title = MockDataUtils.RandomString(random.Next(0, 20)) });
+                    categories.Add(new ChipModel() { Title = MockDataUtils.RandomString(random.Next(0, 20)), Type = ChipType.ItemCategory });
                 }
 
                 var inventoryItem = new InventoryItemModel
                 {
-                    Name = "Classic Male T-shirt",
+                    Name = $"Classic Male T-shirt {i}",
                     SKU = "03-GRN-1-XL",
                     Stock = 39,
                     Price = 14.9m,
@@ -83,12 +86,24 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
 
         public void OnCategories()
         {
-            NavigationService.Navigate<CategoriesSelectionViewModel>();
+            NavigationService.Navigate<CategoriesSelectionViewModel, BaseItemSelectionViewModel.NavigationData>(new BaseItemSelectionViewModel.NavigationData
+            {
+                ResultItemsAction = (items) =>
+                {
+                },
+                SelectionType = ItemSelectionType.Multiple
+            });
         }
 
         public void OnStores()
         {
-            NavigationService.Navigate<StoresSelectionViewModel>();
+            NavigationService.Navigate<StoresSelectionViewModel, BaseItemSelectionViewModel.NavigationData>(new BaseItemSelectionViewModel.NavigationData
+            {
+                ResultItemsAction = (items) =>
+                {
+                },
+                SelectionType = ItemSelectionType.Multiple
+            });
         }
 
         public void OnInventoryItem(InventoryItemModel inventoryItemModel)

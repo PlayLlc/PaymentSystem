@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net7.0-android</TargetFramework>
+    <SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <LibraryProjectZip Include="Jars/sdk-release.aar" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Android.Device.YearClass" Version="1.0.1" />
+    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.6.1.2" />
+    <PackageReference Include="Xamarin.AndroidX.Camera.Camera2" Version="1.2.3" />
+    <PackageReference Include="Xamarin.AndroidX.Camera.Core" Version="1.2.3" />
+    <PackageReference Include="Xamarin.AndroidX.Camera.Lifecycle" Version="1.2.3" />
+    <PackageReference Include="Xamarin.AndroidX.Camera.View" Version="1.2.3" />
+  </ItemGroup>
+</Project>

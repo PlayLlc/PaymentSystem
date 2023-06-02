@@ -60,7 +60,7 @@
             android:id="@+id/ap_suiteEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeOptions="actionGo"
+            android:imeOptions="actionNext"
             android:inputType="textVisiblePassword"
             style="@style/InputEditTextStyle"
             app:MvxBind="Hint ApSuiteText; Text ApSuite"/>
@@ -97,7 +97,7 @@
                     android:id="@+id/zip_codeEt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:imeOptions="actionGo"
+                    android:imeOptions="actionNext"
                     android:inputType="textVisiblePassword"
                     style="@style/InputEditTextStyle"
                     app:MvxBind="Hint ZipCodeText; Text ZipCode"/>
@@ -123,16 +123,20 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:theme="@style/TextInputTheme"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                app:MvxBind="Click OnState">
 
                 <PayWithPlay.Droid.CustomViews.EditTextWithValidation
                     android:id="@+id/stateEt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:imeOptions="actionGo"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     android:inputType="textVisiblePassword"
                     style="@style/InputEditTextStyle"
-                    app:MvxBind="Hint StateText; Text State"/>
+                    app:MvxBind="Hint StateText; Text State; Click OnState"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

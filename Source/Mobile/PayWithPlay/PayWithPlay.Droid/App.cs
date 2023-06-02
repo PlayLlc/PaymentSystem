@@ -22,8 +22,7 @@ namespace PayWithPlay.Droid
             base.OnCreate();
             Current = this;
 
-            AppCenter.Start("756e7000-da74-4d62-865e-858b061279de", typeof(Crashes));
-
+            AppCenter.Start("7cc99d4d-86d4-4604-8e06-ae341f1a14cb", typeof(Crashes));
             Platform.Init(this);
         }
 

@@ -135,8 +135,14 @@
   <data name="Alerts" xml:space="preserve">
     <value>Alerts</value>
   </data>
+  <data name="AllDiscounts" xml:space="preserve">
+    <value>All Discounts</value>
+  </data>
   <data name="AllStores" xml:space="preserve">
     <value>All stores</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Amount</value>
   </data>
   <data name="AndText" xml:space="preserve">
     <value>and</value>
@@ -171,11 +177,17 @@
   <data name="Card" xml:space="preserve">
     <value>Card</value>
   </data>
+  <data name="CardHolderName" xml:space="preserve">
+    <value>Card Holder Name</value>
+  </data>
   <data name="CardNumber" xml:space="preserve">
     <value>Card number</value>
   </data>
   <data name="Cash" xml:space="preserve">
     <value>Cash</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Categories</value>
   </data>
   <data name="Category" xml:space="preserve">
     <value>Category</value>
@@ -243,8 +255,11 @@
   <data name="DeleteItem" xml:space="preserve">
     <value>Delete item</value>
   </data>
-  <data name="Descritption" xml:space="preserve">
-    <value>Descritption</value>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Discount" xml:space="preserve">
+    <value>Discount</value>
   </data>
   <data name="Discounts" xml:space="preserve">
     <value>Discounts</value>
@@ -284,6 +299,12 @@
   </data>
   <data name="ExpiresAfter3" xml:space="preserve">
     <value>Expires after 3 mins.</value>
+  </data>
+  <data name="ExpMonth" xml:space="preserve">
+    <value>Exp. Month</value>
+  </data>
+  <data name="ExpYear" xml:space="preserve">
+    <value>Exp. Year</value>
   </data>
   <data name="FirstNameText" xml:space="preserve">
     <value>First name</value>
@@ -329,6 +350,9 @@
   </data>
   <data name="Item" xml:space="preserve">
     <value>Item</value>
+  </data>
+  <data name="ItemDiscount" xml:space="preserve">
+    <value>Item Discount</value>
   </data>
   <data name="Items" xml:space="preserve">
     <value>Items</value>
@@ -405,6 +429,9 @@
   <data name="NoCategoryFound" xml:space="preserve">
     <value>No category found</value>
   </data>
+  <data name="NoDiscounts" xml:space="preserve">
+    <value>No Discounts</value>
+  </data>
   <data name="NonProfit" xml:space="preserve">
     <value>Non profit</value>
   </data>
@@ -437,6 +464,9 @@
   </data>
   <data name="PaymentTitle" xml:space="preserve">
     <value>Please present the card or mobile device</value>
+  </data>
+  <data name="Percentage" xml:space="preserve">
+    <value>Percentage</value>
   </data>
   <data name="PhoneNumberText" xml:space="preserve">
     <value>Phone number</value>
@@ -554,6 +584,9 @@
   </data>
   <data name="SelectReason" xml:space="preserve">
     <value>Select reason</value>
+  </data>
+  <data name="SelectState" xml:space="preserve">
+    <value>Select state</value>
   </data>
   <data name="SelectStores" xml:space="preserve">
     <value>Select stores</value>

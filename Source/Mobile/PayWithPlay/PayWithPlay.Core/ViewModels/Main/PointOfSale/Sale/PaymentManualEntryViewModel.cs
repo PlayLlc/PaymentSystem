@@ -1,7 +1,6 @@
 ﻿using PayWithPlay.Core.Interfaces;
 using PayWithPlay.Core.Resources;
 using PayWithPlay.Core.Utils.Validations;
-using System.Drawing;
 
 namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
 {
@@ -13,6 +12,7 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
         private readonly List<ITextInputValidator> _inputValidators = new();
 
         private string? _cardNubmer;
+        private string? _cardHolderName;
         private string? _month;
         private string? _year;
         private string? _cvv;
@@ -40,8 +40,9 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
         public string Title => Resource.ManualEntry;
         public string Subtitle => Resource.PaymentManualEntrySubtitle;
         public string CardNumberText => Resource.CardNumber;
-        public string ExpirationMonthText => Resource.ExpirationMonth;
-        public string ExpirationYearText => Resource.ExpirationYear;
+        public string CardHolderNameText => Resource.CardHolderName;
+        public string ExpirationMonthText => Resource.ExpMonth;
+        public string ExpirationYearText => Resource.ExpYear;
         public string CVVText => Resource.CVV;
         public string ScanCardButtonText => Resource.ScanCard;
         public string SubmitButtonText => Resource.Submit;
@@ -52,10 +53,18 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
 
         public string TotalDisplayed => $"{Resource.Total}\n${TotalAmount}";
 
+        public Action? ScanCardAction { get; set; }
+
         public string? CardNumber
         {
             get => _cardNubmer;
             set => SetProperty(ref _cardNubmer, value, () => RaisePropertyChanged(() => SubmitButtonEnabled));
+        }
+
+        public string? CardHolderName
+        {
+            get => _cardHolderName;
+            set => SetProperty(ref _cardHolderName, value, () => RaisePropertyChanged(() => SubmitButtonEnabled));
         }
 
         public string? Month
@@ -78,6 +87,7 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
 
         public void OnScanCard()
         {
+            ScanCardAction?.Invoke();
         }
 
         public void OnMonth()
@@ -102,16 +112,21 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
 
         public void OnSubmit() { }
 
-        public void SetInputValidators(ITextInputValidator cardNumber, ITextInputValidator month, ITextInputValidator year, ITextInputValidator cvv)
+        public void SetInputValidators(ITextInputValidator cardNumber, ITextInputValidator cardHolderName, ITextInputValidator month, ITextInputValidator year, ITextInputValidator cvv)
         {
             ClearValidators();
 
             _inputValidators.Add(cardNumber);
+            _inputValidators.Add(cardHolderName);
             _inputValidators.Add(month);
             _inputValidators.Add(year);
             _inputValidators.Add(cvv);
 
             cardNumber.Validations = new List<IValidation>
+            {
+                new NonEmptyValidation()
+            };
+            cardHolderName.Validations = new List<IValidation>
             {
                 new NonEmptyValidation()
             };
@@ -129,6 +144,23 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
             };
 
             RaisePropertyChanged(() => SubmitButtonEnabled);
+        }
+
+        public void OnScanResult(string cardNumber, string cardHolderName, string expDate)
+        {
+            CardNumber = cardNumber;
+            CardHolderName = cardHolderName;
+
+            if (expDate.Contains('/'))
+            {
+                var date = expDate.Split('/');
+                if (int.TryParse(date[0], out int intMonth))
+                {
+                    Month = _monthsValues[intMonth - 1];
+                }
+
+                Year = _yearsValues.FirstOrDefault(t => t.Contains(date[1]));
+            }
         }
 
         private void ClearValidators()

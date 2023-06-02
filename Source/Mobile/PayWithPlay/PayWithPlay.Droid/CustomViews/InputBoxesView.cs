@@ -169,7 +169,7 @@ namespace PayWithPlay.Droid.CustomViews
             }
 
             SetGravity(GravityFlags.CenterHorizontal);
-            Orientation = Android.Widget.Orientation.Horizontal;
+            Orientation = Orientation.Horizontal;
 
             if (_computeSize)
             {
@@ -204,7 +204,7 @@ namespace PayWithPlay.Droid.CustomViews
             }
         }
 
-        private void InputView_TextChanged(object? sender, global::Android.Text.TextChangedEventArgs e)
+        private void InputView_TextChanged(object? sender, TextChangedEventArgs e)
         {
             var editText = (EditTextWithClearFocus)sender!;
             if (e!.Text.Count() > 1)

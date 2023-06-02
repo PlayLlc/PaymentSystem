@@ -1,9 +1,12 @@
-﻿using PayWithPlay.Core.Enums;
+﻿using MvvmCross.ViewModels;
+using PayWithPlay.Core.Constants;
+using PayWithPlay.Core.Enums;
 using PayWithPlay.Core.Models.CreateAccount;
 using PayWithPlay.Core.Resources;
 using PayWithPlay.Core.ViewModels.CreateAccount.MerchantRegistration;
 using PayWithPlay.Core.ViewModels.CreateAccount.UserRegistration;
 using PayWithPlay.Core.ViewModels.CreateAccount.VerifyIdentity;
+using PayWithPlay.Core.ViewModels.Main;
 using PayWithPlay.Core.ViewModels.PIN;
 using System.Collections.ObjectModel;
 
@@ -145,6 +148,11 @@ namespace PayWithPlay.Core.ViewModels.CreateAccount
             {
                 nextPageIndex = 11;
                 nextProgress = 11;
+            }
+            else if (model is CongratsRegistrationViewModel congratsRegistrationViewModel) 
+            {
+                NavigationService.Navigate<MainViewModel>(new MvxBundle(new Dictionary<string, string> { { AppConstants.ClearBackStack, ""} }));
+                return;
             }
 
             CurrentPageIndex = nextPageIndex;

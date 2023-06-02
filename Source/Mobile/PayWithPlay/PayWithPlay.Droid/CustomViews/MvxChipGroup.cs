@@ -212,10 +212,6 @@ namespace PayWithPlay.Droid.CustomViews
         {
             if (disposing)
             {
-                _subscription?.Dispose();
-                _subscription = null;
-                _closeClick = null;
-
                 var childCount = this.ChildCount;
 
                 for (int i = 0; i < childCount; i++)
@@ -225,6 +221,10 @@ namespace PayWithPlay.Droid.CustomViews
                         chip.SetOnCloseIconClickListener(null);
                     }
                 }
+
+                _subscription?.Dispose();
+                _subscription = null;
+                _closeClick = null;
             }
         }
     }

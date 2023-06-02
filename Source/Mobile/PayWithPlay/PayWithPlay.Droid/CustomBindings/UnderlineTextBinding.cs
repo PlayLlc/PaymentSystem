@@ -3,15 +3,15 @@ using MvvmCross.Platforms.Android.Binding.Target;
 
 namespace PayWithPlay.Droid.CustomBindings
 {
-    public class UnderlineButtonTextBinding : MvxAndroidTargetBinding<MaterialButton, bool>
+    public class UnderlineTextBinding : MvxAndroidTargetBinding<TextView, bool>
     {
         public const string Property = "Underline";
 
-        public UnderlineButtonTextBinding(MaterialButton target) : base(target)
+        public UnderlineTextBinding(TextView target) : base(target)
         {
         }
 
-        protected override void SetValueImpl(MaterialButton target, bool value)
+        protected override void SetValueImpl(TextView target, bool value)
         {
             if(target == null)
             {

@@ -48,7 +48,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="10dp"
                 style="@style/DefaultTextStyle"
-                app:MvxBind="Text LocationText"/>
+                app:MvxBind="Text StoreText"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:theme="@style/TextInputThemeColored"
@@ -57,7 +57,7 @@
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:layout_marginHorizontal="24dp"
-                app:MvxBind="Click OnLocation">
+                app:MvxBind="Click OnStore">
 
                 <PayWithPlay.Droid.CustomViews.EditTextWithClearFocus
                     android:layout_width="match_parent"
@@ -65,7 +65,7 @@
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     style="@style/InputEditTextStyle"
-                    app:MvxBind="Hint SelectText; Click OnLocation"/>
+                    app:MvxBind="Hint SelectText; Text Store; Click OnStore"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

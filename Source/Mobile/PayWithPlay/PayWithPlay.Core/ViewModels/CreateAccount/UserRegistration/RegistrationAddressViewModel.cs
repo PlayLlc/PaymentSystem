@@ -1,9 +1,14 @@
-﻿using MvvmCross.ViewModels;
+﻿using MvvmCross.IoC;
+using MvvmCross.Navigation;
+using MvvmCross.ViewModels;
+using PayWithPlay.Core.Constants;
 using PayWithPlay.Core.Enums;
 using PayWithPlay.Core.Interfaces;
 using PayWithPlay.Core.Models.CreateAccount;
 using PayWithPlay.Core.Resources;
 using PayWithPlay.Core.Utils.Validations;
+using PayWithPlay.Core.ViewModels.Main.Inventory;
+using System.Drawing;
 
 namespace PayWithPlay.Core.ViewModels.CreateAccount.UserRegistration
 {
@@ -65,6 +70,21 @@ namespace PayWithPlay.Core.ViewModels.CreateAccount.UserRegistration
         public bool ContinueButtonEnabled => ValidationHelper.AreInputsValid(_inputValidators, false);
 
         public RegistrationAddressType RegistrationAddressType { get; }
+
+        public void OnState()
+        {
+            var navigationService = MvxIoCProvider.Instance!.Resolve<IMvxNavigationService>();
+
+            navigationService.Navigate<StatesSelectionViewModel, BaseItemSelectionViewModel.NavigationData>(new BaseItemSelectionViewModel.NavigationData
+            {
+                ResultItemsAction = (items) =>
+                {
+                    var selectedState = items.First().Name!;
+                    State = selectedState.Substring(selectedState.LastIndexOf(',') + 2, 2);
+                },
+                SelectionType = ItemSelectionType.Single
+            });
+        }
 
         public void OnContinue()
         {

@@ -11,7 +11,7 @@ namespace PayWithPlay.Core.Models.Inventory.CreateItem
 
         public string ProductDetailsText => Resource.ProductDetails;
         public string SKUText => Resource.SKU;
-        public string DescriptionText => Resource.Descritption;
+        public string DescriptionText => Resource.Description;
 
         public bool ProductDetailsExpanded
         {
