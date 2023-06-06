@@ -14,6 +14,13 @@ namespace PayWithPlay.Core.ViewModels
             IsScanning = true;
         }
 
+        public override void ViewDestroy(bool viewFinishing = true)
+        {
+            OnNewScanAction = null;
+
+            base.ViewDestroy(viewFinishing);
+        }
+
         public abstract string Title { get; }
         public string ResultsText => Resource.Results;
         public string NewScanButtonText => Resource.NewScan;

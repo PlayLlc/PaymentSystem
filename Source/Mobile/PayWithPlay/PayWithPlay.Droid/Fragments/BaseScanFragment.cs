@@ -39,7 +39,6 @@ namespace PayWithPlay.Droid.Fragments
 
             InitViews(view);
 
-
             return view;
         }
 
@@ -51,7 +50,7 @@ namespace PayWithPlay.Droid.Fragments
             {
                 InitAndStartCamera();
             }
-            else 
+            else
             {
                 _requestCameraPermissionLauncher = RegisterForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback((result) =>
                 {
@@ -102,7 +101,7 @@ namespace PayWithPlay.Droid.Fragments
                 return;
             }
 
-            BindPreview(_cameraProvider);
+            Application.SynchronizationContext.Post(_ => BindPreview(_cameraProvider), null);
         }
 
         protected abstract void OnResult(string result);
@@ -154,7 +153,7 @@ namespace PayWithPlay.Droid.Fragments
             _cameraPreviewContainer.LayoutParameters = lp;
         }
 
-        private void InitAndStartCamera() 
+        private void InitAndStartCamera()
         {
             _cameraProviderFuture = ProcessCameraProvider.GetInstance(Context);
             _cameraExecutor = Executors.NewSingleThreadExecutor();

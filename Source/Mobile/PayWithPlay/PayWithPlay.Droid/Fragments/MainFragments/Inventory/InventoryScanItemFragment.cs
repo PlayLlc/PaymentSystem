@@ -1,13 +1,12 @@
 ﻿using Android.Views;
 using AndroidX.AppCompat.Widget;
-using AndroidX.Camera.Core;
 using PayWithPlay.Core.ViewModels.Main.Inventory;
 using PayWithPlay.Droid.Extensions;
 
 namespace PayWithPlay.Droid.Fragments.MainFragments.Inventory
 {
     [MvxNavFragmentPresentation(ViewModelType = typeof(InventoryScanItemViewModel), FragmentMainNavContainerId = Resource.Id.nav_host_container, FragmentNavigationActionId = Resource.Id.action_to_scan_item)]
-    public class ScanItemFragment : BaseScanFragment<InventoryScanItemViewModel>
+    public class InventoryScanItemFragment : BaseScanFragment<InventoryScanItemViewModel>
     {
         public override int LayoutId => Resource.Layout.fragment_inventory_scan_item;
 
@@ -23,13 +22,6 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Inventory
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
             return view;
-        }
-
-        public override void OnStop()
-        {
-            base.OnStop();
-
-            ViewModel.OnNewScanAction = null;
         }
 
         protected override void OnResult(string result)

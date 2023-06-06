@@ -38,6 +38,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
 
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent_white"
+                    app:MvxBind="Visibility Visibility(IsLoading)">
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:indeterminate="true"
+                    android:layout_margin="24dp"
+                    android:indeterminateTint="@color/accent_color"
+                    app:indicatorColor="@color/accent_color"/>
+
+                </FrameLayout>
+
             </FrameLayout>
 
         </androidx.appcompat.widget.LinearLayoutCompat>

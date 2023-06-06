@@ -10,8 +10,17 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.PointOfSale
 
         public override int LayoutId => Resource.Layout.fragment_sale_scan_item;
 
+        public override void OnCreate(Bundle savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
+
+            ViewModel.OnNewScanAction = StartScanning;
+        }
+
         protected override void OnResult(string result)
         {
+            StopScanning();
+
             ViewModel.OnScanResult(result);
         }
     }

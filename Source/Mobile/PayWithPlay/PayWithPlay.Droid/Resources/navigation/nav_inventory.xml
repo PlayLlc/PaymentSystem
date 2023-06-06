@@ -51,7 +51,7 @@
 
   <fragment
     android:id="@+id/scanItemScreen"
-    android:name="PayWithPlay.Droid.Fragments.MainFragments.Inventory.ScanItemFragment"
+    android:name="PayWithPlay.Droid.Fragments.MainFragments.Inventory.InventoryScanItemFragment"
     tools:layout="@layout/fragment_inventory_scan_item">
 
     <action

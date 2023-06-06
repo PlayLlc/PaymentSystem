@@ -117,6 +117,12 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
 
         public void OnItemClick(ProductItemModel item)
         {
+            var currentSelected = Items.FirstOrDefault(t => t.Selected);
+            if (currentSelected != null && currentSelected != item)
+            {
+                currentSelected.Selected = false;
+            }
+
             item.Selected = !item.Selected;
         }
 
@@ -137,7 +143,7 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
             {
                 NavigationService.Navigate<SaleScanItemViewModel, Action<string>>(OnItemScanned),
                 NavigationService.Navigate<SaleSelectItemViewModel, Action<InventoryItemModel>>(OnItemSelected),
-                NavigationService.Navigate<SaleCustomAmountViewModel, Action<Tuple<string, string>>>(OnNewCustomAmount)
+                NavigationService.Navigate<SaleCustomAmountViewModel, Action<Tuple<string?, string?>>>(OnNewCustomAmount)
             };
 
             return Task.WhenAll(tasks);
@@ -145,8 +151,12 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
 
         private void OnItemScanned(string value)
         {
+            var sameItem = Items.FirstOrDefault(t => string.Equals(t.Title, value));
+            var productId = sameItem == null ? Guid.NewGuid() : sameItem.ProductItemId;
+
             var newProductItem = new ProductItemModel
             {
+                ProductItemId = productId,
                 Title = value,
                 Price = 7.7m,
                 AddAction = OnAddMoreProductItem,
@@ -174,7 +184,7 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
             TotalPrice += newProductItem.Price;
         }
 
-        private void OnNewCustomAmount(Tuple<string, string> customAmountTuple)
+        private void OnNewCustomAmount(Tuple<string?, string?> customAmountTuple)
         {
             var newProductItem = new ProductItemModel
             {
