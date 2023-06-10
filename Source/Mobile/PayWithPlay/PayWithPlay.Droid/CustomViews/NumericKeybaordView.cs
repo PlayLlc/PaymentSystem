@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace PayWithPlay.Droid.CustomViews
 {
-    public class NumericKeybaordView : FrameLayout, ViewTreeObserver.IOnPreDrawListener
+    public class NumericKeyboardView : FrameLayout, ViewTreeObserver.IOnPreDrawListener
     {
         private static readonly int _minVerticalInnerSpace = 4f.ToPx();
         private static readonly int _minSize = 60f.ToPx();
@@ -23,7 +23,7 @@ namespace PayWithPlay.Droid.CustomViews
 
         private int _textSize = _defaultTextSize;
         private int _size = _defaultSize;
-        private int _verticalInnerSapce = _defaultVerticalInnerSpace;
+        private int _verticalInnerSpace = _defaultVerticalInnerSpace;
 
         private LinearLayoutCompat? _rowOne;
         private LinearLayoutCompat? _rowTwo;
@@ -47,22 +47,22 @@ namespace PayWithPlay.Droid.CustomViews
 
         #region ctors
 
-        public NumericKeybaordView(Context context) : base(context)
+        public NumericKeyboardView(Context context) : base(context)
         {
             Init();
         }
 
-        public NumericKeybaordView(Context context, IAttributeSet? attrs) : base(context, attrs)
+        public NumericKeyboardView(Context context, IAttributeSet? attrs) : base(context, attrs)
         {
             Init();
         }
 
-        public NumericKeybaordView(Context context, IAttributeSet? attrs, int defStyleAttr) : base(context, attrs, defStyleAttr)
+        public NumericKeyboardView(Context context, IAttributeSet? attrs, int defStyleAttr) : base(context, attrs, defStyleAttr)
         {
             Init();
         }
 
-        protected NumericKeybaordView(nint javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
+        protected NumericKeyboardView(nint javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
         {
             Init();
         }
@@ -168,7 +168,7 @@ namespace PayWithPlay.Droid.CustomViews
             var parentHeight = ((ViewGroup)Parent!).Height;
 
             var sizesChanged = false;
-            while (parentHeight < ((_size * 4) + (_verticalInnerSapce * 4)))
+            while (parentHeight < ((_size * 4) + (_verticalInnerSpace * 4)))
             {
                 sizesChanged = true;
                 if (_size == _minSize)
@@ -178,14 +178,14 @@ namespace PayWithPlay.Droid.CustomViews
                 else
                 {
                     _size--;
-                    _verticalInnerSapce = (_size * _defaultVerticalInnerSpace) / _defaultSize;
+                    _verticalInnerSpace = (_size * _defaultVerticalInnerSpace) / _defaultSize;
                 }
             }
 
             if (sizesChanged)
             {
                 _textSize = (_size * _defaultTextSize) / _defaultSize;
-                _verticalInnerSapce = Math.Max(_minVerticalInnerSpace, _verticalInnerSapce);
+                _verticalInnerSpace = Math.Max(_minVerticalInnerSpace, _verticalInnerSpace);
 
                 SetVerticalInnerSpace(_rowOne, _rowTwo, _rowThree, _rowFour);
                 SetButtonsSize(_keyOne, _keyTwo, _keyThree, _keyFour, _keyFive, _keySix, _keySeven, _keyEight, _keyNine, _keyFingerprint, _keyZero, _keyRemove);
@@ -205,7 +205,7 @@ namespace PayWithPlay.Droid.CustomViews
             foreach (var row in rows)
             {
                 var lp = row.LayoutParameters as MarginLayoutParams;
-                lp!.BottomMargin = _verticalInnerSapce;
+                lp!.BottomMargin = _verticalInnerSpace;
                 row.LayoutParameters = lp;
             }
         }

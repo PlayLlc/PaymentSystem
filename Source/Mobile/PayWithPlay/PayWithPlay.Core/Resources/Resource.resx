@@ -153,6 +153,12 @@
   <data name="ApSuite" xml:space="preserve">
     <value>Ap. Suite</value>
   </data>
+  <data name="AvgRevenuePerUnit" xml:space="preserve">
+    <value>Avg Revenue per Unit</value>
+  </data>
+  <data name="AvgSPH" xml:space="preserve">
+    <value>Avg Sales Per Hour</value>
+  </data>
   <data name="BiometricsSwitchText" xml:space="preserve">
     <value>Biometrics from phone</value>
   </data>
@@ -251,6 +257,12 @@
   </data>
   <data name="CVV" xml:space="preserve">
     <value>CVV</value>
+  </data>
+  <data name="Daily" xml:space="preserve">
+    <value>Daily</value>
+  </data>
+  <data name="DailySales" xml:space="preserve">
+    <value>Daily Sales</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Date</value>
@@ -393,6 +405,9 @@
   <data name="LoyaltyProgramsSubtitle" xml:space="preserve">
     <value>Choose which loyalty program you want to update.</value>
   </data>
+  <data name="LoyaltySales" xml:space="preserve">
+    <value>Loyalty Sales</value>
+  </data>
   <data name="LoyaltySubtitle" xml:space="preserve">
     <value>Search, create and manage Loyalty Accounts and Programs</value>
   </data>
@@ -422,6 +437,9 @@
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
+  </data>
+  <data name="NewInventoryToday" xml:space="preserve">
+    <value>New Inventory added today</value>
   </data>
   <data name="NewScan" xml:space="preserve">
     <value>New scan</value>
@@ -453,8 +471,17 @@
   <data name="Off" xml:space="preserve">
     <value>Off</value>
   </data>
+  <data name="Offline" xml:space="preserve">
+    <value>Offline</value>
+  </data>
   <data name="Ok" xml:space="preserve">
     <value>OK</value>
+  </data>
+  <data name="Online" xml:space="preserve">
+    <value>Online</value>
+  </data>
+  <data name="OnlineTerminals" xml:space="preserve">
+    <value>Online terminals</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
@@ -524,6 +551,9 @@
   </data>
   <data name="Reason" xml:space="preserve">
     <value>Reason</value>
+  </data>
+  <data name="Redeemed" xml:space="preserve">
+    <value>Redeemed</value>
   </data>
   <data name="RegistrationBiometricsTitle" xml:space="preserve">
     <value>Do you want to use biometrics security?</value>
@@ -615,6 +645,9 @@
   <data name="SortBy" xml:space="preserve">
     <value>Sort by</value>
   </data>
+  <data name="SPH" xml:space="preserve">
+    <value>SPH</value>
+  </data>
   <data name="State" xml:space="preserve">
     <value>State</value>
   </data>
@@ -630,8 +663,14 @@
   <data name="StreetAddress" xml:space="preserve">
     <value>Street Address</value>
   </data>
+  <data name="STRFullText" xml:space="preserve">
+    <value>Sell - Through Rate (STR)</value>
+  </data>
   <data name="Submit" xml:space="preserve">
     <value>Submit</value>
+  </data>
+  <data name="Target" xml:space="preserve">
+    <value>Target</value>
   </data>
   <data name="Tax" xml:space="preserve">
     <value>Tax</value>
@@ -653,6 +692,9 @@
   </data>
   <data name="TotalAmount" xml:space="preserve">
     <value>Total amount</value>
+  </data>
+  <data name="TotalRewardMembers" xml:space="preserve">
+    <value>Total Reward Members</value>
   </data>
   <data name="TransactionDetails" xml:space="preserve">
     <value>Transaction Details</value>

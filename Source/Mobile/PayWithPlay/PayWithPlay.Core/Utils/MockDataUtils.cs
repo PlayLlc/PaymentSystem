@@ -1,4 +1,8 @@
-﻿namespace PayWithPlay.Core.Utils
+﻿using PayWithPlay.Core.Models.Chart;
+using System;
+using System.Data;
+
+namespace PayWithPlay.Core.Utils
 {
     public static class MockDataUtils
     {
@@ -36,6 +40,12 @@
             return d;
         }
 
+        public static bool RandomBool()
+        {
+            var random = new Random();
+            return random.Next() > (int.MaxValue / 2);
+        }
+
         public static string RandomString()
         {
             var random = new Random();
@@ -49,6 +59,34 @@
             var chars = Enumerable.Range(0, length)
                 .Select(x => pool[random.Next(0, pool.Length)]);
             return new string(chars.ToArray());
+        }
+
+        public static MiniChartModel RandomDataMiniChart(MiniChartModel? miniChartModel)
+        {
+            miniChartModel ??= new MiniChartModel();
+
+            var random = new Random();
+            miniChartModel.Value = (float)random.NextDouble();
+            miniChartModel.IsPositive = RandomBool();
+
+            var entries = new List<ChartEntry>();
+            for (int i = 0; i < 12; i++)
+            {
+                entries.Add(new ChartEntry(i, random.Next(1, 10)));
+            }
+
+            if (miniChartModel.IsPositive && entries.Last().Y <= entries.First().Y)
+            {
+                entries.Last().Y = entries.First().Y + 1;
+            }
+            else if (!miniChartModel.IsPositive && entries.Last().Y >= entries.First().Y)
+            {
+                entries.Last().Y = entries.First().Y - 1;
+            }
+
+            miniChartModel.Entries = entries;
+
+            return miniChartModel;
         }
     }
 }

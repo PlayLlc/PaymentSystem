@@ -3,13 +3,12 @@ using Android.Content.Res;
 using Android.Graphics;
 using Android.Runtime;
 using Android.Util;
-using Android.Views;
 using AndroidX.Core.Content;
 using PayWithPlay.Droid.Extensions;
 
 namespace PayWithPlay.Droid.CustomViews
 {
-    public class ShapeableView : View
+    public class ShapeableView : FrameLayout
     {
         #region ctors
 
@@ -43,19 +42,22 @@ namespace PayWithPlay.Droid.CustomViews
             var attrs = Context!.Theme!.ObtainStyledAttributes(attributeSet, Resource.Styleable.ShapeableView, 0, 0);
 
             Color fillColor;
+            Color borderColor;
             int cornerRadius;
+            int borderWidth;
             try
             {
                 fillColor = attrs.GetColor(Resource.Styleable.ShapeableView_fillColor, new Color(ContextCompat.GetColor(Context, Resource.Color.secondary_color)));
+                borderColor = attrs.GetColor(Resource.Styleable.ShapeableView_borderColor, -1);
                 cornerRadius = attrs.GetDimensionPixelSize(Resource.Styleable.ShapeableView_cornerRadius, 0);
-
+                borderWidth = attrs.GetDimensionPixelSize(Resource.Styleable.ShapeableView_borderWidth, -1);
             }
             finally
             {
                 attrs.Recycle();
             }
 
-            this.SetBackground(ColorStateList.ValueOf(fillColor), cornerRadius: cornerRadius);
+            this.SetBackground(ColorStateList.ValueOf(fillColor), borderWidth == -1 ? null : borderWidth, borderColor == -1 ? null : ColorStateList.ValueOf(borderColor), cornerRadius: cornerRadius);
         }
     }
 }

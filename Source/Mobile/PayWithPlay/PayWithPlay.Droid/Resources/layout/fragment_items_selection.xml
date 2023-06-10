@@ -130,7 +130,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_max="132dp"
                 app:layout_constraintHorizontal_bias="0"
-                style="@style/NegativeButton"
+                style="@style/NegativeButton" 
                 app:MvxBind="Text CancelButtonText; Click OnCancel"/>
 
             <View

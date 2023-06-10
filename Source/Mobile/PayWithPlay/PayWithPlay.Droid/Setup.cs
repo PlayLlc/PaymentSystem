@@ -11,7 +11,7 @@ using Serilog.Extensions.Logging;
 using PayWithPlay.Droid.CustomViews;
 using PayWithPlay.Droid.CustomBindings.IndicatorBindings;
 using Google.Android.Material.TextField;
-using PayWithPlay.Droid.CustomBindings.NumericKeybaordView;
+using PayWithPlay.Droid.CustomBindings.NumericKeyboardView;
 using Android.Views;
 using PayWithPlay.Droid.CustomBindings.CreateAccountBindings;
 using PayWithPlay.Droid.CustomBindings.Components;
@@ -26,6 +26,7 @@ using PayWithPlay.Droid.Utils;
 using PayWithPlay.Droid.CustomBindings.PointOfSale;
 using MvvmCross.Platforms.Android.Views;
 using Android.Content;
+using PayWithPlay.Droid.CustomBindings.Chart;
 
 namespace PayWithPlay.Droid
 {
@@ -91,12 +92,16 @@ namespace PayWithPlay.Droid
                 (progressBar) => new ProgressBarProgressBinding(progressBar));
             registry.RegisterCustomBindingFactory<ProgressBar>(ProgressBarMaxBinding.Property,
                 (progressBar) => new ProgressBarMaxBinding(progressBar));
-            registry.RegisterCustomBindingFactory<NumericKeybaordView>(NumericKeyboardFingerprintBinding.Property,
-                (numericKeybaodView) => new NumericKeyboardFingerprintBinding(numericKeybaodView));
+            registry.RegisterCustomBindingFactory<NumericKeyboardView>(NumericKeyboardFingerprintBinding.Property,
+                (numericKeyboardView) => new NumericKeyboardFingerprintBinding(numericKeyboardView));
             registry.RegisterCustomBindingFactory<ChipGroup>(InventoryItemCategoriesBinding.Property,
                 (categoriesView) => new InventoryItemCategoriesBinding(categoriesView));
             registry.RegisterCustomBindingFactory<RadioButtonsView>(RadioButtonsSelectionBinding.Property,
                 (radioButtonsView) => new RadioButtonsSelectionBinding(radioButtonsView));
+            registry.RegisterCustomBindingFactory<ArcProgressView>(ArcProgressBinding.Property,
+                (arcProgressView) => new ArcProgressBinding(arcProgressView));
+            registry.RegisterCustomBindingFactory<MiniChartView>(MiniChartBinding.Property,
+                (miniChartView) => new MiniChartBinding(miniChartView));
 
             registry.RegisterCustomBindingFactory<TextInputLayout>(SetErrorInputBinding.Property,
                 (inputLayout) => new SetErrorInputBinding(inputLayout));

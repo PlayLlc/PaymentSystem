@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <color name="accent_color">#00C3D9</color>
+  <color name="accent_color_with_opacity">#4000C3D9</color>
   <color name="primary_color">@color/white</color>
   <color name="secondary_color">#213848</color>
   <color name="third_color">#F4F6F9</color>

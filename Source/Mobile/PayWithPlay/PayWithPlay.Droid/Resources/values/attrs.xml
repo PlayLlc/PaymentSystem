@@ -22,6 +22,8 @@
   <declare-styleable name="ShapeableView">
     <attr name="cornerRadius" format="dimension" />
     <attr name="fillColor" format="color" />
+    <attr name="borderWidth" format="dimension" />
+    <attr name="borderColor" format="color" />
   </declare-styleable>
 
   <declare-styleable name="RadioButtons">
@@ -29,4 +31,13 @@
     <attr name="buttonsTextSize" format="dimension" />
   </declare-styleable>
 
-</resources>
+  <declare-styleable name="ArcProgressView">
+    <attr name="progressStrokeWidth" format="dimension" />
+    <attr name="progressColor" format="color" />
+    <attr name="pathStrokeWidth" format="dimension" />
+    <attr name="pathColor" format="color" />
+    <attr name="indicatorStrokeWidth" format="dimension" />
+    <attr name="indicatorColor" format="color" />
+  </declare-styleable>
+
+</resources>  

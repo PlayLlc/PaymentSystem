@@ -1,16 +1,16 @@
 ﻿using MvvmCross.Platforms.Android.Binding.Target;
 
-namespace PayWithPlay.Droid.CustomBindings.NumericKeybaordView
+namespace PayWithPlay.Droid.CustomBindings.NumericKeyboardView
 {
-    public class NumericKeyboardFingerprintBinding : MvxAndroidTargetBinding<CustomViews.NumericKeybaordView, bool>
+    public class NumericKeyboardFingerprintBinding : MvxAndroidTargetBinding<CustomViews.NumericKeyboardView, bool>
     {
         public const string Property = "FingerprintEnabled";
 
-        public NumericKeyboardFingerprintBinding(CustomViews.NumericKeybaordView target) : base(target)
+        public NumericKeyboardFingerprintBinding(CustomViews.NumericKeyboardView target) : base(target)
         {
         }
 
-        protected override void SetValueImpl(CustomViews.NumericKeybaordView target, bool value)
+        protected override void SetValueImpl(CustomViews.NumericKeyboardView target, bool value)
         {
             if(target == null)
             {
