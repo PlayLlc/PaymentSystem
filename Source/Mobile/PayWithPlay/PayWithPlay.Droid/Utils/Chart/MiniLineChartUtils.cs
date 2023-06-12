@@ -1,13 +1,6 @@
-﻿using Android.Content;
-using AndroidX.Core.Content;
-using MikePhil.Charting.Charts;
+﻿using MikePhil.Charting.Charts;
 using MikePhil.Charting.Components;
 using MikePhil.Charting.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PayWithPlay.Droid.Utils.Chart
 {

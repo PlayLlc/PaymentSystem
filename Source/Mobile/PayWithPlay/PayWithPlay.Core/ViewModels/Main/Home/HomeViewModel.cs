@@ -13,11 +13,19 @@ namespace PayWithPlay.Core.ViewModels.Main.Home
         private int _dailySalesTargetValue;
         private decimal _dailySalesValue;
         private decimal _avgSPHValue;
-
+        private int _onlineTerminals;
+        private int _totalTerminals;
 
         public HomeViewModel()
         {
             MockData();
+        }
+
+        public override void ViewDestroy(bool viewFinishing = true)
+        {
+            OnlineTerminalsAction = null;
+
+            base.ViewDestroy(viewFinishing);
         }
 
         public string DailySalesText => Resource.DailySales;
@@ -30,6 +38,8 @@ namespace PayWithPlay.Core.ViewModels.Main.Home
         public string? UserPictureUrl { get; set; }
         public string? UserFullName { get; set; } = "Matt Jerred";
         public string? UserLocation { get; set; } = "Dublin, Ireland";
+
+        public Action? OnlineTerminalsAction { get; set; }
 
         public IMvxAsyncCommand? RefreshCommand => _refreshCommand ??= new MvxAsyncCommand(OnRefresh);
 
@@ -64,6 +74,19 @@ namespace PayWithPlay.Core.ViewModels.Main.Home
 
         public MiniChartModel? AvgSPHMiniChartModel { get; set; }
 
+        public int OnlineTerminals
+        {
+            get => _onlineTerminals;
+            set => SetProperty(ref _onlineTerminals, value);
+        }
+
+        public string TotalTerminalsText => $"out of {TotalTerminals}";
+        public int TotalTerminals
+        {
+            get => _totalTerminals;
+            set => SetProperty(ref _totalTerminals, value, () => RaisePropertyChanged(() => TotalTerminalsText));
+        }
+
         public void OnNotifications()
         {
         }
@@ -95,6 +118,11 @@ namespace PayWithPlay.Core.ViewModels.Main.Home
             AvgSPHValue = MockDataUtils.RandomDecimal();
             AvgSPHMiniChartModel = MockDataUtils.RandomDataMiniChart(AvgSPHMiniChartModel);
             RaisePropertyChanged(() => AvgSPHMiniChartModel);
+
+            TotalTerminals = random.Next(10, 1000);
+            OnlineTerminals = random.Next(1, TotalTerminals);
+
+            OnlineTerminalsAction?.Invoke();
         }
     }
 }

@@ -270,8 +270,98 @@
                                 android:layout_marginTop="12dp"
                                 style="@style/VerySmallTextStyle"
                                 android:textColor="@color/primary_text_color"
+                                android:lineSpacingMultiplier="0.7"
                                 android:layout_marginHorizontal="12dp"
                                 app:MvxBind="Text OnlineTerminalsText"/>
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="12dp"
+                                android:layout_marginTop="4dp"
+                                android:orientation="horizontal">
+
+                                <View
+                                    android:layout_width="5dp"
+                                    android:layout_height="5dp"
+                                    android:background="@color/accent_color"
+                                    android:layout_gravity="center_vertical"/>
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    style="@style/VerySmallTextStyle"
+                                    android:textSize="8sp"
+                                    android:layout_marginStart="5dp"
+                                    android:textColor="@color/accent_color"
+                                    android:layout_gravity="center_vertical"
+                                    app:MvxBind="Text OnlineText"/>
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="12dp"
+                                android:orientation="horizontal">
+
+                                <View
+                                    android:layout_width="5dp"
+                                    android:layout_height="5dp"
+                                    android:background="@color/negative_color"
+                                    android:layout_gravity="center_vertical"/>
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    style="@style/VerySmallTextStyle"
+                                    android:textSize="8sp"
+                                    android:layout_marginStart="5dp"
+                                    android:textColor="@color/negative_color"
+                                    android:layout_gravity="center_vertical"
+                                    app:MvxBind="Text OfflineText"/>
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="4dp"
+                                android:layout_marginTop="4dp">
+
+                                <com.github.mikephil.charting.charts.PieChart
+                                     android:id="@+id/terminals_pie_chart"   
+                                     android:layout_width="76dp"
+                                     android:layout_height="76dp"
+                                    android:layout_gravity="center"/>
+
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                    android:layout_width="48dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:orientation="vertical">
+
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        style="@style/MediumTextStyle"
+                                        android:fontFamily="@font/poppins_bold"
+                                        android:gravity="center"
+                                        android:layout_gravity="center_horizontal"
+                                        app:MvxBind="Text OnlineTerminals"/>
+
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_horizontal"
+                                        android:gravity="center"
+                                        android:layout_marginTop="-4dp"
+                                        style="@style/VerySmallTextStyle"
+                                        app:MvxBind="Text TotalTerminalsText"/>
+
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                            </FrameLayout>
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
