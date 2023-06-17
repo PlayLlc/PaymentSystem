@@ -138,11 +138,11 @@
     </FrameLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/buttons_actions_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
         android:weightSum="3"
-        android:background="@color/third_color"
         android:layout_marginStart="-20dp"
         android:layout_marginEnd="-20dp"
         android:layout_marginTop="-20dp"
@@ -161,6 +161,7 @@
             android:textSize="10sp"
             app:iconTint="@color/white"
             android:fontFamily="@font/poppins_medium"
+            android:stateListAnimator="@null"
             app:icon="@drawable/ic_pen"
             app:iconGravity="textTop"
             android:gravity="center"
@@ -176,6 +177,7 @@
             app:icon="@drawable/ic_manage_stock"
             android:background="@android:color/transparent"
             android:fontFamily="@font/poppins_medium"
+            android:stateListAnimator="@null"
             android:textSize="10sp"
             app:iconGravity="textTop"
             android:gravity="center"
@@ -189,6 +191,7 @@
             app:icon="@drawable/ic_delete"
             style="@style/NegativeButton"
             android:fontFamily="@font/poppins_medium"
+            android:stateListAnimator="@null"
             android:textSize="10sp"
             app:iconGravity="textTop"
             android:gravity="center"
@@ -196,5 +199,48 @@
             app:MvxBind="Text DeleteItemText; Click OnDelete"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <PayWithPlay.Droid.CustomViews.ShapeableView
+        android:id="@+id/fl_deleting_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="-20dp"
+        android:layout_marginEnd="-20dp"
+        android:layout_marginTop="-20dp"
+        android:layout_marginBottom="-10dp"
+        android:clickable="true"
+        android:padding="8dp"
+        app:fillColor="@color/bright_gray"
+        app:cornerRadius="5dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:MvxBind="Visibility Visibility(Deleting)">
+    
+        <View
+            android:id="@+id/backgroundView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_delete_sliding"
+            android:layout_width="102dp"
+            android:layout_height="match_parent"
+            app:iconTint="@color/negative_color"
+            app:icon="@drawable/ic_delete"
+            style="@style/BaseButton"
+            android:textColor="@color/negative_color"
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="10sp"
+            app:iconGravity="textTop"
+            android:gravity="center"
+            app:cornerRadius="5dp"
+            app:MvxBind="Text DeleteItemText; Click OnDelete"/>
+
+    </PayWithPlay.Droid.CustomViews.ShapeableView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

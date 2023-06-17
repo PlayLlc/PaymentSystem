@@ -20,12 +20,12 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Home
         {
             base.OnCreate(savedInstanceState);
 
-            ViewModel.OnlineTerminalsAction = SetTerminalsChartData; 
+            ViewModel.OnlineTerminalsAction = SetTerminalsChartData;
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            var root =  base.OnCreateView(inflater, container, savedInstanceState);
+            var root = base.OnCreateView(inflater, container, savedInstanceState);
 
             SetTerminalsPieChart(root);
 
@@ -59,15 +59,17 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Home
                 new PieEntry(ViewModel.TotalTerminals - ViewModel.OnlineTerminals),
             };
 
-            if (_terminalsPieChart!.Data is PieData pieData &&
-                pieData.DataSets is IList<PieDataSet> dataSets &&
-                dataSets.FirstOrDefault() is PieDataSet currentLineDataSet) 
+            if (_terminalsPieChart!.Data is PieData pieData)
             {
-                currentLineDataSet.Clear();
-                currentLineDataSet.Values = entries;
+                if (pieData.DataSets[0] is PieDataSet pieDataSet)
+                {
+                    pieDataSet.Clear();
+                    pieDataSet.Values = entries;
 
-                _terminalsPieChart.Data.NotifyDataChanged();
-                _terminalsPieChart.NotifyDataSetChanged();
+                    pieData.NotifyDataChanged();
+                    _terminalsPieChart.NotifyDataSetChanged();
+                    _terminalsPieChart.Invalidate();
+                }
             }
             else
             {

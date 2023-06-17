@@ -13,5 +13,10 @@ namespace PayWithPlay.Droid.Extensions
         {
             return TypedValue.ApplyDimension(ComplexUnitType.Dip, value, App.Context.Resources!.DisplayMetrics);
         }
+
+        public static float PxToSp(this float value) 
+        {
+            return value / App.Context.Resources!.DisplayMetrics!.ScaledDensity;
+        }
     }
 }

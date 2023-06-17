@@ -102,6 +102,8 @@ namespace PayWithPlay.Droid
                 (arcProgressView) => new ArcProgressBinding(arcProgressView));
             registry.RegisterCustomBindingFactory<MiniChartView>(MiniChartBinding.Property,
                 (miniChartView) => new MiniChartBinding(miniChartView));
+            registry.RegisterCustomBindingFactory<TextView>(AnimateTextChangeBinding.Property,
+                (textView) => new AnimateTextChangeBinding(textView));
 
             registry.RegisterCustomBindingFactory<TextInputLayout>(SetErrorInputBinding.Property,
                 (inputLayout) => new SetErrorInputBinding(inputLayout));

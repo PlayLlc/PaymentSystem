@@ -90,13 +90,12 @@ namespace PayWithPlay.Droid.CustomViews
             }
 
             if (_lineChart!.Data is LineData lineData &&
-                lineData.DataSets is IList<LineDataSet> dataSets &&
-                dataSets.FirstOrDefault() is LineDataSet currentLineDataSet)
+                lineData.DataSets[0] is LineDataSet currentLineDataSet)
             {
                 currentLineDataSet.Clear();
                 currentLineDataSet.Values = entries;
                 currentLineDataSet.Color = color;
-
+                currentLineDataSet.NotifyDataSetChanged();
                 _lineChart.Data.NotifyDataChanged();
                 _lineChart.NotifyDataSetChanged();
             }

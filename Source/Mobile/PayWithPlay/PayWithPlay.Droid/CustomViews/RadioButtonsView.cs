@@ -344,10 +344,10 @@ namespace PayWithPlay.Droid.CustomViews
 
         private GradientDrawable GetButtonDrawable()
         {
-            var gradientDrawabe = new GradientDrawable();
-            gradientDrawabe.SetCornerRadius(_buttonsHeight / 2f);
-            gradientDrawabe.SetColor(Color.Transparent);
-            return gradientDrawabe;
+            var gradientDrawable = new GradientDrawable();
+            gradientDrawable.SetCornerRadius(_buttonsHeight / 2f);
+            gradientDrawable.SetColor(Color.Transparent);
+            return gradientDrawable;
         }
 
         private void Init()
@@ -356,10 +356,10 @@ namespace PayWithPlay.Droid.CustomViews
             SetPadding(padding, padding, padding, padding);
             SetClipChildren(false);
             SetClipToPadding(false);
-            var gradientDrawabe = new GradientDrawable();
-            gradientDrawabe.SetCornerRadius((_buttonsHeight + 2 * padding) / 2f);
-            gradientDrawabe.SetColor(ContextCompat.GetColor(Context, Resource.Color.third_color));
-            Background = gradientDrawabe;
+            var gradientDrawable = new GradientDrawable();
+            gradientDrawable.SetCornerRadius((_buttonsHeight + 2 * padding) / 2f);
+            gradientDrawable.SetColor(ContextCompat.GetColor(Context, Resource.Color.third_color));
+            Background = gradientDrawable;
 
             _selectedTextColor = new Color(ContextCompat.GetColor(Context, Resource.Color.white));
             _unSelectedTextColor = new Color(ContextCompat.GetColor(Context, Resource.Color.primary_text_color));
@@ -370,10 +370,9 @@ namespace PayWithPlay.Droid.CustomViews
                 {
                     Gravity = GravityFlags.CenterVertical
                 },
-                Visibility = ViewStates.Gone
+                Visibility = ViewStates.Gone,
+                Background = GetButtonDrawable()
             };
-
-            _buttonBackground.Background = GetButtonDrawable();
             AddView(_buttonBackground);
 
             _buttonsContainer = new LinearLayout(Context)

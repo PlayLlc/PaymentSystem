@@ -139,7 +139,7 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
 
         private void OnDeleteInventoryItem(InventoryItemModel obj)
         {
-            Items.Remove(obj);
+            InvokeOnMainThread(() => Items.Remove(obj));
         }
     }
 }

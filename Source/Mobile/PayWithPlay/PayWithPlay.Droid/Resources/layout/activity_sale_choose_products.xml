@@ -106,6 +106,8 @@
             android:id="@+id/bottomSheet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             android:orientation="vertical"
             android:background="@color/white"
             android:clickable="true"
@@ -134,6 +136,8 @@
                 android:id="@+id/collapsed_details_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:clipToPadding="false"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginVertical="20dp">
 
@@ -142,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|center"
                     android:fontFamily="@font/poppins_medium"
-                    style="@style/SmallTextStyle"
+                    style="@style/DefaultTextStyle"
                     app:MvxBind="Text ItemsText"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -150,8 +154,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|center"
                     android:fontFamily="@font/poppins_medium"
-                    style="@style/SmallTextStyle"
-                    app:MvxBind="Text ItemsCount"/>
+                    style="@style/DefaultTextStyle"
+                    app:MvxBind="AnimateText ItemsCount"/>
 
             </FrameLayout>
 
@@ -196,7 +200,8 @@
                     android:id="@+id/list_container"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    tools:ignore="Suspicious0dp">
 
                     <mvvmcross.droidx.recyclerview.MvxRecyclerView
                         android:id="@+id/items_rv"

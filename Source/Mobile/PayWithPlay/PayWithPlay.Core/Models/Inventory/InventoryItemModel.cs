@@ -9,6 +9,7 @@ namespace PayWithPlay.Core.Models.Inventory
     {
         private bool _hasDiscount;
         private bool _selected;
+        private bool _deleting;
 
         public string SalePiceText => Resource.SalePrice;
         public string EditItemText => Resource.EditItem;
@@ -34,13 +35,25 @@ namespace PayWithPlay.Core.Models.Inventory
         public List<ChipModel>? Categories { get; set; }
 
         public string DisplayedStock => $"{Resource.Stock}: {Stock}";
-        public string DisplayedPrice => GetDispalyedPrice();
+        public string DisplayedPrice => GetDisplayedPrice();
         public string InitialPrice => $"${Price:0.00}";
 
         public bool Selected
         {
             get => _selected;
-            set => SetProperty(ref _selected, value);
+            set => SetProperty(ref _selected, value, () => 
+            {
+                if (!_selected) 
+                {
+                    Deleting = false;
+                }
+            });
+        }
+
+        public bool Deleting
+        {
+            get => _deleting;
+            set => SetProperty(ref _deleting, value);
         }
 
         public bool HasDiscount
@@ -65,10 +78,20 @@ namespace PayWithPlay.Core.Models.Inventory
 
         public void OnDelete() 
         {
-            OnDeleteAction?.Invoke(this);
+            Deleting = true;
         }
 
-        private string GetDispalyedPrice()
+        public void OnSwipeToDelete() 
+        {
+            Task.Run(async () =>
+            {
+                await Task.Delay(200);
+
+                OnDeleteAction?.Invoke(this);
+            });
+        }
+
+        private string GetDisplayedPrice()
         {
             if (HasDiscount && DiscountType != null)
             {

@@ -14,7 +14,7 @@ namespace PayWithPlay.Droid.ViewHolders
         private int _maxSeekValue = 93;
         private int _threshold = 50;
 
-        private TransactionItemModel _itemModel => BindingContext.DataContext as TransactionItemModel;
+        private TransactionItemModel? _itemModel => BindingContext.DataContext as TransactionItemModel;
 
         public TransactionViewHolder(View itemView, IMvxAndroidBindingContext context) : base(itemView, context)
         {
