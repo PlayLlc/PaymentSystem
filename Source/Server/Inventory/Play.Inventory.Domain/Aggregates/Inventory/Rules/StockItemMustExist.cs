@@ -15,9 +15,9 @@ public class StockItemMustExist : BusinessRule<Inventory>
 
     #region Constructor
 
-    internal StockItemMustExist(IEnumerable<StockItem> stockItems, string variationId)
+    internal StockItemMustExist(IEnumerable<StockItem> stockItems, string itemId)
     {
-        _IsValid = stockItems.Any(a => a.GetVariationId() == variationId);
+        _IsValid = stockItems.Any(a => a.Id == itemId);
     }
 
     #endregion

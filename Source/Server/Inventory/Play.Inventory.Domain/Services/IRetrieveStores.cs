@@ -2,11 +2,12 @@
 
 namespace Play.Inventory.Domain.Services;
 
-public interface IRetrieveInventoryItems
+public interface IRetrieveStores
 {
     #region Instance Members
 
-    public Task<Variation> GetByIdAsync(string itemId, string variationId);
+    public Task<Store?> GetByIdAsync(string id);
+    public Store? GetById(string id);
 
     #endregion
 }

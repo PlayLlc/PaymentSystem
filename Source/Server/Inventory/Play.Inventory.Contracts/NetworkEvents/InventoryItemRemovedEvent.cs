@@ -1,19 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using Play.Inventory.Contracts.Dtos;
 using Play.Messaging.NServiceBus;
 
 namespace Play.Inventory.Contracts;
 
-public class InventoryItemVariationRemovedEvent : NetworkEvent
+public class InventoryItemRemovedEvent : NetworkEvent
 {
     #region Instance Values
 
     [Required]
-    [StringLength(20)]
-    public string ItemId { get; set; } = string.Empty;
-
-    [Required]
-    public string VariationId { get; set; } = string.Empty;
+    public ItemDto Item { get; set; } = new();
 
     [Required]
     [StringLength(20)]

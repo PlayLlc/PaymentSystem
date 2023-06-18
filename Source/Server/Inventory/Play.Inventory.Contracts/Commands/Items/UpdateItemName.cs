@@ -19,3 +19,20 @@ public record UpdateItemName
 
     #endregion
 }
+public record UpdateItemSku
+{
+    #region Instance Values
+
+    [Required]
+    [StringLength(20)]
+    public string ItemId { get; set; } = string.Empty;
+
+    [Required]
+    [StringLength(20)]
+    public string UserId { get; set; } = string.Empty;
+
+    [Required]
+    public string Sku { get; set; } = string.Empty;
+
+    #endregion
+}

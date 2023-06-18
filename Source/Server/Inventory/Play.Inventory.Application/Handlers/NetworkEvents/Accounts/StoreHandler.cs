@@ -59,7 +59,7 @@ public class StoreHandler : IHandleMessages<StoreHasBeenDeletedEvent>, IHandleMe
         IEnumerable<Item> items = await _ItemRepository.GetItemsWithAllLocationsSet(new(message.MerchantId)).ConfigureAwait(false);
 
         await Domain.Aggregates.Inventory.CreateInventory(message.MerchantId, message.StoreId,
-                items.ToDictionary(a => a.Id.Value, b => b.GetVariationIds().AsEnumerable()))
+                items.Select(a => a.Id))
             .ConfigureAwait(false);
     }
 

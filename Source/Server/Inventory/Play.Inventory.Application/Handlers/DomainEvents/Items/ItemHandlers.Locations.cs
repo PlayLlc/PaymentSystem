@@ -23,21 +23,15 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemI
         Log(domainEvent);
 
         foreach (string storeId in domainEvent.StoreIds)
-            await CreateStockItemsForStoreInventory(storeId, domainEvent.Item.Id, domainEvent.VariationIds).ConfigureAwait(false);
+            await CreateStockItemsForStoreInventory(storeId, domainEvent.Item.Id).ConfigureAwait(false);
     }
 
-    private async Task CreateStockItemsForStoreInventory(string storeId, string itemId, IEnumerable<string> variationIds)
+    private async Task CreateStockItemsForStoreInventory(string storeId, string itemId)
     {
         Domain.Aggregates.Inventory? inventory = await _InventoryRepository.GetByStoreIdAsync(new SimpleStringId(storeId)).ConfigureAwait(false)
                                                  ?? throw new NotFoundException(typeof(Domain.Aggregates.Inventory));
 
-        foreach (string variation in variationIds)
-            await inventory.CreateStockItem(new CreateStockItem
-                {
-                    ItemId = itemId,
-                    VariationId = variation
-                })
-                .ConfigureAwait(false);
+        await inventory.CreateStockItem(new CreateStockItem() {ItemId = itemId}); 
     }
 
     public async Task Handle(ItemLocationRemoved domainEvent)

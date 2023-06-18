@@ -10,18 +10,16 @@ public record ItemLocationAdded : DomainEvent
 
     public readonly Item Item;
     public IEnumerable<string> StoreIds;
-    public IEnumerable<string> VariationIds;
 
     #endregion
 
     #region Constructor
 
-    public ItemLocationAdded(Item item, string userId, IEnumerable<string> storeIds, IEnumerable<string> variationIds) : base(
+    public ItemLocationAdded(Item item, string userId, IEnumerable<string> storeIds) : base(
         $"The {nameof(User)} with the ID: [{userId}] added the following locations to the Inventory {nameof(Item)} with the ID: [{item.Id}]: Locations: [{storeIds.ToStringAsConcatenatedValues()}]")
     {
         Item = item;
         StoreIds = storeIds;
-        VariationIds = variationIds;
     }
 
     #endregion

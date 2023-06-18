@@ -10,7 +10,7 @@ public record UpdateStockItemQuantity
 
     [Required]
     [StringLength(20)]
-    public string VariationId { get; set; } = string.Empty;
+    public string StockItemId { get; set; } = string.Empty;
 
     [Required]
     [StringLength(20)]

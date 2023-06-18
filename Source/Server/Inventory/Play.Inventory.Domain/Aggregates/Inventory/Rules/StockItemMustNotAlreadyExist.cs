@@ -15,9 +15,9 @@ public class StockItemMustNotAlreadyExist : BusinessRule<Inventory>
 
     #region Constructor
 
-    internal StockItemMustNotAlreadyExist(IEnumerable<StockItem> variations, string variationId)
+    internal StockItemMustNotAlreadyExist(IEnumerable<StockItem> stockItems, string itemId)
     {
-        _IsValid = variations.All(a => a.GetVariationId() != variationId);
+        _IsValid = stockItems.All(a => a.GetItemId() != itemId);
     }
 
     #endregion

@@ -62,11 +62,11 @@ public class Inventory : Aggregate<SimpleStringId>
         };
     }
 
-    public static Task CreateInventory(string merchantId, string storeId, Dictionary<string, IEnumerable<string>> itemVariations)
+    public static Task CreateInventory(string merchantId, string storeId, IEnumerable<SimpleStringId> itemIds)
     {
         List<StockItem> stockItems = new();
-        foreach (KeyValuePair<string, IEnumerable<string>> keyValue in itemVariations)
-            stockItems.AddRange(keyValue.Value.Select(a => new StockItem(GenerateSimpleStringId(), keyValue.Key, a, 0)));
+        foreach (var itemId in itemIds)
+            stockItems.Add(new StockItem(GenerateSimpleStringId(), itemId, 0));
 
         Inventory inventory = new(GenerateSimpleStringId(), merchantId, storeId, stockItems);
 
@@ -78,16 +78,14 @@ public class Inventory : Aggregate<SimpleStringId>
     /// <exception cref="BusinessRuleValidationException"></exception>
     /// <exception cref="NotFoundException"></exception>
     /// <exception cref="ValueObjectException"></exception>
-    public Task CreateStockItem(CreateStockItem command)
+    public async Task CreateStockItem(CreateStockItem command)
     {
-        Enforce(new StockItemMustNotAlreadyExist(_StockItems, command.VariationId));
+        Enforce(new StockItemMustNotAlreadyExist(_StockItems, command.ItemId));
 
-        StockItem stockItem = new(GenerateSimpleStringId(), command.ItemId, command.VariationId, 0);
+        StockItem stockItem = new(GenerateSimpleStringId(), command.ItemId, 0);
         _ = _StockItems.Add(stockItem);
 
-        Publish(new StockItemCreated(this, stockItem));
-
-        return Task.CompletedTask;
+        await Publish(new StockItemCreated(this, stockItem)).ConfigureAwait(false); 
     }
 
     /// <exception cref="ValueObjectException"></exception>
@@ -98,7 +96,7 @@ public class Inventory : Aggregate<SimpleStringId>
         User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<Inventory>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Inventory>(_MerchantId, user));
-        StockItem? stockItem = _StockItems.FirstOrDefault(a => a.GetVariationId() == command.VariationId);
+        StockItem? stockItem = _StockItems.FirstOrDefault(a => a.Id == command.ItemId);
 
         if (stockItem is null)
             return;
@@ -125,10 +123,10 @@ public class Inventory : Aggregate<SimpleStringId>
         User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<Inventory>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Inventory>(_MerchantId, user));
-        Enforce(new StockItemMustExist(_StockItems, command.VariationId));
+        Enforce(new StockItemMustExist(_StockItems, command.StockItemId));
         Enforce(new StockActionMustAddQuantity(command.Action));
         StockAction stockAction = new(command.Action);
-        StockItem stockItem = _StockItems.First(a => a.GetId() == command.VariationId);
+        StockItem stockItem = _StockItems.First(a => a.GetId() == command.StockItemId);
         stockItem.AddQuantity(command.Quantity);
         Publish(new StockItemUpdatedQuantity(this, stockItem.Id, stockAction, command.Quantity, stockItem.GetQuantity()));
     }
@@ -138,14 +136,14 @@ public class Inventory : Aggregate<SimpleStringId>
     /// <exception cref="NotFoundException"></exception>
     public async Task RemoveQuantity(IRetrieveUsers userService, IItemRepository itemRepository, UpdateStockItemQuantity command)
     {
-        StockItem stockItem = _StockItems.First(a => a.GetId() == command.VariationId) ?? throw new NotFoundException(typeof(StockItem));
+        StockItem stockItem = _StockItems.First(a => a.GetId() == command.StockItemId) ?? throw new NotFoundException(typeof(StockItem));
         Item item = await itemRepository.GetByIdAsync(new(stockItem.GetItemId())).ConfigureAwait(false)
                     ?? throw new NotFoundException(typeof(Item));
 
         User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
         Enforce(new UserMustBeActiveToUpdateAggregate<Inventory>(user));
         Enforce(new AggregateMustBeUpdatedByKnownUser<Inventory>(_MerchantId, user));
-        Enforce(new StockItemMustExist(_StockItems, command.VariationId));
+        Enforce(new StockItemMustExist(_StockItems, command.StockItemId));
         Enforce(new StockActionMustRemoveQuantity(command.Action));
         StockAction stockAction = new(command.Action);
 

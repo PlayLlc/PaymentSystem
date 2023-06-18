@@ -22,3 +22,16 @@ public record CategoryDto : IDto
 
     #endregion
 }
+
+
+public record LocationDto : IDto
+{
+    #region Instance Values
+
+    [Required]
+    [StringLength(20)]
+    public string Id { get; set; } = string.Empty;
+    
+
+    #endregion
+}

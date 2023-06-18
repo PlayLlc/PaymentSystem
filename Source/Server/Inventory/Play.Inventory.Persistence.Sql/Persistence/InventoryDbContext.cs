@@ -65,13 +65,6 @@ public sealed class InventoryDbContext : DbContext
         builder.Entity<Locations>().PrivateProperty<Locations, bool>("_AllLocations");
         builder.Entity<Locations>().HasMany<Locations, Store, SimpleStringId>("_Stores", "StoreId");
 
-        builder.Entity<Variation>().ToTable($"{nameof(Variation)}s").HasKey(x => x.Id);
-        builder.Entity<Variation>().Property(x => x.Id).ValueGeneratedOnAdd();
-        builder.Entity<Variation>().PrivateProperty<Variation, SimpleStringId>("_ItemId");
-        builder.Entity<Variation>().PrivateProperty<Variation, Sku>("_Sku");
-        builder.Entity<Variation>().PrivateProperty<Variation, Name>("_Name");
-        builder.Entity<Variation>().MoneyValueObjectProperty("_Price");
-
         builder.Entity<StockItem>().ToTable($"{nameof(StockItem)}s").HasKey(x => x.Id);
         builder.Entity<StockItem>().Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Entity<StockItem>().PrivateProperty<StockItem, SimpleStringId>("_ItemId");

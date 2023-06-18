@@ -11,8 +11,12 @@ using Play.Inventory.Domain.Repositories;
 
 namespace Play.Inventory.Application.Handlers;
 
-public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemCreated>, IHandleDomainEvents<AggregateUpdateWasAttemptedByUnknownUser<Item>>,
-    IHandleDomainEvents<DeactivatedMerchantAttemptedToCreateAggregate<Item>>, IHandleDomainEvents<DeactivatedUserAttemptedToUpdateAggregate<Item>>
+public partial class ItemHandler : DomainEventHandler,
+    IHandleDomainEvents<ItemCreated>,
+    IHandleDomainEvents<ItemRemoved>,
+    IHandleDomainEvents<AggregateUpdateWasAttemptedByUnknownUser<Item>>,
+    IHandleDomainEvents<DeactivatedMerchantAttemptedToCreateAggregate<Item>>,
+    IHandleDomainEvents<DeactivatedUserAttemptedToUpdateAggregate<Item>>
 {
     #region Instance Values
 
@@ -36,8 +40,8 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemC
         SubscribeCategoriesPartial(this);
         SubscribeDetailsPartial(this);
         SubscribeLocationsPartial(this);
-        SubscribeVariationsPartial(this);
-        Subscribe((IHandleDomainEvents<ItemCreated>) this);
+        Subscribe((IHandleDomainEvents<ItemCreated>)this);
+        Subscribe((IHandleDomainEvents<ItemRemoved>)this);
         Subscribe((IHandleDomainEvents<AggregateUpdateWasAttemptedByUnknownUser<Item>>) this);
         Subscribe((IHandleDomainEvents<DeactivatedMerchantAttemptedToCreateAggregate<Item>>) this);
         Subscribe((IHandleDomainEvents<DeactivatedUserAttemptedToUpdateAggregate<Item>>) this);
@@ -54,6 +58,21 @@ public partial class ItemHandler : DomainEventHandler, IHandleDomainEvents<ItemC
 
         // Network Event: Send to reporting layer and any other subdomains that are interested. We will keep a commit log of inventory updates
         await _MessageSession.Publish<InventoryItemCreatedEvent>(a =>
+            {
+                a.Item = domainEvent.Item.AsDto();
+                a.UserId = domainEvent.UserId;
+            })
+            .ConfigureAwait(false);
+    }
+
+
+    public async Task Handle(ItemRemoved domainEvent)
+    {
+        Log(domainEvent);
+
+        await _ItemRepository.RemoveAsync(domainEvent.Item).ConfigureAwait(false);
+
+        await _MessageSession.Publish<InventoryItemRemovedEvent>(a =>
             {
                 a.Item = domainEvent.Item.AsDto();
                 a.UserId = domainEvent.UserId;

@@ -34,7 +34,6 @@ internal class InventoryEntityConfiguration : IEntityTypeConfiguration<Item>, IE
         builder.HasOne<Item, Locations, SimpleStringId>("_Locations", "LocationsId");
         builder.HasOne<Item, Alerts, SimpleStringId>("_Alerts", "AlertsId");
         builder.HasMany<Item, Category, SimpleStringId>("_Categories", "CategoriesId");
-        builder.HasMany<Item, Variation, SimpleStringId>("_Variations", "VariationsId");
     }
 
     public void Configure(EntityTypeBuilder<Category> builder)

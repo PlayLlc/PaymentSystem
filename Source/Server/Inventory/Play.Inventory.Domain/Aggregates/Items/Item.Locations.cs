@@ -44,7 +44,7 @@ public partial class Item : Aggregate<SimpleStringId>
         if (_Locations.AddLocations(command.StoreIds.Select(a => new SimpleStringId(a))) == 0)
             return;
 
-        Publish(new ItemLocationAdded(this, user.GetId(), command.StoreIds, _Variations.Select(a => a.Id.Value)));
+        Publish(new ItemLocationAdded(this, user.GetId(), command.StoreIds));
     }
 
     /// <exception cref="NotFoundException"></exception>

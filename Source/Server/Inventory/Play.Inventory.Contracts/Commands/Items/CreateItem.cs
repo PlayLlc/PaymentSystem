@@ -22,12 +22,14 @@ public record CreateItem
 
     [Required]
     public Money Price { get; set; } = null!;
-
+    
+    public AlertsDto? Alerts { get; set; }
     public string? Description { get; set; } = string.Empty;
 
     public string? Sku { get; set; } = string.Empty;
 
     public IEnumerable<CategoryDto> Categories { get; set; } = Array.Empty<CategoryDto>();
+    public LocationsDto? Locations { get; set; }
 
     #endregion
 }

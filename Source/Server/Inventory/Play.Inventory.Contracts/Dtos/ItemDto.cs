@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 using Play.Domain;
+using Play.Domain.Common.Dtos;
 
 namespace Play.Inventory.Contracts.Dtos;
 
@@ -17,6 +18,9 @@ public record ItemDto : IDto
     public string MerchantId { get; set; } = string.Empty;
 
     [Required]
+    public MoneyDto Price { get; set; } = null!;
+
+    [Required]
     [MinLength(1)]
     public string Name { get; set; } = string.Empty;
 
@@ -25,8 +29,7 @@ public record ItemDto : IDto
 
     public string Description { get; set; } = string.Empty;
     public AlertsDto Alerts { get; set; } = new();
-    public IEnumerable<CategoryDto> Categories { get; set; } = new List<CategoryDto>();
-    public IEnumerable<VariationDto> Variations { get; set; } = new List<VariationDto>();
+    public IEnumerable<CategoryDto> Categories { get; set; } = new List<CategoryDto>(); 
 
     #endregion
 }

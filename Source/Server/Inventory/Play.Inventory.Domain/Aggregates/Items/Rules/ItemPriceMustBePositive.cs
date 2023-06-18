@@ -1,6 +1,6 @@
 ﻿using Play.Domain.Aggregates;
-using Play.Domain.Common.ValueObjects;
 using Play.Globalization.Currency;
+using Play.Inventory.Domain.Services;
 
 namespace Play.Inventory.Domain.Aggregates;
 

@@ -1,5 +1,6 @@
 ﻿using Play.Domain.Events;
 using Play.Inventory.Domain.Aggregates;
+using Play.Inventory.Domain.Aggregates.Items.DomainEvents;
 
 namespace Play.Inventory.Application.Handlers;
 

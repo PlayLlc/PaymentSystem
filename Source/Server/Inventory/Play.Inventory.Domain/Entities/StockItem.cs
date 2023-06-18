@@ -14,7 +14,6 @@ public class StockItem : Entity<SimpleStringId>
     #region Instance Values
 
     private readonly SimpleStringId _ItemId;
-    private readonly SimpleStringId _VariationId;
     private int _Quantity;
 
     public override SimpleStringId Id { get; }
@@ -30,11 +29,10 @@ public class StockItem : Entity<SimpleStringId>
     }
 
     /// <exception cref="ValueObjectException"></exception>
-    public StockItem(string id, string itemId, string variationId, int quantity)
+    public StockItem(string id, string itemId, int quantity)
     {
         Id = new(id);
         _ItemId = new(itemId);
-        _VariationId = new(variationId);
         _Quantity = quantity;
     }
 
@@ -45,8 +43,7 @@ public class StockItem : Entity<SimpleStringId>
     #endregion
 
     #region Instance Members
-
-    internal string GetVariationId() => _VariationId;
+    
 
     public string GetItemId() => _ItemId;
 
@@ -69,7 +66,6 @@ public class StockItem : Entity<SimpleStringId>
         {
             Id = Id,
             ItemId = _ItemId,
-            VariationId = _VariationId,
             Quantity = _Quantity
         };
 

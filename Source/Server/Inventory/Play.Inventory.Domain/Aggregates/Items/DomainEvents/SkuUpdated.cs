@@ -2,7 +2,7 @@
 using Play.Inventory.Domain.Entities;
 using Play.Inventory.Domain.ValueObjects;
 
-namespace Play.Inventory.Domain.Aggregates;
+namespace Play.Inventory.Domain.Aggregates.Items.DomainEvents;
 
 public record SkuUpdated : DomainEvent
 {
@@ -14,8 +14,8 @@ public record SkuUpdated : DomainEvent
 
     #region Constructor
 
-    public SkuUpdated(Item item, Variation variation, string userId, string sku) : base(
-        $"The {nameof(Variation)} with the ID: [{variation.GetId()}] has updated its {nameof(Sku)} to: [{sku}];")
+    public SkuUpdated(Item item, string userId, string sku) : base(
+        $"The {nameof(Inventory)} {nameof(Item)} with the ID: [{item.Id}] has updated its {nameof(Sku)} to: [{sku}] by the {nameof(User)} with the ID: {userId};")
     {
         Item = item;
     }
