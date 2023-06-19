@@ -40,7 +40,8 @@ public class Alerts : Entity<SimpleStringId>
     #endregion
 
     #region Instance Members
-
+    public ushort GetLowInventoryThreshold() => _LowInventoryThreshold;;
+    public bool IsActive() => _IsActive;
     public bool IsLowInventoryAlertRequired(int quantity, out IEnumerable<User>? subscribers)
     {
         subscribers = null;

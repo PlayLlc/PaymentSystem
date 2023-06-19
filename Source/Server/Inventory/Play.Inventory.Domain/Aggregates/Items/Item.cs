@@ -8,6 +8,7 @@ using Play.Inventory.Domain.Aggregates.Items.DomainEvents;
 using Play.Inventory.Domain.Entities;
 using Play.Inventory.Domain.Services;
 using Play.Inventory.Domain.ValueObjects;
+using System.Linq;
 
 namespace Play.Inventory.Domain.Aggregates;
 
@@ -19,7 +20,7 @@ public partial class Item : Aggregate<SimpleStringId>
     #region Instance Values
 
     private readonly SimpleStringId _MerchantId;
-    private readonly HashSet<Category> _Categories = new();
+    private HashSet<Category> _Categories = new();
 
 
     private MoneyValueObject _Price;
@@ -133,7 +134,100 @@ public partial class Item : Aggregate<SimpleStringId>
         Enforce(new AggregateMustBeUpdatedByKnownUser<Item>(_MerchantId, user));
         Publish(new ItemRemoved(this, user.GetId()));
     }
-    
+
+
+    public async Task Update(IRetrieveUsers userService, UpdateItem command)
+    {
+        User user = await userService.GetByIdAsync(command.UserId).ConfigureAwait(false) ?? throw new NotFoundException(typeof(User));
+        Enforce(new UserMustBeActiveToUpdateAggregate<Item>(user));
+        Enforce(new AggregateMustBeUpdatedByKnownUser<Item>(_MerchantId, user));
+
+        if (command.Name is not null)
+        {
+            _Name = new(command.Name!);
+            await Publish(new ItemNameUpdated(this, user.GetId(), _Name)).ConfigureAwait(false);
+        }
+        if (command.Price is not null)
+        {
+            _Price = new(command.Price!);
+            await Publish(new PriceUpdated(this, user.GetId(), command.Price!)).ConfigureAwait(false);
+        }
+        if (command.Alerts is not null)
+        {
+            UpdateAlerts(command.UserId, command.Alerts);
+        }
+        if (command.Description is not null)
+        {
+            _Description = new(command.Name!);
+            await Publish(new ItemDescriptionUpdated(this, command.UserId, command.Description)).ConfigureAwait(false);
+        }
+        if (command.Sku is not null)
+        {
+            _Name = new(command.Name!);
+            await Publish(new SkuUpdated(this, user.GetId(), _Name)).ConfigureAwait(false);
+        }
+        if (command.Categories.Count() != 0)
+        {
+            await UpdateCategories(command.UserId, command.Categories.ToList()).ConfigureAwait(false);
+        }
+
+        // TODO: CONTINUE UPDATE STATEMENT
+        throw new NotImplementedException();
+
+        //Publish(new ItemRemoved(this, user.GetId()));
+    }
+
+    private async Task UpdateAlerts(string userId, AlertsDto dto)
+    { 
+
+        if (_Alerts.IsActive() && !dto.IsActive)
+        {
+            _Alerts.ActivateAlerts(); 
+            await Publish(new ItemAlertsHaveBeenActivated(this, userId)).ConfigureAwait(false);
+        }
+
+        if (!_Alerts.IsActive() && dto.IsActive)
+        {
+            _Alerts.DeactivateAlerts(); 
+            await Publish(new ItemAlertsHaveBeenDeactivated(this, userId)).ConfigureAwait(false);
+        }
+
+        if (_Alerts.GetLowInventoryThreshold() != dto.LowInventoryThreshold)
+        {
+            _Alerts.UpdateLowInventoryThreshold(dto.LowInventoryThreshold); 
+            await Publish(new LowInventoryItemThresholdUpdated(this, userId, dto.LowInventoryThreshold)).ConfigureAwait(false);
+        }
+         
+    }
+
+    private async Task UpdateCategories(string userId, List<CategoryDto> categoryDtos)
+    {
+        var categoriesInRequest = categoryDtos.Select(a => new Category(a)).ToList();
+
+        var excludedCategories = categoriesInRequest.Except(_Categories).ToList();
+        var newCategories = _Categories.Except(categoriesInRequest).ToList();
+
+        if (excludedCategories.Any())
+        {
+            foreach (var a in excludedCategories)
+            {
+                _Categories.Remove(a); 
+            }
+
+            await Publish(new ItemCategoriesRemoved(this, userId, excludedCategories.ToArray())).ConfigureAwait(false);
+        }
+
+        if (newCategories.Any())
+        {
+            foreach (var a in newCategories)
+            {
+                _Categories.Add(a);
+            }
+            await Publish(new ItemCategoriesAdded(this, userId, newCategories.ToArray())).ConfigureAwait(false);
+        } 
+    }
+
+
 
 
 
