@@ -1,10 +1,7 @@
-﻿using Android.Text;
-using Android.Views;
-using AndroidX.Camera.Core;
+﻿using Android.Views;
 using PayWithPlay.Core.ViewModels.Main.Inventory;
 using PayWithPlay.Droid.CustomViews;
 using PayWithPlay.Droid.Extensions;
-using PayWithPlay.Droid.Utils.InputFilters;
 
 namespace PayWithPlay.Droid.Fragments.MainFragments.Inventory
 {

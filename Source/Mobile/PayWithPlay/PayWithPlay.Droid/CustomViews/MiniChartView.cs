@@ -65,7 +65,7 @@ namespace PayWithPlay.Droid.CustomViews
             _indicatorIcon!.ImageTintList = ColorStateList.ValueOf(new Color(stateColor));
             _value.SetTextColor(ColorStateList.ValueOf(new Color(stateColor)));
 
-            SetAvgRevenueChartData(chartEntries, stateColor);
+            SetChartData(chartEntries, stateColor);
         }
 
 
@@ -80,7 +80,7 @@ namespace PayWithPlay.Droid.CustomViews
             MiniLineChartUtils.SetChartProperties(_lineChart);
         }
 
-        private void SetAvgRevenueChartData(List<ChartEntry> chartEntries, int color)
+        private void SetChartData(List<ChartEntry> chartEntries, int color)
         {
             var entries = new List<Entry>();
 

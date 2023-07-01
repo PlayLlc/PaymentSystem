@@ -1,11 +1,15 @@
-﻿using PayWithPlay.Core.Models.Chart;
-using System;
+﻿using PayWithPlay.Core.Enums;
+using PayWithPlay.Core.Models.Chart;
 using System.Data;
 
 namespace PayWithPlay.Core.Utils
 {
     public static class MockDataUtils
     {
+        private static string[] _productsName = new string[] { "Crocks", "Ben Sherman", "Lacoste Boat", "Free people", "Seven For all", "Prodcut name", "Prodcut name", "Prodcut name", "Prodcut name", "Prodcut name", "Prodcut name", "Prodcut name", "Prodcut name" };
+
+        private static string[] _shortMonthsValues = new string[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+
         public static decimal RandomDecimal(bool onlyPositives = true)
         {
             var randomNumberGenerator = new Random();
@@ -87,6 +91,63 @@ namespace PayWithPlay.Core.Utils
             miniChartModel.Entries = entries;
 
             return miniChartModel;
+        }
+
+        public static List<ChartEntry> RandomTopSellingChartData(ChartStepType chartStep)
+        {
+            var list = new List<ChartEntry>();
+            var random = new Random();
+
+            if (random.Next() < (int.MaxValue / 8))
+            {
+                return list;
+            }
+
+            var min = random.Next(5, 20);
+            var max = random.Next(60, 100);
+
+            for (int i = 0; i < 13; i++)
+            {
+                list.Add(new ChartEntry(i, random.Next(min, max)) { Title = _productsName[i] });
+            }
+
+            return list;
+        }
+
+        public static List<ChartEntry> RandomShrinkageRateChartData() 
+        {
+            var list = new List<ChartEntry>();
+            var random = new Random();
+
+            if (random.Next() < (int.MaxValue / 8)) 
+            {
+                return list;
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                list.Add(new ChartEntry(i, (float)random.NextDouble()) { Title = _productsName[i] });
+            }
+
+            return list;
+        }
+
+        public static List<ChartEntry> RandomInventoryOnHandChartData()
+        {
+            var list = new List<ChartEntry>();
+            var random = new Random();
+
+            if (random.Next() < (int.MaxValue / 8))
+            {
+                return list;
+            }
+
+            for (int i = 0; i < _shortMonthsValues.Length; i++)
+            {
+                list.Add(new ChartEntry(i, random.Next(5, 80)) { Title = _shortMonthsValues[i] });
+            }
+
+            return list;
         }
     }
 }

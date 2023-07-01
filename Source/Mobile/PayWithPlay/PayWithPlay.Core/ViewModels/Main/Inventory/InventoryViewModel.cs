@@ -1,5 +1,6 @@
 ﻿using MvvmCross.Commands;
 using PayWithPlay.Core.Models.Chart;
+using PayWithPlay.Core.Models.Chart.Inventory;
 using PayWithPlay.Core.Resources;
 using PayWithPlay.Core.Utils;
 
@@ -19,6 +20,14 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
             MockData();
         }
 
+        public override void ViewDestroy(bool viewFinishing = true)
+        {
+            TopSellingPorductsChartModel.ChartEntriesChangedAction = null;
+            ShrinkageRateChartModel.ChartEntriesChangedAction = null;
+            InventoryOnHandChartModel.ChartEntriesChangedAction = null;
+
+            base.ViewDestroy(viewFinishing);
+        }
 
         public string Title => Resource.Inventory;
         public string Subtitle => Resource.InventorySubtitle;
@@ -60,6 +69,10 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
 
         public MiniChartModel? AvgRevenuePerUnitChartModel { get; set; }
 
+        public TopSellingProductsChartModel TopSellingPorductsChartModel { get; set; } = new TopSellingProductsChartModel();
+        public ShrinkageRateChartModel ShrinkageRateChartModel { get; set; } = new ShrinkageRateChartModel();
+        public InventoryOnHandChartModel InventoryOnHandChartModel { get; set; } = new InventoryOnHandChartModel();
+
         public void OnSearch()
         {
             NavigationService.Navigate<SearchInventoryViewModel>();
@@ -92,8 +105,13 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
             STRValue = (float)random.NextDouble();
             NewInventoryAddedToday = random.Next(0, 1000);
             AvgRevenuePerUnitValue = MockDataUtils.RandomDecimal();
+
             AvgRevenuePerUnitChartModel = MockDataUtils.RandomDataMiniChart(AvgRevenuePerUnitChartModel);
             RaisePropertyChanged(() => AvgRevenuePerUnitChartModel);
+
+            TopSellingPorductsChartModel.ReloadData();
+            ShrinkageRateChartModel.ReloadData();
+            InventoryOnHandChartModel.ReloadData();
         }
     }
 }

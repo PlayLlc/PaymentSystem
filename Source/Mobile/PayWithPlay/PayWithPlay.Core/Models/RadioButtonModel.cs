@@ -4,6 +4,7 @@
     {
         public enum ColorType
         {
+            Transparent,
             LightBlue
         }
 

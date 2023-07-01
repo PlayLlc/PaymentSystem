@@ -267,6 +267,12 @@
   <data name="Date" xml:space="preserve">
     <value>Date</value>
   </data>
+  <data name="Day" xml:space="preserve">
+    <value>Day</value>
+  </data>
+  <data name="DaysInventoryOnHand" xml:space="preserve">
+    <value>Days Inventory on Hand</value>
+  </data>
   <data name="DeleteItem" xml:space="preserve">
     <value>Delete item</value>
   </data>
@@ -434,6 +440,9 @@
   </data>
   <data name="MerchnatNonProfitSubtitle" xml:space="preserve">
     <value>Charity, Religious organization</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Month</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
@@ -630,6 +639,9 @@
   <data name="SelectStores" xml:space="preserve">
     <value>Select stores</value>
   </data>
+  <data name="ShrinkageRateByProduct" xml:space="preserve">
+    <value>Shrinkage Rate by Product</value>
+  </data>
   <data name="SignIn" xml:space="preserve">
     <value>Sign in</value>
   </data>
@@ -687,6 +699,9 @@
   <data name="TicketNumber" xml:space="preserve">
     <value>Ticket Number</value>
   </data>
+  <data name="TopSellingItems" xml:space="preserve">
+    <value>Top Selling Items</value>
+  </data>
   <data name="Total" xml:space="preserve">
     <value>Total</value>
   </data>
@@ -734,6 +749,9 @@
   </data>
   <data name="VerifyPhoneNumberTitle" xml:space="preserve">
     <value>Verify phone number</value>
+  </data>
+  <data name="Week" xml:space="preserve">
+    <value>Week</value>
   </data>
   <data name="WelcomeTo" xml:space="preserve">
     <value>Welcome to</value>

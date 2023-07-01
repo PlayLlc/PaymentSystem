@@ -511,6 +511,24 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Day.
+        /// </summary>
+        internal static string Day {
+            get {
+                return ResourceManager.GetString("Day", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Days Inventory on Hand.
+        /// </summary>
+        internal static string DaysInventoryOnHand {
+            get {
+                return ResourceManager.GetString("DaysInventoryOnHand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete item.
         /// </summary>
         internal static string DeleteItem {
@@ -1011,6 +1029,15 @@ namespace PayWithPlay.Core.Resources {
         internal static string MerchnatNonProfitSubtitle {
             get {
                 return ResourceManager.GetString("MerchnatNonProfitSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Month.
+        /// </summary>
+        internal static string Month {
+            get {
+                return ResourceManager.GetString("Month", resourceCulture);
             }
         }
         
@@ -1600,6 +1627,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Shrinkage Rate by Product.
+        /// </summary>
+        internal static string ShrinkageRateByProduct {
+            get {
+                return ResourceManager.GetString("ShrinkageRateByProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sign in.
         /// </summary>
         internal static string SignIn {
@@ -1771,6 +1807,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Top Selling Items.
+        /// </summary>
+        internal static string TopSellingItems {
+            get {
+                return ResourceManager.GetString("TopSellingItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Total.
         /// </summary>
         internal static string Total {
@@ -1911,6 +1956,15 @@ namespace PayWithPlay.Core.Resources {
         internal static string VerifyPhoneNumberTitle {
             get {
                 return ResourceManager.GetString("VerifyPhoneNumberTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Week.
+        /// </summary>
+        internal static string Week {
+            get {
+                return ResourceManager.GetString("Week", resourceCulture);
             }
         }
         

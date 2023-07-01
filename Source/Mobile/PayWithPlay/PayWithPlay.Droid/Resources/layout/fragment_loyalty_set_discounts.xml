@@ -85,6 +85,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginVertical="12dp"
                 app:buttonsHeight="25dp"
+                app:buttonsPadding="11dp"
                 app:buttonsTextSize="16sp"
                 app:MvxBind="ItemsSource DiscountsButtons; RadioButtonSelectedType SelectedDiscountType"/>
 

@@ -8,7 +8,6 @@ using Android.Views;
 using Android.Views.Animations;
 using AndroidX.Core.Content;
 using AndroidX.Core.Content.Resources;
-using Google.Android.Material.Button;
 using MvvmCross.Binding.Attributes;
 using PayWithPlay.Core.Models;
 using PayWithPlay.Droid.Extensions;
@@ -23,6 +22,7 @@ namespace PayWithPlay.Droid.CustomViews
 
         private int _buttonsHeight = -1;
         private float _buttonsTextSize = -1;
+        private int _buttonPadding = -1;
 
         private Color _selectedTextColor;
         private Color _unSelectedTextColor;
@@ -286,6 +286,7 @@ namespace PayWithPlay.Droid.CustomViews
             return colorType switch
             {
                 RadioButtonModel.ColorType.LightBlue => ContextCompat.GetColor(Context, Resource.Color.accent_color),
+                RadioButtonModel.ColorType.Transparent => Color.Transparent,
                 _ => Color.Transparent,
             };
         }
@@ -330,8 +331,11 @@ namespace PayWithPlay.Droid.CustomViews
             button.SetMinHeight(0);
             button.SetMinimumHeight(0);
             button.Background = GetButtonDrawable();
-            var buttonPadding = (int)(0.45 * _buttonsHeight);
-            button.SetPadding(buttonPadding, 0, buttonPadding, 0);
+            if (_buttonPadding == -1) 
+            {
+                _buttonPadding = (int)(0.45 * _buttonsHeight);
+            }
+            button.SetPadding(_buttonPadding, 0, _buttonPadding, 0);
             button.Gravity = GravityFlags.Center;
             button.SetAllCaps(false);
             button.SetTextColor(_unSelectedTextColor);
@@ -360,9 +364,6 @@ namespace PayWithPlay.Droid.CustomViews
             gradientDrawable.SetCornerRadius((_buttonsHeight + 2 * padding) / 2f);
             gradientDrawable.SetColor(ContextCompat.GetColor(Context, Resource.Color.third_color));
             Background = gradientDrawable;
-
-            _selectedTextColor = new Color(ContextCompat.GetColor(Context, Resource.Color.white));
-            _unSelectedTextColor = new Color(ContextCompat.GetColor(Context, Resource.Color.primary_text_color));
 
             _buttonBackground = new Button(Context)
             {
@@ -396,6 +397,9 @@ namespace PayWithPlay.Droid.CustomViews
             {
                 _buttonsHeight = attrs.GetDimensionPixelSize(Resource.Styleable.RadioButtons_buttonsHeight, -1);
                 _buttonsTextSize = attrs.GetDimension(Resource.Styleable.RadioButtons_buttonsTextSize, 16f);
+                _buttonPadding = attrs.GetDimensionPixelSize(Resource.Styleable.RadioButtons_buttonsPadding, -1);
+                _selectedTextColor = attrs.GetColor(Resource.Styleable.RadioButtons_buttonSelectedTextColor, new Color(ContextCompat.GetColor(Context, Resource.Color.white)));
+                _unSelectedTextColor = attrs.GetColor(Resource.Styleable.RadioButtons_buttonDefaultTextColor, new Color(ContextCompat.GetColor(Context, Resource.Color.primary_text_color)));
             }
             finally
             {

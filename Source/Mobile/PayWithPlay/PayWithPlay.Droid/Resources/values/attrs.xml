@@ -29,6 +29,9 @@
   <declare-styleable name="RadioButtons">
     <attr name="buttonsHeight" format="dimension" />
     <attr name="buttonsTextSize" format="dimension" />
+    <attr name="buttonsPadding" format="dimension" />
+    <attr name="buttonSelectedTextColor" format="color" />
+    <attr name="buttonDefaultTextColor" format="color" />
   </declare-styleable>
 
   <declare-styleable name="ArcProgressView">
