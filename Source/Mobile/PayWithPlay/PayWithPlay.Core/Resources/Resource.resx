@@ -417,6 +417,9 @@
   <data name="LoyaltySubtitle" xml:space="preserve">
     <value>Search, create and manage Loyalty Accounts and Programs</value>
   </data>
+  <data name="LoyatlySalesVsRedeemed" xml:space="preserve">
+    <value>Loyalty Sales vs Redeemed</value>
+  </data>
   <data name="Manage" xml:space="preserve">
     <value>Manage</value>
   </data>
@@ -444,11 +447,17 @@
   <data name="Month" xml:space="preserve">
     <value>Month</value>
   </data>
+  <data name="Monthly" xml:space="preserve">
+    <value>Monthly</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
   <data name="NewInventoryToday" xml:space="preserve">
     <value>New Inventory added today</value>
+  </data>
+  <data name="NewLoyaltyAccounts" xml:space="preserve">
+    <value>New Loyalty Accounts</value>
   </data>
   <data name="NewScan" xml:space="preserve">
     <value>New scan</value>
@@ -761,6 +770,9 @@
   </data>
   <data name="Week" xml:space="preserve">
     <value>Week</value>
+  </data>
+  <data name="Weekly" xml:space="preserve">
+    <value>Weekly</value>
   </data>
   <data name="WelcomeTo" xml:space="preserve">
     <value>Welcome to</value>

@@ -961,6 +961,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loyalty Sales vs Redeemed.
+        /// </summary>
+        internal static string LoyatlySalesVsRedeemed {
+            get {
+                return ResourceManager.GetString("LoyatlySalesVsRedeemed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manage.
         /// </summary>
         internal static string Manage {
@@ -1042,6 +1051,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Monthly.
+        /// </summary>
+        internal static string Monthly {
+            get {
+                return ResourceManager.GetString("Monthly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         internal static string Name {
@@ -1056,6 +1074,15 @@ namespace PayWithPlay.Core.Resources {
         internal static string NewInventoryToday {
             get {
                 return ResourceManager.GetString("NewInventoryToday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Loyalty Accounts.
+        /// </summary>
+        internal static string NewLoyaltyAccounts {
+            get {
+                return ResourceManager.GetString("NewLoyaltyAccounts", resourceCulture);
             }
         }
         
@@ -1992,6 +2019,15 @@ namespace PayWithPlay.Core.Resources {
         internal static string Week {
             get {
                 return ResourceManager.GetString("Week", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weekly.
+        /// </summary>
+        internal static string Weekly {
+            get {
+                return ResourceManager.GetString("Weekly", resourceCulture);
             }
         }
         

@@ -1,8 +1,8 @@
 ﻿using MvvmCross.Commands;
 using PayWithPlay.Core.Models.Chart;
+using PayWithPlay.Core.Models.Chart.Loyalty;
 using PayWithPlay.Core.Resources;
 using PayWithPlay.Core.Utils;
-using PayWithPlay.Core.ViewModels.Main.Inventory;
 
 namespace PayWithPlay.Core.ViewModels.Main.Loyalty
 {
@@ -20,6 +20,14 @@ namespace PayWithPlay.Core.ViewModels.Main.Loyalty
             MockData();
         }
 
+        public override void ViewDestroy(bool viewFinishing = true)
+        {
+            NewAccountsChartModel.ChartEntriesChangedAction = null;
+            SalesVsReddeemedChartModel.ChartEntriesChangedAction = null;
+
+            base.ViewDestroy(viewFinishing);
+        }
+
         public string Title => Resource.Loyalty;
         public string Subtitle => Resource.LoyaltySubtitle;
         public string SearchButtonText => Resource.Search;
@@ -29,6 +37,10 @@ namespace PayWithPlay.Core.ViewModels.Main.Loyalty
         public string LoyaltySalesText => Resource.LoyaltySales;
         public string DailyText => Resource.Daily;
         public string RedeemedText => Resource.Redeemed;
+
+        public SalesVsReddeemedChartModel SalesVsReddeemedChartModel { get; set; } = new SalesVsReddeemedChartModel();
+
+        public NewAccountsChartModel NewAccountsChartModel { get; set; } = new NewAccountsChartModel();
 
         public IMvxAsyncCommand? RefreshCommand => _refreshCommand ??= new MvxAsyncCommand(OnRefresh);
 
@@ -100,6 +112,9 @@ namespace PayWithPlay.Core.ViewModels.Main.Loyalty
 
             RedeemedChartModel = MockDataUtils.RandomDataMiniChart(RedeemedChartModel);
             RaisePropertyChanged(() => RedeemedChartModel);
+
+            SalesVsReddeemedChartModel.ReloadData();
+            NewAccountsChartModel.ReloadData();
         }
     }
 }

@@ -23,6 +23,7 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
         public override void ViewDestroy(bool viewFinishing = true)
         {
             TopSellingProductsChartModel.ChartEntriesChangedAction = null;
+            SalesVsShrinkageChartModel.ChartEntriesChangedAction = null;
             ShrinkageRateChartModel.ChartEntriesChangedAction = null;
             InventoryOnHandChartModel.ChartEntriesChangedAction = null;
 
@@ -70,9 +71,9 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
         public MiniChartModel? AvgRevenuePerUnitChartModel { get; set; }
 
         public TopSellingProductsChartModel TopSellingProductsChartModel { get; set; } = new TopSellingProductsChartModel();
+        public SalesVsShrinkageChartModel SalesVsShrinkageChartModel { get; set; } = new SalesVsShrinkageChartModel();
         public ShrinkageRateChartModel ShrinkageRateChartModel { get; set; } = new ShrinkageRateChartModel();
         public InventoryOnHandChartModel InventoryOnHandChartModel { get; set; } = new InventoryOnHandChartModel();
-        public SalesVsShrinkageChartModel SalesVsShrinkageChartModel { get; set; } = new SalesVsShrinkageChartModel();
 
         public void OnSearch()
         {

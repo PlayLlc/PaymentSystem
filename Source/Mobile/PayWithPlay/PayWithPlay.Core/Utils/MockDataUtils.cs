@@ -10,6 +10,8 @@ namespace PayWithPlay.Core.Utils
 
         private static string[] _shortMonthsValues = new string[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
+        private static string[] _weekDaysValues = new string[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
+
         public static decimal RandomDecimal(bool onlyPositives = true)
         {
             var randomNumberGenerator = new Random();
@@ -158,6 +160,78 @@ namespace PayWithPlay.Core.Utils
             for (int i = 0; i < _shortMonthsValues.Length; i++)
             {
                 list.Add(new ChartEntry(i, random.Next(minValue, maxValue)) { Title = _shortMonthsValues[i] });
+            }
+
+            return list;
+        }
+
+        public static List<ChartEntry> RandomLoyaltySalesVsRedeemedChartData(int minValue, int maxValue)
+        {
+            var list = new List<ChartEntry>();
+            var random = new Random();
+
+            for (int i = 0; i < _shortMonthsValues.Length; i++)
+            {
+                list.Add(new ChartEntry(i, random.Next(minValue, maxValue)) { Title = _shortMonthsValues[i] });
+            }
+
+            return list;
+        }
+
+        public static List<ChartEntry> RandomNewLoyaltyAccountsChartData(ChartStepType chartStep) 
+        {
+            var list = new List<ChartEntry>();
+            var random = new Random();
+
+            if (random.Next() < (int.MaxValue / 8))
+            {
+                return list;
+            }
+
+
+            if (chartStep == ChartStepType.Day)
+            {
+                for (int i = 0; i < 24; i++)
+                {
+                    var min = 1;
+                    var max = 5;
+                    var title = string.Empty;
+                    if (i == 0)
+                    {
+                        title = "0am";
+                    }
+                    else if (i == 6)
+                    {
+                        title = "6am";
+                    }
+                    else if (i == 12)
+                    {
+                        title = "12am";
+                    }
+                    else if (i == 18) 
+                    {
+                        title = "6pm";
+                    }
+                    list.Add(new ChartEntry(i, RandomBool() ? random.Next(min, max) : 0) { Title = title });
+                }
+            }
+            else if (chartStep == ChartStepType.Week)
+            {
+                for (int i = 0; i < _weekDaysValues.Length; i++)
+                {
+                    var min = 1;
+                    var max = 20;
+                    list.Add(new ChartEntry(i, RandomBool() ? random.Next(min, max) : 0) { Title = _weekDaysValues[i] });
+                }
+            }
+            else if (chartStep == ChartStepType.Month) 
+            {
+                for (int i = 0; i < _shortMonthsValues.Length; i++)
+                {
+                    var min = 1;
+                    var max = 100;
+                    list.Add(new ChartEntry(i, RandomBool() ? random.Next(min, max) : 0) { Title = _shortMonthsValues[i] });
+                }
             }
 
             return list;

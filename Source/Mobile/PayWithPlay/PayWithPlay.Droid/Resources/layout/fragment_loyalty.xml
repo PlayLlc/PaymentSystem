@@ -317,6 +317,143 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/new_accounts_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="184dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="8dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start|center_vertical"
+                            android:textColor="@color/primary_text_color"
+                            style="@style/VerySmallTextStyle"
+                            app:MvxBind="Text NewAccountsChartModel.NewLoyaltyAccountsText"/>
+
+                        <PayWithPlay.Droid.CustomViews.RadioButtonsView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end|center_vertical"
+                            android:layout_marginEnd="4dp"
+                            app:buttonsHeight="20dp"
+                            app:buttonsPadding="2dp"
+                            app:buttonsTextSize="10sp"
+                            app:buttonSelectedTextColor="@color/accent_color"
+                            app:buttonDefaultTextColor="@color/hint_text_color"
+                            app:MvxBind="ItemsSource NewAccountsChartModel.ChartStepButtons; RadioButtonSelectedType NewAccountsChartModel.SelectedChartStep"/>
+
+                    </FrameLayout>
+
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/new_accounts_bar_chart"
+                        android:layout_marginTop="12dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginBottom="6dp"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/sales_vs_redeemed_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="184dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginTop="14dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start|top"
+                            android:textColor="@color/primary_text_color"
+                            style="@style/VerySmallTextStyle"
+                            app:MvxBind="Text SalesVsReddeemedChartModel.SalesVsRedeemedText"/>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end|top"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <PayWithPlay.Droid.CustomViews.ShapeableViews.ShapeableView
+                                    android:layout_width="5dp"
+                                    android:layout_height="5dp"
+                                    android:layout_gravity="center_vertical"
+                                    app:fillColor="@color/chart_primary_color"
+                                    app:cornerRadius="1dp"/>
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="5dp"
+                                    android:textColor="@color/chart_primary_color"
+                                    style="@style/VerySmallTextStyle"
+                                    android:textSize="8sp"
+                                    app:MvxBind="Text SalesVsReddeemedChartModel.LoyaltySalesText"/>
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="1dp"
+                                android:orientation="horizontal">
+
+                                <PayWithPlay.Droid.CustomViews.ShapeableViews.ShapeableView
+                                    android:layout_width="5dp"
+                                    android:layout_height="5dp"
+                                    android:layout_gravity="center_vertical"
+                                    app:fillColor="@color/chart_secondary_color"
+                                    app:cornerRadius="1dp"/>
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="5dp"
+                                    android:textColor="@color/chart_secondary_color"
+                                    style="@style/VerySmallTextStyle"
+                                    android:textSize="8sp"
+                                    app:MvxBind="Text SalesVsReddeemedChartModel.RedeemedText"/>
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    </FrameLayout>
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/sales_vs_redeemed_line_chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginBottom="6dp"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.core.widget.NestedScrollView>
