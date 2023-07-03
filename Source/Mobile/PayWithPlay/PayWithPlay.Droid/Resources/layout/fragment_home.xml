@@ -55,7 +55,7 @@
                 android:layout_gravity="center_vertical"
                 app:MvxBind="Click OnNotifications"/>
 
-            <PayWithPlay.Droid.CustomViews.ShapeableView
+            <PayWithPlay.Droid.CustomViews.ShapeableViews.ShapeableView
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:layout_marginTop="3dp"
@@ -107,7 +107,7 @@
                         android:orientation="vertical"
                         app:layout_constraintGuide_percent="1" />
 
-                    <PayWithPlay.Droid.CustomViews.ShapeableView
+                    <PayWithPlay.Droid.CustomViews.ShapeableViews.ShapeableFrameLayoutView
                         android:id="@+id/view1"
                         android:layout_width="0dp"
                         android:layout_height="132dp"
@@ -172,9 +172,9 @@
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    </PayWithPlay.Droid.CustomViews.ShapeableView>
+                    </PayWithPlay.Droid.CustomViews.ShapeableViews.ShapeableFrameLayoutView>
 
-                    <PayWithPlay.Droid.CustomViews.ShapeableView
+                    <PayWithPlay.Droid.CustomViews.ShapeableViews.ShapeableFrameLayoutView
                         android:id="@+id/view2"
                         android:layout_width="0dp"
                         android:layout_height="132dp"
@@ -241,9 +241,9 @@
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    </PayWithPlay.Droid.CustomViews.ShapeableView>
+                    </PayWithPlay.Droid.CustomViews.ShapeableViews.ShapeableFrameLayoutView>
 
-                    <PayWithPlay.Droid.CustomViews.ShapeableView
+                    <PayWithPlay.Droid.CustomViews.ShapeableViews.ShapeableFrameLayoutView
                         android:id="@+id/view3"
                         android:layout_width="0dp"
                         android:layout_height="132dp"
@@ -365,7 +365,7 @@
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    </PayWithPlay.Droid.CustomViews.ShapeableView>
+                    </PayWithPlay.Droid.CustomViews.ShapeableViews.ShapeableFrameLayoutView>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

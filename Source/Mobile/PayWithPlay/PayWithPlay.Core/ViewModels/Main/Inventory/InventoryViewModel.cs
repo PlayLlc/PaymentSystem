@@ -22,7 +22,7 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
 
         public override void ViewDestroy(bool viewFinishing = true)
         {
-            TopSellingPorductsChartModel.ChartEntriesChangedAction = null;
+            TopSellingProductsChartModel.ChartEntriesChangedAction = null;
             ShrinkageRateChartModel.ChartEntriesChangedAction = null;
             InventoryOnHandChartModel.ChartEntriesChangedAction = null;
 
@@ -69,9 +69,10 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
 
         public MiniChartModel? AvgRevenuePerUnitChartModel { get; set; }
 
-        public TopSellingProductsChartModel TopSellingPorductsChartModel { get; set; } = new TopSellingProductsChartModel();
+        public TopSellingProductsChartModel TopSellingProductsChartModel { get; set; } = new TopSellingProductsChartModel();
         public ShrinkageRateChartModel ShrinkageRateChartModel { get; set; } = new ShrinkageRateChartModel();
         public InventoryOnHandChartModel InventoryOnHandChartModel { get; set; } = new InventoryOnHandChartModel();
+        public SalesVsShrinkageChartModel SalesVsShrinkageChartModel { get; set; } = new SalesVsShrinkageChartModel();
 
         public void OnSearch()
         {
@@ -109,7 +110,8 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
             AvgRevenuePerUnitChartModel = MockDataUtils.RandomDataMiniChart(AvgRevenuePerUnitChartModel);
             RaisePropertyChanged(() => AvgRevenuePerUnitChartModel);
 
-            TopSellingPorductsChartModel.ReloadData();
+            TopSellingProductsChartModel.ReloadData();
+            SalesVsShrinkageChartModel.ReloadData();
             ShrinkageRateChartModel.ReloadData();
             InventoryOnHandChartModel.ReloadData();
         }

@@ -14,6 +14,8 @@
   <color name="positive_color">#00D994</color>
   <color name="greyed_out">#33AAAFB4</color>
   <color name="bright_gray">#E8EDF3</color>
+  <color name="chart_primary_color">#00C3D9</color>
+  <color name="chart_secondary_color">#6239BF</color>
   <color name="black">#FF000000</color>
   <color name="white">#FFFFFFFF</color>
   <color name="transparent_white">#80FFFFFF</color>

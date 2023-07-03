@@ -597,6 +597,12 @@
   <data name="SalePrice" xml:space="preserve">
     <value>Sale Price</value>
   </data>
+  <data name="Sales" xml:space="preserve">
+    <value>Sales</value>
+  </data>
+  <data name="SalesVsShrinkage" xml:space="preserve">
+    <value>Sales vs Shrinkage</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
   </data>
@@ -638,6 +644,9 @@
   </data>
   <data name="SelectStores" xml:space="preserve">
     <value>Select stores</value>
+  </data>
+  <data name="Shrinkage" xml:space="preserve">
+    <value>Shrinkage</value>
   </data>
   <data name="ShrinkageRateByProduct" xml:space="preserve">
     <value>Shrinkage Rate by Product</value>

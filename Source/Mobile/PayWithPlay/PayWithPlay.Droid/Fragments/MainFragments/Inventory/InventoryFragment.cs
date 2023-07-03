@@ -18,6 +18,9 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Inventory
         private LinearLayoutCompat? _topSellingItemsContainer;
         private BarChart? _topSellingBarChart;
 
+        private LinearLayoutCompat? _salesVsShrinkageContainer;
+        private LineChart? _salesVsShrinkageLineChart;
+
         private LinearLayoutCompat? _shrinkageRateContainer;
         private BarChart? _shrinkageRateBarChart;
 
@@ -30,7 +33,8 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Inventory
         {
             base.OnCreate(savedInstanceState);
 
-            ViewModel.TopSellingPorductsChartModel.ChartEntriesChangedAction = TopSellingItemsChanged;
+            ViewModel.TopSellingProductsChartModel.ChartEntriesChangedAction = TopSellingItemsChanged;
+            ViewModel.SalesVsShrinkageChartModel.ChartEntriesChangedAction = SalesVsShrinkageChartDataChanged;
             ViewModel.ShrinkageRateChartModel.ChartEntriesChangedAction = ShrinkageRateChartDataChanged;
             ViewModel.InventoryOnHandChartModel.ChartEntriesChangedAction = InventoryOnHandChartDataChanged;
         }
@@ -41,6 +45,7 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Inventory
 
             InitViews(rootView);
             SetTopSellingItemsChart();
+            SetSalesVsShrinkageChart();
             SetShrinkageRateChart();
             SetDaysInventoryOnHandChart();
 
@@ -49,7 +54,15 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Inventory
 
         private void TopSellingItemsChanged()
         {
-            BarChartUtils.SetBarEntries(ViewModel.TopSellingPorductsChartModel.Entries, _topSellingBarChart, true);
+            BarChartUtils.SetBarEntries(ViewModel.TopSellingProductsChartModel.Entries, _topSellingBarChart, true);
+        }
+
+        private void SalesVsShrinkageChartDataChanged()
+        {
+            var sales = LineChartUtils.GetLineDataSet(ViewModel.SalesVsShrinkageChartModel.SalesEntries, Resource.Color.chart_primary_color);
+            var shrinkage = LineChartUtils.GetLineDataSet(ViewModel.SalesVsShrinkageChartModel.ShrinkageEntries, Resource.Color.chart_secondary_color);
+
+            LineChartUtils.SetDataSets(_salesVsShrinkageLineChart, sales, shrinkage);
         }
 
         private void ShrinkageRateChartDataChanged()
@@ -69,6 +82,9 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Inventory
 
             _topSellingItemsContainer = root.FindViewById<LinearLayoutCompat>(Resource.Id.top_selling_items_container)!;
             _topSellingBarChart = root.FindViewById<BarChart>(Resource.Id.top_selling_items_bar_chart)!;
+
+            _salesVsShrinkageContainer = root.FindViewById<LinearLayoutCompat>(Resource.Id.sales_vs_shrinkage_container)!;
+            _salesVsShrinkageLineChart = root.FindViewById<LineChart>(Resource.Id.sales_vs_shrinkage_line_chart)!;
 
             _shrinkageRateContainer = root.FindViewById<LinearLayoutCompat>(Resource.Id.shrinkage_rate_container)!;
             _shrinkageRateBarChart = root.FindViewById<BarChart>(Resource.Id.shrinkage_rate_bar_chart)!;
@@ -110,6 +126,50 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Inventory
             };
 
             TopSellingItemsChanged();
+        }
+
+        private void SetSalesVsShrinkageChart()
+        {
+            _salesVsShrinkageContainer.SetBackground(Resource.Color.third_color, 2f.ToPx(), Resource.Color.hint_text_color, 5f.ToFloatPx());
+            var salesVsShrinkageContainerLp = _salesVsShrinkageContainer.LayoutParameters as MarginLayoutParams;
+            salesVsShrinkageContainerLp!.Height = (int)((Context!.Resources!.DisplayMetrics!.WidthPixels - salesVsShrinkageContainerLp.MarginStart - salesVsShrinkageContainerLp.MarginEnd) * 0.5f);
+            _salesVsShrinkageContainer.LayoutParameters = salesVsShrinkageContainerLp;
+
+            LineChartUtils.SetChartProperties(_salesVsShrinkageLineChart);
+            _salesVsShrinkageLineChart.AxisLeft.GridLineWidth = 1;
+            _salesVsShrinkageLineChart.AxisLeft.GridColor = ContextCompat.GetColor(App.Context, Resource.Color.secondary_text_color);
+            _salesVsShrinkageLineChart.AxisLeft.SetDrawGridLines(true);
+            _salesVsShrinkageLineChart.AxisLeft.SetDrawGridLinesBehindData(true);
+
+            var xAxis = _salesVsShrinkageLineChart.XAxis;
+            xAxis.ValueFormatter = new CustomValueFormatter()
+            {
+                OnAxisLabel = (value, axis) =>
+                {
+                    if (_salesVsShrinkageLineChart!.Data is LineData lineData &&
+                        lineData.DataSets[0] is LineDataSet curentLineDataSet && curentLineDataSet.Values is JavaList lineEntriesJavaList)
+                    {
+                        var lineEntries = lineEntriesJavaList.Cast<Entry>();
+                        var entry = lineEntries.FirstOrDefault(t => t.GetX() == value);
+                        if (entry != null && entry.Data is Java.Lang.String data)
+                        {
+                            return data.ToString();
+                        }
+                    }
+
+                    return value.ToString();
+                }
+            };
+
+            _salesVsShrinkageLineChart!.AxisLeft.ValueFormatter = new CustomValueFormatter()
+            {
+                OnAxisLabel = (value, axis) =>
+                {
+                    return $"${(int)(value * 0.001)}K".ToString();
+                }
+            };
+
+            SalesVsShrinkageChartDataChanged();
         }
 
         private void SetShrinkageRateChart()

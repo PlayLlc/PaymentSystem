@@ -115,7 +115,7 @@
             app:behavior_peekHeight="96dp"
             app:layout_behavior="PayWithPlay.Droid.Utils.DraggableBottomSheetBehavior">
 
-            <PayWithPlay.Droid.CustomViews.ShapeableView
+            <PayWithPlay.Droid.CustomViews.ShapeableViews.ShapeableView
                 android:layout_width="36dp"
                 android:layout_height="2dp"
                 android:layout_marginTop="10dp"

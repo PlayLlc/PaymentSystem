@@ -1501,6 +1501,24 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sales.
+        /// </summary>
+        internal static string Sales {
+            get {
+                return ResourceManager.GetString("Sales", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sales vs Shrinkage.
+        /// </summary>
+        internal static string SalesVsShrinkage {
+            get {
+                return ResourceManager.GetString("SalesVsShrinkage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         internal static string Save {
@@ -1623,6 +1641,15 @@ namespace PayWithPlay.Core.Resources {
         internal static string SelectStores {
             get {
                 return ResourceManager.GetString("SelectStores", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shrinkage.
+        /// </summary>
+        internal static string Shrinkage {
+            get {
+                return ResourceManager.GetString("Shrinkage", resourceCulture);
             }
         }
         

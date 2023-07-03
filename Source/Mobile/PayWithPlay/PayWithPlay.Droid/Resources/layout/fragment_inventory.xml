@@ -123,7 +123,7 @@
                         android:orientation="vertical"
                         app:layout_constraintGuide_percent="1" />
 
-                    <PayWithPlay.Droid.CustomViews.ShapeableView
+                    <PayWithPlay.Droid.CustomViews.ShapeableViews.ShapeableFrameLayoutView
                         android:id="@+id/view1"
                         android:layout_width="0dp"
                         android:layout_height="132dp"
@@ -184,9 +184,9 @@
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    </PayWithPlay.Droid.CustomViews.ShapeableView>
+                    </PayWithPlay.Droid.CustomViews.ShapeableViews.ShapeableFrameLayoutView>
 
-                    <PayWithPlay.Droid.CustomViews.ShapeableView
+                    <PayWithPlay.Droid.CustomViews.ShapeableViews.ShapeableFrameLayoutView
                         android:id="@+id/view2"
                         android:layout_width="0dp"
                         android:layout_height="132dp"
@@ -242,9 +242,9 @@
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    </PayWithPlay.Droid.CustomViews.ShapeableView>
+                    </PayWithPlay.Droid.CustomViews.ShapeableViews.ShapeableFrameLayoutView>
 
-                    <PayWithPlay.Droid.CustomViews.ShapeableView
+                    <PayWithPlay.Droid.CustomViews.ShapeableViews.ShapeableFrameLayoutView
                         android:id="@+id/view3"
                         android:layout_width="0dp"
                         android:layout_height="132dp"
@@ -302,7 +302,7 @@
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    </PayWithPlay.Droid.CustomViews.ShapeableView>
+                    </PayWithPlay.Droid.CustomViews.ShapeableViews.ShapeableFrameLayoutView>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -326,7 +326,7 @@
                             android:layout_gravity="start|center_vertical"
                             android:textColor="@color/primary_text_color"
                             style="@style/VerySmallTextStyle"
-                            app:MvxBind="Text TopSellingPorductsChartModel.TopSellingItemsText"/>
+                            app:MvxBind="Text TopSellingProductsChartModel.TopSellingItemsText"/>
 
                         <PayWithPlay.Droid.CustomViews.RadioButtonsView
                             android:layout_width="wrap_content"
@@ -338,13 +338,103 @@
                             app:buttonsTextSize="10sp"
                             app:buttonSelectedTextColor="@color/accent_color"
                             app:buttonDefaultTextColor="@color/hint_text_color"
-                            app:MvxBind="ItemsSource TopSellingPorductsChartModel.ChartStepButtons; RadioButtonSelectedType TopSellingPorductsChartModel.SelectedChartStep"/>
+                            app:MvxBind="ItemsSource TopSellingProductsChartModel.ChartStepButtons; RadioButtonSelectedType TopSellingProductsChartModel.SelectedChartStep"/>
 
                     </FrameLayout>
 
                     <com.github.mikephil.charting.charts.BarChart
                         android:id="@+id/top_selling_items_bar_chart"
                         android:layout_marginTop="12dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginBottom="6dp"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/sales_vs_shrinkage_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="184dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginTop="14dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start|top"
+                            android:textColor="@color/primary_text_color"
+                            style="@style/VerySmallTextStyle"
+                            app:MvxBind="Text SalesVsShrinkageChartModel.SalesVsShrinkageText"/>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end|top"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <PayWithPlay.Droid.CustomViews.ShapeableViews.ShapeableView
+                                    android:layout_width="5dp"
+                                    android:layout_height="5dp"
+                                    android:layout_gravity="center_vertical"
+                                    app:fillColor="@color/chart_primary_color"
+                                    app:cornerRadius="1dp"/>
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="5dp"
+                                    android:textColor="@color/chart_primary_color"
+                                    style="@style/VerySmallTextStyle"
+                                    android:textSize="8sp"
+                                    app:MvxBind="Text SalesVsShrinkageChartModel.SalesText"/>
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="1dp"
+                                android:orientation="horizontal">
+
+                                <PayWithPlay.Droid.CustomViews.ShapeableViews.ShapeableView
+                                    android:layout_width="5dp"
+                                    android:layout_height="5dp"
+                                    android:layout_gravity="center_vertical"
+                                    app:fillColor="@color/chart_secondary_color"
+                                    app:cornerRadius="1dp"/>
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="5dp"
+                                    android:textColor="@color/chart_secondary_color"
+                                    style="@style/VerySmallTextStyle"
+                                    android:textSize="8sp"
+                                    app:MvxBind="Text SalesVsShrinkageChartModel.ShrinkageText"/>
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    </FrameLayout>
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/sales_vs_shrinkage_line_chart"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="6dp"

@@ -60,7 +60,7 @@ namespace PayWithPlay.Droid.Utils.Chart
             }
 
             barDataSet.HighlightEnabled = false;
-            barDataSet.Color = ContextCompat.GetColor(App.Context, Resource.Color.accent_color);
+            barDataSet.Color = ContextCompat.GetColor(App.Context, Resource.Color.chart_primary_color);
             barDataSet.ValueTextColor = ContextCompat.GetColor(App.Context, Resource.Color.primary_text_color);
             barDataSet.ValueTextSize = 8;
             barDataSet.ValueTypeface = ResourcesCompat.GetFont(App.Context, Resource.Font.poppins_regular);
@@ -76,9 +76,9 @@ namespace PayWithPlay.Droid.Utils.Chart
             barData.BarWidth = 0.65f;
         }
 
-        public static void SetBarEntries(List<ChartEntry> productChartEntries, BarChart chart, bool showVerticalLabels)
+        public static void SetBarEntries(List<ChartEntry> chartEntries, BarChart chart, bool showVerticalLabels)
         {
-            if (productChartEntries == null || productChartEntries.Count == 0)
+            if (chartEntries == null || chartEntries.Count == 0)
             {
                 if (chart.BarData != null)
                 {
@@ -92,7 +92,7 @@ namespace PayWithPlay.Droid.Utils.Chart
             }
 
             var barEntries = new List<BarEntry>();
-            foreach (var chartEntry in productChartEntries!)
+            foreach (var chartEntry in chartEntries!)
             {
                 barEntries.Add(new BarEntry(chartEntry.X, chartEntry.Y) { Data = new Java.Lang.String(chartEntry.Title) });
             }

@@ -6,32 +6,32 @@ using Android.Util;
 using AndroidX.Core.Content;
 using PayWithPlay.Droid.Extensions;
 
-namespace PayWithPlay.Droid.CustomViews
+namespace PayWithPlay.Droid.CustomViews.ShapeableViews
 {
-    public class ShapeableView : FrameLayout
+    internal class ShapeableFrameLayoutView : FrameLayout
     {
         #region ctors
 
-        public ShapeableView(Context? context) : base(context)
+        public ShapeableFrameLayoutView(Context? context) : base(context)
         {
         }
 
-        public ShapeableView(Context? context, IAttributeSet? attrs) : base(context, attrs)
-        {
-            Init(attrs);
-        }
-
-        public ShapeableView(Context? context, IAttributeSet? attrs, int defStyleAttr) : base(context, attrs, defStyleAttr)
+        public ShapeableFrameLayoutView(Context? context, IAttributeSet? attrs) : base(context, attrs)
         {
             Init(attrs);
         }
 
-        public ShapeableView(Context? context, IAttributeSet? attrs, int defStyleAttr, int defStyleRes) : base(context, attrs, defStyleAttr, defStyleRes)
+        public ShapeableFrameLayoutView(Context? context, IAttributeSet? attrs, int defStyleAttr) : base(context, attrs, defStyleAttr)
         {
             Init(attrs);
         }
 
-        protected ShapeableView(nint javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
+        public ShapeableFrameLayoutView(Context? context, IAttributeSet? attrs, int defStyleAttr, int defStyleRes) : base(context, attrs, defStyleAttr, defStyleRes)
+        {
+            Init(attrs);
+        }
+
+        protected ShapeableFrameLayoutView(nint javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
         {
         }
 

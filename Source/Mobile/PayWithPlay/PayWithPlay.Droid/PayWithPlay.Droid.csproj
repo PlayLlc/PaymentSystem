@@ -61,12 +61,12 @@
     <PackageReference Include="Xamarin.AndroidX.Lifecycle.Runtime" Version="2.6.1.2" />
     <PackageReference Include="Xamarin.AndroidX.Lifecycle.Runtime.Ktx" Version="2.6.1.2" />
     <PackageReference Include="Xamarin.Google.Android.Material" Version="1.9.0.1" />
-    <PackageReference Include="Xamarin.AndroidX.Navigation.Fragment.Ktx" Version="2.5.3.3" />
-    <PackageReference Include="Xamarin.AndroidX.Navigation.UI.Ktx" Version="2.5.3.3" />
-    <PackageReference Include="Xamarin.AndroidX.Navigation.UI" Version="2.5.3.3" />
-    <PackageReference Include="Xamarin.AndroidX.Navigation.Runtime" Version="2.5.3.3" />
-    <PackageReference Include="Xamarin.AndroidX.Navigation.Fragment" Version="2.5.3.3" />
-    <PackageReference Include="Xamarin.AndroidX.Navigation.Common" Version="2.5.3.3" />
+    <PackageReference Include="Xamarin.AndroidX.Navigation.Fragment.Ktx" Version="2.6.0" />
+    <PackageReference Include="Xamarin.AndroidX.Navigation.UI.Ktx" Version="2.6.0" />
+    <PackageReference Include="Xamarin.AndroidX.Navigation.UI" Version="2.6.0" />
+    <PackageReference Include="Xamarin.AndroidX.Navigation.Runtime" Version="2.6.0" />
+    <PackageReference Include="Xamarin.AndroidX.Navigation.Fragment" Version="2.6.0" />
+    <PackageReference Include="Xamarin.AndroidX.Navigation.Common" Version="2.6.0" />
     <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData" Version="2.6.1.2" />
     <PackageReference Include="Xamarin.AndroidX.Lifecycle.Common" Version="2.6.1.2" />
     <PackageReference Include="ZXing.Net.Bindings.Android" Version="0.16.9" />

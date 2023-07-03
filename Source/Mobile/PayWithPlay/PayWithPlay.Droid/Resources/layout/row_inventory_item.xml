@@ -200,7 +200,7 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <PayWithPlay.Droid.CustomViews.ShapeableView
+    <PayWithPlay.Droid.CustomViews.ShapeableViews.ShapeableFrameLayoutView
         android:id="@+id/fl_deleting_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -241,6 +241,6 @@
             app:cornerRadius="5dp"
             app:MvxBind="Text DeleteItemText; Click OnDelete"/>
 
-    </PayWithPlay.Droid.CustomViews.ShapeableView>
+    </PayWithPlay.Droid.CustomViews.ShapeableViews.ShapeableFrameLayoutView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

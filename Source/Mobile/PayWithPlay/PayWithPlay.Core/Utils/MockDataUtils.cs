@@ -149,5 +149,18 @@ namespace PayWithPlay.Core.Utils
 
             return list;
         }
+
+        public static List<ChartEntry> RandomSalesVsShrinkageChartData(int minValue, int maxValue) 
+        {
+            var list = new List<ChartEntry>();
+            var random = new Random();
+
+            for (int i = 0; i < _shortMonthsValues.Length; i++)
+            {
+                list.Add(new ChartEntry(i, random.Next(minValue, maxValue)) { Title = _shortMonthsValues[i] });
+            }
+
+            return list;
+        }
     }
 }
