@@ -22,6 +22,7 @@ namespace PayWithPlay.Core.ViewModels.Main.Loyalty
 
         public override void ViewDestroy(bool viewFinishing = true)
         {
+            TotalSalesChartModel.ChartEntriesChangedAction = null;
             NewAccountsChartModel.ChartEntriesChangedAction = null;
             SalesVsReddeemedChartModel.ChartEntriesChangedAction = null;
 
@@ -37,6 +38,8 @@ namespace PayWithPlay.Core.ViewModels.Main.Loyalty
         public string LoyaltySalesText => Resource.LoyaltySales;
         public string DailyText => Resource.Daily;
         public string RedeemedText => Resource.Redeemed;
+
+        public TotalSalesChartModel TotalSalesChartModel { get; set; } = new TotalSalesChartModel();
 
         public SalesVsReddeemedChartModel SalesVsReddeemedChartModel { get; set; } = new SalesVsReddeemedChartModel();
 
@@ -115,6 +118,7 @@ namespace PayWithPlay.Core.ViewModels.Main.Loyalty
 
             SalesVsReddeemedChartModel.ReloadData();
             NewAccountsChartModel.ReloadData();
+            TotalSalesChartModel.ReloadData();
         }
     }
 }

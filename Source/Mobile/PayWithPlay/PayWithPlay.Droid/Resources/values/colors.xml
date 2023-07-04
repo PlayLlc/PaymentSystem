@@ -21,5 +21,10 @@
   <color name="transparent_white">#80FFFFFF</color>
   <color name="transparent">#00000000</color>
 
+  <color name="chart_gradient_primary_top_color">#E600C3D9</color>
+  <color name="chart_gradient_primary_bottom_color">#6600C3D9</color>
+  <color name="chart_gradient_secondary_top_color">#E66239BF</color>
+  <color name="chart_gradient_secondary_bottom_color">#666239BF</color>
+
   <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#00C3D9</color>
 </resources>

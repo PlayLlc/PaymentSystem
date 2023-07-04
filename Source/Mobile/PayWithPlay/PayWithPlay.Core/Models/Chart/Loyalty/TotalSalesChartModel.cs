@@ -5,44 +5,47 @@ using PayWithPlay.Core.Utils;
 
 namespace PayWithPlay.Core.Models.Chart.Loyalty
 {
-    public class NewAccountsChartModel : MvxNotifyPropertyChanged
+    public class TotalSalesChartModel : MvxNotifyPropertyChanged
     {
         private readonly List<RadioButtonModel> _chartStepButtons = new()
         {
             new RadioButtonModel
             {
-                Title = Resource.Daily,
+                Title = Resource.Day,
                 Type = (int)ChartStepType.Day,
                 Color = RadioButtonModel.ColorType.Transparent
             },
             new RadioButtonModel
             {
-                Title = Resource.Weekly,
+                Title = Resource.Week,
                 Type = (int)ChartStepType.Week,
                 Color = RadioButtonModel.ColorType.Transparent
             },
             new RadioButtonModel
             {
-                Title = Resource.Monthly,
+                Title = Resource.Month,
                 Type = (int)ChartStepType.Month,
                 Color = RadioButtonModel.ColorType.Transparent
             },
         };
 
-        private int _selectedChartStep = (int)ChartStepType.Month;
+        private int _selectedChartStep = (int)ChartStepType.Day;
 
-        public NewAccountsChartModel()
+        public TotalSalesChartModel()
         {
             ReloadData();
         }
 
         public Action? ChartEntriesChangedAction { get; set; }
 
-        public string NewLoyaltyAccountsText => Resource.NewLoyaltyAccounts;
+        public string TotalSalesText => Resource.TotalSales;
+        public string NonLoyaltyText => Resource.NonLoyalty;
+        public string LoyaltyCustomerText => Resource.LoyaltyCustomer;
 
         public List<RadioButtonModel> ChartStepButtons => _chartStepButtons;
 
-        public List<ChartEntry>? Entries { get; set; }
+        public List<ChartEntry>? NonLoyaltyEntries { get; set; }
+        public List<ChartEntry>? LoyaltyEntries { get; set; }
 
         public int SelectedChartStep
         {
@@ -51,7 +54,8 @@ namespace PayWithPlay.Core.Models.Chart.Loyalty
         }
         public void ReloadData()
         {
-            Entries = MockDataUtils.RandomNewLoyaltyAccountsChartData((ChartStepType)SelectedChartStep);
+            NonLoyaltyEntries = MockDataUtils.RandomLoyaltyTotalSalesChartData((ChartStepType)SelectedChartStep);
+            LoyaltyEntries = MockDataUtils.RandomLoyaltyTotalSalesChartData((ChartStepType)SelectedChartStep);
 
             ChartEntriesChangedAction?.Invoke();
         }

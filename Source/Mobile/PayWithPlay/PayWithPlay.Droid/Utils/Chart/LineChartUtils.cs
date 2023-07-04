@@ -4,6 +4,7 @@ using MikePhil.Charting.Charts;
 using static MikePhil.Charting.Components.XAxis;
 using MikePhil.Charting.Data;
 using PayWithPlay.Core.Models.Chart;
+using Android.Graphics.Drawables;
 
 namespace PayWithPlay.Droid.Utils.Chart
 {
@@ -49,7 +50,7 @@ namespace PayWithPlay.Droid.Utils.Chart
             rightAxis.SetDrawGridLinesBehindData(false);
         }
 
-        public static void SetLineDataSetProperties(LineDataSet lineDataSet, int coloResId)
+        public static void SetLineDataSetProperties(LineDataSet lineDataSet, int coloResId, bool drawCircles = false, float lineWidth = 1f)
         {
             if (lineDataSet == null)
             {
@@ -58,12 +59,22 @@ namespace PayWithPlay.Droid.Utils.Chart
 
             lineDataSet.HighlightEnabled = false;
             lineDataSet.Color = ContextCompat.GetColor(App.Context, coloResId);
-            lineDataSet.LineWidth = 1;
+            lineDataSet.LineWidth = lineWidth;
             lineDataSet.SetDrawValues(false);
-            lineDataSet.SetDrawCircles(false);
             lineDataSet.SetDrawCircleHole(false);
             lineDataSet.SetDrawHighlightIndicators(false);
             lineDataSet.SetMode(LineDataSet.Mode.CubicBezier);
+
+            if (drawCircles) 
+            {
+                lineDataSet.SetDrawCircles(true);
+                lineDataSet.CircleRadius = 1;
+                lineDataSet.SetCircleColor(lineDataSet.Color);
+            }
+            else
+            {
+                lineDataSet.SetDrawCircles(false);
+            }
         }
 
         public static void SetLineDataProperties(LineData lineData)
@@ -76,7 +87,7 @@ namespace PayWithPlay.Droid.Utils.Chart
             lineData.SetDrawValues(false);
         }
 
-        public static LineDataSet? GetLineDataSet(List<ChartEntry> lineEntries, int colorResId)
+        public static LineDataSet? GetLineDataSet(List<ChartEntry> lineEntries, int colorResId, bool drawCircles = false, float lineWidth = 1f, GradientDrawable? fillDrawable = null)
         {
             if (lineEntries == null || lineEntries.Count == 0) 
             {
@@ -91,7 +102,18 @@ namespace PayWithPlay.Droid.Utils.Chart
 
             var lineDataSet = new LineDataSet(entries, null);
 
-            SetLineDataSetProperties(lineDataSet, colorResId);
+            SetLineDataSetProperties(lineDataSet, colorResId, drawCircles, lineWidth);
+
+            if (fillDrawable != null)
+            {
+                lineDataSet.FillDrawable = fillDrawable;
+                lineDataSet.SetDrawFilled(true);
+            }
+            else 
+            {
+                lineDataSet.FillDrawable = null;
+                lineDataSet.SetDrawFilled(false);
+            }
 
             return lineDataSet;
         }

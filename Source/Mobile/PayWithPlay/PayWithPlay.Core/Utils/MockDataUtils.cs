@@ -236,5 +236,55 @@ namespace PayWithPlay.Core.Utils
 
             return list;
         }
+
+        public static List<ChartEntry> RandomLoyaltyTotalSalesChartData(ChartStepType chartStep) 
+        {
+            var list = new List<ChartEntry>();
+            var random = new Random();
+
+            var min = 5000;
+            var max = 100000;
+
+            if (chartStep == ChartStepType.Day)
+            {
+                for (int i = 0; i < 24; i++)
+                {
+                    var title = string.Empty;
+                    if (i == 0)
+                    {
+                        title = "0am";
+                    }
+                    else if (i == 6)
+                    {
+                        title = "6am";
+                    }
+                    else if (i == 12)
+                    {
+                        title = "12am";
+                    }
+                    else if (i == 18)
+                    {
+                        title = "6pm";
+                    }
+                    list.Add(new ChartEntry(i, RandomBool() ? random.Next(min, max) : 0) { Title = title });
+                }
+            }
+            else if (chartStep == ChartStepType.Week)
+            {
+                for (int i = 0; i < _weekDaysValues.Length; i++)
+                {
+                    list.Add(new ChartEntry(i, RandomBool() ? random.Next(min, max) : 0) { Title = _weekDaysValues[i] });
+                }
+            }
+            else if (chartStep == ChartStepType.Month)
+            {
+                for (int i = 0; i < _shortMonthsValues.Length; i++)
+                {
+                    list.Add(new ChartEntry(i, RandomBool() ? random.Next(min, max) : 0) { Title = _shortMonthsValues[i] });
+                }
+            }
+
+            return list;
+        }
     }
 }

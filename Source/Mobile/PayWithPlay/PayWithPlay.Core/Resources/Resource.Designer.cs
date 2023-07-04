@@ -898,6 +898,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loyalty Customer.
+        /// </summary>
+        internal static string LoyaltyCustomer {
+            get {
+                return ResourceManager.GetString("LoyaltyCustomer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Discount Scan Item.
         /// </summary>
         internal static string LoyaltyDiscountScanItem {
@@ -1128,6 +1137,15 @@ namespace PayWithPlay.Core.Resources {
         internal static string NoDiscounts {
             get {
                 return ResourceManager.GetString("NoDiscounts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Non Loyalty.
+        /// </summary>
+        internal static string NonLoyalty {
+            get {
+                return ResourceManager.GetString("NonLoyalty", resourceCulture);
             }
         }
         
@@ -1893,6 +1911,15 @@ namespace PayWithPlay.Core.Resources {
         internal static string TotalRewardMembers {
             get {
                 return ResourceManager.GetString("TotalRewardMembers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Sales.
+        /// </summary>
+        internal static string TotalSales {
+            get {
+                return ResourceManager.GetString("TotalSales", resourceCulture);
             }
         }
         

@@ -396,6 +396,9 @@
   <data name="Loyalty" xml:space="preserve">
     <value>Loyalty</value>
   </data>
+  <data name="LoyaltyCustomer" xml:space="preserve">
+    <value>Loyalty Customer</value>
+  </data>
   <data name="LoyaltyDiscountScanItem" xml:space="preserve">
     <value>Discount Scan Item</value>
   </data>
@@ -473,6 +476,9 @@
   </data>
   <data name="NoDiscounts" xml:space="preserve">
     <value>No Discounts</value>
+  </data>
+  <data name="NonLoyalty" xml:space="preserve">
+    <value>Non Loyalty</value>
   </data>
   <data name="NonProfit" xml:space="preserve">
     <value>Non profit</value>
@@ -728,6 +734,9 @@
   </data>
   <data name="TotalRewardMembers" xml:space="preserve">
     <value>Total Reward Members</value>
+  </data>
+  <data name="TotalSales" xml:space="preserve">
+    <value>Total Sales</value>
   </data>
   <data name="TransactionDetails" xml:space="preserve">
     <value>Transaction Details</value>
