@@ -65,7 +65,7 @@ namespace PayWithPlay.Droid.Utils.Chart
             lineDataSet.SetDrawHighlightIndicators(false);
             lineDataSet.SetMode(LineDataSet.Mode.CubicBezier);
 
-            if (drawCircles) 
+            if (drawCircles)
             {
                 lineDataSet.SetDrawCircles(true);
                 lineDataSet.CircleRadius = 1;
@@ -89,7 +89,7 @@ namespace PayWithPlay.Droid.Utils.Chart
 
         public static LineDataSet? GetLineDataSet(List<ChartEntry> lineEntries, int colorResId, bool drawCircles = false, float lineWidth = 1f, GradientDrawable? fillDrawable = null)
         {
-            if (lineEntries == null || lineEntries.Count == 0) 
+            if (lineEntries == null || lineEntries.Count == 0)
             {
                 return null;
             }
@@ -109,7 +109,7 @@ namespace PayWithPlay.Droid.Utils.Chart
                 lineDataSet.FillDrawable = fillDrawable;
                 lineDataSet.SetDrawFilled(true);
             }
-            else 
+            else
             {
                 lineDataSet.FillDrawable = null;
                 lineDataSet.SetDrawFilled(false);
@@ -118,7 +118,7 @@ namespace PayWithPlay.Droid.Utils.Chart
             return lineDataSet;
         }
 
-        public static void SetDataSets(LineChart chart, params LineDataSet?[] lineDataSets)
+        public static void SetDataSets(LineChart chart, bool animate = false, params LineDataSet?[] lineDataSets)
         {
             if (lineDataSets == null || lineDataSets.Length == 0 || lineDataSets.All(t => t == null))
             {
@@ -135,9 +135,9 @@ namespace PayWithPlay.Droid.Utils.Chart
 
             var lineData = new LineData();
             var xAxisLabelCount = 0;
-            foreach (var lineDataSet in lineDataSets) 
+            foreach (var lineDataSet in lineDataSets)
             {
-                if (lineDataSet != null) 
+                if (lineDataSet != null)
                 {
                     lineData.AddDataSet(lineDataSet);
                     if (lineDataSet.Values.Count > xAxisLabelCount)
@@ -149,13 +149,17 @@ namespace PayWithPlay.Droid.Utils.Chart
 
             chart.XAxis.LabelCount = xAxisLabelCount;
             SetLineDataProperties(lineData);
-            if (chart.Data != null) 
+            if (chart.Data != null)
             {
                 chart.ClearValues();
 
             }
             chart.Data = lineData;
-            chart.AnimateX(800);
+
+            if (animate)
+            {
+                chart.AnimateX(800);
+            }
         }
     }
 }

@@ -76,7 +76,7 @@ namespace PayWithPlay.Droid.Utils.Chart
             barData.BarWidth = 0.65f;
         }
 
-        public static void SetBarEntries(List<ChartEntry> chartEntries, BarChart chart, bool showVerticalLabels)
+        public static void SetBarEntries(List<ChartEntry> chartEntries, BarChart chart, bool showVerticalLabels, bool animate = false)
         {
             if (chartEntries == null || chartEntries.Count == 0)
             {
@@ -148,7 +148,10 @@ namespace PayWithPlay.Droid.Utils.Chart
                 chart.Data = barData;
             }
 
-            chart.AnimateY(800);
+            if (animate) 
+            {
+                chart.AnimateY(800);
+            }
         }
     }
 }

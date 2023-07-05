@@ -27,6 +27,8 @@ using PayWithPlay.Droid.CustomBindings.PointOfSale;
 using MvvmCross.Platforms.Android.Views;
 using Android.Content;
 using PayWithPlay.Droid.CustomBindings.Chart;
+using PayWithPlay.Droid.CustomBindings.Loyalty;
+using PayWithPlay.Droid.CustomViews.ShapeableViews;
 
 namespace PayWithPlay.Droid
 {
@@ -107,6 +109,9 @@ namespace PayWithPlay.Droid
 
             registry.RegisterCustomBindingFactory<TextInputLayout>(SetErrorInputBinding.Property,
                 (inputLayout) => new SetErrorInputBinding(inputLayout));
+
+            registry.RegisterCustomBindingFactory<ShapeableView>(EnrollerActiveDotBinding.Property,
+                (view) => new EnrollerActiveDotBinding(view));
 
             // TextViews
             registry.RegisterCustomBindingFactory<TextView>(TextStyleBinding.Property,

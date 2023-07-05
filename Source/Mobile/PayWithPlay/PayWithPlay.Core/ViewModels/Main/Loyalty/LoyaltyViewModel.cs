@@ -45,6 +45,8 @@ namespace PayWithPlay.Core.ViewModels.Main.Loyalty
 
         public NewAccountsChartModel NewAccountsChartModel { get; set; } = new NewAccountsChartModel();
 
+        public TopEnrollersChartModel TopEnrollersChartModel { get; set; } = new TopEnrollersChartModel();
+
         public IMvxAsyncCommand? RefreshCommand => _refreshCommand ??= new MvxAsyncCommand(OnRefresh);
 
         public bool IsRefreshing
@@ -119,6 +121,7 @@ namespace PayWithPlay.Core.ViewModels.Main.Loyalty
             SalesVsReddeemedChartModel.ReloadData();
             NewAccountsChartModel.ReloadData();
             TotalSalesChartModel.ReloadData();
+            TopEnrollersChartModel.ReloadData();
         }
     }
 }

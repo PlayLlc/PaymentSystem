@@ -1879,6 +1879,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Top Loyalty Enrollers.
+        /// </summary>
+        internal static string TopLoyaltyEnrollers {
+            get {
+                return ResourceManager.GetString("TopLoyaltyEnrollers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Top Selling Items.
         /// </summary>
         internal static string TopSellingItems {

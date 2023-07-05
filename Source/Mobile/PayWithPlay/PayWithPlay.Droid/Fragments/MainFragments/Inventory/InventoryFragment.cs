@@ -33,10 +33,10 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Inventory
         {
             base.OnCreate(savedInstanceState);
 
-            ViewModel.TopSellingProductsChartModel.ChartEntriesChangedAction = TopSellingItemsChanged;
-            ViewModel.SalesVsShrinkageChartModel.ChartEntriesChangedAction = SalesVsShrinkageChartDataChanged;
-            ViewModel.ShrinkageRateChartModel.ChartEntriesChangedAction = ShrinkageRateChartDataChanged;
-            ViewModel.InventoryOnHandChartModel.ChartEntriesChangedAction = InventoryOnHandChartDataChanged;
+            ViewModel.TopSellingProductsChartModel.ChartEntriesChangedAction = () => TopSellingItemsChanged(true);
+            ViewModel.SalesVsShrinkageChartModel.ChartEntriesChangedAction = ()=> SalesVsShrinkageChartDataChanged();
+            ViewModel.ShrinkageRateChartModel.ChartEntriesChangedAction = ()=> ShrinkageRateChartDataChanged();
+            ViewModel.InventoryOnHandChartModel.ChartEntriesChangedAction = ()=> InventoryOnHandChartDataChanged();
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -52,27 +52,27 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Inventory
             return rootView;
         }
 
-        private void TopSellingItemsChanged()
+        private void TopSellingItemsChanged(bool animate = false)
         {
-            BarChartUtils.SetBarEntries(ViewModel.TopSellingProductsChartModel.Entries, _topSellingBarChart, true);
+            BarChartUtils.SetBarEntries(ViewModel.TopSellingProductsChartModel.Entries, _topSellingBarChart, true, animate);
         }
 
-        private void SalesVsShrinkageChartDataChanged()
+        private void SalesVsShrinkageChartDataChanged(bool animate = false)
         {
             var sales = LineChartUtils.GetLineDataSet(ViewModel.SalesVsShrinkageChartModel.SalesEntries, Resource.Color.chart_primary_color);
             var shrinkage = LineChartUtils.GetLineDataSet(ViewModel.SalesVsShrinkageChartModel.ShrinkageEntries, Resource.Color.chart_secondary_color);
 
-            LineChartUtils.SetDataSets(_salesVsShrinkageLineChart, sales, shrinkage);
+            LineChartUtils.SetDataSets(_salesVsShrinkageLineChart, animate, sales, shrinkage);
         }
 
-        private void ShrinkageRateChartDataChanged()
+        private void ShrinkageRateChartDataChanged(bool animate = false)
         {
-            BarChartUtils.SetBarEntries(ViewModel.ShrinkageRateChartModel.Entries, _shrinkageRateBarChart, false);
+            BarChartUtils.SetBarEntries(ViewModel.ShrinkageRateChartModel.Entries, _shrinkageRateBarChart, false, animate);
         }
 
-        private void InventoryOnHandChartDataChanged()
+        private void InventoryOnHandChartDataChanged(bool animate = false)
         {
-            BarChartUtils.SetBarEntries(ViewModel.InventoryOnHandChartModel.Entries, _inventoryOnHandBarChart, false);
+            BarChartUtils.SetBarEntries(ViewModel.InventoryOnHandChartModel.Entries, _inventoryOnHandBarChart, false, animate);
         }
 
         private void InitViews(View root)

@@ -723,6 +723,9 @@
   <data name="TicketNumber" xml:space="preserve">
     <value>Ticket Number</value>
   </data>
+  <data name="TopLoyaltyEnrollers" xml:space="preserve">
+    <value>Top Loyalty Enrollers</value>
+  </data>
   <data name="TopSellingItems" xml:space="preserve">
     <value>Top Selling Items</value>
   </data>

@@ -31,9 +31,9 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Loyalty
         {
             base.OnCreate(savedInstanceState);
 
-            ViewModel.TotalSalesChartModel.ChartEntriesChangedAction = TotalSalesChartDataChanged;
-            ViewModel.SalesVsReddeemedChartModel.ChartEntriesChangedAction = SalesVsRedeemedChartDataChanged;
-            ViewModel.NewAccountsChartModel.ChartEntriesChangedAction = NewAccountChartDataChanged;
+            ViewModel.TotalSalesChartModel.ChartEntriesChangedAction = () => TotalSalesChartDataChanged(true);
+            ViewModel.SalesVsReddeemedChartModel.ChartEntriesChangedAction = () => SalesVsRedeemedChartDataChanged();
+            ViewModel.NewAccountsChartModel.ChartEntriesChangedAction = () => NewAccountChartDataChanged(true);
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -48,7 +48,7 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Loyalty
             return rootView;
         }
 
-        private void TotalSalesChartDataChanged() 
+        private void TotalSalesChartDataChanged(bool animate = false) 
         {
             var primaryTopColor = new Color (ContextCompat.GetColor(Context, Resource.Color.chart_gradient_primary_top_color));
             var primaryBottomColor = new Color (ContextCompat.GetColor(Context, Resource.Color.chart_gradient_primary_bottom_color));
@@ -70,20 +70,20 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Loyalty
                 0.3f,
                 new GradientDrawable(GradientDrawable.Orientation.TopBottom, new int[] { secondaryTopColor, secondaryBottomColor }));
 
-            LineChartUtils.SetDataSets(_totalSalesLineChart, nonLoyalty, loyaltyCustomers);
+            LineChartUtils.SetDataSets(_totalSalesLineChart, animate, nonLoyalty, loyaltyCustomers);
         }
 
-        private void NewAccountChartDataChanged() 
+        private void NewAccountChartDataChanged(bool animate = false) 
         {
-            BarChartUtils.SetBarEntries(ViewModel.NewAccountsChartModel.Entries, _newAccountsBarChart, false);
+            BarChartUtils.SetBarEntries(ViewModel.NewAccountsChartModel.Entries, _newAccountsBarChart, false, animate);
         }
 
-        private void SalesVsRedeemedChartDataChanged() 
+        private void SalesVsRedeemedChartDataChanged(bool animate = false) 
         {
             var sales = LineChartUtils.GetLineDataSet(ViewModel.SalesVsReddeemedChartModel.SalesEntries, Resource.Color.chart_primary_color);
             var redeemed = LineChartUtils.GetLineDataSet(ViewModel.SalesVsReddeemedChartModel.RedeemedEntries, Resource.Color.chart_secondary_color);
 
-            LineChartUtils.SetDataSets(_salesVsRedeemedLineChart, sales, redeemed);
+            LineChartUtils.SetDataSets(_salesVsRedeemedLineChart, animate, sales, redeemed);
         }
 
         private void InitViews(View root) 

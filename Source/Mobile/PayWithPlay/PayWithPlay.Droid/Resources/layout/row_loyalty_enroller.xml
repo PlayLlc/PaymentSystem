@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_marginVertical="1.5dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <PayWithPlay.Droid.CustomViews.ShapeableViews.ShapeableView
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:layout_gravity="center_vertical"
+        app:cornerRadius="5dp"
+        app:MvxBind="EnrollerActive Active"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="8dp"
+        android:textSize="8sp"
+        style="@style/SmallTextStyle"
+        app:MvxBind="Text EnrollerName"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textSize="8sp"
+        android:textColor="@color/hint_text_color"
+        style="@style/SmallTextStyle"
+        app:MvxBind="Text StoreName"/>
+
+</LinearLayout>

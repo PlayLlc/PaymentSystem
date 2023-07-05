@@ -1,6 +1,8 @@
 ﻿using PayWithPlay.Core.Enums;
 using PayWithPlay.Core.Models.Chart;
+using PayWithPlay.Core.Models.Loyalty;
 using System.Data;
+using System.Security.Cryptography;
 
 namespace PayWithPlay.Core.Utils
 {
@@ -11,6 +13,21 @@ namespace PayWithPlay.Core.Utils
         private static string[] _shortMonthsValues = new string[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
         private static string[] _weekDaysValues = new string[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
+
+        private static Random rng = new Random();
+
+        public static void Shuffle<T>(this IList<T> list)
+        {
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
+        }
 
         public static decimal RandomDecimal(bool onlyPositives = true)
         {
@@ -95,6 +112,8 @@ namespace PayWithPlay.Core.Utils
             return miniChartModel;
         }
 
+        #region Inventory charts
+
         public static List<ChartEntry> RandomTopSellingChartData(ChartStepType chartStep)
         {
             var list = new List<ChartEntry>();
@@ -152,7 +171,11 @@ namespace PayWithPlay.Core.Utils
             return list;
         }
 
-        public static List<ChartEntry> RandomSalesVsShrinkageChartData(int minValue, int maxValue) 
+        #endregion
+
+        #region Loyalty charts
+
+        public static List<ChartEntry> RandomSalesVsShrinkageChartData(int minValue, int maxValue)
         {
             var list = new List<ChartEntry>();
             var random = new Random();
@@ -178,7 +201,7 @@ namespace PayWithPlay.Core.Utils
             return list;
         }
 
-        public static List<ChartEntry> RandomNewLoyaltyAccountsChartData(ChartStepType chartStep) 
+        public static List<ChartEntry> RandomNewLoyaltyAccountsChartData(ChartStepType chartStep)
         {
             var list = new List<ChartEntry>();
             var random = new Random();
@@ -208,7 +231,7 @@ namespace PayWithPlay.Core.Utils
                     {
                         title = "12am";
                     }
-                    else if (i == 18) 
+                    else if (i == 18)
                     {
                         title = "6pm";
                     }
@@ -224,7 +247,7 @@ namespace PayWithPlay.Core.Utils
                     list.Add(new ChartEntry(i, RandomBool() ? random.Next(min, max) : 0) { Title = _weekDaysValues[i] });
                 }
             }
-            else if (chartStep == ChartStepType.Month) 
+            else if (chartStep == ChartStepType.Month)
             {
                 for (int i = 0; i < _shortMonthsValues.Length; i++)
                 {
@@ -237,7 +260,7 @@ namespace PayWithPlay.Core.Utils
             return list;
         }
 
-        public static List<ChartEntry> RandomLoyaltyTotalSalesChartData(ChartStepType chartStep) 
+        public static List<ChartEntry> RandomLoyaltyTotalSalesChartData(ChartStepType chartStep)
         {
             var list = new List<ChartEntry>();
             var random = new Random();
@@ -286,5 +309,66 @@ namespace PayWithPlay.Core.Utils
 
             return list;
         }
+
+        public static List<EnrollerModel> RandomEnrollersChartData(ChartStepType chartStep) 
+        {
+            var list = new List<EnrollerModel>()
+            {
+                new EnrollerModel() 
+                {
+                    EnrollerName = "Mark Molina",
+                    StoreName = "Store name 7",
+                    Active = RandomBool()
+                },
+                new EnrollerModel()
+                {
+                    EnrollerName = "Susan Sparks",
+                    StoreName = "Store name 2",
+                    Active = RandomBool()
+                },
+                new EnrollerModel()
+                {
+                    EnrollerName = "Oliver Rodriguez",
+                    StoreName = "Store name 5",
+                    Active = RandomBool()
+                },
+                new EnrollerModel()
+                {
+                    EnrollerName = "Peter Smith",
+                    StoreName = "Store name 1",
+                    Active = RandomBool()
+                },
+                new EnrollerModel()
+                {
+                    EnrollerName = "Tim Krueger",
+                    StoreName = "Store name 8",
+                    Active = RandomBool()
+                },
+                new EnrollerModel()
+                {
+                    EnrollerName = "Dottie Donaldson",
+                    StoreName = "Store name 3",
+                    Active = RandomBool()
+                },
+                new EnrollerModel()
+                {
+                    EnrollerName = "Maria Carney",
+                    StoreName = "Store name 4",
+                    Active = RandomBool()
+                },
+                new EnrollerModel()
+                {
+                    EnrollerName = "Lorena Trevino",
+                    StoreName = "Store name 6",
+                    Active = RandomBool()
+                },
+            };
+
+            list.Shuffle();
+
+            return list;
+        }
+
+        #endregion
     }
 }
