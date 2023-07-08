@@ -113,6 +113,11 @@ namespace PayWithPlay.Droid
             registry.RegisterCustomBindingFactory<ShapeableView>(EnrollerActiveDotBinding.Property,
                 (view) => new EnrollerActiveDotBinding(view));
 
+            registry.RegisterCustomBindingFactory<ShapeableView>(PositiveNegativeShapeableViewColorBinding.Property,
+                (view) => new PositiveNegativeShapeableViewColorBinding(view));
+            registry.RegisterCustomBindingFactory<TextView>(PositiveNegativeTextColorBinding.Property,
+                (view) => new PositiveNegativeTextColorBinding(view));
+
             // TextViews
             registry.RegisterCustomBindingFactory<TextView>(TextStyleBinding.Property,
                 (textView) => new TextStyleBinding(textView));

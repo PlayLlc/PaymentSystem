@@ -1,7 +1,9 @@
 ﻿using PayWithPlay.Core.Enums;
 using PayWithPlay.Core.Models.Chart;
+using PayWithPlay.Core.Models.Home;
 using PayWithPlay.Core.Models.Loyalty;
 using System.Data;
+using System.Drawing.Text;
 using System.Security.Cryptography;
 
 namespace PayWithPlay.Core.Utils
@@ -365,6 +367,179 @@ namespace PayWithPlay.Core.Utils
             };
 
             list.Shuffle();
+
+            return list;
+        }
+
+        #endregion
+
+        #region Home charts
+
+        public static List<ChartEntry> RandomHomeTotalSalesChartData(ChartStepType chartStep)
+        {
+            var list = new List<ChartEntry>();
+            var random = new Random();
+
+            var min = 5000;
+            var max = 100000;
+
+            if (chartStep == ChartStepType.Day)
+            {
+                for (int i = 0; i < 24; i++)
+                {
+                    var title = string.Empty;
+                    if (i == 0)
+                    {
+                        title = "0am";
+                    }
+                    else if (i == 6)
+                    {
+                        title = "6am";
+                    }
+                    else if (i == 12)
+                    {
+                        title = "12am";
+                    }
+                    else if (i == 18)
+                    {
+                        title = "6pm";
+                    }
+                    list.Add(new ChartEntry(i, RandomBool() ? random.Next(min, max) : 0) { Title = title });
+                }
+            }
+            else if (chartStep == ChartStepType.Week)
+            {
+                for (int i = 0; i < _weekDaysValues.Length; i++)
+                {
+                    list.Add(new ChartEntry(i, RandomBool() ? random.Next(min, max) : 0) { Title = _weekDaysValues[i] });
+                }
+            }
+            else if (chartStep == ChartStepType.Month)
+            {
+                for (int i = 0; i < _shortMonthsValues.Length; i++)
+                {
+                    list.Add(new ChartEntry(i, RandomBool() ? random.Next(min, max) : 0) { Title = _shortMonthsValues[i] });
+                }
+            }
+
+            return list;
+        }
+
+        public static List<ChartEntry> RandomAvgTransactionValueChartData(ChartStepType chartStep)
+        {
+            var list = new List<ChartEntry>();
+            var random = new Random();
+
+            var min = 50;
+            var max = 1000;
+
+            if (chartStep == ChartStepType.Day)
+            {
+                for (int i = 0; i < 24; i++)
+                {
+                    var title = string.Empty;
+                    if (i == 0)
+                    {
+                        title = "0am";
+                    }
+                    else if (i == 6)
+                    {
+                        title = "6am";
+                    }
+                    else if (i == 12)
+                    {
+                        title = "12am";
+                    }
+                    else if (i == 18)
+                    {
+                        title = "6pm";
+                    }
+                    list.Add(new ChartEntry(i, RandomBool() ? random.Next(min, max) : 0) { Title = title });
+                }
+            }
+            else if (chartStep == ChartStepType.Week)
+            {
+                for (int i = 0; i < _weekDaysValues.Length; i++)
+                {
+                    list.Add(new ChartEntry(i, RandomBool() ? random.Next(min, max) : 0) { Title = _weekDaysValues[i] });
+                }
+            }
+            else if (chartStep == ChartStepType.Month)
+            {
+                for (int i = 0; i < _shortMonthsValues.Length; i++)
+                {
+                    list.Add(new ChartEntry(i, RandomBool() ? random.Next(min, max) : 0) { Title = _shortMonthsValues[i] });
+                }
+            }
+
+            return list;
+        }
+
+        public static List<SellerModel> RandomTopSellersChartData(ChartStepType chartStep)
+        {
+            var list = new List<SellerModel>()
+            {
+                new SellerModel()
+                {
+                    SellerName = "Mark Molina",
+                    StoreName = "Store name 7",
+                    Active = RandomBool()
+                },
+                new SellerModel()
+                {
+                    SellerName = "Susan Sparks",
+                    StoreName = "Store name 2",
+                    Active = RandomBool()
+                },
+                new SellerModel()
+                {
+                    SellerName = "Oliver Rodriguez",
+                    StoreName = "Store name 5",
+                    Active = RandomBool()
+                },
+                new SellerModel()
+                {
+                    SellerName = "Peter Smith",
+                    StoreName = "Store name 1",
+                    Active = RandomBool()
+                },
+                new SellerModel()
+                {
+                    SellerName = "Tim Krueger",
+                    StoreName = "Store name 8",
+                    Active = RandomBool()
+                },
+                new SellerModel()
+                {
+                    SellerName = "Dottie Donaldson",
+                    StoreName = "Store name 3",
+                    Active = RandomBool()
+                },
+                new SellerModel()
+                {
+                    SellerName = "Maria Carney",
+                    StoreName = "Store name 4",
+                    Active = RandomBool()
+                },
+                new SellerModel()
+                {
+                    SellerName = "Lorena Trevino",
+                    StoreName = "Store name 6",
+                    Active = RandomBool()
+                },
+            };
+
+            list.Shuffle();
+
+            var amounts = new decimal[] { 489m, 402m, 320m, 289m, 230m, 200m, 195m, 150m };
+            var prevAmounts = new decimal[] { -25m, 95m, -13m, -10m, 76m, 11m, -26m, -35m };
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                var item = list[i];
+                item.Amount = amounts[i];
+                item.PrevAmount = prevAmounts[i];
+            }
 
             return list;
         }

@@ -153,6 +153,9 @@
   <data name="ApSuite" xml:space="preserve">
     <value>Ap. Suite</value>
   </data>
+  <data name="AverageTransactionValue" xml:space="preserve">
+    <value>Average Transaction Value</value>
+  </data>
   <data name="AvgRevenuePerUnit" xml:space="preserve">
     <value>Avg Revenue per Unit</value>
   </data>
@@ -725,6 +728,9 @@
   </data>
   <data name="TopLoyaltyEnrollers" xml:space="preserve">
     <value>Top Loyalty Enrollers</value>
+  </data>
+  <data name="TopSellers" xml:space="preserve">
+    <value>Top Sellers</value>
   </data>
   <data name="TopSellingItems" xml:space="preserve">
     <value>Top Selling Items</value>

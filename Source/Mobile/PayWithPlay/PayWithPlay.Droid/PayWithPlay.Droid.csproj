@@ -6,8 +6,8 @@
     <Nullable>enable</Nullable>
     <NoWarn>NETSDK1023</NoWarn>
     <ApplicationId>com.paywithplay.dev</ApplicationId>
-    <ApplicationVersion>5</ApplicationVersion>
-    <ApplicationDisplayVersion>1.0.4</ApplicationDisplayVersion>
+    <ApplicationVersion>6</ApplicationVersion>
+    <ApplicationDisplayVersion>1.0.5</ApplicationDisplayVersion>
     <SupportedOSPlatformVersion>28.0</SupportedOSPlatformVersion>
     <UseMauiEssentials>true</UseMauiEssentials>
   </PropertyGroup>
@@ -36,6 +36,7 @@
   <ItemGroup>
     <None Remove="DeleteBinObjFolders.bat" />
     <None Remove="Resources\layout\row_loyalty_enroller.xml" />
+    <None Remove="Resources\layout\row_top_seller.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />

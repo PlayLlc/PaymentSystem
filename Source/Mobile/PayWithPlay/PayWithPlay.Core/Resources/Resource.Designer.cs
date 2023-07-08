@@ -169,6 +169,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Average Transaction Value.
+        /// </summary>
+        internal static string AverageTransactionValue {
+            get {
+                return ResourceManager.GetString("AverageTransactionValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Avg Revenue per Unit.
         /// </summary>
         internal static string AvgRevenuePerUnit {
@@ -1884,6 +1893,15 @@ namespace PayWithPlay.Core.Resources {
         internal static string TopLoyaltyEnrollers {
             get {
                 return ResourceManager.GetString("TopLoyaltyEnrollers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Top Sellers.
+        /// </summary>
+        internal static string TopSellers {
+            get {
+                return ResourceManager.GetString("TopSellers", resourceCulture);
             }
         }
         

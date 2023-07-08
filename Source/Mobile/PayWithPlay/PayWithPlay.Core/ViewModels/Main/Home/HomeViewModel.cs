@@ -1,5 +1,6 @@
 ﻿using MvvmCross.Commands;
 using PayWithPlay.Core.Models.Chart;
+using PayWithPlay.Core.Models.Chart.Home;
 using PayWithPlay.Core.Resources;
 using PayWithPlay.Core.Utils;
 
@@ -87,6 +88,12 @@ namespace PayWithPlay.Core.ViewModels.Main.Home
             set => SetProperty(ref _totalTerminals, value, () => RaisePropertyChanged(() => TotalTerminalsText));
         }
 
+        public TotalSalesChartModel TotalSalesChartModel { get; set; } = new TotalSalesChartModel();
+
+        public TopSellersChartModel TopSellersChartModel { get; set; } = new TopSellersChartModel();
+
+        public AvgTransactionsValueChartModel AvgTransactionsValueChartModel { get; set; } = new AvgTransactionsValueChartModel();
+
         public void OnNotifications()
         {
         }
@@ -123,6 +130,10 @@ namespace PayWithPlay.Core.ViewModels.Main.Home
             OnlineTerminals = random.Next(1, TotalTerminals);
 
             OnlineTerminalsAction?.Invoke();
+
+            TotalSalesChartModel.ReloadData();
+            TopSellersChartModel.ReloadData();
+            AvgTransactionsValueChartModel.ReloadData();
         }
     }
 }
