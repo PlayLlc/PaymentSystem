@@ -31,10 +31,11 @@ namespace PayWithPlay.Core.Models.Chart.Loyalty
         };
 
         private int _selectedChartStep = (int)ChartStepType.Day;
+        private bool _isLoading;
 
         public TopEnrollersChartModel()
         {
-            ReloadData();
+            IsLoading = true;
         }
 
         public string TopLoyaltyEnrollersText => Resource.TopLoyaltyEnrollers;
@@ -47,12 +48,23 @@ namespace PayWithPlay.Core.Models.Chart.Loyalty
             set => SetProperty(ref _selectedChartStep, value, ReloadData);
         }
 
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set => SetProperty(ref _isLoading, value);
+        }
+
         public MvxObservableCollection<EnrollerModel> Enrollers { get; private set; } = new MvxObservableCollection<EnrollerModel>();
 
         public void ReloadData()
         {
-            Enrollers.Clear();
-            Enrollers.AddRange(MockDataUtils.RandomEnrollersChartData((ChartStepType)SelectedChartStep));
+            InvokeOnMainThread(() =>
+            {
+                Enrollers.Clear();
+
+                IsLoading = false;
+                Enrollers.AddRange(MockDataUtils.RandomEnrollersChartData((ChartStepType)SelectedChartStep));
+            });
         }
     }
 }

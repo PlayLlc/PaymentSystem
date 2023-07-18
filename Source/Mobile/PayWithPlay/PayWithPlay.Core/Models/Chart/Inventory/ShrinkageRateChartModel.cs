@@ -1,13 +1,16 @@
-﻿using PayWithPlay.Core.Resources;
+﻿using MvvmCross.ViewModels;
+using PayWithPlay.Core.Resources;
 using PayWithPlay.Core.Utils;
 
 namespace PayWithPlay.Core.Models.Chart.Inventory
 {
-    public class ShrinkageRateChartModel
+    public class ShrinkageRateChartModel : MvxNotifyPropertyChanged
     {
+        private bool _isLoading;
+
         public ShrinkageRateChartModel()
         {
-            ReloadData();
+            IsLoading = true;
         }
 
         public Action? ChartEntriesChangedAction { get; set; }
@@ -16,10 +19,17 @@ namespace PayWithPlay.Core.Models.Chart.Inventory
 
         public List<ChartEntry>? Entries { get; set; }
 
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set => SetProperty(ref _isLoading, value);
+        }
+
         public void ReloadData()
         {
             Entries = MockDataUtils.RandomShrinkageRateChartData();
 
+            IsLoading = false;
             ChartEntriesChangedAction?.Invoke();
         }
     }

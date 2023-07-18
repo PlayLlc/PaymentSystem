@@ -30,10 +30,11 @@ namespace PayWithPlay.Core.Models.Chart.Loyalty
         };
 
         private int _selectedChartStep = (int)ChartStepType.Month;
+        private bool _isLoading;
 
         public NewAccountsChartModel()
         {
-            ReloadData();
+            IsLoading = true;
         }
 
         public Action? ChartEntriesChangedAction { get; set; }
@@ -49,10 +50,18 @@ namespace PayWithPlay.Core.Models.Chart.Loyalty
             get => _selectedChartStep;
             set => SetProperty(ref _selectedChartStep, value, ReloadData);
         }
+
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set => SetProperty(ref _isLoading, value);
+        }
+
         public void ReloadData()
         {
             Entries = MockDataUtils.RandomNewLoyaltyAccountsChartData((ChartStepType)SelectedChartStep);
 
+            IsLoading = false;
             ChartEntriesChangedAction?.Invoke();
         }
     }

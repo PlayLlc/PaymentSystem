@@ -30,10 +30,11 @@ namespace PayWithPlay.Core.Models.Chart.Inventory
         };
 
         private int _selectedChartStep = (int)ChartStepType.Day;
+        private bool _isLoading;
 
         public TopSellingProductsChartModel()
         {
-            ReloadData();
+            IsLoading = true;
         }
 
         public Action? ChartEntriesChangedAction { get; set; }
@@ -50,10 +51,17 @@ namespace PayWithPlay.Core.Models.Chart.Inventory
             set => SetProperty(ref _selectedChartStep, value, ReloadData);
         }
 
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set => SetProperty(ref _isLoading, value);
+        }
+
         public void ReloadData()
         {
             Entries = MockDataUtils.RandomTopSellingChartData((ChartStepType)SelectedChartStep);
 
+            IsLoading = false;
             ChartEntriesChangedAction?.Invoke();
         }
     }

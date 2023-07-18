@@ -31,9 +31,11 @@ namespace PayWithPlay.Core.Models.Chart.Home
         };
 
         private int _selectedChartStep = (int)ChartStepType.Day;
+        private bool _isLoading;
 
         public TopSellersChartModel()
         {
+            IsLoading = true;
         }
 
         public string TopSellersText => Resource.TopSellers;
@@ -48,11 +50,21 @@ namespace PayWithPlay.Core.Models.Chart.Home
             set => SetProperty(ref _selectedChartStep, value, ReloadData);
         }
 
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set => SetProperty(ref _isLoading, value);
+        }
+
         public void ReloadData()
         {
-            Sellers.Clear();
+            InvokeOnMainThread(() => 
+            {
+                Sellers.Clear();
 
-            Sellers.AddRange(MockDataUtils.RandomTopSellersChartData((ChartStepType)SelectedChartStep));
+                IsLoading = false;
+                Sellers.AddRange(MockDataUtils.RandomTopSellersChartData((ChartStepType)SelectedChartStep));
+            });
         }
     }
 }

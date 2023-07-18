@@ -17,7 +17,7 @@ namespace PayWithPlay.Core.ViewModels.Main.Loyalty
 
         public LoyaltyViewModel()
         {
-            MockData();
+            MockData(false);
         }
 
         public override void ViewDestroy(bool viewFinishing = true)
@@ -100,12 +100,12 @@ namespace PayWithPlay.Core.ViewModels.Main.Loyalty
 
             await Task.Delay(1000);
 
-            MockData();
+            MockData(true);
 
             IsRefreshing = false;
         }
 
-        private void MockData()
+        private void MockData(bool reloadCharts)
         {
             var random = new Random();
             TotalRewardMembers = random.Next(0, 1000); 
@@ -118,10 +118,33 @@ namespace PayWithPlay.Core.ViewModels.Main.Loyalty
             RedeemedChartModel = MockDataUtils.RandomDataMiniChart(RedeemedChartModel);
             RaisePropertyChanged(() => RedeemedChartModel);
 
-            SalesVsReddeemedChartModel.ReloadData();
-            NewAccountsChartModel.ReloadData();
-            TotalSalesChartModel.ReloadData();
-            TopEnrollersChartModel.ReloadData();
+            if (reloadCharts)
+            {
+                ReloadChartsData();
+            }
+        }
+
+        public void ReloadChartsData()
+        {
+            Task.Run(async () =>
+            {
+                TotalSalesChartModel.IsLoading = true;
+                NewAccountsChartModel.IsLoading = true;
+                SalesVsReddeemedChartModel.IsLoading = true;
+                TopEnrollersChartModel.IsLoading = true;
+
+                await Task.Delay(1000).ConfigureAwait(false);
+                TotalSalesChartModel.ReloadData();
+
+                await Task.Delay(300).ConfigureAwait(false);
+                NewAccountsChartModel.ReloadData();
+
+                await Task.Delay(300).ConfigureAwait(false);
+                SalesVsReddeemedChartModel.ReloadData();
+
+                await Task.Delay(300).ConfigureAwait(false);
+                TopEnrollersChartModel.ReloadData();
+            }).ConfigureAwait(false);
         }
     }
 }

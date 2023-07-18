@@ -19,30 +19,45 @@ namespace PayWithPlay.Droid.CustomViews
 
         public CameraScanViewport(Context context) : base(context)
         {
+            SetWillNotDraw(false);
+            SetLayerType(Android.Views.LayerType.Hardware, null);
+
             InitTransparentPaint();
             InitCornersPaint();
         }
 
         public CameraScanViewport(Context context, IAttributeSet? attrs) : base(context, attrs)
         {
+            SetWillNotDraw(false);
+            SetLayerType(Android.Views.LayerType.Hardware, null);
+
             InitTransparentPaint();
             InitCornersPaint();
         }
 
         public CameraScanViewport(Context context, IAttributeSet? attrs, int defStyleAttr) : base(context, attrs, defStyleAttr)
         {
+            SetWillNotDraw(false);
+            SetLayerType(Android.Views.LayerType.Hardware, null);
+
             InitTransparentPaint();
             InitCornersPaint();
         }
 
         public CameraScanViewport(Context context, IAttributeSet? attrs, int defStyleAttr, int defStyleRes) : base(context, attrs, defStyleAttr, defStyleRes)
         {
+            SetWillNotDraw(false);
+            SetLayerType(Android.Views.LayerType.Hardware, null);
+
             InitTransparentPaint();
             InitCornersPaint();
         }
 
         protected CameraScanViewport(nint javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
         {
+            SetWillNotDraw(false);
+            SetLayerType(Android.Views.LayerType.Hardware, null);
+
             InitTransparentPaint();
             InitCornersPaint();
         }

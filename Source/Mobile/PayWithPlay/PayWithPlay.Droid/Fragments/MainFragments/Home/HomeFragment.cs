@@ -18,10 +18,18 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Home
         private PieChart? _terminalsPieChart;
 
         private LinearLayoutCompat? _totalSalesContainer;
+        private FrameLayout? _totalSalesChartContainer;
         private LineChart? _totalSalesChart;
 
         private LinearLayoutCompat? _avgTransactionValueContainer;
+        private FrameLayout? _avgTransactionValueChartContainer;
         private LineChart? _avgTransactionValueChart;
+
+        private LinearLayoutCompat? _transactionsContainer;
+        private FrameLayout? _transactionsChartContainer;
+        private BarChart? _transactionsChart;
+
+        private bool _resumedFirstTime = true;
 
         public override int LayoutId => Resource.Layout.fragment_home;
 
@@ -32,6 +40,7 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Home
             ViewModel.OnlineTerminalsAction = SetTerminalsChartData;
             ViewModel.TotalSalesChartModel.ChartEntriesChangedAction = () => TotalSalesChartDataChanged(true);
             ViewModel.AvgTransactionsValueChartModel.ChartEntriesChangedAction = () => AvgTransactionValueChartDataChanged(true);
+            ViewModel.TransactionsChartModel.ChartEntriesChangedAction = TransactionsChartDataChanged;
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -42,8 +51,27 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Home
             SetTerminalsPieChart();
             SetTotalSalesChart();
             SetAvgTransactionValueChart();
+            SetTransactionsChart();
+
+            _resumedFirstTime = true;
 
             return root;
+        }
+
+        public override void OnResume()
+        {
+            base.OnResume();
+
+            if (_resumedFirstTime)
+            {
+                _resumedFirstTime = false;
+
+                _totalSalesChart!.SetNoDataText(string.Empty);
+                _avgTransactionValueChart!.SetNoDataText(string.Empty);
+                _transactionsChart!.SetNoDataText(string.Empty);
+
+                ViewModel.ReloadChartsData();
+            }
         }
 
         private void SetTerminalsChartData()
@@ -56,10 +84,10 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Home
 
             if (_terminalsPieChart!.Data is PieData pieData)
             {
-                if (pieData.DataSets[0] is PieDataSet pieDataSet)
+                if (pieData.DataSets![0] is PieDataSet pieDataSet)
                 {
                     pieDataSet.Clear();
-                    pieDataSet.Values = entries;
+                    pieDataSet.Entries = entries;
 
                     pieData.NotifyDataChanged();
                     _terminalsPieChart.NotifyDataSetChanged();
@@ -83,14 +111,40 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Home
         {
             var totalSales = LineChartUtils.GetLineDataSet(ViewModel.TotalSalesChartModel.Entries, Resource.Color.chart_primary_color);
 
-            LineChartUtils.SetDataSets(_totalSalesChart, animate, totalSales);
+            _totalSalesChart!.SetNoDataText("No chart data available");
+
+            RequireActivity().RunOnUiThread(() =>
+            {
+                LineChartUtils.SetDataSets(_totalSalesChart, animate, totalSales);
+
+                if (animate)
+                {
+                    _totalSalesChart.AnimateX(800);
+                }
+            });
         }
 
         private void AvgTransactionValueChartDataChanged(bool animate = false)
         {
             var avgTransactionValue = LineChartUtils.GetLineDataSet(ViewModel.AvgTransactionsValueChartModel.Entries, Resource.Color.chart_secondary_color);
 
-            LineChartUtils.SetDataSets(_avgTransactionValueChart, animate, avgTransactionValue);
+            _avgTransactionValueChart!.SetNoDataText("No chart data available");
+
+            RequireActivity().RunOnUiThread(() =>
+            {
+                LineChartUtils.SetDataSets(_avgTransactionValueChart, animate, avgTransactionValue);
+
+                if (animate)
+                {
+                    _avgTransactionValueChart.AnimateX(800);
+                }
+            });
+        }
+
+        private void TransactionsChartDataChanged()
+        {
+            _transactionsChart!.SetNoDataText("No chart data available");
+            BarChartUtils.SetBarEntries(ViewModel.TransactionsChartModel.Entries, _transactionsChart, false, false, 0.4f);
         }
 
         private void InitViews(View root)
@@ -98,19 +152,40 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Home
             _terminalsPieChart = root.FindViewById<PieChart>(Resource.Id.terminals_pie_chart)!;
 
             _totalSalesContainer = root.FindViewById<LinearLayoutCompat>(Resource.Id.total_sales_container)!;
-            _totalSalesChart = root.FindViewById<LineChart>(Resource.Id.total_sales_line_chart)!;
+            _totalSalesChartContainer = root.FindViewById<FrameLayout>(Resource.Id.total_sales_chart_container)!;
+            _totalSalesChart = root.FindViewById<LineChart>(Resource.Id.total_sales_line_chart)!; 
 
             _avgTransactionValueContainer = root.FindViewById<LinearLayoutCompat>(Resource.Id.avg_transaction_value_container)!;
+            _avgTransactionValueChartContainer = root.FindViewById<FrameLayout>(Resource.Id.avg_transaction_value_chart_container)!;
             _avgTransactionValueChart = root.FindViewById<LineChart>(Resource.Id.avg_transaction_value_line_chart)!;
+
+            _transactionsContainer = root.FindViewById<LinearLayoutCompat>(Resource.Id.transactions_container)!;
+            _transactionsChartContainer = root.FindViewById<FrameLayout>(Resource.Id.transactions_chart_container)!;
+            _transactionsChart = root.FindViewById<BarChart>(Resource.Id.transactions_bar_chart)!;
+
+            _totalSalesContainer.SetBackground(Resource.Color.third_color, 2f.ToPx(), Resource.Color.hint_text_color, 5f.ToFloatPx());
+            var totalSalesContainerLp = _totalSalesContainer.LayoutParameters as MarginLayoutParams;
+            totalSalesContainerLp!.Height = (int)((Context!.Resources!.DisplayMetrics!.WidthPixels - totalSalesContainerLp.MarginStart - totalSalesContainerLp.MarginEnd) * 0.5f);
+            _totalSalesContainer.LayoutParameters = totalSalesContainerLp;
+
+            _avgTransactionValueContainer.SetBackground(Resource.Color.third_color, 2f.ToPx(), Resource.Color.hint_text_color, 5f.ToFloatPx());
+            var avgTransactionContainerLp = _avgTransactionValueContainer.LayoutParameters as MarginLayoutParams;
+            avgTransactionContainerLp!.Height = (int)((Context!.Resources!.DisplayMetrics!.WidthPixels - avgTransactionContainerLp.MarginStart - avgTransactionContainerLp.MarginEnd) * 0.5f);
+            _avgTransactionValueContainer.LayoutParameters = avgTransactionContainerLp;
+
+            _transactionsContainer.SetBackground(Resource.Color.third_color, 2f.ToPx(), Resource.Color.hint_text_color, 5f.ToFloatPx());
+            var transactionsContainerLp = _transactionsContainer.LayoutParameters as MarginLayoutParams;
+            transactionsContainerLp!.Height = (int)((Context!.Resources!.DisplayMetrics!.WidthPixels - transactionsContainerLp.MarginStart - transactionsContainerLp.MarginEnd) * 0.54f);
+            _transactionsContainer.LayoutParameters = transactionsContainerLp;
         }
 
         private void SetTerminalsPieChart()
         {
             _terminalsPieChart!.SetPadding(0, 0, 0, 0);
             _terminalsPieChart.SetExtraOffsets(0, 0, 0, 0);
-            _terminalsPieChart.Description.Enabled = false;
+            _terminalsPieChart.Description!.Enabled = false;
             _terminalsPieChart.SetDrawCenterText(false);
-            _terminalsPieChart.Legend.Enabled = false;
+            _terminalsPieChart.Legend!.Enabled = false;
             _terminalsPieChart.SetDrawMarkers(false);
             _terminalsPieChart.SetDrawEntryLabels(false);
             _terminalsPieChart.SetDrawSlicesUnderHole(false);
@@ -124,24 +199,20 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Home
 
         private void SetTotalSalesChart()
         {
-            _totalSalesContainer.SetBackground(Resource.Color.third_color, 2f.ToPx(), Resource.Color.hint_text_color, 5f.ToFloatPx());
-            var salesVsShrinkageContainerLp = _totalSalesContainer.LayoutParameters as MarginLayoutParams;
-            salesVsShrinkageContainerLp!.Height = (int)((Context!.Resources!.DisplayMetrics!.WidthPixels - salesVsShrinkageContainerLp.MarginStart - salesVsShrinkageContainerLp.MarginEnd) * 0.5f);
-            _totalSalesContainer.LayoutParameters = salesVsShrinkageContainerLp;
-
             LineChartUtils.SetChartProperties(_totalSalesChart);
-            _totalSalesChart.AxisLeft.GridLineWidth = 1;
+            _totalSalesChart.AxisLeft!.GridLineWidth = 1;
             _totalSalesChart.AxisLeft.GridColor = ContextCompat.GetColor(App.Context, Resource.Color.secondary_text_color);
             _totalSalesChart.AxisLeft.SetDrawGridLines(true);
             _totalSalesChart.AxisLeft.SetDrawGridLinesBehindData(true);
+            _totalSalesChart!.SetNoDataText(string.Empty);
 
-            var xAxis = _totalSalesChart.XAxis;
+            var xAxis = _totalSalesChart.XAxis!;
             xAxis.ValueFormatter = new CustomValueFormatter()
             {
                 OnAxisLabel = (value, axis) =>
                 {
                     if (_totalSalesChart!.Data is LineData lineData &&
-                        lineData.DataSets[0] is LineDataSet curentLineDataSet && curentLineDataSet.Values is JavaList lineEntriesJavaList)
+                        lineData.DataSets![0] is LineDataSet curentLineDataSet && curentLineDataSet.Entries is JavaList lineEntriesJavaList)
                     {
                         var lineEntries = lineEntriesJavaList.Cast<Entry>();
                         var entry = lineEntries.FirstOrDefault(t => t.GetX() == value);
@@ -162,30 +233,24 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Home
                     return $"${(int)(value * 0.001)}K".ToString();
                 }
             };
-
-            TotalSalesChartDataChanged();
         }
 
         private void SetAvgTransactionValueChart()
         {
-            _avgTransactionValueContainer.SetBackground(Resource.Color.third_color, 2f.ToPx(), Resource.Color.hint_text_color, 5f.ToFloatPx());
-            var salesVsShrinkageContainerLp = _avgTransactionValueContainer.LayoutParameters as MarginLayoutParams;
-            salesVsShrinkageContainerLp!.Height = (int)((Context!.Resources!.DisplayMetrics!.WidthPixels - salesVsShrinkageContainerLp.MarginStart - salesVsShrinkageContainerLp.MarginEnd) * 0.5f);
-            _avgTransactionValueContainer.LayoutParameters = salesVsShrinkageContainerLp;
-
             LineChartUtils.SetChartProperties(_avgTransactionValueChart);
-            _avgTransactionValueChart.AxisLeft.GridLineWidth = 1;
+            _avgTransactionValueChart.AxisLeft!.GridLineWidth = 1;
             _avgTransactionValueChart.AxisLeft.GridColor = ContextCompat.GetColor(App.Context, Resource.Color.secondary_text_color);
             _avgTransactionValueChart.AxisLeft.SetDrawGridLines(true);
             _avgTransactionValueChart.AxisLeft.SetDrawGridLinesBehindData(true);
+            _avgTransactionValueChart!.SetNoDataText(string.Empty);
 
-            var xAxis = _avgTransactionValueChart.XAxis;
+            var xAxis = _avgTransactionValueChart.XAxis!;
             xAxis.ValueFormatter = new CustomValueFormatter()
             {
                 OnAxisLabel = (value, axis) =>
                 {
                     if (_avgTransactionValueChart!.Data is LineData lineData &&
-                        lineData.DataSets[0] is LineDataSet curentLineDataSet && curentLineDataSet.Values is JavaList lineEntriesJavaList)
+                        lineData.DataSets![0] is LineDataSet curentLineDataSet && curentLineDataSet.Entries is JavaList lineEntriesJavaList)
                     {
                         var lineEntries = lineEntriesJavaList.Cast<Entry>();
                         var entry = lineEntries.FirstOrDefault(t => t.GetX() == value);
@@ -206,8 +271,43 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Home
                     return $"${(int)value}".ToString();
                 }
             };
+        }
 
-            AvgTransactionValueChartDataChanged();
+        private void SetTransactionsChart()
+        {
+            BarChartUtils.SetChartProperties(_transactionsChart);
+            _transactionsChart!.SetNoDataText(string.Empty);
+            _transactionsChart.AxisLeft!.ValueFormatter = new CustomValueFormatter()
+            {
+                OnAxisLabel = (value, axis) =>
+                {
+                    if (value == 0)
+                    {
+                        return string.Empty;
+                    }
+
+                    return value.ToString();
+                }
+            };
+
+            _transactionsChart.XAxis!.ValueFormatter = new CustomValueFormatter()
+            {
+                OnAxisLabel = (value, axis) =>
+                {
+                    if (_transactionsChart!.Data is BarData lineData &&
+                     lineData.DataSets![0] is BarDataSet curentBarDataSet && curentBarDataSet.Entries is JavaList barEntriesJavaList)
+                    {
+                        var barEntries = barEntriesJavaList.Cast<BarEntry>();
+                        var entry = barEntries.FirstOrDefault(t => t.GetX() == value);
+                        if (entry != null && entry.Data is Java.Lang.String data)
+                        {
+                            return data.ToString();
+                        }
+                    }
+
+                    return string.Empty;
+                },
+            };
         }
     }
 }

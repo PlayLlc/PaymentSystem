@@ -314,7 +314,7 @@
                     android:layout_marginTop="12dp"
                     android:orientation="vertical">
 
-                    <FrameLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -324,14 +324,18 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center_vertical"
+                            android:layout_centerVertical="true"
                             android:textColor="@color/primary_text_color"
                             style="@style/VerySmallTextStyle"
                             app:MvxBind="Text TopSellingProductsChartModel.TopSellingItemsText"/>
 
                         <PayWithPlay.Droid.CustomViews.RadioButtonsView
+                            android:id="@+id/top_selling_products_step_buttons"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end|center_vertical"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentEnd="true"
                             android:layout_marginEnd="4dp"
                             app:buttonsHeight="20dp"
                             app:buttonsPadding="2dp"
@@ -340,15 +344,43 @@
                             app:buttonDefaultTextColor="@color/hint_text_color"
                             app:MvxBind="ItemsSource TopSellingProductsChartModel.ChartStepButtons; RadioButtonSelectedType TopSellingProductsChartModel.SelectedChartStep"/>
 
-                    </FrameLayout>
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:clickable="true"
+                            android:layout_alignLeft="@+id/top_selling_products_step_buttons"
+                            android:layout_alignTop="@+id/top_selling_products_step_buttons"
+                            android:layout_alignRight="@+id/top_selling_products_step_buttons"
+                            android:layout_alignBottom="@+id/top_selling_products_step_buttons"
+                            app:MvxBind="Visibility Visibility(TopSellingProductsChartModel.IsLoading)"/>
 
-                    <com.github.mikephil.charting.charts.BarChart
-                        android:id="@+id/top_selling_items_bar_chart"
-                        android:layout_marginTop="12dp"
+                    </RelativeLayout>
+
+                    <FrameLayout
+                        android:id="@+id/top_selling_products_chart_container"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginBottom="6dp"/>
+                        android:layout_height="match_parent">
+
+                        <com.google.android.material.progressindicator.CircularProgressIndicator
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:indeterminate="true"
+                            android:layout_margin="24dp"
+                            android:indeterminateTint="@color/accent_color"
+                            app:indicatorColor="@color/accent_color"
+                            app:MvxBind="Visibility Visibility(TopSellingProductsChartModel.IsLoading)"/>
+
+                        <com.github.mikephil.charting.charts.BarChart
+                            android:id="@+id/top_selling_items_bar_chart"
+                            android:layout_marginTop="12dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginBottom="6dp"
+                            app:MvxBind="Visibility InvertedVisibility(TopSellingProductsChartModel.IsLoading)"/>
+
+                    </FrameLayout>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -433,12 +465,30 @@
 
                     </FrameLayout>
 
-                    <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/sales_vs_shrinkage_line_chart"
+                    <FrameLayout
+                        android:id="@+id/sales_vs_shrinkage_chart_container"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginBottom="6dp"/>
+                        android:layout_height="match_parent">
+
+                        <com.google.android.material.progressindicator.CircularProgressIndicator
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:indeterminate="true"
+                            android:layout_margin="24dp"
+                            android:indeterminateTint="@color/accent_color"
+                            app:indicatorColor="@color/accent_color"
+                            app:MvxBind="Visibility Visibility(SalesVsShrinkageChartModel.IsLoading)"/>
+
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/sales_vs_shrinkage_line_chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginBottom="6dp"
+                            app:MvxBind="Visibility InvertedVisibility(SalesVsShrinkageChartModel.IsLoading)"/>
+
+                    </FrameLayout>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -459,13 +509,31 @@
                         style="@style/VerySmallTextStyle"
                         app:MvxBind="Text ShrinkageRateChartModel.ShrinkageRateText"/>
 
-                    <com.github.mikephil.charting.charts.BarChart
-                        android:id="@+id/shrinkage_rate_bar_chart"
-                        android:layout_marginTop="12dp"
+                    <FrameLayout
+                        android:id="@+id/shrinkage_rate_chart_container"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginBottom="6dp"/>
+                        android:layout_height="match_parent">
+
+                        <com.google.android.material.progressindicator.CircularProgressIndicator
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:indeterminate="true"
+                            android:layout_margin="24dp"
+                            android:indeterminateTint="@color/accent_color"
+                            app:indicatorColor="@color/accent_color"
+                            app:MvxBind="Visibility Visibility(ShrinkageRateChartModel.IsLoading)"/>
+
+                        <com.github.mikephil.charting.charts.BarChart
+                            android:id="@+id/shrinkage_rate_bar_chart"
+                            android:layout_marginTop="12dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginBottom="6dp"
+                            app:MvxBind="Visibility InvertedVisibility(ShrinkageRateChartModel.IsLoading)"/>
+
+                    </FrameLayout>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -487,13 +555,31 @@
                         style="@style/VerySmallTextStyle"
                         app:MvxBind="Text InventoryOnHandChartModel.DaysInventoryOnHandText"/>
 
-                    <com.github.mikephil.charting.charts.BarChart
-                        android:id="@+id/inventory_on_hand_bar_chart"
-                        android:layout_marginTop="12dp"
+                    <FrameLayout
+                        android:id="@+id/inventory_on_hand_chart_container"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginBottom="6dp"/>
+                        android:layout_height="match_parent">
+
+                        <com.google.android.material.progressindicator.CircularProgressIndicator
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:indeterminate="true"
+                            android:layout_margin="24dp"
+                            android:indeterminateTint="@color/accent_color"
+                            app:indicatorColor="@color/accent_color"
+                            app:MvxBind="Visibility Visibility(InventoryOnHandChartModel.IsLoading)"/>
+
+                        <com.github.mikephil.charting.charts.BarChart
+                            android:id="@+id/inventory_on_hand_bar_chart"
+                            android:layout_marginTop="12dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginBottom="6dp"
+                            app:MvxBind="Visibility InvertedVisibility(InventoryOnHandChartModel.IsLoading)"/>
+
+                    </FrameLayout>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 

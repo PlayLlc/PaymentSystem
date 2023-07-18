@@ -1,43 +1,33 @@
 ﻿using MikePhil.Charting.Components;
 using MikePhil.Charting.Data;
 using MikePhil.Charting.Formatter;
+using MikePhil.Charting.Util;
 
 namespace PayWithPlay.Droid.Utils.Chart
 {
-    public class CustomValueFormatter : ValueFormatter
+    public class CustomValueFormatter : Java.Lang.Object, IValueFormatter, IAxisValueFormatter
     {
-        public Func<Entry, string>? OnPointLabel { get; set; }
         public Func<float, AxisBase, string>? OnAxisLabel { get; set; }
-        public Func<float, string>? OnFormattedValue { get; set; }
+        public Func<float, Entry?, int, ViewPortHandler?, string>? OnFormattedValue { get; set; }
 
-        public override string GetPointLabel(Entry entry)
+        public string? GetFormattedValue(float value, Entry? entry, int dataSetIndex, ViewPortHandler? viewPortHandler)
         {
-            if (OnPointLabel != null) 
+            if (OnFormattedValue != null)
             {
-                return OnPointLabel.Invoke(entry);
+                return OnFormattedValue.Invoke(value, entry, dataSetIndex, viewPortHandler);
             }
 
-            return base.GetPointLabel(entry);
+            return string.Empty;
         }
 
-        public override string GetAxisLabel(float value, AxisBase axis)
+        public string? GetFormattedValue(float value, AxisBase? axis)
         {
             if (OnAxisLabel != null)
             {
                 return OnAxisLabel.Invoke(value, axis);
             }
 
-            return base.GetAxisLabel(value, axis);
-        }
-
-        public override string GetFormattedValue(float value)
-        {
-            if (OnFormattedValue != null)
-            {
-                return OnFormattedValue.Invoke(value);
-            }
-
-            return base.GetFormattedValue(value);
+            return string.Empty;
         }
     }
 }

@@ -2,6 +2,7 @@
 using PayWithPlay.Core.Models.Chart;
 using PayWithPlay.Core.Models.Home;
 using PayWithPlay.Core.Models.Loyalty;
+using System;
 using System.Data;
 using System.Drawing.Text;
 using System.Security.Cryptography;
@@ -137,12 +138,12 @@ namespace PayWithPlay.Core.Utils
             return list;
         }
 
-        public static List<ChartEntry> RandomShrinkageRateChartData() 
+        public static List<ChartEntry> RandomShrinkageRateChartData()
         {
             var list = new List<ChartEntry>();
             var random = new Random();
 
-            if (random.Next() < (int.MaxValue / 8)) 
+            if (random.Next() < (int.MaxValue / 8))
             {
                 return list;
             }
@@ -312,11 +313,11 @@ namespace PayWithPlay.Core.Utils
             return list;
         }
 
-        public static List<EnrollerModel> RandomEnrollersChartData(ChartStepType chartStep) 
+        public static List<EnrollerModel> RandomEnrollersChartData(ChartStepType chartStep)
         {
             var list = new List<EnrollerModel>()
             {
-                new EnrollerModel() 
+                new EnrollerModel()
                 {
                     EnrollerName = "Mark Molina",
                     StoreName = "Store name 7",
@@ -392,15 +393,15 @@ namespace PayWithPlay.Core.Utils
                     {
                         title = "0am";
                     }
-                    else if (i == 6)
+                    else if (i == 5)
                     {
                         title = "6am";
                     }
-                    else if (i == 12)
+                    else if (i == 11)
                     {
                         title = "12am";
                     }
-                    else if (i == 18)
+                    else if (i == 17)
                     {
                         title = "6pm";
                     }
@@ -539,6 +540,69 @@ namespace PayWithPlay.Core.Utils
                 var item = list[i];
                 item.Amount = amounts[i];
                 item.PrevAmount = prevAmounts[i];
+            }
+
+            return list;
+        }
+
+        public static List<ChartEntry> RandomTransactionsChartData()
+        {
+            var list = new List<ChartEntry>();
+
+            var full = RandomBool();
+
+            var random = new Random();
+
+            var count = full ? 60 : random.Next(12, 60);
+
+            for (int i = 0; i < 60; i++)
+            {
+                var title = string.Empty;
+                if (i == 0)
+                {
+                    title = "8am";
+                }
+                else if (i == 5)
+                {
+                    title = "9am";
+                }
+                else if (i == 11)
+                {
+                    title = "10am";
+                }
+                else if (i == 17)
+                {
+                    title = "11am";
+                }
+                else if (i == 23)
+                {
+                    title = "12am";
+                }
+                else if (i == 29)
+                {
+                    title = "1pm";
+                }
+                else if (i == 35)
+                {
+                    title = "2pm";
+                }
+                else if (i == 41)
+                {
+                    title = "3pm";
+                }
+                else if (i == 47)
+                {
+                    title = "4pm";
+                }
+                else if (i == 53)
+                {
+                    title = "5pm";
+                }
+                else if (i == 59)
+                {
+                    title = "6pm";
+                }
+                list.Add(new ChartEntry(i, i <= count ? random.Next(0, 60) : 0) { Title = title });
             }
 
             return list;

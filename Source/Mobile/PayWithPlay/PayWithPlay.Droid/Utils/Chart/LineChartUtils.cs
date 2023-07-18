@@ -14,7 +14,7 @@ namespace PayWithPlay.Droid.Utils.Chart
         {
             lineChart.SetTouchEnabled(false);
             lineChart.DoubleTapToZoomEnabled = false;
-            lineChart.Legend.Enabled = false;
+            lineChart.Legend!.Enabled = false;
             lineChart.Description = null;
             lineChart.SetPadding(0, 0, 0, 0);
             lineChart.SetExtraOffsets(0, 0, 0, 0);
@@ -22,7 +22,7 @@ namespace PayWithPlay.Droid.Utils.Chart
             lineChart.SetDrawGridBackground(false);
             lineChart.SetDrawBorders(false);
 
-            var xAxis = lineChart.XAxis;
+            var xAxis = lineChart.XAxis!;
             xAxis.Position = XAxisPosition.Bottom;
             xAxis.SetDrawGridLines(false);
             xAxis.SetDrawGridLinesBehindData(false);
@@ -34,7 +34,7 @@ namespace PayWithPlay.Droid.Utils.Chart
             xAxis.Typeface = ResourcesCompat.GetFont(App.Context, Resource.Font.poppins_regular);
             xAxis.TextSize = 8;
 
-            var leftAxis = lineChart.AxisLeft;
+            var leftAxis = lineChart.AxisLeft!;
             leftAxis.SetDrawAxisLine(true);
             leftAxis.SetDrawGridLines(false);
             leftAxis.SetDrawGridLinesBehindData(false);
@@ -43,7 +43,7 @@ namespace PayWithPlay.Droid.Utils.Chart
             leftAxis.Typeface = ResourcesCompat.GetFont(App.Context, Resource.Font.poppins_regular);
             leftAxis.TextSize = 8;
 
-            var rightAxis = lineChart.AxisRight;
+            var rightAxis = lineChart.AxisRight!;
             rightAxis.Enabled = false;
             rightAxis.SetDrawAxisLine(false);
             rightAxis.SetDrawGridLines(false);
@@ -140,14 +140,14 @@ namespace PayWithPlay.Droid.Utils.Chart
                 if (lineDataSet != null)
                 {
                     lineData.AddDataSet(lineDataSet);
-                    if (lineDataSet.Values.Count > xAxisLabelCount)
+                    if (lineDataSet!.Entries!.Count > xAxisLabelCount)
                     {
-                        xAxisLabelCount = lineDataSet.Values.Count;
+                        xAxisLabelCount = lineDataSet.Entries.Count;
                     }
                 }
             }
 
-            chart.XAxis.LabelCount = xAxisLabelCount;
+            chart.XAxis!.LabelCount = xAxisLabelCount;
             SetLineDataProperties(lineData);
             if (chart.Data != null)
             {
@@ -156,10 +156,14 @@ namespace PayWithPlay.Droid.Utils.Chart
             }
             chart.Data = lineData;
 
-            if (animate)
-            {
-                chart.AnimateX(800);
-            }
+            //if (animate)
+            //{
+            //    chart.AnimateX(800);
+            //}
+            //else 
+            //{
+            //    chart.Invalidate();
+            //}
         }
     }
 }

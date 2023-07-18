@@ -750,6 +750,9 @@
   <data name="TransactionDetails" xml:space="preserve">
     <value>Transaction Details</value>
   </data>
+  <data name="Transactions" xml:space="preserve">
+    <value>Transactions</value>
+  </data>
   <data name="UserAddressTitle" xml:space="preserve">
     <value>Please enter your home address.</value>
   </data>

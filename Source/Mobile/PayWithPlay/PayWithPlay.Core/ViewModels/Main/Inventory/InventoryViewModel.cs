@@ -17,7 +17,7 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
 
         public InventoryViewModel()
         {
-            MockData();
+            MockData(false);
         }
 
         public override void ViewDestroy(bool viewFinishing = true)
@@ -96,12 +96,12 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
 
             await Task.Delay(1000);
 
-            MockData();
+            MockData(true);
 
             IsRefreshing = false;
         }
 
-        private void MockData()
+        private void MockData(bool reloadCharts)
         {
             var random = new Random();
             STRValue = (float)random.NextDouble();
@@ -111,10 +111,34 @@ namespace PayWithPlay.Core.ViewModels.Main.Inventory
             AvgRevenuePerUnitChartModel = MockDataUtils.RandomDataMiniChart(AvgRevenuePerUnitChartModel);
             RaisePropertyChanged(() => AvgRevenuePerUnitChartModel);
 
-            TopSellingProductsChartModel.ReloadData();
-            SalesVsShrinkageChartModel.ReloadData();
-            ShrinkageRateChartModel.ReloadData();
-            InventoryOnHandChartModel.ReloadData();
+            if (reloadCharts)
+            {
+                ReloadChartsData();
+            }
+        }
+
+        public void ReloadChartsData()
+        {
+            Task.Run(async () =>
+            {
+                TopSellingProductsChartModel.IsLoading = true;
+                SalesVsShrinkageChartModel.IsLoading = true;
+                ShrinkageRateChartModel.IsLoading = true;
+                InventoryOnHandChartModel.IsLoading = true;
+
+                await Task.Delay(1000).ConfigureAwait(false);
+
+                TopSellingProductsChartModel.ReloadData();
+
+                await Task.Delay(300).ConfigureAwait(false);
+                SalesVsShrinkageChartModel.ReloadData();
+
+                await Task.Delay(300).ConfigureAwait(false);
+                ShrinkageRateChartModel.ReloadData();
+
+                await Task.Delay(300).ConfigureAwait(false);
+                InventoryOnHandChartModel.ReloadData();
+            }).ConfigureAwait(false);
         }
     }
 }

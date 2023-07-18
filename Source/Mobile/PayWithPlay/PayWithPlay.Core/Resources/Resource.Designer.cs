@@ -1960,6 +1960,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Transactions.
+        /// </summary>
+        internal static string Transactions {
+            get {
+                return ResourceManager.GetString("Transactions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter your home address..
         /// </summary>
         internal static string UserAddressTitle {

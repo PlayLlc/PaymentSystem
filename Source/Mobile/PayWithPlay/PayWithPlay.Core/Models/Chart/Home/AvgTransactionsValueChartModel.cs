@@ -30,10 +30,11 @@ namespace PayWithPlay.Core.Models.Chart.Home
         };
 
         private int _selectedChartStep = (int)ChartStepType.Day;
+        private bool _isLoading;
 
         public AvgTransactionsValueChartModel()
         {
-            ReloadData();
+            IsLoading = true;
         }
 
         public Action? ChartEntriesChangedAction { get; set; }
@@ -50,10 +51,17 @@ namespace PayWithPlay.Core.Models.Chart.Home
             set => SetProperty(ref _selectedChartStep, value, ReloadData);
         }
 
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set => SetProperty(ref _isLoading, value);
+        }
+
         public void ReloadData()
         {
             Entries = MockDataUtils.RandomAvgTransactionValueChartData((ChartStepType)SelectedChartStep);
 
+            IsLoading = false;
             ChartEntriesChangedAction?.Invoke();
         }
     }

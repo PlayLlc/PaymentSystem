@@ -19,12 +19,15 @@ namespace PayWithPlay.Core.ViewModels.Main.Home
 
         public HomeViewModel()
         {
-            MockData();
+            MockData(false);
         }
 
         public override void ViewDestroy(bool viewFinishing = true)
         {
             OnlineTerminalsAction = null;
+            TotalSalesChartModel.ChartEntriesChangedAction = null;
+            AvgTransactionsValueChartModel.ChartEntriesChangedAction = null;
+            TransactionsChartModel.ChartEntriesChangedAction = null;
 
             base.ViewDestroy(viewFinishing);
         }
@@ -94,6 +97,8 @@ namespace PayWithPlay.Core.ViewModels.Main.Home
 
         public AvgTransactionsValueChartModel AvgTransactionsValueChartModel { get; set; } = new AvgTransactionsValueChartModel();
 
+        public TransactionsChartModel TransactionsChartModel { get; set; } = new TransactionsChartModel();
+
         public void OnNotifications()
         {
         }
@@ -104,12 +109,12 @@ namespace PayWithPlay.Core.ViewModels.Main.Home
 
             await Task.Delay(1000);
 
-            MockData();
+            MockData(true);
 
             IsRefreshing = false;
         }
 
-        private void MockData()
+        private void MockData(bool reloadCharts)
         {
             var random = new Random();
 
@@ -131,9 +136,34 @@ namespace PayWithPlay.Core.ViewModels.Main.Home
 
             OnlineTerminalsAction?.Invoke();
 
-            TotalSalesChartModel.ReloadData();
-            TopSellersChartModel.ReloadData();
-            AvgTransactionsValueChartModel.ReloadData();
+            if (reloadCharts)
+            {
+                ReloadChartsData();
+            }
+        }
+
+        public void ReloadChartsData()
+        {
+            Task.Run(async () =>
+            {
+                TotalSalesChartModel.IsLoading = true;
+                TopSellersChartModel.IsLoading = true;
+                AvgTransactionsValueChartModel.IsLoading = true;
+                TransactionsChartModel.IsLoading = true;
+
+                await Task.Delay(1000).ConfigureAwait(false);
+
+                TotalSalesChartModel.ReloadData();
+
+                await Task.Delay(300).ConfigureAwait(false);
+                TopSellersChartModel.ReloadData();
+
+                await Task.Delay(300).ConfigureAwait(false);
+                AvgTransactionsValueChartModel.ReloadData();
+
+                await Task.Delay(300).ConfigureAwait(false);
+                TransactionsChartModel.ReloadData();
+            }).ConfigureAwait(false);
         }
     }
 }

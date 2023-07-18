@@ -1,6 +1,8 @@
 ﻿using Android.Graphics;
 using Android.Runtime;
 using MikePhil.Charting.Animation;
+using MikePhil.Charting.Data;
+using MikePhil.Charting.Formatter;
 using MikePhil.Charting.Interfaces.Dataprovider;
 using MikePhil.Charting.Renderer;
 using MikePhil.Charting.Util;
@@ -17,12 +19,18 @@ namespace PayWithPlay.Droid.Utils.Chart
         {
         }
 
-        public override void DrawValue(Canvas c, string valueText, float x, float y, int color)
+        public override void DrawValue(Canvas? c, IValueFormatter? formatter, float value, Entry? entry, int dataSetIndex, float x, float y, int color)
         {
-            Rect textBounds = new Rect();
-            MValuePaint.GetTextBounds(valueText, 0, valueText.Length, textBounds);
+            var valueText = formatter?.GetFormattedValue(value, entry, dataSetIndex, this.MViewPortHandler);
+            if (string.IsNullOrWhiteSpace(valueText)) 
+            {
+                return;
+            }
 
-            y = Math.Min((MChart.Height / 2), MChart.Height - MValuePaint.TextSize);
+            Rect textBounds = new Rect();
+            MValuePaint!.GetTextBounds(valueText, 0, valueText.Length, textBounds);
+
+            y = Math.Min((MChart!.Height / 2), MChart.Height - MValuePaint.TextSize);
             x += Math.Abs(textBounds.Height()) / 2;
 
             c.Save();

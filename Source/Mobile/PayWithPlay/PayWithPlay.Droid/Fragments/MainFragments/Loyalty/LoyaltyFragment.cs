@@ -1,4 +1,5 @@
-﻿using Android.Graphics;
+﻿using Android.Content;
+using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.Runtime;
 using Android.Views;
@@ -8,6 +9,7 @@ using MikePhil.Charting.Charts;
 using MikePhil.Charting.Data;
 using PayWithPlay.Core.ViewModels.Main.Loyalty;
 using PayWithPlay.Droid.Extensions;
+using PayWithPlay.Droid.Utils;
 using PayWithPlay.Droid.Utils.Chart;
 using static Android.Views.ViewGroup;
 
@@ -25,6 +27,8 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Loyalty
         private LinearLayoutCompat? _salesVsRedeemedContainer;
         private LineChart? _salesVsRedeemedLineChart;
 
+        private bool _resumedFirstTime = true;
+
         public override int LayoutId => Resource.Layout.fragment_loyalty;
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -41,52 +45,100 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Loyalty
             var rootView = base.OnCreateView(inflater, container, savedInstanceState);
 
             InitViews(rootView);
-            SetNewLoyaltyAccountsChart();
-            SetSalesVsShrinkageChart();
             SetTotalSalesChart();
+            SetNewLoyaltyAccountsChart();
+            SetSalesVsRedeemedChart();
+
+            _resumedFirstTime = true;
 
             return rootView;
         }
 
-        private void TotalSalesChartDataChanged(bool animate = false) 
+        public override void OnResume()
         {
-            var primaryTopColor = new Color (ContextCompat.GetColor(Context, Resource.Color.chart_gradient_primary_top_color));
-            var primaryBottomColor = new Color (ContextCompat.GetColor(Context, Resource.Color.chart_gradient_primary_bottom_color));
+            base.OnResume();
+
+            if (_resumedFirstTime)
+            {
+                _resumedFirstTime = false;
+
+                _totalSalesLineChart!.SetNoDataText(string.Empty);
+                _newAccountsBarChart!.SetNoDataText(string.Empty);
+                _salesVsRedeemedLineChart!.SetNoDataText(string.Empty);
+
+                ViewModel.ReloadChartsData();
+            }
+        }
+
+        private void TotalSalesChartDataChanged(bool animate = false)
+        {
+            var primaryTopColor = new Color(ContextCompat.GetColor(Context, Resource.Color.chart_gradient_primary_top_color));
+            var primaryBottomColor = new Color(ContextCompat.GetColor(Context, Resource.Color.chart_gradient_primary_bottom_color));
 
             var nonLoyalty = LineChartUtils.GetLineDataSet(
-                ViewModel.TotalSalesChartModel.NonLoyaltyEntries, 
-                Resource.Color.chart_primary_color, 
-                true, 
+                ViewModel.TotalSalesChartModel.NonLoyaltyEntries,
+                Resource.Color.chart_primary_color,
+                true,
                 0.3f,
-                new GradientDrawable(GradientDrawable.Orientation.TopBottom, new int[] { primaryTopColor, primaryBottomColor } ));
+                new GradientDrawable(GradientDrawable.Orientation.TopBottom, new int[] { primaryTopColor, primaryBottomColor }));
 
             var secondaryTopColor = new Color(ContextCompat.GetColor(Context, Resource.Color.chart_gradient_secondary_top_color));
             var secondaryBottomColor = new Color(ContextCompat.GetColor(Context, Resource.Color.chart_gradient_secondary_bottom_color));
 
             var loyaltyCustomers = LineChartUtils.GetLineDataSet(
-                ViewModel.TotalSalesChartModel.LoyaltyEntries, 
-                Resource.Color.chart_secondary_color, 
+                ViewModel.TotalSalesChartModel.LoyaltyEntries,
+                Resource.Color.chart_secondary_color,
                 true,
                 0.3f,
                 new GradientDrawable(GradientDrawable.Orientation.TopBottom, new int[] { secondaryTopColor, secondaryBottomColor }));
 
-            LineChartUtils.SetDataSets(_totalSalesLineChart, animate, nonLoyalty, loyaltyCustomers);
+            _totalSalesLineChart!.SetNoDataText("No chart data available");
+
+            RequireActivity().RunOnUiThread(() =>
+            {
+                LineChartUtils.SetDataSets(_totalSalesLineChart, animate, nonLoyalty, loyaltyCustomers);
+
+                if (animate)
+                {
+                    _totalSalesLineChart.AnimateX(800);
+                }
+            });
         }
 
-        private void NewAccountChartDataChanged(bool animate = false) 
+        private void NewAccountChartDataChanged(bool animate = false)
         {
-            BarChartUtils.SetBarEntries(ViewModel.NewAccountsChartModel.Entries, _newAccountsBarChart, false, animate);
+            _newAccountsBarChart!.SetNoDataText("No chart data available");
+
+            RequireActivity().RunOnUiThread(() =>
+            {
+                BarChartUtils.SetBarEntries(ViewModel.NewAccountsChartModel.Entries, _newAccountsBarChart, false, animate);
+
+                if (animate)
+                {
+                    _newAccountsBarChart.AnimateX(800);
+                }
+            });
         }
 
-        private void SalesVsRedeemedChartDataChanged(bool animate = false) 
+        private void SalesVsRedeemedChartDataChanged(bool animate = false)
         {
             var sales = LineChartUtils.GetLineDataSet(ViewModel.SalesVsReddeemedChartModel.SalesEntries, Resource.Color.chart_primary_color);
             var redeemed = LineChartUtils.GetLineDataSet(ViewModel.SalesVsReddeemedChartModel.RedeemedEntries, Resource.Color.chart_secondary_color);
 
-            LineChartUtils.SetDataSets(_salesVsRedeemedLineChart, animate, sales, redeemed);
+            _salesVsRedeemedLineChart!.SetNoDataText("No chart data available");
+
+            RequireActivity().RunOnUiThread(() =>
+            {
+                LineChartUtils.SetDataSets(_salesVsRedeemedLineChart, animate, sales, redeemed);
+
+                if (animate)
+                {
+                    _salesVsRedeemedLineChart.AnimateX(800);
+                }
+            });
         }
 
-        private void InitViews(View root) 
+        private void InitViews(View root)
         {
             var actionsView = root.FindViewById<LinearLayoutCompat>(Resource.Id.actions_container);
             actionsView.SetBackground(Resource.Color.secondary_color, bottomLeft: 5f.ToFloatPx(), bottomRight: 5f.ToFloatPx());
@@ -101,7 +153,7 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Loyalty
             _salesVsRedeemedLineChart = root.FindViewById<LineChart>(Resource.Id.sales_vs_redeemed_line_chart)!;
         }
 
-        private void SetTotalSalesChart() 
+        private void SetTotalSalesChart()
         {
             _totalSalesContainer.SetBackground(Resource.Color.third_color, 2f.ToPx(), Resource.Color.hint_text_color, 5f.ToFloatPx());
             var totalSalesContainerLp = _totalSalesContainer.LayoutParameters as MarginLayoutParams;
@@ -109,18 +161,19 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Loyalty
             _totalSalesContainer.LayoutParameters = totalSalesContainerLp;
 
             LineChartUtils.SetChartProperties(_totalSalesLineChart);
-            _totalSalesLineChart.AxisLeft.GridLineWidth = 1;
+            _totalSalesLineChart!.SetNoDataText(string.Empty);
+            _totalSalesLineChart.AxisLeft!.GridLineWidth = 1;
             _totalSalesLineChart.AxisLeft.GridColor = ContextCompat.GetColor(App.Context, Resource.Color.secondary_text_color);
             _totalSalesLineChart.AxisLeft.SetDrawGridLines(true);
             _totalSalesLineChart.AxisLeft.SetDrawGridLinesBehindData(false);
 
-            var xAxis = _totalSalesLineChart.XAxis;
+            var xAxis = _totalSalesLineChart.XAxis!;
             xAxis.ValueFormatter = new CustomValueFormatter()
             {
                 OnAxisLabel = (value, axis) =>
                 {
                     if (_totalSalesLineChart!.Data is LineData lineData &&
-                        lineData.DataSets[0] is LineDataSet curentLineDataSet && curentLineDataSet.Values is JavaList lineEntriesJavaList)
+                        lineData.DataSets![0] is LineDataSet curentLineDataSet && curentLineDataSet.Entries is JavaList lineEntriesJavaList)
                     {
                         var lineEntries = lineEntriesJavaList.Cast<Entry>();
                         var entry = lineEntries.FirstOrDefault(t => t.GetX() == value);
@@ -141,8 +194,6 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Loyalty
                     return $"${(int)(value * 0.001)}K".ToString();
                 }
             };
-
-            TotalSalesChartDataChanged();
         }
 
         private void SetNewLoyaltyAccountsChart()
@@ -153,14 +204,15 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Loyalty
             _newAccountsContainer.LayoutParameters = newAccountsContainerLp;
 
             BarChartUtils.SetChartProperties(_newAccountsBarChart);
+            _newAccountsBarChart!.SetNoDataText(string.Empty);
 
-            var xAxis = _newAccountsBarChart.XAxis;
+            var xAxis = _newAccountsBarChart.XAxis!;
             xAxis.ValueFormatter = new CustomValueFormatter()
             {
                 OnAxisLabel = (value, axis) =>
                 {
                     if (_newAccountsBarChart!.Data is BarData barData &&
-                        barData.DataSets[0] is BarDataSet curentBarDataSet && curentBarDataSet.Values is JavaList barEntriesJavaList)
+                        barData.DataSets![0] is BarDataSet curentBarDataSet && curentBarDataSet.Entries is JavaList barEntriesJavaList)
                     {
                         var barEntries = barEntriesJavaList.Cast<BarEntry>();
                         var entry = barEntries.FirstOrDefault(t => t.GetX() == value);
@@ -173,11 +225,9 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Loyalty
                     return value.ToString();
                 }
             };
-
-            NewAccountChartDataChanged();
         }
 
-        private void SetSalesVsShrinkageChart()
+        private void SetSalesVsRedeemedChart()
         {
             _salesVsRedeemedContainer.SetBackground(Resource.Color.third_color, 2f.ToPx(), Resource.Color.hint_text_color, 5f.ToFloatPx());
             var salesVsShrinkageContainerLp = _salesVsRedeemedContainer.LayoutParameters as MarginLayoutParams;
@@ -185,18 +235,19 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Loyalty
             _salesVsRedeemedContainer.LayoutParameters = salesVsShrinkageContainerLp;
 
             LineChartUtils.SetChartProperties(_salesVsRedeemedLineChart);
-            _salesVsRedeemedLineChart.AxisLeft.GridLineWidth = 1;
+            _salesVsRedeemedLineChart!.SetNoDataText(string.Empty);
+            _salesVsRedeemedLineChart.AxisLeft!.GridLineWidth = 1;
             _salesVsRedeemedLineChart.AxisLeft.GridColor = ContextCompat.GetColor(App.Context, Resource.Color.secondary_text_color);
             _salesVsRedeemedLineChart.AxisLeft.SetDrawGridLines(true);
             _salesVsRedeemedLineChart.AxisLeft.SetDrawGridLinesBehindData(true);
 
-            var xAxis = _salesVsRedeemedLineChart.XAxis;
+            var xAxis = _salesVsRedeemedLineChart.XAxis!;
             xAxis.ValueFormatter = new CustomValueFormatter()
             {
                 OnAxisLabel = (value, axis) =>
                 {
                     if (_salesVsRedeemedLineChart!.Data is LineData lineData &&
-                        lineData.DataSets[0] is LineDataSet curentLineDataSet && curentLineDataSet.Values is JavaList lineEntriesJavaList)
+                        lineData.DataSets![0] is LineDataSet curentLineDataSet && curentLineDataSet.Entries is JavaList lineEntriesJavaList)
                     {
                         var lineEntries = lineEntriesJavaList.Cast<Entry>();
                         var entry = lineEntries.FirstOrDefault(t => t.GetX() == value);
@@ -217,8 +268,6 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Loyalty
                     return $"${(int)(value * 0.001)}K".ToString();
                 }
             };
-
-            SalesVsRedeemedChartDataChanged();
         }
     }
 }
