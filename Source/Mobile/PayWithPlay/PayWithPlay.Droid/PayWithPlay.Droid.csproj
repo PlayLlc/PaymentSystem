@@ -6,10 +6,12 @@
     <Nullable>enable</Nullable>
     <NoWarn>NETSDK1023</NoWarn>
     <ApplicationId>com.paywithplay.dev</ApplicationId>
-    <ApplicationVersion>7</ApplicationVersion>
-    <ApplicationDisplayVersion>1.0.6</ApplicationDisplayVersion>
-    <SupportedOSPlatformVersion>28.0</SupportedOSPlatformVersion>
+    <ApplicationVersion>8</ApplicationVersion>
+    <ApplicationDisplayVersion>1.0.7</ApplicationDisplayVersion>
+    <SupportedOSPlatformVersion>28</SupportedOSPlatformVersion>
     <UseMauiEssentials>true</UseMauiEssentials>
+    <SynchReleaseVersion>false</SynchReleaseVersion>
+    <AndroidAapt2LinkExtraArgs>--min-sdk-version $(SupportedOSPlatformVersion)</AndroidAapt2LinkExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <AndroidPackageFormat>apk</AndroidPackageFormat>
@@ -35,8 +37,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="DeleteBinObjFolders.bat" />
-    <None Remove="Resources\layout\row_loyalty_enroller.xml" />
-    <None Remove="Resources\layout\row_top_seller.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />

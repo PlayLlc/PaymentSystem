@@ -73,6 +73,31 @@ namespace PayWithPlay.Core.ViewModels.CreateAccount
             set => SetProperty(ref _currentProgress, value);
         }
 
+        public bool OnBackPressed()
+        {
+            if (CurrentProgress == 0)
+            {
+                return true;
+            }
+
+            var nextPageIndex = CurrentPageIndex - 1;
+            var nextProgress = CurrentProgress - 1;
+
+            if (CurrentProgress == 6 &&
+               (StepsModels.First(t => t is HomeOrBusinessAddressViewModel) is HomeOrBusinessAddressViewModel homeOrBusinessAddressViewModel) &&
+                homeOrBusinessAddressViewModel.SameAddress)
+            {
+                nextPageIndex--;
+                nextProgress--;
+            }
+
+            CurrentPageIndex = nextPageIndex;
+            ScrollToPageAction?.Invoke(nextPageIndex);
+            CurrentProgress = nextProgress;
+
+            return false;
+        }
+
         private void OnContinue(object model)
         {
             var nextPageIndex = CurrentPageIndex;
@@ -149,9 +174,9 @@ namespace PayWithPlay.Core.ViewModels.CreateAccount
                 nextPageIndex = 11;
                 nextProgress = 11;
             }
-            else if (model is CongratsRegistrationViewModel congratsRegistrationViewModel) 
+            else if (model is CongratsRegistrationViewModel congratsRegistrationViewModel)
             {
-                NavigationService.Navigate<MainViewModel>(new MvxBundle(new Dictionary<string, string> { { AppConstants.ClearBackStack, ""} }));
+                NavigationService.Navigate<MainViewModel>(new MvxBundle(new Dictionary<string, string> { { AppConstants.ClearBackStack, "" } }));
                 return;
             }
 

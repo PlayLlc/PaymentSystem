@@ -16,19 +16,19 @@ namespace PayWithPlay.Droid.Utils.Chart
         {
         }
 
-        protected override void DrawLabel(Canvas c, string formattedLabel, float x, float y, MPPointF anchor, float angleDegrees)
+        protected override void DrawLabel(Canvas? c, string? formattedLabel, float x, float y, MPPointF? anchor, float angleDegrees)
         {
             float drawOffsetX = .0f;
             float drawOffsetY = .0f;
 
             var fontMetricsBuffer = new Paint.FontMetrics();
-            var drawTextRectBudder = new Rect();
+            var drawTextRectBuffer = new Rect();
 
-            var lineHeight = MAxisLabelPaint.GetFontMetrics(fontMetricsBuffer);
-            MAxisLabelPaint.GetTextBounds(formattedLabel, 0, formattedLabel.Length, drawTextRectBudder);
+            var lineHeight = MAxisLabelPaint!.GetFontMetrics(fontMetricsBuffer);
+            MAxisLabelPaint.GetTextBounds(formattedLabel, 0, formattedLabel!.Length, drawTextRectBuffer);
 
             // Android sometimes has pre-padding
-            drawOffsetX -= drawTextRectBudder.Left;
+            drawOffsetX -= drawTextRectBuffer.Left;
 
             // Android does not snap the bounds to line boundaries,
             //  and draws from bottom to top.
@@ -43,26 +43,26 @@ namespace PayWithPlay.Droid.Utils.Chart
             {
 
                 // Move the text drawing rect in a way that it always rotates around its center
-                drawOffsetX -= drawTextRectBudder.Width();// * 0.5f;
+                drawOffsetX -= drawTextRectBuffer.Width();// * 0.5f;
                 drawOffsetY -= lineHeight * 0.5f;
 
                 float translateX = x;
                 float translateY = y;
 
                 // Move the "outer" rect relative to the anchor, assuming its centered
-                if (anchor.X != 0.5f || anchor.Y != 0.5f)
+                if (anchor!.X != 0.5f || anchor.Y != 0.5f)
                 {
                     var rotatedSize = MikePhil.Charting.Util.Utils.GetSizeOfRotatedRectangleByDegrees(
-                            drawTextRectBudder.Width(),
+                            drawTextRectBuffer.Width(),
                             lineHeight,
                             angleDegrees);
 
-                    translateX -= rotatedSize.Width * (anchor.X - 0.5f);
+                    translateX -= rotatedSize!.Width * (anchor.X - 0.5f);
                     translateY -= rotatedSize.Height * anchor.Y;
                     FSize.RecycleInstance(rotatedSize);
                 }
 
-                c.Save();
+                c!.Save();
                 c.Translate(translateX, translateY);
                 c.Rotate(angleDegrees);
 
@@ -72,16 +72,16 @@ namespace PayWithPlay.Droid.Utils.Chart
             }
             else
             {
-                if (anchor.X != .0f || anchor.Y != .0f)
+                if (anchor!.X != .0f || anchor.Y != .0f)
                 {
 
-                    drawOffsetX -= drawTextRectBudder.Width() * anchor.X;
+                    drawOffsetX -= drawTextRectBuffer.Width() * anchor.X;
                     drawOffsetY -= lineHeight * anchor.Y;
                 }
                 drawOffsetX += x;
                 drawOffsetY += y;
 
-                c.DrawText(formattedLabel, drawOffsetX, drawOffsetY, MAxisLabelPaint);
+                c!.DrawText(formattedLabel, drawOffsetX, drawOffsetY, MAxisLabelPaint);
             }
 
             MAxisLabelPaint.TextAlign = originalTextAlign;

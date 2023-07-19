@@ -5,9 +5,7 @@ using Google.Android.Material.ProgressIndicator;
 using MvvmCross.DroidX.RecyclerView;
 using PayWithPlay.Core.ViewModels.CreateAccount;
 using PayWithPlay.Droid.Utils;
-using PayWithPlay.Droid.Utils.Listeners;
 using static Android.Views.ViewGroup;
-using static AndroidX.RecyclerView.Widget.RecyclerView;
 
 namespace PayWithPlay.Droid.Activities.CreateAccount
 {
@@ -17,7 +15,7 @@ namespace PayWithPlay.Droid.Activities.CreateAccount
         private bool scrolledToPage;
         private bool blockTouch;
         private MvxRecyclerView? _stepsRecyclerView;
-        private LinearLayoutManagerWithScrollBoundery? _layaoutManager;
+        private LinearLayoutManagerWithScrollBoundery? _layoutManager;
         private LinearProgressIndicator? _progressIndicator;
 
         protected override int LayoutId => Resource.Layout.activity_create_account_steps;
@@ -29,7 +27,7 @@ namespace PayWithPlay.Droid.Activities.CreateAccount
             SetRecyclerView();
             SetProgressIndicator();
 
-            ViewModel.ScrollToPageAction = ScrollToPoage;
+            ViewModel.ScrollToPageAction = ScrollToPage;
         }
 
         protected override void OnDestroy()
@@ -48,21 +46,21 @@ namespace PayWithPlay.Droid.Activities.CreateAccount
             return blockTouch;
         }
 
-        //protected override bool OnBackPressed()
-        //{
-        //    return false;
-        //}
+        protected override bool OnBackPressed()
+        {
+            return ViewModel.OnBackPressed();
+        }
 
         private void SetRecyclerView()
         {
             _stepsRecyclerView = FindViewById<MvxRecyclerView>(Resource.Id.steps_rv)!;
 
-            _layaoutManager = new LinearLayoutManagerWithScrollBoundery(this, LinearLayoutManager.Horizontal, false) { HorizontalScrollEnabled = false };
-            _layaoutManager.OnScrollStateChangedAction = (state) =>
+            _layoutManager = new LinearLayoutManagerWithScrollBoundery(this, LinearLayoutManager.Horizontal, false) { HorizontalScrollEnabled = false };
+            _layoutManager.OnScrollStateChangedAction = (state) =>
             {
                 if (state == (int)ScrollState.Idle)
                 {
-                    _layaoutManager.HorizontalScrollEnabled = false;
+                    _layoutManager.HorizontalScrollEnabled = false;
                     blockTouch = false;
                     if (scrolledToPage)
                     {
@@ -75,18 +73,18 @@ namespace PayWithPlay.Droid.Activities.CreateAccount
                     }
                 }
             };
-            _stepsRecyclerView.SetLayoutManager(_layaoutManager);
+            _stepsRecyclerView.SetLayoutManager(_layoutManager);
 
             var snapHelper = new PagerSnapHelper();
             snapHelper.AttachToRecyclerView(_stepsRecyclerView);
         }
 
-        private void ScrollToPoage(int page)
+        private void ScrollToPage(int page)
         {
             App.Current!.ClearFocusAndHideKeyboard();
             blockTouch = true;
             scrolledToPage = true;
-            _layaoutManager!.HorizontalScrollEnabled = true;
+            _layoutManager!.HorizontalScrollEnabled = true;
             _stepsRecyclerView!.SmoothScrollToPosition(page);
         }
 
