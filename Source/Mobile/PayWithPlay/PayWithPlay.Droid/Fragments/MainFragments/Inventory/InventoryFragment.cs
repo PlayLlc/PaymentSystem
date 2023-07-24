@@ -2,6 +2,7 @@
 using Android.Views;
 using AndroidX.AppCompat.Widget;
 using AndroidX.Core.Content;
+using Google.Android.Material.Button;
 using MikePhil.Charting.Charts;
 using MikePhil.Charting.Data;
 using PayWithPlay.Core.ViewModels.Main.Inventory;
@@ -152,6 +153,8 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Inventory
 
             _inventoryOnHandContainer = root.FindViewById<LinearLayoutCompat>(Resource.Id.inventory_on_hand_container)!;
             _inventoryOnHandBarChart = root.FindViewById<BarChart>(Resource.Id.inventory_on_hand_bar_chart)!;
+
+            SetLayoutForNarrowSizes(root);
         }
 
         private void SetTopSellingItemsChart()
@@ -307,6 +310,39 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Inventory
             _inventoryOnHandBarChart.AxisLeft.GridColor = ContextCompat.GetColor(App.Context, Resource.Color.secondary_text_color);
             _inventoryOnHandBarChart.AxisLeft.SetDrawGridLines(true);
             _inventoryOnHandBarChart.AxisLeft.SetDrawGridLinesBehindData(true);
+        }
+
+        private void SetLayoutForNarrowSizes(View root)
+        {
+            var width = Context!.Resources!.DisplayMetrics!.WidthPixels;
+            var density = Context!.Resources!.DisplayMetrics!.Density;
+            if (width / density < 340f)
+            {
+                var actionsView = root.FindViewById<LinearLayoutCompat>(Resource.Id.actions_container)!;
+                actionsView.SetPadding(10f.ToPx(), actionsView.PaddingTop, 10f.ToPx(), actionsView.PaddingBottom);
+
+                var searchBtn = root.FindViewById<MaterialButton>(Resource.Id.search_btn)!;
+                var addBtn = root.FindViewById<MaterialButton>(Resource.Id.add_btn)!;
+                var scanBtn = root.FindViewById<MaterialButton>(Resource.Id.scan_btn)!;
+                searchBtn.SetMargins(end: 4f.ToPx());
+                addBtn.SetMargins(start: 4f.ToPx(), end: 4f.ToPx());
+                scanBtn.SetMargins(start: 4f.ToPx());
+
+                var topCardsContainer = root.FindViewById<LinearLayoutCompat>(Resource.Id.top_cards_container);
+                topCardsContainer.SetMargins(start: 10f.ToPx(), end: 10f.ToPx());
+
+                var card1 = root.FindViewById<View>(Resource.Id.view1);
+                var card2 = root.FindViewById<View>(Resource.Id.view2);
+                var card3 = root.FindViewById<View>(Resource.Id.view3);
+                card1.SetMargins(end: 3f.ToPx());
+                card2.SetMargins(start: 3f.ToPx(), end: 3f.ToPx());
+                card3.SetMargins(start: 3f.ToPx());
+
+                _topSellingItemsContainer.SetMargins(start: 10f.ToPx(), end: 10f.ToPx());
+                _salesVsShrinkageContainer.SetMargins(start: 10f.ToPx(), end: 10f.ToPx());
+                _shrinkageRateContainer.SetMargins(start: 10f.ToPx(), end: 10f.ToPx());
+                _inventoryOnHandContainer.SetMargins(start: 10f.ToPx(), end: 10f.ToPx());
+            }
         }
     }
 }

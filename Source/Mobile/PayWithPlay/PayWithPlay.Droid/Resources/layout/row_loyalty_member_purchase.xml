@@ -22,6 +22,12 @@
             android:layout_marginEnd="8dp"
             android:lineSpacingMultiplier="0.7"
             android:layout_gravity="start|center_vertical"
+            android:lines="1"
+            android:maxLines="1"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="14sp"
+            android:autoSizeMaxTextSize="16sp"
+            android:autoSizeStepGranularity="1sp"
             android:gravity="center"
             app:MvxBind="Text DisplayDate"/>
 
@@ -31,6 +37,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:gravity="center"
         android:layout_gravity="center_vertical">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -38,10 +45,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="4dp"
             android:lineSpacingMultiplier="0.7"
             android:layout_gravity="center"
             android:gravity="center"
+            android:ellipsize="end"
+            android:lines="1"
+            android:maxLines="1"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="14sp"
+            android:autoSizeMaxTextSize="16sp"
+            android:autoSizeStepGranularity="1sp"
             app:MvxBind="Text Number"/>
     </FrameLayout>
 

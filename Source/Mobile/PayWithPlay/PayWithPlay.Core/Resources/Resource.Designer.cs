@@ -1411,7 +1411,7 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to PurchaseHistory.
+        ///   Looks up a localized string similar to Purchase History.
         /// </summary>
         internal static string PurchaseHistory {
             get {

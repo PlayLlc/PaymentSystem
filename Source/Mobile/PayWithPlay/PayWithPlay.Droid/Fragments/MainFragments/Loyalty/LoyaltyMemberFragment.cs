@@ -14,7 +14,7 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Loyalty
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var root = base.OnCreateView(inflater, container, savedInstanceState);
-            var purchasesRecyclerView = root.FindViewById<MvxRecyclerView>(Resource.Id.purchases_recyclerView);
+            var purchasesRecyclerView = root.FindViewById<MvxRecyclerView>(Resource.Id.purchases_recyclerView)!;
             purchasesRecyclerView.AddItemDecoration(new RecyclerItemDecoration(2f.ToPx(), Resource.Color.separator_color));
 
             return root;

@@ -1,14 +1,12 @@
 ﻿using Android.Content.PM;
 using Android.Views;
 using AndroidX.AppCompat.Widget;
-using AndroidX.Fragment.App;
 using Google.Android.Material.BottomSheet;
+using Google.Android.Material.Button;
 using MvvmCross.DroidX.RecyclerView;
-using MvvmCross.Platforms.Android.Views.ViewPager;
 using PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale;
 using PayWithPlay.Droid.CustomViews;
 using PayWithPlay.Droid.Extensions;
-using PayWithPlay.Droid.Fragments.MainFragments.Inventory;
 using PayWithPlay.Droid.Fragments.MainFragments.PointOfSale;
 using PayWithPlay.Droid.Utils;
 using PayWithPlay.Droid.Utils.Listeners;
@@ -141,6 +139,29 @@ namespace PayWithPlay.Droid.Activities.PointOfSale
                     }
                 }
             });
+
+            SetLayoutForNarrowSizes();
+        }
+
+        private void SetLayoutForNarrowSizes()
+        {
+            var width = Resources!.DisplayMetrics!.WidthPixels;
+            var density = Resources!.DisplayMetrics!.Density;
+            if (width / density < 340f)
+            {
+                var actionsView = FindViewById<LinearLayoutCompat>(Resource.Id.actions_container)!;
+                actionsView.SetPadding(32f.ToPx(), actionsView.PaddingTop, 8f.ToPx(), actionsView.PaddingBottom);
+
+                var scanBtn = FindViewById<MaterialButton>(Resource.Id.scan_btn)!;
+                var selectItemBtn = FindViewById<MaterialButton>(Resource.Id.select_item_btn)!;
+                var customAmountBtn = FindViewById<MaterialButton>(Resource.Id.custom_amount_btn)!;
+                scanBtn.SetMargins(end: 3f.ToPx());
+                selectItemBtn.SetMargins(start: 3f.ToPx(), end: 3f.ToPx());
+                customAmountBtn.SetMargins(start: 3f.ToPx());
+
+                var backBtn = FindViewById<MaterialButton>(Resource.Id.back_btn)!;
+                backBtn.SetSize(36f.ToPx(), 36f.ToPx());
+            }
         }
     }
 }

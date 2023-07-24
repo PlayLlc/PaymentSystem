@@ -1,15 +1,63 @@
-﻿using Android.Content;
-using Android.Content.Res;
+﻿using Android.Content.Res;
 using Android.Graphics;
 using Android.Util;
 using Android.Views;
 using AndroidX.Core.Content;
 using PayWithPlay.Droid.Utils;
+using static Android.Views.ViewGroup;
 
 namespace PayWithPlay.Droid.Extensions
 {
     public static class ViewExtensions
     {
+        public static void SetSize(this View view, int height = int.MinValue, int width = int.MinValue)
+        {
+            if (view == null ||
+                (height == int.MinValue && width == int.MinValue))
+            {
+                return;
+            }
+
+            var viewLp = view.LayoutParameters;
+            if (height != int.MinValue)
+            {
+                viewLp!.Height = height;
+            }
+            if (width != int.MinValue)
+            {
+                viewLp!.Width = width;
+            }
+            view.LayoutParameters = viewLp;
+        }
+
+        public static void SetMargins(this View view, int start = int.MinValue, int top = int.MinValue, int end = int.MinValue, int bottom = int.MinValue)
+        {
+            if (view == null ||
+               (start == int.MinValue && top == int.MinValue && end == int.MinValue && bottom == int.MinValue))
+            {
+                return;
+            }
+
+            var viewLp = view.LayoutParameters as MarginLayoutParams;
+            if (start != int.MinValue)
+            {
+                viewLp!.MarginStart = start;
+            }
+            if (top != int.MinValue)
+            {
+                viewLp!.TopMargin = top;
+            }
+            if (end != int.MinValue)
+            {
+                viewLp!.MarginEnd = end;
+            }
+            if (bottom != int.MinValue)
+            {
+                viewLp!.BottomMargin = bottom;
+            }
+            view.LayoutParameters = viewLp;
+        }
+
         public static void SetBackground(
             this View view,
             ColorStateList color,

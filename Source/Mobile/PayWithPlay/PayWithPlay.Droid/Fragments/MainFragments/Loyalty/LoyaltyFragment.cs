@@ -1,15 +1,14 @@
-﻿using Android.Content;
-using Android.Graphics;
+﻿using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.Runtime;
 using Android.Views;
 using AndroidX.AppCompat.Widget;
 using AndroidX.Core.Content;
+using Google.Android.Material.Button;
 using MikePhil.Charting.Charts;
 using MikePhil.Charting.Data;
 using PayWithPlay.Core.ViewModels.Main.Loyalty;
 using PayWithPlay.Droid.Extensions;
-using PayWithPlay.Droid.Utils;
 using PayWithPlay.Droid.Utils.Chart;
 using static Android.Views.ViewGroup;
 
@@ -26,6 +25,8 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Loyalty
 
         private LinearLayoutCompat? _salesVsRedeemedContainer;
         private LineChart? _salesVsRedeemedLineChart;
+
+        private LinearLayoutCompat? _topLoyaltyEnrollersContainer;
 
         private bool _resumedFirstTime = true;
 
@@ -151,6 +152,10 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Loyalty
 
             _salesVsRedeemedContainer = root.FindViewById<LinearLayoutCompat>(Resource.Id.sales_vs_redeemed_container)!;
             _salesVsRedeemedLineChart = root.FindViewById<LineChart>(Resource.Id.sales_vs_redeemed_line_chart)!;
+
+            _topLoyaltyEnrollersContainer = root.FindViewById<LinearLayoutCompat>(Resource.Id.top_loyalty_enrollers_container)!;
+
+            SetLayoutForNarrowSizes(root);
         }
 
         private void SetTotalSalesChart()
@@ -268,6 +273,39 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Loyalty
                     return $"${(int)(value * 0.001)}K".ToString();
                 }
             };
+        }
+
+        private void SetLayoutForNarrowSizes(View root)
+        {
+            var width = Context!.Resources!.DisplayMetrics!.WidthPixels;
+            var density = Context!.Resources!.DisplayMetrics!.Density;
+            if (width / density < 340f)
+            {
+                var actionsView = root.FindViewById<LinearLayoutCompat>(Resource.Id.actions_container)!;
+                actionsView.SetPadding(10f.ToPx(), actionsView.PaddingTop, 10f.ToPx(), actionsView.PaddingBottom);
+
+                var searchBtn = root.FindViewById<MaterialButton>(Resource.Id.search_btn)!;
+                var createBtn = root.FindViewById<MaterialButton>(Resource.Id.create_btn)!;
+                var manageBtn = root.FindViewById<MaterialButton>(Resource.Id.manage_btn)!;
+                searchBtn.SetMargins(end: 4f.ToPx());
+                createBtn.SetMargins(start: 4f.ToPx(), end: 4f.ToPx());
+                manageBtn.SetMargins(start: 4f.ToPx());
+
+                var topCardsContainer = root.FindViewById<LinearLayoutCompat>(Resource.Id.top_cards_container);
+                topCardsContainer.SetMargins(start: 10f.ToPx(), end: 10f.ToPx());
+
+                var card1 = root.FindViewById<View>(Resource.Id.view1);
+                var card2 = root.FindViewById<View>(Resource.Id.view2);
+                var card3 = root.FindViewById<View>(Resource.Id.view3);
+                card1.SetMargins(end: 3f.ToPx());
+                card2.SetMargins(start: 3f.ToPx(), end: 3f.ToPx());
+                card3.SetMargins(start: 3f.ToPx());
+
+                _totalSalesContainer.SetMargins(start: 10f.ToPx(), end: 10f.ToPx());
+                _newAccountsContainer.SetMargins(start: 10f.ToPx(), end: 10f.ToPx());
+                _salesVsRedeemedContainer.SetMargins(start: 10f.ToPx(), end: 10f.ToPx());
+                _topLoyaltyEnrollersContainer.SetMargins(start: 10f.ToPx(), end: 10f.ToPx());
+            }
         }
     }
 }

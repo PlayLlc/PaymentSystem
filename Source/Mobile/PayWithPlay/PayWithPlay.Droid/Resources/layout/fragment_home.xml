@@ -85,40 +85,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/top_cards_container"
                     android:layout_width="match_parent"
                     android:layout_height="132dp"
+                    android:orientation="horizontal"
                     android:layout_marginTop="24dp"
                     android:clipChildren="false"
                     android:clipToPadding="false"
                     android:layout_marginHorizontal="20dp">
 
-                    <androidx.constraintlayout.widget.Guideline
-                        android:id="@+id/startGuideline"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0" />
-
-                    <androidx.constraintlayout.widget.Guideline
-                        android:id="@+id/endGuideline"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintGuide_percent="1" />
-
                     <PayWithPlay.Droid.CustomViews.ShapeableViews.ShapeableFrameLayoutView
                         android:id="@+id/view1"
                         android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="132dp"
                         app:fillColor="@color/secondary_color"
                         app:cornerRadius="5dp"
-                        app:layout_constraintWidth_max="124dp"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintHorizontal_chainStyle="packed"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintEnd_toStartOf="@id/view2"
-                        app:layout_constraintStart_toStartOf="@id/startGuideline"
+                        android:layout_marginEnd="6dp"
                         tools:ignore="Suspicious0dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -177,19 +161,14 @@
                     <PayWithPlay.Droid.CustomViews.ShapeableViews.ShapeableFrameLayoutView
                         android:id="@+id/view2"
                         android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="132dp"
                         app:fillColor="@color/third_color"
                         app:borderWidth="2dp"
                         app:borderColor="@color/hint_text_color"
                         app:cornerRadius="5dp"
-                        app:layout_constraintWidth_max="124dp"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/view3"
-                        app:layout_constraintStart_toEndOf="@id/view1"
-                        app:layout_constraintHorizontal_chainStyle="packed"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginEnd="12dp"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginEnd="6dp"
                         tools:ignore="Suspicious0dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -246,17 +225,13 @@
                     <PayWithPlay.Droid.CustomViews.ShapeableViews.ShapeableFrameLayoutView
                         android:id="@+id/view3"
                         android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="132dp"
                         app:fillColor="@color/third_color"
                         app:borderWidth="2dp"
                         app:borderColor="@color/hint_text_color"
                         app:cornerRadius="5dp"
-                        app:layout_constraintWidth_max="124dp"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/endGuideline"
-                        app:layout_constraintStart_toEndOf="@id/view2"
-                        app:layout_constraintHorizontal_chainStyle="packed"
-                        app:layout_constraintHorizontal_bias="0.5"
+                        android:layout_marginStart="6dp"
                         tools:ignore="Suspicious0dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -367,7 +342,7 @@
 
                     </PayWithPlay.Droid.CustomViews.ShapeableViews.ShapeableFrameLayoutView>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/total_sales_container"

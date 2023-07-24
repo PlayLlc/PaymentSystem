@@ -3,6 +3,7 @@ using Android.Runtime;
 using Android.Views;
 using AndroidX.AppCompat.Widget;
 using AndroidX.Core.Content;
+using Google.Android.Material.Button;
 using MikePhil.Charting.Charts;
 using MikePhil.Charting.Data;
 using PayWithPlay.Core.ViewModels.Main.Home;
@@ -18,15 +19,14 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Home
         private PieChart? _terminalsPieChart;
 
         private LinearLayoutCompat? _totalSalesContainer;
-        private FrameLayout? _totalSalesChartContainer;
         private LineChart? _totalSalesChart;
 
+        private LinearLayoutCompat? _topSellersContainer;
+
         private LinearLayoutCompat? _avgTransactionValueContainer;
-        private FrameLayout? _avgTransactionValueChartContainer;
         private LineChart? _avgTransactionValueChart;
 
         private LinearLayoutCompat? _transactionsContainer;
-        private FrameLayout? _transactionsChartContainer;
         private BarChart? _transactionsChart;
 
         private bool _resumedFirstTime = true;
@@ -152,15 +152,14 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Home
             _terminalsPieChart = root.FindViewById<PieChart>(Resource.Id.terminals_pie_chart)!;
 
             _totalSalesContainer = root.FindViewById<LinearLayoutCompat>(Resource.Id.total_sales_container)!;
-            _totalSalesChartContainer = root.FindViewById<FrameLayout>(Resource.Id.total_sales_chart_container)!;
-            _totalSalesChart = root.FindViewById<LineChart>(Resource.Id.total_sales_line_chart)!; 
+            _totalSalesChart = root.FindViewById<LineChart>(Resource.Id.total_sales_line_chart)!;
+
+            _topSellersContainer = root.FindViewById<LinearLayoutCompat>(Resource.Id.top_sellers_container)!;
 
             _avgTransactionValueContainer = root.FindViewById<LinearLayoutCompat>(Resource.Id.avg_transaction_value_container)!;
-            _avgTransactionValueChartContainer = root.FindViewById<FrameLayout>(Resource.Id.avg_transaction_value_chart_container)!;
             _avgTransactionValueChart = root.FindViewById<LineChart>(Resource.Id.avg_transaction_value_line_chart)!;
 
             _transactionsContainer = root.FindViewById<LinearLayoutCompat>(Resource.Id.transactions_container)!;
-            _transactionsChartContainer = root.FindViewById<FrameLayout>(Resource.Id.transactions_chart_container)!;
             _transactionsChart = root.FindViewById<BarChart>(Resource.Id.transactions_bar_chart)!;
 
             _totalSalesContainer.SetBackground(Resource.Color.third_color, 2f.ToPx(), Resource.Color.hint_text_color, 5f.ToFloatPx());
@@ -177,6 +176,8 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Home
             var transactionsContainerLp = _transactionsContainer.LayoutParameters as MarginLayoutParams;
             transactionsContainerLp!.Height = (int)((Context!.Resources!.DisplayMetrics!.WidthPixels - transactionsContainerLp.MarginStart - transactionsContainerLp.MarginEnd) * 0.54f);
             _transactionsContainer.LayoutParameters = transactionsContainerLp;
+
+            SetLayoutForNarrowSizes(root);
         }
 
         private void SetTerminalsPieChart()
@@ -308,6 +309,29 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Home
                     return string.Empty;
                 },
             };
+        }
+
+        private void SetLayoutForNarrowSizes(View root)
+        {
+            var width = Context!.Resources!.DisplayMetrics!.WidthPixels;
+            var density = Context!.Resources!.DisplayMetrics!.Density;
+            if (width / density < 340f)
+            {
+                var topCardsContainer = root.FindViewById<LinearLayoutCompat>(Resource.Id.top_cards_container);
+                topCardsContainer.SetMargins(start: 10f.ToPx(), end: 10f.ToPx());
+
+                var card1 = root.FindViewById<View>(Resource.Id.view1);
+                var card2 = root.FindViewById<View>(Resource.Id.view2);
+                var card3 = root.FindViewById<View>(Resource.Id.view3);
+                card1.SetMargins(end: 3f.ToPx());
+                card2.SetMargins(start: 3f.ToPx(), end: 3f.ToPx());
+                card3.SetMargins(start: 3f.ToPx());
+
+                _totalSalesContainer.SetMargins(start: 10f.ToPx(), end: 10f.ToPx());
+                _topSellersContainer.SetMargins(start: 10f.ToPx(), end: 10f.ToPx());
+                _avgTransactionValueContainer.SetMargins(start: 10f.ToPx(), end: 10f.ToPx());
+                _transactionsContainer.SetMargins(start: 10f.ToPx(), end: 10f.ToPx());
+            }
         }
     }
 }

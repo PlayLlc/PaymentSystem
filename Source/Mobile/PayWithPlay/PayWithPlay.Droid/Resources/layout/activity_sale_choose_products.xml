@@ -24,6 +24,7 @@
             android:background="@color/secondary_color">
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/scan_btn"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
@@ -40,6 +41,7 @@
                 app:MvxBind="Text ScanButtonText; Click OnScan; Selected ScanButtonSelected"/>
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/select_item_btn"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
@@ -53,6 +55,7 @@
                 app:MvxBind="Text SelectItemButtonText; Click OnSelectItem; Selected SelectItemButtonSelected"/>
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/custom_amount_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:minHeight="30dp"
@@ -71,6 +74,7 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/back_btn"
             android:layout_width="48dp"
             android:layout_height="48dp"
             app:icon="@drawable/ic_back"
