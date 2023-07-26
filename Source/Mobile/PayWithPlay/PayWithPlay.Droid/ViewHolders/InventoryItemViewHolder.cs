@@ -1,6 +1,9 @@
-﻿using Android.Views;
+﻿using Android.Content.Res;
+using Android.Graphics;
+using Android.Views;
 using AndroidX.AppCompat.Widget;
 using Google.Android.Material.Button;
+using Google.Android.Material.Card;
 using MvvmCross.DroidX.RecyclerView;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using PayWithPlay.Core.Models.Inventory;
@@ -34,6 +37,11 @@ namespace PayWithPlay.Droid.ViewHolders
 
         private void InitViews(View itemView)
         {
+            if (itemView is MaterialCardView materialCardView)
+            {
+                materialCardView.RippleColor = ColorStateList.ValueOf(Color.Transparent);
+            }
+
             _buttonsActionsContainer = itemView.FindViewById<LinearLayoutCompat>(Resource.Id.buttons_actions_container)!;
             _buttonsActionsContainer.SetBackground(Resource.Color.third_color, cornerRadius: 5f.ToFloatPx());
 
@@ -44,7 +52,7 @@ namespace PayWithPlay.Droid.ViewHolders
             _deletingBackgroundView.SetBackground(Resource.Color.negative_color, cornerRadius: 4f.ToFloatPx());
 
             _slidingDeleteButton.Touch += OnTouchSlidingDeleteButton;
-            _slidingDeleteButton.ViewTreeObserver!.AddOnGlobalLayoutListener(new GlobalLayoutListener(() => 
+            _slidingDeleteButton.ViewTreeObserver!.AddOnGlobalLayoutListener(new GlobalLayoutListener(() =>
             {
                 UpdateDeletingBackgroundViewWidth((int)_slidingDeleteButton.GetX());
             }));

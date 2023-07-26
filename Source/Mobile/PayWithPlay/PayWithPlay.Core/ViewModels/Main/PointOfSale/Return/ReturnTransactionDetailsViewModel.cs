@@ -50,12 +50,12 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Return
 
         public void OnItemSelected(TransactionItemModel item)
         {
-            item.Clicked = !item.Clicked;
+            item.Checked = !item.Checked;
         }
 
         public void OnItemSelectedToReturn(TransactionItemModel item)
         {
-            if (item.SelectedToReturn)
+            if (item.Checked)
             {
                 if (!ItemsToReturn.Contains(item))
                 {

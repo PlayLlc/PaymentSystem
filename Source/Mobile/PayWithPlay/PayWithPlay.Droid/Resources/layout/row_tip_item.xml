@@ -20,6 +20,7 @@
         android:textSize="24sp"
         android:fontFamily="@font/poppins_bold"
         style="@style/PointOfSaleButtonStyle"
+         app:rippleColor="@color/accent_color"
         app:MvxBind="Text PercentageDisplayValue"/>
 
     <androidx.appcompat.widget.AppCompatTextView

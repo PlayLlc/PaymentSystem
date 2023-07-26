@@ -12,7 +12,9 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
 
             Options.Add(new PaymentOptionItemModel { Type = Enums.PaymentOptionType.Card, Title = Resource.Card });
             Options.Add(new PaymentOptionItemModel { Type = Enums.PaymentOptionType.Cash, Title = Resource.Cash });
-            Options.Add(new PaymentOptionItemModel { Type = Enums.PaymentOptionType.Link, Title = Resource.Link });
+
+            // TODO:: uncomment when it need, this is hidden for now
+            //Options.Add(new PaymentOptionItemModel { Type = Enums.PaymentOptionType.Link, Title = Resource.Link });
         }
 
         public string Title => Resource.Payment;

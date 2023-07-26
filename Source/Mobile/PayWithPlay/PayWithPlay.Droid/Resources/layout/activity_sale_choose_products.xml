@@ -54,7 +54,7 @@
                 style="@style/SecondaryLightButton"
                 app:MvxBind="Text SelectItemButtonText; Click OnSelectItem; Selected SelectItemButtonSelected"/>
 
-            <com.google.android.material.button.MaterialButton
+            <PayWithPlay.Droid.CustomViews.SingleLineButton
                 android:id="@+id/custom_amount_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -67,6 +67,10 @@
                 android:paddingVertical="4dp"
                 android:paddingHorizontal="8dp"
                 android:lineSpacingMultiplier="0.7"
+                android:singleLine="true"
+                android:lines="1"
+                android:maxLines="1"
+                android:ellipsize="none"
                 style="@style/SecondaryLightButton"
                 app:MvxBind="Text CustomAmountButtonText; Click OnCustomAmount; Selected CustomAmountButtonSelected"
                 tools:ignore="MissingDimension" />

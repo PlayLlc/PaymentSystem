@@ -125,7 +125,7 @@ namespace PayWithPlay.Droid.Fragments
 
             var analyzer = new ZXingBarcodeAnalyzer((result) =>
             {
-                if (string.IsNullOrWhiteSpace(result) || result.Equals(_currentScanResult))
+                if (string.IsNullOrWhiteSpace(result) || result.Equals(_currentScanResult) || !_isScanning)
                 {
                     return;
                 }

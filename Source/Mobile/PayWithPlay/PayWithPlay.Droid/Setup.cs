@@ -131,6 +131,8 @@ namespace PayWithPlay.Droid
                 (textView) => new StrikethruTextBinding(textView));
             registry.RegisterCustomBindingFactory<TextView>(InventoryItemPriceTextColorBinding.Property,
                 (textView) => new InventoryItemPriceTextColorBinding(textView));
+            registry.RegisterCustomBindingFactory<TextView>(PrimaryToNegativeTextColorBinding.Property,
+                (textView) => new PrimaryToNegativeTextColorBinding(textView));
 
             registry.RegisterCustomBindingFactory<View>(UserNameViewBinding.Property,
                 (userNameView) => new UserNameViewBinding(userNameView));

@@ -11,6 +11,7 @@
     app:iconSize="0dp"
     app:cornerRadius="12dp"
     app:icon="@drawable/ic_gift_medium"
+    app:rippleColor="@color/accent_color"
     style="@style/SecondaryButton"
     android:clickable="false"
     android:focusableInTouchMode="false"

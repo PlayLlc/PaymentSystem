@@ -1,6 +1,9 @@
 ﻿using Android.Views;
 using AndroidX.AppCompat.Widget;
+using MvvmCross.DroidX.RecyclerView;
+using MvvmCross.Platforms.Android.Binding.BindingContext;
 using PayWithPlay.Core.ViewModels.Main.Inventory;
+using PayWithPlay.Droid.Adapters;
 using PayWithPlay.Droid.Extensions;
 
 namespace PayWithPlay.Droid.Fragments.MainFragments.Inventory
@@ -37,6 +40,9 @@ namespace PayWithPlay.Droid.Fragments.MainFragments.Inventory
 
             var resultsContainer = root.FindViewById<LinearLayoutCompat>(Resource.Id.result_container)!;
             resultsContainer.SetBackground(Resource.Color.white, topLeft: 5f.ToPx(), topRight: 5f.ToPx());
+
+            var recyclerView = root.FindViewById<MvxRecyclerView>(Resource.Id.rv_items)!;
+            recyclerView.Adapter = new InventoryItemsAdapter((IMvxAndroidBindingContext)BindingContext);
         }
     }
 }

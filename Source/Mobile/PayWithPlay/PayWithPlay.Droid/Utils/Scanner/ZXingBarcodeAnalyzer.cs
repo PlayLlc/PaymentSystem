@@ -14,6 +14,24 @@ namespace PayWithPlay.Droid.Utils.Scanner
         public ZXingBarcodeAnalyzer(Action<string> onScannedAction)
         {
             _onScannedAction = onScannedAction;
+            _multiFormatReader.Hints = new Dictionary<DecodeHintType, object>
+            {
+                { DecodeHintType.POSSIBLE_FORMATS, new List<BarcodeFormat> 
+                                                   {
+                                                        BarcodeFormat.All_1D,
+                                                        BarcodeFormat.UPC_A,
+                                                        BarcodeFormat.UPC_E,
+                                                        BarcodeFormat.EAN_13,
+                                                        BarcodeFormat.EAN_8,
+                                                        BarcodeFormat.CODABAR,
+                                                        BarcodeFormat.CODE_39,
+                                                        BarcodeFormat.CODE_93,
+                                                        BarcodeFormat.CODE_128,
+                                                        BarcodeFormat.ITF,
+                                                        BarcodeFormat.RSS_14,
+                                                        BarcodeFormat.RSS_EXPANDED,
+                                                   } }
+            };
         }
 
         public void Analyze(IImageProxy image)
@@ -65,7 +83,6 @@ namespace PayWithPlay.Droid.Utils.Scanner
 
                 isScanning = false;
             }
-
         }
 
         private static byte[] GetLuminancePlaneData(IImageProxy image)

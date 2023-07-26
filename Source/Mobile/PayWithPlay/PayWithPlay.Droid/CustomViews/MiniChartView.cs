@@ -90,10 +90,10 @@ namespace PayWithPlay.Droid.CustomViews
             }
 
             if (_lineChart!.Data is LineData lineData &&
-                lineData.DataSets[0] is LineDataSet currentLineDataSet)
+                lineData.DataSets![0] is LineDataSet currentLineDataSet)
             {
                 currentLineDataSet.Clear();
-                currentLineDataSet.Values = entries;
+                currentLineDataSet.Entries = entries;
                 currentLineDataSet.Color = color;
                 currentLineDataSet.NotifyDataSetChanged();
                 _lineChart.Data.NotifyDataChanged();

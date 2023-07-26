@@ -100,6 +100,7 @@
                     app:MvxBind="Visibility Visibility(IsLoading)"/>
 
                 <mvvmcross.droidx.recyclerview.MvxRecyclerView
+                    android:id="@+id/rv_items"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clipChildren="false"
