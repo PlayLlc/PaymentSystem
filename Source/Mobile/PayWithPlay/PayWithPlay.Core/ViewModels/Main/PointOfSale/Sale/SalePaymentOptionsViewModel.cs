@@ -1,4 +1,5 @@
 ﻿using MvvmCross.ViewModels;
+using PayWithPlay.Core.Enums;
 using PayWithPlay.Core.Models.PointOfSale;
 using PayWithPlay.Core.Resources;
 
@@ -28,9 +29,13 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
 
         public void OnOptionItem(PaymentOptionItemModel option)
         {
-            if (option.Type == Enums.PaymentOptionType.Card)
+            if (option.Type == PaymentOptionType.Card)
             {
                 NavigationService.Navigate<PaymentViewModel>();
+            }
+            else if (option.Type == PaymentOptionType.Cash)
+            {
+                NavigationService.Navigate<CashPaymentViewModel>();
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using Android.OS;
+﻿using Android.Content.PM;
+using Android.OS;
 using Android.Views;
 using AndroidX.RecyclerView.Widget;
 using Google.Android.Material.ProgressIndicator;
@@ -9,7 +10,7 @@ using static Android.Views.ViewGroup;
 
 namespace PayWithPlay.Droid.Activities.CreateAccount
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/Theme.Mobility.NoActionBar")]
+    [Activity(Label = "@string/app_name", Theme = "@style/Theme.Mobility.NoActionBar", ScreenOrientation = ScreenOrientation.UserPortrait, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class CreateAccountStepsActivity : BaseActivity<CreateAccountStepsViewModel>
     {
         private bool scrolledToPage;
@@ -27,12 +28,12 @@ namespace PayWithPlay.Droid.Activities.CreateAccount
             SetRecyclerView();
             SetProgressIndicator();
 
-            ViewModel.ScrollToPageAction = ScrollToPage;
+            ViewModel!.ScrollToPageAction = ScrollToPage;
         }
 
         protected override void OnDestroy()
         {
-            ViewModel.ScrollToPageAction = null;
+            ViewModel!.ScrollToPageAction = null;
 
             base.OnDestroy();
         }
@@ -48,7 +49,7 @@ namespace PayWithPlay.Droid.Activities.CreateAccount
 
         protected override bool OnBackPressed()
         {
-            return ViewModel.OnBackPressed();
+            return ViewModel!.OnBackPressed();
         }
 
         private void SetRecyclerView()
@@ -65,7 +66,7 @@ namespace PayWithPlay.Droid.Activities.CreateAccount
                     if (scrolledToPage)
                     {
                         scrolledToPage = false;
-                        var view = _stepsRecyclerView!.FindViewHolderForAdapterPosition(ViewModel.CurrentPageIndex);
+                        var view = _stepsRecyclerView!.FindViewHolderForAdapterPosition(ViewModel!.CurrentPageIndex);
                         if (view != null)
                         {
                             new Handler(Looper.MainLooper).Post(() => view.ItemView.RequestLayout());

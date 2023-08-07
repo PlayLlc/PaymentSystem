@@ -136,6 +136,7 @@
                 android:paddingVertical="0dp"
                 android:paddingTop="0dp"
                 android:paddingBottom="0dp"
+                android:clickable="false"
                 app:chipSpacingVertical="0dp"
                 app:lineSpacing="0dp"
                 android:gravity="end"

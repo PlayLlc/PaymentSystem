@@ -1,5 +1,4 @@
-﻿using MvvmCross.Navigation;
-using MvvmCross.ViewModels;
+﻿using MvvmCross.ViewModels;
 using PayWithPlay.Core.Enums;
 using PayWithPlay.Core.Models.PointOfSale;
 using PayWithPlay.Core.Resources;

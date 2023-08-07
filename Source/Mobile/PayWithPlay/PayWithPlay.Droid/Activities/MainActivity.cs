@@ -14,7 +14,7 @@ using PayWithPlay.Droid.Utils.Listeners;
 
 namespace PayWithPlay.Droid.Activities
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/Theme.Mobility.NoActionBar", ScreenOrientation = ScreenOrientation.UserPortrait, WindowSoftInputMode = SoftInput.AdjustResize)]
+    [Activity(Label = "@string/app_name", Theme = "@style/Theme.Mobility.NoActionBar", ScreenOrientation = ScreenOrientation.UserPortrait, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, WindowSoftInputMode = SoftInput.AdjustResize)]
     public class MainActivity : BaseActivity<MainViewModel>
     {
         private LinearLayoutCompat? _rootView;

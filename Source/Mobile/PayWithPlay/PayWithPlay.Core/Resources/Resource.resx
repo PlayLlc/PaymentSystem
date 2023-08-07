@@ -144,6 +144,9 @@
   <data name="Amount" xml:space="preserve">
     <value>Amount</value>
   </data>
+  <data name="AmountReceived" xml:space="preserve">
+    <value>Amount received</value>
+  </data>
   <data name="AndText" xml:space="preserve">
     <value>and</value>
   </data>
@@ -195,11 +198,17 @@
   <data name="Cash" xml:space="preserve">
     <value>Cash</value>
   </data>
+  <data name="CashPayment" xml:space="preserve">
+    <value>Cash payment</value>
+  </data>
   <data name="Categories" xml:space="preserve">
     <value>Categories</value>
   </data>
   <data name="Category" xml:space="preserve">
     <value>Category</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>Change</value>
   </data>
   <data name="Chat" xml:space="preserve">
     <value>Chat</value>
@@ -539,6 +548,9 @@
   </data>
   <data name="PINSafeMessage" xml:space="preserve">
     <value>This keeps your account safe and secure .</value>
+  </data>
+  <data name="PleaseEnterAmountReceived" xml:space="preserve">
+    <value>Please enter the amount you received</value>
   </data>
   <data name="PleaseEnterLoyaltyNumber" xml:space="preserve">
     <value>Please enter your loyalty number.</value>

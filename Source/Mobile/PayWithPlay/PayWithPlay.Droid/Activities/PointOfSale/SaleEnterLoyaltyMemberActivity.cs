@@ -9,7 +9,7 @@ using static Android.Widget.TextView;
 
 namespace PayWithPlay.Droid.Activities.PointOfSale
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/Theme.Mobility.NoActionBar", ScreenOrientation = ScreenOrientation.UserPortrait)]
+    [Activity(Label = "@string/app_name", Theme = "@style/Theme.Mobility.NoActionBar", ScreenOrientation = ScreenOrientation.UserPortrait, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class SaleEnterLoyaltyMemberActivity : BaseActivity<SaleEnterLoyaltyMemberViewModel>
     {
         protected override int LayoutId => Resource.Layout.activity_sale_enter_loyalty_member;

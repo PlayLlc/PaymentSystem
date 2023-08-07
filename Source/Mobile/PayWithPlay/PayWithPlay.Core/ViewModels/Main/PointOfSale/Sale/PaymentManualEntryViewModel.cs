@@ -11,7 +11,7 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
         private readonly string[] _yearsValues = new string[8];
         private readonly List<ITextInputValidator> _inputValidators = new();
 
-        private string? _cardNubmer;
+        private string? _cardNumber;
         private string? _cardHolderName;
         private string? _month;
         private string? _year;
@@ -57,8 +57,8 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
 
         public string? CardNumber
         {
-            get => _cardNubmer;
-            set => SetProperty(ref _cardNubmer, value, () => RaisePropertyChanged(() => SubmitButtonEnabled));
+            get => _cardNumber;
+            set => SetProperty(ref _cardNumber, value, () => RaisePropertyChanged(() => SubmitButtonEnabled));
         }
 
         public string? CardHolderName

@@ -1,4 +1,5 @@
 ﻿using Android.Content;
+using Android.Content.Res;
 using Android.Graphics;
 using Android.Runtime;
 using Android.Util;
@@ -46,6 +47,13 @@ namespace PayWithPlay.Droid.CustomViews
             }
 
             base.OnMeasure(widthMeasureSpec, SpecHeight);
+        }
+
+        protected override void OnConfigurationChanged(Configuration? newConfig)
+        {
+            base.OnConfigurationChanged(newConfig);
+
+            SpecHeight = 0;
         }
 
         public override void Draw(Canvas? canvas)

@@ -1,12 +1,9 @@
-﻿using Android.Content;
-using Android.Content.PM;
+﻿using Android.Content.PM;
 using Android.OS;
 using Android.Text;
 using AndroidX.Activity.Result;
 using AndroidX.Activity.Result.Contract;
-using AndroidX.Core.App;
 using AndroidX.Core.Content.Resources;
-using AndroidX.Lifecycle;
 using Cards.Pay.Paycardsrecognizer.Sdk;
 using Java.Interop;
 using PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale;
@@ -17,7 +14,7 @@ using static Android.Widget.TextView;
 
 namespace PayWithPlay.Droid.Activities.PointOfSale
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/Theme.Mobility.NoActionBar.Dark", ScreenOrientation = ScreenOrientation.UserPortrait)]
+    [Activity(Label = "@string/app_name", Theme = "@style/Theme.Mobility.NoActionBar.Dark", ScreenOrientation = ScreenOrientation.UserPortrait, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class PaymentManualEntryActivity : BaseActivity<PaymentManualEntryViewModel>
     {
         private ActivityResultLauncher? _scanCardLauncher;
@@ -27,6 +24,7 @@ namespace PayWithPlay.Droid.Activities.PointOfSale
         protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
             SetTotalTextViewStyle();
             SetInputValidators();
 
@@ -60,7 +58,7 @@ namespace PayWithPlay.Droid.Activities.PointOfSale
                 }
             }));
 
-            ViewModel.ScanCardAction = () =>
+            ViewModel!.ScanCardAction = () =>
             {
                 var builder = new ScanCardIntent.Builder(this);
                 _scanCardLauncher.Launch(builder.Build());
@@ -71,7 +69,7 @@ namespace PayWithPlay.Droid.Activities.PointOfSale
         {
             var total = FindViewById<TextView>(Resource.Id.totalTv);
 
-            total!.SetText(ViewModel.TotalDisplayed, BufferType.Spannable);
+            total!.SetText(ViewModel!.TotalDisplayed, BufferType.Spannable);
             var spannable = total.TextFormatted.JavaCast<ISpannable>()!;
 
             var dollarSignPosition = ViewModel.TotalDisplayed.IndexOf("$");
@@ -85,7 +83,7 @@ namespace PayWithPlay.Droid.Activities.PointOfSale
             var monthEt = FindViewById<EditTextWithValidation>(Resource.Id.month_et);
             var yearEt = FindViewById<EditTextWithValidation>(Resource.Id.year_et);
             var cvvEt = FindViewById<EditTextWithValidation>(Resource.Id.cvv_et);
-            ViewModel.SetInputValidators(cardNumberEt, cardHolderNameEt, monthEt, yearEt, cvvEt);
+            ViewModel!.SetInputValidators(cardNumberEt, cardHolderNameEt, monthEt, yearEt, cvvEt);
         }
     }
 }

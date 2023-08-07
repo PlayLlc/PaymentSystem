@@ -103,6 +103,7 @@ namespace PayWithPlay.Droid.CustomBindings.Inventory
             chip.SetEnsureMinTouchTargetSize(false);
             chip.SetPadding(0, 0, 0, 0);
             chip.SetTextSize(ComplexUnitType.Sp, 10);
+            chip.Clickable = false;
             chip.TextStartPadding = 8f.ToPx();
             chip.TextEndPadding = 8f.ToPx();
             chip.ChipStartPadding = 0;

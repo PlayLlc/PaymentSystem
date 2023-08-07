@@ -142,6 +142,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Amount received.
+        /// </summary>
+        internal static string AmountReceived {
+            get {
+                return ResourceManager.GetString("AmountReceived", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to and.
         /// </summary>
         internal static string AndText {
@@ -295,6 +304,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cash payment.
+        /// </summary>
+        internal static string CashPayment {
+            get {
+                return ResourceManager.GetString("CashPayment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Categories.
         /// </summary>
         internal static string Categories {
@@ -309,6 +327,15 @@ namespace PayWithPlay.Core.Resources {
         internal static string Category {
             get {
                 return ResourceManager.GetString("Category", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change.
+        /// </summary>
+        internal static string Change {
+            get {
+                return ResourceManager.GetString("Change", resourceCulture);
             }
         }
         
@@ -1326,6 +1353,15 @@ namespace PayWithPlay.Core.Resources {
         internal static string PINSafeMessage {
             get {
                 return ResourceManager.GetString("PINSafeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter the amount you received.
+        /// </summary>
+        internal static string PleaseEnterAmountReceived {
+            get {
+                return ResourceManager.GetString("PleaseEnterAmountReceived", resourceCulture);
             }
         }
         

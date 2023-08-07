@@ -10,10 +10,11 @@ using PayWithPlay.Droid.Utils;
 using PayWithPlay.Core.ViewModels.CreateAccount;
 using static Android.Widget.TextView;
 using PayWithPlay.Droid.CustomViews;
+using Android.Content.PM;
 
 namespace PayWithPlay.Droid.Activities.CreateAccount
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/Theme.Mobility.NoActionBar")]
+    [Activity(Label = "@string/app_name", Theme = "@style/Theme.Mobility.NoActionBar", ScreenOrientation = ScreenOrientation.UserPortrait, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class CreateAccountActivity : BaseActivity<CreateAccountViewModel>
     {
         protected override int LayoutId => Resource.Layout.activity_create_account;
