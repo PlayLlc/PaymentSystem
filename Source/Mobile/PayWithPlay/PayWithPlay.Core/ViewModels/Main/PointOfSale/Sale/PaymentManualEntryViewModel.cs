@@ -1,6 +1,7 @@
 ﻿using PayWithPlay.Core.Interfaces;
 using PayWithPlay.Core.Resources;
 using PayWithPlay.Core.Utils.Validations;
+using PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale.Receipt;
 
 namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
 {
@@ -110,7 +111,10 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
             });
         }
 
-        public void OnSubmit() { }
+        public void OnSubmit() 
+        {
+            NavigationService.Navigate<ReceiptOptionsViewModel>();
+        }
 
         public void SetInputValidators(ITextInputValidator cardNumber, ITextInputValidator cardHolderName, ITextInputValidator month, ITextInputValidator year, ITextInputValidator cvv)
         {

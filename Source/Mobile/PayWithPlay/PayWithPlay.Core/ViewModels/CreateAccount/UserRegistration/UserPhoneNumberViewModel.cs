@@ -28,7 +28,7 @@ namespace PayWithPlay.Core.ViewModels.CreateAccount.UserRegistration
 
         public string Title => Resource.UserRegistrationUserPhoneNumberTitle;
         public string PhoneNumberText => Resource.PhoneNumberText;
-        public string SafeMessage => Resource.UserRegistrationSafeMessage;
+        public string SafeMessage => Resource.InformationSafeMessage;
         public string ContinueText => Resource.Continue;
 
         public void OnContinue()

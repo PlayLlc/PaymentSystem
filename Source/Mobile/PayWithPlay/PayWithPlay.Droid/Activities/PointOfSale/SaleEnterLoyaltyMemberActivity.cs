@@ -20,14 +20,14 @@ namespace PayWithPlay.Droid.Activities.PointOfSale
             SetTotalTextViewStyle();
 
             var loyaltyNumber = FindViewById<EditTextWithValidation>(Resource.Id.loyalty_number_et);
-            ViewModel.SetInputValidator(loyaltyNumber);
+            ViewModel!.SetInputValidator(loyaltyNumber);
         }
 
         private void SetTotalTextViewStyle()
         {
             var total = FindViewById<TextView>(Resource.Id.totalTv);
 
-            total!.SetText(ViewModel.TotalDisplayed, BufferType.Spannable);
+            total!.SetText(ViewModel!.TotalDisplayed, BufferType.Spannable);
             var spannable = total.TextFormatted.JavaCast<ISpannable>()!;
 
             var dollarSignPosition = ViewModel.TotalDisplayed.IndexOf("$");

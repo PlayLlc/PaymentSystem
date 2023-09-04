@@ -11,8 +11,8 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
         {
             TotalAmount = 793.76m;
 
-            Options.Add(new PaymentOptionItemModel { Type = Enums.PaymentOptionType.Card, Title = Resource.Card });
-            Options.Add(new PaymentOptionItemModel { Type = Enums.PaymentOptionType.Cash, Title = Resource.Cash });
+            Options.Add(new PaymentOptionItemModel { Type = PaymentOptionType.Card, Title = Resource.Card });
+            Options.Add(new PaymentOptionItemModel { Type = PaymentOptionType.Cash, Title = Resource.Cash });
 
             // TODO:: uncomment when it need, this is hidden for now
             //Options.Add(new PaymentOptionItemModel { Type = Enums.PaymentOptionType.Link, Title = Resource.Link });

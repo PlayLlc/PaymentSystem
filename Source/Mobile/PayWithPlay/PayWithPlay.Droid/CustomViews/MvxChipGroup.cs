@@ -205,6 +205,7 @@ namespace PayWithPlay.Droid.CustomViews
         protected override void Dispose(bool disposing)
         {
             Clean(true);
+
             base.Dispose(disposing);
         }
 

@@ -36,7 +36,7 @@ namespace PayWithPlay.Core.ViewModels.CreateAccount.UserRegistration
         public string Title => Resource.UserRegistrationUserNameTitle;
         public string FirstNameText => Resource.FirstNameText;
         public string LastNameText => Resource.LastNameText;
-        public string SafeMessage => Resource.UserRegistrationSafeMessage;
+        public string SafeMessage => Resource.InformationSafeMessage;
         public string ContinueText => Resource.Continue;
 
 

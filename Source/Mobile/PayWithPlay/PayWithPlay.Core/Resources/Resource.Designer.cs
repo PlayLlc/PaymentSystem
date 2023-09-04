@@ -790,6 +790,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to We keep your information secure..
+        /// </summary>
+        internal static string InformationSafeMessage {
+            get {
+                return ResourceManager.GetString("InformationSafeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This field cannot be empty..
         /// </summary>
         internal static string InvalidEmptyField {
@@ -1204,6 +1213,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No receipt.
+        /// </summary>
+        internal static string NoReceipt {
+            get {
+                return ResourceManager.GetString("NoReceipt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No results..
         /// </summary>
         internal static string NoResults {
@@ -1366,6 +1384,24 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter the customer&apos;s email address..
+        /// </summary>
+        internal static string PleaseEnterCustomerEmail {
+            get {
+                return ResourceManager.GetString("PleaseEnterCustomerEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter the customer&apos;s phone number..
+        /// </summary>
+        internal static string PleaseEnterCustomerPhoneNumber {
+            get {
+                return ResourceManager.GetString("PleaseEnterCustomerPhoneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter your loyalty number..
         /// </summary>
         internal static string PleaseEnterLoyaltyNumber {
@@ -1456,6 +1492,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Purchase successful.
+        /// </summary>
+        internal static string PurchaseSuccessful {
+            get {
+                return ResourceManager.GetString("PurchaseSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to QR Code.
         /// </summary>
         internal static string QRCode {
@@ -1479,6 +1524,24 @@ namespace PayWithPlay.Core.Resources {
         internal static string Reason {
             get {
                 return ResourceManager.GetString("Reason", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Receipt.
+        /// </summary>
+        internal static string Receipt {
+            get {
+                return ResourceManager.GetString("Receipt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select how the customer will like the receipt:.
+        /// </summary>
+        internal static string ReceiptOptionsSubtitle {
+            get {
+                return ResourceManager.GetString("ReceiptOptionsSubtitle", resourceCulture);
             }
         }
         
@@ -1735,6 +1798,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Send.
+        /// </summary>
+        internal static string Send {
+            get {
+                return ResourceManager.GetString("Send", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Shrinkage.
         /// </summary>
         internal static string Shrinkage {
@@ -1906,6 +1978,15 @@ namespace PayWithPlay.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Text message.
+        /// </summary>
+        internal static string TextMessage {
+            get {
+                return ResourceManager.GetString("TextMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ticket.
         /// </summary>
         internal static string Ticket {
@@ -2019,15 +2100,6 @@ namespace PayWithPlay.Core.Resources {
         internal static string UserRegistration {
             get {
                 return ResourceManager.GetString("UserRegistration", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to We keep your information secure..
-        /// </summary>
-        internal static string UserRegistrationSafeMessage {
-            get {
-                return ResourceManager.GetString("UserRegistrationSafeMessage", resourceCulture);
             }
         }
         

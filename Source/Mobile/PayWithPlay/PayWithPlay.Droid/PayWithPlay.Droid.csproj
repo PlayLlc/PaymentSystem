@@ -6,8 +6,8 @@
     <Nullable>enable</Nullable>
     <NoWarn>NETSDK1023</NoWarn>
     <ApplicationId>com.paywithplay.dev</ApplicationId>
-    <ApplicationVersion>9</ApplicationVersion>
-    <ApplicationDisplayVersion>1.0.8</ApplicationDisplayVersion>
+    <ApplicationVersion>10</ApplicationVersion>
+    <ApplicationDisplayVersion>1.0.9</ApplicationDisplayVersion>
     <SupportedOSPlatformVersion>28</SupportedOSPlatformVersion>
     <UseMauiEssentials>true</UseMauiEssentials>
     <SynchReleaseVersion>false</SynchReleaseVersion>

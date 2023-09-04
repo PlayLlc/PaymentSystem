@@ -1,4 +1,5 @@
 ﻿using PayWithPlay.Core.Resources;
+using PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale.Receipt;
 
 namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
 {
@@ -23,6 +24,7 @@ namespace PayWithPlay.Core.ViewModels.Main.PointOfSale.Sale
 
         public void OnDone() 
         {
+            NavigationService.Navigate<ReceiptOptionsViewModel>();
         }
 
         public override void Prepare(decimal amount)

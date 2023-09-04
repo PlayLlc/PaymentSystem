@@ -36,11 +36,11 @@ namespace PayWithPlay.Core.ViewModels.CreateAccount.MerchantRegistration
             _onContinueAction?.Invoke(this);
         }
 
-        public void SetInputValidator(ITextInputValidator phoneNumber)
+        public void SetInputValidator(ITextInputValidator inputValidator)
         {
             ClearValidator();
 
-            _inputValidator = phoneNumber;
+            _inputValidator = inputValidator;
             _inputValidator.Validations = new List<IValidation>
             {
                 new NonEmptyValidation(),

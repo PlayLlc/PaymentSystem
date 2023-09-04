@@ -34,7 +34,7 @@ namespace PayWithPlay.Core.ViewModels.CreateAccount.UserRegistration
         public string ZipCodeText => Resource.ZipCode;
         public string StateText => Resource.State;
         public string CityText => Resource.City;
-        public string SafeMessage => Resource.UserRegistrationSafeMessage;
+        public string SafeMessage => Resource.InformationSafeMessage;
         public string ContinueText => Resource.Continue;
 
         public string? StreetAddress

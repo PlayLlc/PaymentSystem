@@ -360,6 +360,9 @@
   <data name="Individual" xml:space="preserve">
     <value>Individual</value>
   </data>
+  <data name="InformationSafeMessage" xml:space="preserve">
+    <value>We keep your information secure.</value>
+  </data>
   <data name="InvalidEmptyField" xml:space="preserve">
     <value>This field cannot be empty.</value>
   </data>
@@ -498,6 +501,9 @@
   <data name="NoPurchases" xml:space="preserve">
     <value>No purchases.</value>
   </data>
+  <data name="NoReceipt" xml:space="preserve">
+    <value>No receipt</value>
+  </data>
   <data name="NoResults" xml:space="preserve">
     <value>No results.</value>
   </data>
@@ -552,6 +558,12 @@
   <data name="PleaseEnterAmountReceived" xml:space="preserve">
     <value>Please enter the amount you received</value>
   </data>
+  <data name="PleaseEnterCustomerEmail" xml:space="preserve">
+    <value>Please enter the customer's email address.</value>
+  </data>
+  <data name="PleaseEnterCustomerPhoneNumber" xml:space="preserve">
+    <value>Please enter the customer's phone number.</value>
+  </data>
   <data name="PleaseEnterLoyaltyNumber" xml:space="preserve">
     <value>Please enter your loyalty number.</value>
   </data>
@@ -582,6 +594,9 @@
   <data name="PurchaseHistory" xml:space="preserve">
     <value>Purchase History</value>
   </data>
+  <data name="PurchaseSuccessful" xml:space="preserve">
+    <value>Purchase successful</value>
+  </data>
   <data name="QRCode" xml:space="preserve">
     <value>QR Code</value>
   </data>
@@ -590,6 +605,12 @@
   </data>
   <data name="Reason" xml:space="preserve">
     <value>Reason</value>
+  </data>
+  <data name="Receipt" xml:space="preserve">
+    <value>Receipt</value>
+  </data>
+  <data name="ReceiptOptionsSubtitle" xml:space="preserve">
+    <value>Please select how the customer will like the receipt:</value>
   </data>
   <data name="Redeemed" xml:space="preserve">
     <value>Redeemed</value>
@@ -675,6 +696,9 @@
   <data name="SelectStores" xml:space="preserve">
     <value>Select stores</value>
   </data>
+  <data name="Send" xml:space="preserve">
+    <value>Send</value>
+  </data>
   <data name="Shrinkage" xml:space="preserve">
     <value>Shrinkage</value>
   </data>
@@ -732,6 +756,9 @@
   <data name="TermsOfService" xml:space="preserve">
     <value>Terms of Service</value>
   </data>
+  <data name="TextMessage" xml:space="preserve">
+    <value>Text message</value>
+  </data>
   <data name="Ticket" xml:space="preserve">
     <value>Ticket</value>
   </data>
@@ -770,9 +797,6 @@
   </data>
   <data name="UserRegistration" xml:space="preserve">
     <value>User Registration</value>
-  </data>
-  <data name="UserRegistrationSafeMessage" xml:space="preserve">
-    <value>We keep your information secure.</value>
   </data>
   <data name="UserRegistrationUserNameTitle" xml:space="preserve">
     <value>Please enter your full name.</value>
